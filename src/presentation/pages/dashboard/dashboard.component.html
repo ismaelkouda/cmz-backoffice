@@ -40,15 +40,15 @@
                         box.routerFilter
                             ? box.routerFilter()
                             : box.iframeLink
-                            ? showAlarms(box)
-                            : null
+                              ? showAlarms(box)
+                              : null
                     "
                 >
                     <div
                         class="card-content"
                         [ngStyle]="{
                             'background-color': box.cardBgColor,
-                            'border-color': box.cardBorderColor
+                            'border-color': box.cardBorderColor,
                         }"
                     >
                         <div class="card-icon">

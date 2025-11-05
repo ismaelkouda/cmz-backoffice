@@ -1,23 +1,12 @@
-import { T_CLAIMS_STATUS_ENUM } from './../../../data-access/claims/enums/claims-status.enum';
-import { ModalParams } from './../../../../../../shared/constants/modalParams.contant';
-import { JournalComponent } from './../../../../../../shared/components/journal/journal.component';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { ClipboardService } from 'ngx-clipboard';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-    TableConfig,
-    TableExportExcelFileService,
-} from '../../../../../../shared/services/table-export-excel-file.service';
-import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
-import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
 import { Observable, take } from 'rxjs';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { claimsTableConstant } from '../../../data-access/claims/constants/claims-table.constant';
-import { TranslateService } from '@ngx-translate/core';
-import { claimsInterface } from '../../../data-access/claims/interfaces/claims.interface';
-import { BADGE_STEP_CLAIMS } from '../../../data-access/claims/constants/claims-step.constant';
-import { BADGE_STATE_CLAIMS } from '../../../data-access/claims/constants/claims-state.constant';
 import {
     BADGE_ETAPE,
     T_BADGE_ETAPE,
@@ -26,6 +15,20 @@ import {
     BADGE_ETAT,
     T_BADGE_ETAT,
 } from '../../../../../../shared/constants/badge-etat.contant';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import {
+    TableConfig,
+    TableExportExcelFileService,
+} from '../../../../../../shared/services/table-export-excel-file.service';
+import { BADGE_STATE_CLAIMS } from '../../../data-access/claims/constants/claims-state.constant';
+import { BADGE_STEP_CLAIMS } from '../../../data-access/claims/constants/claims-step.constant';
+import { claimsTableConstant } from '../../../data-access/claims/constants/claims-table.constant';
+import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
+import { claimsInterface } from '../../../data-access/claims/interfaces/claims.interface';
+import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
+import { JournalComponent } from './../../../../../../shared/components/journal/journal.component';
+import { ModalParams } from './../../../../../../shared/constants/modalParams.contant';
+import { T_CLAIMS_STATUS_ENUM } from './../../../data-access/claims/enums/claims-status.enum';
 
 type Action = PageAction | ModalAction;
 type PageAction = {
@@ -52,15 +55,17 @@ type TYPE_COLOR_ETAT_BADGE =
 
 @Component({
     selector: 'app-table-claims',
+    standalone: true,
     templateUrl: './table-claims.component.html',
+    imports: [CommonModule, TableModule, AsyncPipe, DialogModule, TranslateModule],
 })
 export class TableClaimsComponent {
-    @Input() spinner: boolean;
-    @Input() listClaims$: Observable<Array<claimsInterface>>;
-    @Input() claimsSelected: claimsInterface;
-    @Input() pagination$: Observable<Paginate<claimsInterface>>;
+    @Input() spinner!: boolean;
+    @Input() listClaims$!: Observable<Array<claimsInterface>>;
+    @Input() claimsSelected!: claimsInterface;
+    @Input() pagination$!: Observable<Paginate<claimsInterface>>;
     @Output() interfaceUser = new EventEmitter<any>();
-    public typeTreatment;
+    public typeTreatment: any;
     public visibleFormClaims = false;
 
     public readonly table: TableConfig = claimsTableConstant;
@@ -109,7 +114,7 @@ export class TableClaimsComponent {
             [BADGE_ETAPE.FINALISATEUR]: 'badge-info',
             [BADGE_ETAPE.CLOTURE]: 'badge-success',
         };
-        return etapeMap[selectedClaim.statut] || 'badge-dark';
+        return etapeMap[selectedClaim.statut as T_BADGE_ETAPE] || 'badge-dark';
     }
 
     public getStateClaimsBadge(selectedClaims?: {
@@ -235,6 +240,7 @@ export class TableClaimsComponent {
                     //     { abandonner: false, modifier: false, visualiser: true }
                     // );
                 }
+                break;
             }
             case BADGE_STEP_CLAIMS.TRAITEMENT: {
                 if (
@@ -269,6 +275,7 @@ export class TableClaimsComponent {
                     //     }
                     // );
                 }
+                break;
             }
         }
         // return createButtonStyle(

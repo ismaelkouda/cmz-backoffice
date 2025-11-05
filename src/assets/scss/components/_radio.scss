@@ -95,10 +95,15 @@
             border: 1px solid $light-semi-gray;
             border-radius: 3px;
             background-color: $white;
-            -webkit-transition: border 0.15s ease-in-out,
+            -webkit-transition:
+                border 0.15s ease-in-out,
                 color 0.15s ease-in-out;
-            -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
-            transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+            -o-transition:
+                border 0.15s ease-in-out,
+                color 0.15s ease-in-out;
+            transition:
+                border 0.15s ease-in-out,
+                color 0.15s ease-in-out;
         }
         &::after {
             display: inline-block;

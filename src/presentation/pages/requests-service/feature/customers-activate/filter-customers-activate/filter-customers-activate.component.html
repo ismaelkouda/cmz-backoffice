@@ -46,7 +46,7 @@
             <label
                 ><b>{{ 'STEP' | translate }}</b></label
             >
-            <p-dropdown
+            <p-select
                 formControlName="statut"
                 [options]="listCustomersActivateStep"
                 [showClear]="true"
@@ -54,14 +54,14 @@
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                 emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
             >
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="col-12 col-sm-6 col-md-2">
             <label id="traitement"
                 ><b>{{ 'STATE' | translate }}</b></label
             >
-            <p-dropdown
+            <p-select
                 for="traitement"
                 formControlName="traitement"
                 [options]="listCustomersActivateState"
@@ -70,7 +70,7 @@
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                 emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
             >
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div
@@ -109,28 +109,28 @@
                 <label for="START_DATE"
                     ><b>{{ 'START_DATE' | translate }}</b></label
                 >
-                <p-calendar
+                <p-datepicker
                     id="START_DATE"
                     formControlName="date_debut"
                     [showIcon]="true"
                     [placeholder]="'AAAA-MM-JJ'"
                     dateFormat="yy-mm-dd"
                 >
-                </p-calendar>
+                </p-datepicker>
             </div>
 
             <div class="col-12 col-sm-6 col-md-2">
                 <label for="END_DATE"
                     ><b>{{ 'END_DATE' | translate }}</b></label
                 >
-                <p-calendar
+                <p-datepicker
                     id="END_DATE"
                     formControlName="date_fin"
                     [showIcon]="true"
                     [placeholder]="'AAAA-MM-JJ'"
                     dateFormat="yy-mm-dd"
                 >
-                </p-calendar>
+                </p-datepicker>
             </div>
 
             <div

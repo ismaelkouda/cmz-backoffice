@@ -390,7 +390,8 @@ body {
 
         &:focus {
             outline: none;
-            box-shadow: 0 0 0 2px $swal2-white,
+            box-shadow:
+                0 0 0 2px $swal2-white,
                 0 0 0 4px $swal2-button-focus-outline;
         }
 
@@ -477,7 +478,9 @@ body {
     .swal2-file,
     .swal2-textarea {
         width: 100%;
-        transition: border-color 0.3s, box-shadow 0.3s;
+        transition:
+            border-color 0.3s,
+            box-shadow 0.3s;
         border: 1px solid $swal2-input-border;
         border-radius: $swal2-input-border-radius;
         font-size: $swal2-input-font-size;

@@ -1,10 +1,10 @@
-import { Pargination } from 'src/shared/table/pargination';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
-import { BADGE_TRAITEMENT } from 'src/shared/constants/badge-traitement.constant';
-import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
+import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
+import { BADGE_STATUT } from '../../constants/badge-statut.constant';
+import { BADGE_TRAITEMENT } from '../../constants/badge-traitement.constant';
+import { Pargination } from '../../table/pargination';
 
 @Component({
     selector: 'app-journal',
@@ -16,19 +16,16 @@ export class JournalComponent implements OnInit {
     public BADGE_ETAPE = BADGE_ETAPE;
     public BADGE_TRAITEMENT = BADGE_TRAITEMENT;
     public BADGE_STATUT = BADGE_STATUT;
-    @Input() typeJournal:
+    @Input() typeJournal!:
         | 'demandes-services'
         | 'importation-sim'
         | 'transactions'
         | 'integration'
         | 'whiteSimCard';
-    @Input() transaction: string;
-    @Input() numero_demande: string;
+    @Input() transaction!: string;
+    @Input() numero_demande!: string;
     response: any;
     listJournal: Array<any> = [];
-    public totalPage: 0;
-    public totalRecords: 0;
-    public recordsPerPage: 0;
     public offset: any;
     public p: number = 1;
     public displayDefaultJournal: boolean = false;

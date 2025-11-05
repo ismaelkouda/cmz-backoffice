@@ -1,6 +1,6 @@
 <!-- Page Header Start-->
 <div class="page-header" [class.close_icon]="navServices.collapseSidebar">
-    <div class="header-wrapper row m-0" *ngIf="statutLayout()">
+    <div class="header-wrapper row m-0" *ngIf="statusLayout()">
         <div
             class="col col-12 horizontal-wrapper pl-0"
             style="display: flex; justify-content: space-between"
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <nav class="navbar m-0" [hidden]="statutLayout()">
+    <nav class="navbar m-0" [hidden]="statusLayout()">
         <div
             class="container-fluid d-flex justify-content-between align-items-center flex-wrap px-3 py-2 mr-10"
         >
@@ -34,11 +34,6 @@
                     [src]="logoTenant"
                     alt="Logo"
                 />
-                <!-- <h3 class="sidebar-tenant mb-0">
-                    <span class="legende"
-                        ><b>{{ nom_tenant }}</b></span
-                    >
-                </h3> -->
             </div>
 
             <div class="d-flex gap-4 align-items-center">
@@ -46,23 +41,9 @@
                     <i
                         class="pi pi-refresh header-icon"
                         title="Rafraîchir"
-                        (click)="handleRefreshNotification()"
+                        (onPress)="handleRefreshNotification()"
                     ></i
-                    >&nbsp;
-                    <i
-                        class="pi pi-bell header-icon"
-                        pBadge
-                        [value]="
-                            (notificationCount$ | async) == 0
-                                ? ''
-                                : (notificationCount$ | async)
-                        "
-                        severity="{{
-                            (notificationCount$ | async) ? 'danger' : ''
-                        }}"
-                        (click)="OnGoNotifications()"
-                        title="Notifications"
-                    ></i>
+                    >
                 </div>
                 <div>
                     <ul class="nav-menus mb-0">

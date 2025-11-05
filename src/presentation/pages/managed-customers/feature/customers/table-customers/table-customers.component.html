@@ -47,7 +47,7 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }"
             >
                 <ng-container [ngSwitch]="col.header">
@@ -135,14 +135,14 @@
                                 handleAction({
                                     data: item,
                                     action: CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN,
-                                    view: 'page'
+                                    view: 'page',
                                 })
                             "
                         >
                         </p-button>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
-                        {{item?.[col.field]}}
+                        {{ item?.[col.field] }}
                     </ng-container>
                 </ng-container>
             </td>

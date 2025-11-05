@@ -5,6 +5,7 @@ $bg-primary: #f2f2f2;
 $white: #ffffff;
 $light-gray: #e5e5e5;
 $error-color: #d32f2f;
+@use "sass:color";
 
 /* Mixins */
 @mixin flex-center {
@@ -53,7 +54,6 @@ $error-color: #d32f2f;
     box-shadow: 0 0 37px rgba(8, 21, 66, 0.5);
     padding: 32px 24px;
 
-    /* Animation subtile pour l'apparition */
     animation: fadeInUp 0.5s ease-out;
 
     @media (min-width: 768px) {
@@ -78,7 +78,9 @@ $error-color: #d32f2f;
 }
 
 .auth-title {
-    font: 700 24px/32px 'Roboto', sans-serif;
+    font:
+        700 24px/32px 'Roboto',
+        sans-serif;
     color: $black;
     text-align: center;
     margin-bottom: 32px;
@@ -101,7 +103,9 @@ $error-color: #d32f2f;
 }
 
 .form-label {
-    font: 500 14px/20px 'Roboto', sans-serif;
+    font:
+        500 14px/20px 'Roboto',
+        sans-serif;
     color: $black;
 
     @media (min-width: 768px) {
@@ -119,7 +123,9 @@ $error-color: #d32f2f;
     padding: 14px 16px;
     border: 1px solid $light-gray;
     border-radius: 8px;
-    font: 400 16px/24px 'Roboto', sans-serif;
+    font:
+        400 16px/24px 'Roboto',
+        sans-serif;
     color: $black;
     @include transition(all);
 
@@ -140,13 +146,15 @@ $error-color: #d32f2f;
     border: none;
     border-radius: 8px;
     padding: 16px;
-    font: 700 16px/24px 'Roboto', sans-serif;
+    font:
+        700 16px/24px 'Roboto',
+        sans-serif;
     cursor: pointer;
     @include transition(all);
     margin-top: 8px;
 
     &:hover:not([disabled]) {
-        background-color: darken($primary-color, 8%);
+                         background-color: color.scale($primary-color, $lightness: 8%);
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
@@ -168,13 +176,15 @@ $error-color: #d32f2f;
 }
 
 .forgot-link {
-    font: 500 14px/20px 'Roboto', sans-serif;
+    font:
+        500 14px/20px 'Roboto',
+        sans-serif;
     color: $primary-color;
     text-decoration: none;
     @include transition(color);
 
     &:hover {
-        color: darken($primary-color, 15%);
+                         color: color.scale($primary-color, $lightness: 15%);
         text-decoration: underline;
     }
 
@@ -184,13 +194,12 @@ $error-color: #d32f2f;
     }
 }
 
-/* Personnalisation du composant PrimeNG Password */
 ::ng-deep .p-password {
     display: block;
 
     .p-password-input {
         @extend .form-input;
-        padding-right: 40px; /* Espace pour l'icône */
+        padding-right: 40px;
     }
 
     .p-password-toggle {

@@ -1,23 +1,25 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { AsyncPipe } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { TableModule } from 'primeng/table';
+import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { InvoiceInterface } from '../../../data-access/invoice/interface/invoice.interface';
 import { invoiceTableConstant } from '../../../data-access/invoice/constantes/invoice-table';
-import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-api.service';
+import { INVOICE_BUTTONS_ACTIONS_ENUM } from '../../../data-access/invoice/enums/invoice-buttons-actions.enum';
 import {
     INVOICE_STATE_ENUM,
     T_INVOICE_STATE_ENUM,
 } from '../../../data-access/invoice/enums/invoice-state.enum';
-import { INVOICE_BUTTONS_ACTIONS_ENUM } from '../../../data-access/invoice/enums/invoice-buttons-actions.enum';
-import { InvoicePageActionsType } from '../../../data-access/invoice/types/invoice-page-actions.type';
 import { InvoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
+import { InvoiceInterface } from '../../../data-access/invoice/interface/invoice.interface';
+import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-api.service';
+import { InvoicePageActionsType } from '../../../data-access/invoice/types/invoice-page-actions.type';
 
 type TYPE_COLOR_STATE_BADGE =
     | 'badge-dark'
@@ -28,17 +30,19 @@ type TYPE_COLOR_STATE_BADGE =
 
 @Component({
     selector: 'app-table-invoice',
+    standalone: true,
     templateUrl: './table-invoice.component.html',
+    imports: [TableModule, AsyncPipe],
 })
 export class TableInvoiceComponent {
     @Output() interfaceUser = new EventEmitter<InvoicePageActionsType>();
 
-    @Input() spinner: boolean;
+    @Input() spinner!: boolean;
     @Input() listInvoices$: Observable<Array<InvoiceInterface>> =
         new BehaviorSubject<Array<InvoiceInterface>>([]);
-    @Input() pagination$: Observable<Paginate<InvoiceInterface>>;
+    @Input() pagination$!: Observable<Paginate<InvoiceInterface>>;
 
-    public invoiceSelected: InvoiceInterface;
+    public invoiceSelected!: InvoiceInterface;
     public readonly table: TableConfig = invoiceTableConstant;
     private destroy$ = new Subject<void>();
 

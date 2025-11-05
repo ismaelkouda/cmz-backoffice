@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '../../../../../../shared/services/env.service';
 import {
     BehaviorSubject,
     catchError,
@@ -10,6 +9,7 @@ import {
     of,
     switchMap,
 } from 'rxjs';
+import { EnvService } from '../../../../../../shared/services/env.service';
 import { notificationsCenterEndpointEnum } from '../enums/notifications-center-endpoint.enum';
 
 @Injectable({
@@ -17,11 +17,14 @@ import { notificationsCenterEndpointEnum } from '../enums/notifications-center-e
 })
 export class NotificationsCenterApiService {
     private BASE_URL: string;
-    constructor(private http: HttpClient, private envService: EnvService) {
+    constructor(
+        private http: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
-    ReadNotifications(data): Observable<any> {
+    ReadNotifications(data: {}): Observable<any> {
         const url: string = <string>(
             notificationsCenterEndpointEnum.SUPERVISION_OPERATIONS_CENTRE_NOTIFICATIONS_READ
         );

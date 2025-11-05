@@ -7,7 +7,7 @@ import { EncodingDataService } from './encoding-data.service';
 export class AsFeatureService {
     constructor(private encodingService: EncodingDataService) {}
 
-    public getAsAccessFeature(): string[] {
+    public getAsAccessFeature(): string[] | null {
         return this.encodingService.getData('modules');
     }
 

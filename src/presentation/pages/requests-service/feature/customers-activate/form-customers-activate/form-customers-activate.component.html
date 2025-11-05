@@ -78,7 +78,7 @@
                                                         'is-invalid':
                                                             isInvalid(
                                                                 'type_entreprise'
-                                                            )
+                                                            ),
                                                     }"
                                                 />
                                                 <label
@@ -108,7 +108,7 @@
                                                         'is-invalid':
                                                             isInvalid(
                                                                 'type_entreprise'
-                                                            )
+                                                            ),
                                                     }"
                                                 />
                                                 <label
@@ -138,7 +138,7 @@
                                                         'is-invalid':
                                                             isInvalid(
                                                                 'type_entreprise'
-                                                            )
+                                                            ),
                                                     }"
                                                 />
                                                 <label
@@ -210,7 +210,7 @@
                                         formControlName="commercial_name"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('nom_client')
+                                                isInvalid('nom_client'),
                                         }"
                                     />
                                 </div>
@@ -225,7 +225,7 @@
                                         type="text"
                                         formControlName="abbreviation_cn"
                                         [ngClass]="{
-                                            'is-invalid': isInvalid('adresse')
+                                            'is-invalid': isInvalid('adresse'),
                                         }"
                                     />
                                 </div>
@@ -244,7 +244,7 @@
                                         formControlName="compte_client"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('compte_client')
+                                                isInvalid('compte_client'),
                                         }"
                                     />
                                 </div>
@@ -265,7 +265,7 @@
                                         formControlName="domaine_activite"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('domaine_activite')
+                                                isInvalid('domaine_activite'),
                                         }"
                                     />
                                 </div>
@@ -281,7 +281,7 @@
                                         formControlName="client_phone"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('compte_client')
+                                                isInvalid('compte_client'),
                                         }"
                                     />
                                 </div>
@@ -295,7 +295,7 @@
                                         formControlName="client_email"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('compte_client')
+                                                isInvalid('compte_client'),
                                         }"
                                     />
                                 </div>
@@ -313,7 +313,7 @@
                                         formControlName="client_address"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('compte_client')
+                                                isInvalid('compte_client'),
                                         }"
                                     />
                                 </div>
@@ -377,7 +377,7 @@
                                         formControlName="nom_client"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('nom_client')
+                                                isInvalid('nom_client'),
                                         }"
                                     />
                                 </div>
@@ -394,7 +394,7 @@
                                         formControlName="nom_client"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('nom_client')
+                                                isInvalid('nom_client'),
                                         }"
                                     />
                                 </div>
@@ -411,7 +411,7 @@
                                         formControlName="client_phone"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('compte_client')
+                                                isInvalid('compte_client'),
                                         }"
                                     />
                                 </div>
@@ -431,7 +431,7 @@
                                         formControlName="email_admin_client"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('email_admin_client')
+                                                isInvalid('email_admin_client'),
                                         }"
                                     />
                                 </div>
@@ -499,7 +499,7 @@
                                         formControlName="nom_client"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('nom_client')
+                                                isInvalid('nom_client'),
                                         }"
                                     />
                                 </div>
@@ -516,7 +516,7 @@
                                         formControlName="nom_client"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('nom_client')
+                                                isInvalid('nom_client'),
                                         }"
                                     />
                                 </div>
@@ -533,7 +533,7 @@
                                         formControlName="client_phone"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('compte_client')
+                                                isInvalid('compte_client'),
                                         }"
                                     />
                                 </div>
@@ -553,7 +553,7 @@
                                         formControlName="email_gerant"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('email_gerant')
+                                                isInvalid('email_gerant'),
                                         }"
                                     />
                                 </div>
@@ -618,18 +618,16 @@
                                             'LEGAL_FORM' | translate
                                         }}</b></label
                                     >
-                                    <p-dropdown
+                                    <p-select
                                         [options]="listLegalForm$ | async"
                                         optionLabel="nom"
                                         optionValue="code"
                                         placeholder="{{ 'SELECT' | translate }}"
                                         [filter]="true"
                                         filterBy="nom"
-                                        emptyMessage="{{
-                                            'NO_DATA' | translate
-                                        }}"
+                                         
                                         formControlName="forme_juridique_code"
-                                    ></p-dropdown>
+                                    ></p-select>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label"
@@ -656,7 +654,7 @@
                                             type="button"
                                             class="p-button-secondary"
                                             icon="pi pi-eye"
-                                            [label]="'VIEW' | translate"
+                                            [label]="'VIEW' | translate "
                                             (click)="viewFile('fichier_rccm')"
                                             [disabled]="
                                                 !customersActivateForm.value
@@ -692,7 +690,7 @@
                                             'REGIME' | translate
                                         }}</b></label
                                     >
-                                    <p-dropdown
+                                    <p-select
                                         [options]="listRegimesBusiness$ | async"
                                         optionLabel="nom"
                                         optionValue="code"
@@ -701,7 +699,7 @@
                                         [filter]="true"
                                         filterBy="nom"
                                     >
-                                    </p-dropdown>
+                                    </p-select>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label"
@@ -763,7 +761,7 @@
                                         formControlName="description"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('description')
+                                                isInvalid('description'),
                                         }"
                                         placeholder="{{
                                             'COMMENT' | translate

@@ -1,27 +1,44 @@
-import {
-    CUSTOMERS_MANAGED_STEP_ENUM,
-    T_CUSTOMERS_MANAGED_STEP_ENUM,
-} from './../../data-access/managed-customers/enums/managed-customers-step.enum';
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
+import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
+import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
+import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { CommercialEnterprisesFilterInterface } from '../../data-access/commercial-enterprises/interfaces/commercial-enterprises-filter.interface';
 import { CommercialEnterprisesInterface } from '../../data-access/commercial-enterprises/interfaces/commercial-enterprises.interface';
 import { CommercialEnterprisesApiService } from '../../data-access/commercial-enterprises/services/commercial-enterprises-api.service';
-import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 import { CommercialEnterprisesNavigationGuardService } from '../../data-access/commercial-enterprises/services/commercial-enterprises-navigation-guard.service';
+import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 import { ManagedCustomersPageActionsType } from '../../data-access/managed-customers/types/managed-customers-page-actions.type';
+import { FilterCommercialEnterprisesComponent } from '../../feature/commercial-enterprises/filter-commercial-enterprises/filter-commercial-enterprises.component';
+import { TableCommercialEnterprisesComponent } from '../../feature/commercial-enterprises/table-commercial-enterprises/table-commercial-enterprises.component';
+import {
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
+} from './../../data-access/managed-customers/enums/managed-customers-step.enum';
 
 @Component({
     selector: 'app-commercial-enterprises',
+    standalone: true,
     templateUrl: './commercial-enterprises.component.html',
+    imports: [
+        CommonModule,
+        PatrimoineHeaderComponent,
+        BreadcrumbComponent,
+        FilterCommercialEnterprisesComponent,
+        TableCommercialEnterprisesComponent,
+        ParginationComponent,
+        TranslateModule,
+    ],
 })
 export class CommercialEnterprisesComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
-    public pagination$: Observable<Paginate<CommercialEnterprisesInterface>>;
-    public listCommercialEnterprises$: Observable<
+    public module!: string;
+    public subModule!: string;
+    public pagination$!: Observable<Paginate<CommercialEnterprisesInterface>>;
+    public listCommercialEnterprises$!: Observable<
         CommercialEnterprisesInterface[]
     >;
     public spinner: boolean = true;
@@ -40,8 +57,8 @@ export class CommercialEnterprisesComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.module = data['module'];
+            this.subModule = data['subModule'][0];
         });
         this.listCommercialEnterprises$ =
             this.commercialEnterprisesApiService.getCommercialEnterprises();

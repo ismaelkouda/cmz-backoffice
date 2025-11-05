@@ -1,20 +1,23 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '../../../../../../shared/services/env.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { waitingQueueEndpointEnum } from '../enums/waiting-queue-endpoint.enum';
-import { WaitingQueueFilterInterface } from '../interfaces/waiting-queue-filter.interface';
 import {
     WaitingQueueApiResponseInterface,
     WaitingQueueInterface,
 } from '../../../../../../shared/interfaces/waiting-queue.interface';
+import { EnvService } from '../../../../../../shared/services/env.service';
+import { waitingQueueEndpointEnum } from '../enums/waiting-queue-endpoint.enum';
+import { WaitingQueueFilterInterface } from '../interfaces/waiting-queue-filter.interface';
 
 @Injectable()
 export class WaitingQueueApiService {
     private BASE_URL: string;
-    constructor(private http: HttpClient, private envService: EnvService) {
+    constructor(
+        private http: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
@@ -54,7 +57,7 @@ export class WaitingQueueApiService {
                 debounceTime(500),
                 switchMap((response: any) => {
                     const waitingQueue = response?.['data']?.data.map(
-                        (demande) => {
+                        (demande: WaitingQueueInterface) => {
                             return {
                                 ...demande,
                                 demandeur:

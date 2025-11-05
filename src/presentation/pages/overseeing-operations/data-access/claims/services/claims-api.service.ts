@@ -1,17 +1,17 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '../../../../../../shared/services/env.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { EnvService } from '../../../../../../shared/services/env.service';
+import { claimsEndpointEnum } from '../enums/claims-endpoint.enum';
+import { claimsFilterInterface } from '../interfaces/claims-filter.interface';
 import {
     claimsApiResponseInterface,
     claimsInterface,
 } from '../interfaces/claims.interface';
-import { claimsEndpointEnum } from '../enums/claims-endpoint.enum';
-import { claimsFilterInterface } from '../interfaces/claims-filter.interface';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class ClaimsApiService {
@@ -56,7 +56,7 @@ export class ClaimsApiService {
                 debounceTime(500),
                 switchMap((response: any) => {
                     const claims = response?.['data']?.data.data.map(
-                        (demande) => ({
+                        (demande: claimsInterface) => ({
                             ...demande,
                             demandeur: `${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
                         })

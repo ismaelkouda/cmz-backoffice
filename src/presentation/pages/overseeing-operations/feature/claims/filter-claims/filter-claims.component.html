@@ -4,7 +4,7 @@
             <label class="text-truncate"
                 ><b>{{ 'OPERATION' | translate }}</b></label
             >
-            <p-dropdown
+            <p-select
                 formControlName="operation"
                 [options]="listOperations"
                 [showClear]="true"
@@ -15,7 +15,7 @@
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                 emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
             >
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="col-12 col-sm-6 col-md-3">
@@ -35,7 +35,7 @@
             <label class="text-truncate"
                 ><b>{{ 'STEP' | translate }}</b></label
             >
-            <p-dropdown
+            <p-select
                 formControlName="statut"
                 [options]="listStepClaims"
                 [showClear]="true"
@@ -48,14 +48,14 @@
                         <div>{{ data | titlecase }}</div>
                     </div>
                 </ng-template>
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="col-12 col-sm-6 col-md-2">
             <label class="text-truncate"
                 ><b>{{ 'STATE' | translate }}</b></label
             >
-            <p-dropdown
+            <p-select
                 formControlName="traitement"
                 [options]="listStateClaims"
                 [showClear]="true"
@@ -68,7 +68,7 @@
                         <div>{{ data | titlecase }}</div>
                     </div>
                 </ng-template>
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div
@@ -107,26 +107,26 @@
                 <label class="text-truncate"
                     ><b>{{ 'START_DATE' | translate }}</b></label
                 >
-                <p-calendar
+                <p-datepicker
                     formControlName="date_debut"
                     [showIcon]="true"
                     [placeholder]="'JJ-MM-AAAA'"
                     dateFormat="dd-mm-yy"
                 >
-                </p-calendar>
+                </p-datepicker>
             </div>
 
             <div class="col-12 col-sm-6 col-md-2">
                 <label class="text-truncate"
                     ><b>{{ 'END_DATE' | translate }}</b></label
                 >
-                <p-calendar
+                <p-datepicker
                     formControlName="date_fin"
                     [showIcon]="true"
                     placeholder="JJ-MM-AAAA"
                     dateFormat="dd-mm-yy"
                 >
-                </p-calendar>
+                </p-datepicker>
             </div>
 
             <!-- Buttons (Show Third Filter) -->

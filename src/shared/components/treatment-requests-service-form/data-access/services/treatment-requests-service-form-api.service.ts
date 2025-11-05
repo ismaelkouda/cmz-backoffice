@@ -1,17 +1,17 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
     catchError,
-    finalize,
     debounceTime,
+    finalize,
     switchMap,
     take,
 } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EnvService } from '../../../../services/env.service';
 import { TreatmentRequestsServiceFormEndpointEnum } from '../enums/treatment-requests-service-form-endpoint.enum';
 import { TreatmentRequestsServiceDetailsInterface } from '../interfaces/treatment-requests-service-form.interface';
-import { EnvService } from '../../../../services/env.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class TreatmentRequestsServiceFormApiService {
@@ -236,7 +236,9 @@ export class TreatmentRequestsServiceFormApiService {
     );
 
     fetchAbandonRequestsService(
-        payload,
+        payload: {
+            commentaire: string;
+        },
         numberDemand: string,
         toastService: ToastrService,
         fetchCustomers?: () => void,

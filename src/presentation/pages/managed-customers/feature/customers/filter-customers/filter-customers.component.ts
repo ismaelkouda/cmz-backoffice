@@ -1,4 +1,12 @@
 import {
+    animate,
+    state,
+    style,
+    transition,
+    trigger,
+} from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import {
     Component,
     EventEmitter,
     Input,
@@ -6,28 +14,28 @@ import {
     OnInit,
     Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
-import {
-    trigger,
-    state,
-    style,
-    transition,
-    animate,
-} from '@angular/animations';
-import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
-import { CustomersFilterInterface } from '../../../data-access/customers/interfaces/customers-filter.interface';
-import { CustomersApiService } from '../../../data-access/customers/services/customers-api.service';
 import {
     T_TYPE_CUSTOMERS_ENUM,
     TYPE_CUSTOMERS_ENUM,
 } from '../../../../../../shared/enum/type-customers.enum';
+import { CustomersFilterInterface } from '../../../data-access/customers/interfaces/customers-filter.interface';
+import { CustomersApiService } from '../../../data-access/customers/services/customers-api.service';
+import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 
 @Component({
     selector: 'app-filter-customers',
+    standalone: true,
     templateUrl: './filter-customers.component.html',
     animations: [
         trigger('slideInOut', [
@@ -59,6 +67,7 @@ import {
         ]),
     ],
     styleUrls: ['./filter-customers.component.scss'],
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, SelectModule],
 })
 export class FilterCustomersComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<CustomersFilterInterface | {}>();

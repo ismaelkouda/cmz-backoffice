@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
 const EXCEL_TYPE =
@@ -82,10 +81,10 @@ export class TableExportExcelFileService {
      */
     private saveAsExcelFile(buffer: any, fileName: string): void {
         const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-        FileSaver.saveAs(
-            data,
-            `${fileName}_export_${new Date().getTime()}${EXCEL_EXTENSION}`
-        );
+        //FileSaver.saveAs(
+        //  data,
+        //`${fileName}_export_${new Date().getTime()}${EXCEL_EXTENSION}`
+        //);
     }
 }
 export interface TableConfig {

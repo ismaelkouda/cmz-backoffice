@@ -1,29 +1,38 @@
 import {
     Component,
-    Input,
     EventEmitter,
-    Output,
+    Input,
     OnDestroy,
+    Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
-import { myAccountFilterInterface } from '../../../data-access/my-account/interfaces/my-account-filter.interface';
-import { TranslateService } from '@ngx-translate/core';
-import { MyAccountApiService } from '../../../data-access/my-account/service/my-account-api.service';
 import { T_MY_ACCOUNT_OPERATION_ENUM } from '../../../data-access/my-account/enums/my-account-operation.enum';
+import { myAccountFilterInterface } from '../../../data-access/my-account/interfaces/my-account-filter.interface';
+import { MyAccountApiService } from '../../../data-access/my-account/service/my-account-api.service';
 
 @Component({
     selector: `app-filter-my-account`,
+    standalone: true,
     templateUrl: `./filter-my-account.component.html`,
     styleUrls: ['./filter-my-account.component.scss'],
+    imports: [ReactiveFormsModule, DatePickerModule, TranslateModule, SelectModule],
 })
 export class FilterMyAccountComponent implements OnDestroy {
-    @Input() listOperations: Array<T_MY_ACCOUNT_OPERATION_ENUM>;
+    @Input() listOperations!: Array<T_MY_ACCOUNT_OPERATION_ENUM>;
     @Output() filter = new EventEmitter<myAccountFilterInterface>();
 
-    public formFilter: FormGroup;
+    public formFilter!: FormGroup;
     private destroy$ = new Subject<void>();
 
     constructor(

@@ -243,7 +243,9 @@ $color_cerulean_25_approx: lighten(#4466f2, 35%);
 }
 .clockpicker-dial {
     @extend %function-4;
-    transition: transform 350ms, opacity 350ms;
+    transition:
+        transform 350ms,
+        opacity 350ms;
 }
 .clockpicker-minutes {
     visibility: hidden;

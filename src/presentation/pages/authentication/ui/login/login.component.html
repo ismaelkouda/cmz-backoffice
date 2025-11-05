@@ -16,11 +16,12 @@
                 class="auth-form"
             >
                 <div class="form-group">
-                    <label class="form-label">
+                    <label class="form-label" for="username-input">
                         {{ 'USERNAME' | translate }}
                         <span class="required-indicator">*</span>
                     </label>
                     <input
+                        id="username-input"
                         type="email"
                         formControlName="username"
                         placeholder="app@yourmail.com"
@@ -30,11 +31,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">
+                    <label class="form-label" for="password-input">
                         {{ 'PASSWORD' | translate }}
                         <span class="required-indicator">*</span>
                     </label>
                     <p-password
+                        id="password-input"
                         formControlName="password"
                         [feedback]="false"
                         [toggleMask]="true"
@@ -47,7 +49,9 @@
                     type="submit"
                     [disabled]="!loginForm.valid"
                     class="submit-button"
-                    aria-label="Se connecter"
+                    [attr.aria-label]="
+                        'Se connecter - ' + ('CONNECTION' | translate)
+                    "
                 >
                     {{ 'CONNECTION' | translate }}
                 </button>
@@ -56,10 +60,10 @@
             <div class="forgot-password">
                 <a
                     [routerLink]="[
-                        '/' + REINITIALIZATION + '/' + FORGOT_PASSWORD
+                        '/' + REINITIALIZATION + '/' + FORGOT_PASSWORD,
                     ]"
                     class="forgot-link"
-                    aria-label="Réinitialiser le mot de passe"
+                    [attr.aria-label]="('FORGOT_PASSWORD' | translate) + ' ?'"
                 >
                     {{ 'FORGOT_PASSWORD' | translate }} ?
                 </a>

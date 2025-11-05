@@ -1,31 +1,49 @@
-import {
-    NOTIFICATIONS_CENTER_STATE_ENUM,
-    T_NOTIFICATIONS_CENTER_STATE_ENUM,
-} from './../../../overseeing-operations/data-access/notifications-center/enums/notifications-center-state.enum';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Paginate } from '../../../../../shared/interfaces/paginate';
+import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
-import { InvoiceInterface } from '../../data-access/invoice/interface/invoice.interface';
-import { InvoiceFilterInterface } from '../../data-access/invoice/interface/invoice-filter.interface';
-import { InvoiceApiService } from '../../data-access/invoice/service/invoice-api.service';
-import { INVOICE_BUTTONS_ACTIONS_ENUM } from '../../data-access/invoice/enums/invoice-buttons-actions.enum';
-import { InvoicePageActionsType } from '../../data-access/invoice/types/invoice-page-actions.type';
+import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
+import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
+import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
 import {
     LIST_REQUESTS_SERVICE,
     T_LIST_REQUESTS_SERVICE,
 } from '../../../../../shared/enum/list-requests-service';
+import { Paginate } from '../../../../../shared/interfaces/paginate';
+import { INVOICE_BUTTONS_ACTIONS_ENUM } from '../../data-access/invoice/enums/invoice-buttons-actions.enum';
+import { InvoiceFilterInterface } from '../../data-access/invoice/interface/invoice-filter.interface';
+import { InvoiceInterface } from '../../data-access/invoice/interface/invoice.interface';
+import { InvoiceApiService } from '../../data-access/invoice/service/invoice-api.service';
 import { InvoiceNavigationGuardService } from '../../data-access/invoice/service/invoice-navigation-guard.service';
+import { InvoicePageActionsType } from '../../data-access/invoice/types/invoice-page-actions.type';
+import { FilterInvoiceComponent } from '../../feature/invoice/filter-invoice/filter-invoice.component';
+import { TableInvoiceComponent } from '../../feature/invoice/table-invoice/table-invoice.component';
+import {
+    NOTIFICATIONS_CENTER_STATE_ENUM,
+    T_NOTIFICATIONS_CENTER_STATE_ENUM,
+} from './../../../overseeing-operations/data-access/notifications-center/enums/notifications-center-state.enum';
 
 @Component({
     selector: `app-invoice`,
+    standalone: true,
     templateUrl: `./invoice.component.html`,
+    imports: [
+        CommonModule,
+        PatrimoineHeaderComponent,
+        FilterInvoiceComponent,
+        TableInvoiceComponent,
+        ParginationComponent,
+        BreadcrumbComponent,
+        AsyncPipe,
+        TranslateModule
+    ],
 })
 export class InvoiceComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
-    public pagination$: Observable<Paginate<InvoiceInterface>>;
-    public listInvoices$: Observable<Array<InvoiceInterface>>;
+    public module!: string;
+    public subModule!: string;
+    public pagination$!: Observable<Paginate<InvoiceInterface>>;
+    public listInvoices$!: Observable<Array<InvoiceInterface>>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
     public listInvoiceState: Array<T_NOTIFICATIONS_CENTER_STATE_ENUM> =
@@ -45,8 +63,8 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[1];
+            this.module = data['module'];
+            this.subModule = data['subModule'][1];
         });
         this.listInvoices$ = this.invoiceApiService.getInvoice();
         this.pagination$ = this.invoiceApiService.getInvoicePagination();

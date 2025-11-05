@@ -1,8 +1,11 @@
+import { CommonModule } from '@angular/common';
 import {
-    SLA_CONTACTS_FORM_MODE_ENUM,
-    T_SLA_CONTACTS_FORM_MODE_ENUM,
-} from './../../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+    Component,
+    Input,
+    OnChanges,
+    OnDestroy,
+    SimpleChanges,
+} from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -12,30 +15,36 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
-const Swal = require('sweetalert2');
 import { FormatFormData } from '../../../../../../shared/functions/formatFormData.function';
+import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
 import { SharedService } from '../../../../../../shared/services/shared.service';
 import { SlaContactsFormInterface } from '../../../data-access/sla-contacts/interfaces/sla-contacts-form.interface';
-import { SlaContactsApiService } from '../../../data-access/sla-contacts/services/sla-contacts-api.service';
 import { SlaContactsInterface } from '../../../data-access/sla-contacts/interfaces/sla-contacts.interface';
-import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
+import { SlaContactsApiService } from '../../../data-access/sla-contacts/services/sla-contacts-api.service';
+import {
+    SLA_CONTACTS_FORM_MODE_ENUM,
+    T_SLA_CONTACTS_FORM_MODE_ENUM,
+} from './../../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
+const Swal = require('sweetalert2');
 
 @Component({
     selector: 'app-form-sla-contacts',
+    standalone: true,
     templateUrl: './form-sla-contacts.component.html',
     styleUrls: ['./form-sla-contacts.component.scss'],
+    imports: [CommonModule, TranslateService],
 })
-export class FormSlaContactsComponent implements OnChanges {
-    @Input() slaContacts: SlaContactsInterface;
-    @Input() formMode: T_SLA_CONTACTS_FORM_MODE_ENUM;
+export class FormSlaContactsComponent implements OnChanges, OnDestroy {
+    @Input() slaContacts!: SlaContactsInterface;
+    @Input() formMode!: T_SLA_CONTACTS_FORM_MODE_ENUM;
     public SLA_CONTACTS_FORM_MODE_ENUM = SLA_CONTACTS_FORM_MODE_ENUM;
     public slaContactsForm!: FormGroup<SlaContactsFormInterface>;
 
-    public listRegimesBusiness$: Observable<
+    public listRegimesBusiness$!: Observable<
         Array<{ code: string; nom: string }>
     >;
-    public listLegalForm$: Observable<Array<{ code: string; nom: string }>>;
-    public listApplicants$: Observable<Array<ApplicantInterface>>;
+    public listLegalForm$!: Observable<Array<{ code: string; nom: string }>>;
+    public listApplicants$!: Observable<Array<ApplicantInterface>>;
 
     private destroy$ = new Subject<void>();
 
@@ -385,9 +394,12 @@ export class FormSlaContactsComponent implements OnChanges {
         if (excelInput) excelInput.value = '';
     }
 
-    public viewFile(field: string) {
+    public viewFile(field: keyof SlaContactsFormInterface) {
         const file = this.slaContactsForm.get(field)?.value as File | null;
-        const defaultFile = this.slaContacts?.[field];
+        const defaultFile: string =
+            (this.slaContacts?.[
+                field as keyof SlaContactsInterface
+            ] as unknown as string) ?? '';
         if (!file && !defaultFile) {
             this.toastService.info('Aucun fichier à afficher');
             return;

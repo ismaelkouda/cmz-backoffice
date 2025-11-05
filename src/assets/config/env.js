@@ -1,6 +1,5 @@
-
-        (function (window) {
-            window.__env = {
+(function (window) {
+    window.__env = {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
     "apiUrl": "https://services-care-portal-service-api.paas.imako.digital/api/v1/",
     "fileUrl": "https://services-care-portal-service-api.paas.imako.digital/",
@@ -21,5 +20,20 @@
         "appTertiaryColor": "#FFFFFF"
     }
 };
-        })(this);
-        
+    window.__env.buildInfo = {
+        timestamp: '2025-11-04T23:17:55.301Z',
+        environment: 'dev',
+        version: '1.1.0',
+        commitHash: 'local'
+    };
+    
+    // Validation de la configuration
+    if (typeof window.__env.apiUrl === 'undefined') {
+        console.error('❌ Configuration API manquante');
+    }
+    
+    // Lock la configuration
+    Object.freeze(window.__env);
+    Object.freeze(window.__env.messageApp);
+    Object.freeze(window.__env.appSettings);
+})(this);

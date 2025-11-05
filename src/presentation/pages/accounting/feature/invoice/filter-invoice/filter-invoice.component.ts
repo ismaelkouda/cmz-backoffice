@@ -1,34 +1,42 @@
-import { InvoiceFilterFormInterface } from './../../../data-access/invoice/interface/invoice-filter-form.interface';
 import {
     Component,
-    Input,
     EventEmitter,
-    Output,
+    Input,
     OnDestroy,
     OnInit,
+    Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { T_LIST_REQUESTS_SERVICE } from '../../../../../../shared/enum/list-requests-service';
+import { T_NOTIFICATIONS_CENTER_STATE_ENUM } from '../../../../overseeing-operations/data-access/notifications-center/enums/notifications-center-state.enum';
 import { InvoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
 import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-api.service';
-import { T_NOTIFICATIONS_CENTER_STATE_ENUM } from '../../../../overseeing-operations/data-access/notifications-center/enums/notifications-center-state.enum';
-import { T_LIST_REQUESTS_SERVICE } from '../../../../../../shared/enum/list-requests-service';
+import { InvoiceFilterFormInterface } from './../../../data-access/invoice/interface/invoice-filter-form.interface';
 
 @Component({
     selector: 'app-filter-invoice',
+    standalone: true,
     templateUrl: './filter-invoice.component.html',
     styleUrls: ['./filter-invoice.component.scss'],
+    imports: [ReactiveFormsModule, TranslateModule, SelectModule],
 })
 export class FilterInvoiceComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<InvoiceFilterInterface>();
 
-    @Input() listOperations: Array<T_LIST_REQUESTS_SERVICE>;
-    @Input() listInvoiceState: Array<T_NOTIFICATIONS_CENTER_STATE_ENUM>;
+    @Input() listOperations!: Array<T_LIST_REQUESTS_SERVICE>;
+    @Input() listInvoiceState!: Array<T_NOTIFICATIONS_CENTER_STATE_ENUM>;
 
-    public formFilter: FormGroup<InvoiceFilterFormInterface>;
+    public formFilter!: FormGroup<InvoiceFilterFormInterface>;
     private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;

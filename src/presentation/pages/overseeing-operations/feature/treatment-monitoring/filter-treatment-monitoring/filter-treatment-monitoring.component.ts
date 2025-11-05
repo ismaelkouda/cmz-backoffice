@@ -1,34 +1,44 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { TreatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
-import { TranslateService } from '@ngx-translate/core';
-import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
-import { T_TREATMENT_MONITORING_STEP_ENUM } from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-step.enum';
-import { T_TREATMENT_MONITORING_STATE_ENUM } from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
 import { T_LIST_REQUESTS_SERVICE } from '../../../../../../shared/enum/list-requests-service';
+import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
+import { T_TREATMENT_MONITORING_STATE_ENUM } from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
+import { T_TREATMENT_MONITORING_STEP_ENUM } from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-step.enum';
 import { TreatmentMonitoringFilterFormInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter-form.interface';
+import { TreatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
 import { TreatmentMonitoringApiService } from '../../../data-access/treatment-monitoring/services/treatment-monitoring-api.service';
 
 @Component({
     selector: 'app-filter-treatment-monitoring',
+    standalone: true,
     templateUrl: './filter-treatment-monitoring.component.html',
     styleUrls: ['./filter-treatment-monitoring.component.scss'],
+    imports: [ReactiveFormsModule, AsyncPipe, SelectModule, TranslateModule, DatePickerModule],
 })
 export class FilterTreatmentMonitoringComponent {
     @Output() filter = new EventEmitter<TreatmentMonitoringFilterInterface>();
 
     @Input()
-    listTreatmentMonitoringStep: Array<T_TREATMENT_MONITORING_STEP_ENUM>;
+    listTreatmentMonitoringStep!: Array<T_TREATMENT_MONITORING_STEP_ENUM>;
     @Input()
-    listTreatmentMonitoringState: Array<T_TREATMENT_MONITORING_STATE_ENUM>;
+    listTreatmentMonitoringState!: Array<T_TREATMENT_MONITORING_STATE_ENUM>;
 
-    @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
-    @Input() listOperations: Array<T_LIST_REQUESTS_SERVICE>;
+    @Input() listApplicants$!: Observable<Array<ApplicantInterface>>;
+    @Input() listOperations!: Array<T_LIST_REQUESTS_SERVICE>;
 
-    public formFilter: FormGroup<TreatmentMonitoringFilterFormInterface>;
+    public formFilter!: FormGroup<TreatmentMonitoringFilterFormInterface>;
     private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;

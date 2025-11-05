@@ -1,5 +1,3 @@
-import { ParameterSecurityModule } from './../../presentation/pages/parameter-security/parameter-security.module';
-import { PagesGuard } from './../../core/guard/PagesGuard';
 import { Routes } from '@angular/router';
 export const SEARCH = 'search';
 
@@ -96,27 +94,6 @@ export const content: Routes = [
             ],
         },
     },
-
-    {
-        path: PARAMETRE_SECURITE,
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/parameter-security/parameter-security.module'
-            ).then((m) => m.ParameterSecurityModule),
-        data: {
-            module: PARAMETER_SECURITY,
-            subModule: ['PROFILES_AUTHORIZATIONS'],
-        },
-    },
-
-    // {
-    //     path: PARAMETRE_SECURITE,
-    //     loadChildren: () =>
-    //         import(
-    //             '../../presentation/pages/parametre-securite/parametre-securite.module'
-    //         ).then((m) => m.ParametreSecuriteModule),
-    //     data: { title: PARAMETRE_SECURITE },
-    // },
     {
         path: '',
         redirectTo: DASHBOARD,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+//import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { convertUrlToBase64 } from '../../../../functions/convertUrlToBase64';
 import { InvoiceFormDetailsInterface } from '../interfaces/invoice-form-details.interface';
 
@@ -8,9 +8,11 @@ import { InvoiceFormDetailsInterface } from '../interfaces/invoice-form-details.
     providedIn: 'root',
 })
 export class InvoicePdfService {
-    constructor() {
-        (pdfMake as any).vfs = pdfFonts.vfs;
-    }
+    private pdfMake: any;
+    
+    //constructor() {
+      //:  (pdfMake as any).vfs = pdfFonts.vfs;
+    //}
 
     async generateInvoice(
         data: InvoiceFormDetailsInterface,

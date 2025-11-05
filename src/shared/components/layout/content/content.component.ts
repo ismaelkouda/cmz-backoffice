@@ -1,15 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+    ActivatedRoute,
+    NavigationEnd,
+    Router,
+    RouterOutlet,
+} from '@angular/router';
 import * as feather from 'feather-icons';
+import { filter } from 'rxjs';
+import { fadeInAnimation } from '../../../data/router-animation/router-animation';
 import { LayoutService } from '../../../services/layout.service';
 import { NavService } from '../../../services/nav.service';
-import { fadeInAnimation } from '../../../data/router-animation/router-animation';
-import { filter } from 'rxjs';
+import { FooterComponent } from '../../footer/footer.component';
+import { HeaderComponent } from '../../header/header.component';
+import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 @Component({
     selector: 'app-content',
     templateUrl: './content.component.html',
     styleUrls: ['./content.component.scss'],
+    imports: [
+        CommonModule,
+        FooterComponent,
+        SidebarComponent,
+        HeaderComponent,
+        RouterOutlet,
+    ],
     animations: [fadeInAnimation],
 })
 export class ContentComponent implements OnInit, AfterViewInit {
@@ -28,8 +44,8 @@ export class ContentComponent implements OnInit, AfterViewInit {
                 }, 2500);
             });
         this.route.queryParams.subscribe((params) => {
-            this.layout.config.settings.layout = params.layout
-                ? params.layout
+            this.layout.config.settings.layout = params['layout']
+                ? params['layout']
                 : this.layout.config.settings.layout;
         });
     }
@@ -40,11 +56,8 @@ export class ContentComponent implements OnInit, AfterViewInit {
         });
     }
 
-    public getRouterOutletState(outlet) {
-        return outlet.isActivated ? outlet.activatedRoute : '';
-    }
     get layoutClass() {
-        switch (window.localStorage.getItem('layout')) {
+        switch (globalThis.localStorage.getItem('layout')) {
             case 'Paris':
                 return 'compact-wrapper dark-sidebar';
             case 'Barcelona':

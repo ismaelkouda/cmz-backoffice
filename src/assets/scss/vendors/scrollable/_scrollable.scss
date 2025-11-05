@@ -40,7 +40,9 @@
             position: absolute;
             border-radius: 4px;
             opacity: 0;
-            transition: background-color 0.2s linear, opacity 0.2s linear;
+            transition:
+                background-color 0.2s linear,
+                opacity 0.2s linear;
             bottom: 3px;
             height: 8px;
             > .ps-scrollbar-x {
@@ -59,7 +61,9 @@
             position: absolute;
             border-radius: 4px;
             opacity: 0;
-            transition: background-color 0.2s linear, opacity 0.2s linear;
+            transition:
+                background-color 0.2s linear,
+                opacity 0.2s linear;
             > .ps-scrollbar-y {
                 width: 10px;
                 position: absolute;

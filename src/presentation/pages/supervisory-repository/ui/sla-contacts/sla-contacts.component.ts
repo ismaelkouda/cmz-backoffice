@@ -1,23 +1,28 @@
+import { AsyncPipe } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { Observable, Subject } from 'rxjs';
+import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
+import { SlaContactsInterface } from '../../data-access/sla-contacts/interfaces/sla-contacts.interface';
+import { SlaContactsApiService } from '../../data-access/sla-contacts/services/sla-contacts-api.service';
 import {
     SLA_CONTACTS_FORM_MODE_ENUM,
     T_SLA_CONTACTS_FORM_MODE_ENUM,
 } from './../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { SlaContactsInterface } from '../../data-access/sla-contacts/interfaces/sla-contacts.interface';
-import { SlaContactsApiService } from '../../data-access/sla-contacts/services/sla-contacts-api.service';
 
 @Component({
     selector: 'app-sla-contacts',
+    standalone: true,
     templateUrl: './sla-contacts.component.html',
     styleUrls: ['./sla-contacts.component.scss'],
+    imports: [BreadcrumbComponent, TranslateModule, AsyncPipe],
 })
 export class SlaContactsComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
-    public formMode: T_SLA_CONTACTS_FORM_MODE_ENUM;
-    public slaContacts$: Observable<SlaContactsInterface>;
+    public module!: string;
+    public subModule!: string;
+    public formMode!: T_SLA_CONTACTS_FORM_MODE_ENUM;
+    public slaContacts$!: Observable<SlaContactsInterface>;
     public spinner: boolean = true;
     public tabPanelIndexActive: number = 0;
     public BUTTON_LABEL_FORM: {
@@ -36,8 +41,8 @@ export class SlaContactsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.module = data['module'];
+            this.subModule = data['subModule'][0];
         });
         this.slaContacts$ = this.slaContactsApiService.getSlaContacts();
         this.slaContactsApiService.fetchSlaContacts();

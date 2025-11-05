@@ -1,18 +1,25 @@
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
+import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
+import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { Paginate } from '../../../../../shared/interfaces/paginate';
 import {
     CUSTOMERS_MANAGED_STEP_ENUM,
     T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../data-access/managed-customers/enums/managed-customers-step.enum';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
-import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { PublicEnterprisesFilterInterface } from '../../data-access/public-enterprises/interfaces/public-enterprises-filter.interface';
-import { PublicEnterprisesInterface } from '../../data-access/public-enterprises/interfaces/public-enterprises.interface';
-import { PublicEnterprisesApiService } from '../../data-access/public-enterprises/services/public-enterprises-api.service';
 import {
     CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
     T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
 } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { PublicEnterprisesFilterInterface } from '../../data-access/public-enterprises/interfaces/public-enterprises-filter.interface';
+import { PublicEnterprisesInterface } from '../../data-access/public-enterprises/interfaces/public-enterprises.interface';
+import { PublicEnterprisesApiService } from '../../data-access/public-enterprises/services/public-enterprises-api.service';
+import { FilterPublicEnterprisesComponent } from '../../feature/public-enterprises/filter-public-enterprises/filter-public-enterprises.component';
+import { TablePublicEnterprisesComponent } from '../../feature/public-enterprises/table-public-enterprises/table-public-enterprises.component';
 
 type PageAction = {
     data: PublicEnterprisesInterface;
@@ -22,13 +29,24 @@ type PageAction = {
 
 @Component({
     selector: 'app-public-enterprises',
+    standalone: true,
     templateUrl: './public-enterprises.component.html',
+    imports: [
+        CommonModule,
+        PatrimoineHeaderComponent,
+        FilterPublicEnterprisesComponent,
+        TablePublicEnterprisesComponent,
+        ParginationComponent,
+        BreadcrumbComponent,
+        AsyncPipe,
+        TranslateModule
+    ],
 })
 export class PublicEnterprisesComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
-    public pagination$: Observable<Paginate<PublicEnterprisesInterface>>;
-    public listPublicEnterprises$: Observable<PublicEnterprisesInterface[]>;
+    public module!: string;
+    public subModule!: string;
+    public pagination$!: Observable<Paginate<PublicEnterprisesInterface>>;
+    public listPublicEnterprises$!: Observable<PublicEnterprisesInterface[]>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
     public listPublicEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
@@ -42,8 +60,8 @@ export class PublicEnterprisesComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[1];
+            this.module = data['module'];
+            this.subModule = data['subModule'][1];
         });
         this.listPublicEnterprises$ =
             this.publicEnterprisesApiService.getPublicEnterprises();
@@ -87,14 +105,12 @@ export class PublicEnterprisesComponent implements OnInit, OnDestroy {
         const queryParams = { ref };
         let routePath: string = '';
 
-        switch (params.action) {
-            case CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN:
-                routePath = `${code_client}`;
-                this.router.navigate([routePath], {
-                    relativeTo: this.activatedRoute,
-                    queryParams,
-                });
-                break;
+        if (params.action === CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN) {
+            routePath = `${code_client}`;
+            this.router.navigate([routePath], {
+                relativeTo: this.activatedRoute,
+                queryParams,
+            });
         }
     }
 

@@ -23,7 +23,7 @@ import {
                 [class.p-disabled]="disabledButtonOther"
                 [label]="
                     showLabels
-                        ? labelOther ?? ('CREATE' | translate)
+                        ? (labelOther ?? ('CREATE' | translate))
                         : ('' | translate)
                 "
                 icon="pi pi-plus"

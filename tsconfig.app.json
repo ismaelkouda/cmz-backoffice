@@ -1,31 +1,35 @@
-/* Application TypeScript configuration for Angular app */
 {
-    "compilerOptions": {
-        "baseUrl": "src",
-        "paths": {
-            "@app/*": ["app/*"],
-            "@shared/*": ["src/shared/*"],
-            "@presentation/*": ["src/presentation/*"],
-            "@core/*": ["src/core/*"],
-            "@pages/*": ["src/presentation/pages/*"],
-        },
-
-        "outDir": "./out-tsc/app",
-
-        "allowJs": true,
-        "target": "ES2022",
-        "module": "ES2022",
-        "lib": ["ES2022", "dom"],
-
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "importHelpers": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "resolveJsonModule": true,
-        "useDefineForClassFields": false,
-        "moduleResolution": "node"
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@app/*": ["app/*"],
+      "@shared/*": ["src/shared/*"],
+      "@presentation/*": ["src/presentation/*"],
+      "@core/*": ["src/core/*"],
+      "@pages/*": ["src/presentation/pages/*"]
     },
-    "files": ["src/main.ts", "src/polyfills.ts"],
-    "include": ["src/**/*.d.ts"]
+    "outDir": "./out-tsc/app",
+    "allowJs": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "useDefineForClassFields": false,
+    "moduleResolution": "bundler",
+  },
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["src/**/*.d.ts"]
 }

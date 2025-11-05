@@ -1,37 +1,40 @@
-import { TREATMENT_MONITORING_TABLE } from './../../../data-access/treatment-monitoring/constants/treatment-monitoring-table.constant';
-import { ModalParams } from './../../../../../../shared/constants/modalParams.contant';
-import { JournalComponent } from './../../../../../../shared/components/journal/journal.component';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
-import {
-    TableConfig,
-    TableExportExcelFileService,
-} from '../../../../../../shared/services/table-export-excel-file.service';
-import { TreatmentMonitoringApiService } from '../../../data-access/treatment-monitoring/services/treatment-monitoring-api.service';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
 import { Observable, Subject, take } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { TreatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
-import { TreatmentMonitoringInterface } from '../../../../../../shared/interfaces/treatment-monitoring.interface';
-import {
-    T_TREATMENT_MONITORING_STEP_ENUM,
-    TREATMENT_MONITORING_STEP_ENUM,
-} from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-step.enum';
-import {
-    T_TREATMENT_MONITORING_STATE_ENUM,
-    TREATMENT_MONITORING_STATE_ENUM,
-} from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
-import { OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/overseeing-operations/enums/overseeing-operations-buttons-actions.enum';
 import {
     MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
     T_MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
 } from '../../../../../../shared/enum/module-treatment-customers-activate';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { TreatmentMonitoringInterface } from '../../../../../../shared/interfaces/treatment-monitoring.interface';
+import {
+    TableConfig,
+    TableExportExcelFileService,
+} from '../../../../../../shared/services/table-export-excel-file.service';
+import { OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/overseeing-operations/enums/overseeing-operations-buttons-actions.enum';
 import {
     OVERSEEING_OPERATIONS_TREATMENT_ENUM,
     T_OVERSEEING_OPERATIONS_TREATMENT_ENUM,
 } from '../../../data-access/overseeing-operations/enums/overseeing-operations-treatment.enum';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+    T_TREATMENT_MONITORING_STATE_ENUM,
+    TREATMENT_MONITORING_STATE_ENUM,
+} from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
+import {
+    T_TREATMENT_MONITORING_STEP_ENUM,
+    TREATMENT_MONITORING_STEP_ENUM,
+} from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-step.enum';
+import { TreatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
+import { TreatmentMonitoringApiService } from '../../../data-access/treatment-monitoring/services/treatment-monitoring-api.service';
+import { JournalComponent } from './../../../../../../shared/components/journal/journal.component';
+import { ModalParams } from './../../../../../../shared/constants/modalParams.contant';
+import { TREATMENT_MONITORING_TABLE } from './../../../data-access/treatment-monitoring/constants/treatment-monitoring-table.constant';
 
 type TYPE_COLOR_STEP_BADGE =
     | 'badge-dark'
@@ -46,21 +49,23 @@ type TYPE_COLOR_STATE_BADGE =
 
 @Component({
     selector: 'app-table-treatment-monitoring',
+    standalone: true,
     templateUrl: './table-treatment-monitoring.component.html',
+    imports: [CommonModule, TableModule, AsyncPipe, DialogModule, TranslateModule],
 })
 export class TableTreatmentMonitoringComponent {
-    @Input() spinner: boolean;
-    @Input() listTreatmentMonitoring$: Observable<
+    @Input() spinner!: boolean;
+    @Input() listTreatmentMonitoring$!: Observable<
         Array<TreatmentMonitoringInterface>
     >;
-    @Input() pagination$: Observable<Paginate<TreatmentMonitoringInterface>>;
+    @Input() pagination$!: Observable<Paginate<TreatmentMonitoringInterface>>;
 
     @Input()
-    listTreatmentMonitoringStep: Array<T_TREATMENT_MONITORING_STEP_ENUM>;
+    listTreatmentMonitoringStep!: Array<T_TREATMENT_MONITORING_STEP_ENUM>;
     @Input()
-    listTreatmentMonitoringState: Array<T_TREATMENT_MONITORING_STATE_ENUM>;
+    listTreatmentMonitoringState!: Array<T_TREATMENT_MONITORING_STATE_ENUM>;
 
-    public treatmentMonitoringSelected: TreatmentMonitoringInterface;
+    public treatmentMonitoringSelected!: TreatmentMonitoringInterface;
     public readonly table: TableConfig = TREATMENT_MONITORING_TABLE;
     private destroy$ = new Subject<void>();
 
@@ -172,23 +177,17 @@ export class TableTreatmentMonitoringComponent {
         return stateMap[dossier.statut]?.[dossier.traitement] || 'badge-dark';
     }
 
-    public handleAction(params): void {
+    public handleAction(params: any): void {
         this.onSelectTreatmentMonitoring(params.data);
 
-        switch (params.view) {
-            case 'modal':
-                if (
-                    params.action ===
-                    OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.CLOSURE
-                ) {
-                    this.visibleForm = true;
-                }
-                if (
-                    params.action ===
-                    OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.SEE
-                ) {
-                    this.visibleForm = true;
-                }
+        if (params.view === 'modal') {
+            if (
+                params.action ===
+                    OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.CLOSURE ||
+                params.action === OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.SEE
+            ) {
+                this.visibleForm = true;
+            }
         }
     }
 
@@ -248,6 +247,7 @@ export class TableTreatmentMonitoringComponent {
                         },
                     };
                 }
+                break;
             }
             case TREATMENT_MONITORING_STEP_ENUM.FINALIZATION: {
                 if (

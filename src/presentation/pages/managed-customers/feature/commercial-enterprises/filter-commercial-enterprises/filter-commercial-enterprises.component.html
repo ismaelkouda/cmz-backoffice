@@ -55,7 +55,7 @@
             <label for="statut"
                 ><b>{{ 'STEP' | translate }}</b></label
             >
-            <p-dropdown
+            <p-select
                 formControlName="statut"
                 [options]="listCommercialEnterprisesStep"
                 [showClear]="true"
@@ -63,7 +63,7 @@
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                 emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
             >
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div
@@ -102,28 +102,28 @@
                 <label for="date_debut"
                     ><b>{{ 'START_DATE' | translate }}</b></label
                 >
-                <p-calendar
+                <p-datepicker
                     id="date_debut"
                     formControlName="date_debut"
                     [showIcon]="true"
                     [placeholder]="'AAAA-MM-JJ'"
                     dateFormat="yy-mm-dd"
                 >
-                </p-calendar>
+                </p-datepicker>
             </div>
 
             <div class="col-12 col-sm-6 col-md-2">
                 <label for="date_fin"
                     ><b>{{ 'END_DATE' | translate }}</b></label
                 >
-                <p-calendar
+                <p-datepicker
                     id="date_fin"
                     formControlName="date_fin"
                     [showIcon]="true"
                     [placeholder]="'AAAA-MM-JJ'"
                     dateFormat="yy-mm-dd"
                 >
-                </p-calendar>
+                </p-datepicker>
             </div>
 
             <div

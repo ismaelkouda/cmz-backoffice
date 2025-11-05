@@ -153,7 +153,11 @@
     align-items: center;
     vertical-align: middle;
     justify-content: center;
-    transition: 0.3s color, 0.3s border, 0.3s transform, 0.3s opacity;
+    transition:
+        0.3s color,
+        0.3s border,
+        0.3s transform,
+        0.3s opacity;
 
     [class*='loader-'] {
         display: inline-block;
@@ -612,11 +616,15 @@
     @keyframes loader-15 {
         0%,
         100% {
-            box-shadow: 0 0 0 $info-color, 0 0 0 $info-color;
+            box-shadow:
+                0 0 0 $info-color,
+                0 0 0 $info-color;
         }
 
         50% {
-            box-shadow: 0 -0.25em 0 $info-color, 0 0.25em 0 $info-color;
+            box-shadow:
+                0 -0.25em 0 $info-color,
+                0 0.25em 0 $info-color;
         }
     }
 
@@ -982,7 +990,8 @@
             background-color: $danger-color;
             top: -0.3em;
             left: 0.05em;
-            box-shadow: 0.2em 0px 0px 0px $danger-color,
+            box-shadow:
+                0.2em 0px 0px 0px $danger-color,
                 0.2em -0.2em 0px 0px $danger-color,
                 0.4em 0px 0px 0px $danger-color;
             animation: loader-24 1s linear infinite alternate;
@@ -1071,11 +1080,16 @@
 
     .loader-29 {
         border-radius: 50%;
-        box-shadow: inset 0 0 0 0.1em $info-color,
-            -0.5em -0.5em 0 -0.4em $info-color, 0 -0.7em 0 -0.4em $info-color,
-            0.5em -0.5em 0 -0.4em $info-color, -0.5em 0.5em 0 -0.4em $info-color,
-            0 0.7em 0 -0.4em $info-color, 0.5em 0.5em 0 -0.4em $info-color,
-            -0.7em 0 0 -0.4em $info-color, 0.7em 0 0 -0.4em $info-color;
+        box-shadow:
+            inset 0 0 0 0.1em $info-color,
+            -0.5em -0.5em 0 -0.4em $info-color,
+            0 -0.7em 0 -0.4em $info-color,
+            0.5em -0.5em 0 -0.4em $info-color,
+            -0.5em 0.5em 0 -0.4em $info-color,
+            0 0.7em 0 -0.4em $info-color,
+            0.5em 0.5em 0 -0.4em $info-color,
+            -0.7em 0 0 -0.4em $info-color,
+            0.7em 0 0 -0.4em $info-color;
         animation: 5s loader-29 linear infinite;
     }
 
@@ -1160,16 +1174,22 @@
         0% {
             opacity: 1;
             transform: rotate(0deg);
-            box-shadow: 0 0 0 -0.5em $warning-color, 0 0 0 -0.5em $warning-color,
-                0 0 0 -0.5em $warning-color, 0 0 0 -0.5em $warning-color,
-                0 0 0 -0.5em $warning-color, 0 0 0 -0.5em $warning-color,
-                0 0 0 -0.5em $warning-color, 0 0 0 -0.5em $warning-color;
+            box-shadow:
+                0 0 0 -0.5em $warning-color,
+                0 0 0 -0.5em $warning-color,
+                0 0 0 -0.5em $warning-color,
+                0 0 0 -0.5em $warning-color,
+                0 0 0 -0.5em $warning-color,
+                0 0 0 -0.5em $warning-color,
+                0 0 0 -0.5em $warning-color,
+                0 0 0 -0.5em $warning-color;
         }
 
         100% {
             opacity: 0;
             transform: rotate(180deg);
-            box-shadow: -1em -1em 0 -0.35em $warning-color,
+            box-shadow:
+                -1em -1em 0 -0.35em $warning-color,
                 0 -1.5em 0 -0.35em $warning-color,
                 1em -1em 0 -0.35em $warning-color,
                 -1.5em 0 0 -0.35em $warning-color,
@@ -1183,7 +1203,9 @@
     .loader-32 {
         position: relative;
         border-radius: 50%;
-        box-shadow: 0 0 1em 0 $danger-color, inset 0 0 1em 0 $danger-color;
+        box-shadow:
+            0 0 1em 0 $danger-color,
+            inset 0 0 1em 0 $danger-color;
         animation: 1s loader-32 linear infinite;
 
         &:before,
@@ -1366,96 +1388,114 @@
     .loader-38 {
         height: 0.1em;
         width: 0.1em;
-        box-shadow: -0.2em -0.2em 0 0.1em $info-color,
-            -0.2em -0.2em 0 0.1em $info-color, -0.2em -0.2em 0 0.1em $info-color,
+        box-shadow:
+            -0.2em -0.2em 0 0.1em $info-color,
+            -0.2em -0.2em 0 0.1em $info-color,
+            -0.2em -0.2em 0 0.1em $info-color,
             -0.2em -0.2em 0 0.1em $info-color;
         animation: loader-38 6s infinite;
     }
 
     @keyframes loader-38 {
         0% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 -0.2em -0.2em 0 0.1em $info-color,
                 -0.2em -0.2em 0 0.1em $info-color,
                 -0.2em -0.2em 0 0.1em $info-color;
         }
 
         8.33% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color;
         }
 
         16.66% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color,
-                0.2em 0.2em 0 0.1em $info-color, 0.2em 0.2em 0 0.1em $info-color;
+                0.2em 0.2em 0 0.1em $info-color,
+                0.2em 0.2em 0 0.1em $info-color;
         }
 
         24.99% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color,
                 0.2em 0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color;
         }
 
         33.32% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color,
                 0.2em 0.2em 0 0.1em $info-color,
                 -0.2em -0.2em 0 0.1em $info-color;
         }
 
         41.65% {
-            box-shadow: 0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                0.2em -0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color,
                 0.2em 0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color;
         }
 
         49.98% {
-            box-shadow: 0.2em 0.2em 0 0.1em $info-color,
-                0.2em 0.2em 0 0.1em $info-color, 0.2em 0.2em 0 0.1em $info-color,
+            box-shadow:
+                0.2em 0.2em 0 0.1em $info-color,
+                0.2em 0.2em 0 0.1em $info-color,
+                0.2em 0.2em 0 0.1em $info-color,
                 0.2em 0.2em 0 0.1em $info-color;
         }
 
         58.31% {
-            box-shadow: -0.2em 0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em 0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color,
                 0.2em 0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color;
         }
 
         66.64% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 -0.2em -0.2em 0 0.1em $info-color,
                 0.2em 0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color;
         }
 
         74.97% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 0.2em -0.2em 0 0.1em $info-color,
                 0.2em 0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color;
         }
 
         83.3% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
-                0.2em 0.2em 0 0.1em $info-color, 0.2em 0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
+                0.2em 0.2em 0 0.1em $info-color,
+                0.2em 0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color;
         }
 
         91.63% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color,
                 -0.2em 0.2em 0 0.1em $info-color;
         }
 
         100% {
-            box-shadow: -0.2em -0.2em 0 0.1em $info-color,
+            box-shadow:
+                -0.2em -0.2em 0 0.1em $info-color,
                 -0.2em -0.2em 0 0.1em $info-color,
                 -0.2em -0.2em 0 0.1em $info-color,
                 -0.2em -0.2em 0 0.1em $info-color;
@@ -1570,7 +1610,8 @@
         border: 0.05em var(--theme-deafult) solid;
         border-radius: 0.2em;
         position: relative;
-        background: linear-gradient(
+        background:
+            linear-gradient(
                 45deg,
                 transparent 48%,
                 var(--theme-deafult) 50%,

@@ -8,6 +8,7 @@ $text-color: #333;
 $success-color: #28a745;
 $warning-color: #ffc107;
 $danger-color: #dc3545;
+@use "sass:color";
 
 // Styles pour le composant invoice
 .invoice-container {
@@ -186,7 +187,7 @@ $danger-color: #dc3545;
                         display: flex;
                         align-items: center;
                         padding: 1rem;
-                        border: 1px dashed lighten($primary-color, 20%);
+                         border: 1px dashed color.scale($primary-color, $lightness: 20%);
                         border-radius: 8px;
                         background: #f9f9fb;
                         transition: all 0.3s ease-in-out;
@@ -199,7 +200,9 @@ $danger-color: #dc3545;
                         %upload-icon {
                             font-size: 2rem;
                             margin-right: 1rem;
-                            transition: transform 0.3s ease, color 0.3s ease;
+                            transition:
+                                transform 0.3s ease,
+                                color 0.3s ease;
                         }
 
                         .upload-icon-error {

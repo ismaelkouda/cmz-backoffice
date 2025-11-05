@@ -1,20 +1,20 @@
-import { EventEmitter, Input, Output } from '@angular/core';
-import { Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
+import { TableModule } from 'primeng/table';
+import { Observable, take } from 'rxjs';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { ClipboardService } from 'ngx-clipboard';
-import { Observable, take } from 'rxjs';
+import { myAccountTableConstant } from '../../../data-access/my-account/constants/my-account-table.constant';
+import { myAccountFilterInterface } from '../../../data-access/my-account/interfaces/my-account-filter.interface';
 import { myAccountInterface } from '../../../data-access/my-account/interfaces/my-account.interface';
 import { MyAccountApiService } from '../../../data-access/my-account/service/my-account-api.service';
-import { myAccountFilterInterface } from '../../../data-access/my-account/interfaces/my-account-filter.interface';
-import { myAccountTableConstant } from '../../../data-access/my-account/constants/my-account-table.constant';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { TranslateService } from '@ngx-translate/core';
 
-type Action = PageAction;
 type PageAction = {
     data: myAccountInterface;
     action: 'fund-my-account';
@@ -23,15 +23,16 @@ type PageAction = {
 
 @Component({
     selector: `app-table-my-account`,
+    standalone: true,
     templateUrl: `./table-my-account.component.html`,
+    imports: [TableModule, AsyncPipe],
 })
 export class TableMyAccountComponent {
-    @Input() spinner: boolean;
-    @Input() listAccount$: Observable<Array<myAccountInterface>>;
-    @Input() pagination$: Observable<Paginate<myAccountInterface>>;
+    @Input() spinner!: boolean;
+    @Input() listAccount$!: Observable<Array<myAccountInterface>>;
+    @Input() pagination$!: Observable<Paginate<myAccountInterface>>;
     public table: TableConfig = myAccountTableConstant;
-    @Output() interfaceUser = new EventEmitter<Action>();
-
+    @Output() interfaceUser = new EventEmitter<PageAction>();
     constructor(
         public toastService: ToastrService,
         private myAccountApiService: MyAccountApiService,
@@ -64,11 +65,9 @@ export class TableMyAccountComponent {
         });
     }
 
-    public handleAction(params: Action): void {
-        switch (params.view) {
-            case 'page':
-                this.interfaceUser.emit(params);
-                break;
+    public handleAction(params: PageAction): void {
+        if (params.view === 'page') {
+            this.interfaceUser.emit(params);
         }
     }
 }

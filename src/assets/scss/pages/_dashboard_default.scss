@@ -894,7 +894,8 @@
         width: 43px;
         height: 43px;
         background: $white;
-        box-shadow: 0px 71.2527px 51.5055px rgba(229, 229, 245, 0.189815),
+        box-shadow:
+            0px 71.2527px 51.5055px rgba(229, 229, 245, 0.189815),
             0px 42.3445px 28.0125px rgba(229, 229, 245, 0.151852),
             0px 21.9866px 14.2913px rgba(229, 229, 245, 0.125),
             0px 8.95749px 7.16599px rgba(229, 229, 245, 0.0981481),
@@ -1038,12 +1039,8 @@
     justify-content: center;
     font-size: 25px;
     margin: 0 auto;
-    background-image: linear-gradient(
-            90deg,
-            $light-color 50%,
-            transparent 50%,
-            transparent
-        ),
+    background-image:
+        linear-gradient(90deg, $light-color 50%, transparent 50%, transparent),
         linear-gradient(90deg, $light-gray 50%, $light-color 50%, $light-color);
     i {
         background-color: $white;
@@ -1056,7 +1053,8 @@
         justify-content: center;
     }
     &.radial-bar-70 {
-        background-image: linear-gradient(
+        background-image:
+            linear-gradient(
                 342deg,
                 var(--theme-deafult) 50%,
                 transparent 50%,

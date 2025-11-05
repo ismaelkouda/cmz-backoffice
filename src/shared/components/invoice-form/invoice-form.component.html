@@ -34,10 +34,9 @@
                                         >
                                         :
                                     </span>
-                                    <span
-                                        class="text-accent"
-                                        >{{customerDetails?.['numero_demande']}}</span
-                                    >
+                                    <span class="text-accent">{{
+                                        customerDetails?.['numero_demande']
+                                    }}</span>
 
                                     <p-tag
                                         *ngIf="!disabledEditableForm"
@@ -428,7 +427,7 @@
                                                                                 invoiceForm.get(
                                                                                     'justificatif'
                                                                                 )
-                                                                                    ?.value
+                                                                                    ?.value,
                                                                         }"
                                                                     >
                                                                     </i>

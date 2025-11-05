@@ -65,7 +65,7 @@
                         [readonly]="!disabledEditableForm"
                         class="form-control"
                         [ngClass]="{
-                            'is-invalid': isInvalid('email_diffusion_tenant')
+                            'is-invalid': isInvalid('email_diffusion_tenant'),
                         }"
                     />
                 </div>
@@ -88,7 +88,7 @@
                             else disabledManagerApplicants
                         "
                     >
-                        <p-dropdown
+                        <p-select
                             [options]="listApplicants$ | async"
                             optionLabel="fullName"
                             optionValue="id"
@@ -98,9 +98,11 @@
                             [filter]="true"
                             filterBy="nom"
                             [ngClass]="{
-                                'p-invalid': isInvalid('gestionnaire_tenant_id')
+                                'p-invalid': isInvalid(
+                                    'gestionnaire_tenant_id'
+                                ),
                             }"
-                        ></p-dropdown>
+                        ></p-select>
                     </ng-container>
                     <ng-template #disabledManagerApplicants>
                         <input
@@ -126,7 +128,7 @@
                         [ngClass]="{
                             'is-invalid': isInvalid(
                                 'contact_gestionnaire_tenant'
-                            )
+                            ),
                         }"
                     />
                 </div>
@@ -142,7 +144,9 @@
                         [readonly]="!disabledEditableForm"
                         class="form-control"
                         [ngClass]="{
-                            'is-invalid': isInvalid('email_gestionnaire_tenant')
+                            'is-invalid': isInvalid(
+                                'email_gestionnaire_tenant'
+                            ),
                         }"
                     />
                 </div>
@@ -165,7 +169,7 @@
                             else disabledAdministratorApplicants
                         "
                     >
-                        <p-dropdown
+                        <p-select
                             [options]="listApplicants$ | async"
                             optionLabel="fullName"
                             optionValue="id"
@@ -175,9 +179,9 @@
                             [filter]="true"
                             filterBy="nom"
                             [ngClass]="{
-                                'p-invalid': isInvalid('admin_tenant_id')
+                                'p-invalid': isInvalid('admin_tenant_id'),
                             }"
-                        ></p-dropdown>
+                        ></p-select>
                     </ng-container>
                     <ng-template #disabledAdministratorApplicants>
                         <input
@@ -201,7 +205,7 @@
                         [readonly]="!disabledEditableForm"
                         class="form-control"
                         [ngClass]="{
-                            'is-invalid': isInvalid('contact_admin_tenant')
+                            'is-invalid': isInvalid('contact_admin_tenant'),
                         }"
                     />
                 </div>
@@ -217,7 +221,7 @@
                         class="form-control"
                         [readonly]="!disabledEditableForm"
                         [ngClass]="{
-                            'is-invalid': isInvalid('email_admin_tenant')
+                            'is-invalid': isInvalid('email_admin_tenant'),
                         }"
                     />
                 </div>
@@ -240,7 +244,7 @@
                             else disabledEscaladeApplicants
                         "
                     >
-                        <p-dropdown
+                        <p-select
                             [options]="listApplicants$ | async"
                             optionLabel="fullName"
                             optionValue="id"
@@ -250,9 +254,9 @@
                             [filter]="true"
                             filterBy="nom"
                             [ngClass]="{
-                                'p-invalid': isInvalid('escalade_tenant_id')
+                                'p-invalid': isInvalid('escalade_tenant_id'),
                             }"
-                        ></p-dropdown>
+                        ></p-select>
                     </ng-container>
                     <ng-template #disabledEscaladeApplicants>
                         <input
@@ -276,7 +280,7 @@
                         [readonly]="!disabledEditableForm"
                         class="form-control"
                         [ngClass]="{
-                            'is-invalid': isInvalid('contact_escalade_tenant')
+                            'is-invalid': isInvalid('contact_escalade_tenant'),
                         }"
                     />
                 </div>
@@ -292,7 +296,7 @@
                         class="form-control"
                         [readonly]="!disabledEditableForm"
                         [ngClass]="{
-                            'is-invalid': isInvalid('email_escalade_tenant')
+                            'is-invalid': isInvalid('email_escalade_tenant'),
                         }"
                     />
                 </div>
@@ -329,7 +333,7 @@
                         formControlName="contact_gerant"
                         [readonly]="!disabledEditableForm"
                         [ngClass]="{
-                            'is-invalid': isInvalid('contact_gerant')
+                            'is-invalid': isInvalid('contact_gerant'),
                         }"
                         class="form-control"
                     />
@@ -407,7 +411,7 @@
                     <ng-container
                         *ngIf="disabledEditableForm; else disabledLegalForm"
                     >
-                        <p-dropdown
+                        <p-select
                             [options]="listLegalForm$ | async"
                             optionLabel="nom"
                             optionValue="code"
@@ -416,7 +420,7 @@
                             formControlName="forme_juridique_code"
                             [filter]="true"
                             filterBy="nom"
-                        ></p-dropdown>
+                        ></p-select>
                     </ng-container>
                     <ng-template #disabledLegalForm>
                         <input
@@ -485,7 +489,7 @@
                     <ng-container
                         *ngIf="disabledEditableForm; else disabledRegimeForm"
                     >
-                        <p-dropdown
+                        <p-select
                             [options]="listRegimesBusiness$ | async"
                             optionLabel="nom"
                             optionValue="code"
@@ -495,7 +499,7 @@
                             [filter]="true"
                             filterBy="nom"
                         >
-                        </p-dropdown>
+                        </p-select>
                     </ng-container>
                     <ng-template #disabledRegimeForm>
                         <input

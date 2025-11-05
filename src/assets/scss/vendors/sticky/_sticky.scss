@@ -135,7 +135,9 @@
     color: #ffffff;
     padding: 1em 2em;
     text-decoration: none;
-    transition: transform 0.15s, background 0.01s;
+    transition:
+        transform 0.15s,
+        background 0.01s;
     @extend .noflick;
 
     &.remove {

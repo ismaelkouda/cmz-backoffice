@@ -1,5 +1,6 @@
 /* TypeScript configuration for Angular unit tests */
 {
+    "extends": "./tsconfig.app.json",
     "compilerOptions": {
         "baseUrl": "./",
         "paths": {

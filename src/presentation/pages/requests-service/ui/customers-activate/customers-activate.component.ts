@@ -1,31 +1,48 @@
-import { FORM, INVOICE, PAYMENT } from '../../requests-service-routing.module';
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
-import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { CustomersActivateFilterInterface } from '../../data-access/customers-activate/interfaces/customers-activate-filter.interface';
-import { REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM } from '../../data-access/requests-service/enums/requests-service-buttons-actions.enum';
+import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
+import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
+import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
 import {
-    CUSTOMERS_ACTIVATE_STEP_ENUM,
-    T_CUSTOMERS_ACTIVATE_STEP_ENUM,
-} from '../../data-access/customers-activate/enums/customers-activate-step.enum';
+    T_TYPE_CUSTOMERS_ENUM,
+    TYPE_CUSTOMERS_ENUM,
+} from '../../../../../shared/enum/type-customers.enum';
+import { CustomersActivateInterface } from '../../../../../shared/interfaces/customers-activate.interface';
+import { MenuItem } from '../../../../../shared/interfaces/menu-item.interface';
+import { Paginate } from '../../../../../shared/interfaces/paginate';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
+import { SharedService } from '../../../../../shared/services/shared.service';
 import {
     CUSTOMERS_ACTIVATE_STATE_ENUM,
     T_CUSTOMERS_ACTIVATE_STATE_ENUM,
 } from '../../data-access/customers-activate/enums/customers-activate-state.enum';
 import {
-    T_TYPE_CUSTOMERS_ENUM,
-    TYPE_CUSTOMERS_ENUM,
-} from '../../../../../shared/enum/type-customers.enum';
-import { SharedService } from '../../../../../shared/services/shared.service';
-import { CustomersActivateInterface } from '../../../../../shared/interfaces/customers-activate.interface';
+    CUSTOMERS_ACTIVATE_STEP_ENUM,
+    T_CUSTOMERS_ACTIVATE_STEP_ENUM,
+} from '../../data-access/customers-activate/enums/customers-activate-step.enum';
+import { CustomersActivateFilterInterface } from '../../data-access/customers-activate/interfaces/customers-activate-filter.interface';
 import { CustomersActivatePageActionsType } from '../../data-access/customers-activate/types/customers-activate-page-actions.type';
-import { MenuItem } from '../../../../../shared/interfaces/menu-item.interface';
-import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
+import { REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM } from '../../data-access/requests-service/enums/requests-service-buttons-actions.enum';
+import { FilterCustomersActivateComponent } from '../../feature/customers-activate/filter-customers-activate/filter-customers-activate.component';
+import { TableCustomersActivateComponent } from '../../feature/customers-activate/table-customers-activate/table-customers-activate.component';
+import { FORM, INVOICE, PAYMENT } from '../../requests-service-routing.module';
 
 @Component({
     selector: 'app-customers-activate',
+    standalone: true,
     templateUrl: './customers-activate.component.html',
+    imports: [
+        CommonModule,
+        BreadcrumbComponent,
+        PatrimoineHeaderComponent,
+        FilterCustomersActivateComponent,
+        TableCustomersActivateComponent,
+        ParginationComponent,
+        TranslateModule
+    ],
 })
 export class CustomersActivateComponent implements OnInit, OnDestroy {
     public module: string = '';
@@ -49,8 +66,8 @@ export class CustomersActivateComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.module = data['module'];
+            this.subModule = data['subModule'][0];
         });
         this.listCustomersActivate$ = this.sharedService.getCustomersActivate();
         this.pagination$ = this.sharedService.getCustomersActivatePagination();

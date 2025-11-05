@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { CurrentUser } from '../../../../interfaces/current-user.interface';
 import { Subject } from 'rxjs';
+import { CurrentUser } from '../../../../interfaces/current-user.interface';
 import { EncodingDataService } from '../../../../services/encoding-data.service';
 const Swal = require('sweetalert2');
 
@@ -13,14 +13,14 @@ const Swal = require('sweetalert2');
     styleUrls: ['./my-account.component.scss'],
 })
 export class MyAccountComponent implements OnInit, OnDestroy {
-    public userName: string;
-    public profileImg: 'assets/images/dashboard/profile.jpg';
-    public currentUser: CurrentUser | null;
-    public newPasswordValue: string;
-    public confirmPasswordValue: string;
-    public passwordForm: FormGroup;
+    public userName!: string;
+    public profileImg!: 'assets/images/dashboard/profile.jpg';
+    public currentUser!: CurrentUser | null;
+    public newPasswordValue!: string;
+    public confirmPasswordValue!: string;
+    public passwordForm!: FormGroup;
     public submitted: boolean = false;
-    public accountForm: FormGroup;
+    public accountForm!: FormGroup;
 
     private destroy$ = new Subject<void>();
 
@@ -57,8 +57,8 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             new_password_confirmation: [null, Validators.required],
         });
     }
-    public openFormPassword(content) {
-        this.modalService.open(content);
+    public openFormPassword(modalRef: TemplateRef<any>) {
+        this.modalService.open(modalRef);
         this.passwordForm.reset();
     }
     public hideForm() {
@@ -68,15 +68,17 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     OnChangeNewPasswordvalue() {
         return this.passwordForm
             .get('nouveau_password')
-            .valueChanges.subscribe((value) => {
-                return (this.newPasswordValue = value);
+            ?.valueChanges.subscribe((value) => {
+                this.newPasswordValue = value;
+                return value;
             });
     }
     OnChangeConfirmPasswordvalue() {
         return this.passwordForm
             .get('confirm_password')
-            .valueChanges.subscribe((value) => {
-                return (this.confirmPasswordValue = value);
+            ?.valueChanges.subscribe((value) => {
+                this.confirmPasswordValue = value;
+                return value;
             });
     }
 
@@ -101,8 +103,8 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     ): Promise<void> {
         this.submitted = true;
         if (
-            this.passwordForm.get('new_password').value !==
-            this.passwordForm.get('new_password_confirmation').value
+            this.passwordForm.get('new_password')?.value !==
+            this.passwordForm.get('new_password_confirmation')?.value
         ) {
             this.passwordForm
                 .get('new_password')
@@ -112,20 +114,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
                 ?.setErrors({ invalidPassword: true });
         }
         if (this.passwordForm.valid) {
-            // const response: any = await handle(
-            //     () => this.settingService.HandleUpdatePassword(dataToSend),
-            //     this.toastrService,
-            //     this.loadingBarService
-            // );
-            // if (response?.error === false) {
-            //     this.handleSuccessful(response);
-            // }
         }
-    }
-
-    private handleSuccessful(response): void {
-        this.toastrService.success(response.message);
-        this.hideForm();
     }
 
     // Account
@@ -141,15 +130,18 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             user_id: [this.currentUser?.id],
         });
     }
-    public openFormAccount(account, data) {
-        this.accountForm.get('nom').patchValue(data.nom);
-        this.accountForm.get('prenoms').patchValue(data.prenoms);
-        this.accountForm.get('username').patchValue(data.username);
-        this.accountForm.get('email').patchValue(data.email);
-        this.accountForm.get('contacts').patchValue(data.contacts);
-        this.accountForm.get('adresse').patchValue(data.adresse);
-        this.accountForm.get('username').disable();
-        this.modalService.open(account);
+    public openFormAccount(
+        modalRef: TemplateRef<any>,
+        currentUser: CurrentUser | null
+    ) {
+        this.accountForm.get('nom')?.patchValue(currentUser?.nom);
+        this.accountForm.get('prenoms')?.patchValue(currentUser?.prenoms);
+        this.accountForm.get('username')?.patchValue(currentUser?.username);
+        this.accountForm.get('email')?.patchValue(currentUser?.email);
+        this.accountForm.get('contacts')?.patchValue(currentUser?.contacts);
+        this.accountForm.get('adresse')?.patchValue(currentUser?.adresse);
+        this.accountForm.get('username')?.disable();
+        this.modalService.open(modalRef);
     }
     public hideFormAccount() {
         this.modalService.dismissAll();
@@ -203,7 +195,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             cancelButtonColor: '#dc3545',
             cancelButtonText: 'Annuler',
             confirmButtonText: 'Oui',
-        }).then((result) => {
+        }).then((result: any) => {
             if (result.isConfirmed) {
                 this.handleLogout();
             }

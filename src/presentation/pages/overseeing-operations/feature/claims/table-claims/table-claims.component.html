@@ -36,7 +36,7 @@
                         handleAction({
                             data: null,
                             action: 'add-claims',
-                            view: 'page'
+                            view: 'page',
                         })
                     "
                 >
@@ -130,12 +130,16 @@
                                 getTreatmentButtonOpenClaimsStyle(item)?.icon
                             "
                             tooltipPosition="top"
-                            [pTooltip]="getTreatmentButtonOpenClaimsStyle(item)?.['tooltip']"
+                            [pTooltip]="
+                                getTreatmentButtonOpenClaimsStyle(item)?.[
+                                    'tooltip'
+                                ]
+                            "
                             (click)="
                                 handleAction({
                                     data: item,
                                     action: 'open-folder-claims',
-                                    view: 'page'
+                                    view: 'page',
                                 })
                             "
                         ></button
@@ -149,18 +153,22 @@
                                 getTreatmentButtonViewClaimsStyle(item)?.icon
                             "
                             tooltipPosition="top"
-                            [pTooltip]="getTreatmentButtonViewClaimsStyle(item)?.['tooltip']"
+                            [pTooltip]="
+                                getTreatmentButtonViewClaimsStyle(item)?.[
+                                    'tooltip'
+                                ]
+                            "
                             (click)="
                                 handleAction({
                                     data: item,
                                     action: 'view-claims',
-                                    view: 'modal'
+                                    view: 'modal',
                                 })
                             "
                         ></button>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
-                        {{item?.[col.field]}}
+                        {{ item?.[col.field] }}
                     </ng-container>
                 </ng-container>
             </td>
@@ -199,11 +207,11 @@
     (onHide)="hideDialog()"
     [modal]="true"
     [closable]="true"
-    [style]="{ width: '100%', 'min-height': '100%' }"
-    [responsive]="true"
     [maximizable]="true"
     [draggable]="false"
     [resizable]="true"
+    [style]="{ width: '95vw', minHeight: '80vh' }"
+    [breakpoints]="{ '575px': '95vw', '1199px': '90vw' }"
 >
     <ng-template pTemplate="content">
         <!-- <app-form-folder

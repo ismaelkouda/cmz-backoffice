@@ -1,26 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavService } from '../../services/nav.service';
-import { LayoutService } from '../../services/layout.service';
-import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 import { Router } from '@angular/router';
-import { SharedService } from '../../services/shared.service';
 import { Observable, Subject } from 'rxjs';
-import { OVERSEEING_OPERATIONS } from '../../routes/routes';
 import { CurrentUser } from '../../interfaces/current-user.interface';
+import { OVERSEEING_OPERATIONS } from '../../routes/routes';
 import { EncodingDataService } from '../../services/encoding-data.service';
-SwiperCore.use([Navigation, Pagination, Autoplay]);
+import { LayoutService } from '../../services/layout.service';
+import { NavService } from '../../services/nav.service';
+import { SharedService } from '../../services/shared.service';
+import { MyAccountComponent } from './elements/my-account/my-account.component';
 const NOTIFICATIONS_ROUTE = 'notifications';
 
 @Component({
     selector: 'app-header',
+    standalone: true,
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
+    imports: [MyAccountComponent],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-    public logoTenant: string;
-    public nom_tenant: string;
-    public soldeGlobal: string;
-    public ligneCreditGlobal: string;
+    public logoTenant!: string;
+    public nom_tenant!: string;
+    public soldeGlobal!: string;
+    public ligneCreditGlobal!: string;
     public notificationCount$: Observable<number>;
     private destroy$ = new Subject<void>();
 
@@ -34,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.sharedService.fetchUnReadNotifications();
         this.notificationCount$ =
             this.sharedService.getApiResponseUnReadNotifications();
-        this.statutLayout();
+        this.statusLayout();
     }
 
     ngOnInit() {
@@ -64,7 +65,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         return new Intl.NumberFormat('fr-FR').format(number);
     }
 
-    statutLayout(): boolean {
-        return localStorage.getItem('layout') === 'Barcelona' ? true : false;
+    statusLayout(): boolean {
+        return localStorage.getItem('layout') === 'Barcelona';
     }
 }

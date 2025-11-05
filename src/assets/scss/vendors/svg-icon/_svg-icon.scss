@@ -141,8 +141,12 @@ rect {
     animation-name: behindCloudMove, rotate;
     animation-iteration-count: 1, infinite;
     animation-timing-function: ease-out, linear;
-    animation-delay: 0, $baseAnimationDuration / 4;
-    animation-duration: $baseAnimationDuration / 4, $baseAnimationDuration;
+    animation-delay:
+        0,
+        $baseAnimationDuration / 4;
+    animation-duration:
+        $baseAnimationDuration / 4,
+        $baseAnimationDuration;
 }
 
 .climacon_componentWrap-sun_cloud
@@ -151,7 +155,9 @@ rect {
     fill-opacity: 0;
     animation-name: fillOpacity, scale;
     animation-iteration-count: 1, infinite;
-    animation-delay: $baseAnimationDuration / 4, 0;
+    animation-delay:
+        $baseAnimationDuration / 4,
+        0;
     animation-fill-mode: both;
 }
 
@@ -167,8 +173,12 @@ rect {
     animation-name: behindCloudMove, partialRotate;
     animation-iteration-count: 1, infinite;
     animation-timing-function: ease-out, linear;
-    animation-delay: 0, $baseAnimationDuration / 4;
-    animation-duration: $baseAnimationDuration / 4, $baseAnimationDuration;
+    animation-delay:
+        0,
+        $baseAnimationDuration / 4;
+    animation-duration:
+        $baseAnimationDuration / 4,
+        $baseAnimationDuration;
 }
 
 /* DRIZZLE */
@@ -417,7 +427,9 @@ rect {
 
 .climacon_componentWrap-sunriseAlt {
     animation-name: translateSunrise, fillOpacity;
-    animation-duration: $baseAnimationDuration, $baseAnimationDuration / 2;
+    animation-duration:
+        $baseAnimationDuration,
+        $baseAnimationDuration / 2;
     animation-direction: normal;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
@@ -429,13 +441,17 @@ rect {
     animation-direction: normal, alternate;
     animation-iteration-count: 1, infinite;
     animation-duration: $baseAnimationDuration / 4;
-    animation-delay: $baseAnimationDuration / 4, 0;
+    animation-delay:
+        $baseAnimationDuration / 4,
+        0;
     animation-fill-mode: both;
 }
 
 .climacon_componentWrap-sunriseAlt
     .climacon_component-stroke_sunSpoke:nth-child(even) {
-    animation-delay: $baseAnimationDuration / 4, $baseAnimationDuration / 4;
+    animation-delay:
+        $baseAnimationDuration / 4,
+        $baseAnimationDuration / 4;
 }
 
 .climacon_componentWrap-sunsetAlt {

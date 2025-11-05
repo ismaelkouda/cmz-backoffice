@@ -1,34 +1,38 @@
-import { Component, Input } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { TableModule } from 'primeng/table';
+import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 import { SLA_AGREEMENTS_TABLE } from '../../../data-access/sla-agreements/constants/sla-agreements-table.constant';
-import { SlaAgreementsInterface } from '../../../data-access/sla-agreements/interfaces/sla-agreements.interface';
-import { SlaAgreementsApiService } from '../../../data-access/sla-agreements/services/sla-agreements-api.service';
 import {
     SLA_AGREEMENTS_STATUS_ENUM,
     T_SLA_AGREEMENTS_STATUS_ENUM,
 } from '../../../data-access/sla-agreements/enums/sla-agreements-status.enum';
+import { SlaAgreementsInterface } from '../../../data-access/sla-agreements/interfaces/sla-agreements.interface';
+import { SlaAgreementsApiService } from '../../../data-access/sla-agreements/services/sla-agreements-api.service';
 
 type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
 @Component({
     selector: 'app-table-sla-agreements',
+    standalone: true,
     templateUrl: './table-sla-agreements.component.html',
     styleUrls: ['./table-sla-agreements.component.scss'],
+    imports: [CommonModule, TableModule, AsyncPipe],
 })
-export class TableSlaAgreementsComponent {
+export class TableSlaAgreementsComponent implements OnDestroy {
     public nbDataPerPage = 50;
-    @Input() spinner: boolean;
+    @Input() spinner!: boolean;
     @Input() listSlaAgreements$: Observable<Array<SlaAgreementsInterface>> =
         new BehaviorSubject<Array<SlaAgreementsInterface>>([]);
 
-    public slaAgreementSelected: SlaAgreementsInterface;
+    public slaAgreementSelected!: SlaAgreementsInterface;
     public table: TableConfig = SLA_AGREEMENTS_TABLE;
     private destroy$ = new Subject<void>();
 

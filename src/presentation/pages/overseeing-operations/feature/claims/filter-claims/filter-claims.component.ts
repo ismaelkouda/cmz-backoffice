@@ -1,35 +1,38 @@
-import { T_BADGE_OPERATION_CLAIMS } from './../../../data-access/claims/constants/claims-operation.constant copy';
-import { T_BADGE_STEP_CLAIMS } from '../../../data-access/claims/constants/claims-step.constant';
 import {
     Component,
-    Input,
     EventEmitter,
-    Output,
+    Input,
     OnDestroy,
+    Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { SelectModule } from 'primeng/select';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
-import { TranslateService } from '@ngx-translate/core';
 import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
-import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
 import { T_BADGE_STATE_CLAIMS } from '../../../data-access/claims/constants/claims-state.constant';
+import { T_BADGE_STEP_CLAIMS } from '../../../data-access/claims/constants/claims-step.constant';
+import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
+import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
+import { T_BADGE_OPERATION_CLAIMS } from './../../../data-access/claims/constants/claims-operation.constant copy';
 
 @Component({
     selector: 'app-filter-claims',
+    standalone: true,
     templateUrl: './filter-claims.component.html',
+    imports: [ ReactiveFormsModule, TranslateModule, SelectModule ]
 })
 export class FilterClaimsComponent implements OnDestroy {
-    @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
-    @Input() listOperations: Array<T_BADGE_OPERATION_CLAIMS>;
-    @Input() listStepClaims: Array<T_BADGE_STEP_CLAIMS>;
-    @Input() listStateClaims: Array<T_BADGE_STATE_CLAIMS>;
+    @Input() listApplicants$!: Observable<Array<ApplicantInterface>>;
+    @Input() listOperations!: Array<T_BADGE_OPERATION_CLAIMS>;
+    @Input() listStepClaims!: Array<T_BADGE_STEP_CLAIMS>;
+    @Input() listStateClaims!: Array<T_BADGE_STATE_CLAIMS>;
 
     @Output() filter = new EventEmitter<claimsFilterInterface>();
     public secondFilter: boolean = false;
-    public formFilter: FormGroup;
+    public formFilter!: FormGroup;
     private destroy$ = new Subject<void>();
 
     constructor(

@@ -1,31 +1,33 @@
+import { CommonModule } from '@angular/common';
+import {
+    Component,
+    HostListener,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+} from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { LOGO_ANSUT } from '../../../shared/constants/logoAnsut.constant';
+import { EncodingDataService } from '../../services/encoding-data.service';
+import { LayoutService } from '../../services/layout.service';
+import { NavService } from '../../services/nav.service';
+import { TabService } from '../../services/tab.service';
 import {
     MenuItem,
     MenuItemChildren,
 } from './../../interfaces/menu-item.interface';
-import {
-    Component,
-    ViewEncapsulation,
-    HostListener,
-    OnDestroy,
-    OnInit,
-} from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { NavService } from '../../services/nav.service';
-import { LayoutService } from '../../services/layout.service';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { LOGO_ANSUT } from 'src/shared/constants/logoAnsut.constant';
-import { TabService } from '../../services/tab.service';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
+    imports: [CommonModule],
     encapsulation: ViewEncapsulation.None,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
     public LOGO_ANSUT = LOGO_ANSUT;
-    public iconSidebar;
+    public iconSidebar!: string;
     public menuItems: Array<MenuItem> = [];
     public filterArray: Array<any> = [];
     public filterArray2: Array<any> = [];
@@ -52,38 +54,35 @@ export class SidebarComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.menuItems = this.encodingService.getData('menu') as
-            | Array<MenuItem>
-            | [];
-        this.sub = this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
-                this.menuItems.filter((items) => {
-                    if (items.path === event.url) {
-                        this.setNavActive(items);
-                    }
-                    if (!items.children) {
-                        return false;
-                    }
-                    items.children.filter((subItems) => {
+    this.menuItems = this.encodingService.getData('menu') as Array<MenuItem> | [];
+    this.sub = this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+            this.menuItems.filter((items: MenuItem) => {
+                let shouldKeep = false;
+                
+                if (items.path === event.url) {
+                    this.setNavActive(items);
+                    shouldKeep = true;
+                }
+                
+                if (items.children) {
+                    items.children.filter((subItems: MenuItemChildren) => {
                         if (subItems.path === event.url) {
                             this.setNavActive(subItems);
+                            return true; // Keep this subItem
                         }
+                        return false; // Don't keep this subItem
                     });
-                    // items.children.filter((subItems) => {
-                    //     const basePath = event.url.split('?')[0];
-                    //     const trimmedPath = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
-                    //     const menuPath = subItems.path.endsWith('/') ? subItems.path.slice(0, -1) : subItems.path;
-                    //     if (menuPath === trimmedPath || trimmedPath.startsWith(menuPath + '/')) {
-                    //         this.setNavActive(subItems);
-                    //     }
-                    // });
-                });
-            }
-        });
-    }
+                }
+                
+                return shouldKeep;
+            });
+        }
+    });
+}
 
     // Active Nave state
-    setNavActive(itemSelected) {
+    setNavActive(itemSelected: MenuItem | MenuItemChildren) {
         this.menuItems.filter((menuItem) => {
             if (menuItem !== itemSelected) {
                 menuItem.active = false;
@@ -100,18 +99,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
                 menuItem.active = true;
                 this.addTab(itemSelected);
             }
-            // menuItem.children?.filter((subItem) => {
-            //     if (subItem.children && subItem.children.includes(item)) {
-            //         subItem.active = true;
-            //         this.addTab(item);
-            //     }
-            // })
         });
     }
 
     @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.width = event.target.innerWidth - 500;
+    onResize(event: Event): void {
+        this.width = (event.target as Window).innerWidth - 500;
     }
 
     sidebarToggle() {
@@ -119,16 +112,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     // Click Toggle menu
-    toggletNavActive(item) {
+    toggletNavActive(item: any) {
         if (!item.active) {
-            this.menuItems.forEach((a) => {
+            for (const a of this.menuItems) {
                 if (this.menuItems.includes(item)) {
                     a.active = false;
                 }
                 if (!a.children) {
-                    return false;
+                    continue;
                 }
-            });
+            }
         }
         item.active = !item.active;
     }
@@ -157,7 +150,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     // Méthode pour ajouter un onglet
-    addTab(item: MenuItemChildren): void {
+    addTab(item: MenuItem | MenuItemChildren): void {
         if (item.path && item.title) {
             // Utiliser un timeout de 0ms pour s'assurer que cet appel se produit
             // après que tout le traitement actuel soit terminé

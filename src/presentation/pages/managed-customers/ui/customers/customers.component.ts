@@ -1,22 +1,26 @@
-import {
-    CUSTOMERS_MANAGED_STEP_ENUM,
-    T_CUSTOMERS_MANAGED_STEP_ENUM,
-} from '../../data-access/managed-customers/enums/managed-customers-step.enum';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
+import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
+import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { CustomersFilterInterface } from '../../data-access/customers/interfaces/customers-filter.interface';
 import { CustomersInterface } from '../../data-access/customers/interfaces/customers.interface';
 import { CustomersApiService } from '../../data-access/customers/services/customers-api.service';
 import {
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
+} from '../../data-access/managed-customers/enums/managed-customers-step.enum';
+import {
     CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
     T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
 } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
-import {
-    T_TYPE_CUSTOMERS_ENUM,
-    TYPE_CUSTOMERS_ENUM,
-} from '../../../../../shared/enum/type-customers.enum';
+import { FilterCustomersComponent } from '../../feature/customers/filter-customers/filter-customers.component';
+import { TableCustomersComponent } from '../../feature/customers/table-customers/table-customers.component';
 
 type PageAction = {
     data: CustomersInterface;
@@ -26,7 +30,18 @@ type PageAction = {
 
 @Component({
     selector: 'app-customers',
+    standalone: true,
     templateUrl: './customers.component.html',
+    imports: [
+        CommonModule,
+        PatrimoineHeaderComponent,
+        BreadcrumbComponent,
+        FilterCustomersComponent,
+        TableCustomersComponent,
+        ParginationComponent,
+        AsyncPipe,
+        TranslateModule
+    ],
 })
 export class CustomersComponent implements OnInit, OnDestroy {
     public module!: string;
@@ -46,8 +61,8 @@ export class CustomersComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[4];
+            this.module = data['module'];
+            this.subModule = data['subModule'][4];
         });
         this.listCustomers$ = this.customersApiService.getCustomers();
         this.pagination$ = this.customersApiService.getCustomersPagination();

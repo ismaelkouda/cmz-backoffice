@@ -1,36 +1,40 @@
 import {
-    Component,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
     Input,
     OnDestroy,
-    ChangeDetectorRef,
     OnInit,
     Output,
-    EventEmitter,
 } from '@angular/core';
-import { take, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { CUSTOMERS_ACTIVATE_STEP_ENUM } from '../../../data-access/customers-activate/enums/customers-activate-step.enum';
-import { CUSTOMERS_ACTIVATE_STATE_ENUM } from '../../../data-access/customers-activate/enums/customers-activate-state.enum';
-import { REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM } from '../../../data-access/requests-service/enums/requests-service-buttons-actions.enum';
-import { CUSTOMERS_ACTIVATE_TABLE } from '../../../data-access/customers-activate/constants/customers-activate-table.constant';
-import { CustomersActivateInterface } from '../../../../../../shared/interfaces/customers-activate.interface';
-import { REQUESTS_SERVICE_PAYMENT_STATE_ENUM } from '../../../data-access/requests-service/enums/requests-service-payment-state.enum';
-import { CustomersActivatePageActionsType } from '../../../data-access/customers-activate/types/customers-activate-page-actions.type';
-import { SharedService } from '../../../../../../shared/services/shared.service';
-import { CustomersActivateFilterInterface } from '../../../data-access/customers-activate/interfaces/customers-activate-filter.interface';
-import { TableExportExcelFileService } from '../../../../../../shared/services/table-export-excel-file.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { Observable, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { MODULE_TREATMENT_CUSTOMERS_ACTIVATE } from '../../../../../../shared/enum/module-treatment-customers-activate';
+import { CustomersActivateInterface } from '../../../../../../shared/interfaces/customers-activate.interface';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { SharedService } from '../../../../../../shared/services/shared.service';
+import { TableExportExcelFileService } from '../../../../../../shared/services/table-export-excel-file.service';
+import { CUSTOMERS_ACTIVATE_TABLE } from '../../../data-access/customers-activate/constants/customers-activate-table.constant';
+import { CUSTOMERS_ACTIVATE_STATE_ENUM } from '../../../data-access/customers-activate/enums/customers-activate-state.enum';
+import { CUSTOMERS_ACTIVATE_STEP_ENUM } from '../../../data-access/customers-activate/enums/customers-activate-step.enum';
+import { CustomersActivateFilterInterface } from '../../../data-access/customers-activate/interfaces/customers-activate-filter.interface';
+import { CustomersActivatePageActionsType } from '../../../data-access/customers-activate/types/customers-activate-page-actions.type';
+import { REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM } from '../../../data-access/requests-service/enums/requests-service-buttons-actions.enum';
+import { REQUESTS_SERVICE_PAYMENT_STATE_ENUM } from '../../../data-access/requests-service/enums/requests-service-payment-state.enum';
 import { REQUESTS_SERVICE_TREATMENT_ENUM } from '../../../data-access/requests-service/enums/requests-service-treatment.enum';
 
 @Component({
     selector: 'app-table-customers-activate',
+    standalone: true,
     templateUrl: './table-customers-activate.component.html',
     styleUrls: ['./table-customers-activate.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TableModule, DialogModule, TranslateModule],
 })
 export class TableCustomersActivateComponent implements OnInit, OnDestroy {
     @Output() interfaceUser =

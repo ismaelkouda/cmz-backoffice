@@ -1,39 +1,49 @@
+import { AsyncPipe } from '@angular/common';
 import {
     Component,
-    Input,
     EventEmitter,
-    Output,
-    OnInit,
+    Input,
     OnDestroy,
+    OnInit,
+    Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { WaitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
-import { TranslateService } from '@ngx-translate/core';
-import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
-import { T_WAITING_QUEUE_STEP_ENUM } from '../../../data-access/waiting-queue/enums/waiting-queue-step.enum';
-import { T_WAITING_QUEUE_STATE_ENUM } from '../../../data-access/waiting-queue/enums/waiting-queue-state.enum';
-import { WaitingQueueFilterFormInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter-form.interface';
-import { WaitingQueueApiService } from '../../../data-access/waiting-queue/services/waiting-queue-api.service';
 import { T_LIST_REQUESTS_SERVICE } from '../../../../../../shared/enum/list-requests-service';
+import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
+import { T_WAITING_QUEUE_STATE_ENUM } from '../../../data-access/waiting-queue/enums/waiting-queue-state.enum';
+import { T_WAITING_QUEUE_STEP_ENUM } from '../../../data-access/waiting-queue/enums/waiting-queue-step.enum';
+import { WaitingQueueFilterFormInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter-form.interface';
+import { WaitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
+import { WaitingQueueApiService } from '../../../data-access/waiting-queue/services/waiting-queue-api.service';
 
 @Component({
     selector: 'app-filter-waiting-queue',
+    standalone: true,
     templateUrl: './filter-waiting-queue.component.html',
     styleUrls: ['./filter-waiting-queue.component.scss'],
+    imports: [ReactiveFormsModule, TranslateModule, SelectModule, DatePickerModule, AsyncPipe],
 })
 export class FilterWaitingQueueComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<WaitingQueueFilterInterface>();
 
-    @Input() listWaitingQueueStep: Array<T_WAITING_QUEUE_STEP_ENUM>;
-    @Input() listWaitingQueueState: Array<T_WAITING_QUEUE_STATE_ENUM>;
+    @Input() listWaitingQueueStep!: Array<T_WAITING_QUEUE_STEP_ENUM>;
+    @Input() listWaitingQueueState!: Array<T_WAITING_QUEUE_STATE_ENUM>;
 
-    @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
-    @Input() listOperations: Array<T_LIST_REQUESTS_SERVICE>;
+    @Input() listApplicants$!: Observable<Array<ApplicantInterface>>;
+    @Input() listOperations!: Array<T_LIST_REQUESTS_SERVICE>;
 
-    public formFilter: FormGroup<WaitingQueueFilterFormInterface>;
+    public formFilter!: FormGroup<WaitingQueueFilterFormInterface>;
     private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;

@@ -175,7 +175,7 @@
                             <i class="bi bi-people-fill me-2"></i>
                             {{ 'SELECT_CUSTOMER_TYPE' | translate }}
                         </label>
-                        <p-dropdown
+                        <p-select
                             inputId="type_entreprise"
                             [options]="customerTypes"
                             optionLabel="label"
@@ -183,7 +183,7 @@
                             formControlName="type_entreprise"
                             class="w-100"
                             placeholder="{{ 'SELECT' | translate }}"
-                        ></p-dropdown>
+                        ></p-select>
                     </div>
 
                     <fieldset class="fieldset-premium">
@@ -203,7 +203,7 @@
                                     [readonly]="!disabledEditableForm"
                                     class="form-control"
                                     [ngClass]="{
-                                        'is-invalid': isInvalid('nom_client')
+                                        'is-invalid': isInvalid('nom_client'),
                                     }"
                                 />
                             </div>
@@ -219,7 +219,7 @@
                                     class="form-control"
                                     [readonly]="!disabledEditableForm"
                                     [ngClass]="{
-                                        'is-invalid': isInvalid('adresse')
+                                        'is-invalid': isInvalid('adresse'),
                                     }"
                                 />
                             </div>
@@ -235,7 +235,8 @@
                                     [readonly]="!disabledEditableForm"
                                     class="form-control"
                                     [ngClass]="{
-                                        'is-invalid': isInvalid('compte_client')
+                                        'is-invalid':
+                                            isInvalid('compte_client'),
                                     }"
                                 />
                             </div>
@@ -254,7 +255,7 @@
                                     [readonly]="!disabledEditableForm"
                                     [ngClass]="{
                                         'is-invalid':
-                                            isInvalid('email_admin_client')
+                                            isInvalid('email_admin_client'),
                                     }"
                                 />
                             </div>
@@ -271,7 +272,7 @@
                                     class="form-control"
                                     [ngClass]="{
                                         'is-invalid':
-                                            isInvalid('domaine_activite')
+                                            isInvalid('domaine_activite'),
                                     }"
                                 />
                             </div>
@@ -330,7 +331,7 @@
                                     [readonly]="!disabledEditableForm"
                                     class="form-control"
                                     [ngClass]="{
-                                        'is-invalid': isInvalid('nom_gerant')
+                                        'is-invalid': isInvalid('nom_gerant'),
                                     }"
                                 />
                             </div>
@@ -347,7 +348,7 @@
                                     class="form-control"
                                     [ngClass]="{
                                         'is-invalid':
-                                            isInvalid('contact_gerant')
+                                            isInvalid('contact_gerant'),
                                     }"
                                 />
                             </div>
@@ -363,7 +364,7 @@
                                     [readonly]="!disabledEditableForm"
                                     class="form-control"
                                     [ngClass]="{
-                                        'is-invalid': isInvalid('email_gerant')
+                                        'is-invalid': isInvalid('email_gerant'),
                                     }"
                                 />
                             </div>
@@ -435,18 +436,16 @@
                                         else disabledLegalForm
                                     "
                                 >
-                                    <p-dropdown
+                                    <p-select
                                         [options]="listLegalForm$ | async"
                                         optionLabel="nom"
                                         optionValue="code"
                                         placeholder="{{ 'SELECT' | translate }}"
-                                        emptyMessage="{{
-                                            'NO_DATA' | translate
-                                        }}"
+                                         
                                         formControlName="forme_juridique_code"
                                         [filter]="true"
                                         filterBy="nom"
-                                    ></p-dropdown>
+                                    ></p-select>
                                 </ng-container>
                                 <ng-template #disabledLegalForm>
                                     <input
@@ -522,18 +521,16 @@
                                         else disabledRegimeForm
                                     "
                                 >
-                                    <p-dropdown
+                                    <p-select
                                         [options]="listRegimesBusiness$ | async"
                                         optionLabel="nom"
                                         optionValue="code"
                                         placeholder="{{ 'SELECT' | translate }}"
-                                        emptyMessage="{{
-                                            'NO_DATA' | translate
-                                        }}"
+                                         
                                         formControlName="regime_code"
                                         [filter]="true"
                                         filterBy="nom"
-                                    ></p-dropdown>
+                                    ></p-select>
                                 </ng-container>
                                 <ng-template #disabledRegimeForm>
                                     <input
@@ -604,7 +601,7 @@
                                     pInputText
                                     formControlName="description"
                                     [ngClass]="{
-                                        'is-invalid': isInvalid('description')
+                                        'is-invalid': isInvalid('description'),
                                     }"
                                     placeholder="{{ 'COMMENT' | translate }}..."
                                     class="form-control"
@@ -683,7 +680,7 @@
                                                 formControlName="accepte"
                                                 [ngClass]="{
                                                     'is-invalid':
-                                                        isInvalid('accepte')
+                                                        isInvalid('accepte'),
                                                 }"
                                             />
                                             <label
@@ -705,7 +702,7 @@
                                                 formControlName="accepte"
                                                 [ngClass]="{
                                                     'is-invalid':
-                                                        isInvalid('accepte')
+                                                        isInvalid('accepte'),
                                                 }"
                                             />
                                             <label
@@ -735,7 +732,7 @@
                                                     'is-invalid':
                                                         isInvalid(
                                                             'notation_cloture'
-                                                        )
+                                                        ),
                                                 }"
                                             />
                                             <label
@@ -766,7 +763,7 @@
                                                     'is-invalid':
                                                         isInvalid(
                                                             'notation_cloture'
-                                                        )
+                                                        ),
                                                 }"
                                             />
                                             <label
@@ -795,7 +792,7 @@
                                                     'is-invalid':
                                                         isInvalid(
                                                             'notation_cloture'
-                                                        )
+                                                        ),
                                                 }"
                                             />
                                             <label
@@ -825,7 +822,7 @@
                                         "
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('commentaire')
+                                                isInvalid('commentaire'),
                                         }"
                                     ></textarea>
                                 </div>

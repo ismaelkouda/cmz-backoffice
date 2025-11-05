@@ -9,7 +9,10 @@ import { DashboardEndpointEnum } from './../enums/dashboard-endpoint.enum';
 export class DashboardApiService {
     public BASE_URL: string;
 
-    constructor(private http: HttpClient, private envService: EnvService) {
+    constructor(
+        private http: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 

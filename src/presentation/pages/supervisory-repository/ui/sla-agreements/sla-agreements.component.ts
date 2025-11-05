@@ -1,19 +1,32 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
+import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
+import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { SlaAgreementsInterface } from '../../data-access/sla-agreements/interfaces/sla-agreements.interface';
 import { SlaAgreementsApiService } from '../../data-access/sla-agreements/services/sla-agreements-api.service';
+import { TableSlaAgreementsComponent } from '../../feature/sla-agreements/table-sla-agreements/table-sla-agreements.component';
 
 @Component({
     selector: 'app-sla-agreements',
+    standalone: true,
     templateUrl: './sla-agreements.component.html',
+    imports: [
+        CommonModule,
+        BreadcrumbComponent,
+        TableSlaAgreementsComponent,
+        PatrimoineHeaderComponent,
+        TranslateModule
+    ],
 })
 export class SlaAgreementsComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
-    public pagination$: Observable<Paginate<SlaAgreementsInterface>>;
-    public listSlaAgreements$: Observable<SlaAgreementsInterface[]>;
+    public module!: string;
+    public subModule!: string;
+    public pagination$!: Observable<Paginate<SlaAgreementsInterface>>;
+    public listSlaAgreements$!: Observable<SlaAgreementsInterface[]>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
@@ -24,8 +37,8 @@ export class SlaAgreementsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.module = data['module'];
+            this.subModule = data['subModule'][0];
         });
         this.listSlaAgreements$ =
             this.slaAgreementsApiService.getSlaAgreements();

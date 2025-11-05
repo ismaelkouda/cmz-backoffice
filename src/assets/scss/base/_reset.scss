@@ -208,7 +208,8 @@ $i: normal, italic, oblique, initial, inherit;
 
 /*====== Text-Decoration css starts ======*/
 
-$i: overline, line-through, underline, dashed, blink, dotted, initial, none,
+$i:
+    overline, line-through, underline, dashed, blink, dotted, initial, none,
     solid, wavy, inherit, double;
 
 @each $val in $i {
@@ -220,7 +221,8 @@ $i: overline, line-through, underline, dashed, blink, dotted, initial, none,
 /*====== Text-Decoration css ends ======*/
 
 /*====== Vertical-Align css starts ======*/
-$i: baseline, sub, super, top, text-top, middle, bottom, text-bottom, initial,
+$i:
+    baseline, sub, super, top, text-top, middle, bottom, text-bottom, initial,
     inherit;
 
 @each $val in $i {
@@ -280,7 +282,8 @@ $i: 10;
 
 /*======= Text css starts ===========*/
 $text-name: primary, secondary, success, danger, info, light, dark, warning;
-$text-color: $primary-color, $secondary-color, $success-color, $danger-color,
+$text-color:
+    $primary-color, $secondary-color, $success-color, $danger-color,
     $info-color, $light-color, $dark-color, $warning-color;
 
 @each $var in $text-name {
@@ -312,9 +315,10 @@ $text-color: $primary-color, $secondary-color, $success-color, $danger-color,
     text-transform: capitalize;
 }
 
-$label-name: theme, primary, secondary, success, danger, info, light, dark,
-    warning;
-$label-color: $primary-color, $primary-color, $secondary-color, $success-color,
+$label-name:
+    theme, primary, secondary, success, danger, info, light, dark, warning;
+$label-color:
+    $primary-color, $primary-color, $secondary-color, $success-color,
     $danger-color, $info-color, $light-color, $dark-color, $warning-color;
 
 @each $var in $label-name {
@@ -330,7 +334,8 @@ $label-color: $primary-color, $primary-color, $secondary-color, $success-color,
 /*======= Badge-color css starts  ======= */
 
 $badge-name: primary, secondary, success, danger, info, light, dark, warning;
-$badge-color: $primary-color, $secondary-color, $success-color, $danger-color,
+$badge-color:
+    $primary-color, $secondary-color, $success-color, $danger-color,
     $info-color, $light-color, $dark-color, $warning-color;
 
 @each $var in $badge-name {
@@ -357,10 +362,11 @@ $badge-color: $primary-color, $secondary-color, $success-color, $danger-color,
 
 /*======= Background-color css starts  ======= */
 
-$background-name: primary, secondary, success, danger, info, light, dark,
-    warning;
-$background-color: $primary-color, $secondary-color, $success-color,
-    $danger-color, $info-color, $light-color, $dark-color, $warning-color;
+$background-name:
+    primary, secondary, success, danger, info, light, dark, warning;
+$background-color:
+    $primary-color, $secondary-color, $success-color, $danger-color,
+    $info-color, $light-color, $dark-color, $warning-color;
 
 @each $var in $background-name {
     $i: index($background-name, $var);
@@ -388,9 +394,11 @@ $background-color: $primary-color, $secondary-color, $success-color,
 
 /*======= Font-color css starts  ======= */
 
-$text-name: primary, secondary, success, danger, info, light, dark, warning,
+$text-name:
+    primary, secondary, success, danger, info, light, dark, warning,
     google-plus, twitter, linkedin, fb;
-$label-color: $primary-color, $secondary-color, $success-color, $danger-color,
+$label-color:
+    $primary-color, $secondary-color, $success-color, $danger-color,
     $info-color, $light-color, $dark-color, $warning-color, $google-plus,
     $twitter, $linkedin, $fb;
 
@@ -586,7 +594,8 @@ $label-color: $primary-color, $secondary-color, $success-color, $danger-color,
 /*======= Table-Border-Bottom-color css starts  ======= */
 
 $border-name: primary, secondary, success, danger, info, light, dark, warning;
-$border-color: $primary-color, $secondary-color, $success-color, $danger-color,
+$border-color:
+    $primary-color, $secondary-color, $success-color, $danger-color,
     $info-color, $light-color, $dark-color, $warning-color;
 
 @each $var in $border-name {
@@ -604,7 +613,8 @@ $border-color: $primary-color, $secondary-color, $success-color, $danger-color,
 /*======= Table styling css starts  ======= */
 
 $table-name: primary, secondary, success, danger, info, light, dark, warning;
-$table-color: $primary-color, $secondary-color, $success-color, $danger-color,
+$table-color:
+    $primary-color, $secondary-color, $success-color, $danger-color,
     $info-color, $light-color, $dark-color, $warning-color;
 
 @each $var in $table-name {
@@ -633,7 +643,8 @@ $table-color: $primary-color, $secondary-color, $success-color, $danger-color,
 /*======= All-Borders-color css starts  ======= */
 
 $b-name: primary, secondary, success, danger, info, light, dark, warning;
-$b-color: $primary-color, $secondary-color, $success-color, $danger-color,
+$b-color:
+    $primary-color, $secondary-color, $success-color, $danger-color,
     $info-color, $light-color, $dark-color, $warning-color;
 
 @each $var in $b-name {

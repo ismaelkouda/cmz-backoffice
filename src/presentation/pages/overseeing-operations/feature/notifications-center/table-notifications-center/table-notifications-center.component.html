@@ -57,7 +57,7 @@
                     minWidth: col.width,
                     maxWidth: col.width,
                     width: col.width,
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }"
             >
                 <ng-container [ngSwitch]="col.header">
@@ -93,7 +93,7 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     maxWidth: col.width,
-                    width: col.width
+                    width: col.width,
                 }"
                 [attr.data-label]="col.header"
             >
@@ -130,7 +130,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
-                        {{item?.[col.field]}}
+                        {{ item?.[col.field] }}
                     </ng-container>
                 </ng-container>
             </td>

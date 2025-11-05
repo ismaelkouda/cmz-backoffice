@@ -1,43 +1,54 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    Output,
+} from '@angular/core';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { PUBLIC_ENTERPRISES_TABLE } from '../../../data-access/public-enterprises/constants/public-enterprises-table.constant';
-import { PublicEnterprisesFilterInterface } from '../../../data-access/public-enterprises/interfaces/public-enterprises-filter.interface';
-import { LoadingBarService } from '@ngx-loading-bar/core';
-import { PublicEnterprisesInterface } from '../../../data-access/public-enterprises/interfaces/public-enterprises.interface';
-import { PublicEnterprisesApiService } from '../../../data-access/public-enterprises/services/public-enterprises-api.service';
 import {
     CUSTOMERS_MANAGED_STEP_ENUM,
     T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { PUBLIC_ENTERPRISES_TABLE } from '../../../data-access/public-enterprises/constants/public-enterprises-table.constant';
+import { PublicEnterprisesFilterInterface } from '../../../data-access/public-enterprises/interfaces/public-enterprises-filter.interface';
+import { PublicEnterprisesInterface } from '../../../data-access/public-enterprises/interfaces/public-enterprises.interface';
+import { PublicEnterprisesApiService } from '../../../data-access/public-enterprises/services/public-enterprises-api.service';
 
 type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
 @Component({
     selector: 'app-table-public-enterprises',
+    standalone: true,
     templateUrl: './table-public-enterprises.component.html',
     styleUrls: ['./table-public-enterprises.component.scss'],
+    imports: [CommonModule, TableModule, AsyncPipe, DialogModule, TranslateModule],
 })
-export class TablePublicEnterprisesComponent {
+export class TablePublicEnterprisesComponent implements OnDestroy {
     @Output() interfaceUser = new EventEmitter<any>();
 
-    @Input() spinner: boolean;
+    @Input() spinner!: boolean;
     @Input() listPublicEnterprises$: Observable<
         Array<PublicEnterprisesInterface>
     > = new BehaviorSubject<Array<PublicEnterprisesInterface>>([]);
-    @Input() pagination$: Observable<Paginate<PublicEnterprisesInterface>>;
+    @Input() pagination$!: Observable<Paginate<PublicEnterprisesInterface>>;
 
-    @Input() listPublicEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    @Input() listPublicEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
-    public publicEnterpriseSelected: PublicEnterprisesInterface;
+    public publicEnterpriseSelected!: PublicEnterprisesInterface;
     public table: TableConfig = PUBLIC_ENTERPRISES_TABLE;
     private destroy$ = new Subject<void>();
 
@@ -105,12 +116,10 @@ export class TablePublicEnterprisesComponent {
         }
     }
 
-    public handleAction(params): void {
+    public handleAction(params: any): void {
         this.onSelectPublicEnterprise(params.data);
-        switch (params.view) {
-            case 'page':
-                this.interfaceUser.emit(params);
-                break;
+        if (params.view === 'page') {
+            this.interfaceUser.emit(params);
         }
     }
 

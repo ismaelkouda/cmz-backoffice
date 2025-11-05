@@ -1,16 +1,19 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { ASSOCIATION_ENTERPRISES_TABLE } from '../../../data-access/association-enterprises/constants/association-enterprises-table.constant';
 import { AssociationEnterprisesFilterInterface } from '../../../data-access/association-enterprises/interfaces/association-enterprises-filter.interface';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AssociationEnterprisesInterface } from '../../../data-access/association-enterprises/interfaces/association-enterprises.interface';
 import { AssociationEnterprisesApiService } from '../../../data-access/association-enterprises/services/association-enterprises-api.service';
 import {
@@ -23,22 +26,26 @@ type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
 @Component({
     selector: 'app-table-association-enterprises',
+    standalone: true,
     templateUrl: './table-association-enterprises.component.html',
     styleUrls: ['./table-association-enterprises.component.scss'],
+    imports: [TableModule, DialogModule, AsyncPipe, TranslateModule],
 })
 export class TableAssociationEnterprisesComponent {
     @Output() interfaceUser = new EventEmitter<any>();
 
-    @Input() spinner: boolean;
+    @Input() spinner!: boolean;
     @Input() listAssociationEnterprises$: Observable<
         Array<AssociationEnterprisesInterface>
     > = new BehaviorSubject<Array<AssociationEnterprisesInterface>>([]);
-    @Input() pagination$: Observable<Paginate<AssociationEnterprisesInterface>>;
+    @Input() pagination$!: Observable<
+        Paginate<AssociationEnterprisesInterface>
+    >;
 
     @Input()
-    listAssociationEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    listAssociationEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
-    public associationEnterpriseSelected: AssociationEnterprisesInterface;
+    public associationEnterpriseSelected!: AssociationEnterprisesInterface;
     public table: TableConfig = ASSOCIATION_ENTERPRISES_TABLE;
     private destroy$ = new Subject<void>();
 
@@ -106,12 +113,10 @@ export class TableAssociationEnterprisesComponent {
         }
     }
 
-    public handleAction(params): void {
+    public handleAction(params: any): void {
         this.onSelectAssociationEnterprise(params.data);
-        switch (params.view) {
-            case 'page':
-                this.interfaceUser.emit(params);
-                break;
+        if (params.view === 'page') {
+            this.interfaceUser.emit(params);
         }
     }
 

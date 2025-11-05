@@ -17,9 +17,10 @@
     justify-content: flex-end;
 }
 
-$nav-name: theme, primary, secondary, success, danger, info, light, dark,
-    warning;
-$nav-color: var(--theme-deafult), var(--theme-deafult), $secondary-color,
+$nav-name:
+    theme, primary, secondary, success, danger, info, light, dark, warning;
+$nav-color:
+    var(--theme-deafult), var(--theme-deafult), $secondary-color,
     $success-color, $danger-color, $info-color, $light-color, $dark-color,
     $warning-color;
 @each $var in $nav-name {
@@ -113,9 +114,10 @@ $nav-color: var(--theme-deafult), var(--theme-deafult), $secondary-color,
         transition: all 0.3s ease;
     }
 }
-$m-nav-name: theme, primary, secondary, success, danger, info, light, dark,
-    warning;
-$nav-color: var(--theme-deafult), var(--theme-deafult), $secondary-color,
+$m-nav-name:
+    theme, primary, secondary, success, danger, info, light, dark, warning;
+$nav-color:
+    var(--theme-deafult), var(--theme-deafult), $secondary-color,
     $success-color, $danger-color, $info-color, $light-color, $dark-color,
     $warning-color;
 @each $var in $m-nav-name {

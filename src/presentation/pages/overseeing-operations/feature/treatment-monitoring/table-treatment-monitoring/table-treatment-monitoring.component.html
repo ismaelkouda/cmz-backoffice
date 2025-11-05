@@ -48,7 +48,7 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }"
             >
                 <ng-container [ngSwitch]="col.header">
@@ -136,7 +136,9 @@
                         <button
                             pButton
                             tooltipPosition="top"
-                            [pTooltip]="handleActionButtonEditStyle(item)?.['tooltip']"
+                            [pTooltip]="
+                                handleActionButtonEditStyle(item)?.['tooltip']
+                            "
                             [ngClass]="handleActionButtonEditStyle(item)?.class"
                             [icon]="handleActionButtonEditStyle(item)?.icon"
                             (click)="
@@ -147,7 +149,7 @@
                                         TREATMENT_MONITORING_STATE_ENUM.DO
                                             ? OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.CLOSURE
                                             : OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.SEE,
-                                    view: 'modal'
+                                    view: 'modal',
                                 })
                             "
                         ></button
@@ -164,13 +166,13 @@
                                 handleAction({
                                     data: item,
                                     action: OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.NEWSPAPER,
-                                    view: 'modal'
+                                    view: 'modal',
                                 })
                             "
                         ></button>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
-                        {{item?.[col.field]}}
+                        {{ item?.[col.field] }}
                     </ng-container>
                 </ng-container>
             </td>
@@ -208,15 +210,15 @@
     header="[{{ 'TRACKING_PROCESSING' | translate }}] {{
         'DEMAND' | translate
     }} [{{ treatmentMonitoringSelected?.numero_demande }}]"
-    [resizable]="true"
     [(visible)]="visibleForm"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="true"
     (onHide)="visibleForm = false"
     [modal]="true"
     [closable]="true"
     [style]="{ width: '95vw', minHeight: '80vh' }"
-    [breakpoints]="{ '1199px': '90vw', '575px': '95vw' }"
-    [maximizable]="true"
-    [draggable]="false"
+    [breakpoints]="{ '575px': '95vw', '1199px': '90vw' }"
 >
     <ng-template pTemplate="content">
         <app-treatment-requests-service-form

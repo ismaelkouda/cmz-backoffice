@@ -5,37 +5,38 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { LOGO_ANSUT } from '../../constants/logoAnsut.constant';
 import {
     FormBuilder,
     FormControl,
     FormGroup,
+    ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../constants/swalWithBootstrapButtonsParams.constant';
-import { BADGE_ETAT } from '../../constants/badge-etat.contant';
-import { REQUESTS_SERVICE } from '../../routes/routes';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
+import { CUSTOMERS_ACTIVATE_STATE_ENUM } from '../../../presentation/pages/requests-service/data-access/customers-activate/enums/customers-activate-state.enum';
 import {
     REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM,
     T_REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM,
 } from '../../../presentation/pages/requests-service/data-access/requests-service/enums/requests-service-buttons-actions.enum';
-import { InvoiceFormApiService } from './data-access/services/invoice-form-api.service';
+import { BADGE_ETAT } from '../../constants/badge-etat.contant';
+import { LOGO_ANSUT } from '../../constants/logoAnsut.constant';
+import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../constants/swalWithBootstrapButtonsParams.constant';
 import {
     T_TYPE_CUSTOMERS_ENUM,
     TYPE_CUSTOMERS_ENUM,
 } from '../../enum/type-customers.enum';
-import { TranslateService } from '@ngx-translate/core';
 import { FormatFormData } from '../../functions/formatFormData.function';
-import { CUSTOMERS_ACTIVATE_STATE_ENUM } from '../../../presentation/pages/requests-service/data-access/customers-activate/enums/customers-activate-state.enum';
-import { InvoiceFormDetailsInterface } from './data-access/interfaces/invoice-form-details.interface';
-const Swal = require('sweetalert2');
-import html2pdf from 'html2pdf.js';
-import { InvoicePdfService } from './data-access/services/invoice-pdf.service';
 import { MenuItem } from '../../interfaces/menu-item.interface';
+import { REQUESTS_SERVICE } from '../../routes/routes';
 import { EncodingDataService } from '../../services/encoding-data.service';
+import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { InvoiceFormDetailsInterface } from './data-access/interfaces/invoice-form-details.interface';
+import { InvoiceFormApiService } from './data-access/services/invoice-form-api.service';
+import { InvoicePdfService } from './data-access/services/invoice-pdf.service';
+const Swal = require('sweetalert2');
 
 export interface InvoiceFormInterfaceValues {
     numero_demande: FormControl<string>;
@@ -44,18 +45,20 @@ export interface InvoiceFormInterfaceValues {
 
 @Component({
     selector: 'app-invoice-form',
+    standalone: true,
     templateUrl: './invoice-form.component.html',
     styleUrls: [`./invoice-form.component.scss`],
+    imports: [ReactiveFormsModule, BreadcrumbComponent, TranslateModule],
 })
 export class InvoiceFormComponent implements OnInit, OnDestroy {
     @ViewChild('fileInput') fileInput!: ElementRef;
-    public module: string;
-    public subModule: string;
-    public invoiceForm: FormGroup;
-    private id: string;
-    private type_enterprise: T_TYPE_CUSTOMERS_ENUM;
-    private ref: T_REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM;
-    public customerDetails: InvoiceFormDetailsInterface;
+    public module!: string;
+    public subModule!: string;
+    public invoiceForm!: FormGroup;
+    private id!: string;
+    private type_enterprise!: T_TYPE_CUSTOMERS_ENUM;
+    private ref!: T_REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM;
+    public customerDetails!: InvoiceFormDetailsInterface;
 
     public logoTenant: string;
     public BADGE_ETAT = BADGE_ETAT;
@@ -90,10 +93,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
         this.activatedRoute.url
             .pipe(takeUntil(this.destroy$))
             .subscribe((event: any) => {
-                const url =
-                    this.activatedRoute.snapshot['_routerState'].url.split(
-                        '?'
-                    )[0];
+                const url = this.router.url.split('?')[0];
                 for (const parent of menuItems) {
                     if (parent.children) {
                         const child = parent.children.find((c) =>
@@ -117,8 +117,8 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
 
     private initializeState(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.module = data['module'];
+            this.subModule = data['subModule'][0];
         });
 
         this.activatedRoute.queryParams.subscribe((params) => {
@@ -283,8 +283,8 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
         );
     }
 
-    isInvalid(path): boolean {
-        const ctrl = this.invoiceForm.get(path as string);
+    isInvalid(path: string): boolean {
+        const ctrl = this.invoiceForm.get(path);
         return !!ctrl && ctrl.invalid && (ctrl.dirty || ctrl.touched);
     }
 
@@ -341,7 +341,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
     }
 
     public get displayButtonShowPaymentReceipt(): boolean {
-        return !!this.invoiceForm?.['recu_paiement'];
+        return !!this.invoiceForm?.get('recu_paiement')?.value;
     }
 
     public postExportInvoice(): void {

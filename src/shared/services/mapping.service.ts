@@ -1,28 +1,21 @@
-import { EncodingDataService } from './encoding-data.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { EndPointUrl } from '../enum/api.enum';
+import { EncodingDataService } from './encoding-data.service';
 import { EnvService } from './env.service';
-import { CurrentUser } from '../interfaces/current-user.interface';
 
 export type AccessFeature = [
     'solde-data',
     'solde-sms',
     'identification',
-    'activation'
+    'activation',
 ];
 
 @Injectable({
     providedIn: 'root',
 })
 export class MappingService {
-    public currentUser: CurrentUser | null;
     public profil: any;
-    public appReadStatut: boolean;
-    public currentPermissions: any[];
-    public listOperations: any[];
-    public listOperationTraitementVue: any[];
     public structureGlobale: any;
     public logoTenant: any;
     public tenant: any;
@@ -30,15 +23,6 @@ export class MappingService {
     public rejetLink: string;
     public detectionApproUrl: string;
     public approLink: string;
-    public typeNiveau: string;
-    public baseUrl: string;
-    public fileUrl: string;
-    public minioUrl: string;
-    public noderedUrl: string;
-    public ws_server: string;
-    public applicationType: string;
-    public suffixEmail: string;
-    public appName: string;
     public sourceStockTenantSim: string;
     public sourceStockOrangeSim: string;
     public sourceSoldeDotation: string;
@@ -50,8 +34,6 @@ export class MappingService {
         ''
     );
     public ligneCreditGlobal$ = this._ligneCreditSource.asObservable();
-    public dashbordTransactionSLa: string;
-    public notifications: number;
     public currentVariables: any;
     public analyseAlarmeNormales: any;
     public analyseAlarmeMineures: any;
@@ -88,105 +70,8 @@ export class MappingService {
             this.envService.messageApp.sourceSoldeDotation;
         this.sourceSoldeDotationOrange =
             this.envService.messageApp.sourceSoldeDotationOrange;
-        // this.storeLocaleService.tenantData$.subscribe((res: any) => {
-        //     this.currentUser = res ?? this.encodingService.getData('user_data');
-        //     this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`;
-        //     this.fileUrl = `${this.currentUser?.tenant?.url_minio}/`;
-        //     this.minioUrl = `${this.currentUser?.tenant?.url_minio}/`;
-        //     // this.noderedUrl = this.currentUser?.tenant?.url_nodered;
-        //     // this.ws_server = this.currentUser?.tenant?.ws_server;
-        //     this.tenant = this.currentUser?.tenant;
-        //     this.structureGlobale =
-        //         this.currentUser?.structure_organisationnelle;
-        //     this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;
-        //     // this.profil = this.currentUser?.profil;
-        //     this.appReadStatut = this.profil?.mode_lecture;
-        //     this.dashbordTransactionSLa = this.tenant?.url_demandes_sla;
-        //     // const newDatatEnv = {
-        //     //     ...this.currentUser?.env,
-        //     //     typeNiveau: 'Type Emplacement',
-        //     // };
-        //     // this.typeNiveau = newDatatEnv?.typeNiveau;
-        //     this.applicationType = this.tenant?.application;
-        //     this.suffixEmail = this.tenant?.suffixe_email;
-        //     // this.notifications = this.currentUser?.notifications;
-        //     if (this.applicationType === ApplicationType.PATRIMOINESIM) {
-        //         this.appName = this.envService.headerSettings.appTypePS;
-        //         // this.listOperations = Object.values(
-        //         //     OperationTransaction
-        //         // ).filter(
-        //         //     (item) =>
-        //         //         item !== OperationTransaction.ACHAT_SERVICE &&
-        //         //         item !== OperationTransaction.PROVISIONNING
-        //         // );
-        //         // Object.values(OperationTransaction).forEach((item) => {
-        //         //     this.listOperationTraitementVue.push(item);
-        //         // });
-        //     } else if (this.applicationType === ApplicationType.MONITORING) {
-        //         this.appName = this.envService.headerSettings.appTypeSM;
-        //         // this.listOperations = Object.values(
-        //         //     OperationTransaction
-        //         // ).filter(
-        //         //     (item) =>
-        //         //         item !== OperationTransaction.ACHAT_SERVICE &&
-        //         //         item !== OperationTransaction.PROVISIONNING &&
-        //         //         item !== OperationTransaction.SWAP &&
-        //         //         item !== OperationTransaction.VOLUME_DATA
-        //         // );
-        //         // this.listOperationTraitementVue = Object.values(
-        //         //     OperationTransaction
-        //         // ).filter(
-        //         //     (item) =>
-        //         //         item !== OperationTransaction.ACHAT_SERVICE &&
-        //         //         item !== OperationTransaction.PROVISIONNING &&
-        //         //         item !== OperationTransaction.SWAP &&
-        //         //         item !== OperationTransaction.VOLUME_DATA
-        //         // );
-        //     }
-        //     // if (this.currentUser !== null) {
-        //     //   this.GetAllPortefeuilleSecond(this.baseUrl)
-        //     // }
-        // });
-        // this.storeLocaleService._permissions$.subscribe((res: any) => {
-        //     this.currentPermissions =
-        //         res ?? this.encodingService.getData('current_menu');
-        // });
-        if (encodingService.getData('user')) {
-            // this.GetAllPortefeuille();
-        }
-        this.IsAction();
-    }
 
-    public GetAllPortefeuille() {
-        const url: string = <string>EndPointUrl.GET_ALL_PORTEFEUILLE;
-        this.http.get(`${this.baseUrl}${url}`).subscribe({
-            next: (res) => {
-                this._volumeDataGlobalSource.next(
-                    res['data']?.filter((item: any) => {
-                        return item.type === 'volume-data';
-                    })[0].solde
-                );
-                this._ligneCreditSource.next(
-                    res['data']?.filter((item: any) => {
-                        return item.type === 'ligne-credit';
-                    })[0].solde
-                );
-            },
-            error: (err) => {},
-        });
     }
-    // public GetAllPortefeuilleSecond(uri: string) {
-    //   const url: string = (<string>EndPointUrl.GET_ALL_PORTEFEUILLE);
-    //   this.http.get(`${uri}${url}`)
-    //     .subscribe({
-    //       next: (res) => {
-    //         this._volumeDataGlobalSource.next(res['data']?.filter((item: any) => { return item.type === 'volume-data' })[0].solde);
-    //         this._ligneCreditSource.next(res['data']?.filter((item: any) => { return item.type === 'ligne-credit' })[0].solde);
-    //       },
-    //       error: (err) => {
-    //       }
-    //     });
-    // }
 
     statutContrat(statut: string): any {
         switch (statut) {
@@ -199,8 +84,5 @@ export class MappingService {
             default:
                 return { 'badge-secondary': true };
         }
-    }
-    IsAction(): boolean {
-        return !this.appReadStatut;
     }
 }

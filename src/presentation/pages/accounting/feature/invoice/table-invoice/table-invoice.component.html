@@ -127,12 +127,14 @@
                             icon="pi pi-print"
                             tooltipPosition="top"
                             pTooltip="Facture"
-                            [pTooltip]="handleActionButtonViewStyle(item)?.['tooltip']"
+                            [pTooltip]="
+                                handleActionButtonViewStyle(item)?.['tooltip']
+                            "
                             (click)="
                                 handleAction({
                                     data: item.reference,
                                     action: INVOICE_BUTTONS_ACTIONS_ENUM.INVOICE,
-                                    view: 'page'
+                                    view: 'page',
                                 })
                             "
                         ></button
@@ -143,7 +145,7 @@
                         </button> -->
                     </ng-container>
                     <ng-container *ngSwitchDefault>
-                        {{item?.[col.field]}}
+                        {{ item?.[col.field] }}
                     </ng-container>
                 </ng-container>
             </td>

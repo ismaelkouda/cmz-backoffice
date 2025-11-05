@@ -1,29 +1,32 @@
-import {
-    ApiResponseApplicantInterface,
-    ApplicantInterface,
-} from './../interfaces/applicant';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
-import { EnvService } from './env.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EndPointUrl } from '../enum/api.enum';
-import { Paginate } from '../interfaces/paginate';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import {
     notificationsCenterApiResponseInterface,
     notificationsCenterInterface,
 } from '../../presentation/pages/overseeing-operations/data-access/notifications-center/interfaces/notifications-center.interface';
 import { CustomersActivateFilterInterface } from '../../presentation/pages/requests-service/data-access/customers-activate/interfaces/customers-activate-filter.interface';
+import { EndPointUrl } from '../enum/api.enum';
 import {
     CustomersActivateApiResponseInterface,
     CustomersActivateInterface,
 } from '../interfaces/customers-activate.interface';
+import { Paginate } from '../interfaces/paginate';
+import {
+    ApiResponseApplicantInterface,
+    ApplicantInterface,
+} from './../interfaces/applicant';
+import { EnvService } from './env.service';
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
     private BASE_URL: string;
 
-    constructor(private http: HttpClient, private envService: EnvService) {
+    constructor(
+        private http: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
@@ -49,10 +52,12 @@ export class SharedService {
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
-                    const formatData = response?.['data'].map((user) => ({
-                        ...user,
-                        fullName: `${user.nom} ${user.prenoms}`,
-                    }));
+                    const formatData = response?.['data'].map(
+                        (user: ApplicantInterface) => ({
+                            ...user,
+                            fullName: `${user.nom} ${user.prenoms}`,
+                        })
+                    );
                     this.applicantsSubject.next(formatData);
                     this.apiResponseApplicantsSubject.next(response);
                     return of(response);

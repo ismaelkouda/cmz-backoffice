@@ -295,28 +295,28 @@ export class ${subModuleName}ApiService {
     <div class="d-flex gap-1">
         <div class="width-100">
             <label><b>{{'STATUS' | translate}}&nbsp;{{'ALARM' | translate}}</b></label>
-            <p-dropdown formControlName="alarme" [options]="listAlarms" [showClear]="true" [filter]="true"
+            <p-select formControlName="alarme" [options]="listAlarms" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{ 'ALARM' | translate }}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="width-100">
             <label><b>{{ firstLevelLibel }}</b></label>
-            <p-dropdown formControlName="niveau_un_uuid" [options]="listFirstLevel$ | async" optionValue="uuid"
+            <p-select formControlName="niveau_un_uuid" [options]="listFirstLevel$ | async" optionValue="uuid"
                 optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{firstLevelLibel}}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="width-100">
             <label><b>{{ secondLevelLibel }}</b></label>
-            <p-dropdown formControlName="niveau_deux_uuid" [options]="listSecondLevel" optionValue="uuid"
+            <p-select formControlName="niveau_deux_uuid" [options]="listSecondLevel" optionValue="uuid"
                 optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{secondLevelLibel}}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="width-80">
@@ -333,11 +333,11 @@ export class ${subModuleName}ApiService {
 
         <div class="width-80">
             <label><b>{{'APN' | translate}}</b></label>
-            <p-dropdown formControlName="apn" [options]="listApn$ | async" optionValue="apn" optionLabel="apn"
+            <p-select formControlName="apn" [options]="listApn$ | async" optionValue="apn" optionLabel="apn"
                 filterBy="apn" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{ 'APN' | translate }}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="width-80">
@@ -368,25 +368,25 @@ export class ${subModuleName}ApiService {
 
         <div class="width-100">
             <label><b>{{'USAGE' | translate}}</b></label>
-            <p-dropdown formControlName="usage_id" [options]="listUsages$ | async" optionLabel="nom_usage"
+            <p-select formControlName="usage_id" [options]="listUsages$ | async" optionLabel="nom_usage"
                 [showClear]="true" placeholder="{{ 'SELECT' | translate }} {{ 'USAGE' | translate }}" optionValue="uuid"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
         <div class="width-100">
             <label><b>{{'DESTINATION_FORMULA' | translate}}</b></label>
-            <p-dropdown formControlName="formule_uuid" [options]="listFormulas$ | async" optionLabel="nom"
+            <p-select formControlName="formule_uuid" [options]="listFormulas$ | async" optionLabel="nom"
                 [showClear]="true" placeholder="{{ 'SELECT' | translate }} {{ 'ALARM' | translate }}" optionValue="uuid"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
         <div class="width-100">
             <label><b>{{ thirdLevelLibel }}</b></label>
-            <p-dropdown formControlName="niveau_trois_uuid" [options]="listThirdLevel$ | async" optionValue="uuid"
+            <p-select formControlName="niveau_trois_uuid" [options]="listThirdLevel$ | async" optionValue="uuid"
                 optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{ thirdLevelLibel }}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
         <div class="width-100">
             <label><b>{{ 'NAME_LOCATION' | translate }}</b></label>
@@ -400,14 +400,14 @@ export class ${subModuleName}ApiService {
         </div>
         <div class="col-md-2">
             <label><b>{{'START_DATE' | translate}}</b></label>
-            <p-calendar formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
+            <p-datepicker formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
                 dateFormat="dd-mm-yy">
-            </p-calendar>
+            </p-datepicker>
         </div>
         <div class="col-md-2">
             <label><b>{{'END_DATE' | translate}}</b></label>
-            <p-calendar formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
-            </p-calendar>
+            <p-datepicker formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
+            </p-datepicker>
         </div>
         <div class="filter-button">
             <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
@@ -439,7 +439,7 @@ import { TranslateService } from '@ngx-translate/core';
     @Component({
         selector: 'app-filter-$subModuleName',
         templateUrl: `./filter-$subModuleName.component.html`,
-        styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }`]
+        styles: [`:host ::ng-deep { .p-datepicker { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }`]
     })
 
     export class Filter${subModuleName}Component {
@@ -1021,8 +1021,8 @@ type PageAction = { data: Folder, action: 'open-folder-$moduleName' | 'invoice-$
 
         ngOnInit(): void {
             this.activatedRoute.data.subscribe((data) => {
-                this.module = data.module;
-                this.subModule = data.subModule[1];
+                this.module = data['module'];
+                this.subModule = data['subModule'][1];
             });
             this.sharedService.fetchUsages();
             this.listUsages$ = this.sharedService.getUsages();
@@ -1455,28 +1455,28 @@ if (-not (Test-Path $featurePath)) {
     <div class="d-flex gap-1">
         <div class="width-100">
             <label><b>{{'STATUS' | translate}}&nbsp;{{'ALARM' | translate}}</b></label>
-            <p-dropdown formControlName="alarme" [options]="listAlarms" [showClear]="true" [filter]="true"
+            <p-select formControlName="alarme" [options]="listAlarms" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{ 'ALARM' | translate }}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="width-100">
             <label><b>{{ firstLevelLibel }}</b></label>
-            <p-dropdown formControlName="niveau_un_uuid" [options]="listFirstLevel$ | async" optionValue="uuid"
+            <p-select formControlName="niveau_un_uuid" [options]="listFirstLevel$ | async" optionValue="uuid"
                 optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{firstLevelLibel}}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="width-100">
             <label><b>{{ secondLevelLibel }}</b></label>
-            <p-dropdown formControlName="niveau_deux_uuid" [options]="listSecondLevel" optionValue="uuid"
+            <p-select formControlName="niveau_deux_uuid" [options]="listSecondLevel" optionValue="uuid"
                 optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{secondLevelLibel}}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="width-80">
@@ -1493,11 +1493,11 @@ if (-not (Test-Path $featurePath)) {
 
         <div class="width-80">
             <label><b>{{'APN' | translate}}</b></label>
-            <p-dropdown formControlName="apn" [options]="listApn$ | async" optionValue="apn" optionLabel="apn"
+            <p-select formControlName="apn" [options]="listApn$ | async" optionValue="apn" optionLabel="apn"
                 filterBy="apn" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{ 'APN' | translate }}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
 
         <div class="width-80">
@@ -1528,25 +1528,25 @@ if (-not (Test-Path $featurePath)) {
 
         <div class="width-100">
             <label><b>{{'USAGE' | translate}}</b></label>
-            <p-dropdown formControlName="usage_id" [options]="listUsages$ | async" optionLabel="nom_usage"
+            <p-select formControlName="usage_id" [options]="listUsages$ | async" optionLabel="nom_usage"
                 [showClear]="true" placeholder="{{ 'SELECT' | translate }} {{ 'USAGE' | translate }}" optionValue="uuid"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
         <div class="width-100">
             <label><b>{{'DESTINATION_FORMULA' | translate}}</b></label>
-            <p-dropdown formControlName="formule_uuid" [options]="listFormulas$ | async" optionLabel="nom"
+            <p-select formControlName="formule_uuid" [options]="listFormulas$ | async" optionLabel="nom"
                 [showClear]="true" placeholder="{{ 'SELECT' | translate }} {{ 'ALARM' | translate }}" optionValue="uuid"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
         <div class="width-100">
             <label><b>{{ thirdLevelLibel }}</b></label>
-            <p-dropdown formControlName="niveau_trois_uuid" [options]="listThirdLevel$ | async" optionValue="uuid"
+            <p-select formControlName="niveau_trois_uuid" [options]="listThirdLevel$ | async" optionValue="uuid"
                 optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{ thirdLevelLibel }}"
                 emptyFilterMessage="{{'NO_MATCH' | translate}}" emptyMessage="{{'NO_DATA_FOUND' | translate}}">
-            </p-dropdown>
+            </p-select>
         </div>
         <div class="width-100">
             <label><b>{{ 'NAME_LOCATION' | translate }}</b></label>
@@ -1560,14 +1560,14 @@ if (-not (Test-Path $featurePath)) {
         </div>
         <div class="col-md-2">
             <label><b>{{'START_DATE' | translate}}</b></label>
-            <p-calendar formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
+            <p-datepicker formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
                 dateFormat="dd-mm-yy">
-            </p-calendar>
+            </p-datepicker>
         </div>
         <div class="col-md-2">
             <label><b>{{'END_DATE' | translate}}</b></label>
-            <p-calendar formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
-            </p-calendar>
+            <p-datepicker formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
+            </p-datepicker>
         </div>
         <div class="filter-button">
             <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
@@ -1602,7 +1602,7 @@ import { TranslateService } from '@ngx-translate/core';
     @Component({
         selector: 'app-filter-$subModuleName',
         templateUrl: `./filter-$subModuleName.component.html`,
-        styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }`]
+        styles: [`:host ::ng-deep { .p-datepicker { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }`]
     })
 
     export class Filter${subModuleName}Component {
@@ -1845,8 +1845,8 @@ type PageAction = { data: Folder, action: 'open-folder-$moduleName' | 'invoice-$
 
         ngOnInit(): void {
             this.activatedRoute.data.subscribe((data) => {
-                this.module = data.module;
-                this.subModule = data.subModule[1];
+                this.module = data['module'];
+                this.subModule = data['subModule'][1];
             });
             this.sharedService.fetchUsages();
             this.listUsages$ = this.sharedService.getUsages();

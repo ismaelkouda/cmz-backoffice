@@ -24,8 +24,16 @@
                             <app-patrimoine-header
                                 [displayDate]="false"
                                 [displayList]="false"
-                                [legendePluriel]="('DETAILS_OF_THE_CUSTOMER' | translate) + ' ' + customerDetails?.['nom_client']"
-                                [legendeSingulier]="('DETAILS_OF_THE_CUSTOMER' | translate) + ' ' + customerDetails?.['nom_client']"
+                                [legendePluriel]="
+                                    ('DETAILS_OF_THE_CUSTOMER' | translate) +
+                                    ' ' +
+                                    customerDetails?.['nom_client']
+                                "
+                                [legendeSingulier]="
+                                    ('DETAILS_OF_THE_CUSTOMER' | translate) +
+                                    ' ' +
+                                    customerDetails?.['nom_client']
+                                "
                             >
                             </app-patrimoine-header>
                             <div>

@@ -1,25 +1,35 @@
-import { ManagedCustomersApiService } from '../../../data-access/managed-customers/services/managed-customers-api.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
     FormGroup,
     Validators,
 } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { ManagedCustomersIdentificationInterface } from '../../../data-access/managed-customers/interfaces/managed-customers-identification.interface';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { BreadcrumbComponent } from '../../../../../../shared/components/breadcrumb/breadcrumb.component';
+import { PatrimoineHeaderComponent } from '../../../../../../shared/components/patrimoine-header/patrimoine-header.component';
 import {
     CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
     T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
 } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 import { ManagedCustomersDetailsInterface } from '../../../data-access/managed-customers/interfaces/managed-customers-details.interface';
-
+import { ManagedCustomersIdentificationInterface } from '../../../data-access/managed-customers/interfaces/managed-customers-identification.interface';
+import { ManagedCustomersApiService } from '../../../data-access/managed-customers/services/managed-customers-api.service';
+import { IdentificationManagedCustomersComponent } from '../identification-managed-customers/identification-managed-customers.component';
 @Component({
     selector: 'app-details-managed-customers',
+    standalone: true,
     templateUrl: './details-managed-customers.component.html',
     styleUrls: ['./details-managed-customers.component.scss'],
+    imports: [
+        PatrimoineHeaderComponent,
+        BreadcrumbComponent,
+        IdentificationManagedCustomersComponent,
+        TranslateModule,
+    ],
 })
 export class DetailsManagedCustomersComponent implements OnInit {
     public module: string = 'Clients gérés';
@@ -46,8 +56,8 @@ export class DetailsManagedCustomersComponent implements OnInit {
 
     private initializeState(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.module = data['module'];
+            this.subModule = data['subModule'][0];
         });
 
         this.activatedRoute.queryParams.subscribe((params) => {

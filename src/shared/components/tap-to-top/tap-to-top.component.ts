@@ -1,17 +1,17 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
     selector: 'app-tap-to-top',
+    standalone: true,
     templateUrl: './tap-to-top.component.html',
     styleUrls: ['./tap-to-top.component.scss'],
+    imports: [CommonModule]
 })
-export class TapToTopComponent implements OnInit {
+export class TapToTopComponent {
     public show: boolean = false;
 
     constructor(private viewScroller: ViewportScroller) {}
-
-    ngOnInit(): void {}
 
     // @HostListener Decorator
     @HostListener('window:scroll', [])

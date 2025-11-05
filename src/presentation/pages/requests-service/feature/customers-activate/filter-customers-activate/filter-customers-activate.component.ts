@@ -1,4 +1,11 @@
 import {
+    animate,
+    state,
+    style,
+    transition,
+    trigger,
+} from '@angular/animations';
+import {
     Component,
     EventEmitter,
     Input,
@@ -6,26 +13,25 @@ import {
     OnInit,
     Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
-import {
-    trigger,
-    state,
-    style,
-    transition,
-    animate,
-} from '@angular/animations';
-import { T_CUSTOMERS_ACTIVATE_STEP_ENUM } from '../../../data-access/customers-activate/enums/customers-activate-step.enum';
-import { T_CUSTOMERS_ACTIVATE_STATE_ENUM } from '../../../data-access/customers-activate/enums/customers-activate-state.enum';
 import { SharedService } from '../../../../../../shared/services/shared.service';
+import { T_CUSTOMERS_ACTIVATE_STATE_ENUM } from '../../../data-access/customers-activate/enums/customers-activate-state.enum';
+import { T_CUSTOMERS_ACTIVATE_STEP_ENUM } from '../../../data-access/customers-activate/enums/customers-activate-step.enum';
 import { CustomersActivateFilterFormInterface } from '../../../data-access/customers-activate/interfaces/customers-activate-filter-form.interface';
 import { CustomersActivateFilterInterface } from '../../../data-access/customers-activate/interfaces/customers-activate-filter.interface';
-
 @Component({
     selector: 'app-filter-customers-activate',
+    standalone: true,
     templateUrl: './filter-customers-activate.component.html',
     animations: [
         trigger('slideInOut', [
@@ -57,14 +63,16 @@ import { CustomersActivateFilterInterface } from '../../../data-access/customers
         ]),
     ],
     styleUrls: ['./filter-customers-activate.component.scss'],
+    imports: [ReactiveFormsModule, SelectModule, TranslateModule],
 })
 export class FilterCustomersActivateComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<CustomersActivateFilterInterface>();
 
-    @Input() listCustomersActivateStep: Array<T_CUSTOMERS_ACTIVATE_STEP_ENUM>;
-    @Input() listCustomersActivateState: Array<T_CUSTOMERS_ACTIVATE_STATE_ENUM>;
+    @Input() listCustomersActivateStep!: Array<T_CUSTOMERS_ACTIVATE_STEP_ENUM>;
+    @Input()
+    listCustomersActivateState!: Array<T_CUSTOMERS_ACTIVATE_STATE_ENUM>;
 
-    public formFilter: FormGroup<CustomersActivateFilterFormInterface>;
+    public formFilter!: FormGroup<CustomersActivateFilterFormInterface>;
     private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;

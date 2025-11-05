@@ -1,3 +1,4 @@
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
     Component,
     EventEmitter,
@@ -5,15 +6,17 @@ import {
     OnDestroy,
     Output,
 } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { COMMERCIAL_ENTERPRISE_TABLE } from '../../../data-access/commercial-enterprises/constants/commercial-enterprises-table.constant';
 import { CommercialEnterprisesFilterInterface } from '../../../data-access/commercial-enterprises/interfaces/commercial-enterprises-filter.interface';
 import { CommercialEnterprisesInterface } from '../../../data-access/commercial-enterprises/interfaces/commercial-enterprises.interface';
@@ -29,20 +32,22 @@ type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
 @Component({
     selector: 'app-table-commercial-enterprises',
+    standalone: true,
     templateUrl: './table-commercial-enterprises.component.html',
     styleUrls: ['./table-commercial-enterprises.component.scss'],
+    imports: [CommonModule, TableModule, AsyncPipe, TranslateModule, DialogModule],
 })
 export class TableCommercialEnterprisesComponent implements OnDestroy {
     @Output() interfaceUser =
         new EventEmitter<ManagedCustomersPageActionsType>();
 
-    @Input() spinner: boolean;
+    @Input() spinner!: boolean;
     @Input() listCommercialEnterprises$: Observable<
         Array<CommercialEnterprisesInterface>
     > = new BehaviorSubject<Array<CommercialEnterprisesInterface>>([]);
-    @Input() pagination$: Observable<Paginate<CommercialEnterprisesInterface>>;
+    @Input() pagination$!: Observable<Paginate<CommercialEnterprisesInterface>>;
 
-    public commercialEnterpriseSelected: CommercialEnterprisesInterface;
+    public commercialEnterpriseSelected!: CommercialEnterprisesInterface;
     public table: TableConfig = COMMERCIAL_ENTERPRISE_TABLE;
     private destroy$ = new Subject<void>();
 

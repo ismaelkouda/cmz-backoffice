@@ -1,20 +1,23 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '../../../../../../shared/services/env.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { treatmentMonitoringEndpointEnum } from '../enums/treatment-monitoring-endpoint.enum';
-import { TreatmentMonitoringFilterInterface } from '../interfaces/treatment-monitoring-filter.interface';
 import {
     TreatmentMonitoringApiResponseInterface,
     TreatmentMonitoringInterface,
 } from '../../../../../../shared/interfaces/treatment-monitoring.interface';
+import { EnvService } from '../../../../../../shared/services/env.service';
+import { treatmentMonitoringEndpointEnum } from '../enums/treatment-monitoring-endpoint.enum';
+import { TreatmentMonitoringFilterInterface } from '../interfaces/treatment-monitoring-filter.interface';
 
 @Injectable()
 export class TreatmentMonitoringApiService {
     private BASE_URL: string;
-    constructor(private http: HttpClient, private envService: EnvService) {
+    constructor(
+        private http: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
@@ -58,7 +61,7 @@ export class TreatmentMonitoringApiService {
                 debounceTime(500),
                 switchMap((response: any) => {
                     const treatmentMonitoring = response?.['data']?.data.map(
-                        (demande) => {
+                        (demande: TreatmentMonitoringInterface) => {
                             return {
                                 ...demande,
                                 demandeur:

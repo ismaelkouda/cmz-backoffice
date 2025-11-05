@@ -7,16 +7,16 @@ import moment from 'moment';
     styleUrls: ['./patrimoine-header.component.scss'],
 })
 export class PatrimoineHeaderComponent {
-    @Input() count: [];
-    @Input() legende: string;
-    @Input() total: number;
+    @Input() count!: [];
+    @Input() legende!: string;
+    @Input() total!: number;
     currentDate: string;
     @Input() showDate: boolean = false;
     @Input() showListe: boolean = true;
     @Input() showTotal: boolean = true;
 
-    @Input() legendeSingulier: string;
-    @Input() legendePluriel: string;
+    @Input() legendeSingulier!: string;
+    @Input() legendePluriel!: string;
     @Input() displayDate: boolean = true;
     @Input() displayList: boolean = true;
 

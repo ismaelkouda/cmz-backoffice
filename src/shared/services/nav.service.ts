@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subject, BehaviorSubject, fromEvent } from 'rxjs';
-import { takeUntil, debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { BehaviorSubject, fromEvent, Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 // Menu
 export interface Menu {
@@ -24,7 +24,7 @@ export interface Menu {
     providedIn: 'root',
 })
 export class NavService implements OnDestroy {
-    public listMenuItems: any[];
+    public listMenuItems!: any[];
     public user: any;
 
     private unsubscriber: Subject<any> = new Subject();

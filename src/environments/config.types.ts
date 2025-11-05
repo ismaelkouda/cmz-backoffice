@@ -1,0 +1,78 @@
+// ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
+            // Generated at: 2025-11-04T23:17:55.287Z
+
+export interface AppConfig {
+    verifyIdentityDocumentUrl: string;
+    apiUrl: string;
+    fileUrl: string;
+    environmentDeployment: 'DEV' | 'TEST' | 'PROD';
+    enableDebug: boolean;
+    messageApp?: {
+        sourceStockTenantSim: string;
+        sourceStockOrangeSim: string;
+        sourceSoldeDotation: string;
+        sourceSoldeDotationOrange: string;
+    };
+    appSettings?: {
+        appName: string;
+        appLogoFull: string;
+        appLogoIcon: string;
+        appPrimaryColor: string;
+        appSecondaryColor: string;
+        appTertiaryColor: string;
+    };
+}
+
+export interface BuildInfo {
+    timestamp: string;
+    environment: string;
+    version: string;
+    commitHash: string;
+}
+
+declare global {
+    interface Window {
+        __env: AppConfig & { buildInfo: BuildInfo };
+    }
+}
+
+// Environment-specific configurations
+export const ENVIRONMENTS = {
+  "dev": {
+    "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
+    "apiUrl": "https://services-care-portal-service-api.paas.imako.digital/api/v1/",
+    "fileUrl": "https://services-care-portal-service-api.paas.imako.digital/",
+    "environmentDeployment": "DEV",
+    "enableDebug": true,
+    "messageApp": {
+      "sourceStockTenantSim": "Le système utilisera une SIM blanche du Stock du Tenant",
+      "sourceStockOrangeSim": "Orange fournira la SIM...",
+      "sourceSoldeDotation": "Le solde de la dotation Data...",
+      "sourceSoldeDotationOrange": "Orange fera le dépôt..."
+    },
+    "appSettings": {
+      "appName": "IMAKO",
+      "appLogoFull": "assets/images/logo/logo-ansut-full.png",
+      "appLogoIcon": "assets/images/favicon.png",
+      "appPrimaryColor": "#0566FF",
+      "appSecondaryColor": "#F08224",
+      "appTertiaryColor": "#FFFFFF"
+    }
+  },
+  "test": {
+    "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
+    "apiUrl": "http://10.10.0.200:12555/api/v1/",
+    "fileUrl": "http://10.10.0.200:12555/",
+    "environmentDeployment": "TEST",
+    "enableDebug": true
+  },
+  "prod": {
+    "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
+    "apiUrl": "https://sim-monitoring.cateli.io:12555/api/v1/",
+    "fileUrl": "https://sim-monitoring.cateli.io:12555/",
+    "environmentDeployment": "PROD",
+    "enableDebug": false
+  }
+} as const;
+
+export type EnvironmentName = keyof typeof ENVIRONMENTS;

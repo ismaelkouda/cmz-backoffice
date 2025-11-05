@@ -65,7 +65,9 @@
     font-size: 1.5rem;
     cursor: pointer;
     color: #555;
-    transition: color 0.3s ease, transform 0.2s ease;
+    transition:
+        color 0.3s ease,
+        transform 0.2s ease;
 }
 
 .header-icon:hover {

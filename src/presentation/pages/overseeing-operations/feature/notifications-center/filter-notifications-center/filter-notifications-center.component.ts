@@ -1,8 +1,8 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
 import { notificationsCenterFilterInterface } from '../../../data-access/notifications-center/interfaces/notifications-center-filter.interface';
 
 @Component({
@@ -12,11 +12,11 @@ import { notificationsCenterFilterInterface } from '../../../data-access/notific
 })
 export class FilterNotificationsCenterComponent {
     @Input() listTypeNotifications: Array<any> = [];
-    @Input() filterData: notificationsCenterFilterInterface;
+    @Input() filterData!: notificationsCenterFilterInterface;
 
     @Output() filter = new EventEmitter<notificationsCenterFilterInterface>();
 
-    public formFilter: FormGroup;
+    public formFilter!: FormGroup;
 
     constructor(
         private toastService: ToastrService,
@@ -33,7 +33,7 @@ export class FilterNotificationsCenterComponent {
                 { nonNullable: true }
             ),
             notification: new FormControl<string>(
-                this.filterData?.['notifications'],
+                this.filterData?.['notification'],
                 { nonNullable: true }
             ),
             date_debut: new FormControl<string>(

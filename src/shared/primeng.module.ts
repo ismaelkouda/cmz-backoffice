@@ -1,36 +1,30 @@
 import { NgModule } from '@angular/core';
-import { PasswordModule } from 'primeng/password';
 import { BadgeModule } from 'primeng/badge';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { EditableRow, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
-import { TooltipModule } from 'primeng/tooltip';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { FieldsetModule } from 'primeng/fieldset';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ImageModule } from 'primeng/image';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PaginatorModule } from 'primeng/paginator';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TabViewModule } from 'primeng/tabview';
-import { InputMaskModule } from 'primeng/inputmask';
+import { PasswordModule } from 'primeng/password';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { SplitButtonModule } from 'primeng/splitbutton';
-import { ToolbarModule } from 'primeng/toolbar';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { FieldsetModule } from 'primeng/fieldset';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { TreeModule } from 'primeng/tree';
-import { ImageModule } from 'primeng/image';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { SkeletonModule } from 'primeng/skeleton';
 import { SliderModule } from 'primeng/slider';
-// import { SharedModule } from "primeng/api";
-import { FileUploadModule } from 'primeng/fileupload';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { EditableRow, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { SelectButtonModule } from 'primeng/selectbutton';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
+import { TreeModule } from 'primeng/tree';
 
 @NgModule({
     imports: [
@@ -40,19 +34,14 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         DialogModule,
         BadgeModule,
         TooltipModule,
-        CalendarModule,
         TableModule,
         ButtonModule,
         InputTextModule,
-        DropdownModule,
         ProgressSpinnerModule,
         InputNumberModule,
-        InputTextareaModule,
-        TabViewModule,
         InputMaskModule,
         CheckboxModule,
         RadioButtonModule,
-        InputSwitchModule,
         SplitButtonModule,
         ToolbarModule,
         ConfirmDialogModule,
@@ -63,7 +52,6 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         SkeletonModule,
         SliderModule,
         FileUploadModule,
-        // SharedModule,
         TagModule,
         SelectButtonModule,
     ],
@@ -74,19 +62,14 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         DialogModule,
         BadgeModule,
         TooltipModule,
-        CalendarModule,
         TableModule,
         ButtonModule,
         InputTextModule,
-        DropdownModule,
         ProgressSpinnerModule,
         InputNumberModule,
-        InputTextareaModule,
-        TabViewModule,
         InputMaskModule,
         CheckboxModule,
         RadioButtonModule,
-        InputSwitchModule,
         SplitButtonModule,
         ToolbarModule,
         ConfirmDialogModule,
@@ -97,7 +80,6 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         SkeletonModule,
         SliderModule,
         FileUploadModule,
-        // SharedModule,
         TagModule,
         SelectButtonModule,
     ],

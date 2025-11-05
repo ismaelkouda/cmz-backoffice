@@ -1,45 +1,48 @@
-import { claimsFormInterface } from './../../../data-access/claims/interfaces/claims-form.interface';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
     FormGroup,
+    ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { filter, firstValueFrom, Observable, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-const Swal = require('sweetalert2');
-import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
-import { OVERSEEING_OPERATIONS } from '../../../../../../shared/routes/routes';
-import { TranslateService } from '@ngx-translate/core';
-import { SharedService } from '../../../../../../shared/services/shared.service';
-import { formDataBuilder } from '../../../../../../shared/constants/formDataBuilder.constant';
-import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, Subject } from 'rxjs';
+import { BreadcrumbComponent } from '../../../../../../shared/components/breadcrumb/breadcrumb.component';
+import { formDataBuilder } from '../../../../../../shared/constants/formDataBuilder.constant';
+import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
 import { dateNotInPastValidator } from '../../../../../../shared/functions/control-date.function';
-import { CLAIMS } from '../../../overseeing-operations-routing.module';
+import { OVERSEEING_OPERATIONS } from '../../../../../../shared/routes/routes';
+import { SharedService } from '../../../../../../shared/services/shared.service';
 import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
+import { CLAIMS } from '../../../overseeing-operations-routing.module';
+import { claimsFormInterface } from './../../../data-access/claims/interfaces/claims-form.interface';
+const Swal = require('sweetalert2');
 
 type TYPEVIEW = 'add-claims';
-const TYPEVIEW_VALUES: TYPEVIEW[] = ['add-claims'];
+const TYPEVIEW_VALUES: Set<TYPEVIEW> = new Set(['add-claims']);
 function isTypeView(value: any): value is TYPEVIEW {
-    return TYPEVIEW_VALUES.includes(value);
+    return TYPEVIEW_VALUES.has(value as TYPEVIEW);
 }
 
 @Component({
     selector: 'app-form-claims',
+    standalone: true,
     templateUrl: './form-claims.component.html',
     styleUrls: ['./form-claims.component.scss'],
+    imports: [BreadcrumbComponent, ReactiveFormsModule, TranslateModule],
 })
-export class FormClaimsComponent {
-    public module: string;
-    public subModule: string;
-    public urlParamRef: TYPEVIEW;
-    public urlParamTransaction: string;
+export class FormClaimsComponent implements OnInit {
+    public module!: string;
+    public subModule!: string;
+    public urlParamRef!: TYPEVIEW;
+    public urlParamTransaction!: string;
     public displayUrlErrorPage: boolean = false;
-    public formClaim: FormGroup<claimsFormInterface>;
-    public listBanks$: Observable<Array<any>>;
+    public formClaim!: FormGroup<claimsFormInterface>;
+    public listBanks$!: Observable<Array<any>>;
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -54,22 +57,23 @@ export class FormClaimsComponent {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[2];
+            this.module = data['module'];
+            this.subModule = data['subModule'][2];
         });
-        this.activatedRoute.queryParams.subscribe((params: Object) => {
-            this.urlParamRef = params?.['ref'];
-            this.getParamsInUrl();
-        });
+        this.activatedRoute.queryParams.subscribe(
+            (params: { [key: string]: any }) => {
+                this.urlParamRef = params?.['ref'];
+                this.getParamsInUrl();
+            }
+        );
     }
 
     private getParamsInUrl(): void {
-        if (!isTypeView(this.urlParamRef)) {
-            this.displayUrlErrorPage = true;
-            return;
-        } else {
+        if (isTypeView(this.urlParamRef)) {
             this.initFormFundClaims();
+            return;
         }
+        this.displayUrlErrorPage = true;
     }
 
     public initFormFundClaims(): void {

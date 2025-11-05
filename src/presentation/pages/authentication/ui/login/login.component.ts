@@ -3,9 +3,12 @@ import {
     AbstractControl,
     FormControl,
     FormGroup,
+    ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { PasswordModule } from 'primeng/password';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { LOGO_ANSUT } from '../../../../../shared/constants/logoAnsut.constant';
@@ -26,8 +29,10 @@ import { VariablesResponseInterface } from './../../data-access/interfaces/varia
 
 @Component({
     selector: 'app-login',
+    standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
+    imports: [ReactiveFormsModule, PasswordModule, TranslateModule, RouterLink],
 })
 export class LoginComponent implements OnInit, OnDestroy {
     public apiError: string | null = null;

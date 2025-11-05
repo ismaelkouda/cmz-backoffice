@@ -1,20 +1,23 @@
-import {
-    OVERSEEING_OPERATIONS_TREATMENT_ENUM,
-    T_OVERSEEING_OPERATIONS_TREATMENT_ENUM,
-} from './../../../data-access/overseeing-operations/enums/overseeing-operations-treatment.enum';
-import { WaitingQueueApiService } from './../../../data-access/waiting-queue/services/waiting-queue-api.service';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { Observable, Subject, take } from 'rxjs';
+import {
+    MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
+    T_MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
+} from '../../../../../../shared/enum/module-treatment-customers-activate';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { WaitingQueueInterface } from '../../../../../../shared/interfaces/waiting-queue.interface';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { Observable, Subject, take } from 'rxjs';
+import { OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/overseeing-operations/enums/overseeing-operations-buttons-actions.enum';
 import { WAITING_QUEUE_TABLE } from '../../../data-access/waiting-queue/constants/waiting-queue-table.constant';
-import { TranslateService } from '@ngx-translate/core';
-import { WaitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
 import {
     T_WAITING_QUEUE_STATE_ENUM,
     WAITING_QUEUE_STATE_ENUM,
@@ -23,12 +26,12 @@ import {
     T_WAITING_QUEUE_STEP_ENUM,
     WAITING_QUEUE_STEP_ENUM,
 } from '../../../data-access/waiting-queue/enums/waiting-queue-step.enum';
-import { WaitingQueueInterface } from '../../../../../../shared/interfaces/waiting-queue.interface';
-import { OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/overseeing-operations/enums/overseeing-operations-buttons-actions.enum';
+import { WaitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
 import {
-    MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
-    T_MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
-} from '../../../../../../shared/enum/module-treatment-customers-activate';
+    OVERSEEING_OPERATIONS_TREATMENT_ENUM,
+    T_OVERSEEING_OPERATIONS_TREATMENT_ENUM,
+} from './../../../data-access/overseeing-operations/enums/overseeing-operations-treatment.enum';
+import { WaitingQueueApiService } from './../../../data-access/waiting-queue/services/waiting-queue-api.service';
 
 type TYPE_COLOR_STEP_BADGE =
     | 'badge-dark'
@@ -43,17 +46,19 @@ type TYPE_COLOR_STATE_BADGE =
 
 @Component({
     selector: 'app-table-waiting-queue',
+    standalone: true,
     templateUrl: './table-waiting-queue.component.html',
+    imports: [CommonModule, DialogModule, AsyncPipe, TableModule, TranslateModule],
 })
 export class TableWaitingQueueComponent {
-    @Input() spinner: boolean;
-    @Input() listWaitingQueue$: Observable<Array<WaitingQueueInterface>>;
-    @Input() pagination$: Observable<Paginate<WaitingQueueInterface>>;
+    @Input() spinner!: boolean;
+    @Input() listWaitingQueue$!: Observable<Array<WaitingQueueInterface>>;
+    @Input() pagination$!: Observable<Paginate<WaitingQueueInterface>>;
 
-    @Input() listWaitingQueueStep: Array<T_WAITING_QUEUE_STEP_ENUM>;
-    @Input() listWaitingQueueState: Array<T_WAITING_QUEUE_STATE_ENUM>;
+    @Input() listWaitingQueueStep!: Array<T_WAITING_QUEUE_STEP_ENUM>;
+    @Input() listWaitingQueueState!: Array<T_WAITING_QUEUE_STATE_ENUM>;
 
-    public waitingQueueSelected: WaitingQueueInterface;
+    public waitingQueueSelected!: WaitingQueueInterface;
     public readonly table: TableConfig = WAITING_QUEUE_TABLE;
     private destroy$ = new Subject<void>();
 
@@ -160,17 +165,14 @@ export class TableWaitingQueueComponent {
         return stateMap[dossier.statut]?.[dossier.traitement] || 'badge-dark';
     }
 
-    public handleAction(params): void {
+    public handleAction(params: any): void {
         this.onSelectWaitingQueue(params.data);
 
-        switch (params.view) {
-            case 'modal':
-                if (
-                    params.action ===
-                    OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.EDIT
-                ) {
-                    this.visibleForm = true;
-                }
+        if (
+            params.view === 'modal' &&
+            params.action === OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.EDIT
+        ) {
+            this.visibleForm = true;
         }
     }
 

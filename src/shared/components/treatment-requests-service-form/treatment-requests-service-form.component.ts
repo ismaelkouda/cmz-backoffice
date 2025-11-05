@@ -1,5 +1,3 @@
-import { IAddTreatmentRequestsServiceFormValues } from './data-access/interfaces/treatment-requests-service-form-values.interface';
-import { CUSTOMERS_ACTIVATE_STATE_ENUM } from '../../../presentation/pages/requests-service/data-access/customers-activate/enums/customers-activate-state.enum';
 import {
     Component,
     EventEmitter,
@@ -8,7 +6,6 @@ import {
     OnInit,
     Output,
 } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import {
     FormBuilder,
     FormControl,
@@ -16,21 +13,23 @@ import {
     Validators,
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { getRapportCodeStyle } from '../../functions/rapport-code-style.function';
+import { ToastrService } from 'ngx-toastr';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
-import { TreatmentRequestsServiceDetailsInterface } from './data-access/interfaces/treatment-requests-service-form.interface';
-import { SharedService } from '../../services/shared.service';
-import { TreatmentRequestsServiceFormApiService } from './data-access/services/treatment-requests-service-form-api.service';
-import { FormatFormData } from '../../functions/formatFormData.function';
-const Swal = require('sweetalert2');
-import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../constants/swalWithBootstrapButtonsParams.constant';
+import { TREATMENT_MONITORING_STATE_ENUM } from '../../../presentation/pages/overseeing-operations/data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
+import { CUSTOMERS_ACTIVATE_STATE_ENUM } from '../../../presentation/pages/requests-service/data-access/customers-activate/enums/customers-activate-state.enum';
 import { REQUESTS_SERVICE_TREATMENT_ENUM } from '../../../presentation/pages/requests-service/data-access/requests-service/enums/requests-service-treatment.enum';
-import { WaitingQueueInterface } from '../../interfaces/waiting-queue.interface';
+import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../constants/swalWithBootstrapButtonsParams.constant';
+import { FormatFormData } from '../../functions/formatFormData.function';
+import { getRapportCodeStyle } from '../../functions/rapport-code-style.function';
 import { CustomersActivateInterface } from '../../interfaces/customers-activate.interface';
 import { TreatmentMonitoringInterface } from '../../interfaces/treatment-monitoring.interface';
+import { WaitingQueueInterface } from '../../interfaces/waiting-queue.interface';
+import { SharedService } from '../../services/shared.service';
+import { IAddTreatmentRequestsServiceFormValues } from './data-access/interfaces/treatment-requests-service-form-values.interface';
+import { TreatmentRequestsServiceDetailsInterface } from './data-access/interfaces/treatment-requests-service-form.interface';
+import { TreatmentRequestsServiceFormApiService } from './data-access/services/treatment-requests-service-form-api.service';
 import { T_HandleTreatment } from './data-access/types/treatment-requests-service-form.type';
-import { TREATMENT_MONITORING_STATE_ENUM } from '../../../presentation/pages/overseeing-operations/data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
-import { TYPE_CUSTOMERS_ENUM } from '../../enum/type-customers.enum';
+const Swal = require('sweetalert2');
 
 type customerSelectedType =
     | CustomersActivateInterface
@@ -45,17 +44,17 @@ export class TreatmentRequestsServiceFormComponent
     implements OnInit, OnDestroy
 {
     @Output() visibleForm: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @Input() customerSelected: customerSelectedType;
-    @Input() handleTreatment: T_HandleTreatment;
-    @Input() fetchCustomers: () => void;
+    @Input() customerSelected!: customerSelectedType;
+    @Input() handleTreatment!: T_HandleTreatment;
+    @Input() fetchCustomers!: () => void;
 
     public requestsServiceForm!: FormGroup<IAddTreatmentRequestsServiceFormValues>;
-    public customerDetails: TreatmentRequestsServiceDetailsInterface;
+    public customerDetails!: TreatmentRequestsServiceDetailsInterface;
 
-    public listRegimesBusiness$: Observable<
+    public listRegimesBusiness$!: Observable<
         Array<{ code: string; nom: string }>
     >;
-    public listLegalForm$: Observable<Array<{ code: string; nom: string }>>;
+    public listLegalForm$!: Observable<Array<{ code: string; nom: string }>>;
 
     private destroy$ = new Subject<void>();
 
@@ -488,7 +487,9 @@ export class TreatmentRequestsServiceFormComponent
                 }
             },
             preConfirm: async (comment: string) => {
-                const payload = { commentaire: comment || '' };
+                const payload: {
+                    commentaire: string;
+                } = { commentaire: comment || '' };
                 try {
                     await this.requestsServiceFormApiService.fetchAbandonRequestsService(
                         payload,

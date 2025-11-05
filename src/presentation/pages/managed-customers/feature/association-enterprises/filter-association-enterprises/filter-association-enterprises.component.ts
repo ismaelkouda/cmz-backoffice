@@ -1,4 +1,12 @@
 import {
+    animate,
+    state,
+    style,
+    transition,
+    trigger,
+} from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import {
     Component,
     EventEmitter,
     Input,
@@ -6,24 +14,24 @@ import {
     OnInit,
     Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
-import {
-    trigger,
-    state,
-    style,
-    transition,
-    animate,
-} from '@angular/animations';
-import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { AssociationEnterprisesFilterInterface } from '../../../data-access/association-enterprises/interfaces/association-enterprises-filter.interface';
 import { AssociationEnterprisesApiService } from '../../../data-access/association-enterprises/services/association-enterprises-api.service';
+import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 
 @Component({
     selector: 'app-filter-association-enterprises',
+    standalone: true,
     templateUrl: './filter-association-enterprises.component.html',
     animations: [
         trigger('slideInOut', [
@@ -55,6 +63,7 @@ import { AssociationEnterprisesApiService } from '../../../data-access/associati
         ]),
     ],
     styleUrls: ['./filter-association-enterprises.component.scss'],
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, SelectModule],
 })
 export class FilterAssociationEnterprisesComponent
     implements OnInit, OnDestroy
@@ -63,9 +72,9 @@ export class FilterAssociationEnterprisesComponent
         AssociationEnterprisesFilterInterface | {}
     >();
     @Input()
-    listAssociationEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    listAssociationEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
-    public formFilter: FormGroup<AssociationEnterprisesFilterInterface>;
+    public formFilter!: FormGroup<AssociationEnterprisesFilterInterface>;
     private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;

@@ -1,46 +1,63 @@
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
+import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
+import {
+    T_TYPE_CUSTOMERS_ENUM,
+    TYPE_CUSTOMERS_ENUM,
+} from '../../../../../../shared/enum/type-customers.enum';
 import { FormatFormData } from '../../../../../../shared/functions/formatFormData.function';
+import { MenuItem } from '../../../../../../shared/interfaces/menu-item.interface';
+import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
+import { SharedService } from '../../../../../../shared/services/shared.service';
 import { CustomersActivateFormInterface } from '../../../data-access/customers-activate/interfaces/customers-activate-form.interface';
 import {
     REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM,
     T_REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM,
 } from '../../../data-access/requests-service/enums/requests-service-buttons-actions.enum';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, Subject, takeUntil } from 'rxjs';
-const Swal = require('sweetalert2');
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
 import { RequestsServiceApiService } from '../../../data-access/requests-service/services/requests-service-api.service';
-import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
-import { SharedService } from '../../../../../../shared/services/shared.service';
-import {
-    T_TYPE_CUSTOMERS_ENUM,
-    TYPE_CUSTOMERS_ENUM,
-} from '../../../../../../shared/enum/type-customers.enum';
-import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
-import { MenuItem } from '../../../../../../shared/interfaces/menu-item.interface';
+
+const Swal = require('sweetalert2');
 
 @Component({
     selector: 'app-form-customers-activate',
+    standalone: true,
     templateUrl: './form-customers-activate.component.html',
     styleUrls: ['./form-customers-activate.component.scss'],
+    imports: [
+        CommonModule,
+        BreadcrumbComponent,
+        ReactiveFormsModule,
+        AsyncPipe,
+        TranslateModule,
+        ButtonModule,
+        SelectModule
+    ],
 })
 export class FormCustomersActivateComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
+    private translate = inject(TranslateService);
+    public module!: string;
+    public subModule!: string;
     public customersActivateForm!: FormGroup<CustomersActivateFormInterface>;
-    public type_enterprise: T_TYPE_CUSTOMERS_ENUM;
+    public type_enterprise!: T_TYPE_CUSTOMERS_ENUM;
 
-    public listRegimesBusiness$: Observable<
+    public listRegimesBusiness$!: Observable<
         Array<{ code: string; nom: string }>
     >;
-    public listLegalForm$: Observable<Array<{ code: string; nom: string }>>;
+    public listLegalForm$!: Observable<Array<{ code: string; nom: string }>>;
 
     private destroy$ = new Subject<void>();
     private STORAGE_KEY!: string;
@@ -49,7 +66,6 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private toastService: ToastrService,
         private router: Router,
-        private translate: TranslateService,
         private activatedRoute: ActivatedRoute,
         private sharedService: SharedService,
         private requestsServiceApiService: RequestsServiceApiService,
@@ -71,10 +87,7 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
         this.activatedRoute.url
             .pipe(takeUntil(this.destroy$))
             .subscribe((event: any) => {
-                const url =
-                    this.activatedRoute.snapshot['_routerState'].url.split(
-                        '?'
-                    )[0];
+                const url = this.router.url.split('?')[0];
                 for (const parent of menuItems) {
                     if (parent.children) {
                         const child = parent.children.find((c) =>
@@ -98,8 +111,8 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
 
     private initializeState(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.module = data['module'];
+            this.subModule = data['subModule'][0];
         });
 
         this.activatedRoute.queryParams.subscribe((params) => {

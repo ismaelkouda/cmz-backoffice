@@ -48,7 +48,7 @@
                     minWidth: col.width,
                     width: col.width,
                     maxWidth: col.maxWidth,
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }"
             >
                 {{ col.header }}
@@ -64,7 +64,7 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
-                    maxWidth: col.maxWidth
+                    maxWidth: col.maxWidth,
                 }"
                 [attr.data-label]="col.header"
             >
@@ -75,7 +75,10 @@
 
                     <ng-container *ngSwitchCase="'Compte client'">
                         <span
-                            (click)="copyToClipboard(item?.[col.field]); $event.stopPropagation();"
+                            (click)="
+                                copyToClipboard(item?.[col.field]);
+                                $event.stopPropagation()
+                            "
                             [pTooltip]="'COPY' | translate"
                             tooltipPosition="bottom"
                         >
@@ -98,7 +101,11 @@
                     <ng-container *ngSwitchCase="'Etat'">
                         <span
                             class="badge"
-                            [ngClass]="stateBadgeMap[item?.statut]?.[item?.traitement] ?? 'badge-dark'"
+                            [ngClass]="
+                                stateBadgeMap[item?.statut]?.[
+                                    item?.traitement
+                                ] ?? 'badge-dark'
+                            "
                             style="font-size: 16px"
                         >
                             {{ item?.[col.field] }}
@@ -162,7 +169,7 @@
                                 onActionButtonClick($event, item, {
                                     data: item,
                                     action: REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.NEWSPAPER,
-                                    view: 'modal'
+                                    view: 'modal',
                                 })
                             "
                         ></button>

@@ -62,7 +62,7 @@ export interface SlaContactsInterface {
     contact_gestionnaire_tenant: string;
     email_gerant: string;
     contact_gerant: string;
-    nom_gerant;
+    nom_gerant: string;
     piece_gerant: string;
     created_at: string;
     updated_at: string;

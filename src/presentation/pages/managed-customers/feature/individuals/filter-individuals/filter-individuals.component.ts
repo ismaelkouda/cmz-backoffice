@@ -1,4 +1,12 @@
 import {
+    animate,
+    state,
+    style,
+    transition,
+    trigger,
+} from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import {
     Component,
     EventEmitter,
     Input,
@@ -6,24 +14,24 @@ import {
     OnInit,
     Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
-import {
-    trigger,
-    state,
-    style,
-    transition,
-    animate,
-} from '@angular/animations';
-import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { IndividualsFilterInterface } from '../../../data-access/individuals/interfaces/individuals-filter.interface';
 import { IndividualsApiService } from '../../../data-access/individuals/services/individuals-api.service';
+import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 
 @Component({
     selector: 'app-filter-individuals',
+    standalone: true,
     templateUrl: './filter-individuals.component.html',
     animations: [
         trigger('slideInOut', [
@@ -55,12 +63,13 @@ import { IndividualsApiService } from '../../../data-access/individuals/services
         ]),
     ],
     styleUrls: ['./filter-individuals.component.scss'],
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, SelectModule],
 })
 export class FilterIndividualsComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<IndividualsFilterInterface | {}>();
-    @Input() listIndividualsStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    @Input() listIndividualsStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
-    public formFilter: FormGroup<IndividualsFilterInterface>;
+    public formFilter!: FormGroup<IndividualsFilterInterface>;
     private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;

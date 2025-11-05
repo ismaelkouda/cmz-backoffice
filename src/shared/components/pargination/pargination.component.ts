@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
+import { PaginatorModule } from 'primeng/paginator';
+import { Paginate } from '../../interfaces/paginate';
 @Component({
     selector: 'app-pargination',
+    standalone: true,
     template: `
         <div class="d-flex justify-content-between">
             <h2 style="margin-top: 2rem;">
@@ -24,9 +26,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             </div>
         </div>
     `,
+    imports: [PaginatorModule],
 })
 export class ParginationComponent {
-    @Input() pargination;
+    @Input() pargination!: Paginate<any>;
     @Output() pageChange = new EventEmitter<number>();
 
     onPageChange(event: number) {

@@ -47,7 +47,7 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }"
             >
                 <ng-container [ngSwitch]="col.header">
@@ -152,20 +152,22 @@
                         <button
                             pButton
                             tooltipPosition="top"
-                            [pTooltip]="handleActionButtonEditStyle(item)?.['tooltip']"
+                            [pTooltip]="
+                                handleActionButtonEditStyle(item)?.['tooltip']
+                            "
                             [ngClass]="handleActionButtonEditStyle(item)?.class"
                             [icon]="handleActionButtonEditStyle(item)?.icon"
                             (click)="
                                 handleAction({
                                     data: item,
                                     action: OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.EDIT,
-                                    view: 'modal'
+                                    view: 'modal',
                                 })
                             "
                         ></button>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
-                        {{item?.[col.field]}}
+                        {{ item?.[col.field] }}
                     </ng-container>
                 </ng-container>
             </td>
@@ -200,13 +202,18 @@
 </p-table>
 
 <p-dialog
-    [header]="['WAITING_QUEUE' | translate]+' '+('DEMAND' | translate)+' '+waitingQueueSelected?.['numero_demande']"
+    [header]="
+        ['WAITING_QUEUE' | translate] +
+        ' ' +
+        ('DEMAND' | translate) +
+        ' ' +
+        waitingQueueSelected?.['numero_demande']
+    "
     [resizable]="true"
     [(visible)]="visibleForm"
     (onHide)="visibleForm = false"
     [modal]="true"
     [closable]="true"
-    [responsive]="true"
     [draggable]="false"
     [style]="{ width: '95vw', minHeight: '80vh' }"
     [breakpoints]="{ '575px': '95vw', '1199px': '90vw' }"

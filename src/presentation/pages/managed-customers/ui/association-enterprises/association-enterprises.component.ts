@@ -1,19 +1,26 @@
-import {
-    CUSTOMERS_MANAGED_STEP_ENUM,
-    T_CUSTOMERS_MANAGED_STEP_ENUM,
-} from '../../data-access/managed-customers/enums/managed-customers-step.enum';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
+import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
+import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { AssociationEnterprisesFilterInterface } from '../../data-access/association-enterprises/interfaces/association-enterprises-filter.interface';
 import { AssociationEnterprisesInterface } from '../../data-access/association-enterprises/interfaces/association-enterprises.interface';
 import { AssociationEnterprisesApiService } from '../../data-access/association-enterprises/services/association-enterprises-api.service';
 import {
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
+} from '../../data-access/managed-customers/enums/managed-customers-step.enum';
+import {
     CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
     T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
 } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
-import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
+import { FilterAssociationEnterprisesComponent } from '../../feature/association-enterprises/filter-association-enterprises/filter-association-enterprises.component';
+import { TableAssociationEnterprisesComponent } from '../../feature/association-enterprises/table-association-enterprises/table-association-enterprises.component';
 
 type PageAction = {
     data: AssociationEnterprisesInterface;
@@ -23,13 +30,24 @@ type PageAction = {
 
 @Component({
     selector: 'app-association-enterprises',
+    standalone: true,
     templateUrl: './association-enterprises.component.html',
+    imports: [
+        CommonModule,
+        PatrimoineHeaderComponent,
+        BreadcrumbComponent,
+        FilterAssociationEnterprisesComponent,
+        TableAssociationEnterprisesComponent,
+        ParginationComponent,
+        AsyncPipe,
+        TranslateModule
+    ],
 })
 export class AssociationEnterprisesComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
-    public pagination$: Observable<Paginate<AssociationEnterprisesInterface>>;
-    public listAssociationEnterprises$: Observable<
+    public module!: string;
+    public subModule!: string;
+    public pagination$!: Observable<Paginate<AssociationEnterprisesInterface>>;
+    public listAssociationEnterprises$!: Observable<
         AssociationEnterprisesInterface[]
     >;
     public spinner: boolean = true;
@@ -45,8 +63,8 @@ export class AssociationEnterprisesComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[2];
+            this.module = data['module'];
+            this.subModule = data['subModule'][2];
         });
         this.listAssociationEnterprises$ =
             this.associationEnterprisesApiService.getAssociationEnterprises();
@@ -93,14 +111,12 @@ export class AssociationEnterprisesComponent implements OnInit, OnDestroy {
         const queryParams = { ref, type_enterprise };
         let routePath: string = '';
 
-        switch (params.action) {
-            case CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN:
-                routePath = `${code_client}`;
-                this.router.navigate([routePath], {
-                    relativeTo: this.activatedRoute,
-                    queryParams,
-                });
-                break;
+        if (params.action === CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN) {
+            routePath = `${code_client}`;
+            this.router.navigate([routePath], {
+                relativeTo: this.activatedRoute,
+                queryParams,
+            });
         }
     }
 

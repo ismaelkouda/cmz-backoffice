@@ -4,7 +4,8 @@
 
 @font-face {
     font-family: 'Helvetica';
-    src: url('../fonts/Helvetica-Font.otf') format('woff'),
+    src:
+        url('../fonts/Helvetica-Font.otf') format('woff'),
         url('../fonts/Helvetica-Font.otf') format('opentype'),
         url('../fonts/Helvetica-Font.otf') format('truetype');
 }
@@ -27,16 +28,14 @@
 // @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 // @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
-/* Toastr */
-// Ngx-Tabset
-@import '../../../node_modules/ngx-tabset/ngx-tabset.scss';
+
 
 // overlay
 @import '@angular/cdk/overlay-prebuilt.css';
 @import '@ng-select/ng-select/themes/default.theme.css';
-@import 'swiper/scss';
-@import 'swiper/scss/navigation';
-@import 'swiper/scss/pagination';
+//@import 'swiper/scss';
+//@import 'swiper/scss/navigation';
+//@import 'swiper/scss/pagination';
 
 /* ---------------------
 	*** Theme Scss ***
@@ -50,3 +49,8 @@
 @import 'responsive';
 
 // @import "tailwindcss";
+
+@import "primeng/resources/primeng.css";
+@import "@primeng/themes/theme/lara-light-blue/theme.css";
+@import "primeicons/primeicons.css";
+@import "primeflex/primeflex.css";

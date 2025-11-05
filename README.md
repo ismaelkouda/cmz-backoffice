@@ -35,7 +35,8 @@ npm run start:dev
 npm run lint:all
 npm run format
 
-
+ls node_modules/primeng/ | grep tabview Verifier si un module existe
+du -sh node_modules/primeng/ connaitre la taille d'un module
 # env-client-psim-frontend-tenant
 
 

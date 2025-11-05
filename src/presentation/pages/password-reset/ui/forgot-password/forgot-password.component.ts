@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { Title } from '@angular/platform-browser';
-import { LOGO_ANSUT } from 'src/shared/constants/logoAnsut.constant';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { ToastrService } from 'ngx-toastr';
+import { LOGO_ANSUT } from '../../../../../shared/constants/logoAnsut.constant';
 import { PasswordResetService } from '../../data-access/password-reset.service';
 
 @Component({
@@ -45,11 +45,6 @@ export class ForgotPasswordComponent {
             // );
             // this.handleSuccessful(this.response);
         }
-    }
-
-    private handleSuccessful(response): void {
-        this.isModal = true;
-        this.toastrService.success(response.message);
     }
 
     handleOpen() {

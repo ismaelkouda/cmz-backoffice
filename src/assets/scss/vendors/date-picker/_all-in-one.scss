@@ -280,7 +280,8 @@ $datepickerTransitionOffset: 8px !default;
     left: -100000px;
     opacity: 0;
     padding: 10px;
-    transition: opacity $datepickerTransitionSpeed $datepickerTransitionEase,
+    transition:
+        opacity $datepickerTransitionSpeed $datepickerTransitionEase,
         transform $datepickerTransitionSpeed $datepickerTransitionEase,
         left 0s $datepickerTransitionSpeed;
     z-index: $datepickerZIndex;
@@ -301,7 +302,8 @@ $datepickerTransitionOffset: 8px !default;
     &.active {
         opacity: 1;
         transform: translate(0);
-        transition: opacity $datepickerTransitionSpeed $datepickerTransitionEase,
+        transition:
+            opacity $datepickerTransitionSpeed $datepickerTransitionEase,
             transform $datepickerTransitionSpeed $datepickerTransitionEase,
             left 0s 0s;
     }

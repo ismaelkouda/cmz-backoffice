@@ -4,7 +4,7 @@
             <label
                 ><b>{{ 'NOTIFICATION_TYPE' | translate }}</b></label
             >
-            <p-dropdown
+            <p-select
                 formControlName="notification"
                 [options]="listTypeNotifications"
                 [showClear]="true"
@@ -15,7 +15,7 @@
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                 emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
             >
-            </p-dropdown>
+            </p-select>
         </div>
         <div class="col-md-2">
             <label
@@ -34,25 +34,25 @@
             <label
                 ><b>{{ 'START_DATE' | translate }}</b></label
             >
-            <p-calendar
+            <p-datepicker
                 formControlName="date_debut"
                 [showIcon]="true"
                 [placeholder]="'JJ-MM-AAAA'"
                 dateFormat="dd-mm-yy"
             >
-            </p-calendar>
+            </p-datepicker>
         </div>
         <div class="col-md-2">
             <label
                 ><b>{{ 'END_DATE' | translate }}</b></label
             >
-            <p-calendar
+            <p-datepicker
                 formControlName="date_fin"
                 [showIcon]="true"
                 placeholder="JJ-MM-AAAA"
                 dateFormat="dd-mm-yy"
             >
-            </p-calendar>
+            </p-datepicker>
         </div>
 
         <div class="filter-button">

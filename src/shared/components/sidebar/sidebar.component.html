@@ -41,7 +41,7 @@
                 'Singapore' ||
                 'Barcelona'
                     ? margin + 'px'
-                    : '0px'
+                    : '0px',
         }"
     >
         <ul class="sidebar-links custom-scrollbar">
@@ -104,7 +104,7 @@
                                         [class.link-nav]="!menuItem.children"
                                         [ngClass]="{
                                             active:
-                                                menuItem.active && !menuActive
+                                                menuItem.active && !menuActive,
                                         }"
                                         *ngIf="menuItem.type === 'sub'"
                                         (click)="toggletNavActive(menuItem)"
@@ -219,7 +219,7 @@
                                         [ngClass]="{ active: menuItem.active }"
                                         [ngClass]="{
                                             'menu-open': menuItem.active,
-                                            'menu-close': !menuItem.active
+                                            'menu-close': !menuItem.active,
                                         }"
                                         *ngIf="menuItem.children"
                                         [style.display]="
@@ -231,7 +231,7 @@
                                                 let childrenItem of menuItem.children
                                             "
                                             [ngClass]="{
-                                                active: childrenItem.active
+                                                active: childrenItem.active,
                                             }"
                                         >
                                             <!-- Sub -->
@@ -304,7 +304,7 @@
                                                 "
                                                 routerLinkActive="active"
                                                 [routerLinkActiveOptions]="{
-                                                    exact: true
+                                                    exact: true,
                                                 }"
                                             >
                                                 {{
@@ -348,13 +348,13 @@
                                                 class="nav-sub-childmenu submenu-content"
                                                 *ngIf="childrenItem.children"
                                                 [ngClass]="{
-                                                    active: childrenItem.active
+                                                    active: childrenItem.active,
                                                 }"
                                                 [ngClass]="{
                                                     'menu-open':
                                                         childrenItem.active,
                                                     'menu-close':
-                                                        !childrenItem.active
+                                                        !childrenItem.active,
                                                 }"
                                                 [style.display]="
                                                     childrenItem.active
@@ -367,7 +367,7 @@
                                                         let childrenSubItem of childrenItem.children
                                                     "
                                                     [ngClass]="{
-                                                        active: childrenSubItem.active
+                                                        active: childrenSubItem.active,
                                                     }"
                                                 >
                                                     <!-- Link -->
@@ -376,7 +376,7 @@
                                                             !childrenSubItem.type
                                                                 ? null
                                                                 : [
-                                                                      childrenSubItem.path
+                                                                      childrenSubItem.path,
                                                                   ]
                                                         "
                                                         *ngIf="
@@ -385,7 +385,7 @@
                                                         "
                                                         routerLinkActive="active"
                                                         [routerLinkActiveOptions]="{
-                                                            exact: true
+                                                            exact: true,
                                                         }"
                                                     >
                                                         {{
@@ -406,7 +406,7 @@
                                                         "
                                                         routerLinkActive="active"
                                                         [routerLinkActiveOptions]="{
-                                                            exact: true
+                                                            exact: true,
                                                         }"
                                                     >
                                                         {{

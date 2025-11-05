@@ -538,7 +538,10 @@
 .H_dm_label {
     font: 10pt sans-serif;
     color: black;
-    text-shadow: 1px 1px 0.5px #fff, 1px -1px 0.5px #fff, -1px 1px 0.5px #fff,
+    text-shadow:
+        1px 1px 0.5px #fff,
+        1px -1px 0.5px #fff,
+        -1px 1px 0.5px #fff,
         -1px -1px 0.5px #fff;
     white-space: nowrap;
     margin-left: 12px;
@@ -564,7 +567,11 @@ svg.H_icon {
 
 /*###############################################  OVERVIEW MAP  #####################################################*/
 .H_overview {
-    transition: width 0.2s, height 0.2s, margin-top 0.2s, padding 0.2s;
+    transition:
+        width 0.2s,
+        height 0.2s,
+        margin-top 0.2s,
+        padding 0.2s;
     width: 0em;
     height: 0em;
     overflow: hidden;

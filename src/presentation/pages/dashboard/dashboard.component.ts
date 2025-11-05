@@ -1,30 +1,33 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { IStatisticsBox } from '../../../shared/interfaces/statistiquesBox.interface';
-import { EncodingDataService } from '../../../shared/services/encoding-data.service';
+import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DialogModule } from 'primeng/dialog';
 import { Subject, takeUntil } from 'rxjs';
-import { SimStatut } from '../../../shared/enum/SimStatut.enum';
-import { DashboardApiService } from './data-access/services/dashboard-api.service';
-import { AsFeatureService } from '../../../shared/services/as-feature.service';
-import { TranslateService } from '@ngx-translate/core';
 import {
     NOM_APPLICATION,
     T_NOM_APPLICATION,
 } from '../../../shared/constants/nom-aplication.contant';
-import { DashboardLink } from '../../../shared/interfaces/dashboard-link.interface';
-import { CurrentUser } from '../../../shared/interfaces/current-user.interface';
+import { SimStatut } from '../../../shared/enum/SimStatut.enum';
 import { separatorThousands } from '../../../shared/functions/separator-thousands';
+import { CurrentUser } from '../../../shared/interfaces/current-user.interface';
+import { DashboardLink } from '../../../shared/interfaces/dashboard-link.interface';
+import { IStatisticsBox } from '../../../shared/interfaces/statistiquesBox.interface';
+import { AsFeatureService } from '../../../shared/services/as-feature.service';
+import { EncodingDataService } from '../../../shared/services/encoding-data.service';
+import { DashboardApiService } from './data-access/services/dashboard-api.service';
 
 @Component({
     selector: 'app-dashboard',
+    standalone: true,
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
+    imports: [DialogModule, TranslateModule],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     public loading: boolean = true;
-    public current_date: string;
-    public nom_tenant: string;
+    public current_date!: string;
+    public nom_tenant!: string;
     public nom_application: T_NOM_APPLICATION = NOM_APPLICATION.PATRIMOINE_SIM;
     public title =
         'Tableau de bord - Système de Gestion de Collecte Centralisée';

@@ -1,17 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { LOGO_ANSUT } from 'src/shared/constants/logoAnsut.constant';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-import { AUTH } from 'src/shared/routes/full.routes';
-import { LOGIN } from 'src/presentation/pages/authentication/authentication-routing.module';
+import { ToastrService } from 'ngx-toastr';
+import { PasswordModule } from 'primeng/password';
+import { LOGO_ANSUT } from '../../../../../shared/constants/logoAnsut.constant';
+import { AUTH } from '../../../../../shared/routes/full.routes';
+import { LOGIN } from '../../../authentication/authentication-routing.module';
 import { PasswordResetService } from '../../data-access/password-reset.service';
 
 @Component({
     selector: 'app-reset-password',
+    standalone: true,
     templateUrl: './reset-password.component.html',
+    imports: [ReactiveFormsModule, PasswordModule],
 })
 export class ResetPasswordComponent implements OnInit {
     public passwordForm = new FormGroup({
@@ -19,8 +27,8 @@ export class ResetPasswordComponent implements OnInit {
         confirm_password: new FormControl('', Validators.required),
     });
     public submitted = false;
-    public newPasswordValue: string;
-    public confirmPasswordValue: string;
+    public newPasswordValue: string | null = null;
+    public confirmPasswordValue: string | null = null;
     public queryValue: any;
     public title =
         'Réinitialisation mot de passe - Système de Gestion de Collecte Centralisée';
@@ -47,18 +55,18 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     OnChangeNewPasswordvalue() {
-        return this.passwordForm
-            .get('password')
-            .valueChanges.subscribe((value) => {
-                return (this.newPasswordValue = value);
-            });
+        const control = this.passwordForm.get('password');
+        if (!control || !control.valueChanges) return;
+        return control.valueChanges.subscribe((value) => {
+            this.newPasswordValue = value;
+        });
     }
     OnChangeConfirmPasswordvalue() {
-        return this.passwordForm
-            .get('confirm_password')
-            .valueChanges.subscribe((value) => {
-                return (this.confirmPasswordValue = value);
-            });
+        const control = this.passwordForm.get('confirm_password');
+        if (!control || !control.valueChanges) return;
+        return control.valueChanges.subscribe((value) => {
+            this.confirmPasswordValue = value;
+        });
     }
 
     async onResetPassword() {

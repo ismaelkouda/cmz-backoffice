@@ -1,4 +1,12 @@
 import {
+    animate,
+    state,
+    style,
+    transition,
+    trigger,
+} from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import {
     Component,
     EventEmitter,
     Input,
@@ -6,24 +14,24 @@ import {
     OnInit,
     Output,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
-import {
-    trigger,
-    state,
-    style,
-    transition,
-    animate,
-} from '@angular/animations';
 import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { PublicEnterprisesFilterInterface } from '../../../data-access/public-enterprises/interfaces/public-enterprises-filter.interface';
 import { PublicEnterprisesApiService } from '../../../data-access/public-enterprises/services/public-enterprises-api.service';
 
 @Component({
     selector: 'app-filter-public-enterprises',
+    standalone: true,
     templateUrl: './filter-public-enterprises.component.html',
     animations: [
         trigger('slideInOut', [
@@ -55,14 +63,15 @@ import { PublicEnterprisesApiService } from '../../../data-access/public-enterpr
         ]),
     ],
     styleUrls: ['./filter-public-enterprises.component.scss'],
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, SelectModule],
 })
 export class FilterPublicEnterprisesComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<
         PublicEnterprisesFilterInterface | {}
     >();
-    @Input() listPublicEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    @Input() listPublicEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
-    public formFilter: FormGroup<PublicEnterprisesFilterInterface>;
+    public formFilter!: FormGroup<PublicEnterprisesFilterInterface>;
     private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;
