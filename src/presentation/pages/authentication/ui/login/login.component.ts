@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
     AbstractControl,
@@ -8,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { REINITIALIZATION } from 'presentation/app.routes';
 import { PasswordModule } from 'primeng/password';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -18,8 +20,6 @@ import {
 } from '../../../../../shared/interfaces/current-user.interface';
 import { DASHBOARD } from '../../../../../shared/routes/routes';
 import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
-import { EnvService } from '../../../../../shared/services/env.service';
-import { REINITIALIZATION } from '../../../../app-routing.module';
 import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
 import { AuthenticationService } from '../../data-access/authentication.service';
 import { LoginCredentialsInterface } from '../../data-access/interfaces/login-credentials-interface';
@@ -32,10 +32,9 @@ import { VariablesResponseInterface } from './../../data-access/interfaces/varia
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    imports: [ReactiveFormsModule, PasswordModule, TranslateModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule, PasswordModule, TranslateModule, RouterLink],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    public apiError: string | null = null;
     public readonly REINITIALIZATION = REINITIALIZATION;
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
     public readonly LOGO_ANSUT = LOGO_ANSUT;
@@ -53,11 +52,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     private destroy$ = new Subject<void>();
 
-    constructor(
-        private authService: AuthenticationService,
+    constructor(private authService: AuthenticationService,
         private router: Router,
         private encodingService: EncodingDataService,
-        private envService: EnvService
     ) {}
 
     ngOnInit(): void {
@@ -120,7 +117,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     private handleAuthError(error: any) {
-        this.apiError = `${error.error.message}`;
         this.loginForm.get('password')?.reset();
     }
 

@@ -19,7 +19,7 @@ export const content: Routes = [
             ),
         data: {
             title: 'Tableau de bord',
-        },
+        }
     },
     {
         path: CUSTOMERS_MANAGED,
@@ -97,10 +97,6 @@ export const content: Routes = [
     {
         path: '',
         redirectTo: DASHBOARD,
-        pathMatch: 'full',
-    },
-    {
-        path: '**',
-        redirectTo: DASHBOARD,
+        pathMatch: 'full' as const
     },
 ];

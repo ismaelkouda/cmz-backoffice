@@ -10,26 +10,54 @@ export class TranslationManagerService {
   private readonly SUPPORTED_LANGS = ['fr', 'en', 'es'];
   private readonly STORAGE_KEY = 'imako_lang';
 
-  async initialize(): Promise<string> {
-    const savedLang = localStorage.getItem(this.STORAGE_KEY);
-    const browserLang = this.translate.getBrowserLang();
+  private debugTranslationLoading(): void {
+    console.log('🔍 Debug translation configuration:');
+    console.log('- Default language:', this.translate.defaultLang);
+    console.log('- Current language:', this.translate.currentLang);
+    console.log('- Supported languages:', this.translate.getLangs());
     
+    // Test direct dans le navigateur
+    if (typeof window !== 'undefined') {
+      fetch('/assets/i18n/fr.json')
+        .then(response => {
+          console.log('📦 Direct fetch result:', response.status, response.statusText);
+          return response.json();
+        })
+        .then(data => console.log('📄 Translation file content:', data))
+        .catch(error => console.error('❌ Direct fetch failed:', error));
+    }
+  }
+
+  async initialize(): Promise<string> {
+    try {
+      const savedLang = localStorage.getItem(this.STORAGE_KEY);
+      const browserLang = this.translate.getBrowserLang();
       const lang = this.determineInitialLanguage(savedLang, browserLang);
 
-    this.translate.setDefaultLang('fr');
-    
-    return new Promise<string>((resolve) => {
+      console.log('🎯 Initializing translations with language:', lang);
+
+      this.translate.setDefaultLang('fr');
+
+      await this.loadLanguage(lang);
+      
+      console.log(`✅ Translations initialized: ${lang}`);
+      return lang;
+
+    } catch (error) {
+      console.error('❌ Translation initialization failed:', error);
+
+      this.translate.use('fr');
+      return 'fr';
+    }
+  }
+
+  private async loadLanguage(lang: string): Promise<void> {
+    return new Promise((resolve, reject) => {
       this.translate.use(lang).subscribe({
-        next: () => {
-          console.log(`🌍 Translations initialized: ${lang}`);
-          resolve(lang);
-        },
+        next: () => resolve(),
         error: (error) => {
-          console.error('❌ Translation initialization failed:', error);
-          this.translate.use('fr').subscribe({
-            next: () => resolve('fr'),
-            error: () => resolve('fr')
-          });
+          console.error(`❌ Failed to load language ${lang}:`, error);
+          reject(error);
         }
       });
     });

@@ -240,7 +240,7 @@ export class SharedService {
     );
 
     fetchUnReadNotifications(): void {
-        if (this.loadingUnReadNotificationSubject.getValue()) return;
+        /* if (this.loadingUnReadNotificationSubject.getValue()) return;
         this.loadingUnReadNotificationSubject.next(true);
         const url: string = EndPointUrl.COUNT_UNREAD_NOTIFICATIONS;
         this.http
@@ -254,14 +254,13 @@ export class SharedService {
                     return of(response);
                 }),
                 catchError((error) => {
-                    console.error('Error fetching unread notifications', error);
                     return of([]);
                 }),
                 finalize(() =>
                     this.loadingUnReadNotificationSubject.next(false)
                 )
             )
-            .subscribe();
+            .subscribe(); */
     }
 
     isLoadingUnReadNotifications(): Observable<boolean> {

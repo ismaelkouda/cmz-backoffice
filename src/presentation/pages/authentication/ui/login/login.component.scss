@@ -1,11 +1,16 @@
+/* login.component.scss */
 /* Variables du Design System Orange */
 $primary-color: #5b9bd5;
+$primary-dark: #3a7bb8;
+$primary-light: rgba(91, 155, 213, 0.1);
 $black: #000000;
 $bg-primary: #f2f2f2;
 $white: #ffffff;
 $light-gray: #e5e5e5;
+$medium-gray: #a0a0a0;
+$dark-gray: #666666;
 $error-color: #d32f2f;
-@use "sass:color";
+$success-color: #2e7d32;
 
 /* Mixins */
 @mixin flex-center {
@@ -18,6 +23,10 @@ $error-color: #d32f2f;
     transition: $property 0.3s ease-in-out;
 }
 
+@mixin card-shadow {
+    box-shadow: 0 20px 60px rgba(8, 21, 66, 0.15);
+}
+
 .auth-container {
     @include flex-center;
     flex-direction: column;
@@ -25,46 +34,169 @@ $error-color: #d32f2f;
     background-color: $bg-primary;
     padding: 40px 16px;
     box-sizing: border-box;
-    background: url('../../../../../assets/images/login/login_bg.jpg') no-repeat
-        center center fixed;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    
     @media (min-width: 768px) {
         padding: 60px 24px;
     }
 }
 
 .logo-container {
-    margin-bottom: 32px;
+    margin-bottom: 40px;
     text-align: center;
 
     .auth-logo img {
-        height: 40px;
+        height: 160px;
         width: auto;
 
         @media (min-width: 768px) {
-            height: 100px;
+            height: 120px;
         }
     }
 }
 
-.auth-card {
+.unified-auth-card {
     width: 100%;
-    max-width: 440px;
+    max-width: 1000px;
     background: $white;
-    border-radius: 16px;
-    box-shadow: 0 0 37px rgba(8, 21, 66, 0.5);
-    padding: 32px 24px;
+    border-radius: 24px;
+    @include card-shadow;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+}
 
-    animation: fadeInUp 0.5s ease-out;
-
-    @media (min-width: 768px) {
-        padding: 40px 32px;
+.card-content {
+    display: flex;
+    flex-direction: column;
+    
+    @media (min-width: 1024px) {
+        flex-direction: row;
+        height: 100%;
     }
+}
+
+.card-left-section {
+    background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+    color: $white;
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    
+    @media (min-width: 1024px) {
+        flex: 1;
+        padding: 60px 40px;
+    }
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.05)"><circle cx="20" cy="20" r="2"/><circle cx="80" cy="40" r="1.5"/><circle cx="40" cy="80" r="1"/><circle cx="70" cy="70" r="1.5"/><circle cx="10" cy="50" r="1"/></svg>');
+    }
+}
+
+.card-right-section {
+    padding: 40px 32px;
+    
+    @media (min-width: 1024px) {
+        flex: 1;
+        padding: 60px 40px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.title-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    
+    @media (min-width: 1024px) {
+        text-align: left;
+    }
+}
+
+.title-frame {
+    max-width: 400px;
+    margin: 0 auto;
+    
+    @media (min-width: 1024px) {
+        margin: 0;
+    }
+}
+
+.app-title {
+    font:
+        700 32px/40px 'Roboto',
+        sans-serif;
+    color: $white;
+    margin: 0 0 16px 0;
+    letter-spacing: 0.5px;
+    
+    @media (min-width: 768px) {
+        font-size: 36px;
+        line-height: 44px;
+    }
+    
+    @media (min-width: 1024px) {
+        font-size: 40px;
+        line-height: 48px;
+    }
+}
+
+.app-subtitle {
+    font:
+        400 18px/26px 'Roboto',
+        sans-serif;
+    color: rgba($white, 0.9);
+    margin: 0 0 32px 0;
+    opacity: 0.9;
+    
+    @media (min-width: 768px) {
+        font-size: 20px;
+        line-height: 28px;
+    }
+}
+
+.feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font:
+        500 16px/24px 'Roboto',
+        sans-serif;
+    color: rgba($white, 0.9);
+    
+    @media (min-width: 768px) {
+        font-size: 18px;
+        line-height: 26px;
+    }
+}
+
+.feature-icon {
+    width: 24px;
+    height: 24px;
+    background: rgba($white, 0.2);
+    border-radius: 50%;
+    @include flex-center;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
@@ -75,19 +207,35 @@ $error-color: #d32f2f;
 .auth-content {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .auth-title {
     font:
-        700 24px/32px 'Roboto',
+        700 28px/36px 'Roboto',
         sans-serif;
     color: $black;
     text-align: center;
     margin-bottom: 32px;
+    position: relative;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, $primary-color, $primary-dark);
+        border-radius: 2px;
+    }
 
     @media (min-width: 768px) {
-        font-size: 28px;
-        line-height: 36px;
+        font-size: 32px;
+        line-height: 40px;
     }
 }
 
@@ -106,7 +254,9 @@ $error-color: #d32f2f;
     font:
         500 14px/20px 'Roboto',
         sans-serif;
-    color: $black;
+    color: $dark-gray;
+    display: flex;
+    align-items: center;
 
     @media (min-width: 768px) {
         font-size: 16px;
@@ -116,57 +266,93 @@ $error-color: #d32f2f;
 
 .required-indicator {
     color: $error-color;
+    margin-left: 4px;
 }
 
 .form-input {
     width: 100%;
-    padding: 14px 16px;
-    border: 1px solid $light-gray;
-    border-radius: 8px;
+    padding: 16px;
+    border: 2px solid $light-gray;
+    border-radius: 12px;
     font:
         400 16px/24px 'Roboto',
         sans-serif;
     color: $black;
     @include transition(all);
+    background-color: #fafafa;
 
     &:focus {
         outline: none;
         border-color: $primary-color;
-        box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+        box-shadow: 0 0 0 4px rgba($primary-color, 0.1);
+        background-color: $white;
     }
 
     &::placeholder {
-        color: rgba($black, 0.5);
+        color: rgba($black, 0.4);
     }
 }
 
 .submit-button {
-    background-color: $primary-color;
+    background: linear-gradient(135deg, $primary-color, $primary-dark);
     color: $white;
     border: none;
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 18px;
     font:
         700 16px/24px 'Roboto',
         sans-serif;
     cursor: pointer;
     @include transition(all);
-    margin-top: 8px;
+    margin-top: 16px;
+    position: relative;
+    overflow: hidden;
 
     &:hover:not([disabled]) {
-                         background-color: color.scale($primary-color, $lightness: 8%);
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 20px rgba($primary-color, 0.3);
     }
 
     &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+        box-shadow: 0 0 0 4px rgba($primary-color, 0.3);
     }
 
     &[disabled] {
         opacity: 0.6;
         cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Ripple effect */
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+    }
+    
+    &:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
     }
 }
 
@@ -181,11 +367,29 @@ $error-color: #d32f2f;
         sans-serif;
     color: $primary-color;
     text-decoration: none;
-    @include transition(color);
+    @include transition(all);
+    position: relative;
+    display: inline-block;
 
     &:hover {
-                         color: color.scale($primary-color, $lightness: 15%);
-        text-decoration: underline;
+        color: $primary-dark;
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+    
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background-color: $primary-color;
+        @include transition(width);
+    }
+    
+    &:hover::after {
+        width: 100%;
     }
 
     @media (min-width: 768px) {
@@ -196,19 +400,23 @@ $error-color: #d32f2f;
 
 ::ng-deep .p-password {
     display: block;
+    position: relative;
 
     .p-password-input {
         @extend .form-input;
-        padding-right: 40px;
+        padding-right: 50px;
     }
 
     .p-password-toggle {
-        color: rgba($black, 0.6);
-        @include transition(color);
-        right: 12px;
+        color: rgba($black, 0.5);
+        @include transition(all);
+        right: 16px;
+        width: 20px;
+        height: 20px;
 
         &:hover {
             color: $primary-color;
+            transform: scale(1.1);
         }
     }
 }
@@ -218,7 +426,7 @@ $error-color: #d32f2f;
     border-color: rgba($error-color, 0.5);
 
     &:focus {
-        box-shadow: 0 0 0 3px rgba($error-color, 0.1);
+        box-shadow: 0 0 0 4px rgba($error-color, 0.1);
     }
 }
 
@@ -226,10 +434,92 @@ $error-color: #d32f2f;
     color: #b42318;
     background: #fee4e2;
     border: 1px solid #fda29b;
-    padding: 8px 12px;
-    border-radius: 6px;
-    margin-bottom: 12px;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
     font-size: 14px;
-    font-weight: 400;
-    font-style: normal;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    
+    &::before {
+        content: '!';
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        background-color: #b42318;
+        color: white;
+        border-radius: 50%;
+        margin-right: 12px;
+        font-weight: bold;
+        font-size: 12px;
+    }
+}
+
+/* Success state for valid inputs */
+.ng-valid.ng-touched:not(.form-input.ng-pristine) {
+    border-color: rgba($success-color, 0.5);
+
+    &:focus {
+        box-shadow: 0 0 0 4px rgba($success-color, 0.1);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1023px) {
+    .unified-auth-card {
+        border-radius: 20px;
+    }
+    
+    .card-left-section,
+    .card-right-section {
+        padding: 32px 24px;
+    }
+    
+    .app-title {
+        font-size: 28px;
+        line-height: 36px;
+    }
+    
+    .app-subtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 20px 16px;
+    }
+    
+    .unified-auth-card {
+        border-radius: 16px;
+    }
+    
+    .card-left-section,
+    .card-right-section {
+        padding: 24px 20px;
+    }
+    
+    .auth-title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .app-title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .app-subtitle {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .feature-item {
+        font-size: 14px;
+        line-height: 20px;
+    }
 }

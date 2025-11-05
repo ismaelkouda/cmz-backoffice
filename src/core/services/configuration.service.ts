@@ -184,12 +184,10 @@ export class ConfigurationService {
         return this.buildInfo;
     }
 
-    // Observable pour les changements de configuration
     get config$(): Observable<AppConfig | null> {
         return this.configSubject.asObservable();
     }
 
-    // Méthode pour recharger la configuration (utile en dev)
     reloadConfiguration(): void {
         if (isPlatformBrowser(this.platformId) && (globalThis as any).__env) {
             const newConfig = (globalThis as any).__env;

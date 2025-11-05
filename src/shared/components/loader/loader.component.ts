@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { CurrentUser } from 'shared/interfaces/current-user.interface';
 import { EncodingDataService } from '../../../shared/services/encoding-data.service';
-import { MappingService } from '../../../shared/services/mapping.service';
 import { LOGO_ANSUT } from './../../constants/logoAnsut.constant';
 
 @Component({
@@ -20,8 +19,12 @@ export class LoaderComponent implements OnInit {
 
     constructor(
         private encodingService: EncodingDataService,
-        private mappingService: MappingService
-    ) {}
+    ) {
+
+        setTimeout(() => {
+            this.show = false;
+        }, 3000);
+    }
 
     ngOnInit() {
             const user = this.encodingService.getData(
@@ -29,6 +32,7 @@ export class LoaderComponent implements OnInit {
             ) as CurrentUser | null;
             this.appName = user?.nom
         this.profil = this.encodingService.getData('user_data');
+
     }
 
 }

@@ -6,9 +6,23 @@ import { ConfigurationService } from '../services/configuration.service';
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
 
-     if (isAssetRequest(req) || isI18nRequest(req)) {
-        return next(req); // Passer sans interception
+    if (isStaticAssetRequest(req)) {
+        console.log('🛡️ API Interceptor: Skipping static asset', req.url);
+        return next(req);
     }
+
+    if (isAbsoluteUrl(req.url) || isExternalUrl(req.url)) {
+        return next(req);
+    }
+
+    if (req.url.includes('/assets/i18n/') || req.url.includes('.json')) {
+        return next(req);
+    }
+
+     if (isAssetRequest(req) || isI18nRequest(req)) {
+        return next(req); 
+    }
+    console.log("errorHandlerInterceptor req", req)
 
     return next(req).pipe(
         catchError((error) => {
@@ -94,4 +108,26 @@ function isAssetRequest(req: HttpRequest<any>): boolean {
 function isI18nRequest(req: HttpRequest<any>): boolean {
     return req.url.includes('/assets/i18n/') || 
            req.url.includes('.json') && req.url.includes('i18n');
+}
+
+function isStaticAssetRequest(req: HttpRequest<any>): boolean {
+    const staticPatterns = [
+        '/assets/',
+        '/i18n/',
+        '.json',
+        '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',
+        '.css', '.js', '.woff', '.woff2', '.ttf',
+        'manifest.webmanifest',
+        'ngsw-worker.js'
+    ];
+    
+    return staticPatterns.some(pattern => req.url.includes(pattern));
+}
+
+function isAbsoluteUrl(url: string): boolean {
+    return url.startsWith('http://') || url.startsWith('https://');
+}
+
+function isExternalUrl(url: string): boolean {
+    return isAbsoluteUrl(url) && !url.includes('localhost') && !url.includes('127.0.0.1');
 }

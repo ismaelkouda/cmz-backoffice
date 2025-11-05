@@ -8,7 +8,7 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
     const startTime = Date.now();
 
     if (isAssetRequest(req) || isI18nRequest(req)) {
-        return next(req); // Passer sans interception
+        return next(req);
     }
 
     return next(req).pipe(

@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-            // Generated at: 2025-11-05T12:09:47.615Z
+            // Generated at: 2025-11-05T15:59:50.302Z
 
 export interface AppConfig {
     verifyIdentityDocumentUrl: string;
@@ -40,8 +40,8 @@ declare global {
 export const ENVIRONMENTS = {
   "dev": {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "apiUrl": "https://services-care-portal-service-api.paas.imako.digital/api/v1/",
-    "fileUrl": "https://services-care-portal-service-api.paas.imako.digital/",
+    "apiUrl": "http://10.10.70.64:7000/auth/v1.0/",
+    "fileUrl": "http://10.10.70.64:7000/auth/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "messageApp": {

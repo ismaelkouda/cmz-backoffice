@@ -36,6 +36,7 @@ import { CoreModule } from '../core/module/core.module';
 
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideToastr } from 'ngx-toastr';
 import { routes } from './app.routes';
 
 
@@ -126,6 +127,27 @@ export const appConfig: ApplicationConfig = {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000',
         }),
+
+        provideToastr({
+      timeOut: 5000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressBar: true,
+      closeButton: true,
+      newestOnTop: true,
+      enableHtml: false,
+      tapToDismiss: true,
+      
+      // Options spécifiques
+      maxOpened: 5,
+      autoDismiss: true,
+      iconClasses: {
+        error: 'toast-error',
+        info: 'toast-info',
+        success: 'toast-success',
+        warning: 'toast-warning'
+      }
+    }),
 
         provideAppInitializer(initializeApp()),
 

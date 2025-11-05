@@ -1,4 +1,5 @@
 @import './assets/scss/app.scss';
+@use "tailwindcss";
 .input[type='file'] {
     color: #000 !important;
 }

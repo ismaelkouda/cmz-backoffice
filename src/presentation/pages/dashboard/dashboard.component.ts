@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DialogModule } from 'primeng/dialog';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import {
     NOM_APPLICATION,
     T_NOM_APPLICATION,
@@ -22,7 +23,7 @@ import { DashboardApiService } from './data-access/services/dashboard-api.servic
     standalone: true,
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    imports: [DialogModule, TranslateModule],
+    imports: [CommonModule, DialogModule, TranslateModule],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     public loading: boolean = true;
@@ -87,13 +88,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private loadDashboardData(): void {
-        this.dashboardApiService.fetchDashboardStatistic();
-        this.dashboardApiService
+        /* this.dashboardApiService.fetchDashboardStatistic(); */
+        /* this.dashboardApiService
             .getDashboardStatistic()
             .pipe(takeUntil(this.destroy$))
             .subscribe((statistic) => {
                 this.handleDashboardData(statistic);
-            });
+            }); */
     }
 
     private setupFeature(): void {

@@ -1,24 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { EncodingDataService } from '../../shared/services/encoding-data.service';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { TokenInterface } from '../../shared/interfaces/token.interface';
+import { EncodingDataService } from '../../shared/services/encoding-data.service';
 
-@Injectable()
-export class AuthGuard {
-    constructor(
-        private router: Router,
-        private encodingService: EncodingDataService
-    ) {}
+export const authGuard: CanActivateFn = (route, state) => {
+    const encodingService = inject(EncodingDataService)
+    const token = encodingService.getData('token_data') as TokenInterface | null;
+    const router = inject(Router)
 
-    canActivate(): boolean {
-        const token = this.encodingService.getData(
-            'token_data'
-        ) as TokenInterface | null;
+    console.log("encodingService.getData('token_data') as TokenInterface | null;", encodingService.getData('token_data') as TokenInterface | null)
 
-        if (token?.value) {
-            return true;
-        }
-        this.router.navigateByUrl('auth/login');
+    if(token?.value) {
+        return true;
+    } else {
+        router.navigateByUrl('auth/login');
         return false;
     }
+
 }

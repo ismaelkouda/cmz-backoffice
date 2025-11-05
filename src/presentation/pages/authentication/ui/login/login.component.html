@@ -1,3 +1,4 @@
+<!-- login.component.html -->
 <div class="auth-container">
     <div class="logo-container">
         <a class="auth-logo" routerLink="/">
@@ -5,68 +6,96 @@
         </a>
     </div>
 
-    <div class="auth-card">
-        <div class="auth-content">
-            <h1 class="auth-title">{{ 'AUTHENTICATION' | translate }}</h1>
-            <div class="form-error" *ngIf="apiError">{{ apiError }}</div>
-
-            <form
-                [formGroup]="loginForm"
-                (ngSubmit)="onSubmit()"
-                class="auth-form"
-            >
-                <div class="form-group">
-                    <label class="form-label" for="username-input">
-                        {{ 'USERNAME' | translate }}
-                        <span class="required-indicator">*</span>
-                    </label>
-                    <input
-                        id="username-input"
-                        type="email"
-                        formControlName="username"
-                        placeholder="app@yourmail.com"
-                        class="form-input"
-                        aria-required="true"
-                    />
+    <div class="unified-auth-card">
+        <div class="card-content">
+            <!-- Section gauche avec le titre -->
+            <div class="card-left-section">
+                <div class="title-content">
+                    <div class="title-frame">
+                        <h1 class="app-title">Connect My Zone</h1>
+                        <p class="app-subtitle">Your Gateway to Digital Excellence</p>
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <i class="feature-icon">✓</i>
+                                <span>Secure Access</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="feature-icon">✓</i>
+                                <span>Real-time Dashboard</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="feature-icon">✓</i>
+                                <span>Advanced Analytics</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="password-input">
-                        {{ 'PASSWORD' | translate }}
-                        <span class="required-indicator">*</span>
-                    </label>
-                    <p-password
-                        id="password-input"
-                        formControlName="password"
-                        [feedback]="false"
-                        [toggleMask]="true"
-                        inputStyleClass="form-input"
-                        ariaLabel="Mot de passe"
-                    ></p-password>
+            <!-- Section droite avec le formulaire -->
+            <div class="card-right-section">
+                <div class="auth-content">
+                    <h1 class="auth-title">{{ 'AUTHENTICATION' | translate }}</h1>
+
+                    <form
+                        [formGroup]="loginForm"
+                        (ngSubmit)="onSubmit()"
+                        class="auth-form"
+                    >
+                        <div class="form-group">
+                            <label class="form-label" for="username-input">
+                                {{ 'USERNAME' | translate }}
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <input
+                                id="username-input"
+                                type="email"
+                                formControlName="username"
+                                placeholder="app@yourmail.com"
+                                class="form-input"
+                                aria-required="true"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="password-input">
+                                {{ 'PASSWORD' | translate }}
+                                <span class="required-indicator">*</span>
+                            </label>
+                            <p-password
+                                id="password-input"
+                                formControlName="password"
+                                [feedback]="false"
+                                [toggleMask]="true"
+                                inputStyleClass="form-input"
+                                ariaLabel="Mot de passe"
+                            ></p-password>
+                        </div>
+
+                        <button
+                            type="submit"
+                            [disabled]="!loginForm.valid"
+                            class="submit-button"
+                            [attr.aria-label]="
+                                'Se connecter - ' + ('CONNECTION' | translate)
+                            "
+                        >
+                            {{ 'CONNECTION' | translate }}
+                        </button>
+                    </form>
+
+                    <div class="forgot-password">
+                        <a
+                            [routerLink]="[
+                                '/' + REINITIALIZATION + '/' + FORGOT_PASSWORD,
+                            ]"
+                            class="forgot-link"
+                            [attr.aria-label]="('FORGOT_PASSWORD' | translate) + ' ?'"
+                        >
+                            {{ 'FORGOT_PASSWORD' | translate }} ?
+                        </a>
+                    </div>
                 </div>
-
-                <button
-                    type="submit"
-                    [disabled]="!loginForm.valid"
-                    class="submit-button"
-                    [attr.aria-label]="
-                        'Se connecter - ' + ('CONNECTION' | translate)
-                    "
-                >
-                    {{ 'CONNECTION' | translate }}
-                </button>
-            </form>
-
-            <div class="forgot-password">
-                <a
-                    [routerLink]="[
-                        '/' + REINITIALIZATION + '/' + FORGOT_PASSWORD,
-                    ]"
-                    class="forgot-link"
-                    [attr.aria-label]="('FORGOT_PASSWORD' | translate) + ' ?'"
-                >
-                    {{ 'FORGOT_PASSWORD' | translate }} ?
-                </a>
             </div>
         </div>
     </div>

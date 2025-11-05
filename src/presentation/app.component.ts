@@ -3,7 +3,6 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxLoadingBar } from '@ngx-loading-bar/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { TapToTopComponent } from '../shared/components/tap-to-top/tap-to-top.component';
 import { EncodingDataService } from '../shared/services/encoding-data.service';
 import { EnvService } from '../shared/services/env.service';
@@ -13,7 +12,7 @@ import { EnvService } from '../shared/services/env.service';
     standalone: true,
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    imports: [ TapToTopComponent, LoaderComponent, RouterOutlet, NgxLoadingBar]
+    imports: [ TapToTopComponent, RouterOutlet, NgxLoadingBar]
 }) 
 export class AppComponent {
     private document = inject(DOCUMENT);
