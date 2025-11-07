@@ -52,7 +52,7 @@ function initializeApp(): () => Promise<void> {
             try {
                 console.log(`🚀 Application initializing in ${configService.environment} mode`);
 
-                if (!configService.apiUrl) {
+                if (!configService.authenticationUrl && !configService.reportUrl && !configService.settingUrl ) {
                     throw new Error('Configuration API URL is required');
                 }
 
@@ -84,6 +84,7 @@ export const appConfig: ApplicationConfig = {
             eventCoalescing: true,
             runCoalescing: true 
         }),
+
         provideRouter(
             routes,
             withViewTransitions({
@@ -108,7 +109,7 @@ export const appConfig: ApplicationConfig = {
             withInterceptors([...coreInterceptors, ...environmentInterceptors])
         ),
 
-         provideTranslateService({
+        provideTranslateService({
             defaultLanguage: 'fr',
             useDefaultLang: true,
         }),
@@ -129,25 +130,24 @@ export const appConfig: ApplicationConfig = {
         }),
 
         provideToastr({
-      timeOut: 5000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-      progressBar: true,
-      closeButton: true,
-      newestOnTop: true,
-      enableHtml: false,
-      tapToDismiss: true,
-      
-      // Options spécifiques
-      maxOpened: 5,
-      autoDismiss: true,
-      iconClasses: {
-        error: 'toast-error',
-        info: 'toast-info',
-        success: 'toast-success',
-        warning: 'toast-warning'
-      }
-    }),
+            timeOut: 5000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            progressBar: true,
+            closeButton: true,
+            newestOnTop: true,
+            enableHtml: false,
+            tapToDismiss: true,
+            
+            maxOpened: 5,
+            autoDismiss: true,
+            iconClasses: {
+                error: 'toast-error',
+                info: 'toast-info',
+                success: 'toast-success',
+                warning: 'toast-warning'
+            }
+        }),
 
         provideAppInitializer(initializeApp()),
 

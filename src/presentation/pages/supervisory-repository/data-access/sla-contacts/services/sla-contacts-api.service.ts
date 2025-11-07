@@ -1,18 +1,18 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '../../../../../../shared/services/env.service';
-import {
-    SlaContactsApiResponseInterface,
-    SlaContactsInterface,
-} from '../interfaces/sla-contacts.interface';
-import { SlaContactsEndpointEnum } from '../enums/sla-contacts-endpoint.enum';
 import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+import { EnvService } from '../../../../../../shared/services/env.service';
+import { SlaContactsEndpointEnum } from '../enums/sla-contacts-endpoint.enum';
 import {
     SLA_CONTACTS_FORM_MODE_ENUM,
     T_SLA_CONTACTS_FORM_MODE_ENUM,
 } from '../enums/sla-contacts-form-mode.enum';
+import {
+    SlaContactsApiResponseInterface,
+    SlaContactsInterface,
+} from '../interfaces/sla-contacts.interface';
 
 @Injectable()
 export class SlaContactsApiService {
@@ -22,7 +22,7 @@ export class SlaContactsApiService {
         private httpClient: HttpClient,
         private envService: EnvService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     private slaContactsSubject = new BehaviorSubject<SlaContactsInterface>(

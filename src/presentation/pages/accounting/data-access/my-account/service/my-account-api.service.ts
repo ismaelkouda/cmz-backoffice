@@ -1,15 +1,15 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '../../../../../../shared/services/env.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { EnvService } from '../../../../../../shared/services/env.service';
+import { myAccountEndpointEnum } from '../enums/my-account-endpoint.enum';
+import { myAccountFilterInterface } from '../interfaces/my-account-filter.interface';
 import {
     myAccountApiResponseInterface,
     myAccountInterface,
 } from '../interfaces/my-account.interface';
-import { myAccountEndpointEnum } from '../enums/my-account-endpoint.enum';
-import { myAccountFilterInterface } from '../interfaces/my-account-filter.interface';
 
 @Injectable()
 export class MyAccountApiService {
@@ -19,7 +19,7 @@ export class MyAccountApiService {
         private httpClient: HttpClient,
         private envService: EnvService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     /*********************Méthode pour récupérer la liste my-account*************** */

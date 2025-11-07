@@ -20,7 +20,7 @@ export class TreatmentRequestsServiceFormApiService {
         private httpClient: HttpClient,
         private envService: EnvService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     /*********************Méthode pour récupérer la liste des details des clients*************** */

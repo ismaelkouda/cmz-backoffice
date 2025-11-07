@@ -10,7 +10,7 @@ export class PasswordResetService {
         private http: HttpClient,
         private envService: EnvService
     ) {
-        this.baseUrl = this.envService.apiUrl;
+        this.baseUrl = this.envService.reportUrl;
     }
 
     //HandleForgotPassword(data): Observable<any> {

@@ -4,17 +4,12 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DialogModule } from 'primeng/dialog';
-import { Subject } from 'rxjs';
-import {
-    NOM_APPLICATION,
-    T_NOM_APPLICATION,
-} from '../../../shared/constants/nom-aplication.contant';
+import { Subject, takeUntil } from 'rxjs';
+import { APP_NAME, T_APP_NAME } from '../../../shared/constants/nom-aplication.contant';
 import { SimStatut } from '../../../shared/enum/SimStatut.enum';
 import { separatorThousands } from '../../../shared/functions/separator-thousands';
-import { CurrentUser } from '../../../shared/interfaces/current-user.interface';
 import { DashboardLink } from '../../../shared/interfaces/dashboard-link.interface';
 import { IStatisticsBox } from '../../../shared/interfaces/statistiquesBox.interface';
-import { AsFeatureService } from '../../../shared/services/as-feature.service';
 import { EncodingDataService } from '../../../shared/services/encoding-data.service';
 import { DashboardApiService } from './data-access/services/dashboard-api.service';
 
@@ -25,13 +20,12 @@ import { DashboardApiService } from './data-access/services/dashboard-api.servic
     styleUrls: ['./dashboard.component.scss'],
     imports: [CommonModule, DialogModule, TranslateModule],
 })
+
 export class DashboardComponent implements OnInit, OnDestroy {
     public loading: boolean = true;
     public current_date!: string;
-    public nom_tenant!: string;
-    public nom_application: T_NOM_APPLICATION = NOM_APPLICATION.PATRIMOINE_SIM;
-    public title =
-        'Tableau de bord - Système de Gestion de Collecte Centralisée';
+    public nom_application: T_APP_NAME = APP_NAME.CONNECT_MY_ZONE;
+    public title = 'Tableau de bord - Système de Gestion de Collecte Centralisée';
     public listStatisticsBox: IStatisticsBox[] = [];
 
     simIcon = 'assets/svg/sim-card.png';
@@ -56,7 +50,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     constructor(
         public router: Router,
         private titleService: Title,
-        private asFeatureService: AsFeatureService,
         private dashboardApiService: DashboardApiService,
         private encodingService: EncodingDataService,
         private translate: TranslateService
@@ -65,9 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.initializeDashboard();
         this.loadDashboardData();
-        this.setupFeature();
     }
 
     ngOnDestroy() {
@@ -75,35 +66,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    private initializeDashboard(): void {
-        const user = this.encodingService.getData(
-            'user_data'
-        ) as CurrentUser | null;
-        console.log('user', user);
-
-        this.nom_tenant = `[${user?.matricule}] ${user?.nom} ${user?.prenoms}`;
-        this.nom_application =
-            user?.tenant?.application || NOM_APPLICATION.PATRIMOINE_SIM;
-        localStorage.setItem('layout', 'Paris');
-    }
-
     private loadDashboardData(): void {
-        /* this.dashboardApiService.fetchDashboardStatistic(); */
-        /* this.dashboardApiService
+        this.dashboardApiService.fetchDashboardStatistic();
+        this.dashboardApiService
             .getDashboardStatistic()
             .pipe(takeUntil(this.destroy$))
             .subscribe((statistic) => {
                 this.handleDashboardData(statistic);
-            }); */
-    }
-
-    private setupFeature(): void {
-        // this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
-        //     OperationTransaction.SOLDE_DATA
-        // );
-        // this.asAccessFeatureSmsBalance = this.asFeatureService.hasFeature(
-        //     OperationTransaction.SOLDE_SMS
-        // );
+            });
     }
 
     private handleDashboardData(statistic: any): void {
@@ -219,50 +189,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.simIcon
             ),
 
-            // this.createStatBox(
-            //     '#ff7f50',
-            //     `${this.translate.instant(
-            //         'TO_DELIVER'
-            //     )} ${this.translate.instant('SLA_KO')}`,
-            //     separatorThousands(rapport?.['total_a_livres_sla_ko'] || '0'),
-            //     this.simIcon,
-            //     () =>
-            //         this.router.navigateByUrl(``, {
-            //             state: { statut: SimStatut.SUSPENDU },
-            //         }),
-            //     '#000000',
-            //     '#000000'
-            // ),
-
-            // this.createStatBox(
-            //     '#e74c3c',
-            //     `${this.translate.instant(
-            //         'IN_TREATMENT'
-            //     )} ${this.translate.instant('SLA')} ${this.translate.instant(
-            //         'IN_PROGRESS'
-            //     )}`,
-            //     separatorThousands(
-            //         rapport?.['total_traitement_en_cours'] || '0'
-            //     ),
-            //     this.simIcon,
-            //     () =>
-            //         this.router.navigateByUrl(``, {
-            //             state: { statut: SimStatut.RESILIE },
-            //         })
-            // ),
-
-            // this.createStatBox(
-            //     '#27ae60',
-            //     `${this.translate.instant('CLOSURE')} ${this.translate.instant(
-            //         'WAITING'
-            //     )}`,
-            //     separatorThousands(
-            //         rapport?.['total_dossiers_cloture_en_attente'] || '0'
-            //     ),
-            //     this.simIcon,
-            //     () => this.router.navigateByUrl(``)
-            // ),
-
             this.createStatBox(
                 '#ff7f50',
                 `${this.translate.instant('CLAIMS')}`,
@@ -303,7 +229,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.asAccessFeatureSmsBalance
             ),
 
-            // ...this.generateAdditionalBoxes(rapport),
         ];
     }
 
@@ -412,7 +337,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private generateAdditionalBoxes(rapport: any): IStatisticsBox[] {
-        if (this.nom_application !== NOM_APPLICATION.PATRIMOINE_SIM) return [];
+        if (this.nom_application !== APP_NAME.CONNECT_MY_ZONE) return [];
 
         return [
             this.createStatBox(

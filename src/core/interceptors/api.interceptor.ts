@@ -10,7 +10,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
     const token = encodingService.getData('token_data') as TokenInterface | null;
 
     // Ne pas intercepter les requêtes absolues vers d'autres domaines
-    if (req.url.startsWith('http') && !req.url.includes(configService.apiUrl)) {
+    if (req.url.startsWith('http') && !req.url.includes(configService.authenticationUrl) && !req.url.includes(configService.reportUrl) && !req.url.includes(configService.settingUrl)) {
         return next(req);
     }
     if (isStaticAssetRequest(req)) {
@@ -18,10 +18,9 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
         return next(req);
     }
 
-    if (isAbsoluteUrl(req.url) || isExternalUrl(req.url)) {
+/*     if (isAbsoluteUrl(req.url) || isExternalUrl(req.url)) {
         return next(req);
-    }
-
+    } */
     if (req.url.includes('/assets/i18n/') || req.url.includes('.json')) {
         return next(req);
     }
@@ -31,15 +30,14 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
     let targetUrl = req.url;
     
     if (!req.url.startsWith('http')) {
-        const baseUrl = configService.apiUrl.replace(/\/+$/, '');
+        const baseUrl = configService.authenticationUrl.replace(/\/+$/, '');
         const cleanEndpoint = req.url.replace(/^\/+/, '');
         targetUrl = `${baseUrl}/${cleanEndpoint}`;
     }
-
     const clonedReq = req.clone({
         url: targetUrl,
         setHeaders: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token?.value}`,
             'X-Environment': configService.environment,
             'X-App-Version': configService.buildInformation.version,
             'X-Client-Time': new Date().toISOString(),

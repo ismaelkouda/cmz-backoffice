@@ -1,8 +1,10 @@
 (function (window) {
             window.__env = {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "apiUrl": "http://10.10.70.64:7000/auth/v1.0/",
-    "fileUrl": "http://10.10.70.64:7000/auth/",
+    "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
+    "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
+    "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
+    "fileUrl": "http://10.10.70.64:7000/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "messageApp": {
@@ -12,7 +14,7 @@
         "sourceSoldeDotationOrange": "Orange fera le dépôt..."
     },
     "appSettings": {
-        "appName": "IMAKO",
+        "appName": "Connect My Zone",
         "appLogoFull": "assets/images/logo/logo-ansut-full.png",
         "appLogoIcon": "assets/images/favicon.png",
         "appPrimaryColor": "#0566FF",
@@ -21,14 +23,14 @@
     }
 };
             window.__env.buildInfo = {
-                timestamp: '2025-11-05T15:59:50.318Z',
+                timestamp: '2025-11-07T20:06:38.406Z',
                 environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'
             };
             
             // Validation de la configuration
-            if (typeof window.__env.apiUrl === 'undefined') {
+            if (typeof window.__env.authenticationUrl === 'undefined' && typeof window.__env.reportUrl === 'undefined' && typeof window.__env.settingUrl === 'undefined') {
                 console.error('❌ Configuration API manquante');
             }
             

@@ -1,8 +1,8 @@
-import { EnvService } from '../../../../../shared/services/env.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+import { EnvService } from '../../../../../shared/services/env.service';
 import { DashboardEndpointEnum } from './../enums/dashboard-endpoint.enum';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class DashboardApiService {
         private http: HttpClient,
         private envService: EnvService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     /*********************Méthode pour récupérer la liste des statistiques du tableau de bord*************** */

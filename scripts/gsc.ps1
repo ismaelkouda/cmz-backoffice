@@ -223,7 +223,7 @@ export class ${subModuleName}ApiService {
 
     private BASE_URL: string;
     constructor(private http: HttpClient, private envService: EnvService) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
             /*********************Méthode pour récupérer la liste ${subModuleName}*************** */

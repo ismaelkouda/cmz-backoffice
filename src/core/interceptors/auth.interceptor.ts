@@ -28,7 +28,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 sessionStorage.getItem('auth_token')
             );
         } catch {
-            return null; // localStorage non disponible (SSR)
+            return null;
         }
     };
 

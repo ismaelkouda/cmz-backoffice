@@ -1,11 +1,9 @@
-import { T_NOM_APPLICATION } from '../constants/nom-aplication.contant';
-
 interface UserPermissions {
     id: number;
     level: number;
     title: string;
     label: string;
-    data: string;
+    code: string;
     headCode: string;
     icon: string;
     path?: string;
@@ -16,121 +14,18 @@ interface UserPermissions {
     children?: UserPermissions[];
 }
 
-export interface ProfilCurrentUser {
-    id: number;
-    nom: string;
-    slug: string;
-    description: string;
-    mode_lecture: boolean;
-    statut: string;
-    created_at: string;
-    updated_at: string;
-}
-
-export interface Tenant {
-    id: number;
-    tenant_code: string;
-    nom_tenant: string;
-    slug: string;
-    domaine_activite: string;
-    intervenant_id: number | null;
-    nom_admin_tenant: string;
-    contact_admin_tenant: string;
-    nom_gestionnaire: string;
-    contact_gestionnnaire: string;
-    email_gestionnnaire: string;
-    description: string;
-    url_backend: string;
-    url_minio: string;
-    url_nodered: string;
-    url_deploy_profil_supervision: string;
-    url_frontend: string;
-    url_demandes_sla: string;
-    ws_server: string;
-    nb_max_users: number;
-    lien_dashboard_grafana: string;
-    lien_dashboard_appro: string;
-    lien_dashboard_rejets: string;
-    logo_tenant: string;
-    application: T_NOM_APPLICATION;
-    suffixe_email: string;
-    created_at: string;
-    updated_at: string;
-    commercial_id: number | null;
-    nom_commercial: string | null;
-    contact_commercial: string | null;
-    email_commercial: string | null;
-    email_diffusion: string;
-    senior_manager_id: number | null;
-    nom_senior_manager: string | null;
-    contact_senior_manager: string | null;
-    email_senior_manager: string | null;
-    gestionnaire_tenant_id: number | null;
-    escalade_tenant_id: number | null;
-    email_admin_client: string;
-    url_detection_appro: string;
-    url_consommation: string;
-    compte_client: string;
-    segment_client: string | null;
-    forme_juridique_code: string | null;
-    regime_code: string | null;
-    adresse: string;
-    numero_rccm: string;
-    forme_juridique: string;
-    nom_gerant: string;
-    fichier_rccm: string;
-    numero_cc: string;
-    regime: string;
-    centre: string;
-    fichier_dfe: string;
-    admin_tenant_id: number | null;
-    contact_gerant: string | null;
-    email_gerant: string | null;
-    piece_gerant: string | null;
-}
-
-export interface StructureOrganisationnelle {
-    id: number;
-    uuid: string;
-    niveau_1: string;
-    niveau_2: string;
-    niveau_3: string;
-    nom_affichage_niveau_1: string;
-    nom_affichage_niveau_2: string;
-    nom_affichage_niveau_3: string;
-    niveau_1_menu: string;
-    niveau_2_menu: string;
-    niveau_3_menu: string;
-    description: string | null;
-    created_at: string;
-    updated_at: string;
-}
-
 export interface CurrentUser {
     id: number;
-    matricule: string;
-    profil_user_id: number;
-    nom: string;
-    prenoms: string;
-    username: string;
-    adresse: string;
-    contacts: string;
+    last_name: string;
+    first_name: string;
     email: string;
-    profil_slug: string;
-    email_verified_at: string | null;
-    statut: string;
-    profil_user: {
-        slug: string;
-        nom: string;
-        mode_lecture: boolean;
-        statut: string;
-    };
+    profile: string;
+    phone: string;
+    is_admin: boolean;
+    status: string;
+    photo: string;
     permissions: UserPermissions[];
-    tenant: Tenant;
-    structure_organisationnelle: StructureOrganisationnelle;
     paths: string[];
-    created_at: string;
-    updated_at: string;
 }
 
 export interface AuthToken {

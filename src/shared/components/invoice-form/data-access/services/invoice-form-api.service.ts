@@ -1,18 +1,18 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
     catchError,
-    finalize,
     debounceTime,
+    finalize,
     switchMap,
     take,
 } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { InvoiceFormEndpointEnum } from '../enums/invoice-form-endpoint.enum';
-import { EnvService } from '../../../../services/env.service';
-import { ToastrService } from 'ngx-toastr';
 import { CustomersActivateFilterInterface } from '../../../../../presentation/pages/requests-service/data-access/customers-activate/interfaces/customers-activate-filter.interface';
+import { EnvService } from '../../../../services/env.service';
 import { SharedService } from '../../../../services/shared.service';
+import { InvoiceFormEndpointEnum } from '../enums/invoice-form-endpoint.enum';
 import { InvoiceFormDetailsInterface } from '../interfaces/invoice-form-details.interface';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class InvoiceFormApiService {
         private envService: EnvService,
         private sharedService: SharedService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     /*********************Méthode pour récupérer la liste des details des clients*************** */

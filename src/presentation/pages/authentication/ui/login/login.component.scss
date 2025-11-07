@@ -31,10 +31,9 @@ $success-color: #2e7d32;
     @include flex-center;
     flex-direction: column;
     min-height: 100vh;
-    background-color: $bg-primary;
     padding: 40px 16px;
     box-sizing: border-box;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    background-color: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
     
     @media (min-width: 768px) {
         padding: 60px 24px;
@@ -421,7 +420,6 @@ $success-color: #2e7d32;
     }
 }
 
-/* Validation states */
 .ng-invalid.ng-touched {
     border-color: rgba($error-color, 0.5);
 

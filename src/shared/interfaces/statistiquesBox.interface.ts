@@ -8,7 +8,7 @@ export interface IStatisticsBox {
     count: number | string;
     taux?: number;
     icon?: string;
-    width?: String;
+    width?: string;
     routerFilter?: () => void;
     iframeLink?: string;
 }

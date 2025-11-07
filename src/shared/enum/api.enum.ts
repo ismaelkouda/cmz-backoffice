@@ -1,6 +1,6 @@
 export const enum EndPointUrl {
     PATRIMONY_SIM_SIMS_ALL_USAGES = 'patrimoine-sim/sims/all_usage',
-    PATRIMOINE_SIM_DEMANDES_SERVICES_ALL = 'patrimoine-sim/demandes-services/all?page={page}',
+    CONNECT_MY_ZONE_DEMANDES_SERVICES_ALL = 'patrimoine-sim/demandes-services/all?page={page}',
     GET_LIST_DEMANDS_IMPORTED = 'patrimoine-sim/importations/all?page={page}',
     GET_ALL_USERS = 'users/all',
     SAVE_USER = 'users/store',
@@ -54,7 +54,7 @@ export const enum EndPointUrl {
 
     // LEVEL SIMPLE
     GET_ALL_NIVEAUX_1_SIMPLE = 'parametres-securite/niveau_un/simple',
-    POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DISPONIBLES = 'patrimoine-sim/carton-sim-blanches/disponibles',
+    POST_CONNECT_MY_ZONE_CARTON_SIM_BLANCHES_DISPONIBLES = 'patrimoine-sim/carton-sim-blanches/disponibles',
 
     GET_ALL_NIVEAUX_2_SIMPLE = 'parametres-securite/niveau_deux/simple',
     GET_ALL_NIVEAUX_3_SIMPLE = 'parametres-securite/niveau_trois/simple',
@@ -69,7 +69,7 @@ export const enum EndPointUrl {
     POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL = 'client-gere/{transaction}/details',
     GET_INVOICE_DETAILS = 'gestion-facture/factures/{numberDemand}/details',
     GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS = 'supervision-operations/demandes-services/{numberDemand}/details',
-    PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE = 'patrimoine-sim/transactions/all?page={page}',
+    CONNECT_MY_ZONE_TRANSACTIONS_ALL_PAGE = 'patrimoine-sim/transactions/all?page={page}',
     GET_LINE_DETAILS = 'gestion-transactions/details-transaction',
 
     LEGAL_FORMS = 'parametres-securite/forme-juridiques/all',

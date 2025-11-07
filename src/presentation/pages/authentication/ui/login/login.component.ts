@@ -9,10 +9,10 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { REINITIALIZATION } from 'presentation/app.routes';
 import { PasswordModule } from 'primeng/password';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { REINITIALIZATION } from '../../../../../presentation/app.routes';
 import { LOGO_ANSUT } from '../../../../../shared/constants/logoAnsut.constant';
 import {
     AuthToken,
@@ -22,16 +22,17 @@ import { DASHBOARD } from '../../../../../shared/routes/routes';
 import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
 import { AuthenticationService } from '../../data-access/authentication.service';
-import { LoginCredentialsInterface } from '../../data-access/interfaces/login-credentials-interface';
-import { LoginPayloadInterface } from '../../data-access/interfaces/login-payload.interface';
+import { LoginCredential } from '../../data-access/credentials/login.credential';
+import { LoginFormInterface } from '../../data-access/interfaces/login-form.interface';
 import { LoginResponseInterface } from '../../data-access/interfaces/login-response.interface';
-import { VariablesResponseInterface } from './../../data-access/interfaces/variables-response.interface';
+import { loginProviders } from '../../data-access/providers/login.providers';
 
 @Component({
     selector: 'app-login',
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
+    providers: [...loginProviders],
     imports: [CommonModule, ReactiveFormsModule, PasswordModule, TranslateModule, RouterLink],
 })
 export class LoginComponent implements OnInit, OnDestroy {
@@ -39,12 +40,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
     public readonly LOGO_ANSUT = LOGO_ANSUT;
 
-    public loginForm = new FormGroup<LoginPayloadInterface>({
-        username: new FormControl('', {
-            validators: [Validators.required, Validators.email],
+    public loginForm = new FormGroup<LoginFormInterface>({
+        email: new FormControl(null, {
+            validators: [Validators.required, Validators.email,  Validators.minLength(6)],
             nonNullable: true,
         }),
-        password: new FormControl('', {
+        password: new FormControl(null, {
             validators: [Validators.required, Validators.minLength(6)],
             nonNullable: true,
         }),
@@ -66,8 +67,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    get username(): AbstractControl | null {
-        return this.loginForm.get('username');
+    get email(): AbstractControl | null {
+        return this.loginForm.get('email');
     }
 
     get password(): AbstractControl | null {
@@ -80,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 debounceTime(300),
                 distinctUntilChanged(
                     (prev, curr) =>
-                        prev.username === curr.username &&
+                        prev.email === curr.email &&
                         prev.password === curr.password
                 ),
                 takeUntil(this.destroy$)
@@ -94,15 +95,14 @@ export class LoginComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const credentials: LoginCredentialsInterface = this.loginForm
-            .value as LoginCredentialsInterface;
+        const credentials: LoginCredential = this.loginForm.value as LoginCredential;
         this.authService
             .fetchLogin(credentials, (error) => this.handleAuthError(error))
             .pipe(takeUntil(this.destroy$))
             .subscribe((loginResponse: LoginResponseInterface) => {
+                        console.log("loginResponse", loginResponse)
                 if (loginResponse && loginResponse.error === false) {
-                    const data =
-                        loginResponse.data ??
+                    const data = loginResponse.data ??
                         ({} as { user?: CurrentUser; token?: AuthToken });
                     const { user, token } = data as {
                         user?: CurrentUser;
@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     };
                     if (user && token) {
                         this.storeUserAndToken(user, token);
-                        this.handleFetchVariables();
+                        this.router.navigate([DASHBOARD]);
                     }
                 }
             });
@@ -126,27 +126,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
     }
 
-    private handleFetchVariables(): void {
-        this.authService
-            .fetchVariables()
-            .subscribe((variablesResponse: VariablesResponseInterface) => {
-                if (variablesResponse?.error === false) {
-                    this.handleVariablesResponse(variablesResponse);
-                    this.router.navigate([DASHBOARD]);
-                }
-            });
-    }
-
     private storeUserAndToken(user: CurrentUser, token: AuthToken): void {
         this.encodingService.saveData('user_data', user, true);
         this.encodingService.saveData('token_data', token, true);
         this.encodingService.saveData('menu', user.permissions, true);
-    }
-
-    private handleVariablesResponse(
-        response: VariablesResponseInterface
-    ): void {
-        this.encodingService.saveData('modules', response.data.modules, true);
-        this.encodingService.saveData('dashboard_links', response.data, true);
     }
 }

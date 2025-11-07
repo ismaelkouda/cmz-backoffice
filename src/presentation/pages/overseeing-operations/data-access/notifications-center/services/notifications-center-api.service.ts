@@ -21,7 +21,7 @@ export class NotificationsCenterApiService {
         private http: HttpClient,
         private envService: EnvService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     ReadNotifications(data: {}): Observable<any> {

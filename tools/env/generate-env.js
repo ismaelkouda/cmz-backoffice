@@ -64,7 +64,7 @@ class EnvironmentGenerator {
             };
             
             // Validation de la configuration
-            if (typeof window.__env.apiUrl === 'undefined') {
+            if (typeof window.__env.authenticationUrl === 'undefined' && typeof window.__env.reportUrl === 'undefined' && typeof window.__env.settingUrl === 'undefined') {
                 console.error('❌ Configuration API manquante');
             }
             

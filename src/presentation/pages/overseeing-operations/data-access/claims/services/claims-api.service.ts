@@ -37,7 +37,7 @@ export class ClaimsApiService {
         private envService: EnvService,
         private router: Router
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     /*********************Méthode pour récupérer la liste claims*************** */

@@ -1,4 +1,47 @@
 /* ---------------------
+ *** Vendors Scss ***
+-----------------------*/
+
+@use 'vendors/scrollable';
+@use 'vendors/sticky';
+@use 'vendors/todo';
+
+/* Leaflet Map */
+@use 'leaflet/dist/leaflet.css';
+
+
+/* Ngx-owl-carousel-o */
+
+@use '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.carousel.scss' as owl-carousel;
+@use '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.theme.default.scss' as owl-theme;
+// @use 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+// @use 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+
+
+// overlay
+@use '@angular/cdk/overlay-prebuilt.css';
+//@use 'swiper/scss';
+//@use 'swiper/scss/navigation';
+//@use 'swiper/scss/pagination';
+
+/* ---------------------
+	*** Theme Scss ***
+-----------------------*/
+
+@use 'animate.css/animate.min.css';
+@use '../../../node_modules/bootstrap/scss/bootstrap';
+
+@use '../scss/vendors/themify.scss';
+@use 'style';
+@use 'responsive';
+
+// @use "tailwindcss";
+@use "tailwindcss";
+
+
+
+/* ---------------------
  *** Font ***
 -----------------------*/
 
@@ -9,49 +52,3 @@
         url('../fonts/Helvetica-Font.otf') format('opentype'),
         url('../fonts/Helvetica-Font.otf') format('truetype');
 }
-
-/* ---------------------
- *** Vendors Scss ***
------------------------*/
-
-@import 'vendors/scrollable';
-@import 'vendors/sticky';
-@import 'vendors/todo';
-
-/* Leaflet Map */
-@import 'leaflet/dist/leaflet.css';
-
-/* Ngx-owl-carousel-o */
-
-@import '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.carousel.scss';
-@import '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.theme.default.scss';
-// @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
-// @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
-
-
-
-// overlay
-@import '@angular/cdk/overlay-prebuilt.css';
-@import '@ng-select/ng-select/themes/default.theme.css';
-//@import 'swiper/scss';
-//@import 'swiper/scss/navigation';
-//@import 'swiper/scss/pagination';
-
-/* ---------------------
-	*** Theme Scss ***
------------------------*/
-
-@import 'animate.css/animate.min.css';
-@import '/node_modules/bootstrap/scss/bootstrap';
-
-@import '../scss/vendors/themify.scss';
-@import 'style';
-@import 'responsive';
-
-// @import "tailwindcss";
-@import "tailwindcss";
-
-@import "primeng/resources/primeng.css";
-@import "@primeng/themes/theme/lara-light-blue/theme.css";
-@import "primeicons/primeicons.css";
-@import "primeflex/primeflex.css";

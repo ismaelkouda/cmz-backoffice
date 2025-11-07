@@ -1,4 +1,3 @@
-<!-- login.component.html -->
 <div class="auth-container">
     <div class="logo-container">
         <a class="auth-logo" routerLink="/">
@@ -8,7 +7,7 @@
 
     <div class="unified-auth-card">
         <div class="card-content">
-            <!-- Section gauche avec le titre -->
+       
             <div class="card-left-section">
                 <div class="title-content">
                     <div class="title-frame">
@@ -32,7 +31,6 @@
                 </div>
             </div>
 
-            <!-- Section droite avec le formulaire -->
             <div class="card-right-section">
                 <div class="auth-content">
                     <h1 class="auth-title">{{ 'AUTHENTICATION' | translate }}</h1>
@@ -43,14 +41,14 @@
                         class="auth-form"
                     >
                         <div class="form-group">
-                            <label class="form-label" for="username-input">
+                            <label class="form-label" for="email-input">
                                 {{ 'USERNAME' | translate }}
                                 <span class="required-indicator">*</span>
                             </label>
                             <input
-                                id="username-input"
+                                id="email-input"
                                 type="email"
-                                formControlName="username"
+                                formControlName="email"
                                 placeholder="app@yourmail.com"
                                 class="form-input"
                                 aria-required="true"
@@ -66,19 +64,17 @@
                                 id="password-input"
                                 formControlName="password"
                                 [feedback]="false"
-                                [toggleMask]="true"
+                                [toggleMask]="false"
                                 inputStyleClass="form-input"
                                 ariaLabel="Mot de passe"
-                            ></p-password>
+                            />
                         </div>
 
                         <button
                             type="submit"
                             [disabled]="!loginForm.valid"
                             class="submit-button"
-                            [attr.aria-label]="
-                                'Se connecter - ' + ('CONNECTION' | translate)
-                            "
+                            [attr.aria-label]="'Se connecter - ' + ('CONNECTION' | translate)"
                         >
                             {{ 'CONNECTION' | translate }}
                         </button>
@@ -97,6 +93,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

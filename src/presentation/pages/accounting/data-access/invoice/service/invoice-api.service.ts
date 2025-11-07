@@ -1,15 +1,15 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '../../../../../../shared/services/env.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { EnvService } from '../../../../../../shared/services/env.service';
 import { invoiceEndpointEnum } from '../enums/invoice-endpoint.enum';
+import { InvoiceFilterInterface } from '../interface/invoice-filter.interface';
 import {
     invoiceApiResponseInterface,
     InvoiceInterface,
 } from '../interface/invoice.interface';
-import { InvoiceFilterInterface } from '../interface/invoice-filter.interface';
 
 @Injectable()
 export class InvoiceApiService {
@@ -34,7 +34,7 @@ export class InvoiceApiService {
         private httpClient: HttpClient,
         private envService: EnvService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     /*********************Méthode pour récupérer la liste invoice*************** */

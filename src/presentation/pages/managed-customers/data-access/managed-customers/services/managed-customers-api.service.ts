@@ -1,10 +1,10 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import { EnvService } from '../../../../../../shared/services/env.service';
-import { ManagedCustomersDetailsInterface } from '../interfaces/managed-customers-details.interface';
 import { ManagedCustomersDetailsEndpointEnum } from '../enums/managed-customers-details-endpoint.enum';
+import { ManagedCustomersDetailsInterface } from '../interfaces/managed-customers-details.interface';
 
 @Injectable()
 export class ManagedCustomersApiService {
@@ -13,7 +13,7 @@ export class ManagedCustomersApiService {
         private httpClient: HttpClient,
         private envService: EnvService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     /*********************Méthode pour récupérer la liste sim-card*************** */

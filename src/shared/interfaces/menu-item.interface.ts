@@ -3,7 +3,7 @@ export interface MenuItem {
     level: number;
     title: string;
     label: string;
-    data: string;
+    code: string;
     headCode?: string;
     icon?: string;
     path?: string;
@@ -18,7 +18,7 @@ export interface MenuItemChildren {
     path: string;
     title: string;
     label: string;
-    data: string;
+    code: string;
     type: 'link' | 'sub';
     active?: boolean;
     children?: MenuItemChildren[];

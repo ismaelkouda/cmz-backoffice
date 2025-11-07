@@ -1,12 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
     Component,
     HostListener,
     OnDestroy,
-    OnInit,
-    ViewEncapsulation,
+    OnInit
 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { LOGO_ANSUT } from '../../../shared/constants/logoAnsut.constant';
 import { EncodingDataService } from '../../services/encoding-data.service';
@@ -20,10 +20,10 @@ import {
 
 @Component({
     selector: 'app-sidebar',
+    standalone: true,
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
-    imports: [CommonModule],
-    encapsulation: ViewEncapsulation.None,
+    imports: [CommonModule, AsyncPipe, RouterLink, TranslateModule],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
     public LOGO_ANSUT = LOGO_ANSUT;
@@ -54,7 +54,28 @@ export class SidebarComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+
+        console.log('🔍 Debug menu loading:');
+  
+  // Vérifier ce qui est stocké
+  const storedMenu = this.encodingService.getData('menu')as Array<MenuItem> | [];
+  console.log('Stored menu:', storedMenu);
+  console.log('Type:', typeof storedMenu);
+  console.log('Is array:', Array.isArray(storedMenu));
+  console.log('Length:', storedMenu?.length);
+  
+  // Vérifier le localStorage directement
+  try {
+    const raw = localStorage.getItem('menu');
+    console.log('Raw localStorage:', raw);
+  } catch (e) {
+    console.error('Cannot access localStorage:', e);
+  }
+  
+  this.menuItems = storedMenu || [];
+  
     this.menuItems = this.encodingService.getData('menu') as Array<MenuItem> | [];
+    console.log("this.menuItems", this.menuItems)
     this.sub = this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
             this.menuItems.filter((items: MenuItem) => {
@@ -90,12 +111,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
             if (
                 (menuItem.children &&
                     menuItem.children.some(
-                        (item) => item.data === itemSelected.data
+                        (item) => item.code === itemSelected.code
                     )) ||
                 (menuItem.path && menuItem.path === itemSelected.path)
             ) {
-                console.log('menuItem', menuItem);
-                console.log('item', itemSelected);
                 menuItem.active = true;
                 this.addTab(itemSelected);
             }
@@ -149,17 +168,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
     }
 
-    // Méthode pour ajouter un onglet
     addTab(item: MenuItem | MenuItemChildren): void {
         if (item.path && item.title) {
-            // Utiliser un timeout de 0ms pour s'assurer que cet appel se produit
-            // après que tout le traitement actuel soit terminé
             setTimeout(() => {
                 const isTablauDeBord = item.path === '/dashboard';
                 this.tabService.addTab(
                     item.title || '',
                     item.path || '',
-                    !isTablauDeBord // Le tableau de bord n'est pas fermable
+                    !isTablauDeBord
                 );
             }, 0);
         }

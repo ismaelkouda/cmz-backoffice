@@ -1,10 +1,10 @@
 module.exports = {
     dev: {
         verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
-        apiUrl: 'http://10.10.70.64:7000/auth/v1.0/',
-        fileUrl: 'http://10.10.70.64:7000/auth/',
-        //        apiUrl: 'https://services-care-portal-service-api.paas.imako.digital/api/v1/',
-        //      fileUrl: 'https://services-care-portal-service-api.paas.imako.digital/',
+        authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
         messageApp: {
@@ -16,7 +16,7 @@ module.exports = {
         },
 
         appSettings: {
-            appName: 'IMAKO',
+            appName: 'Connect My Zone',
             appLogoFull: 'assets/images/logo/logo-ansut-full.png',
             appLogoIcon: 'assets/images/favicon.png',
             appPrimaryColor: '#0566FF',
@@ -26,14 +26,18 @@ module.exports = {
     },
     test: {
         verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
-        apiUrl: 'http://10.10.0.200:12555/api/v1/',
+        authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
         fileUrl: 'http://10.10.0.200:12555/',
         environmentDeployment: 'TEST',
         enableDebug: true,
     },
     prod: {
         verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
-        apiUrl: 'https://sim-monitoring.cateli.io:12555/api/v1/',
+        authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
         fileUrl: 'https://sim-monitoring.cateli.io:12555/',
         environmentDeployment: 'PROD',
         enableDebug: false,

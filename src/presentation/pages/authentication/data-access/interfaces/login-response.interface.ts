@@ -1,7 +1,4 @@
-import {
-    AuthToken,
-    CurrentUser,
-} from '../../../../../shared/interfaces/current-user.interface';
+import { AuthToken, CurrentUser } from '../../../../../shared/interfaces/current-user.interface';
 
 interface UserData {
     token: AuthToken;

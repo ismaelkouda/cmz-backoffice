@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class EnvService {
-    public apiUrl!: string;
+    public authenticationUrl!: string;
+    public reportUrl!: string;
+    public settingUrl!: string;
     public fileUrl!: string;
     public verifyIdentityDocumentUrl!: string;
     public environmentDeployment!: string;

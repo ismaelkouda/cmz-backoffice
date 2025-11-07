@@ -2,7 +2,9 @@ const Joi = require('joi');
 
 const configSchema = Joi.object({
     verifyIdentityDocumentUrl: Joi.string().uri().required(),
-    apiUrl: Joi.string().uri().required(),
+    authenticationUrl: Joi.string().uri().required(),
+    reportUrl: Joi.string().uri().required(),
+    settingUrl: Joi.string().uri().required(),
     fileUrl: Joi.string().uri().required(),
     environmentDeployment: Joi.string().valid('DEV', 'TEST', 'PROD').required(),
     enableDebug: Joi.boolean().required(),
@@ -47,7 +49,9 @@ function generateTypes(config) {
 
 export interface AppConfig {
     verifyIdentityDocumentUrl: string;
-    apiUrl: string;
+    authenticationUrl: string;
+    reportUrl: string;
+    settingUrl: string;
     fileUrl: string;
     environmentDeployment: 'DEV' | 'TEST' | 'PROD';
     enableDebug: boolean;

@@ -305,7 +305,7 @@
     "UPDATED_DATE": "Date MAJ",
     "DASHBOARD": "Tableau de bord",
     "BACK-OFFICE": "BACK-OFFICE",
-    "DASHBOARD_TITLE": "Statistiques générales - ",
+    "DASHBOARD_TITLE": "Statistiques générales des collectes",
     "HANDLE_ACTIVATE_CUSTOMER": "Voulez-vous activer le client nom_tenant",
     "HANDLE_DISABLE_CUSTOMER": "Voulez-vous désactiver le client nom_tenant",
     "TRACKING_PROCESSING": "Suivi & Traitement",

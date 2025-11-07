@@ -1,9 +1,11 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-            // Generated at: 2025-11-05T15:59:50.302Z
+            // Generated at: 2025-11-07T20:06:38.375Z
 
 export interface AppConfig {
     verifyIdentityDocumentUrl: string;
-    apiUrl: string;
+    authenticationUrl: string;
+    reportUrl: string;
+    settingUrl: string;
     fileUrl: string;
     environmentDeployment: 'DEV' | 'TEST' | 'PROD';
     enableDebug: boolean;
@@ -40,8 +42,10 @@ declare global {
 export const ENVIRONMENTS = {
   "dev": {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "apiUrl": "http://10.10.70.64:7000/auth/v1.0/",
-    "fileUrl": "http://10.10.70.64:7000/auth/",
+    "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
+    "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
+    "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
+    "fileUrl": "http://10.10.70.64:7000/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "messageApp": {
@@ -51,7 +55,7 @@ export const ENVIRONMENTS = {
       "sourceSoldeDotationOrange": "Orange fera le dépôt..."
     },
     "appSettings": {
-      "appName": "IMAKO",
+      "appName": "Connect My Zone",
       "appLogoFull": "assets/images/logo/logo-ansut-full.png",
       "appLogoIcon": "assets/images/favicon.png",
       "appPrimaryColor": "#0566FF",
@@ -61,14 +65,18 @@ export const ENVIRONMENTS = {
   },
   "test": {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "apiUrl": "http://10.10.0.200:12555/api/v1/",
+    "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
+    "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
+    "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
     "fileUrl": "http://10.10.0.200:12555/",
     "environmentDeployment": "TEST",
     "enableDebug": true
   },
   "prod": {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "apiUrl": "https://sim-monitoring.cateli.io:12555/api/v1/",
+    "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
+    "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
+    "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
     "fileUrl": "https://sim-monitoring.cateli.io:12555/",
     "environmentDeployment": "PROD",
     "enableDebug": false

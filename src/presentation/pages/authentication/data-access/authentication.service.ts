@@ -1,5 +1,6 @@
-import { EnvService } from './../../../../shared/services/env.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
     catchError,
@@ -9,10 +10,9 @@ import {
     of,
     switchMap,
 } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { LoginCredential } from '../domain/entities/login.credential';
+import { EnvService } from './../../../../shared/services/env.service';
 import { EndPointUrl } from './api.enum';
-import { LoginCredentialsInterface } from './interfaces/login-credentials-interface';
-import { ToastrService } from 'ngx-toastr';
 import { LoginResponseInterface } from './interfaces/login-response.interface';
 import { VariablesResponseInterface } from './interfaces/variables-response.interface';
 
@@ -25,7 +25,7 @@ export class AuthenticationService {
         private envService: EnvService,
         private toastService: ToastrService
     ) {
-        this.baseUrl = this.envService.apiUrl;
+        this.baseUrl = this.envService.authenticationUrl;
     }
 
     private loginSubject = new BehaviorSubject<LoginResponseInterface>(
@@ -34,7 +34,7 @@ export class AuthenticationService {
     private loadingLoginSubject = new BehaviorSubject<boolean>(false);
 
     fetchLogin(
-        credentials: LoginCredentialsInterface,
+        credentials: LoginCredential,
         onAuthError: (error: any) => void
     ): Observable<LoginResponseInterface> {
         if (this.loadingLoginSubject.getValue())
@@ -48,9 +48,7 @@ export class AuthenticationService {
                 if (response.error === false) {
                     this.loginSubject.next(response);
                     const user = response.data.user;
-                    this.toastService.success(
-                        `Bienvenue ${user.nom} ${user.prenoms}`
-                    );
+                    this.toastService.success(`Bienvenue ${user.last_name} ${user.first_name}`);
                 } else {
                     this.toastService.error(response.message);
                 }

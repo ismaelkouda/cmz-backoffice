@@ -4,8 +4,8 @@ import {
     Router,
     RouterStateSnapshot,
 } from '@angular/router';
-import { StorePathsService } from '../../shared/services/store-paths.service';
 import { Observable } from 'rxjs';
+import { StorePathsService } from '../../shared/services/store-paths.service';
 
 @Injectable()
 export class PagesGuard {
@@ -18,15 +18,13 @@ export class PagesGuard {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
-        const allowedPaths = this.storePathsService.getPaths; // Assume this returns a list of allowed paths
+        const allowedPaths = this.storePathsService.getPaths; 
 
-        // Check if the current path is allowed
         if (allowedPaths && allowedPaths.includes(state.url)) {
-            return true; // Allow the navigation
+            return true;
         } else {
-            // Redirect to a Not Found page or similar
             this.router.navigate(['/not-found']);
-            return false; // Prevent navigation
+            return false;
         }
     }
 }

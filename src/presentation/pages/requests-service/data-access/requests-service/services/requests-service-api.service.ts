@@ -1,12 +1,12 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '../../../../../../shared/services/env.service';
 import { ToastrService } from 'ngx-toastr';
-import { RequestsServiceEndpointEnum } from '../enums/requests-service-endpoint.enum';
-import { CustomersActivateFilterInterface } from '../../customers-activate/interfaces/customers-activate-filter.interface';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+import { EnvService } from '../../../../../../shared/services/env.service';
 import { SharedService } from '../../../../../../shared/services/shared.service';
+import { CustomersActivateFilterInterface } from '../../customers-activate/interfaces/customers-activate-filter.interface';
+import { RequestsServiceEndpointEnum } from '../enums/requests-service-endpoint.enum';
 
 @Injectable()
 export class RequestsServiceApiService {
@@ -17,7 +17,7 @@ export class RequestsServiceApiService {
         private envService: EnvService,
         private sharedService: SharedService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     /*********************Méthode pour valider une creation de client *************** */

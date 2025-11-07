@@ -8,8 +8,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     const token = encodingService.getData('token_data') as TokenInterface | null;
     const router = inject(Router)
 
-    console.log("encodingService.getData('token_data') as TokenInterface | null;", encodingService.getData('token_data') as TokenInterface | null)
-
     if(token?.value) {
         return true;
     } else {

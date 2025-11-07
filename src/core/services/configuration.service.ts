@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AppConfig, BuildInfo } from '../../environments/config.types';
 
@@ -11,8 +11,9 @@ export class ConfigurationService {
     private readonly config: AppConfig;
     private readonly buildInfo: BuildInfo;
     private configSubject = new BehaviorSubject<AppConfig | null>(null);
+    private readonly platformId = inject(PLATFORM_ID)
 
-    constructor(@Inject(PLATFORM_ID) private platformId: any) {
+    constructor() {
         const loadedConfig = this.loadConfiguration();
 
         this.config = loadedConfig.config;
@@ -32,7 +33,6 @@ export class ConfigurationService {
 
     private loadBrowserConfig(): { config: AppConfig; buildInfo: BuildInfo } {
         const windowConfig = this.getWindowConfig();
-        console.log("azerty", (globalThis))
 
         if (!windowConfig) {
             throw new Error('❌ Configuration client non trouvée');
@@ -75,9 +75,10 @@ export class ConfigurationService {
             dev: {
                 verifyIdentityDocumentUrl:
                     'https://sim-monitoring.cateli.io:8013/',
-                apiUrl: 'https://services-care-portal-service-api.paas.imako.digital/api/v1/',
-                fileUrl:
-                    'https://services-care-portal-service-api.paas.imako.digital/',
+authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
                 environmentDeployment: 'DEV' as const,
                 enableDebug: true,
                 messageApp: {
@@ -99,16 +100,20 @@ export class ConfigurationService {
             test: {
                 verifyIdentityDocumentUrl:
                     'https://sim-monitoring.cateli.io:8013/',
-                apiUrl: 'http://10.10.0.200:12555/api/v1/',
-                fileUrl: 'http://10.10.0.200:12555/',
+                authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
                 environmentDeployment: 'TEST' as const,
                 enableDebug: true,
             },
             prod: {
                 verifyIdentityDocumentUrl:
                     'https://sim-monitoring.cateli.io:8013/',
-                apiUrl: 'https://sim-monitoring.cateli.io:12555/api/v1/',
-                fileUrl: 'https://sim-monitoring.cateli.io:12555/',
+authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
                 environmentDeployment: 'PROD' as const,
                 enableDebug: false,
             },
@@ -130,7 +135,7 @@ export class ConfigurationService {
     }
 
     private validateConfiguration(): void {
-        const requiredProps = ['apiUrl', 'fileUrl', 'environmentDeployment'];
+        const requiredProps = ['authenticationUrl', 'reportUrl', 'settingUrl', 'fileUrl', 'environmentDeployment'];
         const missingProps = requiredProps.filter(
             (prop) => !this.config[prop as keyof AppConfig]
         );
@@ -148,8 +153,16 @@ export class ConfigurationService {
         }
     }
 
-    get apiUrl(): string {
-        return this.config.apiUrl.replace(/\/+$/, '') + '/';
+    get authenticationUrl(): string {
+        return this.config.authenticationUrl.replace(/\/+$/, '') + '/';
+    }
+
+    get reportUrl(): string {
+        return this.config.reportUrl.replace(/\/+$/, '') + '/';
+    }
+
+    get settingUrl(): string {
+        return this.config.settingUrl.replace(/\/+$/, '') + '/';
     }
 
     get fileUrl(): string {

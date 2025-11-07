@@ -1,17 +1,17 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+import { TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-customers.enum';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { EnvService } from '../../../../../../shared/services/env.service';
+import { IndividualsEndpointEnum } from '../enums/individuals-endpoint.enum';
+import { IndividualsFilterInterface } from '../interfaces/individuals-filter.interface';
 import {
     IndividualsApiResponseInterface,
     IndividualsInterface,
     IndividualsStatsInterface,
 } from '../interfaces/individuals.interface';
-import { IndividualsEndpointEnum } from '../enums/individuals-endpoint.enum';
-import { IndividualsFilterInterface } from '../interfaces/individuals-filter.interface';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-customers.enum';
 
 @Injectable()
 export class IndividualsApiService {
@@ -20,7 +20,7 @@ export class IndividualsApiService {
         private httpClient: HttpClient,
         private envService: EnvService
     ) {
-        this.BASE_URL = this.envService.apiUrl;
+        this.BASE_URL = this.envService.reportUrl;
     }
 
     private individualsSubject = new BehaviorSubject<
