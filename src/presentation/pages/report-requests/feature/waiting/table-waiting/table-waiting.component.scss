@@ -120,6 +120,10 @@
 }
 
 /* Dropdown actions in table */
+
+.report-type-content {
+    display: block;
+}
 .dropdown {
     display: inline-block;
 }
@@ -216,49 +220,4 @@
     padding: 8px 12px;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.report-type-content {
-    display: inline-block;
-    cursor: help;
-    transition: all 0.3s ease;
-    
-    &:hover {
-        transform: translateY(-1px);
-    }
-}
-
-// Style premium pour le tooltip
-::ng-deep .custom-tooltip {
-    .p-tooltip {
-        .p-tooltip-text {
-            background: linear-gradient(135deg, #2D3436 0%, #636E72 100%);
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            line-height: 1.4;
-            max-width: 300px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            
-            position: relative;
-            overflow: hidden;
-            
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 30%;
-                background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
-                pointer-events: none;
-            }
-        }
-        
-        &.p-tooltip-bottom .p-tooltip-arrow {
-            border-bottom-color: #2D3436;
-        }
-    }
 }

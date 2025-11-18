@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -36,6 +36,7 @@ import { ApprovalFilterPayloadEntity } from '../../domain/entities/approval/appr
         PageTitleComponent,
         PaginationComponent,
         TranslateModule,
+        AsyncPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -75,7 +76,6 @@ export class ApprovalComponent implements OnInit, OnDestroy {
             created_from: '',
             created_to: '',
         });
-
         this.approvalFacade.fetchApprovals(defaultFilter);
     }
 

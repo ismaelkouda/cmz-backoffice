@@ -87,6 +87,10 @@ export class WaitingMapper extends PaginatedMapper<
                 return ReportType.ABI;
             case 'zob':
                 return ReportType.ZOB;
+            case 'abi':
+                return ReportType.CPO;
+            case 'zob':
+                return ReportType.ZOB;
             default:
                 return ReportType.OTHER;
         }

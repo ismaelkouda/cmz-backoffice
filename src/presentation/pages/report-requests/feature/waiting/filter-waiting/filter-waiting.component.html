@@ -8,7 +8,7 @@
             <p-select
                 id="report-type-select"
                 formControlName="report_type"
-                [options]="reportTypeOptions"
+                [options]="reportOptions"
                 optionValue="value"
                 [showClear]="true"
                 (onClear)="resetSelect('report_type')"
@@ -35,29 +35,6 @@
                 optionValue="value"
                 [showClear]="true"
                 (onClear)="resetSelect('operator')"
-                placeholder="{{ 'SELECT' | translate }}"
-                appendTo="body"
-            >
-                <ng-template pTemplate="selectedItem" let-option>
-                    <span>{{ option?.label | translate }}</span>
-                </ng-template>
-                <ng-template pTemplate="item" let-option>
-                    <span>{{ option.label | translate }}</span>
-                </ng-template>
-            </p-select>
-        </div>
-
-        <div class="filter-grid__item">
-            <label for="state-select">
-                <b>{{ 'REPORT_REQUESTS.WAITING.FILTER.STATE' | translate }}</b>
-            </label>
-            <p-select
-                id="state-select"
-                formControlName="state"
-                [options]="stateOptions"
-                optionValue="value"
-                [showClear]="true"
-                (onClear)="resetSelect('state')"
                 placeholder="{{ 'SELECT' | translate }}"
                 appendTo="body"
             >

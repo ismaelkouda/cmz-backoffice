@@ -8,7 +8,7 @@ import {
     inject,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { APPROVAL_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/approval-table.constants';
+import { APPROVAL_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/approval/approval-table.constants';
 import { ApprovalEntity } from '@presentation/pages/report-requests/domain/entities/approval/approval.entity';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';

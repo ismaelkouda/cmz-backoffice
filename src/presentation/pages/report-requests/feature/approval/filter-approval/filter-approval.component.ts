@@ -13,15 +13,18 @@ import {
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApprovalFacade } from '@presentation/pages/report-requests/application/approval.facade';
+import { STATUS_CONST } from '@presentation/pages/report-requests/domain/constants/approval/status.constant';
 import { ApprovalFilterFormControlEntity } from '@presentation/pages/report-requests/domain/entities/approval/approval-filter-form-control.entity';
 import { ApprovalFilterPayloadEntity } from '@presentation/pages/report-requests/domain/entities/approval/approval-filter-payload.entity';
+import { OPERATOR_CONST } from '@shared/domain/constants/operator';
+import { REPORT_CONST } from '@shared/domain/constants/report';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-filter-approval',
@@ -42,51 +45,9 @@ export class FilterApprovalComponent implements OnInit, OnDestroy {
 
     public formFilter!: FormGroup<ApprovalFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();
-
-    readonly reportTypeOptions = [
-        {
-            value: 'Couverture partielle signal',
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL',
-        },
-        {
-            value: 'zone blanche',
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.REPORT_TYPE.WHITE_ZONE',
-        },
-        {
-            value: "Absence d'internet",
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.REPORT_TYPE.NO_INTERNET',
-        },
-    ] as const;
-
-    readonly operatorOptions = [
-        {
-            value: 'orange',
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.OPERATOR.ORANGE',
-        },
-        {
-            value: 'mtn',
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.OPERATOR.MTN',
-        },
-        {
-            value: 'moov',
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.OPERATOR.MOOV',
-        },
-    ] as const;
-
-    readonly stateOptions = [
-        {
-            value: 'approved',
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.STATE.APPROVED',
-        },
-        {
-            value: 'received',
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.STATE.RECEIVED',
-        },
-        {
-            value: 'rejected',
-            label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.STATE.REJECTED',
-        },
-    ] as const;
+    readonly reportOptions = REPORT_CONST;
+    readonly operatorOptions = OPERATOR_CONST;
+    readonly stateOptions = STATUS_CONST;
 
     constructor(
         private readonly toastService: ToastrService,
@@ -100,7 +61,6 @@ export class FilterApprovalComponent implements OnInit, OnDestroy {
     }
 
     private initFormFilter(): void {
-        // Initialiser le formulaire une seule fois avec des valeurs vides
         if (!this.formFilter) {
             this.formFilter = this.fb.group<ApprovalFilterFormControlEntity>({
                 created_from: new FormControl<string>('', {
@@ -121,9 +81,25 @@ export class FilterApprovalComponent implements OnInit, OnDestroy {
             });
         }
 
-        // Mettre à jour le formulaire avec les valeurs du filtre actuel
         this.approvalFacade.currentFilter$
-            .pipe(takeUntil(this.destroy$))
+            .pipe(
+                distinctUntilChanged((prev, curr) => {
+                    if (prev === curr) return true;
+                    if (!prev && !curr) return true;
+                    if (!prev || !curr) return false;
+
+                    const prevDto = prev.toDto();
+                    const currDto = curr.toDto();
+                    const prevKeys = Object.keys(prevDto).sort();
+                    const currKeys = Object.keys(currDto).sort();
+
+                    if (prevKeys.length !== currKeys.length) return false;
+                    return prevKeys.every(
+                        (key) => prevDto[key] === currDto[key]
+                    );
+                }),
+                takeUntil(this.destroy$)
+            )
             .subscribe((filterValue) => {
                 if (!this.formFilter) {
                     return;
@@ -134,7 +110,6 @@ export class FilterApprovalComponent implements OnInit, OnDestroy {
                         ? (filterValue.toDto() as Record<string, string>)
                         : {};
 
-                // Mettre à jour les valeurs sans recréer le formulaire
                 this.formFilter.patchValue(
                     {
                         created_from: dto['created_from'] ?? '',

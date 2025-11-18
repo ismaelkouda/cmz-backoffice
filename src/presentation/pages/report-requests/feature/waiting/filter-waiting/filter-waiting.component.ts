@@ -15,6 +15,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { WaitingFacade } from '@presentation/pages/report-requests/application/waiting.facade';
 import { WaitingFilterFormControlEntity } from '@presentation/pages/report-requests/domain/entities/waiting/waiting-filter-form-control.entity';
 import { WaitingFilterPayloadEntity } from '@presentation/pages/report-requests/domain/entities/waiting/waiting-filter-payload.entity';
+import { OPERATOR_CONST } from '@shared/domain/constants/operator';
+import { REPORT_CONST } from '@shared/domain/constants/report';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -42,56 +44,8 @@ export class FilterWaitingComponent implements OnInit, OnDestroy {
 
     public formFilter!: FormGroup<WaitingFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();
-
-    readonly reportTypeOptions = [
-        {
-            value: 'Couverture partielle signal',
-            label: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL',
-        },
-        {
-            value: 'zone blanche',
-            label: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.WHITE_ZONE',
-        },
-        {
-            value: "Absence d'internet",
-            label: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.NO_INTERNET',
-        },
-    ] as const;
-
-    readonly operatorOptions = [
-        {
-            value: 'orange',
-            label: 'REPORT_REQUESTS.WAITING.OPTIONS.OPERATOR.ORANGE',
-        },
-        {
-            value: 'mtn',
-            label: 'REPORT_REQUESTS.WAITING.OPTIONS.OPERATOR.MTN',
-        },
-        {
-            value: 'moov',
-            label: 'REPORT_REQUESTS.WAITING.OPTIONS.OPERATOR.MOOV',
-        },
-    ] as const;
-
-    readonly stateOptions = [
-        {
-            value: 'pending',
-            label: 'REPORT_REQUESTS.WAITING.OPTIONS.STATE.PENDING',
-        },
-        {
-            value: 'rejected',
-            label: 'REPORT_REQUESTS.WAITING.OPTIONS.STATE.REJECTED',
-        },
-    ] as const;
-
-    public resetSelect<K extends keyof WaitingFilterFormControlEntity>(
-        controlName: K
-    ): void {
-        const control = this.formFilter?.controls[controlName];
-        if (control) {
-            control.setValue('', { emitEvent: false });
-        }
-    }
+    readonly reportOptions = REPORT_CONST;
+    readonly operatorOptions = OPERATOR_CONST;
 
     constructor(
         private readonly toastService: ToastrService,
@@ -114,9 +68,6 @@ export class FilterWaitingComponent implements OnInit, OnDestroy {
                     nonNullable: true,
                 }),
                 report_type: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-                state: new FormControl<string>('', {
                     nonNullable: true,
                 }),
                 operator: new FormControl<string>('', {
@@ -154,18 +105,25 @@ export class FilterWaitingComponent implements OnInit, OnDestroy {
                         ? filterValue.toDto()
                         : {};
 
-                // Mettre à jour les valeurs sans recréer le formulaire
                 this.formFilter.patchValue(
                     {
                         created_from: dto['created_from'] ?? '',
                         created_to: dto['created_to'] ?? '',
                         report_type: dto['report_type'] ?? '',
-                        state: dto['state'] ?? '',
                         operator: dto['operator'] ?? '',
                     },
                     { emitEvent: false }
                 );
             });
+    }
+
+    public resetSelect<K extends keyof WaitingFilterFormControlEntity>(
+        controlName: K
+    ): void {
+        const control = this.formFilter?.controls[controlName];
+        if (control) {
+            control.setValue('', { emitEvent: false });
+        }
     }
 
     public onSubmitFilterForm(): void {
@@ -196,7 +154,6 @@ export class FilterWaitingComponent implements OnInit, OnDestroy {
                 : '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
-            state: this.formFilter.get('state')?.value?.trim() ?? '',
             operator: this.formFilter.get('operator')?.value?.trim() ?? '',
         };
 

@@ -82,11 +82,6 @@ export interface Timestamps {
     updatedAt: string;
 }
 
-export type TQueueManagementParams = {
-    canBeTaken: boolean;
-    canBeRejected: boolean;
-};
-
 export interface Waiting {
     readonly id: string;
     readonly uniqId: string;
@@ -152,14 +147,6 @@ export class WaitingEntity implements Waiting {
 
     public canBeRejected(): boolean {
         return this.isPending() && !this.duplication.isDuplicated;
-    }
-
-    public managementParams(): TQueueManagementParams {
-        if (this.canBeTaken() && !this.canBeRejected()) {
-            return { canBeTaken: true, canBeRejected: false };
-        } else {
-            return { canBeTaken: true, canBeRejected: true };
-        }
     }
 
     public requiresImmediateAttention(): boolean {
@@ -283,9 +270,6 @@ export class WaitingEntity implements Waiting {
         return this.approval.confirmCount + this.approval.denyCount >= 3;
     }
 
-    /**
-     * Calcule le nombre de jours depuis la création
-     */
     public getDaysSinceCreation(): number {
         const created = new Date(this.timestamps.createdAt);
         const now = new Date();
@@ -337,12 +321,12 @@ export class WaitingEntity implements Waiting {
         return this.reportType === ReportType.ZOB;
     }
 
-    public reportDescription(): string {
+    public get reportDescription(): string {
         const reportDescription: Record<string, string> = {
-            abi: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.NO_INTERNET',
-            cps: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL',
-            cpo: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.PARTIAL_OPERATOR',
-            zob: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.WHITE_ZONE',
+            ABI: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.NO_INTERNET',
+            CPS: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL',
+            CPO: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.PARTIAL_OPERATOR',
+            ZOB: 'REPORT_REQUESTS.WAITING.OPTIONS.REPORT_TYPE.WHITE_ZONE',
         };
         return reportDescription[this.reportType] || this.reportType;
     }

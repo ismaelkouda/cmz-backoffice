@@ -9,11 +9,8 @@
 
             <section class="card approval-card">
                 <div class="card-body approval-card-body">
-                    <header
-                        class="approval-header"
-                    >
-                        <app-page-title
-                            class="page-title-component"
+                    <header class="approval-header">
+                        <app-page-title class="page-title-component"
                             [displayDate]="false"
                             [title]="
                                 'REPORT_REQUESTS.APPROVAL.TITLE' | translate | lowercase
@@ -58,11 +55,10 @@
     </section>
 
     @if(reportTreatmentVisible) {
-<app-management
-        [(visible)]="reportTreatmentVisible"
-        [reportId]="selectedReportId"
-        (closed)="onReportTreatmentClosed()"
-    ></app-management>
-    }
-    
+        <app-management
+            [(visible)]="reportTreatmentVisible"
+            [reportId]="selectedReportId"
+            (closed)="onReportTreatmentClosed()"
+        ></app-management>
+    }   
 </main>

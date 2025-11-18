@@ -42,6 +42,7 @@ export class TableExportExcelFileService {
             bookType: 'xlsx',
             type: 'array',
         });
+
         this.saveAsExcelFile(excelBuffer, excelFileName);
     }
 

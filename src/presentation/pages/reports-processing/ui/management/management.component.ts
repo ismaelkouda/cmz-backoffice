@@ -441,6 +441,7 @@ export class ManagementComponent implements OnInit {
                 next: (response) => {
                     if (!response.error && response.message) {
                         this.toastService.success(response.message);
+                        this.onHide();
                         this.handleRefresh(management);
                     } else {
                         this.toastService.error(response.message);
@@ -478,12 +479,13 @@ export class ManagementComponent implements OnInit {
     }
 
     private handleRefresh(management: string): void {
-        const actionMap: any = {
+        const actionMap: Record<string, () => void> = {
             take: () => this.waitingFacade.refresh(),
             approve: () => this.approvalFacade.refresh(),
             treat: () => this.treatmentFacade.refresh(),
         };
-        actionMap[management];
+        actionMap[management]();
+        console.log('manaement', management);
     }
 
     public setDecision(decision: string): void {

@@ -10,8 +10,7 @@
             <section class="card waiting-card">
                 <div class="card-body waiting-card-body">
                     <header class="waiting-header">
-                        <app-page-title
-                            class="page-title-component"
+                        <app-page-title class="page-title-component"
                             [displayDate]="false"
                             [title]="
                                 'REPORT_REQUESTS.WAITING.TITLE' | translate | lowercase
@@ -38,9 +37,7 @@
                                 [isLoading]="isLoading$ | async"
                                 [pagination$]="pagination$"
                                 [listWaiting$]="listWaiting$"
-                                (treatmentRequested)="
-                                    onWaitingAction($event)
-                                "
+                                (treatmentRequested)="onWaitingAction($event)"
                                 (refreshRequested)="refreshWaiting()"
                             >
                             </app-table-waiting>
@@ -58,11 +55,9 @@
     </section>
 
     @if(reportTreatmentVisible) {
-            <app-management
+        <app-management
             [(visible)]="reportTreatmentVisible"
             [reportId]="selectedReportId"
-            [title]="'prise-en-charge'"
-            [managementParams]="selectManagementParams"
             (closed)="onReportTreatmentClosed()"
         ></app-management>
     }

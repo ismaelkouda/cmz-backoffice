@@ -61,7 +61,6 @@
                 [class]="col.class"
                 [ngStyle]="{ minWidth: col.width, width: col.width }"
                 [attr.data-label]="col.header | translate"
-                [pTooltip]="item.reportDescription"
             >
                 <ng-container [ngSwitch]="col.field">
                     <ng-container *ngSwitchCase="'__index'">
@@ -78,17 +77,17 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'reportType'">
-                    <span
-                        [pTooltip]="item.reportDescription"
-                        tooltipPosition="bottom"
-                        showDelay="500"
-                        hideDelay="300"
-                        [tooltipStyleClass]="'custom-tooltip'"
-                        class="report-type-content"
-                    >
-                        {{ item.reportType }}
-                    </span>
-                </ng-container>
+                        <span
+                            [pTooltip]="item.reportDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300"
+                            [tooltipStyleClass]="'custom-tooltip'"
+                            class="report-type-content"
+                        >
+                            {{ item.reportType }}
+                        </span>
+                    </ng-container>
 
                     <ng-container *ngSwitchCase="'operators'">
                         <div

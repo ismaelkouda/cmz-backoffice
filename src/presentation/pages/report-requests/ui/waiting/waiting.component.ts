@@ -11,10 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { WaitingFacade } from '@presentation/pages/report-requests/application/waiting.facade';
 import { WaitingFilterPayloadEntity } from '@presentation/pages/report-requests/domain/entities/waiting/waiting-filter-payload.entity';
-import {
-    TQueueManagementParams,
-    WaitingEntity,
-} from '@presentation/pages/report-requests/domain/entities/waiting/waiting.entity';
+import { WaitingEntity } from '@presentation/pages/report-requests/domain/entities/waiting/waiting.entity';
 import { WaitingFilter } from '@presentation/pages/report-requests/domain/value-objects/waiting-filter.vo';
 import { FilterWaitingComponent } from '@presentation/pages/report-requests/feature/waiting/filter-waiting/filter-waiting.component';
 import { TableWaitingComponent } from '@presentation/pages/report-requests/feature/waiting/table-waiting/table-waiting.component';
@@ -53,7 +50,6 @@ export class WaitingComponent implements OnInit, OnDestroy {
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-    public selectManagementParams!: TQueueManagementParams;
 
     constructor(
         private readonly activatedRoute: ActivatedRoute,
@@ -94,7 +90,6 @@ export class WaitingComponent implements OnInit, OnDestroy {
 
     public onWaitingAction(item: WaitingEntity): void {
         this.selectedReportId = item.uniqId;
-        this.selectManagementParams = item.managementParams();
         this.reportTreatmentVisible = true;
     }
 
