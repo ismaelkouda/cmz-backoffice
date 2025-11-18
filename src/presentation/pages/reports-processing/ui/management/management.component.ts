@@ -16,9 +16,10 @@ import {
     ɵTypedOrUntyped,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ApprovalFacade } from '@presentation/pages/report-requests/application/approval.facade';
+import { WaitingFacade } from '@presentation/pages/report-requests/application/waiting.facade';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
-import { CurrentUser } from '@shared/interfaces/current-user.interface';
-import { EncodingDataService } from '@shared/services/encoding-data.service';
+import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -28,7 +29,10 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 import { DetailsFacade } from '../../application/details.facade';
+import { FinalizeFacade } from '../../application/finalize.facade';
 import { ManagementFacade } from '../../application/management.facade';
+import { QueueFacade } from '../../application/queue.facade';
+import { TreatmentFacade } from '../../application/treatment.facade';
 import {
     DetailsEntity,
     PriorityLevel,
@@ -38,6 +42,7 @@ import {
     TelecomOperator,
 } from '../../domain/entities/details/details.entity';
 import { ManagementFormControlEntity } from '../../domain/entities/management/management-form-control.entity';
+import { ManagementEntity } from '../../domain/entities/management/management.entity';
 
 interface WorkflowStep {
     key: string;
@@ -83,7 +88,6 @@ export class ManagementComponent implements OnInit {
 
     public selectedCategoryIndex: number = 0;
     public selectedSectionIndex: number = 0;
-    public currentUser!: CurrentUser | null;
     public rejectionComment: string = '';
 
     public infoCards: InfoCard[] = [
@@ -155,10 +159,15 @@ export class ManagementComponent implements OnInit {
         { code: 'AUT', label: '[AUT] - Autre raison' },
     ];
 
+    private readonly toastService = inject(ToastrService);
     private readonly translate = inject(TranslateService);
     private readonly fb = inject(FormBuilder);
     private readonly messageService = inject(MessageService);
-    private readonly encodingService = inject(EncodingDataService);
+    private readonly waitingFacade = inject(WaitingFacade);
+    private readonly approvalFacade = inject(ApprovalFacade);
+    private readonly finalizeFacade = inject(FinalizeFacade);
+    private readonly queueFacade = inject(QueueFacade);
+    private readonly treatmentFacade = inject(TreatmentFacade);
     private readonly destroy$ = new Subject<void>();
 
     public isTreatmentFormExpanded = false;
@@ -181,10 +190,6 @@ export class ManagementComponent implements OnInit {
     }
 
     private initializeComponent(): void {
-        const user = this.encodingService.getData(
-            'user_data'
-        ) as CurrentUser | null;
-        this.currentUser = user;
         this.initForm();
     }
 
@@ -424,33 +429,61 @@ export class ManagementComponent implements OnInit {
 
     private executeManagementAction(
         management: string,
-        credentials: any
+        credentials: ɵTypedOrUntyped<
+            ManagementFormControlEntity,
+            ɵFormGroupRawValue<ManagementFormControlEntity>,
+            any
+        >
     ): void {
-        const actionMap: Record<string, () => void> = {
-            take: () => this.managementFacade.take(credentials),
-            approve: () => {
-                const decision = this.formTreatment.get('decision')?.value;
-                if (decision === 'rejected') {
-                    this.managementFacade.reject(credentials);
-                } else {
-                    this.managementFacade.approve(credentials);
-                }
-            },
-            treat: () => this.managementFacade.process(credentials),
-            //finalize: () => this.managementFacade.finalize(credentials),
-            see: () => console.log('View action'),
-        };
-
-        const action = actionMap[management];
+        const action = this.handleManagementAction(management, credentials);
         if (action) {
-            action();
+            action().subscribe({
+                next: (response) => {
+                    if (!response.error && response.message) {
+                        this.toastService.success(response.message);
+                        this.handleRefresh(management);
+                    } else {
+                        this.toastService.error(response.message);
+                    }
+                },
+            });
         } else {
             console.error(`Unknown management action: ${management}`);
         }
     }
 
-    public onRejectReportTreatment(): void {
-        console.log('Rejet du traitement pour le signalement:', this.reportId);
+    private handleManagementAction(
+        management: string,
+        credentials: ɵTypedOrUntyped<
+            ManagementFormControlEntity,
+            ɵFormGroupRawValue<ManagementFormControlEntity>,
+            any
+        >
+    ): () => Observable<ManagementEntity> {
+        const actionMap: Record<string, () => Observable<ManagementEntity>> = {
+            take: () => this.managementFacade.take(credentials),
+            approve: () => {
+                const decision = this.formTreatment.get('decision')?.value;
+                if (decision === 'rejected') {
+                    return this.managementFacade.reject(credentials);
+                } else {
+                    return this.managementFacade.approve(credentials);
+                }
+            },
+            treat: () => this.managementFacade.process(credentials),
+            //finalize: () => this.managementFacade.finalize(credentials),
+        };
+
+        return actionMap[management];
+    }
+
+    private handleRefresh(management: string): void {
+        const actionMap: any = {
+            take: () => this.waitingFacade.refresh(),
+            approve: () => this.approvalFacade.refresh(),
+            treat: () => this.treatmentFacade.refresh(),
+        };
+        actionMap[management];
     }
 
     public setDecision(decision: string): void {

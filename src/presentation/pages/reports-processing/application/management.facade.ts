@@ -9,7 +9,6 @@ import {
     catchError,
     debounceTime,
     finalize,
-    tap,
     throwError,
 } from 'rxjs';
 import { PAGINATION_CONST } from '../../../../shared/constants/pagination.constants';
@@ -37,23 +36,14 @@ export class ManagementFacade {
             ɵFormGroupRawValue<ManagementFormControlEntity>,
             any
         >
-    ): void {
+    ): Observable<ManagementEntity> {
         if (this.loadingSubject.getValue()) {
-            return;
+            return throwError(() => new Error('Operation already in progress'));
         }
-
         this.loadingSubject.next(true);
-
         const payload = ManagementForm.create(credentials);
-        this.managementUseCase.executeFetchTake(payload).pipe(
+        return this.managementUseCase.executeFetchTake(payload).pipe(
             debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-            tap((response) => {
-                if (!response.error && response.message) {
-                    this.toastService.success(response.message);
-                } else {
-                    this.toastService.error(response.message);
-                }
-            }),
             finalize(() => this.loadingSubject.next(false)),
             catchError((error: unknown) => {
                 const errorMessage = this.getErrorMessage(error);
@@ -69,33 +59,21 @@ export class ManagementFacade {
             ɵFormGroupRawValue<ManagementFormControlEntity>,
             any
         >
-    ): Observable<ManagementEntity> | void {
+    ): Observable<ManagementEntity> {
         if (this.loadingSubject.getValue()) {
             return throwError(() => new Error('Operation already in progress'));
         }
-
         this.loadingSubject.next(true);
-
         const payload = ManagementForm.create(credentials);
-        this.managementUseCase
-            .executeFetchApprove(payload)
-            .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                tap((response) => {
-                    if (!response.error && response.message) {
-                        this.toastService.success(response.message);
-                    } else {
-                        this.toastService.error(response.message);
-                    }
-                }),
-                finalize(() => this.loadingSubject.next(false)),
-                catchError((error: unknown) => {
-                    const errorMessage = this.getErrorMessage(error);
-                    this.toastService.error(errorMessage);
-                    return throwError(() => error);
-                })
-            )
-            .subscribe();
+        return this.managementUseCase.executeFetchApprove(payload).pipe(
+            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
+            finalize(() => this.loadingSubject.next(false)),
+            catchError((error: unknown) => {
+                const errorMessage = this.getErrorMessage(error);
+                this.toastService.error(errorMessage);
+                return throwError(() => error);
+            })
+        );
     }
 
     reject(
@@ -104,34 +82,21 @@ export class ManagementFacade {
             ɵFormGroupRawValue<ManagementFormControlEntity>,
             any
         >
-    ): Observable<ManagementEntity> | void {
+    ): Observable<ManagementEntity> {
         const payload = ManagementForm.create(credentials);
-
         if (this.loadingSubject.getValue()) {
             return throwError(() => new Error('Operation already in progress'));
         }
-
         this.loadingSubject.next(true);
-
-        this.managementUseCase
-            .executeFetchReject(payload)
-            .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                tap((response) => {
-                    if (!response.error && response.message) {
-                        this.toastService.success(response.message);
-                    } else {
-                        this.toastService.error(response.message);
-                    }
-                }),
-                finalize(() => this.loadingSubject.next(false)),
-                catchError((error: unknown) => {
-                    const errorMessage = this.getErrorMessage(error);
-                    this.toastService.error(errorMessage);
-                    return throwError(() => error);
-                })
-            )
-            .subscribe();
+        return this.managementUseCase.executeFetchReject(payload).pipe(
+            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
+            finalize(() => this.loadingSubject.next(false)),
+            catchError((error: unknown) => {
+                const errorMessage = this.getErrorMessage(error);
+                this.toastService.error(errorMessage);
+                return throwError(() => error);
+            })
+        );
     }
 
     process(
@@ -140,34 +105,21 @@ export class ManagementFacade {
             ɵFormGroupRawValue<ManagementFormControlEntity>,
             any
         >
-    ): Observable<ManagementEntity> | void {
+    ): Observable<ManagementEntity> {
         const payload = ManagementForm.create(credentials);
-
         if (this.loadingSubject.getValue()) {
             return throwError(() => new Error('Operation already in progress'));
         }
-
         this.loadingSubject.next(true);
-
-        this.managementUseCase
-            .executeFetchProcess(payload)
-            .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                tap((response) => {
-                    if (!response.error && response.message) {
-                        this.toastService.success(response.message);
-                    } else {
-                        this.toastService.error(response.message);
-                    }
-                }),
-                finalize(() => this.loadingSubject.next(false)),
-                catchError((error: unknown) => {
-                    const errorMessage = this.getErrorMessage(error);
-                    this.toastService.error(errorMessage);
-                    return throwError(() => error);
-                })
-            )
-            .subscribe();
+        return this.managementUseCase.executeFetchProcess(payload).pipe(
+            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
+            finalize(() => this.loadingSubject.next(false)),
+            catchError((error: unknown) => {
+                const errorMessage = this.getErrorMessage(error);
+                this.toastService.error(errorMessage);
+                return throwError(() => error);
+            })
+        );
     }
 
     protected getErrorMessage(error: unknown): string {
