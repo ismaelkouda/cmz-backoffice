@@ -69,13 +69,13 @@ export class FilterPublicEnterprisesComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<
         PublicEnterprisesFilterInterface | {}
     >();
-    @Input() listPublicEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    @Input() listPublicEnterprisesStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
 
     public formFilter!: FormGroup<PublicEnterprisesFilterInterface>;
     private destroy$ = new Subject<void>();
 
-    public secondFilter: boolean = false;
-    public thirdFilter: boolean = false;
+    public secondFilter = false;
+    public thirdFilter = false;
 
     constructor(
         private fb: FormBuilder,

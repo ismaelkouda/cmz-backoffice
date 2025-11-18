@@ -1,6 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const { validateConfig, generateTypes } = require('./config-validator');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { generateTypes, validateConfig } from './config-validator.js';
+
+// Equivalent à __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class EnvironmentGenerator {
     constructor() {
@@ -15,13 +20,14 @@ class EnvironmentGenerator {
         );
     }
 
-    loadConfig() {
+    async loadConfig() {
         if (!fs.existsSync(this.configPath)) {
             throw new Error("❌ Fichier 'config.js' introuvable");
         }
 
-        delete require.cache[require.resolve(this.configPath)];
-        return require(this.configPath);
+        // Import dynamique pour charger le fichier de configuration
+        const configModule = await import(this.configPath);
+        return configModule.default || configModule;
     }
 
     validateEnvironment(config, env) {
@@ -85,11 +91,11 @@ class EnvironmentGenerator {
         fs.writeFileSync(this.envOutputPath, output, 'utf8');
     }
 
-    generate(env) {
+    async generate(env) {
         try {
             console.log(`🚀 Génération de l'environnement: ${env}`);
 
-            const config = this.loadConfig();
+            const config = await this.loadConfig();
             this.generateTypeDefinitions(config);
             this.generateEnvFile(config, env);
 
@@ -102,4 +108,15 @@ class EnvironmentGenerator {
     }
 }
 
-module.exports = EnvironmentGenerator;
+// Gestion de l'appel en ligne de commande
+const args = process.argv.slice(2);
+const environment = args[0];
+
+if (!environment) {
+    console.error('❌ Usage: node generate-env.js <environment>');
+    process.exit(1);
+}
+
+const generator = new EnvironmentGenerator();
+generator.generate(environment);
+export default EnvironmentGenerator;

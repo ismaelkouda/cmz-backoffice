@@ -40,15 +40,13 @@ export class TableCustomersActivateComponent implements OnInit, OnDestroy {
     @Output() interfaceUser =
         new EventEmitter<CustomersActivatePageActionsType>();
     @Input() spinner!: boolean;
-    @Input() listCustomersActivate$!: Observable<
-        Array<CustomersActivateInterface>
-    >;
+    @Input() listCustomersActivate$!: Observable<CustomersActivateInterface[]>;
     @Input() pagination$!: Observable<Paginate<CustomersActivateInterface>>;
 
     public customerActivateSelected: CustomersActivateInterface = {} as any;
     public table = CUSTOMERS_ACTIVATE_TABLE;
 
-    public visibleForm: boolean = false;
+    public visibleForm = false;
     public list: CustomersActivateInterface[] = [];
     public page: Paginate<CustomersActivateInterface> | null = null;
 
@@ -240,8 +238,12 @@ export class TableCustomersActivateComponent implements OnInit, OnDestroy {
         item: CustomersActivateInterface,
         params: CustomersActivatePageActionsType
     ) {
-        if (evt) evt.stopPropagation();
-        if (item) this.onRowSelect(item);
+        if (evt) {
+            evt.stopPropagation();
+        }
+        if (item) {
+            this.onRowSelect(item);
+        }
         this.handleAction(params);
     }
 
@@ -252,7 +254,9 @@ export class TableCustomersActivateComponent implements OnInit, OnDestroy {
     }
 
     public handleAction(params: CustomersActivatePageActionsType) {
-        if (!params) return;
+        if (!params) {
+            return;
+        }
         switch (params.view) {
             case 'modal':
                 if (
@@ -273,7 +277,9 @@ export class TableCustomersActivateComponent implements OnInit, OnDestroy {
     }
 
     public computeIndex(rowIndex: number) {
-        if (!this.page) return rowIndex + 1;
+        if (!this.page) {
+            return rowIndex + 1;
+        }
         return (this.page.current_page - 1) * this.page.per_page + rowIndex + 1;
     }
 

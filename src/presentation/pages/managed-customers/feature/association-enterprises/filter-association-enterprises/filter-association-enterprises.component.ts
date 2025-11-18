@@ -72,13 +72,13 @@ export class FilterAssociationEnterprisesComponent
         AssociationEnterprisesFilterInterface | {}
     >();
     @Input()
-    listAssociationEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    listAssociationEnterprisesStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
 
     public formFilter!: FormGroup<AssociationEnterprisesFilterInterface>;
     private destroy$ = new Subject<void>();
 
-    public secondFilter: boolean = false;
-    public thirdFilter: boolean = false;
+    public secondFilter = false;
+    public thirdFilter = false;
 
     constructor(
         private fb: FormBuilder,

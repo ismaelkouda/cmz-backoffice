@@ -1,22 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+} from '@angular/core';
 import {
     ActivatedRoute,
     NavigationEnd,
     Router,
     RouterOutlet,
 } from '@angular/router';
+import { fadeInAnimation } from '@shared/data/router-animation/router-animation';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { LayoutService } from '@shared/services/layout.service';
+import { NavService } from '@shared/services/nav.service';
 import * as feather from 'feather-icons';
 import { filter } from 'rxjs';
-import { fadeInAnimation } from '../../../data/router-animation/router-animation';
-import { LayoutService } from '../../../services/layout.service';
-import { NavService } from '../../../services/nav.service';
 import { FooterComponent } from '../../footer/footer.component';
 import { HeaderComponent } from '../../header/header.component';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 @Component({
     selector: 'app-content',
+    standalone: true,
     templateUrl: './content.component.html',
     styleUrls: ['./content.component.scss'],
     imports: [
@@ -27,9 +34,12 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
         RouterOutlet,
     ],
     animations: [fadeInAnimation],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentComponent implements OnInit, AfterViewInit {
-    showTabs = false;
+export class ContentComponent implements AfterViewInit {
+    public readonly config = inject(AppCustomizationService).config;
+    public showTabs = false;
+
     constructor(
         private route: ActivatedRoute,
         public navServices: NavService,
@@ -43,6 +53,7 @@ export class ContentComponent implements OnInit, AfterViewInit {
                     this.showTabs = true;
                 }, 2500);
             });
+
         this.route.queryParams.subscribe((params) => {
             this.layout.config.settings.layout = params['layout']
                 ? params['layout']
@@ -50,13 +61,13 @@ export class ContentComponent implements OnInit, AfterViewInit {
         });
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         setTimeout(() => {
             feather.replace();
         });
     }
 
-    get layoutClass() {
+    get layoutClass(): string {
         switch (globalThis.localStorage.getItem('layout')) {
             case 'Paris':
                 return 'compact-wrapper dark-sidebar';
@@ -68,6 +79,4 @@ export class ContentComponent implements OnInit, AfterViewInit {
                 return 'compact-wrapper dark-sidebar';
         }
     }
-
-    ngOnInit() {}
 }

@@ -23,9 +23,7 @@ export class CustomersApiService {
         this.BASE_URL = this.envService.reportUrl;
     }
 
-    private individualsSubject = new BehaviorSubject<Array<CustomersInterface>>(
-        []
-    );
+    private individualsSubject = new BehaviorSubject<CustomersInterface[]>([]);
     private individualsStatsSubject =
         new BehaviorSubject<CustomersStatsInterface>(
             {} as CustomersStatsInterface
@@ -43,11 +41,10 @@ export class CustomersApiService {
         new BehaviorSubject<CustomersApiResponseInterface>(
             {} as CustomersApiResponseInterface
         );
-    fetchCustomers(
-        data: CustomersFilterInterface,
-        nbrPage: string = '1'
-    ): void {
-        if (this.loadingCustomersSubject.getValue()) return;
+    fetchCustomers(data: CustomersFilterInterface, nbrPage = '1'): void {
+        if (this.loadingCustomersSubject.getValue()) {
+            return;
+        }
         this.loadingCustomersSubject.next(true);
         const url: string =
             CustomersEndpointEnum.CUSTOMERS_MANAGED_CUSTOMERS.replace(
@@ -56,7 +53,7 @@ export class CustomersApiService {
             );
 
         this.httpClient
-            .post<Object>(this.BASE_URL + url, {
+            .post<object>(this.BASE_URL + url, {
                 ...data,
                 type_entreprise: TYPE_CUSTOMERS_ENUM.INDIVIDUALS,
             })
@@ -81,7 +78,7 @@ export class CustomersApiService {
             .subscribe();
     }
 
-    getCustomers(): Observable<Array<CustomersInterface>> {
+    getCustomers(): Observable<CustomersInterface[]> {
         return this.individualsSubject.asObservable();
     }
     getCustomersPagination(): Observable<Paginate<CustomersInterface>> {

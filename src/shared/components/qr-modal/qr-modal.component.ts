@@ -10,8 +10,8 @@ import { EncodingDataService } from '../../services/encoding-data.service';
     styleUrls: ['./qr-modal.component.scss'],
 })
 export class QrModalComponent implements OnInit, OnDestroy {
-    @Input() qr;
-    public simQrCode: string;
+    @Input() qr!: string;
+    public simQrCode!: string;
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -27,7 +27,7 @@ export class QrModalComponent implements OnInit, OnDestroy {
         const user = this.encodingService.getData(
             'user_data'
         ) as CurrentUser | null;
-        this.simQrCode = `${user?.tenant?.url_minio}/${this.qr?.qrcode}`;
+        //this.simQrCode = `${user?.tenant?.url_minio}/${this.qr?.qrcode}`;
     }
 
     ngOnDestroy() {

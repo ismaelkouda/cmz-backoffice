@@ -1,38 +1,53 @@
-<!-- Page Sidebar Start-->
 <div class="logo-wrapper">
-    <img class="img-fluid for-light" width="200" [src]="LOGO_ANSUT" alt="" />
-    <img class="img-fluid for-dark" width="200" [src]="LOGO_ANSUT" alt="" />
-    <!-- <div style="background-color: red;"
-        class="back-btn"
-        (click)="sidebarToggle()"
-        style="background-color: red"
-    >
-        <i class="fa fa-angle-left"></i>
-    </div> -->
+    <a [routerLink]="['/dashboard']">
+        <img
+            class="img-fluid"
+            [src]="LOGO_ANSUT"
+            width="200"
+            [alt]="'LAYOUT.SIDEBAR.LOGO.ALT' | translate"
+        />
+    </a>
 </div>
-<!-- <div class="logo-icon-wrapper">
-    <img class="img-fluid" width="56" [src]="ORANGE" alt="" />
-</div> -->
+<div class="logo-icon-wrapper">
+    <a [routerLink]="['/dashboard']">
+        <img
+            class="img-fluid"
+            [src]="LOGO_ANSUT"
+            width="60"
+            [alt]="'LAYOUT.SIDEBAR.LOGO_ICON.ALT' | translate"
+        />
+    </a>
+</div>
+
 <nav class="sidebar-main">
-    <div class="back-btn sidebar-icon" (click)="sidebarToggle()">
+    <button
+        type="button"
+        class="back-btn sidebar-icon"
+        (click)="sidebarToggle()"
+        [attr.aria-label]="'LAYOUT.SIDEBAR.TOGGLE.ARIA_LABEL' | translate"
+    >
         <i [attr.data-feather]="'sidebar'"></i>
-    </div>
-    <!-- <div
+    </button>
+    <button
+        type="button"
         class="left-arrow"
         id="left-arrow"
         [class.d-none]="leftArrowNone"
         (click)="scrollToLeft()"
+        [attr.aria-label]="'LAYOUT.SIDEBAR.SCROLL_LEFT.ARIA_LABEL' | translate"
     >
         <i [attr.data-feather]="'arrow-left'"></i>
-    </div>
-    <div style="background-color: red;"
-                class="right-arrow"
-                id="right-arrow"
-                [class.d-none]="rightArrowNone"
-                (click)="scrollToRight()"
-            >
-                <i [attr.data-feather]="'arrow-right'"></i>
-            </div> -->
+    </button>
+    <button
+        type="button"
+        class="right-arrow"
+        id="right-arrow"
+        [class.d-none]="rightArrowNone"
+        (click)="scrollToRight()"
+        [attr.aria-label]="'LAYOUT.SIDEBAR.SCROLL_RIGHT.ARIA_LABEL' | translate"
+    >
+        <i [attr.data-feather]="'arrow-right'"></i>
+    </button>
     <div
         id="sidebar-menu"
         [ngStyle]="{
@@ -55,19 +70,30 @@
                                         <img
                                             class="img-fluid"
                                             [src]="LOGO_ANSUT"
-                                            alt=""
+                                            [alt]="
+                                                'LAYOUT.SIDEBAR.LOGO.ALT'
+                                                    | translate
+                                            "
                                         />
                                     </a>
-                                    <div
+                                    <button
+                                        type="button"
                                         class="mobile-back text-end"
                                         (click)="sidebarToggle()"
+                                        [attr.aria-label]="
+                                            'LAYOUT.SIDEBAR.BACK.ARIA_LABEL'
+                                                | translate
+                                        "
                                     >
-                                        <span>Back</span>
+                                        <span>{{
+                                            'LAYOUT.SIDEBAR.BACK.TEXT'
+                                                | translate
+                                        }}</span>
                                         <i
                                             class="fa fa-angle-right ps-2"
                                             aria-hidden="true"
                                         ></i>
-                                    </div>
+                                    </button>
                                 </li>
 
                                 <li
@@ -87,7 +113,7 @@
                                         </h6>
                                     </div>
 
-                                    <label
+                                    <output
                                         class="badge badge-{{
                                             menuItem.badgeType
                                         }}"
@@ -95,7 +121,13 @@
                                             menuItem.badgeType &&
                                             menuItem.badgeValue
                                         "
-                                        >{{ menuItem.badgeValue }}</label
+                                        [attr.aria-label]="
+                                            ('LAYOUT.SIDEBAR.BADGE.ARIA_LABEL'
+                                                | translate) +
+                                            ': ' +
+                                            menuItem.badgeValue
+                                        "
+                                        >{{ menuItem.badgeValue }}</output
                                     >
                                     <!-- Sub -->
                                     <a
@@ -278,6 +310,9 @@
                                                     childrenItem.type === 'link'
                                                 "
                                                 routerLinkActive="active"
+                                                [routerLinkActiveOptions]="{
+                                                    exact: false,
+                                                }"
                                             >
                                                 {{
                                                     childrenItem.title
@@ -441,15 +476,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div
-                style="background-color: red"
-                class="right-arrow"
-                id="right-arrow"
-                [class.d-none]="rightArrowNone"
-                (click)="scrollToRight()"
-            >
-                <i [attr.data-feather]="'arrow-right'"></i>
             </div>
         </ul>
     </div>

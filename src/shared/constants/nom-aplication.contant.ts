@@ -3,5 +3,4 @@ export const APP_NAME = {
     SIM_MONITORING: 'SIM monitoring',
 } as const;
 
-export type T_APP_NAME =
-    (typeof APP_NAME)[keyof typeof APP_NAME];
+export type T_APP_NAME = (typeof APP_NAME)[keyof typeof APP_NAME];

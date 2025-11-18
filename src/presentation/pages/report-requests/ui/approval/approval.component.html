@@ -1,0 +1,68 @@
+<main class="container-fluid approval-container" role="main">
+    <section class="row approval-row">
+        <article class="col-sm-12 approval-article">
+            <app-breadcrumb
+                class="approval-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card approval-card">
+                <div class="card-body approval-card-body">
+                    <header
+                        class="approval-header"
+                    >
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'REPORT_REQUESTS.APPROVAL.TITLE' | translate | lowercase
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="fade-in approval-content">
+                        <app-filter-approval
+                            class="filter-component"
+                            (filter)="filter($event)"
+                        >
+                        </app-filter-approval>
+
+                        <hr class="approval-divider" />
+
+                        <section
+                            class="table-section"
+                            aria-label="Tableau des approbations"
+                        >
+                            <app-table-approval
+                                class="table-component"
+                                [spinner]="spinner$ | async"
+                                [pagination$]="pagination$"
+                                [listApproval$]="approvals$"
+                                (treatmentRequested)="onApprovalAction($event)"
+                                (refreshRequested)="refreshApprovals()"
+                            >
+                            </app-table-approval>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination$ | async"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+
+    @if(reportTreatmentVisible) {
+<app-management
+        [(visible)]="reportTreatmentVisible"
+        [reportId]="selectedReportId"
+        (closed)="onReportTreatmentClosed()"
+    ></app-management>
+    }
+    
+</main>

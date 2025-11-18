@@ -1,0 +1,72 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="d-flex gap-1">
+        <div class="col-md-2">
+            <label for="notification-select-nc"
+                ><b>{{ 'NOTIFICATION_TYPE' | translate }}</b></label
+            >
+            <p-select
+                id="notification-select-nc"
+                formControlName="notification"
+                [options]="listTypeNotifications"
+                [showClear]="true"
+                [filter]="true"
+                placeholder="{{ 'SELECT' | translate }} {{
+                    'NOTIFICATION_TYPE' | translate
+                }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+            </p-select>
+        </div>
+        <div class="col-md-2">
+            <label for="numero-demande-input-nc"
+                ><b>{{ 'NUMBER_FOLDER' | translate }}</b></label
+            >
+            <input
+                id="numero-demande-input-nc"
+                formControlName="numero_demande"
+                type="text"
+                pInputText
+                placeholder="{{ 'NUMBER_FOLDER' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+
+        <div class="col-md-2">
+            <label for="date-debut-picker-nc"
+                ><b>{{ 'START_DATE' | translate }}</b></label
+            >
+            <p-datepicker
+                id="date-debut-picker-nc"
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+            >
+            </p-datepicker>
+        </div>
+        <div class="col-md-2">
+            <label for="date-fin-picker-nc"
+                ><b>{{ 'END_DATE' | translate }}</b></label
+            >
+            <p-datepicker
+                id="date-fin-picker-nc"
+                formControlName="date_fin"
+                [showIcon]="true"
+                placeholder="JJ-MM-AAAA"
+                dateFormat="dd-mm-yy"
+            >
+            </p-datepicker>
+        </div>
+
+        <div class="filter-button">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
+    </div>
+</form>

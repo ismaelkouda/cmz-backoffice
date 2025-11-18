@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbComponent } from '../../../../../../shared/components/breadcrumb/breadcrumb.component';
-import { PatrimoineHeaderComponent } from '../../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { PageTitleComponent } from '../../../../../../shared/components/page-title/page-title.component';
 import {
     CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
     T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
@@ -25,21 +25,21 @@ import { IdentificationManagedCustomersComponent } from '../identification-manag
     templateUrl: './details-managed-customers.component.html',
     styleUrls: ['./details-managed-customers.component.scss'],
     imports: [
-        PatrimoineHeaderComponent,
+        PageTitleComponent,
         BreadcrumbComponent,
         IdentificationManagedCustomersComponent,
         TranslateModule,
     ],
 })
 export class DetailsManagedCustomersComponent implements OnInit {
-    public module: string = 'Clients gérés';
-    public subModule: string = 'Entreprise commerciale';
+    public module = 'Clients gérés';
+    public subModule = 'Entreprise commerciale';
     public customersDetailsForm!: FormGroup<ManagedCustomersIdentificationInterface>;
     public code_client!: string;
     public customerDetails!: ManagedCustomersDetailsInterface;
 
     @Output() formsView = new EventEmitter();
-    public indexTabPanelActive: number = 0;
+    public indexTabPanelActive = 0;
 
     constructor(
         private fb: FormBuilder,

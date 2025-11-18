@@ -1,0 +1,68 @@
+<main class="container-fluid management-container" role="main">
+    <section class="row management-row">
+        <article class="col-sm-12 management-article">
+            <app-breadcrumb
+                class="management-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card management-card">
+                <div class="card-body management-card-body">
+                    <header class="management-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div *ngIf="team$ | async as team">
+                                <h4>
+                                    <b>
+                                        <span>{{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.TITLE' | translate }}</span>
+                                        <span class="current-values">
+                                            [{{ team.code }}] {{ team.nom }}
+                                        </span>
+                                    </b>
+                                </h4>
+                            </div>
+                            <p-button
+                                [label]="'QUEUE' | translate"
+                                (onClick)="onClose()"
+                                styleClass="p-button-danger"
+                            >
+                            </p-button>
+                        </div>
+                    </header>
+
+                    <div class="fade-in management-content">
+                        <p-tabs
+                            [value]="selectedTabViewIndex"
+                            (valueChange)="handleChangeTabViewIndex($event)"
+                        >
+                            <p-tablist>
+                                <p-tab value="0">
+                                    {{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.TENANTS' | translate }}
+                                </p-tab>
+                                <p-tab value="1">
+                                    {{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.PARTICIPANTS' | translate }}
+                                </p-tab>
+                            </p-tablist>
+                            <p-tabpanels>
+                                <p-tabpanel value="0">
+                                    <app-management-team-tenants
+                                        *ngIf="teamId"
+                                        [teamId]="teamId"
+                                    >
+                                    </app-management-team-tenants>
+                                </p-tabpanel>
+                                <p-tabpanel value="1">
+                                    <app-management-team-participants
+                                        *ngIf="teamId"
+                                        [teamId]="teamId"
+                                    >
+                                    </app-management-team-participants>
+                                </p-tabpanel>
+                            </p-tabpanels>
+                        </p-tabs>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

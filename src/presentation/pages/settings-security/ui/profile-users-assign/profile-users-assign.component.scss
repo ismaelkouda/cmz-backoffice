@@ -1,0 +1,26 @@
+.profile-users-assign-container {
+    padding: 1rem;
+}
+
+.profile-info {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    border-left: 4px solid #007bff;
+
+    h4 {
+        margin: 0 0 0.5rem 0;
+        color: #007bff;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.table-actions-footer {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SharedModule } from '../../../shared/shared.module';
 import { AssociationEnterprisesApiService } from './data-access/association-enterprises/services/association-enterprises-api.service';
 import { CommercialEnterprisesApiService } from './data-access/commercial-enterprises/services/commercial-enterprises-api.service';
 import { CommercialEnterprisesNavigationGuardService } from './data-access/commercial-enterprises/services/commercial-enterprises-navigation-guard.service';
@@ -32,12 +31,7 @@ import { ManagedCustomersRoutingModule } from './managed-customers-routing.modul
         //DetailsManagedCustomersComponent,
         //IdentificationManagedCustomersComponent,
     ],
-    imports: [
-        SharedModule,
-        ManagedCustomersRoutingModule,
-        NgbModule,
-        NgxPaginationModule,
-    ],
+    imports: [ManagedCustomersRoutingModule, NgbModule, NgxPaginationModule],
     providers: [
         CommercialEnterprisesApiService,
         CommercialEnterprisesNavigationGuardService,

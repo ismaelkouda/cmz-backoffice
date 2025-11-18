@@ -23,6 +23,8 @@ export class IdentificationManagedCustomersComponent {
             this.toastService.info('Aucun fichier à afficher');
             return;
         }
-        if (defaultFile) window.open(defaultFile, '_blank');
+        if (defaultFile) {
+            window.open(defaultFile, '_blank');
+        }
     }
 }

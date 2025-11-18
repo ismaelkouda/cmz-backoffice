@@ -1,8 +1,1194 @@
 {
+    "REPORT_REQUESTS": {
+        "STATUS": {
+            "PRISE_EN_CHARGE": "Prise en charge",
+            "APPROBATION": "Approbation"
+        },
+        "LABEL": "Suivi Demandes",
+        "ROUTE": "requests",
+        "WAITING": {
+            "TITLE": "signalements en attente de prise en charge",
+            "LABEL": "File d'attente",
+            "ROUTE": "queues",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATUS": "Status",
+                "SEE_MORE": "Voir plus",
+                "TAKE": "Prendre",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATOR": "Opérateur",
+                "STATE": "État"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
+                    "PARTIAL_SIGNAL": "Couverture partielle signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "STATUS": {
+                    "PENDING": "En attente",
+                    "REJECTED": "Rejeté",
+                    "APPROVED": "Approuvé",
+                    "ABANDONED": "Abandonné"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Réceptionné",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                }
+            }
+        },
+        "APPROVAL": {
+            "TITLE": "signalements en attente de qualification",
+            "LABEL": "Approbation",
+            "ROUTE": "qualified",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "STEP": "Étape",
+                "SEE_MORE": "Voir plus",
+                "QUALIFY": "Qualifier",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet"
+                },
+                "STATE": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            }
+        }
+    },
+
+    "REPORT_PROCESSING": {
+        "STATUS": {
+            "TREATMENT": "Traitement",
+            "FINALIZATION": "Finalisation",
+            "EVALUATION": "Evaluation"
+        },
+        "LABEL": "Traitements Signalements",
+        "ROUTE": "report",
+        "WAITING": {
+            "TITLE": "signalements en attente d'affectation",
+            "LABEL": "File d'attente",
+            "ROUTE": "queues",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATUS": "Status",
+                "SEE_MORE": "Voir plus",
+                "TAKE": "Prendre",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATOR": "Opérateur",
+                "STATE": "État"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "STATUS": {
+                    "PENDING": "En attente",
+                    "REJECTED": "Rejeté",
+                    "APPROVED": "Approuvé",
+                    "ABANDONED": "Abandonné"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Réceptionné",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                }
+            }
+        },
+        "TREATMENT": {
+            "TITLE": "signalements en cours de traitement",
+            "LABEL": "Traitement",
+            "ROUTE": "progress",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "SEE_MORE": "Voir plus",
+                "TREAT": "Traiter",
+                "JOURNAL": "Journal",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet"
+                },
+                "STATE": {
+                    "TERMINATED": "Terminé",
+                    "IN_PROGRESS": "En cours",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            }
+        },
+        "FINALIZE": {
+            "TITLE": "signalements en attente de finalisation",
+            "LABEL": "Finalisation",
+            "ROUTE": "finalize",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "SEE_MORE": "Voir plus",
+                "FINALIZE": "Finaliser",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "WHITE_ZONE": "Zone blanche"
+                },
+                "STATE": {
+                    "FINALIZED": "Finalisé",
+                    "PENDING": "En attente",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            },
+            "REPORT_FINALIZE": {
+                "TITLE": "Finalisation du signalement",
+                "LABEL": "Finalisation du signalement",
+                "REPORT_ID": "Identifiant du signalement",
+                "PLACEHOLDER": "Contenu de la finalisation à venir..."
+            }
+        },
+        "QUEUE": {
+            "TITLE": "signalements en attente de clôture",
+            "LABEL": "Clôture",
+            "ROUTE": "close",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "SEE_MORE": "Voir plus",
+                "QUEUE": "Clôturer",
+                "JOURNAL": "Journal",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet"
+                },
+                "STATE": {
+                    "ACCEPTED": "Accepté",
+                    "PENDING": "En attente",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            }
+        }
+    },
+
+
+    "MANAGEMENT": {
+            "TITLE": "Traitement du signalement",
+            "LABEL": "Traitement du signalement",
+            "REPORT_ID": "Identifiant du signalement",
+            "PLACEHOLDER": "Contenu du traitement à venir...",
+            "STATUS": {
+                "PRISE_EN_CHARGE": "Prise en charge",
+                "APPROBATION": "Approbation",
+                "TREATMENT": "Traitement",
+                "FINALIZATION": "Finalisation",
+                "INFORMATION": "Information"
+            },
+            "HEADER": {
+                "TITLE": "Détails du signalement",
+                "DETAILS": "Détails de la demande",
+                "REPORT_ID": "Identifiant",
+                "STATUS": "Statut",
+                "STATUS_PENDING": "En attente",
+                "TYPE": "Type",
+                "TYPE_PLACEHOLDER": "Zone blanche",
+                "DATE_PLACEHOLDER": "Date à venir..."
+            },
+            "STEP_BAR": {
+                "PRISE_EN_CHARGE": "Prise en charge à",
+                "APPROBATION": "Approuvé à",
+                "TREATMENT": "Traité à",
+                "FINALIZATION": "Finalisé à",
+                "EVALUATION": "Évalué à"
+            },
+            "SIDEBAR": {
+                "INITIATOR": {
+                    "TITLE": "Informations du demandeur",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Contacts"
+                },
+                "APPROVER": {
+                    "TITLE": "Informations du demandeur",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Contacts"
+                },
+                "LOCATION": {
+                    "TITLE": "Localisation",
+                    "PLACEHOLDER": "Localisation à venir..."
+                }
+            },
+            "TABS": {
+                "CATEGORIES": {
+                    "INFORMATION": "Information",
+                    "PHOTOS": "Photos",
+                    "GEOGRAPHIC_VIEW": "Vue géographique"
+                },
+                "SECTIONS": {
+                    "INFO": "Informations"
+                }
+            },
+            "CONTENT": {
+                "INFORMATION": {
+                    "PLACEHOLDER": "Contenu des informations à venir..."
+                },
+                "PHOTOS": {
+                    "PLACEHOLDER": "Contenu des photos à venir..."
+                },
+                "GEOGRAPHIC_VIEW": {
+                    "PLACEHOLDER": "Contenu de la vue géographique à venir..."
+                }
+            },
+            "TREATMENT": {
+                "PANEL": "Panneau de traitement",
+                "TAKE_ACTION": {
+                    "TITLE": "Prendre en charge le signalement",
+                    "REQUIRED": "Requis",
+                    "DECISION": "Décision",
+                    "COMMENT": "Commentaire",
+                    "COMMENT_PLACEHOLDER": "Saisissez votre commentaire...",
+                    "MOTIF": "Motif",
+                    "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
+                    "OPTIONS": {
+                    "APPROVE": {
+                        "LABEL": "Accepter",
+                        "DESCRIPTION": "Prendre en charge le signalement"
+                    },
+                    "REJECT": {
+                        "LABEL": "Rejeter",
+                        "DESCRIPTION": "Refuser le signalement"
+                    }
+                    },
+                    "VALIDATION": {
+                    "COMMENT_REQUIRED": "Un commentaire est requis pour le rejet"
+                    }
+                }
+            },
+            "FORM": {
+            "READ_ONLY": "Lecture seule",
+            "NOT_SPECIFIED": "Non spécifié",
+            "NO_DESCRIPTION": "Aucune description fournie",
+            "STATUS": {
+                "INVALID": "Inalide",
+            "VALID": "Valide"
+            },
+            "REPORT_INFO": {
+                "TITLE": "Information du signalement",
+                "REGION": "Région",
+                "DEPARTMENT": "Département",
+                "COMMUNE": "Commune/Sous-préfecture",
+                "TYPE": "Type de signalement",
+                "STATUS": "Statut",
+                "DESCRIPTION": "Description du signalement",
+                "NO_DESCRIPTION": "Aucune description de localisation fournie"
+            },
+            "LOCATION_INFO": {
+                "TITLE": "Information de la localisation",
+                "LONGITUDE": "Longitude",
+                "LATITUDE": "Latitude",
+                "PLACE_DESCRIPTION": "Description de l'endroit",
+                "NO_DESCRIPTION": "Aucune description de localisation fournie",
+                "MAP_PREVIEW": "Aperçu de la localisation"
+            },
+            "FIELDS": {
+                "REPORT_ID": "ID Signalement",
+                "SOURCE": "Source",
+                "INITIATOR": "Initiateur",
+                "OPERATORS": "Opérateurs concernés",
+                "LOCATION_NAME": "Nom du lieu",
+                "LOCATION_METHOD": "Méthode",
+                "LOCATION_TYPE": "Type localisation",
+                "REGION": "Région",
+                "DEPARTMENT": "Département",
+                "COMMUNE": "Commune/Sous-préfecture"
+            },
+            "VALUES": {
+                "SOURCE": {
+                "APP": "Application Mobile",
+                "WEB": "Site Web",
+                "ADMIN": "Administration"
+                },
+                "REPORT_TYPE": {
+                "ABI": "ABI",
+                "ZOB": "ZOB",
+                "OTHER": "Autre"
+                },
+                "STATUS": {
+                "PENDING": "En attente",
+                "APPROVED": "Approuvé",
+                "REJECTED": "Rejeté",
+                "ABANDONED": "Abandonné",
+                "CONFIRM": "Confirmer",
+                "TERMINATED": "Terminé",
+                "RECEIVED": "Reçu",
+                "IN_PROGRESS": "En cours"
+                },
+                "OPERATORS": {
+                "MTN": "MTN",
+                "ORANGE": "Orange",
+                "MOOV": "Moov"
+                },
+                "LOCATION": {
+                "METHOD_AUTO": "Automatique",
+                "METHOD_MANUAL": "Manuel",
+                "TYPE_GPS": "GPS",
+                "TYPE_NETWORK": "Réseau",
+                "TYPE_MANUAL": "Manuel"
+                }
+            },
+            "ACTIONS": {
+                "VIEW_MAP": "Voir sur la carte",
+                "COPY_COORDINATES": "Copier les coordonnées",
+                "OPEN_MAP": "Ouvrir la carte"
+            }
+            },
+            "FOOTER": {
+            "ACTIONS": {
+                "TAKE_CHARGE": "Prendre en charge",
+                "APPROVE": "Approuver",
+                "PROCESS": "Traiter",
+                "FINALIZE": "Finaliser",
+                "EVALUATE": "Évaluer",
+                "SAVE": "Enregistrer",
+                "CANCEL": "Annuler"
+            }
+            },
+            "SWEET_ALERT_PARAMS": {
+            "CONFIRM": {
+                "WAITING": {
+                "TITLE": "Prendre en charge le signalement"
+                },
+                "REJECT": {
+                "TITLE": "Rejeter le signalement"
+                },
+                "APPROVAL": {
+                "TITLE": "Approuver le signalement"
+                },
+                "TREATMENT": {
+                "TITLE": "Traiter le signalement"
+                },
+                "FINALIZE": {
+                "TITLE": "Finaliser le signalement"
+                },
+                "EVALUATE": {
+                "TITLE": "Evaluer le signalement"
+                }
+            },
+            "MESSAGES": {
+                "WAITING": {
+                "TITLE": "Êtes-vous sûr de vouloir prendre en charge le signalement"
+                },
+                "REJECT": {
+                "TITLE": "Êtes-vous sûr de vouloir rejeté le signalement"
+                },
+                "APPROVAL": {
+                "TITLE": "Êtes-vous sûr de vouloir approuver le signalement"
+                },
+                "TREATMENT": {
+                "TITLE": "Êtes-vous sûr de vouloir traiter le signalement"
+                },
+                "FINALIZE": {
+                "TITLE": "Êtes-vous sûr de vouloir finaliser le signalement"
+                },
+                "EVALUATE": {
+                "TITLE": "Êtes-vous sûr de vouloir évaluer le signalement"
+                }
+            },
+            "BUTTONS": {
+                "WAITING": {
+                "TITLE": "Prendre en charge"
+                },
+                "REJECT": {
+                "TITLE": "Rejeter"
+                },
+                "APPROVAL": {
+                "TITLE": "Approuver"
+                },
+                "TREATMENT": {
+                "TITLE": "Traiter"
+                },
+                "FINALIZE": {
+                "TITLE": "Finaliser"
+                },
+                "EVALUATE": {
+                "TITLE": "Evaluer"
+                }
+            }
+            }
+        },
+    "SETTINGS_SECURITY": {
+        "LABEL": "Paramètres & Sécurité",
+        "ROUTE": "security-settings",
+        "USER": {
+            "TITLE": "Utilisateurs - CMZ gestion centralisée des utilisateurs",
+            "LABEL": "Utilisateurs",
+            "ROUTE": "users",
+            "TABLE": {
+                "USERNAME": "Nom d'utilisateur",
+                "NOM": "Nom",
+                "PRENOMS": "Prénoms",
+                "EMAIL": "Email",
+                "MATRICULE": "Matricule",
+                "FULL_NAME": "Nom & Prénoms",
+                "PROFIL": "Profil",
+                "STATUT": "Statut",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "PROFIL": "Profil",
+                "STATE": "État",
+                "MATRICULE": "Matricule",
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Nom et prénoms"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter un utilisateur",
+                "EDIT_TITLE": "Modifier un utilisateur",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PROFILE": "Profil Utilisateur",
+                "MATRICULE": "Matricule",
+                "EMAIL": "Email",
+                "LAST_NAME_REQUIRED": "Le nom est requis",
+                "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
+                "PROFILE_REQUIRED": "Le profil est requis",
+                "MATRICULE_REQUIRED": "Le matricule est requis",
+                "EMAIL_REQUIRED": "L'email est requis",
+                "EMAIL_INVALID": "L'email n'est pas valide"
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "DISABLE": "Désactiver"
+            },
+            "CONFIRM": {
+                "DELETE_TITLE": "Supprimer l'utilisateur",
+                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'utilisateur {{name}} ? Cette action est irréversible.",
+                "DISABLE_TITLE": "Désactiver l'utilisateur",
+                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver l'utilisateur {{name}} ?"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "CREATED": "Utilisateur créé avec succès",
+                    "UPDATED": "Utilisateur modifié avec succès",
+                    "DELETED": "Utilisateur supprimé avec succès",
+                    "ENABLED": "Utilisateur activé avec succès",
+                    "DISABLED": "Utilisateur désactivé avec succès"
+                }
+            },
+            "OPTIONS": {
+                "PROFIL": {
+                    "ADMIN": "Administrateur",
+                    "USER": "Utilisateur"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "PROFIL": {
+                "NOT_ASSIGNED": "Non assigné"
+            }
+        },
+        "PROFILE_HABILITATION": {
+            "TITLE": "Profils habilitations - CMZ gestion centralisée des profils habilitations",
+            "LABEL": "Permissions Profils",
+            "ROUTE": "permission-profiles",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "PROFILE": "Profil",
+                "DESCRIPTION": "Description",
+                "USERS_COUNT": "# utilisateurs",
+                "STATUT": "Statut",
+                "SEE_MORE": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "ADD": "Ajouter",
+                "ACTIVE": "Actif",
+                "INACTIVE": "Inactif",
+                "ASSIGNED": "Assigné",
+                "UNASSIGNED": "Non assigné",
+                "ASSIGN": "Assigner",
+                "UNASSIGN": "Déassigner",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "PROFILE": "Profil",
+                "STATE": "État",
+                "MATRICULE": "Matricule",
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Nom et prénoms"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter un profil",
+                "EDIT_TITLE": "Modifier un profil",
+                "NAME": "Profil",
+                "DESCRIPTION": "Description",
+                "NAME_REQUIRED": "Le nom du profil est requis",
+                "DESCRIPTION_REQUIRED": "La description est requise"
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter",
+                "ASSIGN": "Affecter",
+                "REASSIGN": "Réaffecter",
+                "RETIRE": "Remover"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "ENABLE": "Activer",
+                "DISABLE": "Désactiver"
+            },
+            "CONFIRM": {
+                "DELETE_TITLE": "Supprimer le profil",
+                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer le profil {{name}} ? Cette action est irréversible.",
+                "DISABLE_TITLE": "Désactiver le profil",
+                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver le profil {{name}} ?",
+                "RETIRE_TITLE": "Supprimer les utilisateurs",
+                "RETIRE_MESSAGE": "Êtes-vous sûr de vouloir remover {{count}} utilisateur(s) de ce profil ?",
+                "ASSIGN_TITLE": "Affecter les utilisateurs",
+                "ASSIGN_MESSAGE": "Êtes-vous sûr de vouloir affecter {{count}} utilisateur(s) à ce profil ?"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "CREATED": "Profil créé avec succès",
+                    "UPDATED": "Profil modifié avec succès",
+                    "DELETED": "Profil supprimé avec succès",
+                    "ENABLED": "Profil activé avec succès",
+                    "DISABLED": "Profil désactivé avec succès",
+                    "REASSIGNED": "Utilisateurs réaffectés avec succès",
+                    "RETIRED": "Utilisateurs retirés avec succès",
+                    "AFFECTED": "Utilisateurs affectés avec succès"
+                },
+                "NO_SELECTION": "Veuillez sélectionner au moins un utilisateur"
+            },
+            "MODAL": {
+                "REASSIGN_TITLE": "Réaffecter les utilisateurs",
+                "NEW_PROFILE": "Nouveau profil",
+                "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
+                "REASSIGN_MESSAGE": "{{count}} utilisateur(s) seront réaffectés"
+            },
+            "USERS": {
+                "TITLE": "Utilisateurs du profil",
+                "LABEL": "Utilisateurs"
+            },
+            "ASSIGN": {
+                "TITLE": "Affecter des utilisateurs au profil",
+                "LABEL": "Affecter des utilisateurs",
+                "ASSIGN_CONFIRMATION": "Voulez-vous assigner ce profil à ces utilisateurs ?",
+                "UNASSIGN_CONFIRMATION": "Voulez-vous déassigner ce profil à ces utilisateurs ?",
+                "ASSIGN_CONFIRMATION_TITLE": "Assignation de profil",
+                "UNASSIGN_CONFIRMATION_TITLE": "Désassignation de profil",
+                "ASSIGN_CONFIRMATION_MESSAGE": "Cette action est irréversible.",
+                "UNASSIGN_CONFIRMATION_MESSAGE": "Cette action est irréversible.",
+                "ASSIGN_CONFIRMATION_BUTTON": "Assigner",
+                "UNASSIGN_CONFIRMATION_BUTTON": "Déassigner",
+                "ASSIGN_CONFIRMATION_BUTTON_CANCEL": "Annuler",
+                "UNASSIGN_CONFIRMATION_BUTTON_CANCEL": "Annuler",
+                "ASSIGN_CONFIRMATION_BUTTON_ASSIGN": "Assigner"
+            },
+            "OPTIONS": {
+                "PROFILE": {
+                    "ADMIN": "Administrateur",
+                    "USER": "Utilisateur"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            }
+        }
+    },
+
+    "TEAM_ORGANIZATION": {
+        "LABEL": "Organisation du temps",
+        "PARTICIPANT": {
+            "LABEL": "Intervenants",
+            "TITLE": "Intervenants - CMZ gestion des intervenants",
+            "ROUTE": "participants",
+            "HEADER": {
+                "PLURAL": "intervenants",
+                "SINGULAR": "intervenant"
+            },
+            "TABS": {
+                "PARTICIPANTS": "Intervenants",
+                "HISTORY": "Historique"
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter"
+            },
+            "FILTER": {
+                "ROLE": "Rôle",
+                "MATRICULE": "Matricule",
+                "FULLNAME": "Nom et prénoms",
+                "TEAM": "Équipe",
+                "STATUS": "Statut",
+                "SELECT_PLACEHOLDER": "Sélectionner..."
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif",
+                    "ASSIGNED": "Affecté"
+                }
+            },
+            "MESSAGES": {
+                "ERROR": {
+                    "LOAD_ROLES": "Erreur lors du chargement des rôles",
+                    "LOAD_TEAMS": "Erreur lors du chargement des équipes"
+                },
+                "SUCCESS": {
+                        "CREATED": "Intervenant créé avec succès",
+                    "UPDATED": "Intervenant modifié avec succès",
+                    "DELETED": "Intervenant supprimé avec succès",
+                    "ENABLED": "Intervenant activé avec succès",
+                    "DISABLED": "Intervenant désactivé avec succès"
+                }
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter un intervenant",
+                "EDIT_TITLE": "Modifier un intervenant",
+                "TABS": {
+                    "IDENTIFICATION": "Identification",
+                    "HISTORY": "Historique"
+                },
+                "FIELDSET": {
+                    "PARTICIPANT_INFO": "Informations de l'intervenant"
+                },
+                "FIELDS": {
+                    "NOM": "Nom",
+                    "PRENOMS": "Prénoms",
+                    "USERNAME": "Nom de connexion",
+                    "EMAIL": "Email",
+                    "CONTACTS": "Contact",
+                    "ADRESSE": "Adresse",
+                    "ROLE": "Rôle"
+                },
+                "PLACEHOLDERS": {
+                    "NOM": "Entrez le nom",
+                    "PRENOMS": "Entrez les prénoms",
+                    "USERNAME": "Entrez le nom de connexion",
+                    "EMAIL": "Entrez l'email",
+                    "CONTACTS": "Entrez le contact",
+                    "ADRESSE": "Entrez l'adresse",
+                    "ROLE": "Sélectionnez un rôle"
+                },
+                "VALIDATION": {
+                    "NOM_REQUIRED": "Le nom est requis",
+                    "PRENOMS_REQUIRED": "Les prénoms sont requis",
+                    "USERNAME_REQUIRED": "Le nom de connexion est requis",
+                    "EMAIL_REQUIRED": "L'email est requis",
+                    "EMAIL_INVALID": "L'email n'est pas valide",
+                    "CONTACTS_REQUIRED": "Le contact est requis",
+                    "ROLE_REQUIRED": "Le rôle est requis"
+                }
+            },
+            "TABLE": {
+                "MATRICULE": "Matricule",
+                "NOM": "Nom",
+                "PRENOMS": "Prénoms",
+                "USERNAME": "Nom de connexion",
+                "CONTACT": "Contact",
+                "ROLE": "Rôle",
+                "AFFECTE": "Affecté",
+                "STATUT": "Statut",
+                "ACTION": "Action"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir",
+                "EDIT": "Éditer",
+                "DELETE": "Supprimer",
+                "ENABLE": "Activer",
+                "DISABLE": "Désactiver"
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "CONFIRM": {
+                "DELETE_TITLE": "Supprimer l'intervenant",
+                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer ce participant ? Cette action est irréversible.",
+                "ENABLE_TITLE": "Activer l'intervenant",
+                "ENABLE_MESSAGE": "Êtes-vous sûr de vouloir activer l'intervenant ?",
+                "DISABLE_TITLE": "Désactiver l'intervenant",
+                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver l'intervenant ?"
+            }
+        },
+        "TEAM": {
+            "LABEL": "Équipes",
+            "TITLE": "Équipes - CMZ gestion des équipes",
+            "ROUTE": "teams",
+            "HEADER": {
+                "PLURAL": "équipes",
+                "SINGULAR": "équipe"
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter une équipe"
+            },
+            "FILTER": {
+                "CODE_NAME": "Nom / Code équipe",
+                "CODE_NAME_PLACEHOLDER": "Nom ou code équipe",
+                "PARTICIPANT": "Participant",
+                "STATUS": "Statut",
+                "SELECT_PLACEHOLDER": "Sélectionner"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter une équipe",
+                "EDIT_TITLE": "Modifier une équipe",
+                "CODE": "Code",
+                "CODE_REQUIRED": "Le code est requis",
+                "NAME": "Nom",
+                "NAME_REQUIRED": "Le nom est requis",
+                "DESCRIPTION": "Description"
+            },
+            "MANAGEMENT_AFFECTED": {
+                "TITLE": "Gestion des affectés",
+                "FILTER": {
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "Code",
+                    "MATRICULE": "Matricule",
+                    "MATRICULE_PLACEHOLDER": "Matricule"
+                },
+                "TABLE": {
+                    "CODE": "Code",
+                    "TENANT_NAME": "Nom du client",
+                    "ACCOUNT_CLIENT": "Compte client",
+                    "STATUS": "Statut",
+                    "MATRICULE": "Matricule",
+                    "FULL_NAME": "Nom complet",
+                    "EMAIL": "Email",
+                    "CONTACTS": "Contacts"
+                },
+                "BUTTONS": {
+                    "ASSIGN": "Affecter",
+                    "REASSIGN": "Réaffecter",
+                    "RETIRE": "Retirer"
+                },
+                "MODAL": {
+                    "REASSIGN_PARTICIPANTS_TITLE": "Réaffecter les participants",
+                    "REASSIGN_PARTICIPANTS_MESSAGE": "{{count}} participant(s) seront réaffectés",
+                    "NEW_TEAM": "Nouvelle équipe",
+                    "NEW_TEAM_REQUIRED": "La nouvelle équipe est requise"
+                },
+                "CONFIRM": {
+                    "RETIRE_TENANTS_TITLE": "Retirer les clients",
+                    "RETIRE_TENANTS_MESSAGE": "Voulez-vous retirer {{count}} client(s) de cette équipe ?",
+                    "RETIRE_PARTICIPANTS_TITLE": "Retirer les participants",
+                    "RETIRE_PARTICIPANTS_MESSAGE": "Voulez-vous retirer {{count}} participant(s) de cette équipe ?"
+                },
+                "MESSAGES": {
+                    "NO_SELECTION": "Veuillez sélectionner au moins un élément"
+                }
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "MESSAGES": {
+                "STORE_SUCCESS": "Équipe créée avec succès",
+                "UPDATE_SUCCESS": "Équipe mise à jour avec succès",
+                "DELETE_SUCCESS": "Équipe supprimée avec succès",
+                "ENABLE_SUCCESS": "Équipe activée avec succès",
+                "DISABLE_SUCCESS": "Équipe désactivée avec succès",
+                "AFFECT_SUCCESS": "Affectation réalisée avec succès",
+                "REASSIGN_SUCCESS": "Réaffectation réalisée avec succès",
+                "RETIRE_SUCCESS": "Retrait réalisé avec succès",
+                "ERROR": {
+                    "LOAD_PARTICIPANTS": "Erreur lors du chargement des participants",
+                    "LOAD_TENANTS": "Erreur lors du chargement des tenants"
+                }
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Nom",
+                "TENANTS": "# Clients affectés",
+                "PARTICIPANTS": "# Participants affectés",
+                "STATUS": "Statut",
+                "ACTION": "Action"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "ENABLE": "Activer",
+                "DISABLE": "Désactiver",
+                "DELETE": "Supprimer",
+                "MANAGE_TENANTS": "Gérer les clients affectés",
+                "MANAGE_PARTICIPANTS": "Gérer les participants affectés"
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "CONFIRM": {
+                "ENABLE_TITLE": "Activer l'équipe",
+                "ENABLE_MESSAGE": "Voulez-vous activer l'équipe {{ name }} ?",
+                "DISABLE_TITLE": "Désactiver l'équipe",
+                "DISABLE_MESSAGE": "Voulez-vous désactiver l'équipe {{ name }} ?",
+                "DELETE_TITLE": "Supprimer l'équipe",
+                "DELETE_MESSAGE": "Voulez-vous supprimer l'équipe {{ name }} ? Cette action est irréversible."
+            }
+        },
+        "AGENT_IA": {
+            "LABEL": "Agents IA",
+            "TITLE": "Agents IA - CMZ gestion des agents IA",
+            "ROUTE": "agent-ia"
+        }
+    },
+
+    "TABLE": {
+        "COMMON": {
+            "INDEX": "#",
+            "QUEUE": "Fermer"
+        }
+    },
+
+    "REPORTING": {
+        "LABEL": "Suivi des reporting",
+        "REPORT": {
+            "TITLE": "Signalement",
+            "LABEL": "Signalement"
+        }
+
+    },
+
+
+    "EXPORT": {
+        "TITLE": "Exporter",
+        "NO_DATA": "Aucune donnée à exporter."
+    },
+
+    "APP": {
+        "TITLE": "Connect My Zone Back-office",
+        "DESCRIPTION": "Système de Gestion des zones non connectées",
+        "LOADING": "Chargement de l'application...",
+        "BOOTSTRAP": {
+            "SUCCESS": "Application démarrée avec succès",
+            "FAILED": "Échec du démarrage de l'application",
+            "ERROR_TITLE": "Erreur de l'application",
+            "ERROR_MESSAGE": "Impossible de charger l'application. Veuillez actualiser la page ou contacter le support.",
+            "ERROR_UNKNOWN": "Erreur inconnue",
+            "PERFORMANCE_MEASUREMENT_FAILED": "Échec de la mesure des performances"
+        },
+        "LANGUAGE": {
+            "CONFIGURED": "Langue configurée: {lang}",
+            "RETRIEVAL_ERROR": "Erreur lors de la récupération de la langue",
+            "CONFIGURATION_ERROR": "Erreur lors de la configuration de la langue"
+        },
+        "SETTINGS": {
+            "NOT_AVAILABLE": "Paramètres de l'application non disponibles",
+            "CONFIGURED": "Paramètres de l'application configurés",
+            "CONFIGURATION_ERROR": "Erreur lors de la configuration des paramètres"
+        },
+        "FAVICON": {
+            "CONFIGURED": "Favicon configuré: {url}",
+            "CONFIGURATION_ERROR": "Erreur lors de la configuration du favicon"
+        },
+        "INITIALIZATION": {
+            "ERROR": "Erreur lors de l'initialisation de l'application"
+        },
+        "ERROR": {
+            "GLOBAL": "Erreur globale",
+            "UNHANDLED_PROMISE_REJECTION": "Promesse rejetée non gérée"
+        },
+        "LOADING_BAR": {
+            "ARIA_LABEL": "Chargement en cours"
+        }
+    },
+    "LAYOUT": {
+        "HEADER": {
+            "REFRESH": {
+                "TITLE": "Rafraîchir",
+                "ARIA_LABEL": "Rafraîchir les notifications"
+            }
+        },
+        "SIDEBAR": {
+            "LOGO": {
+                "ALT": "Logo"
+            },
+            "LOGO_ICON": {
+                "ALT": "Icône du logo"
+            },
+            "TOGGLE": {
+                "ARIA_LABEL": "Basculer la barre latérale"
+            },
+            "SCROLL_LEFT": {
+                "ARIA_LABEL": "Défiler vers la gauche"
+            },
+            "SCROLL_RIGHT": {
+                "ARIA_LABEL": "Défiler vers la droite"
+            },
+            "BACK": {
+                "TEXT": "Retour",
+                "ARIA_LABEL": "Retour au menu"
+            },
+            "BADGE": {
+                "ARIA_LABEL": "Badge"
+            }
+        },
+        "FOOTER": {
+            "COPYRIGHT": "Copyright CSP {year}"
+        }
+    },
+    "AUTHENTICATION": {
+        "TITLE": "Authentification",
+        "UI": {
+            "APP_TITLE": "Connect My Zone",
+            "APP_SUBTITLE": "Votre passerelle vers l'excellence numérique",
+            "CONNECTION": "Connexion",
+            "CONNECT_BUTTON": "Se connecter",
+            "FORGOT_PASSWORD": "Mot de passe oublié",
+            "FEATURES": {
+                "SECURE_ACCESS": "Accès sécurisé",
+                "TREATMENT_AND_MONITORING_OF_REPORT_PROCESSING": "Suivi et Traitement des signalements",
+                "REAL_TIME_DASHBOARD": "Tableau de bord en temps réel",
+                "TEAM_MANAGEMENT": "Gestion des équipes",
+                "EXTRACTION_OF_DATA": "Extraction de données"
+            }
+        },
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Nom d'utilisateur",
+                "PLACEHOLDER": "app@yourmail.com",
+                "REQUIRED": "L'email est requis",
+                "INVALID_FORMAT": "Format d'email invalide"
+            },
+            "PASSWORD": {
+                "LABEL": "Mot de passe",
+                "REQUIRED": "Le mot de passe est requis"
+            }
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "WELCOME": "Bienvenue {{lastName}} {{firstName}}"
+            },
+            "ERROR": {
+                "FAILED": "Échec de l'authentification",
+                "UNABLE_TO_COMPLETE_LOGIN": "Impossible de finaliser la connexion",
+                "UNABLE_TO_LOAD_CONFIG": "Impossible de charger la configuration",
+                "UNABLE_TO_LOAD_VARIABLES": "Impossible de charger les variables"
+            }
+        }
+    },
+
+    "PASSWORD_RESET": {
+        "UI": {
+            "FORGOT_PASSWORD_TITLE": "Mot de passe oublié",
+            "FORGOT_PASSWORD_SUBTITLE": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe",
+            "RESET_PASSWORD_TITLE": "Réinitialisation du mot de passe",
+            "RESET_PASSWORD_SUBTITLE": "Entrez votre nouveau mot de passe"
+        },
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Adresse e-mail",
+                "PLACEHOLDER": "role@name.osim.orange.ci",
+                "REQUIRED": "L'adresse e-mail est requise",
+                "INVALID_FORMAT": "L'adresse e-mail doit être valide"
+            },
+            "PASSWORD": {
+                "LABEL": "Nouveau mot de passe",
+                "REQUIRED": "Le mot de passe est requis",
+                "MIN_LENGTH": "Le mot de passe doit contenir au moins 6 caractères",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmation du mot de passe",
+                "REQUIRED": "La confirmation du mot de passe est requise"
+            }
+        },
+        "BUTTONS": {
+            "RESET": "Réinitialiser",
+            "CONFIRM": "Confirmer",
+            "CANCEL": "Annuler",
+            "BACK_TO_LOGIN": "Retour à la connexion",
+            "RESEND": "Renvoyer",
+            "LOADING": "Chargement..."
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "EMAIL_SENT": "E-mail envoyé avec succès",
+                "EMAIL_SENT_MESSAGE": "Si l'adresse e-mail que vous avez fournie correspond à un compte enregistré dans notre système, vous allez bientôt recevoir un e-mail contenant des instructions pour réinitialiser votre mot de passe. Veuillez consulter votre boîte de réception.",
+                "PASSWORD_RESET": "Mot de passe réinitialisé avec succès"
+            },
+            "NOT_RECEIVED": "Vous n'avez pas reçu le courrier ?",
+            "ERROR": {
+                "FAILED": "Échec de la réinitialisation du mot de passe",
+                "UNABLE_TO_COMPLETE_REQUEST": "Impossible de finaliser la demande",
+                "UNABLE_TO_COMPLETE_RESET": "Impossible de finaliser la réinitialisation"
+            }
+        }
+    },
+
+
+
+
+
+    "USERNAME": "Nom d'utilisateur",
+    "CONNECTION": "Connexion",
+    "FORGOT_PASSWORD": "Mot de passe oublié",
+    "INVOICE_AMOUNT_NOTICE": "Le montant de cette facture sera <strong style=\"color: #5B9BD5;\">enregistré dans le système de facturation</strong>. Le règlement s'effectuera ultérieurement selon les conditions convenues.",
+    "CONFIRM_CLIENT_ABANDON": "Confirmer l'abandon du client",
+    "CONFIRM_CLIENT_MODIFICATION": "Confirmer la modification du client",
+    "CONFIRM_CLIENT_CREATION": "Confirmer la creation du client",
+    "CONFIRM_TREATMENT_DEMAND": "Confirmer le traitement de la demande",
+    "CONFIRM_CLOSURE_DEMAND": "Confirmer la clôture de la demande",
+    "IMAKO_SERVICE_REQUEST_GATEWAY": "Portail de demande de service IMAKO",
+    "WEB_PORTAL_IMAKO": "PORTAIL WEB IMAKO",
+
+
     "ADDRESS": "Adresse",
-    "CREDENTIALS_PROFILES": "Profils Habilitations",
+    "CREDENTIALS_PROFILES": "Profils Habilitation",
     "WORK_SCHEDULE": "Calendrier de travail",
-    "SETTINGS_SECURITY": "Paramètres & Sécurité",
     "STATUS_USTOMER_ACCOUNT": "Etat du compte client",
     "CREDIT_APPROVAL": "Approbation des crédits",
     "ACCOUNT_CREDIT_TRACKING": "Suivi crédits compte",
@@ -54,7 +1240,6 @@
     "ALARM_ANALYSIS_DATA": "Analyse des alarmes data",
     "ALARM_ANALYSIS_SMS": "Analyse des alarmes sms",
     "SUPERVISION_SIM": "Supervision des SIM",
-    "OVERSEEING_OPERATIONS": "Suivi demandes P&S",
     "SEE": "Voir",
     "TREATMENT_MONITORING": "Suivi et Traitement",
     "CLEAR": "Effacer",
@@ -69,7 +1254,6 @@
     "CUSTOMER_TYPE": "Type client",
     "NOTIFICATION": "Notification",
     "NOTIFICATIONS": "Notifications",
-    "WAITING_QUEUE": "File d'attente",
     "SIM_BASKET": "Panier de SIM",
     "ESCALADE": "Escalade",
     "ESCALADE_INFORMATION": "Informations Escalade",
@@ -184,7 +1368,6 @@
     "STOP_OR_CHANGE": "Abandonner ou modifier",
     "MODIFY": "Modifier",
     "REFRESH": "Rafraîchir",
-    "EXPORT": "Exporter",
     "SELECT": "Sélectionner",
     "RESEARCH": "Recherche",
     "CUSTOMERS": "Clients",
@@ -203,13 +1386,12 @@
     "END_DATE": "Date fin",
     "STATUS": "Statut",
     "DEMAND": "Demande",
-    "TREATMENT": "Traitement",
     "AVAILABLE": "Disponibles",
     "WAITING": "En attente",
     "IN_TREATMENT": "En traitement",
     "COMPLETED": "Terminés",
     "TO_APPROVE": "À approuver",
-    "APPROVAL": "Approbation",
+
     "SOLVE": "Régler",
     "MAKE_A_PAYMENT": "Effectuer un paiement",
     "MODIFY_THE_PAYMENT": "Modifier le mode de paiement sur la demande",
@@ -225,7 +1407,6 @@
     "ABANDON": "Abandon",
     "TO_ABANDON": "Abandonner",
     "MATRICULE": "Matricule",
-    "CLOSE": "Fermer",
     "TO_DELIVER": "À livrer",
     "SLA_KO": "SLA KO",
     "SLA_OK": "SLA OK",
@@ -303,8 +1484,121 @@
     "SIM_CARD": "Carte SIM",
     "SIM_CARDS": "Cartes SIM",
     "UPDATED_DATE": "Date MAJ",
-    "DASHBOARD": "Tableau de bord",
-    "BACK-OFFICE": "BACK-OFFICE",
+    "DASHBOARD": {
+        "TITLE": "Tableau de bord",
+        "UPDATED_DATE": "Dernière mise à jour",
+        "NO_DATE": "Non disponible",
+        "REFRESH": "Actualiser",
+        "LOADING": "Chargement des statistiques...",
+        "NO_DATA": "Aucune donnée disponible",
+        "FILTER": {
+            "PERIOD_LABEL": "Période",
+            "PERIOD_INDICATOR": "Jours"
+        },
+        "ERROR": {
+            "LOAD_DATA": "Erreur lors du chargement des données du tableau de bord"
+        },
+        "SECTIONS": {
+            "OVERVIEW": {
+                "TITLE": "Vue d'ensemble",
+
+
+                
+                "PENDING_REPORT_PROCESSING": {
+                    "LABEL": "En attente",
+                    "SUBTITLE": "Signalements en file d'attente"
+                },
+                "IN_TREATMENT_REPORT_PROCESSING": {
+                    "LABEL": "En traitement",
+                    "SUBTITLE": "Signalements en cours de traitement"
+                },
+                "QUEUED_REPORT_PROCESSING": {
+                    "LABEL": "Clôturés",
+                    "SUBTITLE": "Signalements clôturés"
+                }
+            },
+            "STATUS": {
+                "TITLE": "Par statut",
+                "APPROVED_REPORT_PROCESSING": {
+                    "LABEL": "Approuvés",
+                    "SUBTITLE": "Signalements approuvés"
+                },
+                "REJECTED_REPORT_PROCESSING": {
+                    "LABEL": "Rejetés",
+                    "SUBTITLE": "Signalements rejetés"
+                },
+                "FINALIZED_REPORT_PROCESSING": {
+                    "LABEL": "Finalisés",
+                    "SUBTITLE": "Signalements finalisés"
+                }
+            },
+            "TYPE": {
+                "TITLE": "Type de signalement",
+                "TOTAL_REPORT_PROCESSING": {
+                    "LABEL": "Total des signalements",
+                    "SUBTITLE": "Tous les signalements confondus"
+                },
+                "PARTIAL_OPERATOR_REPORT_PROCESSING": {
+                    "LABEL": "Couverture partielle opérateur",
+                    "SUBTITLE": "Signalements de couverture partielle opérateur"
+                },
+                "WHITE_ZONE_REPORT_PROCESSING": {
+                    "LABEL": "Zone blanche",
+                    "SUBTITLE": "Signalements de zone blanche"
+                },
+                "PARTIAL_SIGNAL_REPORT_PROCESSING": {
+                    "LABEL": "Couverture partielle",
+                    "SUBTITLE": "Signalements de couverture partielle"
+                },
+                "NO_INTERNET_REPORT_PROCESSING": {
+                    "LABEL": "Absence d'internet",
+                    "SUBTITLE": "Signalements d'absence d'internet"
+                }
+            },
+            "TASK_STATUS": {
+                "TITLE": "Etat des bacs de taches en attente",
+                "QUALIFICATION": {
+                    "LABEL": "Qualification",
+                    "SUBTITLE": "Signalements en attente de qualification"
+                },
+                "ASSIGNMENT": {
+                    "LABEL": "Affectation",
+                    "SUBTITLE": "Signalements en attente d'affectation"
+                },
+                "TREATMENT": {
+                    "LABEL": "Traitement",
+                    "SUBTITLE": "Signalements en cours de traitement"
+                },
+                "FINALIZATION": {
+                    "LABEL": "Finalisation",
+                    "SUBTITLE": "Signalements en attente de finalisation"
+                },
+                "EVALUATION": {
+                    "LABEL": "Evaluation",
+                    "SUBTITLE": "Signalements en attente d'évaluation"
+                }
+            },
+            "PERFORMANCE": {
+                "TITLE": "Performance et Métriques",
+                "TREATMENT_RATE": {
+                    "LABEL": "Taux de traitement",
+                    "SUBTITLE": "Pourcentage de signalements traités"
+                },
+                "COMPLETION_RATE": {
+                    "LABEL": "Taux de complétion",
+                    "SUBTITLE": "Pourcentage de signalements complétés"
+                },
+                "AVERAGE_TREATMENT_TIME": {
+                    "LABEL": "Délai moyen",
+                    "SUBTITLE": "Délai moyen de traitement (jours)"
+                },
+                "RESPONSE_TIME": {
+                    "LABEL": "Temps de réponse",
+                    "SUBTITLE": "Temps moyen de réponse (heures)"
+                }
+            }
+        }
+    },
     "DASHBOARD_TITLE": "Statistiques générales des collectes",
     "HANDLE_ACTIVATE_CUSTOMER": "Voulez-vous activer le client nom_tenant",
     "HANDLE_DISABLE_CUSTOMER": "Voulez-vous désactiver le client nom_tenant",
@@ -324,7 +1618,6 @@
     "ACCOUNT_CREDITS": "crédits de compte",
     "MY_ACCOUNT_CREDITS": "Mes crédits de compte",
     "MY_ACCOUNT_STATEMENT": "Mon relevé de compte",
-    "OVERSEEING_OPERATIONS_ALT": "Suivi demandes P&S",
     "NOTIFICATION_TYPE_ALT": "type de notification",
     "CONFIRM_PROFILE_MODIFICATION": "Confirmer la modification du profile",
     "CONFIRM_PROFILE_CREATION": "Confirmer la creation du profile",
@@ -338,18 +1631,7 @@
     "PARAMETER_SECURITY": "Paramètres de sécurité",
     "ACTIVE": "Actif",
     "INACTIVE": "Inactif",
-    "AUTHENTICATION": "Authentification",
-    "USERNAME": "Nom d'utilisateur",
-    "CONNECTION": "Connexion",
-    "FORGOT_PASSWORD": "Mot de passe oublié",
-    "INVOICE_AMOUNT_NOTICE": "Le montant de cette facture sera <strong style=\"color: #5B9BD5;\">enregistré dans le système de facturation</strong>. Le règlement s'effectuera ultérieurement selon les conditions convenues.",
-    "CONFIRM_CLIENT_ABANDON": "Confirmer l'abandon du client",
-    "CONFIRM_CLIENT_MODIFICATION": "Confirmer la modification du client",
-    "CONFIRM_CLIENT_CREATION": "Confirmer la creation du client",
-    "CONFIRM_TREATMENT_DEMAND": "Confirmer le traitement de la demande",
-    "CONFIRM_CLOSURE_DEMAND": "Confirmer la clôture de la demande",
-    "IMAKO_SERVICE_REQUEST_GATEWAY": "Portail de demande de service IMAKO",
-    "WEB_PORTAL_IMAKO": "PORTAIL WEB IMAKO",
+
     "LEGAL_FORM": "Forme juridique",
     "IDENTITY_DOCUMENT": "Document d'identité",
     "REGIME": "Régime",
@@ -373,6 +1655,7 @@
     "CREATE": "Créer",
     "UPDATE": "Mettre à jour",
     "DELETE": "Supprimer",
+    "ENABLE": "Activer",
     "ACTIVITY_DOMAIN": "Domaine d'activité",
     "COMMERCIAL_ENTERPRISE": "Entreprise commerciale",
     "CLIENT_INFORMATION": "Informations client",
@@ -380,12 +1663,265 @@
     "PRIVATE_ENTERPRISE": "Entreprise privée",
     "ASSOCIATION": "Association / ONG",
     "INDIVIDUAL": "Personne physique",
-    "CLOSE_TABS": "Fermer les onglets",
-    "CONFIRM_CLOSE_TABS": "Tous les onglets ouverts seront fermés. Les données non enregistrées seront perdues.",
+    "QUEUE_TABS": "Fermer les onglets",
+    "CONFIRM_QUEUE_TABS": "Tous les onglets ouverts seront fermés. Les données non enregistrées seront perdues.",
     "CANCEL": "Annuler",
+    "QUEUE": "Fermer",
+    "REJECT": "Rejeter",
     "DASHBOARD_UPDATED_DATE": "Dernière mise à jour",
     "LOGO_ENTERPRISE": "Logo de l'entreprise",
     "SUPERVISORY_REPOSITORY": "Référentiel de supervision",
     "VIEW": "Voir",
-    "VIEW_ALL": "Voir tout"
+    "VIEW_ALL": "Voir tout",
+    "TEAM_ORGANIZATION_EXTRA": {
+        "PARTICIPANT": {
+            "LABEL": "Participants",
+            "TITLE": "Participants - CMZ gestion des participants",
+            "FILTER": {
+                "ROLE": "Rôle",
+                "MATRICULE": "Matricule",
+                "FULLNAME": "Nom / Prénoms",
+                "TEAM": "Team",
+                "STATUS": "Statut",
+                "SELECT_PLACEHOLDER": "Sélectionner"
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif",
+                    "ASSIGNED": "Affecté"
+                }
+            },
+            "MESSAGES": {
+                "ERROR": {
+                    "LOAD_ROLES": "Erreur lors du chargement des rôles",
+                    "LOAD_TEAMS": "Erreur lors du chargement des teams"
+                }
+            }
+        },
+        "TEAM": {
+            "LABEL": "Teams",
+            "TITLE": "Teams - CMZ gestion des teams",
+            "FILTER": {
+                "CODE_NAME": "Nom / Code team",
+                "CODE_NAME_PLACEHOLDER": "Nom ou code team",
+                "PARTICIPANT": "Participant",
+                "STATUS": "Statut",
+                "SELECT_PLACEHOLDER": "Sélectionner"
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter une team"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter une team",
+                "EDIT_TITLE": "Modifier une team",
+                "CODE": "Code",
+                "CODE_REQUIRED": "Le code est requis",
+                "NAME": "Nom",
+                "NAME_REQUIRED": "Le nom est requis",
+                "DESCRIPTION": "Description",
+                "DESCRIPTION_REQUIRED": "La description est requise"
+            },
+            "MANAGEMENT_AFFECTED": {
+                "TITLE": "Gestion des affectés"
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "MESSAGES": {
+                "STORE_SUCCESS": "Team créée avec succès",
+                "UPDATE_SUCCESS": "Team mise à jour avec succès",
+                "DELETE_SUCCESS": "Team supprimée avec succès",
+                "ENABLE_SUCCESS": "Team activée avec succès",
+                "DISABLE_SUCCESS": "Team désactivée avec succès",
+                "AFFECT_SUCCESS": "Affectation réalisée avec succès",
+                "REASSIGN_SUCCESS": "Réaffectation réalisée avec succès",
+                "RETIRE_SUCCESS": "Retrait réalisé avec succès",
+                "ERROR": {
+                    "LOAD_PARTICIPANTS": "Erreur lors du chargement des participants",
+                    "LOAD_TENANTS": "Erreur lors du chargement des tenants"
+                }
+            },
+            "TABLE": {
+                "ARIA_LABEL": "Tableau des teams",
+                "CODE": "Code",
+                "NAME": "Nom",
+                "TENANTS": "# Clients affectés",
+                "PARTICIPANTS": "# Participants affectés",
+                "STATUS": "Statut",
+                "ACTION": "Action"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "ENABLE": "Activer",
+                "DISABLE": "Désactiver",
+                "DELETE": "Supprimer",
+                "MANAGE_TENANTS": "Gérer les clients affectés",
+                "MANAGE_PARTICIPANTS": "Gérer les participants affectés"
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "HEADER": {
+                "PLURAL": "Teams",
+                "SINGULAR": "Team"
+            },
+            "CONFIRM": {
+                "ENABLE_TITLE": "Activer la team",
+                "ENABLE_MESSAGE": "Voulez-vous activer la team {{ name }} ?",
+                "DISABLE_TITLE": "Désactiver la team",
+                "DISABLE_MESSAGE": "Voulez-vous désactiver la team {{ name }} ?",
+                "DELETE_TITLE": "Supprimer la team",
+                "DELETE_MESSAGE": "Voulez-vous supprimer la team {{ name }} ? Cette action est irréversible."
+            }
+        },
+        "AGENT_IA": {
+            "LABEL": "Agents IA",
+            "TITLE": "Agents IA - CMZ gestion des agents IA",
+            "FILTER": {
+                "CODE_NAME": "Nom / Code agent",
+                "CODE_NAME_PLACEHOLDER": "Nom ou code agent",
+                "STATUS": "Statut",
+                "SELECT_PLACEHOLDER": "Sélectionner"
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter un agent IA"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter un agent IA",
+                "EDIT_TITLE": "Modifier un agent IA",
+                "CODE": "Code",
+                "CODE_REQUIRED": "Le code est requis",
+                "NAME": "Nom",
+                "NAME_REQUIRED": "Le nom est requis",
+                "DESCRIPTION": "Description"
+            },
+            "MANAGEMENT_AFFECTED": {
+                "TITLE": "Gestion des affectés"
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "MESSAGES": {
+                "STORE_SUCCESS": "Agent IA créé avec succès",
+                "UPDATE_SUCCESS": "Agent IA mis à jour avec succès",
+                "DELETE_SUCCESS": "Agent IA supprimé avec succès",
+                "ENABLE_SUCCESS": "Agent IA activé avec succès",
+                "DISABLE_SUCCESS": "Agent IA désactivé avec succès",
+                "AFFECT_SUCCESS": "Affectation réalisée avec succès",
+                "REASSIGN_SUCCESS": "Réaffectation réalisée avec succès",
+                "RETIRE_SUCCESS": "Retrait réalisé avec succès",
+                "ERROR": {
+                    "LOAD_TENANTS": "Erreur lors du chargement des tenants"
+                }
+            },
+            "TABLE": {
+                "ARIA_LABEL": "Tableau des agents IA",
+                "CODE": "Code",
+                "NAME": "Nom",
+                "TENANTS": "# Clients affectés",
+                "STATUS": "Statut",
+                "ACTION": "Action"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "ENABLE": "Activer",
+                "DISABLE": "Désactiver",
+                "DELETE": "Supprimer",
+                "MANAGE_TENANTS": "Gérer les clients affectés"
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "HEADER": {
+                "PLURAL": "Agents IA",
+                "SINGULAR": "Agent IA"
+            },
+            "CONFIRM": {
+                "ENABLE_TITLE": "Activer l'agent IA",
+                "ENABLE_MESSAGE": "Voulez-vous activer l'agent IA {{ name }} ?",
+                "DISABLE_TITLE": "Désactiver l'agent IA",
+                "DISABLE_MESSAGE": "Voulez-vous désactiver l'agent IA {{ name }} ?",
+                "DELETE_TITLE": "Supprimer l'agent IA",
+                "DELETE_MESSAGE": "Voulez-vous supprimer l'agent IA {{ name }} ? Cette action est irréversible."
+            }
+        }
+    },
+
+    "PARAMETRE_SECURITE": {
+        "TITLE": "Paramètres de sécurité",
+        "LABEL": "Paramètres de sécurité",
+        "PROFIL_HABILITATION": {
+            "TITLE": "Profils habilitations",
+            "LABEL": "Profils habilitations",
+            "TABLE": {
+                "INDEX": "#",
+                "NOM": "Nom",
+                "DESCRIPTION": "Description",
+                "USERS_COUNT": "# utilisateurs",
+                "STATUT": "Statut",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "STATUT": {
+                "ACTIF": "Actif",
+                "INACTIF": "Inactif"
+            }
+        },
+        "JOURNAL_AUTHENTICATION": {
+            "TITLE": "Journal d'authentification",
+            "LABEL": "Journal d'authentification",
+            "TABLE": {
+                "INDEX": "#",
+                "CREATED_AT": "Date",
+                "USERNAME": "Nom d'utilisateur",
+                "ACTION": "Action",
+                "IP_ADDRESS": "Adresse IP",
+                "USER_AGENT": "User Agent"
+            },
+            "FILTER": {
+                "USER": "Utilisateur"
+            }
+        },
+        "JOURNAL_POINTAGE": {
+            "TITLE": "Journal de pointage",
+            "LABEL": "Journal de pointage",
+            "TABLE": {
+                "INDEX": "#",
+                "DATE": "Date",
+                "USERNAME": "Nom d'utilisateur",
+                "HEURE_ENTREE": "Heure d'entrée",
+                "HEURE_SORTIE": "Heure de sortie",
+                "STATUT": "Statut",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "USER": "Utilisateur",
+                "STATUT": "Statut"
+            },
+            "OPTIONS": {
+                "STATUT": {
+                    "DEMARRE": "Démarré",
+                    "CLOTURE": "Clôturé",
+                    "BLOQUE": "Bloqué"
+                }
+            }
+        }
+    }
+
 }
+

@@ -35,7 +35,13 @@ type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
     standalone: true,
     templateUrl: './table-commercial-enterprises.component.html',
     styleUrls: ['./table-commercial-enterprises.component.scss'],
-    imports: [CommonModule, TableModule, AsyncPipe, TranslateModule, DialogModule],
+    imports: [
+        CommonModule,
+        TableModule,
+        AsyncPipe,
+        TranslateModule,
+        DialogModule,
+    ],
 })
 export class TableCommercialEnterprisesComponent implements OnDestroy {
     @Output() interfaceUser =
@@ -43,15 +49,15 @@ export class TableCommercialEnterprisesComponent implements OnDestroy {
 
     @Input() spinner!: boolean;
     @Input() listCommercialEnterprises$: Observable<
-        Array<CommercialEnterprisesInterface>
-    > = new BehaviorSubject<Array<CommercialEnterprisesInterface>>([]);
+        CommercialEnterprisesInterface[]
+    > = new BehaviorSubject<CommercialEnterprisesInterface[]>([]);
     @Input() pagination$!: Observable<Paginate<CommercialEnterprisesInterface>>;
 
     public commercialEnterpriseSelected!: CommercialEnterprisesInterface;
     public table: TableConfig = COMMERCIAL_ENTERPRISE_TABLE;
     private destroy$ = new Subject<void>();
 
-    public visibleForm: boolean = false;
+    public visibleForm = false;
 
     public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
         CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;

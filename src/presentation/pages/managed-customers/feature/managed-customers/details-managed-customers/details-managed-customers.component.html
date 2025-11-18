@@ -21,28 +21,23 @@
                                 align-items: center;
                             "
                         >
-                            <app-patrimoine-header
+                            <app-page-title
                                 [displayDate]="false"
                                 [displayList]="false"
-                                [legendePluriel]="
-                                    ('DETAILS_OF_THE_CUSTOMER' | translate) +
-                                    ' ' +
-                                    customerDetails?.['nom_client']
-                                "
-                                [legendeSingulier]="
+                                [title]="
                                     ('DETAILS_OF_THE_CUSTOMER' | translate) +
                                     ' ' +
                                     customerDetails?.['nom_client']
                                 "
                             >
-                            </app-patrimoine-header>
+                            </app-page-title>
                             <div>
                                 <button
                                     pButton
                                     type="button"
                                     class="p-button-danger"
                                     (click)="onGoToBack()"
-                                    [label]="'CLOSE' | translate"
+                                    [label]="'QUEUE' | translate"
                                     icon="pi pi-times"
                                 ></button>
                             </div>

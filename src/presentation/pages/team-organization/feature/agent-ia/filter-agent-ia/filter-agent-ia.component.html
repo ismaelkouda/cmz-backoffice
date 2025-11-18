@@ -1,0 +1,41 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="filter-grid">
+        <div class="filter-grid__item">
+            <label for="code-input"><b>{{ 'TEAM_ORGANIZATION.AGENT_IA.FILTER.CODE_NAME' | translate }}</b></label>
+            <input
+                id="code-input"
+                type="text"
+                pInputText
+                formControlName="code_nom"
+                [placeholder]="'TEAM_ORGANIZATION.AGENT_IA.FILTER.CODE_NAME_PLACEHOLDER' | translate"
+            />
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="status-select"><b>{{ 'TEAM_ORGANIZATION.AGENT_IA.FILTER.STATUS' | translate }}</b></label>
+            <p-select
+                id="status-select"
+                formControlName="statut"
+                [options]="statusOptions"
+                optionValue="value"
+                [showClear]="true"
+                (onClear)="resetSelect('statut')"
+                [placeholder]="'TEAM_ORGANIZATION.AGENT_IA.FILTER.SELECT_PLACEHOLDER' | translate"
+                appendTo="body"
+            >
+                <ng-template pTemplate="selectedItem" let-option>
+                    <span>{{ option?.label }}</span>
+                </ng-template>
+                <ng-template pTemplate="item" let-option>
+                    <span>{{ option.label }}</span>
+                </ng-template>
+            </p-select>
+        </div>
+
+        <div class="filter-grid__actions">
+            <button type="submit" class="btn btn-primary px-3">
+                <i class="pi pi-filter"></i>
+            </button>
+        </div>
+    </div>
+</form>

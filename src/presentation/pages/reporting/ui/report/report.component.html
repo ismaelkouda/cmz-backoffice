@@ -1,0 +1,40 @@
+ <main class="container-fluid waiting-container" role="main">
+    <section class="row waiting-row">
+        <article class="col-sm-12 waiting-article">
+            <app-breadcrumb
+                class="waiting-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card waiting-card">
+                <div class="card-body waiting-card-body">
+                    <header class="waiting-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'REPORT_REQUESTS.WAITING.TITLE' | translate | lowercase
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="fade-in waiting-content">
+                        <div class="grafana-container" [class.fullscreen]="isFullscreen">
+                            <iframe 
+                                src="http://dashboard.mazone.imako.digital/d/ef447w7mbmwaod/tb-manque-recouvrement-operateurs?orgId=1"
+                                (load)="onIframeLoad()"
+                                (error)="onIframeError()"
+                                frameborder="0"
+                                allowfullscreen
+                                class="grafana-iframe">
+                            </iframe>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

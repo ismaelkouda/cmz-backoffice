@@ -2,10 +2,10 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
-import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
-import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
+import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { AssociationEnterprisesFilterInterface } from '../../data-access/association-enterprises/interfaces/association-enterprises-filter.interface';
@@ -22,11 +22,11 @@ import {
 import { FilterAssociationEnterprisesComponent } from '../../feature/association-enterprises/filter-association-enterprises/filter-association-enterprises.component';
 import { TableAssociationEnterprisesComponent } from '../../feature/association-enterprises/table-association-enterprises/table-association-enterprises.component';
 
-type PageAction = {
+interface PageAction {
     data: AssociationEnterprisesInterface;
     action: T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
     view: 'page';
-};
+}
 
 @Component({
     selector: 'app-association-enterprises',
@@ -34,13 +34,13 @@ type PageAction = {
     templateUrl: './association-enterprises.component.html',
     imports: [
         CommonModule,
-        PatrimoineHeaderComponent,
+        PageTitleComponent,
         BreadcrumbComponent,
         FilterAssociationEnterprisesComponent,
         TableAssociationEnterprisesComponent,
-        ParginationComponent,
+        PaginationComponent,
         AsyncPipe,
-        TranslateModule
+        TranslateModule,
     ],
 })
 export class AssociationEnterprisesComponent implements OnInit, OnDestroy {
@@ -50,9 +50,9 @@ export class AssociationEnterprisesComponent implements OnInit, OnDestroy {
     public listAssociationEnterprises$!: Observable<
         AssociationEnterprisesInterface[]
     >;
-    public spinner: boolean = true;
+    public spinner = true;
     private destroy$ = new Subject<void>();
-    public listAssociationEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
+    public listAssociationEnterprisesStep: T_CUSTOMERS_MANAGED_STEP_ENUM[] =
         Object.values(CUSTOMERS_MANAGED_STEP_ENUM);
 
     constructor(
@@ -109,7 +109,7 @@ export class AssociationEnterprisesComponent implements OnInit, OnDestroy {
         const ref = params.action;
         const type_enterprise = TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE;
         const queryParams = { ref, type_enterprise };
-        let routePath: string = '';
+        let routePath = '';
 
         if (params.action === CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN) {
             routePath = `${code_client}`;

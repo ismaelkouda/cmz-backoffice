@@ -1,0 +1,74 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+  <div class="filter-grid">
+    <div class="filter-grid__item">
+      <label for="code-input"><b>{{ 'TEAM_ORGANIZATION.TEAM.FILTER.CODE_NAME' | translate }}</b></label>
+      <input
+        id="code-input"
+        type="text"
+        pInputText
+        formControlName="code_nom"
+        [placeholder]="'TEAM_ORGANIZATION.TEAM.FILTER.CODE_NAME_PLACEHOLDER' | translate"
+      />
+    </div>
+
+    <div class="filter-grid__item">
+      <label for="participant-select"><b>{{ 'TEAM_ORGANIZATION.TEAM.FILTER.PARTICIPANT' | translate }}</b></label>
+      <p-select
+        id="participant-select"
+        formControlName="participant_id"
+        [options]="participantOptions"
+        optionValue="value"
+        [showClear]="true"
+        (onClear)="resetSelect('participant_id')"
+        [placeholder]="'TEAM_ORGANIZATION.TEAM.FILTER.SELECT_PLACEHOLDER' | translate"
+        appendTo="body"
+      >
+        <ng-template pTemplate="selectedItem" let-option>
+          <span>{{ option?.label }}</span>
+        </ng-template>
+        <ng-template pTemplate="item" let-option>
+          <span>{{ option.label }}</span>
+        </ng-template>
+      </p-select>
+    </div>
+
+    <div class="filter-grid__item">
+      <label for="tenant-input"><b>{{ 'CUSTOMER' | translate }}</b></label>
+      <input
+        id="tenant-input"
+        type="text"
+        pInputText
+        formControlName="nom_tenant"
+        placeholder="{{ 'CUSTOMER' | translate }}"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="filter-grid__item">
+      <label for="status-select"><b>{{ 'TEAM_ORGANIZATION.TEAM.FILTER.STATUS' | translate }}</b></label>
+      <p-select
+        id="status-select"
+        formControlName="statut"
+        [options]="statusOptions"
+        optionValue="value"
+        [showClear]="true"
+        (onClear)="resetSelect('statut')"
+        [placeholder]="'TEAM_ORGANIZATION.TEAM.FILTER.SELECT_PLACEHOLDER' | translate"
+        appendTo="body"
+      >
+        <ng-template pTemplate="selectedItem" let-option>
+          <span>{{ option?.label }}</span>
+        </ng-template>
+        <ng-template pTemplate="item" let-option>
+          <span>{{ option.label }}</span>
+        </ng-template>
+      </p-select>
+    </div>
+
+    <div class="filter-grid__actions">
+      <button type="submit" class="btn btn-primary px-3">
+        <i class="pi pi-filter"></i>
+      </button>
+    </div>
+  </div>
+</form>

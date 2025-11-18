@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -8,28 +13,31 @@ import { EncodingDataService } from '../../../../services/encoding-data.service'
 
 @Component({
     selector: 'app-my-account',
+    standalone: true,
     templateUrl: './my-account.component.html',
     styleUrls: ['./my-account.component.scss'],
+    imports: [ReactiveFormsModule],
 })
-
 export class MyAccountComponent implements OnInit, OnDestroy {
     public currentUser!: CurrentUser | null;
     public newPasswordValue!: string;
     public confirmPasswordValue!: string;
     public passwordForm!: FormGroup;
-    public submitted: boolean = false;
+    public submitted = false;
     public accountForm!: FormGroup;
     private destroy$ = new Subject<void>();
 
     constructor(
         private fb: FormBuilder,
         private modalService: NgbModal,
-        private toastrService: ToastrService,
+        private toastService: ToastrService,
         private encodingService: EncodingDataService
     ) {}
 
     ngOnInit() {
-        const user = this.encodingService.getData('user_data') as CurrentUser | null;
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
         this.currentUser = user;
         this.initFormPassword();
         this.initFormAccount();
@@ -59,7 +67,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     }
 
     async handleUpdatePassword(
-        dataToSend: Object = this.passwordForm.value
+        dataToSend: object = this.passwordForm.value
     ): Promise<void> {
         this.submitted = true;
         if (
@@ -85,7 +93,10 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         });
     }
 
-    public openFormAccount(modalRef: TemplateRef<any>, currentUser: CurrentUser | null) {
+    public openFormAccount(
+        modalRef: TemplateRef<any>,
+        currentUser: CurrentUser | null
+    ) {
         this.accountForm.get('last_name')?.patchValue(currentUser?.last_name);
         this.accountForm.get('first_name')?.patchValue(currentUser?.first_name);
         this.accountForm.get('email')?.patchValue(currentUser?.email);
@@ -97,5 +108,4 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         this.modalService.dismissAll();
         this.accountForm.reset();
     }
-
 }

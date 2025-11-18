@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CommercialEnterprisesComponent } from './ui/commercial-enterprises/commercial-enterprises.component';
-import { PublicEnterprisesComponent } from './ui/public-enterprises/public-enterprises.component';
-import { AssociationEnterprisesComponent } from './ui/association-enterprises/association-enterprises.component';
-import { IndividualsComponent } from './ui/individuals/individuals.component';
-import { CustomersComponent } from './ui/customers/customers.component';
 import { DetailsManagedCustomersComponent } from './feature/managed-customers/details-managed-customers/details-managed-customers.component';
+import { AssociationEnterprisesComponent } from './ui/association-enterprises/association-enterprises.component';
+import { CommercialEnterprisesComponent } from './ui/commercial-enterprises/commercial-enterprises.component';
+import { CustomersComponent } from './ui/customers/customers.component';
+import { IndividualsComponent } from './ui/individuals/individuals.component';
+import { PublicEnterprisesComponent } from './ui/public-enterprises/public-enterprises.component';
 
 export const COMMERCIAL_ENTERPRISE = 'commercial-enterprises';
 export const PUBLIC_ENTERPRISES = 'public-enterprises';

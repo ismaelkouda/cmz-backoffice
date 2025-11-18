@@ -1,0 +1,61 @@
+<main class="container-fluid user-container" role="main">
+    <section class="row user-row">
+        <article class="col-sm-12 user-article">
+            <app-breadcrumb
+                class="user-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card user-card">
+                <div class="card-body user-card-body">
+                    <header
+                        class="user-header"
+                    >
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'SETTINGS_SECURITY.USER.LABEL' | translate | lowercase
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="fade-in user-content">
+                        <app-filter-user
+                            class="filter-component"
+                            (filter)="filter($event)"
+                        >
+                        </app-filter-user>
+
+                        <hr class="user-divider" />
+
+                        <section
+                            class="table-section"
+                            aria-label="Tableau des utilisateurs"
+                        >
+                            <app-table-user
+                                class="table-component"
+                                [spinner]="spinner$ | async"
+                                [pagination$]="pagination$"
+                                [listUsers$]="users$"
+                                (userRequested)="handleUser($event)"
+                                (addUserRequested)="handleAddUser()"
+                                (journalRequested)="handleNewspaper($event)"
+                                (refreshRequested)="refreshUsers()"
+                            >
+                            </app-table-user>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination$ | async"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

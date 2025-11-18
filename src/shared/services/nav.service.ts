@@ -27,24 +27,22 @@ export class NavService implements OnDestroy {
     public listMenuItems!: any[];
     public user: any;
 
-    private unsubscriber: Subject<any> = new Subject();
-    public screenWidth: BehaviorSubject<number> = new BehaviorSubject(
-        window.innerWidth
-    );
+    private unsubscriber = new Subject<any>();
+    public screenWidth = new BehaviorSubject<number>(window.innerWidth);
     // MENU_SIDEBAR: any = menuJson;
 
     // Search Box
-    public search: boolean = false;
+    public search = false;
 
     // Language
-    public language: boolean = false;
+    public language = false;
 
     // Menu
     public listMenu: any = [];
 
     // Mega Menu
-    public megaMenu: boolean = false;
-    public levelMenu: boolean = false;
+    public megaMenu = false;
+    public levelMenu = false;
     public megaMenuColapse: boolean = window.innerWidth < 1199 ? true : false;
 
     // Collapse Sidebar
@@ -54,7 +52,7 @@ export class NavService implements OnDestroy {
     public horizontal: boolean = window.innerWidth < 1100 ? false : true;
 
     // Full screen
-    public fullScreen: boolean = false;
+    public fullScreen = false;
 
     constructor(private router: Router) {
         this.setScreenWidth(window.innerWidth);

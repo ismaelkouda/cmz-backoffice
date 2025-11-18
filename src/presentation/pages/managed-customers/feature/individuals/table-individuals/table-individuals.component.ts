@@ -28,23 +28,29 @@ type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
     standalone: true,
     templateUrl: './table-individuals.component.html',
     styleUrls: ['./table-individuals.component.scss'],
-    imports: [CommonModule, TableModule, AsyncPipe, DialogModule, TranslateModule],
+    imports: [
+        CommonModule,
+        TableModule,
+        AsyncPipe,
+        DialogModule,
+        TranslateModule,
+    ],
 })
 export class TableIndividualsComponent {
     @Output() interfaceUser = new EventEmitter<any>();
 
     @Input() spinner!: boolean;
-    @Input() listIndividuals$: Observable<Array<IndividualsInterface>> =
-        new BehaviorSubject<Array<IndividualsInterface>>([]);
+    @Input() listIndividuals$: Observable<IndividualsInterface[]> =
+        new BehaviorSubject<IndividualsInterface[]>([]);
     @Input() pagination$!: Observable<Paginate<IndividualsInterface>>;
 
-    @Input() listIndividualsStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    @Input() listIndividualsStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
 
     public individualSelected!: IndividualsInterface;
     public table: TableConfig = INDIVIDUALS_TABLE;
     private destroy$ = new Subject<void>();
 
-    public visibleForm: boolean = false;
+    public visibleForm = false;
 
     public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
         CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;

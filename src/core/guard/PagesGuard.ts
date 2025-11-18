@@ -5,7 +5,7 @@ import {
     RouterStateSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { StorePathsService } from '../../shared/services/store-paths.service';
+import { StorePathsService } from '@shared/services/store-paths.service';
 
 @Injectable()
 export class PagesGuard {
@@ -18,7 +18,7 @@ export class PagesGuard {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
-        const allowedPaths = this.storePathsService.getPaths; 
+        const allowedPaths = this.storePathsService.getPaths;
 
         if (allowedPaths && allowedPaths.includes(state.url)) {
             return true;

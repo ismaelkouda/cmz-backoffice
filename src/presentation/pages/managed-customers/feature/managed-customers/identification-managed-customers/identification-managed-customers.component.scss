@@ -1,5 +1,5 @@
 .fieldset-premium {
-    border: 1px solid #5b9bd5;
+    border: 1px solid var(--theme-default);
     border-radius: 12px;
     padding: 16px 16px 8px;
     margin-bottom: 16px;
@@ -11,7 +11,7 @@
         padding: 0 8px;
         margin-left: 8px;
         color: #fff;
-        background: #5b9bd5;
+        background: var(--theme-default);
         border-radius: 6px;
         line-height: 1.8;
     }

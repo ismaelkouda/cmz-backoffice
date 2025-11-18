@@ -6,7 +6,7 @@ import { EnvService } from '../../../../../../shared/services/env.service';
 import { SlaAgreementsEndpointEnum } from '../enums/sla-agreements-endpoint.enum';
 import {
     SlaAgreementsApiResponseInterface,
-    SlaAgreementsInterface
+    SlaAgreementsInterface,
 } from '../interfaces/sla-agreements.interface';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class SlaAgreementsApiService {
     }
 
     private slaAgreementsSubject = new BehaviorSubject<
-        Array<SlaAgreementsInterface>
+        SlaAgreementsInterface[]
     >([]);
     private loadingSlaAgreementsSubject = new BehaviorSubject<boolean>(false);
     private apiResponseSlaAgreementsSubject =
@@ -29,13 +29,15 @@ export class SlaAgreementsApiService {
             {} as SlaAgreementsApiResponseInterface
         );
     fetchSlaAgreements(): void {
-        if (this.loadingSlaAgreementsSubject.getValue()) return;
+        if (this.loadingSlaAgreementsSubject.getValue()) {
+            return;
+        }
         this.loadingSlaAgreementsSubject.next(true);
         const url: string =
             SlaAgreementsEndpointEnum.SUPERVISORY_REFERENCE_SLA_AGREEMENTS;
 
         this.httpClient
-            .post<Object>(this.BASE_URL + url, {})
+            .post<object>(this.BASE_URL + url, {})
             .pipe(
                 debounceTime(500),
                 switchMap((response: any) => {
@@ -53,7 +55,7 @@ export class SlaAgreementsApiService {
             .subscribe();
     }
 
-    getSlaAgreements(): Observable<Array<SlaAgreementsInterface>> {
+    getSlaAgreements(): Observable<SlaAgreementsInterface[]> {
         return this.slaAgreementsSubject.asObservable();
     }
     isLoadingSlaAgreements(): Observable<boolean> {

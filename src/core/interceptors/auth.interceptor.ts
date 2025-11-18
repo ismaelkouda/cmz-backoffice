@@ -1,10 +1,9 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ConfigurationService } from '../services/configuration.service';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
-
 
     if (isStaticAssetRequest(req)) {
         console.log('🛡️ API Interceptor: Skipping static asset', req.url);
@@ -18,8 +17,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     if (req.url.includes('/assets/i18n/') || req.url.includes('.json')) {
         return next(req);
     }
-    console.log("authInterceptor req", req)
-
+    console.log('authInterceptor req', req);
 
     const getAuthToken = (): string | null => {
         try {
@@ -47,19 +45,27 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
 };
 
-
 function isStaticAssetRequest(req: HttpRequest<any>): boolean {
     const staticPatterns = [
         '/assets/',
         '/i18n/',
         '.json',
-        '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',
-        '.css', '.js', '.woff', '.woff2', '.ttf',
+        '.png',
+        '.jpg',
+        '.jpeg',
+        '.gif',
+        '.svg',
+        '.ico',
+        '.css',
+        '.js',
+        '.woff',
+        '.woff2',
+        '.ttf',
         'manifest.webmanifest',
-        'ngsw-worker.js'
+        'ngsw-worker.js',
     ];
-    
-    return staticPatterns.some(pattern => req.url.includes(pattern));
+
+    return staticPatterns.some((pattern) => req.url.includes(pattern));
 }
 
 function isAbsoluteUrl(url: string): boolean {
@@ -67,5 +73,9 @@ function isAbsoluteUrl(url: string): boolean {
 }
 
 function isExternalUrl(url: string): boolean {
-    return isAbsoluteUrl(url) && !url.includes('localhost') && !url.includes('127.0.0.1');
+    return (
+        isAbsoluteUrl(url) &&
+        !url.includes('localhost') &&
+        !url.includes('127.0.0.1')
+    );
 }

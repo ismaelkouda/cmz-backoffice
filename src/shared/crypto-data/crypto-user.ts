@@ -22,7 +22,7 @@ export class CryptoUser {
         const aeskey = await deriveKey(`${this.password}+${token}`, salt);
         //  generer la clef de cryptage
         const encrypted = await crypto.subtle.encrypt(
-            { name: 'AES-GCM', iv },
+            { name: 'AES-GCM', iv: iv as BufferSource },
             aeskey,
             encoder.encode(value)
         );
@@ -51,9 +51,9 @@ export class CryptoUser {
             const aeskey = await deriveKey(`${this.password}+${token}`, salt);
             //  generer la clef de decryptage
             const derypted = await crypto.subtle.decrypt(
-                { name: 'AES-GCM', iv },
+                { name: 'AES-GCM', iv: iv as BufferSource },
                 aeskey,
-                value
+                value as BufferSource
             );
 
             return new TextDecoder().decode(derypted);

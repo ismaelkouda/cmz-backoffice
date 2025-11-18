@@ -29,8 +29,8 @@ type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 export class TableSlaAgreementsComponent implements OnDestroy {
     public nbDataPerPage = 50;
     @Input() spinner!: boolean;
-    @Input() listSlaAgreements$: Observable<Array<SlaAgreementsInterface>> =
-        new BehaviorSubject<Array<SlaAgreementsInterface>>([]);
+    @Input() listSlaAgreements$: Observable<SlaAgreementsInterface[]> =
+        new BehaviorSubject<SlaAgreementsInterface[]>([]);
 
     public slaAgreementSelected!: SlaAgreementsInterface;
     public table: TableConfig = SLA_AGREEMENTS_TABLE;

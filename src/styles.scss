@@ -1,5 +1,4 @@
 @use './assets/scss/app.scss';
-//@use "tailwindcss"; 
 .input[type='file'] {
     color: #000 !important;
 }
@@ -54,7 +53,7 @@
     font-size: 16px;
 }
 .text-orange {
-    color: #5b9bd5;
+    color: var(--theme-default);
 }
 
 label {
@@ -79,15 +78,13 @@ label {
 
 .filter-button {
     display: flex;
-    // align-items: end;
-    // width: 4rem;
     padding-right: 0;
 }
 
 .p-button.p-button-success,
 .p-buttonset.p-button-success > .p-button,
 .p-splitbutton.p-button-success > .p-button {
-    color: #fff;
+    color: #ffffff;
     background: #569c5b !important;
     border: 1px solid #569c5b !important;
 }
@@ -114,7 +111,6 @@ label {
     transform-style: preserve-3d;
 }
 .justificatif-container {
-    // padding: 1rem 0;
     display: flex;
     gap: 2rem;
     justify-content: center;
@@ -163,13 +159,6 @@ p-password .p-disabled {
     }
 }
 
-:host {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #60d7a9;
-}
 :host ::ng-deep .spinner .p-progress-spinner-circle {
     animation: geek 5s ease-in-out infinite;
 }
@@ -190,24 +179,18 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 @keyframes geek {
     100%,
     0% {
-        stroke: #5b9bd5;
+        stroke: var(--theme-default);
     }
     40% {
-        stroke: #5b9bd5;
+        stroke: var(--theme-default);
     }
     66% {
-        stroke: #5b9bd5;
+        stroke: var(--theme-default);
     }
     80%,
     90% {
-        stroke: #5b9bd5;
+        stroke: var(--theme-default);
     }
-}
-.progress-spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -120%);
 }
 .progress-spinner {
     position: fixed;
@@ -267,6 +250,10 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 
 .pagination-controls {
     float: right;
+
+    nav {
+        margin-top: 0.5rem !important;
+    }
 }
 
 .ngx-pagination .current {
@@ -292,20 +279,20 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 }
 
 .legende {
-    color: #5b9bd5;
+    color: var(--theme-default);
     position: relative;
     top: 0.6rem;
     text-transform: uppercase;
-    font-family: 'FUTURA';
+    font-family: 'FUTURA', sans-serif;
 }
 .table-header-wrapper {
     font-size: 1.5rem;
-    font-family: 'FUTURA';
+    font-family: 'FUTURA', sans-serif;
 }
 .loader-wrapper {
     font-size: 1.6rem;
     text-transform: uppercase;
-    font-family: 'FUTURA';
+    font-family: 'FUTURA', sans-serif;
 }
 .leaflet-popup-content {
     min-height: 5px;
@@ -320,13 +307,6 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     }
 
     width: max-content !important;
-    width: max-content !important;
-}
-
-.pagination-controls {
-    nav {
-        margin-top: 0.5rem !important;
-    }
 }
 
 @font-face {
@@ -342,8 +322,12 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     padding-top: 1rem;
     float: right;
 }
+
 .wrapper-header {
-    font-family: 'FUTURA';
+    font-family: 'FUTURA', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
 }
 
 .p-datepicker-w-btn .p-datepicker-trigger {
@@ -378,10 +362,6 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     position: relative !important;
     top: 10px !important;
 }
-.body > div
-// .p-dialog .p-dialog-content {
-//     height: 100vh !important;
-// }
 
 .leaflet-tooltip-site {
     position: absolute;
@@ -389,8 +369,7 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     background-color: #000 !important;
     border: none !important;
     font-weight: 900;
-    color: #ffff;
-    //text-shadow: 2px 2px #5B9BD5;
+    color: #ffffff;
     white-space: nowrap;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -405,8 +384,7 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     background-color: #2e9afe !important;
     border: none !important;
     font-weight: 900;
-    color: #ffff;
-    //text-shadow: 2px 2px #5B9BD5;
+    color: #ffffff;
     white-space: nowrap;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -432,25 +410,30 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 
 .trans-radio {
     label {
-        font-family: 'FUTURA';
+        font-family: 'FUTURA', sans-serif;
         font-size: 19px !important;
     }
 }
 .current-transaction-label {
-    font-family: 'FUTURA';
+    font-family: 'FUTURA', sans-serif;
     font-size: 22px !important;
 }
 .p-datatable .p-sortable-column.p-highlight {
     border-right: 0.5px solid #fafafa;
-    color: white;
+    color: #ffffff;
     background: #000 !important;
 }
 .p-datatable .p-sortable-column.p-highlight:hover {
-    color: white;
+    color: #ffffff;
     background: #000 !important;
 }
-.p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon {
-    color: #ffff !important;
+.p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon,
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+    color: #ffffff !important;
+}
+.p-datatable .p-sortable-column:hover {
+    background: #000000 !important;
+    color: #ffffff !important;
 }
 @font-face {
     font-family: Lato;
@@ -459,17 +442,6 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 @font-face {
     font-family: Poppins;
     src: url('./assets/fonts/Poppins.ttf');
-}
-
-.p-datatable .p-sortable-column:hover {
-    background: #000000 !important;
-    color: #ffffff !important;
-}
-.p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon {
-    color: #ffffff !important;
-}
-.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
-    color: #ffffff !important;
 }
 
 .p-inputswitch .p-inputswitch-slider {
@@ -483,8 +455,6 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     left: 1.1rem;
     top: 0.82rem;
 }
-
-// kouda custom bottom au dessus des datatables
 
 .details-header-wrapper {
     display: flex;
@@ -529,12 +499,6 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     }
 }
 
-.wrapper-header {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #fff;
-}
-
 [role='alert'] {
     padding: 1rem;
     border-radius: 1rem;
@@ -544,35 +508,35 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 
     &.header-recu {
         background: linear-gradient(90deg, #2563eb, #3b82f6);
-        color: white;
+        color: #ffffff;
         padding: 1rem;
         border-radius: 12px;
     }
 
     &.header-abandonne {
         background: linear-gradient(90deg, #6b7280, #9ca3af);
-        color: white;
+        color: #ffffff;
         padding: 1rem;
         border-radius: 12px;
     }
 
     &.header-rejete {
         background: linear-gradient(90deg, #dc2626, #ef4444);
-        color: white;
+        color: #ffffff;
         padding: 1rem;
         border-radius: 12px;
     }
 
     &.header-partiel {
         background: linear-gradient(90deg, #d97706, #f59e0b);
-        color: white;
+        color: #ffffff;
         padding: 1rem;
         border-radius: 12px;
     }
 
     &.header-default {
         background: linear-gradient(90deg, #059669, #10b981);
-        color: white;
+        color: #ffffff;
         padding: 1rem;
         border-radius: 12px;
     }
@@ -590,4 +554,469 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+//p-datatable
+.p-datatable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    font-size: 14px;
+    text-align: left;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+    text-align: left;
+    padding: 1rem 1rem;
+    font-weight: 700;
+    color: #fff;
+    background: #000000 !important;
+    transition: box-shadow 0.2s;
+    font-size: 1rem;
+    border-right: 0.5px solid #fafafa;
+}
+
+.p-datatable .p-datatable-thead > tr > th:hover,
+.p-datatable .p-sortable-column.p-highlight,
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+    color: #fff !important;
+}
+
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+    font-size: 12px;
+    transition:
+        font-size 0.2s ease,
+        color 0.2s ease;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+    text-align: left;
+    font-size: 1rem;
+    padding: 0.1rem;
+    border-bottom: 0.5px solid #495057;
+}
+
+body .ui-table .ui-table-tbody > tr > td {
+    border: 1px solid #dadada;
+}
+
+.p-datatable .p-datatable-header {
+    //padding: 1rem 0 !important;
+}
+
+.p-datatable .p-datatable-header {
+    background: transparent !important;
+    color: #343a40;
+    border: 0 !important;
+}
+
+// field
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus,
+.form-select:focus,
+.p-dropdown:focus,
+.p-inputtext:focus,
+.p-password:focus,
+.p-calendar:focus,
+.p-select:focus,
+.p-multiselect:focus,
+.p-autocomplete:focus,
+.p-inputnumber:focus,
+.p-inputmask:focus,
+.p-chips:focus,
+.p-cascadeselect:focus,
+.p-listbox:focus,
+.p-spinner:focus,
+.p-rating:focus,
+.p-slider:focus,
+.p-togglebutton:focus,
+.p-selectbutton:focus,
+.p-knob:focus,
+.p-colorpicker:focus,
+.p-editor:focus,
+.p-inputtextarea:focus {
+    outline: none !important;
+    border-color: #6c757d !important;
+    box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.15) !important;
+    transition: all 0.2s ease;
+}
+
+.p-select,.p-select-label.p-placeholder {
+    color: #dee2e6 !important;
+}
+
+input.form-control:focus,
+input.form-control:active {
+    border-color: #6c757d !important;
+    box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.15) !important;
+}
+
+:host ::ng-deep .p-dropdown.p-focus {
+    border-color: #6c757d !important;
+    box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.15) !important;
+}
+
+:host ::ng-deep .p-select:focus {
+    border-color: #6c757d !important;
+    box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.15) !important;
+}
+
+:host ::ng-deep .p-inputtext:focus {
+    border-color: #6c757d !important;
+    box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.15) !important;
+}
+
+button:focus,
+.btn:focus,
+.p-button:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.15) !important;
+}
+
+input[type='text']:disabled,
+input[type='email']:disabled,
+input[type='number']:disabled,
+textarea:disabled {
+    background: #fafafa !important;
+    opacity: 1 !important;
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 15px;
+    border: 2px solid #ccc !important;
+    overflow: visible !important;
+}
+
+p-dropdown .p-disabled,
+p-select .p-disabled,
+p-password .p-disabled {
+    background: #fafafa !important;
+    opacity: 1 !important;
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 19.5px;
+    border: 2px solid #ccc !important;
+    .p-dropdown-trigger {
+        opacity: 0 !important;
+    }
+}
+
+// modern-sweet-alert.scss
+
+// Container principal
+.modern-swal-container {
+  //backdrop-filter: blur(20px);
+  
+  .swal2-popup {
+    background: transparent;
+    padding: 0;
+  }
+}
+
+// Popup moderne
+.modern-swal-popup {
+  background: rgba(30, 41, 59, 0.95) !important;
+  //backdrop-filter: blur(40px) !important;
+  border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  border-radius: 24px !important;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  padding: 3rem 2.5rem 2.5rem !important;
+  max-width: 480px !important;
+  overflow: hidden;
+  position: relative;
+  
+  // Effet de brillance
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(99, 102, 241, 0.4) 50%, 
+      transparent 100%);
+  }
+}
+
+// Header
+.modern-swal-header {
+  padding: 0 !important;
+  border: none !important;
+  margin-bottom: 1.5rem !important;
+}
+
+// Titre moderne
+.modern-swal-title {
+  color: #F8FAFC !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Contenu
+.modern-swal-content {
+  color: #94A3B8 !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  text-align: center !important;
+  margin: 1rem 0 2rem !important;
+  padding: 0 !important;
+  
+  .report-id-highlight {
+    color: #6366F1;
+    font-weight: 600;
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    margin-left: 0.25rem;
+  }
+}
+
+// Container d'icône
+.modern-swal-icon-container {
+  margin: 0 0 1.5rem !important;
+  padding: 0 !important;
+  
+  .modern-swal-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    svg {
+      filter: drop-shadow(0 8px 16px rgba(99, 102, 241, 0.3));
+    }
+  }
+}
+
+// Zone d'actions
+.modern-swal-actions {
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 1rem !important;
+  justify-content: center !important;
+}
+
+// Bouton de confirmation moderne
+.modern-swal-confirm-btn {
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%) !important;
+  color: white !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  padding: 0.875rem 2rem !important;
+  border-radius: 12px !important;
+  border: none !important;
+  box-shadow: 
+    0 4px 12px rgba(99, 102, 241, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+  
+  // Effet de brillance au survol
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.2), 
+      transparent);
+    transition: left 0.6s;
+  }
+  
+  &:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 
+      0 8px 20px rgba(99, 102, 241, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    
+    &::before {
+      left: 100%;
+    }
+  }
+  
+  &:active {
+    transform: translateY(0) !important;
+    box-shadow: 
+      0 2px 8px rgba(99, 102, 241, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  &:focus {
+    outline: none !important;
+    box-shadow: 
+      0 0 0 3px rgba(99, 102, 241, 0.3),
+      0 4px 12px rgba(99, 102, 241, 0.3) !important;
+  }
+}
+
+// Bouton d'annulation moderne
+.modern-swal-cancel-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #94A3B8 !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  padding: 0.875rem 2rem !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #F8FAFC !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  &:focus {
+    outline: none !important;
+    box-shadow: 
+      0 0 0 3px rgba(148, 163, 184, 0.3),
+      0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+// Animations personnalisées
+@keyframes swal2-show-modern {
+  0% {
+    transform: scale(0.8) translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes swal2-hide-modern {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+@keyframes swal2-backdrop-show-modern {
+  0% {
+    //backdrop-filter: blur(0px);
+    background: rgba(0, 0, 0, 0);
+  }
+  100% {
+    //backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+@keyframes swal2-backdrop-hide-modern {
+  0% {
+    //backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.8);
+  }
+  100% {
+    //backdrop-filter: blur(0px);
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+.swal2-show-modern {
+  animation: swal2-show-modern 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.swal2-hide-modern {
+  animation: swal2-hide-modern 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.swal2-backdrop-show-modern {
+  animation: swal2-backdrop-show-modern 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.swal2-backdrop-hide-modern {
+  animation: swal2-backdrop-hide-modern 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .modern-swal-popup {
+    margin: 1rem !important;
+    padding: 2rem 1.5rem 1.5rem !important;
+    border-radius: 20px !important;
+  }
+  
+  .modern-swal-title {
+    font-size: 1.25rem !important;
+  }
+  
+  .modern-swal-content {
+    font-size: 0.9rem !important;
+  }
+  
+  .modern-swal-actions {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+  
+  .modern-swal-confirm-btn,
+  .modern-swal-cancel-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+// Mode clair optionnel
+@media (prefers-color-scheme: light) {
+  .modern-swal-popup {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(99, 102, 241, 0.2) !important;
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  }
+  
+  .modern-swal-title {
+    background: linear-gradient(135deg, #1E293B 0%, #374151 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .modern-swal-content {
+    color: #64748B !important;
+  }
+  
+  .modern-swal-cancel-btn {
+    background: rgba(30, 41, 59, 0.05) !important;
+    color: #64748B !important;
+    border: 1px solid rgba(30, 41, 59, 0.1) !important;
+    
+    &:hover {
+      background: rgba(30, 41, 59, 0.1) !important;
+      color: #1E293B !important;
+    }
+  }
 }

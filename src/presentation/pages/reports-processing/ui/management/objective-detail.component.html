@@ -1,0 +1,393 @@
+<div class="main-container" [class.no-sidebar]="isSirType">
+  <div class="sidebar" *ngIf="!isSirType">
+    <!-- Section Agent (commune aux deux contextes) -->
+    <div class="sidebar-section">
+      <div class="sidebar-header">Agent</div>
+      <div class="sidebar-content">
+        <p><strong>Matricule :</strong> {{ employee?.employeeId || employee?.matricule || '—' }}</p>
+        <p><strong>Nom complet :</strong> {{ employee?.fullName || '—' }}</p>
+        <p><strong>Email :</strong> {{ employee?.email || '—' }}</p>
+      </div>
+    </div>
+
+    <!-- Sections pour la déclinaison -->
+    <ng-container *ngIf="context === 'declination' && !isSirType">
+      <div class="sidebar-section">
+        <div class="sidebar-header">Fixé par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.fixedBy?.employeeId || objective?.fixedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.fixedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.fixedBy?.email || '—' }}</p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-header">Révu par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.reviewedBy?.employeeId || objective?.reviewedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.reviewedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.reviewedBy?.email || '—' }}</p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-header">Accepté par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.acceptedBy?.employeeId || objective?.acceptedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.acceptedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.acceptedBy?.email || '—' }}</p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-header">Validé par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.validatedBy?.employeeId || objective?.validatedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.validatedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.validatedBy?.email || '—' }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Sections pour monitoring-achievements -->
+    <ng-container *ngIf="isMonitoringAchievements && !isSirType">
+      <div class="sidebar-section">
+        <div class="sidebar-header">Fixé par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.fixedBy?.employeeId || objective?.fixedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.fixedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.fixedBy?.email || '—' }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Sections pour l'évaluation -->
+    <ng-container *ngIf="context === 'evaluation' && !isMonitoringAchievements">
+      <div class="sidebar-section">
+        <div class="sidebar-header">Effectué par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.completedBy?.employeeId || objective?.completedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.completedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.completedBy?.email || '—' }}</p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-header">Accepté par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.acceptedBy?.employeeId || objective?.acceptedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.acceptedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.acceptedBy?.email || '—' }}</p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-header">Validé par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.validatedBy?.employeeId || objective?.validatedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.validatedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.validatedBy?.email || '—' }}</p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-header">Approuvé par</div>
+        <div class="sidebar-content">
+          <p><strong>Matricule :</strong> {{ objective?.approvedBy?.employeeId || objective?.approvedBy?.matricule || '—' }}</p>
+          <p><strong>Nom complet :</strong> {{ objective?.approvedBy?.fullName || '—' }}</p>
+          <p><strong>Email :</strong> {{ objective?.approvedBy?.email || '—' }}</p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="main-content">
+    
+    <!-- Status bar -->
+    <div class="status-bar" [class.sir-status-bar]="isSirType" *ngIf="!isSirType">
+      <!-- Status bar pour la déclinaison -->
+      <ng-container *ngIf="context === 'declination'">
+        <span>Fixé : [{{ objective?.fixedAt ? (objective.fixedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+        <span>Révu : [{{ objective?.reviewedAt ? (objective.reviewedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+        <span>Accepté : [{{ objective?.acceptedAt ? (objective.acceptedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+        <span>Validé : [{{ objective?.validatedAt ? (objective.validatedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+      </ng-container>
+
+      <!-- Status bar pour l'évaluation -->
+      <ng-container *ngIf="context === 'evaluation'">
+        <span>Soumis : [{{ objective?.submittedAt ? (objective.submittedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+        <span>Effectué : [{{ objective?.completedAt ? (objective.completedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+        <span>Accepté : [{{ objective?.acceptedAt ? (objective.acceptedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+        <span>Validé : [{{ objective?.validatedAt ? (objective.validatedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+        <span>Approuvé : [{{ objective?.approvedAt ? (objective.approvedAt | date:'yyyy-MM-dd HH:mm:ss') : '-- : --' }}]</span>
+      </ng-container>
+    </div>
+
+
+    <div class="d-flex align-items-center gap-3 mb-1 flex-wrap" *ngIf="mode === 'create' || mode === 'fix'">
+      <div class="d-flex align-items-center gap-2">
+        <label class="form-label mb-0" *ngIf="mode === 'create'">
+          Objectif parent <span class="text-danger">*</span>
+        </label>
+        <p-dropdown
+          [options]="parentObjectives"
+          [(ngModel)]="selectedParentObjective"
+          optionLabel="value"
+          placeholder="Choisir un objectif parent"
+          [showClear]="true"
+          [filter]="true"
+          styleClass="dropdown-objective"
+          [style]="{ width: '350px' }"
+        ></p-dropdown>
+      </div>
+    </div>
+
+    <!-- Accordion pour l'objectif parent -->
+    <div class="accordion" [class.active]="accordionState['parentObjective']" id="parentObjective" 
+         *ngIf="(selectedParentObjective || objective?.parentObjective) && !isSirType">
+      <div class="accordion-header" (click)="toggleAccordion('parentObjective')">
+        <div class="header-left">
+          <span>Objectif parent</span>
+          <span class="accordion-badge" *ngIf="selectedParentObjective">
+            {{ selectedParentObjective?.label || '' }}
+          </span>
+          <span class="accordion-badge" *ngIf="objective?.parentObjective && !selectedParentObjective">
+            {{ objective.parentObjective.objectiveCode }}
+          </span>
+        </div>
+        <span class="accordion-icon">&#9660;</span>
+      </div>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <!-- Affichage de l'objectif parent sélectionné ou existant -->
+          <div *ngIf="selectedParentObjective || objective?.parentObjective" class="parent-objective-display">
+            <div class="parent-objective-form">
+              <div class="row g-2">
+                <!-- Première ligne : Code, Échéance, Cible, Indicateur -->
+                <div class="col-md-3">
+                  <label class="form-label">Code</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    [value]="selectedParentObjective?.value || objective?.parentObjective?.objectiveCode || ''" 
+                    readonly
+                  >
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Échéance</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    [value]="selectedParentObjective?.deadline || objective?.parentObjective?.deadline || ''" 
+                    readonly
+                  >
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Cible</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    [value]="selectedParentObjective?.target || objective?.parentObjective?.target || ''" 
+                    readonly
+                  >
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Indicateur</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    [value]="selectedParentObjective?.indicator || objective?.parentObjective?.indicator || ''" 
+                    readonly
+                  >
+                </div>
+                <!-- Deuxième ligne : Description -->
+                <div class="col-12">
+                  <label class="form-label">Description</label>
+                  <textarea 
+                    class="form-control" 
+                    rows="2" 
+                    readonly
+                  >{{ selectedParentObjective?.label || objective?.parentObjective?.description || '' }}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion" [class.active]="accordionState['accordion1']" id="accordion1">
+      <div class="accordion-header" (click)="toggleAccordion('accordion1')">
+        <div class="header-left">
+          <span>{{ mode === 'define-achievements' ? 'Informations de l\'objectif' : 'Définition de l\'objectif SMART' }}</span>
+          <span class="accordion-badge" *ngIf="mode === 'view'">{{
+            objective?.objectiveCode || '—'
+          }}</span>
+          <span class="badge-strategic-axis ms-2" *ngIf="objective?.strategicAxis?.name || category?.name">
+            {{ objective?.strategicAxis?.name || category?.name }}
+          </span>
+        </div>
+        <span class="accordion-icon">&#9660;</span>
+      </div>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <app-objective-definition
+            [mode]="getChildMode()"
+            [(smartDefinition)]="smartDefinition"
+            [objective]="objective"
+          ></app-objective-definition>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="accordion" [class.active]="accordionState['accordion2']" id="accordion2" *ngIf="!isSirType && mode !== 'define-achievements'">
+      <div class="accordion-header" (click)="toggleAccordion('accordion2')">
+        <div class="header-left">
+          <span>Détermination des Résultats Clés OKR</span>
+        </div>
+        <span class="accordion-icon">&#9660;</span>
+      </div>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <app-key-results 
+            [mode]="getChildMode()"
+            [okr]="objective?.okr || []"
+          ></app-key-results>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Réalisations pour le mode define-achievements -->
+    <div *ngIf="mode === 'define-achievements'">
+      @for (quarter of quartersWithData; track quarter) {
+        <div class="accordion" [class.active]="quarterAccordionState[quarter]" [id]="'quarter-' + quarter">
+          <div class="accordion-header" (click)="toggleQuarterAccordion(quarter)">
+            <div class="header-left">
+              <span>Définition des réalisations {{ getQuarterLabel(quarter) }}</span>
+              @if (!isQuarterEditable(quarter)) {
+                <span class="read-only-badge">Lecture seule</span>
+              }
+            </div>
+            <span class="accordion-icon">&#9660;</span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-body">
+              <div class="realizations-container">
+                <div class="okr-accordion">
+                  @for (okr of getOkrsForQuarter(quarter); track okr.uniqId; let i = $index) {
+                    <div class="okr-accordion-item">
+                      <div class="okr-accordion-header" (click)="toggleOkrAccordionForQuarter(quarter, i)">
+                        <div class="okr-title-section">
+                          <span class="okr-number">OKR {{ i + 1 }}</span>
+                          <span class="okr-separator">-</span>
+                          <span class="okr-title">{{ okr.name }}</span>
+                        </div>
+                        <div class="okr-accordion-controls">
+                          <div class="okr-status">
+                            <i class="pi pi-circle-fill" [class.text-success]="okr.achievement && okr.achievement.trim() !== ''" 
+                               [class.text-muted]="!okr.achievement || okr.achievement.trim() === ''"></i>
+                          </div>
+                          <span class="okr-accordion-icon" [class.expanded]="isOkrAccordionOpenForQuarter(quarter, i)">&#9660;</span>
+                        </div>
+                      </div>
+                      
+                      <div class="okr-accordion-content" [class.expanded]="isOkrAccordionOpenForQuarter(quarter, i)">
+                        <div class="achievement-section">
+                          <textarea 
+                            class="achievement-textarea"
+                            [ngModel]="okr.achievement"
+                            (ngModelChange)="okr.saveAchievement($event)"
+                            [disabled]="!isQuarterEditable(quarter)"
+                            rows="3"
+                            [placeholder]="isQuarterEditable(quarter) ? 'Décrivez les réalisations concrètes pour ' + getQuarterLabel(quarter) + '...' : 'Trimestre en lecture seule - ' + getQuarterLabel(quarter)"
+                          ></textarea>
+                          
+                          <!-- Affichage de la date d'achievement -->
+                          <div *ngIf="getAchievementDate(okr, quarter)" class="achievement-date-info">
+                            <i class="pi pi-clock me-1"></i>
+                            <span class="date-label">Renseigné le :</span>
+                            <span class="date-value">{{ formatAchievementDate(getAchievementDate(okr, quarter)!) }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="accordion" [class.active]="accordionState['accordion3']" id="accordion3" *ngIf="!isSirType && mode !== 'define-achievements'">
+      <div class="accordion-header" (click)="toggleAccordion('accordion3')">
+        <div class="header-left">
+          <span>Critères d'évaluation</span>
+        </div>
+        <span class="accordion-icon">&#9660;</span>
+      </div>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <app-evaluation-criteria 
+            [mode]="getEvaluationCriteriaMode()"
+            [levelsOfAchievement]="objective?.levelsOfAchievement || []"
+            [context]="context"
+            [objectiveStatus]="objective?.status || ''"
+            [note]="objective?.note"
+            [completedComment]="getAppropriateComment()"
+            [supportingEvaluationDocument]="objective?.supportingEvaluationDocument"
+            [objective]="objective"
+            (levelsChange)="onLevelsChange($event)"
+            (postponeChange)="onPostponeChange($event)"
+          ></app-evaluation-criteria>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nouvel accordéon pour les commentaires -->
+    <div class="accordion" [class.active]="accordionState['accordion4']" id="accordion4" *ngIf="!isSirType && (isCommentMode || mode === 'view') && commentsToDisplay.length > 0 && mode !== 'simulate'">
+      <div class="accordion-header" (click)="toggleAccordion('accordion4')">
+        <div class="header-left">
+          <span>Commentaires</span>
+          <span class="comment-count-badge">{{ commentsToDisplay.length }}</span>
+        </div>
+        <span class="accordion-icon">&#9660;</span>
+      </div>
+      <div class="accordion-content">
+        <div class="accordion-body">
+          <div class="comments-container">
+            <div *ngFor="let commentItem of commentsToDisplay" class="comment-item mb-3">
+              <div class="comment-header">
+                <i class="pi pi-comment me-2"></i>
+                <strong>{{ commentItem.label }}</strong>
+              </div>
+              <div class="comment-content">
+                {{ commentItem.content }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isSirType && isCommentMode && !(mode === 'accept' && context === 'evaluation')" class="comment-section">
+      <div class="comment-input-container">
+        <div class="comment-header">
+          <i class="pi pi-comment me-2"></i>
+          <strong>Votre commentaire <span class="text-danger">*</span> :</strong>
+        </div>
+        <div class="comment-input-content">
+          <textarea
+            id="comment"
+            class="form-control comment-textarea"
+            [(ngModel)]="comment"
+            placeholder="Saisir un commentaire..."
+            rows="2"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

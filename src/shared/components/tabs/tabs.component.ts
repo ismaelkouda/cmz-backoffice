@@ -1,16 +1,20 @@
 import {
-    Component,
-    OnInit,
-    ElementRef,
-    ViewChild,
     AfterViewInit,
+    Component,
+    ElementRef,
     HostListener,
+    OnInit,
+    ViewChild,
 } from '@angular/core';
-import { TabService } from '../../services/tab.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { EncodingDataService } from '../../services/encoding-data.service';
+import { TabService } from '../../services/tab.service';
+import { ConfirmationModalComponent } from './confirmation-modal.component';
 
 @Component({
     selector: 'app-tabs',
+    standalone: true,
+    imports: [ConfirmationModalComponent, TranslateModule],
     template: `
         <div class="tabs-container">
             <div
@@ -60,8 +64,8 @@ import { EncodingDataService } from '../../services/encoding-data.service';
         <!-- Modal de confirmation -->
         <app-confirmation-modal
             [isOpen]="isModalOpen"
-            [title]="'CLOSE_TABS' | translate"
-            [message]="'CONFIRM_CLOSE_TABS' | translate"
+            [title]="'QUEUE_TABS' | translate"
+            [message]="'CONFIRM_QUEUE_TABS' | translate"
             [confirmText]="'CONFIRM' | translate"
             [cancelText]="'CANCEL' | translate"
             (confirm)="confirmCloseAllTabs()"

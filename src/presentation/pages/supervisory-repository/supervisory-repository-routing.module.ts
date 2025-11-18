@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SlaAgreementsComponent } from './ui/sla-agreements/sla-agreements.component';
 import { PagesGuard } from '../../../core/guard/PagesGuard';
+import { SlaAgreementsComponent } from './ui/sla-agreements/sla-agreements.component';
 import { SlaContactsComponent } from './ui/sla-contacts/sla-contacts.component';
 
 export const SLA_CONTACTS = 'sla-contact';

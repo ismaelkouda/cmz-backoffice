@@ -1,0 +1,34 @@
+<div class="management-participants-container">
+    <app-filter-team-participants
+        class="filter-component"
+        (filter)="filter($event)"
+    >
+    </app-filter-team-participants>
+
+    <hr class="divider" />
+
+    <section class="table-section" aria-label="Tableau des participants de l'équipe">
+        <app-table-team-participants
+            class="table-component"
+            [spinner]="spinner$ | async"
+            [listParticipants$]="participants$"
+            [selectedParticipants]="selectedParticipants"
+            [hideAssignButton]="false"
+            (selectionChange)="onSelectionChange($event)"
+            (assignRequested)="onAssign()"
+            (removeRequested)="onRemove($event)"
+            (reassignRequested)="onReassign($event)"
+            (refreshRequested)="refreshParticipants()"
+        >
+        </app-table-team-participants>
+
+        <app-modal-reassign-participants
+            [(visible)]="visibleReassignModal"
+            [teamId]="teamId"
+            [participants]="selectedParticipants"
+            (confirm)="onReassignConfirm($event)"
+        >
+        </app-modal-reassign-participants>
+    </section>
+</div>
+

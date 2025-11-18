@@ -4,7 +4,6 @@ import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
 import { BADGE_STATUT } from '../../constants/badge-statut.constant';
 import { BADGE_TRAITEMENT } from '../../constants/badge-traitement.constant';
-import { Pargination } from '../../table/pargination';
 
 @Component({
     selector: 'app-journal',
@@ -25,12 +24,11 @@ export class JournalComponent implements OnInit {
     @Input() transaction!: string;
     @Input() numero_demande!: string;
     response: any;
-    listJournal: Array<any> = [];
+    listJournal: any[] = [];
     public offset: any;
-    public p: number = 1;
-    public displayDefaultJournal: boolean = false;
-    public displayWhitesimCard: boolean = false;
-    public pargination = new Pargination(1, 50, 0, 0, 0, 1, 0);
+    public p = 1;
+    public displayDefaultJournal = false;
+    public displayWhitesimCard = false;
     constructor(private activeModal: NgbActiveModal) {}
 
     /**
@@ -76,21 +74,21 @@ export class JournalComponent implements OnInit {
         //             // });
         //         },
         //         error: (error) => {
-        //             this.toastrService.error(error.error.message);
+        //             this.toastService.error(error.error.message);
         //         },
         //     });
     }
 
     public getAllSimBlancheJournal(
-        dataToSend: Object = { reference: this.numero_demande },
-        nbrPage: string = '1'
+        dataToSend: object = { reference: this.numero_demande },
+        nbrPage = '1'
     ) {
         // this.settingsService
         //     .getAllSimBlancheJournal(dataToSend, nbrPage)
         //     .subscribe({
         //         next: (response) => {
         //             this.listJournal = response['data']?.['data'];
-        //             this.pargination = new Pargination(
+        //             this.pagination = new Pargination(
         //                 response?.data?.p,
         //                 response?.data?.to,
         //                 response?.data?.last_page,
@@ -103,7 +101,7 @@ export class JournalComponent implements OnInit {
         //             );
         //         },
         //         error: (error) => {
-        //             this.toastrService.error(error.error.message);
+        //             this.toastService.error(error.error.message);
         //         },
         //     });
     }

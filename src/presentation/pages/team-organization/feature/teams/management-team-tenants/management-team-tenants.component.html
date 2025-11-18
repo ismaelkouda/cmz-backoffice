@@ -1,0 +1,34 @@
+<div class="management-tenants-container">
+    <app-filter-team-tenants
+        class="filter-component"
+        (filter)="filter($event)"
+    >
+    </app-filter-team-tenants>
+
+    <hr class="divider" />
+
+    <section class="table-section" aria-label="Tableau des tenants de l'équipe">
+        <app-table-team-tenants
+            class="table-component"
+            [spinner]="spinner$ | async"
+            [listTenants$]="tenants$"
+            [selectedTenants]="selectedTenants"
+            [hideAssignButton]="false"
+            (selectionChange)="onSelectionChange($event)"
+            (assignRequested)="onAssign()"
+            (removeRequested)="onRemove($event)"
+            (reassignRequested)="onReassign($event)"
+            (refreshRequested)="refreshTenants()"
+        >
+        </app-table-team-tenants>
+
+        <app-modal-reassign-tenants
+            [(visible)]="visibleReassignModal"
+            [teamId]="teamId"
+            [tenants]="selectedTenants"
+            (confirm)="onReassignConfirm($event)"
+        >
+        </app-modal-reassign-tenants>
+    </section>
+</div>
+

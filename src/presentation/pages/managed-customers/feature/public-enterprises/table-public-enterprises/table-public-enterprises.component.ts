@@ -35,24 +35,29 @@ type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
     standalone: true,
     templateUrl: './table-public-enterprises.component.html',
     styleUrls: ['./table-public-enterprises.component.scss'],
-    imports: [CommonModule, TableModule, AsyncPipe, DialogModule, TranslateModule],
+    imports: [
+        CommonModule,
+        TableModule,
+        AsyncPipe,
+        DialogModule,
+        TranslateModule,
+    ],
 })
 export class TablePublicEnterprisesComponent implements OnDestroy {
     @Output() interfaceUser = new EventEmitter<any>();
 
     @Input() spinner!: boolean;
-    @Input() listPublicEnterprises$: Observable<
-        Array<PublicEnterprisesInterface>
-    > = new BehaviorSubject<Array<PublicEnterprisesInterface>>([]);
+    @Input() listPublicEnterprises$: Observable<PublicEnterprisesInterface[]> =
+        new BehaviorSubject<PublicEnterprisesInterface[]>([]);
     @Input() pagination$!: Observable<Paginate<PublicEnterprisesInterface>>;
 
-    @Input() listPublicEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    @Input() listPublicEnterprisesStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
 
     public publicEnterpriseSelected!: PublicEnterprisesInterface;
     public table: TableConfig = PUBLIC_ENTERPRISES_TABLE;
     private destroy$ = new Subject<void>();
 
-    public visibleForm: boolean = false;
+    public visibleForm = false;
 
     public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
         CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;

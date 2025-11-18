@@ -1,0 +1,68 @@
+<main class="container-fluid profile-habilitation-container" role="main">
+    <section class="row profile-habilitation-row">
+        <article class="col-sm-12 profile-habilitation-article">
+            <app-breadcrumb
+                class="profile-habilitation-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card profile-habilitation-card">
+                <div class="card-body profile-habilitation-card-body">
+                    <header
+                        class="profile-habilitation-header"
+                    >
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'SETTINGS_SECURITY.PROFILE_HABILITATION.LABEL'
+                                    | translate
+                                    | lowercase
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="fade-in profile-habilitation-content">
+                        <app-filter-profile-habilitation
+                            class="filter-component"
+                            (filter)="filter($event)"
+                        >
+                        </app-filter-profile-habilitation>
+
+                        <hr class="profile-habilitation-divider" />
+
+                        <section
+                            class="table-section"
+                            aria-label="Tableau des profils habilitations"
+                        >
+                            <app-table-profile-habilitation
+                                class="table-component"
+                                [spinner]="spinner$ | async"
+                                [pagination$]="pagination$"
+                                [listProfileHabilitation$]="
+                                    profileHabilitation$
+                                "
+                                (profileHabilitationRequested)="
+                                    handleProfileHabilitation($event)
+                                "
+                                (addProfileRequested)="handleAddProfile()"
+                                (refreshRequested)="
+                                    refreshProfileHabilitation()
+                                "
+                            >
+                            </app-table-profile-habilitation>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination$ | async"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

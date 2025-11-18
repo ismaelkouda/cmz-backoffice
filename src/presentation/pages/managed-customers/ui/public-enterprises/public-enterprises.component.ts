@@ -2,10 +2,10 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
-import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
-import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
+import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import {
     CUSTOMERS_MANAGED_STEP_ENUM,
@@ -21,11 +21,11 @@ import { PublicEnterprisesApiService } from '../../data-access/public-enterprise
 import { FilterPublicEnterprisesComponent } from '../../feature/public-enterprises/filter-public-enterprises/filter-public-enterprises.component';
 import { TablePublicEnterprisesComponent } from '../../feature/public-enterprises/table-public-enterprises/table-public-enterprises.component';
 
-type PageAction = {
+interface PageAction {
     data: PublicEnterprisesInterface;
     action: T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
     view: 'page';
-};
+}
 
 @Component({
     selector: 'app-public-enterprises',
@@ -33,13 +33,13 @@ type PageAction = {
     templateUrl: './public-enterprises.component.html',
     imports: [
         CommonModule,
-        PatrimoineHeaderComponent,
+        PageTitleComponent,
         FilterPublicEnterprisesComponent,
         TablePublicEnterprisesComponent,
-        ParginationComponent,
+        PaginationComponent,
         BreadcrumbComponent,
         AsyncPipe,
-        TranslateModule
+        TranslateModule,
     ],
 })
 export class PublicEnterprisesComponent implements OnInit, OnDestroy {
@@ -47,9 +47,9 @@ export class PublicEnterprisesComponent implements OnInit, OnDestroy {
     public subModule!: string;
     public pagination$!: Observable<Paginate<PublicEnterprisesInterface>>;
     public listPublicEnterprises$!: Observable<PublicEnterprisesInterface[]>;
-    public spinner: boolean = true;
+    public spinner = true;
     private destroy$ = new Subject<void>();
-    public listPublicEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
+    public listPublicEnterprisesStep: T_CUSTOMERS_MANAGED_STEP_ENUM[] =
         Object.values(CUSTOMERS_MANAGED_STEP_ENUM);
 
     constructor(
@@ -103,7 +103,7 @@ export class PublicEnterprisesComponent implements OnInit, OnDestroy {
         const code_client = params.data ? params.data['code_client'] : null;
         const ref = params.action;
         const queryParams = { ref };
-        let routePath: string = '';
+        let routePath = '';
 
         if (params.action === CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN) {
             routePath = `${code_client}`;

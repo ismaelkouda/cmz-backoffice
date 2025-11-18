@@ -1,17 +1,16 @@
 import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AppConfig, BuildInfo } from '../../environments/config.types';
+import { AppConfig, BuildInfo } from 'environments/config.types';
 
 @Injectable({
     providedIn: 'root',
 })
-
 export class ConfigurationService {
     private readonly config: AppConfig;
     private readonly buildInfo: BuildInfo;
     private configSubject = new BehaviorSubject<AppConfig | null>(null);
-    private readonly platformId = inject(PLATFORM_ID)
+    private readonly platformId = inject(PLATFORM_ID);
 
     constructor() {
         const loadedConfig = this.loadConfiguration();
@@ -44,27 +43,30 @@ export class ConfigurationService {
         };
     }
 
-  private getWindowConfig(): any {
-    try {
-      // Essayer multiple méthodes d'accès
-      if (typeof window !== 'undefined' && (window as any).__env) {
-        return (window as any).__env;
-      }
-      
-      if (typeof globalThis !== 'undefined' && (globalThis as any).__env) {
-        return (globalThis as any).__env;;
-      }
-      
-      if (typeof self !== 'undefined' && (self as any).__env) {
-        return (self as any).__env;;
-      }
+    private getWindowConfig(): any {
+        try {
+            // Essayer multiple méthodes d'accès
+            if (typeof window !== 'undefined' && (window as any).__env) {
+                return (window as any).__env;
+            }
 
-      return null;
-    } catch (error) {
-      console.warn('⚠️ Error accessing window configuration:', error);
-      return null;
+            if (
+                typeof globalThis !== 'undefined' &&
+                (globalThis as any).__env
+            ) {
+                return (globalThis as any).__env;
+            }
+
+            if (typeof self !== 'undefined' && (self as any).__env) {
+                return (self as any).__env;
+            }
+
+            return null;
+        } catch (error) {
+            console.warn('⚠️ Error accessing window configuration:', error);
+            return null;
+        }
     }
-  }
 
     private loadServerConfig(): { config: AppConfig; buildInfo: BuildInfo } {
         const nodeEnv =
@@ -75,10 +77,12 @@ export class ConfigurationService {
             dev: {
                 verifyIdentityDocumentUrl:
                     'https://sim-monitoring.cateli.io:8013/',
-authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
-        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
-        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
-        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
+                authenticationUrl:
+                    'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+                reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+                settingUrl:
+                    'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+                fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
                 environmentDeployment: 'DEV' as const,
                 enableDebug: true,
                 messageApp: {
@@ -100,20 +104,24 @@ authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
             test: {
                 verifyIdentityDocumentUrl:
                     'https://sim-monitoring.cateli.io:8013/',
-                authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
-        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
-        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
-        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
+                authenticationUrl:
+                    'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+                reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+                settingUrl:
+                    'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+                fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
                 environmentDeployment: 'TEST' as const,
                 enableDebug: true,
             },
             prod: {
                 verifyIdentityDocumentUrl:
                     'https://sim-monitoring.cateli.io:8013/',
-authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
-        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
-        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
-        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
+                authenticationUrl:
+                    'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+                reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+                settingUrl:
+                    'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+                fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
                 environmentDeployment: 'PROD' as const,
                 enableDebug: false,
             },
@@ -135,7 +143,13 @@ authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
     }
 
     private validateConfiguration(): void {
-        const requiredProps = ['authenticationUrl', 'reportUrl', 'settingUrl', 'fileUrl', 'environmentDeployment'];
+        const requiredProps = [
+            'authenticationUrl',
+            'reportUrl',
+            'settingUrl',
+            'fileUrl',
+            'environmentDeployment',
+        ];
         const missingProps = requiredProps.filter(
             (prop) => !this.config[prop as keyof AppConfig]
         );

@@ -1,63 +1,28 @@
-.box-card {
-    text-align: center;
-    border: 0.5px solid black;
-    border-radius: 6px;
-    padding: 0 0.5rem;
-    line-height: 3.5rem;
-    height: 3.5rem;
-}
-.title {
-    font-size: 20px;
-    color: black;
-    text-transform: capitalize;
-    font-family: 'FUTURA';
-}
-.valeur {
-    span {
-        margin-left: 5px;
-        color: #5b9bd5;
-        font-size: 20px;
-        text-align: center;
-        font-family: 'FUTURA';
-    }
-}
-.sidebar-logo {
-    height: 3rem;
-    max-width: 100%;
+.refresh-icon-wrapper {
+    padding-top: 0.5rem;
 }
 
-.sidebar-tenant {
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.notification-icon {
-    font-size: 1.4rem;
-    line-height: 1.5;
+.refresh-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.5rem;
     cursor: pointer;
-}
+    color: #555;
+    transition:
+        color 0.3s ease,
+        transform 0.2s ease;
 
-@media (max-width: 768px) {
-    .sidebar-logo {
-        height: 2.5rem;
+    &:hover {
+        color: var(--theme-default);
+        transform: scale(1.1);
     }
 
-    .sidebar-tenant {
-        font-size: clamp(0.9rem, 4vw, 1.25rem);
-        text-align: center;
+    &:focus {
+        outline: 2px solid var(--theme-default);
+        outline-offset: 2px;
     }
-
-    .nav-menus {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-.icon-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
 }
 
 .header-icon {
@@ -67,11 +32,11 @@
     transition:
         color 0.3s ease,
         transform 0.2s ease;
-}
 
-.header-icon:hover {
-    color: #d32f2f; // highlight color
-    transform: scale(1.1);
+    &:hover {
+        color: var(--theme-default);
+        transform: scale(1.1);
+    }
 }
 
 .nav-menus {

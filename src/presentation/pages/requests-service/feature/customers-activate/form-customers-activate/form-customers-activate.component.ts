@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -14,13 +14,15 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
-import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
+import Swal from 'sweetalert2';
+import { SWEET_ALERT_PARAMS } from '../../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
 import {
-    T_TYPE_CUSTOMERS_ENUM,
     TYPE_CUSTOMERS_ENUM,
+    T_TYPE_CUSTOMERS_ENUM,
 } from '../../../../../../shared/enum/type-customers.enum';
 import { FormatFormData } from '../../../../../../shared/functions/formatFormData.function';
 import { MenuItem } from '../../../../../../shared/interfaces/menu-item.interface';
+import { AppCustomizationService } from '../../../../../../shared/services/app-customization.service';
 import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
 import { SharedService } from '../../../../../../shared/services/shared.service';
 import { CustomersActivateFormInterface } from '../../../data-access/customers-activate/interfaces/customers-activate-form.interface';
@@ -29,8 +31,6 @@ import {
     T_REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM,
 } from '../../../data-access/requests-service/enums/requests-service-buttons-actions.enum';
 import { RequestsServiceApiService } from '../../../data-access/requests-service/services/requests-service-api.service';
-
-const Swal = require('sweetalert2');
 
 @Component({
     selector: 'app-form-customers-activate',
@@ -44,7 +44,7 @@ const Swal = require('sweetalert2');
         AsyncPipe,
         TranslateModule,
         ButtonModule,
-        SelectModule
+        SelectModule,
     ],
 })
 export class FormCustomersActivateComponent implements OnInit, OnDestroy {
@@ -54,13 +54,13 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
     public customersActivateForm!: FormGroup<CustomersActivateFormInterface>;
     public type_enterprise!: T_TYPE_CUSTOMERS_ENUM;
 
-    public listRegimesBusiness$!: Observable<
-        Array<{ code: string; nom: string }>
-    >;
-    public listLegalForm$!: Observable<Array<{ code: string; nom: string }>>;
+    public listRegimesBusiness$!: Observable<{ code: string; nom: string }[]>;
+    public listLegalForm$!: Observable<{ code: string; nom: string }[]>;
 
     private destroy$ = new Subject<void>();
     private STORAGE_KEY!: string;
+
+    public readonly config = inject(AppCustomizationService).config;
 
     constructor(
         private fb: FormBuilder,
@@ -82,7 +82,7 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
 
     private setupNavigationListener(): void {
         const menuItems = this.encodingService.getData('menu') as
-            | Array<MenuItem>
+            | MenuItem[]
             | [];
         this.activatedRoute.url
             .pipe(takeUntil(this.destroy$))
@@ -310,13 +310,17 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
         excelInput?: HTMLInputElement
     ): void {
         this.customersActivateForm.get(control)?.reset();
-        if (excelInput) excelInput.value = '';
+        if (excelInput) {
+            excelInput.value = '';
+        }
     }
 
     viewFile(field: string) {
         const file = this.customersActivateForm.get(field)
             ?.value as File | null;
-        if (!file) return;
+        if (!file) {
+            return;
+        }
         const fileURL = URL.createObjectURL(file);
         window.open(fileURL, '_blank');
     }
@@ -352,10 +356,10 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
         );
 
         const result = await Swal.mixin({
-            customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
+            customClass: SWEET_ALERT_PARAMS.customClass,
         }).fire({
-            ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
-            html: `<span><strong>${CONFIRM_CLIENT_CREATION}</strong></span><span style="color: #5B9BD5; font-weight: bold; text-transform: uppercase"> ${
+            ...SWEET_ALERT_PARAMS.message,
+            html: `<span><strong>${CONFIRM_CLIENT_CREATION}</strong></span><span style="color: ${this.config.colors.primary}; font-weight: bold; text-transform: uppercase"> ${
                 this.customersActivateForm.get('nom_client')?.value
             }</span>`,
         });

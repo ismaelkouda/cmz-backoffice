@@ -1,0 +1,752 @@
+<p-dialog
+    [(visible)]="visible"
+    (visibleChange)="visibleChange.emit($event)"
+    (onHide)="onHide()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    [closeOnEscape]="true"
+    [style]="{ width: '100vw', height: '100vh' }"
+    [maximizable]="true"
+    styleClass="report-treatment-dialog"
+>
+
+<ng-template #header>
+        <div class="dialog-header">
+            <div class="header-left">
+                <!-- Skeleton pour le titre principal -->
+                <ng-container *ngIf="(isLoading$ | async); else loadedHeader">
+                    <div class="header-skeleton">
+                        <p-skeleton width="200px" height="28px" styleClass="mb-2"></p-skeleton>
+                        <p-skeleton width="120px" height="24px"></p-skeleton>
+                    </div>
+                </ng-container>
+                <ng-template #loadedHeader>
+                    <span class="header-title">
+                        {{ 'MANAGEMENT.HEADER.DETAILS' | translate }}
+                    </span>
+                    <span class="report-id-badge" *ngIf="reportId">
+                        {{ reportId }}
+                    </span>
+                </ng-template>
+            </div>
+            <div class="header-center">
+                <!-- Skeleton pour le badge de statut -->
+                <ng-container *ngIf="(isLoading$ | async); else loadedBadge">
+                    <p-skeleton width="150px" height="40px" borderRadius="25px"></p-skeleton>
+                </ng-container>
+                <ng-template #loadedBadge>
+                    <span class="report-title-badge">
+                        {{ (details$ | async)?.managementTitle | translate }}
+                    </span>
+                </ng-template>
+            </div>
+        </div>
+    </ng-template>
+
+    @if(isLoading$ | async) {
+        <div class="main-container command-layout loading-state">
+            
+            <!-- Sidebar Skeleton -->
+            <div class="sidebar">
+                <!-- Bouton d'action skeleton -->
+                <div class="sidebar-button-container">
+                    <p-skeleton width="100%" height="48px" borderRadius="8px"></p-skeleton>
+                </div>
+
+                <div class="sidebar-section-container">
+                    <!-- Section Initiateur Skeleton -->
+                    <div class="sidebar-section">
+                        <div class="sidebar-header">
+                            <p-skeleton width="120px" height="20px"></p-skeleton>
+                        </div>
+                        <div class="sidebar-content">
+                            <div class="skeleton-field-group">
+                                <p-skeleton width="100%" height="16px" styleClass="mb-2"></p-skeleton>
+                                <p-skeleton width="80%" height="16px" styleClass="mb-2"></p-skeleton>
+                                <p-skeleton width="90%" height="16px"></p-skeleton>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Approbateur Skeleton -->
+                    <div class="sidebar-section">
+                        <div class="sidebar-header">
+                            <p-skeleton width="120px" height="20px"></p-skeleton>
+                        </div>
+                        <div class="sidebar-content">
+                            <div class="skeleton-field-group">
+                                <p-skeleton width="100%" height="16px" styleClass="mb-2"></p-skeleton>
+                                <p-skeleton width="75%" height="16px" styleClass="mb-2"></p-skeleton>
+                                <p-skeleton width="85%" height="16px"></p-skeleton>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Localisation Skeleton -->
+                    <div class="sidebar-section">
+                        <div class="sidebar-header">
+                            <p-skeleton width="100px" height="20px"></p-skeleton>
+                        </div>
+                        <div class="sidebar-content">
+                            <p-skeleton width="100%" height="60px" borderRadius="8px"></p-skeleton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Skeleton -->
+            <main class="content-main">
+                <!-- Barre de progression Skeleton -->
+                <div class="step-bar skeleton-step-bar">
+                    <div class="skeleton-steps">
+                        <p-skeleton *ngFor="let step of [1,2,3,4,5]" 
+                                   width="180px" 
+                                   height="20px"
+                                   styleClass="step-skeleton">
+                        </p-skeleton>
+                    </div>
+                </div>
+
+                <!-- Navigation par onglets Skeleton -->
+                <nav class="content-tabs">
+                    <div class="tabs-container">
+                        <div *ngFor="let tab of [1,2,3]" class="content-tab skeleton-tab">
+                            <div class="tab-visual">
+                                <p-skeleton shape="circle" size="24px"></p-skeleton>
+                            </div>
+                            <span class="tab-label">
+                                <p-skeleton width="80px" height="16px"></p-skeleton>
+                            </span>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Contenu des onglets Skeleton -->
+                <div class="tab-content-area">
+                    
+                    <!-- Onglet Information Skeleton -->
+                    <ng-container *ngIf="selectedCategoryIndex === 0">
+                        <div class="tab-panel information-panel">
+                            <div class="skeleton-cards">
+                                
+                                <!-- Carte Info Rapport Skeleton -->
+                                <div class="data-card report-info-card skeleton-card">
+                                    <div class="card-header">
+                                        <div class="card-title-group">
+                                            <p-skeleton shape="circle" size="32px"></p-skeleton>
+                                            <p-skeleton width="200px" height="24px"></p-skeleton>
+                                        </div>
+                                        <div class="card-badges">
+                                            <p-skeleton width="120px" height="28px" borderRadius="20px"></p-skeleton>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="data-grid">
+                                            <!-- Ligne triple -->
+                                            <div class="data-row triple">
+                                                <div *ngFor="let field of [1,2,3]" class="data-field">
+                                                    <p-skeleton width="120px" height="18px" styleClass="mb-2"></p-skeleton>
+                                                    <p-skeleton width="100%" height="44px" borderRadius="8px"></p-skeleton>
+                                                </div>
+                                            </div>
+
+                                            <!-- Ligne double -->
+                                            <div class="data-row double">
+                                                <div *ngFor="let field of [1,2]" class="data-field">
+                                                    <p-skeleton width="100px" height="18px" styleClass="mb-2"></p-skeleton>
+                                                    <p-skeleton width="140px" height="32px" borderRadius="20px"></p-skeleton>
+                                                </div>
+                                            </div>
+
+                                            <!-- Ligne complète -->
+                                            <div class="data-row full">
+                                                <div class="data-field">
+                                                    <p-skeleton width="150px" height="18px" styleClass="mb-2"></p-skeleton>
+                                                    <p-skeleton width="100%" height="80px" borderRadius="8px"></p-skeleton>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Carte Localisation Skeleton -->
+                                <div class="data-card location-card skeleton-card">
+                                    <div class="card-header">
+                                        <div class="card-title-group">
+                                            <p-skeleton shape="circle" size="32px"></p-skeleton>
+                                            <p-skeleton width="180px" height="24px"></p-skeleton>
+                                        </div>
+                                        <div class="card-actions">
+                                            <p-skeleton width="100px" height="36px" borderRadius="6px" styleClass="mr-2"></p-skeleton>
+                                            <p-skeleton width="40px" height="36px" borderRadius="6px"></p-skeleton>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="data-grid">
+                                            <!-- Coordonnées -->
+                                            <div class="data-row double">
+                                                <div *ngFor="let coord of [1,2]" class="data-field coordinate">
+                                                    <p-skeleton width="100px" height="18px" styleClass="mb-2"></p-skeleton>
+                                                    <p-skeleton width="100%" height="44px" borderRadius="8px"></p-skeleton>
+                                                </div>
+                                            </div>
+
+                                            <!-- Description -->
+                                            <div class="data-row full">
+                                                <div class="data-field">
+                                                    <p-skeleton width="160px" height="18px" styleClass="mb-2"></p-skeleton>
+                                                    <p-skeleton width="100%" height="60px" borderRadius="8px"></p-skeleton>
+                                                </div>
+                                            </div>
+
+                                            <!-- Preview Map -->
+                                            <div class="data-row full">
+                                                <div class="map-preview-section">
+                                                    <div class="preview-header">
+                                                        <p-skeleton width="140px" height="20px"></p-skeleton>
+                                                    </div>
+                                                    <div class="map-preview skeleton-map">
+                                                        <p-skeleton width="100%" height="100%" borderRadius="8px"></p-skeleton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Onglet Photos Skeleton -->
+                    <ng-container *ngIf="selectedCategoryIndex === 1">
+                        <div class="tab-panel photos-panel skeleton-panel">
+                            <div class="skeleton-photos-grid">
+                                <div *ngFor="let photo of [1,2]" class="skeleton-photo-card">
+                                    <p-skeleton width="100%" height="200px" borderRadius="12px"></p-skeleton>
+                                    <div class="photo-meta">
+                                        <p-skeleton width="80%" height="16px" styleClass="mb-1"></p-skeleton>
+                                        <p-skeleton width="60%" height="14px"></p-skeleton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Onglet Vue Géographique Skeleton -->
+                    <ng-container *ngIf="selectedCategoryIndex === 2">
+                        <div class="tab-panel geographic-panel skeleton-panel">
+                            <div class="skeleton-map-container">
+                                <p-skeleton width="100%" height="400px" borderRadius="12px"></p-skeleton>
+                                <div class="map-controls-skeleton">
+                                    <p-skeleton width="120px" height="32px" borderRadius="6px" styleClass="mr-2"></p-skeleton>
+                                    <p-skeleton width="120px" height="32px" borderRadius="6px"></p-skeleton>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <!-- Formulaire de traitement Skeleton -->
+                <div class="treatment-form-skeleton">
+                    <div class="treatment-form-header skeleton-treatment-header">
+                        <p-skeleton width="200px" height="20px"></p-skeleton>
+                        <p-skeleton width="100px" height="24px" borderRadius="12px"></p-skeleton>
+                    </div>
+                    <div class="treatment-form-content skeleton-treatment-content">
+                        <div class="action-card">
+                            <div class="action-header">
+                                <p-skeleton width="180px" height="22px"></p-skeleton>
+                            </div>
+                            <div class="action-content">
+                                <!-- Options de décision -->
+                                <div class="decision-options-skeleton">
+                                    <p-skeleton width="120px" height="18px" styleClass="mb-2"></p-skeleton>
+                                    <div class="radio-options-skeleton">
+                                        <p-skeleton *ngFor="let option of [1,2]" 
+                                                   width="140px" 
+                                                   height="60px" 
+                                                   borderRadius="8px"
+                                                   styleClass="mr-3">
+                                        </p-skeleton>
+                                    </div>
+                                </div>
+
+                                <!-- Champs de formulaire -->
+                                <div class="form-fields-skeleton">
+                                    <p-skeleton width="100px" height="18px" styleClass="mb-2"></p-skeleton>
+                                    <p-skeleton width="100%" height="36px" borderRadius="6px" styleClass="mb-3"></p-skeleton>
+                                    
+                                    <p-skeleton width="120px" height="18px" styleClass="mb-2"></p-skeleton>
+                                    <p-skeleton width="100%" height="80px" borderRadius="6px"></p-skeleton>
+                                </div>
+
+                                <!-- Boutons d'action -->
+                                <div class="action-buttons-skeleton">
+                                    <p-skeleton width="120px" height="40px" borderRadius="6px" styleClass="mr-2"></p-skeleton>
+                                    <p-skeleton width="120px" height="40px" borderRadius="6px"></p-skeleton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    } @else {
+        <div *ngIf="(details$ | async) as details" class="main-container command-layout">
+            @if(details.uniqId) {
+                <div class="sidebar">
+                <!-- @if(details.isManaged) {
+                    <div class="sidebar-button-container">
+                        <button 
+                            class="treatment-btn treatment-btn-primary"
+                            type="button"
+                            (click)="onValidReportTreatment(details)"
+                            [disabled]="isSubmitting$ | async"
+                            [class.loading]="isSubmitting$ | async">
+                            <i class="pi pi-check" *ngIf="!(isSubmitting$ | async)"></i>
+                            <i class="pi pi-spin pi-spinner" *ngIf="isSubmitting$ | async"></i>
+                            {{ getActionButtonLabel(details) | translate }}
+                        </button>
+                    </div>
+                } -->
+
+                <div class="sidebar-section-container">
+                    <div class="sidebar-section">
+                        <div class="sidebar-header">
+                            {{ 'MANAGEMENT.SIDEBAR.INITIATOR.TITLE' | translate }}
+                        </div>
+                        <div class="sidebar-content">
+                            <p *ngIf="reportId">
+                                <strong>{{ 'MANAGEMENT.SIDEBAR.INITIATOR.LAST_NAME' | translate }}:</strong>
+                                {{ details.initiator?.lastName }}
+                            </p>
+                            <p>
+                                <strong>{{ 'MANAGEMENT.SIDEBAR.INITIATOR.FIRST_NAME' | translate }}:</strong>
+                                {{ details.initiator?.firstName }}
+                            </p>
+                            <p>
+                                <strong>{{ 'MANAGEMENT.SIDEBAR.INITIATOR.PHONE' | translate }}:</strong>
+                                {{ details.initiator?.phone }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="sidebar-section">
+                        <div class="sidebar-header">
+                            {{ 'MANAGEMENT.SIDEBAR.APPROVER.TITLE' | translate }}
+                        </div>
+                        <div class="sidebar-content">
+                            <p *ngIf="reportId">
+                                <strong>{{ 'MANAGEMENT.SIDEBAR.APPROVER.LAST_NAME' | translate }}:</strong>
+                                {{ details.initiator?.lastName }}
+                            </p>
+                            <p>
+                                <strong>{{ 'MANAGEMENT.SIDEBAR.APPROVER.FIRST_NAME' | translate }}:</strong>
+                                {{ details.initiator?.firstName }}
+                            </p>
+                            <p>
+                                <strong>{{ 'MANAGEMENT.SIDEBAR.APPROVER.PHONE' | translate }}:</strong>
+                                {{ details.initiator?.phone }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <div class="sidebar-header">
+                            {{ 'MANAGEMENT.SIDEBAR.LOCATION.TITLE' | translate }}
+                        </div>
+                        <div class="sidebar-content">
+                            <p>{{ 'MANAGEMENT.SIDEBAR.LOCATION.PLACEHOLDER' | translate }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <main class="content-main">
+
+                <div class="step-bar">
+                    <span *ngFor="let step of [1,2,3,4,5]">
+                        [{{ (details?.createdAt | date:'yyyy-MM-dd HH:mm:ss') }} ---:--- ]
+                    </span>
+                </div>
+
+
+                <nav class="content-tabs">
+                    <div class="tabs-container">
+                        <button *ngFor="let category of categories; let i = index"
+                                (click)="selectCategory(i)"
+                                [class.active]="selectedCategoryIndex === i"
+                                class="content-tab">
+                            <div class="tab-visual">
+                                <i [class]="getCategoryIcon(category.key)"></i>
+                                <div class="tab-pulse" *ngIf="hasTabNotifications(category.key)"></div>
+                            </div>
+                            <span class="tab-label">{{ category.label | translate }}</span>
+                            <div class="tab-indicator"></div>
+                        </button>
+                    </div>
+                </nav>
+
+                <div class="tab-content-area">
+
+                    <ng-container *ngIf="selectedCategoryIndex === 0">
+                        <div class="tab-panel information-panel">
+
+                            <div class="information-content">
+                                <div class="data-card report-info-card">
+                                    <div class="card-header">
+                                        <div class="card-title-group">
+                                            <i class="pi pi-info-circle card-icon"></i>
+                                            <h2 class="card-title">
+                                                {{ 'MANAGEMENT.FORM.REPORT_INFO.TITLE' | translate }}
+                                            </h2>
+                                        </div>
+                                        <div class="card-badges">
+                                            <span class="badge readonly">
+                                                <i class="pi pi-lock"></i>
+                                                {{ 'MANAGEMENT.FORM.READ_ONLY' | translate }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="data-grid">
+
+                                            <div class="data-row triple">
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-map"></i>
+                                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.REGION' | translate }}
+                                                    </label>
+                                                    <div class="field-value">
+                                                        {{ getRegionFromLocation(details?.location) || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-building"></i>
+                                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.DEPARTMENT' | translate }}
+                                                    </label>
+                                                    <div class="field-value">
+                                                        {{ getDepartmentFromLocation(details?.location) || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-flag"></i>
+                                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.COMMUNE' | translate }}
+                                                    </label>
+                                                    <div class="field-value">
+                                                        {{ getCommuneFromLocation(details?.location) || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="data-row double">
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-tag"></i>
+                                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.TYPE' | translate }}
+                                                    </label>
+                                                    <div class="field-value">
+                                                        <span class="value-badge type" 
+                                                            [class]="getReportTypeClass(details?.reportType)">
+                                                            {{ getReportTypeLabel(details?.reportType) | translate }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-circle-fill"></i>
+                                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.STATUS' | translate }}
+                                                    </label>
+                                                    <div class="field-value">
+                                                        <span class="value-badge status" 
+                                                            [class]="getStatusClass(details?.status)">
+                                                            {{ getStatusLabel(details?.status) | translate }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="data-row full">
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-file-edit"></i>
+                                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.DESCRIPTION' | translate }}
+                                                    </label>
+                                                    <div class="field-value description">
+                                                        <div class="description-content">
+                                                            {{ details?.description || 'MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION' | translate }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="data-card location-card">
+                                    <div class="card-header">
+                                        <div class="card-title-group">
+                                            <i class="pi pi-map-marker card-icon"></i>
+                                            <h2 class="card-title">
+                                                {{ 'MANAGEMENT.FORM.LOCATION_INFO.TITLE' | translate }}
+                                            </h2>
+                                        </div>
+                                        <div class="card-actions">
+                                            <button class="btn-action map" 
+                                                    (click)="viewOnMap()"
+                                                    [pTooltip]="'MANAGEMENT.FORM.ACTIONS.VIEW_MAP' | translate">
+                                                <i class="pi pi-globe"></i>
+                                                {{ 'MANAGEMENT.FORM.ACTIONS.OPEN_MAP' | translate }}
+                                            </button>
+                                            <button class="btn-action copy" 
+                                                    (click)="copyCoordinates()"
+                                                    [pTooltip]="'MANAGEMENT.FORM.ACTIONS.COPY_COORDINATES' | translate">
+                                                <i class="pi pi-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="data-grid">
+
+                                            <div class="data-row double">
+                                                <div class="data-field coordinate">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-long-arrow-right"></i>
+                                                        {{ 'MANAGEMENT.FORM.LOCATION_INFO.LONGITUDE' | translate }}
+                                                    </label>
+                                                    <div class="field-value coordinate-value">
+                                                        <i class="pi pi-map-marker"></i>
+                                                        {{ details?.location?.coordinates?.longitude || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="data-field coordinate">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-long-arrow-up"></i>
+                                                        {{ 'MANAGEMENT.FORM.LOCATION_INFO.LATITUDE' | translate }}
+                                                    </label>
+                                                    <div class="field-value coordinate-value">
+                                                        <i class="pi pi-map-marker"></i>
+                                                        {{ details?.location?.coordinates?.latitude || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="data-row full">
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i class="pi pi-info-circle"></i>
+                                                        {{ 'MANAGEMENT.FORM.LOCATION_INFO.PLACE_DESCRIPTION' | translate }}
+                                                    </label>
+                                                    <div class="field-value description">
+                                                        <div class="description-content">
+                                                            {{ details?.location?.description || 'MANAGEMENT.FORM.LOCATION_INFO.NO_DESCRIPTION' | translate }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="data-row full" 
+                                                *ngIf="details?.location?.coordinates?.latitude && 
+                                                        details?.location?.coordinates?.longitude">
+                                                <div class="map-preview-section">
+                                                    <div class="preview-header">
+                                                        <span class="preview-title">
+                                                            <i class="pi pi-map"></i>
+                                                            {{ 'MANAGEMENT.FORM.LOCATION_INFO.MAP_PREVIEW' | translate }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="map-preview" (click)="viewOnMap()">
+                                                        <div class="map-placeholder">
+                                                            <i class="pi pi-globe"></i>
+                                                            <span>{{ 'MANAGEMENT.FORM.ACTIONS.VIEW_MAP' | translate }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="selectedCategoryIndex === 1">
+                        <div class="tab-panel photos-panel">
+                            <div class="empty-state">
+                                <i class="pi pi-image"></i>
+                                <h3>{{ 'MANAGEMENT.CONTENT.PHOTOS.PLACEHOLDER' | translate }}</h3>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="selectedCategoryIndex === 2">
+                        <div class="tab-panel geographic-panel">
+                            <div class="empty-state">
+                                <i class="pi pi-map"></i>
+                                <h3>{{ 'MANAGEMENT.CONTENT.GEOGRAPHIC_VIEW.PLACEHOLDER' | translate }}</h3>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
+
+                @if(details?.isManaged) {
+                <div>
+        <div class="treatment-form-container" 
+            [class.treatment-form-expanded]="isTreatmentFormExpanded"
+            [class.treatment-form-collapsed]="!isTreatmentFormExpanded">
+            
+            <div class="treatment-form-header" (click)="toggleTreatmentForm()">
+                <div class="treatment-form-toggle">
+                    <i class="pi" 
+                    [class.pi-chevron-down]="!isTreatmentFormExpanded"
+                    [class.pi-chevron-up]="isTreatmentFormExpanded"></i>
+                    <span class="toggle-label">
+                        {{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.TITLE' | translate }}
+                    </span>
+                </div>
+                <div class="treatment-form-status">
+                    <span class="status-badge" 
+                        [class.status-required]="formTreatment.invalid && formTreatment.touched"
+                        [class.status-valid]="formTreatment.valid">
+                        <i class="pi" 
+                        [class.pi-exclamation-circle]="formTreatment.invalid && formTreatment.touched"
+                        [class.pi-check-circle]="formTreatment.valid"
+                        [class.pi-circle]="!formTreatment.touched"></i>
+                        {{ formTreatment.valid ? ('MANAGEMENT.FORM.STATUS.VALID' | translate) : 
+                        (formTreatment.invalid && formTreatment.touched ? 'MANAGEMENT.FORM.STATUS.INVALID' : 'MANAGEMENT.FORM.STATUS.PENDING') | translate }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="treatment-form-content" *ngIf="isTreatmentFormExpanded">
+                <div class="treatment-form-body">
+                    <div class="action-section">
+
+                        <form [formGroup]="formTreatment" class="decision-form-row">
+                            
+                                <div class="decision-group">
+                                    @if(details.isReceived) {
+                                        <div class="form-column">
+                                            <label class="decision-label">{{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION' | translate }}</label>
+                                            <div class="d-flex justify-start gap-3">
+                                                <div class="col-md-3 radio-option" (click)="setDecision('accepted')"
+                                                    [class.selected]="formTreatment.get('decision')?.value === 'accepted'">
+                                                    <div class="radio-indicator">
+                                                        <div class="radio-dot" [class.checked]="formTreatment.get('decision')?.value === 'accepted'"></div>
+                                                    </div>
+                                                    <div class="radio-content">
+                                                        <!-- <i class="pi pi-check-circle radio-icon accepted"></i> -->
+                                                        <div class="radio-text">
+                                                            <div class="radio-title">{{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.APPROVE.LABEL' | translate }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 radio-option" (click)="setDecision('rejected')"
+                                                    [class.selected]="formTreatment.get('decision')?.value === 'rejected'">
+                                                    <div class="radio-indicator">
+                                                        <div class="radio-dot" [class.checked]="formTreatment.get('decision')?.value === 'rejected'"></div>
+                                                    </div>
+                                                    <div class="radio-content">
+                                                        <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
+                                                        <div class="radio-text">
+                                                            <div class="radio-title">{{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.REJECT.LABEL' | translate }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-5 radio-option" *ngIf="formTreatment.get('decision')?.value === 'rejected'">
+                                                    <p-select 
+                                                        size="large"
+                                                        class="w-full md:w-56"
+                                                        formControlName="reason"
+                                                        [options]="motifOptions"
+                                                        optionLabel="label"
+                                                        optionValue="code"
+                                                        [placeholder]="'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF' | translate"
+                                                        [showClear]="true"
+                                                        class="motif-select">
+                                                    </p-select>
+                                                    <div class="validation-error" *ngIf="formTreatment.get('reason')?.invalid && formTreatment.get('reason')?.touched">
+                                                        {{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.VALIDATION.MOTIF_REQUIRED' | translate }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                        <div class="form-column">
+                                            <label class="comment-label">
+                                                {{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT' | translate }}
+                                                <span class="required-asterisk" *ngIf="formTreatment.get('decision')?.value === 'rejected'">*</span>
+                                            </label>
+                                            <textarea 
+                                                class="comment-textarea"
+                                                formControlName="comment"
+                                                [placeholder]="'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT_PLACEHOLDER' | translate"
+                                                rows="3">
+                                            </textarea>
+                                            <div class="validation-error" *ngIf="formTreatment.get('comment')?.invalid && formTreatment.get('comment')?.touched">
+                                                <span *ngIf="formTreatment.get('comment')?.errors?.['required']">
+                                                    {{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.VALIDATION.COMMENT_REQUIRED' | translate }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            @if(details?.isManaged) {
+                                <div class="form-action-buttons">
+                                    @if(details?.managementPrams === 'approve') {
+                                        <button 
+                                            class="treatment-btn treatment-btn-secondary"
+                                            type="button"
+                                            (click)="closeTreatmentForm()">
+                                            <i class="pi pi-times"></i>
+                                            {{ 'MANAGEMENT.FOOTER.ACTIONS.CANCEL' | translate }}
+                                        </button>
+                                    }
+                                
+                                    <button 
+                                        class="treatment-btn treatment-btn-primary"
+                                        type="button"
+                                        (click)="onValidReportTreatment(details)"
+                                        [disabled]="isSubmitting$ | async"
+                                        [class.loading]="isSubmitting$ | async">
+                                        <i class="pi pi-check" *ngIf="!(isSubmitting$ | async)"></i>
+                                        <i class="pi pi-spin pi-spinner" *ngIf="isSubmitting$ | async"></i>
+                                        {{ getActionButtonLabel(details) | translate }}
+                                    </button>
+                            </div>
+                            }
+
+                        </form>
+                            
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+
+        
+
+    </div>
+    }
+            </main>
+            }
+        </div>
+    }
+        
+
+</p-dialog>

@@ -17,6 +17,7 @@ import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { SelectModule } from 'primeng/select';
 import { SkeletonModule } from 'primeng/skeleton';
 import { SliderModule } from 'primeng/slider';
 import { SplitButtonModule } from 'primeng/splitbutton';
@@ -53,6 +54,7 @@ import { TreeModule } from 'primeng/tree';
         SliderModule,
         FileUploadModule,
         TagModule,
+        SelectModule,
         SelectButtonModule,
     ],
     exports: [
@@ -81,6 +83,7 @@ import { TreeModule } from 'primeng/tree';
         SliderModule,
         FileUploadModule,
         TagModule,
+        SelectModule,
         SelectButtonModule,
     ],
     providers: [EditableRow],

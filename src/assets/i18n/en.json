@@ -4,11 +4,181 @@
     "SELECT_CUSTOMER_TYPE": "Select customer type",
     "EMISSION": "Emission",
     "REQUESTER": "Requester",
-    "PROFILES_AUTHORIZATIONS": "Profiles authorizations",
-    "PARAMETER_SECURITY": "Parameter security",
-    "ACTIVE": "Active",
-    "INACTIVE": "Inactive",
-    "AUTHENTICATION": "Authentication",
+"PROFILES_AUTHORIZATIONS": "Profiles authorizations",
+"PARAMETER_SECURITY": "Parameter security",
+"ACTIVE": "Active",
+"INACTIVE": "Inactive",
+"REPORT_PROCESSING": {
+    "TITLE": "Pending reports list"
+},
+"TABLE": {
+    "COMMON": {
+        "INDEX": "#"
+    }
+},
+"WAITING": {
+    "TITLE": "Waiting queue",
+    "LABEL": "Waiting queue",
+    "TABLE": {
+        "CREATED_AT": "Created at",
+        "UNIQ_ID": "Identifier",
+        "REPORT_TYPE": "Report type",
+        "OPERATORS": "Operators",
+        "STATE": "State",
+        "SEE_MORE": "See more"
+    },
+    "FILTER": {
+        "REPORT_TYPE": "Report type",
+        "OPERATOR": "Operator",
+        "STATE": "State"
+    },
+    "OPTIONS": {
+        "REPORT_TYPE": {
+            "PARTIAL_SIGNAL": "Partial signal coverage",
+            "WHITE_ZONE": "White zone",
+            "NO_INTERNET": "No internet access"
+        },
+        "OPERATOR": {
+            "ORANGE": "Orange",
+            "MTN": "MTN",
+            "MOOV": "Moov"
+        },
+        "STATE": {
+            "PENDING": "Pending",
+            "REJECTED": "Rejected"
+        }
+    },
+    "LABELS": {
+        "STATUS": {
+            "SUBMISSION": "Submission",
+            "PROCESSING": "Processing",
+            "CLOSURE": "Closure"
+        },
+        "SUBMISSION_STATE": {
+            "PENDING": "Pending",
+            "ACKNOWLEDGED": "Acknowledged",
+            "VALIDATED": "Validated"
+        },
+        "PROCESSING_STATE": {
+            "RECEIVED": "Received",
+            "IN_PROGRESS": "In progress",
+            "COMPLETED": "Completed"
+        }
+    }
+},
+"EXPORT": {
+    "NO_DATA": "No data to export."
+},
+    "APP": {
+        "TITLE": "Connect My Zone Back-office",
+        "DESCRIPTION": "Non-connected zones management system",
+        "LOADING": "Loading application...",
+        "BOOTSTRAP": {
+            "SUCCESS": "Application successfully bootstrapped",
+            "FAILED": "Failed to bootstrap application",
+            "ERROR_TITLE": "Application Error",
+            "ERROR_MESSAGE": "Failed to load the application. Please refresh the page or contact support.",
+            "ERROR_UNKNOWN": "Unknown error",
+            "PERFORMANCE_MEASUREMENT_FAILED": "Performance measurement failed"
+        },
+        "LANGUAGE": {
+            "CONFIGURED": "Language configured: {lang}",
+            "RETRIEVAL_ERROR": "Error retrieving language",
+            "CONFIGURATION_ERROR": "Error configuring language"
+        },
+        "SETTINGS": {
+            "NOT_AVAILABLE": "Application settings not available",
+            "CONFIGURED": "Application settings configured",
+            "CONFIGURATION_ERROR": "Error configuring application settings"
+        },
+        "FAVICON": {
+            "CONFIGURED": "Favicon configured: {url}",
+            "CONFIGURATION_ERROR": "Error configuring favicon"
+        },
+        "INITIALIZATION": {
+            "ERROR": "Error initializing application"
+        },
+        "ERROR": {
+            "GLOBAL": "Global Error",
+            "UNHANDLED_PROMISE_REJECTION": "Unhandled Promise Rejection"
+        },
+        "LOADING_BAR": {
+            "ARIA_LABEL": "Loading in progress"
+        }
+    },
+    "LAYOUT": {
+        "HEADER": {
+            "REFRESH": {
+                "TITLE": "Refresh",
+                "ARIA_LABEL": "Refresh notifications"
+            }
+        },
+        "SIDEBAR": {
+            "LOGO": {
+                "ALT": "Logo"
+            },
+            "LOGO_ICON": {
+                "ALT": "Logo icon"
+            },
+            "TOGGLE": {
+                "ARIA_LABEL": "Toggle sidebar"
+            },
+            "SCROLL_LEFT": {
+                "ARIA_LABEL": "Scroll left"
+            },
+            "SCROLL_RIGHT": {
+                "ARIA_LABEL": "Scroll right"
+            },
+            "BACK": {
+                "TEXT": "Back",
+                "ARIA_LABEL": "Back to menu"
+            },
+            "BADGE": {
+                "ARIA_LABEL": "Badge"
+            }
+        },
+        "FOOTER": {
+            "COPYRIGHT": "Copyright CSP {year}"
+        }
+    },
+    "AUTHENTICATION": {
+        "TITLE": "Authentication",
+        "UI": {
+            "APP_TITLE": "Connect My Zone",
+            "APP_SUBTITLE": "Your Gateway to Digital Excellence",
+            "CONNECTION": "Connection",
+            "CONNECT_BUTTON": "Connect",
+            "FORGOT_PASSWORD": "Forgot password?",
+            "FEATURES": {
+                "SECURE_ACCESS": "Secure Access",
+                "REAL_TIME_DASHBOARD": "Real-time Dashboard",
+                "ADVANCED_ANALYTICS": "Advanced Analytics"
+            }
+        },
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Username",
+                "PLACEHOLDER": "app@yourmail.com",
+                "REQUIRED": "Email is required",
+                "INVALID_FORMAT": "Invalid email format"
+            },
+            "PASSWORD": {
+                "LABEL": "Password",
+                "REQUIRED": "Password is required"
+            }
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "WELCOME": "Welcome {{lastName}} {{firstName}}"
+            },
+            "ERROR": {
+                "FAILED": "Authentication failed",
+                "UNABLE_TO_COMPLETE_LOGIN": "Unable to complete login",
+                "UNABLE_TO_LOAD_CONFIG": "Unable to load configuration",
+                "UNABLE_TO_LOAD_VARIABLES": "Unable to load variables"
+            }
+        }
+    },
     "USERNAME": "Username",
     "LAST_NAME": "Last Name",
     "FIRST_NAME": "First Name",
@@ -110,7 +280,6 @@
     "ALARM_ANALYSIS_DATA": "Alarm analysis data",
     "ALARM_ANALYSIS_SMS": "Alarm analysis sms",
     "SUPERVISION_SIM": "supervision of SIM",
-    "OVERSEEING_OPERATIONS": "Overseeing operations",
     "TREATMENT_MONITORING": "Treatment monitoring",
     "CLEAR": "Clear",
     "NOTIFICATIONS": "notifications",
@@ -123,7 +292,6 @@
     "NOTIFICATION_TYPE": "Notification type",
     "PAYMENT_TYPE": "Payment type",
     "CUSTOMER_TYPE": "Customer type",
-    "WAITING_QUEUE": "Waiting queue",
     "ESCALADE": "escalade",
     "RECEPTION": "Reception",
     "SERVICE_DESCRIPTION": "sService description",
@@ -168,7 +336,7 @@
     "COMMENT": "Comment",
     "YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION": "You are about to abandon the transaction",
     "YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST": "You are about to abandon the request",
-    "WOULD_YOU_LIKE_TO_CLOSE_THE_REQUEST": "Would you like to close the request",
+    "WOULD_YOU_LIKE_TO_QUEUE_THE_REQUEST": "Would you like to close the request",
     "WOULD_YOU_LIKE_TO_MODIFY_THE_REQUEST": "Would you like to modify the request",
     "COMMENT_OF_THE_ABANDONMENT": "Comment of the abandonment",
     "COMMENT_ON_CLOSING": "Closing comment",
@@ -222,7 +390,6 @@
     "COPY": "Copy",
     "STOP_OR_CHANGE": "stop, or change",
     "REFRESH": "Refresh",
-    "EXPORT": "Export",
     "RESEARCH": "Research",
     "COMMERCIAL_ENTERPRISE": "Commercial enterprises",
     "PUBLIC_ENTERPRISES": "Public enterprises",
@@ -245,13 +412,137 @@
     "END_DATE": "End date",
     "STATUS": "Status",
     "DEMAND": "Demand",
-    "TREATMENT": "treatment",
     "AVAILABLE": "available",
-    "WAITING": "waiting",
     "IN_TREATMENT": "in treatment",
     "COMPLETED": "completed",
     "TO_APPROVE": "to approve",
-    "APPROVAL": "approval",
+    "APPROVAL": {
+        "TITLE": "Approvals",
+        "LABEL": "Approval",
+        "TABLE": {
+            "CREATED_AT": "Created at",
+            "UNIQ_ID": "Unique ID",
+            "REPORT_TYPE": "Report type",
+            "OPERATORS": "Operators",
+            "STATE": "State",
+            "STEP": "Step",
+            "SEE_MORE": "See more"
+        },
+        "FILTER": {
+            "REPORT_TYPE": "Report type",
+            "STATE": "State",
+            "OPERATOR": "Operator"
+        },
+        "OPTIONS": {
+            "REPORT_TYPE": {
+                "PARTIAL_SIGNAL": "Partial signal coverage",
+                "WHITE_ZONE": "White zone",
+                "NO_INTERNET": "No internet"
+            },
+            "STATE": {
+                "APPROVED": "Approved",
+                "RECEIVED": "Received",
+                "REJECTED": "Rejected"
+            },
+            "OPERATOR": {
+                "ORANGE": "Orange",
+                "MTN": "MTN",
+                "MOOV": "Moov"
+            }
+        },
+        "LABELS": {
+            "STATUS": {
+                "SUBMISSION": "Submission",
+                "PROCESSING": "Processing",
+                "CLOSURE": "Closure"
+            },
+            "SUBMISSION_STATE": {
+                "PENDING": "Pending",
+                "ACKNOWLEDGED": "Acknowledged",
+                "VALIDATED": "Validated"
+            },
+            "PROCESSING_STATE": {
+                "RECEIVED": "Received",
+                "IN_PROGRESS": "In progress",
+                "COMPLETED": "Completed"
+            },
+            "STATE": {
+                "OPEN": "Open",
+                "IN_REVIEW": "In review",
+                "QUEUED": "Closed"
+            }
+        }
+    },
+    "TREATMENT": {
+        "TITLE": "Treatments",
+        "LABEL": "Treatment",
+        "TABLE": {
+            "CREATED_AT": "Created at",
+            "UNIQ_ID": "Unique ID",
+            "REPORT_TYPE": "Report type",
+            "OPERATORS": "Operators",
+            "STATE": "State",
+            "SEE_MORE": "See more",
+            "JOURNAL": "Journal"
+        },
+        "FILTER": {
+            "REPORT_TYPE": "Report type",
+            "STATE": "State",
+            "OPERATOR": "Operator"
+        },
+        "OPTIONS": {
+            "REPORT_TYPE": {
+                "PARTIAL_SIGNAL": "Partial signal coverage",
+                "WHITE_ZONE": "White zone",
+                "NO_INTERNET": "No internet"
+            },
+            "STATE": {
+                "TERMINATED": "Terminated",
+                "IN_PROGRESS": "In progress",
+                "REJECTED": "Rejected"
+            },
+            "OPERATOR": {
+                "ORANGE": "Orange",
+                "MTN": "MTN",
+                "MOOV": "Moov"
+            }
+        }
+    },
+    "QUEUE": {
+        "TITLE": "Closures",
+        "LABEL": "Closure",
+        "TABLE": {
+            "CREATED_AT": "Created at",
+            "UNIQ_ID": "Unique ID",
+            "REPORT_TYPE": "Report type",
+            "OPERATORS": "Operators",
+            "STATE": "State",
+            "ACTION": "Action",
+            "JOURNAL": "Journal"
+        },
+        "FILTER": {
+            "REPORT_TYPE": "Report type",
+            "STATE": "State",
+            "OPERATOR": "Operator"
+        },
+        "OPTIONS": {
+            "REPORT_TYPE": {
+                "PARTIAL_SIGNAL": "Partial signal coverage",
+                "WHITE_ZONE": "White zone",
+                "NO_INTERNET": "No internet"
+            },
+            "STATE": {
+                "ACCEPTED": "Accepted",
+                "PENDING": "Pending",
+                "REJECTED": "Rejected"
+            },
+            "OPERATOR": {
+                "ORANGE": "Orange",
+                "MTN": "MTN",
+                "MOOV": "Moov"
+            }
+        }
+    },
     "APPROVE": "approve",
     "SOLVE": "solve",
     "MAKE_A_PAYMENT": "make a payment",
@@ -267,7 +558,6 @@
     "ABANDON": "Abandon",
     "TO_ABANDON": "Abandon",
     "MATRICULE": "Matricule",
-    "CLOSE": "Close",
     "SELECT": "Select",
     "TO_DELIVER": "to deliver",
     "SLA_KO": "SLA KO",

@@ -24,7 +24,7 @@ export class PublicEnterprisesApiService {
     }
 
     private publicEnterprisesSubject = new BehaviorSubject<
-        Array<PublicEnterprisesInterface>
+        PublicEnterprisesInterface[]
     >([]);
     private publicEnterprisesStatsSubject =
         new BehaviorSubject<PublicEnterprisesStatsInterface>(
@@ -49,9 +49,11 @@ export class PublicEnterprisesApiService {
         );
     fetchPublicEnterprises(
         data: PublicEnterprisesFilterInterface,
-        nbrPage: string = '1'
+        nbrPage = '1'
     ): void {
-        if (this.loadingPublicEnterprisesSubject.getValue()) return;
+        if (this.loadingPublicEnterprisesSubject.getValue()) {
+            return;
+        }
         this.loadingPublicEnterprisesSubject.next(true);
         const url: string =
             PublicEnterprisesEndpointEnum.CUSTOMERS_MANAGED_PUBLIC_ENTERPRISES.replace(
@@ -60,7 +62,7 @@ export class PublicEnterprisesApiService {
             );
 
         this.httpClient
-            .post<Object>(this.BASE_URL + url, {
+            .post<object>(this.BASE_URL + url, {
                 ...data,
                 type_entreprise: TYPE_CUSTOMERS_ENUM.PUBLIC_ENTERPRISES,
             })
@@ -85,7 +87,7 @@ export class PublicEnterprisesApiService {
             .subscribe();
     }
 
-    getPublicEnterprises(): Observable<Array<PublicEnterprisesInterface>> {
+    getPublicEnterprises(): Observable<PublicEnterprisesInterface[]> {
         return this.publicEnterprisesSubject.asObservable();
     }
     getPublicEnterprisesPagination(): Observable<

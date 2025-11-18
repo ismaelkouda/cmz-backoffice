@@ -1,101 +1,174 @@
 <div class="dashboard-container">
     <div class="dashboard-header">
-        <div class="header-content">
-            <h1 class="dashboard-title mb-0">
-                <span class="dashboard-title-label">{{
-                    'DASHBOARD_TITLE' | translate
-                }}</span>
-            </h1>
+        <!-- <div class="header-left">
+            
+        </div> -->
+        <div class="title-section">
+                <h1 class="dashboard-title">
+                    {{ 'DASHBOARD.TITLE' | translate }}
+                </h1>
+            </div>
 
-            <div class="header-info">
-                <div class="update-info">
-                    <span class="update-label"
-                        >{{ 'DASHBOARD_UPDATED_DATE' | translate }} :</span
-                    >
-                    <span class="update-date">{{ current_date }}</span>
+        <div class="period-filter-container">
+                <label class="period-filter">
+                    <span class="period-filter-label">
+                        <i class="pi pi-calendar"></i>
+                        {{ 'DASHBOARD.FILTER.PERIOD_LABEL' | translate }}
+                    </span>
+                    <span class="period-filter-value">
+                        {{ 'DASHBOARD.FILTER.PERIOD_INDICATOR' | translate }}:
+                    </span>
+                </label>
+
+                <p-selectButton
+                    [options]="periodOptions"
+                    [(ngModel)]="selectedPeriod"
+                    (onChange)="onPeriodChange($event.value)"
+                    [disabled]="loading"
+                    optionLabel="label"
+                    optionValue="value"
+                    styleClass="period-select-button"
+                ></p-selectButton>
+            </div>
+
+        <div class="header-actions">
+            
+            <div class="date-info">
+                {{ 'DASHBOARD.UPDATED_DATE' | translate }}:
+                {{ currentDate || ('DASHBOARD.NO_DATE' | translate) }}
+            </div>
+            <button
+                class="refresh-btn"
+                (click)="refreshData()"
+                [disabled]="loading"
+                type="button"
+                [attr.aria-label]="'DASHBOARD.REFRESH' | translate"
+            >
+                <i class="pi pi-refresh" [class.pi-spin]="loading"></i>
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="error" class="error-message">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>{{ error }}</span>
+    </div>
+
+    <div *ngIf="loading" class="loading-container">
+        <p-progressSpinner></p-progressSpinner>
+        <p>{{ 'DASHBOARD.LOADING' | translate }}</p>
+    </div>
+
+    <div
+        *ngIf="!loading && !error && typeStatistics.length === 0"
+        class="no-data-container"
+    >
+        <i class="pi pi-info-circle"></i>
+        <p>{{ 'DASHBOARD.NO_DATA' | translate }}</p>
+    </div>
+
+    <div *ngIf="!loading && !error" class="dashboard-content">
+
+        <div class="statistics-section" *ngIf="typeStatistics.length > 0">
+            <div class="section-header">
+                <div class="section-badge">
+                    {{ 'DASHBOARD.SECTIONS.TYPE.TITLE' | translate }}
                 </div>
-                <button
-                    pButton
-                    pRipple
-                    (click)="refreshStatic()"
-                    icon="pi pi-refresh"
-                    class="refresh-btn p-button-rounded p-button-outlined"
-                    aria-label="Refresh"
-                ></button>
+                <div class="section-indicator"></div>
+            </div>
+            <div class="statistics-grid">
+                <div
+                    *ngFor="let stat of typeStatistics"
+                    class="stat-card card-{{ stat.color }}"
+                    [class.clickable]="stat.routerFilter"
+                    (click)="navigateToReport(stat)"
+                >
+                    <div class="card-content">
+                        <div class="stat-header">
+                            <div class="stat-value">{{ stat.count }}</div>
+                            <div class="stat-icon-wrapper">
+                                <i class="stat-icon pi {{ stat.icon }}"></i>
+                            </div>
+                        </div>
+                        <div class="stat-label">
+                            {{ stat.label | translate }}
+                        </div>
+                        <!-- <div class="stat-subtitle">
+                            {{ stat.subtitle | translate }}
+                        </div> -->
+                    </div>
+                    <div class="card-decoration"></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="stats-container fade-in">
-        <div class="stats-grid">
-            <ng-container *ngIf="!loading; else loadingSkeleton">
+        <div
+            class="statistics-section"
+            *ngIf="taskStatusStatistics.length > 0"
+        >
+            <div class="section-header">
+                <div class="section-badge">
+                    {{ 'DASHBOARD.SECTIONS.TASK_STATUS.TITLE' | translate }}
+                </div>
+                <div class="section-indicator"></div>
+            </div>
+            <div class="statistics-grid">
                 <div
-                    *ngFor="let box of listStatisticsBox"
-                    class="stat-card"
-                    [class.clickable]="box.routerFilter || box.iframeLink"
-                    (click)="
-                        box.routerFilter
-                            ? box.routerFilter()
-                            : box.iframeLink
-                              ? showAlarms(box)
-                              : null
-                    "
+                    *ngFor="let stat of taskStatusStatistics"
+                    class="stat-card card-{{ stat.color }}"
+                    [class.clickable]="stat.routerFilter"
+                    (click)="navigateToReport(stat)"
                 >
-                    <div
-                        class="card-content"
-                        [ngStyle]="{
-                            'background-color': box.cardBgColor,
-                            'border-color': box.cardBorderColor,
-                        }"
-                    >
-                        <div class="card-icon">
-                            <img [src]="box.icon" alt="" />
+                    <div class="card-content">
+                        <div class="stat-header">
+                            <div class="stat-value">{{ stat.count }}</div>
+                            <div class="stat-icon-wrapper">
+                                <i class="stat-icon pi {{ stat.icon }}"></i>
+                            </div>
                         </div>
-                        <div class="card-text">
-                            <div
-                                class="stat-count"
-                                [ngStyle]="{ color: box.countColor }"
-                            >
-                                {{ box.count }}
+                        <div class="stat-label">
+                            {{ stat.label | translate }}
+                        </div>
+                        <!-- <div class="stat-subtitle">
+                            {{ stat.subtitle | translate }}
+                        </div> -->
+                    </div>
+                    <div class="card-decoration"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div
+            class="statistics-section"
+            *ngIf="performanceStatistics.length > 0"
+        >
+            <div class="section-header">
+                <div class="section-badge">
+                    {{ 'DASHBOARD.SECTIONS.PERFORMANCE.TITLE' | translate }}
+                </div>
+                <div class="section-indicator"></div>
+            </div>
+            <div class="statistics-grid">
+                <div
+                    *ngFor="let stat of performanceStatistics"
+                    class="stat-card card-{{ stat.color }}"
+                    [class.clickable]="stat.routerFilter"
+                    (click)="navigateToReport(stat)"
+                >
+                    <div class="card-content">
+                        <div class="stat-header">
+                            <div class="stat-value">{{ stat.count }}</div>
+                            <div class="stat-icon-wrapper">
+                                <i class="stat-icon pi {{ stat.icon }}"></i>
                             </div>
-                            <div
-                                class="stat-label"
-                                [ngStyle]="{ color: box.legendColor }"
-                            >
-                                {{ box.legend }}
-                            </div>
+                        </div>
+                        <div class="stat-label">
+                            {{ stat.label | translate }}
                         </div>
                     </div>
+                    <div class="card-decoration"></div>
                 </div>
-            </ng-container>
-
-            <ng-template #loadingSkeleton>
-                <div *ngFor="let box of listStatisticsBox" class="stat-card">
-                    <p-skeleton></p-skeleton>
-                </div>
-            </ng-template>
-        </div>
+            </div>
+        </div> -->
     </div>
 </div>
-
-<p-dialog
-    header="DETECTION APPRO."
-    [(visible)]="showIframe"
-    (onHide)="hideDialog()"
-    [modal]="true"
-    [draggable]="false"
-    [resizable]="false"
-    [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
-    [maximizable]="true"
-    [style]="{ width: '70vw' }"
->
-    <ng-template pTemplate="content">
-        <div class="iframe-container">
-            <iframe
-                [src]="iframeLink | safe"
-                class="iframe-content"
-                [style]="{ height: '100vh' }"
-            ></iframe>
-        </div>
-    </ng-template>
-</p-dialog>

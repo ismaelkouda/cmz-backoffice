@@ -1,22 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
-import {
-    notificationsCenterApiResponseInterface,
-    notificationsCenterInterface,
-} from '../../presentation/pages/overseeing-operations/data-access/notifications-center/interfaces/notifications-center.interface';
-import { CustomersActivateFilterInterface } from '../../presentation/pages/requests-service/data-access/customers-activate/interfaces/customers-activate-filter.interface';
-import { EndPointUrl } from '../enum/api.enum';
-import {
-    CustomersActivateApiResponseInterface,
-    CustomersActivateInterface,
-} from '../interfaces/customers-activate.interface';
-import { Paginate } from '../interfaces/paginate';
+import { CustomersActivateFilterInterface } from '@pages/requests-service/data-access/customers-activate/interfaces/customers-activate-filter.interface';
+import { EndPointUrl } from '@shared/enum/api.enum';
 import {
     ApiResponseApplicantInterface,
     ApplicantInterface,
-} from './../interfaces/applicant';
+} from '@shared/interfaces/applicant';
+import {
+    CustomersActivateApiResponseInterface,
+    CustomersActivateInterface,
+} from '@shared/interfaces/customers-activate.interface';
+import { Paginate } from '@shared/interfaces/paginate';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import { EnvService } from './env.service';
 
 @Injectable({ providedIn: 'root' })
@@ -32,9 +28,7 @@ export class SharedService {
 
     /*********************Méthode pour récupérer la liste des clients*************** */
 
-    private applicantsSubject = new BehaviorSubject<Array<ApplicantInterface>>(
-        []
-    );
+    private applicantsSubject = new BehaviorSubject<ApplicantInterface[]>([]);
     private loadingApplicantsSubject = new BehaviorSubject<boolean>(false);
     private apiResponseApplicantsSubject =
         new BehaviorSubject<ApiResponseApplicantInterface>(
@@ -42,13 +36,15 @@ export class SharedService {
         );
 
     fetchApplicants(): void {
-        if (this.loadingApplicantsSubject.getValue()) return;
+        if (this.loadingApplicantsSubject.getValue()) {
+            return;
+        }
 
         const url: string = EndPointUrl.GET_ALL_USERS;
         this.loadingApplicantsSubject.next(true);
 
         this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .post<object>(`${this.BASE_URL}${url}`, {})
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
@@ -182,16 +178,18 @@ export class SharedService {
     // }
     /*********************Méthode pour récupérer la liste des notifications*************** */
 
-    private notificationListSubject = new BehaviorSubject<
-        Array<notificationsCenterInterface>
+    /* private notificationListSubject = new BehaviorSubject<
+        notificationsEntity[]
     >([]);
     private loadingNotificationSubject = new BehaviorSubject<boolean>(false);
     private notificationPaginationSubject = new BehaviorSubject<
-        Paginate<notificationsCenterApiResponseInterface>
-    >({} as Paginate<notificationsCenterApiResponseInterface>);
+        Paginate<notificationsApiResponseEntity>
+    >({} as Paginate<notificationsApiResponseEntity>);
 
-    fetchNotification(page: string = '1'): void {
-        if (this.loadingNotificationSubject.getValue()) return;
+    fetchNotification(page = '1'): void {
+        if (this.loadingNotificationSubject.getValue()) {
+            return;
+        }
 
         const url: string = EndPointUrl.GET_ALL_NOTIFICATIONS.replace(
             '{page}',
@@ -199,7 +197,7 @@ export class SharedService {
         );
         this.loadingNotificationSubject.next(true);
         this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .post<object>(`${this.BASE_URL}${url}`, {})
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
@@ -217,7 +215,7 @@ export class SharedService {
             .subscribe();
     }
 
-    getNotificationList(): Observable<Array<notificationsCenterInterface>> {
+    getNotificationList(): Observable<notificationsEntity[]> {
         return this.notificationListSubject.asObservable();
     }
 
@@ -225,10 +223,10 @@ export class SharedService {
         return this.loadingNotificationSubject.asObservable();
     }
     getNotificationPagination(): Observable<
-        Paginate<notificationsCenterApiResponseInterface>
+        Paginate<notificationsApiResponseEntity>
     > {
         return this.notificationPaginationSubject.asObservable();
-    }
+    } */
 
     /*********************Méthode pour récupérer le nombre de notification non lu*************** */
 
@@ -273,18 +271,20 @@ export class SharedService {
     /*********************Méthode pour récupérer la liste des Regimes*************** */
 
     private regimesBusinessSubject = new BehaviorSubject<
-        Array<{ code: string; nom: string }>
+        { code: string; nom: string }[]
     >([]);
     private loadingRegimesBusinessSubject = new BehaviorSubject<boolean>(false);
 
     fetchRegimesBusiness(): void {
-        if (this.loadingRegimesBusinessSubject.getValue()) return; // Évite les doublons
+        if (this.loadingRegimesBusinessSubject.getValue()) {
+            return;
+        } // Évite les doublons
 
         const url: string = EndPointUrl.REGIME_BUSINESS;
         this.loadingRegimesBusinessSubject.next(true);
 
         this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .post<object>(`${this.BASE_URL}${url}`, {})
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
@@ -300,7 +300,7 @@ export class SharedService {
             .subscribe();
     }
 
-    getRegimesBusiness(): Observable<Array<{ code: string; nom: string }>> {
+    getRegimesBusiness(): Observable<{ code: string; nom: string }[]> {
         return this.regimesBusinessSubject.asObservable();
     }
 
@@ -311,18 +311,20 @@ export class SharedService {
     /*********************Méthode pour récupérer la liste des Formules legaux*************** */
 
     private legalFormsSubject = new BehaviorSubject<
-        Array<{ code: string; nom: string }>
+        { code: string; nom: string }[]
     >([]);
     private loadingLegalFormsSubject = new BehaviorSubject<boolean>(false);
 
     fetchLegalForms(): void {
-        if (this.loadingLegalFormsSubject.getValue()) return;
+        if (this.loadingLegalFormsSubject.getValue()) {
+            return;
+        }
 
         const url: string = EndPointUrl.LEGAL_FORMS;
         this.loadingLegalFormsSubject.next(true);
 
         this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .post<object>(`${this.BASE_URL}${url}`, {})
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
@@ -338,7 +340,7 @@ export class SharedService {
             .subscribe();
     }
 
-    getLegalForms(): Observable<Array<{ code: string; nom: string }>> {
+    getLegalForms(): Observable<{ code: string; nom: string }[]> {
         return this.legalFormsSubject.asObservable();
     }
 
@@ -349,7 +351,7 @@ export class SharedService {
     /*********************Méthode pour valider une activation de client *************** */
 
     private customersActivateSubject = new BehaviorSubject<
-        Array<CustomersActivateInterface>
+        CustomersActivateInterface[]
     >([]);
     private customersActivatePagination = new BehaviorSubject<
         Paginate<CustomersActivateInterface>
@@ -370,9 +372,11 @@ export class SharedService {
         );
     fetchCustomersActivate(
         data: CustomersActivateFilterInterface,
-        nbrPage: string = '1'
+        nbrPage = '1'
     ): void {
-        if (this.loadingCustomersActivateSubject.getValue()) return;
+        if (this.loadingCustomersActivateSubject.getValue()) {
+            return;
+        }
         this.loadingCustomersActivateSubject.next(true);
         const url: string = EndPointUrl.CUSTOMERS_MANAGED.replace(
             '{page}',
@@ -380,7 +384,7 @@ export class SharedService {
         );
 
         this.http
-            .post<Object>(this.BASE_URL + url, data)
+            .post<object>(this.BASE_URL + url, data)
             .pipe(
                 debounceTime(500),
                 switchMap((response: any) => {
@@ -401,7 +405,7 @@ export class SharedService {
             .subscribe();
     }
 
-    getCustomersActivate(): Observable<Array<CustomersActivateInterface>> {
+    getCustomersActivate(): Observable<CustomersActivateInterface[]> {
         return this.customersActivateSubject.asObservable();
     }
     getCustomersActivatePagination(): Observable<

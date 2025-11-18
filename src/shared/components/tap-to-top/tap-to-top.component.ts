@@ -6,17 +6,17 @@ import { Component, HostListener } from '@angular/core';
     standalone: true,
     templateUrl: './tap-to-top.component.html',
     styleUrls: ['./tap-to-top.component.scss'],
-    imports: [CommonModule]
+    imports: [CommonModule],
 })
 export class TapToTopComponent {
-    public show: boolean = false;
+    public show = false;
 
     constructor(private viewScroller: ViewportScroller) {}
 
     // @HostListener Decorator
     @HostListener('window:scroll', [])
     onWindowScroll() {
-        let number =
+        const number =
             window.pageYOffset ||
             document.documentElement.scrollTop ||
             document.body.scrollTop ||

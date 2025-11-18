@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const configSchema = Joi.object({
     verifyIdentityDocumentUrl: Joi.string().uri().required(),
@@ -30,7 +30,7 @@ const configSchema = Joi.object({
     }).optional(),
 }).options({ stripUnknown: true });
 
-function validateConfig(config) {
+export function validateConfig(config) {
     const { error, value } = configSchema.validate(config, {
         abortEarly: false,
         convert: false,
@@ -43,9 +43,9 @@ function validateConfig(config) {
     };
 }
 
-function generateTypes(config) {
+export function generateTypes(config) {
     return `// ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-            // Generated at: ${new Date().toISOString()}
+// Generated at: ${new Date().toISOString()}
 
 export interface AppConfig {
     verifyIdentityDocumentUrl: string;
@@ -91,7 +91,8 @@ export type EnvironmentName = keyof typeof ENVIRONMENTS;
 `;
 }
 
-module.exports = {
+// Export nommé pour ES Modules
+export default {
     validateConfig,
     generateTypes,
 };

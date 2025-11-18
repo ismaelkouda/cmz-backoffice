@@ -1,0 +1,13 @@
+.filter-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+.filter-grid__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+

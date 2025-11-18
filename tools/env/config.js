@@ -1,10 +1,17 @@
-module.exports = {
+const config = {
     dev: {
         verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
-        authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
-        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
-        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
-        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
+        authenticationUrl: 'http://10.10.0.9:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.0.9:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.0.9:7002/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.0.9:7000/auth/backoffice/',
+        /*         authenticationUrl:
+            'https://cmz-service-api.pass.imako.digital/auth/v1.0/backoffice/',
+        reportUrl:
+            'https://cmz-service-api.pass.imako.digital/reports/v1.0/backoffice/',
+        settingUrl:
+            'https://cmz-service-api.pass.imako.digital/base-settings/v1.0/backoffice/',
+        fileUrl: 'https://cmz-service-api.pass.imako.digital/auth/backoffice/', */
         environmentDeployment: 'DEV',
         enableDebug: true,
         messageApp: {
@@ -43,3 +50,5 @@ module.exports = {
         enableDebug: false,
     },
 };
+
+export default config;

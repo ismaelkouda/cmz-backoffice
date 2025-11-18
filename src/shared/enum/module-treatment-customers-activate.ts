@@ -1,6 +1,6 @@
 export const MODULE_TREATMENT_CUSTOMERS_ACTIVATE = {
     REQUESTS_SERVICE: 'Demande de service',
-    OVERSEEING_OPERATIONS: 'Operations supervision',
+    REPORT_ROUTE: 'Operations supervision',
 };
 
 export type T_MODULE_TREATMENT_CUSTOMERS_ACTIVATE =

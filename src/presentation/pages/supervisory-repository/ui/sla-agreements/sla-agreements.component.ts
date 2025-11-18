@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
-import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { SlaAgreementsInterface } from '../../data-access/sla-agreements/interfaces/sla-agreements.interface';
 import { SlaAgreementsApiService } from '../../data-access/sla-agreements/services/sla-agreements-api.service';
@@ -18,8 +18,8 @@ import { TableSlaAgreementsComponent } from '../../feature/sla-agreements/table-
         CommonModule,
         BreadcrumbComponent,
         TableSlaAgreementsComponent,
-        PatrimoineHeaderComponent,
-        TranslateModule
+        PageTitleComponent,
+        TranslateModule,
     ],
 })
 export class SlaAgreementsComponent implements OnInit, OnDestroy {
@@ -27,7 +27,7 @@ export class SlaAgreementsComponent implements OnInit, OnDestroy {
     public subModule!: string;
     public pagination$!: Observable<Paginate<SlaAgreementsInterface>>;
     public listSlaAgreements$!: Observable<SlaAgreementsInterface[]>;
-    public spinner: boolean = true;
+    public spinner = true;
     private destroy$ = new Subject<void>();
 
     constructor(

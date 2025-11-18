@@ -1,6 +1,6 @@
 import { Paginate } from './paginate';
 
-export interface WaitingQueueInterface {
+export interface WaitingInterface {
     id: number;
     numero_demande: string;
     description: string;
@@ -83,7 +83,7 @@ export interface WaitingQueueInterface {
     confirmation_contrat: boolean;
 }
 
-export interface WaitingQueueStatsInterface {
+export interface WaitingStatsInterface {
     total_dossiers: number;
     total_en_attentes: number;
     total_approuves: number;
@@ -95,11 +95,11 @@ export interface WaitingQueueStatsInterface {
     traitees_hors_delais: number;
     pourcentage_traitees_hors_delais: number;
     pourcentage_traitees_dans_delais: number;
-    data: Paginate<WaitingQueueInterface>;
+    data: Paginate<WaitingInterface>;
 }
 
-export interface WaitingQueueApiResponseInterface {
+export interface WaitingApiResponseInterface {
     error: boolean;
     message: string;
-    data: Paginate<WaitingQueueStatsInterface>;
+    data: Paginate<WaitingStatsInterface>;
 }

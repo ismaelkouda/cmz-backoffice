@@ -16,7 +16,9 @@
     [paginator]="true"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between flex-wrap align-items-start">
+        <div
+            class="d-flex justify-content-between flex-wrap align-items-center"
+        >
             <app-table-title
                 [count]="(listSlaAgreements$ | async)?.length"
                 [perPage]="nbDataPerPage"

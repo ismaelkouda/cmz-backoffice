@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
-import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
-import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
+import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { CommercialEnterprisesFilterInterface } from '../../data-access/commercial-enterprises/interfaces/commercial-enterprises-filter.interface';
 import { CommercialEnterprisesInterface } from '../../data-access/commercial-enterprises/interfaces/commercial-enterprises.interface';
@@ -26,11 +26,11 @@ import {
     templateUrl: './commercial-enterprises.component.html',
     imports: [
         CommonModule,
-        PatrimoineHeaderComponent,
+        PageTitleComponent,
         BreadcrumbComponent,
         FilterCommercialEnterprisesComponent,
         TableCommercialEnterprisesComponent,
-        ParginationComponent,
+        PaginationComponent,
         TranslateModule,
     ],
 })
@@ -41,9 +41,9 @@ export class CommercialEnterprisesComponent implements OnInit, OnDestroy {
     public listCommercialEnterprises$!: Observable<
         CommercialEnterprisesInterface[]
     >;
-    public spinner: boolean = true;
+    public spinner = true;
     private destroy$ = new Subject<void>();
-    public listCommercialEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
+    public listCommercialEnterprisesStep: T_CUSTOMERS_MANAGED_STEP_ENUM[] =
         Object.values(CUSTOMERS_MANAGED_STEP_ENUM);
 
     constructor(

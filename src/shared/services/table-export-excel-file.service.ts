@@ -65,6 +65,10 @@ export class TableExportExcelFileService {
                         value = value ? value[part] : '';
                     }
 
+                    if (Array.isArray(value)) {
+                        value = value.join(', ');
+                    }
+
                     // Use column header as the key in the exported row
                     exportedRow[col.header] = value;
                 }

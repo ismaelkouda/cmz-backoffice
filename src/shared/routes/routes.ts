@@ -2,26 +2,94 @@ import { Routes } from '@angular/router';
 export const SEARCH = 'search';
 
 export const DASHBOARD = 'dashboard';
+export const REPORT_PROCESSING_ROUTE = 'reports';
+export const REPORTING_ROUTE = 'reports';
+export const REPORT_REQUESTS_ROUTE = 'requests';
 export const CUSTOMERS_MANAGED = 'managed-customers';
 export const REQUESTS_SERVICE = 'requests-services';
 export const SUPERVISORY_REPOSITORY = 'sla-reference';
-export const PARAMETRE_SECURITE = 'parametre-securite';
+export const SETTINGS_SECURITY_ROUTE = 'security-settings';
+export const TEAM_ORGANIZATION = 'organization';
 export const ACCOUNTING = 'accounting';
-export const OVERSEEING_OPERATIONS = 'overseeing-operations';
-export const PARAMETER_SECURITY = 'parameter-security';
 
 export const content: Routes = [
     {
         path: DASHBOARD,
         loadChildren: () =>
-            import('../../presentation/pages/dashboard/dashboard.module').then(
-                (m) => m.DashboardModule
+            import('../../presentation/pages/dashboard/dashboard.routes').then(
+                (m) => m.routes
             ),
         data: {
             title: 'Tableau de bord',
-        }
+        },
     },
     {
+        path: TEAM_ORGANIZATION,
+        loadChildren: () =>
+            import(
+                '../../presentation/pages/team-organization/team-organization.routes'
+            ).then((m) => m.routes),
+        data: {
+            module: 'TEAM_ORGANIZATION',
+            subModule: [
+                'TEAM_ORGANIZATION.PARTICIPANT.LABEL',
+                'TEAM_ORGANIZATION.TEAM.LABEL',
+                'TEAM_ORGANIZATION.AGENT_IA.LABEL',
+            ],
+        },
+    },
+    {
+        path: REPORT_REQUESTS_ROUTE,
+        loadChildren: () =>
+            import(
+                '../../presentation/pages/report-requests/report-requests.routes'
+            ).then((m) => m.routes),
+    },
+    {
+        path: REPORT_PROCESSING_ROUTE,
+        loadChildren: () =>
+            import(
+                '../../presentation/pages/reports-processing/reports-processing.routes'
+            ).then((m) => m.routes),
+        data: {
+            module: 'REPORT_ROUTE',
+            subModule: [
+                'REPORT_PROCESSING.WAITING.LABEL',
+                'REPORT_PROCESSING.APPROVAL.LABEL',
+                'REPORT_PROCESSING.TREATMENT.LABEL',
+                'REPORT_PROCESSING.FINALIZE.LABEL',
+                'REPORT_PROCESSING.CLAIMS.LABEL',
+                'MY_NOTIFICATIONS',
+                'MY_INBOX',
+            ],
+        },
+    },
+    {
+        path: REPORTING_ROUTE,
+        loadChildren: () =>
+            import('../../presentation/pages/reporting/reporting.route').then(
+                (m) => m.routes
+            ),
+        data: {
+            module: 'REPORT_ROUTE',
+            subModule: ['REPORTING.REPORT.LABEL'],
+        },
+    },
+    {
+        path: SETTINGS_SECURITY_ROUTE,
+        loadChildren: () =>
+            import(
+                '../../presentation/pages/settings-security/settings-security.routes'
+            ).then((m) => m.routes),
+        data: {
+            module: 'SETTINGS_SECURITY',
+            subModule: [
+                'SETTINGS_SECURITY.USER.LABEL',
+                'SETTINGS_SECURITY.PROFILE_HABILITATION.LABEL',
+            ],
+        },
+    },
+    /*     {
         path: CUSTOMERS_MANAGED,
         loadChildren: () =>
             import(
@@ -37,8 +105,8 @@ export const content: Routes = [
                 'CUSTOMERS',
             ],
         },
-    },
-    {
+    }, */
+    /*     {
         path: SUPERVISORY_REPOSITORY,
         loadChildren: () =>
             import(
@@ -48,55 +116,21 @@ export const content: Routes = [
             module: 'SUPERVISORY_REPOSITORY',
             subModule: ['SLA_AGREEMENTS', 'SLA_MANAGEMENT_CONTRACT'],
         },
-    },
-    {
+    }, */
+    /*     {
         path: REQUESTS_SERVICE,
         loadChildren: () =>
             import(
-                '../../presentation/pages/requests-service/requests-service.module'
-            ).then((m) => m.RequestsServiceModule),
+                '../../presentation/pages/requests-service/requests-service-routing.module'
+            ).then((m) => m.routes),
         data: {
             module: 'REQUESTS_SERVICE',
             subModule: ['CUSTOMERS_ACTIVATE'],
         },
-    },
-    {
-        path: OVERSEEING_OPERATIONS,
-
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/overseeing-operations/overseeing-operations.module'
-            ).then((m) => m.OverseeingOperationsModule),
-        data: {
-            module: 'OVERSEEING_OPERATIONS',
-            subModule: [
-                'WAITING_QUEUE',
-                'TREATMENT_MONITORING',
-                'CLAIMS',
-                'MY_NOTIFICATIONS',
-                'MY_INBOX',
-            ],
-        },
-    },
-    {
-        path: ACCOUNTING,
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/accounting/accounting.module'
-            ).then((m) => m.AccountingModule),
-        data: {
-            module: 'ACCOUNTING',
-            subModule: [
-                'MY_ACCOUNT_CREDITS',
-                'MY_INVOICES',
-                'MY_PAYMENTS',
-                'MY_ACCOUNT_STATEMENT',
-            ],
-        },
-    },
+    }, */
     {
         path: '',
         redirectTo: DASHBOARD,
-        pathMatch: 'full' as const
+        pathMatch: 'full' as const,
     },
 ];

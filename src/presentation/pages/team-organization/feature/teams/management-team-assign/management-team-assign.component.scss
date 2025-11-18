@@ -1,0 +1,31 @@
+.management-container {
+    padding: 1.5rem;
+}
+
+.management-card {
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+    border: none;
+}
+
+.management-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+
+    h4 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+
+        .current-values {
+            color: var(--primary-color);
+            margin-left: 0.5rem;
+        }
+    }
+}
+
+.management-content {
+    padding: 1rem 0;
+}
+

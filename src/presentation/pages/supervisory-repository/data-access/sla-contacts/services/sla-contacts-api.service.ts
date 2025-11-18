@@ -38,13 +38,15 @@ export class SlaContactsApiService {
             SLA_CONTACTS_FORM_MODE_ENUM.EDIT as T_SLA_CONTACTS_FORM_MODE_ENUM
         );
     fetchSlaContacts(): void {
-        if (this.loadingSlaContactsSubject.getValue()) return;
+        if (this.loadingSlaContactsSubject.getValue()) {
+            return;
+        }
         this.loadingSlaContactsSubject.next(true);
         const url: string =
             SlaContactsEndpointEnum.SUPERVISORY_REFERENCE_SLA_CONTACTS;
 
         this.httpClient
-            .post<Object>(this.BASE_URL + url, {})
+            .post<object>(this.BASE_URL + url, {})
             .pipe(
                 debounceTime(500),
                 switchMap((response: any) => {
@@ -92,12 +94,14 @@ export class SlaContactsApiService {
         toastService: ToastrService,
         goOut?: () => void
     ): void {
-        if (this.loadingUpdateSlaContactsSubject.getValue()) return;
+        if (this.loadingUpdateSlaContactsSubject.getValue()) {
+            return;
+        }
         this.loadingUpdateSlaContactsSubject.next(true);
         const url: string =
             SlaContactsEndpointEnum.SUPERVISORY_REFERENCE_SLA_CONTACTS_UPDATE;
         this.httpClient
-            .post<Object>(this.BASE_URL + url, data)
+            .post<object>(this.BASE_URL + url, data)
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {

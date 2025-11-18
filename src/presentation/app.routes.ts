@@ -10,28 +10,28 @@ export const routes = [
     {
         path: AUTH,
         loadChildren: () =>
-            import('./pages/authentication/authentication.module').then(
-                (m) => m.AuthenticationModule
+            import('./pages/authentication/authentication.routes').then(
+                (m) => m.routes
             ),
-            canActivate: [unauthGuard]
+        canActivate: [unauthGuard],
     },
     {
         path: REINITIALIZATION,
         loadChildren: () =>
-            import('./pages/password-reset/password-reset.module').then(
-                (m) => m.PasswordResetModule
+            import('./pages/password-reset/password-reset.routes').then(
+                (m) => m.routes
             ),
-            canActivate: [unauthGuard]
+        canActivate: [unauthGuard],
     },
     {
         path: '',
         component: ContentComponent,
         children: content,
-        canActivate: [authGuard]
+        canActivate: [authGuard],
     },
     {
         path: '**',
         redirectTo: DASHBOARD,
         pathMatch: 'full' as const,
-    }
+    },
 ];

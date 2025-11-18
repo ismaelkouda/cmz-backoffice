@@ -8,17 +8,13 @@
             <div class="card">
                 <div class="card-body">
                     <div style="margin-top: -2rem !important">
-                        <app-patrimoine-header
+                        <app-page-title
                             [displayDate]="false"
-                            [total]="(pagination$ | async)?.total"
-                            [legendePluriel]="
-                                'PUBLIC_ENTERPRISES' | translate | lowercase
-                            "
-                            [legendeSingulier]="
+                            [title]="
                                 'PUBLIC_ENTERPRISES' | translate | lowercase
                             "
                         >
-                        </app-patrimoine-header>
+                        </app-page-title>
                     </div>
 
                     <div class="fade-in">
@@ -43,10 +39,10 @@
                         >
                         </app-table-public-enterprises>
 
-                        <app-pargination
-                            [pargination]="pagination$ | async"
+                        <app-pagination
+                            [pagination]="pagination$ | async"
                             (pageChange)="onPageChange($event)"
-                        ></app-pargination>
+                        ></app-pagination>
                     </div>
                 </div>
             </div>

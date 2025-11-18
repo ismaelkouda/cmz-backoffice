@@ -1,14 +1,25 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+} from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { InputTextModule } from 'primeng/inputtext';
 import { Table } from 'primeng/table';
 
 @Component({
     selector: `app-search-table`,
+    standalone: true,
+    imports: [TranslateModule, InputTextModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="p-input-icon-left">
-            <i class="pi pi-search"></i>
             <input
                 pInputText
                 type="text"
+                icon="pi pi-search"
                 (input)="onSearch($event.target.value.trim())"
                 placeholder="{{ 'RESEARCH' | translate }}..."
                 class="search-input"

@@ -34,17 +34,17 @@ export class TableCustomersComponent {
     @Output() interfaceUser = new EventEmitter<any>();
 
     @Input() spinner!: boolean;
-    @Input() listCustomers$: Observable<Array<CustomersInterface>> =
-        new BehaviorSubject<Array<CustomersInterface>>([]);
+    @Input() listCustomers$: Observable<CustomersInterface[]> =
+        new BehaviorSubject<CustomersInterface[]>([]);
     @Input() pagination$!: Observable<Paginate<CustomersInterface>>;
 
-    @Input() listCustomersStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    @Input() listCustomersStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
 
     public customerSelected!: CustomersInterface;
     public table: TableConfig = CUSTOMERS_TABLE;
     private destroy$ = new Subject<void>();
 
-    public visibleForm: boolean = false;
+    public visibleForm = false;
 
     public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
         CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;

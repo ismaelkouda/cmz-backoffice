@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    OnDestroy,
+} from '@angular/core';
 import {
     AbstractControl,
     FormControl,
@@ -9,84 +14,112 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { PasswordModule } from 'primeng/password';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { REINITIALIZATION } from '../../../../../presentation/app.routes';
-import { LOGO_ANSUT } from '../../../../../shared/constants/logoAnsut.constant';
+import { AuthenticationFacade } from '@pages/authentication/application/authentication.facade';
+import { LoginFormInterface } from '@pages/authentication/data/interfaces/login-form.interface';
+import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
+import { FORGOT_PASSWORD } from '@pages/password-reset/password-reset.routes';
+import { REINITIALIZATION } from '@presentation/app.routes';
+import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
 import {
     AuthToken,
     CurrentUser,
-} from '../../../../../shared/interfaces/current-user.interface';
-import { DASHBOARD } from '../../../../../shared/routes/routes';
-import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
-import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
-import { AuthenticationService } from '../../data-access/authentication.service';
-import { LoginCredential } from '../../data-access/credentials/login.credential';
-import { LoginFormInterface } from '../../data-access/interfaces/login-form.interface';
-import { LoginResponseInterface } from '../../data-access/interfaces/login-response.interface';
-import { loginProviders } from '../../data-access/providers/login.providers';
+} from '@shared/interfaces/current-user.interface';
+import { DASHBOARD } from '@shared/routes/routes';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { EncodingDataService } from '@shared/services/encoding-data.service';
+import { PasswordModule } from 'primeng/password';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-login',
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    providers: [...loginProviders],
-    imports: [CommonModule, ReactiveFormsModule, PasswordModule, TranslateModule, RouterLink],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        PasswordModule,
+        TranslateModule,
+        RouterLink,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
     public readonly REINITIALIZATION = REINITIALIZATION;
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
     public readonly LOGO_ANSUT = LOGO_ANSUT;
 
     public loginForm = new FormGroup<LoginFormInterface>({
-        email: new FormControl(null, {
-            validators: [Validators.required, Validators.email,  Validators.minLength(6)],
+        email: new FormControl('', {
+            validators: [
+                Validators.required,
+                Validators.email,
+                Validators.minLength(6),
+            ],
             nonNullable: true,
         }),
-        password: new FormControl(null, {
+        password: new FormControl('', {
             validators: [Validators.required, Validators.minLength(6)],
             nonNullable: true,
         }),
     });
 
     private destroy$ = new Subject<void>();
+    public readonly config = inject(AppCustomizationService).config;
 
-    constructor(private authService: AuthenticationService,
+    constructor(
+        private readonly authenticationFacade: AuthenticationFacade,
         private router: Router,
-        private encodingService: EncodingDataService,
+        private encodingService: EncodingDataService
     ) {}
-
-    ngOnInit(): void {
-        this.setupFormValidation();
-    }
 
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
-    get email(): AbstractControl | null {
+    get email(): AbstractControl<string> | null {
         return this.loginForm.get('email');
     }
 
-    get password(): AbstractControl | null {
+    get password(): AbstractControl<string> | null {
         return this.loginForm.get('password');
     }
 
-    private setupFormValidation(): void {
-        this.loginForm.valueChanges
-            .pipe(
-                debounceTime(300),
-                distinctUntilChanged(
-                    (prev, curr) =>
-                        prev.email === curr.email &&
-                        prev.password === curr.password
-                ),
-                takeUntil(this.destroy$)
-            )
-            .subscribe();
+    public isFieldInvalid(fieldName: 'email' | 'password'): boolean {
+        const control = this.loginForm.get(fieldName);
+        return !!(control && control.invalid && control.touched);
+    }
+
+    public isFieldValid(fieldName: 'email' | 'password'): boolean {
+        const control = this.loginForm.get(fieldName);
+        return !!(control && control.valid && control.touched);
+    }
+
+    public getFieldError(fieldName: 'email' | 'password'): string | null {
+        const control = this.loginForm.get(fieldName);
+        if (!control || !control.errors || !control.touched) {
+            return null;
+        }
+
+        if (control.errors['required']) {
+            return fieldName === 'email'
+                ? 'AUTHENTICATION.FORM.EMAIL.REQUIRED'
+                : 'AUTHENTICATION.FORM.PASSWORD.REQUIRED';
+        }
+
+        if (control.errors['email']) {
+            return 'AUTHENTICATION.FORM.EMAIL.INVALID_FORMAT';
+        }
+
+        if (control.errors['minlength']) {
+            return fieldName === 'email'
+                ? 'AUTHENTICATION.FORM.EMAIL.INVALID_FORMAT'
+                : 'AUTHENTICATION.FORM.PASSWORD.REQUIRED';
+        }
+
+        return null;
     }
 
     public onSubmit(): void {
@@ -95,28 +128,27 @@ export class LoginComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const credentials: LoginCredential = this.loginForm.value as LoginCredential;
-        this.authService
-            .fetchLogin(credentials, (error) => this.handleAuthError(error))
+        const credentials = this.loginForm.getRawValue();
+
+        this.authenticationFacade
+            .login(credentials)
             .pipe(takeUntil(this.destroy$))
-            .subscribe((loginResponse: LoginResponseInterface) => {
-                        console.log("loginResponse", loginResponse)
-                if (loginResponse && loginResponse.error === false) {
-                    const data = loginResponse.data ??
-                        ({} as { user?: CurrentUser; token?: AuthToken });
-                    const { user, token } = data as {
-                        user?: CurrentUser;
-                        token?: AuthToken;
-                    };
-                    if (user && token) {
-                        this.storeUserAndToken(user, token);
-                        this.router.navigate([DASHBOARD]);
-                    }
-                }
+            .subscribe({
+                next: (session: AuthSession) =>
+                    this.handleSuccessfulLogin(session),
+                error: () => this.handleAuthError(),
             });
     }
 
-    private handleAuthError(error: any) {
+    private handleSuccessfulLogin(session: AuthSession): void {
+        const { user, token } = session;
+        if (user && token) {
+            this.storeUserAndToken(user, token);
+            this.router.navigate([DASHBOARD]);
+        }
+    }
+
+    private handleAuthError(): void {
         this.loginForm.get('password')?.reset();
     }
 

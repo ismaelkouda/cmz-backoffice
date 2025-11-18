@@ -1,0 +1,21 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="filter-grid">
+        <div class="filter-grid__item">
+            <label for="code-input">
+                <b>{{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.FILTER.CODE' | translate }}</b>
+            </label>
+            <input
+                id="code-input"
+                type="text"
+                pInputText
+                formControlName="code"
+                [placeholder]="'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.FILTER.CODE_PLACEHOLDER' | translate"
+            />
+        </div>
+
+        <button type="submit" class="btn btn-primary px-3">
+            <i class="pi pi-filter"></i>
+        </button>
+    </div>
+</form>
+

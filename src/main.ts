@@ -2,51 +2,165 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './presentation/app.component';
 import { appConfig } from './presentation/app.config';
 
-try {
+/**
+ * Configuration par défaut pour les performances
+ */
+const PERFORMANCE_CONFIG = {
+    bootstrapStartMark: 'app-bootstrap-start',
+    bootstrapEndMark: 'app-bootstrap-end',
+    bootstrapMeasure: 'app-bootstrap',
+} as const;
 
-    globalThis.window?.addEventListener('error', (event) => {
-        console.error('🚨 Global Error:', event.error);
+/**
+ * Configuration par défaut pour l'affichage des erreurs
+ */
+const ERROR_DISPLAY_CONFIG = {
+    styles: {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        background: '#dc3545',
+        color: 'white',
+        padding: '1rem',
+        textAlign: 'center',
+        fontFamily: 'Arial, sans-serif',
+        zIndex: '9999',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+    },
+    role: 'alert',
+    ariaLive: 'assertive',
+} as const;
+
+/**
+ * Configure les gestionnaires d'erreurs globaux
+ * @private
+ * @returns {void}
+ */
+function setupGlobalErrorHandlers(): void {
+    if (globalThis.window === undefined) {
+        return;
+    }
+
+    globalThis.window.addEventListener('error', (event: ErrorEvent) => {
+        console.error('APP.ERROR.GLOBAL', event.error);
     });
-    
-    globalThis.window?.addEventListener('unhandledrejection', (event) => {
-        console.error('🚨 Unhandled Promise Rejection:', event.reason);
-        event.preventDefault();
-    });
 
-    performance?.mark('app-bootstrap-start');
-
-    bootstrapApplication(AppComponent, appConfig);
-
-    performance?.mark('app-bootstrap-end');
-    performance?.measure('app-bootstrap', 'app-bootstrap-start', 'app-bootstrap-end');
-    
-    const measure = performance?.getEntriesByName('app-bootstrap')[0];
-    console.log(`🚀 Application bootstrapped in ${measure?.duration.toFixed(2)}ms`);
-    console.log('🎉 Application successfully bootstrapped!');
-    
-} catch (error) {
-    console.error('💥 Failed to bootstrap application:', error);
-    displayBootstrapError(error);
+    globalThis.window.addEventListener(
+        'unhandledrejection',
+        (event: PromiseRejectionEvent) => {
+            console.error(
+                'APP.ERROR.UNHANDLED_PROMISE_REJECTION',
+                event.reason
+            );
+            event.preventDefault();
+        }
+    );
 }
 
-function displayBootstrapError(error: any): void {
+/**
+ * Mesure les performances du bootstrap de l'application
+ * @private
+ * @returns {void}
+ */
+function measureBootstrapPerformance(): void {
+    if (typeof performance === 'undefined') {
+        return;
+    }
+
+    try {
+        performance.mark(PERFORMANCE_CONFIG.bootstrapEndMark);
+        performance.measure(
+            PERFORMANCE_CONFIG.bootstrapMeasure,
+            PERFORMANCE_CONFIG.bootstrapStartMark,
+            PERFORMANCE_CONFIG.bootstrapEndMark
+        );
+
+        const measure = performance.getEntriesByName(
+            PERFORMANCE_CONFIG.bootstrapMeasure
+        )[0];
+        if (measure && 'duration' in measure) {
+            console.log(
+                `APP.BOOTSTRAP.SUCCESS - ${measure.duration.toFixed(2)}ms`
+            );
+        }
+    } catch (error) {
+        console.warn('APP.BOOTSTRAP.PERFORMANCE_MEASUREMENT_FAILED', error);
+    }
+}
+
+/**
+ * Affiche une erreur de bootstrap de manière visible
+ * @private
+ * @param {Error | unknown} error - Erreur à afficher
+ * @returns {void}
+ */
+function displayBootstrapError(error: Error): void {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    const errorMessage =
+        error instanceof Error ? error.message : 'APP.BOOTSTRAP.ERROR_UNKNOWN';
+
     const errorElement = document.createElement('div');
-    errorElement.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: #dc3545;
-        color: white;
-        padding: 1rem;
-        text-align: center;
-        font-family: Arial, sans-serif;
-        z-index: 9999;
-    `;
+    errorElement.setAttribute('role', ERROR_DISPLAY_CONFIG.role);
+    errorElement.setAttribute('aria-live', ERROR_DISPLAY_CONFIG.ariaLive);
+
+    // Appliquer les styles
+    const styles = ERROR_DISPLAY_CONFIG.styles;
+    errorElement.style.cssText = Object.entries(styles)
+        .map(([key, value]) => {
+            const cssKey = key.replaceAll(
+                /[A-Z]/g,
+                (letter) => `-${letter.toLowerCase()}`
+            );
+            return `${cssKey}: ${value};`;
+        })
+        .join(' ');
+
+    // Contenu HTML (sera remplacé par i18n dans le composant)
     errorElement.innerHTML = `
-        <strong>🚨 Application Error</strong>
-        <p>Failed to load the application. Please refresh the page or contact support.</p>
-        <small>Error: ${error.message}</small>
+        <strong>APP.BOOTSTRAP.ERROR_TITLE</strong>
+        <p>APP.BOOTSTRAP.ERROR_MESSAGE</p>
+        <small>Error: ${errorMessage}</small>
     `;
+
     document.body.appendChild(errorElement);
 }
+
+/**
+ * Point d'entrée principal de l'application Angular
+ * Configure les gestionnaires d'erreurs, mesure les performances et bootstrap l'application
+ * @returns {void}
+ */
+function bootstrapApp(): void {
+    try {
+        // Configurer les gestionnaires d'erreurs globaux
+        setupGlobalErrorHandlers();
+
+        // Marquer le début du bootstrap pour mesurer les performances
+        if (typeof performance !== 'undefined') {
+            performance.mark(PERFORMANCE_CONFIG.bootstrapStartMark);
+        }
+
+        // Bootstrap l'application
+        bootstrapApplication(AppComponent, appConfig)
+            .then(() => {
+                measureBootstrapPerformance();
+                console.log('APP.BOOTSTRAP.SUCCESS');
+            })
+            .catch((error: Error) => {
+                console.error('APP.BOOTSTRAP.FAILED', error);
+                displayBootstrapError(error);
+            });
+    } catch (error) {
+        const bootstrapError =
+            error instanceof Error ? error : new Error(String(error));
+        console.error('APP.BOOTSTRAP.FAILED', bootstrapError);
+        displayBootstrapError(bootstrapError);
+    }
+}
+
+// Démarrer l'application
+bootstrapApp();

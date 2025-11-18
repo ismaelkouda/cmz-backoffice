@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { filter, Observable } from 'rxjs';
-import { CommercialEnterprisesNavigationStoreService } from './commercial-enterprises-navigation-store.service';
 import { ManagedCustomersPageActionsType } from '../../managed-customers/types/managed-customers-page-actions.type';
+import { CommercialEnterprisesNavigationStoreService } from './commercial-enterprises-navigation-store.service';
 
 interface NavigationState {
     routeData: ManagedCustomersPageActionsType | null;
@@ -23,7 +23,7 @@ export class CommercialEnterprisesNavigationGuardService extends CommercialEnter
 
     setCommercialEnterprisesNavigationGuard(
         customersActivateRoute: ManagedCustomersPageActionsType,
-        isInternal: boolean = false
+        isInternal = false
     ): void {
         const newState: NavigationState = {
             routeData: customersActivateRoute,

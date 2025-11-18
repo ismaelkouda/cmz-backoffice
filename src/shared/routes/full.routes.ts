@@ -6,7 +6,7 @@ export const full: Routes = [
         path: AUTH,
         loadChildren: () =>
             import(
-                '../../presentation/pages/authentication/authentication.module'
-            ).then((m) => m.AuthenticationModule),
+                '../../presentation/pages/authentication/authentication.routes'
+            ).then((m) => m.routes),
     },
 ];

@@ -19,7 +19,7 @@ export abstract class CommercialEnterprisesNavigationStoreService<T> {
         return this._state.getValue();
     }
 
-    protected setState(newState: T, isInternal: boolean = false): void {
+    protected setState(newState: T, isInternal = false): void {
         if (this._updateLock && !isInternal) {
             console.warn('Mise à jour bloquée: opération déjà en cours');
             return;

@@ -1,0 +1,662 @@
+<div class="container-fluid">
+  <div class="card evaluation-wrapper" [class.view-only-mode]="isViewOnly">
+
+
+    <div class="evaluation-header">
+      <div class="header-top">
+        <div class="header-info">
+          <strong>{{ getEvaluationTitle() | uppercase }}</strong>
+          @if (isViewOnly) {
+          <span class="view-only-badge">Mode Visualisation</span>
+          }
+          <span class="date">
+            @if (isLoadingEvaluationData || isLoadingCompetencesData || isLoadingCareerData) {
+            <span class="loading-indicator">
+              <i class="pi pi-spin pi-spinner"></i>
+              Chargement...
+            </span>
+            } @else if (isCampaignArray() && getFirstCampaign()) {
+            {{ getFirstCampaign()?.startDate | dateFr }} <span class="text-dark">au</span> {{
+            getFirstCampaign()?.endDate | dateFr }}
+            } @else {
+            <span class="loading-indicator">
+              <i class="pi pi-spin pi-spinner"></i>
+              Chargement des données de campagne...
+            </span>
+            }
+          </span>
+        </div>
+        <div class="header-status">
+          {{ debugTemplate() }}
+          @if (isViewOnly) {
+          @if (shouldShowAcceptButtonInViewOnly() || isAcceptanceMode) {
+          <button class="action-button accept-button" [disabled]="isAcceptButtonDisabled()"
+            [title]="getAcceptButtonTooltip()" (click)="acceptEvaluation()">
+            <i class="pi pi-check"></i> Accepter
+          </button>
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          } @else if (shouldShowValidateN1Button()) {
+          <button class="action-button validate-n1-button" (click)="validateByN1()">
+            <i class="pi pi-check"></i> Valider
+          </button>
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          } @else if (evaluation?.agent_evaluation_status === 'validated' && getUserRole() === 'n2') {
+          <button class="action-button approve-n2-button" (click)="approveByN2()" [disabled]="!isN2CommentFilled()">
+            <i class="pi pi-check"></i> Approuver
+          </button>
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          } @else if (evaluation?.agent_evaluation_status === 'approved') {
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          } @else {
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          }
+
+          } @else {
+          @if (!isViewOnly && typeSheet !== 'simulated') {
+          <div class="submit-button-container">
+            @if (typeSheet === 'submitted') {
+            <button class="action-button submit-button" [disabled]="isSubmitButtonDisabled()"
+              [title]="getDetailedValidationGuide()" (click)="openConfirmDialog('submit')">
+              Soumettre la fiche
+            </button>
+            }
+
+            <div class="progress-spinner-container">
+              <div class="progress-spinner" [ngClass]="getProgressSpinnerClass()">
+                <div class="spinner-circle">
+                  <div class="spinner-fill" [style.transform]="'rotate(' + getProgressPercentage() + 'deg)'"></div>
+                </div>
+                <div class="progress-text text-white">{{ getProgressPercentage() | number:'1.0-0' }}%</div>
+              </div>
+            </div>
+
+            <div *ngIf="hasValidationIssues()" class="validation-indicator">
+              <div class="validation-badge">
+                <i class="pi pi-exclamation-triangle"></i>
+                <span class="validation-count">{{ getValidationIssuesCount() }}</span>
+              </div>
+
+              <div class="validation-guide">
+                <div class="guide-header">
+                  <i class="pi pi-info-circle"></i>
+                  <span>Éléments à compléter</span>
+                </div>
+                <div class="guide-content">
+                  <div [innerHTML]="getFormattedValidationGuide()"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- Boutons selon le statut et le rôle -->
+          @if (shouldShowAcceptButton()) {
+          <!-- Mode acceptation : Bouton Accepter -->
+          <button class="action-button accept-button" [disabled]="isAcceptButtonDisabled()"
+            [title]="getAcceptButtonTooltip()" (click)="acceptEvaluation()">
+            <i class="pi pi-check"></i> Accepter
+          </button>
+
+
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          } @else if (shouldShowValidateN1Button()) {
+          <!-- N+1 : Bouton Valider -->
+          <button class="action-button validate-n1-button" (click)="validateByN1()">
+            <i class="pi pi-check"></i> Valider
+          </button>
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          } @else if (evaluation?.agent_evaluation_status === 'validated' && getUserRole() === 'n2') {
+          <!-- N+2 : Bouton Approuver -->
+          <button class="action-button approve-n2-button" (click)="approveByN2()">
+            <i class="pi pi-check"></i> Approuver
+          </button>
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          } @else if (typeSheet === 'normal' && getUserRole() === 'n1') {
+          <!-- N+1 : Bouton Valider (évaluation initiale) -->
+          <button class="action-button validate-button" (click)="openConfirmDialog('validate')">
+            <i class="pi pi-check"></i> Valider
+          </button>
+          @if (!isAutoEvaluation) {
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          } @else if (!isViewOnly && !isAutoEvaluation) {
+          <!-- Bouton Fermer par défaut (pas pour l'auto-évaluation) -->
+          <button class="action-button close-button" (click)="onClose()">
+            <i class="pi pi-times"></i> Fermer
+          </button>
+          }
+          }
+        </div>
+      </div>
+
+      <div class="header-bottom">
+        @if (isLoadingEvaluationData || isLoadingCompetencesData || isLoadingCareerData || !isAgentDataLoaded()) {
+        <span class="loading-indicator">
+          <i class="pi pi-spin pi-spinner"></i>
+          Chargement des informations de l'agent...
+        </span>
+        } @else {
+        <strong>{{ evaluation?.agent?.lastName || 'N/A' }} {{ evaluation?.agent?.firstName || 'N/A' }}</strong>
+        | <strong class="text-uppercase">{{ evaluation?.agent?.position || 'N/A' }}</strong> | Matricule : <strong>{{
+          evaluation?.agent?.employeeId || 'N/A' }}</strong>
+        }
+      </div>
+    </div>
+
+    <div class="evaluation-body" [class.loading]="isLoadingCompetencesData || isLoadingCareerData">
+      <!-- Indicateur de chargement global -->
+      @if (isLoadingCompetencesData || isLoadingCareerData) {
+      <div class="loading-overlay">
+        <div class="loading-spinner">
+          <i class="pi pi-spin pi-spinner"></i>
+          <p>Chargement de la fiche...</p>
+        </div>
+      </div>
+      }
+
+      <!-- Onglets catégories -->
+      <div class="category-tabs-with-reset">
+        <div class="category-tabs">
+          @for (category of getFilteredCategories(); track category.title; let categoryIndex = $index) {
+          <button (click)="selectCategory(categoryIndex)"
+            [class.active]="getFilteredCategoryIndex(selectedCategoryIndex) === categoryIndex">
+            {{ category.title }}
+          </button>
+          }
+        </div>
+
+        @if (!isViewOnly && !isAutoEvaluation && typeSheet !== 'simulated' &&
+        !evaluation?.categories?.[selectedCategoryIndex]?.title?.toLowerCase().includes('synthese globale') &&
+        (evaluation?.isSimulated || evaluation?.isSubmitted)) {
+        <button class="recover-evaluation-btn" (click)="openRecoverEvaluationModal()" [disabled]="isLoadingRecoverData">
+          <i class="pi pi-download"></i>
+          <span>Récupérer les données</span>
+        </button>
+        }
+      </div>
+
+      @if (evaluation?.categories?.[selectedCategoryIndex]?.sections &&
+      evaluation.categories[selectedCategoryIndex].sections.length > 0) {
+      <div class="section-tabs">
+        @for (section of evaluation?.categories?.[selectedCategoryIndex]?.sections || []; track section.title) {
+        <button (click)="selectSection($index)" [class.active]="selectedSectionIndex === $index"
+          class="section-tab-btn">
+          <span class="section-title">{{ section.title }}</span>
+          @if (hasSelectedScore(section.indicators) && !isViewOnly) {
+          <i class="pi pi-refresh reset-section-icon" (click)="resetCurrentSection(); $event.stopPropagation()"
+            title="Réinitialiser cette section"></i>
+          }
+        </button>
+        }
+      </div>
+      }
+
+      @if (isGlobalSynthesisEiaApi()) {
+      <app-global-evaluation-synthesis [evaluationType]="getEvaluationType()" [eiaNumber]="eiaNumberForTemplate"
+        [apiCallFunction]="getGlobalEvaluationSynthesisApiCall()">
+      </app-global-evaluation-synthesis>
+      } @else if (evaluation?.categories?.[selectedCategoryIndex]?.title === 'SYNTHESE GLOBALE') {
+      <app-synthese-globale [evaluation]="evaluation" [isViewOnly]="isViewOnly" [typeSheet]="typeSheet"
+        [isAcceptanceMode]="isAcceptanceMode" (submitButtonStateChange)="onSyntheseGlobaleStateChange($event)"
+        (agentCommentChange)="onAgentCommentChange($event)">
+      </app-synthese-globale>
+      } @else if (evaluation?.categories?.[selectedCategoryIndex]?.title?.toLowerCase().includes('formations')) {
+      <app-eia-formations [formationsData]="formationsData" [isLoading]="isLoadingFormationsData"
+        [autresFormationsData]="autresFormationsData" [isLoadingAutresFormations]="isLoadingAutresFormationsData"
+        [eiaNumber]="eiaNumberForTemplate" [typeSheet]="typeSheet" [isViewOnly]="isViewOnly"
+        [isSimulated]="evaluation?.isSimulated" [isSubmitted]="evaluation?.isSubmitted" [employeeId]="employeeId"
+        [currentUser]="currentUser" [selectedAgent]="selectedAgent" [isAutoEvaluation]="isAutoEvaluation"
+        [dashboardGrafanaUrl]="dashboardGrafanaUrl" (selectionChange)="onFormationSelectionChange($event)"
+        (refreshRequested)="onFormationsRefreshRequested()"
+        (autresFormationsRefreshRequested)="onAutresFormationsRefreshRequested()"
+        (autresFormationsOpenRecoverModalRequested)="onAutresFormationsOpenRecoverModalRequested()">
+      </app-eia-formations>
+      } @else if (evaluation?.categories?.[selectedCategoryIndex]?.title === 'COMPETENCES REQUISES') {
+      <app-eia-competences [competences]="competencesData" [showFetchButton]="!isAutoEvaluation && !isViewOnly"
+        [isLoading]="isLoadingCompetencesData"
+        [eiaNumber]="evaluation?.eiaNumber || evaluation?.campaign?.eiaNumber || ''" [typeSheet]="typeSheet"
+        [isViewOnly]="isViewOnly" [isSimulated]="evaluation?.isSimulated" [isSubmitted]="evaluation?.isSubmitted"
+        [isLoadingRecoverData]="isLoadingRecoverData" (selectionChange)="onCompetenceSelectionChange($event)"
+        (recoverCompetencesRequested)="recoverCompetencesData($event)">
+      </app-eia-competences>
+      } @else if (evaluation?.categories?.[selectedCategoryIndex]?.title === 'CARRIERE') {
+      @if (!isViewOnly && !isAutoEvaluation && typeSheet !== 'simulated' && (evaluation?.isSimulated ||
+      evaluation?.isSubmitted)) {
+      <div class="recover-section-data">
+        <div class="recover-section-header">
+          <h4>Récupérer les données de carrière</h4>
+          <p>Choisissez la source des données à récupérer :</p>
+        </div>
+        <div class="recover-section-buttons">
+          @if (evaluation?.isSubmitted) {
+          <button class="recover-section-btn recover-submitted" (click)="recoverCareerData('submitted')"
+            [disabled]="isLoadingRecoverData">
+            <i class="pi pi-user"></i>
+            <span>Auto-évaluation</span>
+          </button>
+          }
+          @if (evaluation?.isSimulated) {
+          <button class="recover-section-btn recover-simulated" (click)="recoverCareerData('simulated')"
+            [disabled]="isLoadingRecoverData">
+            <i class="pi pi-play"></i>
+            <span>Simulation</span>
+          </button>
+          }
+        </div>
+      </div>
+      }
+
+      <app-eia-career [career]="careerData" [showFetchButton]="!isAutoEvaluation && !isViewOnly"
+        [isLoading]="isLoadingCareerData" [isViewOnly]="isViewOnly && !isAcceptanceMode"
+        [isAcceptanceMode]="isAcceptanceMode" (save)="onCareerSave($event)" (fetch)="onCareerFetch()">
+      </app-eia-career>
+      } @else if (evaluation?.categories?.[selectedCategoryIndex]?.sections &&
+      evaluation.categories[selectedCategoryIndex].sections.length > 0) {
+      <div class="evaluation-grid">
+        @let section = evaluation?.categories?.[selectedCategoryIndex]?.sections?.[selectedSectionIndex];
+        @if (section) {
+        @for (indicator of section.indicators || []; track indicator.indicatorId) {
+        <div class="indicator-block">
+          <h4 class="indicator-title">{{ indicator.label }}</h4>
+          @if (indicator.detail) {
+          <p class="indicator-detail">{{ indicator.detail }}</p>
+          }
+          <table class="objective-table">
+            <tbody>
+              @for (level of indicator.indicatorLevels; let levelIdx = $index; track level.id) {
+              <tr (click)="!isViewOnly && selectIndicatorScore(indicator, level.score)"
+                [class.selected]="indicator.selectedScore == level.score" [class.view-only-row]="isViewOnly">
+                <td>{{ level.title }}</td>
+                <td>{{ getScoreAppreciation(level.score) }} ({{ level.score | number:'1.0-0' }})</td>
+                <td>
+                  <input type="radio" name="indicator-{{ indicator.indicatorId }}" [value]="level.score"
+                    [checked]="indicator.selectedScore == level.score" [disabled]="isViewOnly"
+                    (click)="!isViewOnly && selectIndicatorScore(indicator, level.score); $event.stopPropagation()" />
+                </td>
+                @if (levelIdx === 0 && !isViewOnly) {
+                <td [attr.rowspan]="indicator.indicatorLevels.length">
+                  <button class="p-button-rounded p-button-dark" type="button"
+                    (click)="!isViewOnly && selectIndicatorScore(indicator, null); $event.stopPropagation()"
+                    title="Réinitialiser" [disabled]="isViewOnly">
+                    <span class="reset-icon">&#8634;</span>
+                  </button>
+                </td>
+                }
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        }
+        }
+      </div>
+      } @else {
+      }
+
+      <!-- Commentaires et recommandations pour les sections SAVOIR en campagne halfway -->
+      @if (shouldShowCommentsAndRecommendations()) {
+      <div class="comments-recommendations-section">
+        <div class="comments-recommendations-header">
+          <h4>Commentaires et recommandations de la hierarchie</h4>
+          <p class="section-info">Cette section permet d'ajouter des commentaires et recommandations spécifiques pour
+            cette section d'évaluation.</p>
+        </div>
+
+        <div class="comments-recommendations-content">
+          <div class="comment-recommendation-block">
+            <textarea id="section-comment-recommendation" class="comment-recommendation-textarea"
+              [value]="getCurrentSectionCommentAndRecommendation()"
+              (input)="onCommentAndRecommendationChange($any($event.target).value)" [disabled]="isViewOnly"
+              placeholder="Ajoutez vos commentaires et recommandations pour cette section..." rows="3">
+              </textarea>
+          </div>
+        </div>
+      </div>
+      }
+      <!-- Footer général -->
+      @if (!(evaluation?.categories?.[selectedCategoryIndex]?.title?.toLowerCase().includes('formations'))) {
+      <div class="evaluation-footer">
+        @if (evaluation?.categories?.[selectedCategoryIndex]?.title?.toLowerCase().includes('synthese globale')) {
+        <div class="results">
+          <div class="competences-footer-title">SYNTHESE GLOBALE</div>
+        </div>
+        <div class="footer-actions">
+          <button class="export-button" (click)="exportSynthesePdfFromFooter()" [disabled]="isExportingPdf">
+            <i class="pi" [ngClass]="isExportingPdf ? 'pi-spin pi-spinner' : 'pi-upload'"></i>
+            {{ isExportingPdf ? 'Ouverture...' : 'Exporter' }}
+          </button>
+          <button class="export-complete-button" (click)="exportCompleteEiaPdfFromFooter()" [disabled]="isExportingPdf">
+            <i class="pi" [ngClass]="isExportingPdf ? 'pi-spin pi-spinner' : 'pi-download'"></i>
+            {{ isExportingPdf ? 'Ouverture...' : 'Exporter fiche complète' }}
+          </button>
+          @if (!isViewOnly) {
+          <button class="recalculate-button" (click)="calculateSyntheseGlobale()">
+            <i class="pi pi-calculator"></i> Recalculer
+          </button>
+          }
+        </div>
+        } @else if (evaluation?.categories?.[selectedCategoryIndex]?.title === 'COMPETENCES REQUISES') {
+        <div class="results">
+          <div class="competences-footer-title">COMPETENCES REQUISES</div>
+        </div>
+        <div class="footer-actions" *ngIf="!isViewOnly">
+          @if (!competencesAllSelected) {
+          <div class="competences-alert-info-inline">
+            <i class="pi pi-info-circle"></i>
+            <span>Vous devez renseigner un niveau pour chaque compétence avant de pouvoir enregistrer.</span>
+          </div>
+          }
+          <button class="save-button" (click)="openConfirmDialog('competences')" [disabled]="!competencesAllSelected">
+            Enregistrer
+          </button>
+        </div>
+        } @else if (evaluation?.categories?.[selectedCategoryIndex]?.title === 'CARRIERE') {
+        <div class="results">
+          <div class="competences-footer-title">CARRIERE</div>
+        </div>
+        <div class="footer-actions" *ngIf="!isViewOnly || isAcceptanceMode">
+          <button class="save-button" (click)="openConfirmDialog('career')">
+            Enregistrer
+          </button>
+        </div>
+        } @else if (evaluation?.categories?.[selectedCategoryIndex]?.title === 'SYNTHÈSE GLOBALE EIA & API') {
+        <div class="results">
+          <div class="competences-footer-title">SYNTHÈSE GLOBALE EIA & API</div>
+        </div>
+        <div class="footer-actions">
+          <button type="button" class="btn btn-outline-success" (click)="exportSynthesePdfFromFooter()"
+            [disabled]="isExportingPdf" title="Télécharger la fiche de synthèse globale">
+            <i class="pi" [ngClass]="isExportingPdf ? 'pi-spin pi-spinner' : 'pi-upload'"></i>
+            {{ isExportingPdf ? 'Ouverture...' : 'Télécharger' }}
+          </button>
+        </div>
+        }@else {
+        <div class="results">
+          <div>
+            Résultat de {{ getCurrentSectionShortTitle() }} :
+            <strong>
+              {{ getCurrentSectionScoreWithRubriques() }}
+            </strong>
+            <span class="appreciation-badge" [ngClass]="getAppreciationBadgeClass(
+                    getCurrentSectionScored(),
+                    getCurrentSectionEvaluatedCount(),
+                    getCurrentSectionAppreciation()
+                  )">
+              {{ getCurrentSectionAppreciation() }}
+            </span>
+            <span class="indicators-count">
+              ({{ getCurrentSectionEvaluatedCount() }}/{{
+              evaluation?.categories?.[selectedCategoryIndex]?.sections?.[selectedSectionIndex]?.indicators?.length || 0
+              }} rubriques)
+            </span>
+          </div>
+          <div>
+            Résultat Global :
+            <strong>
+              {{ getCurrentCategoryScoreWithRubriques() }}
+            </strong>
+            <span class="appreciation-badge" [ngClass]="getAppreciationBadgeClass(
+                    getCategoryScored(evaluation?.categories?.[selectedCategoryIndex]),
+                    getEvaluatedIndicatorsCount(evaluation?.categories?.[selectedCategoryIndex]),
+                    getCurrentCategoryAppreciationFromApi()
+                  )">
+              {{ getCurrentCategoryAppreciationFromApi() }}
+            </span>
+          </div>
+        </div>
+        <div class="footer-actions" *ngIf="!isViewOnly">
+          <button class="save-button" (click)="openConfirmDialog('save')" [disabled]="isSavingSection">
+            <i class="pi" [ngClass]="isSavingSection ? 'pi-spin pi-spinner' : 'pi-save'"></i>
+            {{ isSavingSection ? 'Sauvegarde...' : 'Enregistrer' }}
+          </button>
+        </div>
+        }
+      </div>
+      }
+
+    </div>
+  </div>
+</div>
+
+@if (isExportingPdf) {
+<div class="pdf-loader-overlay">
+  <div class="pdf-loader-modal">
+    <div class="pdf-progress-header">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: #28a745;"></i>
+      <h3>Génération du PDF en cours...</h3>
+    </div>
+
+    <div class="pdf-progress-content">
+      <div class="progress-info">
+        <p>{{ pdfProgressMessage }}</p>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="pdfProgress"></div>
+        </div>
+        <div class="progress-text">
+          @if (pdfTotalSteps > 0) {
+          {{ pdfCurrentStep }}/{{ pdfTotalSteps }} étapes
+          }
+          <span class="progress-percentage">({{ pdfProgress }}%)</span>
+        </div>
+      </div>
+
+      <div class="pdf-steps">
+        <div class="step" [class.active]="pdfProgress >= 16">
+          <i class="pi" [ngClass]="pdfProgress >= 16 ? 'pi-check-circle' : 'pi-circle'"></i>
+          <span>Vérification des templates</span>
+        </div>
+        <div class="step" [class.active]="pdfProgress >= 33">
+          <i class="pi" [ngClass]="pdfProgress >= 33 ? 'pi-check-circle' : 'pi-circle'"></i>
+          <span>Chargement des templates</span>
+        </div>
+        <div class="step" [class.active]="pdfProgress >= 50">
+          <i class="pi" [ngClass]="pdfProgress >= 50 ? 'pi-check-circle' : 'pi-circle'"></i>
+          <span>Injection des données</span>
+        </div>
+        <div class="step" [class.active]="pdfProgress >= 66">
+          <i class="pi" [ngClass]="pdfProgress >= 66 ? 'pi-check-circle' : 'pi-circle'"></i>
+          <span>Conversion en PDF</span>
+        </div>
+        <div class="step" [class.active]="pdfProgress >= 100">
+          <i class="pi" [ngClass]="pdfProgress >= 100 ? 'pi-check-circle' : 'pi-circle'"></i>
+          <span>Sauvegarde</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+@if (isValidationInProgress) {
+<div class="validation-progress-overlay">
+  <div class="validation-progress-modal">
+    <div class="validation-progress-header">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: #007bff;"></i>
+      <h3>Validation en cours...</h3>
+    </div>
+
+    <div class="validation-progress-content">
+      <div class="progress-info">
+        <p>Sauvegarde automatique des sections en cours...</p>
+        <p class="current-section">{{ validationCurrentSectionName }}</p>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="validationProgress"></div>
+        </div>
+        <div class="progress-text">
+          {{ validationCurrentSection }}/{{ validationTotalSections }} sections
+          <span class="progress-percentage">({{ validationProgress }}%)</span>
+        </div>
+      </div>
+
+      <div class="validation-steps">
+        <div class="step" [class.active]="validationCurrentSection > 0">
+          <i class="pi pi-check-circle"></i>
+          <span>Sauvegarde des sections</span>
+        </div>
+        <div class="step" [class.active]="validationCurrentSection >= validationTotalSections">
+          <i class="pi"
+            [ngClass]="validationCurrentSection >= validationTotalSections ? 'pi-spin pi-spinner' : 'pi-circle'"></i>
+          <span>Validation finale</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+<!-- Modal de récupération des données -->
+@if (showRecoverDataModal) {
+<div class="modal-overlay" (click)="closeRecoverDataModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>
+        @if (recoverDataType === 'evaluation') {
+        Récupérer les données d'évaluation
+        } @else if (recoverDataType === 'competences') {
+        Récupérer les données de compétences
+        } @else if (recoverDataType === 'career') {
+        Récupérer les données de carrière
+        } @else if (recoverDataType === 'autres-formations') {
+        Récupérer les données d'autres formations
+        } @else {
+        Récupérer les données
+        }
+      </h3>
+      <button class="modal-close" (click)="closeRecoverDataModal()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p>
+        @if (recoverDataType === 'evaluation') {
+        Choisissez la source des données à récupérer pour l'ensemble SAVOIR, SAVOIR-FAIRE et SAVOIR-ETRE :
+        } @else if (recoverDataType === 'competences') {
+        Choisissez la source des données de compétences à récupérer :
+        } @else if (recoverDataType === 'career') {
+        Choisissez la source des données de carrière à récupérer :
+        } @else if (recoverDataType === 'autres-formations') {
+        Choisissez la source des données d'autres formations à récupérer :
+        } @else {
+        Choisissez la source des données à récupérer :
+        }
+      </p>
+
+      <div class="recover-options">
+        @if (evaluation?.isSubmitted) {
+        <button class="recover-option" (click)="recoverDataFrom('submitted')" [disabled]="isLoadingRecoverData">
+          <i class="pi pi-user"></i>
+          <div class="option-content">
+            <h4>Fiche d'auto-évaluation</h4>
+            <p>Récupérer les données de l'auto-évaluation de l'agent</p>
+          </div>
+        </button>
+        }
+
+        @if (evaluation?.isSimulated) {
+        <button class="recover-option" (click)="recoverDataFrom('simulated')" [disabled]="isLoadingRecoverData">
+          <i class="pi pi-play"></i>
+          <div class="option-content">
+            <h4>Fiche de simulation</h4>
+            <p>Récupérer les données de votre simulation précédente</p>
+          </div>
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="modal-cancel" (click)="closeRecoverDataModal()">
+        Annuler
+      </button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- Modal de récupération des données d'évaluation -->
+@if (showRecoverEvaluationModal) {
+<div class="modal-overlay" (click)="closeRecoverEvaluationModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Récupérer les données d'évaluation</h3>
+      <button class="modal-close" (click)="closeRecoverEvaluationModal()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p>Choisissez la source des données à récupérer pour l'ensemble SAVOIR, SAVOIR-FAIRE et SAVOIR-ETRE :</p>
+
+      <div class="recover-options">
+        @if (evaluation?.isSubmitted) {
+        <button class="recover-option" (click)="recoverEvaluationData('submitted')" [disabled]="isLoadingRecoverData">
+          <i class="pi pi-user"></i>
+          <div class="option-content">
+            <h4>Auto-évaluation</h4>
+            <p>Récupérer les données de l'auto-évaluation de l'agent</p>
+          </div>
+        </button>
+        }
+
+        @if (evaluation?.isSimulated) {
+        <button class="recover-option" (click)="recoverEvaluationData('simulated')" [disabled]="isLoadingRecoverData">
+          <i class="pi pi-play"></i>
+          <div class="option-content">
+            <h4>Simulation</h4>
+            <p>Récupérer les données de votre simulation précédente</p>
+          </div>
+        </button>
+        }
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="modal-cancel" (click)="closeRecoverEvaluationModal()">
+        Annuler
+      </button>
+    </div>
+  </div>
+</div>
+}

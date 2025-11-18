@@ -70,7 +70,6 @@ export class MappingService {
             this.envService.messageApp.sourceSoldeDotation;
         this.sourceSoldeDotationOrange =
             this.envService.messageApp.sourceSoldeDotationOrange;
-
     }
 
     statutContrat(statut: string): any {

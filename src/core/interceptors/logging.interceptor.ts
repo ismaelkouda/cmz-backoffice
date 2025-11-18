@@ -1,7 +1,7 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { tap } from 'rxjs';
-import { ConfigurationService } from '../services/configuration.service';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
@@ -59,15 +59,15 @@ function isAssetRequest(req: HttpRequest<any>): boolean {
         '.woff',
         '.woff2',
         '.ttf',
-        '.ico'
+        '.ico',
     ];
 
-    return assetPatterns.some(pattern => 
-        req.url.includes(pattern)
-    );
+    return assetPatterns.some((pattern) => req.url.includes(pattern));
 }
 
 function isI18nRequest(req: HttpRequest<any>): boolean {
-    return req.url.includes('/assets/i18n/') || 
-           req.url.includes('.json') && req.url.includes('i18n');
+    return (
+        req.url.includes('/assets/i18n/') ||
+        (req.url.includes('.json') && req.url.includes('i18n'))
+    );
 }

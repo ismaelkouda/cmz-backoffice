@@ -377,10 +377,11 @@
                             type="button"
                             class="p-button-secondary"
                             icon="pi pi-eye"
-                            [label]="'VIEW' | translate"
                             (click)="viewFile('piece_gerant')"
                             [disabled]="!slaContactsForm.value.piece_gerant"
-                        ></button>
+                        >
+                            {{ 'VIEW' | translate }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -455,9 +456,10 @@
                             type="button"
                             class="p-button-secondary"
                             icon="pi pi-eye"
-                            [label]="'VIEW' | translate"
                             (click)="viewFile('fichier_rccm')"
-                        ></button>
+                        >
+                            {{ 'VIEW' | translate }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -547,9 +549,10 @@
                             type="button"
                             class="p-button-secondary"
                             icon="pi pi-eye"
-                            [label]="'VIEW' | translate"
                             (click)="viewFile('fichier_dfe')"
-                        ></button>
+                        >
+                            {{ 'VIEW' | translate }}
+                        </button>
                     </div>
                 </div>
             </div>

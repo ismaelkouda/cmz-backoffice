@@ -67,13 +67,13 @@ import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-cust
 })
 export class FilterIndividualsComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<IndividualsFilterInterface | {}>();
-    @Input() listIndividualsStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    @Input() listIndividualsStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
 
     public formFilter!: FormGroup<IndividualsFilterInterface>;
     private destroy$ = new Subject<void>();
 
-    public secondFilter: boolean = false;
-    public thirdFilter: boolean = false;
+    public secondFilter = false;
+    public thirdFilter = false;
 
     constructor(
         private fb: FormBuilder,

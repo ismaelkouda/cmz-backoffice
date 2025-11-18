@@ -23,11 +23,9 @@ export class SlaContactsComponent implements OnInit, OnDestroy {
     public subModule!: string;
     public formMode!: T_SLA_CONTACTS_FORM_MODE_ENUM;
     public slaContacts$!: Observable<SlaContactsInterface>;
-    public spinner: boolean = true;
-    public tabPanelIndexActive: number = 0;
-    public BUTTON_LABEL_FORM: {
-        [key in T_SLA_CONTACTS_FORM_MODE_ENUM]: string;
-    } = {
+    public spinner = true;
+    public tabPanelIndexActive = 0;
+    public BUTTON_LABEL_FORM: Record<T_SLA_CONTACTS_FORM_MODE_ENUM, string> = {
         [SLA_CONTACTS_FORM_MODE_ENUM.SEE]: 'Voir',
         [SLA_CONTACTS_FORM_MODE_ENUM.EDIT]: 'Modifier',
     };

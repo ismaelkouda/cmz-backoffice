@@ -33,11 +33,13 @@ export class RequestsServiceApiService {
         toastService: ToastrService,
         goOut?: () => void
     ): void {
-        if (this.loadingCreateCustomersActivateSubject.getValue()) return;
+        if (this.loadingCreateCustomersActivateSubject.getValue()) {
+            return;
+        }
         this.loadingCreateCustomersActivateSubject.next(true);
         const url: string = RequestsServiceEndpointEnum.REQUESTS_SERVICE_STORE;
         this.httpClient
-            .post<Object>(this.BASE_URL + url, data)
+            .post<object>(this.BASE_URL + url, data)
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {

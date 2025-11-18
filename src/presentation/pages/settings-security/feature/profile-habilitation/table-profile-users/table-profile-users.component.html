@@ -1,0 +1,181 @@
+<p-table
+    #dt
+    [value]="listUsers$ | async"
+    [rowHover]="true"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+    dataKey="id"
+    selectionMode="multiple"
+    [(selection)]="selectedUsers"
+    (selectionChange)="onSelectionChange()"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-profile-users-table"
+>
+    <ng-template pTemplate="caption">
+        <div
+            class="d-flex justify-content-between flex-wrap align-items-center"
+        >
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (export)="onExportExcel()"
+                    (refresh)="onRefresh()"
+                    (other)="onAssign()"
+                    [disabledButtonExport]="
+                        spinner || (listUsers$ | async)?.length === 0
+                    "
+                    [disabledButtonRefresh]="spinner"
+                    [hiddenButtonOther]="hideAssignButton"
+                    [labelOther]="'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ASSIGN'"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center',
+                }"
+                scope="col"
+            >
+                {{ col.header | translate }}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
+        <tr>
+            <td style="width: 3rem">
+                <p-tableCheckbox [value]="item"></p-tableCheckbox>
+            </td>
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header | translate"
+            >
+                <ng-container [ngSwitch]="col.field">
+                    <ng-container *ngSwitchCase="'__index'">
+                        {{
+                            ((pagination$ | async)?.current_page - 1 || 0) *
+                                ((pagination$ | async)?.per_page || 0) +
+                                rowIndex +
+                                1
+                        }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'matricule'">
+                        <button
+                            type="button"
+                            (click)="copyToClipboard(item.matricule)"
+                            (keydown.enter)="copyToClipboard(item.matricule)"
+                            (keydown.space)="
+                                $event.preventDefault();
+                                copyToClipboard(item.matricule)
+                            "
+                            class="copyable"
+                            pTooltip="{{ 'COPY' | translate }}"
+                            tooltipPosition="bottom"
+                        >
+                            {{ item.matricule }}
+                        </button>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'fullName'">
+                        {{ item.fullName }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'email'">
+                        {{ item.email }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'status'">
+                        <ng-container
+                            *ngIf="
+                                getStatusLabel(item.status) as statusLabel;
+                                else noStatus
+                            "
+                        >
+                            <p-tag
+                                [value]="statusLabel"
+                                [severity]="getStatusSeverity(item.status)"
+                                class="statut-tag"
+                            ></p-tag>
+                        </ng-container>
+                        <ng-template #noStatus>-</ng-template>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                        {{ item[col.field] || '-' }}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr
+            *ngIf="(listUsers$ | async)?.length <= 0 && !spinner"
+            class="loading-table"
+        >
+            <td class="posRelative" [attr.colspan]="table.cols.length + 1">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner" class="loading-table">
+            <td class="posRelative" [attr.colspan]="table.cols.length + 1">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<div class="table-actions-footer mt-3" *ngIf="selectedUsers.length > 0">
+    <button
+        type="button"
+        class="btn btn-warning"
+        (click)="onReassign()"
+    >
+        <i class="pi pi-refresh"></i>
+        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.REASSIGN' | translate }}
+    </button>
+    <button
+        type="button"
+        class="btn btn-danger"
+        (click)="onRemove()"
+    >
+        <i class="pi pi-times"></i>
+        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.RETIRE' | translate }}
+    </button>
+</div>
+

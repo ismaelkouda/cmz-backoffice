@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
-import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
-import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
+import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import {
-    T_TYPE_CUSTOMERS_ENUM,
     TYPE_CUSTOMERS_ENUM,
+    T_TYPE_CUSTOMERS_ENUM,
 } from '../../../../../shared/enum/type-customers.enum';
 import { CustomersActivateInterface } from '../../../../../shared/interfaces/customers-activate.interface';
 import { MenuItem } from '../../../../../shared/interfaces/menu-item.interface';
@@ -37,23 +37,23 @@ import { FORM, INVOICE, PAYMENT } from '../../requests-service-routing.module';
     imports: [
         CommonModule,
         BreadcrumbComponent,
-        PatrimoineHeaderComponent,
+        PageTitleComponent,
         FilterCustomersActivateComponent,
         TableCustomersActivateComponent,
-        ParginationComponent,
-        TranslateModule
+        PaginationComponent,
+        TranslateModule,
     ],
 })
 export class CustomersActivateComponent implements OnInit, OnDestroy {
-    public module: string = '';
-    public subModule: string = '';
+    public module = '';
+    public subModule = '';
     public pagination$!: Observable<Paginate<CustomersActivateInterface>>;
     public listCustomersActivate$!: Observable<CustomersActivateInterface[]>;
-    public spinner: boolean = true;
+    public spinner = true;
     private destroy$ = new Subject<void>();
-    public listCustomersActivateStep: Array<T_CUSTOMERS_ACTIVATE_STEP_ENUM> =
+    public listCustomersActivateStep: T_CUSTOMERS_ACTIVATE_STEP_ENUM[] =
         Object.values(CUSTOMERS_ACTIVATE_STEP_ENUM);
-    public listCustomersActivateState: Array<T_CUSTOMERS_ACTIVATE_STATE_ENUM> =
+    public listCustomersActivateState: T_CUSTOMERS_ACTIVATE_STATE_ENUM[] =
         Object.values(CUSTOMERS_ACTIVATE_STATE_ENUM);
     private STORAGE_KEY!: string;
 
@@ -85,7 +85,7 @@ export class CustomersActivateComponent implements OnInit, OnDestroy {
     }
     private setupNavigationListener(): void {
         const menuItems = this.encodingService.getData('menu') as
-            | Array<MenuItem>
+            | MenuItem[]
             | [];
         this.activatedRoute.url.pipe(takeUntil(this.destroy$)).subscribe(() => {
             const url = this.router.url.split('?')[0];
@@ -132,7 +132,9 @@ export class CustomersActivateComponent implements OnInit, OnDestroy {
     }
 
     public executeNavigation(params: CustomersActivatePageActionsType): void {
-        if (!params.action) return;
+        if (!params.action) {
+            return;
+        }
         const number_demand = params.data ?? null;
         const ref = params.action;
         const type_enterprise: T_TYPE_CUSTOMERS_ENUM =

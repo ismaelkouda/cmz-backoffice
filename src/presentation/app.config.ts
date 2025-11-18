@@ -2,7 +2,7 @@ import {
     provideHttpClient,
     withFetch,
     withInterceptors,
-    withJsonpSupport
+    withJsonpSupport,
 } from '@angular/common/http';
 import {
     ApplicationConfig,
@@ -22,44 +22,62 @@ import {
 } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import Aura from '@primeng/themes/aura';
+import { provideToastr } from 'ngx-toastr';
+import { providePrimeNG } from 'primeng/config';
+import { CoreModule } from '../core/core.module';
 import { apiInterceptor } from '../core/interceptors/api.interceptor';
 import { authInterceptor } from '../core/interceptors/auth.interceptor';
 import { cacheInterceptor } from '../core/interceptors/cache.interceptor';
 import { errorHandlerInterceptor } from '../core/interceptors/error-handler.interceptor';
 import { loggingInterceptor } from '../core/interceptors/logging.interceptor';
 
-import { TranslationManagerService } from '../core/services/translation-manager.service';
-
 import { ConfigurationService } from '../core/services/configuration.service';
-
-import { CoreModule } from '../core/module/core.module';
-
-import { provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
-import { provideToastr } from 'ngx-toastr';
+import { TranslationManagerService } from '../core/services/translation-manager.service';
 import { routes } from './app.routes';
+import { provideAuthentication } from './pages/authentication/di/authentication.providers';
+import { provideDashboard } from './pages/dashboard/di/dashboard.providers';
+import { provideApproval } from './pages/report-requests/di/approval.providers';
+import { provideQueue } from './pages/reports-processing/di/queue.providers';
+import { provideTreatment } from './pages/reports-processing/di/treatment.providers';
 
+import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
+import { provideWaiting } from './pages/report-requests/di/waiting.providers';
+import { provideDetails } from './pages/reports-processing/di/details.providers';
+import { provideFinalize } from './pages/reports-processing/di/finalize.providers';
+import { provideManagement } from './pages/reports-processing/di/management.providers';
+import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers';
+import { provideUser } from './pages/settings-security/di/user.providers';
+import { provideParticipant } from './pages/team-organization/di/participant.providers';
+import { provideTeam } from './pages/team-organization/di/team.providers';
 
 function initializeApp(): () => Promise<void> {
-  
-  return () => {
+    return () => {
         const injector = inject(EnvironmentInjector);
-        
+
         return runInInjectionContext(injector, async () => {
             const configService = inject(ConfigurationService);
             const translationManager = inject(TranslationManagerService);
 
             try {
-                console.log(`🚀 Application initializing in ${configService.environment} mode`);
+                console.log(
+                    `🚀 Application initializing in ${configService.environment} mode`
+                );
 
-                if (!configService.authenticationUrl && !configService.reportUrl && !configService.settingUrl ) {
+                if (
+                    !configService.authenticationUrl &&
+                    !configService.reportUrl &&
+                    !configService.settingUrl
+                ) {
                     throw new Error('Configuration API URL is required');
                 }
 
                 await translationManager.initialize();
-                
+
                 console.log('🎉 Application initialized successfully');
-                
             } catch (error) {
                 console.error('💥 Application initialization failed:', error);
                 throw error;
@@ -80,9 +98,12 @@ const environmentInterceptors = isDevMode()
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideZoneChangeDetection({ 
+        // Angular Animations (required for PrimeNG overlays)
+        provideAnimations(),
+
+        provideZoneChangeDetection({
             eventCoalescing: true,
-            runCoalescing: true 
+            runCoalescing: true,
         }),
 
         provideRouter(
@@ -91,7 +112,7 @@ export const appConfig: ApplicationConfig = {
                 skipInitialTransition: true,
                 onViewTransitionCreated: (transitionInfo) => {
                     console.log('🎭 View transition created:', transitionInfo);
-                }
+                },
             }),
             withInMemoryScrolling({
                 scrollPositionRestoration: 'enabled',
@@ -116,12 +137,12 @@ export const appConfig: ApplicationConfig = {
 
         provideTranslateHttpLoader({
             prefix: '../assets/i18n/',
-            suffix: '.json'
+            suffix: '.json',
         }),
 
         ...provideTranslateHttpLoader({
             prefix: '../assets/i18n/',
-            suffix: '.json'
+            suffix: '.json',
         }),
 
         provideServiceWorker('ngsw-worker.js', {
@@ -138,19 +159,43 @@ export const appConfig: ApplicationConfig = {
             newestOnTop: true,
             enableHtml: false,
             tapToDismiss: true,
-            
+
             maxOpened: 5,
             autoDismiss: true,
             iconClasses: {
                 error: 'toast-error',
                 info: 'toast-info',
                 success: 'toast-success',
-                warning: 'toast-warning'
-            }
+                warning: 'toast-warning',
+            },
         }),
 
         provideAppInitializer(initializeApp()),
 
         importProvidersFrom(CoreModule),
+
+        providePrimeNG({
+            theme: {
+                preset: Aura,
+                options: {
+                    darkModeSelector: false,
+                },
+            },
+        }),
+
+        ...provideAuthentication(),
+        ...provideDashboard(),
+        ...providePasswordReset(),
+        ...provideWaiting(),
+        ...provideApproval(),
+        ...provideDetails(),
+        ...provideTreatment(),
+        ...provideFinalize(),
+        ...provideQueue(),
+        ...provideManagement(),
+        ...provideUser(),
+        ...provideProfileHabilitation(),
+        ...provideParticipant(),
+        ...provideTeam(),
     ],
 };

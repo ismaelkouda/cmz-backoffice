@@ -1,7 +1,7 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { ConfigurationService } from '../services/configuration.service';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
@@ -19,10 +19,10 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
         return next(req);
     }
 
-     if (isAssetRequest(req) || isI18nRequest(req)) {
-        return next(req); 
+    if (isAssetRequest(req) || isI18nRequest(req)) {
+        return next(req);
     }
-    console.log("errorHandlerInterceptor req", req)
+    console.log('errorHandlerInterceptor req', req);
 
     return next(req).pipe(
         catchError((error) => {
@@ -82,7 +82,6 @@ function handleUnauthorizedError(): void {
     }
 }
 
-
 function isAssetRequest(req: HttpRequest<any>): boolean {
     const assetPatterns = [
         '/assets/',
@@ -97,17 +96,17 @@ function isAssetRequest(req: HttpRequest<any>): boolean {
         '.woff',
         '.woff2',
         '.ttf',
-        '.ico'
+        '.ico',
     ];
 
-    return assetPatterns.some(pattern => 
-        req.url.includes(pattern)
-    );
+    return assetPatterns.some((pattern) => req.url.includes(pattern));
 }
 
 function isI18nRequest(req: HttpRequest<any>): boolean {
-    return req.url.includes('/assets/i18n/') || 
-           req.url.includes('.json') && req.url.includes('i18n');
+    return (
+        req.url.includes('/assets/i18n/') ||
+        (req.url.includes('.json') && req.url.includes('i18n'))
+    );
 }
 
 function isStaticAssetRequest(req: HttpRequest<any>): boolean {
@@ -115,13 +114,22 @@ function isStaticAssetRequest(req: HttpRequest<any>): boolean {
         '/assets/',
         '/i18n/',
         '.json',
-        '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',
-        '.css', '.js', '.woff', '.woff2', '.ttf',
+        '.png',
+        '.jpg',
+        '.jpeg',
+        '.gif',
+        '.svg',
+        '.ico',
+        '.css',
+        '.js',
+        '.woff',
+        '.woff2',
+        '.ttf',
         'manifest.webmanifest',
-        'ngsw-worker.js'
+        'ngsw-worker.js',
     ];
-    
-    return staticPatterns.some(pattern => req.url.includes(pattern));
+
+    return staticPatterns.some((pattern) => req.url.includes(pattern));
 }
 
 function isAbsoluteUrl(url: string): boolean {
@@ -129,5 +137,9 @@ function isAbsoluteUrl(url: string): boolean {
 }
 
 function isExternalUrl(url: string): boolean {
-    return isAbsoluteUrl(url) && !url.includes('localhost') && !url.includes('127.0.0.1');
+    return (
+        isAbsoluteUrl(url) &&
+        !url.includes('localhost') &&
+        !url.includes('127.0.0.1')
+    );
 }

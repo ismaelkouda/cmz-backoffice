@@ -1,56 +1,119 @@
-import { Location } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
-import { LoadingBarService } from '@ngx-loading-bar/core';
-import { ToastrService } from 'ngx-toastr';
-import { LOGO_ANSUT } from '../../../../../shared/constants/logoAnsut.constant';
-import { PasswordResetService } from '../../data-access/password-reset.service';
+import { CommonModule, Location } from '@angular/common';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    OnDestroy,
+} from '@angular/core';
+import {
+    AbstractControl,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
+import { ForgotPasswordFormInterface } from '@pages/password-reset/data/interfaces/forgot-password-form.interface';
+import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-forgot-password',
+    standalone: true,
     templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.scss'],
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterLink],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ForgotPasswordComponent {
-    forgotPasswordForm = new FormGroup({
-        username: new FormControl('', [Validators.required, Validators.email]),
+export class ForgotPasswordComponent implements OnDestroy {
+    public readonly LOGO_ANSUT = LOGO_ANSUT;
+    public isEmailSent = false;
+
+    public forgotPasswordForm = new FormGroup<ForgotPasswordFormInterface>({
+        email: new FormControl('', {
+            validators: [Validators.required, Validators.email],
+            nonNullable: true,
+        }),
     });
-    isModal: boolean = false;
-    public submitted: boolean = false;
-    public title =
-        'Mot de passe oublié - Système de Gestion de Collecte Centralisée';
-    public LOGO_ANSUT = LOGO_ANSUT;
-    private response: any = {};
+
+    private destroy$ = new Subject<void>();
+    public readonly config = inject(AppCustomizationService).config;
+    public readonly isForgotPasswordLoading$ =
+        this.passwordResetFacade.isForgotPasswordLoading$;
 
     constructor(
-        private location: Location,
-        private passwordResetService: PasswordResetService,
-        private toastrService: ToastrService,
-        private titleService: Title,
-        private loadingBar: LoadingBarService
-    ) {
-        this.titleService.setTitle(`${this.title}`);
+        private readonly passwordResetFacade: PasswordResetFacade,
+        private readonly location: Location
+    ) {}
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
-    async onFormForgotPassword(): Promise<void> {
-        this.submitted = true;
-        if (this.forgotPasswordForm.valid) {
-            // this.response = await handle(
-            //     () =>
-            //         this.passwordResetService.HandleForgotPassword(
-            //             this.forgotPasswordForm.value
-            //         ),
-            //     this.toastrService,
-            //     this.loadingBar
-            // );
-            // this.handleSuccessful(this.response);
+    get email(): AbstractControl<string> | null {
+        return this.forgotPasswordForm.get('email');
+    }
+
+    public isFieldInvalid(fieldName: 'email'): boolean {
+        const control = this.forgotPasswordForm.get(fieldName);
+        return !!(control && control.invalid && control.touched);
+    }
+
+    public getFieldError(fieldName: 'email'): string | null {
+        const control = this.forgotPasswordForm.get(fieldName);
+        if (!control || !control.errors || !control.touched) {
+            return null;
         }
+
+        if (control.errors['required']) {
+            return 'PASSWORD_RESET.FORM.EMAIL.REQUIRED';
+        }
+
+        if (control.errors['email']) {
+            return 'PASSWORD_RESET.FORM.EMAIL.INVALID_FORMAT';
+        }
+
+        return null;
     }
 
-    handleOpen() {
-        this.isModal = false;
+    public onSubmit(): void {
+        if (this.forgotPasswordForm.invalid) {
+            this.markFormAsTouched();
+            return;
+        }
+
+        const formValue = this.forgotPasswordForm.getRawValue();
+
+        this.passwordResetFacade
+            .forgotPassword(formValue)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.isEmailSent = true;
+                },
+                error: () => {
+                    // Error handled in facade
+                },
+            });
     }
-    onCancel() {
+
+    public onResendEmail(): void {
+        this.isEmailSent = false;
+        this.forgotPasswordForm.reset();
+    }
+
+    public onCancel(): void {
         this.location.back();
+    }
+
+    private markFormAsTouched(): void {
+        for (const control of Object.values(this.forgotPasswordForm.controls)) {
+            control.markAsTouched();
+        }
     }
 }

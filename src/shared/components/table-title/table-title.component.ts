@@ -1,7 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, Input } from '@angular/core';
+import { AppCustomizationService } from '../../services/app-customization.service';
 
 @Component({
     selector: 'app-table-title',
+    standalone: true,
+    imports: [CommonModule],
     template: `
         <div style="padding: 1.2rem 0 0.8rem 0">
             <span class="table-header-wrapper">
@@ -10,8 +14,11 @@ import { Component, Input } from '@angular/core';
                     <span *ngIf="!label">Total :</span>
                     <span class="text-success"> {{ count || 0 }}</span>
                     <span *ngIf="count > 0 && page && totalPage">
-                        [Page <span style="color: #5B9BD5;">{{ page }}</span> /
-                        {{ totalPage }}] [{{ perPage }}]
+                        [Page
+                        <span [style.color]="config.colors.primary">{{
+                            page
+                        }}</span>
+                        / {{ totalPage }}] [{{ perPage }}]
                     </span>
                 </b>
                 <b *ngIf="!page">
@@ -24,11 +31,12 @@ import { Component, Input } from '@angular/core';
     `,
 })
 export class TableTitleComponent {
+    public readonly config = inject(AppCustomizationService).config;
+
     @Input() label: boolean = true;
-    @Input() count: number;
-    @Input() page: number;
-    @Input() totalPage: number;
-    @Input() perPage: number;
-    @Input() legendeSingulier: string;
-    @Input() legendePluriel: string;
+    @Input() count!: number;
+    @Input() page!: number;
+    @Input() totalPage!: number;
+    @Input() perPage!: number;
+    @Input() title!: string;
 }

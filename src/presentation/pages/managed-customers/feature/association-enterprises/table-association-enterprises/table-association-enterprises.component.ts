@@ -36,20 +36,20 @@ export class TableAssociationEnterprisesComponent {
 
     @Input() spinner!: boolean;
     @Input() listAssociationEnterprises$: Observable<
-        Array<AssociationEnterprisesInterface>
-    > = new BehaviorSubject<Array<AssociationEnterprisesInterface>>([]);
+        AssociationEnterprisesInterface[]
+    > = new BehaviorSubject<AssociationEnterprisesInterface[]>([]);
     @Input() pagination$!: Observable<
         Paginate<AssociationEnterprisesInterface>
     >;
 
     @Input()
-    listAssociationEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    listAssociationEnterprisesStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
 
     public associationEnterpriseSelected!: AssociationEnterprisesInterface;
     public table: TableConfig = ASSOCIATION_ENTERPRISES_TABLE;
     private destroy$ = new Subject<void>();
 
-    public visibleForm: boolean = false;
+    public visibleForm = false;
 
     public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
         CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;

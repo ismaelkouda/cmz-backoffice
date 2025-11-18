@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { CurrentUser } from '@shared/interfaces/current-user.interface';
 import { EncodingDataService } from './encoding-data.service';
-import { CurrentUser } from '../interfaces/current-user.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -10,10 +10,10 @@ export class StorePathsService implements OnInit, OnDestroy {
     private readonly STORAGE_KEY = 'paths_data';
     private destroy$ = new Subject<void>();
 
-    private pathsSubject = new BehaviorSubject<Array<string> | null>(
+    private pathsSubject = new BehaviorSubject<string[] | null>(
         this.getStoredPaths()
     );
-    public paths$: Observable<Array<string> | null> =
+    public paths$: Observable<string[] | null> =
         this.pathsSubject.asObservable();
 
     constructor(
@@ -25,7 +25,7 @@ export class StorePathsService implements OnInit, OnDestroy {
         const user = this.encodingService.getData(
             'user_data'
         ) as CurrentUser | null;
-        this.setPaths(user?.paths as Array<string>);
+        this.setPaths(user?.paths as string[]);
     }
 
     ngOnDestroy() {
@@ -33,7 +33,7 @@ export class StorePathsService implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    private setPaths(paths: Array<string>): void {
+    private setPaths(paths: string[]): void {
         this.encodingDataService.saveData(
             this.STORAGE_KEY,
             JSON.stringify(paths),
@@ -42,12 +42,12 @@ export class StorePathsService implements OnInit, OnDestroy {
         this.pathsSubject.next(paths);
     }
 
-    public get getPaths(): Array<string> | null {
+    public get getPaths(): string[] | null {
         return this.pathsSubject.value;
     }
 
     /** Récupère le paths stocké dans this.encodingDataService */
-    private getStoredPaths(): Array<string> | null {
+    private getStoredPaths(): string[] | null {
         return this.encodingDataService.getData(this.STORAGE_KEY);
     }
 }

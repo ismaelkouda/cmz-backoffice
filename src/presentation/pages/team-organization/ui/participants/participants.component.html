@@ -1,0 +1,74 @@
+  <main class="container-fluid participant-container" role="main">
+      <section class="row participant-row">
+          <article class="col-sm-12 participant-article">
+              <app-breadcrumb
+                  class="participant-breadcrumb"
+                  [title]="module | translate"
+                  [active_item]="subModule | translate"
+              ></app-breadcrumb>
+
+        <section class="card participant-card">
+          <div class="card-body participant-card-body">
+            <header class="participant-header">
+              <app-page-title class="page-title-component"
+                [displayDate]="false"
+                [title]="'TEAM_ORGANIZATION.PARTICIPANT.HEADER.PLURAL' | translate"
+              >
+              </app-page-title>
+            </header>
+
+            <div class="fade-in participant-content">
+              <p-tabs
+              [value]="activeTabIndex"
+              (valueChange)="activeTabIndex = $event"
+            >
+              <p-tablist>
+                <p-tab value="0">
+                  {{ 'TEAM_ORGANIZATION.PARTICIPANT.TABS.PARTICIPANTS' | translate }}
+                </p-tab>
+                <p-tab value="1">
+                  {{ 'TEAM_ORGANIZATION.PARTICIPANT.TABS.HISTORY' | translate }}
+                </p-tab>
+              </p-tablist>
+              <p-tabpanels>
+                <p-tabpanel value="0">
+                  <app-filter-participant
+                    (filter)="filter($event)"
+                  ></app-filter-participant>
+                  <hr />
+                  <div class="table_content_wrapper">
+                    <!-- <app-table-button-header
+                      (refresh)="participantFacade.refresh()"
+                      (export)="onExportExcel()"
+                      [iconOther]="'pi pi-plus'"
+                      (other)="
+                        handleNavigation({
+                          data: null,
+                          action: 'ajouter',
+                          view: 'page'
+                        })
+                      "
+                      [labelOther]="'TEAM_ORGANIZATION.PARTICIPANT.BUTTONS.ADD'"
+                    >
+                    </app-table-button-header> -->
+                    <app-table-participant
+                      [spinner]="(spinner$ | async) ?? false"
+                      [listParticipants$]="participants$"
+                      (participantRequested)="handleParticipantRequested($event)"
+                      (refreshRequested)="handleRefresh()"
+                      (addParticipantRequested)="handleAddParticipant()"
+                    >
+                    </app-table-participant>
+                  </div>
+                </p-tabpanel>
+                <p-tabpanel value="1">
+                  <!-- History component to be implemented -->
+                </p-tabpanel>
+              </p-tabpanels>
+            </p-tabs>
+            </div>
+          </div>
+        </section>
+      </article>
+    </section>
+  </main>

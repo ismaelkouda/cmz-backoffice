@@ -24,7 +24,7 @@ export class AssociationEnterprisesApiService {
     }
 
     private associationEnterprisesSubject = new BehaviorSubject<
-        Array<AssociationEnterprisesInterface>
+        AssociationEnterprisesInterface[]
     >([]);
     private associationEnterprisesStatsSubject =
         new BehaviorSubject<AssociationEnterprisesStatsInterface>(
@@ -48,9 +48,11 @@ export class AssociationEnterprisesApiService {
         );
     fetchAssociationEnterprises(
         data: AssociationEnterprisesFilterInterface,
-        nbrPage: string = '1'
+        nbrPage = '1'
     ): void {
-        if (this.loadingAssociationEnterprisesSubject.getValue()) return;
+        if (this.loadingAssociationEnterprisesSubject.getValue()) {
+            return;
+        }
         this.loadingAssociationEnterprisesSubject.next(true);
         const url: string =
             AssociationEnterprisesEndpointEnum.CUSTOMERS_MANAGED_ASSOCIATION_ENTERPRISES.replace(
@@ -59,7 +61,7 @@ export class AssociationEnterprisesApiService {
             );
 
         this.httpClient
-            .post<Object>(this.BASE_URL + url, {
+            .post<object>(this.BASE_URL + url, {
                 ...data,
                 type_entreprise: TYPE_CUSTOMERS_ENUM.ASSOCIATION_ENTERPRISES,
             })
@@ -92,9 +94,7 @@ export class AssociationEnterprisesApiService {
             .subscribe();
     }
 
-    getAssociationEnterprises(): Observable<
-        Array<AssociationEnterprisesInterface>
-    > {
+    getAssociationEnterprises(): Observable<AssociationEnterprisesInterface[]> {
         return this.associationEnterprisesSubject.asObservable();
     }
     getAssociationEnterprisesPagination(): Observable<

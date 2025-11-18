@@ -1,38 +1,120 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
     <head>
         <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Meta tags SEO - Sera personnalisé par AppCustomizationService -->
+        <meta
+            name="description"
+            content="Système de Gestion des zones non connectées"
+        />
+        <meta
+            name="keywords"
+            content="Connect My Zone, Back-office, Gestion, Zones non connectées"
+        />
+        <meta name="author" content="Connect My Zone" />
+        <meta name="theme-color" content="#5B9BD5" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Connect My Zone Back-office" />
+        <meta
+            property="og:description"
+            content="Système de Gestion des zones non connectées"
+        />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Connect My Zone Back-office" />
+        <meta
+            name="twitter:description"
+            content="Système de Gestion des zones non connectées"
+        />
+
+        <!-- Titre par défaut - Sera personnalisé par AppCustomizationService -->
         <title>
-            Connect My Zone Back-office - Système de Gestion des zone non connectivité
+            Connect My Zone Back-office - Système de Gestion des zones non
+            connectées
         </title>
+
         <base href="/" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Preconnect to external domains for performance -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <!-- Favicon par défaut - Sera personnalisé par AppCustomizationService -->
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-            rel="stylesheet"/>
-<script src="assets/config/env.js"></script>
+        <link rel="apple-touch-icon" href="favicon.ico" />
+
+        <!-- Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Environment Configuration -->
+        <script src="assets/config/env.js"></script>
     </head>
     <body>
-        <app-root></app-root>
-        <script src="assets/feather.min.js"></script>
-        <script defer>
-            const url = location.protocol + '//' + location.host;
-            switch (url) {
-                case 'https://sim-monitoring.cateli.io:11555':
-                    title =
-                        'Système de Gestion du Patrimoine des Cartes SIM et des demandes de Produits & Services';
-                    break;
+        <!-- Angular Application Root -->
+        <app-root role="application" aria-label="Connect My Zone Back-office">
+            <div class="app-loading" role="status" aria-live="polite">
+                <p>Chargement de l'application...</p>
+            </div>
+        </app-root>
 
-                case 'https://osim-monitoring.orange.ci:11555':
-                    title = 'Système de surveillance de données Collectées';
-                    break;
+        <!-- Feather Icons -->
+        <script src="assets/feather.min.js" defer></script>
 
-                default:
-                    title =
-                        'Cateli Data Collector - Système de Gestion de Collecte Centralisée';
-                    break;
-            }
-            document.title = title;
+        <!-- Dynamic Title Configuration -->
+        <!-- Le titre sera configuré dynamiquement par AppCustomizationService -->
+        <!-- Ce script sert de fallback si le service n'est pas encore initialisé -->
+        <script>
+            (function () {
+                'use strict';
+
+                /**
+                 * Configure le titre de l'application en fonction de l'URL
+                 * Cette fonction est un fallback - AppCustomizationService prendra le relais
+                 * @returns {void}
+                 */
+                function configureAppTitle() {
+                    try {
+                        const url = location.protocol + '//' + location.host;
+                        const titleMap = {
+                            'https://sim-monitoring.cateli.io:11555':
+                                'Système de Gestion du Patrimoine des Cartes SIM et des demandes de Produits & Services',
+                            'https://osim-monitoring.orange.ci:11555':
+                                'Système de surveillance de données Collectées',
+                        };
+
+                        const title =
+                            titleMap[url] ||
+                            'Cateli Data Collector - Système de Gestion de Collecte Centralisée';
+
+                        document.title = title;
+                    } catch (error) {
+                        console.error(
+                            'Erreur lors de la configuration du titre:',
+                            error
+                        );
+                        document.title = 'Connect My Zone Back-office';
+                    }
+                }
+
+                // Exécuter la configuration du titre
+                if (document.readyState === 'loading') {
+                    document.addEventListener(
+                        'DOMContentLoaded',
+                        configureAppTitle
+                    );
+                } else {
+                    configureAppTitle();
+                }
+            })();
         </script>
     </body>
 </html>

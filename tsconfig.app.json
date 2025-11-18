@@ -3,10 +3,10 @@
     "baseUrl": "./src",
     "paths": {
       "@app/*": ["app/*"],
-      "@shared/*": ["src/shared/*"],
-      "@presentation/*": ["src/presentation/*"],
-      "@core/*": ["src/core/*"],
-      "@pages/*": ["src/presentation/pages/*"]
+      "@shared/*": ["shared/*"],
+      "@presentation/*": ["presentation/*"],
+      "@core/*": ["core/*"],
+      "@pages/*": ["presentation/pages/*"]
     },
     "outDir": "./out-tsc/app",
     "allowJs": true,
@@ -31,5 +31,6 @@
     "moduleResolution": "bundler",
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "include": ["src/**/*.d.ts"]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"],
+  "include": ["src/**/*.ts"]
 }

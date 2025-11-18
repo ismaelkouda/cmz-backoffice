@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Router, RouteReuseStrategy } from '@angular/router';
-import { CustomRouteReuseStrategy } from '../utils/custom-route-reuse-strategy';
+import { BehaviorSubject } from 'rxjs';
+import { CustomRouteReuseStrategy } from '@shared/utils/custom-route-reuse-strategy';
 import { EncodingDataService } from './encoding-data.service';
 
 export interface Tab {
@@ -53,7 +53,7 @@ export class TabService {
         }
     }
 
-    addTab(title: string, path: string, closable: boolean = true): void {
+    addTab(title: string, path: string, closable = true): void {
         const id = this.generateId(path);
         const tabs = this.tabs;
         console.log('tabs0', tabs);
@@ -103,8 +103,12 @@ export class TabService {
             `${tabs[index]?.path}_children_component`
         );
 
-        if (index === -1) return;
-        if (!tabs[index].closable) return;
+        if (index === -1) {
+            return;
+        }
+        if (!tabs[index].closable) {
+            return;
+        }
 
         const wasActive = tabs[index].active;
         const closedTabPath = tabs[index].path;

@@ -1,0 +1,104 @@
+<main class="container-fluid agent-form-container" role="main">
+    <section class="row agent-form-row">
+        <article class="col-sm-12 agent-form-article">
+            <app-breadcrumb
+                class="agent-form-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card agent-form-card">
+                <div class="card-body agent-form-card-body">
+                    <header class="agent-form-header">
+                        <h2 *ngIf="pageTitle | async as title">{{ title | translate }}</h2>
+                    </header>
+
+                    <div class="fade-in agent-form-content">
+                        <form [formGroup]="formAgent" (ngSubmit)="onSubmit()">
+                            <div class="form-group mb-3">
+                                <label for="code">
+                                    <b>{{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.CODE' | translate }}<span class="text-danger">*</span></b>
+                                </label>
+                                <input
+                                    id="code"
+                                    type="text"
+                                    pInputText
+                                    formControlName="code"
+                                    [readonly]="readOnly"
+                                    [class.ng-invalid]="
+                                        formAgent.get('code')?.invalid &&
+                                        formAgent.get('code')?.touched
+                                    "
+                                />
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        formAgent.get('code')?.invalid &&
+                                        formAgent.get('code')?.touched
+                                    "
+                                >
+                                    {{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.CODE_REQUIRED' | translate }}
+                                </small>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="nom">
+                                    <b>{{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.NAME' | translate }}<span class="text-danger">*</span></b>
+                                </label>
+                                <input
+                                    id="nom"
+                                    type="text"
+                                    pInputText
+                                    formControlName="nom"
+                                    [readonly]="readOnly"
+                                    [class.ng-invalid]="
+                                        formAgent.get('nom')?.invalid &&
+                                        formAgent.get('nom')?.touched
+                                    "
+                                />
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        formAgent.get('nom')?.invalid &&
+                                        formAgent.get('nom')?.touched
+                                    "
+                                >
+                                    {{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.NAME_REQUIRED' | translate }}
+                                </small>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="description">
+                                    <b>{{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.DESCRIPTION' | translate }}</b>
+                                </label>
+                                <textarea
+                                    id="description"
+                                    type="text"
+                                    pInputText
+                                    formControlName="description"
+                                    [readonly]="readOnly"
+                                    rows="4"
+                                    class="form-control"
+                                ></textarea>
+                            </div>
+                        </form>
+
+                        <div class="agent-form-actions">
+                            <p-button
+                                [label]="('CANCEL' | translate)"
+                                (onClick)="onCancel()"
+                                styleClass="p-button-secondary"
+                            ></p-button>
+                            <p-button
+                                *ngIf="!readOnly"
+                                [label]="('SAVE' | translate)"
+                                (onClick)="onSubmit()"
+                                styleClass="p-button-primary"
+                            ></p-button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

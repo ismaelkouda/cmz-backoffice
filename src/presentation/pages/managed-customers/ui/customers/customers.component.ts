@@ -2,10 +2,10 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
-import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
-import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
+import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { CustomersFilterInterface } from '../../data-access/customers/interfaces/customers-filter.interface';
@@ -22,11 +22,11 @@ import {
 import { FilterCustomersComponent } from '../../feature/customers/filter-customers/filter-customers.component';
 import { TableCustomersComponent } from '../../feature/customers/table-customers/table-customers.component';
 
-type PageAction = {
+interface PageAction {
     data: CustomersInterface;
     action: T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
     view: 'page';
-};
+}
 
 @Component({
     selector: 'app-customers',
@@ -34,13 +34,13 @@ type PageAction = {
     templateUrl: './customers.component.html',
     imports: [
         CommonModule,
-        PatrimoineHeaderComponent,
+        PageTitleComponent,
         BreadcrumbComponent,
         FilterCustomersComponent,
         TableCustomersComponent,
-        ParginationComponent,
+        PaginationComponent,
         AsyncPipe,
-        TranslateModule
+        TranslateModule,
     ],
 })
 export class CustomersComponent implements OnInit, OnDestroy {
@@ -48,10 +48,11 @@ export class CustomersComponent implements OnInit, OnDestroy {
     public subModule!: string;
     public pagination$!: Observable<Paginate<CustomersInterface>>;
     public listCustomers$!: Observable<CustomersInterface[]>;
-    public spinner: boolean = true;
+    public spinner = true;
     private destroy$ = new Subject<void>();
-    public listCustomersStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
-        Object.values(CUSTOMERS_MANAGED_STEP_ENUM);
+    public listCustomersStep: T_CUSTOMERS_MANAGED_STEP_ENUM[] = Object.values(
+        CUSTOMERS_MANAGED_STEP_ENUM
+    );
 
     constructor(
         private activatedRoute: ActivatedRoute,

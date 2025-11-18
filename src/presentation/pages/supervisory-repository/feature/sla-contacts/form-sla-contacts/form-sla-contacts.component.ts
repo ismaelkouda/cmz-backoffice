@@ -10,11 +10,12 @@ import {
     FormBuilder,
     FormControl,
     FormGroup,
+    ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, takeUntil } from 'rxjs';
 import { FormatFormData } from '../../../../../../shared/functions/formatFormData.function';
 import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
 import { SharedService } from '../../../../../../shared/services/shared.service';
@@ -25,14 +26,14 @@ import {
     SLA_CONTACTS_FORM_MODE_ENUM,
     T_SLA_CONTACTS_FORM_MODE_ENUM,
 } from './../../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
-const Swal = require('sweetalert2');
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-form-sla-contacts',
     standalone: true,
     templateUrl: './form-sla-contacts.component.html',
     styleUrls: ['./form-sla-contacts.component.scss'],
-    imports: [CommonModule, TranslateService],
+    imports: [CommonModule, TranslateModule, ReactiveFormsModule],
 })
 export class FormSlaContactsComponent implements OnChanges, OnDestroy {
     @Input() slaContacts!: SlaContactsInterface;

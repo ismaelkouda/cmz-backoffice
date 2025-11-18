@@ -37,7 +37,7 @@
                                 type="button"
                                 class="p-button-danger"
                                 (click)="onBack()"
-                                [label]="'CLOSE' | translate"
+                                [label]="'QUEUE' | translate"
                                 icon="pi pi-times"
                             ></button>
                         </div>
@@ -625,7 +625,6 @@
                                         placeholder="{{ 'SELECT' | translate }}"
                                         [filter]="true"
                                         filterBy="nom"
-                                         
                                         formControlName="forme_juridique_code"
                                     ></p-select>
                                 </div>
@@ -654,7 +653,7 @@
                                             type="button"
                                             class="p-button-secondary"
                                             icon="pi pi-eye"
-                                            [label]="'VIEW' | translate "
+                                            [label]="'VIEW' | translate"
                                             (click)="viewFile('fichier_rccm')"
                                             [disabled]="
                                                 !customersActivateForm.value

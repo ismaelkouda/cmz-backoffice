@@ -1,10 +1,7 @@
 <div class="page-header" [class.close_icon]="navServices.collapseSidebar">
     <div class="header-wrapper row m-0" *ngIf="statusLayout()">
-        <div
-            class="col col-12 horizontal-wrapper pl-0"
-            style="display: flex; justify-content: space-between"
-        >
-            <div class="nav-right" style="margin-top: 0.4rem">
+        <div class="col col-12 horizontal-wrapper pl-0">
+            <div class="nav-right">
                 <ul class="nav-menus">
                     <li class="profile-nav onhover-dropdown">
                         <app-my-account></app-my-account>
@@ -14,17 +11,20 @@
         </div>
     </div>
     <nav class="navbar m-0" [hidden]="statusLayout()">
-        <div
-            class="container-fluid d-flex justify-content-end align-items-center flex-wrap px-3 py-2 mr-10"
-        >
+        <div class="container-fluid d-flex 
+            justify-content-end align-items-center 
+            flex-wrap px-3 py-2 mr-10">
             <div class="d-flex gap-4 align-items-center">
-                <div style="padding-top: 0.5rem">
-                    <i
-                        class="pi pi-refresh header-icon"
-                        title="Rafraîchir"
-                        (onPress)="handleRefreshNotification()"
-                    ></i
-                    >
+                <div class="refresh-icon-wrapper">
+                    <button
+                        type="button"
+                        class="pi pi-refresh header-icon refresh-button"
+                        [title]="'LAYOUT.HEADER.REFRESH.TITLE' | translate"
+                        (click)="handleRefreshNotification()"
+                        [attr.aria-label]="
+                            'LAYOUT.HEADER.REFRESH.ARIA_LABEL' | translate
+                        "
+                    ></button>
                 </div>
                 <div>
                     <ul class="nav-menus mb-0">

@@ -753,7 +753,7 @@ import { TranslateService } from '@ngx-translate/core';
         public readonly BADGE_STEP = BADGE_ETAPE;
         public readonly BADGE_STATE = BADGE_ETAT;
 
-        constructor(private toastrService: ToastrService, private clipboardService: ClipboardService, private ngbModal: NgbModal,
+        constructor(private toastService: ToastrService, private clipboardService: ClipboardService, private ngbModal: NgbModal,
             private sharedService: SharedService, private tableExportExcelFileService: TableExportExcelFileService,
             private translate: TranslateService) { }
 
@@ -767,7 +767,7 @@ import { TranslateService } from '@ngx-translate/core';
 
         public copyToClipboard(data: string): void {
             const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
-            this.toastrService.success(translatedMessage);
+            this.toastService.success(translatedMessage);
             this.clipboardService.copyFromContent(data);
         }
 
@@ -917,11 +917,9 @@ import { TranslateService } from '@ngx-translate/core';
                         <div style="margin-top: -2rem !important">
 
 
-                            <app-patrimoine-header 
-                                [displayDate]="false" [total]="(pagination$ | async)?.total"
-                                [legendePluriel]="'MOBILE_SUBSCRIPTIONS' | translate" 
-                                [legendeSingulier]="'MOBILE_SUBSCRIPTIONS' | translate">
-                            </app-patrimoine-header>
+                            <app-page-title 
+                                [title]="'MOBILE_SUBSCRIPTIONS' | translate" 
+                            </app-page-title>
                                 
 
                         </div>
@@ -951,7 +949,7 @@ import { TranslateService } from '@ngx-translate/core';
                                 (interfaceUser)="navigateByUrl($event)">
                             </app-table-$subModuleName>
 
-                            <app-pargination [pargination]="pagination" (pageChange)="onPageChange($event)"></app-pargination>
+                            <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
 
                         </div>
 
@@ -1311,7 +1309,7 @@ if (-not (Test-Path $featurePath)) {
         public readonly BADGE_STEP = BADGE_ETAPE;
         public readonly BADGE_STATE = BADGE_ETAT;
 
-        constructor(private toastrService: ToastrService, private clipboardService: ClipboardService, private ngbModal: NgbModal,
+        constructor(private toastService: ToastrService, private clipboardService: ClipboardService, private ngbModal: NgbModal,
             private sharedService: SharedService, private tableExportExcelFileService: TableExportExcelFileService,
             private translate: TranslateService) { }
 
@@ -1325,7 +1323,7 @@ if (-not (Test-Path $featurePath)) {
 
         public copyToClipboard(data: string): void {
             const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
-            this.toastrService.success(translatedMessage);
+            this.toastService.success(translatedMessage);
             this.clipboardService.copyFromContent(data);
         }
 
@@ -1740,11 +1738,9 @@ if (-not (Test-Path $uiPath)) {
                         <div style="margin-top: -2rem !important">
 
 
-                            <app-patrimoine-header 
-                                [displayDate]="false" [total]="(pagination$ | async)?.total"
-                                [legendePluriel]="'MOBILE_SUBSCRIPTIONS' | translate" 
-                                [legendeSingulier]="'MOBILE_SUBSCRIPTIONS' | translate">
-                            </app-patrimoine-header>
+                            <app-page-title 
+                                [title]="'MOBILE_SUBSCRIPTIONS' | translate" 
+                            </app-page-title>
                                 
 
                         </div>
@@ -1774,7 +1770,7 @@ if (-not (Test-Path $uiPath)) {
                                 (interfaceUser)="navigateByUrl($event)">
                             </app-table-$subModuleName>
 
-                            <app-pargination [pargination]="pagination" (pageChange)="onPageChange($event)"></app-pargination>
+                            <app-pagination [pagination]="pagination" (pageChange)="onPageChange($event)"></app-pagination>
 
                         </div>
 

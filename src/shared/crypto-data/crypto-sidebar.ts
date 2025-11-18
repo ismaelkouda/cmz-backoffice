@@ -51,9 +51,9 @@ export class CryptoSidebar {
             const aeskey = await deriveKey(`${this.password}+${token}`, salt);
             //  generer la clef de decryptage
             const derypted = await crypto.subtle.decrypt(
-                { name: 'AES-GCM', iv },
+                { name: 'AES-GCM', iv: iv as BufferSource },
                 aeskey,
-                value
+                value as BufferSource
             );
 
             return new TextDecoder().decode(derypted);

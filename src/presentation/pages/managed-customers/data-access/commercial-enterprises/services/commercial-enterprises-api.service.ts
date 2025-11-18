@@ -25,7 +25,7 @@ export class CommercialEnterprisesApiService {
 
     /*********************Méthode pour récupérer la liste sim-card*************** */
     private commercialEnterprisesSubject = new BehaviorSubject<
-        Array<CommercialEnterprisesInterface>
+        CommercialEnterprisesInterface[]
     >([]);
     private commercialEnterprisesStatsSubject =
         new BehaviorSubject<CommercialEnterprisesStatsInterface>(
@@ -50,9 +50,11 @@ export class CommercialEnterprisesApiService {
 
     fetchCommercialEnterprises(
         data: CommercialEnterprisesFilterInterface,
-        nbrPage: string = '1'
+        nbrPage = '1'
     ): void {
-        if (this.loadingCommercialEnterprisesSubject.getValue()) return;
+        if (this.loadingCommercialEnterprisesSubject.getValue()) {
+            return;
+        }
         this.loadingCommercialEnterprisesSubject.next(true);
         const url: string =
             CommercialEnterprisesEndpointEnum.CUSTOMERS_MANAGED_COMMERCIAL_ENTERPRISE.replace(
@@ -61,7 +63,7 @@ export class CommercialEnterprisesApiService {
             );
 
         this.httpClient
-            .post<Object>(this.BASE_URL + url, {
+            .post<object>(this.BASE_URL + url, {
                 ...data,
                 type_entreprise: TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE,
             })
@@ -92,9 +94,7 @@ export class CommercialEnterprisesApiService {
             .subscribe();
     }
 
-    getCommercialEnterprises(): Observable<
-        Array<CommercialEnterprisesInterface>
-    > {
+    getCommercialEnterprises(): Observable<CommercialEnterprisesInterface[]> {
         return this.commercialEnterprisesSubject.asObservable();
     }
     getCommercialEnterprisesPagination(): Observable<

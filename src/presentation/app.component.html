@@ -1,7 +1,13 @@
 <ngx-loading-bar
-    [color]="'#5B9BD5'"
-    [includeSpinner]="false"
-    [height]="'4px'"
+    [color]="config.loadingBar.color"
+    [includeSpinner]="config.loadingBar.includeSpinner"
+    [height]="config.loadingBar.height"
+    [attr.aria-label]="'APP.LOADING_BAR.ARIA_LABEL' | translate"
+    aria-live="polite"
 ></ngx-loading-bar>
+
 <app-tap-to-top></app-tap-to-top>
-<router-outlet></router-outlet>
+
+<main role="main">
+    <router-outlet></router-outlet>
+</main>

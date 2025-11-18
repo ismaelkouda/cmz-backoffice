@@ -68,15 +68,15 @@ import { CustomersActivateFilterInterface } from '../../../data-access/customers
 export class FilterCustomersActivateComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<CustomersActivateFilterInterface>();
 
-    @Input() listCustomersActivateStep!: Array<T_CUSTOMERS_ACTIVATE_STEP_ENUM>;
+    @Input() listCustomersActivateStep!: T_CUSTOMERS_ACTIVATE_STEP_ENUM[];
     @Input()
-    listCustomersActivateState!: Array<T_CUSTOMERS_ACTIVATE_STATE_ENUM>;
+    listCustomersActivateState!: T_CUSTOMERS_ACTIVATE_STATE_ENUM[];
 
     public formFilter!: FormGroup<CustomersActivateFilterFormInterface>;
     private destroy$ = new Subject<void>();
 
-    public secondFilter: boolean = false;
-    public thirdFilter: boolean = false;
+    public secondFilter = false;
+    public thirdFilter = false;
 
     constructor(
         private fb: FormBuilder,

@@ -12,7 +12,7 @@ export interface ProfilApplicantInterface {
 export interface ApplicantInterface {
     id: string;
     matricule: string;
-    profil_user_id: number;
+    user_profile_id: number;
     nom: string;
     prenoms: string;
     username: string;
@@ -25,7 +25,7 @@ export interface ApplicantInterface {
     created_at: string;
     updated_at: string;
     nom_complet: string;
-    profil_user: ProfilApplicantInterface;
+    user_profile: ProfilApplicantInterface;
     tenant: Tenant;
 }
 

@@ -1,0 +1,220 @@
+<p-table
+    #dt
+    [value]="listProfileHabilitation$ | async"
+    [rowHover]="true"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-profile-habilitations-table"
+>
+    <ng-template pTemplate="caption">
+        <div
+            class="d-flex justify-content-between flex-wrap align-items-center"
+        >
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (export)="onExportExcel()"
+                    (refresh)="onRefresh()"
+                    (other)="onAddProfile()"
+                    [disabledButtonExport]="
+                        spinner ||
+                        (listProfileHabilitation$ | async)?.length === 0
+                    "
+                    [disabledButtonRefresh]="spinner"
+                    [hiddenButtonOther]="false"
+                    [labelOther]="'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ADD'"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center',
+                }"
+                scope="col"
+            >
+                {{ col.header | translate }}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
+        <tr>
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header | translate"
+            >
+                <ng-container [ngSwitch]="col.field">
+                    <ng-container *ngSwitchCase="'__index'">
+                        {{
+                            ((pagination$ | async)?.current_page - 1 || 0) *
+                                ((pagination$ | async)?.per_page || 0) +
+                                rowIndex +
+                                1
+                        }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'name'">
+                        <p-tag
+                            [value]="getProfileLabel(item.name)"
+                            severity="info"
+                            class="profile-tag"
+                        ></p-tag>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'description'">
+                        {{ item.description }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'createdAt'">
+                        {{ formatDate(item.createdAt) }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'totalUsers'">
+                        <button
+                            type="button"
+                            class="btn btn-link p-0 text-primary"
+                            (click)="onUsersClicked(item)"
+                            [attr.aria-label]="
+                                'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.USERS_COUNT' | translate
+                            "
+                        >
+                            {{ item.totalUsers ?? 0 }}
+                        </button>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'status'">
+                        <ng-container
+                            *ngIf="
+                                getStatusLabel(item.status) as statusLabel;
+                                else noStatus
+                            "
+                        >
+                            <p-tag
+                                [value]="statusLabel"
+                                [severity]="getStatusSeverity(item.status)"
+                                class="statut-tag"
+                            ></p-tag>
+                        </ng-container>
+                        <ng-template #noStatus>-</ng-template>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'__action'">
+                        <div class="dropdown">
+                            <button
+                                class="btn btn-sm btn-secondary dropdown-toggle"
+                                type="button"
+                                id="actionDropdown{{ rowIndex }}"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                [attr.aria-label]="'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.ACTION' | translate"
+                            >
+                                {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.ACTION' | translate }}
+                            </button>
+                            <ul
+                                class="dropdown-menu"
+                                [attr.aria-labelledby]="'actionDropdown' + rowIndex"
+                            >
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        (click)="onActionClicked(item, 'view'); $event.preventDefault()"
+                                        href="#"
+                                    >
+                                        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.VIEW' | translate }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        (click)="onActionClicked(item, 'edit'); $event.preventDefault()"
+                                        href="#"
+                                    >
+                                        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.EDIT' | translate }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        (click)="onActionClicked(item, item.status === 'active' || item.status === 'actif' ? 'disable' : 'enable'); $event.preventDefault()"
+                                        href="#"
+                                    >
+                                        <span *ngIf="item.status === 'active' || item.status === 'actif'">
+                                            {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.DISABLE' | translate }}
+                                        </span>
+                                        <span *ngIf="item.status !== 'active' && item.status !== 'actif'">
+                                            {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.ENABLE' | translate }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li *ngIf="(item.totalUsers ?? 0) === 0">
+                                    <hr class="dropdown-divider" />
+                                </li>
+                                <li *ngIf="(item.totalUsers ?? 0) === 0">
+                                    <a
+                                        class="dropdown-item text-danger"
+                                        (click)="onActionClicked(item, 'delete'); $event.preventDefault()"
+                                        href="#"
+                                    >
+                                        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.DELETE' | translate }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                        {{ item[col.field] || '-' }}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr
+            *ngIf="(listProfileHabilitation$ | async)?.length <= 0 && !spinner"
+            class="loading-table"
+        >
+            <td class="posRelative" [attr.colspan]="table.cols.length">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner" class="loading-table">
+            <td class="posRelative" [attr.colspan]="table.cols.length">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

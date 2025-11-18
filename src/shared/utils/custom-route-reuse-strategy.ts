@@ -29,7 +29,9 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
     // Récupère le composant stocké
     retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle | null {
         const id = this.getRouteId(route);
-        if (!id) return null;
+        if (!id) {
+            return null;
+        }
         return this.storedRoutes.get(id) || null;
     }
 
@@ -59,7 +61,9 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
 
     // Génère un ID unique pour une route
     private getRouteId(route: ActivatedRouteSnapshot): string | null {
-        if (!route.routeConfig) return null;
+        if (!route.routeConfig) {
+            return null;
+        }
 
         // Construire le chemin complet incluant les paramètres
         let path = route.routeConfig.path || '';

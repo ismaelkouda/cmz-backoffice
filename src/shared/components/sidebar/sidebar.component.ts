@@ -1,110 +1,86 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     Component,
     HostListener,
     OnDestroy,
-    OnInit
+    OnInit,
+    inject,
 } from '@angular/core';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import {
+    NavigationEnd,
+    Router,
+    RouterLink,
+    RouterLinkActive,
+} from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
-import { LOGO_ANSUT } from '../../../shared/constants/logoAnsut.constant';
-import { EncodingDataService } from '../../services/encoding-data.service';
-import { LayoutService } from '../../services/layout.service';
-import { NavService } from '../../services/nav.service';
-import { TabService } from '../../services/tab.service';
+import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
 import {
     MenuItem,
     MenuItemChildren,
-} from './../../interfaces/menu-item.interface';
+} from '@shared/interfaces/menu-item.interface';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { EncodingDataService } from '@shared/services/encoding-data.service';
+import { LayoutService } from '@shared/services/layout.service';
+import { NavService } from '@shared/services/nav.service';
+import { TabService } from '@shared/services/tab.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-sidebar',
     standalone: true,
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
-    imports: [CommonModule, AsyncPipe, RouterLink, TranslateModule],
+    imports: [CommonModule, RouterLink, RouterLinkActive, TranslateModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+    public readonly config = inject(AppCustomizationService).config;
     public LOGO_ANSUT = LOGO_ANSUT;
-    public iconSidebar!: string;
-    public menuItems: Array<MenuItem> = [];
-    public filterArray: Array<any> = [];
-    public filterArray2: Array<any> = [];
-
-    public url: any;
-    public fileurl: any;
+    public menuItems: MenuItem[] = [];
 
     // For Horizontal Menu
-    public margin: any = 0;
-    public width: any = window.innerWidth;
-    public leftArrowNone: boolean = true;
-    public rightArrowNone: boolean = false;
-    public currentUser: any;
-    public data: any = [];
+    public margin = 0;
+    public width = window.innerWidth;
+    public leftArrowNone = true;
+    public rightArrowNone = false;
 
     private sub!: Subscription;
 
     constructor(
-        private router: Router,
+        private readonly router: Router,
         public navServices: NavService,
         public layout: LayoutService,
-        private encodingService: EncodingDataService,
-        private tabService: TabService
+        private readonly encodingService: EncodingDataService,
+        private readonly tabService: TabService
     ) {}
 
     ngOnInit(): void {
+        this.menuItems =
+            (this.encodingService.getData('menu') as MenuItem[]) || [];
 
-        console.log('🔍 Debug menu loading:');
-  
-  // Vérifier ce qui est stocké
-  const storedMenu = this.encodingService.getData('menu')as Array<MenuItem> | [];
-  console.log('Stored menu:', storedMenu);
-  console.log('Type:', typeof storedMenu);
-  console.log('Is array:', Array.isArray(storedMenu));
-  console.log('Length:', storedMenu?.length);
-  
-  // Vérifier le localStorage directement
-  try {
-    const raw = localStorage.getItem('menu');
-    console.log('Raw localStorage:', raw);
-  } catch (e) {
-    console.error('Cannot access localStorage:', e);
-  }
-  
-  this.menuItems = storedMenu || [];
-  
-    this.menuItems = this.encodingService.getData('menu') as Array<MenuItem> | [];
-    console.log("this.menuItems", this.menuItems)
-    this.sub = this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-            this.menuItems.filter((items: MenuItem) => {
-                let shouldKeep = false;
-                
-                if (items.path === event.url) {
-                    this.setNavActive(items);
-                    shouldKeep = true;
-                }
-                
-                if (items.children) {
-                    items.children.filter((subItems: MenuItemChildren) => {
-                        if (subItems.path === event.url) {
-                            this.setNavActive(subItems);
-                            return true; // Keep this subItem
+        this.sub = this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                for (const item of this.menuItems) {
+                    if (item.path === event.url) {
+                        this.setNavActive(item);
+                    }
+
+                    if (item.children) {
+                        for (const subItem of item.children) {
+                            if (subItem.path === event.url) {
+                                this.setNavActive(subItem);
+                            }
                         }
-                        return false; // Don't keep this subItem
-                    });
+                    }
                 }
-                
-                return shouldKeep;
-            });
-        }
-    });
-}
+            }
+        });
+    }
 
     // Active Nave state
-    setNavActive(itemSelected: MenuItem | MenuItemChildren) {
-        this.menuItems.filter((menuItem) => {
+    setNavActive(itemSelected: MenuItem | MenuItemChildren): void {
+        for (const menuItem of this.menuItems) {
             if (menuItem !== itemSelected) {
                 menuItem.active = false;
             }
@@ -116,9 +92,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
                 (menuItem.path && menuItem.path === itemSelected.path)
             ) {
                 menuItem.active = true;
-                this.addTab(itemSelected);
+                //this.addTab(menuItem);
             }
-        });
+        }
     }
 
     @HostListener('window:resize', ['$event'])
@@ -126,27 +102,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.width = (event.target as Window).innerWidth - 500;
     }
 
-    sidebarToggle() {
+    sidebarToggle(): void {
         this.navServices.collapseSidebar = !this.navServices.collapseSidebar;
     }
 
-    // Click Toggle menu
-    toggletNavActive(item: any) {
+    toggletNavActive(item: MenuItem): void {
         if (!item.active) {
-            for (const a of this.menuItems) {
-                if (this.menuItems.includes(item)) {
-                    a.active = false;
-                }
-                if (!a.children) {
-                    continue;
-                }
+            for (const menuItem of this.menuItems) {
+                menuItem.active = false;
             }
         }
         item.active = !item.active;
     }
 
-    // For Horizontal Menu
-    scrollToLeft() {
+    scrollToLeft(): void {
         if (this.margin >= -this.width) {
             this.margin = 0;
             this.leftArrowNone = true;
@@ -157,7 +126,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
     }
 
-    scrollToRight() {
+    scrollToRight(): void {
         if (this.margin <= -3051) {
             this.margin = -3464;
             this.leftArrowNone = false;
@@ -168,7 +137,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
     }
 
-    addTab(item: MenuItem | MenuItemChildren): void {
+    /*     addTab(item: MenuItem | MenuItemChildren): void {
         if (item.path && item.title) {
             setTimeout(() => {
                 const isTablauDeBord = item.path === '/dashboard';
@@ -179,9 +148,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
                 );
             }, 0);
         }
-    }
+    } */
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
 }

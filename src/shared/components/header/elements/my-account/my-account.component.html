@@ -13,13 +13,9 @@
     </div>
 </div>
 <ul class="profile-dropdown onhover-show-div">
+    <li><i [attr.data-feather]="'user'"></i>&nbsp;<span>Mon compte</span></li>
+    <li><i [attr.data-feather]="'lock'"></i>&nbsp;<span>Mot de passe</span></li>
     <li>
-        <i [attr.data-feather]="'user'"></i>&nbsp;<span>Mon compte</span>
-    </li>
-    <li>
-        <i [attr.data-feather]="'lock'"></i>&nbsp;<span>Mot de passe</span>
-    </li>
-    <li >
         <i [attr.data-feather]="'log-in'"></i>&nbsp;<span>Déconnexion</span>
     </li>
 </ul>
@@ -43,7 +39,7 @@
                     <b>Ancien Mot de passe</b>
                 </label>
                 <p-password
-                id="old_password"
+                    id="old_password"
                     formControlName="old_password"
                     [feedback]="false"
                     [toggleMask]="true"
@@ -55,7 +51,7 @@
                     <b>Nouveau Mot de passe</b>
                 </label>
                 <p-password
-                id="new_password"
+                    id="new_password"
                     formControlName="new_password"
                     [feedback]="false"
                     [toggleMask]="true"
@@ -87,7 +83,7 @@
                     <b>Confirmer nouveau mot de passe</b>
                 </label>
                 <p-password
-                id="new_password_confirmation"
+                    id="new_password_confirmation"
                     formControlName="new_password_confirmation"
                     [feedback]="false"
                     [toggleMask]="true"
@@ -158,7 +154,12 @@
             <label for="first_name">
                 <b>Prénoms<span class="text-danger">*</span></b>
             </label>
-            <input id="first_name" type="text" formControlName="first_name" pInputText />
+            <input
+                id="first_name"
+                type="text"
+                formControlName="first_name"
+                pInputText
+            />
         </div>
         <div class="form-group mb-3">
             <label for="email">

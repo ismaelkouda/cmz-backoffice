@@ -1,0 +1,269 @@
+<p-table
+    *ngIf="listParticipants$ | async as participants"
+    #dt
+    [value]="participants"
+    [rowHover]="true"
+    [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    class="responsive-participants-table"
+>
+    <ng-template pTemplate="caption">
+        <div
+            class="d-flex justify-content-between flex-wrap align-items-center"
+        >
+            <app-table-title
+                [count]="participants.length"
+                [perPage]="participants.length || 0"
+                [page]="participants.length ? 1 : 0"
+                [totalPage]="participants.length ? 1 : 0"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (export)="onExportExcel()"
+                    (refresh)="onRefresh()"
+                    (other)="onAddParticipant()"
+                    [disabledButtonExport]="spinner || participants.length === 0"
+                    [disabledButtonRefresh]="spinner"
+                    [hiddenButtonOther]="false"
+                    [labelOther]="'TEAM_ORGANIZATION.PARTICIPANT.BUTTONS.ADD'"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
+                scope="col"
+            >
+                {{ col.header | translate }}
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
+        <tr>
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header | translate"
+            >
+                <ng-container [ngSwitch]="col.field">
+                    <ng-container *ngSwitchCase="'__index'">
+                        {{ rowIndex + 1 }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'matricule'">
+                        <button
+                            type="button"
+                            class="copyable"
+                            (click)="copyToClipboard(item.matricule)"
+                            (keydown.enter)="copyToClipboard(item.matricule)"
+                            (keydown.space)="
+                                $event.preventDefault();
+                                copyToClipboard(item.matricule)
+                            "
+                            pTooltip="{{ 'COPY' | translate }}"
+                            tooltipPosition="bottom"
+                        >
+                            {{ item.matricule || '-' }}
+                        </button>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'nom'">
+                        {{ item.nom || '-' }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'prenoms'">
+                        {{ item.prenoms || '-' }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'username'">
+                        {{ item.username || '-' }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'contacts'">
+                        {{ item.contacts || '-' }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'role'">
+                        <ng-container
+                            *ngIf="
+                                getRoleLabel(item.role) as roleLabel;
+                                else noRole
+                            "
+                        >
+                            {{ roleLabel }}
+                        </ng-container>
+                        <ng-template #noRole>-</ng-template>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'statut'">
+                        <ng-container
+                            *ngIf="
+                                getStatusLabel(item.statut) as statusLabel;
+                                else noStatus
+                            "
+                        >
+                            <p-tag
+                                [value]="statusLabel"
+                                [severity]="getStatusSeverity(item.statut)"
+                                class="statut-tag"
+                            ></p-tag>
+                        </ng-container>
+                        <ng-template #noStatus>-</ng-template>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'__action'">
+                        <div class="dropdown">
+                            <button
+                                class="btn btn-sm btn-secondary dropdown-toggle"
+                                type="button"
+                                id="actionDropdown{{ rowIndex }}"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                [attr.aria-label]="
+                                    'TEAM_ORGANIZATION.PARTICIPANT.TABLE.ACTION'
+                                        | translate
+                                "
+                            >
+                                {{
+                                    'TEAM_ORGANIZATION.PARTICIPANT.TABLE.ACTION'
+                                        | translate
+                                }}
+                            </button>
+                            <ul
+                                class="dropdown-menu"
+                                [attr.aria-labelledby]="'actionDropdown' + rowIndex"
+                            >
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        (click)="
+                                            onActionClicked(item, 'view');
+                                            $event.preventDefault()
+                                        "
+                                        href="#"
+                                    >
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.ACTIONS.VIEW'
+                                                | translate
+                                        }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        (click)="
+                                            onActionClicked(item, 'edit');
+                                            $event.preventDefault()
+                                        "
+                                        href="#"
+                                    >
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.ACTIONS.EDIT'
+                                                | translate
+                                        }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        *ngIf="isParticipantActive(item)"
+                                        (click)="
+                                            onActionClicked(item, 'disable');
+                                            $event.preventDefault()
+                                        "
+                                        href="#"
+                                    >
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.ACTIONS.DISABLE'
+                                                | translate
+                                        }}
+                                    </a>
+                                    <a
+                                        class="dropdown-item"
+                                        *ngIf="!isParticipantActive(item)"
+                                        (click)="
+                                            onActionClicked(item, 'enable');
+                                            $event.preventDefault()
+                                        "
+                                        href="#"
+                                    >
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.ACTIONS.ENABLE'
+                                                | translate
+                                        }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item text-danger"
+                                        (click)="
+                                            onActionClicked(item, 'delete');
+                                            $event.preventDefault()
+                                        "
+                                        href="#"
+                                    >
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.ACTIONS.DELETE'
+                                                | translate
+                                        }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                        {{ item[col.field] || '-' }}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr
+            *ngIf="participants.length <= 0 && !spinner"
+            class="loading-table"
+        >
+            <td class="posRelative" [attr.colspan]="table.cols.length">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner" class="loading-table">
+            <td class="posRelative" [attr.colspan]="table.cols.length">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

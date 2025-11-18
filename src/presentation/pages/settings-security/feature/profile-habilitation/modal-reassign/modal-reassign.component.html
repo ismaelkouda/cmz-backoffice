@@ -1,0 +1,71 @@
+<p-dialog
+    [(visible)]="visible"
+    (onHide)="onHide()"
+    [modal]="true"
+    [closable]="true"
+    [style]="{ width: '50vw' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [header]="'SETTINGS_SECURITY.PROFILE_HABILITATION.MODAL.REASSIGN_TITLE' | translate"
+>
+    <ng-template pTemplate="content">
+        <form [formGroup]="formReassign" (ngSubmit)="onSubmit()">
+            <div class="form-group mb-3">
+                <label for="newProfileId">
+                    <b>{{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.MODAL.NEW_PROFILE' | translate }}<span class="text-danger">*</span></b>
+                </label>
+                <p-select
+                    id="newProfileId"
+                    formControlName="newProfileId"
+                    [options]="profileOptions$ | async"
+                    optionValue="id"
+                    optionLabel="name"
+                    [showClear]="true"
+                    placeholder="{{ 'SELECT' | translate }}"
+                    appendTo="body"
+                    [class.ng-invalid]="
+                        formReassign.get('newProfileId')?.invalid &&
+                        formReassign.get('newProfileId')?.touched
+                    "
+                >
+                    <ng-template pTemplate="selectedItem" let-option>
+                        <span>{{ option?.name }}</span>
+                    </ng-template>
+                    <ng-template pTemplate="item" let-option>
+                        <div>
+                            <div><strong>{{ option.name }}</strong></div>
+                            <small *ngIf="option.description" class="text-muted">{{ option.description }}</small>
+                        </div>
+                    </ng-template>
+                </p-select>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        formReassign.get('newProfileId')?.invalid &&
+                        formReassign.get('newProfileId')?.touched
+                    "
+                >
+                    {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.MODAL.NEW_PROFILE_REQUIRED' | translate }}
+                </small>
+            </div>
+
+            <div class="alert alert-info" *ngIf="users.length > 0">
+                <i class="pi pi-info-circle"></i>
+                {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.MODAL.REASSIGN_MESSAGE' | translate: { count: users.length } }}
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="('CANCEL' | translate)"
+            (onClick)="onHide()"
+            styleClass="p-button-secondary"
+        ></p-button>
+        <p-button
+            [label]="('SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.REASSIGN' | translate)"
+            (onClick)="onSubmit()"
+            styleClass="p-button-primary"
+        ></p-button>
+    </ng-template>
+</p-dialog>
+

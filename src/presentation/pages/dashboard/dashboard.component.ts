@@ -1,393 +1,288 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    inject,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { SkeletonModule } from 'primeng/skeleton';
 import { Subject, takeUntil } from 'rxjs';
-import { APP_NAME, T_APP_NAME } from '../../../shared/constants/nom-aplication.contant';
-import { SimStatut } from '../../../shared/enum/SimStatut.enum';
 import { separatorThousands } from '../../../shared/functions/separator-thousands';
-import { DashboardLink } from '../../../shared/interfaces/dashboard-link.interface';
-import { IStatisticsBox } from '../../../shared/interfaces/statistiquesBox.interface';
-import { EncodingDataService } from '../../../shared/services/encoding-data.service';
-import { DashboardApiService } from './data-access/services/dashboard-api.service';
+import { DashboardFacade } from './application/dashboard.facade';
+import { DashboardStatistics } from './domain/entities/dashboard-statistics.entity';
+
+interface StatisticCard {
+    key: string;
+    count: number | string;
+    label: string;
+    subtitle: string;
+    color: string;
+    icon: string;
+    routerFilter?: () => void;
+    trend?: {
+        value: number;
+        isPositive: boolean;
+    };
+}
+
+type PeriodOption = '15' | '30' | '90';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    imports: [CommonModule, DialogModule, TranslateModule],
+    imports: [
+        CommonModule,
+        FormsModule,
+        TranslateModule,
+        ButtonModule,
+        ProgressSpinnerModule,
+        SelectButtonModule,
+        SkeletonModule,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class DashboardComponent implements OnInit, OnDestroy {
-    public loading: boolean = true;
-    public current_date!: string;
-    public nom_application: T_APP_NAME = APP_NAME.CONNECT_MY_ZONE;
-    public title = 'Tableau de bord - Système de Gestion de Collecte Centralisée';
-    public listStatisticsBox: IStatisticsBox[] = [];
+    private readonly title = inject(Title);
+    private readonly router = inject(Router);
+    private readonly dashboardFacade = inject(DashboardFacade);
+    private readonly translate = inject(TranslateService);
+    private readonly cdr = inject(ChangeDetectorRef);
+    private readonly destroy$ = new Subject<void>();
 
-    simIcon = 'assets/svg/sim-card.png';
-    simNormale = 'assets/svg/normal_dark.png';
-    simMineure = 'assets/svg/mineure.png';
-    simMajeure = 'assets/svg/majeure_white.png';
-    simCritique = 'assets/svg/critique_white.png';
+    public loading = true;
+    public error: string | null = null;
+    public currentDate: string = '';
+    public dashboardData: DashboardStatistics | null = null;
+    public selectedPeriod: PeriodOption = '30';
 
-    IconDemandWaiting = 'assets/svg/demand_waiting.png';
-    IconDemandInTreatment = 'assets/svg/demand_in_treatment.png';
-    IconDemandToDelivery = 'assets/svg/demand_to_delivery.png';
-    IconDemandToClosure = 'assets/svg/demand_to_closure.png';
+    public periodOptions = [
+        { label: '15', value: '15' },
+        { label: '30', value: '30' },
+        { label: '90', value: '90' },
+    ];
 
-    public showIframe: boolean = false;
-    public iframeLink: string | undefined;
+    public typeStatistics: StatisticCard[] = [];
+    public taskStatusStatistics: StatisticCard[] = [];
+    public performanceStatistics: StatisticCard[] = [];
 
-    public asAccessFeatureDataBalance: boolean = false;
-    public asAccessFeatureSmsBalance: boolean = false;
-
-    private destroy$ = new Subject<void>();
-
-    constructor(
-        public router: Router,
-        private titleService: Title,
-        private dashboardApiService: DashboardApiService,
-        private encodingService: EncodingDataService,
-        private translate: TranslateService
-    ) {
-        this.titleService.setTitle(`${this.title}`);
-    }
-
-    ngOnInit() {
+    ngOnInit(): void {
+        this.setupTitle();
         this.loadDashboardData();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
 
+    private setupTitle(): void {
+        this.title.setTitle(
+            this.translate.instant('DASHBOARD.TITLE') ||
+                'Tableau de bord - Signalements'
+        );
+    }
+
     private loadDashboardData(): void {
-        this.dashboardApiService.fetchDashboardStatistic();
-        this.dashboardApiService
-            .getDashboardStatistic()
+        this.error = null;
+
+        const periodDays = parseInt(this.selectedPeriod, 10);
+
+        this.dashboardFacade
+            .loadStatistics(periodDays)
             .pipe(takeUntil(this.destroy$))
-            .subscribe((statistic) => {
-                this.handleDashboardData(statistic);
+            .subscribe({
+                next: (statistics) => {
+                    this.handleDashboardData(statistics);
+                },
+                error: () => {
+                    this.error = this.translate.instant(
+                        'DASHBOARD.ERROR.LOAD_DATA'
+                    );
+                    this.cdr.markForCheck();
+                },
+            });
+
+        this.dashboardFacade.isLoading$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((isLoading) => {
+                this.loading = isLoading;
+                this.cdr.markForCheck();
             });
     }
 
-    private handleDashboardData(statistic: any): void {
-        this.loading = false;
-        this.current_date = statistic?.['date_derniere_maj'] || '';
-        this.generateStatisticsBoxes(statistic);
+    public onPeriodChange(period: PeriodOption): void {
+        this.selectedPeriod = period;
+        this.cdr.markForCheck();
+        this.loadDashboardData();
     }
 
-    private generateStatisticsBoxes(rapport: any = {}): void {
-        this.listStatisticsBox = [
-            this.createStatBox(
-                '#3498db',
-                `${this.translate.instant('CUSTOMERS')}`,
-                separatorThousands(rapport?.['total_clients'] || '0'),
-                this.simIcon,
-                () => this.router.navigateByUrl(``)
-            ),
+    private handleDashboardData(data: DashboardStatistics): void {
+        this.dashboardData = data;
+        this.currentDate = data.date_derniere_maj || '';
+        this.generateStatistics(data);
+        this.cdr.markForCheck();
+    }
 
-            this.createStatBox(
-                '#27ae60',
-                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
-                    'TO_APPROVE'
-                )}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_approuves'] || '0'
-                ),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.ACTIF },
-                    })
-            ),
+    private generateStatistics(data: DashboardStatistics | null): void {
+        if (!data) {
+            return;
+        }
+        this.typeStatistics = [
+            {
+                key: 'totalReports',
+                count: separatorThousands(data.totalReports || 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORT_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORT_PROCESSING.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-file',
+            },
+            {
+                key: 'whiteZoneReports',
+                count: separatorThousands(data.whiteZoneReports || 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORT_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORT_PROCESSING.SUBTITLE',
+                color: 'error',
+                icon: 'pi-map',
+            },
+            {
+                key: 'partialOperatorReports',
+                count: separatorThousands(data.partialOperatorReports || 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORT_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORT_PROCESSING.SUBTITLE',
+                color: 'warning',
+                icon: 'pi-signal',
+            },
+            {
+                key: 'partialSignalReports',
+                count: separatorThousands(data.partialSignalReports || 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORT_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORT_PROCESSING.SUBTITLE',
+                color: 'warning',
+                icon: 'pi-signal',
+            },
+            {
+                key: 'noInternetReports',
+                count: separatorThousands(data.noInternetReports || 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORT_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORT_PROCESSING.SUBTITLE',
+                color: 'info',
+                icon: 'pi-wifi',
+            },
+        ];
 
-            this.createStatBox(
-                '#ff7f50',
-                `${this.translate.instant(
-                    'TO_APPROVE'
-                )} ${this.translate.instant('SLA_KO')}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_approuves_sla_ko'] || '0'
-                ),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.SUSPENDU },
-                    })
-                // '#000000',
-                // '#000000'
-            ),
+        this.taskStatusStatistics = [
+            {
+                key: 'qualificationReports',
+                count: separatorThousands(data.qualificationReports || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.QUALIFICATION.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TASK_STATUS.QUALIFICATION.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-check-square',
+                routerFilter: () => this.router.navigate(['/report/queue']),
+            },
+            {
+                key: 'assignmentReports',
+                count: separatorThousands(data.assignmentReports || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.ASSIGNMENT.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.ASSIGNMENT.SUBTITLE',
+                color: 'info',
+                icon: 'pi-users',
+                routerFilter: () => this.router.navigate(['/report/approval']),
+            },
+            {
+                key: 'treatmentReports',
+                count: separatorThousands(data.treatmentReports || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATMENT.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATMENT.SUBTITLE',
+                color: 'warning',
+                icon: 'pi-cog',
+                routerFilter: () =>
+                    this.router.navigate(['/report/processing']),
+            },
+            {
+                key: 'finalizationReports',
+                count: separatorThousands(data.finalizationReports || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZATION.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZATION.SUBTITLE',
+                color: 'success',
+                icon: 'pi-flag',
+                routerFilter: () => this.router.navigate(['/report/finalize']),
+            },
+            {
+                key: 'evaluationReports',
+                count: separatorThousands(data.evaluationReports || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATION.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATION.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-star',
+            },
+        ];
 
-            this.createStatBox(
-                '#ff6600',
-                `${this.translate.instant(
-                    'IN_TREATMENT'
-                )} ${this.translate.instant('IN_PROGRESS')}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_en_traitement'] || '0'
-                ),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.RESILIE },
-                    })
-            ),
-
-            this.createStatBox(
-                '#ff7f50',
-                `${this.translate.instant(
-                    'IN_TREATMENT'
-                )} ${this.translate.instant('SLA_OK')}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_en_traitement_sla_ok'] || '0'
-                ),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.ACTIF },
-                    })
-            ),
-
-            this.createStatBox(
-                '#e74c3c',
-                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
-                    'IN_TREATMENT'
-                )} ${this.translate.instant('SLA_KO')}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_en_traitement_sla_ko'] || '0'
-                ),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.RESILIE },
-                    })
-            ),
-
-            this.createStatBox(
-                'rgb(52, 73, 94)',
-                `${this.translate.instant('CLOSURE')} ${this.translate.instant(
-                    'WAITING'
-                )}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_clotures_ok'] || '0'
-                ),
-                this.IconDemandToClosure
-            ),
-
-            this.createStatBox(
-                '#e74c3c',
-                `${this.translate.instant('CLOSURE')} ${this.translate.instant(
-                    'REJECTED'
-                )}`,
-                separatorThousands(rapport?.['total_dossiers_rejetes'] || '0'),
-                this.simIcon
-            ),
-
-            this.createStatBox(
-                '#ff7f50',
-                `${this.translate.instant('CLAIMS')}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_reclamation'] || '0'
-                ),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.ACTIF },
-                    })
-            ),
-
-            this.createStatBox(
-                '#555555',
-                `${this.translate.instant(
-                    'SATISFACTION_RATE'
-                )} ${this.translate.instant('CUSTOMERS')}`,
-                separatorThousands(rapport?.['taux_satisfaction'] || '0'),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.SUSPENDU },
-                    }),
-                '#ffffff',
-                '#ffffff'
-            ),
-
-            ...this.generateAlarmBoxes(
-                'Data',
-                rapport,
-                this.asAccessFeatureDataBalance
-            ),
-
-            ...this.generateAlarmBoxes(
-                'SMS',
-                rapport,
-                this.asAccessFeatureSmsBalance
-            ),
-
+        this.performanceStatistics = [
+            {
+                key: 'treatmentRate',
+                count: `${data.treatmentRate || 0}%`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.TREATMENT_RATE.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.PERFORMANCE.TREATMENT_RATE.SUBTITLE',
+                color: 'success',
+                icon: 'pi-chart-line',
+            },
+            {
+                key: 'completionRate',
+                count: `${data.completionRate || 0}%`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.COMPLETION_RATE.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.PERFORMANCE.COMPLETION_RATE.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-check-circle',
+            },
+            {
+                key: 'averageTreatmentTime',
+                count: `${data.averageTreatmentTime || 0}j`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_TREATMENT_TIME.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_TREATMENT_TIME.SUBTITLE',
+                color: 'info',
+                icon: 'pi-calendar',
+            },
+            {
+                key: 'responseTime',
+                count: `${data.responseTime || 0}h`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.RESPONSE_TIME.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.PERFORMANCE.RESPONSE_TIME.SUBTITLE',
+                color: 'warning',
+                icon: 'pi-clock',
+            },
         ];
     }
 
-    private createStatBox(
-        bgColor: string,
-        legend: string,
-        count: number | string,
-        icon: string,
-        routerFilter?: () => void,
-        legendColor: string = '#FFF',
-        countColor: string = '#FFF',
-        borderColor: string = '#FFF'
-    ): IStatisticsBox {
-        return {
-            cardBgColor: bgColor,
-            cardBorderColor: borderColor,
-            legendColor: legendColor,
-            countColor: countColor,
-            legend: legend,
-            count: count || 0,
-            icon: icon,
-            routerFilter: routerFilter,
-        };
+    public refreshData(): void {
+        this.loadDashboardData();
     }
 
-    private generateAlarmBoxes(
-        type: 'Data' | 'SMS',
-        rapport: any,
-        isEnabled: boolean
-    ): IStatisticsBox[] {
-        if (!isEnabled) return [];
-
-        const dashboardLinks = this.encodingService.getData(
-            'dashboard_links'
-        ) as DashboardLink | null;
-        const suffix = type === 'Data' ? '' : 'Sms';
-
-        return [
-            this.createAlarmBox(
-                '#FFF',
-                `#27ae60`,
-                `${this.translate.instant('SIM_NORMAL_ALARMS')} (${type})`,
-                separatorThousands(
-                    rapport?.[`totalAlarmesNormales${suffix}`] || '0'
-                ),
-                this.simNormale,
-                dashboardLinks?.[`analyseAlarmeNormales${suffix}`] || '',
-                '#27ae60',
-                '#27ae60'
-            ),
-            this.createAlarmBox(
-                '#FFFF00',
-                '#FFF',
-                `${this.translate.instant('SIM_MINOR_ALARMS')} (${type})`,
-                separatorThousands(
-                    rapport?.[`totalAlarmesMineures${suffix}`] || '0'
-                ),
-                this.simMineure,
-                dashboardLinks?.[`analyseAlarmeMineures${suffix}`] || '',
-                '#130f40',
-                '#130f40'
-            ),
-            this.createAlarmBox(
-                '#FE9A2E',
-                '#FFF',
-                `${this.translate.instant('SIM_MAJOR_ALARMS')} (${type})`,
-                separatorThousands(
-                    rapport?.[`totalAlarmesMajeures${suffix}`] || '0'
-                ),
-                this.simMajeure,
-                dashboardLinks?.[`analyseAlarmeMajeures${suffix}`] || ''
-            ),
-            this.createAlarmBox(
-                '#e74c3c',
-                '#FFF',
-                `${this.translate.instant('SIM_CRITICAL_ALARMS')} (${type})`,
-                separatorThousands(
-                    rapport?.[`totalAlarmesCritiques${suffix}`] || '0'
-                ),
-                this.simCritique,
-                dashboardLinks?.[`analyseAlarmeCritiques${suffix}`] || ''
-            ),
-        ];
-    }
-
-    private createAlarmBox(
-        bgColor: string,
-        borderColor: string,
-        legend: string,
-        count: number | string,
-        icon: string,
-        iframeLink: string,
-        legendColor: string = '#FFF',
-        countColor: string = '#FFF'
-    ): IStatisticsBox {
-        return {
-            cardBgColor: bgColor,
-            cardBorderColor: borderColor,
-            legendColor: legendColor,
-            countColor: countColor,
-            legend: legend,
-            count: count,
-            icon: icon,
-            iframeLink: iframeLink,
-        };
-    }
-
-    private generateAdditionalBoxes(rapport: any): IStatisticsBox[] {
-        if (this.nom_application !== APP_NAME.CONNECT_MY_ZONE) return [];
-
-        return [
-            this.createStatBox(
-                '#ffA500',
-                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
-                    'TO_APPROVE'
-                )}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_approuves'] || '0'
-                ),
-                this.IconDemandWaiting
-            ),
-
-            this.createStatBox(
-                '#f39c12',
-                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
-                    'IN_TREATMENT'
-                )}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_en_traitement'] || '0'
-                ),
-                this.IconDemandInTreatment
-            ),
-
-            this.createStatBox(
-                '#28a745',
-                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
-                    'TO_DELIVER'
-                )}`,
-                separatorThousands(rapport?.['total_dossiers_a_livrer'] || '0'),
-                this.IconDemandToDelivery,
-                undefined,
-                '#fff',
-                '#fff',
-                '#28a745'
-            ),
-        ];
-    }
-
-    public refreshStatic(): void {
-        this.loading = true;
-        this.dashboardApiService.fetchDashboardStatistic();
-    }
-
-    public showAlarms(statisticsBox: IStatisticsBox) {
-        this.iframeLink = statisticsBox?.iframeLink;
-        this.showIframe = true;
-    }
-
-    public hideDialog() {
-        this.showIframe = false;
+    public navigateToReport(stat: StatisticCard): void {
+        if (stat.routerFilter) {
+            stat.routerFilter();
+        }
     }
 }

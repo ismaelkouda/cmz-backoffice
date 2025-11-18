@@ -1,0 +1,23 @@
+.responsive-team-tenants-table {
+    width: 100%;
+}
+
+.copyable {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--primary-color);
+    padding: 0;
+}
+
+.copyable:hover {
+    color: var(--primary-color-dark);
+}
+
+.table-actions-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+

@@ -1,12 +1,14 @@
-import moment from 'moment';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import moment from 'moment';
 
 export function dateNotInPastValidator(
     control: AbstractControl
 ): ValidationErrors | null {
     const value = control.value;
 
-    if (!value) return null;
+    if (!value) {
+        return null;
+    }
 
     const date = moment(value);
 

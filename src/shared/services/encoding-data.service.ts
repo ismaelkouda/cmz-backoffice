@@ -16,7 +16,7 @@ export class EncodingDataService {
      * @param value Valeur à stocker
      * @param encrypt Indique si les données doivent être chiffrées
      */
-    public saveData(key: string, value: any, encrypt: boolean = false): void {
+    public saveData(key: string, value: any, encrypt = false): void {
         const serializedValue =
             typeof value === 'string' ? value : JSON.stringify(value);
         const processedValue = encrypt
@@ -37,7 +37,9 @@ export class EncodingDataService {
      */
     public getData<T>(key: string, defaultValue: T | null = null): T | null {
         const data = localStorage.getItem(key);
-        if (data === null) return defaultValue;
+        if (data === null) {
+            return defaultValue;
+        }
 
         // Vérifie si les données sont chiffrées
         if (data.startsWith(this.ENCRYPTION_PREFIX)) {

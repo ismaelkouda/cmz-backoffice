@@ -70,12 +70,12 @@ export class FilterCommercialEnterprisesComponent implements OnInit, OnDestroy {
         CommercialEnterprisesFilterInterface | {}
     >();
     @Input()
-    listCommercialEnterprisesStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    listCommercialEnterprisesStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
 
     public formFilter!: FormGroup<CommercialEnterprisesFilterInterface>;
     private destroy$ = new Subject<void>();
 
-    public secondFilter: boolean = false;
+    public secondFilter = false;
 
     constructor(
         private fb: FormBuilder,

@@ -25,7 +25,9 @@ export class ManagedCustomersApiService {
         false
     );
     fetchCustomersDetails(codeClient: string): void {
-        if (this.loadingCustomersDetailsSubject.getValue()) return;
+        if (this.loadingCustomersDetailsSubject.getValue()) {
+            return;
+        }
         this.loadingCustomersDetailsSubject.next(true);
         const url: string =
             ManagedCustomersDetailsEndpointEnum.CUSTOMERS_MANAGED_DETAILS.replace(
@@ -34,7 +36,7 @@ export class ManagedCustomersApiService {
             );
 
         this.httpClient
-            .post<Object>(this.BASE_URL + url, {})
+            .post<object>(this.BASE_URL + url, {})
             .pipe(
                 debounceTime(500),
                 switchMap((response: any) => {

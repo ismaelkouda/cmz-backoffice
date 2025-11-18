@@ -1,0 +1,90 @@
+<main class="container-fluid profile-users-assign-container" role="main">
+    <section class="row profile-users-assign-row">
+        <article class="col-sm-12 profile-users-assign-article">
+            <app-breadcrumb
+                class="profile-users-assign-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card profile-users-assign-card">
+                <div class="card-body profile-users-assign-card-body">
+                    <header
+                        class="profile-users-assign-header"
+                        style="margin-top: -2rem !important"
+                    >
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'SETTINGS_SECURITY.PROFILE_HABILITATION.ASSIGN.LABEL'
+                                    | translate
+                                    | lowercase
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="fade-in profile-users-assign-content">
+                        <div *ngIf="profile$ | async as profile" class="profile-info mb-3">
+                            <h4>{{ profile.name }}</h4>
+                            <p class="text-muted">{{ profile.description }}</p>
+                        </div>
+
+                        <app-filter-profile-users
+                            class="filter-component"
+                            (filter)="filter($event)"
+                        >
+                        </app-filter-profile-users>
+
+                        <hr class="profile-users-assign-divider" />
+
+                        <section
+                            class="table-section"
+                            aria-label="Tableau des utilisateurs sans profil"
+                        >
+                            <app-table-profile-users
+                                class="table-component"
+                                [spinner]="spinner$ | async"
+                                [pagination$]="pagination$"
+                                [listUsers$]="users$"
+                                [selectedUsers]="selectedUsers"
+                                [hideAssignButton]="true"
+                                (selectionChange)="onSelectionChange($event)"
+                                (refreshRequested)="refreshUsers()"
+                            >
+                            </app-table-profile-users>
+
+                            <div class="table-actions-footer mt-3">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    (click)="onCancel()"
+                                >
+                                    <i class="pi pi-times"></i>
+                                    {{ 'CANCEL' | translate }}
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    (click)="onAssign()"
+                                    [disabled]="selectedUsers.length === 0"
+                                >
+                                    <i class="pi pi-check"></i>
+                                    {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ASSIGN' | translate }}
+                                </button>
+                            </div>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination$ | async"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+

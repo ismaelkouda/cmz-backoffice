@@ -1,0 +1,51 @@
+<main class="container-fluid team-container" role="main">
+    <section class="row team-row">
+        <article class="col-sm-12 team-article">
+            <app-breadcrumb
+                class="team-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card team-card">
+                <div class="card-body team-card-body">
+                    <header class="team-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'TEAM_ORGANIZATION.TEAM.HEADER.PLURAL' | translate
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="fade-in team-content">
+                        <app-filter-team
+                            class="filter-component"
+                            [filterData]="filterData"
+                            (filter)="filter($event)"
+                        >
+                        </app-filter-team>
+
+                        <hr class="team-divider" />
+
+                        <section
+                            class="table-section"
+                            aria-label="{{ 'TEAM_ORGANIZATION.TEAM.TABLE.ARIA_LABEL' | translate }}"
+                        >
+                            <app-table-team
+                                [spinner]="(spinner$ | async) ?? false"
+                                [listTeams$]="teams$"
+                                (refreshRequested)="refreshTeams()"
+                                (addTeamRequested)="handleAddTeam()"
+                                (teamRequested)="handleTeam($event)"
+                            >
+                            </app-table-team>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

@@ -2,10 +2,10 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
-import { ParginationComponent } from '../../../../../shared/components/pargination/pargination.component';
-import { PatrimoineHeaderComponent } from '../../../../../shared/components/patrimoine-header/patrimoine-header.component';
+import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
+import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
 import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { IndividualsFilterInterface } from '../../data-access/individuals/interfaces/individuals-filter.interface';
@@ -22,11 +22,11 @@ import {
 import { FilterIndividualsComponent } from '../../feature/individuals/filter-individuals/filter-individuals.component';
 import { TableIndividualsComponent } from '../../feature/individuals/table-individuals/table-individuals.component';
 
-type PageAction = {
+interface PageAction {
     data: IndividualsInterface;
     action: T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
     view: 'page';
-};
+}
 
 @Component({
     selector: 'app-individuals',
@@ -34,13 +34,13 @@ type PageAction = {
     templateUrl: './individuals.component.html',
     imports: [
         CommonModule,
-        PatrimoineHeaderComponent,
+        PageTitleComponent,
         FilterIndividualsComponent,
         TableIndividualsComponent,
-        ParginationComponent,
+        PaginationComponent,
         BreadcrumbComponent,
         AsyncPipe,
-        TranslateModule
+        TranslateModule,
     ],
 })
 export class IndividualsComponent implements OnInit, OnDestroy {
@@ -48,10 +48,11 @@ export class IndividualsComponent implements OnInit, OnDestroy {
     public subModule!: string;
     public pagination$!: Observable<Paginate<IndividualsInterface>>;
     public listIndividuals$!: Observable<IndividualsInterface[]>;
-    public spinner: boolean = true;
+    public spinner = true;
     private destroy$ = new Subject<void>();
-    public listIndividualsStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
-        Object.values(CUSTOMERS_MANAGED_STEP_ENUM);
+    public listIndividualsStep: T_CUSTOMERS_MANAGED_STEP_ENUM[] = Object.values(
+        CUSTOMERS_MANAGED_STEP_ENUM
+    );
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -104,7 +105,7 @@ export class IndividualsComponent implements OnInit, OnDestroy {
         const ref = params.action;
         const type_enterprise = TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE;
         const queryParams = { ref, type_enterprise };
-        let routePath: string = '';
+        let routePath = '';
 
         if (params.action === CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN) {
             routePath = `${code_client}`;
