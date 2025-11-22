@@ -1,13 +1,218 @@
 {
-    "REPORT_REQUESTS": {
+    "REPORTS_REQUESTS": {
         "STATUS": {
             "PRISE_EN_CHARGE": "Prise en charge",
             "APPROBATION": "Approbation"
         },
-        "LABEL": "Suivi Demandes",
+        "LABEL": "Qualifications",
         "ROUTE": "requests",
-        "WAITING": {
-            "TITLE": "signalements en attente de prise en charge",
+        "QUEUES": {
+            "TITLE": "demandes en attente de prise en charge",
+            "LABEL": "File d'attente",
+            "ROUTE": "queues",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
+                "SEE_MORE": "Voir plus",
+                "TAKE": "Prendre",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATOR": "Opérateur",
+                "SOURCE": "Source"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
+                    "PARTIAL_SIGNAL": "Couverture partielle signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Réceptionné",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                }
+            }
+        },
+        "TASKS": {
+            "TITLE": "demandes en attente de qualification",
+            "LABEL": "panier de taches",
+            "ROUTE": "tasks",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "STEP": "Étape",
+                "STATUS": "Status",
+                "SEE_MORE": "Voir plus",
+                "QUALIFY": "Qualifier",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet",
+                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                },
+                "STATUS": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            }
+        },
+        "ALL": {
+            "TITLE": "demandes qualifiés",
+            "LABEL": "Toutes les demandes",
+            "ROUTE": "all",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "STEP": "Étape",
+                "STATUS": "Status",
+                "SEE_MORE": "Voir plus",
+                "QUALIFY": "Qualifier",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet",
+                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                },
+                "STATUS": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            }
+        }
+    },
+
+    "REPORTS_PROCESSING": {
+        "STATUS": {
+            "TREATMENT": "Traitement",
+            "FINALIZATION": "Finalisation",
+            "EVALUATION": "Evaluation"
+        },
+        "LABEL": "Traitements Signalements",
+        "ROUTE": "reports-processing",
+        "QUEUES": {
+            "TITLE": "signalements en attente d'affectation",
             "LABEL": "File d'attente",
             "ROUTE": "queues",
             "TABLE": {
@@ -62,10 +267,10 @@
                 }
             }
         },
-        "APPROVAL": {
-            "TITLE": "signalements en attente de qualification",
-            "LABEL": "Approbation",
-            "ROUTE": "qualified",
+        "TASKS": {
+            "TITLE": "demandes en attente de qualification",
+            "LABEL": "panier de taches",
+            "ROUTE": "tasks",
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -73,6 +278,7 @@
                 "OPERATORS": "Opérateurs",
                 "STATE": "État",
                 "STEP": "Étape",
+                "STATUS": "Status",
                 "SEE_MORE": "Voir plus",
                 "QUALIFY": "Qualifier",
                 "ACTION": "Action"
@@ -86,9 +292,11 @@
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet"
+                    "NO_INTERNET": "Absence d'internet",
+                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARIAL_SIGNAL": "Couverture partielle signal"
                 },
-                "STATE": {
+                "STATUS": {
                     "APPROVED": "Approuvé",
                     "RECEIVED": "Reçu",
                     "REJECTED": "Rejeté"
@@ -97,6 +305,12 @@
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
                 }
             },
             "LABELS": {
@@ -121,52 +335,51 @@
                     "QUEUED": "Fermée"
                 }
             }
-        }
-    },
-
-    "REPORT_PROCESSING": {
-        "STATUS": {
-            "TREATMENT": "Traitement",
-            "FINALIZATION": "Finalisation",
-            "EVALUATION": "Evaluation"
         },
-        "LABEL": "Traitements Signalements",
-        "ROUTE": "report",
-        "WAITING": {
-            "TITLE": "signalements en attente d'affectation",
-            "LABEL": "File d'attente",
-            "ROUTE": "queues",
+        "ALL": {
+            "TITLE": "demandes qualifiés",
+            "LABEL": "Toutes les demandes",
+            "ROUTE": "all",
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "STEP": "Étape",
                 "STATUS": "Status",
                 "SEE_MORE": "Voir plus",
-                "TAKE": "Prendre",
+                "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
             "FILTER": {
                 "REPORT_TYPE": "Type de signalement",
-                "OPERATOR": "Opérateur",
-                "STATE": "État"
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_SIGNAL": "Couverture partielle signal",
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet"
+                    "NO_INTERNET": "Absence d'internet",
+                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                },
+                "STATUS": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
+                    "REJECTED": "Rejeté"
                 },
                 "OPERATOR": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
                 },
-                "STATUS": {
-                    "PENDING": "En attente",
-                    "REJECTED": "Rejeté",
-                    "APPROVED": "Approuvé",
-                    "ABANDONED": "Abandonné"
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
                 }
             },
             "LABELS": {
@@ -181,9 +394,14 @@
                     "VALIDATED": "Validé"
                 },
                 "PROCESSING_STATE": {
-                    "RECEIVED": "Réceptionné",
+                    "RECEIVED": "Reçu",
                     "IN_PROGRESS": "En cours",
                     "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
                 }
             }
         },
@@ -209,7 +427,8 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
+                    "PARTIAL_SIGNAL": "Couverture partielle signal",
                     "WHITE_ZONE": "Zone blanche",
                     "NO_INTERNET": "Absence d'internet"
                 },
@@ -265,20 +484,87 @@
                 "REPORT_ID": "Identifiant du signalement",
                 "PLACEHOLDER": "Contenu de la finalisation à venir..."
             }
+        }
+    },
+
+    "FINALIZATION": {
+        "STATUS": {
+            "TREATMENT": "Traitement",
+            "FINALIZATION": "Finalisation",
+            "EVALUATION": "Evaluation"
         },
-        "QUEUE": {
-            "TITLE": "signalements en attente de clôture",
-            "LABEL": "Clôture",
-            "ROUTE": "close",
+        "LABEL": "Traitements Signalements",
+        "ROUTE": "reports-processing",
+        "QUEUES": {
+            "TITLE": "signalements en attente d'affectation",
+            "LABEL": "File d'attente",
+            "ROUTE": "queues",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATUS": "Status",
+                "SEE_MORE": "Voir plus",
+                "TAKE": "Prendre",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATOR": "Opérateur",
+                "STATE": "État"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
+                    "PARTIAL_SIGNAL": "Couverture partielle signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "STATUS": {
+                    "PENDING": "En attente",
+                    "REJECTED": "Rejeté",
+                    "APPROVED": "Approuvé",
+                    "ABANDONED": "Abandonné"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Réceptionné",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                }
+            }
+        },
+        "TASKS": {
+            "TITLE": "demandes en attente de qualification",
+            "LABEL": "panier de taches",
+            "ROUTE": "tasks",
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
                 "STATE": "État",
+                "STEP": "Étape",
+                "STATUS": "Status",
                 "SEE_MORE": "Voir plus",
-                "QUEUE": "Clôturer",
-                "JOURNAL": "Journal",
+                "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -290,10 +576,183 @@
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet",
+                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                },
+                "STATUS": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            }
+        },
+        "ALL": {
+            "TITLE": "demandes qualifiés",
+            "LABEL": "Toutes les demandes",
+            "ROUTE": "all",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "STEP": "Étape",
+                "STATUS": "Status",
+                "SEE_MORE": "Voir plus",
+                "QUALIFY": "Qualifier",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Zone blanche",
+                    "NO_INTERNET": "Absence d'internet",
+                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                },
+                "STATUS": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            }
+        },
+        "TREATMENT": {
+            "TITLE": "signalements en cours de traitement",
+            "LABEL": "Traitement",
+            "ROUTE": "progress",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "SEE_MORE": "Voir plus",
+                "TREAT": "Traiter",
+                "JOURNAL": "Journal",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
+                    "PARTIAL_SIGNAL": "Couverture partielle signal",
+                    "WHITE_ZONE": "Zone blanche",
                     "NO_INTERNET": "Absence d'internet"
                 },
                 "STATE": {
-                    "ACCEPTED": "Accepté",
+                    "TERMINATED": "Terminé",
+                    "IN_PROGRESS": "En cours",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            }
+        },
+        "FINALIZE": {
+            "TITLE": "signalements en attente de finalisation",
+            "LABEL": "Finalisation",
+            "ROUTE": "finalize",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Type de signalement",
+                "OPERATORS": "Opérateurs",
+                "STATE": "État",
+                "SEE_MORE": "Voir plus",
+                "FINALIZE": "Finaliser",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REPORT_TYPE": "Type de signalement",
+                "STATE": "État",
+                "OPERATOR": "Opérateur"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "WHITE_ZONE": "Zone blanche"
+                },
+                "STATE": {
+                    "FINALIZED": "Finalisé",
                     "PENDING": "En attente",
                     "REJECTED": "Rejeté"
                 },
@@ -302,6 +761,12 @@
                     "MTN": "MTN",
                     "MOOV": "Moov"
                 }
+            },
+            "REPORT_FINALIZE": {
+                "TITLE": "Finalisation du signalement",
+                "LABEL": "Finalisation du signalement",
+                "REPORT_ID": "Identifiant du signalement",
+                "PLACEHOLDER": "Contenu de la finalisation à venir..."
             }
         }
     },
@@ -313,11 +778,13 @@
             "REPORT_ID": "Identifiant du signalement",
             "PLACEHOLDER": "Contenu du traitement à venir...",
             "STATUS": {
-                "PRISE_EN_CHARGE": "Prise en charge",
-                "APPROBATION": "Approbation",
+                "SUBMISSION": "Soumission",
+                "QUALIFICATION": "Qualification",
                 "TREATMENT": "Traitement",
                 "FINALIZATION": "Finalisation",
-                "INFORMATION": "Information"
+                "INFORMATION": "Information",
+                "TAKE": "Prise en charge",
+                "APPROBATION": "Approbation"
             },
             "HEADER": {
                 "TITLE": "Détails du signalement",
@@ -341,13 +808,25 @@
                     "TITLE": "Informations du demandeur",
                     "LAST_NAME": "Nom",
                     "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contacts"
+                    "PHONE": "Contact"
                 },
                 "APPROVER": {
-                    "TITLE": "Informations du demandeur",
+                    "TITLE": "Informations de l'approbateur",
                     "LAST_NAME": "Nom",
                     "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contacts"
+                    "PHONE": "Contact"
+                },
+                "TOOK": {
+                    "TITLE": "Informations du gestionnaire",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Contact"
+                },
+                "REFUSER": {
+                    "TITLE": "Informations du refuseur",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Contact"
                 },
                 "LOCATION": {
                     "TITLE": "Localisation",
@@ -356,9 +835,10 @@
             },
             "TABS": {
                 "CATEGORIES": {
-                    "INFORMATION": "Information",
+                    "INFORMATION": "Informations",
                     "PHOTOS": "Photos",
-                    "GEOGRAPHIC_VIEW": "Vue géographique"
+                    "GEOGRAPHIC_VIEW": "Vue géographique",
+                    "EVENT_LOGS": "Journal d'évènements"
                 },
                 "SECTIONS": {
                     "INFO": "Informations"
@@ -410,22 +890,38 @@
             },
             "REPORT_INFO": {
                 "TITLE": "Information du signalement",
+                "TRANSMISSION_CHANNEL": "Canal Emission",
+                "GEOLOCATION_SYSTEM": "Système Géolocalisation",
+                "OPERATORS": "Opérateurs concernés",
+                "DATE_TIME_ENTRY": "Date Heure saisie",
+                "DATE_TIME_RECEIPT": "Date Heure réception",
+                "CONFIRMATION": "Confirmation",
                 "REGION": "Région",
                 "DEPARTMENT": "Département",
                 "COMMUNE": "Commune/Sous-préfecture",
                 "TYPE": "Type de signalement",
                 "STATUS": "Statut",
                 "DESCRIPTION": "Description du signalement",
+                "LOCATION_NAME": "Lien avec la zone",
                 "NO_DESCRIPTION": "Aucune description de localisation fournie"
             },
             "LOCATION_INFO": {
-                "TITLE": "Information de la localisation",
+                "TITLE": "Informations de la localisation",
+                "COORDINATES": "Coordonnées",
+                "LOCATION_METHOD": "Lecture Coordonnées",
                 "LONGITUDE": "Longitude",
                 "LATITUDE": "Latitude",
                 "PLACE_DESCRIPTION": "Description de l'endroit",
-                "NO_DESCRIPTION": "Aucune description de localisation fournie",
-                "MAP_PREVIEW": "Aperçu de la localisation"
+                "NO_DESCRIPTION": "Aucune description de localisation fournie"
             },
+            "PICTURES_INFO": {
+                "TITLE": "Description de l'endroit"
+            },
+
+            "PICTURES": {
+                "TITLE": "Photos"
+            },
+
             "FIELDS": {
                 "REPORT_ID": "ID Signalement",
                 "SOURCE": "Source",
@@ -445,8 +941,10 @@
                 "ADMIN": "Administration"
                 },
                 "REPORT_TYPE": {
-                "ABI": "ABI",
-                "ZOB": "ZOB",
+                "ABI": "Absence d'internet",
+                "ZOB": "Zone blanche",
+                "CPS": "Couverture partielle signal",
+                "CPO": "Couverture partielle operateur",
                 "OTHER": "Autre"
                 },
                 "STATUS": {
@@ -457,7 +955,8 @@
                 "CONFIRM": "Confirmer",
                 "TERMINATED": "Terminé",
                 "RECEIVED": "Reçu",
-                "IN_PROGRESS": "En cours"
+                "IN_PROGRESS": "En cours",
+                "SUBMISSION": "Soumission"
                 },
                 "OPERATORS": {
                 "MTN": "MTN",
@@ -989,7 +1488,7 @@
     "TABLE": {
         "COMMON": {
             "INDEX": "#",
-            "QUEUE": "Fermer"
+            "QUEUES": "Fermer"
         }
     },
 
@@ -1045,6 +1544,7 @@
             "ARIA_LABEL": "Chargement en cours"
         }
     },
+
     "LAYOUT": {
         "HEADER": {
             "REFRESH": {
@@ -1080,6 +1580,7 @@
             "COPYRIGHT": "Copyright CSP {year}"
         }
     },
+
     "AUTHENTICATION": {
         "TITLE": "Authentification",
         "UI": {
@@ -1090,7 +1591,7 @@
             "FORGOT_PASSWORD": "Mot de passe oublié",
             "FEATURES": {
                 "SECURE_ACCESS": "Accès sécurisé",
-                "TREATMENT_AND_MONITORING_OF_REPORT_PROCESSING": "Suivi et Traitement des signalements",
+                "TREATMENT_AND_MONITORING_OF_REPORTS_PROCESSING": "Suivi et Traitement des signalements",
                 "REAL_TIME_DASHBOARD": "Tableau de bord en temps réel",
                 "TEAM_MANAGEMENT": "Gestion des équipes",
                 "EXTRACTION_OF_DATA": "Extraction de données"
@@ -1463,7 +1964,6 @@
     "TOTAL": "Total",
     "RECEIVED": "Reçu",
     "IN_PROGRESS": "En cours",
-    "FINALIZATION": "Finalisation",
     "CONNECTED": "Connecté",
     "ADV": "ADV",
     "LOT": "Lot",
@@ -1501,80 +2001,77 @@
         "SECTIONS": {
             "OVERVIEW": {
                 "TITLE": "Vue d'ensemble",
-
-
-                
-                "PENDING_REPORT_PROCESSING": {
+                "PENDING_REPORTS_PROCESSING": {
                     "LABEL": "En attente",
                     "SUBTITLE": "Signalements en file d'attente"
                 },
-                "IN_TREATMENT_REPORT_PROCESSING": {
+                "IN_TREATMENT_REPORTS_PROCESSING": {
                     "LABEL": "En traitement",
                     "SUBTITLE": "Signalements en cours de traitement"
                 },
-                "QUEUED_REPORT_PROCESSING": {
+                "QUEUED_REPORTS_PROCESSING": {
                     "LABEL": "Clôturés",
                     "SUBTITLE": "Signalements clôturés"
                 }
             },
             "STATUS": {
                 "TITLE": "Par statut",
-                "APPROVED_REPORT_PROCESSING": {
+                "APPROVED_REPORTS_PROCESSING": {
                     "LABEL": "Approuvés",
                     "SUBTITLE": "Signalements approuvés"
                 },
-                "REJECTED_REPORT_PROCESSING": {
+                "REJECTED_REPORTS_PROCESSING": {
                     "LABEL": "Rejetés",
                     "SUBTITLE": "Signalements rejetés"
                 },
-                "FINALIZED_REPORT_PROCESSING": {
+                "FINALIZED_REPORTS_PROCESSING": {
                     "LABEL": "Finalisés",
                     "SUBTITLE": "Signalements finalisés"
                 }
             },
             "TYPE": {
                 "TITLE": "Type de signalement",
-                "TOTAL_REPORT_PROCESSING": {
+                "TOTAL_REPORTS_PROCESSING": {
                     "LABEL": "Total des signalements",
                     "SUBTITLE": "Tous les signalements confondus"
                 },
-                "PARTIAL_OPERATOR_REPORT_PROCESSING": {
+                "PARTIAL_OPERATOR_REPORTS_PROCESSING": {
                     "LABEL": "Couverture partielle opérateur",
                     "SUBTITLE": "Signalements de couverture partielle opérateur"
                 },
-                "WHITE_ZONE_REPORT_PROCESSING": {
+                "WHITE_ZONE_REPORTS_PROCESSING": {
                     "LABEL": "Zone blanche",
                     "SUBTITLE": "Signalements de zone blanche"
                 },
-                "PARTIAL_SIGNAL_REPORT_PROCESSING": {
-                    "LABEL": "Couverture partielle",
+                "PARTIAL_SIGNAL_REPORTS_PROCESSING": {
+                    "LABEL": "Couverture partielle signal",
                     "SUBTITLE": "Signalements de couverture partielle"
                 },
-                "NO_INTERNET_REPORT_PROCESSING": {
+                "NO_INTERNET_REPORTS_PROCESSING": {
                     "LABEL": "Absence d'internet",
                     "SUBTITLE": "Signalements d'absence d'internet"
                 }
             },
             "TASK_STATUS": {
                 "TITLE": "Etat des bacs de taches en attente",
-                "QUALIFICATION": {
-                    "LABEL": "Qualification",
+                "PENDING": {
+                    "LABEL": "En attente",
                     "SUBTITLE": "Signalements en attente de qualification"
                 },
-                "ASSIGNMENT": {
-                    "LABEL": "Affectation",
+                "IN_PROGRESS": {
+                    "LABEL": "En traitement",
                     "SUBTITLE": "Signalements en attente d'affectation"
                 },
-                "TREATMENT": {
-                    "LABEL": "Traitement",
+                "TREATED": {
+                    "LABEL": "Traités",
                     "SUBTITLE": "Signalements en cours de traitement"
                 },
-                "FINALIZATION": {
-                    "LABEL": "Finalisation",
+                "FINALIZED": {
+                    "LABEL": "Finalisés",
                     "SUBTITLE": "Signalements en attente de finalisation"
                 },
-                "EVALUATION": {
-                    "LABEL": "Evaluation",
+                "EVALUATED": {
+                    "LABEL": "Evalués",
                     "SUBTITLE": "Signalements en attente d'évaluation"
                 }
             },
@@ -1666,7 +2163,7 @@
     "QUEUE_TABS": "Fermer les onglets",
     "CONFIRM_QUEUE_TABS": "Tous les onglets ouverts seront fermés. Les données non enregistrées seront perdues.",
     "CANCEL": "Annuler",
-    "QUEUE": "Fermer",
+    "QUEUES": "Fermer",
     "REJECT": "Rejeter",
     "DASHBOARD_UPDATED_DATE": "Dernière mise à jour",
     "LOGO_ENTERPRISE": "Logo de l'entreprise",

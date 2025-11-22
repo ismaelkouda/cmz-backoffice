@@ -1,21 +1,20 @@
 export class DashboardPeriodFilter {
-    private constructor(public readonly days: number) {}
+    private constructor(public readonly period: number) {}
 
-    static create(days: number | null | undefined): DashboardPeriodFilter {
-        const validDays = days ?? 30;
+    static create(period: number | null | undefined): DashboardPeriodFilter {
+        const validPeriod = period ?? 30;
 
-        if (validDays < 1) {
+        if (validPeriod < 1) {
             throw new Error('DASHBOARD.FILTER.PERIOD.INVALID');
         }
 
-        return new DashboardPeriodFilter(validDays);
+        return new DashboardPeriodFilter(validPeriod);
     }
 
-    toQueryParams(): { days: string } | Record<string, never> {
-        if (this.days === 30) {
+    toQueryParams(): { period: string } | Record<string, never> {
+        if (this.period === 30) {
             return {};
         }
-        return { days: this.days.toString() };
+        return { period: this.period.toString() };
     }
 }
-

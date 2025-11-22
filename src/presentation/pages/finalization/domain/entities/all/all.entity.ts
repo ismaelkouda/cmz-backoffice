@@ -1,0 +1,30 @@
+export interface AllEntity {
+    readonly id: string;
+    readonly uniqId: string;
+    readonly initiatedBy: string;
+    readonly source: string;
+    readonly locationMethod: string;
+    readonly locationType: string;
+    readonly locationName: string;
+    readonly placeDescription: string | null;
+    readonly reportType: string;
+    readonly operators: string[];
+    readonly description: string | null;
+    readonly submissionState: string | null;
+    readonly processingState: string | null;
+    readonly closureState: string | null;
+    readonly status: string;
+    readonly state: string;
+    readonly voteConfirmCount: number;
+    readonly voteDenyCount: number;
+    readonly isDuplicated: boolean;
+    readonly duplicateCount: number;
+    readonly evaluationAverage: string;
+    readonly placePhoto: string | null;
+    readonly accessPlacePhoto: string | null;
+    readonly latitude: number | null;
+    readonly longitude: number | null;
+    readonly what3words: string | null;
+    readonly createdAt: string;
+    readonly updatedAt: string;
+}

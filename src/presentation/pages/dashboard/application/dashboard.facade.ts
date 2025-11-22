@@ -30,8 +30,8 @@ export class DashboardFacade {
         private readonly translateService: TranslateService
     ) {}
 
-    loadStatistics(periodDays?: number): Observable<DashboardStatistics> {
-        const filter = DashboardPeriodFilter.create(periodDays);
+    loadStatistics(period?: number): Observable<DashboardStatistics> {
+        const filter = DashboardPeriodFilter.create(period);
         this.loadingSubject.next(true);
 
         return this.loadStatisticsUseCase.execute(filter).pipe(
@@ -49,4 +49,3 @@ export class DashboardFacade {
         );
     }
 }
-

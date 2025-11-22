@@ -1,10 +1,10 @@
 (function (window) {
             window.__env = {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "authenticationUrl": "https://cmz-service-api.pass.imako.digital/auth/v1.0/backoffice/",
-    "reportUrl": "https://cmz-service-api.pass.imako.digital/reports/v1.0/backoffice/",
-    "settingUrl": "https://cmz-service-api.pass.imako.digital/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://cmz-service-api.pass.imako.digital/auth/backoffice/",
+    "authenticationUrl": "https://api-services.mazone.imako.digital/auth/v1.0/backoffice/",
+    "reportUrl": "https://api-services.mazone.imako.digital/reports/v1.0/backoffice/",
+    "settingUrl": "https://api-services.mazone.imako.digital/base-settings/v1.0/backoffice/",
+    "fileUrl": "https://api-services.mazone.imako.digital/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "messageApp": {
@@ -23,7 +23,7 @@
     }
 };
             window.__env.buildInfo = {
-                timestamp: '2025-11-18T22:18:48.609Z',
+                timestamp: '2025-11-21T22:22:12.588Z',
                 environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'

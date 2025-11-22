@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 export const SEARCH = 'search';
 
 export const DASHBOARD = 'dashboard';
-export const REPORT_PROCESSING_ROUTE = 'reports';
+export const REPORTS_PROCESSING_ROUTE = 'reports-processing';
+export const REPORT_FINALIZATION_ROUTE = 'reports-finalization';
 export const REPORTING_ROUTE = 'reports';
 export const REPORT_REQUESTS_ROUTE = 'requests';
 export const CUSTOMERS_MANAGED = 'managed-customers';
@@ -20,7 +21,12 @@ export const content: Routes = [
                 (m) => m.routes
             ),
         data: {
-            title: 'Tableau de bord',
+            module: 'TEAM_ORGANIZATION',
+            subModule: [
+                'TEAM_ORGANIZATION.PARTICIPANT.LABEL',
+                'TEAM_ORGANIZATION.TEAM.LABEL',
+                'TEAM_ORGANIZATION.AGENT_IA.LABEL',
+            ],
         },
     },
     {
@@ -46,7 +52,7 @@ export const content: Routes = [
             ).then((m) => m.routes),
     },
     {
-        path: REPORT_PROCESSING_ROUTE,
+        path: REPORTS_PROCESSING_ROUTE,
         loadChildren: () =>
             import(
                 '../../presentation/pages/reports-processing/reports-processing.routes'
@@ -54,13 +60,24 @@ export const content: Routes = [
         data: {
             module: 'REPORT_ROUTE',
             subModule: [
-                'REPORT_PROCESSING.WAITING.LABEL',
-                'REPORT_PROCESSING.APPROVAL.LABEL',
-                'REPORT_PROCESSING.TREATMENT.LABEL',
-                'REPORT_PROCESSING.FINALIZE.LABEL',
-                'REPORT_PROCESSING.CLAIMS.LABEL',
-                'MY_NOTIFICATIONS',
-                'MY_INBOX',
+                'REPORTS_PROCESSING.WAITING.LABEL',
+                'REPORTS_PROCESSING.TASKS.LABEL',
+                'REPORTS_PROCESSING.ALL.LABEL',
+            ],
+        },
+    },
+    {
+        path: REPORT_FINALIZATION_ROUTE,
+        loadChildren: () =>
+            import(
+                '../../presentation/pages/finalization/finalization.routes'
+            ).then((m) => m.routes),
+        data: {
+            module: 'REPORT_ROUTE',
+            subModule: [
+                'REPORTS_PROCESSING.WAITING.LABEL',
+                'REPORTS_PROCESSING.TASKS.LABEL',
+                'REPORTS_PROCESSING.ALL.LABEL',
             ],
         },
     },

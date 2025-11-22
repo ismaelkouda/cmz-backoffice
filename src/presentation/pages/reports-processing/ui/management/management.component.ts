@@ -1,37 +1,46 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
+    ElementRef,
     EventEmitter,
     Input,
     OnInit,
     Output,
+    ViewChild,
     inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
     FormControl,
     FormGroup,
+    ReactiveFormsModule,
     ɵFormGroupRawValue,
     ɵTypedOrUntyped,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ApprovalFacade } from '@presentation/pages/report-requests/application/approval.facade';
-import { WaitingFacade } from '@presentation/pages/report-requests/application/waiting.facade';
+import { QueuesFacade as requestsQueuesFacade } from '@presentation/pages/report-requests/application/queues.facade';
+import { TasksFacade } from '@presentation/pages/report-requests/application/tasks.facade';
+import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { SelectModule } from 'primeng/select';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 import { DetailsFacade } from '../../application/details.facade';
 import { FinalizeFacade } from '../../application/finalize.facade';
 import { ManagementFacade } from '../../application/management.facade';
-import { QueueFacade } from '../../application/queue.facade';
+import { QueuesFacade as processingQueuesFacade } from '../../application/queues.facade';
 import { TreatmentFacade } from '../../application/treatment.facade';
 import {
     DetailsEntity,
@@ -43,10 +52,23 @@ import {
 } from '../../domain/entities/details/details.entity';
 import { ManagementFormControlEntity } from '../../domain/entities/management/management-form-control.entity';
 import { ManagementEntity } from '../../domain/entities/management/management.entity';
+import { RouteContextService } from '../../domain/services/route-context.service';
+import { MapManagementComponent } from '../../feature/management/map-management/map-management.component';
+type TreaterTimestampKey =
+    | 'createdAt'
+    | 'approvedAt'
+    | 'acknowledgedAt'
+    | 'rejectedAt'
+    | 'confirmedAt'
+    | 'abandonedAt'
+    | 'finalizedAt';
 
 interface WorkflowStep {
-    key: string;
-    label: string;
+    key: TreaterTimestampKey;
+    key1?: TreaterTimestampKey;
+    key2?: TreaterTimestampKey;
+    key3?: TreaterTimestampKey;
+    label?: string;
     timestamp?: string | null;
 }
 
@@ -71,15 +93,20 @@ interface InfoCard {
         SkeletonModule,
         TooltipModule,
         SelectModule,
+        ReactiveFormsModule,
+        MapManagementComponent,
+        TagModule,
+        ImageZoomComponent,
     ],
-    providers: [MessageService],
+    providers: [MessageService, RouteContextService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManagementComponent implements OnInit {
+export class ManagementComponent implements OnInit, AfterViewInit {
     @Input() visible = false;
     @Input() reportId!: string;
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() closed = new EventEmitter<void>();
+    @ViewChild('mapRef') mapRef!: ElementRef<HTMLElement>;
 
     public formTreatment!: FormGroup<ManagementFormControlEntity>;
     public isSubmitting$!: Observable<boolean>;
@@ -110,28 +137,26 @@ export class ManagementComponent implements OnInit {
 
     public workflowSteps: WorkflowStep[] = [
         {
-            key: 'PRISE_EN_CHARGE',
-            label: 'MANAGEMENT.STATUS.PRISE_EN_CHARGE',
+            key: 'createdAt',
+            label: 'MANAGEMENT.STATUS.SUBMISSION',
             timestamp: null,
         },
         {
-            key: 'APPROBATION',
-            label: 'MANAGEMENT.STATUS.APPROBATION',
+            key: 'acknowledgedAt',
+            label: 'MANAGEMENT.STATUS.QUALIFICATION',
             timestamp: null,
         },
         {
-            key: 'TREATMENT',
+            key: 'approvedAt',
+            key1: 'rejectedAt',
+            key2: 'confirmedAt',
+            key3: 'abandonedAt',
             label: 'MANAGEMENT.STATUS.TREATMENT',
             timestamp: null,
         },
         {
-            key: 'FINALIZATION',
+            key: 'finalizedAt',
             label: 'MANAGEMENT.STATUS.FINALIZATION',
-            timestamp: null,
-        },
-        {
-            key: 'EVALUATION',
-            label: 'MANAGEMENT.STATUS.EVALUATION',
             timestamp: null,
         },
     ];
@@ -149,6 +174,10 @@ export class ManagementComponent implements OnInit {
             key: 'geographicView',
             label: 'MANAGEMENT.TABS.CATEGORIES.GEOGRAPHIC_VIEW',
         },
+        {
+            key: 'eventLogs',
+            label: 'MANAGEMENT.TABS.CATEGORIES.EVENT_LOGS',
+        },
     ];
 
     public readonly motifOptions = [
@@ -161,28 +190,39 @@ export class ManagementComponent implements OnInit {
 
     private readonly toastService = inject(ToastrService);
     private readonly translate = inject(TranslateService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly detailsFacade = inject(DetailsFacade);
+    private readonly managementFacade = inject(ManagementFacade);
     private readonly fb = inject(FormBuilder);
     private readonly messageService = inject(MessageService);
-    private readonly waitingFacade = inject(WaitingFacade);
-    private readonly approvalFacade = inject(ApprovalFacade);
+    private readonly requestsQueuesFacade = inject(requestsQueuesFacade);
+    private readonly requestsTasksFacade = inject(TasksFacade);
     private readonly finalizeFacade = inject(FinalizeFacade);
-    private readonly queueFacade = inject(QueueFacade);
+    private readonly queueFacade = inject(processingQueuesFacade);
     private readonly treatmentFacade = inject(TreatmentFacade);
+    private readonly routeContextService = inject(RouteContextService);
+    private readonly clipboardService = inject(ClipboardService);
+
+    readonly details = toSignal(this.detailsFacade.details$, {
+        initialValue: null,
+    });
+    readonly loading = toSignal(this.detailsFacade.loadingDetails$, {
+        initialValue: false,
+    });
+
     private readonly destroy$ = new Subject<void>();
 
     public isTreatmentFormExpanded = false;
-
-    constructor(
-        private detailsFacade: DetailsFacade,
-        private managementFacade: ManagementFacade
-    ) {}
+    public endPointType!: EndPointType;
 
     ngOnInit(): void {
         this.initializeComponent();
-        this.loadUserData();
+        this.getUrlParams();
         this.subscribeToData();
         this.initializeWorkflowSteps();
     }
+
+    ngAfterViewInit(): void {}
 
     ngOnDestroy(): void {
         this.destroy$.next();
@@ -193,11 +233,76 @@ export class ManagementComponent implements OnInit {
         this.initForm();
     }
 
+    private getUrlParams(): void {
+        this.endPointType =
+            this.routeContextService.currentEndPointType() ?? 'requests';
+        this.loadDetailsData(this.reportId, this.endPointType);
+    }
+
+    private loadDetailsData(
+        reportId: string,
+        endPointType: EndPointType
+    ): void {
+        this.detailsFacade.fetchDetails(reportId, endPointType);
+    }
+
     private initializeWorkflowSteps(): void {
         this.details$.subscribe((details) => {
             if (details) {
+                if (details.isReceived || details.isPending) {
+                }
                 this.updateWorkflowTimestamps(details);
             }
+        });
+    }
+
+    private updateWorkflowTimestamps(details: DetailsEntity): void {
+        this.workflowSteps = this.workflowSteps.map((step) => {
+            let timestamp: string | null = null;
+            const treater = details.treater;
+
+            if (!treater) {
+                return { ...step, timestamp };
+            }
+
+            if (
+                step.key === 'approvedAt' &&
+                step.key1 &&
+                step.key2 &&
+                step.key3
+            ) {
+                switch (details.status) {
+                    case 'approved':
+                        timestamp = treater[step.key];
+                        break;
+                    case 'rejected':
+                        timestamp = treater[step.key1];
+                        break;
+                    case 'confirmed':
+                        timestamp = treater[step.key2];
+                        break;
+                    case 'abandoned':
+                        timestamp = treater[step.key3];
+                        break;
+                    default:
+                        const keys: TreaterTimestampKey[] = [
+                            step.key,
+                            step.key1,
+                            step.key2,
+                            step.key3,
+                        ];
+                        for (const key of keys) {
+                            if (key && treater[key]) {
+                                timestamp = treater[key];
+                                break;
+                            }
+                        }
+                }
+            } else {
+                timestamp = treater[step.key];
+            }
+
+            return { ...step, timestamp };
         });
     }
 
@@ -230,35 +335,10 @@ export class ManagementComponent implements OnInit {
         this.isTreatmentFormExpanded = false;
     }
 
-    private updateWorkflowTimestamps(details: DetailsEntity): void {
-        this.workflowSteps = this.workflowSteps.map((step) => {
-            let timestamp = null;
-
-            switch (step.key) {
-                case 'PRISE_EN_CHARGE':
-                    timestamp = details.timestamps?.createdAt;
-                    break;
-                case 'APPROBATION':
-                    timestamp = details.approval?.approvedAt;
-                    break;
-            }
-
-            return { ...step, timestamp };
-        });
-    }
-
-    private loadUserData(): void {
-        this.detailsFacade.fetchDetails(this.reportId);
-    }
-
     private subscribeToData(): void {
         this.details$ = this.detailsFacade.details$;
         this.isLoading$ = this.detailsFacade.isLoading$;
         this.isSubmitting$ = this.managementFacade.loading$;
-
-        this.details$.subscribe((details) => {
-            console.log(details);
-        });
     }
 
     private initForm(): void {
@@ -392,6 +472,13 @@ export class ManagementComponent implements OnInit {
         });
     }
 
+    copyToClipboard(value: string): void {
+        this.clipboardService.copyFromContent(value);
+        this.toastService.success(
+            this.translate.instant('COPIED_TO_CLIPBOARD')
+        );
+    }
+
     public onValidReportTreatment(details: DetailsEntity): void {
         if (!this.reportId) {
             return;
@@ -462,13 +549,20 @@ export class ManagementComponent implements OnInit {
         >
     ): () => Observable<ManagementEntity> {
         const actionMap: Record<string, () => Observable<ManagementEntity>> = {
-            take: () => this.managementFacade.take(credentials),
+            take: () =>
+                this.managementFacade.take(credentials, this.endPointType),
             approve: () => {
                 const decision = this.formTreatment.get('decision')?.value;
                 if (decision === 'rejected') {
-                    return this.managementFacade.reject(credentials);
+                    return this.managementFacade.reject(
+                        credentials,
+                        this.endPointType
+                    );
                 } else {
-                    return this.managementFacade.approve(credentials);
+                    return this.managementFacade.approve(
+                        credentials,
+                        this.endPointType
+                    );
                 }
             },
             treat: () => this.managementFacade.process(credentials),
@@ -480,8 +574,8 @@ export class ManagementComponent implements OnInit {
 
     private handleRefresh(management: string): void {
         const actionMap: Record<string, () => void> = {
-            take: () => this.waitingFacade.refresh(),
-            approve: () => this.approvalFacade.refresh(),
+            take: () => this.requestsQueuesFacade.refresh(),
+            approve: () => this.requestsTasksFacade.refresh(),
             treat: () => this.treatmentFacade.refresh(),
         };
         actionMap[management]();
@@ -580,12 +674,12 @@ export class ManagementComponent implements OnInit {
         }
         if (management === 'approve') {
             const decision = this.formTreatment.get('decision')?.value;
-            if (decision === 'reject') {
+            if (decision === 'rejected') {
                 return (title =
                     'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.REJECT.TITLE');
             } else {
                 return (title =
-                    'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.BUTTONS.TITLE');
+                    'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.APPROVAL.TITLE');
             }
         } else return '';
         /* if (management.canBeTaken) {
@@ -614,8 +708,6 @@ export class ManagementComponent implements OnInit {
     }
 
     getActionButtonLabel(details: DetailsEntity): string {
-        console.log('azerrty', details);
-        console.log('details.managementPrams', details.managementPrams);
         const management = details.managementPrams;
         const labelMap: Record<string, string> = {
             take: 'MANAGEMENT.FOOTER.ACTIONS.TAKE_CHARGE',
@@ -633,6 +725,7 @@ export class ManagementComponent implements OnInit {
             information: 'pi pi-info-circle',
             photos: 'pi pi-images',
             geographicView: 'pi pi-map-marker',
+            eventLogs: 'pi pi-calendar',
         };
         return iconMap[categoryKey] || 'pi pi-circle';
     }
@@ -643,6 +736,8 @@ export class ManagementComponent implements OnInit {
         const typeClassMap: Record<ReportType, string> = {
             [ReportType.ABI]: 'type-urgent',
             [ReportType.ZOB]: 'type-normal',
+            [ReportType.CPS]: 'type-urgent',
+            [ReportType.CPO]: 'type-normal',
             [ReportType.OTHER]: 'type-default',
         };
 
@@ -655,10 +750,60 @@ export class ManagementComponent implements OnInit {
         const labelMap: Record<ReportType, string> = {
             [ReportType.ABI]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ABI',
             [ReportType.ZOB]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ZOB',
+            [ReportType.CPS]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ABI',
+            [ReportType.CPO]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ZOB',
             [ReportType.OTHER]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.OTHER',
         };
 
         return labelMap[reportType] || 'MANAGEMENT.FORM.NOT_SPECIFIED';
+    }
+
+    public getOperatorLabel(operator: string): string {
+        const normalized = operator?.toLowerCase().trim() ?? '';
+        let translationKey = '';
+
+        switch (normalized) {
+            case 'orange':
+                translationKey =
+                    'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.ORANGE';
+                break;
+            case 'mtn':
+                translationKey = 'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.MTN';
+                break;
+            case 'moov':
+                translationKey =
+                    'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.MOOV';
+                break;
+            default:
+                return operator;
+        }
+
+        return this.translate.instant(translationKey);
+    }
+
+    public getOperatorTagStyle(operator: string): Record<string, string> {
+        const normalized = operator?.toLowerCase().trim() ?? '';
+        const backgroundColor = this.getOperatorColor(operator);
+        const textColor = normalized === 'mtn' ? '#212121' : '#ffffff';
+
+        return {
+            backgroundColor,
+            color: textColor,
+        };
+    }
+
+    public getOperatorColor(operator: string): string {
+        const normalized = operator?.toLowerCase().trim() ?? '';
+        switch (normalized) {
+            case 'orange':
+                return 'rgb(241, 110, 0)';
+            case 'mtn':
+                return 'rgb(255, 203, 5)';
+            case 'moov':
+                return 'rgb(0, 91, 164)';
+            default:
+                return `rgba(var(--theme-default-rgb), 0.8)`;
+        }
     }
 
     getStatusClass(status: ReportStatus | undefined): string {
@@ -666,6 +811,7 @@ export class ManagementComponent implements OnInit {
 
         const statusClassMap: Record<ReportStatus, string> = {
             [ReportStatus.PENDING]: 'status-pending',
+            [ReportStatus.SUBMISSION]: 'status-pending',
             [ReportStatus.APPROVED]: 'status-completed',
             [ReportStatus.REJECTED]: 'status-rejected',
             [ReportStatus.ABANDONED]: 'status-closed',
@@ -682,6 +828,8 @@ export class ManagementComponent implements OnInit {
         if (!status) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
 
         const labelMap: Record<ReportStatus, string> = {
+            [ReportStatus.SUBMISSION]:
+                'MANAGEMENT.FORM.VALUES.STATUS.SUBMISSION',
             [ReportStatus.PENDING]: 'MANAGEMENT.FORM.VALUES.STATUS.PENDING',
             [ReportStatus.APPROVED]: 'MANAGEMENT.FORM.VALUES.STATUS.APPROVED',
             [ReportStatus.REJECTED]: 'MANAGEMENT.FORM.VALUES.STATUS.REJECTED',

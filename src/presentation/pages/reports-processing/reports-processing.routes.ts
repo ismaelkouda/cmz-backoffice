@@ -1,10 +1,14 @@
 import { Routes } from '@angular/router';
+import { AllComponent } from './ui/all/all.component';
 import { FinalizeComponent } from './ui/finalize/finalize.component';
-import { QueueComponent } from './ui/queue/queue.component';
+import { QueuesComponent } from './ui/queues/queues.component';
+import { TasksComponent } from './ui/tasks/tasks.component';
 import { TreatmentComponent } from './ui/treatment/treatment.component';
 
 export const TREATMENT_ROUTE = 'processing';
-export const QUEUE_ROUTE = 'queues';
+export const QUEUES_ROUTE = 'queues';
+export const TASKS_ROUTE = 'tasks';
+export const ALL_ROUTE = 'all';
 export const FINALIZE_ROUTE = 'finalization';
 export const REPORT_TREATMENT_ROUTE = 'treatment';
 
@@ -15,37 +19,15 @@ export const REPORT_FINALIZE_ROUTE = 'finalization';
 
 export const routes: Routes = [
     {
-        path: TREATMENT_ROUTE,
+        path: QUEUES_ROUTE,
         children: [
             {
                 path: '',
-                component: TreatmentComponent,
+                component: QueuesComponent,
                 data: {
-                    title: 'REPORT_PROCESSING.TREATMENT.TITLE',
-                    module: 'REPORT_PROCESSING.LABEL',
-                    subModule: 'REPORT_PROCESSING.TREATMENT.LABEL',
-                },
-            },
-            {
-                path: '**',
-                redirectTo: '',
-            },
-        ],
-        // canActivate: [PagesGuard],
-        // data: {
-        //     allowedPaths: [`/${TREATMENT_ROUTE}`],
-        // },
-    },
-    {
-        path: QUEUE_ROUTE,
-        children: [
-            {
-                path: '',
-                component: QueueComponent,
-                data: {
-                    title: 'REPORT_PROCESSING.QUEUE.TITLE',
-                    module: 'REPORT_PROCESSING.LABEL',
-                    subModule: 'REPORT_PROCESSING.QUEUE.LABEL',
+                    title: 'REPORTS_PROCESSING.QUEUES.TITLE',
+                    module: 'REPORTS_PROCESSING.LABEL',
+                    subModule: 'REPORTS_PROCESSING.QUEUES.LABEL',
                 },
             },
             {
@@ -59,15 +41,81 @@ export const routes: Routes = [
         // },
     },
     {
+        path: TASKS_ROUTE,
+        children: [
+            {
+                path: '',
+                component: TasksComponent,
+                data: {
+                    title: 'REPORTS_PROCESSING.TASKS.TITLE',
+                    module: 'REPORTS_PROCESSING.LABEL',
+                    subModule: 'REPORTS_PROCESSING.TASKS.LABEL',
+                },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${QUEUE_ROUTE}`],
+        // },
+    },
+    {
+        path: ALL_ROUTE,
+        children: [
+            {
+                path: '',
+                component: AllComponent,
+                data: {
+                    title: 'REPORTS_PROCESSING.ALL.TITLE',
+                    module: 'REPORTS_PROCESSING.LABEL',
+                    subModule: 'REPORTS_PROCESSING.ALL.LABEL',
+                },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${QUEUE_ROUTE}`],
+        // },
+    },
+    {
+        path: TREATMENT_ROUTE,
+        children: [
+            {
+                path: '',
+                component: TreatmentComponent,
+                data: {
+                    title: 'REPORTS_PROCESSING.TREATMENT.TITLE',
+                    module: 'REPORTS_PROCESSING.LABEL',
+                    subModule: 'REPORTS_PROCESSING.TREATMENT.LABEL',
+                },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${TREATMENT_ROUTE}`],
+        // },
+    },
+    {
         path: FINALIZE_ROUTE,
         children: [
             {
                 path: '',
                 component: FinalizeComponent,
                 data: {
-                    title: 'REPORT_PROCESSING.FINALIZE.TITLE',
-                    module: 'REPORT_PROCESSING.LABEL',
-                    subModule: 'REPORT_PROCESSING.FINALIZE.LABEL',
+                    title: 'REPORTS_PROCESSING.FINALIZE.TITLE',
+                    module: 'REPORTS_PROCESSING.LABEL',
+                    subModule: 'REPORTS_PROCESSING.FINALIZE.LABEL',
                 },
             },
             {

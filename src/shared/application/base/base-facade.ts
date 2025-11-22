@@ -171,18 +171,26 @@ export abstract class BaseFacade<
     protected readonly loadingDetailsSubject = new BehaviorSubject<boolean>(
         false
     );
+    protected readonly endPointTypeDetailsSubject =
+        new BehaviorSubject<EndPointType>('requests');
 
     readonly itemsDetails$: Observable<TEntity> =
         this.itemsDetailsSubject.asObservable();
     readonly loadingDetails$: Observable<boolean> =
         this.loadingDetailsSubject.asObservable();
+    readonly endPointType$: Observable<EndPointType> =
+        this.endPointTypeDetailsSubject.asObservable();
 
-    protected fetchDataDetails(fetchObservable: Observable<TEntity>): void {
+    protected fetchDataDetails(
+        fetchObservable: Observable<TEntity>,
+        endPointType: EndPointType
+    ): void {
         if (this.loadingDetailsSubject.getValue()) {
             return;
         }
 
         this.loadingDetailsSubject.next(true);
+        this.endPointTypeDetailsSubject.next(endPointType);
 
         fetchObservable
             .pipe(

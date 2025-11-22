@@ -1,0 +1,64 @@
+<main class="container-fluid all-container" role="main">
+    <section class="row all-row">
+        <article class="col-sm-12 all-article">
+            <app-breadcrumb
+                class="all-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card all-card">
+                <div class="card-body all-card-body">
+                    <header class="all-header">
+                        <app-page-title class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'FINALIZATION.ALL.TITLE' | translate | lowercase
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="fade-in all-content">
+                        <app-filter-all
+                            class="filter-component"
+                            (filter)="filter($event)"
+                        >
+                        </app-filter-all>
+
+                        <hr class="all-divider" />
+
+                        <section
+                            class="table-section"
+                            [aria-label]="'FINALIZATION.ALL.TITLE' | translate"
+                        >
+                            <app-table-all
+                                class="table-component"
+                                [spinner]="spinner$ | async"
+                                [pagination$]="pagination$"
+                                [listAll$]="all$"
+                                (treatmentRequested)="onAllAction($event)"
+                                (refreshRequested)="refreshAll()"
+                            >
+                            </app-table-all>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination$ | async"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+
+    @if(reportTreatmentVisible) {
+        <app-management
+            [(visible)]="reportTreatmentVisible"
+            [reportId]="selectedReportId"
+            (closed)="onReportTreatmentClosed()"
+        ></app-management>
+    }   
+</main>

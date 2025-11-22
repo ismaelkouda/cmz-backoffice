@@ -1,0 +1,105 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="filter-grid">
+
+        <div class="filter-grid__item">
+            <label for="report-type-select">
+                <b>{{ 'FINALIZATION.TASKS.FILTER.REPORT_TYPE' | translate }}</b>
+            </label>
+            <p-select
+                id="report-type-select"
+                formControlName="report_type"
+                [options]="reportOptions"
+                optionValue="value"
+                [showClear]="true"
+                (onClear)="resetSelect('report_type')"
+                placeholder="{{ 'SELECT' | translate }}"
+                appendTo="body"
+            >
+                <ng-template pTemplate="selectedItem" let-option>
+                    <span>{{ option?.label | translate }}</span>
+                </ng-template>
+                <ng-template pTemplate="item" let-option>
+                    <span>{{ option.label | translate }}</span>
+                </ng-template>
+            </p-select>
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="operator-select">
+                <b>{{ 'FINALIZATION.TASKS.FILTER.OPERATOR' | translate }}</b>
+            </label>
+            <p-select
+                id="operator-select"
+                formControlName="operator"
+                [options]="operatorOptions"
+                optionValue="value"
+                [showClear]="true"
+                (onClear)="resetSelect('operator')"
+                placeholder="{{ 'SELECT' | translate }}"
+                appendTo="body"
+            >
+                <ng-template pTemplate="selectedItem" let-option>
+                    <span>{{ option?.label | translate }}</span>
+                </ng-template>
+                <ng-template pTemplate="item" let-option>
+                    <span>{{ option.label | translate }}</span>
+                </ng-template>
+            </p-select>
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="state-select">
+                <b>{{ 'FINALIZATION.TASKS.FILTER.STATE' | translate }}</b>
+            </label>
+            <p-select
+                id="state-select"
+                formControlName="state"
+                [options]="stateOptions"
+                optionValue="value"
+                [showClear]="true"
+                (onClear)="resetSelect('state')"
+                placeholder="{{ 'SELECT' | translate }}"
+                appendTo="body"
+            >
+                <ng-template pTemplate="selectedItem" let-option>
+                    <span>{{ option?.label | translate }}</span>
+                </ng-template>
+                <ng-template pTemplate="item" let-option>
+                    <span>{{ option.label | translate }}</span>
+                </ng-template>
+            </p-select>
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="created-from">
+                <b>{{ 'START_DATE' | translate }}</b>
+            </label>
+            <p-datepicker
+                id="created-from"
+                formControlName="created_from"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+                appendTo="body"
+            ></p-datepicker>
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="created-to">
+                <b>{{ 'END_DATE' | translate }}</b>
+            </label>
+            <p-datepicker
+                id="created-to"
+                formControlName="created_to"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+                appendTo="body"
+            ></p-datepicker>
+        </div>
+
+        <button type="submit" class="btn btn-primary px-3">
+            <i class="pi pi-filter"></i>
+        </button>
+    </div>
+</form>

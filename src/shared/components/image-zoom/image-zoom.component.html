@@ -1,0 +1,37 @@
+<div class="image-wrapper" [class.align-right]="alignRight">
+    <img
+        [src]="src"
+        [alt]="label || 'Image zoomable'"
+        class="main-image"
+        draggable="false"
+        (click)="openModal()"
+    />
+
+    <div
+        *ngIf="zoomVisible"
+        class="lens"
+        [ngStyle]="{
+            top: lensPosition.top + 'px',
+            left: lensPosition.left + 'px'
+        }"
+    ></div>
+
+    <div
+        *ngIf="zoomVisible"
+        class="zoomed-image"
+        [ngStyle]="{
+            'background-image': 'url(' + src + ')',
+            'background-position': backgroundPosition
+        }"
+    ></div>
+</div>
+
+<p-dialog
+    header="{{ label }}"
+    [(visible)]="modalVisible"
+    [modal]="true"
+    [closable]="true"
+    styleClass="custom-dialog"
+>
+    <img [src]="src" alt="{{ label }}" style="width: 100%" />
+</p-dialog>

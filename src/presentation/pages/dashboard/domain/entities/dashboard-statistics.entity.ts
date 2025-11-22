@@ -10,11 +10,11 @@ export interface DashboardStatistics {
     readonly whiteZoneReports?: number;
     readonly partialSignalReports?: number;
     readonly noInternetReports?: number;
-    readonly qualificationReports?: number;
-    readonly assignmentReports?: number;
-    readonly treatmentReports?: number;
-    readonly finalizationReports?: number;
-    readonly evaluationReports?: number;
+    readonly totalReportsPending?: number;
+    readonly totalReportsInProcessing?: number;
+    readonly totalReportsProcessed?: number;
+    readonly totalReportsFinalized?: number;
+    readonly totalReportsEvaluated?: number;
     readonly treatmentRate?: number;
     readonly approvalRate?: number;
     readonly averageTreatmentTime?: number;
@@ -22,4 +22,3 @@ export interface DashboardStatistics {
     readonly responseTime?: number;
     readonly date_derniere_maj?: string;
 }
-

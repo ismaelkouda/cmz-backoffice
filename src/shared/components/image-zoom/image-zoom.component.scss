@@ -1,0 +1,93 @@
+:host ::ng-deep .custom-dialog {
+    width: 600px;
+    max-width: 90vw;
+}
+
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 350px;
+    height: 250px;
+    overflow: visible !important;
+    border-radius: 12px;
+    cursor: pointer;
+
+    .main-image {
+        user-select: none;
+        -webkit-user-drag: none;
+        -moz-user-drag: none;
+        -ms-user-drag: none;
+        pointer-events: auto;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    &:hover .main-image {
+        transform: scale(1.05);
+    }
+
+    .lens {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        border-radius: 8px;
+        background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 123, 255, 0.08),
+                rgba(0, 123, 255, 0.08) 1px,
+                transparent 1px,
+                transparent 4px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                rgba(0, 123, 255, 0.08),
+                rgba(0, 123, 255, 0.08) 1px,
+                transparent 1px,
+                transparent 4px
+            ),
+            linear-gradient(
+                90deg,
+                rgba(0, 123, 255, 0.1) 0%,
+                rgba(0, 123, 255, 0.25) 50%,
+                rgba(0, 123, 255, 0.1) 100%
+            );
+        animation: scan 1.5s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scan {
+        from {
+            background-position: 0 0;
+        }
+        to {
+            background-position: 0 200%;
+        }
+    }
+
+    .zoomed-image {
+        position: absolute;
+        top: -50%;
+        left: calc(100% + 50px);
+        width: 400px;
+        height: 400px;
+        background-repeat: no-repeat;
+        background-size: 220%;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 50;
+    }
+
+    &.align-right .zoomed-image {
+        left: auto;
+        right: calc(100% + 50px);
+    }
+}
+
+.row,
+.col-md-4 {
+    overflow: visible !important;
+}

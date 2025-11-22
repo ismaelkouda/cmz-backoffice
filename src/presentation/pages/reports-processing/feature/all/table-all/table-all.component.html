@@ -1,0 +1,202 @@
+<p-table
+    #dt
+    [value]="listAll$ | async"
+    [rowHover]="true"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-all-table"
+>
+    <ng-template pTemplate="caption">
+        <div
+            class="d-flex justify-content-between flex-wrap align-items-center"
+        >
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (export)="onExportExcel()"
+                    (refresh)="onRefresh()"
+                    [disabledButtonExport]="
+                        spinner || (listAll$ | async)?.length === 0
+                    "
+                    [disabledButtonRefresh]="spinner"
+                    [hiddenButtonOther]="true"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center',
+                }"
+                scope="col"
+            >
+                {{ col.header | translate }}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
+        <tr>
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header | translate"
+            >
+                <ng-container [ngSwitch]="col.field">
+                    <ng-container *ngSwitchCase="'__index'">
+                        {{
+                            ((pagination$ | async)?.current_page - 1 || 0) *
+                                ((pagination$ | async)?.per_page || 0) +
+                                rowIndex +
+                                1
+                        }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'createdAt'">
+                        {{ formatDate(item.createdAt) }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'uniqId'">
+                        <button
+                            type="button"
+                            (click)="copyToClipboard(item.uniqId)"
+                            (keydown.enter)="copyToClipboard(item.uniqId)"
+                            (keydown.space)="
+                                $event.preventDefault();
+                                copyToClipboard(item.uniqId)
+                            "
+                            class="copyable"
+                            pTooltip="{{ 'COPY' | translate }}"
+                            tooltipPosition="bottom"
+                        >
+                            {{ item.uniqId }}
+                        </button>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'reportType'">
+                        {{ getReportTypeLabel(item.reportType) }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'operators'">
+                        <div
+                            class="tag-group"
+                            *ngIf="item.operators?.length; else noOperators"
+                        >
+                            <ng-container
+                                *ngFor="let operator of item.operators"
+                            >
+                                <p-tag
+                                    [value]="getOperatorLabel(operator)"
+                                    [ngStyle]="getOperatorTagStyle(operator)"
+                                    styleClass="operator-tag"
+                                ></p-tag>
+                            </ng-container>
+                        </div>
+                        <ng-template #noOperators> - </ng-template>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'status'">
+                        <ng-container
+                            *ngIf="
+                                getStatusLabel(item.status) as stateLabel;
+                                else noState
+                            "
+                        >
+                            <p-tag
+                                [value]="stateLabel"
+                                [severity]="getStatusSeverity(item.status)"
+                                class="state-tag"
+                            ></p-tag>
+                        </ng-container>
+                        <ng-template #noState>-</ng-template>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'submissionState'">
+                        <ng-container
+                            *ngIf="
+                                getSubmissionStateLabel(
+                                    item.submissionState
+                                ) as submissionStateLabel;
+                                else noSubmissionState
+                            "
+                        >
+                            <p-tag
+                                [value]="submissionStateLabel"
+                                [severity]="
+                                    getSubmissionStateSeverity(
+                                        item.submissionState
+                                    )
+                                "
+                                class="state-tag"
+                            ></p-tag>
+                        </ng-container>
+                        <ng-template #noSubmissionState>-</ng-template>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'__action'">
+                        <button
+                            type="button"
+                            pButton
+                            class="action-button"
+                            icon="pi pi-window-maximize"
+                            (click)="onActionClicked(item)"
+                            [attr.aria-label]="getAllTooltip(item.uniqId)"
+                            [pTooltip]="getAllTooltip(item.uniqId)"
+                            tooltipPosition="bottom"
+                        ></button>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                        {{ item[col.field] || '-' }}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr
+            *ngIf="(listAll$ | async)?.length <= 0 && !spinner"
+            class="loading-table"
+        >
+            <td class="posRelative" [attr.colspan]="table.cols.length">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner" class="loading-table">
+            <td class="posRelative" [attr.colspan]="table.cols.length">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

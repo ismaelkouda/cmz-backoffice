@@ -1,14 +1,14 @@
 export const OPERATOR_CONST = [
     {
         value: 'orange',
-        label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.OPERATOR.ORANGE',
+        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.ORANGE',
     },
     {
         value: 'mtn',
-        label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.OPERATOR.MTN',
+        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.MTN',
     },
     {
         value: 'moov',
-        label: 'REPORT_REQUESTS.APPROVAL.OPTIONS.OPERATOR.MOOV',
+        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.MOOV',
     },
 ] as const;

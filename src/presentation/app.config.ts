@@ -40,12 +40,22 @@ import { TranslationManagerService } from '../core/services/translation-manager.
 import { routes } from './app.routes';
 import { provideAuthentication } from './pages/authentication/di/authentication.providers';
 import { provideDashboard } from './pages/dashboard/di/dashboard.providers';
-import { provideApproval } from './pages/report-requests/di/approval.providers';
-import { provideQueue } from './pages/reports-processing/di/queue.providers';
+
+import { provideAll as finalizationAll } from './pages/finalization/di/all.providers';
+import { provideAll as requestsAll } from './pages/report-requests/di/all.providers';
+import { provideAll as processingAll } from './pages/reports-processing/di/all.providers';
+
+import { provideQueues as finalizationQueues } from './pages/finalization/di/queues.providers';
+import { provideQueues as requestsQueues } from './pages/report-requests/di/queues.providers';
+import { provideQueues as processingQueues } from './pages/reports-processing/di/queues.providers';
+
+import { provideTasks as finalizationTasks } from './pages/finalization/di/tasks.providers';
+import { provideTasks as requestsTasks } from './pages/report-requests/di/tasks.providers';
+import { provideTasks as processingTasks } from './pages/reports-processing/di/tasks.providers';
+
 import { provideTreatment } from './pages/reports-processing/di/treatment.providers';
 
 import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
-import { provideWaiting } from './pages/report-requests/di/waiting.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
 import { provideFinalize } from './pages/reports-processing/di/finalize.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
@@ -186,12 +196,23 @@ export const appConfig: ApplicationConfig = {
         ...provideAuthentication(),
         ...provideDashboard(),
         ...providePasswordReset(),
-        ...provideWaiting(),
-        ...provideApproval(),
+
+        ...requestsQueues(),
+        ...processingQueues(),
+        ...finalizationQueues(),
+
+        ...requestsTasks(),
+        ...processingTasks(),
+        ...finalizationTasks(),
+
+        ...requestsAll(),
+        ...processingAll(),
+        ...finalizationAll(),
+
         ...provideDetails(),
         ...provideTreatment(),
         ...provideFinalize(),
-        ...provideQueue(),
+        ...processingTasks(),
         ...provideManagement(),
         ...provideUser(),
         ...provideProfileHabilitation(),

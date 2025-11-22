@@ -1,0 +1,44 @@
+<!-- map-management.component.html -->
+<div class="map-management" role="application" aria-label="Carte interactive">
+    <!-- Loading state -->
+    <div class="map-overlay" *ngIf="!isMapInitialized()" aria-live="polite">
+        <div class="loading-spinner">
+            <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+            <span>Chargement de la carte...</span>
+        </div>
+    </div>
+
+    <!-- Map container -->
+    <div 
+        class="map-container" 
+        [class.map-container--loading]="!isMapInitialized()"
+        tabindex="0"
+        role="region"
+        aria-label="Carte principale">
+    </div>
+
+    <!-- Coordinates info -->
+    <div class="coordinates-info" *ngIf="hasValidCoordinates() && isMapInitialized()">
+        <div class="coordinates-badge" aria-live="polite">
+            <span class="coordinates-icon" aria-hidden="true">📍</span>
+            <span class="coordinates-text">
+                {{ mapViewState().latitude | number:'1.4-4' }}, 
+                {{ mapViewState().longitude | number:'1.4-4' }}
+            </span>
+            <span class="coordinates-zoom" *ngIf="mapViewState().zoom">
+                Zoom: {{ mapViewState().zoom | number:'1.1-1' }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Geolocation status -->
+    <div class="geolocation-status" *ngIf="geolocationState().isTracking && isMapInitialized()">
+        <div class="status-badge">
+            <i class="pi pi-location-arrow" aria-hidden="true"></i>
+            <span>Géolocalisation active</span>
+            <span *ngIf="geolocationState().accuracy" class="accuracy">
+                Précision: ~{{ geolocationState().accuracy | number:'1.0-0' }}m
+            </span>
+        </div>
+    </div>
+</div>

@@ -34,7 +34,7 @@ interface StatisticCard {
     };
 }
 
-type PeriodOption = '15' | '30' | '90';
+type PeriodOption = '7' | '30' | '60' | '90';
 
 @Component({
     selector: 'app-dashboard',
@@ -64,11 +64,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public error: string | null = null;
     public currentDate: string = '';
     public dashboardData: DashboardStatistics | null = null;
-    public selectedPeriod: PeriodOption = '30';
+    public selectedPeriod: PeriodOption = '7';
 
     public periodOptions = [
-        { label: '15', value: '15' },
+        { label: '7', value: '7' },
         { label: '30', value: '30' },
+        { label: '60', value: '60' },
         { label: '90', value: '90' },
     ];
 
@@ -96,10 +97,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private loadDashboardData(): void {
         this.error = null;
 
-        const periodDays = parseInt(this.selectedPeriod, 10);
+        const period = parseInt(this.selectedPeriod, 10);
 
         this.dashboardFacade
-            .loadStatistics(periodDays)
+            .loadStatistics(period)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (statistics) => {
@@ -142,45 +143,45 @@ export class DashboardComponent implements OnInit, OnDestroy {
             {
                 key: 'totalReports',
                 count: separatorThousands(data.totalReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORT_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORTS_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORT_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORTS_PROCESSING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-file',
             },
             {
                 key: 'whiteZoneReports',
                 count: separatorThousands(data.whiteZoneReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORT_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORTS_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORT_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORTS_PROCESSING.SUBTITLE',
                 color: 'error',
                 icon: 'pi-map',
             },
             {
                 key: 'partialOperatorReports',
                 count: separatorThousands(data.partialOperatorReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORT_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORTS_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORT_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORTS_PROCESSING.SUBTITLE',
                 color: 'warning',
                 icon: 'pi-signal',
             },
             {
                 key: 'partialSignalReports',
                 count: separatorThousands(data.partialSignalReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORT_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORTS_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORT_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORTS_PROCESSING.SUBTITLE',
                 color: 'warning',
                 icon: 'pi-signal',
             },
             {
                 key: 'noInternetReports',
                 count: separatorThousands(data.noInternetReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORT_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORTS_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORT_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORTS_PROCESSING.SUBTITLE',
                 color: 'info',
                 icon: 'pi-wifi',
             },
@@ -188,49 +189,47 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.taskStatusStatistics = [
             {
-                key: 'qualificationReports',
-                count: separatorThousands(data.qualificationReports || 0),
-                label: 'DASHBOARD.SECTIONS.TASK_STATUS.QUALIFICATION.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.TASK_STATUS.QUALIFICATION.SUBTITLE',
+                key: 'totalReportsPending',
+                count: separatorThousands(data.totalReportsPending || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.PENDING.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.PENDING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-check-square',
                 routerFilter: () => this.router.navigate(['/report/queue']),
             },
             {
-                key: 'assignmentReports',
-                count: separatorThousands(data.assignmentReports || 0),
-                label: 'DASHBOARD.SECTIONS.TASK_STATUS.ASSIGNMENT.LABEL',
-                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.ASSIGNMENT.SUBTITLE',
+                key: 'totalReportsInProcessing',
+                count: separatorThousands(data.totalReportsInProcessing || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.IN_PROGRESS.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.IN_PROGRESS.SUBTITLE',
                 color: 'info',
                 icon: 'pi-users',
                 routerFilter: () => this.router.navigate(['/report/approval']),
             },
             {
-                key: 'treatmentReports',
-                count: separatorThousands(data.treatmentReports || 0),
-                label: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATMENT.LABEL',
-                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATMENT.SUBTITLE',
+                key: 'totalReportsProcessed',
+                count: separatorThousands(data.totalReportsProcessed || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATED.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATED.SUBTITLE',
                 color: 'warning',
                 icon: 'pi-cog',
                 routerFilter: () =>
                     this.router.navigate(['/report/processing']),
             },
             {
-                key: 'finalizationReports',
-                count: separatorThousands(data.finalizationReports || 0),
-                label: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZATION.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZATION.SUBTITLE',
+                key: 'totalReportsFinalized',
+                count: separatorThousands(data.totalReportsFinalized || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZED.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZED.SUBTITLE',
                 color: 'success',
                 icon: 'pi-flag',
                 routerFilter: () => this.router.navigate(['/report/finalize']),
             },
             {
-                key: 'evaluationReports',
-                count: separatorThousands(data.evaluationReports || 0),
-                label: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATION.LABEL',
-                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATION.SUBTITLE',
+                key: 'totalReportsEvaluated',
+                count: separatorThousands(data.totalReportsEvaluated || 0),
+                label: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATED.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATED.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-star',
             },

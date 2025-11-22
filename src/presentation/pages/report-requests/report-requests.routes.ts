@@ -1,21 +1,23 @@
 import { Routes } from '@angular/router';
-import { ApprovalComponent } from './ui/approval/approval.component';
-import { WaitingComponent } from './ui/waiting/waiting.component';
+import { AllComponent } from './ui/all/all.component';
+import { QueuesComponent } from './ui/queues/queues.component';
+import { TasksComponent } from './ui/tasks/tasks.component';
 
-export const WAITING_ROUTE = 'queues';
-export const APPROVAL_ROUTE = 'qualified';
+export const QUEUES_ROUTE = 'queues';
+export const TASKS_ROUTE = 'tasks';
+export const ALL_ROUTE = 'all';
 
 export const routes: Routes = [
     {
-        path: WAITING_ROUTE,
+        path: QUEUES_ROUTE,
         children: [
             {
                 path: '',
-                component: WaitingComponent,
+                component: QueuesComponent,
                 data: {
-                    title: 'REPORT_REQUESTS.WAITING.TITLE',
-                    module: 'REPORT_REQUESTS.LABEL',
-                    subModule: 'REPORT_REQUESTS.WAITING.LABEL',
+                    title: 'REPORTS_REQUESTS.QUEUES.TITLE',
+                    module: 'REPORTS_REQUESTS.LABEL',
+                    subModule: 'REPORTS_REQUESTS.QUEUES.LABEL',
                 },
             },
             {
@@ -25,15 +27,33 @@ export const routes: Routes = [
         ],
     },
     {
-        path: APPROVAL_ROUTE,
+        path: TASKS_ROUTE,
         children: [
             {
                 path: '',
-                component: ApprovalComponent,
+                component: TasksComponent,
                 data: {
-                    title: 'REPORT_REQUESTS.APPROVAL.TITLE',
-                    module: 'REPORT_REQUESTS.LABEL',
-                    subModule: 'REPORT_REQUESTS.APPROVAL.LABEL',
+                    title: 'REPORTS_REQUESTS.TASKS.TITLE',
+                    module: 'REPORTS_REQUESTS.LABEL',
+                    subModule: 'REPORTS_REQUESTS.TASKS.LABEL',
+                },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+    },
+    {
+        path: ALL_ROUTE,
+        children: [
+            {
+                path: '',
+                component: AllComponent,
+                data: {
+                    title: 'REPORTS_REQUESTS.TASKS.TITLE',
+                    module: 'REPORTS_REQUESTS.LABEL',
+                    subModule: 'REPORTS_REQUESTS.TASKS.LABEL',
                 },
             },
             {

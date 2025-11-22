@@ -8,7 +8,7 @@
 "PARAMETER_SECURITY": "Parameter security",
 "ACTIVE": "Active",
 "INACTIVE": "Inactive",
-"REPORT_PROCESSING": {
+"REPORTS_PROCESSING": {
     "TITLE": "Pending reports list"
 },
 "TABLE": {
@@ -508,7 +508,7 @@
             }
         }
     },
-    "QUEUE": {
+    "QUEUES": {
         "TITLE": "Closures",
         "LABEL": "Closure",
         "TABLE": {

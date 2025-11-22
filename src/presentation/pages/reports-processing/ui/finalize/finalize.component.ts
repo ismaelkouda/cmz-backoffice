@@ -61,11 +61,11 @@ export class FinalizeComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
                 this.title.setTitle(
-                    data['title'] ?? 'REPORT_PROCESSING.FINALIZE.TITLE'
+                    data['title'] ?? 'REPORTS_PROCESSING.FINALIZE.TITLE'
                 );
-                this.module = data['module'] ?? 'REPORT_PROCESSING.LABEL';
+                this.module = data['module'] ?? 'REPORTS_PROCESSING.LABEL';
                 this.subModule =
-                    data['subModule'] ?? 'REPORT_PROCESSING.FINALIZE.LABEL';
+                    data['subModule'] ?? 'REPORTS_PROCESSING.FINALIZE.LABEL';
             });
 
         this.finalizes$ = this.finalizeFacade.finalizes$;
