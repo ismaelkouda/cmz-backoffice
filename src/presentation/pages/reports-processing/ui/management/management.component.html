@@ -3,8 +3,7 @@
     [style]="{ width: '100vw', height: '100vh' }" [maximizable]="true" styleClass="report-treatment-dialog">
     <ng-template #header>
         <div class="header-left">
-                <!-- Skeleton pour le titre principal -->
-                <ng-container *ngIf="isLoading$ | async; else loadedHeader">
+            <ng-container *ngIf="isLoading$ | async; else loadedHeader">
                     <div class="header-skeleton">
                         <p-skeleton width="200px" height="28px" styleClass="mb-2"></p-skeleton>
                         <p-skeleton width="120px" height="24px"></p-skeleton>
@@ -20,7 +19,6 @@
                 </ng-template>
             </div>
             <div class="header-center">
-                <!-- Skeleton pour le badge de statut -->
                 <ng-container *ngIf="isLoading$ | async; else loadedBadge">
                     <p-skeleton width="150px" height="40px" borderRadius="25px"></p-skeleton>
                 </ng-container>
@@ -289,17 +287,17 @@
     <div *ngIf="details$ | async as details" class="main-container command-layout">
         @if (details.uniqId) {
         <div class="sidebar">
-            @if(details.isManagedByForm) {
+            @if(details.canBeTaken) {
                 <div class="sidebar-button-container">
-                    <button 
+                    <button
                         class="treatment-btn treatment-btn-primary"
                         type="button"
-                        (click)="details?.canBeTaken ? onValidReportTreatment(details) : toggleTreatmentForm()"
+                        (click)="onValidReportTreatment(details)"
                         [disabled]="isSubmitting$ | async"
                         [class.loading]="isSubmitting$ | async">
                         <i class="pi pi-check" *ngIf="!(isSubmitting$ | async)"></i>
                         <i class="pi pi-spin pi-spinner" *ngIf="isSubmitting$ | async"></i>
-                        {{ getActionButtonLabel(details) | translate }}
+                        {{ (details$ | async)?.managementTitle | translate }}
                     </button>
                 </div>
             }
@@ -452,20 +450,19 @@
 
             <nav class="content-tabs">
                 <div class="tabs-container">
-                    <button *ngFor="
-                                    let category of categories;
-                                    let i = index
-                                " (click)="selectCategory(i)" [class.active]="selectedCategoryIndex === i"
-                        class="content-tab">
-                        <div class="tab-visual">
-                            <i [class]="getCategoryIcon(category.key)"></i>
-                            <div class="tab-pulse" *ngIf="hasTabNotifications(category.key)"></div>
-                        </div>
-                        <span class="tab-label">{{
-                            category.label | translate
-                            }}</span>
-                        <div class="tab-indicator"></div>
-                    </button>
+                    @for(category of categories; track trackByTab($index, category)) {
+                        <button (click)="selectCategory(i)" [class.active]="selectedCategoryIndex === i"
+                                class="content-tab">
+                            <div class="tab-visual">
+                                <i [class]="getCategoryIcon(category.key)"></i>
+                                <div class="tab-pulse" *ngIf="hasTabNotifications(category.key)"></div>
+                            </div>
+                            <span class="tab-label">{{
+                                category.label | translate
+                                }}</span>
+                            <div class="tab-indicator"></div>
+                        </button>
+                    }
                 </div>
             </nav>
 
@@ -927,7 +924,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Commentaire inchangé -->
                                         <div class="data-row full">
                                             <div class="data-field">
                                                 <div class="field-label">
@@ -955,8 +951,8 @@
 
                 <ng-container *ngIf="selectedCategoryIndex === 2">
                     <app-map-management
-                        [latitude]="5.3710127"
-                        [longitude]="-3.9368714"
+                        [latitude]="details.location.coordinates.latitude"
+                        [longitude]="details.location.coordinates.longitude"
                         [zoom]="16"
                         [markerTitle]="'Incident Prioritaire'"
                         [markerDescription]="'Localisation exacte nécessitant une intervention urgente'"
@@ -976,7 +972,7 @@
                 </ng-container>
             </div>
 
-            @if (details?.isManagedByForm && !details?.canBeTaken) {
+            @if (details?.canBeApproved || details?.canBeTreated || details?.canBeFinalized) {
             <div [formGroup]="formTreatment">
                 <div class="treatment-form-container" [class.treatment-form-expanded]="
                                     isTreatmentFormExpanded
@@ -1030,8 +1026,8 @@
                         <div class="treatment-form-body">
                             <div class="action-section">
                                 <form class="decision-form-row">
+
                                     <div class="decision-group">
-                                        @if (details.isReceived) {
                                         <div class="form-column">
                                             <label class="decision-label">{{
                                                 'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION'
@@ -1140,7 +1136,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        }
                                         <div class="form-column">
                                             <label class="comment-label">
                                                 {{
@@ -1183,9 +1178,7 @@
                                         </div>
                                     </div>
 
-                                    @if (details?.isManagedByForm) {
                                     <div class="form-action-buttons">
-                                        @if (details?.canBeApproved) {
                                         <button class="treatment-btn treatment-btn-secondary" type="button" (click)="
                                                                     closeTreatmentForm()
                                                                 ">
@@ -1195,7 +1188,6 @@
                                             | translate
                                             }}
                                         </button>
-                                        }
 
                                         <button class="treatment-btn treatment-btn-primary" type="button" (click)="
                                                                 onValidReportTreatment(
@@ -1218,14 +1210,10 @@
                                                                     isSubmitting$
                                                                         | async
                                                                 "></i>
-                                            {{
-                                            getActionButtonLabel(
-                                            details
-                                            ) | translate
-                                            }}
+                                            {{ details.managementTitle | translate }}
                                         </button>
                                     </div>
-                                    }
+
                                 </form>
                             </div>
                         </div>

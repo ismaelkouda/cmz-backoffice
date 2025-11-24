@@ -37,7 +37,7 @@
                         >
                             <app-table-queues
                                 class="table-component"
-                                [loading]="spinner$ | async"
+                                [loading]="loading$ | async"
                                 [pagination$]="pagination$"
                                 [queues$]="queues$"
                                 (treatmentRequested)="onQueuesAction($event)"

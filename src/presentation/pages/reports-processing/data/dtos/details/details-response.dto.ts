@@ -6,7 +6,7 @@ export interface DetailsItemDto {
     location_type: string;
     lat: string;
     long: string;
-    what3words: string | null;
+    what3words: string;
     place_description: string;
     location_name: string;
     report_type: string;
@@ -24,6 +24,7 @@ export interface DetailsItemDto {
     acknowledged_at: string | null;
     reason: string | null;
     status: string;
+    state: string;
     confirm_count: number;
     deny_count: number;
     acknowledged_comment: string | null;

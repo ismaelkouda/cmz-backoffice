@@ -2,6 +2,17 @@
     <div class="filter-grid">
 
         <div class="filter-grid__item">
+            <label for="matricule-input"><b>{{ 'REPORTS_REQUESTS.QUEUES.FILTER.UNIQ_ID' | translate }}</b></label>
+            <input
+                id="uniq_id-input"
+                type="text"
+                pInputText
+                formControlName="uniq_id"
+                [placeholder]="'REPORTS_REQUESTS.QUEUES.FILTER.UNIQ_ID' | translate"
+            />
+        </div>
+
+        <div class="filter-grid__item">
             <label for="report-type-select">
                 <b>{{ 'REPORTS_PROCESSING.QUEUES.FILTER.REPORT_TYPE' | translate }}</b>
             </label>
@@ -46,30 +57,6 @@
                 </ng-template>
             </p-select>
         </div>
-
-        <div class="filter-grid__item">
-            <label for="state-select">
-                <b>{{ 'REPORTS_PROCESSING.QUEUES.FILTER.STATE' | translate }}</b>
-            </label>
-            <p-select
-                id="state-select"
-                formControlName="state"
-                [options]="stateOptions"
-                optionValue="value"
-                [showClear]="true"
-                (onClear)="resetSelect('state')"
-                placeholder="{{ 'SELECT' | translate }}"
-                appendTo="body"
-            >
-                <ng-template pTemplate="selectedItem" let-option>
-                    <span>{{ option?.label | translate }}</span>
-                </ng-template>
-                <ng-template pTemplate="item" let-option>
-                    <span>{{ option.label | translate }}</span>
-                </ng-template>
-            </p-select>
-        </div>
-        
         <div class="filter-grid__item">
             <label for="created-from">
                 <b>{{ 'START_DATE' | translate }}</b>

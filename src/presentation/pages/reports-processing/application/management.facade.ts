@@ -25,8 +25,8 @@ export class ManagementFacade {
     public readonly loading$ = this.loadingSubject.asObservable();
 
     constructor(
-        private managementUseCase: ManagementUseCase,
-        private toastService: ToastrService,
+        private readonly managementUseCase: ManagementUseCase,
+        private readonly toastService: ToastrService,
         protected readonly translateService: TranslateService
     ) {}
 
@@ -121,6 +121,29 @@ export class ManagementFacade {
         }
         this.loadingSubject.next(true);
         return this.managementUseCase.executeFetchProcess(payload).pipe(
+            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
+            finalize(() => this.loadingSubject.next(false)),
+            catchError((error: unknown) => {
+                const errorMessage = this.getErrorMessage(error);
+                this.toastService.error(errorMessage);
+                return throwError(() => error);
+            })
+        );
+    }
+
+    finalize(
+        credentials: ɵTypedOrUntyped<
+            ManagementFormControlEntity,
+            ɵFormGroupRawValue<ManagementFormControlEntity>,
+            any
+        >
+    ): Observable<ManagementEntity> {
+        const payload = ManagementForm.create(credentials);
+        if (this.loadingSubject.getValue()) {
+            return throwError(() => new Error('Operation already in progress'));
+        }
+        this.loadingSubject.next(true);
+        return this.managementUseCase.executeFetchFinalize(payload).pipe(
             debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
             finalize(() => this.loadingSubject.next(false)),
             catchError((error: unknown) => {

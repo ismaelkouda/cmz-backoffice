@@ -100,7 +100,6 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this._setupSelectionMonitoring();
-        console.log('TableQueuesComponent initialisé');
     }
 
     ngOnDestroy(): void {
@@ -146,7 +145,6 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     handleItemSelection(item: QueuesEntity): void {
-        console.log('Checkbox changée pour:', item.uniqId);
         this.selectionService.toggleItemSelection(item, 'checkbox');
     }
 
@@ -163,7 +161,6 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
         const items = this.queues();
         if (!items?.length) {
             this.toastService.error(this.translate.instant('EXPORT.NO_DATA'));
-            return;
         }
     }
 
@@ -224,31 +221,10 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
                 ? normalized
                 : `${normalized}Z`;
             const date = new Date(withTimezone);
-            return isNaN(date.getTime()) ? value : date.toLocaleString();
+            return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
         } catch {
             return value;
         }
-    }
-
-    getStateSeverity(state: string | null | undefined): string {
-        if (!state) return 'secondary';
-        const severityMap: Record<string, string> = {
-            accepted: 'success',
-            pending: 'warning',
-            rejected: 'danger',
-        };
-        return severityMap[state.toLowerCase()] ?? 'secondary';
-    }
-
-    getStateLabel(state: string | null | undefined): string {
-        if (!state) return '-';
-        const labelMap: Record<string, string> = {
-            accepted: 'REPORTS_PROCESSING.QUEUES.OPTIONS.STATE.ACCEPTED',
-            pending: 'REPORTS_PROCESSING.QUEUES.OPTIONS.STATUS.PENDING',
-            rejected: 'REPORTS_PROCESSING.QUEUES.OPTIONS.STATE.REJECTED',
-        };
-        const key = labelMap[state.toLowerCase()];
-        return key ? this.translate.instant(key) : state;
     }
 
     getOperatorColor(operator: string): string {
@@ -294,8 +270,8 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     getTakeTooltip(item: QueuesEntity): string {
-        const normalizedState = item.state?.toLowerCase() ?? '';
-        if (normalizedState === 'pending') {
+        const canTake = item.canBeTaken();
+        if (canTake) {
             const queuesLabel = this.translate.instant(
                 'REPORTS_PROCESSING.QUEUES.TABLE.TAKE'
             );

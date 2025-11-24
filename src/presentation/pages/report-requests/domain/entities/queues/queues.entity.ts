@@ -1,86 +1,20 @@
-export enum ReportSource {
-    APP = 'APP',
-    USSD = 'ussd',
-    SMS = 'sms',
-    IVR = 'IVR',
-}
-
-export enum LocationMethod {
-    AUTO = 'auto',
-    MANUAL = 'manual',
-}
-
-export enum LocationType {
-    GPS = 'gps',
-    NETWORK = 'network',
-    MANUAL = 'manual',
-}
-
-export enum ReportType {
-    ABI = 'abi',
-    ZOB = 'zob',
-    CPO = 'cpo',
-    CPS = 'cps',
-    OTHER = 'other',
-}
-
-export enum TelecomOperator {
-    MTN = 'mtn',
-    ORANGE = 'orange',
-    MOOV = 'moov',
-}
+import { LocationMethod } from '@shared/domain/enums/location-method.enum';
+import { LocationType } from '@shared/domain/enums/location-type.enum';
+import { PriorityLevel } from '@shared/domain/enums/priority-level.enum';
+import { ReportSource } from '@shared/domain/enums/report-source.enum';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { ApprovalInfo } from '@shared/domain/interfaces/approval-info.interface';
+import { DuplicationInfo } from '@shared/domain/interfaces/duplication-info.interface';
+import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
+import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
+import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 export enum ReportStatus {
     PENDING = 'pending',
     APPROVED = 'approved',
     REJECTED = 'rejected',
     ABANDONED = 'abandoned',
-}
-
-export enum PriorityLevel {
-    LOW = 'low',
-    MEDIUM = 'medium',
-    HIGH = 'high',
-    CRITICAL = 'critical',
-}
-
-export interface Coordinates {
-    latitude: number;
-    longitude: number;
-    what3words: string;
-}
-
-export interface ReportLocation {
-    coordinates: Coordinates;
-    method: LocationMethod;
-    type: LocationType;
-    name: string;
-    description: string;
-}
-
-export interface ReportMedia {
-    placePhoto: string | null;
-    accessPlacePhoto: string | null;
-}
-
-export interface ApprovalInfo {
-    approvedBy: string | null;
-    approvedAt: string | null;
-    rejectedBy: string | null;
-    rejectedAt: string | null;
-    approvedComment: string | null;
-    confirmCount: number;
-    denyCount: number;
-}
-
-export interface DuplicationInfo {
-    isDuplicated: boolean;
-    duplicateOf: string | null;
-}
-
-export interface Timestamps {
-    createdAt: string;
-    updatedAt: string;
 }
 
 export interface Queues {
@@ -334,7 +268,7 @@ export class QueuesEntity implements Queues {
 
     public get sourceDescription(): string {
         const sourceDescription: Record<string, string> = {
-            APP: 'REPORTS_REQUESTS.QUEUES.OPTIONS.SOURCE.APP',
+            App: 'REPORTS_REQUESTS.QUEUES.OPTIONS.SOURCE.APP',
             USSD: 'REPORTS_REQUESTS.QUEUES.OPTIONS.SOURCE.USSD',
             SMS: 'REPORTS_REQUESTS.QUEUES.OPTIONS.SOURCE.SMS',
             IVR: 'REPORTS_REQUESTS.QUEUES.OPTIONS.SOURCE.IVR',

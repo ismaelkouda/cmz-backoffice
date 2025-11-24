@@ -21,4 +21,8 @@ export abstract class ManagementRepository {
     abstract fetchProcess(
         formValue: ManagementForm
     ): Observable<ManagementEntity>;
+
+    abstract fetchFinalize(
+        formValue: ManagementForm
+    ): Observable<ManagementEntity>;
 }

@@ -13,7 +13,7 @@
     datakey="id"
 >
     <ng-template pTemplate="caption">
-        <div class="flex justify-between items-center flex-wrap gap-3">
+        <div class="container-table-header">
             <app-table-title
                 [count]="(pagination$ | async)?.total"
                 [perPage]="(pagination$ | async)?.per_page"

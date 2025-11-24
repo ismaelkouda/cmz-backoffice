@@ -24,14 +24,16 @@ export class RouteContextService {
     readonly isReportsProcessingModule = computed(
         () => this.currentEndPointType() === 'reports-processing'
     );
+    readonly isReportsFinalizationModule = computed(
+        () => this.currentEndPointType() === 'reports-finalization'
+    );
 
-    constructor(private router: Router) {
+    constructor(private readonly router: Router) {
         console.log('🚀 RouteContextService initialisé');
 
         this.router.events
             .pipe(filter((event) => event instanceof NavigationEnd))
             .subscribe((event) => {
-                console.log('📍 Nouvelle route:', (event as NavigationEnd).url);
                 console.log(
                     '🎯 EndPointType détecté:',
                     this.currentEndPointType()
@@ -46,6 +48,10 @@ export class RouteContextService {
             { pattern: '/requests', value: 'requests' as EndPointType },
             {
                 pattern: '/reports-processing',
+                value: 'reports-processing' as EndPointType,
+            },
+            {
+                pattern: '/reports-finalization',
                 value: 'reports-processing' as EndPointType,
             },
         ];

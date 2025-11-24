@@ -1,3 +1,3 @@
 export const QUEUES_ENDPOINTS = {
-    QUEUES: 'queues?page={page}',
+    QUEUES: 'finalizations/queues?page={page}',
 } as const;

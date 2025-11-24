@@ -30,13 +30,13 @@
 
                         <section
                             class="table-section"
-                            aria-label="Tableau des files d'attente"
+                            [aria-label]="'REPORTS_REQUESTS.QUEUES.TITLE' | translate"
                         >
                             <app-table-queues
                                 class="table-component"
-                                [isLoading]="isLoading$ | async"
+                                [loading]="loading$ | async"
                                 [pagination$]="pagination$"
-                                [listQueues$]="listQueues$"
+                                [queues$]="queues$"
                                 (treatmentRequested)="onQueuesAction($event)"
                                 (refreshRequested)="refreshQueues()"
                             >

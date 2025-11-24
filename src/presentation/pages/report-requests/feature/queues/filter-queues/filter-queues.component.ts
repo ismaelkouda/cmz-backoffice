@@ -122,6 +122,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                     {
                         uniq_id: dto['uniq_id'] ?? '',
                         created_from: dto['created_from'] ?? '',
+                        source: dto['created_from'] ?? '',
                         created_to: dto['created_to'] ?? '',
                         report_type: dto['report_type'] ?? '',
                         operator: dto['operator'] ?? '',
@@ -171,6 +172,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
             created_to: createdTo.isValid()
                 ? createdTo.format('YYYY-MM-DD')
                 : '',
+            source: this.formFilter.get('source')?.value?.trim() ?? '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
             operator: this.formFilter.get('operator')?.value?.trim() ?? '',

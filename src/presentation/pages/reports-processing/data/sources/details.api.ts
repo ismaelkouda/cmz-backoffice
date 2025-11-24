@@ -23,16 +23,16 @@ export class DetailsApi {
         let url: string;
         switch (endPointType) {
             case 'requests':
-                url = `${this.baseUrl}${DETAILS_ENDPOINTS.DETAILS_QUALIFICATION.replace('{id}', id)}`;
+                url = `${this.baseUrl}${DETAILS_ENDPOINTS.DETAILS_REQUESTS.replace('{id}', id)}`;
                 break;
 
             case 'reports-processing':
-                url = `${this.baseUrl}${DETAILS_ENDPOINTS.DETAILS_PROCESSING.replace('{id}', id)}`;
+            case 'reports-finalization':
+                url = `${this.baseUrl}${DETAILS_ENDPOINTS.DETAILS_REPORTS.replace('{id}', id)}`;
                 break;
 
             default:
                 throw new Error('Endpoint non defini');
-                break;
         }
         return this.http.get<DetailsResponseDto>(url);
     }

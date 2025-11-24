@@ -1,11 +1,11 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     ElementRef,
     EventEmitter,
     Input,
+    OnDestroy,
     OnInit,
     Output,
     ViewChild,
@@ -22,10 +22,21 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AllFacade as finalizationAllFacade } from '@presentation/pages/finalization/application/all.facade';
+import { QueuesFacade as finalizationQueuesFacade } from '@presentation/pages/finalization/application/queues.facade';
+import { TasksFacade as finalizationTasksFacade } from '@presentation/pages/finalization/application/tasks.facade';
+import { AllFacade as requestAllFacade } from '@presentation/pages/report-requests/application/all.facade';
 import { QueuesFacade as requestsQueuesFacade } from '@presentation/pages/report-requests/application/queues.facade';
-import { TasksFacade } from '@presentation/pages/report-requests/application/tasks.facade';
+import { TasksFacade as requestTasksFacade } from '@presentation/pages/report-requests/application/tasks.facade';
+import { AllFacade as processingAllFacade } from '@presentation/pages/reports-processing/application/all.facade';
+import { QueuesFacade as processingQueuesFacade } from '@presentation/pages/reports-processing/application/queues.facade';
+import { TasksFacade as processingTasksFacade } from '@presentation/pages/reports-processing/application/tasks.facade';
 import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { PriorityLevel } from '@shared/domain/enums/priority-level.enum';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -40,15 +51,10 @@ import SweetAlert from 'sweetalert2';
 import { DetailsFacade } from '../../application/details.facade';
 import { FinalizeFacade } from '../../application/finalize.facade';
 import { ManagementFacade } from '../../application/management.facade';
-import { QueuesFacade as processingQueuesFacade } from '../../application/queues.facade';
 import { TreatmentFacade } from '../../application/treatment.facade';
 import {
     DetailsEntity,
-    PriorityLevel,
-    ReportLocation,
     ReportStatus,
-    ReportType,
-    TelecomOperator,
 } from '../../domain/entities/details/details.entity';
 import { ManagementFormControlEntity } from '../../domain/entities/management/management-form-control.entity';
 import { ManagementEntity } from '../../domain/entities/management/management.entity';
@@ -63,6 +69,8 @@ type TreaterTimestampKey =
     | 'abandonedAt'
     | 'finalizedAt';
 
+type CategoryKey = 'information' | 'photos' | 'geographicView' | 'eventLogs';
+
 interface WorkflowStep {
     key: TreaterTimestampKey;
     key1?: TreaterTimestampKey;
@@ -70,6 +78,11 @@ interface WorkflowStep {
     key3?: TreaterTimestampKey;
     label?: string;
     timestamp?: string | null;
+}
+
+interface Categories {
+    key: CategoryKey;
+    label: string;
 }
 
 interface InfoCard {
@@ -101,7 +114,7 @@ interface InfoCard {
     providers: [MessageService, RouteContextService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManagementComponent implements OnInit, AfterViewInit {
+export class ManagementComponent implements OnInit, OnDestroy {
     @Input() visible = false;
     @Input() reportId!: string;
     @Output() visibleChange = new EventEmitter<boolean>();
@@ -161,7 +174,7 @@ export class ManagementComponent implements OnInit, AfterViewInit {
         },
     ];
 
-    public readonly categories = [
+    public readonly categories: Categories[] = [
         {
             key: 'information',
             label: 'MANAGEMENT.TABS.CATEGORIES.INFORMATION',
@@ -196,7 +209,16 @@ export class ManagementComponent implements OnInit, AfterViewInit {
     private readonly fb = inject(FormBuilder);
     private readonly messageService = inject(MessageService);
     private readonly requestsQueuesFacade = inject(requestsQueuesFacade);
-    private readonly requestsTasksFacade = inject(TasksFacade);
+    private readonly requestsTasksFacade = inject(requestTasksFacade);
+    private readonly requestsAllFacade = inject(requestAllFacade);
+    private readonly processingQueuesFacade = inject(processingQueuesFacade);
+    private readonly processingTasksFacade = inject(processingTasksFacade);
+    private readonly processingAllFacade = inject(processingAllFacade);
+    private readonly finalizationQueuesFacade = inject(
+        finalizationQueuesFacade
+    );
+    private readonly finalizationTasksFacade = inject(finalizationTasksFacade);
+    private readonly finalizationAllFacade = inject(finalizationAllFacade);
     private readonly finalizeFacade = inject(FinalizeFacade);
     private readonly queueFacade = inject(processingQueuesFacade);
     private readonly treatmentFacade = inject(TreatmentFacade);
@@ -212,7 +234,7 @@ export class ManagementComponent implements OnInit, AfterViewInit {
 
     private readonly destroy$ = new Subject<void>();
 
-    public isTreatmentFormExpanded = false;
+    public isTreatmentFormExpanded = true;
     public endPointType!: EndPointType;
 
     ngOnInit(): void {
@@ -221,8 +243,6 @@ export class ManagementComponent implements OnInit, AfterViewInit {
         this.subscribeToData();
         this.initializeWorkflowSteps();
     }
-
-    ngAfterViewInit(): void {}
 
     ngOnDestroy(): void {
         this.destroy$.next();
@@ -249,8 +269,6 @@ export class ManagementComponent implements OnInit, AfterViewInit {
     private initializeWorkflowSteps(): void {
         this.details$.subscribe((details) => {
             if (details) {
-                if (details.isReceived || details.isPending) {
-                }
                 this.updateWorkflowTimestamps(details);
             }
         });
@@ -566,7 +584,7 @@ export class ManagementComponent implements OnInit, AfterViewInit {
                 }
             },
             treat: () => this.managementFacade.process(credentials),
-            //finalize: () => this.managementFacade.finalize(credentials),
+            finalize: () => this.managementFacade.finalize(credentials),
         };
 
         return actionMap[management];
@@ -574,12 +592,38 @@ export class ManagementComponent implements OnInit, AfterViewInit {
 
     private handleRefresh(management: string): void {
         const actionMap: Record<string, () => void> = {
-            take: () => this.requestsQueuesFacade.refresh(),
-            approve: () => this.requestsTasksFacade.refresh(),
-            treat: () => this.treatmentFacade.refresh(),
+            take: () => {
+                switch (this.endPointType) {
+                    case 'requests':
+                        this.requestsQueuesFacade.refresh();
+                        this.requestsTasksFacade.refresh();
+                        break;
+
+                    case 'reports-processing':
+                        this.processingQueuesFacade.refresh();
+                        this.processingTasksFacade.refresh();
+                        break;
+
+                    case 'reports-finalization':
+                        this.finalizationQueuesFacade.refresh();
+                        this.finalizationTasksFacade.refresh();
+                        break;
+                }
+            },
+            approve: () => {
+                this.requestsTasksFacade.refresh();
+                this.requestsAllFacade.refresh();
+            },
+            treat: () => {
+                this.processingTasksFacade.refresh();
+                this.processingAllFacade.refresh();
+            },
+            finalize: () => {
+                this.finalizationTasksFacade.refresh();
+                this.finalizationAllFacade.refresh();
+            },
         };
         actionMap[management]();
-        console.log('manaement', management);
     }
 
     public setDecision(decision: string): void {
@@ -601,99 +645,60 @@ export class ManagementComponent implements OnInit, AfterViewInit {
     }
 
     private getSweetAlertTitle(management: string): string {
-        let title: string;
         if (management === 'take') {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.WAITING.TITLE');
-        }
-        if (management === 'approve') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.WAITING.TITLE';
+        } else if (management === 'approve') {
             const decision = this.formTreatment.get('decision')?.value;
             if (decision === 'reject') {
-                return (title =
-                    'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.REJECT.TITLE');
+                return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.REJECT.TITLE';
             } else {
-                return (title =
-                    'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.APPROVAL.TITLE');
+                return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.APPROVAL.TITLE';
             }
+        } else if (management === 'treat') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.TREATMENT.TITLE';
+        } else if (management === 'finalize') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.FINALIZATION.TITLE';
         } else return '';
-        /* if (management.canBeTaken) {
-        }
-        if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.TREATMENT.TITLE');
-        }
-        if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.FINALIZE.TITLE');
-        }
-        if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.EVALUATE.TITLE');
-        } */
     }
 
     private getSweetAlertMessage(management: string): string {
         let title: string;
         if (management === 'take') {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.WAITING.TITLE');
-        }
-        if (management === 'approve') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.WAITING.TITLE';
+        } else if (management === 'approve') {
             const decision = this.formTreatment.get('decision')?.value;
             if (decision === 'reject') {
-                return (title =
-                    'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.REJECT.TITLE');
+                return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.REJECT.TITLE';
             } else {
-                return (title =
-                    'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.APPROVAL.TITLE');
+                return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.APPROVAL.TITLE';
             }
+        } else if (management === 'treat') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.TREATMENT.TITLE';
+        } else if (management === 'finalize') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.FINALIZATION.TITLE';
         } else return '';
-        /* if (management.canBeTaken) {
-        }
-        if (management.canBeRejected) {
-        }
-        if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.TREATMENT.TITLE');
-        }
-        if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.FINALIZE.TITLE');
-        }
-        if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.EVALUATE.TITLE');
-        } */
     }
 
     private getSweetAlertButton(management: string): string {
         let title: string;
         if (management === 'take') {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.WAITING.TITLE');
-        }
-        if (management === 'approve') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.WAITING.TITLE';
+        } else if (management === 'approve') {
             const decision = this.formTreatment.get('decision')?.value;
             if (decision === 'rejected') {
-                return (title =
-                    'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.REJECT.TITLE');
+                return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.REJECT.TITLE';
             } else {
-                return (title =
-                    'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.APPROVAL.TITLE');
+                return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.APPROVAL.TITLE';
             }
+        } else if (management === 'treat') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.TREATMENT.TITLE';
+        } else if (management === 'finalize') {
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.FINALIZATION.TITLE';
         } else return '';
-        /* if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.TREATMENT.TITLE');
-        }
-        if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.FINALIZE.TITLE');
-        }
-        if (management.canBeTaken) {
-            return (title =
-                'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.EVALUATE.TITLE');
-        } */
+    }
+
+    trackByTab(_: number, tab: Categories): string {
+        return tab.key;
     }
 
     public selectCategory(index: number): void {
@@ -705,19 +710,6 @@ export class ManagementComponent implements OnInit, AfterViewInit {
         this.visible = false;
         this.visibleChange.emit(false);
         this.closed.emit();
-    }
-
-    getActionButtonLabel(details: DetailsEntity): string {
-        const management = details.managementPrams;
-        const labelMap: Record<string, string> = {
-            take: 'MANAGEMENT.FOOTER.ACTIONS.TAKE_CHARGE',
-            approve: 'MANAGEMENT.FOOTER.ACTIONS.APPROVE',
-            treat: 'MANAGEMENT.FOOTER.ACTIONS.PROCESS',
-            finalize: 'MANAGEMENT.FOOTER.ACTIONS.FINALIZE',
-            see: 'MANAGEMENT.FOOTER.ACTIONS.VIEW',
-        };
-
-        return labelMap[management] || 'SAVE';
     }
 
     getCategoryIcon(categoryKey: string): string {
@@ -812,6 +804,7 @@ export class ManagementComponent implements OnInit, AfterViewInit {
         const statusClassMap: Record<ReportStatus, string> = {
             [ReportStatus.PENDING]: 'status-pending',
             [ReportStatus.SUBMISSION]: 'status-pending',
+            [ReportStatus.FINALIZATION]: 'status-pending',
             [ReportStatus.APPROVED]: 'status-completed',
             [ReportStatus.REJECTED]: 'status-rejected',
             [ReportStatus.ABANDONED]: 'status-closed',
@@ -830,6 +823,8 @@ export class ManagementComponent implements OnInit, AfterViewInit {
         const labelMap: Record<ReportStatus, string> = {
             [ReportStatus.SUBMISSION]:
                 'MANAGEMENT.FORM.VALUES.STATUS.SUBMISSION',
+            [ReportStatus.FINALIZATION]:
+                'MANAGEMENT.FORM.VALUES.STATUS.FINALIZATION',
             [ReportStatus.PENDING]: 'MANAGEMENT.FORM.VALUES.STATUS.PENDING',
             [ReportStatus.APPROVED]: 'MANAGEMENT.FORM.VALUES.STATUS.APPROVED',
             [ReportStatus.REJECTED]: 'MANAGEMENT.FORM.VALUES.STATUS.REJECTED',

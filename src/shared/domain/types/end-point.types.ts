@@ -1,1 +1,1 @@
-type EndPointType = 'requests' | 'reports-processing' | 'finalization';
+type EndPointType = 'requests' | 'reports-processing' | 'reports-finalization';

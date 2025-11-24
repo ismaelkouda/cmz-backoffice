@@ -57,4 +57,12 @@ export class ManagementRepositoryImpl extends ManagementRepository {
                 map((response) => this.managementMapper.mapFromDto(response))
             );
     }
+
+    fetchFinalize(payload: ManagementForm): Observable<ManagementEntity> {
+        return this.api
+            .fetchFinalize(payload.toDto())
+            .pipe(
+                map((response) => this.managementMapper.mapFromDto(response))
+            );
+    }
 }

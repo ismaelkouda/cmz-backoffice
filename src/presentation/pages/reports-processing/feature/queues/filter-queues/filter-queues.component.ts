@@ -21,9 +21,10 @@ import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
+import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-filter-queues',
@@ -37,6 +38,7 @@ import { Subject, takeUntil } from 'rxjs';
         DatePickerModule,
         ButtonModule,
         RippleModule,
+        InputTextModule,
     ],
 })
 export class FilterQueuesComponent implements OnInit, OnDestroy {
@@ -47,21 +49,6 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
     public secondFilter: boolean = false;
     readonly reportOptions = REPORT_CONST;
     readonly operatorOptions = OPERATOR_CONST;
-
-    readonly stateOptions = [
-        {
-            value: 'accepted',
-            label: 'REPORTS_PROCESSING.QUEUES.OPTIONS.STATE.ACCEPTED',
-        },
-        {
-            value: 'pending',
-            label: 'REPORTS_PROCESSING.QUEUES.OPTIONS.STATUS.PENDING',
-        },
-        {
-            value: 'rejected',
-            label: 'REPORTS_PROCESSING.QUEUES.OPTIONS.STATE.REJECTED',
-        },
-    ] as const;
 
     constructor(
         private readonly toastService: ToastrService,
@@ -77,6 +64,9 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
     private initFormFilter(): void {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<QueuesFilterFormControlEntity>({
+                uniq_id: new FormControl<string>('', {
+                    nonNullable: true,
+                }),
                 created_from: new FormControl<string>('', {
                     nonNullable: true,
                 }),
@@ -86,9 +76,6 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                 report_type: new FormControl<string>('', {
                     nonNullable: true,
                 }),
-                state: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
                 operator: new FormControl<string>('', {
                     nonNullable: true,
                 }),
@@ -96,7 +83,24 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
         }
 
         this.queuesFacade.currentFilter$
-            .pipe(takeUntil(this.destroy$))
+            .pipe(
+                distinctUntilChanged((prev, curr) => {
+                    if (prev === curr) return true;
+                    if (!prev && !curr) return true;
+                    if (!prev || !curr) return false;
+
+                    const prevDto = prev.toDto();
+                    const currDto = curr.toDto();
+                    const prevKeys = Object.keys(prevDto).sort();
+                    const currKeys = Object.keys(currDto).sort();
+
+                    if (prevKeys.length !== currKeys.length) return false;
+                    return prevKeys.every(
+                        (key) => prevDto[key] === currDto[key]
+                    );
+                }),
+                takeUntil(this.destroy$)
+            )
             .subscribe((filterValue) => {
                 if (!this.formFilter) {
                     return;
@@ -109,10 +113,10 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
 
                 this.formFilter.patchValue(
                     {
+                        uniq_id: dto['uniq_id'] ?? '',
                         created_from: dto['created_from'] ?? '',
                         created_to: dto['created_to'] ?? '',
                         report_type: dto['report_type'] ?? '',
-                        state: dto['state'] ?? '',
                         operator: dto['operator'] ?? '',
                     },
                     { emitEvent: false }
@@ -153,6 +157,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
         }
 
         const filterData: QueuesFilterPayloadEntity = {
+            uniq_id: this.formFilter.get('uniq_id')?.value?.trim() ?? '',
             created_from: createdFrom.isValid()
                 ? createdFrom.format('YYYY-MM-DD')
                 : '',
@@ -161,7 +166,6 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                 : '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
-            state: this.formFilter.get('state')?.value?.trim() ?? '',
             operator: this.formFilter.get('operator')?.value?.trim() ?? '',
         };
 

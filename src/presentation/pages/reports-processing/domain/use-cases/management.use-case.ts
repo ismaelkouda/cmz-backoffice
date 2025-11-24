@@ -34,4 +34,10 @@ export class ManagementUseCase {
     executeFetchProcess(payload: ManagementForm): Observable<ManagementEntity> {
         return this.managementRepository.fetchProcess(payload);
     }
+
+    executeFetchFinalize(
+        payload: ManagementForm
+    ): Observable<ManagementEntity> {
+        return this.managementRepository.fetchFinalize(payload);
+    }
 }

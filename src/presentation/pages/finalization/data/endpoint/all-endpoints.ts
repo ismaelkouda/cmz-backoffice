@@ -1,3 +1,3 @@
 export const ALL_ENDPOINTS = {
-    ALL: 'qualified?page={page}',
+    ALL: 'finalizations?page={page}',
 } as const;

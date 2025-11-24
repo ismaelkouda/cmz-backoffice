@@ -1,34 +1,14 @@
-export enum ReportSource {
-    APP = 'app',
-    USSD = 'ussd',
-    SMS = 'sms',
-    IVR = 'ivr',
-}
-
-export enum LocationMethod {
-    AUTO = 'auto',
-    MANUAL = 'manual',
-}
-
-export enum LocationType {
-    GPS = 'GPS',
-    NETWORK = 'network',
-    MANUAL = 'manual',
-}
-
-export enum ReportType {
-    ABI = 'ABI',
-    ZOB = 'ZOB',
-    CPS = 'CPS',
-    CPO = 'CPO',
-    OTHER = 'other',
-}
-
-export enum TelecomOperator {
-    MTN = 'mtn',
-    ORANGE = 'orange',
-    MOOV = 'moov',
-}
+import { LocationMethod } from '@shared/domain/enums/location-method.enum';
+import { LocationType } from '@shared/domain/enums/location-type.enum';
+import { PriorityLevel } from '@shared/domain/enums/priority-level.enum';
+import { ReportSource } from '@shared/domain/enums/report-source.enum';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
+import { DuplicationInfo } from '@shared/domain/interfaces/duplication-info.interface';
+import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
+import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
+import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 export enum ReportStatus {
     PENDING = 'pending',
@@ -40,32 +20,14 @@ export enum ReportStatus {
     TERMINATED = 'terminated',
     CONFIRM = 'confirmed',
     SUBMISSION = 'submission',
+    FINALIZATION = 'finalization',
 }
 
-export enum PriorityLevel {
-    LOW = 'low',
-    MEDIUM = 'medium',
-    HIGH = 'high',
-    CRITICAL = 'critical',
-}
-
-export interface Coordinates {
-    latitude: number;
-    longitude: number;
-    what3words: string | null;
-}
-
-export interface ReportLocation {
-    coordinates: Coordinates;
-    method: LocationMethod;
-    type: LocationType;
-    name: string;
-    description: string;
-}
-
-export interface ReportMedia {
-    placePhoto: string | null;
-    accessPlacePhoto: string | null;
+export enum ReportState {
+    PENDING = 'pending',
+    APPROVED = 'approved',
+    REJECTED = 'rejected',
+    RECEIVED = 'received',
 }
 
 export interface TreaterInfo {
@@ -87,11 +49,6 @@ export interface TreaterInfo {
     reason: string | null;
 }
 
-export interface DuplicationInfo {
-    isDuplicated: boolean;
-    duplicateOf: string | null;
-}
-
 export interface AdministrativeDivision {
     regionId: number;
     departmentId: number;
@@ -105,11 +62,6 @@ export interface actorInfo {
     lastName: string;
     firstName: string;
     phone: string;
-}
-
-export interface Timestamps {
-    createdAt: string;
-    updatedAt: string;
 }
 
 export interface Details {
@@ -132,6 +84,7 @@ export interface Details {
     readonly media: ReportMedia;
     readonly treater: TreaterInfo;
     readonly status: ReportStatus;
+    readonly state: ReportState;
     readonly duplication: DuplicationInfo;
     readonly position: string;
     readonly administrative: AdministrativeDivision;
@@ -163,6 +116,7 @@ export class DetailsEntity implements Details {
         public readonly media: ReportMedia,
         public readonly treater: TreaterInfo,
         public readonly status: ReportStatus,
+        public readonly state: ReportState,
         public readonly duplication: DuplicationInfo,
         public readonly position: string,
         public readonly administrative: AdministrativeDivision,
@@ -173,51 +127,45 @@ export class DetailsEntity implements Details {
         public readonly accessPlacePhoto: string
     ) {}
 
+    public get managementTitle(): string {
+        switch (this.status) {
+            case ReportStatus.PENDING:
+                return 'MANAGEMENT.STATUS.TAKE';
+            case ReportStatus.RECEIVED:
+                return 'MANAGEMENT.STATUS.APPROBATION';
+            case ReportStatus.SUBMISSION:
+                if (this.state === ReportState.PENDING) {
+                    return 'MANAGEMENT.STATUS.TAKE';
+                } else if (this.state === ReportState.RECEIVED) {
+                    return 'MANAGEMENT.STATUS.TREATMENT';
+                }
+                return 'MANAGEMENT.STATUS.INFORMATION';
+            case ReportStatus.FINALIZATION:
+                if (this.state === ReportState.PENDING) {
+                    return 'MANAGEMENT.STATUS.TAKE';
+                } else if (this.state === ReportState.RECEIVED) {
+                    return 'MANAGEMENT.STATUS.FINALIZATION';
+                }
+                return 'MANAGEMENT.STATUS.INFORMATION';
+            default:
+                return 'MANAGEMENT.STATUS.INFORMATION';
+        }
+    }
+
     public get managementPrams(): string {
-        if (
-            this.status === ReportStatus.PENDING ||
-            this.status === ReportStatus.SUBMISSION
-        ) {
+        if (this.canBeTaken) {
             return 'take';
-        } else if (this.status === ReportStatus.RECEIVED) {
+        } else if (this.canBeApproved) {
             return 'approve';
-        } else if (this.status === ReportStatus['IN-PROGRESS']) {
+        } else if (this.canBeTreated) {
             return 'treat';
+        } else if (this.canBeFinalized) {
+            return 'finalize';
         } else if (this.status === ReportStatus.TERMINATED) {
             return 'finalize';
         } else {
             return 'see';
         }
-    }
-
-    public get managementTitle(): string {
-        const titleMap: Record<ReportStatus, string> = {
-            confirmed: 'MANAGEMENT.STATUS.INFORMATION',
-            abandoned: 'MANAGEMENT.STATUS.INFORMATION',
-            rejected: 'MANAGEMENT.STATUS.INFORMATION',
-            approved: 'MANAGEMENT.STATUS.INFORMATION',
-            submission: 'MANAGEMENT.STATUS.TAKE',
-            pending: 'MANAGEMENT.STATUS.TAKE',
-            received: 'MANAGEMENT.STATUS.APPROBATION',
-            'in progress': 'MANAGEMENT.STATUS.TREATMENT',
-            terminated: 'MANAGEMENT.STATUS.FINALIZATION',
-        };
-        return titleMap[this.status] || 'MANAGEMENT.STATUS.INFORMATION';
-    }
-
-    public get isManagedByButton(): boolean {
-        return this.managementPrams === 'take';
-    }
-
-    public get isManagedByForm(): boolean {
-        return this.managementPrams !== 'see';
-    }
-
-    public get isPending(): boolean {
-        return (
-            this.status === ReportStatus.PENDING ||
-            this.status === ReportStatus.SUBMISSION
-        );
     }
 
     public get isReceived(): boolean {
@@ -238,22 +186,30 @@ export class DetailsEntity implements Details {
 
     public get canBeTaken(): boolean {
         return (
-            this.isPending &&
-            !this.duplication.isDuplicated &&
-            this.hasValidLocation()
+            this.status === ReportStatus.PENDING ||
+            (this.status === ReportStatus.SUBMISSION &&
+                this.state == ReportState.PENDING) ||
+            (this.status === ReportStatus.FINALIZATION &&
+                this.state == ReportState.PENDING)
         );
     }
 
-    public canBeApproved(): boolean {
+    public get canBeApproved(): boolean {
+        return this.status === ReportStatus.RECEIVED;
+    }
+
+    public get canBeTreated(): boolean {
         return (
-            this.isReceived &&
-            !this.duplication.isDuplicated &&
-            this.hasValidLocation()
+            this.status === ReportStatus.SUBMISSION &&
+            this.state == ReportState.RECEIVED
         );
     }
 
-    public canBeRejected(): boolean {
-        return this.isPending && !this.duplication.isDuplicated;
+    public get canBeFinalized(): boolean {
+        return (
+            this.status === ReportStatus.FINALIZATION &&
+            this.state == ReportState.RECEIVED
+        );
     }
 
     public requiresImmediateAttention(): boolean {
@@ -268,8 +224,8 @@ export class DetailsEntity implements Details {
     public hasValidLocation(): boolean {
         const { latitude, longitude } = this.location.coordinates;
         return (
-            !isNaN(latitude) &&
-            !isNaN(longitude) &&
+            !Number.isNaN(latitude) &&
+            !Number.isNaN(longitude) &&
             latitude >= -90 &&
             latitude <= 90 &&
             longitude >= -180 &&
@@ -569,6 +525,7 @@ export class DetailsEntity implements Details {
             updates.media ?? this.media,
             updates.treater ?? this.treater,
             updates.status ?? this.status,
+            updates.state ?? this.state,
             updates.duplication ?? this.duplication,
             updates.position ?? this.position,
             updates.administrative ?? this.administrative,

@@ -9,6 +9,6 @@ export const MANAGEMENT_ENDPOINTS = {
     REJECT_PROCESSING: '{id}/reject',
 
     UPDATE: 'requests/{id}/update',
-    PROCESS: 'requests/{id}/process',
-    FINALIZE: 'requests/{id}/finalize',
+    PROCESS: '{id}/process',
+    FINALIZE: '{id}/process',
 };

@@ -1,4 +1,4 @@
 export const DETAILS_ENDPOINTS = {
-    DETAILS_QUALIFICATION: 'requests/{id}',
-    DETAILS_PROCESSING: '{id}',
+    DETAILS_REQUESTS: 'requests/{id}',
+    DETAILS_REPORTS: '{id}',
 };

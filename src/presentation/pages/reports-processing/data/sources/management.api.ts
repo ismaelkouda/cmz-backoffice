@@ -128,7 +128,7 @@ export class ManagementApi {
         return this.http.post<SimpleResponseDto>(url, paramsObject);
     }
 
-    fetchFinalized(
+    fetchFinalize(
         payload: ManagementRequestDto
     ): Observable<SimpleResponseDto> {
         const url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.FINALIZE.replace('{id}', payload.uniq_id)}`;

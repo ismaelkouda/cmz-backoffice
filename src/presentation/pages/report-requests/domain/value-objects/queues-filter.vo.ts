@@ -2,21 +2,21 @@ import { QueuesFilterPayloadEntity } from '../entities/queues/queues-filter-payl
 
 export class QueuesFilter {
     private constructor(
-        private readonly createdFrom: string,
-        private readonly createdTo: string,
+        private readonly source?: string,
+        private readonly createdFrom?: string,
+        private readonly createdTo?: string,
         private readonly uniqId?: string,
         private readonly reportType?: string,
-        private readonly state?: string,
         private readonly operator?: string
     ) {}
 
     static create(data: QueuesFilterPayloadEntity): QueuesFilter {
         return new QueuesFilter(
+            data.source,
             data.created_from,
             data.created_to,
             data.uniq_id,
             data.report_type,
-            data.state,
             data.operator
         );
     }
@@ -39,8 +39,8 @@ export class QueuesFilter {
             params['report_type'] = this.reportType;
         }
 
-        if (this.state) {
-            params['state'] = this.state;
+        if (this.source) {
+            params['source'] = this.source;
         }
 
         if (this.operator) {

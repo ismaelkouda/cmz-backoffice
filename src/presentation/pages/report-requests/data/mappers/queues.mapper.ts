@@ -2,21 +2,21 @@
 import { Injectable } from '@angular/core';
 import { QueuesItemDto } from '@presentation/pages/report-requests/data/dtos/queues/queues-response.dto';
 import {
-    ApprovalInfo,
-    Coordinates,
-    DuplicationInfo,
-    LocationMethod,
-    LocationType,
     Queues,
     QueuesEntity,
-    ReportLocation,
-    ReportMedia,
-    ReportSource,
     ReportStatus,
-    ReportType,
-    TelecomOperator,
 } from '@presentation/pages/report-requests/domain/entities/queues/queues.entity';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+import { LocationMethod } from '@shared/domain/enums/location-method.enum';
+import { LocationType } from '@shared/domain/enums/location-type.enum';
+import { ReportSource } from '@shared/domain/enums/report-source.enum';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { ApprovalInfo } from '@shared/domain/interfaces/approval-info.interface';
+import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
+import { DuplicationInfo } from '@shared/domain/interfaces/duplication-info.interface';
+import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
+import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
@@ -86,10 +86,10 @@ export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
                 return ReportType.ABI;
             case 'zob':
                 return ReportType.ZOB;
-            case 'abi':
+            case 'cpo':
                 return ReportType.CPO;
-            case 'zob':
-                return ReportType.ZOB;
+            case 'cps':
+                return ReportType.CPS;
             default:
                 return ReportType.OTHER;
         }
@@ -109,13 +109,8 @@ export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
     }
 
     private parseOperators(operatorsString: string): TelecomOperator[] {
-        try {
-            const operatorsArray = JSON.parse(operatorsString) as string[];
-            return operatorsArray.map((operator) => this.mapOperator(operator));
-        } catch (error) {
-            console.warn('Failed to parse operators JSON:', operatorsString);
-            return [];
-        }
+        const operatorsArray = JSON.parse(operatorsString) as string[];
+        return operatorsArray.map((operator) => this.mapOperator(operator));
     }
 
     private mapOperator(operator: string): TelecomOperator {
@@ -132,8 +127,8 @@ export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
     }
 
     private parseCoordinate(value: string): number {
-        const parsed = parseFloat(value);
-        return isNaN(parsed) ? 0 : parsed;
+        const parsed = Number.parseFloat(value);
+        return Number.isNaN(parsed) ? 0 : parsed;
     }
 
     private mapLocation(dto: QueuesItemDto): ReportLocation {

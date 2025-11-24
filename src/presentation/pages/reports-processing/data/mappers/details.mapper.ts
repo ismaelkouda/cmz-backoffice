@@ -1,18 +1,19 @@
 // details.mapper.ts
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { LocationMethod } from '@shared/domain/enums/location-method.enum';
+import { LocationType } from '@shared/domain/enums/location-type.enum';
+import { ReportSource } from '@shared/domain/enums/report-source.enum';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { DuplicationInfo } from '@shared/domain/interfaces/duplication-info.interface';
+import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
+import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
+import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 import {
     AdministrativeDivision,
     DetailsEntity,
-    DuplicationInfo,
-    LocationMethod,
-    LocationType,
-    ReportLocation,
-    ReportMedia,
-    ReportSource,
+    ReportState,
     ReportStatus,
-    ReportType,
-    TelecomOperator,
-    Timestamps,
     TreaterInfo,
     actorInfo,
 } from '../../domain/entities/details/details.entity';
@@ -46,6 +47,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             this.mapMedia(dto),
             this.mapTreaterInfo(dto),
             this.mapReportStatus(dto.status),
+            this.mapReportState(dto.state),
             this.mapDuplicationInfo(dto),
             dto.position,
             this.mapAdministrativeDivision(dto),
@@ -125,8 +127,8 @@ export class DetailsMapper extends SimpleResponseMapper<
     }
 
     private parseCoordinate(coord: string): number {
-        const parsed = parseFloat(coord);
-        return isNaN(parsed) ? 0 : parsed;
+        const parsed = Number.parseFloat(coord);
+        return Number.isNaN(parsed) ? 0 : parsed;
     }
 
     private mapLocationMethod(method: string): LocationMethod {
@@ -209,8 +211,19 @@ export class DetailsMapper extends SimpleResponseMapper<
             terminated: ReportStatus.TERMINATED,
             'in-progress': ReportStatus['IN-PROGRESS'],
             submission: ReportStatus.SUBMISSION,
+            finalization: ReportStatus.FINALIZATION,
         };
         return statusMap[status] || ReportStatus.PENDING;
+    }
+
+    private mapReportState(state: string): ReportState {
+        const stateMap: Record<string, ReportState> = {
+            pending: ReportState.PENDING,
+            approved: ReportState.APPROVED,
+            rejected: ReportState.REJECTED,
+            received: ReportState.RECEIVED,
+        };
+        return stateMap[state] || ReportState.PENDING;
     }
 
     private mapDuplicationInfo(dto: DetailsItemDto): DuplicationInfo {

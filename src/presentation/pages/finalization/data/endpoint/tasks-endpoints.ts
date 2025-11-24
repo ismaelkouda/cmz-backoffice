@@ -1,3 +1,3 @@
 export const TASKS_ENDPOINTS = {
-    TASKS: 'taken?page={page}',
+    TASKS: 'finalizations/task-baskets?page={page}',
 } as const;

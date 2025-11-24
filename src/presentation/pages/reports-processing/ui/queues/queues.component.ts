@@ -46,7 +46,7 @@ export class QueuesComponent implements OnInit, OnDestroy {
     public subModule!: string;
     public pagination$!: Observable<Paginate<QueuesEntity>>;
     public queues$!: Observable<QueuesEntity[]>;
-    public spinner$!: Observable<boolean>;
+    public loading$!: Observable<boolean>;
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
@@ -70,12 +70,11 @@ export class QueuesComponent implements OnInit, OnDestroy {
 
         this.queues$ = this.queuesFacade.queues$;
         this.pagination$ = this.queuesFacade.pagination$;
-        this.spinner$ = this.queuesFacade.isLoading$;
+        this.loading$ = this.queuesFacade.isLoading$;
 
-        const defaultFilter = QueuesFilter.create({
-            created_from: '',
-            created_to: '',
-        });
+        const defaultFilter = QueuesFilter.create(
+            {} as QueuesFilterPayloadEntity
+        );
 
         this.queuesFacade.fetchQueues(defaultFilter);
     }
@@ -94,13 +93,12 @@ export class QueuesComponent implements OnInit, OnDestroy {
         this.reportTreatmentVisible = true;
     }
 
-    public onReportTreatmentQueuesd(): void {
+    public onReportTreatmentQueues(): void {
         this.reportTreatmentVisible = false;
         this.selectedReportId = null;
     }
 
     public onQueuesJournal(item: QueuesEntity): void {
-        // Journal modal integration will be implemented later.
         console.log('Journal requested for:', item.uniqId);
     }
 

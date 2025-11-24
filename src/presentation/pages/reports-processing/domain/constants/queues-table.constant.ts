@@ -25,12 +25,6 @@ export const QUEUES_TABLE_CONST = {
             width: '13rem',
         },
         {
-            field: 'state',
-            header: 'REPORTS_PROCESSING.QUEUES.TABLE.STATUS',
-            class: 'text-center',
-            width: '9rem',
-        },
-        {
             field: 'createdAt',
             header: 'REPORTS_PROCESSING.QUEUES.TABLE.CREATED_AT',
             class: 'text-center',
@@ -47,7 +41,6 @@ export const QUEUES_TABLE_CONST = {
         'uniqId',
         'reportType',
         'operators',
-        'state',
         'createdAt',
         'placeDescription',
         'description',

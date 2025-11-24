@@ -45,8 +45,8 @@ export class QueuesComponent implements OnInit, OnDestroy {
     public module!: string;
     public subModule!: string;
     public pagination$!: Observable<Paginate<QueuesEntity>>;
-    public listQueues$!: Observable<QueuesEntity[]>;
-    public isLoading$!: Observable<boolean>;
+    public queues$!: Observable<QueuesEntity[]>;
+    public loading$!: Observable<boolean>;
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
@@ -57,31 +57,40 @@ export class QueuesComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        this.setupRouteData();
+        this.setupObservables();
+        this.loadDataIntelligently();
+    }
+
+    private loadDataIntelligently(): void {
+        const defaultFilter = QueuesFilter.create(
+            {} as QueuesFilterPayloadEntity
+        );
+        this.queuesFacade.fetchQueues(defaultFilter, '1', false);
+    }
+
+    private setupRouteData(): void {
         this.activatedRoute.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
                 this.title.setTitle(
-                    data['title'] ?? 'REPORTS_REQUESTS.QUEUES.TITLE'
+                    data['title'] ?? 'REPORTS_PROCESSING.QUEUES.TITLE'
                 );
-                this.module = data['module'] ?? 'REPORTS_REQUESTS.LABEL';
+                this.module = data['module'] ?? 'REPORTS_PROCESSING.LABEL';
                 this.subModule =
-                    data['subModule'] ?? 'REPORTS_REQUESTS.QUEUES.LABEL';
+                    data['subModule'] ?? 'REPORTS_PROCESSING.QUEUES.LABEL';
             });
+    }
 
-        this.listQueues$ = this.queuesFacade.queues$;
+    private setupObservables(): void {
+        this.queues$ = this.queuesFacade.queues$;
         this.pagination$ = this.queuesFacade.pagination$;
-        this.isLoading$ = this.queuesFacade.isLoading$;
-
-        const defaultFilter = QueuesFilter.create({
-            created_from: '',
-            created_to: '',
-        });
-        this.queuesFacade.fetchQueues(defaultFilter);
+        this.loading$ = this.queuesFacade.isLoading$;
     }
 
     public filter(filterData: QueuesFilterPayloadEntity): void {
         const filter = QueuesFilter.create(filterData);
-        this.queuesFacade.fetchQueues(filter);
+        this.queuesFacade.fetchQueues(filter, '1', true);
     }
 
     public onPageChange(event: number): void {

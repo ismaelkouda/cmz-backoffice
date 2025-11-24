@@ -399,6 +399,14 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     }
 }
 
+.container-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3; 
+}
+
 .dropdown .dropdown-toggle:after {
     display: none !important;
 }
@@ -466,17 +474,13 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     .details-header-wrapper {
         display: block;
         margin-bottom: 4px;
-    }
+    } 
     .custom-header-actions {
         width: 100%;
         display: flex;
         align-items: stretch !important;
         justify-content: space-between !important;
         flex-wrap: wrap !important;
-    }
-
-    .responsive-claims-table {
-        font-size: 13px;
     }
 
     .table-header-wrapper {
