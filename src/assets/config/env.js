@@ -1,10 +1,10 @@
 (function (window) {
             window.__env = {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "authenticationUrl": "https://api-services.mazone.imako.digital/auth/v1.0/backoffice/",
-    "reportUrl": "https://api-services.mazone.imako.digital/reports/v1.0/backoffice/",
-    "settingUrl": "https://api-services.mazone.imako.digital/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://api-services.mazone.imako.digital/auth/backoffice/",
+    "authenticationUrl": "http://10.10.0.9:7000/auth/v1.0/backoffice/",
+    "reportUrl": "http://10.10.0.9:7001/reports/v1.0/backoffice/",
+    "settingUrl": "http://10.10.0.9:7002/base-settings/v1.0/backoffice/",
+    "fileUrl": "http://10.10.0.9:7000/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "messageApp": {
@@ -23,7 +23,7 @@
     }
 };
             window.__env.buildInfo = {
-                timestamp: '2025-11-22T21:53:32.386Z',
+                timestamp: '2025-11-24T12:02:40.028Z',
                 environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'

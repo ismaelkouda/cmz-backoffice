@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2025-11-22T21:53:32.386Z
+// Generated at: 2025-11-24T12:02:40.028Z
 
 export interface AppConfig {
     verifyIdentityDocumentUrl: string;
@@ -42,10 +42,10 @@ declare global {
 export const ENVIRONMENTS = {
   "dev": {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "authenticationUrl": "https://api-services.mazone.imako.digital/auth/v1.0/backoffice/",
-    "reportUrl": "https://api-services.mazone.imako.digital/reports/v1.0/backoffice/",
-    "settingUrl": "https://api-services.mazone.imako.digital/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://api-services.mazone.imako.digital/auth/backoffice/",
+    "authenticationUrl": "http://10.10.0.9:7000/auth/v1.0/backoffice/",
+    "reportUrl": "http://10.10.0.9:7001/reports/v1.0/backoffice/",
+    "settingUrl": "http://10.10.0.9:7002/base-settings/v1.0/backoffice/",
+    "fileUrl": "http://10.10.0.9:7000/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "messageApp": {

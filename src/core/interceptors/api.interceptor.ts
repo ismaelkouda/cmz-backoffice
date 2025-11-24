@@ -11,7 +11,6 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
         'token_data'
     ) as TokenInterface | null;
 
-    // Ne pas intercepter les requêtes absolues vers d'autres domaines
     if (
         req.url.startsWith('http') &&
         !req.url.includes(configService.authenticationUrl) &&

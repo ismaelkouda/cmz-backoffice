@@ -2,9 +2,20 @@
     <div class="filter-grid mb-2">
 
         <div class="filter-grid__item">
-            <label for="matricule-input"><b>{{ 'REPORTS_REQUESTS.QUEUES.FILTER.UNIQ_ID' | translate }}</b></label>
+            <label for="initiator_phone_number"><b>{{ 'REPORTS_REQUESTS.QUEUES.FILTER.INITIATOR' | translate }}</b></label>
             <input
-                id="uniq_id-input"
+                id="initiator_phone_number"
+                type="text"
+                pInputText
+                formControlName="initiator_phone_number"
+                [placeholder]="'REPORTS_REQUESTS.QUEUES.FILTER.INITIATOR' | translate"
+            />
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="uniq_id"><b>{{ 'REPORTS_REQUESTS.QUEUES.FILTER.UNIQ_ID' | translate }}</b></label>
+            <input
+                id="uniq_id"
                 type="text"
                 pInputText
                 formControlName="uniq_id"
@@ -43,6 +54,7 @@
                 id="operator-multiselect"
                 formControlName="operator"
                 [options]="operatorOptions"
+                [filter]="false"
                 optionValue="value"
                 [showClear]="true"
                 placeholder="{{ 'SELECT' | translate }}"
@@ -54,29 +66,6 @@
             </p-multiselect>
         </div>
 
-        <div class="filter-grid__item">
-            <label for="operator-select">
-                <b>{{ 'REPORTS_REQUESTS.QUEUES.FILTER.SOURCE' | translate }}</b>
-            </label>
-            <p-select
-                id="operator-select"
-                formControlName="source"
-                [options]="sourceOptions"
-                optionValue="value"
-                [showClear]="true"
-                (onClear)="resetSelect('source')"
-                placeholder="{{ 'SELECT' | translate }}"
-                appendTo="body"
-            >
-                <ng-template pTemplate="selectedItem" let-option>
-                    <span>{{ option?.label | translate }}</span>
-                </ng-template>
-                <ng-template pTemplate="item" let-option>
-                    <span>{{ option.label | translate }}</span>
-                </ng-template>
-            </p-select>
-        </div>
-
         <div class="filter-grid">
             @if(!secondFilter) {
                 <button type="submit" 
@@ -85,14 +74,14 @@
                 </button>
             }
             @if(!secondFilter) {
-                <button type="submit" 
+                <button type="button" 
                     (click)="showSecondFilter()"
                     class="btn btn-dark px-3">
                     <i class="pi pi-plus"></i>
                 </button>
             }
             @if(secondFilter) {
-                <button type="submit" 
+                <button type="button" 
                     (click)="showSecondFilter()"
                     class="btn btn-dark px-3">
                     <i class="pi pi-minus"></i>
@@ -103,6 +92,30 @@
 
     @if(secondFilter) {
         <div class="filter-grid">
+
+            <div class="filter-grid__item">
+                <label for="source-select">
+                    <b>{{ 'REPORTS_REQUESTS.QUEUES.FILTER.SOURCE' | translate }}</b>
+                </label>
+                <p-select
+                    id="source-select"
+                    formControlName="source"
+                    [options]="sourceOptions"
+                    optionValue="value"
+                    [showClear]="true"
+                    (onClear)="resetSelect('source')"
+                    placeholder="{{ 'SELECT' | translate }}"
+                    appendTo="body"
+                >
+                    <ng-template pTemplate="selectedItem" let-option>
+                        <span>{{ option?.label | translate }}</span>
+                    </ng-template>
+                    <ng-template pTemplate="item" let-option>
+                        <span>{{ option.label | translate }}</span>
+                    </ng-template>
+                </p-select>
+            </div>
+
             <div class="filter-grid__item">
                 <label for="created-from">
                     <b>{{ 'START_DATE' | translate }}</b>

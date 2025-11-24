@@ -1,24 +1,53 @@
-<div class="media profile-media">
-    <img
-        class="b-r-10"
-        src="assets/images/dashboard/profile.png"
-        width="35"
-        alt=""
-    />
-    <div class="media-body">
-        <span>{{ currentUser?.last_name }} {{ currentUser?.first_name }}</span>
-        <p class="mb-0 font-roboto">
-            {{ currentUser?.email }}<i class="middle fa fa-angle-down"></i>
-        </p>
+<button class="profile-media" 
+     [class.active]="isDropdownOpen"
+     (click)="toggleDropdown()"
+     (keydown.enter)="toggleDropdown()"
+     (keydown.escape)="closeDropdown()"
+     tabindex="0"
+     role="button"
+     aria-haspopup="true"
+     [attr.aria-expanded]="isDropdownOpen">
+     
+    <div class="media-wrapper">
+        <img class="profile-avatar" 
+             [src]="'assets/images/dashboard/profile.png'" 
+             width="40" 
+             height="40"
+             alt="Photo de profil de {{ currentUser?.first_name }} {{ currentUser?.last_name }}" />
+        
+        <div class="profile-info">
+            <span class="user-name">{{ currentUser?.last_name }} {{ currentUser?.first_name }}</span>
+            <p class="user-email">{{ currentUser?.email }}</p>
+        </div>
+        
+        <i class="dropdown-icon pi pi-chevron-down" 
+           [class.rotated]="isDropdownOpen"></i>
     </div>
-</div>
-<ul class="profile-dropdown onhover-show-div">
-    <li><i [attr.data-feather]="'user'"></i>&nbsp;<span>Mon compte</span></li>
-    <li><i [attr.data-feather]="'lock'"></i>&nbsp;<span>Mot de passe</span></li>
-    <li>
-        <i [attr.data-feather]="'log-in'"></i>&nbsp;<span>Déconnexion</span>
-    </li>
-</ul>
+
+    <ul class="profile-dropdown" 
+        [class.show]="isDropdownOpen"
+        role="menu">
+        <li role="menuitem" 
+            (click)="openAccountModal()"
+            (keydown.enter)="openAccountModal()">
+            <i class="pi pi-user"></i>
+            <span>Mon compte</span>
+        </li>
+        <li role="menuitem" 
+            (click)="openPasswordModal()"
+            (keydown.enter)="openPasswordModal()">
+            <i class="pi pi-lock"></i>
+            <span>Mot de passe</span>
+        </li>
+        <li role="separator" class="dropdown-divider"></li>
+        <li role="menuitem" 
+            (click)="logout()"
+            (keydown.enter)="logout()">
+            <i class="pi pi-sign-out"></i>
+            <span>Déconnexion</span>
+        </li>
+    </ul>
+</button>
 <!---------------------PASSWORD FORM----------------------------->
 <ng-template #passwordV let-modal>
     <form [formGroup]="passwordForm">

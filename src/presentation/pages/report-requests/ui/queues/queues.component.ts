@@ -74,11 +74,11 @@ export class QueuesComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
                 this.title.setTitle(
-                    data['title'] ?? 'REPORTS_PROCESSING.QUEUES.TITLE'
+                    data['title'] ?? 'REPORTS_REQUESTS.QUEUES.TITLE'
                 );
-                this.module = data['module'] ?? 'REPORTS_PROCESSING.LABEL';
+                this.module = data['module'] ?? 'REPORTS_REQUESTS.LABEL';
                 this.subModule =
-                    data['subModule'] ?? 'REPORTS_PROCESSING.QUEUES.LABEL';
+                    data['subModule'] ?? 'REPORTS_REQUESTS.QUEUES.LABEL';
             });
     }
 

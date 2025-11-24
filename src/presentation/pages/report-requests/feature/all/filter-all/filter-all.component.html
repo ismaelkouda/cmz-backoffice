@@ -2,8 +2,30 @@
     <div class="filter-grid">
 
         <div class="filter-grid__item">
+            <label for="initiator_phone_number"><b>{{ 'REPORTS_REQUESTS.ALL.FILTER.INITIATOR' | translate }}</b></label>
+            <input
+                id="initiator_phone_number"
+                type="text"
+                pInputText
+                formControlName="initiator_phone_number"
+                [placeholder]="'REPORTS_REQUESTS.ALL.FILTER.INITIATOR' | translate"
+            />
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="uniq_id"><b>{{ 'REPORTS_REQUESTS.ALL.FILTER.UNIQ_ID' | translate }}</b></label>
+            <input
+                id="uniq_id"
+                type="text"
+                pInputText
+                formControlName="uniq_id"
+                [placeholder]="'REPORTS_REQUESTS.ALL.FILTER.UNIQ_ID' | translate"
+            />
+        </div>
+
+        <div class="filter-grid__item">
             <label for="report-type-select">
-                <b>{{ 'REPORTS_REQUESTS.TASKS.FILTER.REPORT_TYPE' | translate }}</b>
+                <b>{{ 'REPORTS_REQUESTS.ALL.FILTER.REPORT_TYPE' | translate }}</b>
             </label>
             <p-select
                 id="report-type-select"
@@ -26,30 +48,54 @@
 
         <div class="filter-grid__item">
             <label for="operator-select">
-                <b>{{ 'REPORTS_REQUESTS.TASKS.FILTER.OPERATOR' | translate }}</b>
+                <b>{{ 'REPORTS_REQUESTS.ALL.FILTER.OPERATOR' | translate }}</b>
             </label>
-            <p-select
-                id="operator-select"
+            <p-multiselect
+                id="operator-multiselect"
                 formControlName="operator"
                 [options]="operatorOptions"
+                [filter]="false"
                 optionValue="value"
                 [showClear]="true"
-                (onClear)="resetSelect('operator')"
                 placeholder="{{ 'SELECT' | translate }}"
                 appendTo="body"
             >
                 <ng-template pTemplate="selectedItem" let-option>
                     <span>{{ option?.label | translate }}</span>
                 </ng-template>
-                <ng-template pTemplate="item" let-option>
-                    <span>{{ option.label | translate }}</span>
-                </ng-template>
-            </p-select>
+            </p-multiselect>
         </div>
+
+        <div class="filter-grid">
+            @if(!secondFilter) {
+                <button type="submit" 
+                    class="btn btn-primary px-3">
+                    <i class="pi pi-filter"></i>
+                </button>
+            }
+            @if(!secondFilter) {
+                <button type="button" 
+                    (click)="showSecondFilter()"
+                    class="btn btn-dark px-3">
+                    <i class="pi pi-plus"></i>
+                </button>
+            }
+            @if(secondFilter) {
+                <button type="button" 
+                    (click)="showSecondFilter()"
+                    class="btn btn-dark px-3">
+                    <i class="pi pi-minus"></i>
+                </button>
+            }
+        </div>
+    </div>
+
+    @if(secondFilter) {
+        <div class="filter-grid">
 
         <div class="filter-grid__item">
             <label for="state-select">
-                <b>{{ 'REPORTS_REQUESTS.TASKS.FILTER.STATE' | translate }}</b>
+                <b>{{ 'REPORTS_REQUESTS.ALL.FILTER.STATUS' | translate }}</b>
             </label>
             <p-select
                 id="state-select"
@@ -70,36 +116,63 @@
             </p-select>
         </div>
 
-        <div class="filter-grid__item">
-            <label for="created-from">
-                <b>{{ 'START_DATE' | translate }}</b>
-            </label>
-            <p-datepicker
-                id="created-from"
-                formControlName="created_from"
-                [showIcon]="true"
-                [placeholder]="'JJ-MM-AAAA'"
-                dateFormat="dd-mm-yy"
-                appendTo="body"
-            ></p-datepicker>
-        </div>
+            <div class="filter-grid__item">
+                <label for="source-select">
+                    <b>{{ 'REPORTS_REQUESTS.ALL.FILTER.SOURCE' | translate }}</b>
+                </label>
+                <p-select
+                    id="source-select"
+                    formControlName="source"
+                    [options]="sourceOptions"
+                    optionValue="value"
+                    [showClear]="true"
+                    (onClear)="resetSelect('source')"
+                    placeholder="{{ 'SELECT' | translate }}"
+                    appendTo="body"
+                >
+                    <ng-template pTemplate="selectedItem" let-option>
+                        <span>{{ option?.label | translate }}</span>
+                    </ng-template>
+                    <ng-template pTemplate="item" let-option>
+                        <span>{{ option.label | translate }}</span>
+                    </ng-template>
+                </p-select>
+            </div>
 
-        <div class="filter-grid__item">
-            <label for="created-to">
-                <b>{{ 'END_DATE' | translate }}</b>
-            </label>
-            <p-datepicker
-                id="created-to"
-                formControlName="created_to"
-                [showIcon]="true"
-                [placeholder]="'JJ-MM-AAAA'"
-                dateFormat="dd-mm-yy"
-                appendTo="body"
-            ></p-datepicker>
-        </div>
+            <div class="filter-grid__item">
+                <label for="created-from">
+                    <b>{{ 'START_DATE' | translate }}</b>
+                </label>
+                <p-datepicker
+                    id="created-from"
+                    formControlName="created_from"
+                    [showIcon]="true"
+                    [placeholder]="'JJ-MM-AAAA'"
+                    dateFormat="dd-mm-yy"
+                    appendTo="body"
+                ></p-datepicker>
+            </div>
 
-        <button type="submit" class="btn btn-primary px-3">
-            <i class="pi pi-filter"></i>
-        </button>
-    </div>
+            <div class="filter-grid__item">
+                <label for="created-to">
+                    <b>{{ 'END_DATE' | translate }}</b>
+                </label>
+                <p-datepicker
+                    id="created-to"
+                    formControlName="created_to"
+                    [showIcon]="true"
+                    [placeholder]="'JJ-MM-AAAA'"
+                    dateFormat="dd-mm-yy"
+                    appendTo="body"
+                ></p-datepicker>
+            </div>
+
+            <div class="filter-grid">
+                <button type="submit" 
+                    class="btn btn-primary px-3">
+                    <i class="pi pi-filter"></i>
+                </button>
+            </div>
+        </div>
+    }
 </form>

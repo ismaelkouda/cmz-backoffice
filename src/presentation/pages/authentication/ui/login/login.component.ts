@@ -46,6 +46,9 @@ import { takeUntil } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnDestroy {
+    private readonly authenticationFacade = inject(AuthenticationFacade);
+    private readonly encodingDataService = inject(EncodingDataService);
+    private readonly router = inject(Router);
     public readonly REINITIALIZATION = REINITIALIZATION;
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
     public readonly LOGO_ANSUT = LOGO_ANSUT;
@@ -67,12 +70,6 @@ export class LoginComponent implements OnDestroy {
 
     private destroy$ = new Subject<void>();
     public readonly config = inject(AppCustomizationService).config;
-
-    constructor(
-        private readonly authenticationFacade: AuthenticationFacade,
-        private router: Router,
-        private encodingService: EncodingDataService
-    ) {}
 
     ngOnDestroy(): void {
         this.destroy$.next();
@@ -159,8 +156,8 @@ export class LoginComponent implements OnDestroy {
     }
 
     private storeUserAndToken(user: CurrentUser, token: AuthToken): void {
-        this.encodingService.saveData('user_data', user, true);
-        this.encodingService.saveData('token_data', token, true);
-        this.encodingService.saveData('menu', user.permissions, true);
+        this.encodingDataService.saveData('user_data', user, true);
+        this.encodingDataService.saveData('token_data', token, true);
+        this.encodingDataService.saveData('menu', user.permissions, true);
     }
 }

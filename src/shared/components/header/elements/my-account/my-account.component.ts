@@ -1,15 +1,27 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
+    Component,
+    ElementRef,
+    HostListener,
+    OnDestroy,
+    OnInit,
+    TemplateRef,
+    inject,
+} from '@angular/core';
+import {
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 import { CurrentUser } from '../../../../interfaces/current-user.interface';
 import { EncodingDataService } from '../../../../services/encoding-data.service';
+import { MyAccountFacade } from './application/my-account.facade';
 
 @Component({
     selector: 'app-my-account',
@@ -19,23 +31,73 @@ import { EncodingDataService } from '../../../../services/encoding-data.service'
     imports: [ReactiveFormsModule],
 })
 export class MyAccountComponent implements OnInit, OnDestroy {
+    private readonly toastService = inject(ToastrService);
+    private readonly translate = inject(TranslateService);
+    private readonly myAccountFacade = inject(MyAccountFacade);
+    private readonly encodingDataService = inject(EncodingDataService);
+    private readonly ngbModal = inject(NgbModal);
+    private readonly elementRef = inject(ElementRef);
+    private readonly fb = inject(FormBuilder);
     public currentUser!: CurrentUser | null;
     public newPasswordValue!: string;
     public confirmPasswordValue!: string;
     public passwordForm!: FormGroup;
     public submitted = false;
     public accountForm!: FormGroup;
-    private destroy$ = new Subject<void>();
+    private readonly destroy$ = new Subject<void>();
 
-    constructor(
-        private fb: FormBuilder,
-        private modalService: NgbModal,
-        private toastService: ToastrService,
-        private encodingService: EncodingDataService
-    ) {}
+    isDropdownOpen = false;
+
+    toggleDropdown(): void {
+        this.isDropdownOpen = !this.isDropdownOpen;
+    }
+
+    closeDropdown(): void {
+        this.isDropdownOpen = false;
+    }
+
+    openAccountModal(): void {
+        this.closeDropdown();
+        // Ouvrir modal compte
+    }
+
+    openPasswordModal(): void {
+        this.closeDropdown();
+        // Ouvrir modal mot de passe
+    }
+
+    logout(): void {
+        this.closeDropdown();
+        SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.CONFIRM'),
+            text: this.translate.instant(
+                this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.MESSAGES')
+            ),
+            backdrop: false,
+            confirmButtonText: this.translate.instant(
+                'LOGOUT.SWEET_ALERT_PARAMS.BUTTONS'
+            ),
+            cancelButtonText: this.translate.instant('CANCEL'),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.myAccountFacade.logout();
+                this.encodingDataService.clearData();
+                this.closeDropdown();
+                globalThis.window.location.reload();
+            }
+        });
+    }
+
+    @HostListener('document:click', ['$event'])
+    onDocumentClick(event: MouseEvent): void {
+        if (!this.elementRef.nativeElement.contains(event.target)) {
+            this.closeDropdown();
+        }
+    }
 
     ngOnInit() {
-        const user = this.encodingService.getData(
+        const user = this.encodingDataService.getData(
             'user_data'
         ) as CurrentUser | null;
         this.currentUser = user;
@@ -57,13 +119,13 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     }
 
     public openFormPassword(modalRef: TemplateRef<any>) {
-        this.modalService.open(modalRef);
+        this.ngbModal.open(modalRef);
         this.passwordForm.reset();
     }
 
     public hideForm() {
         this.passwordForm.reset();
-        this.modalService.dismissAll();
+        this.ngbModal.dismissAll();
     }
 
     async handleUpdatePassword(
@@ -101,11 +163,11 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         this.accountForm.get('first_name')?.patchValue(currentUser?.first_name);
         this.accountForm.get('email')?.patchValue(currentUser?.email);
         this.accountForm.get('phone')?.patchValue(currentUser?.phone);
-        this.modalService.open(modalRef);
+        this.ngbModal.open(modalRef);
     }
 
     public hideFormAccount() {
-        this.modalService.dismissAll();
+        this.ngbModal.dismissAll();
         this.accountForm.reset();
     }
 }

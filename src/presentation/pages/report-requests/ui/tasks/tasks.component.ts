@@ -46,7 +46,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     public subModule!: string;
     public pagination$!: Observable<Paginate<TasksEntity>>;
     public tasks$!: Observable<TasksEntity[]>;
-    public spinner$!: Observable<boolean>;
+    public loading$!: Observable<boolean>;
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
@@ -57,31 +57,40 @@ export class TasksComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        this.setupRouteData();
+        this.setupObservables();
+        this.loadDataIntelligently();
+    }
+
+    private loadDataIntelligently(): void {
+        const defaultFilter = TasksFilter.create(
+            {} as TasksFilterPayloadEntity
+        );
+        this.tasksFacade.fetchTasks(defaultFilter, '1', false);
+    }
+
+    private setupRouteData(): void {
         this.activatedRoute.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
                 this.title.setTitle(
-                    data['title'] ?? 'REPORTS_REQUESTS.TASKS.TITLE'
+                    data['title'] ?? 'REPORTS_PROCESSING.TASKS.TITLE'
                 );
-                this.module = data['module'] ?? 'REPORTS_REQUESTS.LABEL';
+                this.module = data['module'] ?? 'REPORTS_PROCESSING.LABEL';
                 this.subModule =
-                    data['subModule'] ?? 'REPORTS_REQUESTS.TASKS.LABEL';
+                    data['subModule'] ?? 'REPORTS_PROCESSING.TASKS.LABEL';
             });
+    }
 
+    private setupObservables(): void {
         this.tasks$ = this.tasksFacade.tasks$;
         this.pagination$ = this.tasksFacade.pagination$;
-        this.spinner$ = this.tasksFacade.isLoading$;
-
-        const defaultFilter = TasksFilter.create({
-            created_from: '',
-            created_to: '',
-        });
-        this.tasksFacade.fetchTasks(defaultFilter);
+        this.loading$ = this.tasksFacade.isLoading$;
     }
 
     public filter(filterData: TasksFilterPayloadEntity): void {
         const filter = TasksFilter.create(filterData);
-        this.tasksFacade.fetchTasks(filter);
+        this.tasksFacade.fetchTasks(filter, '1', true);
     }
 
     public onPageChange(event: number): void {

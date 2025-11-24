@@ -90,7 +90,7 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     @Output() treatmentRequested = new EventEmitter<QueuesEntity>();
-    @Output() journalRequested = new EventEmitter<QueuesEntity>();
+    @Output() takeRequested = new EventEmitter<QueuesEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
     @Output() selectionChanged = this.selectionService.selectionChange$;
 
@@ -180,8 +180,8 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
         this.treatmentRequested.emit(item);
     }
 
-    onJournalClicked(item: QueuesEntity): void {
-        this.journalRequested.emit(item);
+    onTakeClicked(item: QueuesEntity): void {
+        this.takeRequested.emit(item);
     }
 
     private _subscribeToData(): void {
@@ -270,23 +270,13 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     getTakeTooltip(item: QueuesEntity): string {
-        const canTake = item.canBeTaken();
-        if (canTake) {
-            const queuesLabel = this.translate.instant(
-                'REPORTS_PROCESSING.QUEUES.TABLE.TAKE'
-            );
-            return `${queuesLabel} ${item.uniqId}`;
-        }
+        return this.translate.instant('REPORTS_PROCESSING.QUEUES.TABLE.TAKE');
+    }
+
+    getSeeMoreTooltip(item: QueuesEntity): string {
         return this.translate.instant(
             'REPORTS_PROCESSING.QUEUES.TABLE.SEE_MORE'
         );
-    }
-
-    getJournalTooltip(item: QueuesEntity): string {
-        const queuesLabel = this.translate.instant(
-            'REPORTS_PROCESSING.QUEUES.TABLE.JOURNAL'
-        );
-        return `${queuesLabel} ${item.uniqId}`;
     }
 
     trackByUniqId(_: number, item: QueuesEntity): string {

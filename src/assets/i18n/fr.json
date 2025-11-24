@@ -1,4 +1,11 @@
 {
+    "LOGOUT": {
+            "SWEET_ALERT_PARAMS": {
+            "CONFIRM": "Se déconnecter du compte ?",
+            "MESSAGES": "Êtes-vous sûr de vouloir vous déconnecter",
+            "BUTTONS": "Se déconnecter"
+            }
+        },
     "REPORTS_REQUESTS": {
         "STATUS": {
             "PRISE_EN_CHARGE": "Prise en charge",
@@ -21,6 +28,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
@@ -80,9 +88,11 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
+                "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATOR": "Opérateur",
+                "SOURCE": "Source"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -149,9 +159,12 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
+                "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATOR": "Opérateur",
+                "SOURCE": "Source",
+                "STATUS": "Status"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -226,9 +239,11 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
+                "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
-                "STATE": "État"
+                "SOURCE": "Source"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -284,6 +299,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
@@ -353,6 +369,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
@@ -421,6 +438,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
@@ -459,6 +477,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
@@ -483,6 +502,68 @@
                 "LABEL": "Finalisation du signalement",
                 "REPORT_ID": "Identifiant du signalement",
                 "PLACEHOLDER": "Contenu de la finalisation à venir..."
+            },
+            "SWEET_ALERT_PARAMS": {
+            "CONFIRM": {
+                "WAITING": {
+                "TITLE": "Prendre en charge le signalement"
+                },
+                "REJECT": {
+                "TITLE": "Rejeter le signalement"
+                },
+                "APPROVAL": {
+                "TITLE": "Approuver le signalement"
+                },
+                "TREATMENT": {
+                "TITLE": "Traiter le signalement"
+                },
+                "FINALIZE": {
+                "TITLE": "Finaliser le signalement"
+                },
+                "EVALUATE": {
+                "TITLE": "Evaluer le signalement"
+                }
+            },
+            "MESSAGES": {
+                "WAITING": {
+                "TITLE": "Êtes-vous sûr de vouloir prendre en charge le signalement"
+                },
+                "REJECT": {
+                "TITLE": "Êtes-vous sûr de vouloir rejeté le signalement"
+                },
+                "APPROVAL": {
+                "TITLE": "Êtes-vous sûr de vouloir approuver le signalement"
+                },
+                "TREATMENT": {
+                "TITLE": "Êtes-vous sûr de vouloir traiter le signalement"
+                },
+                "FINALIZE": {
+                "TITLE": "Êtes-vous sûr de vouloir finaliser le signalement"
+                },
+                "EVALUATE": {
+                "TITLE": "Êtes-vous sûr de vouloir évaluer le signalement"
+                }
+            },
+            "BUTTONS": {
+                "WAITING": {
+                "TITLE": "Prendre en charge"
+                },
+                "REJECT": {
+                "TITLE": "Rejeter"
+                },
+                "APPROVAL": {
+                "TITLE": "Approuver"
+                },
+                "TREATMENT": {
+                "TITLE": "Traiter"
+                },
+                "FINALIZE": {
+                "TITLE": "Finaliser"
+                },
+                "EVALUATE": {
+                "TITLE": "Evaluer"
+                }
+            }
             }
         }
     },
@@ -510,6 +591,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
                 "STATE": "État"
@@ -568,6 +650,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
@@ -637,6 +720,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
@@ -705,6 +789,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
@@ -743,6 +828,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
@@ -787,8 +873,8 @@
                 "APPROBATION": "Approbation"
             },
             "HEADER": {
-                "TITLE": "Détails du signalement",
-                "DETAILS": "Détails de la demande",
+                "DETAILS_REPORT": "Détails du signalement",
+                "DETAILS_DEMAND": "Détails de la demande",
                 "REPORT_ID": "Identifiant",
                 "STATUS": "Statut",
                 "STATUS_PENDING": "En attente",
@@ -895,7 +981,7 @@
                 "OPERATORS": "Opérateurs concernés",
                 "DATE_TIME_ENTRY": "Date Heure saisie",
                 "DATE_TIME_RECEIPT": "Date Heure réception",
-                "CONFIRMATION": "Confirmation",
+                "CONFIRMATION": "Nombre de confirmation",
                 "REGION": "Région",
                 "DEPARTMENT": "Département",
                 "COMMUNE": "Commune/Sous-préfecture",
@@ -919,7 +1005,9 @@
             },
 
             "PICTURES": {
-                "TITLE": "Photos"
+                "TITLE": "Photos",
+                "ACCES_ROAD": "Voie d'accès",
+                "OBSERVATION_POINT": "Point d'observation"
             },
 
             "FIELDS": {
@@ -1049,8 +1137,66 @@
                 "TITLE": "Evaluer"
                 }
             }
+            },
+            "NEWSPAPERS": {
+                "TITLE": "liste des activités",
+                "LABEL": "Journal",
+                "TABLE": {
+                    "CREATED_AT": "Créé le",
+                    "UNIQ_ID": "Identifiant",
+                    "EVENT_TYPE": "Type d'èvénement",
+                    "OPERATORS": "Opérateurs",
+                    "SOURCE": "Source",
+                    "SEE_MORE": "Voir plus",
+                    "TAKE": "Prendre",
+                    "ACTION": "Action"
+                },
+                "FILTER": {
+                    "INITIATOR": "Initiateur",
+                    "UNIQ_ID": "Identifiant",
+                    "REPORT_TYPE": "Type de signalement",
+                    "OPERATOR": "Opérateur",
+                    "SOURCE": "Source"
+                },
+                "OPTIONS": {
+                    "REPORT_TYPE": {
+                        "PARTIAL_OPERATOR": "Couverture partielle operateur",
+                        "PARTIAL_SIGNAL": "Couverture partielle signal",
+                        "WHITE_ZONE": "Zone blanche",
+                        "NO_INTERNET": "Absence d'internet"
+                    },
+                    "OPERATOR": {
+                        "ORANGE": "Orange",
+                        "MTN": "MTN",
+                        "MOOV": "Moov"
+                    },
+                    "SOURCE": {
+                        "APP": "Application Mobile",
+                        "USSD": "USSD",
+                        "SMS": "SMS",
+                        "IVR": "IVR"
+                    }
+                },
+                "LABELS": {
+                    "STATUS": {
+                        "SUBMISSION": "Soumission",
+                        "PROCESSING": "Traitement",
+                        "CLOSURE": "Clôture"
+                    },
+                    "SUBMISSION_STATE": {
+                        "PENDING": "En attente",
+                        "ACKNOWLEDGED": "Accusé",
+                        "VALIDATED": "Validé"
+                    },
+                    "PROCESSING_STATE": {
+                        "RECEIVED": "Réceptionné",
+                        "IN_PROGRESS": "En cours",
+                        "COMPLETED": "Terminé"
+                    }
+                }
             }
         },
+
     "SETTINGS_SECURITY": {
         "LABEL": "Paramètres & Sécurité",
         "ROUTE": "security-settings",

@@ -1,0 +1,175 @@
+<p-table
+    #dt
+    [value]="newspapers()"
+    [rowHover]="true"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="tableConfig.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    data-testid="newspapers-table"
+    role="grid"
+    width="100%"
+>
+    <ng-template pTemplate="caption">
+        <div class="container-table-header">
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0">
+                <app-table-button-header
+                    (export)="onExportExcel()"
+                    (refresh)="onRefresh()"
+                    [disabledButtonExport]="isLoading() || !hasData()"
+                    [disabledButtonRefresh]="isLoading()"
+                    [hiddenButtonOther]="true"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt" />
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr role="row">
+            @for (col of tableConfig.cols; track trackByColField($index, col)) {
+                <th
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        'width': col.width,
+                        'text-align': 'center'
+                    }"
+                    role="columnheader"
+                    scope="col"
+                >
+                    {{ col.header | translate }}
+                </th>
+            }
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-newspaper let-rowIndex="rowIndex">
+        <tr
+            role="row"
+            [class.cursor-pointer]="!isLoading()"
+            >
+            @for (col of tableConfig.cols; track trackByColField($index, col)) {
+                <td
+                [class]="col.class"
+                [style]="{
+                    'min-width': col.width,
+                    'width': col.width
+                }"
+                role="gridcell"
+            >
+            @switch (col.field) {
+                @case ('__index') {
+                    {{
+                            ((pagination$ | async)?.current_page - 1 || 0) *
+                                ((pagination$ | async)?.per_page || 0) +
+                                rowIndex +
+                                1
+                        }}
+                }
+                    @case ('uniqId') {
+                        <button
+                            type="button"
+                            (click)="copyToClipboard(newspaper.uniqId)"
+                            class="copyable"
+                            pTooltip="{{ 'COPY' | translate }}"
+                            tooltipPosition="bottom"
+                        >
+                            <span class="id-text">{{ newspaper.uniqId }}</span>
+                            <i class="pi pi-copy" aria-hidden="true"></i>
+                        </button>
+                    }
+
+                    @case ('reportType') {
+                        <div 
+                            [pTooltip]="newspaper.reportDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300">
+                            {{ newspaper.reportType }}
+                        </div>
+                    }
+
+                    @case ('operators') {
+                        <div class="tag-group" *ngIf="newspaper.operators?.length; else noOperators">
+                            @for (operator of newspaper.operators; track trackByOperator($index, operator)) {
+                                <p-tag
+                                    [value]="getOperatorLabel(operator)"
+                                    [style]="getOperatorTagStyle(operator)"
+                                    styleClass="operator-tag"
+                                />
+                            }
+                        </div>
+                        <ng-template #noOperators>
+                            <span class="no-data">-</span>
+                        </ng-template>
+                    }
+
+                    @case ('createdAt') {
+                        <time [attr.datetime]="newspaper.createdAt">
+                            {{ formatDate(newspaper.createdAt) }}
+                        </time>
+                    }
+
+                    @case ('source') {
+                        <div
+                            [pTooltip]="newspaper.sourceDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300"
+                            [tooltipStyleClass]="'custom-tooltip'"
+                            class="source-type-content"
+                        >
+                            {{ newspaper.source }}
+                        </div>
+                    }
+                    
+                    @default {
+                        {{ newspaper[col.field] || '-' }}
+                    }
+            }
+            </td>
+            }
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        @if (!isLoading()) {
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
+                    <div class="empty-state">
+                        {{ 'NO_DATA_FOUND' | translate }}
+                    </div>
+                </td>
+            </tr>
+        }
+        @if (isLoading()) {
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length">
+                        <p-progressSpinner
+                            class="posCenter"
+                            [style]="{ width: '40px', height: '50px' }"
+                            styleClass="custom-spinner"
+                            strokeWidth="8"
+                            fill="#EEEEEE"
+                            animationDuration=".5s"
+                        >
+                        </p-progressSpinner>
+                </td>
+            </tr>
+        }
+    </ng-template>
+</p-table>
+
+
+
+
+
+

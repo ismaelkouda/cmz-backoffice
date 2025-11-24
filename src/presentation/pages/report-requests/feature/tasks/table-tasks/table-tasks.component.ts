@@ -6,6 +6,7 @@ import {
     Input,
     Output,
     inject,
+    signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TASKS_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/tasks/tasks-table.constants';
@@ -26,7 +27,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable, take } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
     selector: 'app-table-tasks',
@@ -49,79 +50,47 @@ import { Observable, take } from 'rxjs';
     ],
 })
 export class TableTasksComponent {
-    @Input() spinner!: boolean;
-    @Input() listTasks$!: Observable<TasksEntity[]>;
-    @Input() pagination$!: Observable<Paginate<TasksEntity>>;
+    private readonly translate = inject(TranslateService);
+    private readonly toastService = inject(ToastrService);
+    private readonly clipboardService = inject(ClipboardService);
+    private readonly destroy$ = new Subject<void>();
+
+    readonly tasks = signal<TasksEntity[]>([]);
+    readonly isLoading = signal<boolean>(false);
+    readonly hasData = signal<boolean>(false);
+
+    @Input({ required: true })
+    set tasks$(value: Observable<TasksEntity[]>) {
+        this._tasks$ = value;
+        this._subscribeToData();
+    }
+
+    @Input({ required: true })
+    pagination$!: Observable<Paginate<TasksEntity>>;
+
+    @Input()
+    set loading(value: boolean) {
+        this.isLoading.set(value);
+    }
+
     @Output() treatmentRequested = new EventEmitter<TasksEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
+
+    private _tasks$!: Observable<TasksEntity[]>;
 
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.config.app.name
     );
-    private readonly translationCache = new Map<string, string>();
 
-    private readonly statusLabelMap: Record<string, string> = {
-        submission: 'REPORTS_REQUESTS.TASKS.LABELS.STATUS.SUBMISSION',
-        processing: 'REPORTS_REQUESTS.TASKS.LABELS.STATUS.PROCESSING',
-        closure: 'REPORTS_REQUESTS.TASKS.LABELS.STATUS.CLOSURE',
-    };
-
-    private readonly statusSeverityMap: Record<string, TagSeverity> = {
-        submission: 'info',
-        processing: 'warning',
-        closure: 'success',
-    };
-
-    private readonly submissionStateLabelMap: Record<string, string> = {
-        pending: 'REPORTS_REQUESTS.TASKS.LABELS.SUBMISSION_STATE.PENDING',
-        acknowledged:
-            'REPORTS_REQUESTS.TASKS.LABELS.SUBMISSION_STATE.ACKNOWLEDGED',
-        validated: 'REPORTS_REQUESTS.TASKS.LABELS.SUBMISSION_STATE.VALIDATED',
-    };
-
-    private readonly submissionStateSeverityMap: Record<string, TagSeverity> = {
-        pending: 'warning',
-        acknowledged: 'info',
-        validated: 'success',
-    };
-
-    private readonly processingStateLabelMap: Record<string, string> = {
-        received: 'REPORTS_REQUESTS.TASKS.LABELS.PROCESSING_STATE.RECEIVED',
-        in_progress:
-            'REPORTS_REQUESTS.TASKS.LABELS.PROCESSING_STATE.IN_PROGRESS',
-        completed: 'REPORTS_REQUESTS.TASKS.LABELS.PROCESSING_STATE.COMPLETED',
-    };
-
-    private readonly processingStateSeverityMap: Record<string, TagSeverity> = {
-        received: 'info',
-        in_progress: 'warning',
-        completed: 'success',
-    };
-
-    private readonly stateLabelMap: Record<string, string> = {
-        waiting: 'REPORTS_REQUESTS.TASKS.OPTIONS.STATE.APPROVED',
-        received: 'REPORTS_REQUESTS.TASKS.OPTIONS.STATE.RECEIVED',
-        rejected: 'REPORTS_REQUESTS.TASKS.OPTIONS.STATE.REJECTED',
-    };
-
-    private readonly stateSeverityMap: Record<string, TagSeverity> = {
-        waiting: 'success',
-        received: 'info',
-        rejected: 'danger',
-    };
-
-    public readonly table: TableConfig = TASKS_TABLE_CONST;
+    readonly tableConfig: TableConfig = TASKS_TABLE_CONST;
 
     constructor(
-        private readonly toastService: ToastrService,
-        private readonly clipboardService: ClipboardService,
-        private readonly tableExportExcelFileService: TableExportExcelFileService,
-        private readonly translate: TranslateService
+        private readonly tableExportExcelFileService: TableExportExcelFileService
     ) {}
 
     public onExportExcel(): void {
-        this.listTasks$.pipe(take(1)).subscribe((tasks) => {
+        /* this.tasks$.pipe(take(1)).subscribe((tasks) => {
             if (tasks && tasks.length > 0) {
                 const fileName = `${this.exportFilePrefix}-tasks`;
                 this.tableExportExcelFileService.exportAsExcelFile(
@@ -134,7 +103,7 @@ export class TableTasksComponent {
                     this.translate.instant('EXPORT.NO_DATA')
                 );
             }
-        });
+        }); */
     }
 
     public onRefresh(): void {
@@ -148,23 +117,37 @@ export class TableTasksComponent {
         );
     }
 
-    public formatDate(value: string): string {
-        if (!value) {
-            return '-';
-        }
+    public onActionClicked(item: TasksEntity): void {
+        this.treatmentRequested.emit(item);
+    }
 
-        const normalized = value.replace(' ', 'T');
-        const withTimezone =
-            /z$/i.test(normalized) || normalized.endsWith('Z')
+    private _subscribeToData(): void {
+        this._tasks$
+            .pipe(
+                takeUntil(this.destroy$),
+                tap((data) => {
+                    const items = data ?? [];
+                    this.tasks.set(items);
+                    this.hasData.set(items.length > 0);
+                })
+            )
+            .subscribe();
+    }
+
+    formatDate(value: string): string {
+        if (!value) return '-';
+        try {
+            const normalized = value.includes('T')
+                ? value
+                : value.replace(' ', 'T');
+            const withTimezone = normalized.endsWith('Z')
                 ? normalized
                 : `${normalized}Z`;
-        const parsed = new Date(withTimezone);
-
-        if (Number.isNaN(parsed.getTime())) {
+            const date = new Date(withTimezone);
+            return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+        } catch {
             return value;
         }
-
-        return parsed.toLocaleString();
     }
 
     public getOperatorColor(operator: string): string {
@@ -214,103 +197,27 @@ export class TableTasksComponent {
         return this.translate.instant(translationKey);
     }
 
-    public getReportTypeLabel(reportType: string): string {
-        const normalized = reportType?.toLowerCase().trim() ?? '';
-        let translationKey = '';
-
-        switch (normalized) {
-            case 'couverture partielle signal':
-                translationKey =
-                    'REPORTS_REQUESTS.TASKS.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL';
-                break;
-            case 'zone blanche':
-                translationKey =
-                    'REPORTS_REQUESTS.TASKS.OPTIONS.REPORT_TYPE.WHITE_ZONE';
-                break;
-            case "absence d'internet":
-                translationKey =
-                    'REPORTS_REQUESTS.TASKS.OPTIONS.REPORT_TYPE.NO_INTERNET';
-                break;
-            default:
-                return reportType;
+    public getTaskTooltip(item: TasksEntity): string {
+        const canTake = item.canBeQualify();
+        if (canTake) {
+            const tasksLabel = this.translate.instant(
+                'REPORTS_REQUESTS.TASKS.TABLE.QUALIFY'
+            );
+            return `${tasksLabel} ${item.uniqId}`;
         }
-
-        return this.translate.instant(translationKey);
+        return this.translate.instant('REPORTS_REQUESTS.TASKS.TABLE.SEE_MORE');
     }
 
-    public onActionClicked(item: TasksEntity): void {
-        this.treatmentRequested.emit(item);
+    trackByUniqId(_: number, item: TasksEntity): string {
+        return item.uniqId;
     }
 
-    public getTasksTooltip(uniqId: string): string {
-        const tasksLabel = this.translate.instant(
-            'REPORTS_REQUESTS.TASKS.TABLE.QUALIFY'
-        );
-        return `${tasksLabel} ${uniqId}`;
+    trackByOperator(_: number, operator: string): string {
+        return operator;
     }
 
-    public getStatusSeverity(status: string): TagSeverity {
-        const normalized = status?.toLowerCase() ?? '';
-        return this.statusSeverityMap[normalized] ?? 'secondary';
-    }
-
-    public getSubmissionStateLabel(
-        submissionState: string | null | undefined
-    ): string | null {
-        if (!submissionState) {
-            return null;
-        }
-        const normalized = submissionState.toLowerCase();
-        const key = this.submissionStateLabelMap[normalized];
-        if (!key) {
-            return submissionState;
-        }
-        return this.translateLabel(key, submissionState);
-    }
-
-    public getSubmissionStateSeverity(
-        submissionState: string | null | undefined
-    ): TagSeverity {
-        const normalized = submissionState?.toLowerCase() ?? '';
-        return this.submissionStateSeverityMap[normalized] ?? 'secondary';
-    }
-
-    public getProcessingStateLabel(
-        processingState: string | null | undefined
-    ): string | null {
-        if (!processingState) {
-            return null;
-        }
-        const normalized = processingState.toLowerCase();
-        const key = this.processingStateLabelMap[normalized];
-        if (!key) {
-            return processingState;
-        }
-        return this.translateLabel(key, processingState);
-    }
-
-    public getProcessingStateSeverity(
-        processingState: string | null | undefined
-    ): TagSeverity {
-        const normalized = processingState?.toLowerCase() ?? '';
-        return this.processingStateSeverityMap[normalized] ?? 'secondary';
-    }
-
-    public getStatusLabel(state: string | null | undefined): string | null {
-        if (!state) {
-            return null;
-        }
-        const normalized = state.toLowerCase();
-        const key = this.stateLabelMap[normalized];
-        if (!key) {
-            return state;
-        }
-        return this.translateLabel(key, state);
-    }
-
-    public getStateSeverity(state: string | null | undefined): TagSeverity {
-        const normalized = state?.toLowerCase() ?? '';
-        return this.stateSeverityMap[normalized] ?? 'secondary';
+    trackByColField(_: number, col: any): string {
+        return col.field;
     }
 
     private normalizeExportPrefix(appName: string): string {
@@ -321,23 +228,4 @@ export class TableTasksComponent {
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
     }
-
-    private translateLabel(key: string, fallback: string): string {
-        if (this.translationCache.has(key)) {
-            return this.translationCache.get(key) as string;
-        }
-
-        const translated = this.translate.instant(key);
-        const normalized = translated === key ? fallback : translated;
-        this.translationCache.set(key, normalized);
-        return normalized;
-    }
 }
-
-type TagSeverity =
-    | 'success'
-    | 'info'
-    | 'warning'
-    | 'danger'
-    | 'secondary'
-    | 'contrast';

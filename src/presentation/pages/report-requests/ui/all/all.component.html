@@ -34,9 +34,9 @@
                         >
                             <app-table-all
                                 class="table-component"
-                                [spinner]="spinner$ | async"
+                                [loading]="loading$ | async"
                                 [pagination$]="pagination$"
-                                [listAll$]="all$"
+                                [all$]="all$"
                                 (treatmentRequested)="onAllAction($event)"
                                 (refreshRequested)="refreshAll()"
                             >

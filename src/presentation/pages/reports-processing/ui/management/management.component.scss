@@ -44,7 +44,8 @@
 
     .header-center {
         .report-title-badge {
-            background: var(--primary-color, #3b82f6);
+            background-color: #fff;
+            color: black;
             padding: 0.75rem 1.5rem;
             border-radius: 25px;
             font-size: 0.9rem;
@@ -567,7 +568,7 @@
         &.description {
             flex-direction: column;
             align-items: stretch;
-            min-height: 100px;
+            min-height: 70px;
             padding: 1.25rem;
         }
     }
@@ -1159,12 +1160,11 @@
     border-radius: 8px;
     font-size: 0.875rem;
     line-height: 1.5;
-    resize: vertical;
     transition: all 0.2s ease;
     font-family: inherit;
     min-height: 100px;
     background: white;
-
+    resize: none;
     &:focus {
         outline: none;
         border-color: #3b82f6;
@@ -1425,6 +1425,24 @@
     font-size: 1rem;
     font-weight: 600;
     color: #1f2937;
+}
+
+.container-radio-option {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+
+    &:hover {
+        border-color: #d1d5db;
+        background: #f9fafb;
+    }
 }
 
 .radio-option {
@@ -2200,149 +2218,6 @@ button:focus-visible,
     .panel-content {
         height: 100%;
         width: 100%;
-    }
-}
-
-// kouda galerie
-
-
-// Styles spécifiques pour les photos avec titres
-.location-card {
-    .data-grid {
-        gap: 2rem;
-    }
-
-    .data-row.double {
-        .data-field {
-            .field-label {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                font-size: 1rem;
-                font-weight: 600;
-                color: #1e293b;
-                margin-bottom: 1rem;
-                padding: 0.75rem 1rem;
-                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-                border-radius: 8px;
-                border-left: 4px solid #3b82f6;
-
-                i {
-                    color: #3b82f6;
-                    font-size: 1.1rem;
-                }
-            }
-
-            .field-value.photo-container {
-                background: #ffffff;
-                border: 1px solid #e2e8f0;
-                border-radius: 12px;
-                padding: 1.5rem;
-                min-height: 200px;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                &:hover {
-                    border-color: #cbd5e1;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-                }
-
-                // Style pour le composant image-zoom
-                app-image-zoom {
-                    width: 100%;
-                    height: auto;
-                    max-height: 300px;
-                    display: flex;
-                    justify-content: center;
-                    
-                    ::ng-deep img {
-                        width: 100%;
-                        height: auto;
-                        max-height: 300px;
-                        object-fit: contain;
-                        border-radius: 8px;
-                        transition: transform 0.3s ease;
-                        
-                        &:hover {
-                            transform: scale(1.02);
-                        }
-                    }
-                }
-
-                .photo-placeholder {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 0.75rem;
-                    color: #94a3b8;
-                    padding: 2rem;
-                    text-align: center;
-
-                    i {
-                        font-size: 2.5rem;
-                        opacity: 0.5;
-                    }
-
-                    span {
-                        font-size: 0.9rem;
-                        font-weight: 500;
-                    }
-                }
-            }
-        }
-    }
-
-    .data-row.full {
-        padding-top: 1.5rem;
-        border-top: 1px solid #e2e8f0;
-
-        .data-field {
-            .field-label {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                font-size: 1rem;
-                font-weight: 600;
-                color: #1e293b;
-                margin-bottom: 1rem;
-
-                i {
-                    color: #3b82f6;
-                    font-size: 1.1rem;
-                }
-            }
-
-            .field-value.description {
-                background: #f8fafc;
-                border: 1px solid #e2e8f0;
-                border-radius: 12px;
-                padding: 1.5rem;
-                min-height: 120px;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    border-color: #cbd5e1;
-                    background: #ffffff;
-                }
-
-                .description-content {
-                    line-height: 1.6;
-                    color: #374151;
-                    font-size: 0.95rem;
-                    
-                    // Style pour le texte quand il n'y a pas de description
-                    &:empty {
-                        &::before {
-                            content: attr(data-placeholder);
-                            color: #94a3b8;
-                            font-style: italic;
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 

@@ -148,7 +148,7 @@
                                 pButton
                                 icon="pi pi-window-maximize"
                                 (click)="onActionClicked(queue)"
-                                [pTooltip]="getTakeTooltip(queue)"
+                                [pTooltip]="getSeeMoreTooltip(queue)"
                                 [disabled]="isLoading()"
                                 size="small"
                                 class="action-btn"
@@ -156,12 +156,13 @@
                             <button
                                 type="button"
                                 pButton
-                                icon="pi pi-book"
-                                (click)="onJournalClicked(queue)"
-                                [pTooltip]="getJournalTooltip(queue)"
+                                severity="info"
+                                icon="pi pi-check-circle"
+                                (click)="onTakeClicked(queue)"
+                                [pTooltip]="getTakeTooltip(queue)"
                                 [disabled]="isLoading()"
                                 size="small"
-                                class="action-btn"
+                                class="action-btn p" 
                             ></button>
                         </div>
                     }

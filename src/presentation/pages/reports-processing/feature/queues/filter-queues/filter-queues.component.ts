@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
@@ -39,6 +40,7 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
         ButtonModule,
         RippleModule,
         InputTextModule,
+        MultiSelectModule,
     ],
 })
 export class FilterQueuesComponent implements OnInit, OnDestroy {
@@ -57,13 +59,16 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
         private readonly queuesFacade: QueuesFacade
     ) {}
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.initFormFilter();
     }
 
-    private initFormFilter(): void {
+    public initFormFilter(): void {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<QueuesFilterFormControlEntity>({
+                initiator_phone_number: new FormControl<string>('', {
+                    nonNullable: true,
+                }),
                 uniq_id: new FormControl<string>('', {
                     nonNullable: true,
                 }),
@@ -76,7 +81,10 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                 report_type: new FormControl<string>('', {
                     nonNullable: true,
                 }),
-                operator: new FormControl<string>('', {
+                operator: new FormControl<string[]>([], {
+                    nonNullable: true,
+                }),
+                source: new FormControl<string>('', {
                     nonNullable: true,
                 }),
             });
@@ -108,16 +116,19 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
 
                 const dto =
                     typeof filterValue?.toDto === 'function'
-                        ? (filterValue.toDto() as Record<string, string>)
+                        ? filterValue.toDto()
                         : {};
 
                 this.formFilter.patchValue(
                     {
-                        uniq_id: dto['uniq_id'] ?? '',
-                        created_from: dto['created_from'] ?? '',
-                        created_to: dto['created_to'] ?? '',
-                        report_type: dto['report_type'] ?? '',
-                        operator: dto['operator'] ?? '',
+                        initiator_phone_number:
+                            (dto['initiator_phone_number'] as string) ?? '',
+                        uniq_id: (dto['uniq_id'] as string) ?? '',
+                        created_from: (dto['created_from'] as string) ?? '',
+                        source: (dto['created_from'] as string) ?? '',
+                        created_to: (dto['created_to'] as string) ?? '',
+                        report_type: (dto['report_type'] as string) ?? '',
+                        operator: (dto['operator'] as string[]) ?? [],
                     },
                     { emitEvent: false }
                 );
@@ -132,8 +143,14 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
         controlName: K
     ): void {
         const control = this.formFilter?.controls[controlName];
-        if (control) {
-            control.setValue('', { emitEvent: false });
+        if (!control) return;
+
+        if (controlName === 'operator') {
+            (control as FormControl<string[]>).setValue([], {
+                emitEvent: false,
+            });
+        } else {
+            (control as FormControl<string>).setValue('', { emitEvent: false });
         }
     }
 
@@ -157,6 +174,9 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
         }
 
         const filterData: QueuesFilterPayloadEntity = {
+            initiator_phone_number:
+                this.formFilter.get('initiator_phone_number')?.value?.trim() ??
+                '',
             uniq_id: this.formFilter.get('uniq_id')?.value?.trim() ?? '',
             created_from: createdFrom.isValid()
                 ? createdFrom.format('YYYY-MM-DD')
@@ -164,16 +184,17 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
             created_to: createdTo.isValid()
                 ? createdTo.format('YYYY-MM-DD')
                 : '',
+            source: this.formFilter.get('source')?.value?.trim() ?? '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
-            operator: this.formFilter.get('operator')?.value?.trim() ?? '',
+            operator: this.formFilter.get('operator')?.value ?? [],
         };
 
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
             const translatedMessage = this.translate.instant('FORM_INVALID');
-            this.toastService.error(translatedMessage);
+            this.toastService.success(translatedMessage);
         }
     }
 

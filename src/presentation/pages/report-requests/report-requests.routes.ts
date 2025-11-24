@@ -51,9 +51,9 @@ export const routes: Routes = [
                 path: '',
                 component: AllComponent,
                 data: {
-                    title: 'REPORTS_REQUESTS.TASKS.TITLE',
+                    title: 'REPORTS_REQUESTS.ALL.TITLE',
                     module: 'REPORTS_REQUESTS.LABEL',
-                    subModule: 'REPORTS_REQUESTS.TASKS.LABEL',
+                    subModule: 'REPORTS_REQUESTS.ALL.LABEL',
                 },
             },
             {

@@ -1,17 +1,17 @@
 const config = {
     dev: {
         verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
-        /* authenticationUrl: 'http://10.10.0.9:7000/auth/v1.0/backoffice/',
+        authenticationUrl: 'http://10.10.0.9:7000/auth/v1.0/backoffice/',
         reportUrl: 'http://10.10.0.9:7001/reports/v1.0/backoffice/',
         settingUrl: 'http://10.10.0.9:7002/base-settings/v1.0/backoffice/',
-        fileUrl: 'http://10.10.0.9:7000/auth/backoffice/', */
-        authenticationUrl:
+        fileUrl: 'http://10.10.0.9:7000/auth/backoffice/',
+        /*         authenticationUrl:
             'https://api-services.mazone.imako.digital/auth/v1.0/backoffice/',
         reportUrl:
             'https://api-services.mazone.imako.digital/reports/v1.0/backoffice/',
         settingUrl:
             'https://api-services.mazone.imako.digital/base-settings/v1.0/backoffice/',
-        fileUrl: 'https://api-services.mazone.imako.digital/auth/backoffice/',
+        fileUrl: 'https://api-services.mazone.imako.digital/auth/backoffice/', */
         environmentDeployment: 'DEV',
         enableDebug: true,
         messageApp: {

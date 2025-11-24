@@ -16,7 +16,7 @@ import {
 } from 'rxjs';
 
 export interface PaginationFilter {
-    toDto(): Record<string, string>;
+    toDto(): Record<string, string | string[]>;
 }
 
 @Injectable({ providedIn: 'root' })

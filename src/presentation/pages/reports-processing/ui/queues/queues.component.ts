@@ -19,6 +19,7 @@ import { PageTitleComponent } from '@shared/components/page-title/page-title.com
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Paginate } from '@shared/interfaces/paginate';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { ManagementFacade } from '../../application/management.facade';
 import { QueuesFilterPayloadEntity } from '../../domain/entities/queues/queues-filter-payload.entity';
 import { QueuesEntity } from '../../domain/entities/queues/queues.entity';
 
@@ -42,6 +43,7 @@ import { QueuesEntity } from '../../domain/entities/queues/queues.entity';
 })
 export class QueuesComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
+    private readonly managementFacade = inject(ManagementFacade);
     public module!: string;
     public subModule!: string;
     public pagination$!: Observable<Paginate<QueuesEntity>>;
@@ -98,8 +100,11 @@ export class QueuesComponent implements OnInit, OnDestroy {
         this.selectedReportId = null;
     }
 
-    public onQueuesJournal(item: QueuesEntity): void {
-        console.log('Journal requested for:', item.uniqId);
+    public onQueuesTake(item: QueuesEntity): void {
+        this.managementFacade.take(
+            { decision: '', reason: '', comment: '', uniqId: item.uniqId },
+            'reports-processing'
+        );
     }
 
     public refreshQueues(): void {

@@ -14,6 +14,7 @@ import { QueuesEntity } from '@presentation/pages/report-requests/domain/entitie
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
+import { TableConfig } from '@shared/interfaces/table-config';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
@@ -25,14 +26,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { QUEUES_TABLE_CONST } from '../../../domain/constants/queues/queues-table.constants';
-
-type TagSeverity =
-    | 'success'
-    | 'info'
-    | 'warning'
-    | 'danger'
-    | 'secondary'
-    | 'contrast';
 
 @Component({
     selector: 'app-table-queues',
@@ -84,7 +77,12 @@ export class TableQueuesComponent implements OnDestroy {
 
     private _queues$!: Observable<QueuesEntity[]>;
 
-    readonly tableConfig = QUEUES_TABLE_CONST;
+    private readonly appCustomizationService = inject(AppCustomizationService);
+    private readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appCustomizationService.config.app.name
+    );
+
+    readonly tableConfig: TableConfig = QUEUES_TABLE_CONST;
 
     ngOnDestroy(): void {
         this.destroy$.next();
@@ -151,29 +149,6 @@ export class TableQueuesComponent implements OnDestroy {
         }
     }
 
-    getStateSeverity(state: string | null | undefined): string {
-        if (!state) return 'secondary';
-        const severityMap: Record<string, TagSeverity> = {
-            pending: 'info',
-            abandoned: 'warning',
-            approved: 'success',
-            rejected: 'danger',
-        };
-        return severityMap[state.toLowerCase()] ?? 'secondary';
-    }
-
-    getStateLabel(state: string | null | undefined): string {
-        if (!state) return '-';
-        const labelMap: Record<string, string> = {
-            pending: 'REPORTS_REQUESTS.QUEUES.OPTIONS.STATUS.PENDING',
-            rejected: 'REPORTS_REQUESTS.QUEUES.OPTIONS.STATUS.REJECTED',
-            abandoned: 'REPORTS_REQUESTS.QUEUES.OPTIONS.STATUS.ABANDONED',
-            approved: 'REPORTS_REQUESTS.QUEUES.OPTIONS.STATUS.APPROVED',
-        };
-        const key = labelMap[state.toLowerCase()];
-        return key ? this.translate.instant(key) : state;
-    }
-
     getOperatorColor(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
         const colorMap: Record<string, string> = {
@@ -224,11 +199,6 @@ export class TableQueuesComponent implements OnDestroy {
     trackByColField(_: number, col: any): string {
         return col.field;
     }
-
-    private readonly appCustomizationService = inject(AppCustomizationService);
-    private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.config.app.name
-    );
 
     private normalizeExportPrefix(appName: string): string {
         return (

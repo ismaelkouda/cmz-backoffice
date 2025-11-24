@@ -41,7 +41,7 @@
                                 [pagination$]="pagination$"
                                 [queues$]="queues$"
                                 (treatmentRequested)="onQueuesAction($event)"
-                                (journalRequested)="onQueuesJournal($event)"
+                                (takeRequested)="onQueuesTake($event)"
                                 (refreshRequested)="refreshQueues()"
                             >
                             </app-table-queues>

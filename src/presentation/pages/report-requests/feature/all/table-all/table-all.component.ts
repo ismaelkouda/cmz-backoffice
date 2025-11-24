@@ -4,8 +4,10 @@ import {
     Component,
     EventEmitter,
     Input,
+    OnDestroy,
     Output,
     inject,
+    signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ALL_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/all/all-table.constants';
@@ -26,7 +28,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable, take } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
     selector: 'app-table-all',
@@ -48,17 +50,43 @@ import { Observable, take } from 'rxjs';
         TableTitleComponent,
     ],
 })
-export class TableAllComponent {
-    @Input() spinner!: boolean;
-    @Input() listAll$!: Observable<AllEntity[]>;
-    @Input() pagination$!: Observable<Paginate<AllEntity>>;
+export class TableAllComponent implements OnDestroy {
+    private readonly translate = inject(TranslateService);
+    private readonly toastService = inject(ToastrService);
+    private readonly clipboardService = inject(ClipboardService);
+    private readonly destroy$ = new Subject<void>();
+
+    readonly all = signal<AllEntity[]>([]);
+    readonly isLoading = signal<boolean>(false);
+    readonly hasData = signal<boolean>(false);
+
+    @Input({ required: true })
+    set all$(value: Observable<AllEntity[]>) {
+        this._all$ = value;
+        this._subscribeToData();
+    }
+
+    @Input({ required: true })
+    pagination$!: Observable<Paginate<AllEntity>>;
+
+    @Input()
+    set loading(value: boolean) {
+        this.isLoading.set(value);
+    }
+
     @Output() treatmentRequested = new EventEmitter<AllEntity>();
+    @Output() journalRequested = new EventEmitter<AllEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
+
+    private _all$!: Observable<AllEntity[]>;
 
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.config.app.name
     );
+
+    readonly tableConfig: TableConfig = ALL_TABLE_CONST;
+
     private readonly translationCache = new Map<string, string>();
 
     private readonly statusLabelMap: Record<string, string> = {
@@ -71,19 +99,6 @@ export class TableAllComponent {
         submission: 'info',
         processing: 'warning',
         closure: 'success',
-    };
-
-    private readonly submissionStateLabelMap: Record<string, string> = {
-        pending: 'REPORTS_REQUESTS.ALL.LABELS.SUBMISSION_STATE.PENDING',
-        acknowledged:
-            'REPORTS_REQUESTS.ALL.LABELS.SUBMISSION_STATE.ACKNOWLEDGED',
-        validated: 'REPORTS_REQUESTS.ALL.LABELS.SUBMISSION_STATE.VALIDATED',
-    };
-
-    private readonly submissionStateSeverityMap: Record<string, TagSeverity> = {
-        pending: 'warning',
-        acknowledged: 'info',
-        validated: 'success',
     };
 
     private readonly processingStateLabelMap: Record<string, string> = {
@@ -110,17 +125,21 @@ export class TableAllComponent {
         rejected: 'danger',
     };
 
-    public readonly table: TableConfig = ALL_TABLE_CONST;
-
     constructor(
-        private readonly toastService: ToastrService,
-        private readonly clipboardService: ClipboardService,
-        private readonly tableExportExcelFileService: TableExportExcelFileService,
-        private readonly translate: TranslateService
+        private readonly tableExportExcelFileService: TableExportExcelFileService
     ) {}
 
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    onRefresh(): void {
+        this.refreshRequested.emit();
+    }
+
     public onExportExcel(): void {
-        this.listAll$.pipe(take(1)).subscribe((all) => {
+        /* this.all$.pipe(take(1)).subscribe((all) => {
             if (all && all.length > 0) {
                 const fileName = `${this.exportFilePrefix}-all`;
                 this.tableExportExcelFileService.exportAsExcelFile(
@@ -133,11 +152,7 @@ export class TableAllComponent {
                     this.translate.instant('EXPORT.NO_DATA')
                 );
             }
-        });
-    }
-
-    public onRefresh(): void {
-        this.refreshRequested.emit();
+        }); */
     }
 
     public copyToClipboard(data: string): void {
@@ -147,151 +162,76 @@ export class TableAllComponent {
         );
     }
 
-    public formatDate(value: string): string {
-        if (!value) {
-            return '-';
-        }
-
-        const normalized = value.replace(' ', 'T');
-        const withTimezone =
-            /z$/i.test(normalized) || normalized.endsWith('Z')
-                ? normalized
-                : `${normalized}Z`;
-        const parsed = new Date(withTimezone);
-
-        if (Number.isNaN(parsed.getTime())) {
-            return value;
-        }
-
-        return parsed.toLocaleString();
-    }
-
-    public getOperatorColor(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        switch (normalized) {
-            case 'orange':
-                return 'rgb(241, 110, 0)';
-            case 'mtn':
-                return 'rgb(255, 203, 5)';
-            case 'moov':
-                return 'rgb(0, 91, 164)';
-            default:
-                return `rgba(var(--theme-default-rgb), 0.8)`;
-        }
-    }
-
-    public getOperatorTagStyle(operator: string): Record<string, string> {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const backgroundColor = this.getOperatorColor(operator);
-        const textColor = normalized === 'mtn' ? '#212121' : '#ffffff';
-
-        return {
-            backgroundColor,
-            color: textColor,
-        };
-    }
-
-    public getOperatorLabel(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        let translationKey = '';
-
-        switch (normalized) {
-            case 'orange':
-                translationKey = 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.ORANGE';
-                break;
-            case 'mtn':
-                translationKey = 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.MTN';
-                break;
-            case 'moov':
-                translationKey = 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.MOOV';
-                break;
-            default:
-                return operator;
-        }
-
-        return this.translate.instant(translationKey);
-    }
-
-    public getReportTypeLabel(reportType: string): string {
-        const normalized = reportType?.toLowerCase().trim() ?? '';
-        let translationKey = '';
-
-        switch (normalized) {
-            case 'couverture partielle signal':
-                translationKey =
-                    'REPORTS_REQUESTS.ALL.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL';
-                break;
-            case 'zone blanche':
-                translationKey =
-                    'REPORTS_REQUESTS.ALL.OPTIONS.REPORT_TYPE.WHITE_ZONE';
-                break;
-            case "absence d'internet":
-                translationKey =
-                    'REPORTS_REQUESTS.ALL.OPTIONS.REPORT_TYPE.NO_INTERNET';
-                break;
-            default:
-                return reportType;
-        }
-
-        return this.translate.instant(translationKey);
-    }
-
     public onActionClicked(item: AllEntity): void {
         this.treatmentRequested.emit(item);
     }
 
+    private _subscribeToData(): void {
+        this._all$
+            .pipe(
+                takeUntil(this.destroy$),
+                tap((data) => {
+                    const items = data ?? [];
+                    this.all.set(items);
+                    this.hasData.set(items.length > 0);
+                })
+            )
+            .subscribe();
+    }
+
+    formatDate(value: string): string {
+        if (!value) return '-';
+        try {
+            const normalized = value.includes('T')
+                ? value
+                : value.replace(' ', 'T');
+            const withTimezone = normalized.endsWith('Z')
+                ? normalized
+                : `${normalized}Z`;
+            const date = new Date(withTimezone);
+            return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+        } catch {
+            return value;
+        }
+    }
     public getAllTooltip(uniqId: string): string {
         const allLabel = this.translate.instant(
-            'REPORTS_REQUESTS.ALL.TABLE.QUALIFY'
+            'REPORTS_REQUESTS.ALL.TABLE.SEE_MORE'
         );
         return `${allLabel} ${uniqId}`;
+    }
+
+    getOperatorColor(operator: string): string {
+        const normalized = operator?.toLowerCase().trim() ?? '';
+        const colorMap: Record<string, string> = {
+            orange: 'rgb(241, 110, 0)',
+            mtn: 'rgb(255, 203, 5)',
+            moov: 'rgb(0, 91, 164)',
+        };
+        return colorMap[normalized] ?? `rgba(var(--theme-default-rgb), 0.8)`;
+    }
+
+    getOperatorTagStyle(operator: string): Record<string, string> {
+        const backgroundColor = this.getOperatorColor(operator);
+        const textColor =
+            operator?.toLowerCase() === 'mtn' ? '#212121' : '#ffffff';
+        return { backgroundColor, color: textColor };
+    }
+
+    getOperatorLabel(operator: string): string {
+        const normalized = operator?.toLowerCase().trim() ?? '';
+        const translationMap: Record<string, string> = {
+            orange: 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.ORANGE',
+            mtn: 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.MTN',
+            moov: 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.MOOV',
+        };
+        const key = translationMap[normalized];
+        return key ? this.translate.instant(key) : operator;
     }
 
     public getStatusSeverity(status: string): TagSeverity {
         const normalized = status?.toLowerCase() ?? '';
         return this.statusSeverityMap[normalized] ?? 'secondary';
-    }
-
-    public getSubmissionStateLabel(
-        submissionState: string | null | undefined
-    ): string | null {
-        if (!submissionState) {
-            return null;
-        }
-        const normalized = submissionState.toLowerCase();
-        const key = this.submissionStateLabelMap[normalized];
-        if (!key) {
-            return submissionState;
-        }
-        return this.translateLabel(key, submissionState);
-    }
-
-    public getSubmissionStateSeverity(
-        submissionState: string | null | undefined
-    ): TagSeverity {
-        const normalized = submissionState?.toLowerCase() ?? '';
-        return this.submissionStateSeverityMap[normalized] ?? 'secondary';
-    }
-
-    public getProcessingStateLabel(
-        processingState: string | null | undefined
-    ): string | null {
-        if (!processingState) {
-            return null;
-        }
-        const normalized = processingState.toLowerCase();
-        const key = this.processingStateLabelMap[normalized];
-        if (!key) {
-            return processingState;
-        }
-        return this.translateLabel(key, processingState);
-    }
-
-    public getProcessingStateSeverity(
-        processingState: string | null | undefined
-    ): TagSeverity {
-        const normalized = processingState?.toLowerCase() ?? '';
-        return this.processingStateSeverityMap[normalized] ?? 'secondary';
     }
 
     public getStatusLabel(state: string | null | undefined): string | null {
@@ -311,15 +251,6 @@ export class TableAllComponent {
         return this.stateSeverityMap[normalized] ?? 'secondary';
     }
 
-    private normalizeExportPrefix(appName: string): string {
-        return (
-            appName
-                .toLowerCase()
-                .replaceAll(/[^a-z0-9]+/g, '-')
-                .replaceAll(/(^-|-$)/g, '') || 'cmz'
-        );
-    }
-
     private translateLabel(key: string, fallback: string): string {
         if (this.translationCache.has(key)) {
             return this.translationCache.get(key) as string;
@@ -329,6 +260,27 @@ export class TableAllComponent {
         const normalized = translated === key ? fallback : translated;
         this.translationCache.set(key, normalized);
         return normalized;
+    }
+
+    trackByUniqId(_: number, item: AllEntity): string {
+        return item.uniqId;
+    }
+
+    trackByOperator(_: number, operator: string): string {
+        return operator;
+    }
+
+    trackByColField(_: number, col: any): string {
+        return col.field;
+    }
+
+    private normalizeExportPrefix(appName: string): string {
+        return (
+            appName
+                .toLowerCase()
+                .replaceAll(/[^a-z0-9]+/g, '-')
+                .replaceAll(/(^-|-$)/g, '') || 'cmz'
+        );
     }
 }
 

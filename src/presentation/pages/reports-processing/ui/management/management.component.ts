@@ -60,6 +60,7 @@ import { ManagementFormControlEntity } from '../../domain/entities/management/ma
 import { ManagementEntity } from '../../domain/entities/management/management.entity';
 import { RouteContextService } from '../../domain/services/route-context.service';
 import { MapManagementComponent } from '../../feature/management/map-management/map-management.component';
+import { NewspapersComponent } from '../../feature/management/newspapers/newspapers.component';
 type TreaterTimestampKey =
     | 'createdAt'
     | 'approvedAt'
@@ -110,6 +111,7 @@ interface InfoCard {
         MapManagementComponent,
         TagModule,
         ImageZoomComponent,
+        NewspapersComponent,
     ],
     providers: [MessageService, RouteContextService],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -611,8 +613,22 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 }
             },
             approve: () => {
-                this.requestsTasksFacade.refresh();
-                this.requestsAllFacade.refresh();
+                switch (this.endPointType) {
+                    case 'requests':
+                        this.requestsTasksFacade.refresh();
+                        this.requestsAllFacade.refresh();
+                        break;
+
+                    case 'reports-processing':
+                        this.processingTasksFacade.refresh();
+                        this.processingAllFacade.refresh();
+                        break;
+
+                    case 'reports-finalization':
+                        this.finalizationQueuesFacade.refresh();
+                        this.finalizationAllFacade.refresh();
+                        break;
+                }
             },
             treat: () => {
                 this.processingTasksFacade.refresh();

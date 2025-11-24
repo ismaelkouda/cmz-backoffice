@@ -55,10 +55,12 @@ import { provideTasks as processingTasks } from './pages/reports-processing/di/t
 
 import { provideTreatment } from './pages/reports-processing/di/treatment.providers';
 
+import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
 import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
 import { provideFinalize } from './pages/reports-processing/di/finalize.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
+import { provideNewspapers } from './pages/reports-processing/di/newspapers.providers';
 import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers';
 import { provideUser } from './pages/settings-security/di/user.providers';
 import { provideParticipant } from './pages/team-organization/di/participant.providers';
@@ -195,6 +197,7 @@ export const appConfig: ApplicationConfig = {
 
         ...provideAuthentication(),
         ...provideDashboard(),
+        ...provideMyAccount(),
         ...providePasswordReset(),
 
         ...requestsQueues(),
@@ -214,6 +217,7 @@ export const appConfig: ApplicationConfig = {
         ...provideFinalize(),
         ...processingTasks(),
         ...provideManagement(),
+        ...provideNewspapers(),
         ...provideUser(),
         ...provideProfileHabilitation(),
         ...provideParticipant(),

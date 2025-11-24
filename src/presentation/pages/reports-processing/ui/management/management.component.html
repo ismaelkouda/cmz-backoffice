@@ -10,8 +10,8 @@
                     </div>
                 </ng-container>
                 <ng-template #loadedHeader>
-                    <span class="header-title">
-                        {{ 'MANAGEMENT.HEADER.DETAILS' | translate }}
+                    <span  class="header-title">
+                        {{ 'MANAGEMENT.HEADER.DETAILS_DEMAND' | translate }}
                     </span>
                     <span class="report-id-badge" *ngIf="reportId">
                         {{ reportId }}
@@ -296,7 +296,6 @@
                         [disabled]="isSubmitting$ | async"
                         [class.loading]="isSubmitting$ | async">
                         <i class="pi pi-check" *ngIf="!(isSubmitting$ | async)"></i>
-                        <i class="pi pi-spin pi-spinner" *ngIf="isSubmitting$ | async"></i>
                         {{ (details$ | async)?.managementTitle | translate }}
                     </button>
                 </div>
@@ -451,7 +450,7 @@
             <nav class="content-tabs">
                 <div class="tabs-container">
                     @for(category of categories; track trackByTab($index, category)) {
-                        <button (click)="selectCategory(i)" [class.active]="selectedCategoryIndex === i"
+                        <button (click)="selectCategory($index)" [class.active]="selectedCategoryIndex === $index"
                                 class="content-tab">
                             <div class="tab-visual">
                                 <i [class]="getCategoryIcon(category.key)"></i>
@@ -898,7 +897,7 @@
                                                 <div class="photo-header">
                                                     <div class="field-label">
                                                         <i class="pi pi-eye"></i>
-                                                        Vue du lieu
+                                                        {{ 'MANAGEMENT.FORM.PICTURES.OBSERVATION_POINT' | translate }}
                                                     </div>
                                                 </div>
                                                 <div class="field-value photo-container d-flex justify-content-center">
@@ -910,11 +909,9 @@
 
                                             <!-- Photo 2 avec badge -->
                                             <div class="data-field">
-                                                <div class="photo-header">
-                                                    <div class="field-label">
-                                                        <i class="pi pi-map-marker"></i>
-                                                        Accès au lieu
-                                                    </div>
+                                                <div class="field-label">
+                                                        <i class="pi pi-eye"></i>
+                                                    {{ 'MANAGEMENT.FORM.PICTURES.ACCES_ROAD' | translate }}
                                                 </div>
                                                 <div class="field-value photo-container d-flex justify-content-center">
                                                     @if(details.placePhoto) {
@@ -964,10 +961,7 @@
 
                 <ng-container *ngIf="selectedCategoryIndex === 3">
                     <div class="tab-panel event-logs">
-                        <div class="empty-state">
-                            
-                            
-                        </div>
+                            <app-newspapers></app-newspapers>
                     </div>
                 </ng-container>
             </div>
@@ -1027,86 +1021,72 @@
                             <div class="action-section">
                                 <form class="decision-form-row">
 
-                                    <div class="decision-group">
-                                        <div class="form-column">
+                                    <div class="decision-group row">
+                                        <div class="col-md-9 form-column">
                                             <label class="decision-label">{{
                                                 'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION'
                                                 | translate
                                                 }}</label>
-                                            <div class="d-flex justify-start gap-3">
-                                                <div class="col-md-3 radio-option" (click)="
-                                                                        setDecision(
-                                                                            'accepted'
-                                                                        )
-                                                                    " [class.selected]="
-                                                                        formTreatment.get(
-                                                                            'decision'
-                                                                        )
-                                                                            ?.value ===
-                                                                        'accepted'
-                                                                    ">
-                                                    <div class="radio-indicator">
-                                                        <div class="radio-dot" [class.checked]="
-                                                                                formTreatment.get(
-                                                                                    'decision'
-                                                                                )
-                                                                                    ?.value ===
-                                                                                'accepted'
-                                                                            "></div>
-                                                    </div>
-                                                    <div class="radio-content">
-                                                        <!-- <i class="pi pi-check-circle radio-icon accepted"></i> -->
-                                                        <div class="radio-text">
-                                                            <div class="radio-title">
-                                                                {{
-                                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.APPROVE.LABEL'
-                                                                | translate
-                                                                }}
+                                            <div class="col-md-12 d-flex justify-start gap-3">
+
+                                                <div class="col container-radio-option">
+                                                    <div class="col-md radio-option" 
+                                                        (click)="setDecision('accepted')" 
+                                                        [class.selected]="formTreatment.get('decision')?.value === 'accepted'">
+                                                        <div class="radio-indicator">
+                                                            <div class="radio-dot" 
+                                                                [class.checked]="formTreatment.get('decision')?.value === 'accepted'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="radio-content">
+                                                            <!-- <i class="pi pi-check-circle radio-icon accepted"></i> -->
+                                                            <div class="radio-text">
+                                                                <div class="radio-title">
+                                                                    {{
+                                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.APPROVE.LABEL'
+                                                                    | translate
+                                                                    }}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-md-3 radio-option" (click)="
-                                                                        setDecision(
-                                                                            'rejected'
-                                                                        )
-                                                                    " [class.selected]="
+                                                    <div class="col-md radio-option" 
+                                                        (click)="setDecision('rejected')" 
+                                                        [class.selected]="formTreatment.get('decision')?.value === 'rejected'">
+                                                        <div class="radio-indicator">
+                                                            <div class="radio-dot" 
+                                                                [class.checked]="formTreatment.get('decision')?.value === 'rejected'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="radio-content">
+                                                            <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
+                                                            <div class="radio-text">
+                                                                <div class="radio-title">
+                                                                    {{
+                                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.REJECT.LABEL'
+                                                                    | translate
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 radio-option p-1" *ngIf="
                                                                         formTreatment.get(
                                                                             'decision'
                                                                         )
                                                                             ?.value ===
                                                                         'rejected'
                                                                     ">
-                                                    <div class="radio-indicator">
-                                                        <div class="radio-dot" [class.checked]="
-                                                                                formTreatment.get(
-                                                                                    'decision'
-                                                                                )
-                                                                                    ?.value ===
-                                                                                'rejected'
-                                                                            "></div>
-                                                    </div>
-                                                    <div class="radio-content">
-                                                        <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
-                                                        <div class="radio-text">
-                                                            <div class="radio-title">
-                                                                {{
-                                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.REJECT.LABEL'
-                                                                | translate
-                                                                }}
+                                                                    <div class="radio-content">
+                                                            <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
+                                                            <div class="radio-text">
+                                                                <div class="radio-title">
+                                                                    {{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF' | translate }}
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-5 radio-option" *ngIf="
-                                                                        formTreatment.get(
-                                                                            'decision'
-                                                                        )
-                                                                            ?.value ===
-                                                                        'rejected'
-                                                                    ">
                                                     <p-select size="large" class="w-full md:w-56 motif-select"
                                                         formControlName="reason" [options]="
                                                                             motifOptions
@@ -1116,7 +1096,8 @@
                                                                                 | translate
                                                                         " [showClear]="
                                                                             true
-                                                                        " class="motif-select">
+                                                                        " class="motif-select"
+                                                                        appendTo="body">
                                                     </p-select>
                                                     <div class="validation-error" *ngIf="
                                                                             formTreatment.get(
@@ -1133,10 +1114,13 @@
                                                         | translate
                                                         }}
                                                     </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
-                                        <div class="form-column">
+
+                                        <div class="col-md-3 form-column">
                                             <label class="comment-label">
                                                 {{
                                                 'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
@@ -1205,10 +1189,6 @@
                                                                         isSubmitting$
                                                                         | async
                                                                     )
-                                                                "></i>
-                                            <i class="pi pi-spin pi-spinner" *ngIf="
-                                                                    isSubmitting$
-                                                                        | async
                                                                 "></i>
                                             {{ details.managementTitle | translate }}
                                         </button>

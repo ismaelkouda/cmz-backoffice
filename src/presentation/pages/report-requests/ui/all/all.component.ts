@@ -46,7 +46,7 @@ export class AllComponent implements OnInit, OnDestroy {
     public subModule!: string;
     public pagination$!: Observable<Paginate<AllEntity>>;
     public all$!: Observable<AllEntity[]>;
-    public spinner$!: Observable<boolean>;
+    public loading$!: Observable<boolean>;
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
@@ -57,6 +57,17 @@ export class AllComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        this.setupRouteData();
+        this.setupObservables();
+        this.loadDataIntelligently();
+    }
+
+    private loadDataIntelligently(): void {
+        const defaultFilter = AllFilter.create({} as AllFilterPayloadEntity);
+        this.allFacade.fetchAll(defaultFilter, '1', false);
+    }
+
+    private setupRouteData(): void {
         this.activatedRoute.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
@@ -67,21 +78,17 @@ export class AllComponent implements OnInit, OnDestroy {
                 this.subModule =
                     data['subModule'] ?? 'REPORTS_REQUESTS.ALL.LABEL';
             });
+    }
 
+    private setupObservables(): void {
         this.all$ = this.allFacade.all$;
         this.pagination$ = this.allFacade.pagination$;
-        this.spinner$ = this.allFacade.isLoading$;
-
-        const defaultFilter = AllFilter.create({
-            created_from: '',
-            created_to: '',
-        });
-        this.allFacade.fetchAll(defaultFilter);
+        this.loading$ = this.allFacade.isLoading$;
     }
 
     public filter(filterData: AllFilterPayloadEntity): void {
         const filter = AllFilter.create(filterData);
-        this.allFacade.fetchAll(filter);
+        this.allFacade.fetchAll(filter, '1', true);
     }
 
     public onPageChange(event: number): void {
