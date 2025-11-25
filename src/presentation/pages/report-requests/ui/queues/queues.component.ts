@@ -42,6 +42,8 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 })
 export class QueuesComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly queuesFacade = inject(QueuesFacade);
     public module!: string;
     public subModule!: string;
     public pagination$!: Observable<Paginate<QueuesEntity>>;
@@ -50,11 +52,6 @@ export class QueuesComponent implements OnInit, OnDestroy {
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-
-    constructor(
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly queuesFacade: QueuesFacade
-    ) {}
 
     ngOnInit(): void {
         this.setupRouteData();

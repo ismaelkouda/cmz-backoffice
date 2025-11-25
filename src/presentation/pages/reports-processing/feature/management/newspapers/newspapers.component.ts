@@ -86,7 +86,7 @@ export class NewspapersComponent implements OnInit, OnDestroy {
         this.newspapersFacade.refresh();
     }
 
-    public onAllAction(): void {
+    public onAllAction(item: NewspapersEntity): void {
         this.visibleActivity = true;
     }
 

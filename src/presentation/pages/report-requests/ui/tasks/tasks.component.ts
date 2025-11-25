@@ -42,6 +42,8 @@ import { TasksFilterPayloadEntity } from '../../domain/entities/tasks/tasks-filt
 })
 export class TasksComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly tasksFacade = inject(TasksFacade);
     public module!: string;
     public subModule!: string;
     public pagination$!: Observable<Paginate<TasksEntity>>;
@@ -50,11 +52,6 @@ export class TasksComponent implements OnInit, OnDestroy {
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-
-    constructor(
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly tasksFacade: TasksFacade
-    ) {}
 
     ngOnInit(): void {
         this.setupRouteData();

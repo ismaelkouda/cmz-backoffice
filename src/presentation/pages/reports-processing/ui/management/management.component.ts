@@ -828,6 +828,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             [ReportStatus.TERMINATED]: 'status-terminated',
             [ReportStatus.RECEIVED]: 'status-received',
             [ReportStatus['IN-PROGRESS']]: 'status-in-progress',
+            [ReportStatus.PROCESSING]: 'status-in-progress',
         };
 
         return statusClassMap[status] || 'status-default';
@@ -837,6 +838,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
         if (!status) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
 
         const labelMap: Record<ReportStatus, string> = {
+            [ReportStatus.PROCESSING]:
+                'MANAGEMENT.FORM.VALUES.STATUS.PROCESSING',
             [ReportStatus.SUBMISSION]:
                 'MANAGEMENT.FORM.VALUES.STATUS.SUBMISSION',
             [ReportStatus.FINALIZATION]:

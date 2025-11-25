@@ -28,6 +28,7 @@
                     [loading]="loading$ | async"
                     [pagination$]="pagination$"
                     [newspapers$]="newspapers$"
+                    (treatmentRequested)="onAllAction($event)"
                 >
                 </app-table-newspapers>
 

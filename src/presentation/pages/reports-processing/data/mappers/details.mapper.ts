@@ -211,6 +211,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             terminated: ReportStatus.TERMINATED,
             'in-progress': ReportStatus['IN-PROGRESS'],
             submission: ReportStatus.SUBMISSION,
+            processing: ReportStatus.PROCESSING,
             finalization: ReportStatus.FINALIZATION,
         };
         return statusMap[status] || ReportStatus.PENDING;

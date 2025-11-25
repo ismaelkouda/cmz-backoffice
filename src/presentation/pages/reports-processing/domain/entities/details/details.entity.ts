@@ -20,6 +20,7 @@ export enum ReportStatus {
     TERMINATED = 'terminated',
     CONFIRM = 'confirmed',
     SUBMISSION = 'submission',
+    PROCESSING = 'processing',
     FINALIZATION = 'finalization',
 }
 
@@ -134,12 +135,9 @@ export class DetailsEntity implements Details {
             case ReportStatus.RECEIVED:
                 return 'MANAGEMENT.STATUS.APPROBATION';
             case ReportStatus.SUBMISSION:
-                if (this.state === ReportState.PENDING) {
-                    return 'MANAGEMENT.STATUS.TAKE';
-                } else if (this.state === ReportState.RECEIVED) {
-                    return 'MANAGEMENT.STATUS.TREATMENT';
-                }
-                return 'MANAGEMENT.STATUS.INFORMATION';
+                return 'MANAGEMENT.STATUS.TAKE';
+            case ReportStatus.PROCESSING:
+                return 'MANAGEMENT.STATUS.TREATMENT';
             case ReportStatus.FINALIZATION:
                 if (this.state === ReportState.PENDING) {
                     return 'MANAGEMENT.STATUS.TAKE';
@@ -200,7 +198,7 @@ export class DetailsEntity implements Details {
 
     public get canBeTreated(): boolean {
         return (
-            this.status === ReportStatus.SUBMISSION &&
+            this.status === ReportStatus.PROCESSING &&
             this.state == ReportState.RECEIVED
         );
     }

@@ -1050,7 +1050,8 @@
                 "TERMINATED": "Terminé",
                 "RECEIVED": "Reçu",
                 "IN_PROGRESS": "En cours",
-                "SUBMISSION": "Soumission"
+                "SUBMISSION": "Soumission",
+                "PROCESSING": "Traitement"
                 },
                 "OPERATORS": {
                 "MTN": "MTN",
@@ -1147,6 +1148,9 @@
             "NEWSPAPERS": {
                 "TITLE": "liste des activités",
                 "LABEL": "Journal",
+            "BUTTONS": {
+                "ADD": "Ajouter"
+            },
                 "TABLE": {
                     "CREATED_AT": "Créé le",
                     "UNIQ_ID": "Identifiant",
