@@ -4,6 +4,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
+    inject,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -45,6 +46,10 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
     ],
 })
 export class FilterQueuesComponent implements OnInit, OnDestroy {
+    private readonly toastService = inject(ToastrService);
+    private readonly fb = inject(FormBuilder);
+    private readonly translate = inject(TranslateService);
+    private readonly queuesFacade = inject(QueuesFacade);
     @Output() filter = new EventEmitter<QueuesFilterPayloadEntity>();
 
     public formFilter!: FormGroup<QueuesFilterFormControlEntity>;
@@ -54,22 +59,9 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
     public operatorOptions: any[] = [];
     readonly sourceOptions = SOURCE_CONST;
 
-    constructor(
-        private readonly toastService: ToastrService,
-        private readonly fb: FormBuilder,
-        private readonly translate: TranslateService,
-        private readonly queuesFacade: QueuesFacade
-    ) {}
-
     ngOnInit() {
         this.initFormFilter();
         this.loadTranslatedOptions();
-
-        this.translate.onLangChange
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.loadTranslatedOptions();
-            });
     }
 
     private loadTranslatedOptions(): void {

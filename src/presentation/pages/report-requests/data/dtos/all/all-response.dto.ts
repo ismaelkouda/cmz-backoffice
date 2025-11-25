@@ -1,3 +1,4 @@
+import { ReportStatus } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
 import { Paginate } from '@shared/interfaces/paginate';
 
 export interface AllItemDto {
@@ -22,7 +23,7 @@ export interface AllItemDto {
     approved_at: string | null;
     rejected_by: string | null;
     rejected_at: string | null;
-    status: string;
+    status: ReportStatus;
     confirm_count: number;
     deny_count: number;
     approved_comment: string | null;

@@ -11,4 +11,12 @@ export const STATUS_CONST = [
         value: 'rejected',
         label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.REJECTED',
     },
+    {
+        value: 'confirmed',
+        label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.CONFIRMED',
+    },
+    {
+        value: 'abandoned',
+        label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.ABANDONED',
+    },
 ] as const;

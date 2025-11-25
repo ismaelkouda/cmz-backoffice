@@ -11,7 +11,10 @@ import {
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ALL_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/all/all-table.constants';
-import { AllEntity } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
+import {
+    AllEntity,
+    ReportStatus,
+} from '@presentation/pages/report-requests/domain/entities/all/all.entity';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -89,28 +92,11 @@ export class TableAllComponent implements OnDestroy {
 
     private readonly translationCache = new Map<string, string>();
 
-    private readonly statusLabelMap: Record<string, string> = {
-        submission: 'REPORTS_REQUESTS.ALL.LABELS.STATUS.SUBMISSION',
-        processing: 'REPORTS_REQUESTS.ALL.LABELS.STATUS.PROCESSING',
-        closure: 'REPORTS_REQUESTS.ALL.LABELS.STATUS.CLOSURE',
-    };
-
-    private readonly statusSeverityMap: Record<string, TagSeverity> = {
-        submission: 'info',
-        processing: 'warning',
-        closure: 'success',
-    };
-
-    private readonly processingStateLabelMap: Record<string, string> = {
-        received: 'REPORTS_REQUESTS.ALL.LABELS.PROCESSING_STATE.RECEIVED',
-        in_progress: 'REPORTS_REQUESTS.ALL.LABELS.PROCESSING_STATE.IN_PROGRESS',
-        completed: 'REPORTS_REQUESTS.ALL.LABELS.PROCESSING_STATE.COMPLETED',
-    };
-
-    private readonly processingStateSeverityMap: Record<string, TagSeverity> = {
-        received: 'info',
-        in_progress: 'warning',
-        completed: 'success',
+    private readonly statusSeverityMap: Record<ReportStatus, TagSeverity> = {
+        abandoned: 'warning',
+        approved: 'success',
+        rejected: 'danger',
+        confirmed: 'contrast',
     };
 
     private readonly stateLabelMap: Record<string, string> = {
@@ -229,37 +215,8 @@ export class TableAllComponent implements OnDestroy {
         return key ? this.translate.instant(key) : operator;
     }
 
-    public getStatusSeverity(status: string): TagSeverity {
-        const normalized = status?.toLowerCase() ?? '';
-        return this.statusSeverityMap[normalized] ?? 'secondary';
-    }
-
-    public getStatusLabel(state: string | null | undefined): string | null {
-        if (!state) {
-            return null;
-        }
-        const normalized = state.toLowerCase();
-        const key = this.stateLabelMap[normalized];
-        if (!key) {
-            return state;
-        }
-        return this.translateLabel(key, state);
-    }
-
-    public getStateSeverity(state: string | null | undefined): TagSeverity {
-        const normalized = state?.toLowerCase() ?? '';
-        return this.stateSeverityMap[normalized] ?? 'secondary';
-    }
-
-    private translateLabel(key: string, fallback: string): string {
-        if (this.translationCache.has(key)) {
-            return this.translationCache.get(key) as string;
-        }
-
-        const translated = this.translate.instant(key);
-        const normalized = translated === key ? fallback : translated;
-        this.translationCache.set(key, normalized);
-        return normalized;
+    public getStatusSeverity(status: ReportStatus): TagSeverity {
+        return this.statusSeverityMap[status] ?? 'secondary';
     }
 
     trackByUniqId(_: number, item: AllEntity): string {

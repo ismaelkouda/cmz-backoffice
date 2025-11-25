@@ -157,28 +157,29 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr
-            *ngIf="(tasks())?.length <= 0 && !spinner"
-            class="loading-table"
-        >
-            <td class="posRelative" [attr.colspan]="tableConfig.cols.length">
-                <span class="posCenter">
-                    {{ 'NO_DATA_FOUND' | translate }}
-                </span>
-            </td>
-        </tr>
-        <tr *ngIf="spinner" class="loading-table">
-            <td class="posRelative" [attr.colspan]="tableConfig.cols.length">
-                <p-progressSpinner
-                    class="posCenter"
-                    [style]="{ width: '40px', height: '50px' }"
-                    styleClass="custom-spinner"
-                    strokeWidth="8"
-                    fill="#EEEEEE"
-                    animationDuration=".5s"
-                >
-                </p-progressSpinner>
-            </td>
-        </tr>
+        @if (!isLoading()) {
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
+                    <div class="empty-state">
+                        {{ 'NO_DATA_FOUND' | translate }}
+                    </div>
+                </td>
+            </tr>
+        }
+        @if (isLoading()) {
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length">
+                        <p-progressSpinner
+                            class="posCenter"
+                            [style]="{ width: '40px', height: '50px' }"
+                            styleClass="custom-spinner"
+                            strokeWidth="8"
+                            fill="#EEEEEE"
+                            animationDuration=".5s"
+                        >
+                        </p-progressSpinner>
+                </td>
+            </tr>
+        }
     </ng-template>
 </p-table>

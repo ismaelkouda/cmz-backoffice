@@ -24,6 +24,12 @@ export const ALL_TABLE_CONST = {
             width: '13rem',
         },
         {
+            field: 'source',
+            header: 'REPORTS_REQUESTS.ALL.TABLE.SOURCE',
+            class: 'text-center',
+            width: '9rem',
+        },
+        {
             field: 'status',
             header: 'REPORTS_REQUESTS.ALL.TABLE.STATUS',
             class: 'text-center',
@@ -46,6 +52,7 @@ export const ALL_TABLE_CONST = {
         'uniqId',
         'reportType',
         'operators',
+        'source',
         'state',
         'createdAt',
         'placeDescription',

@@ -4,6 +4,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
+    inject,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -18,6 +19,7 @@ import { AllFilterFormControlEntity } from '@presentation/pages/report-requests/
 import { AllFilterPayloadEntity } from '@presentation/pages/report-requests/domain/entities/all/all-filter-payload.entity';
 import { OPERATOR_CONST } from '@shared/domain/constants/operator';
 import { REPORT_CONST } from '@shared/domain/constants/report';
+import { SOURCE_CONST } from '@shared/domain/constants/source';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -45,24 +47,30 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
     ],
 })
 export class FilterAllComponent implements OnInit, OnDestroy {
+    private readonly toastService = inject(ToastrService);
+    private readonly fb = inject(FormBuilder);
+    private readonly translate = inject(TranslateService);
+    private readonly allFacade = inject(AllFacade);
     @Output() filter = new EventEmitter<AllFilterPayloadEntity>();
 
     public formFilter!: FormGroup<AllFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();
     public secondFilter: boolean = false;
     readonly reportOptions = REPORT_CONST;
-    readonly operatorOptions = OPERATOR_CONST;
+    public operatorOptions: any[] = [];
     readonly stateOptions = STATUS_CONST;
-
-    constructor(
-        private readonly toastService: ToastrService,
-        private readonly fb: FormBuilder,
-        private readonly translate: TranslateService,
-        private readonly allFacade: AllFacade
-    ) {}
+    readonly sourceOptions = SOURCE_CONST;
 
     ngOnInit(): void {
         this.initFormFilter();
+        this.loadTranslatedOptions();
+    }
+
+    private loadTranslatedOptions(): void {
+        this.operatorOptions = OPERATOR_CONST.map((operator) => ({
+            ...operator,
+            label: this.translate.instant(operator.label),
+        }));
     }
 
     private initFormFilter(): void {

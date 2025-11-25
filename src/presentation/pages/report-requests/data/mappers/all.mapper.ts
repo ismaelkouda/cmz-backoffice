@@ -95,16 +95,18 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
         }
     }
 
-    private mapStatus(status: string): ReportStatus {
+    private mapStatus(status: ReportStatus): ReportStatus {
         switch (status) {
-            case 'pending':
-                return ReportStatus.PENDING;
+            case 'confirmed':
+                return ReportStatus.CONFIRMED;
             case 'approved':
                 return ReportStatus.APPROVED;
             case 'rejected':
                 return ReportStatus.REJECTED;
+            case 'abandoned':
+                return ReportStatus.ABANDONED;
             default:
-                return ReportStatus.PENDING;
+                return ReportStatus.ABANDONED;
         }
     }
 

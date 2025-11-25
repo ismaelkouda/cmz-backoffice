@@ -4,6 +4,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
+    inject,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -45,24 +46,29 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
     ],
 })
 export class FilterTasksComponent implements OnInit, OnDestroy {
+    private readonly toastService = inject(ToastrService);
+    private readonly fb = inject(FormBuilder);
+    private readonly translate = inject(TranslateService);
+    private readonly tasksFacade = inject(TasksFacade);
     @Output() filter = new EventEmitter<TasksFilterPayloadEntity>();
 
     public formFilter!: FormGroup<TasksFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();
     public secondFilter: boolean = false;
     readonly reportOptions = REPORT_CONST;
-    readonly operatorOptions = OPERATOR_CONST;
+    public operatorOptions: any[] = [];
     readonly stateOptions = STATUS_CONST;
-
-    constructor(
-        private readonly toastService: ToastrService,
-        private readonly fb: FormBuilder,
-        private readonly translate: TranslateService,
-        private readonly tasksFacade: TasksFacade
-    ) {}
 
     ngOnInit(): void {
         this.initFormFilter();
+        this.loadTranslatedOptions();
+    }
+
+    private loadTranslatedOptions(): void {
+        this.operatorOptions = OPERATOR_CONST.map((operator) => ({
+            ...operator,
+            label: this.translate.instant(operator.label),
+        }));
     }
 
     private initFormFilter(): void {

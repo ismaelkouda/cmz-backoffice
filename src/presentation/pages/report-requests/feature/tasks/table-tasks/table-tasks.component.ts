@@ -4,6 +4,7 @@ import {
     Component,
     EventEmitter,
     Input,
+    OnDestroy,
     Output,
     inject,
     signal,
@@ -15,11 +16,9 @@ import { SearchTableComponent } from '@shared/components/search-table/search-tab
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/interfaces/paginate';
+import { TableConfig } from '@shared/interfaces/table-config';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
-import {
-    TableConfig,
-    TableExportExcelFileService,
-} from '@shared/services/table-export-excel-file.service';
+import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -49,10 +48,14 @@ import { Observable, Subject, takeUntil, tap } from 'rxjs';
         TableTitleComponent,
     ],
 })
-export class TableTasksComponent {
+export class TableTasksComponent implements OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly appCustomizationService = inject(AppCustomizationService);
+    private readonly tableExportExcelFileService = inject(
+        TableExportExcelFileService
+    );
     private readonly destroy$ = new Subject<void>();
 
     readonly tasks = signal<TasksEntity[]>([]);
@@ -73,41 +76,38 @@ export class TableTasksComponent {
         this.isLoading.set(value);
     }
 
+    private _tasks$!: Observable<TasksEntity[]>;
+
     @Output() treatmentRequested = new EventEmitter<TasksEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
 
-    private _tasks$!: Observable<TasksEntity[]>;
-
-    private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.config.app.name
     );
 
     readonly tableConfig: TableConfig = TASKS_TABLE_CONST;
 
-    constructor(
-        private readonly tableExportExcelFileService: TableExportExcelFileService
-    ) {}
-
-    public onExportExcel(): void {
-        /* this.tasks$.pipe(take(1)).subscribe((tasks) => {
-            if (tasks && tasks.length > 0) {
-                const fileName = `${this.exportFilePrefix}-tasks`;
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    tasks,
-                    this.table,
-                    fileName
-                );
-            } else {
-                this.toastService.error(
-                    this.translate.instant('EXPORT.NO_DATA')
-                );
-            }
-        }); */
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public onRefresh(): void {
         this.refreshRequested.emit();
+    }
+
+    public onExportExcel(): void {
+        const tasks = this.tasks();
+        if (tasks && tasks.length > 0) {
+            const fileName = `${this.exportFilePrefix}-tasks`;
+            this.tableExportExcelFileService.exportAsExcelFile(
+                tasks,
+                this.tableConfig,
+                fileName
+            );
+        } else {
+            this.toastService.error(this.translate.instant('EXPORT.NO_DATA'));
+        }
     }
 
     public copyToClipboard(data: string): void {
@@ -150,51 +150,32 @@ export class TableTasksComponent {
         }
     }
 
-    public getOperatorColor(operator: string): string {
+    getOperatorColor(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
-        switch (normalized) {
-            case 'orange':
-                return 'rgb(241, 110, 0)';
-            case 'mtn':
-                return 'rgb(255, 203, 5)';
-            case 'moov':
-                return 'rgb(0, 91, 164)';
-            default:
-                return `rgba(var(--theme-default-rgb), 0.8)`;
-        }
-    }
-
-    public getOperatorTagStyle(operator: string): Record<string, string> {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const backgroundColor = this.getOperatorColor(operator);
-        const textColor = normalized === 'mtn' ? '#212121' : '#ffffff';
-
-        return {
-            backgroundColor,
-            color: textColor,
+        const colorMap: Record<string, string> = {
+            orange: 'rgb(241, 110, 0)',
+            mtn: 'rgb(255, 203, 5)',
+            moov: 'rgb(0, 91, 164)',
         };
+        return colorMap[normalized] ?? `rgba(var(--theme-default-rgb), 0.8)`;
     }
 
-    public getOperatorLabel(operator: string): string {
+    getOperatorTagStyle(operator: string): Record<string, string> {
+        const backgroundColor = this.getOperatorColor(operator);
+        const textColor =
+            operator?.toLowerCase() === 'mtn' ? '#212121' : '#ffffff';
+        return { backgroundColor, color: textColor };
+    }
+
+    getOperatorLabel(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
-        let translationKey = '';
-
-        switch (normalized) {
-            case 'orange':
-                translationKey =
-                    'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.ORANGE';
-                break;
-            case 'mtn':
-                translationKey = 'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.MTN';
-                break;
-            case 'moov':
-                translationKey = 'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.MOOV';
-                break;
-            default:
-                return operator;
-        }
-
-        return this.translate.instant(translationKey);
+        const translationMap: Record<string, string> = {
+            orange: 'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.ORANGE',
+            mtn: 'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.MTN',
+            moov: 'REPORTS_REQUESTS.TASKS.OPTIONS.OPERATOR.MOOV',
+        };
+        const key = translationMap[normalized];
+        return key ? this.translate.instant(key) : operator;
     }
 
     public getTaskTooltip(item: TasksEntity): string {

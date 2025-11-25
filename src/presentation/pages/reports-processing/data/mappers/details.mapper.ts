@@ -206,7 +206,6 @@ export class DetailsMapper extends SimpleResponseMapper<
             approved: ReportStatus.APPROVED,
             rejected: ReportStatus.REJECTED,
             abandoned: ReportStatus.ABANDONED,
-            received: ReportStatus.RECEIVED,
             confirmed: ReportStatus.CONFIRM,
             terminated: ReportStatus.TERMINATED,
             'in-progress': ReportStatus['IN-PROGRESS'],

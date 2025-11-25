@@ -86,11 +86,9 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
-                "STATE": "État",
-                "STEP": "Étape",
-                "STATUS": "Status",
+                "SOURCE": "Source",
                 "SEE_MORE": "Voir plus",
-                "QUALIFY": "Qualifier",
+                "TAKE": "Prendre",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -157,6 +155,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Status",
@@ -183,7 +182,9 @@
                 "STATUS": {
                     "APPROVED": "Approuvé",
                     "RECEIVED": "Reçu",
-                    "REJECTED": "Rejeté"
+                    "REJECTED": "Rejeté",
+                    "ABANDONED": "Abandonné",
+                    "CONFIRMED": "Confirmé"
                 },
                 "OPERATOR": {
                     "ORANGE": "Orange",

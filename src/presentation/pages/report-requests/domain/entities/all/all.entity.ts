@@ -11,7 +11,7 @@ import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
 import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 export enum ReportStatus {
-    PENDING = 'pending',
+    CONFIRMED = 'confirmed',
     APPROVED = 'approved',
     REJECTED = 'rejected',
     ABANDONED = 'abandoned',
@@ -56,8 +56,8 @@ export class AllEntity implements All {
         public readonly createdAt: string
     ) {}
 
-    public isPending(): boolean {
-        return this.status === ReportStatus.PENDING;
+    public isConfirmed(): boolean {
+        return this.status === ReportStatus.CONFIRMED;
     }
 
     public isApproved(): boolean {
@@ -70,10 +70,6 @@ export class AllEntity implements All {
 
     public isAbandoned(): boolean {
         return this.status === ReportStatus.ABANDONED;
-    }
-
-    public canBeRejected(): boolean {
-        return this.isPending() && !this.duplication.isDuplicated;
     }
 
     public requiresImmediateAttention(): boolean {

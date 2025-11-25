@@ -826,7 +826,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
             [ReportStatus.ABANDONED]: 'status-closed',
             [ReportStatus.CONFIRM]: 'status-confirmed',
             [ReportStatus.TERMINATED]: 'status-terminated',
-            [ReportStatus.RECEIVED]: 'status-received',
             [ReportStatus['IN-PROGRESS']]: 'status-in-progress',
             [ReportStatus.PROCESSING]: 'status-in-progress',
         };
@@ -851,7 +850,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
             [ReportStatus.CONFIRM]: 'MANAGEMENT.FORM.VALUES.STATUS.CONFIRM',
             [ReportStatus.TERMINATED]:
                 'MANAGEMENT.FORM.VALUES.STATUS.TERMINATED',
-            [ReportStatus.RECEIVED]: 'MANAGEMENT.FORM.VALUES.STATUS.RECEIVED',
             [ReportStatus['IN-PROGRESS']]:
                 'MANAGEMENT.FORM.VALUES.STATUS.IN_PROGRESS',
         };

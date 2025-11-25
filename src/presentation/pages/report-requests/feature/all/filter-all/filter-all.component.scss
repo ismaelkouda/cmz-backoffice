@@ -21,6 +21,10 @@
         ::ng-deep .p-select-trigger {
             width: 100%;
         }
+
+        &.p-long {
+            min-width: 21rem;
+        }
     }
 
     &__actions {

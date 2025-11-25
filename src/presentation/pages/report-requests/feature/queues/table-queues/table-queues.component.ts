@@ -52,6 +52,7 @@ export class TableQueuesComponent implements OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly tableExportExcelFileService = inject(
         TableExportExcelFileService
     );
@@ -78,10 +79,8 @@ export class TableQueuesComponent implements OnDestroy {
     private _queues$!: Observable<QueuesEntity[]>;
 
     @Output() treatmentRequested = new EventEmitter<QueuesEntity>();
-    @Output() journalRequested = new EventEmitter<QueuesEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
 
-    private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.config.app.name
     );

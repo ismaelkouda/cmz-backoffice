@@ -42,6 +42,8 @@ import { AllFilterPayloadEntity } from '../../domain/entities/all/all-filter-pay
 })
 export class AllComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly allFacade = inject(AllFacade);
     public module!: string;
     public subModule!: string;
     public pagination$!: Observable<Paginate<AllEntity>>;
@@ -50,11 +52,6 @@ export class AllComponent implements OnInit, OnDestroy {
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-
-    constructor(
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly allFacade: AllFacade
-    ) {}
 
     ngOnInit(): void {
         this.setupRouteData();

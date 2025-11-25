@@ -113,26 +113,19 @@
                     }
 
                     @case ('status') {
-                        <div class="tag-group"  *ngIf="
-                                getStatusLabel(item.status) as stateLabel;
-                                else noState
-                            ">
+                        <div class="tag-group">
                             <p-tag
-                                [value]="stateLabel"
+                                [value]="item.status"
                                 [severity]="getStatusSeverity(item.status)"
                                 class="state-tag"
                             ></p-tag>
-
-                        <ng-template #noState>
-                            <span class="no-data">-</span>
-                        </ng-template>
                         </div>
                     }
 
                     @case ('createdAt') {
                         <time [attr.datetime]="item.createdAt">
                             {{ formatDate(item.createdAt) }}
-                        </time>
+                        </time> 
                     }
 
                     @case ('source') {

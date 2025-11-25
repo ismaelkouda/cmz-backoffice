@@ -15,8 +15,7 @@ export enum ReportStatus {
     APPROVED = 'approved',
     REJECTED = 'rejected',
     ABANDONED = 'abandoned',
-    RECEIVED = 'received',
-    'IN-PROGRESS' = 'in progress',
+    'IN-PROGRESS' = 'in-progress',
     TERMINATED = 'terminated',
     CONFIRM = 'confirmed',
     SUBMISSION = 'submission',
@@ -132,7 +131,7 @@ export class DetailsEntity implements Details {
         switch (this.status) {
             case ReportStatus.PENDING:
                 return 'MANAGEMENT.STATUS.TAKE';
-            case ReportStatus.RECEIVED:
+            case ReportStatus['IN-PROGRESS']:
                 return 'MANAGEMENT.STATUS.APPROBATION';
             case ReportStatus.SUBMISSION:
                 return 'MANAGEMENT.STATUS.TAKE';
@@ -167,7 +166,7 @@ export class DetailsEntity implements Details {
     }
 
     public get isReceived(): boolean {
-        return this.status === ReportStatus.RECEIVED;
+        return this.status === ReportStatus['IN-PROGRESS'];
     }
 
     public isApproved(): boolean {
@@ -193,7 +192,7 @@ export class DetailsEntity implements Details {
     }
 
     public get canBeApproved(): boolean {
-        return this.status === ReportStatus.RECEIVED;
+        return this.status === ReportStatus['IN-PROGRESS'];
     }
 
     public get canBeTreated(): boolean {
