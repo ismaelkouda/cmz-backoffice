@@ -1,19 +1,18 @@
 <p-table
     #dt
-    [value]="listAll$ | async"
+    [value]="all()"
     [rowHover]="true"
     [rows]="(pagination$ | async)?.per_page"
-    [globalFilterFields]="table.globalFilterFields"
+    [globalFilterFields]="tableConfig.globalFilterFields"
     responsiveLayout="scroll"
     scrollable="true"
     scrollHeight="flex"
+    data-testid="all-table"
+    role="grid"
     width="100%"
-    class="responsive-all-table"
 >
     <ng-template pTemplate="caption">
-        <div
-            class="d-flex justify-content-between flex-wrap align-items-center"
-        >
+        <div class="container-table-header">
             <app-table-title
                 [count]="(pagination$ | async)?.total"
                 [perPage]="(pagination$ | async)?.per_page"
@@ -21,182 +20,177 @@
                 [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div
-                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
-            >
+            <div class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0">
                 <app-table-button-header
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"
-                    [disabledButtonExport]="
-                        spinner || (listAll$ | async)?.length === 0
-                    "
-                    [disabledButtonRefresh]="spinner"
+                    [disabledButtonExport]="isLoading() || !hasData()"
+                    [disabledButtonRefresh]="isLoading()"
                     [hiddenButtonOther]="true"
                 >
                 </app-table-button-header>
-                <app-search-table [dt]="dt"></app-search-table>
+                <app-search-table [dt]="dt" />
             </div>
         </div>
     </ng-template>
     <ng-template pTemplate="header">
-        <tr>
-            <th
-                *ngFor="let col of table.cols"
-                [class]="col.class"
-                [ngStyle]="{
-                    minWidth: col.width,
-                    width: col.width,
-                    textAlign: 'center',
-                }"
-                scope="col"
-            >
-                {{ col.header | translate }}
-            </th>
+        <tr role="row">
+            @for (col of tableConfig.cols; track trackByColField($index, col)) {
+                <th
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        'width': col.width,
+                        'text-align': 'center'
+                    }"
+                    role="columnheader"
+                    scope="col"
+                >
+                    {{ col.header | translate }}
+                </th>
+            }
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
-        <tr>
-            <td
-                *ngFor="let col of table.cols"
-                [class]="col.class"
-                [ngStyle]="{ minWidth: col.width, width: col.width }"
-                [attr.data-label]="col.header | translate"
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr
+            role="row"
+            [class.cursor-pointer]="!isLoading()"
             >
-                <ng-container [ngSwitch]="col.field">
-                    <ng-container *ngSwitchCase="'__index'">
-                        {{
+            @for (col of tableConfig.cols; track trackByColField($index, col)) {
+                <td
+                [class]="col.class"
+                [style]="{
+                    'min-width': col.width,
+                    'width': col.width
+                }"
+                role="gridcell"
+            >
+            @switch (col.field) {
+                @case ('__index') {
+                    {{
                             ((pagination$ | async)?.current_page - 1 || 0) *
                                 ((pagination$ | async)?.per_page || 0) +
                                 rowIndex +
                                 1
                         }}
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="'createdAt'">
-                        {{ formatDate(item.createdAt) }}
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="'uniqId'">
+                }
+                    @case ('uniqId') {
                         <button
                             type="button"
                             (click)="copyToClipboard(item.uniqId)"
-                            (keydown.enter)="copyToClipboard(item.uniqId)"
-                            (keydown.space)="
-                                $event.preventDefault();
-                                copyToClipboard(item.uniqId)
-                            "
                             class="copyable"
                             pTooltip="{{ 'COPY' | translate }}"
                             tooltipPosition="bottom"
                         >
-                            {{ item.uniqId }}
+                            <span class="id-text">{{ item.uniqId }}</span>
+                            <i class="pi pi-copy" aria-hidden="true"></i>
                         </button>
-                    </ng-container>
+                    }
 
-                    <ng-container *ngSwitchCase="'reportType'">
-                        {{ getReportTypeLabel(item.reportType) }}
-                    </ng-container>
+                    @case ('reportType') {
+                        <div 
+                            [pTooltip]="item.reportDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300">
+                            {{ item.reportType }}
+                        </div>
+                    }
 
-                    <ng-container *ngSwitchCase="'operators'">
-                        <div
-                            class="tag-group"
-                            *ngIf="item.operators?.length; else noOperators"
-                        >
-                            <ng-container
-                                *ngFor="let operator of item.operators"
-                            >
+                    @case ('operators') {
+                        <div class="tag-group" *ngIf="item.operators?.length; else noOperators">
+                            @for (operator of item.operators; track trackByOperator($index, operator)) {
                                 <p-tag
                                     [value]="getOperatorLabel(operator)"
-                                    [ngStyle]="getOperatorTagStyle(operator)"
+                                    [style]="getOperatorTagStyle(operator)"
                                     styleClass="operator-tag"
-                                ></p-tag>
-                            </ng-container>
+                                />
+                            }
                         </div>
-                        <ng-template #noOperators> - </ng-template>
-                    </ng-container>
+                        <ng-template #noOperators>
+                            <span class="no-data">-</span>
+                        </ng-template>
+                    }
 
-                    <ng-container *ngSwitchCase="'status'">
-                        <ng-container
-                            *ngIf="
-                                getStatusLabel(item.status) as stateLabel;
-                                else noState
-                            "
-                        >
+                    @case ('state') {
+                        <div class="tag-group">
                             <p-tag
-                                [value]="stateLabel"
-                                [severity]="getStatusSeverity(item.status)"
+                                [value]="item.state"
+                                [severity]="getStateSeverity(item.state)"
                                 class="state-tag"
                             ></p-tag>
-                        </ng-container>
-                        <ng-template #noState>-</ng-template>
-                    </ng-container>
+                        </div>
+                    }
 
-                    <ng-container *ngSwitchCase="'submissionState'">
-                        <ng-container
-                            *ngIf="
-                                getSubmissionStateLabel(
-                                    item.submissionState
-                                ) as submissionStateLabel;
-                                else noSubmissionState
-                            "
-                        >
-                            <p-tag
-                                [value]="submissionStateLabel"
-                                [severity]="
-                                    getSubmissionStateSeverity(
-                                        item.submissionState
-                                    )
-                                "
-                                class="state-tag"
-                            ></p-tag>
-                        </ng-container>
-                        <ng-template #noSubmissionState>-</ng-template>
-                    </ng-container>
+                    @case ('createdAt') {
+                        <time [attr.datetime]="item.createdAt">
+                            {{ formatDate(item.createdAt) }}
+                        </time> 
+                    }
 
-                    <ng-container *ngSwitchCase="'__action'">
-                        <button
-                            type="button"
-                            pButton
-                            class="action-button"
-                            icon="pi pi-window-maximize"
-                            (click)="onActionClicked(item)"
-                            [attr.aria-label]="getAllTooltip(item.uniqId)"
-                            [pTooltip]="getAllTooltip(item.uniqId)"
+                    @case ('source') {
+                        <div
+                            [pTooltip]="item.sourceDescription | translate"
                             tooltipPosition="bottom"
-                        ></button>
-                    </ng-container>
-
-                    <ng-container *ngSwitchDefault>
+                            showDelay="500"
+                            hideDelay="300"
+                            [tooltipStyleClass]="'custom-tooltip'"
+                            class="source-type-content"
+                        >
+                            {{ item.source }}
+                        </div>
+                    }
+                    
+                    @case ('__action') {
+                        <div (onKeyPress)="$event.stopPropagation()" class="action-group">
+                            <button
+                                type="button"
+                                pButton
+                                icon="pi pi-window-maximize"
+                                (click)="onActionClicked(item)"
+                                [attr.aria-label]="getAllTooltip(item.uniqId)"
+                                [pTooltip]="getAllTooltip(item.uniqId)"
+                                tooltipPosition="bottom"
+                                [disabled]="isLoading()"
+                                size="small"
+                                class="action-btn"
+                            ></button>
+                        </div>
+                    }
+                    
+                    @default {
                         {{ item[col.field] || '-' }}
-                    </ng-container>
-                </ng-container>
+                    }
+            }
             </td>
+            }
         </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr
-            *ngIf="(listAll$ | async)?.length <= 0 && !spinner"
-            class="loading-table"
-        >
-            <td class="posRelative" [attr.colspan]="table.cols.length">
-                <span class="posCenter">
-                    {{ 'NO_DATA_FOUND' | translate }}
-                </span>
-            </td>
-        </tr>
-        <tr *ngIf="spinner" class="loading-table">
-            <td class="posRelative" [attr.colspan]="table.cols.length">
-                <p-progressSpinner
-                    class="posCenter"
-                    [style]="{ width: '40px', height: '50px' }"
-                    styleClass="custom-spinner"
-                    strokeWidth="8"
-                    fill="#EEEEEE"
-                    animationDuration=".5s"
-                >
-                </p-progressSpinner>
-            </td>
-        </tr>
+        @if (!isLoading()) {
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
+                    <div class="empty-state">
+                        {{ 'NO_DATA_FOUND' | translate }}
+                    </div>
+                </td>
+            </tr>
+        }
+        @if (isLoading()) {
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length">
+                        <p-progressSpinner
+                            class="posCenter"
+                            [style]="{ width: '40px', height: '50px' }"
+                            styleClass="custom-spinner"
+                            strokeWidth="8"
+                            fill="#EEEEEE"
+                            animationDuration=".5s"
+                        >
+                        </p-progressSpinner>
+                </td>
+            </tr>
+        }
     </ng-template>
 </p-table>

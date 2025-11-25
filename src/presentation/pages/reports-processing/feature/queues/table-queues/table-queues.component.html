@@ -117,7 +117,13 @@
                     }
 
                     @case ('reportType') {
-                        {{ getReportTypeLabel(queue.reportType) }}
+                        <div 
+                            [pTooltip]="queue.reportDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300">
+                            {{ queue.reportType }}
+                        </div>
                     }
 
                     @case ('operators') {
@@ -139,6 +145,19 @@
                         <time [attr.datetime]="queue.createdAt">
                             {{ formatDate(queue.createdAt) }}
                         </time>
+                    }
+
+                    @case ('source') {
+                        <div
+                            [pTooltip]="queue.sourceDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300"
+                            [tooltipStyleClass]="'custom-tooltip'"
+                            class="source-type-content"
+                        >
+                            {{ queue.source }}
+                        </div>
                     }
                     
                     @case ('__action') {

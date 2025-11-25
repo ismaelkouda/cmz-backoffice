@@ -240,6 +240,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
                 "STATUS": "Status",
                 "SEE_MORE": "Voir plus",
                 "TAKE": "Prendre",
@@ -290,7 +291,7 @@
             }
         },
         "TASKS": {
-            "TITLE": "demandes en attente de qualification",
+            "TITLE": "demandes en attente de traitement",
             "LABEL": "panier de taches",
             "ROUTE": "tasks",
             "TABLE": {
@@ -307,9 +308,10 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiateur",
+                "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATOR": "Opérateur",
+                "SOURCE": "Source"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -377,9 +379,11 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiateur",
+                "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATOR": "Opérateur",
+                "SOURCE": "Source",
+                "STATUS": "Status"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {

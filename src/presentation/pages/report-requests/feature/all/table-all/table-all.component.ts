@@ -125,20 +125,17 @@ export class TableAllComponent implements OnDestroy {
     }
 
     public onExportExcel(): void {
-        /* this.all$.pipe(take(1)).subscribe((all) => {
-            if (all && all.length > 0) {
-                const fileName = `${this.exportFilePrefix}-all`;
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    all,
-                    this.table,
-                    fileName
-                );
-            } else {
-                this.toastService.error(
-                    this.translate.instant('EXPORT.NO_DATA')
-                );
-            }
-        }); */
+        const all = this.all();
+        if (all && all.length > 0) {
+            const fileName = `${this.exportFilePrefix}-all`;
+            this.tableExportExcelFileService.exportAsExcelFile(
+                all,
+                this.tableConfig,
+                fileName
+            );
+        } else {
+            this.toastService.error(this.translate.instant('EXPORT.NO_DATA'));
+        }
     }
 
     public copyToClipboard(data: string): void {

@@ -53,7 +53,7 @@ export const ALL_TABLE_CONST = {
         'reportType',
         'operators',
         'source',
-        'state',
+        'status',
         'createdAt',
         'placeDescription',
         'description',

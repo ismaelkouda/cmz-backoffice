@@ -42,21 +42,31 @@ import { TableTasksComponent } from '../../feature/tasks/table-tasks/table-tasks
 })
 export class TasksComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly tasksFacade = inject(TasksFacade);
     public module!: string;
     public subModule!: string;
     public pagination$!: Observable<Paginate<TasksEntity>>;
     public tasks$!: Observable<TasksEntity[]>;
-    public spinner$!: Observable<boolean>;
+    public loading$!: Observable<boolean>;
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
 
-    constructor(
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly tasksFacade: TasksFacade
-    ) {}
-
     ngOnInit(): void {
+        this.setupRouteData();
+        this.setupObservables();
+        this.loadData();
+    }
+
+    private loadData(): void {
+        const defaultFilter = TasksFilter.create(
+            {} as TasksFilterPayloadEntity
+        );
+        this.tasksFacade.fetchTasks(defaultFilter, '1', false);
+    }
+
+    private setupRouteData(): void {
         this.activatedRoute.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
@@ -67,17 +77,12 @@ export class TasksComponent implements OnInit, OnDestroy {
                 this.subModule =
                     data['subModule'] ?? 'REPORTS_PROCESSING.TASKS.LABEL';
             });
+    }
 
+    private setupObservables(): void {
         this.tasks$ = this.tasksFacade.tasks$;
         this.pagination$ = this.tasksFacade.pagination$;
-        this.spinner$ = this.tasksFacade.isLoading$;
-
-        const defaultFilter = TasksFilter.create({
-            created_from: '',
-            created_to: '',
-        });
-
-        this.tasksFacade.fetchTasks(defaultFilter);
+        this.loading$ = this.tasksFacade.isLoading$;
     }
 
     public filter(filterData: TasksFilterPayloadEntity): void {

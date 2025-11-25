@@ -37,7 +37,7 @@
                         >
                             <app-table-tasks
                                 class="table-component"
-                                [loading]="spinner$ | async"
+                                [loading]="loading$ | async"
                                 [pagination$]="pagination$"
                                 [tasks$]="tasks$"
                                 (treatmentRequested)="onTasksAction($event)"

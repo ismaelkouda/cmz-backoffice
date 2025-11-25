@@ -56,10 +56,10 @@ export class AllComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.setupRouteData();
         this.setupObservables();
-        this.loadDataIntelligently();
+        this.loadData();
     }
 
-    private loadDataIntelligently(): void {
+    private loadData(): void {
         const defaultFilter = AllFilter.create({} as AllFilterPayloadEntity);
         this.allFacade.fetchAll(defaultFilter, '1', false);
     }

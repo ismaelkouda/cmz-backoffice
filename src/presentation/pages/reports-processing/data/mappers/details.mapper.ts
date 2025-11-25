@@ -209,7 +209,6 @@ export class DetailsMapper extends SimpleResponseMapper<
             confirmed: ReportStatus.CONFIRM,
             terminated: ReportStatus.TERMINATED,
             'in-progress': ReportStatus['IN-PROGRESS'],
-            submission: ReportStatus.SUBMISSION,
             processing: ReportStatus.PROCESSING,
             finalization: ReportStatus.FINALIZATION,
         };
@@ -221,7 +220,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             pending: ReportState.PENDING,
             approved: ReportState.APPROVED,
             rejected: ReportState.REJECTED,
-            received: ReportState.RECEIVED,
+            received: ReportState.IN_PROGRESS,
         };
         return stateMap[state] || ReportState.PENDING;
     }

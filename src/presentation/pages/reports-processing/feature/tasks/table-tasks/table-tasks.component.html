@@ -33,7 +33,7 @@
             </div>
         </div>
     </ng-template>
-
+    
     <ng-template pTemplate="header">
         <tr role="row">
             @for (col of tableConfig.cols; track trackByColField($index, col)) {
@@ -51,17 +51,17 @@
                     @case ('__selection') {
                         <div class="selection-header">
                             <p-inputNumber
-                    [showButtons]="false"
-                    [placeholder]="'Select count...'"
-                    [min]="0"
-                    [max]="tasks().length"
-                    inputMode="numeric"
-                    [ngModel]="selectionInputValue()"
-                    (ngModelChange)="handleSelectCount($event)"
-                    (keydown.enter)="$event.target.blur()"
-                    (keydown.escape)="clearSelection()"
-                    [disabled]="!hasData() || isLoading()"
-                />
+                                [showButtons]="false"
+                                [placeholder]="'Select count...'"
+                                [min]="0"
+                                [max]="tasks().length"
+                                inputMode="numeric"
+                                [ngModel]="selectionInputValue()"
+                                (ngModelChange)="handleSelectCount($event)"
+                                (keydown.enter)="$event.target.blur()"
+                                (keydown.escape)="clearSelection()"
+                                [disabled]="!hasData() || isLoading()"
+                            />
                         </div>
                     }
                     @default {
@@ -107,8 +107,9 @@
                         <button
                             type="button"
                             (click)="copyToClipboard(task.uniqId)"
-                            class="copy-button"
+                            class="copyable"
                             pTooltip="{{ 'COPY' | translate }}"
+                            tooltipPosition="bottom"
                         >
                             <span class="id-text">{{ task.uniqId }}</span>
                             <i class="pi pi-copy" aria-hidden="true"></i>
@@ -116,7 +117,13 @@
                     }
 
                     @case ('reportType') {
-                        {{ getReportTypeLabel(task.reportType) }}
+                        <div 
+                            [pTooltip]="task.reportDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300">
+                            {{ task.reportType }}
+                        </div>
                     }
 
                     @case ('operators') {
@@ -133,32 +140,34 @@
                             <span class="no-data">-</span>
                         </ng-template>
                     }
-                    
-                    @case ('state') {
-                        @if (task.state) {
-                            <p-tag
-                                [value]="getStateLabel(task.state)"
-                                [severity]="getStateSeverity(task.state)"
-                            />
-                        } @else {
-                            <span class="no-data">-</span>
-                        }
-                    }
 
                     @case ('createdAt') {
                         <time [attr.datetime]="task.createdAt">
                             {{ formatDate(task.createdAt) }}
                         </time>
                     }
+
+                    @case ('source') {
+                        <div
+                            [pTooltip]="task.sourceDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300"
+                            [tooltipStyleClass]="'custom-tooltip'"
+                            class="source-type-content"
+                        >
+                            {{ task.source }}
+                        </div>
+                    }
                     
                     @case ('__action') {
-                        <div (click)="$event.stopPropagation()" class="action-group">
+                        <div (onKeyPress)="$event.stopPropagation()" class="action-group">
                             <button
                                 type="button"
                                 pButton
                                 icon="pi pi-window-maximize"
                                 (click)="onActionClicked(task)"
-                                [pTooltip]="getTakeTooltip(task)"
+                                [pTooltip]="getSeeMoreTooltip(task)"
                                 [disabled]="isLoading()"
                                 size="small"
                                 class="action-btn"
@@ -166,12 +175,13 @@
                             <button
                                 type="button"
                                 pButton
-                                icon="pi pi-book"
-                                (click)="onJournalClicked(task)"
-                                [pTooltip]="getJournalTooltip(task)"
+                                severity="info"
+                                icon="pi pi-check-circle"
+                                (click)="onTakeClicked(task)"
+                                [pTooltip]="getTakeTooltip(task)"
                                 [disabled]="isLoading()"
                                 size="small"
-                                class="action-btn"
+                                class="action-btn p" 
                             ></button>
                         </div>
                     }
@@ -187,7 +197,7 @@
 
     <ng-template pTemplate="emptymessage">
         @if (!isLoading()) {
-            <tr role="row">
+            <tr role="row" class="loading-table">
                 <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
                     <div class="empty-state">
                         {{ 'NO_DATA_FOUND' | translate }}
@@ -196,15 +206,17 @@
             </tr>
         }
         @if (isLoading()) {
-            <tr role="row">
-                <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
-                    <div class="loading-state">
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length">
                         <p-progressSpinner
-                            aria-label="Chargement des données"
-                            strokeWidth="4"
-                            styleClass="loading-spinner"
-                        />
-                    </div>
+                            class="posCenter"
+                            [style]="{ width: '40px', height: '50px' }"
+                            styleClass="custom-spinner"
+                            strokeWidth="8"
+                            fill="#EEEEEE"
+                            animationDuration=".5s"
+                        >
+                        </p-progressSpinner>
                 </td>
             </tr>
         }

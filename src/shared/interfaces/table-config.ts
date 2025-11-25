@@ -8,4 +8,5 @@ interface TableColumn {
     header: string;
     class?: string;
     width?: string;
+    type?: string;
 }

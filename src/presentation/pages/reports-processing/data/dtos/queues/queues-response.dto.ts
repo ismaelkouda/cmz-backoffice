@@ -1,3 +1,7 @@
+import {
+    ReportState,
+    ReportStatus,
+} from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
 import { Paginate } from '@shared/interfaces/paginate';
 
 export interface QueuesItemDto {
@@ -22,7 +26,8 @@ export interface QueuesItemDto {
     approved_at: string | null;
     rejected_by: string | null;
     rejected_at: string | null;
-    status: string;
+    status: ReportStatus;
+    state: ReportState;
     confirm_count: number;
     deny_count: number;
     approved_comment: string | null;

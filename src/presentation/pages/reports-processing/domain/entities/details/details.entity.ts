@@ -18,7 +18,6 @@ export enum ReportStatus {
     'IN-PROGRESS' = 'in-progress',
     TERMINATED = 'terminated',
     CONFIRM = 'confirmed',
-    SUBMISSION = 'submission',
     PROCESSING = 'processing',
     FINALIZATION = 'finalization',
 }
@@ -27,7 +26,7 @@ export enum ReportState {
     PENDING = 'pending',
     APPROVED = 'approved',
     REJECTED = 'rejected',
-    RECEIVED = 'received',
+    IN_PROGRESS = 'in-progress',
 }
 
 export interface TreaterInfo {
@@ -133,14 +132,17 @@ export class DetailsEntity implements Details {
                 return 'MANAGEMENT.STATUS.TAKE';
             case ReportStatus['IN-PROGRESS']:
                 return 'MANAGEMENT.STATUS.APPROBATION';
-            case ReportStatus.SUBMISSION:
-                return 'MANAGEMENT.STATUS.TAKE';
             case ReportStatus.PROCESSING:
-                return 'MANAGEMENT.STATUS.TREATMENT';
+                if (this.state === ReportState.PENDING) {
+                    return 'MANAGEMENT.STATUS.TAKE';
+                } else if (this.state === ReportState.IN_PROGRESS) {
+                    return 'MANAGEMENT.STATUS.TREATMENT';
+                }
+                return 'MANAGEMENT.STATUS.INFORMATION';
             case ReportStatus.FINALIZATION:
                 if (this.state === ReportState.PENDING) {
                     return 'MANAGEMENT.STATUS.TAKE';
-                } else if (this.state === ReportState.RECEIVED) {
+                } else if (this.state === ReportState.IN_PROGRESS) {
                     return 'MANAGEMENT.STATUS.FINALIZATION';
                 }
                 return 'MANAGEMENT.STATUS.INFORMATION';
@@ -184,7 +186,7 @@ export class DetailsEntity implements Details {
     public get canBeTaken(): boolean {
         return (
             this.status === ReportStatus.PENDING ||
-            (this.status === ReportStatus.SUBMISSION &&
+            (this.status === ReportStatus.PROCESSING &&
                 this.state == ReportState.PENDING) ||
             (this.status === ReportStatus.FINALIZATION &&
                 this.state == ReportState.PENDING)
@@ -198,14 +200,14 @@ export class DetailsEntity implements Details {
     public get canBeTreated(): boolean {
         return (
             this.status === ReportStatus.PROCESSING &&
-            this.state == ReportState.RECEIVED
+            this.state == ReportState.IN_PROGRESS
         );
     }
 
     public get canBeFinalized(): boolean {
         return (
             this.status === ReportStatus.FINALIZATION &&
-            this.state == ReportState.RECEIVED
+            this.state == ReportState.IN_PROGRESS
         );
     }
 

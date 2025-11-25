@@ -819,7 +819,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
         const statusClassMap: Record<ReportStatus, string> = {
             [ReportStatus.PENDING]: 'status-pending',
-            [ReportStatus.SUBMISSION]: 'status-pending',
             [ReportStatus.FINALIZATION]: 'status-pending',
             [ReportStatus.APPROVED]: 'status-completed',
             [ReportStatus.REJECTED]: 'status-rejected',
@@ -839,8 +838,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
         const labelMap: Record<ReportStatus, string> = {
             [ReportStatus.PROCESSING]:
                 'MANAGEMENT.FORM.VALUES.STATUS.PROCESSING',
-            [ReportStatus.SUBMISSION]:
-                'MANAGEMENT.FORM.VALUES.STATUS.SUBMISSION',
             [ReportStatus.FINALIZATION]:
                 'MANAGEMENT.FORM.VALUES.STATUS.FINALIZATION',
             [ReportStatus.PENDING]: 'MANAGEMENT.FORM.VALUES.STATUS.PENDING',

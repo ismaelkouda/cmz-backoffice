@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { QueuesEntity } from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
+import { FetchQueuesUseCase } from '@presentation/pages/reports-processing/domain/use-cases/queues.use-case';
+import { QueuesFilter } from '@presentation/pages/reports-processing/domain/value-objects/queues-filter.vo';
 import { BaseFacade } from '@shared/application/base/base-facade';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ToastrService } from 'ngx-toastr';
-import { QueuesEntity } from '../domain/entities/queues/queues.entity';
-import { FetchQueuesUseCase } from '../domain/use-cases/queues.use-case';
-import { QueuesFilter } from '../domain/value-objects/queues-filter.vo';
+import { Observable } from 'rxjs';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
-    readonly queues$ = this.items$;
+    readonly queues$: Observable<QueuesEntity[]> = this.items$;
+
+    private hasInitialized = false;
+    private lastFetchTimestamp = 0;
+    private readonly STALE_TIME = 2 * 60 * 1000;
 
     constructor(
-        private readonly fetchQueuesUseCase: FetchQueuesUseCase,
+        private readonly fetchUseCase: FetchQueuesUseCase,
         toastService: ToastrService,
         translateService: TranslateService
     ) {
@@ -23,10 +26,17 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
 
     fetchQueues(
         filter: QueuesFilter,
-        page: string = PAGINATION_CONST.DEFAULT_PAGE
+        page: string = PAGINATION_CONST.DEFAULT_PAGE,
+        forceRefresh: boolean = false
     ): void {
-        const fetch$ = this.fetchQueuesUseCase.execute(filter, page);
-        this.fetchData(filter, page, fetch$);
+        if (!this.shouldFetch(forceRefresh)) {
+            return;
+        }
+        const fetch = this.fetchUseCase.execute(filter, page);
+        this.fetchData(filter, page, fetch);
+
+        this.hasInitialized = true;
+        this.lastFetchTimestamp = Date.now();
     }
 
     changePage(pageNumber: number): void {
@@ -34,11 +44,13 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
         if (!currentFilter) {
             return;
         }
-        const fetch$ = this.fetchQueuesUseCase.execute(
+        const fetch = this.fetchUseCase.execute(
             currentFilter,
             String(pageNumber)
         );
-        this.changePageInternal(pageNumber, fetch$);
+        this.changePageInternal(pageNumber, fetch);
+
+        this.lastFetchTimestamp = Date.now();
     }
 
     refresh(): void {
@@ -47,10 +59,47 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
             return;
         }
         const currentPage = this.pageSubject.getValue();
-        const fetch$ = this.fetchQueuesUseCase.execute(
-            currentFilter,
-            currentPage
-        );
-        this.fetchData(currentFilter, currentPage, fetch$);
+        const fetch = this.fetchUseCase.execute(currentFilter, currentPage);
+        this.fetchData(currentFilter, currentPage, fetch);
+
+        this.lastFetchTimestamp = Date.now();
+    }
+
+    private shouldFetch(forceRefresh: boolean): boolean {
+        if (forceRefresh) {
+            return true;
+        }
+        if (!this.hasInitialized) {
+            return true;
+        }
+        const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
+        if (isStale) {
+            console.log('🕐 [QueuesFacade] Data is stale, refetching');
+            return true;
+        }
+        const hasData = this.itemsSubject.getValue().length > 0;
+        if (!hasData) {
+            return true;
+        }
+
+        return false;
+    }
+
+    resetMemory(): void {
+        this.hasInitialized = false;
+        this.lastFetchTimestamp = 0;
+        this.reset();
+    }
+
+    getMemoryStatus(): {
+        hasInitialized: boolean;
+        lastFetch: number;
+        hasData: boolean;
+    } {
+        return {
+            hasInitialized: this.hasInitialized,
+            lastFetch: this.lastFetchTimestamp,
+            hasData: this.itemsSubject.getValue().length > 0,
+        };
     }
 }

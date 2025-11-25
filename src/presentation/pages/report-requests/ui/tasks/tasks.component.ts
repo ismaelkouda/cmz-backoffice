@@ -56,10 +56,10 @@ export class TasksComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.setupRouteData();
         this.setupObservables();
-        this.loadDataIntelligently();
+        this.loadData();
     }
 
-    private loadDataIntelligently(): void {
+    private loadData(): void {
         const defaultFilter = TasksFilter.create(
             {} as TasksFilterPayloadEntity
         );

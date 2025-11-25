@@ -43,6 +43,8 @@ import { QueuesEntity } from '../../domain/entities/queues/queues.entity';
 })
 export class QueuesComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly queuesFacade = inject(QueuesFacade);
     private readonly managementFacade = inject(ManagementFacade);
     public module!: string;
     public subModule!: string;
@@ -53,12 +55,20 @@ export class QueuesComponent implements OnInit, OnDestroy {
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
 
-    constructor(
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly queuesFacade: QueuesFacade
-    ) {}
-
     ngOnInit(): void {
+        this.setupRouteData();
+        this.setupObservables();
+        this.loadData();
+    }
+
+    private loadData(): void {
+        const defaultFilter = QueuesFilter.create(
+            {} as QueuesFilterPayloadEntity
+        );
+        this.queuesFacade.fetchQueues(defaultFilter, '1', false);
+    }
+
+    private setupRouteData(): void {
         this.activatedRoute.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
@@ -69,21 +79,17 @@ export class QueuesComponent implements OnInit, OnDestroy {
                 this.subModule =
                     data['subModule'] ?? 'REPORTS_PROCESSING.QUEUES.LABEL';
             });
+    }
 
+    private setupObservables(): void {
         this.queues$ = this.queuesFacade.queues$;
         this.pagination$ = this.queuesFacade.pagination$;
         this.loading$ = this.queuesFacade.isLoading$;
-
-        const defaultFilter = QueuesFilter.create(
-            {} as QueuesFilterPayloadEntity
-        );
-
-        this.queuesFacade.fetchQueues(defaultFilter);
     }
 
     public filter(filterData: QueuesFilterPayloadEntity): void {
         const filter = QueuesFilter.create(filterData);
-        this.queuesFacade.fetchQueues(filter);
+        this.queuesFacade.fetchQueues(filter, '1', true);
     }
 
     public onPageChange(event: number): void {

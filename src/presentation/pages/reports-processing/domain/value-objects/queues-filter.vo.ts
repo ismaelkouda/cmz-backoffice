@@ -8,11 +8,11 @@ export class QueuesFilter {
         private readonly createdTo?: string,
         private readonly uniqId?: string,
         private readonly reportType?: string,
-        private readonly operator?: string[]
+        private readonly operators?: string[]
     ) {}
 
     static create(data: QueuesFilterPayloadEntity): QueuesFilter {
-        const operatorArray = this.normalizeOperator(data.operator);
+        const operatorArray = this.normalizeOperator(data.operators);
 
         return new QueuesFilter(
             data.initiator_phone_number,
@@ -44,8 +44,8 @@ export class QueuesFilter {
         if (this.createdTo) params['created_to'] = this.createdTo;
         if (this.reportType) params['report_type'] = this.reportType;
         if (this.source) params['source'] = this.source;
-        if (this.operator && this.operator.length > 0)
-            params['operator'] = this.operator;
+        if (this.operators && this.operators.length > 0)
+            params['operators'] = this.operators;
 
         return params;
     }

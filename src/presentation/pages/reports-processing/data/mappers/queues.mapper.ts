@@ -4,6 +4,7 @@ import { QueuesItemDto } from '@presentation/pages/reports-processing/data/dtos/
 import {
     Queues,
     QueuesEntity,
+    ReportState,
     ReportStatus,
 } from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
@@ -34,6 +35,7 @@ export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
             this.mapMedia(dto),
             this.mapApprovalInfo(dto),
             this.mapStatus(dto.status),
+            this.mapState(dto.state),
             this.mapDuplicationInfo(dto),
             dto.position,
             this.mapTimestamps(dto),
@@ -86,36 +88,26 @@ export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
                 return ReportType.ABI;
             case 'zob':
                 return ReportType.ZOB;
-            case 'abi':
+            case 'cpo':
                 return ReportType.CPO;
-            case 'zob':
-                return ReportType.ZOB;
+            case 'cps':
+                return ReportType.CPS;
             default:
                 return ReportType.OTHER;
         }
     }
 
-    private mapStatus(status: string): ReportStatus {
-        switch (status) {
-            case 'pending':
-                return ReportStatus.PENDING;
-            case 'approved':
-                return ReportStatus.APPROVED;
-            case 'rejected':
-                return ReportStatus.REJECTED;
-            default:
-                return ReportStatus.PENDING;
-        }
+    private mapStatus(status: ReportStatus): ReportStatus {
+        return ReportStatus.PROCESSING;
+    }
+
+    private mapState(status: ReportState): ReportState {
+        return ReportState.PENDING;
     }
 
     private parseOperators(operatorsString: string): TelecomOperator[] {
-        try {
-            const operatorsArray = JSON.parse(operatorsString) as string[];
-            return operatorsArray.map((operator) => this.mapOperator(operator));
-        } catch (error) {
-            console.warn('Failed to parse operators JSON:', operatorsString);
-            return [];
-        }
+        const operatorsArray = JSON.parse(operatorsString) as string[];
+        return operatorsArray.map((operator) => this.mapOperator(operator));
     }
 
     private mapOperator(operator: string): TelecomOperator {
@@ -132,8 +124,8 @@ export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
     }
 
     private parseCoordinate(value: string): number {
-        const parsed = parseFloat(value);
-        return isNaN(parsed) ? 0 : parsed;
+        const parsed = Number.parseFloat(value);
+        return Number.isNaN(parsed) ? 0 : parsed;
     }
 
     private mapLocation(dto: QueuesItemDto): ReportLocation {

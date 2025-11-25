@@ -4,6 +4,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
+    inject,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -17,6 +18,7 @@ import { QueuesFilterFormControlEntity } from '@presentation/pages/reports-proce
 import { QueuesFilterPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/queues/queues-filter-payload.entity';
 import { OPERATOR_CONST } from '@shared/domain/constants/operator';
 import { REPORT_CONST } from '@shared/domain/constants/report';
+import { SOURCE_CONST } from '@shared/domain/constants/source';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -44,23 +46,29 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
     ],
 })
 export class FilterQueuesComponent implements OnInit, OnDestroy {
+    private readonly toastService = inject(ToastrService);
+    private readonly fb = inject(FormBuilder);
+    private readonly translate = inject(TranslateService);
+    private readonly queuesFacade = inject(QueuesFacade);
     @Output() filter = new EventEmitter<QueuesFilterPayloadEntity>();
 
     public formFilter!: FormGroup<QueuesFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();
     public secondFilter: boolean = false;
     readonly reportOptions = REPORT_CONST;
-    readonly operatorOptions = OPERATOR_CONST;
-
-    constructor(
-        private readonly toastService: ToastrService,
-        private readonly fb: FormBuilder,
-        private readonly translate: TranslateService,
-        private readonly queuesFacade: QueuesFacade
-    ) {}
+    public operatorOptions: any[] = [];
+    readonly sourceOptions = SOURCE_CONST;
 
     ngOnInit() {
         this.initFormFilter();
+        this.loadTranslatedOptions();
+    }
+
+    private loadTranslatedOptions(): void {
+        this.operatorOptions = OPERATOR_CONST.map((operator) => ({
+            ...operator,
+            label: this.translate.instant(operator.label),
+        }));
     }
 
     public initFormFilter(): void {
@@ -81,7 +89,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                 report_type: new FormControl<string>('', {
                     nonNullable: true,
                 }),
-                operator: new FormControl<string[]>([], {
+                operators: new FormControl<string[]>([], {
                     nonNullable: true,
                 }),
                 source: new FormControl<string>('', {
@@ -128,7 +136,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                         source: (dto['created_from'] as string) ?? '',
                         created_to: (dto['created_to'] as string) ?? '',
                         report_type: (dto['report_type'] as string) ?? '',
-                        operator: (dto['operator'] as string[]) ?? [],
+                        operators: (dto['operator'] as string[]) ?? [],
                     },
                     { emitEvent: false }
                 );
@@ -145,7 +153,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
         const control = this.formFilter?.controls[controlName];
         if (!control) return;
 
-        if (controlName === 'operator') {
+        if (controlName === 'operators') {
             (control as FormControl<string[]>).setValue([], {
                 emitEvent: false,
             });
@@ -187,7 +195,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
             source: this.formFilter.get('source')?.value?.trim() ?? '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
-            operator: this.formFilter.get('operator')?.value ?? [],
+            operators: this.formFilter.get('operator')?.value ?? [],
         };
 
         if (this.formFilter.valid) {

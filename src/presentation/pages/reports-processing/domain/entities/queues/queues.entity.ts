@@ -11,10 +11,11 @@ import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
 import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 export enum ReportStatus {
+    PROCESSING = 'processing',
+}
+
+export enum ReportState {
     PENDING = 'pending',
-    APPROVED = 'approved',
-    REJECTED = 'rejected',
-    ABANDONED = 'abandoned',
 }
 
 export interface Queues {
@@ -30,6 +31,7 @@ export interface Queues {
     readonly media: ReportMedia;
     readonly approval: ApprovalInfo;
     readonly status: ReportStatus;
+    readonly state: ReportState;
     readonly duplication: DuplicationInfo;
     readonly position: string;
     readonly timestamps: Timestamps;
@@ -50,38 +52,23 @@ export class QueuesEntity implements Queues {
         public readonly media: ReportMedia,
         public readonly approval: ApprovalInfo,
         public readonly status: ReportStatus,
+        public readonly state: ReportState,
         public readonly duplication: DuplicationInfo,
         public readonly position: string,
         public readonly timestamps: Timestamps,
         public readonly createdAt: string
     ) {}
 
+    public isProcessing(): boolean {
+        return this.status === ReportStatus.PROCESSING;
+    }
+
     public isPending(): boolean {
-        return this.status === ReportStatus.PENDING;
-    }
-
-    public isApproved(): boolean {
-        return this.status === ReportStatus.APPROVED;
-    }
-
-    public isRejected(): boolean {
-        return this.status === ReportStatus.REJECTED;
-    }
-
-    public isAbandoned(): boolean {
-        return this.status === ReportStatus.ABANDONED;
+        return this.state === ReportState.PENDING;
     }
 
     public canBeTaken(): boolean {
-        return (
-            this.isPending() &&
-            !this.duplication.isDuplicated &&
-            this.hasValidLocation()
-        );
-    }
-
-    public canBeRejected(): boolean {
-        return this.isPending() && !this.duplication.isDuplicated;
+        return this.isProcessing() && this.isPending();
     }
 
     public requiresImmediateAttention(): boolean {
@@ -360,40 +347,11 @@ export class QueuesEntity implements Queues {
             updates.media ?? this.media,
             updates.approval ?? this.approval,
             updates.status ?? this.status,
+            updates.state ?? this.state,
             updates.duplication ?? this.duplication,
             updates.position ?? this.position,
             updates.timestamps ?? this.timestamps,
             updates.createdAt ?? this.createdAt
         );
-    }
-
-    public markAsApproved(
-        approvedBy: string,
-        comment: string = ''
-    ): QueuesEntity {
-        return this.clone({
-            status: ReportStatus.APPROVED,
-            approval: {
-                ...this.approval,
-                approvedBy,
-                approvedAt: new Date().toISOString(),
-                approvedComment: comment,
-            },
-        });
-    }
-
-    public markAsRejected(
-        rejectedBy: string,
-        comment: string = ''
-    ): QueuesEntity {
-        return this.clone({
-            status: ReportStatus.REJECTED,
-            approval: {
-                ...this.approval,
-                rejectedBy,
-                rejectedAt: new Date().toISOString(),
-                approvedComment: comment,
-            },
-        });
     }
 }
