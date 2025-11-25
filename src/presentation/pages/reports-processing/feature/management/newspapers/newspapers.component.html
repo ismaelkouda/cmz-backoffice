@@ -1,42 +1,51 @@
 <section class="card newspapers-card">
-                <div class="card-body newspapers-card-body">
-                    <header class="newspapers-header">
-                        <app-page-title class="page-title-component"
-                            [displayDate]="false"
-                            [title]="
-                                'MANAGEMENT.NEWSPAPERS.TITLE' | translate | lowercase
-                            "
-                        >
-                        </app-page-title>
-                    </header>
+    <div class="card-body newspapers-card-body">
+        <header class="newspapers-header">
+            <app-page-title class="page-title-component"
+                [displayDate]="false"
+                [title]="
+                    'MANAGEMENT.NEWSPAPERS.TITLE' | translate | lowercase
+                "
+            >
+            </app-page-title>
+        </header>
 
-                    <div class="fade-in newspapers-content">
-                       <!--  <app-filter-newspapers
-                            class="filter-component"
-                            (filter)="filter($event)"
-                        >
-                        </app-filter-newspapers> -->
+        <div class="fade-in newspapers-content">
+            <!--  <app-filter-newspapers
+                class="filter-component"
+                (filter)="filter($event)"
+            >
+            </app-filter-newspapers> -->
 
-                        <hr class="newspapers-divider" />
+            <hr class="newspapers-divider" />
 
-                        <section
-                            class="table-section"
-                            [aria-label]="'MANAGEMENT.NEWSPAPERS.TITLE' | translate"
-                        >
-                            <app-table-newspapers
-                                class="table-component"
-                                [loading]="loading$ | async"
-                                [pagination$]="pagination$"
-                                [newspapers$]="newspapers$"
-                            >
-                            </app-table-newspapers>
+            <section
+                class="table-section"
+                [aria-label]="'MANAGEMENT.NEWSPAPERS.TITLE' | translate"
+            >
+                <app-table-newspapers
+                    class="table-component"
+                    [loading]="loading$ | async"
+                    [pagination$]="pagination$"
+                    [newspapers$]="newspapers$"
+                >
+                </app-table-newspapers>
 
-                            <app-pagination
-                                class="pagination-component"
-                                [pagination]="pagination$ | async"
-                                (pageChange)="onPageChange($event)"
-                            ></app-pagination>
-                        </section>
-                    </div>
-                </div>
+                <app-pagination
+                    class="pagination-component"
+                    [pagination]="pagination$ | async"
+                    (pageChange)="onPageChange($event)"
+                ></app-pagination>
             </section>
+        </div>
+    </div>
+</section>
+
+    @if(visibleActivity) {
+<app-modal-activity
+        [(visible)]="visibleActivity"
+        [reportUniqId]="reportUniqId"
+        (closed)="onReportActivityClosed()"
+    >
+</app-modal-activity>
+    }   

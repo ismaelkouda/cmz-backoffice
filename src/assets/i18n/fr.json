@@ -6,6 +6,12 @@
             "BUTTONS": "Se déconnecter"
             }
         },
+
+        "OPERATOR": {
+            "ORANGE": "Orange",
+            "MTN": "MTN",
+            "MOOV": "Moov"
+        },
     "REPORTS_REQUESTS": {
         "STATUS": {
             "PRISE_EN_CHARGE": "Prise en charge",
@@ -924,7 +930,7 @@
                     "INFORMATION": "Informations",
                     "PHOTOS": "Photos",
                     "GEOGRAPHIC_VIEW": "Vue géographique",
-                    "EVENT_LOGS": "Journal d'évènements"
+                    "TREATMENT_LOGS": "Journal de traitement"
                 },
                 "SECTIONS": {
                     "INFO": "Informations"
@@ -1003,11 +1009,11 @@
             "PICTURES_INFO": {
                 "TITLE": "Description de l'endroit"
             },
-
             "PICTURES": {
                 "TITLE": "Photos",
-                "ACCES_ROAD": "Voie d'accès",
-                "OBSERVATION_POINT": "Point d'observation"
+                "ACCESS_ROAD": "Voie d'accès",
+                "OBSERVATION_POINT": "Point d'observation",
+                "NO_DATA": "Aucune photo disponible."
             },
 
             "FIELDS": {

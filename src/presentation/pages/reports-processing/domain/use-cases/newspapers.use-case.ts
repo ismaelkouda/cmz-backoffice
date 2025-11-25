@@ -15,6 +15,7 @@ export class FetchNewspapersUseCase {
         filter: NewspapersFilter,
         page: string
     ): Observable<Paginate<NewspapersEntity>> {
+        console.log('FetchNewspapersUseCase', filter);
         return this.newspapersRepository.fetchNewspapers(filter, page);
     }
 }

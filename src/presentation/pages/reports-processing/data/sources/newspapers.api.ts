@@ -21,8 +21,8 @@ export class NewspapersApi {
         payload: NewspapersRequestDto,
         page: string
     ): Observable<NewspapersResponseDto> {
+        console.log('payload', payload);
         const url = `${this.baseUrl}${NEWSPAPERS_ENDPOINTS.NEWSPAPERS.replace('{page}', page)}`;
-
         const paramsObject = Object.entries(payload ?? {}).reduce<
             Record<string, string>
         >((acc, [key, value]) => {

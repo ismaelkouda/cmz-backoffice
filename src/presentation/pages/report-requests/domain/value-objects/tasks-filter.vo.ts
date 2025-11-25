@@ -8,11 +8,11 @@ export class TasksFilter {
         private readonly createdTo?: string,
         private readonly uniqId?: string,
         private readonly reportType?: string,
-        private readonly operator?: string[]
+        private readonly operators?: string[]
     ) {}
 
     static create(data: TasksFilterPayloadEntity): TasksFilter {
-        const operatorArray = this.normalizeOperator(data.operator);
+        const operatorArray = this.normalizeOperator(data.operators);
         return new TasksFilter(
             data.initiator_phone_number,
             data.source,
@@ -25,12 +25,12 @@ export class TasksFilter {
     }
 
     private static normalizeOperator(
-        operator: string | string[] | undefined
+        operators: string | string[] | undefined
     ): string[] {
-        if (Array.isArray(operator)) {
-            return operator;
+        if (Array.isArray(operators)) {
+            return operators;
         }
-        return operator ? [operator] : [];
+        return operators ? [operators] : [];
     }
 
     toDto(): Record<string, string | string[]> {
@@ -43,8 +43,8 @@ export class TasksFilter {
         if (this.createdTo) params['created_to'] = this.createdTo;
         if (this.reportType) params['report_type'] = this.reportType;
         if (this.source) params['source'] = this.source;
-        if (this.operator && this.operator.length > 0)
-            params['operator'] = this.operator;
+        if (this.operators && this.operators.length > 0)
+            params['operators'] = this.operators;
 
         return params;
     }

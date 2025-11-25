@@ -83,7 +83,7 @@ export class FilterAllComponent implements OnInit, OnDestroy {
                 report_type: new FormControl<string>('', {
                     nonNullable: true,
                 }),
-                operator: new FormControl<string[]>([], {
+                operators: new FormControl<string[]>([], {
                     nonNullable: true,
                 }),
                 source: new FormControl<string>('', {
@@ -133,7 +133,7 @@ export class FilterAllComponent implements OnInit, OnDestroy {
                         source: (dto['created_from'] as string) ?? '',
                         created_to: (dto['created_to'] as string) ?? '',
                         report_type: (dto['report_type'] as string) ?? '',
-                        operator: (dto['operator'] as string[]) ?? [],
+                        operators: (dto['operators'] as string[]) ?? [],
                         state: (dto['state'] as string) ?? '',
                     },
                     { emitEvent: false }
@@ -151,7 +151,7 @@ export class FilterAllComponent implements OnInit, OnDestroy {
         const control = this.formFilter?.controls[controlName];
         if (!control) return;
 
-        if (controlName === 'operator') {
+        if (controlName === 'operators') {
             (control as FormControl<string[]>).setValue([], {
                 emitEvent: false,
             });
@@ -193,7 +193,7 @@ export class FilterAllComponent implements OnInit, OnDestroy {
             source: this.formFilter.get('source')?.value?.trim() ?? '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
-            operator: this.formFilter.get('operator')?.value ?? [],
+            operators: this.formFilter.get('operators')?.value ?? [],
             state: this.formFilter.get('state')?.value?.trim() ?? '',
         };
 

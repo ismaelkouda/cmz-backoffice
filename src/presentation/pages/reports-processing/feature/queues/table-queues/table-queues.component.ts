@@ -172,7 +172,7 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     copyToClipboard(value: string): void {
         this.clipboardService.copyFromContent(value);
         this.toastService.success(
-            this.translate.instant('COPIED_TO_CLIPBOARD')
+            this.translate.instant('COPIED_TO_THE_CLIPBOARD')
         );
     }
 

@@ -20,6 +20,7 @@ export class NewspapersRepositoryImpl extends NewspapersRepository {
         filter: NewspapersFilter,
         page: string
     ): Observable<Paginate<NewspapersEntity>> {
+        console.log('azerty', filter);
         return this.newspapersApi
             .fetchNewspapers(filter.toDto(), page)
             .pipe(

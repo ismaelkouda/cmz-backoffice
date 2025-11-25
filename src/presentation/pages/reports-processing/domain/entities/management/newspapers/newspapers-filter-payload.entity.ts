@@ -1,8 +1,7 @@
 export interface NewspapersFilterPayloadEntity {
-    initiator_phone_number: string;
-    created_from: string;
-    created_to: string;
-    uniq_id?: string;
+    reportUniqId: string;
+    created_from?: string;
+    created_to?: string;
     report_type?: string;
     source?: string;
     operator?: string[];

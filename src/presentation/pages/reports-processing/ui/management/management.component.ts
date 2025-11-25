@@ -191,7 +191,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         },
         {
             key: 'eventLogs',
-            label: 'MANAGEMENT.TABS.CATEGORIES.EVENT_LOGS',
+            label: 'MANAGEMENT.TABS.CATEGORIES.TREATMENT_LOGS',
         },
     ];
 

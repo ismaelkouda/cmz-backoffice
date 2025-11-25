@@ -471,7 +471,7 @@
                         <div class="information-content">
 
                             <div class="data-card location-card">
-                                <div class="card-header">
+                                <!-- <div class="card-header">
                                     <div class="card-title-group">
                                         <i class="pi pi-map-marker card-icon"></i>
                                         <h2 class="card-title">
@@ -481,7 +481,7 @@
                                             }}
                                         </h2>
                                     </div>
-                                    <!-- <div class="card-actions">
+                                    <div class="card-actions">
                                         <button class="btn-action map" (click)="viewOnMap()" [pTooltip]="
                                                         'MANAGEMENT.FORM.ACTIONS.VIEW_MAP'
                                                             | translate
@@ -498,8 +498,8 @@
                                                     ">
                                             <i class="pi pi-copy"></i>
                                         </button>
-                                    </div> -->
-                                </div>
+                                    </div>
+                                </div> -->
 
                                 <div class="card-body">
                                     <div class="data-grid">
@@ -892,7 +892,7 @@
                                     <div class="data-grid">
                                         
                                         <div class="data-row double">
-                                            <!-- Photo 1 avec badge -->
+
                                             <div class="data-field">
                                                 <div class="photo-header">
                                                     <div class="field-label">
@@ -902,21 +902,28 @@
                                                 </div>
                                                 <div class="field-value photo-container d-flex justify-content-center">
                                                     @if(details.placePhoto) {
-                                                    <app-image-zoom  [src]="details.placePhoto"></app-image-zoom>
-                                                }
+                                                        <app-image-zoom  [src]="details.placePhoto"></app-image-zoom>
+                                                    }@else {
+                                                        <h2 class="card-title">
+                                                            {{ 'MANAGEMENT.FORM.PICTURES.NO_DATA' | translate }}
+                                                        </h2>
+                                                    }
                                                 </div>
                                             </div>
 
-                                            <!-- Photo 2 avec badge -->
                                             <div class="data-field">
                                                 <div class="field-label">
                                                         <i class="pi pi-eye"></i>
-                                                    {{ 'MANAGEMENT.FORM.PICTURES.ACCES_ROAD' | translate }}
+                                                    {{ 'MANAGEMENT.FORM.PICTURES.ACCESS_ROAD' | translate }}
                                                 </div>
                                                 <div class="field-value photo-container d-flex justify-content-center">
                                                     @if(details.placePhoto) {
-                                                    <app-image-zoom  [src]="details.accessPlacePhoto"></app-image-zoom>
-                                                }
+                                                        <app-image-zoom  [src]="details.accessPlacePhoto"></app-image-zoom>
+                                                    }@else {
+                                                        <h2 class="card-title">
+                                                            {{ 'MANAGEMENT.FORM.PICTURES.NO_DATA' | translate }}
+                                                        </h2>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -961,7 +968,7 @@
 
                 <ng-container *ngIf="selectedCategoryIndex === 3">
                     <div class="tab-panel event-logs">
-                            <app-newspapers></app-newspapers>
+                        <app-newspapers [reportUniqId]="reportId"></app-newspapers>
                     </div>
                 </ng-container>
             </div>

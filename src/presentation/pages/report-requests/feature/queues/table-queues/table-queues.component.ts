@@ -16,6 +16,7 @@ import { TableButtonHeaderComponent } from '@shared/components/table-button-head
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { TableConfig } from '@shared/interfaces/table-config';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -51,6 +52,9 @@ export class TableQueuesComponent implements OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly tableExportExcelFileService = inject(
+        TableExportExcelFileService
+    );
     private readonly destroy$ = new Subject<void>();
 
     readonly queues = signal<QueuesEntity[]>([]);
@@ -71,11 +75,11 @@ export class TableQueuesComponent implements OnDestroy {
         this.isLoading.set(value);
     }
 
+    private _queues$!: Observable<QueuesEntity[]>;
+
     @Output() treatmentRequested = new EventEmitter<QueuesEntity>();
     @Output() journalRequested = new EventEmitter<QueuesEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
-
-    private _queues$!: Observable<QueuesEntity[]>;
 
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
@@ -92,21 +96,19 @@ export class TableQueuesComponent implements OnDestroy {
     onRefresh(): void {
         this.refreshRequested.emit();
     }
+
     public onExportExcel(): void {
-        /* this.queues$.pipe(take(1)).subscribe((queues) => {
-            if (queues && queues.length > 0) {
-                const fileName = `${this.exportFilePrefix}-queues`;
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    queues,
-                    this.table,
-                    fileName
-                );
-            } else {
-                this.toastService.error(
-                    this.translate.instant('EXPORT.NO_DATA')
-                );
-            }
-        }); */
+        const queues = this.queues();
+        if (queues && queues.length > 0) {
+            const fileName = `${this.exportFilePrefix}-queues`;
+            this.tableExportExcelFileService.exportAsExcelFile(
+                queues,
+                this.tableConfig,
+                fileName
+            );
+        } else {
+            this.toastService.error(this.translate.instant('EXPORT.NO_DATA'));
+        }
     }
 
     public copyToClipboard(data: string): void {

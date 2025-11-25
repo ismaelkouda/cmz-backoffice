@@ -5,6 +5,6 @@ export interface AllFilterPayloadEntity {
     uniq_id?: string;
     report_type?: string;
     source?: string;
-    operator?: string[];
+    operators?: string[];
     state?: string;
 }

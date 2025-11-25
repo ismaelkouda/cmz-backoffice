@@ -1,3 +1,3 @@
 export const NEWSPAPERS_ENDPOINTS = {
-    NEWSPAPERS: 'newspapers?page={page}',
+    NEWSPAPERS: 'processing-actions?page={page}',
 } as const;

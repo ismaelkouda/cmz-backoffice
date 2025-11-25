@@ -8,12 +8,12 @@ export class AllFilter {
         private readonly createdTo?: string,
         private readonly uniqId?: string,
         private readonly reportType?: string,
-        private readonly operator?: string[],
+        private readonly operators?: string[],
         private readonly state?: string
     ) {}
 
     static create(data: AllFilterPayloadEntity): AllFilter {
-        const operatorArray = this.normalizeOperator(data.operator);
+        const operatorArray = this.normalizeOperator(data.operators);
         return new AllFilter(
             data.initiator_phone_number,
             data.source,
@@ -27,12 +27,12 @@ export class AllFilter {
     }
 
     private static normalizeOperator(
-        operator: string | string[] | undefined
+        operators: string | string[] | undefined
     ): string[] {
-        if (Array.isArray(operator)) {
-            return operator;
+        if (Array.isArray(operators)) {
+            return operators;
         }
-        return operator ? [operator] : [];
+        return operators ? [operators] : [];
     }
 
     toDto(): Record<string, string | string[]> {
@@ -46,8 +46,8 @@ export class AllFilter {
         if (this.reportType) params['report_type'] = this.reportType;
         if (this.source) params['source'] = this.source;
         if (this.state) params['state'] = this.state;
-        if (this.operator && this.operator.length > 0)
-            params['operator'] = this.operator;
+        if (this.operators && this.operators.length > 0)
+            params['operators'] = this.operators;
 
         return params;
     }

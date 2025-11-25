@@ -2,11 +2,12 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
+    Input,
     OnDestroy,
     OnInit,
     inject,
 } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NewspapersFacade } from '@presentation/pages/reports-processing/application/newspapers.facade';
 import { NewspapersFilterPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/management/newspapers/newspapers-filter-payload.entity';
 import { NewspapersEntity } from '@presentation/pages/reports-processing/domain/entities/management/newspapers/newspapers.entity';
@@ -14,7 +15,10 @@ import { NewspapersFilter } from '@presentation/pages/reports-processing/domain/
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Paginate } from '@shared/interfaces/paginate';
+import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject } from 'rxjs';
+import { ModalActivityComponent } from './modal-activity/modal-activity.component';
 import { TableNewspapersComponent } from './table-newspapers/table-newspapers.component';
 
 @Component({
@@ -28,25 +32,35 @@ import { TableNewspapersComponent } from './table-newspapers/table-newspapers.co
         PaginationComponent,
         TranslateModule,
         AsyncPipe,
+        ModalActivityComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewspapersComponent implements OnInit, OnDestroy {
     private readonly newspapersFacade = inject(NewspapersFacade);
+    private readonly translate = inject(TranslateService);
+    private readonly toastService = inject(ToastrService);
+    private readonly tableExportExcelFileService = inject(
+        TableExportExcelFileService
+    );
+    private readonly destroy$ = new Subject<void>();
+
+    @Input() reportUniqId!: string;
+    public visibleActivity: boolean = false;
+
     public pagination$!: Observable<Paginate<NewspapersEntity>>;
     public newspapers$!: Observable<NewspapersEntity[]>;
     public loading$!: Observable<boolean>;
-    private readonly destroy$ = new Subject<void>();
 
     ngOnInit(): void {
         this.setupObservables();
-        this.loadDataIntelligently();
+        this.loadNewspapersData();
     }
 
-    private loadDataIntelligently(): void {
-        const defaultFilter = NewspapersFilter.create(
-            {} as NewspapersFilterPayloadEntity
-        );
+    private loadNewspapersData(): void {
+        const defaultFilter = NewspapersFilter.create({
+            reportUniqId: this.reportUniqId,
+        } as NewspapersFilterPayloadEntity);
         this.newspapersFacade.fetchNewspapers(defaultFilter, '1', false);
     }
 
@@ -57,7 +71,10 @@ export class NewspapersComponent implements OnInit, OnDestroy {
     }
 
     public filter(filterData: NewspapersFilterPayloadEntity): void {
-        const filter = NewspapersFilter.create(filterData);
+        const filter = NewspapersFilter.create({
+            ...filterData,
+            reportUniqId: this.reportUniqId,
+        });
         this.newspapersFacade.fetchNewspapers(filter, '1', true);
     }
 
@@ -67,6 +84,14 @@ export class NewspapersComponent implements OnInit, OnDestroy {
 
     public refreshNewspapers(): void {
         this.newspapersFacade.refresh();
+    }
+
+    public onAllAction(): void {
+        this.visibleActivity = true;
+    }
+
+    public onReportActivityClosed(): void {
+        this.visibleActivity = false;
     }
 
     ngOnDestroy(): void {

@@ -1,8 +1,7 @@
 import { FormControl } from '@angular/forms';
 
 export interface NewspapersFilterFormControlEntity {
-    uniq_id: FormControl<string>;
-    initiator_phone_number: FormControl<string>;
+    reportUniqId: FormControl<string>;
     created_from: FormControl<string>;
     created_to: FormControl<string>;
     report_type: FormControl<string>;

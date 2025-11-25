@@ -32,6 +32,7 @@ export class NewspapersFacade extends BaseFacade<
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh: boolean = false
     ): void {
+        console.log('NewspapersFacade', filter);
         if (!this.shouldFetch(forceRefresh)) {
             return;
         }

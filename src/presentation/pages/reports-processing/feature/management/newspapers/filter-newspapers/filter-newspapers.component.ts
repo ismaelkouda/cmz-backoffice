@@ -68,10 +68,7 @@ export class FilterNewspapersComponent implements OnInit, OnDestroy {
     public initFormFilter(): void {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<NewspapersFilterFormControlEntity>({
-                initiator_phone_number: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-                uniq_id: new FormControl<string>('', {
+                reportUniqId: new FormControl<string>('', {
                     nonNullable: true,
                 }),
                 created_from: new FormControl<string>('', {
@@ -123,9 +120,7 @@ export class FilterNewspapersComponent implements OnInit, OnDestroy {
 
                 this.formFilter.patchValue(
                     {
-                        initiator_phone_number:
-                            (dto['initiator_phone_number'] as string) ?? '',
-                        uniq_id: (dto['uniq_id'] as string) ?? '',
+                        reportUniqId: (dto['reportUniqId'] as string) ?? '',
                         created_from: (dto['created_from'] as string) ?? '',
                         source: (dto['created_from'] as string) ?? '',
                         created_to: (dto['created_to'] as string) ?? '',
@@ -176,10 +171,7 @@ export class FilterNewspapersComponent implements OnInit, OnDestroy {
         }
 
         const filterData: NewspapersFilterPayloadEntity = {
-            initiator_phone_number:
-                this.formFilter.get('initiator_phone_number')?.value?.trim() ??
-                '',
-            uniq_id: this.formFilter.get('uniq_id')?.value?.trim() ?? '',
+            reportUniqId: this.formFilter.get('uniq_id')?.value ?? '',
             created_from: createdFrom.isValid()
                 ? createdFrom.format('YYYY-MM-DD')
                 : '',

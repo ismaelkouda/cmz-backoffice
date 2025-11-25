@@ -1,10 +1,4 @@
-/**
- * Interface pour les paramètres de personnalisation de l'application
- */
 export interface AppCustomizationConfig {
-    /**
-     * Configuration de l'application
-     */
     app: {
         name: string;
         title: string;
@@ -14,9 +8,6 @@ export interface AppCustomizationConfig {
         lang: string;
     };
 
-    /**
-     * Configuration des couleurs
-     */
     colors: {
         primary: string;
         secondary: string;
@@ -28,18 +19,12 @@ export interface AppCustomizationConfig {
         loadingBar: string;
     };
 
-    /**
-     * Configuration des langues
-     */
     languages: {
         supported: readonly string[];
         default: string;
         storageKey: string;
     };
 
-    /**
-     * Configuration du layout
-     */
     layout: {
         type: 'ltr' | 'rtl';
         version: string;
@@ -47,27 +32,18 @@ export interface AppCustomizationConfig {
         icon: string;
     };
 
-    /**
-     * Configuration des assets
-     */
     assets: {
         favicon: string;
         logoFull: string;
         logoIcon: string;
     };
 
-    /**
-     * Configuration de la loading bar
-     */
     loadingBar: {
         color: string;
         height: string;
         includeSpinner: boolean;
     };
 
-    /**
-     * Configuration des messages d'erreur
-     */
     error: {
         displayStyles: {
             position: string;
@@ -86,9 +62,6 @@ export interface AppCustomizationConfig {
         ariaLive: string;
     };
 
-    /**
-     * Configuration des performances
-     */
     performance: {
         bootstrapStartMark: string;
         bootstrapEndMark: string;

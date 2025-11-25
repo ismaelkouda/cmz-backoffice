@@ -1,0 +1,26 @@
+<p-dialog
+    [(visible)]="visible"
+    (onHide)="onHide()"
+    [modal]="true"
+    [closable]="true"
+    [style]="{ width: '50vw' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [header]="'SETTINGS_SECURITY.PROFILE_HABILITATION.MODAL.REASSIGN_TITLE' | translate"
+>
+    <ng-template pTemplate="content">
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="('CANCEL' | translate)"
+            (onClick)="onHide()"
+            styleClass="p-button-secondary"
+        ></p-button>
+        <p-button
+            [label]="('SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.REASSIGN' | translate)"
+            (onClick)="onSubmit()"
+            styleClass="p-button-primary"
+        ></p-button>
+    </ng-template>
+</p-dialog>
+

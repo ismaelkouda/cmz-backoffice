@@ -55,6 +55,9 @@ import { provideTasks as processingTasks } from './pages/reports-processing/di/t
 
 import { provideTreatment } from './pages/reports-processing/di/treatment.providers';
 
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
 import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
@@ -140,6 +143,12 @@ export const appConfig: ApplicationConfig = {
             withFetch(),
             withJsonpSupport(),
             withInterceptors([...coreInterceptors, ...environmentInterceptors])
+        ),
+
+        importProvidersFrom(
+            LoadingBarModule,
+            LoadingBarHttpClientModule,
+            LoadingBarRouterModule
         ),
 
         provideTranslateService({

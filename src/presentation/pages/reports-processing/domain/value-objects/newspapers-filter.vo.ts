@@ -2,11 +2,10 @@ import { NewspapersFilterPayloadEntity } from '../entities/management/newspapers
 
 export class NewspapersFilter {
     private constructor(
-        private readonly initiatorPhoneNumber?: string,
+        private readonly report_uniq_id: string,
         private readonly source?: string,
         private readonly createdFrom?: string,
         private readonly createdTo?: string,
-        private readonly uniqId?: string,
         private readonly reportType?: string,
         private readonly operator?: string[]
     ) {}
@@ -15,11 +14,10 @@ export class NewspapersFilter {
         const operatorArray = this.normalizeOperator(data.operator);
 
         return new NewspapersFilter(
-            data.initiator_phone_number,
+            data.reportUniqId,
             data.source,
             data.created_from,
             data.created_to,
-            data.uniq_id,
             data.report_type,
             operatorArray
         );
@@ -34,12 +32,11 @@ export class NewspapersFilter {
         return operator ? [operator] : [];
     }
 
-    toDto(): Record<string, string | string[]> {
-        const params: Record<string, string | string[]> = {};
+    toDto(): any {
+        const params: any = {};
 
-        if (this.initiatorPhoneNumber)
-            params['initiator_phone_number'] = this.initiatorPhoneNumber;
-        if (this.uniqId) params['uniq_id'] = this.uniqId;
+        if (this.report_uniq_id)
+            params['report_uniq_id'] = this.report_uniq_id || '';
         if (this.createdFrom) params['created_from'] = this.createdFrom;
         if (this.createdTo) params['created_to'] = this.createdTo;
         if (this.reportType) params['report_type'] = this.reportType;
