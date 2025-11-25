@@ -29,6 +29,10 @@ export class ManagementApi {
                 url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.TAKE_PROCESSING.replace('{id}', payload.uniq_id)}`;
                 break;
 
+            case 'reports-finalization':
+                url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.TAKE_FINALIZATION.replace('{id}', payload.uniq_id)}`;
+                break;
+
             default:
                 throw new Error('Endpoint non defini');
                 break;
@@ -60,6 +64,10 @@ export class ManagementApi {
 
             case 'reports-processing':
                 url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.APPROVE_PROCESSING.replace('{id}', payload.uniq_id)}`;
+                break;
+
+            case 'reports-finalization':
+                url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.FINALIZE.replace('{id}', payload.uniq_id)}`;
                 break;
 
             default:

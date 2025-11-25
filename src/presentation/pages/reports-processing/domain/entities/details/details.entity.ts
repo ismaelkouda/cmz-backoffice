@@ -127,15 +127,20 @@ export class DetailsEntity implements Details {
     ) {}
 
     public get managementTitle(): string {
+        console.log('ReportStatus', this.status);
         switch (this.status) {
             case ReportStatus.PENDING:
                 return 'MANAGEMENT.STATUS.TAKE';
             case ReportStatus['IN-PROGRESS']:
                 return 'MANAGEMENT.STATUS.APPROBATION';
             case ReportStatus.PROCESSING:
+                console.log('ReportStatus1111', this.status);
+                console.log('ReportState', this.state);
                 if (this.state === ReportState.PENDING) {
+                    console.log('ReportStatus2222', this.status);
                     return 'MANAGEMENT.STATUS.TAKE';
                 } else if (this.state === ReportState.IN_PROGRESS) {
+                    console.log('ReportStatus3333', this.status);
                     return 'MANAGEMENT.STATUS.TREATMENT';
                 }
                 return 'MANAGEMENT.STATUS.INFORMATION';

@@ -29,6 +29,7 @@ import { ButtonModule } from 'primeng/button';
         <div class="table-button-header">
             <p-button
                 *ngIf="!hiddenButtonOther"
+                severity="contrast"
                 [class.p-disabled]="disabledButtonOther"
                 [label]="
                     showLabels

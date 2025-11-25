@@ -52,7 +52,7 @@ export class RouteContextService {
             },
             {
                 pattern: '/reports-finalization',
-                value: 'reports-processing' as EndPointType,
+                value: 'reports-finalization' as EndPointType,
             },
         ];
 

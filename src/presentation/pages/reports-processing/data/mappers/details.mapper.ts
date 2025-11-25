@@ -216,11 +216,12 @@ export class DetailsMapper extends SimpleResponseMapper<
     }
 
     private mapReportState(state: string): ReportState {
+        console.log('state', state);
         const stateMap: Record<string, ReportState> = {
             pending: ReportState.PENDING,
             approved: ReportState.APPROVED,
             rejected: ReportState.REJECTED,
-            received: ReportState.IN_PROGRESS,
+            ['in-progress']: ReportState.IN_PROGRESS,
         };
         return stateMap[state] || ReportState.PENDING;
     }

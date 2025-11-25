@@ -1151,7 +1151,7 @@
             }
             },
             "NEWSPAPERS": {
-                "TITLE": "liste des activités",
+                "TITLE": "traitements",
                 "LABEL": "Journal",
             "BUTTONS": {
                 "ADD": "Ajouter"

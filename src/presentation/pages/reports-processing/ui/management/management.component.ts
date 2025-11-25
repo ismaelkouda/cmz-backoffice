@@ -2,13 +2,11 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    ElementRef,
     EventEmitter,
     Input,
     OnDestroy,
     OnInit,
     Output,
-    ViewChild,
     inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -121,8 +119,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
     @Input() reportId!: string;
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() closed = new EventEmitter<void>();
-    @ViewChild('mapRef') mapRef!: ElementRef<HTMLElement>;
-
     public formTreatment!: FormGroup<ManagementFormControlEntity>;
     public isSubmitting$!: Observable<boolean>;
     public details$!: Observable<DetailsEntity>;
@@ -508,7 +504,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
             return;
         }
         const management = details.managementPrams;
-
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.translate.instant(this.getSweetAlertTitle(management)),

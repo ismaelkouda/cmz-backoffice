@@ -49,8 +49,9 @@ export interface ProfileOption {
 })
 export class ModalActivityComponent implements OnInit, OnDestroy {
     @Input() visible: boolean = false;
-    @Output() closed = new EventEmitter<void>();
     @Input() reportUniqId!: string;
+    @Output() visibleChange = new EventEmitter<boolean>();
+    @Output() closed = new EventEmitter<void>();
     private readonly fb = inject(FormBuilder);
 
     public formActivity!: FormGroup<ActivityFormInterface>;

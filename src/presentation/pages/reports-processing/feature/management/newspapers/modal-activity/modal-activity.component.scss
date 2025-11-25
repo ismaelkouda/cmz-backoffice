@@ -1,34 +1,51 @@
-.form-group {
+:host {
+  display: block;
+}
+
+.activity-form {
+  .field {
     margin-bottom: 1.5rem;
 
     label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
+      font-weight: 600;
+      color: var(--text-color);
     }
 
-    p-select {
+    .character-count {
+      font-size: 0.875rem;
+      
+      &.text-red-500 {
+        color: var(--red-500);
+      }
+    }
+  }
+
+  // Validation states
+  .ng-invalid.ng-dirty {
+    border-color: var(--red-500) !important;
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem var(--red-200) !important;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 575px) {
+  ::ng-deep .p-dialog {
+    margin: 1rem;
+    
+    .p-dialog-content {
+      padding: 1rem;
+    }
+
+    .p-dialog-footer {
+      flex-direction: column-reverse;
+      gap: 0.5rem;
+
+      .p-button {
         width: 100%;
+      }
     }
-
-    .p-error {
-        display: block;
-        margin-top: 0.25rem;
-        font-size: 0.875rem;
-        color: #dc3545;
-    }
+  }
 }
-
-.alert {
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-
-    &.alert-info {
-        color: #0c5460;
-        background-color: #d1ecf1;
-        border-color: #bee5eb;
-    }
-}
-
