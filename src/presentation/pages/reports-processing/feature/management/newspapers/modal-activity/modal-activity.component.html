@@ -1,26 +1,126 @@
 <p-dialog
-    [(visible)]="visible"
+    [visible]="visible()"
+    (visibleChange)="onModalVisibilityChange($event)"
     (onHide)="onHide()"
     [modal]="true"
     [closable]="true"
-    [style]="{ width: '50vw' }"
+    [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-    [header]="'MANAGEMENT.NEWSPAPERS.BUTTONS.ADD' | translate"
+    [header]="modalTitle()"
+    class="activity-modal"
 >
-    <ng-template pTemplate="content">
-    </ng-template>
+<ng-template pTemplate="content">
+    <form [formGroup]="activityForm" class="flex flex-col">
+        
+        <!-- Ligne Date + Type -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Date Field -->
+            <div class="flex flex-col gap-2">
+                <label for="activity-date" class="text-sm font-semibold text-gray-700">
+                    {{ 'MANAGEMENT.ACTIVITY.FIELDS.DATE' | translate }} <span class="text-sm text-red-600">*</span>
+                </label>
+                
+                <div class="relative cursor-pointer" (click)="openDatePicker()">
+                    <p-datepicker
+                        #datePicker
+                        formControlName="date"
+                        dateFormat="dd/mm/yy"
+                        [showIcon]="false" 
+                        [showOnFocus]="false"
+                        [showButtonBar]="true"
+                        [readonlyInput]="true"
+                        placeholder="jj/mm/aaaa"
+                        inputId="activity-date"
+                        appendTo="body"
+                        styleClass="w-full cursor-pointer" 
+                        [class]="isFieldInvalid('date') ? 
+                            'border-red-500 focus:ring-red-500' : 
+                            'border-gray-300 focus:ring-blue-500'"
+                    />
+                    <!-- Icône personnalisée positionnée absolument -->
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
+                        <i class="pi pi-calendar"></i>
+                    </div>
+                </div>
+                
+                @if (isFieldInvalid('date')) {
+                    <span class="text-sm text-red-600">
+                        {{ getFieldError('date') }}
+                    </span>
+                }
+            </div>
+
+            <!-- Type Field -->
+            <div class="flex flex-col gap-2">
+                <label for="activity-type" class="text-sm font-semibold text-gray-700">
+                    {{ 'MANAGEMENT.ACTIVITY.FIELDS.TYPE' | translate }} <span class="text-sm text-red-600">*</span>
+                </label>
+                <p-select
+                    id="activity-type"
+                    formControlName="type"
+                    [options]="activityTypes()"
+                    optionValue="value"
+                    optionLabel="label"
+                    [placeholder]="'MANAGEMENT.ACTIVITY.PLACEHOLDERS.TYPE' | translate"
+                    [class]="isFieldInvalid('type') ? 
+                        '[&_.p-dropdown]:border-red-500 [&_.p-dropdown]:focus:ring-red-500' : 
+                        '[&_.p-dropdown]:border-gray-300 [&_.p-dropdown]:focus:ring-blue-500'"
+                />
+                @if (isFieldInvalid('type')) {
+                    <span class="text-sm text-red-600">
+                        {{ getFieldError('type') }}
+                    </span>
+                }
+            </div>
+
+        </div>
+
+        <!-- Description Field - Pleine largeur en dessous -->
+        <div class="flex flex-col gap-2">
+            <label for="activity-description" class="text-sm font-semibold text-gray-700">
+                {{ 'MANAGEMENT.ACTIVITY.FIELDS.DESCRIPTION' | translate }} <span class="text-sm text-red-600">*</span>
+            </label>
+            <textarea
+                id="activity-description"
+                pInputTextarea
+                formControlName="description"
+                [rows]="3"
+                [placeholder]="'MANAGEMENT.ACTIVITY.PLACEHOLDERS.DESCRIPTION' | translate"
+                class="w-full resize-none border rounded-md px-3 py-2"
+                [class]="isFieldInvalid('description') ? 
+                    'border-red-500 focus:ring-red-500 focus:border-red-500' : 
+                    'border-gray-300 focus:ring-blue-500 focus:border-blue-500'"
+            ></textarea>
+            
+            <!-- Compteur de caractères -->
+            <div class="flex justify-between items-center mt-1">
+                @if (isFieldInvalid('description')) {
+                    <span class="text-sm text-red-600">
+                        {{ getFieldError('description') }}
+                    </span>
+                }
+            </div>
+        </div>
+
+    </form>
+</ng-template>
 
     <ng-template pTemplate="footer">
-        <p-button
-            [label]="('CANCEL' | translate)"
-            (onClick)="onHide()"
-            styleClass="p-button-secondary"
-        ></p-button>
-        <p-button
-            [label]="('MANAGEMENT.NEWSPAPERS.BUTTONS.ADD' | translate)"
-            (onClick)="onSubmit()"
-            styleClass="p-button-primary"
-        ></p-button>
+        <div class="flex items-center justify-between w-full gap-3">
+            <div class="flex items-center gap-2">
+                <p-button
+                    [label]="'CANCEL' | translate"
+                    (onClick)="onHide()"
+                    severity="secondary"
+                />
+                <p-button
+                    [label]="submitButtonLabel()"
+                    (onClick)="onSubmit()"
+                    severity="primary"
+                    [disabled]="!activityForm.valid"
+                />
+            </div>
+        </div>
     </ng-template>
 </p-dialog>
-

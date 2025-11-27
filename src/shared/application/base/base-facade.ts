@@ -119,7 +119,7 @@ export abstract class BaseFacade<
         }
     }
 
-    protected getErrorMessage(error: unknown): string {
+    protected getErrorMessage(error: any): string {
         if (error instanceof ApiError) {
             const translatedMessage = this.translateService.instant(error.code);
             if (translatedMessage === error.code) {
@@ -138,9 +138,7 @@ export abstract class BaseFacade<
             return translatedMessage;
         }
 
-        return this.translateService.instant(
-            'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNKNOWN_ERROR'
-        );
+        return this.translateService.instant(error['message']);
     }
 
     private hasFilterChanged(prevFilter: TFilter, newFilter: TFilter): boolean {

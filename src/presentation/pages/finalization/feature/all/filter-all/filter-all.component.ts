@@ -4,6 +4,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
+    inject,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -18,10 +19,12 @@ import { AllFilterFormControlEntity } from '@presentation/pages/finalization/dom
 import { AllFilterPayloadEntity } from '@presentation/pages/finalization/domain/entities/all/all-filter-payload.entity';
 import { OPERATOR_CONST } from '@shared/domain/constants/operator';
 import { REPORT_CONST } from '@shared/domain/constants/report';
+import { SOURCE_CONST } from '@shared/domain/constants/source';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
+import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
@@ -39,32 +42,46 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
         DatePickerModule,
         ButtonModule,
         RippleModule,
+        InputTextModule,
         MultiSelectModule,
     ],
 })
 export class FilterAllComponent implements OnInit, OnDestroy {
+    private readonly toastService = inject(ToastrService);
+    private readonly fb = inject(FormBuilder);
+    private readonly translate = inject(TranslateService);
+    private readonly allFacade = inject(AllFacade);
     @Output() filter = new EventEmitter<AllFilterPayloadEntity>();
 
     public formFilter!: FormGroup<AllFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();
+    public secondFilter: boolean = false;
     readonly reportOptions = REPORT_CONST;
-    readonly operatorOptions = OPERATOR_CONST;
+    public operatorOptions: any[] = [];
     readonly stateOptions = STATUS_CONST;
-
-    constructor(
-        private readonly toastService: ToastrService,
-        private readonly fb: FormBuilder,
-        private readonly translate: TranslateService,
-        private readonly allFacade: AllFacade
-    ) {}
+    readonly sourceOptions = SOURCE_CONST;
 
     ngOnInit(): void {
         this.initFormFilter();
+        this.loadTranslatedOptions();
+    }
+
+    private loadTranslatedOptions(): void {
+        this.operatorOptions = OPERATOR_CONST.map((operator) => ({
+            ...operator,
+            label: this.translate.instant(operator.label),
+        }));
     }
 
     private initFormFilter(): void {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<AllFilterFormControlEntity>({
+                initiator_phone_number: new FormControl<string>('', {
+                    nonNullable: true,
+                }),
+                uniq_id: new FormControl<string>('', {
+                    nonNullable: true,
+                }),
                 created_from: new FormControl<string>('', {
                     nonNullable: true,
                 }),
@@ -74,10 +91,13 @@ export class FilterAllComponent implements OnInit, OnDestroy {
                 report_type: new FormControl<string>('', {
                     nonNullable: true,
                 }),
-                state: new FormControl<string>('', {
+                operators: new FormControl<string[]>([], {
                     nonNullable: true,
                 }),
-                operator: new FormControl<string>('', {
+                source: new FormControl<string>('', {
+                    nonNullable: true,
+                }),
+                state: new FormControl<string>('', {
                     nonNullable: true,
                 }),
             });
@@ -109,28 +129,42 @@ export class FilterAllComponent implements OnInit, OnDestroy {
 
                 const dto =
                     typeof filterValue?.toDto === 'function'
-                        ? (filterValue.toDto() as Record<string, string>)
+                        ? filterValue.toDto()
                         : {};
 
                 this.formFilter.patchValue(
                     {
-                        created_from: dto['created_from'] ?? '',
-                        created_to: dto['created_to'] ?? '',
-                        report_type: dto['report_type'] ?? '',
-                        state: dto['state'] ?? '',
-                        operator: dto['operator'] ?? '',
+                        initiator_phone_number:
+                            (dto['initiator_phone_number'] as string) ?? '',
+                        uniq_id: (dto['uniq_id'] as string) ?? '',
+                        created_from: (dto['created_from'] as string) ?? '',
+                        source: (dto['source'] as string) ?? '',
+                        created_to: (dto['created_to'] as string) ?? '',
+                        report_type: (dto['report_type'] as string) ?? '',
+                        operators: (dto['operators'] as string[]) ?? [],
+                        state: (dto['state'] as string) ?? '',
                     },
                     { emitEvent: false }
                 );
             });
     }
 
+    public showSecondFilter(): void {
+        this.secondFilter = !this.secondFilter;
+    }
+
     public resetSelect<K extends keyof AllFilterFormControlEntity>(
         controlName: K
     ): void {
         const control = this.formFilter?.controls[controlName];
-        if (control) {
-            control.setValue('', { emitEvent: false });
+        if (!control) return;
+
+        if (controlName === 'operators') {
+            (control as FormControl<string[]>).setValue([], {
+                emitEvent: false,
+            });
+        } else {
+            (control as FormControl<string>).setValue('', { emitEvent: false });
         }
     }
 
@@ -154,16 +188,21 @@ export class FilterAllComponent implements OnInit, OnDestroy {
         }
 
         const filterData: AllFilterPayloadEntity = {
+            initiator_phone_number:
+                this.formFilter.get('initiator_phone_number')?.value?.trim() ??
+                '',
+            uniq_id: this.formFilter.get('uniq_id')?.value?.trim() ?? '',
             created_from: createdFrom.isValid()
                 ? createdFrom.format('YYYY-MM-DD')
                 : '',
             created_to: createdTo.isValid()
                 ? createdTo.format('YYYY-MM-DD')
                 : '',
+            source: this.formFilter.get('source')?.value?.trim() ?? '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
+            operators: this.formFilter.get('operators')?.value ?? [],
             state: this.formFilter.get('state')?.value?.trim() ?? '',
-            operator: this.formFilter.get('operator')?.value?.trim() ?? '',
         };
 
         if (this.formFilter.valid) {

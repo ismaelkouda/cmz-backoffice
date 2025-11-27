@@ -122,7 +122,7 @@ export class FilterNewspapersComponent implements OnInit, OnDestroy {
                     {
                         reportUniqId: (dto['reportUniqId'] as string) ?? '',
                         created_from: (dto['created_from'] as string) ?? '',
-                        source: (dto['created_from'] as string) ?? '',
+                        source: (dto['source'] as string) ?? '',
                         created_to: (dto['created_to'] as string) ?? '',
                         report_type: (dto['report_type'] as string) ?? '',
                         operator: (dto['operator'] as string[]) ?? [],

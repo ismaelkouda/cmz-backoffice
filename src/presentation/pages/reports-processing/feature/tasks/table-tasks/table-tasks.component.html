@@ -167,22 +167,24 @@
                                 pButton
                                 icon="pi pi-window-maximize"
                                 (click)="onActionClicked(task)"
-                                [pTooltip]="getSeeMoreTooltip(task)"
+                                [pTooltip]="getTreatTooltip(task)"
+                                tooltipPosition="bottom"
                                 [disabled]="isLoading()"
                                 size="small"
                                 class="action-btn"
                             ></button>
-                            <button
+                            <!-- <button
                                 type="button"
                                 pButton
                                 severity="info"
                                 icon="pi pi-check-circle"
                                 (click)="onTakeClicked(task)"
                                 [pTooltip]="getTakeTooltip(task)"
+                                tooltipPosition="bottom"
                                 [disabled]="isLoading()"
                                 size="small"
                                 class="action-btn p" 
-                            ></button>
+                            ></button> -->
                         </div>
                     }
                     
@@ -199,7 +201,7 @@
         @if (!isLoading()) {
             <tr role="row" class="loading-table">
                 <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
-                    <div class="empty-state">
+                    <div class="empty-state text-center">
                         {{ 'NO_DATA_FOUND' | translate }}
                     </div>
                 </td>

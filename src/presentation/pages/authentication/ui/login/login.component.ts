@@ -19,7 +19,7 @@ import { LoginFormInterface } from '@pages/authentication/data/interfaces/login-
 import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
 import { FORGOT_PASSWORD } from '@pages/password-reset/password-reset.routes';
 import { REINITIALIZATION } from '@presentation/app.routes';
-import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
+import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
 import {
     AuthToken,
     CurrentUser,
@@ -51,7 +51,7 @@ export class LoginComponent implements OnDestroy {
     private readonly router = inject(Router);
     public readonly REINITIALIZATION = REINITIALIZATION;
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
-    public readonly LOGO_ANSUT = LOGO_ANSUT;
+    public readonly AUTH_LOGO = AUTH_LOGO;
 
     public loginForm = new FormGroup<LoginFormInterface>({
         email: new FormControl('', {

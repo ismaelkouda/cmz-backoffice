@@ -30,6 +30,13 @@
     font: inherit;
 }
 
+.action-buttons-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
 .action-button {
     border-radius: 999px;
     border: 1px solid rgba(var(--theme-default-rgb), 0.35);
@@ -44,6 +51,20 @@
         border-color: var(--theme-default);
         box-shadow: 0 0 0 0.15rem rgba(var(--theme-default-rgb), 0.2);
     }
+
+    &.journal-button {
+        border-color: rgba(156, 163, 175, 0.35);
+        color: #6b7280;
+        background-color: rgba(156, 163, 175, 0.08);
+
+        &:hover,
+        &:focus-visible {
+            color: #ffffff;
+            background-color: #6b7280;
+            border-color: #6b7280;
+            box-shadow: 0 0 0 0.15rem rgba(107, 114, 128, 0.2);
+        }
+    }
 }
 
 :host ::ng-deep .p-datatable-scrollable .p-datatable-thead > tr > th {
@@ -55,7 +76,6 @@
     border-bottom: 1px solid #dee2e6;
 }
 
-// Styles custom pour les boutons d'action du tableau
 .table-action-btn {
     padding: 2px 6px !important;
     font-size: 13px !important;
@@ -83,7 +103,6 @@
     margin-right: 0 !important;
 }
 
-// Réduit l'espacement entre les boutons d'action
 .custom-table td .d-flex {
     gap: 4px !important;
 }
@@ -119,11 +138,6 @@
     }
 }
 
-/* Dropdown actions in table */
-
-.report-type-content {
-    display: block;
-}
 .dropdown {
     display: inline-block;
 }
@@ -150,7 +164,6 @@
     margin: 4px 0;
 }
 
-// S'assurer que l'overlay panel s'affiche au-dessus de tout
 ::ng-deep .p-overlaypanel {
     z-index: 9999 !important;
 }
@@ -178,7 +191,6 @@
     background-color: #e9ecef;
 }
 
-// Styles pour la troncature des textes avec tooltip
 .truncated-text {
     display: inline-block;
     max-width: 100%;
@@ -188,15 +200,13 @@
     cursor: help;
 }
 
-// Forcer la troncature dans les cellules du tableau
 ::ng-deep .p-datatable-tbody > tr > td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 0; // Force la cellule à respecter la largeur définie
+    max-width: 0;
 }
 
-// Exception pour les cellules avec tooltip
 ::ng-deep .p-datatable-tbody > tr > td .truncated-text {
     display: block;
     width: 100%;
@@ -205,7 +215,6 @@
     white-space: nowrap;
 }
 
-// Styles pour les tooltips PrimeNG
 ::ng-deep .p-tooltip {
     max-width: 300px;
     word-wrap: break-word;
@@ -220,4 +229,33 @@
     padding: 8px 12px;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+    
+    &:hover {
+        background-color: #f8f9fa;
+    }
+}
+
+.selected {
+    background-color: #e3f2fd !important;
+}
+
+.selection-header {
+    .p-inputnumber {
+        width: 100%;
+        
+        .p-inputnumber-input {
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
+
+.action-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
 }

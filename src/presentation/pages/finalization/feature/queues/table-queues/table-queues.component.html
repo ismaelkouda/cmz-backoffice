@@ -1,4 +1,3 @@
-<!-- table-queues.component.html -->
 <p-table
     #dt
     [value]="queues()"
@@ -52,17 +51,17 @@
                     @case ('__selection') {
                         <div class="selection-header">
                             <p-inputNumber
-                    [showButtons]="false"
-                    [placeholder]="'Select count...'"
-                    [min]="0"
-                    [max]="queues().length"
-                    inputMode="numeric"
-                    [ngModel]="selectionInputValue()"
-                    (ngModelChange)="handleSelectCount($event)"
-                    (keydown.enter)="$event.target.blur()"
-                    (keydown.escape)="clearSelection()"
-                    [disabled]="!hasData() || isLoading()"
-                />
+                                [showButtons]="false"
+                                [placeholder]="'Select count...'"
+                                [min]="0"
+                                [max]="queues().length"
+                                inputMode="numeric"
+                                [ngModel]="selectionInputValue()"
+                                (ngModelChange)="handleSelectCount($event)"
+                                (keydown.enter)="$event.target.blur()"
+                                (keydown.escape)="clearSelection()"
+                                [disabled]="!hasData() || isLoading()"
+                            />
                         </div>
                     }
                     @default {
@@ -73,7 +72,6 @@
             }
         </tr>
     </ng-template>
-    
     <ng-template pTemplate="body" let-queue let-rowIndex="rowIndex">
         <tr 
             role="row"
@@ -109,8 +107,9 @@
                         <button
                             type="button"
                             (click)="copyToClipboard(queue.uniqId)"
-                            class="copy-button"
+                            class="copyable"
                             pTooltip="{{ 'COPY' | translate }}"
+                            tooltipPosition="bottom"
                         >
                             <span class="id-text">{{ queue.uniqId }}</span>
                             <i class="pi pi-copy" aria-hidden="true"></i>
@@ -118,7 +117,13 @@
                     }
 
                     @case ('reportType') {
-                        {{ getReportTypeLabel(queue.reportType) }}
+                        <div 
+                            [pTooltip]="queue.reportDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300">
+                            {{ queue.reportType }}
+                        </div>
                     }
 
                     @case ('operators') {
@@ -135,46 +140,51 @@
                             <span class="no-data">-</span>
                         </ng-template>
                     }
-                    
-                    @case ('state') {
-                        @if (queue.state) {
-                            <p-tag
-                                [value]="getStateLabel(queue.state)"
-                                [severity]="getStateSeverity(queue.state)"
-                            />
-                        } @else {
-                            <span class="no-data">-</span>
-                        }
-                    }
 
                     @case ('createdAt') {
                         <time [attr.datetime]="queue.createdAt">
                             {{ formatDate(queue.createdAt) }}
                         </time>
                     }
+
+                    @case ('source') {
+                        <div
+                            [pTooltip]="queue.sourceDescription | translate"
+                            tooltipPosition="bottom"
+                            showDelay="500"
+                            hideDelay="300"
+                            [tooltipStyleClass]="'custom-tooltip'"
+                            class="source-type-content"
+                        >
+                            {{ queue.source }}
+                        </div>
+                    }
                     
                     @case ('__action') {
-                        <div (click)="$event.stopPropagation()" class="action-group">
+                        <div (onKeyPress)="$event.stopPropagation()" class="action-group">
                             <button
                                 type="button"
                                 pButton
                                 icon="pi pi-window-maximize"
                                 (click)="onActionClicked(queue)"
                                 [pTooltip]="getTakeTooltip(queue)"
+                                tooltipPosition="bottom"
                                 [disabled]="isLoading()"
                                 size="small"
                                 class="action-btn"
                             ></button>
-                            <button
+                            <!-- <button
                                 type="button"
                                 pButton
-                                icon="pi pi-book"
-                                (click)="onJournalClicked(queue)"
-                                [pTooltip]="getJournalTooltip(queue)"
+                                severity="info"
+                                icon="pi pi-check-circle"
+                                (click)="onTakeClicked(queue)"
+                                [pTooltip]="getTakeTooltip(queue)"
+                                tooltipPosition="bottom"
                                 [disabled]="isLoading()"
                                 size="small"
-                                class="action-btn"
-                            ></button>
+                                class="action-btn p" 
+                            ></button> -->
                         </div>
                     }
                     
@@ -189,24 +199,26 @@
 
     <ng-template pTemplate="emptymessage">
         @if (!isLoading()) {
-            <tr role="row">
+            <tr role="row" class="loading-table">
                 <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
-                    <div class="empty-state">
+                    <div class="empty-state text-center">
                         {{ 'NO_DATA_FOUND' | translate }}
                     </div>
                 </td>
             </tr>
         }
         @if (isLoading()) {
-            <tr role="row">
-                <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
-                    <div class="loading-state">
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length">
                         <p-progressSpinner
-                            aria-label="Chargement des données"
-                            strokeWidth="4"
-                            styleClass="loading-spinner"
-                        />
-                    </div>
+                            class="posCenter"
+                            [style]="{ width: '40px', height: '50px' }"
+                            styleClass="custom-spinner"
+                            strokeWidth="8"
+                            fill="#EEEEEE"
+                            animationDuration=".5s"
+                        >
+                        </p-progressSpinner>
                 </td>
             </tr>
         }

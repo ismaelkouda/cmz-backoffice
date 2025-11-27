@@ -69,6 +69,52 @@ import { provideUser } from './pages/settings-security/di/user.providers';
 import { provideParticipant } from './pages/team-organization/di/participant.providers';
 import { provideTeam } from './pages/team-organization/di/team.providers';
 
+const frenchLocale = {
+    firstDayOfWeek: 1,
+    dayNames: [
+        'Dimanche',
+        'Lundi',
+        'Mardi',
+        'Mercredi',
+        'Jeudi',
+        'Vendredi',
+        'Samedi',
+    ],
+    dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+    dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+    monthNames: [
+        'Janvier',
+        'Février',
+        'Mars',
+        'Avril',
+        'Mai',
+        'Juin',
+        'Juillet',
+        'Août',
+        'Septembre',
+        'Octobre',
+        'Novembre',
+        'Décembre',
+    ],
+    monthNamesShort: [
+        'Jan',
+        'Fév',
+        'Mar',
+        'Avr',
+        'Mai',
+        'Jun',
+        'Jul',
+        'Aoû',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Déc',
+    ],
+    today: "Aujourd'hui",
+    clear: 'Effacer',
+    // ... include other translation keys as needed
+};
+
 function initializeApp(): () => Promise<void> {
     return () => {
         const injector = inject(EnvironmentInjector);
@@ -202,6 +248,7 @@ export const appConfig: ApplicationConfig = {
                     darkModeSelector: false,
                 },
             },
+            translation: frenchLocale,
         }),
 
         ...provideAuthentication(),

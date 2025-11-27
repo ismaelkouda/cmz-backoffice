@@ -2,30 +2,30 @@
     <div class="filter-grid mb-2">
 
         <div class="filter-grid__item">
-            <label for="initiator_phone_number"><b>{{ 'REPORTS_PROCESSING.TASKS.FILTER.INITIATOR' | translate }}</b></label>
+            <label for="initiator_phone_number"><b>{{ 'REPORTS_REQUESTS.TASKS.FILTER.INITIATOR' | translate }}</b></label>
             <input
                 id="initiator_phone_number"
                 type="text"
                 pInputText
                 formControlName="initiator_phone_number"
-                [placeholder]="'REPORTS_PROCESSING.TASKS.FILTER.INITIATOR' | translate"
+                [placeholder]="'REPORTS_REQUESTS.TASKS.FILTER.INITIATOR' | translate"
             />
         </div>
 
         <div class="filter-grid__item">
-            <label for="uniq_id"><b>{{ 'REPORTS_PROCESSING.TASKS.FILTER.UNIQ_ID' | translate }}</b></label>
+            <label for="uniq_id"><b>{{ 'REPORTS_REQUESTS.TASKS.FILTER.UNIQ_ID' | translate }}</b></label>
             <input
                 id="uniq_id"
                 type="text"
                 pInputText
                 formControlName="uniq_id"
-                [placeholder]="'REPORTS_PROCESSING.TASKS.FILTER.UNIQ_ID' | translate"
+                [placeholder]="'REPORTS_REQUESTS.TASKS.FILTER.UNIQ_ID' | translate"
             />
         </div>
 
         <div class="filter-grid__item p-long">
             <label for="report-type-select">
-                <b>{{ 'REPORTS_PROCESSING.TASKS.FILTER.REPORT_TYPE' | translate }}</b>
+                <b>{{ 'REPORTS_REQUESTS.TASKS.FILTER.REPORT_TYPE' | translate }}</b>
             </label>
             <p-select
                 id="report-type-select"
@@ -47,12 +47,12 @@
         </div>
 
         <div class="filter-grid__item">
-            <label for="operator-select">
-                <b>{{ 'REPORTS_PROCESSING.TASKS.FILTER.OPERATOR' | translate }}</b>
+            <label for="operator-multiselect">
+                <b>{{ 'REPORTS_REQUESTS.TASKS.FILTER.OPERATOR' | translate }}</b>
             </label>
             <p-multiselect
                 id="operator-multiselect"
-                formControlName="operator"
+                formControlName="operators"
                 [options]="operatorOptions"
                 [filter]="false"
                 [showToggleAll]="false"
@@ -93,7 +93,7 @@
 
             <div class="filter-grid__item">
                 <label for="source-select">
-                    <b>{{ 'REPORTS_PROCESSING.TASKS.FILTER.SOURCE' | translate }}</b>
+                    <b>{{ 'REPORTS_REQUESTS.TASKS.FILTER.SOURCE' | translate }}</b>
                 </label>
                 <p-select
                     id="source-select"
@@ -119,7 +119,7 @@
                     <b>{{ 'START_DATE' | translate }}</b>
                 </label>
                 <p-datepicker
-                    id="created-from"
+                    id="created_from"
                     formControlName="created_from"
                     [showIcon]="true"
                     [placeholder]="'JJ-MM-AAAA'"
@@ -133,7 +133,7 @@
                     <b>{{ 'END_DATE' | translate }}</b>
                 </label>
                 <p-datepicker
-                    id="created-to"
+                    id="created_to"
                     formControlName="created_to"
                     [showIcon]="true"
                     [placeholder]="'JJ-MM-AAAA'"
@@ -150,5 +150,4 @@
             </div>
         </div>
     }
-    
 </form>

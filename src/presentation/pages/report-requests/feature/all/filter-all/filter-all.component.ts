@@ -138,7 +138,7 @@ export class FilterAllComponent implements OnInit, OnDestroy {
                             (dto['initiator_phone_number'] as string) ?? '',
                         uniq_id: (dto['uniq_id'] as string) ?? '',
                         created_from: (dto['created_from'] as string) ?? '',
-                        source: (dto['created_from'] as string) ?? '',
+                        source: (dto['source'] as string) ?? '',
                         created_to: (dto['created_to'] as string) ?? '',
                         report_type: (dto['report_type'] as string) ?? '',
                         operators: (dto['operators'] as string[]) ?? [],

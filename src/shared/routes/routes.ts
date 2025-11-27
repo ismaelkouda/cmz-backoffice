@@ -60,7 +60,7 @@ export const content: Routes = [
         data: {
             module: 'REPORT_ROUTE',
             subModule: [
-                'REPORTS_PROCESSING.WAITING.LABEL',
+                'REPORTS_PROCESSING.QUEUES.LABEL',
                 'REPORTS_PROCESSING.TASKS.LABEL',
                 'REPORTS_PROCESSING.ALL.LABEL',
             ],
@@ -75,9 +75,9 @@ export const content: Routes = [
         data: {
             module: 'REPORT_ROUTE',
             subModule: [
-                'REPORTS_PROCESSING.WAITING.LABEL',
-                'REPORTS_PROCESSING.TASKS.LABEL',
-                'REPORTS_PROCESSING.ALL.LABEL',
+                'FINALIZATION.QUEUES.LABEL',
+                'FINALIZATION.TASKS.LABEL',
+                'FINALIZATION.ALL.LABEL',
             ],
         },
     },

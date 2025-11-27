@@ -66,6 +66,7 @@ export interface actorInfo {
 export interface Details {
     readonly id: string;
     readonly uniqId: string;
+    readonly reportUniqId: string;
     readonly initiatedBy: string;
     readonly initiatorPhone: string;
     readonly initiator: actorInfo;
@@ -98,6 +99,7 @@ export class DetailsEntity implements Details {
     constructor(
         public readonly id: string,
         public readonly uniqId: string,
+        public readonly reportUniqId: string,
         public readonly initiatedBy: string,
         public readonly initiatorPhone: string,
         public readonly initiator: actorInfo,
@@ -127,20 +129,15 @@ export class DetailsEntity implements Details {
     ) {}
 
     public get managementTitle(): string {
-        console.log('ReportStatus', this.status);
         switch (this.status) {
             case ReportStatus.PENDING:
                 return 'MANAGEMENT.STATUS.TAKE';
             case ReportStatus['IN-PROGRESS']:
                 return 'MANAGEMENT.STATUS.APPROBATION';
             case ReportStatus.PROCESSING:
-                console.log('ReportStatus1111', this.status);
-                console.log('ReportState', this.state);
                 if (this.state === ReportState.PENDING) {
-                    console.log('ReportStatus2222', this.status);
                     return 'MANAGEMENT.STATUS.TAKE';
                 } else if (this.state === ReportState.IN_PROGRESS) {
-                    console.log('ReportStatus3333', this.status);
                     return 'MANAGEMENT.STATUS.TREATMENT';
                 }
                 return 'MANAGEMENT.STATUS.INFORMATION';
@@ -170,6 +167,14 @@ export class DetailsEntity implements Details {
         } else {
             return 'see';
         }
+    }
+
+    public get inProcessing(): boolean {
+        return this.status === ReportStatus.PROCESSING;
+    }
+
+    public get inFinalization(): boolean {
+        return this.status === ReportStatus.FINALIZATION;
     }
 
     public get isReceived(): boolean {
@@ -512,6 +517,7 @@ export class DetailsEntity implements Details {
         return new DetailsEntity(
             updates.id ?? this.id,
             updates.uniqId ?? this.uniqId,
+            updates.reportUniqId ?? this.reportUniqId,
             updates.initiatedBy ?? this.initiatedBy,
             updates.initiatorPhone ?? this.initiatorPhone,
             updates.initiator ?? this.initiator,

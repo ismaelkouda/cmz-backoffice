@@ -30,6 +30,7 @@ export class DetailsMapper extends SimpleResponseMapper<
         return new DetailsEntity(
             dto.id,
             dto.uniq_id,
+            dto.request_report_uniq_id,
             this.formatInitiatorName(dto.initiator),
             dto.initiator_phone_number,
             this.mapInitiator(dto.initiator),

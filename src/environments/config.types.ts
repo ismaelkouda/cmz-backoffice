@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2025-11-25T16:42:02.835Z
+// Generated at: 2025-11-26T18:23:09.434Z
 
 export interface AppConfig {
     verifyIdentityDocumentUrl: string;

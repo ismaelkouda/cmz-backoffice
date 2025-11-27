@@ -2152,16 +2152,12 @@
 
                                                         .according-menu {
                                                             i {
-                                                                color: var(
-                                                                    --theme-deafult
-                                                                );
+                                                                color: white;
                                                             }
                                                         }
 
                                                         span {
-                                                            color: var(
-                                                                --theme-deafult
-                                                            );
+                                                            color: white;
                                                             transition: all 0.3s
                                                                 ease;
                                                         }
@@ -2307,7 +2303,8 @@
                         li {
                             a {
                                 span {
-                                    color: $dark-all-font-color;
+                                    //color: $dark-all-font-color;
+                                    color: #fff;
                                 }
 
                                 svg {
@@ -2356,10 +2353,7 @@
 
                                             .sidebar-link {
                                                 &.active {
-                                                    background-color: rgba(
-                                                        $primary-color,
-                                                        0.2
-                                                    );
+                                                    background-color: #57b9f6
 
                                                     svg {
                                                         color: var(

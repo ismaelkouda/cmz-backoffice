@@ -19,6 +19,7 @@ import { TasksFilterFormControlEntity } from '@presentation/pages/report-request
 import { TasksFilterPayloadEntity } from '@presentation/pages/report-requests/domain/entities/tasks/tasks-filter-payload.entity';
 import { OPERATOR_CONST } from '@shared/domain/constants/operator';
 import { REPORT_CONST } from '@shared/domain/constants/report';
+import { SOURCE_CONST } from '@shared/domain/constants/source';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -58,6 +59,7 @@ export class FilterTasksComponent implements OnInit, OnDestroy {
     readonly reportOptions = REPORT_CONST;
     public operatorOptions: any[] = [];
     readonly stateOptions = STATUS_CONST;
+    readonly sourceOptions = SOURCE_CONST;
 
     ngOnInit(): void {
         this.initFormFilter();
@@ -133,7 +135,7 @@ export class FilterTasksComponent implements OnInit, OnDestroy {
                             (dto['initiator_phone_number'] as string) ?? '',
                         uniq_id: (dto['uniq_id'] as string) ?? '',
                         created_from: (dto['created_from'] as string) ?? '',
-                        source: (dto['created_from'] as string) ?? '',
+                        source: (dto['source'] as string) ?? '',
                         created_to: (dto['created_to'] as string) ?? '',
                         report_type: (dto['report_type'] as string) ?? '',
                         operators: (dto['operators'] as string[]) ?? [],

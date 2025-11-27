@@ -8,6 +8,7 @@ import {
     OnInit,
     Output,
     inject,
+    input,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -15,6 +16,7 @@ import {
     FormControl,
     FormGroup,
     ReactiveFormsModule,
+    Validators,
     ɵFormGroupRawValue,
     ɵTypedOrUntyped,
 } from '@angular/forms';
@@ -115,7 +117,7 @@ interface InfoCard {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementComponent implements OnInit, OnDestroy {
-    @Input() visible = false;
+    public readonly visible = input<boolean>(false);
     @Input() reportId!: string;
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() closed = new EventEmitter<void>();
@@ -126,25 +128,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     public selectedCategoryIndex: number = 0;
     public selectedSectionIndex: number = 0;
-    public rejectionComment: string = '';
-
-    public infoCards: InfoCard[] = [
-        {
-            type: 'report-info',
-            title: 'MANAGEMENT.SIDEBAR.REPORT_INFO.TITLE',
-            icon: 'pi pi-info-circle',
-        },
-        {
-            type: 'operators',
-            title: 'MANAGEMENT.SIDEBAR.OPERATORS.TITLE',
-            icon: 'pi pi-users',
-        },
-        {
-            type: 'location',
-            title: 'MANAGEMENT.SIDEBAR.LOCATION.TITLE',
-            icon: 'pi pi-map-marker',
-        },
-    ];
 
     public workflowSteps: WorkflowStep[] = [
         {
@@ -172,24 +155,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         },
     ];
 
-    public readonly categories: Categories[] = [
-        {
-            key: 'information',
-            label: 'MANAGEMENT.TABS.CATEGORIES.INFORMATION',
-        },
-        {
-            key: 'photos',
-            label: 'MANAGEMENT.TABS.CATEGORIES.PHOTOS',
-        },
-        {
-            key: 'geographicView',
-            label: 'MANAGEMENT.TABS.CATEGORIES.GEOGRAPHIC_VIEW',
-        },
-        {
-            key: 'eventLogs',
-            label: 'MANAGEMENT.TABS.CATEGORIES.TREATMENT_LOGS',
-        },
-    ];
+    public categories: any[] = [];
 
     public readonly motifOptions = [
         { code: 'DUP', label: '[DUP] - Signalement en doublon' },
@@ -257,6 +223,31 @@ export class ManagementComponent implements OnInit, OnDestroy {
         this.loadDetailsData(this.reportId, this.endPointType);
     }
 
+    private getCategories(details: DetailsEntity): void {
+        this.categories = [
+            {
+                key: 'information',
+                label: 'MANAGEMENT.TABS.CATEGORIES.INFORMATION',
+            },
+            {
+                key: 'photos',
+                label: 'MANAGEMENT.TABS.CATEGORIES.PHOTOS',
+            },
+            {
+                key: 'geographicView',
+                label: 'MANAGEMENT.TABS.CATEGORIES.GEOGRAPHIC_VIEW',
+            },
+            ...(details.inProcessing || details.inFinalization
+                ? [
+                      {
+                          key: 'eventLogs',
+                          label: 'MANAGEMENT.TABS.CATEGORIES.TREATMENT_LOGS',
+                      },
+                  ]
+                : []),
+        ];
+    }
+
     private loadDetailsData(
         reportId: string,
         endPointType: EndPointType
@@ -268,6 +259,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         this.details$.subscribe((details) => {
             if (details) {
                 this.updateWorkflowTimestamps(details);
+                this.getCategories(details);
             }
         });
     }
@@ -359,13 +351,39 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     private initForm(): void {
         this.formTreatment = this.fb.group<ManagementFormControlEntity>({
-            decision: new FormControl<string>('', { nonNullable: true }),
-            comment: new FormControl<string>('', { nonNullable: true }),
-            reason: new FormControl<string>('', { nonNullable: true }),
+            decision: new FormControl<string>('', {
+                nonNullable: true,
+            }),
+            comment: new FormControl<string>('', {
+                nonNullable: true,
+            }),
+            reason: new FormControl<string>('', {
+                nonNullable: true,
+            }),
             uniqId: new FormControl<string>(this.reportId, {
                 nonNullable: true,
             }),
         });
+        this.setupConditionalValidationsTake();
+    }
+
+    private setupConditionalValidationsTake(): void {
+        this.formTreatment
+            .get('decision')
+            ?.valueChanges.subscribe((decision) => {
+                const reasonControl = this.formTreatment.get('reason');
+                const commentControl = this.formTreatment.get('comment');
+
+                if (decision === 'rejected') {
+                    reasonControl?.setValidators([Validators.required]);
+                    commentControl?.clearValidators();
+                } else {
+                    reasonControl?.clearValidators();
+                    commentControl?.clearValidators();
+                }
+                reasonControl?.updateValueAndValidity();
+                commentControl?.updateValueAndValidity();
+            });
     }
 
     public navigateToStep(step: WorkflowStep): void {
@@ -499,10 +517,13 @@ export class ManagementComponent implements OnInit, OnDestroy {
         if (!this.reportId) {
             return;
         }
-        if (this.formTreatment.invalid) {
-            this.markFormAsTouched();
-            return;
+        if (!details.canBeTaken) {
+            if (this.formTreatment.invalid) {
+                this.markFormAsTouched();
+                return;
+            }
         }
+
         const management = details.managementPrams;
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
@@ -668,7 +689,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         } else if (management === 'treat') {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.TREATMENT.TITLE';
         } else if (management === 'finalize') {
-            return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.FINALIZATION.TITLE';
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.FINALIZE.TITLE';
         } else return '';
     }
 
@@ -686,7 +707,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         } else if (management === 'treat') {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.TREATMENT.TITLE';
         } else if (management === 'finalize') {
-            return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.FINALIZATION.TITLE';
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.FINALIZE.TITLE';
         } else return '';
     }
 
@@ -704,7 +725,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         } else if (management === 'treat') {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.TREATMENT.TITLE';
         } else if (management === 'finalize') {
-            return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.FINALIZATION.TITLE';
+            return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.FINALIZE.TITLE';
         } else return '';
     }
 
@@ -718,7 +739,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     public onHide(): void {
-        this.visible = false;
         this.visibleChange.emit(false);
         this.closed.emit();
     }

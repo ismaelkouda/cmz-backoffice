@@ -273,15 +273,11 @@ export class TableTasksComponent implements OnInit, OnDestroy {
         return key ? this.translate.instant(key) : operator;
     }
 
-    getTakeTooltip(item: TasksEntity): string {
-        const canTake = item.canBeTaken();
-        if (canTake) {
-            const tasksLabel = this.translate.instant(
-                'REPORTS_REQUESTS.TASKS.TABLE.TAKE'
-            );
-            return `${tasksLabel} ${item.uniqId}`;
-        }
-        return this.translate.instant('REPORTS_REQUESTS.TASKS.TABLE.SEE_MORE');
+    getTreatTooltip(item: TasksEntity): string {
+        const tasksLabel = this.translate.instant(
+            'REPORTS_PROCESSING.TASKS.TABLE.TREAT'
+        );
+        return `${tasksLabel} ${item.uniqId}`;
     }
 
     getSeeMoreTooltip(item: TasksEntity): string {

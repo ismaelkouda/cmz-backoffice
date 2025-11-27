@@ -28,7 +28,7 @@
                     [loading]="loading$ | async"
                     [pagination$]="pagination$"
                     [newspapers$]="newspapers$"
-                    (treatmentRequested)="onAllAction($event)"
+                    (treatmentRequested)="onManageAction($event)"
                 >
                 </app-table-newspapers>
 
@@ -42,11 +42,15 @@
     </div>
 </section>
 
-    @if(visibleActivity) {
-<app-modal-activity
-        [(visible)]="visibleActivity"
-        [reportUniqId]="reportUniqId"
-        (closed)="onReportActivityClosed()"
-    >
-</app-modal-activity>
-    }   
+@if (modalState().visible) {
+  <app-modal-activity
+    [visible]="modalState().visible"
+    [reportUniqId]="reportUniqId"
+    [activity]="modalState().newspaper"
+    [mode]="modalState().mode"
+    (activityCreate)="onActivityCreate($event)"
+    (activityUpdate)="onActivityUpdate($event)"
+    (closed)="onReportActivityClosed()"
+  >
+  </app-modal-activity>
+}

@@ -1,7 +1,7 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { catchError, throwError } from 'rxjs';
 
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
@@ -75,11 +75,9 @@ function handleError(
 }
 
 function handleUnauthorizedError(): void {
-    if (typeof globalThis !== 'undefined') {
-        localStorage.removeItem('auth_token');
-        sessionStorage.clear();
-        globalThis.location.href = '/auth/login';
-    }
+    localStorage.removeItem('auth_token');
+    sessionStorage.clear();
+    globalThis.location.href = '/auth/login';
 }
 
 function isAssetRequest(req: HttpRequest<any>): boolean {

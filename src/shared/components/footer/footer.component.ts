@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { ConfigurationService } from '@core/services/configuration.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { ConfigurationService } from '@core/services/configuration.service';
 
 @Component({
     selector: 'app-footer',
@@ -13,7 +13,7 @@ import { ConfigurationService } from '@core/services/configuration.service';
 })
 export class FooterComponent {
     public today: number = Date.now();
-    private configService = inject(ConfigurationService);
+    private readonly configService = inject(ConfigurationService);
     public readonly appSettings = this.configService.appSettings;
     public readonly config = inject(AppCustomizationService).config;
 }

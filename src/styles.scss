@@ -820,7 +820,7 @@ p-password .p-disabled {
 
 // Bouton de confirmation moderne
 .modern-swal-confirm-btn {
-  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%) !important;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
   color: white !important;
   font-family: 'Inter', -apple-system, sans-serif !important;
   font-size: 0.875rem !important;
@@ -829,13 +829,12 @@ p-password .p-disabled {
   border-radius: 12px !important;
   border: none !important;
   box-shadow: 
-    0 4px 12px rgba(99, 102, 241, 0.3),
+    0 4px 12px rgba(16, 185, 129, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative;
   overflow: hidden;
   
-  // Effet de brillance au survol
   &::before {
     content: '';
     position: absolute;
@@ -845,15 +844,16 @@ p-password .p-disabled {
     height: 100%;
     background: linear-gradient(90deg, 
       transparent, 
-      rgba(255, 255, 255, 0.2), 
+      rgba(255, 255, 255, 0.3), 
       transparent);
     transition: left 0.6s;
   }
   
   &:hover {
+    background: linear-gradient(135deg, #34D399 0%, #10B981 100%) !important;
     transform: translateY(-2px) !important;
     box-shadow: 
-      0 8px 20px rgba(99, 102, 241, 0.4),
+      0 8px 20px rgba(16, 185, 129, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     
     &::before {
@@ -864,15 +864,15 @@ p-password .p-disabled {
   &:active {
     transform: translateY(0) !important;
     box-shadow: 
-      0 2px 8px rgba(99, 102, 241, 0.4),
+      0 2px 8px rgba(16, 185, 129, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
   }
   
   &:focus {
     outline: none !important;
     box-shadow: 
-      0 0 0 3px rgba(99, 102, 241, 0.3),
-      0 4px 12px rgba(99, 102, 241, 0.3) !important;
+      0 0 0 3px rgba(16, 185, 129, 0.3),
+      0 4px 12px rgba(16, 185, 129, 0.3) !important;
   }
 }
 

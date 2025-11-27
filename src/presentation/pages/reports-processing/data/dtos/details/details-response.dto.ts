@@ -1,6 +1,7 @@
 export interface DetailsItemDto {
     id: string;
     uniq_id: string;
+    request_report_uniq_id: string;
     source: string;
     location_method: string;
     location_type: string;

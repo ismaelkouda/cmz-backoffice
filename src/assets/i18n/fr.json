@@ -1,4 +1,16 @@
 {
+    "VALIDATION": {
+        "REQUIRED": "Ce champ est obligatoire",
+        "MIN_LENGTH": "Minimum {{min}} caractères requis",
+        "MAX_LENGTH": "Maximum {{max}} caractères autorisés",
+        "FUTURE_DATE": "La date ne peut pas être dans le futur",
+        "INVALID_DATE": "Date invalide"
+    },
+    "COMMON": {
+        "SELECT_PLACEHOLDER": "Sélectionner...",
+        "CANCEL": "Annuler",
+        "DELETE": "Supprimer"
+    },
     "LOGOUT": {
             "SWEET_ALERT_PARAMS": {
             "CONFIRM": "Se déconnecter du compte ?",
@@ -34,7 +46,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
-                "INITIATOR": "Initiateur",
+                "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
@@ -92,7 +104,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
-                "INITIATOR": "Initiateur",
+                "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
@@ -164,7 +176,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
-                "INITIATOR": "Initiateur",
+                "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
@@ -247,7 +259,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
-                "INITIATOR": "Initiateur",
+                "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
@@ -291,7 +303,7 @@
             }
         },
         "TASKS": {
-            "TITLE": "demandes en attente de traitement",
+            "TITLE": "signalements en attente de traitement",
             "LABEL": "panier de taches",
             "ROUTE": "tasks",
             "TABLE": {
@@ -300,6 +312,7 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
                 "STATE": "État",
+                "TREAT": "Traiter",
                 "STEP": "Étape",
                 "STATUS": "Status",
                 "SEE_MORE": "Voir plus",
@@ -307,7 +320,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
-                "INITIATOR": "Initiateur",
+                "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
@@ -362,8 +375,8 @@
             }
         },
         "ALL": {
-            "TITLE": "demandes qualifiés",
-            "LABEL": "Toutes les demandes",
+            "TITLE": "signalements traités",
+            "LABEL": "Toutes les signalements",
             "ROUTE": "all",
             "TABLE": {
                 "CREATED_AT": "Créé le",
@@ -378,7 +391,7 @@
                 "ACTION": "Action"
             },
             "FILTER": {
-                "INITIATOR": "Initiateur",
+                "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
@@ -645,7 +658,7 @@
             }
         },
         "TASKS": {
-            "TITLE": "demandes en attente de qualification",
+            "TITLE": "signalements en attente de finalisation",
             "LABEL": "panier de taches",
             "ROUTE": "tasks",
             "TABLE": {
@@ -654,6 +667,7 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
                 "STATE": "État",
+                "TREAT": "Traiter",
                 "STEP": "Étape",
                 "STATUS": "Status",
                 "SEE_MORE": "Voir plus",
@@ -715,8 +729,8 @@
             }
         },
         "ALL": {
-            "TITLE": "demandes qualifiés",
-            "LABEL": "Toutes les demandes",
+            "TITLE": "signalements finalisés",
+            "LABEL": "Toutes les signalements",
             "ROUTE": "all",
             "TABLE": {
                 "CREATED_AT": "Créé le",
@@ -732,9 +746,11 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiateur",
+                "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATOR": "Opérateur",
+                "SOURCE": "Source",
+                "STATUS": "Status"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -884,8 +900,8 @@
                 "APPROBATION": "Approbation"
             },
             "HEADER": {
-                "DETAILS_REPORT": "Détails du signalement",
-                "DETAILS_DEMAND": "Détails de la demande",
+                "DETAILS_REPORT": "du signalement",
+                "DETAILS_DEMAND": "de la demande",
                 "REPORT_ID": "Identifiant",
                 "STATUS": "Statut",
                 "STATUS_PENDING": "En attente",
@@ -963,16 +979,17 @@
                     "MOTIF": "Motif",
                     "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
                     "OPTIONS": {
-                    "APPROVE": {
-                        "LABEL": "Accepter",
-                        "DESCRIPTION": "Prendre en charge le signalement"
-                    },
-                    "REJECT": {
-                        "LABEL": "Rejeter",
-                        "DESCRIPTION": "Refuser le signalement"
-                    }
+                        "APPROVE": {
+                            "LABEL": "Accepter",
+                            "DESCRIPTION": "Prendre en charge le signalement"
+                        },
+                        "REJECT": {
+                            "LABEL": "Rejeter",
+                            "DESCRIPTION": "Refuser le signalement"
+                        }
                     },
                     "VALIDATION": {
+                    "MOTIF_REQUIRED": "Le motif est réquis",
                     "COMMENT_REQUIRED": "Un commentaire est requis pour le rejet"
                     }
                 }
@@ -992,7 +1009,7 @@
                 "OPERATORS": "Opérateurs concernés",
                 "DATE_TIME_ENTRY": "Date Heure saisie",
                 "DATE_TIME_RECEIPT": "Date Heure réception",
-                "CONFIRMATION": "Nombre de confirmation",
+                "CONFIRMATION": "Nombre de confirmations",
                 "REGION": "Région",
                 "DEPARTMENT": "Département",
                 "COMMUNE": "Commune/Sous-préfecture",
@@ -1153,13 +1170,14 @@
             "NEWSPAPERS": {
                 "TITLE": "traitements",
                 "LABEL": "Journal",
-            "BUTTONS": {
-                "ADD": "Ajouter"
-            },
+                "BUTTONS": {
+                    "ADD": "Ajouter"
+                },
                 "TABLE": {
                     "CREATED_AT": "Créé le",
                     "UNIQ_ID": "Identifiant",
-                    "EVENT_TYPE": "Type d'èvénement",
+                    "DESCRIPTION": "Description",
+                    "TYPE":"Type d'activité",
                     "OPERATORS": "Opérateurs",
                     "SOURCE": "Source",
                     "SEE_MORE": "Voir plus",
@@ -1208,6 +1226,40 @@
                         "IN_PROGRESS": "En cours",
                         "COMPLETED": "Terminé"
                     }
+                }, 
+                "TOOLTIPS": {
+                    "EDIT": "Éditer",
+                    "DELETE":"Supprimer"
+                }
+            },
+            "ACTIVITY": {
+                "MODAL": {
+                    "TITLE": {
+                    "CREATE": "Créer une activité",
+                    "EDIT": "Modifier l'activité"
+                    }
+                },
+                "BUTTONS": {
+                    "CREATE": "Créer",
+                    "UPDATE": "Modifier",
+                    "DELETE": "Supprimer"
+                },
+                "FIELDS": {
+                    "DATE": "Date",
+                    "TYPE": "Type d'activité",
+                    "DESCRIPTION": "Description"
+                },
+                "TYPES": {
+                    "ANALYSIS": "Analyse",
+                    "TREATMENT": "Traitement",
+                    "VERIFICATION": "Vérification",
+                    "CORRECTION": "Correction",
+                    "VALIDATION": "Validation",
+                    "OTHER": "Autre"
+                },
+                "PLACEHOLDERS": {
+                    "DESCRIPTION": "Décrivez l'activité réalisée...",
+                    "TYPE": "Sélectionner le type d'activité"
                 }
             }
         },
@@ -1654,7 +1706,7 @@
     },
 
     "REPORTING": {
-        "LABEL": "Suivi des reporting",
+        "LABEL": "Suivi des signalements",
         "REPORT": {
             "TITLE": "Signalement",
             "LABEL": "Signalement"
@@ -1738,7 +1790,7 @@
             }
         },
         "FOOTER": {
-            "COPYRIGHT": "Copyright CSP {year}"
+            "COPYRIGHT": "Copyright CMZ"
         }
     },
 

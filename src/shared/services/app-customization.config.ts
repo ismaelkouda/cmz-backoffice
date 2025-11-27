@@ -13,14 +13,14 @@ export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
         lang: 'fr',
     },
     colors: {
-        primary: '#5B9BD5',
-        secondary: '#f73164',
+        primary: '#2256a3',
+        secondary: '#f08224',
         tertiary: '#FFFFFF',
         error: '#dc3545',
         warning: '#ffc107',
         success: '#28a745',
         info: '#17a2b8',
-        loadingBar: '#5B9BD5',
+        loadingBar: '#2256a3',
     },
     languages: {
         supported: ['en', 'fr'] as const,
@@ -39,7 +39,7 @@ export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
         logoIcon: 'assets/images/favicon.png',
     },
     loadingBar: {
-        color: '#5B9BD5',
+        color: '#2256a3',
         height: '4px',
         includeSpinner: false,
     },

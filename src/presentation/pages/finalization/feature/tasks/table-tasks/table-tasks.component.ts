@@ -340,15 +340,11 @@ export class TableTasksComponent {
         return key ? this.translate.instant(key) : reportType;
     }
 
-    getTakeTooltip(item: TasksEntity): string {
-        const normalizedState = item.state?.toLowerCase() ?? '';
-        if (normalizedState === 'pending') {
-            const queuesLabel = this.translate.instant(
-                'FINALIZATION.TASKS.TABLE.TAKE'
-            );
-            return `${queuesLabel} ${item.uniqId}`;
-        }
-        return this.translate.instant('FINALIZATION.TASKS.TABLE.SEE_MORE');
+    getTreatTooltip(item: TasksEntity): string {
+        const tasksLabel = this.translate.instant(
+            'FINALIZATION.TASKS.TABLE.TREAT'
+        );
+        return `${tasksLabel} ${item.uniqId}`;
     }
 
     getJournalTooltip(item: TasksEntity): string {

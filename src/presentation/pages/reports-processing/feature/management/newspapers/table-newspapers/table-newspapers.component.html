@@ -27,7 +27,7 @@
                     [disabledButtonExport]="isLoading() || !hasData()"
                     [disabledButtonRefresh]="isLoading()"
                     [hiddenButtonOther]="false"
-                    (other)="onActionClicked()"
+                    (other)="onAddClicked()"
                     [labelOther]="'MANAGEMENT.NEWSPAPERS.BUTTONS.ADD'"
                 >
                 </app-table-button-header>
@@ -76,43 +76,6 @@
                                 1
                         }}
                 }
-                    @case ('uniqId') {
-                        <button
-                            type="button"
-                            (click)="copyToClipboard(newspaper.uniqId)"
-                            class="copyable"
-                            pTooltip="{{ 'COPY' | translate }}"
-                            tooltipPosition="bottom"
-                        >
-                            <span class="id-text">{{ newspaper.uniqId }}</span>
-                            <i class="pi pi-copy" aria-hidden="true"></i>
-                        </button>
-                    }
-
-                    @case ('reportType') {
-                        <div 
-                            [pTooltip]="newspaper.reportDescription | translate"
-                            tooltipPosition="bottom"
-                            showDelay="500"
-                            hideDelay="300">
-                            {{ newspaper.reportType }}
-                        </div>
-                    }
-
-                    @case ('operators') {
-                        <div class="tag-group" *ngIf="newspaper.operators?.length; else noOperators">
-                            @for (operator of newspaper.operators; track trackByOperator($index, operator)) {
-                                <p-tag
-                                    [value]="getOperatorLabel(operator)"
-                                    [style]="getOperatorTagStyle(operator)"
-                                    styleClass="operator-tag"
-                                />
-                            }
-                        </div>
-                        <ng-template #noOperators>
-                            <span class="no-data">-</span>
-                        </ng-template>
-                    }
 
                     @case ('createdAt') {
                         <time [attr.datetime]="newspaper.createdAt">
@@ -120,16 +83,37 @@
                         </time>
                     }
 
-                    @case ('source') {
-                        <div
-                            [pTooltip]="newspaper.sourceDescription | translate"
-                            tooltipPosition="bottom"
-                            showDelay="500"
-                            hideDelay="300"
-                            [tooltipStyleClass]="'custom-tooltip'"
-                            class="source-type-content"
-                        >
-                            {{ newspaper.source }}
+                    @case ('updatedAt') {
+                        <time [attr.datetime]="newspaper.updatedAt">
+                            {{ formatDate(newspaper.updatedAt) }}
+                        </time>
+                    }
+                    
+                    @case ('__action') {
+                        <div class="action-group">
+                            <button
+                                type="button"
+                                pButton
+                                icon="pi pi-pencil"
+                                (click)="onUpdateClicked(newspaper)"
+                                [pTooltip]="getUpdateTooltip(newspaper)"
+                                tooltipPosition="bottom"
+                                [disabled]="isLoading()"
+                                size="small"
+                                class="action-btn"
+                            ></button>
+                            <button
+                                type="button"
+                                pButton
+                                severity="danger"
+                                icon="pi pi-trash"
+                                (click)="onDeleteClicked(newspaper)"
+                                [pTooltip]="getDeleteTooltip(newspaper)"
+                                tooltipPosition="bottom"
+                                [disabled]="isLoading()"
+                                size="small"
+                                class="action-btn" 
+                            ></button>
                         </div>
                     }
                     
@@ -146,7 +130,7 @@
         @if (!isLoading()) {
             <tr role="row" class="loading-table">
                 <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
-                    <div class="empty-state">
+                    <div class="empty-state text-center">
                         {{ 'NO_DATA_FOUND' | translate }}
                     </div>
                 </td>

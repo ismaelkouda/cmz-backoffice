@@ -10,7 +10,7 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NEWSPAPERS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/newspapers-table.constant copy';
+import { NEWSPAPERS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/newspapers-table.constant';
 import { NewspapersEntity } from '@presentation/pages/reports-processing/domain/entities/management/newspapers/newspapers.entity';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
@@ -70,7 +70,10 @@ export class TableNewspapersComponent implements OnDestroy {
         this.isLoading.set(value);
     }
 
-    @Output() treatmentRequested = new EventEmitter<NewspapersEntity>();
+    @Output() treatmentRequested = new EventEmitter<{
+        mode: 'edit' | 'create';
+        newspaper: NewspapersEntity | null;
+    }>();
     @Output() journalRequested = new EventEmitter<NewspapersEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
 
@@ -108,15 +111,41 @@ export class TableNewspapersComponent implements OnDestroy {
         }); */
     }
 
-    public copyToClipboard(data: string): void {
-        this.clipboardService.copyFromContent(data);
-        this.toastService.success(
-            this.translate.instant('COPIED_TO_THE_CLIPBOARD')
-        );
+    public onAddClicked(): void {
+        this.treatmentRequested.emit({
+            mode: 'create',
+            newspaper: null,
+        });
     }
 
-    public onActionClicked(item: NewspapersEntity): void {
-        this.treatmentRequested.emit(item);
+    public onUpdateClicked(item: NewspapersEntity): void {
+        this.treatmentRequested.emit({
+            mode: 'edit',
+            newspaper: item,
+        });
+    }
+
+    public getUpdateTooltip(newspaper: NewspapersEntity): string {
+        return this.translate.instant('MANAGEMENT.NEWSPAPERS.TOOLTIPS.EDIT');
+    }
+
+    public getDeleteTooltip(newspaper: NewspapersEntity): string {
+        return this.translate.instant('MANAGEMENT.NEWSPAPERS.TOOLTIPS.DELETE');
+    }
+
+    public onDeleteClicked(item: NewspapersEntity): void {
+        /*         SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: `${this.translate.instant()}`,
+            text: `${this.translate.instant()} ${item.uniqId}`,
+            backdrop: false,
+            confirmButtonText: this.translate.instant(),
+            cancelButtonText: this.translate.instant('CANCEL'),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.executeManagementAction(management, credentials);
+            }
+        }); */
     }
 
     private _subscribeToData(): void {
@@ -146,45 +175,6 @@ export class TableNewspapersComponent implements OnDestroy {
         } catch {
             return value;
         }
-    }
-
-    getOperatorColor(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const colorMap: Record<string, string> = {
-            orange: 'rgb(241, 110, 0)',
-            mtn: 'rgb(255, 203, 5)',
-            moov: 'rgb(0, 91, 164)',
-        };
-        return colorMap[normalized] ?? `rgba(var(--theme-default-rgb), 0.8)`;
-    }
-
-    getOperatorTagStyle(operator: string): Record<string, string> {
-        const backgroundColor = this.getOperatorColor(operator);
-        const textColor =
-            operator?.toLowerCase() === 'mtn' ? '#212121' : '#ffffff';
-        return { backgroundColor, color: textColor };
-    }
-
-    getOperatorLabel(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const translationMap: Record<string, string> = {
-            orange: 'MANAGEMENT.NEWSPAPERS.OPTIONS.OPERATOR.ORANGE',
-            mtn: 'MANAGEMENT.NEWSPAPERS.OPTIONS.OPERATOR.MTN',
-            moov: 'MANAGEMENT.NEWSPAPERS.OPTIONS.OPERATOR.MOOV',
-        };
-        const key = translationMap[normalized];
-        return key ? this.translate.instant(key) : operator;
-    }
-
-    getTakeTooltip(item: NewspapersEntity): string {
-        const canTake = item.canBeTaken();
-        if (canTake) {
-            const newspapersLabel = this.translate.instant(
-                'MANAGEMENT.NEWSPAPERS.TABLE.TAKE'
-            );
-            return `${newspapersLabel} ${item.uniqId}`;
-        }
-        return this.translate.instant('MANAGEMENT.NEWSPAPERS.TABLE.SEE_MORE');
     }
 
     trackByUniqId(_: number, item: NewspapersEntity): string {
