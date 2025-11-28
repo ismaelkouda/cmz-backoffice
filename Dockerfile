@@ -13,7 +13,9 @@ RUN pnpm install
 FROM dependencies AS build
 
 COPY . .
-RUN pnpm run build:prod
+
+ARG ENV=dev
+RUN pnpm run build:${ENV}
 RUN ls /app/dist/cmz-backoffice/browser
 
 
