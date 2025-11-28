@@ -19,7 +19,7 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 import { PROFILE_FORM_ROUTE } from '../../settings-security.routes';

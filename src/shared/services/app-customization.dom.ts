@@ -45,6 +45,19 @@ function hexToRgb(hex: string): string {
     return `${r}, ${g}, ${b}`;
 }
 
+export function setFonts(
+    document: Document,
+    config: AppCustomizationConfig
+): void {
+    try {
+        const root = document.documentElement;
+        root.style.setProperty('--font-primary', config.fonts.primary);
+        root.style.setProperty('--font-secondary', config.fonts.secondary);
+    } catch (error) {
+        console.error('Erreur lors de la configuration des polices:', error);
+    }
+}
+
 export function setThemeColors(
     document: Document,
     config: AppCustomizationConfig
@@ -56,6 +69,12 @@ export function setThemeColors(
         root.style.setProperty('--theme-default', config.colors.primary);
         root.style.setProperty('--theme-secondary', config.colors.secondary);
         root.style.setProperty('--theme-tertiary', config.colors.tertiary);
+
+        // Couleurs neutres
+        root.style.setProperty('--color-black', config.colors.black);
+        root.style.setProperty('--color-white', config.colors.white);
+        root.style.setProperty('--color-gray', config.colors.gray);
+        root.style.setProperty('--color-gray-light', config.colors.grayLight);
 
         // Couleurs d'état
         root.style.setProperty('--color-error', config.colors.error);
@@ -91,6 +110,9 @@ export function setThemeColors(
 
         // Couleur de la loading bar
         root.style.setProperty('--loading-bar-color', config.loadingBar.color);
+
+        // Assets
+        root.style.setProperty('--login-bg', `url('${config.assets.loginBg}')`);
     } catch (error) {
         console.error('Erreur lors de la configuration des couleurs:', error);
     }

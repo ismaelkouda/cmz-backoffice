@@ -1,4 +1,4 @@
-import { Paginate } from '@shared/interfaces/paginate';
+import { SimpleResponseDto } from "@shared/data/dtos/simple-response.dto";
 
 export interface FinalizeItemDto {
     id: string;
@@ -38,9 +38,5 @@ export interface FinalizeItemDto {
     updated_at: string;
 }
 
-export interface FinalizeResponseDto {
-    error: boolean;
-    message: string;
-    data: Paginate<FinalizeItemDto>;
-}
+export interface FinalizeResponseDto extends SimpleResponseDto<FinalizeItemDto> {}
 

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
+import { ActionsTreatmentComponent } from './ui/actions-treatment/actions-treatment.component';
 import { AllComponent } from './ui/all/all.component';
-import { FinalizeComponent } from './ui/finalize/finalize.component';
 import { QueuesComponent } from './ui/queues/queues.component';
 import { TasksComponent } from './ui/tasks/tasks.component';
 import { TreatmentComponent } from './ui/treatment/treatment.component';
@@ -50,6 +50,15 @@ export const routes: Routes = [
                     title: 'REPORTS_PROCESSING.TASKS.TITLE',
                     module: 'REPORTS_PROCESSING.LABEL',
                     subModule: 'REPORTS_PROCESSING.TASKS.LABEL',
+                },
+            },
+            {
+                path: ':taskId',
+                component: ActionsTreatmentComponent,
+                data: {
+                    title: 'ACTIONS.TITLE',
+                    module: 'REPORTS_PROCESSING.LABEL',
+                    subModule: 'ACTIONS.LABEL',
                 },
             },
             {
@@ -104,28 +113,6 @@ export const routes: Routes = [
         // canActivate: [PagesGuard],
         // data: {
         //     allowedPaths: [`/${TREATMENT_ROUTE}`],
-        // },
-    },
-    {
-        path: FINALIZE_ROUTE,
-        children: [
-            {
-                path: '',
-                component: FinalizeComponent,
-                data: {
-                    title: 'REPORTS_PROCESSING.FINALIZE.TITLE',
-                    module: 'REPORTS_PROCESSING.LABEL',
-                    subModule: 'REPORTS_PROCESSING.FINALIZE.LABEL',
-                },
-            },
-            {
-                path: '**',
-                redirectTo: '',
-            },
-        ],
-        // canActivate: [PagesGuard],
-        // data: {
-        //     allowedPaths: [`/${FINALIZE_ROUTE}`],
         // },
     },
 ];

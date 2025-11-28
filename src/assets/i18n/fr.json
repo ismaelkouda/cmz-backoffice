@@ -9,15 +9,18 @@
     "COMMON": {
         "SELECT_PLACEHOLDER": "Sélectionner...",
         "CANCEL": "Annuler",
-        "DELETE": "Supprimer"
+        "DELETE": "Supprimer",
+        "COPY": "Copier",
+        "COPY_TO_CLIPBOARD": "Copier dans le presse papier",
+        "CLOSE": "Fermer"
     },
     "LOGOUT": {
-            "SWEET_ALERT_PARAMS": {
-            "CONFIRM": "Se déconnecter du compte ?",
-            "MESSAGES": "Êtes-vous sûr de vouloir vous déconnecter",
-            "BUTTONS": "Se déconnecter"
-            }
-        },
+        "SWEET_ALERT_PARAMS": {
+        "CONFIRM": "Se déconnecter du compte ?",
+        "MESSAGES": "Êtes-vous sûr de vouloir vous déconnecter",
+        "BUTTONS": "Se déconnecter"
+        }
+    },
 
         "OPERATOR": {
             "ORANGE": "Orange",
@@ -313,11 +316,10 @@
                 "OPERATORS": "Opérateurs",
                 "STATE": "État",
                 "TREAT": "Traiter",
+                "ACTION": "Action",
                 "STEP": "Étape",
                 "STATUS": "Status",
-                "SEE_MORE": "Voir plus",
-                "QUALIFY": "Qualifier",
-                "ACTION": "Action"
+                "SEE_MORE": "Voir plus"
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
@@ -1262,7 +1264,58 @@
                     "TYPE": "Sélectionner le type d'activité"
                 }
             }
+    },
+
+
+    "ACTIONS": {
+        "TITLE": "Traitements effectués sur le signalement",
+        "LABEL": "Actions",
+        "ROUTE": "actions",
+        "TABLE": {
+            "CREATED_AT": "Créé le",
+            "CREATED_BY": "Créé par",
+            "DATE": "Date",
+            "TYPE": "Type",
+            "DESCRIPTION": "Description",
+            "USER": "Utilisateur",
+            "ACTION": "Action"
         },
+        "FILTER": {
+            "UNIQ_ID": "Identifiant",
+            "TYPE": "Type d'action"
+        },
+        "MODAL": {
+            "TITLE": {
+                "CREATE": "Ajouter une action",
+                "EDIT": "Modifier l'action"
+            }
+        },
+        "BUTTONS": {
+            "CREATE": "Ajouter",
+            "UPDATE": "Modifier"
+        },
+        "FIELDS": {
+            "DATE": "Date",
+            "TYPE": "Type",
+            "DESCRIPTION": "Description"
+        },
+        "PLACEHOLDERS": {
+            "TYPE": "Sélectionner un type",
+            "DESCRIPTION": "Saisir une description"
+        },
+        "TOOLTIPS": {
+            "EDIT": "Modifier",
+            "DELETE": "Supprimer"
+        },
+        "TYPES": {
+            "ANALYSIS": "Analyse",
+            "TREATMENT": "Traitement",
+            "VERIFICATION": "Vérification",
+            "CORRECTION": "Correction",
+            "VALIDATION": "Validation",
+            "OTHER": "Autre"
+        }
+    },
 
     "SETTINGS_SECURITY": {
         "LABEL": "Paramètres & Sécurité",
@@ -1706,10 +1759,27 @@
     },
 
     "REPORTING": {
-        "LABEL": "Suivi des signalements",
+        "LABEL": "Suivi des demandes",
+        "REQUESTS": {
+            "TITLE": "Tableau de bord analytique des demandes",
+            "LABEL": "Demandes",
+            "LOADING_DESCRIPTION": "Suivi des demandes en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des demandes. Veuillez recharger la page ou contacter le support."
+        },
         "REPORT": {
-            "TITLE": "Signalement",
-            "LABEL": "Signalement"
+            "TITLE": "Tableau de bord analytique des signalements",
+            "LABEL": "Signalement",
+            "LOADING_DESCRIPTION": "Suivi des signalements en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements. Veuillez recharger la page ou contacter le support."
+        },
+        "DASHBOARD": {
+            "ACTIONS": {
+                "EXIT_FULLSCREEN": "Sortir du mode plein écran",
+                "ENTER_FULLSCREEN": "Entrer en mode plein écran",
+                "RETRY": "Recharger"
+            },
+            "LOADING": "Chargement du tableau de bord...",
+            "ERROR": "Erreur du tableau de bord"
         }
 
     },
@@ -2180,7 +2250,6 @@
     "CONNECTED": "Connecté",
     "ADV": "ADV",
     "LOT": "Lot",
-    "ACTIONS": "Actions",
     "LAST_90_DAYS": "sur les 90 derniers jours",
     "SUPERVISOR": "Superviseur",
     "SUPERVISORS": "Superviseurs",
@@ -2632,6 +2701,5 @@
             }
         }
     }
-
 }
 

@@ -8,10 +8,19 @@ export interface AppCustomizationConfig {
         lang: string;
     };
 
+    fonts: {
+        primary: string;
+        secondary: string;
+    };
+
     colors: {
         primary: string;
         secondary: string;
         tertiary: string;
+        black: string;
+        white: string;
+        gray: string;
+        grayLight: string;
         error: string;
         warning: string;
         success: string;
@@ -36,6 +45,7 @@ export interface AppCustomizationConfig {
         favicon: string;
         logoFull: string;
         logoIcon: string;
+        loginBg: string;
     };
 
     loadingBar: {

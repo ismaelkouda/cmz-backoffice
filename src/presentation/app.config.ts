@@ -60,8 +60,8 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
 import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
+import { provideActions } from './pages/reports-processing/di/actions.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
-import { provideFinalize } from './pages/reports-processing/di/finalize.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
 import { provideNewspapers } from './pages/reports-processing/di/newspapers.providers';
 import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers';
@@ -268,9 +268,10 @@ export const appConfig: ApplicationConfig = {
         ...processingAll(),
         ...finalizationAll(),
 
+        ...provideActions(),
+
         ...provideDetails(),
         ...provideTreatment(),
-        ...provideFinalize(),
         ...processingTasks(),
         ...provideManagement(),
         ...provideNewspapers(),

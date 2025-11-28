@@ -2,22 +2,22 @@
  *** Vendors Scss ***
 -----------------------*/
 
-@use 'vendors/scrollable';
+/* @use 'vendors/scrollable';
 @use 'vendors/sticky';
-@use 'vendors/todo';
+@use 'vendors/todo'; */
 
 /* Leaflet Map */
-@use 'leaflet/dist/leaflet.css';
+/* @use 'leaflet/dist/leaflet.css'; */
 
 /* Ngx-owl-carousel-o */
 
-@use '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.carousel.scss'
+/* @use '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.carousel.scss'
     as owl-carousel;
 @use '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.theme.default.scss'
-    as owl-theme;
+    as owl-theme; */
 
 // overlay
-@use '@angular/cdk/overlay-prebuilt.css';
+/* @use '@angular/cdk/overlay-prebuilt.css'; */
 
 /* ---------------------
 	*** PrimeNG Styles ***
@@ -29,10 +29,10 @@
 	*** Theme Scss ***
 -----------------------*/
 
-@use 'animate.css/animate.min.css';
+/* @use 'animate.css/animate.min.css'; */
 @use '../../../node_modules/bootstrap/scss/bootstrap';
 
-@use '../scss/vendors/themify.scss';
+/* @use '../scss/vendors/themify.scss'; */
 @use 'style';
 @use 'responsive';
 @use 'tailwindcss';
@@ -41,10 +41,3 @@
  *** Font ***
 -----------------------*/
 
-@font-face {
-    font-family: 'Helvetica';
-    src:
-        url('../fonts/Helvetica-Font.otf') format('woff'),
-        url('../fonts/Helvetica-Font.otf') format('opentype'),
-        url('../fonts/Helvetica-Font.otf') format('truetype');
-}

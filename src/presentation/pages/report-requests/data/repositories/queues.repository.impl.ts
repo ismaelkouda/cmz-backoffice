@@ -5,7 +5,7 @@ import { QueuesApi } from '@presentation/pages/report-requests/data/sources/queu
 import { QueuesEntity } from '@presentation/pages/report-requests/domain/entities/queues/queues.entity';
 import { QueuesRepository } from '@presentation/pages/report-requests/domain/repositories/queues.repository';
 import { QueuesFilter } from '@presentation/pages/report-requests/domain/value-objects/queues-filter.vo';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, catchError, map, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

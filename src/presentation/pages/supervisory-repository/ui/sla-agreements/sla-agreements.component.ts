@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
-import { Paginate } from '../../../../../shared/interfaces/paginate';
+import { Paginate } from '../../../../../shared/data/dtos/simple-response.dto';
 import { SlaAgreementsInterface } from '../../data-access/sla-agreements/interfaces/sla-agreements.interface';
 import { SlaAgreementsApiService } from '../../data-access/sla-agreements/services/sla-agreements-api.service';
 import { TableSlaAgreementsComponent } from '../../feature/sla-agreements/table-sla-agreements/table-sla-agreements.component';

@@ -1,5 +1,5 @@
 import { ReportStatus } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 
 export interface AllItemDto {
     id: string;

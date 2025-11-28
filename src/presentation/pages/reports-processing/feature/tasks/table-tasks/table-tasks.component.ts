@@ -18,7 +18,7 @@ import { TableSelectionService } from '@presentation/pages/reports-processing/do
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { TableConfig } from '@shared/interfaces/table-config';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
@@ -33,6 +33,7 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 
+export type TreatmentRequested = 'treat' | 'action';
 @Component({
     selector: 'app-table-tasks',
     standalone: true,
@@ -98,8 +99,7 @@ export class TableTasksComponent implements OnInit, OnDestroy {
 
     private _tasks$!: Observable<TasksEntity[]>;
 
-    @Output() treatmentRequested = new EventEmitter<TasksEntity>();
-    @Output() takeRequested = new EventEmitter<TasksEntity>();
+    @Output() treatmentRequested = new EventEmitter<{ item: TasksEntity; action: TreatmentRequested }>();
     @Output() refreshRequested = new EventEmitter<void>();
     @Output() selectionChanged = this.selectionService.selectionChange$;
 
@@ -194,12 +194,26 @@ export class TableTasksComponent implements OnInit, OnDestroy {
         );
     }
 
-    onActionClicked(item: TasksEntity): void {
-        this.treatmentRequested.emit(item);
+    onActionClicked(item: TasksEntity, action: TreatmentRequested): void {
+        if (action === 'treat') {
+            this.treatmentRequested.emit({ item, action });
+        } else if (action === 'action') {
+            this.treatmentRequested.emit({ item, action });
+        }
     }
 
-    onTakeClicked(item: TasksEntity): void {
-        this.takeRequested.emit(item);
+    getActionTooltip(item: TasksEntity): string {
+        const tasksLabel = this.translate.instant(
+            'REPORTS_PROCESSING.TASKS.TABLE.ACTION'
+        );
+        return `${tasksLabel} ${item.uniqId}`;
+    }
+
+    getTreatTooltip(item: TasksEntity): string {
+        const tasksLabel = this.translate.instant(
+            'REPORTS_PROCESSING.TASKS.TABLE.TREAT'
+        );
+        return `${tasksLabel} ${item.uniqId}`;
     }
 
     private _subscribeToData(): void {
@@ -271,19 +285,6 @@ export class TableTasksComponent implements OnInit, OnDestroy {
         };
         const key = translationMap[normalized];
         return key ? this.translate.instant(key) : operator;
-    }
-
-    getTreatTooltip(item: TasksEntity): string {
-        const tasksLabel = this.translate.instant(
-            'REPORTS_PROCESSING.TASKS.TABLE.TREAT'
-        );
-        return `${tasksLabel} ${item.uniqId}`;
-    }
-
-    getSeeMoreTooltip(item: TasksEntity): string {
-        return this.translate.instant(
-            'REPORTS_PROCESSING.TASKS.TABLE.SEE_MORE'
-        );
     }
 
     trackByUniqId(_: number, item: TasksEntity): string {

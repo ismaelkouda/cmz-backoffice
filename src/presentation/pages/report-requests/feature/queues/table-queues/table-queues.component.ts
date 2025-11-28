@@ -14,6 +14,7 @@ import { QueuesEntity } from '@presentation/pages/report-requests/domain/entitie
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { TableConfig } from '@shared/interfaces/table-config';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
@@ -25,7 +26,6 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { QUEUES_TABLE_CONST } from '../../../domain/constants/queues/queues-table.constants';
 
 @Component({

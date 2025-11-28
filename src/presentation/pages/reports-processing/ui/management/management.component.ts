@@ -49,9 +49,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 import { DetailsFacade } from '../../application/details.facade';
-import { FinalizeFacade } from '../../application/finalize.facade';
 import { ManagementFacade } from '../../application/management.facade';
-import { TreatmentFacade } from '../../application/treatment.facade';
 import {
     DetailsEntity,
     ReportStatus,
@@ -183,9 +181,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
     );
     private readonly finalizationTasksFacade = inject(finalizationTasksFacade);
     private readonly finalizationAllFacade = inject(finalizationAllFacade);
-    private readonly finalizeFacade = inject(FinalizeFacade);
-    private readonly queueFacade = inject(processingQueuesFacade);
-    private readonly treatmentFacade = inject(TreatmentFacade);
     private readonly routeContextService = inject(RouteContextService);
     private readonly clipboardService = inject(ClipboardService);
 

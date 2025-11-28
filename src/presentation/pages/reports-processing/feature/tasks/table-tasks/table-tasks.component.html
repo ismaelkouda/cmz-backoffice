@@ -166,25 +166,25 @@
                                 type="button"
                                 pButton
                                 icon="pi pi-window-maximize"
-                                (click)="onActionClicked(task)"
+                                (click)="onActionClicked(task, 'treat')"
                                 [pTooltip]="getTreatTooltip(task)"
                                 tooltipPosition="bottom"
                                 [disabled]="isLoading()"
                                 size="small"
                                 class="action-btn"
                             ></button>
-                            <!-- <button
+                            <button
                                 type="button"
                                 pButton
                                 severity="info"
                                 icon="pi pi-check-circle"
-                                (click)="onTakeClicked(task)"
-                                [pTooltip]="getTakeTooltip(task)"
+                                (click)="onActionClicked(task, 'action')"
+                                [pTooltip]="getActionTooltip(task)"
                                 tooltipPosition="bottom"
                                 [disabled]="isLoading()"
                                 size="small"
                                 class="action-btn p" 
-                            ></button> -->
+                            ></button>
                         </div>
                     }
                     

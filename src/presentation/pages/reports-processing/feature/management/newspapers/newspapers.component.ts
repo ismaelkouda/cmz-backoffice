@@ -19,7 +19,7 @@ import { NewspapersEntity } from '@presentation/pages/reports-processing/domain/
 import { NewspapersFilter } from '@presentation/pages/reports-processing/domain/value-objects/newspapers-filter.vo';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, takeUntil } from 'rxjs';

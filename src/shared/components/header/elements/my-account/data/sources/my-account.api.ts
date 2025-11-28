@@ -14,8 +14,8 @@ export class MyAccountApi {
         private readonly envService: EnvService
     ) {}
 
-    fetchLogout(): Observable<SimpleResponseDto> {
+    fetchLogout(): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${MY_ACCOUNT_ENDPOINTS.LOGOUT}`;
-        return this.http.put<SimpleResponseDto>(url, {});
+        return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 }

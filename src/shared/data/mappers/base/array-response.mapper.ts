@@ -19,7 +19,7 @@ export abstract class ArrayResponseMapper<TEntity, TItemDto> {
             throw ApiError.invalidResponse(
                 dto.message || 'Erreur API: La requête a échoué.'
             );
-        }
+        }/*  */
 
         if (!dto.data) {
             throw ApiError.invalidResponse(

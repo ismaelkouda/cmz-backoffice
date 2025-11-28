@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { PaginatorModule } from 'primeng/paginator';
-import { Paginate } from '../../interfaces/paginate';
 @Component({
     selector: 'app-pagination',
     standalone: true,

@@ -1,5 +1,5 @@
 import { ReportState } from '@presentation/pages/reports-processing/domain/entities/all/all.entity';
-import { Paginate } from '@shared/interfaces/paginate';
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface AllItemDto {
     id: string;
@@ -34,8 +34,5 @@ export interface AllItemDto {
     updated_at: string;
 }
 
-export interface AllResponseDto {
-    error: boolean;
-    message: string;
-    data: Paginate<AllItemDto>;
-}
+export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> {}
+

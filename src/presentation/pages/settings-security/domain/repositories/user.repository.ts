@@ -1,14 +1,14 @@
-import { Paginate } from '@shared/interfaces/paginate';
+import {
+    UserDeleteResponseDto,
+    UserDisableResponseDto,
+    UserEnableResponseDto,
+    UserStoreRequestDto,
+    UserUpdateRequestDto,
+} from '@presentation/pages/settings-security/data/dtos/user-response.dto';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 import { User } from '../entities/user.entity';
 import { UserFilter } from '../value-objects/user-filter.vo';
-import {
-    UserStoreRequestDto,
-    UserUpdateRequestDto,
-    UserDeleteResponseDto,
-    UserEnableResponseDto,
-    UserDisableResponseDto,
-} from '@presentation/pages/settings-security/data/dtos/user-response.dto';
 
 export abstract class UserRepository {
     abstract fetchUsers(

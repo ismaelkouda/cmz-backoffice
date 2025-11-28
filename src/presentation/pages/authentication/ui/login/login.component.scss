@@ -1,9 +1,9 @@
-$white: #ffffff;
-$black: #000000;
-$bg-primary: #f2f2f2;
-$light-gray: #e5e5e5;
-$medium-gray: #a0a0a0;
-$dark-gray: #666666;
+$white: var(--color-white);
+$black: var(--color-black);
+$bg-primary: var(--color-gray-light);
+$light-gray: var(--color-gray-light);
+$medium-gray: var(--color-gray);
+$dark-gray: var(--color-gray);
 
 @mixin flex-center {
     display: flex;
@@ -26,7 +26,7 @@ $dark-gray: #666666;
     padding: 40px 16px;
     box-sizing: border-box;
 
-    background-image: url('../../../../../assets/images/login/login_bg.jpg');
+    background-image: var(--login-bg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -152,8 +152,7 @@ $dark-gray: #666666;
 
 .app-title {
     font:
-        700 32px/40px 'Roboto',
-        sans-serif;
+        700 32px/40px var(--font-primary);
     color: $white;
     margin: 0 0 16px 0;
     letter-spacing: 0.5px;
@@ -171,8 +170,7 @@ $dark-gray: #666666;
 
 .app-subtitle {
     font:
-        400 18px/26px 'Roboto',
-        sans-serif;
+        400 18px/26px var(--font-primary);
     color: rgba($white, 0.9);
     margin: 0 0 32px 0;
     opacity: 0.9;
@@ -195,8 +193,7 @@ $dark-gray: #666666;
     align-items: center;
     gap: 12px;
     font:
-        500 16px/24px 'Roboto',
-        sans-serif;
+        500 16px/24px var(--font-primary);
     color: rgba($white, 0.9);
 
     @media (min-width: 768px) {
@@ -236,8 +233,7 @@ $dark-gray: #666666;
 
 .auth-title {
     font:
-        700 28px/36px 'Roboto',
-        sans-serif;
+        700 28px/36px var(--font-primary);
     color: $black;
     text-align: center;
     margin-bottom: 32px;
@@ -278,8 +274,7 @@ $dark-gray: #666666;
 
 .form-label {
     font:
-        500 14px/20px 'Roboto',
-        sans-serif;
+        500 14px/20px var(--font-primary);
     color: $dark-gray;
     display: flex;
     align-items: center;
@@ -302,11 +297,10 @@ $dark-gray: #666666;
     border: 2px solid $light-gray;
     border-radius: 12px;
     font:
-        400 16px/24px 'Roboto',
-        sans-serif;
+        400 16px/24px var(--font-primary);
     color: $black;
     @include transition(all);
-    background-color: #fafafa;
+    background-color: var(--color-gray-light);
     box-sizing: border-box;
 
     &:focus {
@@ -395,8 +389,7 @@ $dark-gray: #666666;
     border-radius: 12px;
     padding: 18px 32px;
     font:
-        700 16px/24px 'Roboto',
-        sans-serif;
+        700 16px/24px var(--font-primary);
     cursor: pointer;
     @include transition(all);
     margin-top: 24px;
@@ -435,8 +428,7 @@ $dark-gray: #666666;
 
 .forgot-link {
     font:
-        500 14px/20px 'Roboto',
-        sans-serif;
+        500 14px/20px var(--font-primary);
     color: var(--theme-default);
     text-decoration: none;
     @include transition(all);

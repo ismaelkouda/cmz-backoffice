@@ -1,22 +1,22 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  inject,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    inject,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { User } from '@presentation/pages/settings-security/domain/entities/user.entity';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import {
-  TableConfig,
-  TableExportExcelFileService,
+    TableConfig,
+    TableExportExcelFileService,
 } from '@shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';

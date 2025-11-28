@@ -1,0 +1,80 @@
+<main class="container-fluid actions-form-container" role="main">
+    <section class="row actions-form-row">
+        <article class="col-sm-12 actions-form-article">
+
+            <app-breadcrumb
+                class="actions-form-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card actions-form-card">
+                <div class="card-body actions-form-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [title]="'ACTIONS.TITLE' | translate | lowercase"
+                            >
+                            </app-page-title>
+                            <div class="ms-auto">
+                                <p-tag severity="success" [value]="reportUniqId()" />
+                            </div>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="onCancel()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="fade-in actions-content">
+                        <app-filter-actions
+                            class="filter-component"
+                            (filter)="filter($event)"
+                        >
+                        </app-filter-actions>
+
+                        <hr class="actions-divider" />
+
+                        <section
+                            class="actions-table-section"
+                            [aria-label]="'ACTIONS.TITLE' | translate"
+                        >
+                            <app-table-actions
+                                class="actions-table-component"
+                                [loading]="loading$ | async"
+                                [pagination$]="pagination$"
+                                [actions$]="actions$"
+                                (manageRequested)="onManageAction($event)"
+                                (deleteRequested)="onActionDelete($event)"
+                                (refreshRequested)="refreshActions()"
+                            >
+                            </app-table-actions>
+
+                            <app-pagination
+                                class="actions-pagination-component"
+                                [pagination]="pagination$ | async"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+@if (modalState().visible) {
+    <app-modal-action
+        [visible]="modalState().visible"
+        [reportUniqId]="reportUniqId()"
+        [mode]="modalState().mode"
+        [action]="modalState().action"
+        (actionCreate)="onActionCreate($event)"
+        (actionUpdate)="onActionUpdate($event)"
+        (closed)="onModalClosed()"
+    >
+    </app-modal-action>
+}

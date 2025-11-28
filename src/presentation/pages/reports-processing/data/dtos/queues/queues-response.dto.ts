@@ -2,7 +2,7 @@ import {
     ReportState,
     ReportStatus,
 } from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
-import { Paginate } from '@shared/interfaces/paginate';
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface QueuesItemDto {
     id: string;
@@ -38,8 +38,4 @@ export interface QueuesItemDto {
     updated_at: string;
 }
 
-export interface QueuesResponseDto {
-    error: boolean;
-    message: string;
-    data: Paginate<QueuesItemDto>;
-}
+export interface QueuesResponseDto extends PaginatedResponseDto<QueuesItemDto> {}

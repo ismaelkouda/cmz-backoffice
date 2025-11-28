@@ -295,7 +295,7 @@ $text-color:
 }
 
 .font-primary {
-    color: var(--theme-deafult) !important;
+    color: var(--theme-default) !important;
 }
 
 .font-secondary {
@@ -351,7 +351,7 @@ $badge-color:
 }
 
 .badge-primary {
-    background-color: var(--theme-deafult) !important;
+    background-color: var(--theme-default) !important;
 }
 
 .badge-secondary {
@@ -383,7 +383,7 @@ $background-color:
 }
 
 .bg-primary {
-    background-color: var(--theme-deafult) !important;
+    background-color: var(--theme-default) !important;
 }
 
 .bg-secondary {
@@ -411,7 +411,7 @@ $label-color:
 }
 
 .txt-primary {
-    color: var(--theme-deafult) !important;
+    color: var(--theme-default) !important;
 }
 
 .txt-secondary {
@@ -474,8 +474,8 @@ $label-color:
 }
 
 .btn-primary {
-    background-color: var(--theme-deafult) !important;
-    border-color: var(--theme-deafult) !important;
+    background-color: var(--theme-default) !important;
+    border-color: var(--theme-default) !important;
 }
 
 .btn-secondary {
@@ -874,9 +874,9 @@ button {
 }
 .primary {
     .svg-fill {
-        fill: var(--theme-deafult);
+        fill: var(--theme-default);
         &:not(.half-circle) {
-            stroke: var(--theme-deafult);
+            stroke: var(--theme-default);
         }
     }
     .bg-gradient {

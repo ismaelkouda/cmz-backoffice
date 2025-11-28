@@ -1,9 +1,16 @@
 // *** utils ***
 @import '../scss/utils/variables';
+@import '../scss/charter';  // Graphic charter - bridges CSS vars with SCSS
+
+// ============================================
+// CSS Custom Properties
+// ============================================
+// Note: Theme colors (--theme-default, --theme-secondary, --color-*, etc.) 
+// are injected dynamically by AppCustomizationService at runtime.
+// Only define UI-specific variables here that are NOT part of the config.
 
 :root {
-    --theme-deafult: #5b9bd5;
-    --theme-secondary: #f73164;
+    // UI-specific variables (not customizable via config)
     --light-background: rgba(242, 243, 247, 0.7);
     --body-font-color: #2f2f3b;
     --chart-border: #ecf3fa;
@@ -23,15 +30,18 @@
     --balance-profie-bg: #e0dfef;
     --view-grid-bg: #ecf3fa80;
     --view-border-marker: #cfcdfc;
-    --fc-button-bg-color: var(--theme-deafult);
-    --fc-button-active-bg-color: var(--theme-deafult);
-    --fc-button-active-border-color: var(--theme-deafult);
-    --fc-button-border-color: var(--theme-deafult);
-    --fc-button-hover-bg-color: var(--theme-deafult);
-    --fc-button-hover-border-color: var(--theme-deafult);
+    
+    // FullCalendar colors (reference theme colors)
+    --fc-button-bg-color: var(--theme-default);
+    --fc-button-active-bg-color: var(--theme-default);
+    --fc-button-active-border-color: var(--theme-default);
+    --fc-button-border-color: var(--theme-default);
+    --fc-button-hover-bg-color: var(--theme-default);
+    --fc-button-hover-border-color: var(--theme-default);
 }
 
 body[class='dark-only'] {
+    // Dark mode overrides for UI-specific variables
     --light-background: rgba(31, 32, 40, 0.65);
     --recent-chart-bg: #262932;
     --light-bg: #1d1e26;
@@ -51,10 +61,10 @@ body[class='dark-only'] {
 	*** Icons Scss ***
 -----------------------*/
 
-@import 'vendors/whether-icon';
+/* @import 'vendors/whether-icon';
 @import 'vendors/flag-icon';
 @import 'vendors/icofont';
-@import 'vendors/themify';
+@import 'vendors/themify'; */
 
 /* ---------------------
 	*** Base ***
@@ -98,7 +108,7 @@ body[class='dark-only'] {
 @import 'components/tree.scss';
 @import 'components/typeahead-search.scss';
 @import 'components/scrollbar';
-//	*** pages ***
+
 @import 'pages/blog.scss';
 @import 'pages/bookmark-app.scss';
 @import 'pages/cart.scss';
@@ -147,7 +157,6 @@ body[class='dark-only'] {
 @import 'themes/dark.scss';
 @import 'themes/theme-customizer.scss';
 @import 'themes/update.scss';
-// *** layout ***
 @import 'layout/footer.scss';
 @import 'layout/grid.scss';
 @import 'layout/header.scss';
@@ -157,3 +166,7 @@ body[class='dark-only'] {
 @import 'layout/sidebar.scss';
 @import 'layout/rtl.scss';
 @import 'layout/box-layout.scss';
+
+
+
+

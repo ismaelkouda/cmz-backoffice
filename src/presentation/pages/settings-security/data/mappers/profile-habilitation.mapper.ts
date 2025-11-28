@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { ProfileHabilitation } from '../../domain/entities/profile-habilitation.entity';
 import {
     ProfileHabilitationItemDto,

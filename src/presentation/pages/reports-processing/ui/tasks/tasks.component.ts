@@ -7,7 +7,7 @@ import {
     inject,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TasksFacade } from '@presentation/pages/reports-processing/application/tasks.facade';
 import { TasksFilter } from '@presentation/pages/reports-processing/domain/value-objects/tasks-filter.vo';
@@ -16,11 +16,11 @@ import { ManagementComponent } from '@presentation/pages/reports-processing/ui/m
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { TasksFilterPayloadEntity } from '../../domain/entities/tasks/tasks-filter-payload.entity';
 import { TasksEntity } from '../../domain/entities/tasks/tasks.entity';
-import { TableTasksComponent } from '../../feature/tasks/table-tasks/table-tasks.component';
+import { TableTasksComponent, TreatmentRequested } from '../../feature/tasks/table-tasks/table-tasks.component';
 
 @Component({
     selector: 'app-tasks',
@@ -43,6 +43,7 @@ import { TableTasksComponent } from '../../feature/tasks/table-tasks/table-tasks
 export class TasksComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private readonly tasksFacade = inject(TasksFacade);
     public module!: string;
     public subModule!: string;
@@ -94,18 +95,18 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.tasksFacade.changePage(event + 1);
     }
 
-    public onTasksAction(item: TasksEntity): void {
-        this.selectedReportId = item.uniqId;
-        this.reportTreatmentVisible = true;
+    public onTasksAction({item, action}: {item: TasksEntity; action: TreatmentRequested}): void {
+        if (action === "treat") {
+            this.selectedReportId = item.uniqId;
+            this.reportTreatmentVisible = true;
+        } else if (action === "action") {
+            this.router.navigate([item.uniqId], { relativeTo: this.activatedRoute });
+        }
     }
 
     public onReportTreatmentTasksd(): void {
         this.reportTreatmentVisible = false;
         this.selectedReportId = null;
-    }
-
-    public onTasksJournal(item: TasksEntity): void {
-        console.log('Journal requested for:', item.uniqId);
     }
 
     public refreshTasks(): void {

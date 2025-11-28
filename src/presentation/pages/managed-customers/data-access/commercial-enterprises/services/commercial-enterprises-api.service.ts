@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
 import { TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-customers.enum';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { CommercialEnterprisesEndpointEnum } from '../enums/commercial-enterprises-endpoint.enum';
 import { CommercialEnterprisesFilterInterface } from '../interfaces/commercial-enterprises-filter.interface';

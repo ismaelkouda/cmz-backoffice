@@ -1,15 +1,15 @@
 import {
-  AffectedRequestDto,
-  ProfileHabilitationDeleteResponseDto,
-  ProfileHabilitationDisableResponseDto,
-  ProfileHabilitationEnableResponseDto,
-  ProfileHabilitationStoreRequestDto,
-  ProfileHabilitationUpdateRequestDto,
-  ProfileWithoutUserDto,
-  ReassignRequestDto,
-  RemoveRequestDto,
+    AffectedRequestDto,
+    ProfileHabilitationDeleteResponseDto,
+    ProfileHabilitationDisableResponseDto,
+    ProfileHabilitationEnableResponseDto,
+    ProfileHabilitationStoreRequestDto,
+    ProfileHabilitationUpdateRequestDto,
+    ProfileWithoutUserDto,
+    ReassignRequestDto,
+    RemoveRequestDto,
 } from '@presentation/pages/settings-security/data/dtos/profile-habilitation-response.dto';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 import { ProfileHabilitation } from '../entities/profile-habilitation.entity';
 import { User } from '../entities/user.entity';

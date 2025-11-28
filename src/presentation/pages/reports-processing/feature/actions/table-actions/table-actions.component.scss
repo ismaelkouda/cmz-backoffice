@@ -1,0 +1,58 @@
+.action-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-btn {
+    min-width: 2rem;
+    height: 2rem;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.container-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.custom-header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.loading-table {
+    position: relative;
+    min-height: 200px;
+}
+
+.empty-state {
+    padding: 2rem;
+    color: var(--text-color-secondary);
+}
+
+.posCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+:host ::ng-deep {
+    .p-datatable .p-datatable-tbody > tr > td {
+        padding: 0.75rem 1rem;
+    }
+
+    .p-tag {
+        font-size: 0.875rem;
+        padding: 0.25rem 0.5rem;
+    }
+}

@@ -1,4 +1,4 @@
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 
 export interface ProfileHabilitationItemDto {
     id: string;
