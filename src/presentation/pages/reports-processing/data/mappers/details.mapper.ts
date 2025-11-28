@@ -163,14 +163,18 @@ export class DetailsMapper extends SimpleResponseMapper<
     }
 
     private mapOperators(operators: string[]): TelecomOperator[] {
-        return operators.map((operator) => {
-            const operatorMap: Record<string, TelecomOperator> = {
-                mtn: TelecomOperator.MTN,
-                orange: TelecomOperator.ORANGE,
-                moov: TelecomOperator.MOOV,
-            };
-            return operatorMap[operator.toLowerCase()] || TelecomOperator.MTN;
-        });
+        if (!operators || !Array.isArray(operators)) {
+        return [];
+    }
+    
+    return operators.map((operator) => {
+        const operatorMap: Record<string, TelecomOperator> = {
+            mtn: TelecomOperator.MTN,
+            orange: TelecomOperator.ORANGE,
+            moov: TelecomOperator.MOOV,
+        };
+        return operatorMap[operator.toLowerCase()] || TelecomOperator.MTN;
+    });
     }
 
     private mapMedia(dto: DetailsItemDto): ReportMedia {

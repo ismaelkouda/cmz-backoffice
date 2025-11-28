@@ -56,7 +56,6 @@ function handleError(
         status: error.status,
     };
 
-    // Gestion spécifique par code d'erreur
     switch (error.status) {
         case 401:
             handleUnauthorizedError();
