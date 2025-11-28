@@ -101,7 +101,8 @@
                 ],
                 "output": "/assets/"
               },
-              "src/assets"
+              "src/assets",
+              "src/.htaccess"
             ],
             "styles": [
               "node_modules/ngx-toastr/toastr.css",
