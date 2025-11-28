@@ -14,7 +14,7 @@ FROM dependencies AS build
 
 COPY . .
 RUN pnpm run build:prod
-RUN ls /app/dist/cmz-backoffice
+RUN ls /app/dist/cmz-backoffice/browser
 
 
 FROM php:8.2-apache
@@ -26,7 +26,7 @@ RUN apt-get update && \
 
 #COPY --from=build dist /var/www/html
 #RUN npm run test--from=build 
-COPY --from=build /app/dist/cmz-backoffice /var/www/html
+COPY --from=build /app/dist/cmz-backoffice/browser /var/www/html
 RUN chmod -R 755 /var/www/html
 #RUN rm -rf /var/www/html/assets/config/env.js
 
