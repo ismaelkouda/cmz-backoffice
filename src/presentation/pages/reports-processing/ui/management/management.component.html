@@ -998,7 +998,7 @@
                                         <form class="decision-form-row">
 
                                             <div class="decision-group row">
-                                                <div class="col-md-9 form-column">
+                                                <div class="col-md-8 form-column">
                                                     <label class="decision-label">{{
                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION'
                                                         | translate
@@ -1050,7 +1050,7 @@
                                                             </div>
                                                             </div>
 
-                                                            <div class="col-md-6 radio-option p-1">
+                                                            <div class="col-md-6 radio-option">
                                                                             <div class="radio-content">
                                                                     <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
                                                                     <div class="radio-text">
@@ -1099,7 +1099,7 @@
 
                                                 </div>
 
-                                                <div class="col-md-3 form-column">
+                                                <div class="col-md-4 form-column">
                                                     <label class="comment-label">
                                                         {{
                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
@@ -1109,7 +1109,7 @@
                                                     <textarea class="comment-textarea" formControlName="comment" [placeholder]="
                                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT_PLACEHOLDER'
                                                                             | translate
-                                                                    " rows="1">
+                                                                    " rows="2">
                                                                 </textarea>
                                                     <div class="validation-error" *ngIf="
                                                                         formTreatment.get(

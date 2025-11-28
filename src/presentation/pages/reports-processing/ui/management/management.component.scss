@@ -1162,7 +1162,6 @@
     line-height: 1.5;
     transition: all 0.2s ease;
     font-family: inherit;
-    min-height: 100px;
     background: white;
     resize: none;
     &:focus {
@@ -1432,9 +1431,6 @@
     justify-content: start;
     align-items: center;
     gap: 1rem;
-    padding: 1rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     background: white;
@@ -1450,7 +1446,7 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    padding: 1rem;
+    padding: 0.5rem;
     border: 2px solid #e5e7eb;
     border-radius: 8px;
     cursor: pointer;
@@ -1487,8 +1483,8 @@
 }
 
 .radio-dot {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     background: transparent;
     transition: all 0.2s ease;
