@@ -9,7 +9,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, take } from 'rxjs';
-import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { SharedService } from '../../../../../../shared/services/shared.service';
 import {
     TableConfig,

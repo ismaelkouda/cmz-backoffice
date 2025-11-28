@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
 import { TasksEntity } from '../../domain/entities/tasks/tasks.entity';
 import { TasksRepository } from '../../domain/repositories/tasks.repository';

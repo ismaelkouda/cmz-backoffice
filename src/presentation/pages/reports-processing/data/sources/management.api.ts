@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+import { ManagementEntity } from '../../domain/entities/management/management.entity';
 import { ManagementRequestDto } from '../dtos/management/management-request.dto';
 import { MANAGEMENT_ENDPOINTS } from '../endpoint/management-endpoint';
 
@@ -18,7 +19,7 @@ export class ManagementApi {
     fetchTake(
         payload: ManagementRequestDto,
         endPointType: EndPointType
-    ): Observable<SimpleResponseDto> {
+    ): Observable<SimpleResponseDto<ManagementEntity>> {
         let url: string;
         switch (endPointType) {
             case 'requests':
@@ -48,13 +49,13 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
     }
 
     fetchApprove(
         payload: ManagementRequestDto,
         endPointType: EndPointType
-    ): Observable<SimpleResponseDto> {
+    ): Observable<SimpleResponseDto<ManagementEntity>> {
         console.log('JSON.stringify(paramsObject)', payload);
         let url: string;
         switch (endPointType) {
@@ -85,13 +86,13 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
     }
 
     fetchReject(
         payload: ManagementRequestDto,
         endPointType: EndPointType
-    ): Observable<SimpleResponseDto> {
+    ): Observable<SimpleResponseDto<ManagementEntity>> {
         let url: string;
         switch (endPointType) {
             case 'requests':
@@ -117,10 +118,10 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
     }
 
-    fetchProcess(payload: ManagementRequestDto): Observable<SimpleResponseDto> {
+    fetchProcess(payload: ManagementRequestDto): Observable<SimpleResponseDto<ManagementEntity>> {
         const url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.PROCESS.replace('{id}', payload.uniq_id)}`;
         const { uniq_id, reason, ...bodyParams } = payload;
 
@@ -133,12 +134,12 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
     }
 
     fetchFinalize(
         payload: ManagementRequestDto
-    ): Observable<SimpleResponseDto> {
+    ): Observable<SimpleResponseDto<ManagementEntity>> {
         const url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.FINALIZE.replace('{id}', payload.uniq_id)}`;
         const { uniq_id, ...bodyParams } = payload;
 
@@ -151,6 +152,6 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
     }
 }

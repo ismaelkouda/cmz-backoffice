@@ -4,7 +4,7 @@ import { ManagementEntity } from '../../domain/entities/management/management.en
 
 @Injectable({ providedIn: 'root' })
 export class ManagementMapper {
-    mapFromDto(dto: SimpleResponseDto): ManagementEntity {
+    mapFromDto(dto: SimpleResponseDto<ManagementEntity>): ManagementEntity {
         if (dto.error) {
             return {
                 message: dto.message,

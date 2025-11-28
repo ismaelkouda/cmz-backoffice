@@ -5,7 +5,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { LayoutService } from '@shared/services/layout.service';
 import { NavService } from '@shared/services/nav.service';
-import { SharedService } from '@shared/services/shared.service';
 import { MyAccountComponent } from './elements/my-account/my-account.component';
 
 @Component({
@@ -23,13 +22,10 @@ export class HeaderComponent {
         public layout: LayoutService,
         public navServices: NavService,
         private router: Router,
-        private sharedService: SharedService
     ) {
-        this.sharedService.fetchUnReadNotifications();
     }
 
     public handleRefreshNotification(): void {
-        this.sharedService.fetchUnReadNotifications();
     }
 
     statusLayout(): boolean {

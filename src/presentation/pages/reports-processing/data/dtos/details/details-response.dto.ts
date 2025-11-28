@@ -1,3 +1,5 @@
+import { SimpleResponseDto } from "@shared/data/dtos/simple-response.dto";
+
 export interface DetailsItemDto {
     id: string;
     uniq_id: string;
@@ -77,8 +79,4 @@ export interface DetailsItemDto {
     municipality: string | null;
 }
 
-export interface DetailsResponseDto {
-    error: boolean;
-    message: string;
-    data: DetailsItemDto;
-}
+export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> {}

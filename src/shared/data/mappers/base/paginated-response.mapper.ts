@@ -1,16 +1,8 @@
+import { Paginate, PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { ApiError } from '@shared/domain/errors/api.error';
-import { Paginate } from '@shared/interfaces/paginate';
-
-interface PaginatedResponseDto<TItemDto> {
-    error: boolean;
-    message: string;
-    data: Paginate<TItemDto>;
-}
 
 export abstract class PaginatedMapper<TEntity, TItemDto> {
     protected abstract mapItemFromDto(dto: TItemDto): TEntity;
-
-    mapFromDto(dto: PaginatedResponseDto<TItemDto>): Paginate<TEntity>;
 
     mapFromDto(dto: PaginatedResponseDto<TItemDto>): Paginate<TEntity> {
         this.validateResponse(dto);

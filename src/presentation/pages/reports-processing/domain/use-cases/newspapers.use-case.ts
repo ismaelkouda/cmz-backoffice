@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 import { NewspapersEntity } from '../entities/management/newspapers/newspapers.entity';
 import { NewspapersRepository } from '../repositories/newspapers.repository';

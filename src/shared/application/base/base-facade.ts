@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { ApiError } from '@shared/domain/errors/api.error';
-import { Paginate } from '@shared/interfaces/paginate';
 import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AllComponent } from './ui/all/all.component';
-import { FinalizeComponent } from './ui/finalize/finalize.component';
 import { QueuesComponent } from './ui/queues/queues.component';
 import { TasksComponent } from './ui/tasks/tasks.component';
 import { TreatmentComponent } from './ui/treatment/treatment.component';
@@ -105,27 +104,5 @@ export const routes: Routes = [
         // data: {
         //     allowedPaths: [`/${TREATMENT_ROUTE}`],
         // },
-    },
-    {
-        path: FINALIZE_ROUTE,
-        children: [
-            {
-                path: '',
-                component: FinalizeComponent,
-                data: {
-                    title: 'FINALIZATION.FINALIZE.TITLE',
-                    module: 'FINALIZATION.LABEL',
-                    subModule: 'FINALIZATION.FINALIZE.LABEL',
-                },
-            },
-            {
-                path: '**',
-                redirectTo: '',
-            },
-        ],
-        // canActivate: [PagesGuard],
-        // data: {
-        //     allowedPaths: [`/${FINALIZE_ROUTE}`],
-        // },
-    },
+    }
 ];

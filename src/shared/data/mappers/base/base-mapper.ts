@@ -1,5 +1,5 @@
-import { ApiError } from '@shared/domain/errors/api.error';
-import { Paginate } from '@shared/interfaces/paginate';
+/* import { ApiError } from '@shared/domain/errors/api.error';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 
 export interface ApiResponseDto<TStatsDto, TItemDto> {
     error: boolean;
@@ -73,3 +73,4 @@ export abstract class BaseMapper<
         };
     }
 }
+ */

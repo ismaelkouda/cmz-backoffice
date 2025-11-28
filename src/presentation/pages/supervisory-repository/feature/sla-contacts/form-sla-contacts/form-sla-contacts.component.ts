@@ -16,9 +16,9 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
+import Swal from 'sweetalert2';
 import { FormatFormData } from '../../../../../../shared/functions/formatFormData.function';
 import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
-import { SharedService } from '../../../../../../shared/services/shared.service';
 import { SlaContactsFormInterface } from '../../../data-access/sla-contacts/interfaces/sla-contacts-form.interface';
 import { SlaContactsInterface } from '../../../data-access/sla-contacts/interfaces/sla-contacts.interface';
 import { SlaContactsApiService } from '../../../data-access/sla-contacts/services/sla-contacts-api.service';
@@ -26,7 +26,6 @@ import {
     SLA_CONTACTS_FORM_MODE_ENUM,
     T_SLA_CONTACTS_FORM_MODE_ENUM,
 } from './../../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
-import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-form-sla-contacts',
@@ -52,7 +51,6 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private toastService: ToastrService,
-        private sharedService: SharedService,
         private translate: TranslateService,
         private slaContactsApiService: SlaContactsApiService
     ) {}
@@ -76,18 +74,12 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
     }
 
     private fetchApplicants(): void {
-        this.sharedService.fetchApplicants();
-        this.listApplicants$ = this.sharedService.getApplicants();
     }
 
     private fetchRegimesBusiness(): void {
-        this.sharedService.fetchRegimesBusiness();
-        this.listRegimesBusiness$ = this.sharedService.getRegimesBusiness();
     }
 
     private fetchLegalForms(): void {
-        this.sharedService.fetchLegalForms();
-        this.listLegalForm$ = this.sharedService.getLegalForms();
     }
 
     public get disabledEditableForm(): boolean {

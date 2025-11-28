@@ -12,10 +12,18 @@ export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
         author: 'Connect My Zone',
         lang: 'fr',
     },
+    fonts: {
+        primary: "'Avenir', 'Futura', sans-serif",
+        secondary: "'Helvetica', sans-serif",
+    },
     colors: {
         primary: '#2256a3',
         secondary: '#f08224',
         tertiary: '#FFFFFF',
+        black: '#1D1D1B',
+        white: '#ffffff',
+        gray: '#878787',
+        grayLight: '#e0e0de',
         error: '#dc3545',
         warning: '#ffc107',
         success: '#28a745',
@@ -37,6 +45,7 @@ export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
         favicon: 'favicon.ico',
         logoFull: 'assets/images/logo/logo-ansut-full.png',
         logoIcon: 'assets/images/favicon.png',
+        loginBg: 'assets/images/login/login_bg.jpg',
     },
     loadingBar: {
         color: '#2256a3',

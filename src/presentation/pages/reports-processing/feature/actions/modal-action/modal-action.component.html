@@ -1,0 +1,104 @@
+<p-dialog
+    [visible]="visible()"
+    (visibleChange)="onModalVisibilityChange($event)"
+    (onHide)="onHide()"
+    [modal]="true"
+    [closable]="true"
+    [draggable]="false"
+    [dismissableMask]="true"
+    [style]="{ width: '45rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '95vw' }"
+    [header]="modalTitle()"
+    class="action-modal animate__animated animate__fadeIn"
+>
+<ng-template pTemplate="content">
+  <form [formGroup]="actionForm">
+
+    <div class="row g-3">
+
+      <!-- DATE -->
+      <div class="col-md-6 form-group">
+        <label for="action-date">
+          {{ 'ACTIONS.FIELDS.DATE' | translate }}
+          <span class="required">*</span>
+        </label>
+        <p-datepicker
+          formControlName="date"
+          [showIcon]="true"
+          [readonlyInput]="true"
+          dateFormat="yy-mm-dd"
+          appendTo="body"
+          class="form-control"
+        ></p-datepicker>
+
+        <span *ngIf="isFieldInvalid('date')" class="error">{{ getFieldError('date') }}</span>
+      </div>
+
+      <!-- TYPE -->
+      <div class="col-md-6 form-group">
+        <label for="action-type">
+          {{ 'ACTIONS.FIELDS.TYPE' | translate }}
+          <span class="required">*</span>
+        </label>
+        <p-select
+          id="action-type"
+          formControlName="type"
+          [options]="actionTypes()"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="{{ 'ACTIONS.PLACEHOLDERS.TYPE' | translate }}"
+          class="form-control"
+        ></p-select>
+
+        <span *ngIf="isFieldInvalid('type')" class="error">{{ getFieldError('type') }}</span>
+      </div>
+
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="form-group">
+      <label for="action-description">
+        {{ 'ACTIONS.FIELDS.DESCRIPTION' | translate }}
+        <span class="required">*</span>
+      </label>
+      <textarea
+        id="action-description"
+        pInputTextarea
+        formControlName="description"
+        rows="4"
+        maxlength="255"
+        placeholder="{{ 'ACTIONS.PLACEHOLDERS.DESCRIPTION' | translate }}"
+        class="form-control"
+      ></textarea>
+
+      <div class="char-count">
+        <span *ngIf="isFieldInvalid('description')" class="error">{{ getFieldError('description') }}</span>
+      </div>
+    </div>
+
+  </form>
+</ng-template>
+
+
+    <!-- FOOTER -->
+    <ng-template pTemplate="footer">
+        <div class="flex justify-start gap-3 items-center w-full">
+
+            <p-button
+                [label]="'CANCEL' | translate"
+                (onClick)="onHide()"
+                severity="secondary"
+            ></p-button>
+
+            <p-button
+                [label]="submitButtonLabel()"
+                (onClick)="onSubmit()"
+                [disabled]="!actionForm.valid || _isSubmitted()"
+                [loading]="_isSubmitted()"
+                [severity]="mode() === 'edit' ? 'warning' : 'primary'"
+            ></p-button>
+
+        </div>
+    </ng-template>
+
+</p-dialog>

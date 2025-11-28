@@ -1,5 +1,5 @@
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { ApiError } from '@shared/domain/errors/api.error';
-import { Paginate } from '@shared/interfaces/paginate';
 
 export interface SimplePaginatedResponseDto<TItemDto> {
     error: boolean;

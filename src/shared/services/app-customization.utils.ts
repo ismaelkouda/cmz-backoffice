@@ -1,8 +1,3 @@
-/**
- * Obtient le titre dynamique de l'application en fonction de l'URL
- * @param {string} defaultTitle - Titre par défaut à retourner si aucune correspondance
- * @returns {string} Titre de l'application
- */
 export function getDynamicTitle(defaultTitle: string): string {
     try {
         const url = `${location.protocol}//${location.host}`;

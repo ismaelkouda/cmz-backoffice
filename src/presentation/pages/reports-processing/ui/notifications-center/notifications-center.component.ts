@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
 import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
-import { Paginate } from '../../../../../shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { SharedService } from '../../../../../shared/services/shared.service';
 import { NotificationsCenterApiService } from '../../data-access/notifications-center/services/notifications-center-api.service';
 import { notificationsFilterEntity } from '../../domain/entities/notifications-filter.entity';

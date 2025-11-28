@@ -1927,9 +1927,10 @@
                                                             }
 
                                                             &.active {
-                                                                color: var(
+                                                                /* color: var(
                                                                     --theme-deafult
-                                                                );
+                                                                ); */
+                                                                color: black;
 
                                                                 &::before {
                                                                     opacity: 1;

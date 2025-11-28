@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { User } from '../../domain/entities/user.entity';
 import { UserItemDto, UserResponseDto } from '../dtos/user-response.dto';
 import { SimplePaginatedMapper } from './base/simple-paginated-mapper';

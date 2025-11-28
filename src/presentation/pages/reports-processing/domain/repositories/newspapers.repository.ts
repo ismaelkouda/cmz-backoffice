@@ -1,4 +1,4 @@
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 import { NewspapersEntity } from '../entities/management/newspapers/newspapers.entity';
 import { NewspapersFilter } from '../value-objects/newspapers-filter.vo';

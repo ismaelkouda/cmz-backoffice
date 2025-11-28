@@ -1,4 +1,4 @@
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 import { TreatmentEntity } from '../entities/treatment/treatment.entity';
 import { TreatmentFilter } from '../value-objects/treatment-filter.vo';

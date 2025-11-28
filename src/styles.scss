@@ -1,4 +1,6 @@
+
 @use './assets/scss/app.scss';
+@import 'tailwindcss';
 .input[type='file'] {
     color: #000 !important;
 }
@@ -53,7 +55,7 @@
     font-size: 16px;
 }
 .text-orange {
-    color: var(--theme-default);
+    color: var(--theme-secondary);
 }
 
 label {

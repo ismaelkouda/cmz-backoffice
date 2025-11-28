@@ -17,7 +17,7 @@ import { ManagementComponent } from '@presentation/pages/reports-processing/ui/m
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { QueuesFilterPayloadEntity } from '../../domain/entities/queues/queues-filter-payload.entity';
 import { QueuesEntity } from '../../domain/entities/queues/queues.entity';

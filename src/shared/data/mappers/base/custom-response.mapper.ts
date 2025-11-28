@@ -1,5 +1,5 @@
-import { ApiError } from '@shared/domain/errors/api.error';
-import { Paginate } from '@shared/interfaces/paginate';
+/* import { ApiError } from '@shared/domain/errors/api.error';
+import { Paginate, PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 interface SimplePaginatedResponseDto<TItemDto> {
     error: boolean;
@@ -91,3 +91,4 @@ export abstract class SimplePaginatedMapper<TEntity, TItemDto> {
         }
     }
 }
+ */

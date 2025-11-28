@@ -4,7 +4,7 @@ import { LogoutEntity } from '../../domain/entities/logout.entity';
 
 @Injectable({ providedIn: 'root' })
 export class MyAccountMapper {
-    mapFromDto(dto: SimpleResponseDto): LogoutEntity {
+    mapFromDto(dto: SimpleResponseDto<any>): LogoutEntity {
         if (dto.error) {
             return {
                 message: dto.message,

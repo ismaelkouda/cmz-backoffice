@@ -6,6 +6,7 @@ import { DEFAULT_CUSTOMIZATION } from './app-customization.config';
 import {
     setDocumentTitle,
     setFavicon,
+    setFonts,
     setLayoutDirection,
     setMetaTags,
     setThemeColors,
@@ -63,6 +64,14 @@ export class AppCustomizationService {
                 author: DEFAULT_CUSTOMIZATION.app.author,
                 lang: DEFAULT_CUSTOMIZATION.app.lang,
             },
+            fonts: {
+                primary:
+                    appSettings.appFontPrimary ||
+                    DEFAULT_CUSTOMIZATION.fonts.primary,
+                secondary:
+                    appSettings.appFontSecondary ||
+                    DEFAULT_CUSTOMIZATION.fonts.secondary,
+            },
             colors: {
                 primary:
                     appSettings.appPrimaryColor ||
@@ -73,6 +82,10 @@ export class AppCustomizationService {
                 tertiary:
                     appSettings.appTertiaryColor ||
                     DEFAULT_CUSTOMIZATION.colors.tertiary,
+                black: DEFAULT_CUSTOMIZATION.colors.black,
+                white: DEFAULT_CUSTOMIZATION.colors.white,
+                gray: DEFAULT_CUSTOMIZATION.colors.gray,
+                grayLight: DEFAULT_CUSTOMIZATION.colors.grayLight,
                 error: DEFAULT_CUSTOMIZATION.colors.error,
                 warning: DEFAULT_CUSTOMIZATION.colors.warning,
                 success: DEFAULT_CUSTOMIZATION.colors.success,
@@ -93,6 +106,9 @@ export class AppCustomizationService {
                 logoIcon:
                     appSettings.appLogoIcon ||
                     DEFAULT_CUSTOMIZATION.assets.logoIcon,
+                loginBg:
+                    appSettings.appLoginBg ||
+                    DEFAULT_CUSTOMIZATION.assets.loginBg,
             },
             loadingBar: {
                 color:
@@ -124,6 +140,7 @@ export class AppCustomizationService {
         setDocumentTitle(this.document, this.titleService, this.config);
         setFavicon(this.document, this.config);
         setThemeColors(this.document, this.config);
+        setFonts(this.document, this.config);
         setLayoutDirection(this.document, this.config);
         setMetaTags(this.document, this.config);
     }

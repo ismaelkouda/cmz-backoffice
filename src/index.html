@@ -49,11 +49,56 @@
         />
 
         <script src="assets/config/env.js"></script>
+        <script>
+            (function () {
+                try {
+                    var env = window.__env || {};
+                    var root = document.documentElement;
+                    var primaryColor = env.appPrimaryColor || '#2256a3';
+                    var fontPrimary = env.appFontPrimary || "'Avenir', 'Futura', sans-serif";
+                    
+                    root.style.setProperty('--theme-default', primaryColor);
+                    root.style.setProperty('--font-primary', fontPrimary);
+                } catch (e) {
+                    console.error('Error setting initial styles', e);
+                }
+            })();
+        </script>
+        <style>
+            .app-loading {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #f8f9fa;
+                z-index: 9999;
+                font-family: var(--font-primary, sans-serif);
+                color: var(--theme-default, #2256a3);
+                flex-direction: column;
+            }
+            .app-loading-spinner {
+                width: 50px;
+                height: 50px;
+                border: 3px solid rgba(0, 0, 0, 0.1);
+                border-radius: 50%;
+                border-top-color: var(--theme-default, #2256a3);
+                animation: spin 1s ease-in-out infinite;
+                margin-bottom: 20px;
+            }
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+        </style>
     </head>
     <body>
         <!-- Angular Application Root -->
         <app-root role="application" aria-label="Connect My Zone Back-office">
             <div class="app-loading" role="status" aria-live="polite">
+                <div class="app-loading-spinner"></div>
                 <p>Chargement de l'application...</p>
             </div>
         </app-root>

@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
 import { ProfileHabilitation } from '../../domain/entities/profile-habilitation.entity';
 import { User } from '../../domain/entities/user.entity';
 import { ProfileHabilitationRepository } from '../../domain/repositories/profile-habilitation.repository';
 import { ProfileHabilitationFilter } from '../../domain/value-objects/profile-habilitation-filter.vo';
 import {
-  AffectedRequestDto,
-  ProfileHabilitationDeleteResponseDto,
-  ProfileHabilitationDisableResponseDto,
-  ProfileHabilitationEnableResponseDto,
-  ProfileHabilitationStoreRequestDto,
-  ProfileHabilitationUpdateRequestDto,
-  ProfileWithoutUserDto,
-  ReassignRequestDto,
-  RemoveRequestDto,
+    AffectedRequestDto,
+    ProfileHabilitationDeleteResponseDto,
+    ProfileHabilitationDisableResponseDto,
+    ProfileHabilitationEnableResponseDto,
+    ProfileHabilitationStoreRequestDto,
+    ProfileHabilitationUpdateRequestDto,
+    ProfileWithoutUserDto,
+    ReassignRequestDto,
+    RemoveRequestDto,
 } from '../dtos/profile-habilitation-response.dto';
 import { ProfileHabilitationMapper } from '../mappers/profile-habilitation.mapper';
 import { UserMapper } from '../mappers/user.mapper';

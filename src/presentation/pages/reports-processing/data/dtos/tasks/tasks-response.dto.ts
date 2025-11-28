@@ -2,7 +2,7 @@ import {
     ReportState,
     ReportStatus,
 } from '@presentation/pages/reports-processing/domain/entities/tasks/tasks.entity';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 
 export interface TasksItemDto {
     id: string;

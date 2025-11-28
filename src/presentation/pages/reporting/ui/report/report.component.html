@@ -28,7 +28,7 @@
                 [icon]="dashboardState.isFullscreen() ? 'pi pi-compress' : 'pi pi-expand'" 
                 class="p-button-outlined p-button-secondary action-btn"
                 (click)="toggleFullscreen()"
-                pTooltip="{{ dashboardState.isFullscreen() ? 'DASHBOARD.ACTIONS.EXIT_FULLSCREEN' : 'DASHBOARD.ACTIONS.ENTER_FULLSCREEN' | translate }}"
+                pTooltip="{{ dashboardState.isFullscreen() ? 'REPORTING.DASHBOARD.ACTIONS.EXIT_FULLSCREEN' : 'REPORTING.DASHBOARD.ACTIONS.ENTER_FULLSCREEN' | translate }}"
                 tooltipPosition="bottom">
               </button>
 
@@ -36,7 +36,7 @@
                   <button 
                     class="close-fullscreen-btn"
                     (click)="toggleFullscreen()"
-                    pTooltip="{{ 'DASHBOARD.ACTIONS.EXIT_FULLSCREEN' | translate }}">
+                    pTooltip="{{ 'REPORTING.DASHBOARD.ACTIONS.EXIT_FULLSCREEN' | translate }}">
                     <i class="pi pi-times"></i>
                   </button>
               }
@@ -51,8 +51,8 @@
                 strokeWidth="4"
                 animationDuration=".5s">
               </p-progressSpinner>
-              <h3>{{ 'DASHBOARD.LOADING' | translate }}</h3>
-              <p>{{ 'DASHBOARD.LOADING_DESCRIPTION' | translate }}</p>
+              <h3>{{ 'REPORTING.DASHBOARD.LOADING' | translate }}</h3>
+              <p>{{ 'REPORTING.REPORT.LOADING_DESCRIPTION' | translate }}</p>
             </div>
           }
 
@@ -61,12 +61,12 @@
               <div class="error-icon">
                 <i class="pi pi-exclamation-triangle"></i>
               </div>
-              <h3>{{ 'DASHBOARD.ERROR.TITLE' | translate }}</h3>
-              <p>{{ 'DASHBOARD.ERROR.DESCRIPTION' | translate }}</p>
+              <h3>{{ 'REPORTING.DASHBOARD.ERROR' | translate }}</h3>
+              <p>{{ 'REPORTING.REPORT.ERROR_DESCRIPTION' | translate }}</p>
               <button 
                 pButton 
                 icon="pi pi-refresh" 
-                label="{{ 'DASHBOARD.ACTIONS.RETRY' | translate }}"
+                label="{{ 'REPORTING.DASHBOARD.ACTIONS.RETRY' | translate }}"
                 (click)="refreshDashboard()"
                 class="p-button-primary">
               </button>

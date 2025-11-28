@@ -5,7 +5,7 @@ const config = {
         reportUrl: 'http://10.10.0.9:7001/reports/v1.0/backoffice/',
         settingUrl: 'http://10.10.0.9:7002/base-settings/v1.0/backoffice/',
         fileUrl: 'http://10.10.0.9:7000/auth/backoffice/',
-        /*         authenticationUrl:
+        /* authenticationUrl:
             'https://api-services.mazone.imako.digital/auth/v1.0/backoffice/',
         reportUrl:
             'https://api-services.mazone.imako.digital/reports/v1.0/backoffice/',

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
-import { Paginate } from '@shared/interfaces/paginate';
 import { User } from '../../domain/entities/user.entity';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { UserFilter } from '../../domain/value-objects/user-filter.vo';
-import { UserApi } from '../sources/user.api';
-import { UserMapper } from '../mappers/user.mapper';
 import {
+    UserDeleteResponseDto,
+    UserDisableResponseDto,
+    UserEnableResponseDto,
     UserStoreRequestDto,
     UserUpdateRequestDto,
-    UserDeleteResponseDto,
-    UserEnableResponseDto,
-    UserDisableResponseDto,
 } from '../dtos/user-response.dto';
+import { UserMapper } from '../mappers/user.mapper';
+import { UserApi } from '../sources/user.api';
 
 @Injectable({
     providedIn: 'root',

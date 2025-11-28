@@ -1,6 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from '@presentation/app.config';
 import { AppComponent } from './presentation/app.component';
-import { appConfig } from './presentation/app.config';
+import { DEFAULT_CUSTOMIZATION } from './shared/services/app-customization.config';
 
 /**
  * Configuration par défaut pour les performances
@@ -15,21 +16,9 @@ const PERFORMANCE_CONFIG = {
  * Configuration par défaut pour l'affichage des erreurs
  */
 const ERROR_DISPLAY_CONFIG = {
-    styles: {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '100%',
-        background: '#dc3545',
-        color: 'white',
-        padding: '1rem',
-        textAlign: 'center',
-        fontFamily: 'Arial, sans-serif',
-        zIndex: '9999',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-    },
-    role: 'alert',
-    ariaLive: 'assertive',
+    styles: DEFAULT_CUSTOMIZATION.error.displayStyles,
+    role: DEFAULT_CUSTOMIZATION.error.role,
+    ariaLive: DEFAULT_CUSTOMIZATION.error.ariaLive,
 } as const;
 
 /**

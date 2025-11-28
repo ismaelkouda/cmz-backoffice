@@ -5,7 +5,7 @@ import { AllApi } from '@presentation/pages/report-requests/data/sources/all.api
 import { AllEntity } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
 import { AllRepository } from '@presentation/pages/report-requests/domain/repositories/all.repository';
 import { AllFilter } from '@presentation/pages/report-requests/domain/value-objects/all-filter.vo';
-import { Paginate } from '@shared/interfaces/paginate';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, catchError, map, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
