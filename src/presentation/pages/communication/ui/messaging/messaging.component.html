@@ -1,0 +1,27 @@
+<div class="messaging-container">
+    <app-page-title
+        [title]="module()"
+        [subtitle]="subModule()"
+    ></app-page-title>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <app-table-messaging
+                [messages$]="messages$"
+                [pagination$]="pagination$"
+                [loading]="(loading$ | async) ?? false"
+                (viewRequested)="onViewMessage($event)"
+                (refreshRequested)="onRefresh()"
+            ></app-table-messaging>
+
+            <div class="mt-4" *ngIf="pagination$ | async as pagination">
+                <app-pagination
+                    [total]="pagination.total"
+                    [perPage]="pagination.per_page"
+                    [currentPage]="pagination.current_page"
+                    (pageChange)="onPageChange($event)"
+                ></app-pagination>
+            </div>
+        </div>
+    </div>
+</div>

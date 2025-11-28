@@ -1,8 +1,5 @@
 import { AppCustomizationConfig } from './app-customization.interface';
 
-/**
- * Valeurs par défaut de personnalisation de l'application
- */
 export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
     app: {
         name: 'Connect My Zone',

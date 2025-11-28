@@ -22,7 +22,6 @@ export class ActionsApi {
         page: string
     ): Observable<ActionsResponseDto> {
         const url = `${this.baseUrl}${ACTIONS_ENDPOINTS.ACTIONS.replace('{page}', page)}`;
-
         const paramsObject = Object.entries(payload ?? {}).reduce<
             Record<string, string>
         >((acc, [key, value]) => {
@@ -44,6 +43,7 @@ export class ActionsApi {
         payload: ActionsCreateRequestDto
     ): Observable<SimpleResponseDto<{ id: string }>> {
         const url = `${this.baseUrl}${ACTIONS_ENDPOINTS.CREATE}`;
+        console.log("payload", payload)
         return this.http.post<SimpleResponseDto<{ id: string }>>(url, payload);
     }
 

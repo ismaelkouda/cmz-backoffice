@@ -18,8 +18,7 @@ import { ManagementComponent } from '@presentation/pages/reports-processing/ui/m
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AllFilterPayloadEntity } from '../../domain/entities/all/all-filter-payload.entity';
 
 @Component({
@@ -46,16 +45,15 @@ export class AllComponent implements OnInit, OnDestroy {
     private readonly allFacade = inject(AllFacade);
     public module!: string;
     public subModule!: string;
-    public pagination$!: Observable<Paginate<AllEntity>>;
-    public all$!: Observable<AllEntity[]>;
-    public loading$!: Observable<boolean>;
+    public all$ = this.allFacade.all$;
+    public pagination$ = this.allFacade.pagination$;
+    public loading$ = this.allFacade.isLoading$;
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
 
     ngOnInit(): void {
         this.setupRouteData();
-        this.setupObservables();
         this.loadData();
     }
 
@@ -77,12 +75,6 @@ export class AllComponent implements OnInit, OnDestroy {
             });
     }
 
-    private setupObservables(): void {
-        this.all$ = this.allFacade.all$;
-        this.pagination$ = this.allFacade.pagination$;
-        this.loading$ = this.allFacade.isLoading$;
-    }
-
     public filter(filterData: AllFilterPayloadEntity): void {
         const filter = AllFilter.create(filterData);
         this.allFacade.fetchAll(filter, '1', true);
@@ -102,7 +94,7 @@ export class AllComponent implements OnInit, OnDestroy {
         this.selectedReportId = null;
     }
 
-    public refreshAll(): void {
+    public onRefresh(): void {
         this.allFacade.refresh();
     }
 

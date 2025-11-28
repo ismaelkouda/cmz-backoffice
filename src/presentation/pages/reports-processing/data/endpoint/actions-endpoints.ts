@@ -1,6 +1,6 @@
 export const ACTIONS_ENDPOINTS = {
-    ACTIONS: 'processing/action?page={page}',
-    CREATE: 'processing/action',
-    UPDATE: 'processing/action/{id}',
-    DELETE: 'processing/action/{id}',
+    ACTIONS: 'processing-actions?page={page}',
+    CREATE: 'processing-actions/store',
+    UPDATE: 'processing-actions/{id}/update',
+    DELETE: 'processing-actions/{id}/delete',
 } as const;

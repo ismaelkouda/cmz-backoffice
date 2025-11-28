@@ -1,7 +1,6 @@
 // map-management.component.ts
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     ElementRef,
@@ -33,9 +32,9 @@ export interface MapMarker {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapManagementComponent
-    implements OnInit, AfterViewInit, OnDestroy
+    implements OnInit, OnDestroy
 {
-    // Signals
+
     readonly isMapInitialized = signal(false);
     readonly isLoading = signal(true);
     readonly mapViewState = signal({
@@ -47,8 +46,8 @@ export class MapManagementComponent
     readonly showPopup = signal(false);
 
     // Inputs avec valeurs par défaut
-    @Input() latitude: number = 5.3710127;
-    @Input() longitude: number = -3.9368714;
+    @Input() latitude!: number;
+    @Input() longitude!: number;
     @Input() zoom: number = 15;
     @Input() markerTitle: string = 'Position';
     @Input() markerDescription: string = 'Localisation spécifiée';
@@ -56,7 +55,6 @@ export class MapManagementComponent
     @Input() enablePopup: boolean = true;
     @Input() enableAnimations: boolean = true;
 
-    // Variables privées
     private map: any = null;
     private markerLayer: any = null;
     private popupOverlay: any = null;
@@ -77,10 +75,6 @@ export class MapManagementComponent
         await this.initializeMap();
     }
 
-    async ngAfterViewInit() {
-        // L'initialisation est déjà gérée dans ngOnInit
-    }
-
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
@@ -89,8 +83,6 @@ export class MapManagementComponent
 
     private async initializeMap(): Promise<void> {
         try {
-            console.log('🗺️ Initialisation de la carte...');
-
             this.isLoading.set(true);
             this.olModules = await this.openLayersLoader.loadModulesPromise();
 

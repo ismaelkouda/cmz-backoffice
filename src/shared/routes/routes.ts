@@ -92,6 +92,17 @@ export const content: Routes = [
             subModule: ['REPORTING.REPORT.LABEL'],
         },
     },
+/*     {
+        path: 'communication',
+        loadChildren: () =>
+            import('../../presentation/pages/communication/communication.routes').then(
+                (m) => m.routes
+            ),
+        data: {
+            module: 'COMMUNICATION',
+            subModule: ['COMMUNICATION.MESSAGES.LABEL', 'COMMUNICATION.NOTIFICATIONS.LABEL'],
+        },
+    }, */
     {
         path: SETTINGS_SECURITY_ROUTE,
         loadChildren: () =>

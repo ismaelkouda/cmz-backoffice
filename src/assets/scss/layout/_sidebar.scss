@@ -1927,9 +1927,6 @@
                                                             }
 
                                                             &.active {
-                                                                /* color: var(
-                                                                    --theme-deafult
-                                                                ); */
                                                                 color: black;
 
                                                                 &::before {
@@ -1944,6 +1941,7 @@
                                                             }
 
                                                             &:hover {
+                                                                color: blue;
                                                                 margin-left: 0;
                                                             }
                                                         }

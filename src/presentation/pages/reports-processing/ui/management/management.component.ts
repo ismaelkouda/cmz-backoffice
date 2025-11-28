@@ -58,7 +58,6 @@ import { ManagementFormControlEntity } from '../../domain/entities/management/ma
 import { ManagementEntity } from '../../domain/entities/management/management.entity';
 import { RouteContextService } from '../../domain/services/route-context.service';
 import { MapManagementComponent } from '../../feature/management/map-management/map-management.component';
-import { NewspapersComponent } from '../../feature/management/newspapers/newspapers.component';
 type TreaterTimestampKey =
     | 'createdAt'
     | 'approvedAt'
@@ -68,7 +67,7 @@ type TreaterTimestampKey =
     | 'abandonedAt'
     | 'finalizedAt';
 
-type CategoryKey = 'information' | 'photos' | 'geographicView' | 'eventLogs';
+type CategoryKey = 'information' | 'photos' | 'geographicView';
 
 interface WorkflowStep {
     key: TreaterTimestampKey;
@@ -109,7 +108,6 @@ interface InfoCard {
         MapManagementComponent,
         TagModule,
         ImageZoomComponent,
-        NewspapersComponent,
     ],
     providers: [MessageService, RouteContextService],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -231,15 +229,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             {
                 key: 'geographicView',
                 label: 'MANAGEMENT.TABS.CATEGORIES.GEOGRAPHIC_VIEW',
-            },
-            ...(details.inProcessing || details.inFinalization
-                ? [
-                      {
-                          key: 'eventLogs',
-                          label: 'MANAGEMENT.TABS.CATEGORIES.TREATMENT_LOGS',
-                      },
-                  ]
-                : []),
+            }
         ];
     }
 
@@ -743,7 +733,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
             information: 'pi pi-info-circle',
             photos: 'pi pi-images',
             geographicView: 'pi pi-map-marker',
-            eventLogs: 'pi pi-calendar',
         };
         return iconMap[categoryKey] || 'pi pi-circle';
     }
