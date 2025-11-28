@@ -3,29 +3,18 @@ import { appConfig } from '@presentation/app.config';
 import { AppComponent } from './presentation/app.component';
 import { DEFAULT_CUSTOMIZATION } from './shared/services/app-customization.config';
 
-/**
- * Configuration par défaut pour les performances
- */
 const PERFORMANCE_CONFIG = {
-    bootstrapStartMark: 'app-bootstrap-start',
-    bootstrapEndMark: 'app-bootstrap-end',
-    bootstrapMeasure: 'app-bootstrap',
+    bootstrapStartMark: DEFAULT_CUSTOMIZATION.performance.bootstrapStartMark,
+    bootstrapEndMark: DEFAULT_CUSTOMIZATION.performance.bootstrapEndMark,
+    bootstrapMeasure: DEFAULT_CUSTOMIZATION.performance.bootstrapMeasure,
 } as const;
 
-/**
- * Configuration par défaut pour l'affichage des erreurs
- */
 const ERROR_DISPLAY_CONFIG = {
     styles: DEFAULT_CUSTOMIZATION.error.displayStyles,
     role: DEFAULT_CUSTOMIZATION.error.role,
     ariaLive: DEFAULT_CUSTOMIZATION.error.ariaLive,
 } as const;
 
-/**
- * Configure les gestionnaires d'erreurs globaux
- * @private
- * @returns {void}
- */
 function setupGlobalErrorHandlers(): void {
     if (globalThis.window === undefined) {
         return;
@@ -47,11 +36,6 @@ function setupGlobalErrorHandlers(): void {
     );
 }
 
-/**
- * Mesure les performances du bootstrap de l'application
- * @private
- * @returns {void}
- */
 function measureBootstrapPerformance(): void {
     if (typeof performance === 'undefined') {
         return;
@@ -151,5 +135,4 @@ function bootstrapApp(): void {
     }
 }
 
-// Démarrer l'application
 bootstrapApp();

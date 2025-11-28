@@ -47,7 +47,8 @@ export class ActionsFacade extends BaseFacade<ActionsEntity, ActionsFilter> {
     }
 
     createAction(payload: ActionsPayloadEntity): Observable<{ id: string }> {
-        return this.createUseCase.execute(payload).pipe(
+        return this.createUseCase.execute(payload)
+        .pipe(
             tap(() => {
                 this.toastService.success(
                     this.translateService.instant(

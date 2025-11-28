@@ -879,7 +879,7 @@
                                                             @if(details.placePhoto) {
                                                                 <app-image-zoom  [src]="details.placePhoto"></app-image-zoom>
                                                             }@else {
-                                                                <h2 class="card-title">
+                                                                <h2 class="card-title text-danger">
                                                                     {{ 'MANAGEMENT.FORM.PICTURES.NO_DATA' | translate }}
                                                                 </h2>
                                                             }
@@ -895,7 +895,7 @@
                                                             @if(details.placePhoto) {
                                                                 <app-image-zoom  [src]="details.accessPlacePhoto"></app-image-zoom>
                                                             }@else {
-                                                                <h2 class="card-title">
+                                                                <h2 class="card-title text-danger">
                                                                     {{ 'MANAGEMENT.FORM.PICTURES.NO_DATA' | translate }}
                                                                 </h2>
                                                             }
@@ -939,12 +939,6 @@
                                 [enableAnimations]="true"
                                 [showPerformance]="true">
                             </app-map-management>
-                        </ng-container>
-
-                        <ng-container *ngIf="selectedCategoryIndex === 3">
-                            <div class="tab-panel event-logs">
-                                <app-newspapers [reportUniqId]="details.uniqId"></app-newspapers>
-                            </div>
                         </ng-container>
                     </div>
 
@@ -1011,8 +1005,9 @@
                                                         }}</label>
                                                     <div class="col-md-12 d-flex justify-start gap-3">
 
-                                                        <div class="col container-radio-option">
-                                                            <div class="col-md radio-option" 
+                                                        <div class="container-radio-option col-md-12">
+                                                            <div class="radio-option col-md">
+                                                            <div class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3" 
                                                                 (click)="setDecision('accepted')" 
                                                                 [class.selected]="formTreatment.get('decision')?.value === 'accepted'">
                                                                 <div class="radio-indicator">
@@ -1033,7 +1028,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md radio-option" 
+                                                            <div class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3" 
                                                                 (click)="setDecision('rejected')" 
                                                                 [class.selected]="formTreatment.get('decision')?.value === 'rejected'">
                                                                 <div class="radio-indicator">
@@ -1052,6 +1047,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                            </div>
                                                             </div>
 
                                                             <div class="col-md-6 radio-option p-1">

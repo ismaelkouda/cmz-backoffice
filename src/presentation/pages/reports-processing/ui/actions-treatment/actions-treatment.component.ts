@@ -154,8 +154,10 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
     }
 
     public onActionCreate(payload: ActionsPayloadEntity): void {
-        console.log("onActionCreate", payload);
-        this.actionsFacade.createAction(payload);
+        this.actionsFacade
+            .createAction(payload)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe();
         this.onModalClosed();
     }
 
@@ -163,13 +165,19 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
         id: string;
         data: ActionsPayloadEntity;
     }): void {
-        console.log("onActionUpdate", event);
-        this.actionsFacade.updateAction(event.id, event.data);
+        console.log('onActionUpdate', event);
+        this.actionsFacade
+            .updateAction(event.id, event.data)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe();
         this.onModalClosed();
     }
 
     public onActionDelete(action: ActionsEntity): void {
-        this.actionsFacade.deleteAction(action.id);
+        this.actionsFacade
+            .deleteAction(action.id)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe();
     }
 
     public onCancel(): void {

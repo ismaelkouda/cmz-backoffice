@@ -10,7 +10,7 @@ export function getDynamicTitle(defaultTitle: string): string {
 
         return (
             titleMap[url] ||
-            'Cateli Data Collector - Système de Gestion de Collecte Centralisée'
+            'CMZ - Système de Gestion de Collecte Centralisée'
         );
     } catch {
         return defaultTitle;

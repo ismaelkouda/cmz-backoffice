@@ -8,7 +8,7 @@ import { ActionsFilter } from '../../domain/value-objects/actions-filter.vo';
 import { ActionsMapper } from '../mappers/actions.mapper';
 import { ActionsApi } from '../sources/actions.api';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ActionsRepositoryImpl extends ActionsRepository {
     constructor(
         private readonly actionsApi: ActionsApi,

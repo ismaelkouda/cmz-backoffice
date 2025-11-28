@@ -261,7 +261,6 @@ export class ModalActionComponent implements OnInit, OnDestroy {
 
         if (this.actionForm.valid) {
             const formData = this.prepareFormData();
-            alert(JSON.stringify(formData));
             if (this.mode() === 'edit' && this.action()?.id) {
                 console.log('edit');
                 this.actionUpdate.emit({

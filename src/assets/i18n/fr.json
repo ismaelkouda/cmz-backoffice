@@ -1168,102 +1168,7 @@
                 "TITLE": "Evaluer"
                 }
             }
-            },
-            "NEWSPAPERS": {
-                "TITLE": "traitements",
-                "LABEL": "Journal",
-                "BUTTONS": {
-                    "ADD": "Ajouter"
-                },
-                "TABLE": {
-                    "CREATED_AT": "Créé le",
-                    "UNIQ_ID": "Identifiant",
-                    "DESCRIPTION": "Description",
-                    "TYPE":"Type d'activité",
-                    "OPERATORS": "Opérateurs",
-                    "SOURCE": "Source",
-                    "SEE_MORE": "Voir plus",
-                    "TAKE": "Prendre",
-                    "ACTION": "Action"
-                },
-                "FILTER": {
-                    "INITIATOR": "Initiateur",
-                    "UNIQ_ID": "Identifiant",
-                    "REPORT_TYPE": "Type de signalement",
-                    "OPERATOR": "Opérateur",
-                    "SOURCE": "Source"
-                },
-                "OPTIONS": {
-                    "REPORT_TYPE": {
-                        "PARTIAL_OPERATOR": "Couverture partielle operateur",
-                        "PARTIAL_SIGNAL": "Couverture partielle signal",
-                        "WHITE_ZONE": "Zone blanche",
-                        "NO_INTERNET": "Absence d'internet"
-                    },
-                    "OPERATOR": {
-                        "ORANGE": "Orange",
-                        "MTN": "MTN",
-                        "MOOV": "Moov"
-                    },
-                    "SOURCE": {
-                        "APP": "Application Mobile",
-                        "USSD": "USSD",
-                        "SMS": "SMS",
-                        "IVR": "IVR"
-                    }
-                },
-                "LABELS": {
-                    "STATUS": {
-                        "SUBMISSION": "Soumission",
-                        "PROCESSING": "Traitement",
-                        "CLOSURE": "Clôture"
-                    },
-                    "SUBMISSION_STATE": {
-                        "PENDING": "En attente",
-                        "ACKNOWLEDGED": "Accusé",
-                        "VALIDATED": "Validé"
-                    },
-                    "PROCESSING_STATE": {
-                        "RECEIVED": "Réceptionné",
-                        "IN_PROGRESS": "En cours",
-                        "COMPLETED": "Terminé"
-                    }
-                }, 
-                "TOOLTIPS": {
-                    "EDIT": "Éditer",
-                    "DELETE":"Supprimer"
-                }
-            },
-            "ACTIVITY": {
-                "MODAL": {
-                    "TITLE": {
-                    "CREATE": "Créer une activité",
-                    "EDIT": "Modifier l'activité"
-                    }
-                },
-                "BUTTONS": {
-                    "CREATE": "Créer",
-                    "UPDATE": "Modifier",
-                    "DELETE": "Supprimer"
-                },
-                "FIELDS": {
-                    "DATE": "Date",
-                    "TYPE": "Type d'activité",
-                    "DESCRIPTION": "Description"
-                },
-                "TYPES": {
-                    "ANALYSIS": "Analyse",
-                    "TREATMENT": "Traitement",
-                    "VERIFICATION": "Vérification",
-                    "CORRECTION": "Correction",
-                    "VALIDATION": "Validation",
-                    "OTHER": "Autre"
-                },
-                "PLACEHOLDERS": {
-                    "DESCRIPTION": "Décrivez l'activité réalisée...",
-                    "TYPE": "Sélectionner le type d'activité"
-                }
-            }
+        }
     },
 
 
@@ -1877,7 +1782,8 @@
                 "TREATMENT_AND_MONITORING_OF_REPORTS_PROCESSING": "Suivi et Traitement des signalements",
                 "REAL_TIME_DASHBOARD": "Tableau de bord en temps réel",
                 "TEAM_MANAGEMENT": "Gestion des équipes",
-                "EXTRACTION_OF_DATA": "Extraction de données"
+                "EXTRACTION_OF_DATA": "Extraction de données",
+                "SETTINGS": "Paramètrages"
             }
         },
         "FORM": {
