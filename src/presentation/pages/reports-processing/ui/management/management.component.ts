@@ -229,7 +229,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             {
                 key: 'geographicView',
                 label: 'MANAGEMENT.TABS.CATEGORIES.GEOGRAPHIC_VIEW',
-            }
+            },
         ];
     }
 
@@ -516,7 +516,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             text: `${this.translate.instant(this.getSweetAlertMessage(management))} ${this.reportId}`,
             backdrop: false,
             confirmButtonText: this.translate.instant(
-                this.getSweetAlertButton(management)
+                this.getSweetAlertConfirm()
             ),
             cancelButtonText: this.translate.instant('CANCEL'),
         }).then((result) => {
@@ -696,8 +696,11 @@ export class ManagementComponent implements OnInit, OnDestroy {
         } else return '';
     }
 
-    private getSweetAlertButton(management: string): string {
-        let title: string;
+    private getSweetAlertConfirm(): string {
+        return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.CONFIRM';
+    }
+
+    /* private getSweetAlertConfirm(management: string): string {
         if (management === 'take') {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.WAITING.TITLE';
         } else if (management === 'approve') {
@@ -712,7 +715,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         } else if (management === 'finalize') {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.FINALIZE.TITLE';
         } else return '';
-    }
+    } */
 
     trackByTab(_: number, tab: Categories): string {
         return tab.key;

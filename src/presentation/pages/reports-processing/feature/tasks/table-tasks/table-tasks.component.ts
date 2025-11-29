@@ -99,7 +99,10 @@ export class TableTasksComponent implements OnInit, OnDestroy {
 
     private _tasks$!: Observable<TasksEntity[]>;
 
-    @Output() treatmentRequested = new EventEmitter<{ item: TasksEntity; action: TreatmentRequested }>();
+    @Output() treatmentRequested = new EventEmitter<{
+        item: TasksEntity;
+        action: TreatmentRequested;
+    }>();
     @Output() refreshRequested = new EventEmitter<void>();
     @Output() selectionChanged = this.selectionService.selectionChange$;
 
@@ -204,7 +207,7 @@ export class TableTasksComponent implements OnInit, OnDestroy {
 
     getActionTooltip(item: TasksEntity): string {
         const tasksLabel = this.translate.instant(
-            'REPORTS_PROCESSING.TASKS.TABLE.ACTION'
+            'REPORTS_PROCESSING.TASKS.TABLE.PROCESSING_NEWSPAPERS'
         );
         return `${tasksLabel} ${item.uniqId}`;
     }

@@ -43,7 +43,7 @@ export class ActionsApi {
         payload: ActionsCreateRequestDto
     ): Observable<SimpleResponseDto<{ id: string }>> {
         const url = `${this.baseUrl}${ACTIONS_ENDPOINTS.CREATE}`;
-        console.log("payload", payload)
+        console.log('payload', payload);
         return this.http.post<SimpleResponseDto<{ id: string }>>(url, payload);
     }
 

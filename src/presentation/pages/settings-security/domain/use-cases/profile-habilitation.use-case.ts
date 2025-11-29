@@ -78,9 +78,7 @@ export class DeleteProfileHabilitationUseCase {
         ProfileHabilitationRepository
     );
 
-    execute(
-        id: string
-    ): Observable<ProfileHabilitationDeleteResponseDto> {
+    execute(id: string): Observable<ProfileHabilitationDeleteResponseDto> {
         return this.profileHabilitationRepository.deleteProfileHabilitation(id);
     }
 }
@@ -93,9 +91,7 @@ export class EnableProfileHabilitationUseCase {
         ProfileHabilitationRepository
     );
 
-    execute(
-        id: string
-    ): Observable<ProfileHabilitationEnableResponseDto> {
+    execute(id: string): Observable<ProfileHabilitationEnableResponseDto> {
         return this.profileHabilitationRepository.enableProfileHabilitation(id);
     }
 }
@@ -108,9 +104,7 @@ export class DisableProfileHabilitationUseCase {
         ProfileHabilitationRepository
     );
 
-    execute(
-        id: string
-    ): Observable<ProfileHabilitationDisableResponseDto> {
+    execute(id: string): Observable<ProfileHabilitationDisableResponseDto> {
         return this.profileHabilitationRepository.disableProfileHabilitation(
             id
         );

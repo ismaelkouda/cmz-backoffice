@@ -9,4 +9,3 @@ export interface Team {
     readonly created_at: string;
     readonly updated_at?: string;
 }
-

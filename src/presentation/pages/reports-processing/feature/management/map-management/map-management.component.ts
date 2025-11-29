@@ -31,10 +31,7 @@ export interface MapMarker {
     imports: [CommonModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapManagementComponent
-    implements OnInit, OnDestroy
-{
-
+export class MapManagementComponent implements OnInit, OnDestroy {
     readonly isMapInitialized = signal(false);
     readonly isLoading = signal(true);
     readonly mapViewState = signal({

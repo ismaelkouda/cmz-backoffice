@@ -14,7 +14,9 @@ export class StateAgentService {
 
     getFilterAgentState(state?: string): Record<string, string | null> {
         this.filterAgentState = state ?? this.filterAgentState;
-        return this.parseQueryStringToObject(this.filterAgentState ?? state ?? '');
+        return this.parseQueryStringToObject(
+            this.filterAgentState ?? state ?? ''
+        );
     }
 
     // Legacy aliases kept for backward compatibility with existing components
@@ -52,12 +54,22 @@ export class StateAgentService {
         this.clearAgent();
     }
 
-    private generateQueryStringFromObject(dataFilter: Record<string, unknown> = {}): string {
+    private generateQueryStringFromObject(
+        dataFilter: Record<string, unknown> = {}
+    ): string {
         const params = new URLSearchParams();
 
         Object.entries(dataFilter ?? {}).forEach(([key, val]) => {
-            if (key && val !== null && val !== undefined && String(val).trim() !== '') {
-                params.append(encodeURIComponent(key), encodeURIComponent(String(val)));
+            if (
+                key &&
+                val !== null &&
+                val !== undefined &&
+                String(val).trim() !== ''
+            ) {
+                params.append(
+                    encodeURIComponent(key),
+                    encodeURIComponent(String(val))
+                );
             }
         });
 
@@ -66,10 +78,16 @@ export class StateAgentService {
         return queryString;
     }
 
-    private parseQueryStringToObject(queryString: string): Record<string, string | null> {
+    private parseQueryStringToObject(
+        queryString: string
+    ): Record<string, string | null> {
         const filterObj: Record<string, string | null> = {};
 
-        if (!queryString || typeof queryString !== 'string' || queryString.trim() === '') {
+        if (
+            !queryString ||
+            typeof queryString !== 'string' ||
+            queryString.trim() === ''
+        ) {
             return filterObj;
         }
 
@@ -78,7 +96,8 @@ export class StateAgentService {
         );
 
         params.forEach((value, key) => {
-            filterObj[decodeURIComponent(key)] = value !== '' ? decodeURIComponent(value) : null;
+            filterObj[decodeURIComponent(key)] =
+                value !== '' ? decodeURIComponent(value) : null;
         });
 
         return filterObj;

@@ -147,8 +147,8 @@ function initializeApp(): () => Promise<void> {
 }
 
 const coreInterceptors = [
-    apiInterceptor,
     authInterceptor,
+    apiInterceptor,
     errorHandlerInterceptor,
 ];
 

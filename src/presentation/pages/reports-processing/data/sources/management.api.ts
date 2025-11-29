@@ -49,7 +49,10 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(
+            url,
+            paramsObject
+        );
     }
 
     fetchApprove(
@@ -86,7 +89,10 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(
+            url,
+            paramsObject
+        );
     }
 
     fetchReject(
@@ -118,10 +124,15 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(
+            url,
+            paramsObject
+        );
     }
 
-    fetchProcess(payload: ManagementRequestDto): Observable<SimpleResponseDto<ManagementEntity>> {
+    fetchProcess(
+        payload: ManagementRequestDto
+    ): Observable<SimpleResponseDto<ManagementEntity>> {
         const url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.PROCESS.replace('{id}', payload.uniq_id)}`;
         const { uniq_id, reason, ...bodyParams } = payload;
 
@@ -134,7 +145,10 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(
+            url,
+            paramsObject
+        );
     }
 
     fetchFinalize(
@@ -152,6 +166,9 @@ export class ManagementApi {
             return acc;
         }, {});
 
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, paramsObject);
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(
+            url,
+            paramsObject
+        );
     }
 }

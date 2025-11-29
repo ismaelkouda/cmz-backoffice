@@ -26,4 +26,3 @@ export class ResetPasswordUseCase {
         return this.passwordResetRepository.resetPassword(request);
     }
 }
-

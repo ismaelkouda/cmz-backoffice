@@ -52,9 +52,7 @@ export class AgentApi {
         return this.http.post<AgentResponseDto>(url, payload);
     }
 
-    updateAgent(
-        payload: AgentUpdateRequestDto
-    ): Observable<AgentResponseDto> {
+    updateAgent(payload: AgentUpdateRequestDto): Observable<AgentResponseDto> {
         const url = `${this.baseUrl}${AgentEndpoint.UPDATE}`;
         return this.http.post<AgentResponseDto>(url, payload);
     }
@@ -74,9 +72,17 @@ export class AgentApi {
         return this.http.post<AgentDisableResponseDto>(url, {});
     }
 
-    getFreeTenants(): Observable<{ error: boolean; message: string; data: TenantLibreDto[] }> {
+    getFreeTenants(): Observable<{
+        error: boolean;
+        message: string;
+        data: TenantLibreDto[];
+    }> {
         const url = `${this.baseUrl}${AgentEndpoint.TENANTS_LIBRES}`;
-        return this.http.get<{ error: boolean; message: string; data: TenantLibreDto[] }>(url);
+        return this.http.get<{
+            error: boolean;
+            message: string;
+            data: TenantLibreDto[];
+        }>(url);
     }
 
     assignTenants(payload: AssignRequestDto): Observable<void> {
@@ -94,4 +100,3 @@ export class AgentApi {
         return this.http.post<void>(url, payload);
     }
 }
-

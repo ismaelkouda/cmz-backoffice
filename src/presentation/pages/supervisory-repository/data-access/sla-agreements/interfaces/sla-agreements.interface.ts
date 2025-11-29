@@ -1,4 +1,4 @@
-import { Paginate } from "@shared/data/dtos/simple-response.dto";
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
 
 export interface SlaAgreementsInterface {
     id: number;

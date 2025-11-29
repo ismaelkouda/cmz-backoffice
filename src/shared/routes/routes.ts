@@ -92,7 +92,7 @@ export const content: Routes = [
             subModule: ['REPORTING.REPORT.LABEL'],
         },
     },
-/*     {
+    /*     {
         path: 'communication',
         loadChildren: () =>
             import('../../presentation/pages/communication/communication.routes').then(

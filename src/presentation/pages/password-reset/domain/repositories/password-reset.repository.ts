@@ -11,4 +11,3 @@ export abstract class PasswordResetRepository {
         request: ResetPasswordRequest
     ): Observable<PasswordResetResponse>;
 }
-

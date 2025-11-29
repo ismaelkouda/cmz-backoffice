@@ -13,7 +13,7 @@ export const TeamEndpoint = {
     PARTICIPANTS: 'organisation-adv/teams/participants',
     PARTICIPANTS_LIBRES: 'organisation-adv/teams/participants/{role}/libres',
     PARTICIPANTS_AFFECTATION: 'organisation-adv/teams/participants/affectation',
-    PARTICIPANTS_REASSIGNATION: 'organisation-adv/teams/participants/reaffectation',
+    PARTICIPANTS_REASSIGNATION:
+        'organisation-adv/teams/participants/reaffectation',
     PARTICIPANTS_RETRAIT: 'organisation-adv/teams/participants/retrait',
 } as const;
-

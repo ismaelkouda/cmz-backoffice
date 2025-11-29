@@ -80,4 +80,3 @@ export class FilterTeamTenantsComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
-

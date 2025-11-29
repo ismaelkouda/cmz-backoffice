@@ -41,8 +41,12 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     public readonly titleKey = input<string>('REPORTING.REPORT.TITLE');
     public readonly moduleKey = input<string>('REPORTING.LABEL');
     public readonly subModuleKey = input<string>('REPORTING.REPORT.LABEL');
-    public readonly loadingDescription = input<string>('REPORTING.REPORT.LOADING_DESCRIPTION');
-    public readonly errorDescription = input<string>('REPORTING.REPORT.ERROR_DESCRIPTION');
+    public readonly loadingDescription = input<string>(
+        'REPORTING.REPORT.LOADING_DESCRIPTION'
+    );
+    public readonly errorDescription = input<string>(
+        'REPORTING.REPORT.ERROR_DESCRIPTION'
+    );
 
     // Injection de dépendances
     private readonly title = inject(Title);
@@ -50,7 +54,8 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     public readonly dashboardState = inject(ReportingStateService);
 
     private readonly destroy$ = new Subject<void>();
-    private readonly grafanaIframe = viewChild<HTMLIFrameElement>('grafanaIframe');
+    private readonly grafanaIframe =
+        viewChild<HTMLIFrameElement>('grafanaIframe');
 
     private readonly REFRESH_INTERVAL = 300000;
     private readonly LOAD_TIMEOUT = 30000;
@@ -87,9 +92,12 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     }
 
     private updatePageTitle(): void {
-        this.translate.get(this.titleKey()).pipe(takeUntil(this.destroy$)).subscribe((res: string) => {
-            this.title.setTitle(res);
-        });
+        this.translate
+            .get(this.titleKey())
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((res: string) => {
+                this.title.setTitle(res);
+            });
     }
 
     private setupAutoRefresh(): void {

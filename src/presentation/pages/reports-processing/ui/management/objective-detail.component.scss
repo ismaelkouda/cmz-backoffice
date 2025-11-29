@@ -1,862 +1,861 @@
 :host {
-  font-family: 'Inter', sans-serif;
-  background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
 }
 
 .main-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-  
-  &.no-sidebar {
-    .main-content {
-      width: 100%;
-      flex: none;
-      padding: 0.5rem 1rem; // Réduire le padding pour la vue SIR
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+
+    &.no-sidebar {
+        .main-content {
+            width: 100%;
+            flex: none;
+            padding: 0.5rem 1rem; // Réduire le padding pour la vue SIR
+        }
     }
-  }
 }
 
 .sidebar {
-  width: 320px;
-  padding: 1rem;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  flex-shrink: 0;
+    width: 320px;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    flex-shrink: 0;
 }
 
 .sidebar-header {
-  background-color: #000;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 4px 4px 0 0;
-  font-weight: 700;
-  font-size: 0.95rem;
+    background-color: #000;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px 4px 0 0;
+    font-weight: 700;
+    font-size: 0.95rem;
 }
 
 .main-content {
-  flex: 1;
-  padding: 0 1rem;
-  overflow-y: auto;
+    flex: 1;
+    padding: 0 1rem;
+    overflow-y: auto;
 }
 
 .parent-objective-banner {
-  background: #e7f3ff;
-  border-left: 5px solid #339af0;
-  padding: 0.75rem 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
+    background: #e7f3ff;
+    border-left: 5px solid #339af0;
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
 
-  h5 {
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
-    color: #1c5d99; // Bleu foncé
-    font-weight: 600;
-  }
+    h5 {
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+        color: #1c5d99; // Bleu foncé
+        font-weight: 600;
+    }
 
-  .parent-title {
-    color: #1c5d99;
-    font-weight: bold;
-    font-size: 1rem;
-    margin: 0;
-  }
+    .parent-title {
+        color: #1c5d99;
+        font-weight: bold;
+        font-size: 1rem;
+        margin: 0;
+    }
 }
 
 .sidebar-section {
-  padding: 10px;
+    padding: 10px;
 }
 
 .sidebar-header {
-  background-color: #000;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 4px 4px 4px 4px;
-  font-weight: 700;
-  font-size: 0.95rem;
+    background-color: #000;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px 4px 4px 4px;
+    font-weight: 700;
+    font-size: 0.95rem;
 }
 
 .sidebar-content {
-  border: 1px solid #dee2e6;
-  padding: 0.75rem;
-  border-radius: 0 0 4px 4px;
-  font-size: 0.9rem;
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+    border-radius: 0 0 4px 4px;
+    font-size: 0.9rem;
 }
 
 .sidebar-content p {
-  margin: 0.25rem 0;
-  font-size: 0.8rem;
-  line-height: 1.2;
+    margin: 0.25rem 0;
+    font-size: 0.8rem;
+    line-height: 1.2;
 }
 
 .header {
-  background: #28a745;
-  color: white;
-  font-weight: bold;
-  padding: 1rem;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+    padding: 1rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .status-bar {
-  background: linear-gradient(90deg, #d4edda, #c8e6c9);
-  padding: 0.85rem 1.25rem;
-  font-size: 0.95rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 600;
-  color: #155724;
-  border-radius: 8px;
-  box-shadow:
-    inset 0 1px 0 rgba(0, 0, 0, 0.05),
-    0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #b2dfdb;
-  margin-bottom: 0.5rem;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+    background: linear-gradient(90deg, #d4edda, #c8e6c9);
+    padding: 0.85rem 1.25rem;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #155724;
+    border-radius: 8px;
+    box-shadow:
+        inset 0 1px 0 rgba(0, 0, 0, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #b2dfdb;
+    margin-bottom: 0.5rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .accordion-header {
-  background-color: #000;
-  color: white;
-  padding: 0.75rem 1.25rem;
-  font-weight: 700;
-  font-size: 1.2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
+    background-color: #000;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
 }
 
 .header-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .accordion-badge {
-  background-color: white;
-  color: #000;
-  font-size: 1rem;
-  padding: 4px 12px;
-  border-radius: 16px;
-  white-space: nowrap;
-  font-weight: 600;
+    background-color: white;
+    color: #000;
+    font-size: 1rem;
+    padding: 4px 12px;
+    border-radius: 16px;
+    white-space: nowrap;
+    font-weight: 600;
 }
 
 input.form-control,
 select.form-select,
 textarea.form-control {
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.65rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.75rem;
 }
 
 .target-display,
 .deadline-display,
 .indicator-display {
-  background: #f8f9fa;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  font-weight: 600;
-  border: 1px solid #dee2e6;
+    background: #f8f9fa;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 1px solid #dee2e6;
 }
-
 
 .level-box,
 .percentage-box {
-  font-weight: bold;
-  width: 60px;
-  text-align: center;
+    font-weight: bold;
+    width: 60px;
+    text-align: center;
 }
 
 .description-box textarea {
-  width: 100%;
-  border: none;
-  background: transparent;
-  font-weight: 600;
-  resize: none;
-  outline: none;
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    resize: none;
+    outline: none;
 }
 
 .scrollable-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 25px;
-  padding-bottom: 100px;
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    padding-bottom: 100px;
 }
 
 .accordion {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  
-  // Optimisation pour la vue SIR
-  :host-context(.no-sidebar) & {
-    margin-bottom: 10px; // Réduire l'espacement entre les accordéons
-  }
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+    cursor: pointer;
+
+    // Optimisation pour la vue SIR
+    :host-context(.no-sidebar) & {
+        margin-bottom: 10px; // Réduire l'espacement entre les accordéons
+    }
 }
 
 .accordion-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
 .accordion.active .accordion-content {
-  max-height: 1200px;
+    max-height: 1200px;
 }
 
 .accordion-body {
-  padding: 25px;
-  
-  // Optimisation pour la vue SIR
-  :host-context(.no-sidebar) & {
-    padding: 15px 20px; // Réduire le padding interne
-  }
+    padding: 25px;
+
+    // Optimisation pour la vue SIR
+    :host-context(.no-sidebar) & {
+        padding: 15px 20px; // Réduire le padding interne
+    }
 }
 
 .accordion-icon {
-  font-size: 20px;
-  transition: transform 0.3s ease;
+    font-size: 20px;
+    transition: transform 0.3s ease;
 }
 
 .accordion.active .accordion-icon {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 ::ng-deep .modal-dialog {
-  max-width: 100vw;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
+    max-width: 100vw;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
 }
 
 ::ng-deep .modal-content {
-  height: 100vh;
-  border-radius: 0;
+    height: 100vh;
+    border-radius: 0;
 }
 
 ::ng-deep .modal-body {
-  height: calc(100vh - 56px);
-  overflow-y: auto;
-  padding: 0;
-  background: #f8f9fa;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    padding: 0;
+    background: #f8f9fa;
 }
 
 ::ng-deep .modal-header {
-  background-color: #28a745;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  padding: 1rem 1.5rem;
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 1rem 1.5rem;
 }
 
 .badge-strategic-axis {
-  background: #5cad47;
-  color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 1.3rem;
+    background: #5cad47;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1.3rem;
 }
 
 .smart-summary-box {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  background-color: #f6f6f6;
-  border: 1px solid #dee2e6;
-  border-left: 4px solid #4b8d09;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  line-height: 1.4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background-color: #f6f6f6;
+    border: 1px solid #dee2e6;
+    border-left: 4px solid #4b8d09;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    line-height: 1.4;
 }
 
 .smart-summary-item {
-  flex: 1 1 220px;
-  min-width: 200px;
+    flex: 1 1 220px;
+    min-width: 200px;
 }
 
 // Styles pour l'accordion de l'objectif parent
 .parent-objective-display {
-  background: #f8fafc;
-  border-radius: 8px;
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
-  
-  .parent-objective-form {
-    .form-label {
-      font-weight: 600;
-      color: #495057;
-      margin-bottom: 0.25rem;
-      font-size: 0.85rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+
+    .parent-objective-form {
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .form-control {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            color: #495057;
+
+            &:focus {
+                border-color: #80bdff;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+            &[readonly] {
+                background-color: #f8f9fa;
+                border-color: #e9ecef;
+                color: #6c757d;
+                cursor: default;
+            }
+        }
+
+        textarea.form-control {
+            resize: none;
+            min-height: 50px;
+        }
+
+        .row {
+            margin: 0;
+        }
+
+        .col-md-6,
+        .col-12 {
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
     }
-    
-    .form-control {
-      background-color: #fff;
-      border: 1px solid #ced4da;
-      border-radius: 4px;
-      padding: 0.5rem;
-      font-size: 0.85rem;
-      color: #495057;
-      
-      &:focus {
-        border-color: #80bdff;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-      }
-      
-      &[readonly] {
-        background-color: #f8f9fa;
-        border-color: #e9ecef;
-        color: #6c757d;
-        cursor: default;
-      }
-    }
-    
-    textarea.form-control {
-      resize: none;
-      min-height: 50px;
-    }
-    
-    .row {
-      margin: 0;
-    }
-    
-    .col-md-6,
-    .col-12 {
-      padding-left: 0.25rem;
-      padding-right: 0.25rem;
-      margin-bottom: 0.5rem;
-    }
-  }
 }
 
 .bolder {
-  font-weight: 800;
+    font-weight: 800;
 }
 
 .comment-section {
-  border-top: 2px solid #e9ecef;
-  padding-top: 1rem;
-  margin-top: 1rem;
+    border-top: 2px solid #e9ecef;
+    padding-top: 1rem;
+    margin-top: 1rem;
 
-  .existing-comments-section {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1.5rem;
-    border: 1px solid #dee2e6;
-    margin-bottom: 1.5rem;
+    .existing-comments-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        border: 1px solid #dee2e6;
+        margin-bottom: 1.5rem;
 
-    h5 {
-      color: #495057;
-      font-weight: 700;
-      margin-bottom: 1rem;
+        h5 {
+            color: #495057;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .existing-comment-display {
+            background: white;
+            border-radius: 6px;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            margin-bottom: 1rem;
+
+            .form-label {
+                color: #495057;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .p-3.bg-light.border.rounded {
+                background: #f8f9fa !important;
+                border: 1px solid #dee2e6 !important;
+                border-radius: 6px !important;
+                padding: 1rem !important;
+                color: #000 !important;
+                font-weight: 500;
+                line-height: 1.4;
+            }
+        }
     }
-
-    .existing-comment-display {
-      background: white;
-      border-radius: 6px;
-      padding: 1rem;
-      border: 1px solid #e9ecef;
-      margin-bottom: 1rem;
-
-      .form-label {
-        color: #495057;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-
-      .p-3.bg-light.border.rounded {
-        background: #f8f9fa !important;
-        border: 1px solid #dee2e6 !important;
-        border-radius: 6px !important;
-        padding: 1rem !important;
-        color: #000 !important;
-        font-weight: 500;
-        line-height: 1.4;
-      }
-    }
-  }
 }
 
 .comment-textarea {
-  resize: none !important;
-  box-shadow: none !important;
-  min-height: auto !important;
-  height: auto !important;
+    resize: none !important;
+    box-shadow: none !important;
+    min-height: auto !important;
+    height: auto !important;
 }
 
 .comment-textarea:focus {
-  border-color: #19915a !important;
-  outline: none !important;
-  box-shadow: none !important;
+    border-color: #19915a !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 // Style pour la zone de saisie de commentaire
 .comment-section {
-  .comment-input-container {
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 1rem;
-    background: #f8f9fa;
-    margin-top: 1rem;
+    .comment-input-container {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1rem;
+        background: #f8f9fa;
+        margin-top: 1rem;
 
-    .comment-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      color: #495057;
-      font-size: 0.9rem;
+        .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-size: 0.9rem;
 
-      i {
-        color: #fd7e14;
-        font-size: 1rem;
-      }
-    }
-
-    .comment-input-content {
-      .comment-textarea {
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-        padding: 0.75rem;
-        font-weight: 500;
-        resize: none !important;
-        min-height: auto !important;
-        height: auto !important;
-        
-        &:focus {
-          border-color: #fd7e14 !important;
-          box-shadow: 0 0 0 0.2rem rgba(253, 126, 20, 0.25) !important;
+            i {
+                color: #fd7e14;
+                font-size: 1rem;
+            }
         }
-      }
+
+        .comment-input-content {
+            .comment-textarea {
+                border: 1px solid #dee2e6;
+                border-radius: 4px;
+                padding: 0.75rem;
+                font-weight: 500;
+                resize: none !important;
+                min-height: auto !important;
+                height: auto !important;
+
+                &:focus {
+                    border-color: #fd7e14 !important;
+                    box-shadow: 0 0 0 0.2rem rgba(253, 126, 20, 0.25) !important;
+                }
+            }
+        }
     }
-  }
 }
 
 // Styles pour l'accordéon commentaires
 .comment-count-badge {
-  background-color: #fd7e14;
-  color: white;
-  font-size: 0.8rem;
-  padding: 2px 8px;
-  border-radius: 12px;
-  margin-left: 0.5rem;
-  font-weight: 600;
+    background-color: #fd7e14;
+    color: white;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 0.5rem;
+    font-weight: 600;
 }
 
 .comments-container {
-  .comment-item {
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 1rem;
-    background: #f8f9fa;
-    margin-bottom: 1rem;
+    .comment-item {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1rem;
+        background: #f8f9fa;
+        margin-bottom: 1rem;
 
-    &:last-child {
-      margin-bottom: 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-size: 0.9rem;
+
+            i {
+                color: #fd7e14;
+                font-size: 1rem;
+            }
+        }
+
+        .comment-content {
+            color: #212529;
+            font-weight: 700;
+            line-height: 1.5;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            border-left: 3px solid #fd7e14;
+        }
     }
-
-    .comment-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      color: #495057;
-      font-size: 0.9rem;
-
-      i {
-        color: #fd7e14;
-        font-size: 1rem;
-      }
-    }
-
-    .comment-content {
-      color: #212529;
-      font-weight: 700;
-      line-height: 1.5;
-      padding: 0.5rem;
-      background: white;
-      border-radius: 4px;
-      border-left: 3px solid #fd7e14;
-    }
-  }
 }
 
 // Styles spécifiques pour la vue SIR
 :host-context(.no-sidebar) {
-  .main-content {
-    max-width: 1200px; // Limiter la largeur maximale
-    margin: 0 auto; // Centrer le contenu
-    padding-bottom: 0; // Éliminer le padding en bas
-  }
-  
-  .accordion {
-    max-width: 100%;
-    margin-bottom: 10px; // Réduire l'espacement en bas
-    
-    &:last-child {
-      margin-bottom: 0; // Pas de marge en bas pour le dernier accordéon
+    .main-content {
+        max-width: 1200px; // Limiter la largeur maximale
+        margin: 0 auto; // Centrer le contenu
+        padding-bottom: 0; // Éliminer le padding en bas
     }
-    
-    .accordion-header {
-      padding: 0.5rem 1rem; // Réduire le padding du header
-      font-size: 1.1rem; // Légèrement réduire la taille de police
+
+    .accordion {
+        max-width: 100%;
+        margin-bottom: 10px; // Réduire l'espacement en bas
+
+        &:last-child {
+            margin-bottom: 0; // Pas de marge en bas pour le dernier accordéon
+        }
+
+        .accordion-header {
+            padding: 0.5rem 1rem; // Réduire le padding du header
+            font-size: 1.1rem; // Légèrement réduire la taille de police
+        }
+
+        .accordion-body {
+            padding: 1rem 1.5rem; // Padding plus compact
+            padding-bottom: 1rem; // Assurer un padding cohérent en bas
+        }
     }
-    
-    .accordion-body {
-      padding: 1rem 1.5rem; // Padding plus compact
-      padding-bottom: 1rem; // Assurer un padding cohérent en bas
+
+    // Optimiser l'espacement des éléments dans l'accordéon SMART
+    .smart-summary-box {
+        margin: 0.5rem 0; // Réduire les marges
+        padding: 0.5rem 0.75rem; // Réduire le padding
+
+        .smart-summary-item {
+            margin-bottom: 0.5rem; // Réduire l'espacement entre les éléments
+
+            &:last-child {
+                margin-bottom: 0; // Pas de marge en bas pour le dernier élément
+            }
+        }
     }
-  }
-  
-  // Optimiser l'espacement des éléments dans l'accordéon SMART
-  .smart-summary-box {
-    margin: 0.5rem 0; // Réduire les marges
-    padding: 0.5rem 0.75rem; // Réduire le padding
-    
-    .smart-summary-item {
-      margin-bottom: 0.5rem; // Réduire l'espacement entre les éléments
-      
-      &:last-child {
-        margin-bottom: 0; // Pas de marge en bas pour le dernier élément
-      }
-    }
-  }
 }
 
 // Styles pour le status bar en vue SIR
 .sir-status-bar {
-  background: linear-gradient(90deg, #e3f2fd, #bbdefb);
-  padding: 0.6rem 1rem;
-  font-size: 0.85rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 600;
-  color: #1565c0;
-  border-radius: 6px;
-  box-shadow:
-    inset 0 1px 0 rgba(0, 0, 0, 0.05),
-    0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #90caf9;
-  margin-bottom: 0.5rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-  
-  span {
-    font-size: 0.8rem;
-    white-space: nowrap;
-  }
+    background: linear-gradient(90deg, #e3f2fd, #bbdefb);
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #1565c0;
+    border-radius: 6px;
+    box-shadow:
+        inset 0 1px 0 rgba(0, 0, 0, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #90caf9;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    span {
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
 }
 
 // Styles pour la section des réalisations
 .read-only-badge {
-  background: #6c757d;
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  margin-left: 0.5rem;
+    background: #6c757d;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-left: 0.5rem;
 }
 
 .realizations-container {
-      .okr-accordion {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      padding: 0.5rem 0;
-      max-height: 600px;
-      overflow-y: auto;
-    
-    .okr-accordion-item {
-      background: #f8f9fa;
-      border: 1px solid #dee2e6;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      overflow: hidden;
-      
-      &:hover {
-        border-color: #28a745;
-        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
-      }
-      
-      .okr-accordion-header {
+    .okr-accordion {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        background: #ffffff;
-        
-        &:hover {
-          background: #f8f9fa;
-        }
-        
-        .okr-title-section {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          flex: 1;
-          
-          .okr-number {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: #ffffff;
-            background: #28a745;
-            padding: 0.3rem 0.6rem;
-            border-radius: 15px;
-            white-space: nowrap;
-          }
-          
-          .okr-separator {
-            color: #28a745;
-            font-weight: 600;
-          }
-          
-          .okr-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #495057;
-            line-height: 1.4;
-            flex: 1;
-          }
-        }
-        
-        .okr-accordion-controls {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          
-          .okr-status {
-            .pi {
-              font-size: 1rem;
-              
-              &.text-success {
-                color: #28a745 !important;
-              }
-              
-              &.text-muted {
-                color: #6c757d !important;
-              }
-            }
-          }
-          
-          .okr-accordion-icon {
-            font-size: 0.8rem;
-            color: #28a745;
-            transition: transform 0.3s ease;
-            
-            &.expanded {
-              transform: rotate(180deg);
-            }
-          }
-        }
-      }
-      
-      .okr-accordion-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-        background: #ffffff;
-        
-        &.expanded {
-          max-height: 200px;
-        }
-        
-        .achievement-section {
-          padding: 0 1rem 1rem 1rem;
-          
-          .achievement-textarea {
-            width: 100%;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            padding: 0.75rem;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            resize: none;
-            min-height: 60px;
-            max-height: 120px;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+        max-height: 600px;
+        overflow-y: auto;
+
+        .okr-accordion-item {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
             transition: all 0.3s ease;
-            
-            &:disabled {
-              background-color: #f8f9fa;
-              color: #6c757d;
-              cursor: not-allowed;
-              border-color: #e9ecef;
-              opacity: 0.7;
-              
-              &::placeholder {
-                color: #adb5bd;
-              }
+            overflow: hidden;
+
+            &:hover {
+                border-color: #28a745;
+                box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
             }
-            
-            font-family: inherit;
-            background: #ffffff;
-            
-            &:focus {
-              outline: none;
-              border-color: #28a745;
-              box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.15);
+
+            .okr-accordion-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: #ffffff;
+
+                &:hover {
+                    background: #f8f9fa;
+                }
+
+                .okr-title-section {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    flex: 1;
+
+                    .okr-number {
+                        font-weight: 700;
+                        font-size: 0.9rem;
+                        color: #ffffff;
+                        background: #28a745;
+                        padding: 0.3rem 0.6rem;
+                        border-radius: 15px;
+                        white-space: nowrap;
+                    }
+
+                    .okr-separator {
+                        color: #28a745;
+                        font-weight: 600;
+                    }
+
+                    .okr-title {
+                        font-size: 1rem;
+                        font-weight: 600;
+                        color: #495057;
+                        line-height: 1.4;
+                        flex: 1;
+                    }
+                }
+
+                .okr-accordion-controls {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+
+                    .okr-status {
+                        .pi {
+                            font-size: 1rem;
+
+                            &.text-success {
+                                color: #28a745 !important;
+                            }
+
+                            &.text-muted {
+                                color: #6c757d !important;
+                            }
+                        }
+                    }
+
+                    .okr-accordion-icon {
+                        font-size: 0.8rem;
+                        color: #28a745;
+                        transition: transform 0.3s ease;
+
+                        &.expanded {
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
             }
-          }
-          
-          // Styles pour l'affichage de la date d'achievement
-          .achievement-date-info {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            color: #6c757d;
-            background: rgba(40, 167, 69, 0.1);
-            padding: 6px 10px;
-            border-radius: 4px;
-            border-left: 3px solid #28a745;
-            margin-top: 8px;
-            
-            .pi-clock {
-              color: #28a745;
-              font-size: 0.8rem;
+
+            .okr-accordion-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                background: #ffffff;
+
+                &.expanded {
+                    max-height: 200px;
+                }
+
+                .achievement-section {
+                    padding: 0 1rem 1rem 1rem;
+
+                    .achievement-textarea {
+                        width: 100%;
+                        border: 1px solid #ced4da;
+                        border-radius: 6px;
+                        padding: 0.75rem;
+                        font-size: 0.95rem;
+                        line-height: 1.5;
+                        resize: none;
+                        min-height: 60px;
+                        max-height: 120px;
+                        transition: all 0.3s ease;
+
+                        &:disabled {
+                            background-color: #f8f9fa;
+                            color: #6c757d;
+                            cursor: not-allowed;
+                            border-color: #e9ecef;
+                            opacity: 0.7;
+
+                            &::placeholder {
+                                color: #adb5bd;
+                            }
+                        }
+
+                        font-family: inherit;
+                        background: #ffffff;
+
+                        &:focus {
+                            outline: none;
+                            border-color: #28a745;
+                            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.15);
+                        }
+                    }
+
+                    // Styles pour l'affichage de la date d'achievement
+                    .achievement-date-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        font-size: 0.85rem;
+                        color: #6c757d;
+                        background: rgba(40, 167, 69, 0.1);
+                        padding: 6px 10px;
+                        border-radius: 4px;
+                        border-left: 3px solid #28a745;
+                        margin-top: 8px;
+
+                        .pi-clock {
+                            color: #28a745;
+                            font-size: 0.8rem;
+                        }
+
+                        .date-label {
+                            font-weight: 500;
+                            color: #495057;
+                        }
+
+                        .date-value {
+                            font-weight: 600;
+                            color: #28a745;
+                        }
+                    }
+                }
             }
-            
-            .date-label {
-              font-weight: 500;
-              color: #495057;
-            }
-            
-            .date-value {
-              font-weight: 600;
-              color: #28a745;
-            }
-          }
         }
-      }
     }
-  }
 }
 
 // Responsive design
 @media (max-width: 768px) {
-  .realizations-container {
-    .okr-accordion {
-      gap: 0.25rem;
-      
-      .okr-accordion-item {
-        .okr-accordion-header {
-          padding: 0.75rem;
-          
-          .okr-title-section {
-            .okr-number {
-              font-size: 0.8rem;
-              padding: 0.25rem 0.5rem;
+    .realizations-container {
+        .okr-accordion {
+            gap: 0.25rem;
+
+            .okr-accordion-item {
+                .okr-accordion-header {
+                    padding: 0.75rem;
+
+                    .okr-title-section {
+                        .okr-number {
+                            font-size: 0.8rem;
+                            padding: 0.25rem 0.5rem;
+                        }
+
+                        .okr-title {
+                            font-size: 0.9rem;
+                        }
+                    }
+
+                    .okr-accordion-controls {
+                        gap: 0.5rem;
+
+                        .okr-status .pi {
+                            font-size: 0.9rem;
+                        }
+                    }
+                }
+
+                .okr-accordion-content {
+                    .achievement-section {
+                        padding: 0 0.75rem 0.75rem 0.75rem;
+
+                        .achievement-textarea {
+                            font-size: 0.9rem;
+                            padding: 0.6rem;
+                        }
+                    }
+                }
             }
-            
-            .okr-title {
-              font-size: 0.9rem;
-            }
-          }
-          
-          .okr-accordion-controls {
-            gap: 0.5rem;
-            
-            .okr-status .pi {
-              font-size: 0.9rem;
-            }
-          }
         }
-        
-        .okr-accordion-content {
-          .achievement-section {
-            padding: 0 0.75rem 0.75rem 0.75rem;
-            
-                      .achievement-textarea {
-            font-size: 0.9rem;
-            padding: 0.6rem;
-          }
+    }
+
+    // Scrollbar personnalisée pour la liste des OKR
+    .realizations-container .okr-accordion::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .realizations-container .okr-accordion::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .realizations-container .okr-accordion::-webkit-scrollbar-thumb {
+        background: #28a745;
+        border-radius: 4px;
+    }
+
+    .realizations-container .okr-accordion::-webkit-scrollbar-thumb:hover {
+        background: #1e7e34;
+    }
+
+    // Styles pour les sections de documents
+    .document-section {
+        padding: 1rem;
+    }
+
+    .document-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        background-color: #f8f9fa;
+        margin-bottom: 0.5rem;
+
+        &:last-child {
+            margin-bottom: 0;
         }
-      }
     }
-  }
-}
 
-// Scrollbar personnalisée pour la liste des OKR
-.realizations-container .okr-accordion::-webkit-scrollbar {
-  width: 8px;
-}
+    .document-info {
+        display: flex;
+        align-items: center;
+        flex: 1;
 
-.realizations-container .okr-accordion::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
+        .pi-file {
+            color: #6c757d;
+            font-size: 1.2rem;
+        }
 
-.realizations-container .okr-accordion::-webkit-scrollbar-thumb {
-  background: #28a745;
-  border-radius: 4px;
-}
-
-.realizations-container .okr-accordion::-webkit-scrollbar-thumb:hover {
-  background: #1e7e34;
-}
-
-// Styles pour les sections de documents
-.document-section {
-  padding: 1rem;
-}
-
-.document-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  background-color: #f8f9fa;
-  margin-bottom: 0.5rem;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.document-info {
-  display: flex;
-  align-items: center;
-  flex: 1;
-
-  .pi-file {
-    color: #6c757d;
-    font-size: 1.2rem;
-  }
-
-  .document-name {
-    font-weight: 500;
-    color: #495057;
-    margin-left: 0.5rem;
-  }
-}
-
-.document-actions {
-  .btn {
-    font-size: 0.875rem;
-    padding: 0.375rem 0.75rem;
-    
-    &.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
+        .document-name {
+            font-weight: 500;
+            color: #495057;
+            margin-left: 0.5rem;
+        }
     }
-  }
-}
+
+    .document-actions {
+        .btn {
+            font-size: 0.875rem;
+            padding: 0.375rem 0.75rem;
+
+            &.disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+        }
+    }
 }

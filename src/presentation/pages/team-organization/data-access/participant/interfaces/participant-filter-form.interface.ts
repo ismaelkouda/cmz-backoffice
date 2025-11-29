@@ -1,3 +1,1 @@
-export interface ParticipantsFilterFormInterface {
-    
-}
+export interface ParticipantsFilterFormInterface {}

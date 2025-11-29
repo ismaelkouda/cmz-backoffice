@@ -11,7 +11,8 @@ import { DashboardViewerComponent } from '../dashboard-viewer/dashboard-viewer.c
             [moduleKey]="'REPORTING.LABEL'"
             [subModuleKey]="'REPORTING.REPORT.LABEL'"
             [loadingDescription]="'REPORTING.REPORT.LOADING_DESCRIPTION'"
-            [errorDescription]="'REPORTING.REPORT.ERROR_DESCRIPTION'">
+            [errorDescription]="'REPORTING.REPORT.ERROR_DESCRIPTION'"
+        >
         </app-dashboard-viewer>
     `,
     imports: [DashboardViewerComponent],
@@ -21,4 +22,3 @@ export class ReportComponent {
     public readonly GRAFANA_URL =
         'https://dashboard.mazone.imako.digital/d/ef447w7mbmwaod/tb-manque-recouvrement-operateurs?orgId=1&kiosk';
 }
-

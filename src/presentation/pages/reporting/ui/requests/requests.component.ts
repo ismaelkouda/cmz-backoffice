@@ -11,7 +11,8 @@ import { DashboardViewerComponent } from '../dashboard-viewer/dashboard-viewer.c
             [moduleKey]="'REPORTING.LABEL'"
             [subModuleKey]="'REPORTING.REQUESTS.LABEL'"
             [loadingDescription]="'REPORTING.REQUESTS.LOADING_DESCRIPTION'"
-            [errorDescription]="'REPORTING.REQUESTS.ERROR_DESCRIPTION'">
+            [errorDescription]="'REPORTING.REQUESTS.ERROR_DESCRIPTION'"
+        >
         </app-dashboard-viewer>
     `,
     imports: [DashboardViewerComponent],

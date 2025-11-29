@@ -124,4 +124,3 @@ export class RemoveTenantsUseCase {
         return this.agentRepository.removeTenants(payload);
     }
 }
-

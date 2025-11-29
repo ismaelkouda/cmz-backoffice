@@ -2,7 +2,18 @@
     <h3>{{ 'COMMUNICATION.MESSAGING.FILTER.TITLE' | translate }}</h3>
     <!-- Add filter fields here -->
     <div class="filter-actions">
-        <button pButton type="button" label="{{ 'COMMUNICATION.FILTER.APPLY' | translate }}" (click)="onFilter()"></button>
-        <button pButton type="button" label="{{ 'COMMUNICATION.FILTER.RESET' | translate }}" class="p-button-secondary" (click)="onReset()"></button>
+        <button
+            pButton
+            type="button"
+            label="{{ 'COMMUNICATION.FILTER.APPLY' | translate }}"
+            (click)="onFilter()"
+        ></button>
+        <button
+            pButton
+            type="button"
+            label="{{ 'COMMUNICATION.FILTER.RESET' | translate }}"
+            class="p-button-secondary"
+            (click)="onReset()"
+        ></button>
     </div>
 </div>

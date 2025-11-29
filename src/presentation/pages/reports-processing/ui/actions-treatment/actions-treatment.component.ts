@@ -42,7 +42,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
         ModalActionComponent,
         ButtonModule,
         BreadcrumbComponent,
-        TagModule
+        TagModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -137,7 +137,7 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
         mode: 'create' | 'edit';
         action: ActionsEntity | null;
     }): void {
-        console.log("onManageAction", event);
+        console.log('onManageAction', event);
         this.modalState.set({
             visible: true,
             mode: event.mode,

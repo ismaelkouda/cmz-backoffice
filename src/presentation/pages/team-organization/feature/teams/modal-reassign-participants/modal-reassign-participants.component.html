@@ -5,13 +5,21 @@
     [closable]="true"
     [style]="{ width: '50vw' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-    [header]="'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.MODAL.REASSIGN_PARTICIPANTS_TITLE' | translate"
+    [header]="
+        'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.MODAL.REASSIGN_PARTICIPANTS_TITLE'
+            | translate
+    "
 >
     <ng-template pTemplate="content">
         <form [formGroup]="formReassign" (ngSubmit)="onSubmit()">
             <div class="form-group mb-3">
                 <label for="newTeamId">
-                    <b>{{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.MODAL.NEW_TEAM' | translate }}<span class="text-danger">*</span></b>
+                    <b
+                        >{{
+                            'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.MODAL.NEW_TEAM'
+                                | translate
+                        }}<span class="text-danger">*</span></b
+                    >
                 </label>
                 <p-select
                     id="newTeamId"
@@ -32,7 +40,10 @@
                     </ng-template>
                     <ng-template pTemplate="item" let-option>
                         <div>
-                            <div><strong>{{ option.code }}</strong> - {{ option.nom }}</div>
+                            <div>
+                                <strong>{{ option.code }}</strong> -
+                                {{ option.nom }}
+                            </div>
                         </div>
                     </ng-template>
                 </p-select>
@@ -43,28 +54,36 @@
                         formReassign.get('newTeamId')?.touched
                     "
                 >
-                    {{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.MODAL.NEW_TEAM_REQUIRED' | translate }}
+                    {{
+                        'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.MODAL.NEW_TEAM_REQUIRED'
+                            | translate
+                    }}
                 </small>
             </div>
 
             <div class="alert alert-info" *ngIf="participants.length > 0">
                 <i class="pi pi-info-circle"></i>
-                {{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.MODAL.REASSIGN_PARTICIPANTS_MESSAGE' | translate: { count: participants.length } }}
+                {{
+                    'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.MODAL.REASSIGN_PARTICIPANTS_MESSAGE'
+                        | translate: { count: participants.length }
+                }}
             </div>
         </form>
     </ng-template>
 
     <ng-template pTemplate="footer">
         <p-button
-            [label]="('CANCEL' | translate)"
+            [label]="'CANCEL' | translate"
             (onClick)="onHide()"
             styleClass="p-button-secondary"
         ></p-button>
         <p-button
-            [label]="('TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.BUTTONS.REASSIGN' | translate)"
+            [label]="
+                'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.BUTTONS.REASSIGN'
+                    | translate
+            "
             (onClick)="onSubmit()"
             styleClass="p-button-primary"
         ></p-button>
     </ng-template>
 </p-dialog>
-

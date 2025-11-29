@@ -14,7 +14,8 @@
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'TEAM_ORGANIZATION.TEAM.HEADER.PLURAL' | translate
+                                'TEAM_ORGANIZATION.TEAM.HEADER.PLURAL'
+                                    | translate
                             "
                         >
                         </app-page-title>
@@ -32,7 +33,10 @@
 
                         <section
                             class="table-section"
-                            aria-label="{{ 'TEAM_ORGANIZATION.TEAM.TABLE.ARIA_LABEL' | translate }}"
+                            aria-label="{{
+                                'TEAM_ORGANIZATION.TEAM.TABLE.ARIA_LABEL'
+                                    | translate
+                            }}"
                         >
                             <app-table-team
                                 [spinner]="(spinner$ | async) ?? false"

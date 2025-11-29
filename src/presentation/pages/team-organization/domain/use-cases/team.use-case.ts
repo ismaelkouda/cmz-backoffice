@@ -217,4 +217,3 @@ export class GetTeamsWithoutParticipantUseCase {
         return this.teamRepository.getTeamsWithoutParticipant(equipe_id);
     }
 }
-

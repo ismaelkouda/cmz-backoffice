@@ -4,4 +4,3 @@ export interface ResetPasswordRequestDto {
     token?: string;
     email?: string;
 }
-

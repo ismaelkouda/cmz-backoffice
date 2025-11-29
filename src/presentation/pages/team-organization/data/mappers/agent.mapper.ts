@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AgentIa } from '../../domain/entities/agent-ia.entity';
-import {
-    AgentItemDto,
-    AgentResponseDto,
-} from '../dtos/agent-response.dto';
+import { AgentItemDto, AgentResponseDto } from '../dtos/agent-response.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -34,4 +31,3 @@ export class AgentMapper {
         return this.mapArrayFromDto(dto.data);
     }
 }
-

@@ -8,8 +8,8 @@ export abstract class NotificationsRepository {
         filter: NotificationsFilter,
         page: string
     ): Observable<Paginate<NotificationsEntity>>;
-    
+
     abstract fetchReadOne(id: string): Observable<void>;
-    
+
     abstract fetchReadAll(ids: string[]): Observable<void>;
 }

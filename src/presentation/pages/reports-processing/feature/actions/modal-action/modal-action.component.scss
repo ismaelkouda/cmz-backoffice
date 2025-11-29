@@ -1,82 +1,84 @@
 /* modal-action.component.scss */
 
 :host {
-  ::ng-deep .p-dialog {
-    border-radius: 1rem;
-    padding: 0;
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
-    border: 1px solid #e5e7eb; /* gris clair */
-  }
-
-  ::ng-deep .p-dialog-header {
-    padding: 1rem 1.5rem;
-    font-size: 1.125rem; /* 18px */
-    font-weight: 600;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  ::ng-deep .p-dialog-content {
-    padding: 1.5rem;
-  }
-
-  ::ng-deep .p-dialog-footer {
-    padding: 1rem 1.5rem;
-    border-top: 1px solid #e5e7eb;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.5rem;
-
-    label {
-      font-weight: 500;
-      font-size: 0.875rem; /* 14px */
-      display: block;
-      margin-bottom: 0.25rem;
+    ::ng-deep .p-dialog {
+        border-radius: 1rem;
+        padding: 0;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+        border: 1px solid #e5e7eb; /* gris clair */
     }
 
-    .required {
-      color: #dc3545; /* rouge Bootstrap */
+    ::ng-deep .p-dialog-header {
+        padding: 1rem 1.5rem;
+        font-size: 1.125rem; /* 18px */
+        font-weight: 600;
+        border-bottom: 1px solid #e5e7eb;
     }
 
-    input,
-    select,
-    textarea,
-    .p-datepicker {
-      width: 100%;
-      padding: 0.5rem 0.75rem;
-      font-size: 0.875rem;
-      border-radius: 0.5rem;
-      border: 1px solid #ced4da;
-      background-color: #fff;
-      transition: border-color 0.2s, box-shadow 0.2s;
-
-      &:focus {
-        outline: none;
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-      }
-
-      &:disabled {
-        background-color: #e9ecef;
-        cursor: not-allowed;
-      }
+    ::ng-deep .p-dialog-content {
+        padding: 1.5rem;
     }
 
-    .error {
-      color: #dc3545;
-      font-size: 0.75rem;
-      margin-top: 0.25rem;
-      margin-bottom: 0;
+    ::ng-deep .p-dialog-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
     }
 
-    .char-count {
-      font-size: 0.75rem;
-      color: #6c757d;
-      display: flex;
-      justify-content: flex-start;
+    .form-group {
+        margin-bottom: 1.5rem;
+
+        label {
+            font-weight: 500;
+            font-size: 0.875rem; /* 14px */
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .required {
+            color: #dc3545; /* rouge Bootstrap */
+        }
+
+        input,
+        select,
+        textarea,
+        .p-datepicker {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ced4da;
+            background-color: #fff;
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s;
+
+            &:focus {
+                outline: none;
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+            }
+
+            &:disabled {
+                background-color: #e9ecef;
+                cursor: not-allowed;
+            }
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            margin-bottom: 0;
+        }
+
+        .char-count {
+            font-size: 0.75rem;
+            color: #6c757d;
+            display: flex;
+            justify-content: flex-start;
+        }
     }
-  }
 }

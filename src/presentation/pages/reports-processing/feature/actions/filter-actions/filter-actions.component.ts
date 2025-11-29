@@ -84,7 +84,7 @@ export class FilterActionsComponent implements OnInit, OnDestroy {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<ActionsFilterFormControlEntity>({
                 report_uniq_id: new FormControl<string>('', {
-                    nonNullable: true
+                    nonNullable: true,
                 }),
                 type: new FormControl<string>('', {
                     nonNullable: true,
@@ -171,9 +171,7 @@ export class FilterActionsComponent implements OnInit, OnDestroy {
             report_uniq_id:
                 this.formFilter.get('report_uniq_id')?.value?.trim() ?? '',
             type: this.formFilter.get('type')?.value ?? '',
-            date_from: dateFrom.isValid()
-                ? dateFrom.format('YYYY-MM-DD')
-                : '',
+            date_from: dateFrom.isValid() ? dateFrom.format('YYYY-MM-DD') : '',
             date_to: dateTo.isValid() ? dateTo.format('YYYY-MM-DD') : '',
         };
 

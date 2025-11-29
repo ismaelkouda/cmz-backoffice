@@ -19,17 +19,11 @@ import { Team } from '../entities/team.entity';
 import { TeamFilter } from '../value-objects/team-filter.vo';
 
 export abstract class TeamRepository {
-    abstract fetchTeams(
-        filter: TeamFilter
-    ): Observable<Team[]>;
+    abstract fetchTeams(filter: TeamFilter): Observable<Team[]>;
 
-    abstract storeTeam(
-        payload: TeamStoreRequestDto
-    ): Observable<Team>;
+    abstract storeTeam(payload: TeamStoreRequestDto): Observable<Team>;
 
-    abstract updateTeam(
-        payload: TeamUpdateRequestDto
-    ): Observable<Team>;
+    abstract updateTeam(payload: TeamUpdateRequestDto): Observable<Team>;
 
     abstract deleteTeam(id: string): Observable<TeamDeleteResponseDto>;
 
@@ -39,7 +33,9 @@ export abstract class TeamRepository {
 
     abstract getFreeTenants(): Observable<TenantLibreDto[]>;
 
-    abstract getFreeParticipants(role: string): Observable<ParticipantLibreDto[]>;
+    abstract getFreeParticipants(
+        role: string
+    ): Observable<ParticipantLibreDto[]>;
 
     abstract assignTenants(payload: AssignRequestDto): Observable<void>;
 
@@ -47,7 +43,9 @@ export abstract class TeamRepository {
 
     abstract reassignTenants(payload: ReassignRequestDto): Observable<void>;
 
-    abstract reassignParticipants(payload: ReassignRequestDto): Observable<void>;
+    abstract reassignParticipants(
+        payload: ReassignRequestDto
+    ): Observable<void>;
 
     abstract removeTenants(payload: RemoveRequestDto): Observable<void>;
 
@@ -55,10 +53,11 @@ export abstract class TeamRepository {
 
     abstract getTenantsByTeam(equipe_id: string): Observable<Tenant[]>;
 
-    abstract getParticipantsByTeam(equipe_id: string): Observable<Participant[]>;
+    abstract getParticipantsByTeam(
+        equipe_id: string
+    ): Observable<Participant[]>;
 
     abstract getTeamsWithoutTenant(equipe_id: string): Observable<Team[]>;
 
     abstract getTeamsWithoutParticipant(equipe_id: string): Observable<Team[]>;
 }
-

@@ -10,13 +10,24 @@
             <section class="card participant-form-card">
                 <div class="card-body participant-form-card-body">
                     <header class="participant-form-header">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div
+                            class="d-flex justify-content-between align-items-center"
+                        >
                             <div>
                                 <h2>
                                     <b>
-                                        <span>{{ (pageTitle | async) | translate }}</span>
-                                        <span *ngIf="(participant$ | async) as participant" class="current-values">
-                                            [{{ participant.nom }} {{ participant.prenoms }}]
+                                        <span>{{
+                                            pageTitle | async | translate
+                                        }}</span>
+                                        <span
+                                            *ngIf="
+                                                participant$
+                                                    | async as participant
+                                            "
+                                            class="current-values"
+                                        >
+                                            [{{ participant.nom }}
+                                            {{ participant.prenoms }}]
                                         </span>
                                     </b>
                                 </h2>
@@ -31,18 +42,30 @@
                     </header>
 
                     <div class="fade-in participant-form-content">
-                        <form [formGroup]="formParticipant" (ngSubmit)="onSubmit()" 
-                            novalidate class="grid grid-cols-4 gap-4">
+                        <form
+                            [formGroup]="formParticipant"
+                            (ngSubmit)="onSubmit()"
+                            novalidate
+                            class="grid grid-cols-4 gap-4"
+                        >
                             <div class="form-group">
                                 <label for="nom">
-                                    <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.NOM' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.NOM'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="nom"
                                     type="text"
                                     pInputText
                                     formControlName="nom"
-                                    [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.NOM' | translate"
+                                    [placeholder]="
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.NOM'
+                                            | translate
+                                    "
                                     [readonly]="readOnly"
                                 />
                                 <small
@@ -52,66 +75,103 @@
                                         formParticipant.get('nom')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.NOM_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.NOM_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="prenoms">
-                                    <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.PRENOMS' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.PRENOMS'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="prenoms"
                                     type="text"
                                     pInputText
                                     formControlName="prenoms"
-                                    [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.PRENOMS' | translate"
+                                    [placeholder]="
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.PRENOMS'
+                                            | translate
+                                    "
                                     [readonly]="readOnly"
                                 />
                                 <small
                                     class="p-error"
                                     *ngIf="
-                                        formParticipant.get('prenoms')?.invalid &&
+                                        formParticipant.get('prenoms')
+                                            ?.invalid &&
                                         formParticipant.get('prenoms')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.PRENOMS_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.PRENOMS_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="username">
-                                    <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.USERNAME' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.USERNAME'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="username"
                                     type="text"
                                     pInputText
                                     formControlName="username"
-                                    [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.USERNAME' | translate"
-                                    [readonly]="readOnly || (isEditMode | async)"
+                                    [placeholder]="
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.USERNAME'
+                                            | translate
+                                    "
+                                    [readonly]="
+                                        readOnly || (isEditMode | async)
+                                    "
                                 />
                                 <small
                                     class="p-error"
                                     *ngIf="
-                                        formParticipant.get('username')?.invalid &&
+                                        formParticipant.get('username')
+                                            ?.invalid &&
                                         formParticipant.get('username')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.USERNAME_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.USERNAME_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="email">
-                                    <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.EMAIL' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.EMAIL'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="email"
                                     type="email"
                                     pInputText
                                     formControlName="email"
-                                    [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.EMAIL' | translate"
+                                    [placeholder]="
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.EMAIL'
+                                            | translate
+                                    "
                                     [readonly]="readOnly"
                                 />
                                 <small
@@ -121,56 +181,95 @@
                                         formParticipant.get('email')?.touched
                                     "
                                 >
-                                    <span *ngIf="formParticipant.get('email')?.errors?.['required']">
-                                        {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.EMAIL_REQUIRED' | translate }}
+                                    <span
+                                        *ngIf="
+                                            formParticipant.get('email')
+                                                ?.errors?.['required']
+                                        "
+                                    >
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.EMAIL_REQUIRED'
+                                                | translate
+                                        }}
                                     </span>
-                                    <span *ngIf="formParticipant.get('email')?.errors?.['email']">
-                                        {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.EMAIL_INVALID' | translate }}
+                                    <span
+                                        *ngIf="
+                                            formParticipant.get('email')
+                                                ?.errors?.['email']
+                                        "
+                                    >
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.EMAIL_INVALID'
+                                                | translate
+                                        }}
                                     </span>
                                 </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="contacts">
-                                    <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.CONTACTS' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.CONTACTS'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="contacts"
                                     type="text"
                                     pInputText
                                     formControlName="contacts"
-                                    [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.CONTACTS' | translate"
+                                    [placeholder]="
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.CONTACTS'
+                                            | translate
+                                    "
                                     [readonly]="readOnly"
                                     maxlength="10"
                                 />
                                 <small
                                     class="p-error"
                                     *ngIf="
-                                        formParticipant.get('contacts')?.invalid &&
+                                        formParticipant.get('contacts')
+                                            ?.invalid &&
                                         formParticipant.get('contacts')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.CONTACTS_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.CONTACTS_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="adresse">
-                                    <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.ADRESSE' | translate }}</b>
+                                    <b>{{
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.ADRESSE'
+                                            | translate
+                                    }}</b>
                                 </label>
                                 <input
                                     id="adresse"
                                     type="text"
                                     pInputText
                                     formControlName="adresse"
-                                    [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.ADRESSE' | translate"
+                                    [placeholder]="
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.ADRESSE'
+                                            | translate
+                                    "
                                     [readonly]="readOnly"
                                 />
                             </div>
 
                             <div class="form-group">
                                 <label for="role">
-                                    <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.ROLE' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.ROLE'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <p-select
                                     id="role"
@@ -179,7 +278,10 @@
                                     optionValue="value"
                                     optionLabel="label"
                                     [showClear]="true"
-                                    [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.ROLE' | translate"
+                                    [placeholder]="
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.PLACEHOLDERS.ROLE'
+                                            | translate
+                                    "
                                     appendTo="body"
                                     [disabled]="readOnly"
                                     [class.ng-invalid]="
@@ -195,13 +297,24 @@
                                         formParticipant.get('role')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.ROLE_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.VALIDATION.ROLE_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
-                            <div class="participant-form-actions" *ngIf="!readOnly">
+                            <div
+                                class="participant-form-actions"
+                                *ngIf="!readOnly"
+                            >
                                 <p-button
-                                    [label]="((isEditMode | async) ? 'UPDATE' : 'SAVE') | translate"
+                                    [label]="
+                                        ((isEditMode | async)
+                                            ? 'UPDATE'
+                                            : 'SAVE'
+                                        ) | translate
+                                    "
                                     (onClick)="onSubmit()"
                                     [disabled]="formParticipant.invalid"
                                     styleClass="p-button-primary"
@@ -216,31 +329,51 @@
                             </div>
                         </form>
 
-                        <div *ngIf="readOnly && (participant$ | async) as participant">
+                        <div
+                            *ngIf="
+                                readOnly &&
+                                (participant$ | async) as participant
+                            "
+                        >
                             <p-tabs
                                 [value]="activeTabIndex"
                                 (valueChange)="activeTabIndex = $event"
                             >
                                 <p-tablist>
                                     <p-tab value="0">
-                                        {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.TABS.IDENTIFICATION' | translate }}
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.TABS.IDENTIFICATION'
+                                                | translate
+                                        }}
                                     </p-tab>
                                     <p-tab value="1">
-                                        {{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.TABS.HISTORY' | translate }}
+                                        {{
+                                            'TEAM_ORGANIZATION.PARTICIPANT.FORM.TABS.HISTORY'
+                                                | translate
+                                        }}
                                     </p-tab>
                                 </p-tablist>
                                 <p-tabpanels>
                                     <p-tabpanel value="0">
-                                        <div [formGroup]="formParticipant" novalidate>
+                                        <div
+                                            [formGroup]="formParticipant"
+                                            novalidate
+                                        >
                                             <fieldset>
                                                 <legend>
-                                                    <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDSET.PARTICIPANT_INFO' | translate }}</b>
+                                                    <b>{{
+                                                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDSET.PARTICIPANT_INFO'
+                                                            | translate
+                                                    }}</b>
                                                 </legend>
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label>
-                                                                <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.NOM' | translate }}</b>
+                                                                <b>{{
+                                                                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.NOM'
+                                                                        | translate
+                                                                }}</b>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -253,7 +386,10 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label>
-                                                                <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.PRENOMS' | translate }}</b>
+                                                                <b>{{
+                                                                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.PRENOMS'
+                                                                        | translate
+                                                                }}</b>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -266,7 +402,10 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label>
-                                                                <b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.USERNAME' | translate }}</b>
+                                                                <b>{{
+                                                                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.USERNAME'
+                                                                        | translate
+                                                                }}</b>
                                                             </label>
                                                             <input
                                                                 type="text"
@@ -278,7 +417,12 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.EMAIL' | translate }}</b></label>
+                                                            <label
+                                                                ><b>{{
+                                                                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.EMAIL'
+                                                                        | translate
+                                                                }}</b></label
+                                                            >
                                                             <input
                                                                 type="email"
                                                                 formControlName="email"
@@ -291,7 +435,12 @@
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.CONTACTS' | translate }}</b></label>
+                                                            <label
+                                                                ><b>{{
+                                                                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.CONTACTS'
+                                                                        | translate
+                                                                }}</b></label
+                                                            >
                                                             <input
                                                                 type="text"
                                                                 formControlName="contacts"
@@ -302,7 +451,12 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.ADRESSE' | translate }}</b></label>
+                                                            <label
+                                                                ><b>{{
+                                                                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.ADRESSE'
+                                                                        | translate
+                                                                }}</b></label
+                                                            >
                                                             <input
                                                                 type="text"
                                                                 formControlName="adresse"
@@ -313,7 +467,12 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.ROLE' | translate }}</b></label>
+                                                            <label
+                                                                ><b>{{
+                                                                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.FIELDS.ROLE'
+                                                                        | translate
+                                                                }}</b></label
+                                                            >
                                                             <input
                                                                 type="text"
                                                                 formControlName="role"

@@ -1,4 +1,4 @@
-import { SimpleResponseDto } from "@shared/data/dtos/simple-response.dto";
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface FinalizeItemDto {
     id: string;
@@ -38,5 +38,5 @@ export interface FinalizeItemDto {
     updated_at: string;
 }
 
-export interface FinalizeResponseDto extends SimpleResponseDto<FinalizeItemDto> {}
-
+export interface FinalizeResponseDto
+    extends SimpleResponseDto<FinalizeItemDto> {}

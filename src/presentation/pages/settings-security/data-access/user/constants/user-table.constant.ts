@@ -36,10 +36,5 @@ export const USER_TABLE = {
             width: '9rem',
         },
     ],
-    globalFilterFields: [
-        'matricule',
-        'fullName',
-        'profile',
-        'status',
-    ],
+    globalFilterFields: ['matricule', 'fullName', 'profile', 'status'],
 };

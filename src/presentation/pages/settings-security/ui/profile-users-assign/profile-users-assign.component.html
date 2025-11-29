@@ -26,7 +26,10 @@
                     </header>
 
                     <div class="fade-in profile-users-assign-content">
-                        <div *ngIf="profile$ | async as profile" class="profile-info mb-3">
+                        <div
+                            *ngIf="profile$ | async as profile"
+                            class="profile-info mb-3"
+                        >
                             <h4>{{ profile.name }}</h4>
                             <p class="text-muted">{{ profile.description }}</p>
                         </div>
@@ -71,7 +74,10 @@
                                     [disabled]="selectedUsers.length === 0"
                                 >
                                     <i class="pi pi-check"></i>
-                                    {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ASSIGN' | translate }}
+                                    {{
+                                        'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ASSIGN'
+                                            | translate
+                                    }}
                                 </button>
                             </div>
 
@@ -87,4 +93,3 @@
         </article>
     </section>
 </main>
-

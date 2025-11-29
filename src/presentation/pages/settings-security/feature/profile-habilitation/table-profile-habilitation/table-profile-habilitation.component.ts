@@ -167,7 +167,10 @@ export class TableProfileHabilitationComponent {
     }
 
     public onUsersClicked(item: ProfileHabilitation): void {
-        this.profileHabilitationRequested.emit({ profile: item, action: 'users' });
+        this.profileHabilitationRequested.emit({
+            profile: item,
+            action: 'users',
+        });
     }
 
     public onAddProfile(): void {

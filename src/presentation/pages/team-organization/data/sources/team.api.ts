@@ -31,9 +31,7 @@ export class TeamApi {
         private readonly envService: EnvService
     ) {}
 
-    fetchTeams(
-        payload: TeamRequestDto
-    ): Observable<TeamResponseDto> {
+    fetchTeams(payload: TeamRequestDto): Observable<TeamResponseDto> {
         const url = `${this.baseUrl}${TeamEndpoint.TEAMS}`;
 
         const paramsObject = Object.entries(payload ?? {}).reduce<
@@ -58,9 +56,7 @@ export class TeamApi {
         return this.http.post<TeamResponseDto>(url, payload);
     }
 
-    updateTeam(
-        payload: TeamUpdateRequestDto
-    ): Observable<TeamResponseDto> {
+    updateTeam(payload: TeamUpdateRequestDto): Observable<TeamResponseDto> {
         const url = `${this.baseUrl}${TeamEndpoint.UPDATE}`;
         return this.http.post<TeamResponseDto>(url, payload);
     }
@@ -80,14 +76,32 @@ export class TeamApi {
         return this.http.post<TeamDisableResponseDto>(url, {});
     }
 
-    getFreeTenants(): Observable<{ error: boolean; message: string; data: TenantLibreDto[] }> {
+    getFreeTenants(): Observable<{
+        error: boolean;
+        message: string;
+        data: TenantLibreDto[];
+    }> {
         const url = `${this.baseUrl}${TeamEndpoint.TENANTS_LIBRES}`;
-        return this.http.get<{ error: boolean; message: string; data: TenantLibreDto[] }>(url);
+        return this.http.get<{
+            error: boolean;
+            message: string;
+            data: TenantLibreDto[];
+        }>(url);
     }
 
-    getFreeParticipants(role: string): Observable<{ error: boolean; message: string; data: ParticipantLibreDto[] }> {
+    getFreeParticipants(
+        role: string
+    ): Observable<{
+        error: boolean;
+        message: string;
+        data: ParticipantLibreDto[];
+    }> {
         const url = `${this.baseUrl}${TeamEndpoint.PARTICIPANTS_LIBRES.replace('{role}', role)}`;
-        return this.http.get<{ error: boolean; message: string; data: ParticipantLibreDto[] }>(url);
+        return this.http.get<{
+            error: boolean;
+            message: string;
+            data: ParticipantLibreDto[];
+        }>(url);
     }
 
     assignTenants(payload: AssignRequestDto): Observable<void> {
@@ -125,9 +139,13 @@ export class TeamApi {
         return this.http.post<TenantResponseDto>(url, { equipe_id });
     }
 
-    getParticipantsByTeam(equipe_id: string): Observable<ParticipantAffectedResponseDto> {
+    getParticipantsByTeam(
+        equipe_id: string
+    ): Observable<ParticipantAffectedResponseDto> {
         const url = `${this.baseUrl}${TeamEndpoint.PARTICIPANTS}`;
-        return this.http.post<ParticipantAffectedResponseDto>(url, { equipe_id });
+        return this.http.post<ParticipantAffectedResponseDto>(url, {
+            equipe_id,
+        });
     }
 
     getTeamsWithoutTenant(equipe_id: string): Observable<TeamResponseDto> {
@@ -140,4 +158,3 @@ export class TeamApi {
         return this.http.post<TeamResponseDto>(url, {});
     }
 }
-

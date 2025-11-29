@@ -150,12 +150,14 @@
                                 icon="pi pi-book"
                                 (click)="onJournalClicked(item)"
                                 [attr.aria-label]="
-                                    ('REPORTS_PROCESSING.TREATMENT.TABLE.JOURNAL' | translate) +
+                                    ('REPORTS_PROCESSING.TREATMENT.TABLE.JOURNAL'
+                                        | translate) +
                                     ' ' +
                                     item.uniqId
                                 "
                                 pTooltip="{{
-                                    'REPORTS_PROCESSING.TREATMENT.TABLE.JOURNAL' | translate
+                                    'REPORTS_PROCESSING.TREATMENT.TABLE.JOURNAL'
+                                        | translate
                                 }}"
                                 tooltipPosition="bottom"
                             ></button>

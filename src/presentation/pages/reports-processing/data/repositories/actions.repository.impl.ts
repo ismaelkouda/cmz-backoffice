@@ -32,18 +32,13 @@ export class ActionsRepositoryImpl extends ActionsRepository {
             .pipe(map((response) => response.data));
     }
 
-    updateAction(
-        id: string,
-        payload: ActionsPayloadEntity
-    ): Observable<void> {
+    updateAction(id: string, payload: ActionsPayloadEntity): Observable<void> {
         return this.actionsApi
             .updateAction(id, payload)
             .pipe(map(() => undefined));
     }
 
     deleteAction(id: string): Observable<void> {
-        return this.actionsApi
-            .deleteAction(id)
-            .pipe(map(() => undefined));
+        return this.actionsApi.deleteAction(id).pipe(map(() => undefined));
     }
 }

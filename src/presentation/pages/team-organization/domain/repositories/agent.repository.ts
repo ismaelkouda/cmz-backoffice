@@ -14,17 +14,11 @@ import { AgentIa } from '../entities/agent-ia.entity';
 import { AgentFilter } from '../value-objects/agent-filter.vo';
 
 export abstract class AgentRepository {
-    abstract fetchAgents(
-        filter: AgentFilter
-    ): Observable<AgentIa[]>;
+    abstract fetchAgents(filter: AgentFilter): Observable<AgentIa[]>;
 
-    abstract storeAgent(
-        payload: AgentStoreRequestDto
-    ): Observable<AgentIa>;
+    abstract storeAgent(payload: AgentStoreRequestDto): Observable<AgentIa>;
 
-    abstract updateAgent(
-        payload: AgentUpdateRequestDto
-    ): Observable<AgentIa>;
+    abstract updateAgent(payload: AgentUpdateRequestDto): Observable<AgentIa>;
 
     abstract deleteAgent(id: string): Observable<AgentDeleteResponseDto>;
 
@@ -40,4 +34,3 @@ export abstract class AgentRepository {
 
     abstract removeTenants(payload: RemoveRequestDto): Observable<void>;
 }
-

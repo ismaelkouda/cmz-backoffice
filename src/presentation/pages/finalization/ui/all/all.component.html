@@ -10,7 +10,8 @@
             <section class="card all-card">
                 <div class="card-body all-card-body">
                     <header class="all-header">
-                        <app-page-title class="page-title-component"
+                        <app-page-title
+                            class="page-title-component"
                             [displayDate]="false"
                             [title]="
                                 'FINALIZATION.ALL.TITLE' | translate | lowercase
@@ -54,11 +55,11 @@
         </article>
     </section>
 
-    @if(reportTreatmentVisible) {
+    @if (reportTreatmentVisible) {
         <app-management
             [(visible)]="reportTreatmentVisible"
             [reportId]="selectedReportId"
             (closed)="onReportTreatmentClosed()"
         ></app-management>
-    }   
+    }
 </main>

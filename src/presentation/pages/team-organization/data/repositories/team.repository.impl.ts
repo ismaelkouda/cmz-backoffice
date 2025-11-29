@@ -47,7 +47,11 @@ export class TeamRepositoryImpl extends TeamRepository {
     storeTeam(payload: TeamStoreRequestDto): Observable<Team> {
         return this.teamApi.storeTeam(payload).pipe(
             map((response) => {
-                if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+                if (
+                    response.data &&
+                    Array.isArray(response.data) &&
+                    response.data.length > 0
+                ) {
                     return this.teamMapper.mapItemFromDto(response.data[0]);
                 }
                 throw new Error('Invalid response from store team');
@@ -58,7 +62,11 @@ export class TeamRepositoryImpl extends TeamRepository {
     updateTeam(payload: TeamUpdateRequestDto): Observable<Team> {
         return this.teamApi.updateTeam(payload).pipe(
             map((response) => {
-                if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+                if (
+                    response.data &&
+                    Array.isArray(response.data) &&
+                    response.data.length > 0
+                ) {
                     return this.teamMapper.mapItemFromDto(response.data[0]);
                 }
                 throw new Error('Invalid response from update team');
@@ -79,15 +87,15 @@ export class TeamRepositoryImpl extends TeamRepository {
     }
 
     getFreeTenants(): Observable<TenantLibreDto[]> {
-        return this.teamApi.getFreeTenants().pipe(
-            map((response) => response.data || [])
-        );
+        return this.teamApi
+            .getFreeTenants()
+            .pipe(map((response) => response.data || []));
     }
 
     getFreeParticipants(role: string): Observable<ParticipantLibreDto[]> {
-        return this.teamApi.getFreeParticipants(role).pipe(
-            map((response) => response.data || [])
-        );
+        return this.teamApi
+            .getFreeParticipants(role)
+            .pipe(map((response) => response.data || []));
     }
 
     assignTenants(payload: AssignRequestDto): Observable<void> {
@@ -115,27 +123,30 @@ export class TeamRepositoryImpl extends TeamRepository {
     }
 
     getTenantsByTeam(equipe_id: string): Observable<Tenant[]> {
-        return this.teamApi.getTenantsByTeam(equipe_id).pipe(
-            map((response) => this.tenantMapper.mapFromDto(response))
-        );
+        return this.teamApi
+            .getTenantsByTeam(equipe_id)
+            .pipe(map((response) => this.tenantMapper.mapFromDto(response)));
     }
 
     getParticipantsByTeam(equipe_id: string): Observable<Participant[]> {
-        return this.teamApi.getParticipantsByTeam(equipe_id).pipe(
-            map((response) => this.participantAffectedMapper.mapFromDto(response))
-        );
+        return this.teamApi
+            .getParticipantsByTeam(equipe_id)
+            .pipe(
+                map((response) =>
+                    this.participantAffectedMapper.mapFromDto(response)
+                )
+            );
     }
 
     getTeamsWithoutTenant(equipe_id: string): Observable<Team[]> {
-        return this.teamApi.getTeamsWithoutTenant(equipe_id).pipe(
-            map((response) => this.teamMapper.mapFromDto(response))
-        );
+        return this.teamApi
+            .getTeamsWithoutTenant(equipe_id)
+            .pipe(map((response) => this.teamMapper.mapFromDto(response)));
     }
 
     getTeamsWithoutParticipant(equipe_id: string): Observable<Team[]> {
-        return this.teamApi.getTeamsWithoutParticipant(equipe_id).pipe(
-            map((response) => this.teamMapper.mapFromDto(response))
-        );
+        return this.teamApi
+            .getTeamsWithoutParticipant(equipe_id)
+            .pipe(map((response) => this.teamMapper.mapFromDto(response)));
     }
 }
-

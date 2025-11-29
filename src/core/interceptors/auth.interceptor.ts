@@ -1,81 +1,41 @@
-import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { AuthToken } from '@shared/interfaces/current-user.interface';
+import { EncodingDataService } from '@shared/services/encoding-data.service';
+import {
+    isInternalUrl,
+    isStaticAssetRequest,
+} from './utils/request-filter.util';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
+    const encodingService = inject(EncodingDataService);
 
-    if (isStaticAssetRequest(req)) {
-        console.log('🛡️ API Interceptor: Skipping static asset', req.url);
+    if (isStaticAssetRequest(req.url)) {
         return next(req);
     }
 
-    if (isAbsoluteUrl(req.url) || isExternalUrl(req.url)) {
+    if (!isInternalUrl(req.url, configService)) {
         return next(req);
     }
 
-    if (req.url.includes('/assets/i18n/') || req.url.includes('.json')) {
+    const tokenData: AuthToken | null = encodingService.getData('token_data');
+    const token =
+        tokenData?.value ??
+        localStorage.getItem('auth_token') ??
+        sessionStorage.getItem('auth_token');
+
+    if (!token) {
         return next(req);
     }
-    console.log('authInterceptor req', req);
 
-    const getAuthToken = (): string | null => {
-        try {
-            return (
-                localStorage.getItem('auth_token') ||
-                sessionStorage.getItem('auth_token')
-            );
-        } catch {
-            return null;
-        }
-    };
+    const cloned = req.clone({
+        setHeaders: {
+            Authorization: `Bearer ${token}`,
+            'X-Environment': configService.environment,
+        },
+    });
 
-    const authToken = getAuthToken();
-
-    if (authToken) {
-        const clonedReq = req.clone({
-            setHeaders: {
-                Authorization: `Bearer ${authToken}`,
-                'X-Environment': configService.environment,
-            },
-        });
-        return next(clonedReq);
-    }
-
-    return next(req);
+    return next(cloned);
 };
-
-function isStaticAssetRequest(req: HttpRequest<any>): boolean {
-    const staticPatterns = [
-        '/assets/',
-        '/i18n/',
-        '.json',
-        '.png',
-        '.jpg',
-        '.jpeg',
-        '.gif',
-        '.svg',
-        '.ico',
-        '.css',
-        '.js',
-        '.woff',
-        '.woff2',
-        '.ttf',
-        'manifest.webmanifest',
-        'ngsw-worker.js',
-    ];
-
-    return staticPatterns.some((pattern) => req.url.includes(pattern));
-}
-
-function isAbsoluteUrl(url: string): boolean {
-    return url.startsWith('http://') || url.startsWith('https://');
-}
-
-function isExternalUrl(url: string): boolean {
-    return (
-        isAbsoluteUrl(url) &&
-        !url.includes('localhost') &&
-        !url.includes('127.0.0.1')
-    );
-}

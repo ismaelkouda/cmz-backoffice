@@ -19,7 +19,9 @@
     <ng-template pTemplate="header">
         <tr>
             <th>{{ 'COMMUNICATION.MESSAGING.FIELDS.DATE' | translate }}</th>
-            <th>{{ 'COMMUNICATION.MESSAGING.FIELDS.REFERENCE' | translate }}</th>
+            <th>
+                {{ 'COMMUNICATION.MESSAGING.FIELDS.REFERENCE' | translate }}
+            </th>
             <th>{{ 'COMMUNICATION.MESSAGING.FIELDS.SUBJECT' | translate }}</th>
             <th>{{ 'COMMUNICATION.MESSAGING.FIELDS.SENDER' | translate }}</th>
             <th>{{ 'COMMUNICATION.MESSAGING.FIELDS.STATUS' | translate }}</th>
@@ -40,7 +42,9 @@
                     pButton
                     icon="pi pi-eye"
                     class="p-button-text p-button-sm"
-                    [pTooltip]="'COMMUNICATION.MESSAGING.ACTIONS.VIEW' | translate"
+                    [pTooltip]="
+                        'COMMUNICATION.MESSAGING.ACTIONS.VIEW' | translate
+                    "
                     (click)="onViewClicked(message)"
                 ></button>
             </td>

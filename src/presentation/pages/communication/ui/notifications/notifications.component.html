@@ -9,14 +9,14 @@
 
             <section class="card notifications-card">
                 <div class="card-body notifications-card-body">
-                    <header
-                        class="notifications-header"
-                    >
+                    <header class="notifications-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'COMMUNICATION.NOTIFICATIONS.TITLE' | translate | lowercase
+                                'COMMUNICATION.NOTIFICATIONS.TITLE'
+                                    | translate
+                                    | lowercase
                             "
                         >
                         </app-page-title>
@@ -33,14 +33,18 @@
 
                         <section
                             class="table-section"
-                            [aria-label]="'COMMUNICATION.NOTIFICATIONS.TITLE' | translate"
+                            [aria-label]="
+                                'COMMUNICATION.NOTIFICATIONS.TITLE' | translate
+                            "
                         >
                             <app-table-notifications
                                 class="table-component"
                                 [loading]="loading$ | async"
                                 [pagination$]="pagination$"
                                 [notifications$]="notifications$"
-                                (treatmentRequested)="onNotificationsAction($event)"
+                                (treatmentRequested)="
+                                    onNotificationsAction($event)
+                                "
                                 (takeRequested)="onNotificationsTake($event)"
                                 (refreshRequested)="refreshNotifications()"
                             >
@@ -58,12 +62,11 @@
         </article>
     </section>
 
-    @if(reportTreatmentVisible) {
-<app-management
-        [(visible)]="reportTreatmentVisible"
-        [reportId]="selectedReportId"
-        (notifications)="onReportTreatmentNotifications()"
-    ></app-management>
+    @if (reportTreatmentVisible) {
+        <app-management
+            [(visible)]="reportTreatmentVisible"
+            [reportId]="selectedReportId"
+            (notifications)="onReportTreatmentNotifications()"
+        ></app-management>
     }
-    
 </main>

@@ -14,16 +14,24 @@
     class="responsive-team-tenants-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between flex-wrap align-items-center">
-            <div class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0">
+        <div
+            class="d-flex justify-content-between flex-wrap align-items-center"
+        >
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
                 <app-table-button-header
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"
                     (other)="onAssign()"
-                    [disabledButtonExport]="spinner || (listTenants$ | async)?.length === 0"
+                    [disabledButtonExport]="
+                        spinner || (listTenants$ | async)?.length === 0
+                    "
                     [disabledButtonRefresh]="spinner"
                     [hiddenButtonOther]="hideAssignButton"
-                    [labelOther]="'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.BUTTONS.ASSIGN'"
+                    [labelOther]="
+                        'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.BUTTONS.ASSIGN'
+                    "
                 >
                 </app-table-button-header>
                 <app-search-table [dt]="dt"></app-search-table>
@@ -142,21 +150,18 @@
 </p-table>
 
 <div class="table-actions-footer mt-3" *ngIf="selectedTenants.length > 0">
-    <button
-        type="button"
-        class="btn btn-warning"
-        (click)="onReassign()"
-    >
+    <button type="button" class="btn btn-warning" (click)="onReassign()">
         <i class="pi pi-refresh"></i>
-        {{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.BUTTONS.REASSIGN' | translate }}
+        {{
+            'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.BUTTONS.REASSIGN'
+                | translate
+        }}
     </button>
-    <button
-        type="button"
-        class="btn btn-danger"
-        (click)="onRemove()"
-    >
+    <button type="button" class="btn btn-danger" (click)="onRemove()">
         <i class="pi pi-times"></i>
-        {{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.BUTTONS.RETIRE' | translate }}
+        {{
+            'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.BUTTONS.RETIRE'
+                | translate
+        }}
     </button>
 </div>
-

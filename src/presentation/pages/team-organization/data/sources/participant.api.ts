@@ -81,4 +81,3 @@ export class ParticipantApi {
         return this.http.post<RolesResponseDto>(url, {});
     }
 }
-

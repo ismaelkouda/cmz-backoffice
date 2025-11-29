@@ -43,4 +43,3 @@ export interface FinalizeResponseDto {
     message: string;
     data: Paginate<FinalizeItemDto>;
 }
-

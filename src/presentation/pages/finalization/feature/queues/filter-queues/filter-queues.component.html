@@ -1,9 +1,10 @@
 <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
     <div class="filter-grid">
-
         <div class="filter-grid__item">
             <label for="report-type-select">
-                <b>{{ 'FINALIZATION.QUEUES.FILTER.REPORT_TYPE' | translate }}</b>
+                <b>{{
+                    'FINALIZATION.QUEUES.FILTER.REPORT_TYPE' | translate
+                }}</b>
             </label>
             <p-select
                 id="report-type-select"
@@ -69,7 +70,7 @@
                 </ng-template>
             </p-select>
         </div>
-        
+
         <div class="filter-grid__item">
             <label for="created-from">
                 <b>{{ 'START_DATE' | translate }}</b>

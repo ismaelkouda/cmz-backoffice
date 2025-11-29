@@ -10,10 +10,7 @@ export class AgentFilter {
     ) {}
 
     static create(data: AgentFilterInterface = {}): AgentFilter {
-        return new AgentFilter(
-            data.code_nom ?? '',
-            data.statut ?? ''
-        );
+        return new AgentFilter(data.code_nom ?? '', data.statut ?? '');
     }
 
     toDto(): Record<string, string> {
@@ -29,4 +26,3 @@ export class AgentFilter {
         return dto;
     }
 }
-

@@ -52,7 +52,10 @@ export class TableUserComponent {
     @Input() spinner!: boolean;
     @Input() listUsers$!: Observable<User[]>;
     @Input() pagination$!: Observable<Paginate<User>>;
-    @Output() userRequested = new EventEmitter<{ user: User; action: 'view' | 'edit' | 'delete' | 'disable' }>();
+    @Output() userRequested = new EventEmitter<{
+        user: User;
+        action: 'view' | 'edit' | 'delete' | 'disable';
+    }>();
     @Output() journalRequested = new EventEmitter<User>();
     @Output() refreshRequested = new EventEmitter<void>();
     @Output() addUserRequested = new EventEmitter<void>();
@@ -138,17 +141,23 @@ export class TableUserComponent {
         }
         const normalized = status.toLowerCase();
         if (normalized === 'active' || normalized === 'actif') {
-            return this.translate.instant('SETTINGS_SECURITY.USER.LABELS.STATUS.ACTIVE');
+            return this.translate.instant(
+                'SETTINGS_SECURITY.USER.LABELS.STATUS.ACTIVE'
+            );
         }
         if (normalized === 'inactive' || normalized === 'inactif') {
-            return this.translate.instant('SETTINGS_SECURITY.USER.LABELS.STATUS.INACTIVE');
+            return this.translate.instant(
+                'SETTINGS_SECURITY.USER.LABELS.STATUS.INACTIVE'
+            );
         }
         return status;
     }
 
     public getProfileLabel(profile: string | null | undefined): string {
         if (!profile) {
-            return this.translate.instant('SETTINGS_SECURITY.USER.PROFIL.NOT_ASSIGNED');
+            return this.translate.instant(
+                'SETTINGS_SECURITY.USER.PROFIL.NOT_ASSIGNED'
+            );
         }
         return profile;
     }

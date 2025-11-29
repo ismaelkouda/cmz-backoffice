@@ -20,7 +20,9 @@
                 [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0">
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
                 <app-table-button-header
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"
@@ -40,8 +42,8 @@
                     [class]="col.class"
                     [style]="{
                         'min-width': col.width,
-                        'width': col.width,
-                        'text-align': 'center'
+                        width: col.width,
+                        'text-align': 'center',
                     }"
                     role="columnheader"
                     scope="col"
@@ -52,106 +54,114 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-queue let-rowIndex="rowIndex">
-        <tr
-            role="row"
-            [class.cursor-pointer]="!isLoading()"
-            >
+        <tr role="row" [class.cursor-pointer]="!isLoading()">
             @for (col of tableConfig.cols; track trackByColField($index, col)) {
                 <td
-                [class]="col.class"
-                [style]="{
-                    'min-width': col.width,
-                    'width': col.width
-                }"
-                role="gridcell"  
-            >
-            @switch (col.field) {
-                @case ('__index') {
-                    {{
-                            ((pagination$ | async)?.current_page - 1 || 0) *
-                                ((pagination$ | async)?.per_page || 0) +
-                                rowIndex +
-                                1
-                        }}
-                }
-                    @case ('uniqId') {
-                        <button
-                            type="button"
-                            (click)="copyToClipboard(queue.uniqId)"
-                            class="copyable"
-                            pTooltip="{{ 'COPY' | translate }}"
-                            tooltipPosition="bottom"
-                        >
-                            <span class="id-text">{{ queue.uniqId }}</span>
-                            <i class="pi pi-copy" aria-hidden="true"></i>
-                        </button>
-                    }
-
-                    @case ('reportType') {
-                        <div 
-                            [pTooltip]="queue.reportDescription | translate"
-                            tooltipPosition="bottom"
-                            showDelay="500"
-                            hideDelay="300">
-                            {{ queue.reportType }}
-                        </div>
-                    }
-
-                    @case ('operators') {
-                        <div class="tag-group" *ngIf="queue.operators?.length; else noOperators">
-                            @for (operator of queue.operators; track trackByOperator($index, operator)) {
-                                <p-tag
-                                    [value]="getOperatorLabel(operator)"
-                                    [style]="getOperatorTagStyle(operator)"
-                                    styleClass="operator-tag"
-                                />
-                            }
-                        </div>
-                        <ng-template #noOperators>
-                            <span class="no-data">-</span>
-                        </ng-template>
-                    }
-
-                    @case ('createdAt') {
-                        <time [attr.datetime]="queue.createdAt">
-                            {{ formatDate(queue.createdAt) }}
-                        </time>
-                    }
-
-                    @case ('source') {
-                        <div
-                            [pTooltip]="queue.sourceDescription | translate"
-                            tooltipPosition="bottom"
-                            showDelay="500"
-                            hideDelay="300"
-                            [tooltipStyleClass]="'custom-tooltip'"
-                            class="source-type-content"
-                        >
-                            {{ queue.source }}
-                        </div>
-                    }
-                    
-                    @case ('__action') {
-                        <div (onKeyPress)="$event.stopPropagation()" class="action-group">
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                    }"
+                    role="gridcell"
+                >
+                    @switch (col.field) {
+                        @case ('__index') {
+                            {{
+                                ((pagination$ | async)?.current_page - 1 || 0) *
+                                    ((pagination$ | async)?.per_page || 0) +
+                                    rowIndex +
+                                    1
+                            }}
+                        }
+                        @case ('uniqId') {
                             <button
                                 type="button"
-                                pButton
-                                icon="pi pi-window-maximize"
-                                (click)="onActionClicked(queue)"
-                                [pTooltip]="getTakeTooltip(queue)"
+                                (click)="copyToClipboard(queue.uniqId)"
+                                pTooltip="{{ 'COPY' | translate }}"
                                 tooltipPosition="bottom"
-                                [disabled]="isLoading()"
-                                size="small"
-                                class="action-btn"
-                            ></button>
-                        </div>
+                            >
+                                <span class="copyable">{{ queue.uniqId }}</span>
+                                <i class="pi pi-copy" aria-hidden="true"></i>
+                            </button>
+                        }
+
+                        @case ('reportType') {
+                            <div
+                                [pTooltip]="queue.reportDescription | translate"
+                                tooltipPosition="bottom"
+                                showDelay="500"
+                                hideDelay="300"
+                            >
+                                {{ queue.reportType }}
+                            </div>
+                        }
+
+                        @case ('operators') {
+                            <div
+                                class="tag-group"
+                                *ngIf="
+                                    queue.operators?.length;
+                                    else noOperators
+                                "
+                            >
+                                @for (
+                                    operator of queue.operators;
+                                    track trackByOperator($index, operator)
+                                ) {
+                                    <p-tag
+                                        [value]="getOperatorLabel(operator)"
+                                        [style]="getOperatorTagStyle(operator)"
+                                        styleClass="operator-tag"
+                                    />
+                                }
+                            </div>
+                            <ng-template #noOperators>
+                                <span class="no-data">-</span>
+                            </ng-template>
+                        }
+
+                        @case ('createdAt') {
+                            <time [attr.datetime]="queue.createdAt">
+                                {{ formatDate(queue.createdAt) }}
+                            </time>
+                        }
+
+                        @case ('source') {
+                            <div
+                                class="source-type-content"
+                            >
+                                <span [pTooltip]="queue.sourceDescription | translate"
+                                    tooltipPosition="bottom">{{ queue.source }}</span>&nbsp;
+                                <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
+                                    (click)="copyToClipboard(queue.initiatedBy)"
+                                    tooltipPosition="bottom">[ {{ queue.initiatedBy }} ]</span>
+                            </div>
+                        }
+
+                        @case ('__action') {
+                            <div
+                                (onKeyPress)="$event.stopPropagation()"
+                                class="action-group"
+                            >
+                                <button
+                                    type="button"
+                                    pButton
+                                    icon="pi pi-window-maximize"
+                                    (click)="onActionClicked(queue)"
+                                    [pTooltip]="getTakeTooltip(queue)"
+                                    tooltipPosition="bottom"
+                                    [disabled]="isLoading()"
+                                    size="small"
+                                    class="action-btn"
+                                ></button>
+                            </div>
+                        }
+
+                        @default {
+                            {{ queue[col.field] || '-' }}
+                        }
                     }
-                    
-                    @default {
-                        {{ queue[col.field] || '-' }}
-                    }
-            }
-            </td>
+                </td>
             }
         </tr>
     </ng-template>
@@ -169,23 +179,17 @@
         @if (isLoading()) {
             <tr role="row" class="loading-table">
                 <td [attr.colspan]="tableConfig.cols.length">
-                        <p-progressSpinner
-                            class="posCenter"
-                            [style]="{ width: '40px', height: '50px' }"
-                            styleClass="custom-spinner"
-                            strokeWidth="8"
-                            fill="#EEEEEE"
-                            animationDuration=".5s"
-                        >
-                        </p-progressSpinner>
+                    <p-progressSpinner
+                        class="posCenter"
+                        [style]="{ width: '40px', height: '50px' }"
+                        styleClass="custom-spinner"
+                        strokeWidth="8"
+                        fill="#EEEEEE"
+                        animationDuration=".5s"
+                    >
+                    </p-progressSpinner>
                 </td>
             </tr>
         }
     </ng-template>
 </p-table>
-
-
-
-
-
-

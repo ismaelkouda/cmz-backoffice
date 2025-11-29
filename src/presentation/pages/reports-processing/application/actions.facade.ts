@@ -47,8 +47,7 @@ export class ActionsFacade extends BaseFacade<ActionsEntity, ActionsFilter> {
     }
 
     createAction(payload: ActionsPayloadEntity): Observable<{ id: string }> {
-        return this.createUseCase.execute(payload)
-        .pipe(
+        return this.createUseCase.execute(payload).pipe(
             tap(() => {
                 this.toastService.success(
                     this.translateService.instant(
@@ -119,8 +118,7 @@ export class ActionsFacade extends BaseFacade<ActionsEntity, ActionsFilter> {
         if (!this.hasInitialized) {
             return true;
         }
-        const isStale =
-            Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
+        const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
         if (isStale) {
             console.log('🕐 [ActionsFacade] Data is stale, refetching');
             return true;

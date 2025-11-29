@@ -8,4 +8,3 @@ export const provideTeam = (): Provider[] => [
         useClass: TeamRepositoryImpl,
     },
 ];
-

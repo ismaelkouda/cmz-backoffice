@@ -10,11 +10,16 @@
             <section class="card management-card">
                 <div class="card-body management-card-body">
                     <header class="management-header">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div
+                            class="d-flex justify-content-between align-items-center"
+                        >
                             <div *ngIf="team$ | async as team">
                                 <h4>
                                     <b>
-                                        <span>{{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.TITLE' | translate }}</span>
+                                        <span>{{
+                                            'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.TITLE'
+                                                | translate
+                                        }}</span>
                                         <span class="current-values">
                                             [{{ team.code }}] {{ team.nom }}
                                         </span>
@@ -37,10 +42,16 @@
                         >
                             <p-tablist>
                                 <p-tab value="0">
-                                    {{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.TENANTS' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.TENANTS'
+                                            | translate
+                                    }}
                                 </p-tab>
                                 <p-tab value="1">
-                                    {{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.PARTICIPANTS' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.PARTICIPANTS'
+                                            | translate
+                                    }}
                                 </p-tab>
                             </p-tablist>
                             <p-tabpanels>

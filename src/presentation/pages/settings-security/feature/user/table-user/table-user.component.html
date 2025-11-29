@@ -127,39 +127,65 @@
                                 id="actionDropdown{{ rowIndex }}"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
-                                [attr.aria-label]="'SETTINGS_SECURITY.USER.TABLE.ACTION' | translate"
+                                [attr.aria-label]="
+                                    'SETTINGS_SECURITY.USER.TABLE.ACTION'
+                                        | translate
+                                "
                             >
-                                {{ 'SETTINGS_SECURITY.USER.TABLE.ACTION' | translate }}
+                                {{
+                                    'SETTINGS_SECURITY.USER.TABLE.ACTION'
+                                        | translate
+                                }}
                             </button>
                             <ul
                                 class="dropdown-menu"
-                                [attr.aria-labelledby]="'actionDropdown' + rowIndex"
+                                [attr.aria-labelledby]="
+                                    'actionDropdown' + rowIndex
+                                "
                             >
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        (click)="onActionClicked(item, 'view'); $event.preventDefault()"
+                                        (click)="
+                                            onActionClicked(item, 'view');
+                                            $event.preventDefault()
+                                        "
                                         href="#"
                                     >
-                                        {{ 'SETTINGS_SECURITY.USER.ACTIONS.VIEW' | translate }}
+                                        {{
+                                            'SETTINGS_SECURITY.USER.ACTIONS.VIEW'
+                                                | translate
+                                        }}
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        (click)="onActionClicked(item, 'edit'); $event.preventDefault()"
+                                        (click)="
+                                            onActionClicked(item, 'edit');
+                                            $event.preventDefault()
+                                        "
                                         href="#"
                                     >
-                                        {{ 'SETTINGS_SECURITY.USER.ACTIONS.EDIT' | translate }}
+                                        {{
+                                            'SETTINGS_SECURITY.USER.ACTIONS.EDIT'
+                                                | translate
+                                        }}
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         class="dropdown-item text-danger"
-                                        (click)="onActionClicked(item, 'disable'); $event.preventDefault()"
+                                        (click)="
+                                            onActionClicked(item, 'disable');
+                                            $event.preventDefault()
+                                        "
                                         href="#"
                                     >
-                                        {{ 'SETTINGS_SECURITY.USER.ACTIONS.DISABLE' | translate }}
+                                        {{
+                                            'SETTINGS_SECURITY.USER.ACTIONS.DISABLE'
+                                                | translate
+                                        }}
                                     </a>
                                 </li>
                                 <li>
@@ -168,10 +194,16 @@
                                 <li>
                                     <a
                                         class="dropdown-item text-danger"
-                                        (click)="onActionClicked(item, 'delete'); $event.preventDefault()"
+                                        (click)="
+                                            onActionClicked(item, 'delete');
+                                            $event.preventDefault()
+                                        "
                                         href="#"
                                     >
-                                        {{ 'SETTINGS_SECURITY.USER.ACTIONS.DELETE' | translate }}
+                                        {{
+                                            'SETTINGS_SECURITY.USER.ACTIONS.DELETE'
+                                                | translate
+                                        }}
                                     </a>
                                 </li>
                             </ul>

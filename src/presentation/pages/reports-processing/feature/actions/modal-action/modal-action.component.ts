@@ -9,7 +9,7 @@ import {
     inject,
     input,
     output,
-    signal
+    signal,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -119,8 +119,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
 
     public readonly maxDescriptionLength = 1000;
 
-    constructor() {
-    }
+    constructor() { }
 
     ngOnInit(): void {
         this.actionForm = this.buildForm();
@@ -181,11 +180,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
-            date: new FormControl<string>(
-                {
-                    value: '',
-                    disabled: this.mode() === 'edit',
-                },
+            date: new FormControl<string>('',
                 {
                     nonNullable: true,
                     validators: [

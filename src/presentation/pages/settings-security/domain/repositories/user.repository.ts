@@ -16,13 +16,9 @@ export abstract class UserRepository {
         page: string
     ): Observable<Paginate<User>>;
 
-    abstract storeUser(
-        payload: UserStoreRequestDto
-    ): Observable<User>;
+    abstract storeUser(payload: UserStoreRequestDto): Observable<User>;
 
-    abstract updateUser(
-        payload: UserUpdateRequestDto
-    ): Observable<User>;
+    abstract updateUser(payload: UserUpdateRequestDto): Observable<User>;
 
     abstract deleteUser(id: string): Observable<UserDeleteResponseDto>;
 

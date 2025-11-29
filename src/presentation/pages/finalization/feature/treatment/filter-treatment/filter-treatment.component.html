@@ -1,9 +1,11 @@
 <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
     <div class="filter-grid">
-
         <div class="filter-grid__item">
             <label for="report-type-select">
-                <b>{{ 'REPORTS_PROCESSING.TREATMENT.FILTER.REPORT_TYPE' | translate }}</b>
+                <b>{{
+                    'REPORTS_PROCESSING.TREATMENT.FILTER.REPORT_TYPE'
+                        | translate
+                }}</b>
             </label>
             <p-select
                 id="report-type-select"
@@ -26,7 +28,9 @@
 
         <div class="filter-grid__item">
             <label for="operator-select">
-                <b>{{ 'REPORTS_PROCESSING.TREATMENT.FILTER.OPERATOR' | translate }}</b>
+                <b>{{
+                    'REPORTS_PROCESSING.TREATMENT.FILTER.OPERATOR' | translate
+                }}</b>
             </label>
             <p-select
                 id="operator-select"
@@ -49,7 +53,9 @@
 
         <div class="filter-grid__item">
             <label for="state-select">
-                <b>{{ 'REPORTS_PROCESSING.TREATMENT.FILTER.STATE' | translate }}</b>
+                <b>{{
+                    'REPORTS_PROCESSING.TREATMENT.FILTER.STATE' | translate
+                }}</b>
             </label>
             <p-select
                 id="state-select"

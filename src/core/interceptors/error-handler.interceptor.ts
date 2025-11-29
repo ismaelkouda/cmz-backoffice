@@ -1,142 +1,66 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { EncodingDataService } from '@shared/services/encoding-data.service';
 import { catchError, throwError } from 'rxjs';
+import {
+    isInternalUrl,
+    isStaticAssetRequest,
+} from './utils/request-filter.util';
 
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
-    const configService = inject(ConfigurationService);
+    const config = inject(ConfigurationService);
+    const encodingDataService = inject(EncodingDataService);
 
-    if (isStaticAssetRequest(req)) {
-        console.log('🛡️ API Interceptor: Skipping static asset', req.url);
-        return next(req);
-    }
-
-    if (isAbsoluteUrl(req.url) || isExternalUrl(req.url)) {
-        return next(req);
-    }
-
-    if (req.url.includes('/assets/i18n/') || req.url.includes('.json')) {
-        return next(req);
-    }
-
-    if (isAssetRequest(req) || isI18nRequest(req)) {
-        return next(req);
-    }
-    console.log('errorHandlerInterceptor req', req);
+    if (isStaticAssetRequest(req.url)) return next(req);
+    if (!isInternalUrl(req.url, config)) return next(req);
 
     return next(req).pipe(
         catchError((error) => {
-            if (configService.isDevelopment) {
-                console.error('🚨 HTTP Error:', {
+            const status = error?.status ?? 0;
+
+            if (config.isDevelopment) {
+                console.error('HTTP ERROR:', {
                     url: req.url,
                     method: req.method,
-                    error: error.message,
-                    environment: configService.environment,
+                    status,
+                    error,
                 });
             }
 
-            // Gestion centralisée des erreurs
-            handleError(error, req, configService);
+            if (status === 401) {
+                safeHandle401(req, encodingDataService);
+            } else if (status === 403) {
+                console.warn('Forbidden', req.url);
+            } else if (status >= 500) {
+                console.error('Server error', req.url);
+            }
 
             return throwError(() => error);
         })
     );
 };
 
-function handleError(
-    error: any,
+function safeHandle401(
     req: HttpRequest<any>,
-    configService: ConfigurationService
+    encodingDataService: EncodingDataService
 ): void {
-    const errorContext = {
-        timestamp: new Date().toISOString(),
-        environment: configService.environment,
-        url: req.url,
-        method: req.method,
-        status: error.status,
-    };
+    try {
+        if (
+            req.url.includes('/auth/') ||
+            req.url.includes('/login') ||
+            req.url.includes('/token')
+        ) {
+            return;
+        }
 
-    switch (error.status) {
-        case 401:
-            handleUnauthorizedError();
-            break;
-        case 403:
-            console.warn('⛔ Accès interdit');
-            break;
-        case 500:
-            console.error('🔧 Erreur serveur');
-            break;
-        default:
-            if (configService.isDevelopment) {
-                console.error('❌ Erreur HTTP:', errorContext);
-            }
+        encodingDataService.removeKeysWithPrefix('token_data');
+        encodingDataService.removeKeysWithPrefix('user_data');
+        encodingDataService.clearData();
+        localStorage.clear();
+        sessionStorage.clear();
+        globalThis.location.href = '/auth/login';
+    } catch (e) {
+        console.error('safeHandle401 failed', e);
     }
-}
-
-function handleUnauthorizedError(): void {
-    localStorage.removeItem('auth_token');
-    sessionStorage.clear();
-    globalThis.location.href = '/auth/login';
-}
-
-function isAssetRequest(req: HttpRequest<any>): boolean {
-    const assetPatterns = [
-        '/assets/',
-        '.json',
-        '.png',
-        '.jpg',
-        '.jpeg',
-        '.gif',
-        '.svg',
-        '.css',
-        '.js',
-        '.woff',
-        '.woff2',
-        '.ttf',
-        '.ico',
-    ];
-
-    return assetPatterns.some((pattern) => req.url.includes(pattern));
-}
-
-function isI18nRequest(req: HttpRequest<any>): boolean {
-    return (
-        req.url.includes('/assets/i18n/') ||
-        (req.url.includes('.json') && req.url.includes('i18n'))
-    );
-}
-
-function isStaticAssetRequest(req: HttpRequest<any>): boolean {
-    const staticPatterns = [
-        '/assets/',
-        '/i18n/',
-        '.json',
-        '.png',
-        '.jpg',
-        '.jpeg',
-        '.gif',
-        '.svg',
-        '.ico',
-        '.css',
-        '.js',
-        '.woff',
-        '.woff2',
-        '.ttf',
-        'manifest.webmanifest',
-        'ngsw-worker.js',
-    ];
-
-    return staticPatterns.some((pattern) => req.url.includes(pattern));
-}
-
-function isAbsoluteUrl(url: string): boolean {
-    return url.startsWith('http://') || url.startsWith('https://');
-}
-
-function isExternalUrl(url: string): boolean {
-    return (
-        isAbsoluteUrl(url) &&
-        !url.includes('localhost') &&
-        !url.includes('127.0.0.1')
-    );
 }

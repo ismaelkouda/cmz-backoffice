@@ -26,7 +26,10 @@
                     </header>
 
                     <div class="fade-in profile-users-content">
-                        <div *ngIf="profile$ | async as profile" class="profile-info mb-3">
+                        <div
+                            *ngIf="profile$ | async as profile"
+                            class="profile-info mb-3"
+                        >
                             <h4>{{ profile.name }}</h4>
                             <p class="text-muted">{{ profile.description }}</p>
                         </div>
@@ -78,4 +81,3 @@
         </article>
     </section>
 </main>
-

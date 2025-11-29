@@ -48,14 +48,18 @@
 
         <div class="filter-grid__item">
             <label for="matricule-user-input">
-                <b>{{ 'SETTINGS_SECURITY.USER.FILTER.MATRICULE' | translate }}</b>
+                <b>{{
+                    'SETTINGS_SECURITY.USER.FILTER.MATRICULE' | translate
+                }}</b>
             </label>
             <input
                 id="matricule-user-input"
                 type="text"
                 pInputText
                 formControlName="matricule"
-                [placeholder]="'SETTINGS_SECURITY.USER.FILTER.MATRICULE' | translate"
+                [placeholder]="
+                    'SETTINGS_SECURITY.USER.FILTER.MATRICULE' | translate
+                "
             />
         </div>
 
@@ -68,7 +72,10 @@
                 type="text"
                 pInputText
                 formControlName="search"
-                [placeholder]="'SETTINGS_SECURITY.USER.FILTER.SEARCH_PLACEHOLDER' | translate"
+                [placeholder]="
+                    'SETTINGS_SECURITY.USER.FILTER.SEARCH_PLACEHOLDER'
+                        | translate
+                "
             />
         </div>
 

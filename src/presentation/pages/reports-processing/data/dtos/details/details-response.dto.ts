@@ -1,4 +1,4 @@
-import { SimpleResponseDto } from "@shared/data/dtos/simple-response.dto";
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface DetailsItemDto {
     id: string;

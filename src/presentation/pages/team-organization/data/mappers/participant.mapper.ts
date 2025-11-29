@@ -37,4 +37,3 @@ export class ParticipantMapper {
         return this.mapArrayFromDto(dto.data);
     }
 }
-

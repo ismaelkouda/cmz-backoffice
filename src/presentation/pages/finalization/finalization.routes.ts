@@ -104,5 +104,5 @@ export const routes: Routes = [
         // data: {
         //     allowedPaths: [`/${TREATMENT_ROUTE}`],
         // },
-    }
+    },
 ];

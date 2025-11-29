@@ -9,11 +9,11 @@
     scrollHeight="flex"
     class="responsive-teams-table"
 >
-  <ng-template pTemplate="caption">
+    <ng-template pTemplate="caption">
         <div
             class="d-flex justify-content-between flex-wrap align-items-center"
         >
-      <app-table-title
+            <app-table-title
                 [count]="teams.length"
                 [perPage]="teams.length || 0"
                 [page]="teams.length ? 1 : 0"
@@ -34,26 +34,26 @@
                 >
                 </app-table-button-header>
                 <app-search-table [dt]="dt"></app-search-table>
-      </div>
-    </div>
-  </ng-template>
+            </div>
+        </div>
+    </ng-template>
 
-  <ng-template pTemplate="header">
-    <tr>
+    <ng-template pTemplate="header">
+        <tr>
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }"
                 scope="col"
             >
                 {{ col.header | translate }}
-      </th>
-    </tr>
-  </ng-template>
+            </th>
+        </tr>
+    </ng-template>
 
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
         <tr>
@@ -95,10 +95,11 @@
                             class="btn btn-link p-0 text-primary"
                             (click)="onTenantsClicked(item)"
                             [attr.aria-label]="
-                                'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.USERS_COUNT' | translate
+                                'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.USERS_COUNT'
+                                    | translate
                             "
                         >
-                            {{ (item.tenants_count ?? 0) | number : '1.0-0' }}
+                            {{ item.tenants_count ?? 0 | number: '1.0-0' }}
                         </button>
                     </ng-container>
 
@@ -108,10 +109,11 @@
                             class="btn btn-link p-0 text-primary"
                             (click)="onParticipantsClicked(item)"
                             [attr.aria-label]="
-                                'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.USERS_COUNT' | translate
+                                'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.USERS_COUNT'
+                                    | translate
                             "
                         >
-                            {{ (item.agents_count ?? 0) | number : '1.0-0' }}
+                            {{ item.agents_count ?? 0 | number: '1.0-0' }}
                         </button>
                     </ng-container>
 
@@ -133,7 +135,7 @@
 
                     <ng-container *ngSwitchCase="'__action'">
                         <div class="dropdown">
-        <button
+                            <button
                                 class="btn btn-sm btn-secondary dropdown-toggle"
                                 type="button"
                                 id="actionDropdown{{ rowIndex }}"
@@ -151,7 +153,9 @@
                             </button>
                             <ul
                                 class="dropdown-menu"
-                                [attr.aria-labelledby]="'actionDropdown' + rowIndex"
+                                [attr.aria-labelledby]="
+                                    'actionDropdown' + rowIndex
+                                "
                             >
                                 <li>
                                     <a
@@ -202,7 +206,10 @@
                                     <a
                                         class="dropdown-item"
                                         (click)="
-                                            onActionClicked(item, 'participants');
+                                            onActionClicked(
+                                                item,
+                                                'participants'
+                                            );
                                             $event.preventDefault()
                                         "
                                         href="#"
@@ -217,7 +224,7 @@
                                     <a
                                         class="dropdown-item"
                                         *ngIf="isTeamActive(item)"
-          (click)="
+                                        (click)="
                                             onActionClicked(item, 'disable');
                                             $event.preventDefault()
                                         "
@@ -249,7 +256,7 @@
                                 <li>
                                     <a
                                         class="dropdown-item text-danger"
-          (click)="
+                                        (click)="
                                             onActionClicked(item, 'delete');
                                             $event.preventDefault()
                                         "
@@ -269,33 +276,30 @@
                         {{ item[col.field] || '-' }}
                     </ng-container>
                 </ng-container>
-      </td>
-    </tr>
-  </ng-template>
+            </td>
+        </tr>
+    </ng-template>
 
-  <ng-template pTemplate="emptymessage">
-        <tr
-            *ngIf="teams.length <= 0 && !spinner"
-            class="loading-table"
-        >
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="teams.length <= 0 && !spinner" class="loading-table">
             <td class="posRelative" [attr.colspan]="table.cols.length">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}
                 </span>
-      </td>
-    </tr>
+            </td>
+        </tr>
         <tr *ngIf="spinner" class="loading-table">
             <td class="posRelative" [attr.colspan]="table.cols.length">
-        <p-progressSpinner
-          class="posCenter"
-          [style]="{ width: '40px', height: '50px' }"
-          styleClass="custom-spinner"
-          strokeWidth="8"
-          fill="#EEEEEE"
-          animationDuration=".5s"
-        >
-        </p-progressSpinner>
-      </td>
-    </tr>
-  </ng-template>
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
 </p-table>

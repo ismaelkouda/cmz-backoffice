@@ -1,62 +1,65 @@
-import {
-    HttpInterceptorFn,
-    HttpRequest,
-    HttpResponse,
-} from '@angular/common/http';
+import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { ConfigurationService } from '@core/services/configuration.service';
 import { of, shareReplay, tap } from 'rxjs';
+import {
+    isInternalUrl,
+    isStaticAssetRequest,
+} from './utils/request-filter.util';
 
 interface CacheEntry {
     response: HttpResponse<any>;
     timestamp: number;
 }
-
-const cache = new Map<string, CacheEntry>();
-const CACHE_DURATION = 300000; // 5 minutes
+const CACHE_TTL = 5 * 60 * 1000;
+const responseCache = new Map<string, CacheEntry>();
+const inFlight = new Map<string, any>();
 
 export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
-    // Ne pas cacher les requêtes non-GET
-    if (req.method !== 'GET') {
+    const config = inject(ConfigurationService);
+
+    if (req.method !== 'GET') return next(req);
+    if (isStaticAssetRequest(req.url)) return next(req);
+    if (!isInternalUrl(req.url, config)) return next(req);
+
+    if (
+        req.url.includes('/auth/') ||
+        req.url.includes('/login') ||
+        req.url.includes('/token')
+    ) {
         return next(req);
     }
 
-    const cacheKey = createCacheKey(req);
-    const cachedResponse = getFromCache(cacheKey);
+    const key = req.urlWithParams;
 
-    if (cachedResponse) {
-        return of(cachedResponse.clone());
+    const cached = responseCache.get(key);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        return of(cached.response.clone());
+    } else {
+        responseCache.delete(key);
     }
 
-    return next(req).pipe(
+    const existing$ = inFlight.get(key);
+    if (existing$) return existing$;
+
+    const shared$ = next(req).pipe(
         tap((event) => {
-            if (event instanceof HttpResponse) {
-                addToCache(cacheKey, event);
+            if (event instanceof HttpResponse && event.status === 200) {
+                responseCache.set(key, {
+                    response: event.clone(),
+                    timestamp: Date.now(),
+                });
             }
         }),
-        shareReplay(1)
+        shareReplay({ refCount: true, bufferSize: 1 })
     );
-};
 
-function createCacheKey(req: HttpRequest<any>): string {
-    // Utiliser l'URL et les query params pour la clé de cache
-    const url = new URL(req.url, globalThis.location.origin);
-    const params = Object.fromEntries(url.searchParams);
-    return `${req.url}-${JSON.stringify(params)}`;
-}
-
-function getFromCache(key: string): HttpResponse<any> | null {
-    const cached = cache.get(key);
-
-    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-        return cached.response;
-    }
-
-    cache.delete(key);
-    return null;
-}
-
-function addToCache(key: string, response: HttpResponse<any>): void {
-    cache.set(key, {
-        response: response.clone(),
-        timestamp: Date.now(),
+    inFlight.set(key, shared$);
+    shared$.subscribe({
+        next: () => inFlight.delete(key),
+        error: () => inFlight.delete(key),
+        complete: () => inFlight.delete(key),
     });
-}
+
+    return shared$;
+};
