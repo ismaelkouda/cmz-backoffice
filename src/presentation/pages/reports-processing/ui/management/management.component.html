@@ -1424,31 +1424,19 @@
                                         <div class="treatment-form-content">
                                             <div class="treatment-form-body">
                                                 <div class="action-section">
-                                                    <form
-                                                        class="decision-form-row"
-                                                    >
-                                                        <div
-                                                            class="decision-group row"
-                                                        >
-                                                            <div
-                                                                class="col-md-8 form-column"
-                                                            >
-                                                                <label
-                                                                    class="decision-label"
-                                                                    >{{
+                                                    <form class="decision-form-row">
+                                                        <div class="decision-group d-flex flex-row gap-3">
+                                                            @if (details?.canBeApproved || details?.canBeFinalized) {
+                                                            <div class="form-column">
+                                                                <label class="decision-label">{{
                                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION'
                                                                             | translate
-                                                                    }}</label
-                                                                >
-                                                                <div
-                                                                    class="col-md-12 d-flex justify-start gap-3"
-                                                                >
+                                                                    }}</label>
+                                                                <div class="col-md-12 d-flex justify-start gap-3">
                                                                     <div
                                                                         class="container-radio-option col-md-12"
                                                                     >
-                                                                        <div
-                                                                            class="radio-option col-md"
-                                                                        >
+                                                                        <div class="radio-option col-md">
                                                                             <div
                                                                                 class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
                                                                                 (click)="
@@ -1546,19 +1534,11 @@
                                                                             </div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="col-md-6 radio-option"
-                                                                        >
-                                                                            <div
-                                                                                class="radio-content"
-                                                                            >
+                                                                        <div class="col-md-6 radio-option">
+                                                                            <div class="radio-content">
                                                                                 <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
-                                                                                <div
-                                                                                    class="radio-text"
-                                                                                >
-                                                                                    <div
-                                                                                        class="radio-title"
-                                                                                    >
+                                                                                <div class="radio-text">
+                                                                                    <div class="radio-title">
                                                                                         {{
                                                                                             'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
                                                                                                 | translate
@@ -1615,13 +1595,10 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            }
 
-                                                            <div
-                                                                class="col-md-4 form-column"
-                                                            >
-                                                                <label
-                                                                    class="comment-label"
-                                                                >
+                                                            <div class="form-column">
+                                                                <label class="comment-label">
                                                                     {{
                                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
                                                                             | translate
