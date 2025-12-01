@@ -1,10 +1,5 @@
-/* import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NotificationsItemDto } from '@presentation/pages/communication/data/dtos/notifications-response.dto';
-import {
-    Notifications,
-    NotificationsEntity,
-    ReportStatus,
-} from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { LocationMethod } from '@shared/domain/enums/location-method.enum';
 import { LocationType } from '@shared/domain/enums/location-type.enum';
@@ -16,6 +11,7 @@ import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 import { DuplicationInfo } from '@shared/domain/interfaces/duplication-info.interface';
 import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
 import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
+import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsMapper extends PaginatedMapper<NotificationsEntity, NotificationsItemDto> {
@@ -32,10 +28,8 @@ export class NotificationsMapper extends PaginatedMapper<NotificationsEntity, No
             dto.description,
             this.mapMedia(dto),
             this.mapApprovalInfo(dto),
-            this.mapStatus(dto.status),
             this.mapDuplicationInfo(dto),
             dto.position,
-            this.mapTimestamps(dto),
             dto.created_at
         );
     }
@@ -91,19 +85,6 @@ export class NotificationsMapper extends PaginatedMapper<NotificationsEntity, No
                 return ReportType.CPS;
             default:
                 return ReportType.OTHER;
-        }
-    }
-
-    private mapStatus(status: string): ReportStatus {
-        switch (status) {
-            case 'pending':
-                return ReportStatus.PENDING;
-            case 'approved':
-                return ReportStatus.APPROVED;
-            case 'rejected':
-                return ReportStatus.REJECTED;
-            default:
-                return ReportStatus.PENDING;
         }
     }
 
@@ -171,12 +152,4 @@ export class NotificationsMapper extends PaginatedMapper<NotificationsEntity, No
             duplicateOf: dto.duplicate_of,
         };
     }
-
-    private mapTimestamps(dto: NotificationsItemDto): Notifications['timestamps'] {
-        return {
-            createdAt: dto.created_at,
-            updatedAt: dto.updated_at,
-        };
-    }
 }
- */

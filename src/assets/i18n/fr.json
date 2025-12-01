@@ -11,7 +11,7 @@
         "CANCEL": "Annuler",
         "DELETE": "Supprimer",
         "COPY": "Copier",
-        "COPY_TO_CLIPBOARD": "Copier dans le presse papier",
+        "COPIED_TO_CLIPBOARD": "Copier dans le presse papier",
         "CLOSE": "Fermer"
     },
     "LOGOUT": {
@@ -21,8 +21,7 @@
         "BUTTONS": "Se déconnecter"
         }
     },
-
-        "OPERATOR": {
+    "OPERATOR": {
             "ORANGE": "Orange",
             "MTN": "MTN",
             "MOOV": "Moov"
@@ -103,6 +102,7 @@
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source",
                 "SEE_MORE": "Voir plus",
+                "QUALIFY": "Qualifier",
                 "TAKE": "Prendre",
                 "ACTION": "Action"
             },
@@ -603,10 +603,10 @@
             "FINALIZATION": "Finalisation",
             "EVALUATION": "Evaluation"
         },
-        "LABEL": "Traitements Signalements",
-        "ROUTE": "reports-processing",
+        "LABEL": "Finalisation Signalements",
+        "ROUTE": "reports-finalization",
         "QUEUES": {
-            "TITLE": "signalements en attente d'affectation",
+            "TITLE": "Signalements en attente de prise en charge",
             "LABEL": "File d'attente",
             "ROUTE": "queues",
             "TABLE": {
@@ -615,7 +615,7 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source",
-                "STATUS": "Status",
+                "STATE": "État",
                 "SEE_MORE": "Voir plus",
                 "TAKE": "Prendre",
                 "ACTION": "Action"
@@ -623,6 +623,7 @@
             "FILTER": {
                 "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
+                "UNIQ_ID": "Identifiant",
                 "OPERATOR": "Opérateur",
                 "STATE": "État"
             },
@@ -665,7 +666,7 @@
         },
         "TASKS": {
             "TITLE": "signalements en attente de finalisation",
-            "LABEL": "panier de taches",
+            "LABEL": "Panier de taches",
             "ROUTE": "tasks",
             "TABLE": {
                 "CREATED_AT": "Créé le",
@@ -684,6 +685,7 @@
             "FILTER": {
                 "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
+                "UNIQ_ID": "Identifiant",
                 "STATE": "État",
                 "OPERATOR": "Opérateur"
             },
@@ -892,6 +894,35 @@
         }
     },
 
+    "COMMUNICATION": {
+        "LABEL": "Communication",
+        "ROUTE": "communication",
+        "NOTIFICATIONS": {
+            "TITLE": "notifications",
+            "LABEL": "Notifications",
+            "ROUTE": "notification",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "REFERENCE": "Reference",
+                "NOTIFICATION_TYPE": "Type Notification",
+                "DESCRIPTION": "Description",
+                "SEE_MORE": "Voir plus",
+                "READ": "Lire",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REFERENCE": "Reference",
+                "NOTIFICATION_TYPE": "Type Notification",
+                "DESCRIPTION": "Description",
+                "CREATED_AT": "Créé le"
+            },
+            "BUTTONS": {
+                "DELETE": "Supprimer"
+            }
+        }
+    },
+
+
 
     "MANAGEMENT": {
             "TITLE": "Traitement du signalement",
@@ -945,6 +976,12 @@
                 },
                 "REFUSER": {
                     "TITLE": "Informations du refuseur",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Contact"
+                },
+                "PROCESSED": {
+                    "TITLE": "Informations du traitant",
                     "LAST_NAME": "Nom",
                     "FIRST_NAME": "Prénoms",
                     "PHONE": "Contact"

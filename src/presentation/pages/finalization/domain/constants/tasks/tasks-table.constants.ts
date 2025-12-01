@@ -25,8 +25,8 @@ export const TASKS_TABLE_CONST = {
             width: '13rem',
         },
         {
-            field: 'status',
-            header: 'REPORTS_PROCESSING.TASKS.TABLE.STATUS',
+            field: 'source',
+            header: 'REPORTS_PROCESSING.TASKS.TABLE.SOURCE',
             class: 'text-center',
             width: '9rem',
         },
@@ -47,9 +47,7 @@ export const TASKS_TABLE_CONST = {
         'uniqId',
         'reportType',
         'operators',
-        'state',
+        'source',
         'createdAt',
-        'placeDescription',
-        'description',
     ],
 };

@@ -1,36 +1,40 @@
 export const NOTIFICATIONS_TABLE_CONST = {
     cols: [
         {
-            field: '',
-            header: '#',
+            field: '__index',
+            header: 'TABLE.COMMON.INDEX',
             class: 'text-center',
+            width: '3rem',
         },
         {
-            field: 'reference',
-            header: 'Reference',
+            field: 'uniqId',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.REFERENCE',
             class: 'text-center',
             width: '10rem',
         },
         {
             field: 'operation',
-            header: 'Type Notification',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.NOTIFICATION_TYPE',
             class: 'text-center',
             width: '12rem',
         },
         {
             field: 'description',
-            header: 'Description',
-        },
-        {
-            field: 'created_at',
-            header: 'Date / Heure',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.DESCRIPTION',
             class: 'text-center',
             width: '12rem',
         },
         {
-            field: '',
-            header: 'Actions',
-            width: '4rem',
+            field: 'createdAt',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.CREATED_AT',
+            class: 'text-center',
+            width: '11rem',
+        },
+        {
+            field: '__action',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.ACTION',
+            class: 'text-center',
+            width: '9rem',
         },
     ],
     globalFilterFields: ['reference', 'operation', 'description', 'created_at'],

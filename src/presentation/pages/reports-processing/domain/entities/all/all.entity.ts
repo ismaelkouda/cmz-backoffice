@@ -10,7 +10,7 @@ import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
 import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 export enum ReportState {
-    TERMINATED = 'terminated',
+    TERMINATED = 'terminer',
 }
 
 export interface All {
@@ -48,7 +48,7 @@ export class AllEntity implements All {
         public readonly position: string,
         public readonly timestamps: Timestamps,
         public readonly createdAt: string
-    ) {}
+    ) { }
 
     public isTerminated(): boolean {
         return this.state === ReportState.TERMINATED;
@@ -108,9 +108,9 @@ export class AllEntity implements All {
         const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(this.deg2rad(lat)) *
-                Math.cos(this.deg2rad(latitude)) *
-                Math.sin(dLon / 2) *
-                Math.sin(dLon / 2);
+            Math.cos(this.deg2rad(latitude)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
 
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;

@@ -1,4 +1,3 @@
-// queues-table.constant.ts
 export const QUEUES_TABLE_CONST = {
     cols: [
         {
@@ -26,8 +25,8 @@ export const QUEUES_TABLE_CONST = {
             width: '13rem',
         },
         {
-            field: 'state',
-            header: 'REPORTS_PROCESSING.QUEUES.TABLE.STATUS',
+            field: 'source',
+            header: 'REPORTS_PROCESSING.QUEUES.TABLE.SOURCE',
             class: 'text-center',
             width: '9rem',
         },
@@ -48,9 +47,9 @@ export const QUEUES_TABLE_CONST = {
         'uniqId',
         'reportType',
         'operators',
-        'state',
+        'source',
         'createdAt',
         'placeDescription',
         'description',
     ],
-} as const;
+};

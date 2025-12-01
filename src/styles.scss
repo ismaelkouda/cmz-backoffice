@@ -61,6 +61,15 @@ label {
     color: #2f2f3b;
 }
 
+.tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem;
+    align-items: center;
+}
+
+
 .container-box {
     display: flex;
     gap: 2px;
@@ -101,6 +110,17 @@ label {
 }
 .pi-plus {
     font-size: 1.7rem !important;
+}
+
+
+.copyable {
+    cursor: pointer;
+    color: var(--theme-default);
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
 }
 
 .router-wrapper {

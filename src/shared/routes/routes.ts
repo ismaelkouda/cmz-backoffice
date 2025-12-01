@@ -12,6 +12,7 @@ export const SUPERVISORY_REPOSITORY = 'sla-reference';
 export const SETTINGS_SECURITY_ROUTE = 'security-settings';
 export const TEAM_ORGANIZATION = 'organization';
 export const ACCOUNTING = 'accounting';
+export const COMMUNICATION_ROUTE = 'communication';
 
 export const content: Routes = [
     {
@@ -92,8 +93,8 @@ export const content: Routes = [
             subModule: ['REPORTING.REPORT.LABEL'],
         },
     },
-    /*     {
-        path: 'communication',
+    {
+        path: COMMUNICATION_ROUTE,
         loadChildren: () =>
             import('../../presentation/pages/communication/communication.routes').then(
                 (m) => m.routes
@@ -102,7 +103,7 @@ export const content: Routes = [
             module: 'COMMUNICATION',
             subModule: ['COMMUNICATION.MESSAGES.LABEL', 'COMMUNICATION.NOTIFICATIONS.LABEL'],
         },
-    }, */
+    },
     {
         path: SETTINGS_SECURITY_ROUTE,
         loadChildren: () =>

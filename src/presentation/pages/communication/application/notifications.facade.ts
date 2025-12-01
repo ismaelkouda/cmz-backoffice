@@ -1,16 +1,15 @@
-/* import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BaseFacade } from '@shared/application/base/base-facade';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, debounceTime, finalize, Observable, throwError } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { NotificationsEntity } from '../domain/entities/notifications.entity';
 import { NotificationsUseCase } from '../domain/use-cases/notifications.use-case';
 import { NotificationsFilter } from '../domain/value-objects/notifications-filter.vo';
-import { ɵFormGroupRawValue, ɵTypedOrUntyped } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
-export class NotificationsFacade extends BaseFacade<NotificationsEntity, any> {
+export class NotificationsFacade extends BaseFacade<NotificationsEntity, NotificationsFilter> {
     readonly notifications$: Observable<NotificationsEntity[]> = this.items$;
 
     private hasInitialized = false;
@@ -107,54 +106,32 @@ export class NotificationsFacade extends BaseFacade<NotificationsEntity, any> {
 
 
     readOne(
-        credentials: ɵTypedOrUntyped<
-            string,
-            ɵFormGroupRawValue<string>,
-            any
-        >,
-        endPointType: EndPointType
+        payload: string,
     ): Observable<void> {
-        const payload = credentials;
-        if (this.loadingSubject.getValue()) {
-            return throwError(() => new Error('Operation already in progress'));
-        }
-        this.loadingSubject.next(true);
-        return this.useCase
-            .executeReadOne(payload)
-            .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                finalize(() => this.loadingSubject.next(false)),
-                catchError((error: unknown) => {
-                    const errorMessage = this.getErrorMessage(error);
-                    this.toastService.error(errorMessage);
-                    return throwError(() => error);
-                })
-            );
+        return this.useCase.executeReadOne(payload).pipe(
+            tap(() => {
+                this.toastService.success(
+                    this.translateService.instant(
+                        'COMMUNICATION.NOTIFICATIONS.SUCCESS.READ'
+                    )
+                );
+                this.refresh();
+            })
+        );
     }
 
     readAll(
-        credentials: ɵTypedOrUntyped<
-            string[],
-            ɵFormGroupRawValue<string[]>,
-            any
-        >,
+        payload: string[],
     ): Observable<void> {
-        const payload = credentials;
-        if (this.loadingSubject.getValue()) {
-            return throwError(() => new Error('Operation already in progress'));
-        }
-        this.loadingSubject.next(true);
-        return this.useCase
-            .executeReadAll(payload)
-            .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                finalize(() => this.loadingSubject.next(false)),
-                catchError((error: unknown) => {
-                    const errorMessage = this.getErrorMessage(error);
-                    this.toastService.error(errorMessage);
-                    return throwError(() => error);
-                })
-            );
+        return this.useCase.executeReadAll(payload).pipe(
+            tap(() => {
+                this.toastService.success(
+                    this.translateService.instant(
+                        'COMMUNICATION.NOTIFICATIONS.SUCCESS.READ'
+                    )
+                );
+                this.refresh();
+            })
+        );
     }
 }
- */

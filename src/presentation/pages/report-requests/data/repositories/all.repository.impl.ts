@@ -28,8 +28,8 @@ export class AllRepositoryImpl extends AllRepository {
                             error instanceof Error
                                 ? error.message
                                 : this.translateService.instant(
-                                      'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
-                                  )
+                                    'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
+                                )
                         )
                 )
             )

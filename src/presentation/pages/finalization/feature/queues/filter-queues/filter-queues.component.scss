@@ -4,13 +4,12 @@
     gap: 1rem;
     flex-wrap: nowrap;
     overflow-x: auto;
-    padding-bottom: 0.5rem;
 
     &__item {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
-        min-width: 13rem;
+        min-width: 14rem;
 
         label {
             font-size: 0.875rem;
@@ -21,6 +20,10 @@
         ::ng-deep .p-select,
         ::ng-deep .p-select-trigger {
             width: 100%;
+        }
+
+        &.p-long {
+            min-width: 21rem;
         }
     }
 

@@ -20,6 +20,7 @@ export abstract class PaginatedMapper<TEntity, TItemDto> {
     }
 
     private validateResponse(dto: PaginatedResponseDto<TItemDto>): void {
+        console.log('validateResponse', dto);
         if (dto.error) {
             throw ApiError.invalidResponse(
                 dto.message || 'Erreur API: La requête a échoué.'

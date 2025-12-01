@@ -8,7 +8,6 @@ import { ApprovalInfo } from '@shared/domain/interfaces/approval-info.interface'
 import { DuplicationInfo } from '@shared/domain/interfaces/duplication-info.interface';
 import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
 import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
-import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 export enum ReportStatus {
     PENDING = 'pending',
@@ -29,10 +28,8 @@ export interface Notifications {
     readonly description: string;
     readonly media: ReportMedia;
     readonly approval: ApprovalInfo;
-    readonly status: ReportStatus;
     readonly duplication: DuplicationInfo;
     readonly position: string;
-    readonly timestamps: Timestamps;
     readonly createdAt: string;
 }
 
@@ -49,49 +46,10 @@ export class NotificationsEntity implements Notifications {
         public readonly description: string,
         public readonly media: ReportMedia,
         public readonly approval: ApprovalInfo,
-        public readonly status: ReportStatus,
         public readonly duplication: DuplicationInfo,
         public readonly position: string,
-        public readonly timestamps: Timestamps,
         public readonly createdAt: string
-    ) {}
-
-    public isPending(): boolean {
-        return this.status === ReportStatus.PENDING;
-    }
-
-    public isApproved(): boolean {
-        return this.status === ReportStatus.APPROVED;
-    }
-
-    public isRejected(): boolean {
-        return this.status === ReportStatus.REJECTED;
-    }
-
-    public isAbandoned(): boolean {
-        return this.status === ReportStatus.ABANDONED;
-    }
-
-    public canBeTaken(): boolean {
-        return (
-            this.isPending() &&
-            !this.duplication.isDuplicated &&
-            this.hasValidLocation()
-        );
-    }
-
-    public canBeRejected(): boolean {
-        return this.isPending() && !this.duplication.isDuplicated;
-    }
-
-    public requiresImmediateAttention(): boolean {
-        return (
-            this.getPriorityLevel() === PriorityLevel.CRITICAL ||
-            (this.isRecent(1) &&
-                this.hasCompletePhotos() &&
-                this.hasMultipleOperators())
-        );
-    }
+    ) { }
 
     public hasValidLocation(): boolean {
         const { latitude, longitude } = this.location.coordinates;
@@ -138,9 +96,9 @@ export class NotificationsEntity implements Notifications {
         const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(this.deg2rad(lat)) *
-                Math.cos(this.deg2rad(latitude)) *
-                Math.sin(dLon / 2) *
-                Math.sin(dLon / 2);
+            Math.cos(this.deg2rad(latitude)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
 
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
@@ -205,33 +163,6 @@ export class NotificationsEntity implements Notifications {
         return this.approval.confirmCount + this.approval.denyCount >= 3;
     }
 
-    public getDaysSinceCreation(): number {
-        const created = new Date(this.timestamps.createdAt);
-        const now = new Date();
-        const diffTime = Math.abs(now.getTime() - created.getTime());
-        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    }
-
-    public isRecent(daysThreshold: number = 7): boolean {
-        return this.getDaysSinceCreation() <= daysThreshold;
-    }
-
-    public isStale(daysThreshold: number = 30): boolean {
-        return this.getDaysSinceCreation() > daysThreshold;
-    }
-
-    public wasRecentlyUpdated(hoursThreshold: number = 24): boolean {
-        const updated = new Date(this.timestamps.updatedAt);
-        const now = new Date();
-        const diffHours =
-            Math.abs(now.getTime() - updated.getTime()) / (1000 * 60 * 60);
-        return diffHours <= hoursThreshold;
-    }
-
-    public isUrgent(): boolean {
-        return this.getDaysSinceCreation() === 0;
-    }
-
     public isDuplicate(): boolean {
         return this.duplication.isDuplicated;
     }
@@ -285,11 +216,7 @@ export class NotificationsEntity implements Notifications {
 
         if (this.hasMultipleOperators()) score += 2;
 
-        if (this.isUrgent()) score += 3;
-
         if (this.isHighlyConfirmed()) score += 1;
-
-        if (this.isRecent(1)) score += 1;
 
         if (this.isDuplicate()) score -= 5;
 
@@ -338,10 +265,6 @@ export class NotificationsEntity implements Notifications {
         );
     }
 
-    public toString(): string {
-        return `NotificationsNotificationEntity[id=${this.id}, type=${this.reportType}, status=${this.status}, operators=${this.operators.join(',')}]`;
-    }
-
     public equals(other: NotificationsEntity): boolean {
         return this.id === other.id;
     }
@@ -359,41 +282,9 @@ export class NotificationsEntity implements Notifications {
             updates.description ?? this.description,
             updates.media ?? this.media,
             updates.approval ?? this.approval,
-            updates.status ?? this.status,
             updates.duplication ?? this.duplication,
             updates.position ?? this.position,
-            updates.timestamps ?? this.timestamps,
             updates.createdAt ?? this.createdAt
         );
-    }
-
-    public markAsApproved(
-        approvedBy: string,
-        comment: string = ''
-    ): NotificationsEntity {
-        return this.clone({
-            status: ReportStatus.APPROVED,
-            approval: {
-                ...this.approval,
-                approvedBy,
-                approvedAt: new Date().toISOString(),
-                approvedComment: comment,
-            },
-        });
-    }
-
-    public markAsRejected(
-        rejectedBy: string,
-        comment: string = ''
-    ): NotificationsEntity {
-        return this.clone({
-            status: ReportStatus.REJECTED,
-            approval: {
-                ...this.approval,
-                rejectedBy,
-                rejectedAt: new Date().toISOString(),
-                approvedComment: comment,
-            },
-        });
     }
 }

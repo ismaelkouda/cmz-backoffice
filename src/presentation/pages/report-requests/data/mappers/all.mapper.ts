@@ -1,11 +1,11 @@
-// data/mappers/all.mapper.ts
 import { Injectable } from '@angular/core';
-import { AllItemDto } from '@presentation/pages/report-requests/data/dtos/all/all-response.dto';
+import { AllItemDto, ReportStatusDto } from '@presentation/pages/report-requests/data/dtos/all/all-response.dto';
 import {
     All,
     AllEntity,
     ReportStatus,
 } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
+import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { LocationMethod } from '@shared/domain/enums/location-method.enum';
 import { LocationType } from '@shared/domain/enums/location-type.enum';
@@ -41,15 +41,15 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
         );
     }
 
-    private mapSource(source: string): ReportSource {
+    private mapSource(source: ReportSourceDto): ReportSource {
         switch (source) {
-            case 'app':
+            case ReportSourceDto.APP:
                 return ReportSource.APP;
-            case 'ussd':
+            case ReportSourceDto.USSD:
                 return ReportSource.USSD;
-            case 'sms':
+            case ReportSourceDto.SMS:
                 return ReportSource.SMS;
-            case 'ivr':
+            case ReportSourceDto.IVR:
                 return ReportSource.IVR;
             default:
                 return ReportSource.IVR;
@@ -95,15 +95,15 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
         }
     }
 
-    private mapStatus(status: ReportStatus): ReportStatus {
+    private mapStatus(status: ReportStatusDto): ReportStatus {
         switch (status) {
-            case 'confirmed':
+            case ReportStatusDto.CONFIRMED:
                 return ReportStatus.CONFIRMED;
-            case 'approved':
+            case ReportStatusDto.APPROVED:
                 return ReportStatus.APPROVED;
-            case 'rejected':
+            case ReportStatusDto.REJECTED:
                 return ReportStatus.REJECTED;
-            case 'abandoned':
+            case ReportStatusDto.ABANDONED:
                 return ReportStatus.ABANDONED;
             default:
                 return ReportStatus.ABANDONED;
@@ -111,6 +111,9 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
     }
 
     private parseOperators(operatorsString: string): TelecomOperator[] {
+        if (!operatorsString) {
+            return [];
+        }
         const operatorsArray = JSON.parse(operatorsString) as string[];
         return operatorsArray.map((operator) => this.mapOperator(operator));
     }

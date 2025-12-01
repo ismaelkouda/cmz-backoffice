@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2025-11-29T20:21:26.043Z
+// Generated at: 2025-12-01T19:30:38.675Z
 
 export interface AppConfig {
     verifyIdentityDocumentUrl: string;
@@ -42,7 +42,7 @@ declare global {
 export const ENVIRONMENTS = {
   "dev": {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
+    "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/",
     "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
     "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
     "fileUrl": "https://cmz-service-api.paas.imako.digital/auth/backoffice/",

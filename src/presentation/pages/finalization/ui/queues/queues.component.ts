@@ -13,6 +13,7 @@ import { QueuesFacade } from '@presentation/pages/finalization/application/queue
 import { QueuesFilter } from '@presentation/pages/finalization/domain/value-objects/queues-filter.vo';
 import { FilterQueuesComponent } from '@presentation/pages/finalization/feature/queues/filter-queues/filter-queues.component';
 import { TableQueuesComponent } from '@presentation/pages/finalization/feature/queues/table-queues/table-queues.component';
+import { ManagementFacade } from '@presentation/pages/reports-processing/application/management.facade';
 import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
@@ -42,47 +43,53 @@ import { QueuesEntity } from '../../domain/entities/queues/queues.entity';
 })
 export class QueuesComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly queuesFacade = inject(QueuesFacade);
+    private readonly managementFacade = inject(ManagementFacade);
     public module!: string;
     public subModule!: string;
     public pagination$!: Observable<Paginate<QueuesEntity>>;
     public queues$!: Observable<QueuesEntity[]>;
-    public spinner$!: Observable<boolean>;
+    public loading$!: Observable<boolean>;
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
 
-    constructor(
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly queuesFacade: QueuesFacade
-    ) {}
-
     ngOnInit(): void {
+        this.setupRouteData();
+        this.setupObservables();
+        this.loadData();
+    }
+
+    private loadData(): void {
+        const defaultFilter = QueuesFilter.create(
+            {} as QueuesFilterPayloadEntity
+        );
+        this.queuesFacade.fetchQueues(defaultFilter, '1', false);
+    }
+
+    private setupRouteData(): void {
         this.activatedRoute.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
                 this.title.setTitle(
-                    data['title'] ?? 'REPORTS_PROCESSING.QUEUES.TITLE'
+                    data['title'] ?? 'FINALIZATION.QUEUES.TITLE'
                 );
-                this.module = data['module'] ?? 'REPORTS_PROCESSING.LABEL';
+                this.module = data['module'] ?? 'FINALIZATION.LABEL';
                 this.subModule =
-                    data['subModule'] ?? 'REPORTS_PROCESSING.QUEUES.LABEL';
+                    data['subModule'] ?? 'FINALIZATION.QUEUES.LABEL';
             });
+    }
 
+    private setupObservables(): void {
         this.queues$ = this.queuesFacade.queues$;
         this.pagination$ = this.queuesFacade.pagination$;
-        this.spinner$ = this.queuesFacade.isLoading$;
-
-        const defaultFilter = QueuesFilter.create({
-            created_from: '',
-            created_to: '',
-        });
-
-        this.queuesFacade.fetchQueues(defaultFilter);
+        this.loading$ = this.queuesFacade.isLoading$;
     }
 
     public filter(filterData: QueuesFilterPayloadEntity): void {
         const filter = QueuesFilter.create(filterData);
-        this.queuesFacade.fetchQueues(filter);
+        this.queuesFacade.fetchQueues(filter, '1', true);
     }
 
     public onPageChange(event: number): void {
@@ -90,18 +97,21 @@ export class QueuesComponent implements OnInit, OnDestroy {
     }
 
     public onQueuesAction(item: QueuesEntity): void {
+        console.log("onQueuesAction", item);
         this.selectedReportId = item.uniqId;
         this.reportTreatmentVisible = true;
     }
 
-    public onReportTreatmentQueuesd(): void {
+    public onReportTreatmentQueues(): void {
         this.reportTreatmentVisible = false;
         this.selectedReportId = null;
     }
 
-    public onQueuesJournal(item: QueuesEntity): void {
-        // Journal modal integration will be implemented later.
-        console.log('Journal requested for:', item.uniqId);
+    public onQueuesTake(item: QueuesEntity): void {
+        this.managementFacade.take(
+            { decision: '', reason: '', comment: '', uniqId: item.uniqId },
+            'reports-processing'
+        );
     }
 
     public refreshQueues(): void {

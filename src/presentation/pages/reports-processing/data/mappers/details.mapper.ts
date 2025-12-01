@@ -35,6 +35,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             dto.initiator_phone_number,
             this.mapInitiator(dto.initiator),
             this.mapInitiator(dto.acknowledged_by),
+            this.mapInitiator(dto.processed_by),
             this.mapInitiator(dto.approved_by),
             this.mapInitiator(dto.rejected_by),
             this.mapInitiator(dto.confirmed_by),
@@ -189,12 +190,14 @@ export class DetailsMapper extends SimpleResponseMapper<
             acknowledgedAt: dto.acknowledged_at,
             createdAt: dto.created_at,
             reportedAt: dto.reported_at,
+            processedAt: dto.processed_at,
             approvedAt: dto.approved_at,
             finalizedAt: dto.finalized_at,
             rejectedAt: dto.rejected_at,
             confirmedAt: dto.confirmed_at,
             abandonedAt: dto.abandoned_at,
             acknowledgedComment: dto.acknowledged_comment,
+            processedComment: dto.processed_comment,
             approvedComment: dto.approved_comment,
             rejectedComment: dto.rejected_comment,
             confirmedComment: dto.confirmed_comment,
@@ -227,6 +230,8 @@ export class DetailsMapper extends SimpleResponseMapper<
             approved: ReportState.APPROVED,
             rejected: ReportState.REJECTED,
             ['in-progress']: ReportState.IN_PROGRESS,
+            completed: ReportState.COMPLETED,
+            terminated: ReportState.TERMINATED,
         };
         return stateMap[state] || ReportState.PENDING;
     }

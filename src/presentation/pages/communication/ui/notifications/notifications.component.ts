@@ -1,4 +1,4 @@
-/* import { AsyncPipe, CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -11,16 +11,15 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NotificationsFacade } from '@presentation/pages/communication/application/notifications.facade';
 import { NotificationsFilter } from '@presentation/pages/communication/domain/value-objects/notifications-filter.vo';
-import { FilterNotificationsComponent } from '@presentation/pages/communication/feature/notifications/filter-notifications/filter-notifications.component';
-import { TableNotificationsComponent } from '@presentation/pages/communication/feature/notifications/table-notifications/table-notifications.component';
-import { ManagementComponent } from '@presentation/pages/communication/ui/management/management.component';
+import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Subject, takeUntil } from 'rxjs';
-import { ManagementFacade } from '../../application/management.facade';
-import { NotificationsFilterPayloadEntity } from '../../domain/entities/notifications/notifications-filter-payload.entity';
-import { NotificationsEntity } from '../../domain/entities/notifications/notifications.entity';
+import { NotificationsFilterPayloadEntity } from '../../domain/entities/notifications-filter-payload.entity';
+import { NotificationsEntity } from '../../domain/entities/notifications.entity';
+import { NotificationsFilterComponent } from '../../feature/notifications-filter/notifications-filter.component';
+import { NotificationsTableComponent } from '../../feature/notifications-table/notifications-table.component';
 
 @Component({
     selector: 'app-notifications',
@@ -30,12 +29,12 @@ import { NotificationsEntity } from '../../domain/entities/notifications/notific
     imports: [
         CommonModule,
         BreadcrumbComponent,
-        FilterNotificationsComponent,
-        TableNotificationsComponent,
         ManagementComponent,
         PageTitleComponent,
         PaginationComponent,
         TranslateModule,
+        NotificationsTableComponent,
+        NotificationsFilterComponent,
         AsyncPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +43,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly notificationsFacade = inject(NotificationsFacade);
-    private readonly managementFacade = inject(ManagementFacade);
     public module!: string;
     public subModule!: string;
     public notifications$ = this.notificationsFacade.notifications$;
@@ -88,8 +86,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.notificationsFacade.changePage(event + 1);
     }
 
-    public onNotificationsTake(item: NotificationsEntity): void {
-        this.notificationsFacade.delete(item.uniqId);
+    public onReadOneNotification(item: NotificationsEntity): void {
+    }
+
+    public onReadAllNotifications(): void {
     }
 
     public refreshNotifications(): void {
@@ -101,4 +101,3 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
- */

@@ -1,12 +1,11 @@
-/* import { Routes } from '@angular/router';
-import { MessagingComponent } from './ui/messaging/messaging.component';
+import { Routes } from '@angular/router';
 import { NotificationsComponent } from './ui/notifications/notifications.component';
 
 export const MESSAGING_ROUTE = 'messaging';
-export const NOTIFICATIONS_ROUTE = 'notifications';
+export const NOTIFICATIONS_ROUTE = 'notification';
 
 export const routes: Routes = [
-    {
+    /* {
         path: MESSAGING_ROUTE,
         children: [
             {
@@ -28,7 +27,7 @@ export const routes: Routes = [
                 redirectTo: MESSAGING_ROUTE,
             },
         ],
-    },
+    }, */
     {
         path: NOTIFICATIONS_ROUTE,
         children: [
@@ -53,4 +52,3 @@ export const routes: Routes = [
         ],
     },
 ];
- */

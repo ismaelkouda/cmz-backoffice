@@ -29,7 +29,9 @@
                     (refresh)="onRefresh()"
                     [disabledButtonExport]="isLoading() || !hasData()"
                     [disabledButtonRefresh]="isLoading()"
-                    [hiddenButtonOther]="true"
+                    [disabledButtonOther]="isLoading() || !hasData()"
+                    [hiddenButtonOther]="false"
+                    [labelOther]="'COMMUNICATION.NOTIFICATIONS.BUTTONS.DELETE'"
                 />
                 <app-search-table [dt]="dt" />
             </div>
@@ -198,18 +200,6 @@
                                     size="small"
                                     class="action-btn"
                                 ></button>
-                                <!-- <button
-                                type="button"
-                                pButton
-                                severity="info"
-                                icon="pi pi-check-circle"
-                                (click)="onTakeClicked(notification)"
-                                [pTooltip]="getTakeTooltip(notification)"
-                                tooltipPosition="bottom"
-                                [disabled]="isLoading()"
-                                size="small"
-                                class="action-btn p" 
-                            ></button> -->
                             </div>
                         }
 
