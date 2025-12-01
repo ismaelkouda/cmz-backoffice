@@ -1,4 +1,4 @@
-/* import {
+import {
     Component,
     EventEmitter,
     OnDestroy,
@@ -14,8 +14,6 @@ import {
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NotificationsFacade } from '@presentation/pages/communication/application/notifications.facade';
-import { NotificationsFilterFormControlEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-filter-form-control.entity';
-import { NotificationsFilterPayloadEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-filter-payload.entity';
 import { OPERATOR_CONST } from '@shared/domain/constants/operator';
 import { REPORT_CONST } from '@shared/domain/constants/report';
 import { SOURCE_CONST } from '@shared/domain/constants/source';
@@ -28,12 +26,14 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+import { NotificationsFilterFormControlEntity } from '../../domain/entities/notifications-filter-form-control.entity';
+import { NotificationsFilterPayloadEntity } from '../../domain/entities/notifications-filter-payload.entity';
 
 @Component({
-    selector: 'app-filter-notifications',
+    selector: 'app-notifications-filter',
     standalone: true,
-    templateUrl: './filter-notifications.component.html',
-    styleUrls: ['./filter-notifications.component.scss'],
+    templateUrl: './notifications-filter.component.html',
+    styleUrls: ['./notifications-filter.component.scss'],
     imports: [
         ReactiveFormsModule,
         TranslateModule,
@@ -45,7 +45,7 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
         MultiSelectModule,
     ],
 })
-export class FilterNotificationsComponent implements OnInit, OnDestroy {
+export class NotificationsFilterComponent implements OnInit, OnDestroy {
     private readonly toastService = inject(ToastrService);
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
@@ -211,4 +211,3 @@ export class FilterNotificationsComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
- */

@@ -23,13 +23,13 @@
                     </header>
 
                     <div class="fade-in notifications-content">
-                        <app-filter-notifications
+                        <!-- <app-notifications-filter
                             class="filter-component"
                             (filter)="filter($event)"
                         >
-                        </app-filter-notifications>
+                        </app-notifications-filter>
 
-                        <hr class="notifications-divider" />
+                        <hr class="notifications-divider" /> -->
 
                         <section
                             class="table-section"
@@ -37,18 +37,18 @@
                                 'COMMUNICATION.NOTIFICATIONS.TITLE' | translate
                             "
                         >
-                            <app-table-notifications
+                            <app-notifications-table
                                 class="table-component"
                                 [loading]="loading$ | async"
                                 [pagination$]="pagination$"
                                 [notifications$]="notifications$"
                                 (treatmentRequested)="
-                                    onNotificationsAction($event)
+                                    onReadOneNotification($event)
                                 "
-                                (takeRequested)="onNotificationsTake($event)"
+                                (takeRequested)="onReadAllNotifications()"
                                 (refreshRequested)="refreshNotifications()"
                             >
-                            </app-table-notifications>
+                            </app-notifications-table>
 
                             <app-pagination
                                 class="pagination-component"

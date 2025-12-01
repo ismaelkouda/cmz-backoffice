@@ -59,6 +59,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
+import { provideNotifications } from './pages/communication/di/notifications.providers';
 import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
 import { provideActions } from './pages/reports-processing/di/actions.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
@@ -268,6 +269,8 @@ export const appConfig: ApplicationConfig = {
         ...finalizationAll(),
 
         ...provideActions(),
+
+        ...provideNotifications(),
 
         ...provideDetails(),
         ...provideTreatment(),

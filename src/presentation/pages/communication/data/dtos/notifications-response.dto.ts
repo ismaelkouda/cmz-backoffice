@@ -1,4 +1,4 @@
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface NotificationsItemDto {
     id: string;
@@ -33,8 +33,4 @@ export interface NotificationsItemDto {
     updated_at: string;
 }
 
-export interface NotificationsResponseDto {
-    error: boolean;
-    message: string;
-    data: Paginate<NotificationsItemDto>;
-}
+export interface NotificationsResponseDto extends PaginatedResponseDto<NotificationsItemDto> { }

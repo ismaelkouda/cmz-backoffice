@@ -1,4 +1,3 @@
-// data/mappers/all.mapper.ts
 import { Injectable } from '@angular/core';
 import { AllItemDto, ReportStatusDto } from '@presentation/pages/report-requests/data/dtos/all/all-response.dto';
 import {

@@ -1,4 +1,4 @@
-/* import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -13,7 +13,6 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NOTIFICATIONS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/notifications-table.constant';
-import { NotificationsEntity } from '@presentation/pages/reports-processing/domain/entities/notifications/notifications.entity';
 import { TableSelectionService } from '@presentation/pages/reports-processing/domain/services/table-selection.service';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
@@ -32,9 +31,10 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 
 @Component({
-    selector: 'app-table-notifications',
+    selector: 'app-notifications-table',
     standalone: true,
     imports: [
         CommonModule,
@@ -52,12 +52,12 @@ import { Observable, Subject, takeUntil, tap } from 'rxjs';
         TableTitleComponent,
         TagModule,
     ],
-    templateUrl: './table-notifications.component.html',
-    styleUrls: ['./table-notifications.component.scss'],
+    templateUrl: './notifications-table.component.html',
+    styleUrls: ['./notifications-table.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [TableSelectionService],
 })
-export class TableNotificationsComponent implements OnInit, OnDestroy {
+export class NotificationsTableComponent implements OnInit, OnDestroy {
     private readonly selectionService = inject(
         TableSelectionService<NotificationsEntity>
     );
@@ -273,17 +273,6 @@ export class TableNotificationsComponent implements OnInit, OnDestroy {
         return key ? this.translate.instant(key) : operator;
     }
 
-    getTakeTooltip(item: NotificationsEntity): string {
-        const canTake = item.canBeTaken();
-        if (canTake) {
-            const notificationsLabel = this.translate.instant(
-                'REPORTS_REQUESTS.NOTIFICATIONS.TABLE.TAKE'
-            );
-            return `${notificationsLabel} ${item.uniqId}`;
-        }
-        return this.translate.instant('REPORTS_REQUESTS.NOTIFICATIONS.TABLE.SEE_MORE');
-    }
-
     getSeeMoreTooltip(item: NotificationsEntity): string {
         return this.translate.instant(
             'COMMUNICATION.NOTIFICATIONS.TABLE.SEE_MORE'
@@ -311,4 +300,3 @@ export class TableNotificationsComponent implements OnInit, OnDestroy {
         );
     }
 }
- */

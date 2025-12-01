@@ -894,6 +894,35 @@
         }
     },
 
+    "COMMUNICATION": {
+        "LABEL": "Communication",
+        "ROUTE": "communication",
+        "NOTIFICATIONS": {
+            "TITLE": "notifications",
+            "LABEL": "Notifications",
+            "ROUTE": "notification",
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "REFERENCE": "Reference",
+                "NOTIFICATION_TYPE": "Type Notification",
+                "DESCRIPTION": "Description",
+                "SEE_MORE": "Voir plus",
+                "READ": "Lire",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REFERENCE": "Reference",
+                "NOTIFICATION_TYPE": "Type Notification",
+                "DESCRIPTION": "Description",
+                "CREATED_AT": "Créé le"
+            },
+            "BUTTONS": {
+                "DELETE": "Supprimer"
+            }
+        }
+    },
+
+
 
     "MANAGEMENT": {
             "TITLE": "Traitement du signalement",

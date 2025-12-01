@@ -3,17 +3,18 @@ import { Injectable } from '@angular/core';
 import { NotificationsRequestDto } from '@presentation/pages/communication/data/dtos/notifications-request.dto';
 import { NotificationsResponseDto } from '@presentation/pages/communication/data/dtos/notifications-response.dto';
 import { NOTIFICATIONS_ENDPOINTS } from '@presentation/pages/communication/data/endpoint/notifications.endpoints';
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsApi {
-    private readonly baseUrl = this.envService.reportUrl;
+    private readonly baseUrl = this.envService.authenticationUrl;
 
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchNotifications(
         payload: NotificationsRequestDto,
@@ -37,5 +38,17 @@ export class NotificationsApi {
         return this.http.get<NotificationsResponseDto>(url, {
             params,
         });
+    }
+
+    fetchReadAll(
+        payload: string[]
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${NOTIFICATIONS_ENDPOINTS.READ_ALL}`;
+        return this.http.put<SimpleResponseDto<void>>(url, payload);
+    }
+
+    fetchReadOne(id: string): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${NOTIFICATIONS_ENDPOINTS.READ_ONE.replace('{id}', id)}`;
+        return this.http.delete<SimpleResponseDto<void>>(url);
     }
 }

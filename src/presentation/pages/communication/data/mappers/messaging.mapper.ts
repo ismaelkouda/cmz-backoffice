@@ -23,12 +23,6 @@ export class MessagingMapper {
                 hasAttachment: !!item.piece_jointe,
                 fileUrl: item.file_url
             })),
-            meta: {
-                current_page: dto.data.current_page,
-                last_page: dto.data.last_page,
-                per_page: dto.data.per_page,
-                total: dto.data.total,
-            }
         };
     }
 }

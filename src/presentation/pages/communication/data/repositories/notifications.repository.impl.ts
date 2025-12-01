@@ -1,12 +1,12 @@
-/* import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationsMapper } from '@presentation/pages/communication/data/mappers/notifications.mapper';
 import { NotificationsApi } from '@presentation/pages/communication/data/sources/notifications.api';
-import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
 import { NotificationsRepository } from '@presentation/pages/communication/domain/repositories/notifications.repository';
 import { NotificationsFilter } from '@presentation/pages/communication/domain/value-objects/notifications-filter.vo';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, catchError, map, throwError } from 'rxjs';
+import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsRepositoryImpl extends NotificationsRepository {
@@ -31,12 +31,19 @@ export class NotificationsRepositoryImpl extends NotificationsRepository {
                             error instanceof Error
                                 ? error.message
                                 : this.translateService.instant(
-                                      'COMMUNICATION.MESSAGES.ERROR.UNABLE_TO_FETCH_NOTIFICATIONS'
-                                  )
+                                    'COMMUNICATION.MESSAGES.ERROR.UNABLE_TO_FETCH_NOTIFICATIONS'
+                                )
                         )
                 )
             )
         );
     }
+
+    fetchReadAll(payload: string[]): Observable<void> {
+        return this.api.fetchReadAll(payload).pipe(map(() => undefined));
+    }
+
+    fetchReadOne(id: string): Observable<void> {
+        return this.api.fetchReadOne(id).pipe(map(() => undefined));
+    }
 }
- */
