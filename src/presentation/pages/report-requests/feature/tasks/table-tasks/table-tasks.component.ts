@@ -179,14 +179,10 @@ export class TableTasksComponent implements OnDestroy {
     }
 
     public getTaskTooltip(item: TasksEntity): string {
-        const canTake = item.canBeQualify();
-        if (canTake) {
-            const tasksLabel = this.translate.instant(
-                'REPORTS_REQUESTS.TASKS.TABLE.QUALIFY'
-            );
-            return `${tasksLabel} ${item.uniqId}`;
-        }
-        return this.translate.instant('REPORTS_REQUESTS.TASKS.TABLE.SEE_MORE');
+        const tasksLabel = this.translate.instant(
+            'REPORTS_REQUESTS.TASKS.TABLE.QUALIFY'
+        );
+        return `${tasksLabel} ${item.uniqId}`;
     }
 
     trackByUniqId(_: number, item: TasksEntity): string {

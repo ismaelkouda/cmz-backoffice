@@ -1,6 +1,6 @@
 <p-dialog
     [visible]="visible()"
-    (visibleChange)="visibleChange.emit($event)"
+    (visibleChange)="onHide()"
     (onHide)="onHide()"
     [modal]="true"
     [draggable]="false"
@@ -34,7 +34,11 @@
                         {{ 'MANAGEMENT.HEADER.DETAILS_DEMAND' | translate }}
                     </span>
                 }
-                <span class="header-title" *ngIf="reportId">
+                <span class="header-title copyable" 
+                    pTooltip="{{ 'COPY' | translate }}"
+                    tooltipPosition="bottom"
+                    (click)="copyToClipboard(reportId)" 
+                    *ngIf="reportId">
                     [ {{ reportId }} ]
                 </span>
             </ng-template>
@@ -588,50 +592,6 @@
                                     </div>
                                 </div>
                             }
-                            @if (details.treater?.acknowledgedAt) {
-                                <div class="sidebar-section">
-                                    <div class="sidebar-header">
-                                        {{
-                                            'MANAGEMENT.SIDEBAR.TOOK.TITLE'
-                                                | translate
-                                        }}
-                                    </div>
-                                    <div class="sidebar-content">
-                                        <p *ngIf="reportId">
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.TOOK.LAST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{
-                                                details.acknowledgedBy?.lastName
-                                            }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.TOOK.FIRST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{
-                                                details.acknowledgedBy
-                                                    ?.firstName
-                                            }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.TOOK.PHONE'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ details.acknowledgedBy?.phone }}
-                                        </p>
-                                    </div>
-                                </div>
-                            }
                             @if (details.treater?.approvedAt) {
                                 <div class="sidebar-section">
                                     <div class="sidebar-header">
@@ -706,6 +666,49 @@
                                                 }}:</strong
                                             >
                                             {{ details.rejectedBy?.phone }}
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                            @if (details.treater?.processedAt) {
+                                <div class="sidebar-section">
+                                    <div class="sidebar-header">
+                                        {{
+                                            'MANAGEMENT.SIDEBAR.PROCESSED.TITLE'
+                                                | translate
+                                        }}
+                                    </div>
+                                    <div class="sidebar-content">
+                                        <p *ngIf="reportId">
+                                            <strong
+                                                >{{
+                                                    'MANAGEMENT.SIDEBAR.PROCESSED.LAST_NAME'
+                                                        | translate
+                                                }}:</strong
+                                            >
+                                            {{
+                                                details.processedBy?.lastName
+                                            }}
+                                        </p>
+                                        <p>
+                                            <strong
+                                                >{{
+                                                    'MANAGEMENT.SIDEBAR.PROCESSED.FIRST_NAME'
+                                                        | translate
+                                                }}:</strong
+                                            >
+                                            {{
+                                                details.processedBy?.firstName
+                                            }}
+                                        </p>
+                                        <p>
+                                            <strong
+                                                >{{
+                                                    'MANAGEMENT.SIDEBAR.PROCESSED.PHONE'
+                                                        | translate
+                                                }}:</strong
+                                            >
+                                            {{ details.processedBy?.phone }}
                                         </p>
                                     </div>
                                 </div>
@@ -1402,15 +1405,7 @@
                                         (click)="toggleTreatmentForm()"
                                     >
                                         <div class="treatment-form-toggle">
-                                            <i
-                                                class="pi"
-                                                [class.pi-chevron-down]="
-                                                    !isTreatmentFormExpanded
-                                                "
-                                                [class.pi-chevron-up]="
-                                                    isTreatmentFormExpanded
-                                                "
-                                            ></i>
+                                            <i [class]="'pi ' + (isTreatmentFormExpanded ? 'pi-chevron-up' : 'pi-chevron-down')"></i>
                                             <span class="toggle-label">
                                                 {{
                                                     'MANAGEMENT.TREATMENT.TAKE_ACTION.TITLE'
@@ -1426,8 +1421,8 @@
                                                 <div class="action-section">
                                                     <form class="decision-form-row">
                                                         <div class="decision-group d-flex flex-row gap-3">
-                                                            @if (details?.canBeApproved || details?.canBeFinalized) {
-                                                            <div class="form-column">
+                                                            @if (details?.canBeApproved) {
+                                                            <div class="form-column flex-grow-2">
                                                                 <label class="decision-label">{{
                                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION'
                                                                             | translate
@@ -1534,7 +1529,7 @@
                                                                             </div>
                                                                         </div>
 
-                                                                        <div class="col-md-6 radio-option">
+                                                                        <div class="col-md-7 radio-option">
                                                                             <div class="radio-content">
                                                                                 <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
                                                                                 <div class="radio-text">
@@ -1548,7 +1543,7 @@
                                                                             </div>
                                                                             <p-select
                                                                                 size="large"
-                                                                                class="w-full md:w-56 motif-select"
+                                                                                class="w-full md:w-120 motif-select"
                                                                                 formControlName="reason"
                                                                                 [disabled]="
                                                                                     formTreatment.get(
@@ -1597,7 +1592,7 @@
                                                             </div>
                                                             }
 
-                                                            <div class="form-column">
+                                                            <div class="form-column flex-grow-1">
                                                                 <label class="comment-label">
                                                                     {{
                                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'

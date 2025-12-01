@@ -5,15 +5,13 @@ import { PaginatorModule } from 'primeng/paginator';
     selector: 'app-pagination',
     standalone: true,
     template: `
-        <div class="d-flex justify-content-between">
-            <h2 style="margin-top: 2rem;">
-                <div class="row">
-                    <strong
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>
+                <strong
                         style="position: absolute;left: 1.6%;font-size:18px;"
                     >
                         Total : {{ pagination?.total }}
                     </strong>
-                </div>
             </h2>
             <div>
                 <p-paginator

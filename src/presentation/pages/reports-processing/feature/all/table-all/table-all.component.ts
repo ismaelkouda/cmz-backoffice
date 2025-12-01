@@ -93,7 +93,7 @@ export class TableAllComponent implements OnDestroy {
     private readonly translationCache = new Map<string, string>();
 
     private readonly stateSeverityMap: Record<ReportState, TagSeverity> = {
-        terminated: 'success',
+        [ReportState.TERMINATED]: 'success',
     };
 
     private readonly stateLabelMap: Record<string, string> = {
@@ -104,7 +104,7 @@ export class TableAllComponent implements OnDestroy {
 
     constructor(
         private readonly tableExportExcelFileService: TableExportExcelFileService
-    ) {}
+    ) { }
 
     ngOnDestroy(): void {
         this.destroy$.next();

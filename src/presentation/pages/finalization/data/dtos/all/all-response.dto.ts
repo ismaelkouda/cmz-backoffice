@@ -1,5 +1,8 @@
-import { ReportState } from '@presentation/pages/finalization/domain/entities/all/all.entity';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
+
+export enum ReportStateDto {
+    COMPLETED = 'completed'
+}
 
 export interface AllItemDto {
     id: string;
@@ -23,7 +26,7 @@ export interface AllItemDto {
     approved_at: string | null;
     rejected_by: string | null;
     rejected_at: string | null;
-    state: ReportState;
+    state: ReportStateDto;
     confirm_count: number;
     deny_count: number;
     approved_comment: string | null;
@@ -34,8 +37,4 @@ export interface AllItemDto {
     updated_at: string;
 }
 
-export interface AllResponseDto {
-    error: boolean;
-    message: string;
-    data: Paginate<AllItemDto>;
-}
+export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> { }

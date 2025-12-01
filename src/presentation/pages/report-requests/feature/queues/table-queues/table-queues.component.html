@@ -5,8 +5,8 @@
     [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="tableConfig.globalFilterFields"
     responsiveLayout="scroll"
-    scrollable="true"
-    scrollHeight="flex"
+    [scrollable]="true"
+    scrollHeight="430px"
     data-testid="queues-table"
     role="grid"
     width="100%"
@@ -81,7 +81,7 @@
                                 tooltipPosition="bottom"
                             >
                                 <span class="copyable">{{ queue.uniqId }}</span>
-                                <i class="pi pi-copy" aria-hidden="true"></i>
+                                <!-- <i class="pi pi-copy" aria-hidden="true"></i> -->
                             </button>
                         }
 

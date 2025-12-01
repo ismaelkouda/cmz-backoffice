@@ -61,6 +61,7 @@ import { MapManagementComponent } from '../../feature/management/map-management/
 type TreaterTimestampKey =
     | 'createdAt'
     | 'approvedAt'
+    | 'processedAt'
     | 'acknowledgedAt'
     | 'rejectedAt'
     | 'confirmedAt'
@@ -132,15 +133,15 @@ export class ManagementComponent implements OnInit, OnDestroy {
             timestamp: null,
         },
         {
-            key: 'acknowledgedAt',
+            key: 'approvedAt',
+            key1: 'rejectedAt',
             label: 'MANAGEMENT.STATUS.QUALIFICATION',
             timestamp: null,
         },
         {
-            key: 'approvedAt',
-            key1: 'rejectedAt',
-            key2: 'confirmedAt',
-            key3: 'abandonedAt',
+            key: 'confirmedAt',
+            key1: 'abandonedAt',
+            key2: 'processedAt',
             label: 'MANAGEMENT.STATUS.TREATMENT',
             timestamp: null,
         },
@@ -250,6 +251,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     private updateWorkflowTimestamps(details: DetailsEntity): void {
+        console.log('updateWorkflowTimestamps', details);
         this.workflowSteps = this.workflowSteps.map((step) => {
             let timestamp: string | null = null;
             const treater = details.treater;
@@ -260,29 +262,48 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
             if (
                 step.key === 'approvedAt' &&
-                step.key1 &&
-                step.key2 &&
-                step.key3
+                step.key1
             ) {
                 switch (details.status) {
                     case 'approved':
                         timestamp = treater[step.key];
                         break;
                     case 'rejected':
+                        console.log('rejected', treater[step.key1]);
                         timestamp = treater[step.key1];
-                        break;
-                    case 'confirmed':
-                        timestamp = treater[step.key2];
-                        break;
-                    case 'abandoned':
-                        timestamp = treater[step.key3];
                         break;
                     default:
                         const keys: TreaterTimestampKey[] = [
                             step.key,
                             step.key1,
-                            step.key2,
-                            step.key3,
+                        ];
+                        for (const key of keys) {
+                            console.log('key', key);
+                            if (key && treater[key]) {
+                                timestamp = treater[key];
+                                break;
+                            }
+                        }
+                }
+            } else if (
+                step.key === 'confirmedAt' &&
+                step.key1 &&
+                step.key2
+            ) {
+                switch (details.status) {
+                    case ReportStatus.CONFIRM:
+                        timestamp = treater[step.key];
+                        break;
+                    case ReportStatus.ABANDONED:
+                        timestamp = treater[step.key1];
+                        break;
+                    case ReportStatus.FINALIZATION:
+                        timestamp = treater[step.key2];
+                        break;
+                    default:
+                        const keys: TreaterTimestampKey[] = [
+                            step.key,
+                            step.key1,
                         ];
                         for (const key of keys) {
                             if (key && treater[key]) {
@@ -294,6 +315,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
             } else {
                 timestamp = treater[step.key];
             }
+
+            console.log('timestamp', timestamp);
 
             return { ...step, timestamp };
         });
@@ -494,7 +517,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     copyToClipboard(value: string): void {
         this.clipboardService.copyFromContent(value);
         this.toastService.success(
-            this.translate.instant('COPIED_TO_CLIPBOARD')
+            this.translate.instant('COMMON.COPIED_TO_CLIPBOARD')
         );
     }
 
@@ -727,6 +750,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     public onHide(): void {
+        SweetAlert.close();
         this.visibleChange.emit(false);
         this.closed.emit();
     }

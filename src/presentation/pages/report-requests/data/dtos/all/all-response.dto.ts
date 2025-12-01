@@ -1,10 +1,17 @@
-import { ReportStatus } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
+import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
+export enum ReportStatusDto {
+    CONFIRMED = 'confirmed',
+    APPROVED = 'approved',
+    REJECTED = 'rejected',
+    ABANDONED = 'abandoned',
+}
 
 export interface AllItemDto {
     id: string;
     uniq_id: string;
-    source: string;
+    source: ReportSourceDto;
     location_method: string;
     location_type: string;
     lat: string;
@@ -23,7 +30,7 @@ export interface AllItemDto {
     approved_at: string | null;
     rejected_by: string | null;
     rejected_at: string | null;
-    status: ReportStatus;
+    status: ReportStatusDto;
     confirm_count: number;
     deny_count: number;
     approved_comment: string | null;

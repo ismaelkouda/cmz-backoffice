@@ -19,9 +19,6 @@ import { SearchTableComponent } from '@shared/components/search-table/search-tab
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { TableConfig } from '@shared/interfaces/table-config';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -64,16 +61,12 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
-    private readonly appCustomizationService = inject(AppCustomizationService);
-    private readonly tableExportExcelFileService = inject(
-        TableExportExcelFileService
-    );
     private readonly destroy$ = new Subject<void>();
 
     readonly queues = signal<QueuesEntity[]>([]);
+    readonly selectionInputValue = signal<number | null>(null);
     readonly isLoading = signal<boolean>(false);
     readonly hasData = signal<boolean>(false);
-    readonly selectionInputValue = signal<number | null>(null);
 
     get selectedCount() {
         return this.selectionService.selectedCount();
@@ -96,18 +89,14 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
         this.isLoading.set(value);
     }
 
-    private _queues$!: Observable<QueuesEntity[]>;
-
     @Output() treatmentRequested = new EventEmitter<QueuesEntity>();
-    @Output() takeRequested = new EventEmitter<QueuesEntity>();
+    @Output() journalRequested = new EventEmitter<QueuesEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
     @Output() selectionChanged = this.selectionService.selectionChange$;
 
-    private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.config.app.name
-    );
+    private _queues$!: Observable<QueuesEntity[]>;
 
-    readonly tableConfig: TableConfig = QUEUES_TABLE_CONST;
+    readonly tableConfig = QUEUES_TABLE_CONST;
 
     ngOnInit(): void {
         this._setupSelectionMonitoring();
@@ -156,6 +145,7 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     handleItemSelection(item: QueuesEntity): void {
+        console.log('Checkbox changée pour:', item.uniqId);
         this.selectionService.toggleItemSelection(item, 'checkbox');
     }
 
@@ -169,16 +159,10 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     onExportExcel(): void {
-        const queues = this.queues();
-        if (queues && queues.length > 0) {
-            const fileName = `${this.exportFilePrefix}-queues`;
-            this.tableExportExcelFileService.exportAsExcelFile(
-                queues,
-                this.tableConfig,
-                fileName
-            );
-        } else {
+        const items = this.queues();
+        if (!items?.length) {
             this.toastService.error(this.translate.instant('EXPORT.NO_DATA'));
+            return;
         }
     }
 
@@ -198,8 +182,8 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
         this.treatmentRequested.emit(item);
     }
 
-    onTakeClicked(item: QueuesEntity): void {
-        this.takeRequested.emit(item);
+    onJournalClicked(item: QueuesEntity): void {
+        this.journalRequested.emit(item);
     }
 
     private _subscribeToData(): void {
@@ -239,10 +223,31 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
                 ? normalized
                 : `${normalized}Z`;
             const date = new Date(withTimezone);
-            return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+            return isNaN(date.getTime()) ? value : date.toLocaleString();
         } catch {
             return value;
         }
+    }
+
+    getStateSeverity(state: string | null | undefined): string {
+        if (!state) return 'secondary';
+        const severityMap: Record<string, string> = {
+            accepted: 'success',
+            pending: 'warning',
+            rejected: 'danger',
+        };
+        return severityMap[state.toLowerCase()] ?? 'secondary';
+    }
+
+    getStateLabel(state: string | null | undefined): string {
+        if (!state) return '-';
+        const labelMap: Record<string, string> = {
+            accepted: 'FINALIZATION.QUEUES.OPTIONS.STATE.ACCEPTED',
+            pending: 'FINALIZATION.QUEUES.OPTIONS.STATUS.PENDING',
+            rejected: 'FINALIZATION.QUEUES.OPTIONS.STATE.REJECTED',
+        };
+        const key = labelMap[state.toLowerCase()];
+        return key ? this.translate.instant(key) : state;
     }
 
     getOperatorColor(operator: string): string {
@@ -265,29 +270,44 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     getOperatorLabel(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
         const translationMap: Record<string, string> = {
-            orange: 'REPORTS_PROCESSING.QUEUES.OPTIONS.OPERATOR.ORANGE',
-            mtn: 'REPORTS_PROCESSING.QUEUES.OPTIONS.OPERATOR.MTN',
-            moov: 'REPORTS_PROCESSING.QUEUES.OPTIONS.OPERATOR.MOOV',
+            orange: 'FINALIZATION.QUEUES.OPTIONS.OPERATOR.ORANGE',
+            mtn: 'FINALIZATION.QUEUES.OPTIONS.OPERATOR.MTN',
+            moov: 'FINALIZATION.QUEUES.OPTIONS.OPERATOR.MOOV',
         };
         const key = translationMap[normalized];
         return key ? this.translate.instant(key) : operator;
     }
 
+    getReportTypeLabel(reportType: string): string {
+        const normalized = reportType?.toLowerCase().trim() ?? '';
+        const translationMap: Record<string, string> = {
+            'couverture partielle signal':
+                'FINALIZATION.QUEUES.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL',
+            'zone blanche':
+                'FINALIZATION.QUEUES.OPTIONS.REPORT_TYPE.WHITE_ZONE',
+            "absence d'internet":
+                'FINALIZATION.QUEUES.OPTIONS.REPORT_TYPE.NO_INTERNET',
+        };
+        const key = translationMap[normalized];
+        return key ? this.translate.instant(key) : reportType;
+    }
+
     getTakeTooltip(item: QueuesEntity): string {
-        const canTake = item.canBeTaken();
-        if (canTake) {
+        const normalizedState = item.state?.toLowerCase() ?? '';
+        if (normalizedState === 'pending') {
             const queuesLabel = this.translate.instant(
-                'REPORTS_REQUESTS.QUEUES.TABLE.TAKE'
+                'FINALIZATION.QUEUES.TABLE.TAKE'
             );
             return `${queuesLabel} ${item.uniqId}`;
         }
-        return this.translate.instant('REPORTS_REQUESTS.QUEUES.TABLE.SEE_MORE');
+        return this.translate.instant('FINALIZATION.QUEUES.TABLE.SEE_MORE');
     }
 
-    getSeeMoreTooltip(item: QueuesEntity): string {
-        return this.translate.instant(
-            'REPORTS_PROCESSING.QUEUES.TABLE.SEE_MORE'
+    getJournalTooltip(item: QueuesEntity): string {
+        const queuesLabel = this.translate.instant(
+            'FINALIZATION.QUEUES.TABLE.JOURNAL'
         );
+        return `${queuesLabel} ${item.uniqId}`;
     }
 
     trackByUniqId(_: number, item: QueuesEntity): string {
@@ -301,13 +321,5 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     trackByColField(_: number, col: any): string {
         return col.field;
     }
-
-    private normalizeExportPrefix(appName: string): string {
-        return (
-            appName
-                .toLowerCase()
-                .replaceAll(/[^a-z0-9]+/g, '-')
-                .replaceAll(/(^-|-$)/g, '') || 'cmz'
-        );
-    }
 }
+

@@ -27,17 +27,21 @@ export enum ReportState {
     APPROVED = 'approved',
     REJECTED = 'rejected',
     IN_PROGRESS = 'in-progress',
+    COMPLETED = 'completed',
+    TERMINATED = 'terminated',
 }
 
 export interface TreaterInfo {
     acknowledgedAt: string | null;
     createdAt: string;
     reportedAt: string;
+    processedAt: string | null;
     approvedAt: string | null;
     finalizedAt: string | null;
     rejectedAt: string | null;
     confirmedAt: string | null;
     abandonedAt: string | null;
+    processedComment: string | null;
     approvedComment: string | null;
     rejectedComment: string | null;
     acknowledgedComment: string | null;
@@ -71,6 +75,7 @@ export interface Details {
     readonly initiatorPhone: string;
     readonly initiator: actorInfo;
     readonly acknowledgedBy: actorInfo;
+    readonly processedBy: actorInfo;
     readonly approvedBy: actorInfo;
     readonly rejectedBy: actorInfo;
     readonly confirmedBy: actorInfo;
@@ -104,6 +109,7 @@ export class DetailsEntity implements Details {
         public readonly initiatorPhone: string,
         public readonly initiator: actorInfo,
         public readonly acknowledgedBy: actorInfo,
+        public readonly processedBy: actorInfo,
         public readonly approvedBy: actorInfo,
         public readonly rejectedBy: actorInfo,
         public readonly confirmedBy: actorInfo,
@@ -126,7 +132,7 @@ export class DetailsEntity implements Details {
         public readonly reportedAt: string,
         public readonly placePhoto: string,
         public readonly accessPlacePhoto: string
-    ) {}
+    ) { }
 
     public get managementTitle(): string {
         switch (this.status) {
@@ -194,6 +200,7 @@ export class DetailsEntity implements Details {
     }
 
     public get canBeTaken(): boolean {
+        console.log('canBeTaken', this.status, this.state);
         return (
             this.status === ReportStatus.PENDING ||
             (this.status === ReportStatus.PROCESSING &&
@@ -288,9 +295,9 @@ export class DetailsEntity implements Details {
         const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(this.deg2rad(lat)) *
-                Math.cos(this.deg2rad(latitude)) *
-                Math.sin(dLon / 2) *
-                Math.sin(dLon / 2);
+            Math.cos(this.deg2rad(latitude)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
 
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
@@ -522,6 +529,7 @@ export class DetailsEntity implements Details {
             updates.initiatorPhone ?? this.initiatorPhone,
             updates.initiator ?? this.initiator,
             updates.acknowledgedBy ?? this.acknowledgedBy,
+            updates.processedBy ?? this.processedBy,
             updates.approvedBy ?? this.approvedBy,
             updates.rejectedBy ?? this.rejectedBy,
             updates.confirmedBy ?? this.confirmedBy,
@@ -557,6 +565,20 @@ export class DetailsEntity implements Details {
                 ...this.treater,
                 approvedAt: new Date().toISOString(),
                 approvedComment: comment,
+            },
+        });
+    }
+
+    public markAsProcessed(
+        processedBy: string,
+        comment: string = ''
+    ): DetailsEntity {
+        return this.clone({
+            status: ReportStatus.PROCESSING,
+            treater: {
+                ...this.treater,
+                processedAt: new Date().toISOString(),
+                processedComment: comment,
             },
         });
     }

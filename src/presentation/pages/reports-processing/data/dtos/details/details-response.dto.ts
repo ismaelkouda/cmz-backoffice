@@ -19,6 +19,7 @@ export interface DetailsItemDto {
     access_place_photo: string;
     description: string;
     initiator_phone_number: string;
+    processed_at: string;
     approved_at: string | null;
     finalized_at: string | null;
     rejected_at: string | null;
@@ -31,6 +32,7 @@ export interface DetailsItemDto {
     confirm_count: number;
     deny_count: number;
     acknowledged_comment: string | null;
+    processed_comment: string | null;
     approved_comment: string | null;
     rejected_comment: string | null;
     confirmed_comment: string | null;
@@ -59,6 +61,11 @@ export interface DetailsItemDto {
         first_name: string;
         phone: string;
     };
+    processed_by: {
+        last_name: string;
+        first_name: string;
+        phone: string;
+    };
     rejected_by: {
         last_name: string;
         first_name: string;
@@ -79,4 +86,4 @@ export interface DetailsItemDto {
     municipality: string | null;
 }
 
-export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> {}
+export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> { }

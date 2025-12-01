@@ -5,8 +5,8 @@
     [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="tableConfig.globalFilterFields"
     responsiveLayout="scroll"
-    scrollable="true"
-    scrollHeight="flex"
+    [scrollable]="true"
+    scrollHeight="430px"
     data-testid="all-table"
     role="grid"
     width="100%"
@@ -82,7 +82,7 @@
                                 tooltipPosition="bottom"
                             >
                                 <span class="id-text">{{ item.uniqId }}</span>
-                                <i class="pi pi-copy" aria-hidden="true"></i>
+                                <!-- <i class="pi pi-copy" aria-hidden="true"></i> -->
                             </button>
                         }
 
