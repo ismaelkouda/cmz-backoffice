@@ -2296,7 +2296,7 @@
 
             div.sidebar-wrapper {
                 background-color: $dark-card-background;
-                
+
                 .sidebar-main {
                     .sidebar-links {
                         li {
@@ -2353,8 +2353,7 @@
                                             .sidebar-link {
                                                 &.active {
                                                     background-color: #57b9f6
-
-                                                    svg {
+                                                        svg {
                                                         color: var(
                                                             --theme-deafult
                                                         );

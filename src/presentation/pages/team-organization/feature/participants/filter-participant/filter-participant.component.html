@@ -1,94 +1,127 @@
 <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
-  <div class="filter-grid">
-    <div class="filter-grid__item">
-      <label for="role-select"><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FILTER.ROLE' | translate }}</b></label>
-      <p-select
-        id="role-select"
-        formControlName="role"
-        [options]="roleOptions"
-        optionValue="value"
-        [showClear]="true"
-        (onClear)="resetSelect('role')"
-        [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FILTER.SELECT_PLACEHOLDER' | translate"
-        appendTo="body"
-      >
-        <ng-template pTemplate="selectedItem" let-option>
-          <span>{{ option?.label }}</span>
-        </ng-template>
-        <ng-template pTemplate="item" let-option>
-          <span>{{ option.label }}</span>
-        </ng-template>
-      </p-select>
-    </div>
+    <div class="filter-grid">
+        <div class="filter-grid__item">
+            <label for="role-select"
+                ><b>{{
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.ROLE' | translate
+                }}</b></label
+            >
+            <p-select
+                id="role-select"
+                formControlName="role"
+                [options]="roleOptions"
+                optionValue="value"
+                [showClear]="true"
+                (onClear)="resetSelect('role')"
+                [placeholder]="
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.SELECT_PLACEHOLDER'
+                        | translate
+                "
+                appendTo="body"
+            >
+                <ng-template pTemplate="selectedItem" let-option>
+                    <span>{{ option?.label }}</span>
+                </ng-template>
+                <ng-template pTemplate="item" let-option>
+                    <span>{{ option.label }}</span>
+                </ng-template>
+            </p-select>
+        </div>
 
-    <div class="filter-grid__item">
-      <label for="matricule-input"><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FILTER.MATRICULE' | translate }}</b></label>
-      <input
-        id="matricule-input"
-        type="text"
-        pInputText
-        formControlName="matricule"
-        [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FILTER.MATRICULE' | translate"
-      />
-    </div>
+        <div class="filter-grid__item">
+            <label for="matricule-input"
+                ><b>{{
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.MATRICULE' | translate
+                }}</b></label
+            >
+            <input
+                id="matricule-input"
+                type="text"
+                pInputText
+                formControlName="matricule"
+                [placeholder]="
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.MATRICULE' | translate
+                "
+            />
+        </div>
 
-    <div class="filter-grid__item">
-      <label for="fullname-input"><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FILTER.FULLNAME' | translate }}</b></label>
-      <input
-        id="fullname-input"
-        type="text"
-        pInputText
-        formControlName="nom_prenoms"
-        [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FILTER.FULLNAME' | translate"
-      />
-    </div>
+        <div class="filter-grid__item">
+            <label for="fullname-input"
+                ><b>{{
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.FULLNAME' | translate
+                }}</b></label
+            >
+            <input
+                id="fullname-input"
+                type="text"
+                pInputText
+                formControlName="nom_prenoms"
+                [placeholder]="
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.FULLNAME' | translate
+                "
+            />
+        </div>
 
-    <div class="filter-grid__item">
-      <label for="team-select"><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FILTER.TEAM' | translate }}</b></label>
-      <p-select
-        id="team-select"
-        formControlName="team_id"
-        [options]="teamOptions"
-        optionValue="value"
-        [showClear]="true"
-        (onClear)="resetSelect('team_id')"
-        [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FILTER.SELECT_PLACEHOLDER' | translate"
-        appendTo="body"
-      >
-        <ng-template pTemplate="selectedItem" let-option>
-          <span>{{ option?.label }}</span>
-        </ng-template>
-        <ng-template pTemplate="item" let-option>
-          <span>{{ option.label }}</span>
-        </ng-template>
-      </p-select>
-    </div>
+        <div class="filter-grid__item">
+            <label for="team-select"
+                ><b>{{
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.TEAM' | translate
+                }}</b></label
+            >
+            <p-select
+                id="team-select"
+                formControlName="team_id"
+                [options]="teamOptions"
+                optionValue="value"
+                [showClear]="true"
+                (onClear)="resetSelect('team_id')"
+                [placeholder]="
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.SELECT_PLACEHOLDER'
+                        | translate
+                "
+                appendTo="body"
+            >
+                <ng-template pTemplate="selectedItem" let-option>
+                    <span>{{ option?.label }}</span>
+                </ng-template>
+                <ng-template pTemplate="item" let-option>
+                    <span>{{ option.label }}</span>
+                </ng-template>
+            </p-select>
+        </div>
 
-    <div class="filter-grid__item">
-      <label for="status-select"><b>{{ 'TEAM_ORGANIZATION.PARTICIPANT.FILTER.STATUS' | translate }}</b></label>
-      <p-select
-        id="status-select"
-        formControlName="statut"
-        [options]="statusOptions"
-        optionValue="value"
-        [showClear]="true"
-        (onClear)="resetSelect('statut')"
-        [placeholder]="'TEAM_ORGANIZATION.PARTICIPANT.FILTER.SELECT_PLACEHOLDER' | translate"
-        appendTo="body"
-      >
-        <ng-template pTemplate="selectedItem" let-option>
-          <span>{{ option?.label }}</span>
-        </ng-template>
-        <ng-template pTemplate="item" let-option>
-          <span>{{ option.label }}</span>
-        </ng-template>
-      </p-select>
-    </div>
+        <div class="filter-grid__item">
+            <label for="status-select"
+                ><b>{{
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.STATUS' | translate
+                }}</b></label
+            >
+            <p-select
+                id="status-select"
+                formControlName="statut"
+                [options]="statusOptions"
+                optionValue="value"
+                [showClear]="true"
+                (onClear)="resetSelect('statut')"
+                [placeholder]="
+                    'TEAM_ORGANIZATION.PARTICIPANT.FILTER.SELECT_PLACEHOLDER'
+                        | translate
+                "
+                appendTo="body"
+            >
+                <ng-template pTemplate="selectedItem" let-option>
+                    <span>{{ option?.label }}</span>
+                </ng-template>
+                <ng-template pTemplate="item" let-option>
+                    <span>{{ option.label }}</span>
+                </ng-template>
+            </p-select>
+        </div>
 
-    <div class="filter-grid__actions">
-      <button type="submit" class="btn btn-primary px-3">
-        <i class="pi pi-filter"></i>
-      </button>
+        <div class="filter-grid__actions">
+            <button type="submit" class="btn btn-primary px-3">
+                <i class="pi pi-filter"></i>
+            </button>
+        </div>
     </div>
-  </div>
 </form>

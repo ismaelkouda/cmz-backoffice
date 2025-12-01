@@ -1,3 +1,1 @@
-export interface ParticipantFilterInterface {
-    
-}
+export interface ParticipantFilterInterface {}

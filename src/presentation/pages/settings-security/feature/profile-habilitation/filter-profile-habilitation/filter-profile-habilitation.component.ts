@@ -78,8 +78,8 @@ export class FilterProfileHabilitationComponent implements OnInit, OnDestroy {
     public initFormFilter(): void {
         // Initialiser le formulaire une seule fois avec des valeurs vides
         if (!this.formFilter) {
-            this.formFilter = this.fb.group<ProfileHabilitationFilterFormInterface>(
-                {
+            this.formFilter =
+                this.fb.group<ProfileHabilitationFilterFormInterface>({
                     profile: new FormControl<string>('', {
                         nonNullable: true,
                     }),
@@ -92,8 +92,7 @@ export class FilterProfileHabilitationComponent implements OnInit, OnDestroy {
                     search: new FormControl<string>('', {
                         nonNullable: true,
                     }),
-                }
-            );
+                });
         }
 
         // Mettre à jour le formulaire avec les valeurs du filtre actuel

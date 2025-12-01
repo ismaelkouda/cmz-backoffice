@@ -21,12 +21,10 @@ export class HeaderComponent {
     constructor(
         public layout: LayoutService,
         public navServices: NavService,
-        private router: Router,
-    ) {
-    }
+        private router: Router
+    ) {}
 
-    public handleRefreshNotification(): void {
-    }
+    public handleRefreshNotification(): void {}
 
     statusLayout(): boolean {
         return localStorage.getItem('layout') === 'Barcelona';

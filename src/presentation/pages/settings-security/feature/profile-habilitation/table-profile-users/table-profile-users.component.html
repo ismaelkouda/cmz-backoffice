@@ -37,7 +37,9 @@
                     "
                     [disabledButtonRefresh]="spinner"
                     [hiddenButtonOther]="hideAssignButton"
-                    [labelOther]="'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ASSIGN'"
+                    [labelOther]="
+                        'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ASSIGN'
+                    "
                 >
                 </app-table-button-header>
                 <app-search-table [dt]="dt"></app-search-table>
@@ -161,21 +163,17 @@
 </p-table>
 
 <div class="table-actions-footer mt-3" *ngIf="selectedUsers.length > 0">
-    <button
-        type="button"
-        class="btn btn-warning"
-        (click)="onReassign()"
-    >
+    <button type="button" class="btn btn-warning" (click)="onReassign()">
         <i class="pi pi-refresh"></i>
-        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.REASSIGN' | translate }}
+        {{
+            'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.REASSIGN'
+                | translate
+        }}
     </button>
-    <button
-        type="button"
-        class="btn btn-danger"
-        (click)="onRemove()"
-    >
+    <button type="button" class="btn btn-danger" (click)="onRemove()">
         <i class="pi pi-times"></i>
-        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.RETIRE' | translate }}
+        {{
+            'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.RETIRE' | translate
+        }}
     </button>
 </div>
-

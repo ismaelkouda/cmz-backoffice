@@ -1,3 +1,3 @@
 export const MESSAGING_ENDPOINTS = {
-    GET_MESSAGES: 'communication/messages'
+    GET_MESSAGES: 'communication/messages',
 };

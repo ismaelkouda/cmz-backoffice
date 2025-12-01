@@ -34,7 +34,9 @@
                     "
                     [disabledButtonRefresh]="spinner"
                     [hiddenButtonOther]="false"
-                    [labelOther]="'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ADD'"
+                    [labelOther]="
+                        'SETTINGS_SECURITY.PROFILE_HABILITATION.BUTTONS.ADD'
+                    "
                 >
                 </app-table-button-header>
                 <app-search-table [dt]="dt"></app-search-table>
@@ -97,7 +99,8 @@
                             class="btn btn-link p-0 text-primary"
                             (click)="onUsersClicked(item)"
                             [attr.aria-label]="
-                                'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.USERS_COUNT' | translate
+                                'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.USERS_COUNT'
+                                    | translate
                             "
                         >
                             {{ item.totalUsers ?? 0 }}
@@ -128,43 +131,88 @@
                                 id="actionDropdown{{ rowIndex }}"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
-                                [attr.aria-label]="'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.ACTION' | translate"
+                                [attr.aria-label]="
+                                    'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.ACTION'
+                                        | translate
+                                "
                             >
-                                {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.ACTION' | translate }}
+                                {{
+                                    'SETTINGS_SECURITY.PROFILE_HABILITATION.TABLE.ACTION'
+                                        | translate
+                                }}
                             </button>
                             <ul
                                 class="dropdown-menu"
-                                [attr.aria-labelledby]="'actionDropdown' + rowIndex"
+                                [attr.aria-labelledby]="
+                                    'actionDropdown' + rowIndex
+                                "
                             >
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        (click)="onActionClicked(item, 'view'); $event.preventDefault()"
+                                        (click)="
+                                            onActionClicked(item, 'view');
+                                            $event.preventDefault()
+                                        "
                                         href="#"
                                     >
-                                        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.VIEW' | translate }}
+                                        {{
+                                            'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.VIEW'
+                                                | translate
+                                        }}
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        (click)="onActionClicked(item, 'edit'); $event.preventDefault()"
+                                        (click)="
+                                            onActionClicked(item, 'edit');
+                                            $event.preventDefault()
+                                        "
                                         href="#"
                                     >
-                                        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.EDIT' | translate }}
+                                        {{
+                                            'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.EDIT'
+                                                | translate
+                                        }}
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        (click)="onActionClicked(item, item.status === 'active' || item.status === 'actif' ? 'disable' : 'enable'); $event.preventDefault()"
+                                        (click)="
+                                            onActionClicked(
+                                                item,
+                                                item.status === 'active' ||
+                                                    item.status === 'actif'
+                                                    ? 'disable'
+                                                    : 'enable'
+                                            );
+                                            $event.preventDefault()
+                                        "
                                         href="#"
                                     >
-                                        <span *ngIf="item.status === 'active' || item.status === 'actif'">
-                                            {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.DISABLE' | translate }}
+                                        <span
+                                            *ngIf="
+                                                item.status === 'active' ||
+                                                item.status === 'actif'
+                                            "
+                                        >
+                                            {{
+                                                'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.DISABLE'
+                                                    | translate
+                                            }}
                                         </span>
-                                        <span *ngIf="item.status !== 'active' && item.status !== 'actif'">
-                                            {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.ENABLE' | translate }}
+                                        <span
+                                            *ngIf="
+                                                item.status !== 'active' &&
+                                                item.status !== 'actif'
+                                            "
+                                        >
+                                            {{
+                                                'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.ENABLE'
+                                                    | translate
+                                            }}
                                         </span>
                                     </a>
                                 </li>
@@ -174,10 +222,16 @@
                                 <li *ngIf="(item.totalUsers ?? 0) === 0">
                                     <a
                                         class="dropdown-item text-danger"
-                                        (click)="onActionClicked(item, 'delete'); $event.preventDefault()"
+                                        (click)="
+                                            onActionClicked(item, 'delete');
+                                            $event.preventDefault()
+                                        "
                                         href="#"
                                     >
-                                        {{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.DELETE' | translate }}
+                                        {{
+                                            'SETTINGS_SECURITY.PROFILE_HABILITATION.ACTIONS.DELETE'
+                                                | translate
+                                        }}
                                     </a>
                                 </li>
                             </ul>

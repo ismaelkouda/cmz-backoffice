@@ -1,4 +1,4 @@
-import { ProfileHabilitationFilterInterface } from "../../data-access/profile-habilitation/interfaces/profile-habilitation-filter.interface";
+import { ProfileHabilitationFilterInterface } from '../../data-access/profile-habilitation/interfaces/profile-habilitation-filter.interface';
 
 export class ProfileHabilitationFilter {
     private constructor(
@@ -8,7 +8,9 @@ export class ProfileHabilitationFilter {
         private readonly search?: string // pour recherche par nom et prénoms
     ) {}
 
-    static create(data: ProfileHabilitationFilterInterface = {}): ProfileHabilitationFilter {
+    static create(
+        data: ProfileHabilitationFilterInterface = {}
+    ): ProfileHabilitationFilter {
         return new ProfileHabilitationFilter(
             data?.profile,
             data?.state,

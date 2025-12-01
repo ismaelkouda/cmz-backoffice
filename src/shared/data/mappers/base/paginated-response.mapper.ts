@@ -1,4 +1,7 @@
-import { Paginate, PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
+import {
+    Paginate,
+    PaginatedResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
 import { ApiError } from '@shared/domain/errors/api.error';
 
 export abstract class PaginatedMapper<TEntity, TItemDto> {

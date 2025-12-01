@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tenant } from '../../domain/entities/tenant.entity';
-import {
-    TenantItemDto,
-    TenantResponseDto,
-} from '../dtos/team-response.dto';
+import { TenantItemDto, TenantResponseDto } from '../dtos/team-response.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -34,4 +31,3 @@ export class TenantMapper {
         return this.mapArrayFromDto(dto.data);
     }
 }
-

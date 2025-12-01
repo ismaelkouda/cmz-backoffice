@@ -1,10 +1,10 @@
 import {
-  ParticipantDeleteResponseDto,
-  ParticipantDisableResponseDto,
-  ParticipantEnableResponseDto,
-  ParticipantStoreRequestDto,
-  ParticipantUpdateRequestDto,
-  RoleDto,
+    ParticipantDeleteResponseDto,
+    ParticipantDisableResponseDto,
+    ParticipantEnableResponseDto,
+    ParticipantStoreRequestDto,
+    ParticipantUpdateRequestDto,
+    RoleDto,
 } from '@presentation/pages/team-organization/data/dtos/participant-response.dto';
 import { Observable } from 'rxjs';
 import { Participant } from '../entities/participant.entity';
@@ -37,4 +37,3 @@ export abstract class ParticipantRepository {
 
     abstract getRoles(): Observable<RoleDto[]>;
 }
-

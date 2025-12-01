@@ -116,4 +116,3 @@ export interface RemoveRequestDto {
     tenant_ids?: string[];
     participant_ids?: string[];
 }
-

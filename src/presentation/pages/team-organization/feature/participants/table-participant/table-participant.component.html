@@ -27,7 +27,9 @@
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"
                     (other)="onAddParticipant()"
-                    [disabledButtonExport]="spinner || participants.length === 0"
+                    [disabledButtonExport]="
+                        spinner || participants.length === 0
+                    "
                     [disabledButtonRefresh]="spinner"
                     [hiddenButtonOther]="false"
                     [labelOther]="'TEAM_ORGANIZATION.PARTICIPANT.BUTTONS.ADD'"
@@ -46,7 +48,7 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }"
                 scope="col"
             >
@@ -149,7 +151,9 @@
                             </button>
                             <ul
                                 class="dropdown-menu"
-                                [attr.aria-labelledby]="'actionDropdown' + rowIndex"
+                                [attr.aria-labelledby]="
+                                    'actionDropdown' + rowIndex
+                                "
                             >
                                 <li>
                                     <a
@@ -242,10 +246,7 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr
-            *ngIf="participants.length <= 0 && !spinner"
-            class="loading-table"
-        >
+        <tr *ngIf="participants.length <= 0 && !spinner" class="loading-table">
             <td class="posRelative" [attr.colspan]="table.cols.length">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}

@@ -20,7 +20,15 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "vscode.typescript-language-features"
     },
+    "workbench.editor.alwaysShowEditorActions": false,
+    "workbench.editor.autoLockGroups": {
+        "workbench.editorinputs.searchEditorInput": true
+    },
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.settings.openDefaultKeybindings": false,
+    "workbench.settings.openDefaultSettings": false,
+    "workbench.editor.enablePreviewFromCodeNavigation": false,
     
 }

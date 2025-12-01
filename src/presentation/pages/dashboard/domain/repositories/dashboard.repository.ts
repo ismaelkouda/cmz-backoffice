@@ -7,4 +7,3 @@ export abstract class DashboardRepository {
         filter: DashboardPeriodFilter
     ): Observable<DashboardStatistics>;
 }
-

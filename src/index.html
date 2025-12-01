@@ -55,8 +55,9 @@
                     var env = window.__env || {};
                     var root = document.documentElement;
                     var primaryColor = env.appPrimaryColor || '#2256a3';
-                    var fontPrimary = env.appFontPrimary || "'Avenir', 'Futura', sans-serif";
-                    
+                    var fontPrimary =
+                        env.appFontPrimary || "'Avenir', 'Futura', sans-serif";
+
                     root.style.setProperty('--theme-default', primaryColor);
                     root.style.setProperty('--font-primary', fontPrimary);
                 } catch (e) {
@@ -90,7 +91,9 @@
                 margin-bottom: 20px;
             }
             @keyframes spin {
-                to { transform: rotate(360deg); }
+                to {
+                    transform: rotate(360deg);
+                }
             }
         </style>
     </head>

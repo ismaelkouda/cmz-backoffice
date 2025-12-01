@@ -20,7 +20,10 @@ import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { TasksFilterPayloadEntity } from '../../domain/entities/tasks/tasks-filter-payload.entity';
 import { TasksEntity } from '../../domain/entities/tasks/tasks.entity';
-import { TableTasksComponent, TreatmentRequested } from '../../feature/tasks/table-tasks/table-tasks.component';
+import {
+    TableTasksComponent,
+    TreatmentRequested,
+} from '../../feature/tasks/table-tasks/table-tasks.component';
 
 @Component({
     selector: 'app-tasks',
@@ -95,12 +98,20 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.tasksFacade.changePage(event + 1);
     }
 
-    public onTasksAction({item, action}: {item: TasksEntity; action: TreatmentRequested}): void {
-        if (action === "treat") {
+    public onTasksAction({
+        item,
+        action,
+    }: {
+        item: TasksEntity;
+        action: TreatmentRequested;
+    }): void {
+        if (action === 'treat') {
             this.selectedReportId = item.uniqId;
             this.reportTreatmentVisible = true;
-        } else if (action === "action") {
-            this.router.navigate([item.uniqId], { relativeTo: this.activatedRoute });
+        } else if (action === 'action') {
+            this.router.navigate([item.uniqId], {
+                relativeTo: this.activatedRoute,
+            });
         }
     }
 

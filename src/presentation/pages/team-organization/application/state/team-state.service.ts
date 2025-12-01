@@ -14,7 +14,9 @@ export class StateTeamService {
 
     getFilterTeamState(state?: string): Record<string, string | null> {
         this.filterTeamState = state ?? this.filterTeamState;
-        return this.parseQueryStringToObject(this.filterTeamState ?? state ?? '');
+        return this.parseQueryStringToObject(
+            this.filterTeamState ?? state ?? ''
+        );
     }
 
     setCurrentPageTeamState(state: any): void {
@@ -39,12 +41,22 @@ export class StateTeamService {
         this.itemSelectedState = null;
     }
 
-    private generateQueryStringFromObject(dataFilter: Record<string, unknown> = {}): string {
+    private generateQueryStringFromObject(
+        dataFilter: Record<string, unknown> = {}
+    ): string {
         const params = new URLSearchParams();
 
         Object.entries(dataFilter ?? {}).forEach(([key, val]) => {
-            if (key && val !== null && val !== undefined && String(val).trim() !== '') {
-                params.append(encodeURIComponent(key), encodeURIComponent(String(val)));
+            if (
+                key &&
+                val !== null &&
+                val !== undefined &&
+                String(val).trim() !== ''
+            ) {
+                params.append(
+                    encodeURIComponent(key),
+                    encodeURIComponent(String(val))
+                );
             }
         });
 
@@ -53,10 +65,16 @@ export class StateTeamService {
         return queryString;
     }
 
-    private parseQueryStringToObject(queryString: string): Record<string, string | null> {
+    private parseQueryStringToObject(
+        queryString: string
+    ): Record<string, string | null> {
         const filterObj: Record<string, string | null> = {};
 
-        if (!queryString || typeof queryString !== 'string' || queryString.trim() === '') {
+        if (
+            !queryString ||
+            typeof queryString !== 'string' ||
+            queryString.trim() === ''
+        ) {
             return filterObj;
         }
 
@@ -65,7 +83,8 @@ export class StateTeamService {
         );
 
         params.forEach((value, key) => {
-            filterObj[decodeURIComponent(key)] = value !== '' ? decodeURIComponent(value) : null;
+            filterObj[decodeURIComponent(key)] =
+                value !== '' ? decodeURIComponent(value) : null;
         });
 
         return filterObj;

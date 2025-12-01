@@ -151,8 +151,7 @@ $dark-gray: var(--color-gray);
 }
 
 .app-title {
-    font:
-        700 32px/40px var(--font-primary);
+    font: 700 32px/40px var(--font-primary);
     color: $white;
     margin: 0 0 16px 0;
     letter-spacing: 0.5px;
@@ -169,8 +168,7 @@ $dark-gray: var(--color-gray);
 }
 
 .app-subtitle {
-    font:
-        400 18px/26px var(--font-primary);
+    font: 400 18px/26px var(--font-primary);
     color: rgba($white, 0.9);
     margin: 0 0 32px 0;
     opacity: 0.9;
@@ -192,8 +190,7 @@ $dark-gray: var(--color-gray);
     display: flex;
     align-items: center;
     gap: 12px;
-    font:
-        500 16px/24px var(--font-primary);
+    font: 500 16px/24px var(--font-primary);
     color: rgba($white, 0.9);
 
     @media (min-width: 768px) {
@@ -232,8 +229,7 @@ $dark-gray: var(--color-gray);
 }
 
 .auth-title {
-    font:
-        700 28px/36px var(--font-primary);
+    font: 700 28px/36px var(--font-primary);
     color: $black;
     text-align: center;
     margin-bottom: 32px;
@@ -273,8 +269,7 @@ $dark-gray: var(--color-gray);
 }
 
 .form-label {
-    font:
-        500 14px/20px var(--font-primary);
+    font: 500 14px/20px var(--font-primary);
     color: $dark-gray;
     display: flex;
     align-items: center;
@@ -296,8 +291,7 @@ $dark-gray: var(--color-gray);
     padding: 16px;
     border: 2px solid $light-gray;
     border-radius: 12px;
-    font:
-        400 16px/24px var(--font-primary);
+    font: 400 16px/24px var(--font-primary);
     color: $black;
     @include transition(all);
     background-color: var(--color-gray-light);
@@ -388,8 +382,7 @@ $dark-gray: var(--color-gray);
     border: none;
     border-radius: 12px;
     padding: 18px 32px;
-    font:
-        700 16px/24px var(--font-primary);
+    font: 700 16px/24px var(--font-primary);
     cursor: pointer;
     @include transition(all);
     margin-top: 24px;
@@ -427,8 +420,7 @@ $dark-gray: var(--color-gray);
 }
 
 .forgot-link {
-    font:
-        500 14px/20px var(--font-primary);
+    font: 500 14px/20px var(--font-primary);
     color: var(--theme-default);
     text-decoration: none;
     @include transition(all);

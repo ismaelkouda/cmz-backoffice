@@ -19,9 +19,8 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetFacade {
-    private readonly forgotPasswordLoadingSubject = new BehaviorSubject<boolean>(
-        false
-    );
+    private readonly forgotPasswordLoadingSubject =
+        new BehaviorSubject<boolean>(false);
     private readonly resetPasswordLoadingSubject = new BehaviorSubject<boolean>(
         false
     );
@@ -38,7 +37,9 @@ export class PasswordResetFacade {
         private readonly translateService: TranslateService
     ) {}
 
-    forgotPassword(payload: { email: string }): Observable<PasswordResetResponse> {
+    forgotPassword(payload: {
+        email: string;
+    }): Observable<PasswordResetResponse> {
         const request = ForgotPasswordRequest.create(payload);
         this.forgotPasswordLoadingSubject.next(true);
 
@@ -87,4 +88,3 @@ export class PasswordResetFacade {
         );
     }
 }
-

@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2025-11-28T18:28:16.405Z
+// Generated at: 2025-11-29T20:21:26.043Z
 
 export interface AppConfig {
     verifyIdentityDocumentUrl: string;
@@ -42,10 +42,10 @@ declare global {
 export const ENVIRONMENTS = {
   "dev": {
     "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
-    "authenticationUrl": "http://10.10.0.9:7000/auth/v1.0/backoffice/",
-    "reportUrl": "http://10.10.0.9:7001/reports/v1.0/backoffice/",
-    "settingUrl": "http://10.10.0.9:7002/base-settings/v1.0/backoffice/",
-    "fileUrl": "http://10.10.0.9:7000/auth/backoffice/",
+    "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
+    "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
+    "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
+    "fileUrl": "https://cmz-service-api.paas.imako.digital/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "messageApp": {

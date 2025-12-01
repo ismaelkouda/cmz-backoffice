@@ -68,4 +68,3 @@ export interface RolesResponseDto {
     message: string;
     data: RoleDto[];
 }
-

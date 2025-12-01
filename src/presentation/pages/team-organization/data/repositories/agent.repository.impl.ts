@@ -37,7 +37,11 @@ export class AgentRepositoryImpl extends AgentRepository {
     storeAgent(payload: AgentStoreRequestDto): Observable<AgentIa> {
         return this.agentApi.storeAgent(payload).pipe(
             map((response) => {
-                if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+                if (
+                    response.data &&
+                    Array.isArray(response.data) &&
+                    response.data.length > 0
+                ) {
                     return this.agentMapper.mapItemFromDto(response.data[0]);
                 }
                 throw new Error('Invalid response from store agent');
@@ -48,7 +52,11 @@ export class AgentRepositoryImpl extends AgentRepository {
     updateAgent(payload: AgentUpdateRequestDto): Observable<AgentIa> {
         return this.agentApi.updateAgent(payload).pipe(
             map((response) => {
-                if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+                if (
+                    response.data &&
+                    Array.isArray(response.data) &&
+                    response.data.length > 0
+                ) {
                     return this.agentMapper.mapItemFromDto(response.data[0]);
                 }
                 throw new Error('Invalid response from update agent');
@@ -69,9 +77,9 @@ export class AgentRepositoryImpl extends AgentRepository {
     }
 
     getFreeTenants(): Observable<TenantLibreDto[]> {
-        return this.agentApi.getFreeTenants().pipe(
-            map((response) => response.data || [])
-        );
+        return this.agentApi
+            .getFreeTenants()
+            .pipe(map((response) => response.data || []));
     }
 
     assignTenants(payload: AssignRequestDto): Observable<void> {
@@ -86,4 +94,3 @@ export class AgentRepositoryImpl extends AgentRepository {
         return this.agentApi.removeTenants(payload);
     }
 }
-

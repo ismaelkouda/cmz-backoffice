@@ -46,7 +46,7 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }"
                 scope="col"
             >
@@ -95,10 +95,11 @@
                             class="btn btn-link p-0 text-primary"
                             (click)="onTenantsClicked(item)"
                             [attr.aria-label]="
-                                'TEAM_ORGANIZATION.AGENT_IA.TABLE.TENANTS' | translate
+                                'TEAM_ORGANIZATION.AGENT_IA.TABLE.TENANTS'
+                                    | translate
                             "
                         >
-                            {{ (item.tenants_count ?? 0) | number : '1.0-0' }}
+                            {{ item.tenants_count ?? 0 | number: '1.0-0' }}
                         </button>
                     </ng-container>
 
@@ -138,7 +139,9 @@
                             </button>
                             <ul
                                 class="dropdown-menu"
-                                [attr.aria-labelledby]="'actionDropdown' + rowIndex"
+                                [attr.aria-labelledby]="
+                                    'actionDropdown' + rowIndex
+                                "
                             >
                                 <li>
                                     <a
@@ -246,10 +249,7 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr
-            *ngIf="agents.length <= 0 && !spinner"
-            class="loading-table"
-        >
+        <tr *ngIf="agents.length <= 0 && !spinner" class="loading-table">
             <td class="posRelative" [attr.colspan]="table.cols.length">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}

@@ -75,7 +75,9 @@ export class ProfileHabilitationRepositoryImpl extends ProfileHabilitationReposi
         return this.profileHabilitationApi.disableProfileHabilitation(id);
     }
 
-    getProfilesWithoutUser(profileId?: string): Observable<ProfileWithoutUserDto[]> {
+    getProfilesWithoutUser(
+        profileId?: string
+    ): Observable<ProfileWithoutUserDto[]> {
         return this.profileHabilitationApi.getProfilesWithoutUser(profileId);
     }
 

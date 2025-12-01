@@ -9,14 +9,14 @@
 
             <section class="card queues-card">
                 <div class="card-body queues-card-body">
-                    <header
-                        class="queues-header"
-                    >
+                    <header class="queues-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'REPORTS_PROCESSING.QUEUES.TITLE' | translate | lowercase
+                                'REPORTS_PROCESSING.QUEUES.TITLE'
+                                    | translate
+                                    | lowercase
                             "
                         >
                         </app-page-title>
@@ -33,7 +33,9 @@
 
                         <section
                             class="table-section"
-                            [aria-label]="'REPORTS_PROCESSING.QUEUES.TITLE' | translate"
+                            [aria-label]="
+                                'REPORTS_PROCESSING.QUEUES.TITLE' | translate
+                            "
                         >
                             <app-table-queues
                                 class="table-component"
@@ -58,12 +60,11 @@
         </article>
     </section>
 
-    @if(reportTreatmentVisible) {
-<app-management
-        [(visible)]="reportTreatmentVisible"
-        [reportId]="selectedReportId"
-        (queues)="onReportTreatmentQueues()"
-    ></app-management>
+    @if (reportTreatmentVisible) {
+        <app-management
+            [(visible)]="reportTreatmentVisible"
+            [reportId]="selectedReportId"
+            (queues)="onReportTreatmentQueues()"
+        ></app-management>
     }
-    
 </main>

@@ -35,4 +35,3 @@ export interface AllItemDto {
 }
 
 export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> {}
-

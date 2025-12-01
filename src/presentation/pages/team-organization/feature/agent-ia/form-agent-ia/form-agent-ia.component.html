@@ -10,14 +10,21 @@
             <section class="card agent-form-card">
                 <div class="card-body agent-form-card-body">
                     <header class="agent-form-header">
-                        <h2 *ngIf="pageTitle | async as title">{{ title | translate }}</h2>
+                        <h2 *ngIf="pageTitle | async as title">
+                            {{ title | translate }}
+                        </h2>
                     </header>
 
                     <div class="fade-in agent-form-content">
                         <form [formGroup]="formAgent" (ngSubmit)="onSubmit()">
                             <div class="form-group mb-3">
                                 <label for="code">
-                                    <b>{{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.CODE' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.AGENT_IA.FORM.CODE'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="code"
@@ -37,13 +44,21 @@
                                         formAgent.get('code')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.CODE_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.AGENT_IA.FORM.CODE_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
                             <div class="form-group mb-3">
                                 <label for="nom">
-                                    <b>{{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.NAME' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.AGENT_IA.FORM.NAME'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="nom"
@@ -63,13 +78,19 @@
                                         formAgent.get('nom')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.NAME_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.AGENT_IA.FORM.NAME_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
                             <div class="form-group mb-3">
                                 <label for="description">
-                                    <b>{{ 'TEAM_ORGANIZATION.AGENT_IA.FORM.DESCRIPTION' | translate }}</b>
+                                    <b>{{
+                                        'TEAM_ORGANIZATION.AGENT_IA.FORM.DESCRIPTION'
+                                            | translate
+                                    }}</b>
                                 </label>
                                 <textarea
                                     id="description"
@@ -85,13 +106,13 @@
 
                         <div class="agent-form-actions">
                             <p-button
-                                [label]="('CANCEL' | translate)"
+                                [label]="'CANCEL' | translate"
                                 (onClick)="onCancel()"
                                 styleClass="p-button-secondary"
                             ></p-button>
                             <p-button
                                 *ngIf="!readOnly"
-                                [label]="('SAVE' | translate)"
+                                [label]="'SAVE' | translate"
                                 (onClick)="onSubmit()"
                                 styleClass="p-button-primary"
                             ></p-button>

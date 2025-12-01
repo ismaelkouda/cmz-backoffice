@@ -20,8 +20,10 @@
                 [page]="(pagination$ | async)?.current_page"
                 [totalPage]="(pagination$ | async)?.last_page"
             />
-            
-            <div class="flex gap-2 items-center custom-header-actions mt-2 mt-md-0">
+
+            <div
+                class="flex gap-2 items-center custom-header-actions mt-2 mt-md-0"
+            >
                 <app-table-button-header
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"
@@ -33,47 +35,47 @@
             </div>
         </div>
     </ng-template>
-    
+
     <ng-template pTemplate="header">
         <tr role="row">
             @for (col of tableConfig.cols; track trackByColField($index, col)) {
-            <th
-                [class]="col.class"
-                [style]="{
-                    'min-width': col.width,
-                    'width': col.width,
-                    'text-align': 'center'
-                }"
-                role="columnheader"
-                scope="col"
-            >
-                @switch (col.field) {
-                    @case ('__selection') {
-                        <div class="selection-header">
-                            <p-inputNumber
-                                [showButtons]="false"
-                                [placeholder]="'Select count...'"
-                                [min]="0"
-                                [max]="tasks().length"
-                                inputMode="numeric"
-                                [ngModel]="selectionInputValue()"
-                                (ngModelChange)="handleSelectCount($event)"
-                                (keydown.enter)="$event.target.blur()"
-                                (keydown.escape)="clearSelection()"
-                                [disabled]="!hasData() || isLoading()"
-                            />
-                        </div>
+                <th
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                        'text-align': 'center',
+                    }"
+                    role="columnheader"
+                    scope="col"
+                >
+                    @switch (col.field) {
+                        @case ('__selection') {
+                            <div class="selection-header">
+                                <p-inputNumber
+                                    [showButtons]="false"
+                                    [placeholder]="'Select count...'"
+                                    [min]="0"
+                                    [max]="tasks().length"
+                                    inputMode="numeric"
+                                    [ngModel]="selectionInputValue()"
+                                    (ngModelChange)="handleSelectCount($event)"
+                                    (keydown.enter)="$event.target.blur()"
+                                    (keydown.escape)="clearSelection()"
+                                    [disabled]="!hasData() || isLoading()"
+                                />
+                            </div>
+                        }
+                        @default {
+                            {{ col.header | translate }}
+                        }
                     }
-                    @default {
-                        {{ col.header | translate }}
-                    }
-                }
-            </th>
+                </th>
             }
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-task let-rowIndex="rowIndex">
-        <tr 
+        <tr
             role="row"
             [class.selected]="isItemSelected(task)"
             [attr.aria-selected]="isItemSelected(task)"
@@ -81,99 +83,108 @@
             [class.cursor-pointer]="!isLoading()"
         >
             @for (col of tableConfig.cols; track trackByColField($index, col)) {
-            <td
-                [class]="col.class"
-                [style]="{
-                    'min-width': col.width,
-                    'width': col.width
-                }"
-                role="gridcell"
-            >
-                @switch (col.field) {
-                    @case ('__selection') {
-                        <p-checkbox
-                            [binary]="true"
-                            [ngModel]="isItemSelected(task)"
-                            (onChange)="handleItemSelection(task)"
-                            [inputId]="'select-' + task.uniqId"
-                            [name]="'select-' + task.uniqId"
-                            [ariaLabelledBy]="'select-' + task.uniqId"
-                            [disabled]="isLoading()"
-                            data-testid="item-checkbox-{{task.uniqId}}"
-                        />
-                    }
-                    
-                    @case ('uniqId') {
-                        <button
-                            type="button"
-                            (click)="copyToClipboard(task.uniqId)"
-                            class="copyable"
-                            pTooltip="{{ 'COPY' | translate }}"
-                            tooltipPosition="bottom"
-                        >
-                            <span class="id-text">{{ task.uniqId }}</span>
-                            <i class="pi pi-copy" aria-hidden="true"></i>
-                        </button>
-                    }
+                <td
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                    }"
+                    role="gridcell"
+                >
+                    @switch (col.field) {
+                        @case ('__selection') {
+                            <p-checkbox
+                                [binary]="true"
+                                [ngModel]="isItemSelected(task)"
+                                (onChange)="handleItemSelection(task)"
+                                [inputId]="'select-' + task.uniqId"
+                                [name]="'select-' + task.uniqId"
+                                [ariaLabelledBy]="'select-' + task.uniqId"
+                                [disabled]="isLoading()"
+                                data-testid="item-checkbox-{{ task.uniqId }}"
+                            />
+                        }
 
-                    @case ('reportType') {
-                        <div 
-                            [pTooltip]="task.reportDescription | translate"
-                            tooltipPosition="bottom"
-                            showDelay="500"
-                            hideDelay="300">
-                            {{ task.reportType }}
-                        </div>
-                    }
-
-                    @case ('operators') {
-                        <div class="tag-group" *ngIf="task.operators?.length; else noOperators">
-                            @for (operator of task.operators; track trackByOperator($index, operator)) {
-                                <p-tag
-                                    [value]="getOperatorLabel(operator)"
-                                    [style]="getOperatorTagStyle(operator)"
-                                    styleClass="operator-tag"
-                                />
-                            }
-                        </div>
-                        <ng-template #noOperators>
-                            <span class="no-data">-</span>
-                        </ng-template>
-                    }
-
-                    @case ('createdAt') {
-                        <time [attr.datetime]="task.createdAt">
-                            {{ formatDate(task.createdAt) }}
-                        </time>
-                    }
-
-                    @case ('source') {
-                        <div
-                            [pTooltip]="task.sourceDescription | translate"
-                            tooltipPosition="bottom"
-                            showDelay="500"
-                            hideDelay="300"
-                            [tooltipStyleClass]="'custom-tooltip'"
-                            class="source-type-content"
-                        >
-                            {{ task.source }}
-                        </div>
-                    }
-                    
-                    @case ('__action') {
-                        <div (onKeyPress)="$event.stopPropagation()" class="action-group">
+                        @case ('uniqId') {
                             <button
                                 type="button"
-                                pButton
-                                icon="pi pi-window-maximize"
-                                (click)="onActionClicked(task)"
-                                [pTooltip]="getTreatTooltip(task)"
+                                (click)="copyToClipboard(task.uniqId)"
+                                class="copyable"
+                                pTooltip="{{ 'COPY' | translate }}"
                                 tooltipPosition="bottom"
-                                [disabled]="isLoading()"
-                                size="small"
-                                class="action-btn"
-                            ></button>
-                            <!-- <button
+                            >
+                                <span class="id-text">{{ task.uniqId }}</span>
+                                <i class="pi pi-copy" aria-hidden="true"></i>
+                            </button>
+                        }
+
+                        @case ('reportType') {
+                            <div
+                                [pTooltip]="task.reportDescription | translate"
+                                tooltipPosition="bottom"
+                                showDelay="500"
+                                hideDelay="300"
+                            >
+                                {{ task.reportType }}
+                            </div>
+                        }
+
+                        @case ('operators') {
+                            <div
+                                class="tag-group"
+                                *ngIf="task.operators?.length; else noOperators"
+                            >
+                                @for (
+                                    operator of task.operators;
+                                    track trackByOperator($index, operator)
+                                ) {
+                                    <p-tag
+                                        [value]="getOperatorLabel(operator)"
+                                        [style]="getOperatorTagStyle(operator)"
+                                        styleClass="operator-tag"
+                                    />
+                                }
+                            </div>
+                            <ng-template #noOperators>
+                                <span class="no-data">-</span>
+                            </ng-template>
+                        }
+
+                        @case ('createdAt') {
+                            <time [attr.datetime]="task.createdAt">
+                                {{ formatDate(task.createdAt) }}
+                            </time>
+                        }
+
+                        @case ('source') {
+                            <div
+                                class="source-type-content"
+                            >
+                                <span [pTooltip]="task.sourceDescription | translate"
+                                    tooltipPosition="bottom">{{ task.source }}</span>&nbsp;
+                                <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
+                                    (click)="copyToClipboard(task.initiatedBy)"
+                                    tooltipPosition="bottom">[ {{ task.initiatedBy }} ]</span>
+                            </div>
+                        }
+
+                        @case ('__action') {
+                            <div
+                                (onKeyPress)="$event.stopPropagation()"
+                                class="action-group"
+                            >
+                                <button
+                                    type="button"
+                                    pButton
+                                    icon="pi pi-window-maximize"
+                                    (click)="onActionClicked(task)"
+                                    [pTooltip]="getTreatTooltip(task)"
+                                    tooltipPosition="bottom"
+                                    [disabled]="isLoading()"
+                                    size="small"
+                                    class="action-btn"
+                                ></button>
+                                <!-- <button
                                 type="button"
                                 pButton
                                 severity="info"
@@ -184,14 +195,14 @@
                                 size="small"
                                 class="action-btn p" 
                             ></button> -->
-                        </div>
+                            </div>
+                        }
+
+                        @default {
+                            {{ task[col.field] || '-' }}
+                        }
                     }
-                    
-                    @default {
-                        {{ task[col.field] || '-' }}
-                    }
-                }
-            </td>
+                </td>
             }
         </tr>
     </ng-template>
@@ -209,15 +220,15 @@
         @if (isLoading()) {
             <tr role="row" class="loading-table">
                 <td [attr.colspan]="tableConfig.cols.length">
-                        <p-progressSpinner
-                            class="posCenter"
-                            [style]="{ width: '40px', height: '50px' }"
-                            styleClass="custom-spinner"
-                            strokeWidth="8"
-                            fill="#EEEEEE"
-                            animationDuration=".5s"
-                        >
-                        </p-progressSpinner>
+                    <p-progressSpinner
+                        class="posCenter"
+                        [style]="{ width: '40px', height: '50px' }"
+                        styleClass="custom-spinner"
+                        strokeWidth="8"
+                        fill="#EEEEEE"
+                        animationDuration=".5s"
+                    >
+                    </p-progressSpinner>
                 </td>
             </tr>
         }

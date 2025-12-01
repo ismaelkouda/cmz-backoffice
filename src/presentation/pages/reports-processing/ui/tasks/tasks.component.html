@@ -9,14 +9,14 @@
 
             <section class="card tasks-card">
                 <div class="card-body tasks-card-body">
-                    <header
-                        class="tasks-header"
-                    >
+                    <header class="tasks-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'REPORTS_PROCESSING.TASKS.TITLE' | translate | lowercase
+                                'REPORTS_PROCESSING.TASKS.TITLE'
+                                    | translate
+                                    | lowercase
                             "
                         >
                         </app-page-title>
@@ -33,7 +33,9 @@
 
                         <section
                             class="table-section"
-                            [aria-label]="'REPORTS_PROCESSING.TASKS.TITLE' | translate"
+                            [aria-label]="
+                                'REPORTS_PROCESSING.TASKS.TITLE' | translate
+                            "
                         >
                             <app-table-tasks
                                 class="table-component"
@@ -57,12 +59,11 @@
         </article>
     </section>
 
-    @if(reportTreatmentVisible) {
-<app-management
-        [(visible)]="reportTreatmentVisible"
-        [reportId]="selectedReportId"
-        (tasks)="onReportTreatmentTasks()"
-    ></app-management>
+    @if (reportTreatmentVisible) {
+        <app-management
+            [(visible)]="reportTreatmentVisible"
+            [reportId]="selectedReportId"
+            (tasks)="onReportTreatmentTasks()"
+        ></app-management>
     }
-    
 </main>

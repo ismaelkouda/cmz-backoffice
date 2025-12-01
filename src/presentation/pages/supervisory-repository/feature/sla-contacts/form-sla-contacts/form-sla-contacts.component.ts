@@ -73,14 +73,11 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         }
     }
 
-    private fetchApplicants(): void {
-    }
+    private fetchApplicants(): void {}
 
-    private fetchRegimesBusiness(): void {
-    }
+    private fetchRegimesBusiness(): void {}
 
-    private fetchLegalForms(): void {
-    }
+    private fetchLegalForms(): void {}
 
     public get disabledEditableForm(): boolean {
         return this.formMode === SLA_CONTACTS_FORM_MODE_ENUM.SEE;

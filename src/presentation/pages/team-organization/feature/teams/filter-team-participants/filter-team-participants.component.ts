@@ -54,11 +54,12 @@ export class FilterTeamParticipantsComponent implements OnInit, OnDestroy {
 
     public initFormFilter(): void {
         if (!this.formFilter) {
-            this.formFilter = this.fb.group<TeamParticipantsFilterFormInterface>({
-                matricule: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-            });
+            this.formFilter =
+                this.fb.group<TeamParticipantsFilterFormInterface>({
+                    matricule: new FormControl<string>('', {
+                        nonNullable: true,
+                    }),
+                });
         }
     }
 
@@ -80,4 +81,3 @@ export class FilterTeamParticipantsComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
-

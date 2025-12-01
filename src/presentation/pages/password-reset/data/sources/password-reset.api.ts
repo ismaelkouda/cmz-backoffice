@@ -30,4 +30,3 @@ export class PasswordResetApi {
         return this.http.post<PasswordResetResponseDto>(url, payload);
     }
 }
-

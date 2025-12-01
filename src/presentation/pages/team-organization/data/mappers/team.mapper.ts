@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Team } from '../../domain/entities/team.entity';
-import {
-  TeamItemDto,
-  TeamResponseDto,
-} from '../dtos/team-response.dto';
+import { TeamItemDto, TeamResponseDto } from '../dtos/team-response.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -34,4 +31,3 @@ export class TeamMapper {
         return this.mapArrayFromDto(dto.data);
     }
 }
-

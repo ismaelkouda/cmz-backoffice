@@ -5,4 +5,3 @@ export interface ParticipantRequestDto {
     statut?: string;
     equipe_id?: string;
 }
-

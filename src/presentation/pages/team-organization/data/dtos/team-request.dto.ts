@@ -4,4 +4,3 @@ export interface TeamRequestDto {
     nom_tenant?: string;
     statut?: string;
 }
-

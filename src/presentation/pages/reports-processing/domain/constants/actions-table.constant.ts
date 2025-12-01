@@ -43,5 +43,11 @@ export const ACTIONS_TABLE_CONST = {
             class: 'text-center',
         },
     ],
-    globalFilterFields: ['type', 'description', 'date', 'createdBy', 'createdAt'],
+    globalFilterFields: [
+        'type',
+        'description',
+        'date',
+        'createdBy',
+        'createdAt',
+    ],
 };

@@ -98,7 +98,9 @@ export class ProfileHabilitationApi {
         profileId?: string
     ): Observable<ProfileWithoutUserDto[]> {
         const url = `${this.baseUrl}${ProfileHabilitationEndpoint.WITHOUT_USER}`;
-        const params = profileId ? new HttpParams({ fromObject: { profileId } }) : undefined;
+        const params = profileId
+            ? new HttpParams({ fromObject: { profileId } })
+            : undefined;
         return this.http.get<ProfileWithoutUserDto[]>(url, { params });
     }
 

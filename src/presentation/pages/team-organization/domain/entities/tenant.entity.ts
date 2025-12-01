@@ -9,4 +9,3 @@ export interface Tenant {
     readonly created_at?: string;
     readonly updated_at?: string;
 }
-

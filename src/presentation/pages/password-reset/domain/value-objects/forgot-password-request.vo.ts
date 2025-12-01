@@ -27,4 +27,3 @@ export class ForgotPasswordRequest {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     }
 }
-

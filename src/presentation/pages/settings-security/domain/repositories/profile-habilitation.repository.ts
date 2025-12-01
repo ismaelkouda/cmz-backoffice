@@ -45,9 +45,7 @@ export abstract class ProfileHabilitationRepository {
         profileId?: string
     ): Observable<ProfileWithoutUserDto[]>;
 
-    abstract reassignUsers(
-        payload: ReassignRequestDto
-    ): Observable<void>;
+    abstract reassignUsers(payload: ReassignRequestDto): Observable<void>;
 
     abstract removeUsers(payload: RemoveRequestDto): Observable<void>;
 

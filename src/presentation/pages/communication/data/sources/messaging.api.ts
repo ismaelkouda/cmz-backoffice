@@ -20,9 +20,9 @@ export class MessagingApi {
         page: string
     ): Observable<MessagingResponseDto> {
         const url = `${this.baseUrl}/${MESSAGING_ENDPOINTS.GET_MESSAGES}`;
-        
+
         let params = new HttpParams().set('page', page);
-        
+
         Object.entries(filter).forEach(([key, value]) => {
             if (value) {
                 params = params.set(key, value);

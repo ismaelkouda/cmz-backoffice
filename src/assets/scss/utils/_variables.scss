@@ -11,12 +11,12 @@ $main-body-color: #f7f8f9;
 // These static colors are used for SCSS compilation-time functions (lighten, darken, rgba, etc.)
 // They serve as fallbacks and match the default theme from app-customization.config.ts
 // At runtime, CSS Custom Properties will override these values in the DOM
-$primary-color: #2256a3;      // Matches config.colors.primary
-$secondary-color: #f08224;    // Matches config.colors.secondary  
-$success-color: #28a745;      // Matches config.colors.success
-$info-color: #17a2b8;         // Matches config.colors.info
-$warning-color: #ffc107;      // Matches config.colors.warning
-$danger-color: #dc3545;       // Matches config.colors.error
+$primary-color: #2256a3; // Matches config.colors.primary
+$secondary-color: #f08224; // Matches config.colors.secondary
+$success-color: #28a745; // Matches config.colors.success
+$info-color: #17a2b8; // Matches config.colors.info
+$warning-color: #ffc107; // Matches config.colors.warning
+$danger-color: #dc3545; // Matches config.colors.error
 $light-color: #f4f4f4;
 $badge-light-color: #52526c;
 $light-gray: #ecf3fa;
@@ -80,7 +80,7 @@ $font-awesome: FontAwesome;
 $font-ICO: IcoFont;
 // dark layout variables
 $dark-body-background: #1d1e26;
-$dark-card-background: #2256A3;
+$dark-card-background: #2256a3;
 $dark-card-inbox: #323846;
 $dark-small-font-color: #98a6ad;
 $dark-all-font-color: rgba(255, 255, 255, 0.6);

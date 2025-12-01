@@ -9,8 +9,7 @@ export function getDynamicTitle(defaultTitle: string): string {
         };
 
         return (
-            titleMap[url] ||
-            'CMZ - Système de Gestion de Collecte Centralisée'
+            titleMap[url] || 'CMZ - Système de Gestion de Collecte Centralisée'
         );
     } catch {
         return defaultTitle;

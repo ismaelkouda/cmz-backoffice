@@ -314,9 +314,11 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
                 "STATE": "État",
                 "TREAT": "Traiter",
                 "ACTION": "Action",
+                "PROCESSING_NEWSPAPERS": "Journal de traitements",
                 "STEP": "Étape",
                 "STATUS": "Status",
                 "SEE_MORE": "Voir plus"
@@ -385,6 +387,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Status",
@@ -611,6 +614,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
                 "STATUS": "Status",
                 "SEE_MORE": "Voir plus",
                 "TAKE": "Prendre",
@@ -668,6 +672,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
                 "STATE": "État",
                 "TREAT": "Traiter",
                 "STEP": "Étape",
@@ -739,6 +744,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Status",
@@ -1166,7 +1172,8 @@
                 },
                 "EVALUATE": {
                 "TITLE": "Evaluer"
-                }
+                },
+                "CONFIRM": "Confirmer"
             }
         }
     },
@@ -1773,7 +1780,7 @@
         "TITLE": "Authentification",
         "UI": {
             "APP_TITLE": "Connect My Zone",
-            "APP_SUBTITLE": "Votre passerelle vers l'excellence numérique",
+            "APP_SUBTITLE": "Back-Office",
             "CONNECTION": "Connexion",
             "CONNECT_BUTTON": "Se connecter",
             "FORGOT_PASSWORD": "Mot de passe oublié",
@@ -1783,7 +1790,7 @@
                 "REAL_TIME_DASHBOARD": "Tableau de bord en temps réel",
                 "TEAM_MANAGEMENT": "Gestion des équipes",
                 "EXTRACTION_OF_DATA": "Extraction de données",
-                "SETTINGS": "Paramètrages"
+                "SETTINGS": "Paramètres & Sécurité"
             }
         },
         "FORM": {

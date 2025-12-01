@@ -1,7 +1,6 @@
 <main class="container-fluid actions-form-container" role="main">
     <section class="row actions-form-row">
         <article class="col-sm-12 actions-form-article">
-
             <app-breadcrumb
                 class="actions-form-breadcrumb"
                 [title]="module | translate"
@@ -15,11 +14,16 @@
                             <app-page-title
                                 class="page-title-component"
                                 [displayDate]="false"
-                                [title]="'ACTIONS.TITLE' | translate | lowercase"
+                                [title]="
+                                    'ACTIONS.TITLE' | translate | lowercase
+                                "
                             >
                             </app-page-title>
                             <div class="ms-auto">
-                                <p-tag severity="success" [value]="reportUniqId()" />
+                                <p-tag
+                                    severity="success"
+                                    [value]="reportUniqId()"
+                                />
                             </div>
                         </div>
                         <p-button

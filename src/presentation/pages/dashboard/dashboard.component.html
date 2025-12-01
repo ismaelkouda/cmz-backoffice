@@ -4,35 +4,34 @@
             
         </div> -->
         <div class="title-section">
-                <h1 class="dashboard-title">
-                    {{ 'DASHBOARD.TITLE' | translate }}
-                </h1>
-            </div>
+            <h1 class="dashboard-title">
+                {{ 'DASHBOARD.TITLE' | translate }}
+            </h1>
+        </div>
 
         <div class="period-filter-container">
-                <label class="period-filter">
-                    <span class="period-filter-label">
-                        <i class="pi pi-calendar"></i>
-                        {{ 'DASHBOARD.FILTER.PERIOD_LABEL' | translate }}
-                    </span>
-                    <span class="period-filter-value">
-                        {{ 'DASHBOARD.FILTER.PERIOD_INDICATOR' | translate }}:
-                    </span>
-                </label>
+            <label class="period-filter">
+                <span class="period-filter-label">
+                    <i class="pi pi-calendar"></i>
+                    {{ 'DASHBOARD.FILTER.PERIOD_LABEL' | translate }}
+                </span>
+                <span class="period-filter-value">
+                    {{ 'DASHBOARD.FILTER.PERIOD_INDICATOR' | translate }}:
+                </span>
+            </label>
 
-                <p-selectButton
-                    [options]="periodOptions"
-                    [(ngModel)]="selectedPeriod"
-                    (onChange)="onPeriodChange($event.value)"
-                    [disabled]="loading"
-                    optionLabel="label"
-                    optionValue="value"
-                    styleClass="period-select-button"
-                ></p-selectButton>
-            </div>
+            <p-selectButton
+                [options]="periodOptions"
+                [(ngModel)]="selectedPeriod"
+                (onChange)="onPeriodChange($event.value)"
+                [disabled]="loading"
+                optionLabel="label"
+                optionValue="value"
+                styleClass="period-select-button"
+            ></p-selectButton>
+        </div>
 
         <div class="header-actions">
-            
             <div class="date-info">
                 {{ 'DASHBOARD.UPDATED_DATE' | translate }}:
                 {{ currentDate || ('DASHBOARD.NO_DATE' | translate) }}
@@ -68,7 +67,6 @@
     </div>
 
     <div *ngIf="!loading && !error" class="dashboard-content">
-
         <div class="statistics-section" *ngIf="typeStatistics.length > 0">
             <div class="section-header">
                 <div class="section-badge">
@@ -102,10 +100,7 @@
             </div>
         </div>
 
-        <div
-            class="statistics-section"
-            *ngIf="taskStatusStatistics.length > 0"
-        >
+        <div class="statistics-section" *ngIf="taskStatusStatistics.length > 0">
             <div class="section-header">
                 <div class="section-badge">
                     {{ 'DASHBOARD.SECTIONS.TASK_STATUS.TITLE' | translate }}

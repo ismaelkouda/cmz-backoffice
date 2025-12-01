@@ -2,7 +2,10 @@
     <div class="filter-grid">
         <div class="filter-grid__item">
             <label for="profile-select">
-                <b>{{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.PROFILE' | translate }}</b>
+                <b>{{
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.PROFILE'
+                        | translate
+                }}</b>
             </label>
             <p-select
                 id="profile-select"
@@ -25,7 +28,10 @@
 
         <div class="filter-grid__item">
             <label for="state-select">
-                <b>{{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.STATE' | translate }}</b>
+                <b>{{
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.STATE'
+                        | translate
+                }}</b>
             </label>
             <p-select
                 id="state-select"
@@ -48,27 +54,39 @@
 
         <div class="filter-grid__item">
             <label for="matricule-select">
-                <b>{{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE' | translate }}</b>
+                <b>{{
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE'
+                        | translate
+                }}</b>
             </label>
             <input
                 id="matricule-select"
                 type="text"
                 pInputText
                 formControlName="matricule"
-                [placeholder]="'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE' | translate"
+                [placeholder]="
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE'
+                        | translate
+                "
             />
         </div>
 
         <div class="filter-grid__item">
             <label for="search-select">
-                <b>{{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.SEARCH' | translate }}</b>
+                <b>{{
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.SEARCH'
+                        | translate
+                }}</b>
             </label>
             <input
                 id="search-select"
                 type="text"
                 pInputText
                 formControlName="search"
-                [placeholder]="'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.SEARCH_PLACEHOLDER' | translate"
+                [placeholder]="
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.SEARCH_PLACEHOLDER'
+                        | translate
+                "
             />
         </div>
 

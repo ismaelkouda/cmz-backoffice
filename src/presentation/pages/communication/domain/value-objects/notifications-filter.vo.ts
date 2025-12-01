@@ -1,4 +1,4 @@
-import { NotificationsFilterPayloadEntity } from "../entities/notifications-filter-payload.entity";
+import { NotificationsFilterPayloadEntity } from '../entities/notifications-filter-payload.entity';
 
 export class NotificationsFilter {
     private constructor(

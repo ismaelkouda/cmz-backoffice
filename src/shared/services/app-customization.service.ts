@@ -38,7 +38,7 @@ export class AppCustomizationService {
         this.titleService = inject(Title);
         this.translate = inject(TranslateService);
         this.envService = inject(EnvService);
-        
+
         // Fusionner la configuration par défaut avec les valeurs de appSettings
         this.config = this.mergeConfigurations();
         // Appliquer la personnalisation immédiatement

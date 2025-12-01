@@ -6,12 +6,9 @@ import { DashboardPeriodFilter } from '@pages/dashboard/domain/value-objects/das
 
 @Injectable({ providedIn: 'root' })
 export class LoadDashboardStatisticsUseCase {
-    constructor(
-        private readonly dashboardRepository: DashboardRepository
-    ) {}
+    constructor(private readonly dashboardRepository: DashboardRepository) {}
 
     execute(filter: DashboardPeriodFilter): Observable<DashboardStatistics> {
         return this.dashboardRepository.loadStatistics(filter);
     }
 }
-

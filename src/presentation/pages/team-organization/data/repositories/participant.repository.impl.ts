@@ -28,7 +28,9 @@ export class ParticipantRepositoryImpl extends ParticipantRepository {
     fetchParticipants(filter: ParticipantFilter): Observable<Participant[]> {
         return this.participantApi
             .fetchParticipants(filter.toDto())
-            .pipe(map((response) => this.participantMapper.mapFromDto(response)));
+            .pipe(
+                map((response) => this.participantMapper.mapFromDto(response))
+            );
     }
 
     storeParticipant(
@@ -36,8 +38,14 @@ export class ParticipantRepositoryImpl extends ParticipantRepository {
     ): Observable<Participant> {
         return this.participantApi.storeParticipant(payload).pipe(
             map((response) => {
-                if (response.data && Array.isArray(response.data) && response.data.length > 0) {
-                    return this.participantMapper.mapItemFromDto(response.data[0]);
+                if (
+                    response.data &&
+                    Array.isArray(response.data) &&
+                    response.data.length > 0
+                ) {
+                    return this.participantMapper.mapItemFromDto(
+                        response.data[0]
+                    );
                 }
                 throw new Error('Invalid response from store participant');
             })
@@ -49,36 +57,35 @@ export class ParticipantRepositoryImpl extends ParticipantRepository {
     ): Observable<Participant> {
         return this.participantApi.updateParticipant(payload).pipe(
             map((response) => {
-                if (response.data && Array.isArray(response.data) && response.data.length > 0) {
-                    return this.participantMapper.mapItemFromDto(response.data[0]);
+                if (
+                    response.data &&
+                    Array.isArray(response.data) &&
+                    response.data.length > 0
+                ) {
+                    return this.participantMapper.mapItemFromDto(
+                        response.data[0]
+                    );
                 }
                 throw new Error('Invalid response from update participant');
             })
         );
     }
 
-    deleteParticipant(
-        id: string
-    ): Observable<ParticipantDeleteResponseDto> {
+    deleteParticipant(id: string): Observable<ParticipantDeleteResponseDto> {
         return this.participantApi.deleteParticipant(id);
     }
 
-    enableParticipant(
-        id: string
-    ): Observable<ParticipantEnableResponseDto> {
+    enableParticipant(id: string): Observable<ParticipantEnableResponseDto> {
         return this.participantApi.enableParticipant(id);
     }
 
-    disableParticipant(
-        id: string
-    ): Observable<ParticipantDisableResponseDto> {
+    disableParticipant(id: string): Observable<ParticipantDisableResponseDto> {
         return this.participantApi.disableParticipant(id);
     }
 
     getRoles(): Observable<RoleDto[]> {
-        return this.participantApi.getRoles().pipe(
-            map((response) => response.data || [])
-        );
+        return this.participantApi
+            .getRoles()
+            .pipe(map((response) => response.data || []));
     }
 }
-

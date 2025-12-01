@@ -82,4 +82,3 @@ export class FilterProfileUsersComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
-

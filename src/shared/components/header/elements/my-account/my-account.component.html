@@ -1,48 +1,58 @@
-<button class="profile-media" 
-     [class.active]="isDropdownOpen"
-     (click)="toggleDropdown()"
-     (keydown.enter)="toggleDropdown()"
-     (keydown.escape)="closeDropdown()"
-     tabindex="0"
-     role="button"
-     aria-haspopup="true"
-     [attr.aria-expanded]="isDropdownOpen">
-     
+<button
+    class="profile-media"
+    [class.active]="isDropdownOpen"
+    (click)="toggleDropdown()"
+    (keydown.enter)="toggleDropdown()"
+    (keydown.escape)="closeDropdown()"
+    tabindex="0"
+    role="button"
+    aria-haspopup="true"
+    [attr.aria-expanded]="isDropdownOpen"
+>
     <div class="media-wrapper">
-        <img class="profile-avatar" 
-             [src]="'assets/images/dashboard/profile.png'" 
-             width="40" 
-             height="40"
-             alt="Photo de profil de {{ currentUser?.first_name }} {{ currentUser?.last_name }}" />
-        
+        <img
+            class="profile-avatar"
+            [src]="'assets/images/dashboard/profile.png'"
+            width="40"
+            height="40"
+            alt="Photo de profil de {{ currentUser?.first_name }} {{
+                currentUser?.last_name
+            }}"
+        />
+
         <div class="profile-info">
-            <span class="user-name">{{ currentUser?.last_name }} {{ currentUser?.first_name }}</span>
+            <span class="user-name"
+                >{{ currentUser?.last_name }}
+                {{ currentUser?.first_name }}</span
+            >
             <p class="user-email">{{ currentUser?.email }}</p>
         </div>
-        
-        <i class="dropdown-icon pi pi-chevron-down" 
-           [class.rotated]="isDropdownOpen"></i>
+
+        <i
+            class="dropdown-icon pi pi-chevron-down"
+            [class.rotated]="isDropdownOpen"
+        ></i>
     </div>
 
-    <ul class="profile-dropdown" 
-        [class.show]="isDropdownOpen"
-        role="menu">
-        <li role="menuitem" 
+    <ul class="profile-dropdown" [class.show]="isDropdownOpen" role="menu">
+        <li
+            role="menuitem"
             (click)="openAccountModal()"
-            (keydown.enter)="openAccountModal()">
+            (keydown.enter)="openAccountModal()"
+        >
             <i class="pi pi-user"></i>
             <span>Mon compte</span>
         </li>
-        <li role="menuitem" 
+        <li
+            role="menuitem"
             (click)="openPasswordModal()"
-            (keydown.enter)="openPasswordModal()">
+            (keydown.enter)="openPasswordModal()"
+        >
             <i class="pi pi-lock"></i>
             <span>Mot de passe</span>
         </li>
         <li role="separator" class="dropdown-divider"></li>
-        <li role="menuitem" 
-            (click)="logout()"
-            (keydown.enter)="logout()">
+        <li role="menuitem" (click)="logout()" (keydown.enter)="logout()">
             <i class="pi pi-sign-out"></i>
             <span>Déconnexion</span>
         </li>

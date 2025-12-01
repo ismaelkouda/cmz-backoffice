@@ -20,8 +20,10 @@
                 [page]="(pagination$ | async)?.current_page"
                 [totalPage]="(pagination$ | async)?.last_page"
             />
-            
-            <div class="flex gap-2 items-center custom-header-actions mt-2 mt-md-0">
+
+            <div
+                class="flex gap-2 items-center custom-header-actions mt-2 mt-md-0"
+            >
                 <app-table-button-header
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"
@@ -33,47 +35,47 @@
             </div>
         </div>
     </ng-template>
-    
+
     <ng-template pTemplate="header">
         <tr role="row">
             @for (col of tableConfig.cols; track trackByColField($index, col)) {
-            <th
-                [class]="col.class"
-                [style]="{
-                    'min-width': col.width,
-                    'width': col.width,
-                    'text-align': 'center'
-                }"
-                role="columnheader"
-                scope="col"
-            >
-                @switch (col.field) {
-                    @case ('__selection') {
-                        <div class="selection-header">
-                            <p-inputNumber
-                                [showButtons]="false"
-                                [placeholder]="'Select count...'"
-                                [min]="0"
-                                [max]="notifications().length"
-                                inputMode="numeric"
-                                [ngModel]="selectionInputValue()"
-                                (ngModelChange)="handleSelectCount($event)"
-                                (keydown.enter)="$event.target.blur()"
-                                (keydown.escape)="clearSelection()"
-                                [disabled]="!hasData() || isLoading()"
-                            />
-                        </div>
+                <th
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                        'text-align': 'center',
+                    }"
+                    role="columnheader"
+                    scope="col"
+                >
+                    @switch (col.field) {
+                        @case ('__selection') {
+                            <div class="selection-header">
+                                <p-inputNumber
+                                    [showButtons]="false"
+                                    [placeholder]="'Select count...'"
+                                    [min]="0"
+                                    [max]="notifications().length"
+                                    inputMode="numeric"
+                                    [ngModel]="selectionInputValue()"
+                                    (ngModelChange)="handleSelectCount($event)"
+                                    (keydown.enter)="$event.target.blur()"
+                                    (keydown.escape)="clearSelection()"
+                                    [disabled]="!hasData() || isLoading()"
+                                />
+                            </div>
+                        }
+                        @default {
+                            {{ col.header | translate }}
+                        }
                     }
-                    @default {
-                        {{ col.header | translate }}
-                    }
-                }
-            </th>
+                </th>
             }
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-notification let-rowIndex="rowIndex">
-        <tr 
+        <tr
             role="row"
             [class.selected]="isItemSelected(notification)"
             [attr.aria-selected]="isItemSelected(notification)"
@@ -81,99 +83,122 @@
             [class.cursor-pointer]="!isLoading()"
         >
             @for (col of tableConfig.cols; track trackByColField($index, col)) {
-            <td
-                [class]="col.class"
-                [style]="{
-                    'min-width': col.width,
-                    'width': col.width
-                }"
-                role="gridcell"
-            >
-                @switch (col.field) {
-                    @case ('__selection') {
-                        <p-checkbox
-                            [binary]="true"
-                            [ngModel]="isItemSelected(notification)"
-                            (onChange)="handleItemSelection(notification)"
-                            [inputId]="'select-' + notification.uniqId"
-                            [name]="'select-' + notification.uniqId"
-                            [ariaLabelledBy]="'select-' + notification.uniqId"
-                            [disabled]="isLoading()"
-                            data-testid="item-checkbox-{{notification.uniqId}}"
-                        />
-                    }
-                    
-                    @case ('uniqId') {
-                        <button
-                            type="button"
-                            (click)="copyToClipboard(notification.uniqId)"
-                            class="copyable"
-                            pTooltip="{{ 'COPY' | translate }}"
-                            tooltipPosition="bottom"
-                        >
-                            <span class="id-text">{{ notification.uniqId }}</span>
-                            <i class="pi pi-copy" aria-hidden="true"></i>
-                        </button>
-                    }
+                <td
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                    }"
+                    role="gridcell"
+                >
+                    @switch (col.field) {
+                        @case ('__selection') {
+                            <p-checkbox
+                                [binary]="true"
+                                [ngModel]="isItemSelected(notification)"
+                                (onChange)="handleItemSelection(notification)"
+                                [inputId]="'select-' + notification.uniqId"
+                                [name]="'select-' + notification.uniqId"
+                                [ariaLabelledBy]="
+                                    'select-' + notification.uniqId
+                                "
+                                [disabled]="isLoading()"
+                                data-testid="item-checkbox-{{
+                                    notification.uniqId
+                                }}"
+                            />
+                        }
 
-                    @case ('reportType') {
-                        <div 
-                            [pTooltip]="notification.reportDescription | translate"
-                            tooltipPosition="bottom"
-                            showDelay="500"
-                            hideDelay="300">
-                            {{ notification.reportType }}
-                        </div>
-                    }
-
-                    @case ('operators') {
-                        <div class="tag-group" *ngIf="notification.operators?.length; else noOperators">
-                            @for (operator of notification.operators; track trackByOperator($index, operator)) {
-                                <p-tag
-                                    [value]="getOperatorLabel(operator)"
-                                    [style]="getOperatorTagStyle(operator)"
-                                    styleClass="operator-tag"
-                                />
-                            }
-                        </div>
-                        <ng-template #noOperators>
-                            <span class="no-data">-</span>
-                        </ng-template>
-                    }
-
-                    @case ('createdAt') {
-                        <time [attr.datetime]="notification.createdAt">
-                            {{ formatDate(notification.createdAt) }}
-                        </time>
-                    }
-
-                    @case ('source') {
-                        <div
-                            [pTooltip]="notification.sourceDescription | translate"
-                            tooltipPosition="bottom"
-                            showDelay="500"
-                            hideDelay="300"
-                            [tooltipStyleClass]="'custom-tooltip'"
-                            class="source-type-content"
-                        >
-                            {{ notification.source }}
-                        </div>
-                    }
-                    
-                    @case ('__action') {
-                        <div (onKeyPress)="$event.stopPropagation()" class="action-group">
+                        @case ('uniqId') {
                             <button
                                 type="button"
-                                pButton
-                                icon="pi pi-window-maximize"
-                                (click)="onActionClicked(notification)"
-                                [pTooltip]="getSeeMoreTooltip(notification)"
+                                (click)="copyToClipboard(notification.uniqId)"
+                                class="copyable"
+                                pTooltip="{{ 'COPY' | translate }}"
                                 tooltipPosition="bottom"
-                                [disabled]="isLoading()"
-                                size="small"
-                                class="action-btn"
-                            ></button>
-                            <!-- <button
+                            >
+                                <span class="id-text">{{
+                                    notification.uniqId
+                                }}</span>
+                                <i class="pi pi-copy" aria-hidden="true"></i>
+                            </button>
+                        }
+
+                        @case ('reportType') {
+                            <div
+                                [pTooltip]="
+                                    notification.reportDescription | translate
+                                "
+                                tooltipPosition="bottom"
+                                showDelay="500"
+                                hideDelay="300"
+                            >
+                                {{ notification.reportType }}
+                            </div>
+                        }
+
+                        @case ('operators') {
+                            <div
+                                class="tag-group"
+                                *ngIf="
+                                    notification.operators?.length;
+                                    else noOperators
+                                "
+                            >
+                                @for (
+                                    operator of notification.operators;
+                                    track trackByOperator($index, operator)
+                                ) {
+                                    <p-tag
+                                        [value]="getOperatorLabel(operator)"
+                                        [style]="getOperatorTagStyle(operator)"
+                                        styleClass="operator-tag"
+                                    />
+                                }
+                            </div>
+                            <ng-template #noOperators>
+                                <span class="no-data">-</span>
+                            </ng-template>
+                        }
+
+                        @case ('createdAt') {
+                            <time [attr.datetime]="notification.createdAt">
+                                {{ formatDate(notification.createdAt) }}
+                            </time>
+                        }
+
+                        @case ('source') {
+                            <div
+                                [pTooltip]="
+                                    notification.sourceDescription | translate
+                                "
+                                tooltipPosition="bottom"
+                                showDelay="500"
+                                hideDelay="300"
+                                [tooltipStyleClass]="'custom-tooltip'"
+                                class="source-type-content"
+                            >
+                                {{ notification.source }}
+                            </div>
+                        }
+
+                        @case ('__action') {
+                            <div
+                                (onKeyPress)="$event.stopPropagation()"
+                                class="action-group"
+                            >
+                                <button
+                                    type="button"
+                                    pButton
+                                    icon="pi pi-window-maximize"
+                                    (click)="onActionClicked(notification)"
+                                    [pTooltip]="getSeeMoreTooltip(notification)"
+                                    tooltipPosition="bottom"
+                                    [disabled]="isLoading()"
+                                    size="small"
+                                    class="action-btn"
+                                ></button>
+                                <!-- <button
                                 type="button"
                                 pButton
                                 severity="info"
@@ -185,14 +210,14 @@
                                 size="small"
                                 class="action-btn p" 
                             ></button> -->
-                        </div>
+                            </div>
+                        }
+
+                        @default {
+                            {{ notification[col.field] || '-' }}
+                        }
                     }
-                    
-                    @default {
-                        {{ notification[col.field] || '-' }}
-                    }
-                }
-            </td>
+                </td>
             }
         </tr>
     </ng-template>
@@ -210,15 +235,15 @@
         @if (isLoading()) {
             <tr role="row" class="loading-table">
                 <td [attr.colspan]="tableConfig.cols.length">
-                        <p-progressSpinner
-                            class="posCenter"
-                            [style]="{ width: '40px', height: '50px' }"
-                            styleClass="custom-spinner"
-                            strokeWidth="8"
-                            fill="#EEEEEE"
-                            animationDuration=".5s"
-                        >
-                        </p-progressSpinner>
+                    <p-progressSpinner
+                        class="posCenter"
+                        [style]="{ width: '40px', height: '50px' }"
+                        styleClass="custom-spinner"
+                        strokeWidth="8"
+                        fill="#EEEEEE"
+                        animationDuration=".5s"
+                    >
+                    </p-progressSpinner>
                 </td>
             </tr>
         }

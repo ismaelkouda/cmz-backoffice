@@ -7,4 +7,3 @@ export const ParticipantEndpoint = {
     DISABLE: 'participants/{id}/desactiver',
     ROLES: 'users/roles',
 } as const;
-

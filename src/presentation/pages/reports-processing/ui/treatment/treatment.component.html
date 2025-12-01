@@ -9,14 +9,14 @@
 
             <section class="card treatment-card">
                 <div class="card-body treatment-card-body">
-                    <header
-                        class="treatment-header"
-                    >
+                    <header class="treatment-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'REPORTS_PROCESSING.TREATMENT.TITLE' | translate | lowercase
+                                'REPORTS_PROCESSING.TREATMENT.TITLE'
+                                    | translate
+                                    | lowercase
                             "
                         >
                         </app-page-title>
@@ -58,12 +58,11 @@
         </article>
     </section>
 
-    @if(reportTreatmentVisible) {
-<app-management
-        [(visible)]="reportTreatmentVisible"
-        [reportId]="selectedReportId"
-        (closed)="onReportTreatmentClosed()"
-    ></app-management>
+    @if (reportTreatmentVisible) {
+        <app-management
+            [(visible)]="reportTreatmentVisible"
+            [reportId]="selectedReportId"
+            (closed)="onReportTreatmentClosed()"
+        ></app-management>
     }
-    
 </main>

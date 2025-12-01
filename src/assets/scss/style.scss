@@ -1,11 +1,11 @@
 // *** utils ***
 @import '../scss/utils/variables';
-@import '../scss/charter';  // Graphic charter - bridges CSS vars with SCSS
+@import '../scss/charter'; // Graphic charter - bridges CSS vars with SCSS
 
 // ============================================
 // CSS Custom Properties
 // ============================================
-// Note: Theme colors (--theme-default, --theme-secondary, --color-*, etc.) 
+// Note: Theme colors (--theme-default, --theme-secondary, --color-*, etc.)
 // are injected dynamically by AppCustomizationService at runtime.
 // Only define UI-specific variables here that are NOT part of the config.
 
@@ -30,7 +30,7 @@
     --balance-profie-bg: #e0dfef;
     --view-grid-bg: #ecf3fa80;
     --view-border-marker: #cfcdfc;
-    
+
     // FullCalendar colors (reference theme colors)
     --fc-button-bg-color: var(--theme-default);
     --fc-button-active-bg-color: var(--theme-default);
@@ -166,7 +166,3 @@ body[class='dark-only'] {
 @import 'layout/sidebar.scss';
 @import 'layout/rtl.scss';
 @import 'layout/box-layout.scss';
-
-
-
-

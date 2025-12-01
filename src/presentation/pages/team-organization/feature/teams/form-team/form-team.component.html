@@ -10,12 +10,19 @@
             <section class="card team-form-card">
                 <div class="card-body team-form-card-body">
                     <header class="team-form-header">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div
+                            class="d-flex justify-content-between align-items-center"
+                        >
                             <div>
                                 <h2>
                                     <b>
-                                        <span>{{ (pageTitle | async) | translate }}</span>
-                                        <span *ngIf="(team$ | async) as team" class="current-values">
+                                        <span>{{
+                                            pageTitle | async | translate
+                                        }}</span>
+                                        <span
+                                            *ngIf="team$ | async as team"
+                                            class="current-values"
+                                        >
                                             [{{ team.nom }} {{ team.prenoms }}]
                                         </span>
                                     </b>
@@ -31,11 +38,20 @@
                     </header>
 
                     <div class="fade-in team-form-content">
-                        <form [formGroup]="formTeam" (ngSubmit)="onSubmit()" 
-                            novalidate class="grid grid-cols-2 gap-4">
+                        <form
+                            [formGroup]="formTeam"
+                            (ngSubmit)="onSubmit()"
+                            novalidate
+                            class="grid grid-cols-2 gap-4"
+                        >
                             <div class="form-group">
                                 <label for="code">
-                                    <b>{{ 'TEAM_ORGANIZATION.TEAM.FORM.CODE' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.TEAM.FORM.CODE'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="code"
@@ -55,13 +71,21 @@
                                         formTeam.get('code')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.TEAM.FORM.CODE_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.TEAM.FORM.CODE_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="nom">
-                                    <b>{{ 'TEAM_ORGANIZATION.TEAM.FORM.NAME' | translate }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{
+                                            'TEAM_ORGANIZATION.TEAM.FORM.NAME'
+                                                | translate
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
                                 <input
                                     id="nom"
@@ -81,13 +105,19 @@
                                         formTeam.get('nom')?.touched
                                     "
                                 >
-                                    {{ 'TEAM_ORGANIZATION.TEAM.FORM.NAME_REQUIRED' | translate }}
+                                    {{
+                                        'TEAM_ORGANIZATION.TEAM.FORM.NAME_REQUIRED'
+                                            | translate
+                                    }}
                                 </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="description">
-                                    <b>{{ 'TEAM_ORGANIZATION.TEAM.FORM.DESCRIPTION' | translate }}</b>
+                                    <b>{{
+                                        'TEAM_ORGANIZATION.TEAM.FORM.DESCRIPTION'
+                                            | translate
+                                    }}</b>
                                 </label>
                                 <textarea
                                     id="description"
@@ -103,13 +133,13 @@
 
                         <div class="team-form-actions">
                             <p-button
-                                [label]="('CANCEL' | translate)"
+                                [label]="'CANCEL' | translate"
                                 (onClick)="onCancel()"
                                 styleClass="p-button-secondary"
                             ></p-button>
                             <p-button
                                 *ngIf="!readOnly"
-                                [label]="('SAVE' | translate)"
+                                [label]="'SAVE' | translate"
                                 (onClick)="onSubmit()"
                                 styleClass="p-button-primary"
                             ></p-button>

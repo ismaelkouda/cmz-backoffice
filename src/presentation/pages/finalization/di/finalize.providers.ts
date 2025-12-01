@@ -8,4 +8,3 @@ export const provideFinalize = (): Provider[] => [
         useClass: FinalizeRepositoryImpl,
     },
 ];
-

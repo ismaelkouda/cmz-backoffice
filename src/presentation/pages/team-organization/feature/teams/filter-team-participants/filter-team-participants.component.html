@@ -2,14 +2,20 @@
     <div class="filter-grid">
         <div class="filter-grid__item">
             <label for="matricule-input">
-                <b>{{ 'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.FILTER.MATRICULE' | translate }}</b>
+                <b>{{
+                    'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.FILTER.MATRICULE'
+                        | translate
+                }}</b>
             </label>
             <input
                 id="matricule-input"
                 type="text"
                 pInputText
                 formControlName="matricule"
-                [placeholder]="'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.FILTER.MATRICULE_PLACEHOLDER' | translate"
+                [placeholder]="
+                    'TEAM_ORGANIZATION.TEAM.MANAGEMENT_AFFECTED.FILTER.MATRICULE_PLACEHOLDER'
+                        | translate
+                "
             />
         </div>
 
@@ -18,4 +24,3 @@
         </button>
     </div>
 </form>
-

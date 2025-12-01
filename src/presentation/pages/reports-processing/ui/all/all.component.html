@@ -10,10 +10,13 @@
             <section class="card all-card">
                 <div class="card-body all-card-body">
                     <header class="all-header">
-                        <app-page-title class="page-title-component"
+                        <app-page-title
+                            class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'REPORTS_PROCESSING.ALL.TITLE' | translate | lowercase
+                                'REPORTS_PROCESSING.ALL.TITLE'
+                                    | translate
+                                    | lowercase
                             "
                         >
                         </app-page-title>
@@ -30,7 +33,9 @@
 
                         <section
                             class="table-section"
-                            [aria-label]="'REPORTS_PROCESSING.ALL.TITLE' | translate"
+                            [aria-label]="
+                                'REPORTS_PROCESSING.ALL.TITLE' | translate
+                            "
                         >
                             <app-table-all
                                 class="table-component"
@@ -54,11 +59,11 @@
         </article>
     </section>
 
-    @if(reportTreatmentVisible) {
+    @if (reportTreatmentVisible) {
         <app-management
             [(visible)]="reportTreatmentVisible"
             [reportId]="selectedReportId"
             (closed)="onReportTreatmentClosed()"
         ></app-management>
-    }   
+    }
 </main>

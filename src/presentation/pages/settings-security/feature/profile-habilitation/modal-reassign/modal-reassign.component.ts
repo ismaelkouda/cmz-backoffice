@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  inject,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+    inject,
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProfileHabilitationFacade } from '@presentation/pages/settings-security/application/profile-habilitation.facade';
@@ -55,9 +55,14 @@ export class ModalReassignComponent implements OnInit, OnDestroy {
     @Input() profileId: string = '';
     @Input() users: User[] = [];
     @Output() visibleChange = new EventEmitter<boolean>();
-    @Output() confirm = new EventEmitter<{ newProfileId: string; userIds: string[] }>();
+    @Output() confirm = new EventEmitter<{
+        newProfileId: string;
+        userIds: string[];
+    }>();
 
-    private readonly profileHabilitationFacade = inject(ProfileHabilitationFacade);
+    private readonly profileHabilitationFacade = inject(
+        ProfileHabilitationFacade
+    );
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly fb = inject(FormBuilder);
@@ -101,7 +106,8 @@ export class ModalReassignComponent implements OnInit, OnDestroy {
 
     public onSubmit(): void {
         if (this.formReassign.valid && this.users.length > 0) {
-            const newProfileId = this.formReassign.get('newProfileId')?.value ?? '';
+            const newProfileId =
+                this.formReassign.get('newProfileId')?.value ?? '';
             const userIds = this.users.map((u) => u.id);
             this.confirm.emit({ newProfileId, userIds });
             this.onHide();
@@ -114,9 +120,7 @@ export class ModalReassignComponent implements OnInit, OnDestroy {
                     )
                 );
             } else {
-                this.toastService.error(
-                    this.translate.instant('FORM_INVALID')
-                );
+                this.toastService.error(this.translate.instant('FORM_INVALID'));
             }
         }
     }
@@ -126,4 +130,3 @@ export class ModalReassignComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
-

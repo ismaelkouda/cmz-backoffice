@@ -187,9 +187,7 @@ export class TableActionsComponent implements OnDestroy {
                 ? normalized
                 : `${normalized}Z`;
             const date = new Date(withTimezone);
-            return Number.isNaN(date.getTime())
-                ? value
-                : date.toLocaleString();
+            return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
         } catch {
             return value;
         }

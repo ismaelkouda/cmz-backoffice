@@ -2,14 +2,20 @@
     <div class="filter-grid">
         <div class="filter-grid__item">
             <label for="matricule-input">
-                <b>{{ 'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE' | translate }}</b>
+                <b>{{
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE'
+                        | translate
+                }}</b>
             </label>
             <input
                 id="matricule-input"
                 type="text"
                 pInputText
                 formControlName="matricule"
-                [placeholder]="'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE' | translate"
+                [placeholder]="
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE'
+                        | translate
+                "
             />
         </div>
 
@@ -18,4 +24,3 @@
         </button>
     </div>
 </form>
-

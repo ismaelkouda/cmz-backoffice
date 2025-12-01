@@ -37,4 +37,3 @@ export const PROFILE_USERS_TABLE = {
     ],
     globalFilterFields: ['matricule', 'fullName', 'email', 'status'],
 };
-
