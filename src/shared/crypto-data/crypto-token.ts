@@ -7,23 +7,19 @@ import { deriveKey, fromBase64, toBase64 } from './crypto-utils';
 export class CryptoToken {
     private readonly password = 'Ct2&Ro0~Yk2#Pe5{';
 
-    constructor() {}
+    constructor() { }
 
     async saveTokenData(key: string, value: string): Promise<void> {
-        // initialiser
         const encoder = new TextEncoder();
-        //   commencer le process
         const iv = crypto.getRandomValues(new Uint8Array(12));
         const salt = crypto.getRandomValues(new Uint8Array(16));
         const aeskey = await deriveKey(`${this.password}`, salt);
-        //  generer la clef de cryptage
         const encrypted = await crypto.subtle.encrypt(
             { name: 'AES-GCM', iv },
             aeskey,
             encoder.encode(value)
         );
 
-        // Garder l'ensemble comme un string
         const data = {
             iv: toBase64(iv.buffer),
             salt: toBase64(salt.buffer),
@@ -34,10 +30,8 @@ export class CryptoToken {
     }
 
     async getTokenData(key: string): Promise<string | null> {
-        // initialiser
         const raw = localStorage.getItem(key);
         if (!raw) return null;
-        //   reprendre le process a l'inverse
         try {
             const payload = JSON.parse(raw);
             const salt = fromBase64(payload.salt);
@@ -45,7 +39,6 @@ export class CryptoToken {
             const value = fromBase64(payload.value);
 
             const aeskey = await deriveKey(`${this.password}`, salt);
-            //  generer la clef de decryptage
             const derypted = await crypto.subtle.decrypt(
                 { name: 'AES-GCM', iv: iv as BufferSource },
                 aeskey,

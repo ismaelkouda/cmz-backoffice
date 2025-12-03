@@ -74,7 +74,6 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilter> {
         }
         const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
         if (isStale) {
-            console.log('🕐 [TasksFacade] Data is stale, refetching');
             return true;
         }
         const hasData = this.itemsSubject.getValue().length > 0;

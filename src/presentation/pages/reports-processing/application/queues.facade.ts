@@ -69,20 +69,19 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
         if (forceRefresh) {
             return true;
         }
+        return this.shouldRefetch();
+    }
+
+    private shouldRefetch(): boolean {
         if (!this.hasInitialized) {
             return true;
         }
         const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
         if (isStale) {
-            console.log('🕐 [QueuesFacade] Data is stale, refetching');
             return true;
         }
         const hasData = this.itemsSubject.getValue().length > 0;
-        if (!hasData) {
-            return true;
-        }
-
-        return false;
+        return !hasData;
     }
 
     resetMemory(): void {

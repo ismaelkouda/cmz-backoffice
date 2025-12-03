@@ -18,6 +18,7 @@ const config = {
         authenticationUrl: 'https://cmz-service-api.paas.imako.digital/auth/v1.0/',
         reportUrl: 'https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/',
         settingUrl: 'https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/',
+        userUrl: 'https://cmz-service-api.paas.imako.digital/users/v1.0/backoffice/',
         fileUrl: 'https://cmz-service-api.paas.imako.digital/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,

@@ -97,7 +97,6 @@ export class QueuesComponent implements OnInit, OnDestroy {
     }
 
     public onQueuesAction(item: QueuesEntity): void {
-        console.log("onQueuesAction", item);
         this.selectedReportId = item.uniqId;
         this.reportTreatmentVisible = true;
     }

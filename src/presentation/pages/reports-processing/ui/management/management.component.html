@@ -37,9 +37,9 @@
                 <span class="header-title copyable" 
                     pTooltip="{{ 'COPY' | translate }}"
                     tooltipPosition="bottom"
-                    (click)="copyToClipboard(reportId)" 
-                    *ngIf="reportId">
-                    [ {{ reportId }} ]
+                    (click)="copyToClipboard(reportId())" 
+                    *ngIf="reportId()">
+                    [ {{ reportId() }} ]
                 </span>
             </ng-template>
         </div>
@@ -562,7 +562,7 @@
                                         }}
                                     </div>
                                     <div class="sidebar-content">
-                                        <p *ngIf="reportId">
+                                        <p *ngIf="reportId()">
                                             <strong
                                                 >{{
                                                     'MANAGEMENT.SIDEBAR.INITIATOR.LAST_NAME'
@@ -601,7 +601,7 @@
                                         }}
                                     </div>
                                     <div class="sidebar-content">
-                                        <p *ngIf="reportId">
+                                        <p *ngIf="reportId()">
                                             <strong
                                                 >{{
                                                     'MANAGEMENT.SIDEBAR.APPROVER.LAST_NAME'
@@ -679,7 +679,7 @@
                                         }}
                                     </div>
                                     <div class="sidebar-content">
-                                        <p *ngIf="reportId">
+                                        <p *ngIf="reportId()">
                                             <strong
                                                 >{{
                                                     'MANAGEMENT.SIDEBAR.PROCESSED.LAST_NAME'

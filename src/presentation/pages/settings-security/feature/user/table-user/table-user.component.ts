@@ -3,12 +3,13 @@ import {
     ChangeDetectionStrategy,
     Component,
     EventEmitter,
+    inject,
     Input,
     Output,
-    inject,
+    signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { User } from '@presentation/pages/settings-security/domain/entities/user.entity';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -25,8 +26,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable, take } from 'rxjs';
-import { USER_TABLE } from '../../../data-access/user/constants/user-table.constant';
+import { Observable, of, Subject, takeUntil, tap } from 'rxjs';
+import { USER_TABLE_CONST } from '../../../domain/constants/user/user-table.constant';
 
 @Component({
     selector: 'app-table-user',
@@ -49,46 +50,76 @@ import { USER_TABLE } from '../../../data-access/user/constants/user-table.const
     ],
 })
 export class TableUserComponent {
-    @Input() spinner!: boolean;
-    @Input() listUsers$!: Observable<User[]>;
-    @Input() pagination$!: Observable<Paginate<User>>;
+    private readonly translate = inject(TranslateService);
+    private readonly toastService = inject(ToastrService);
+    private readonly clipboardService = inject(ClipboardService);
+    private readonly destroy$ = new Subject<void>();
+
+    readonly users = signal<UsersEntity[]>([]);
+    readonly isLoading = signal<boolean>(false);
+    readonly hasData = signal<boolean>(false);
+
+    @Input({ required: true })
+    set users$(value: Observable<UsersEntity[]>) {
+        this._users$ = value;
+        this._subscribeToData();
+    }
+
+    @Input({ required: true })
+    pagination$!: Observable<Paginate<UsersEntity>>;
+
+    @Input()
+    set loading(value: boolean) {
+        this.isLoading.set(value);
+    }
+
     @Output() userRequested = new EventEmitter<{
-        user: User;
+        user: UsersEntity;
         action: 'view' | 'edit' | 'delete' | 'disable';
     }>();
-    @Output() journalRequested = new EventEmitter<User>();
+
+    @Output() journalRequested = new EventEmitter<UsersEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
     @Output() addUserRequested = new EventEmitter<void>();
+
+    private _users$: Observable<UsersEntity[]> = of([]);
 
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.config.app.name
     );
 
-    public readonly table: TableConfig = USER_TABLE;
+    public readonly tableConfig: TableConfig = USER_TABLE_CONST;
 
     constructor(
-        private readonly toastService: ToastrService,
-        private readonly clipboardService: ClipboardService,
         private readonly tableExportExcelFileService: TableExportExcelFileService,
-        private readonly translate: TranslateService
-    ) {}
+    ) { }
+
+    private _subscribeToData(): void {
+        this._users$
+            .pipe(
+                takeUntil(this.destroy$),
+                tap((data) => {
+                    const items = data ?? [];
+                    this.users.set(items);
+                    this.hasData.set(items.length > 0);
+                })
+            )
+            .subscribe();
+    }
 
     public onExportExcel(): void {
-        this.listUsers$.pipe(take(1)).subscribe((users) => {
-            if (users && users.length > 0) {
-                const fileName = `${this.exportFilePrefix}-users`;
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    users,
-                    this.table,
-                    fileName
-                );
-            } else {
-                this.toastService.error(
-                    this.translate.instant('EXPORT.NO_DATA')
-                );
-            }
-        });
+        const all = this.users();
+        if (all && all.length > 0) {
+            const fileName = `${this.exportFilePrefix}-users`;
+            this.tableExportExcelFileService.exportAsExcelFile(
+                all,
+                this.tableConfig,
+                fileName
+            );
+        } else {
+            this.toastService.error(this.translate.instant('EXPORT.NO_DATA'));
+        }
     }
 
     public onRefresh(): void {
@@ -163,7 +194,7 @@ export class TableUserComponent {
     }
 
     public onActionClicked(
-        item: User,
+        item: UsersEntity,
         action: 'view' | 'edit' | 'delete' | 'disable'
     ): void {
         this.userRequested.emit({ user: item, action });
@@ -173,8 +204,20 @@ export class TableUserComponent {
         this.addUserRequested.emit();
     }
 
-    public onJournalClicked(item: User): void {
+    public onJournalClicked(item: UsersEntity): void {
         this.journalRequested.emit(item);
+    }
+
+    trackByUniqId(_: number, item: UsersEntity): string {
+        return item.uniqId;
+    }
+
+    trackByOperator(_: number, operator: string): string {
+        return operator;
+    }
+
+    trackByColField(_: number, col: any): string {
+        return col.field;
     }
 
     private normalizeExportPrefix(appName: string): string {

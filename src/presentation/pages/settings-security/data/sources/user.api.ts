@@ -2,17 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+import { UsersStorePayloadEntity } from '../../domain/entities/users/users-store-payload.entity';
+import { UsersUpdatePayloadEntity } from '../../domain/entities/users/users-update-payload.entity';
+import { UsersEntity } from '../../domain/entities/users/users.entity';
 import { UserEndpoint } from '../constants/user-endpoints.constant';
 import { UserRequestDto } from '../dtos/user-request.dto';
 import {
-    UserResponseDto,
-    UserStoreRequestDto,
-    UserUpdateRequestDto,
-    UserDeleteResponseDto,
-    UserEnableResponseDto,
-    UserDisableResponseDto,
+    UserResponseDto
 } from '../dtos/user-response.dto';
-import { User } from '../../domain/entities/user.entity';
 
 @Injectable({
     providedIn: 'root',
@@ -23,7 +20,7 @@ export class UserApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchUsers(
         payload: UserRequestDto,
@@ -48,30 +45,30 @@ export class UserApi {
         return this.http.get<UserResponseDto>(url, { params });
     }
 
-    storeUser(payload: UserStoreRequestDto): Observable<User> {
+    storeUser(payload: UsersStorePayloadEntity): Observable<UsersEntity> {
         const url = `${this.baseUrl}${UserEndpoint.STORE}`;
-        return this.http.post<User>(url, payload);
+        return this.http.post<UsersEntity>(url, payload);
     }
 
-    updateUser(payload: UserUpdateRequestDto): Observable<User> {
+    updateUser(payload: UsersUpdatePayloadEntity): Observable<UsersEntity> {
         const url = `${this.baseUrl}${UserEndpoint.UPDATE}`;
-        return this.http.put<User>(url, payload);
+        return this.http.put<UsersEntity>(url, payload);
     }
 
-    deleteUser(id: string): Observable<UserDeleteResponseDto> {
+    deleteUser(id: string): Observable<void> {
         const url = `${this.baseUrl}${UserEndpoint.DELETE}`;
-        return this.http.delete<UserDeleteResponseDto>(url, {
+        return this.http.delete<void>(url, {
             params: { id },
         });
     }
 
-    enableUser(id: string): Observable<UserEnableResponseDto> {
+    enableUser(id: string): Observable<void> {
         const url = `${this.baseUrl}${UserEndpoint.ENABLE}`;
-        return this.http.post<UserEnableResponseDto>(url, { id });
+        return this.http.post<void>(url, { id });
     }
 
-    disableUser(id: string): Observable<UserDisableResponseDto> {
+    disableUser(id: string): Observable<void> {
         const url = `${this.baseUrl}${UserEndpoint.DISABLE}`;
-        return this.http.post<UserDisableResponseDto>(url, { id });
+        return this.http.post<void>(url, { id });
     }
 }

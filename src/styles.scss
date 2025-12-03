@@ -64,10 +64,20 @@ label {
 .tag-group {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    /* justify-content: center; */
     gap: 0.35rem;
     align-items: center;
+    .operator-tag {
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        padding-inline: 0.75rem;
+        width: 70px;
+    }
 }
+
 
 
 .container-box {
@@ -115,8 +125,8 @@ label {
 
 .copyable {
     cursor: pointer;
-    color: var(--theme-default);
-    text-decoration: underline;
+    /* color: var(--theme-default); */
+    /* text-decoration: underline; */
     background: none;
     border: none;
     padding: 0;

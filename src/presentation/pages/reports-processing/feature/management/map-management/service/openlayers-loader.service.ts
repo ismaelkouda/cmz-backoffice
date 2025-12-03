@@ -1,4 +1,3 @@
-// openlayers-loader.service.ts
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { catchError, shareReplay, take } from 'rxjs/operators';
@@ -30,11 +29,8 @@ export interface OpenLayersModules {
 export class OpenLayersLoaderService {
     private modules$: Observable<OpenLayersModules> | null = null;
 
-    constructor(private ngZone: NgZone) {}
+    constructor(private ngZone: NgZone) { }
 
-    /**
-     * Charge les modules OpenLayers de manière lazy avec cache
-     */
     loadModules(): Observable<OpenLayersModules> {
         if (!this.modules$) {
             this.modules$ = from(this.loadOpenLayersModules()).pipe(
@@ -51,9 +47,6 @@ export class OpenLayersLoaderService {
         return this.modules$;
     }
 
-    /**
-     * Version Promise pour une utilisation plus simple
-     */
     async loadModulesPromise(): Promise<OpenLayersModules> {
         return this.loadModules()
             .pipe(take(1))
@@ -69,7 +62,6 @@ export class OpenLayersLoaderService {
     private async loadOpenLayersModules(): Promise<OpenLayersModules> {
         return this.ngZone.runOutsideAngular(async () => {
             try {
-                console.log('🔄 Chargement des modules OpenLayers...');
 
                 // Importations principales
                 const mapModule = await import('ol/Map');
@@ -89,8 +81,6 @@ export class OpenLayersLoaderService {
                 const controlModule = await import('ol/control');
                 const overlayModule = await import('ol/Overlay');
                 const iconModule = await import('ol/style/Icon');
-
-                console.log('✅ Tous les modules OpenLayers chargés');
 
                 return {
                     Map: mapModule.default,

@@ -1,4 +1,3 @@
-// data/mappers/all.mapper.ts
 import { Injectable } from '@angular/core';
 import { AllItemDto, ReportStateDto } from '@presentation/pages/reports-processing/data/dtos/all/all-response.dto';
 import {
@@ -28,7 +27,6 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
             this.mapLocation(dto),
             this.mapReportType(dto.report_type),
             this.parseOperators(dto.operators),
-            this.parseOperators(dto.cumulative_operators),
             dto.description,
             this.mapMedia(dto),
             this.mapState(dto.state),

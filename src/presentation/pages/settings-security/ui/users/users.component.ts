@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UserFacade } from '@presentation/pages/settings-security/application/user.facade';
-import { User } from '@presentation/pages/settings-security/domain/entities/user.entity';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
 import { UserFilter } from '@presentation/pages/settings-security/domain/value-objects/user-filter.vo';
 import { FilterUserComponent } from '@presentation/pages/settings-security/feature/user/filter-user/filter-user.component';
 import { TableUserComponent } from '@presentation/pages/settings-security/feature/user/table-user/table-user.component';
@@ -21,7 +21,7 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsPa
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
-import { UserFilterInterface } from '../../data-access/user/interfaces/user-filter.interface';
+import { UsersFilterPayloadEntity } from '../../domain/entities/users/users-filter-payload.entity';
 import { USER_FORM_ROUTE } from '../../settings-security.routes';
 
 @Component({
@@ -47,14 +47,25 @@ export class UsersComponent implements OnInit, OnDestroy {
     private readonly activatedRoute = inject(ActivatedRoute);
     public module!: string;
     public subModule!: string;
-    public pagination$!: Observable<Paginate<User>>;
-    public users$!: Observable<User[]>;
-    public spinner$!: Observable<boolean>;
+    public pagination$!: Observable<Paginate<UsersEntity>>;
+    public users$!: Observable<UsersEntity[]>;
+    public loading$!: Observable<boolean>;
     private readonly destroy$ = new Subject<void>();
 
-    constructor(private readonly userFacade: UserFacade) {}
+    constructor(private readonly userFacade: UserFacade) { }
 
     ngOnInit(): void {
+        this.setupRouteData();
+        this.setupObservables();
+        this.loadData();
+    }
+
+    private loadData(): void {
+        const defaultFilter = UserFilter.create();
+        this.userFacade.fetchUsers(defaultFilter, '1', false);
+    }
+
+    private setupRouteData(): void {
         this.activatedRoute.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
@@ -65,23 +76,17 @@ export class UsersComponent implements OnInit, OnDestroy {
                 this.subModule =
                     data['subModule'] ?? 'SETTINGS_SECURITY.USER.LABEL';
             });
-
-        this.users$ = this.userFacade.users$;
-        this.pagination$ = this.userFacade.pagination$;
-        this.spinner$ = this.userFacade.isLoading$;
-
-        const defaultFilter = UserFilter.create({
-            user_profile: '',
-            state: '',
-            matricule: '',
-            search: '',
-        });
-        //this.userFacade.fetchUsers(defaultFilter);
     }
 
-    public filter(filterData: UserFilterInterface): void {
+    private setupObservables(): void {
+        this.users$ = this.userFacade.users$;
+        this.pagination$ = this.userFacade.pagination$;
+        this.loading$ = this.userFacade.isLoading$;
+    }
+
+    public filter(filterData: UsersFilterPayloadEntity): void {
         const filter = UserFilter.create(filterData);
-        this.userFacade.fetchUsers(filter);
+        this.userFacade.fetchUsers(filter, '1', true);
     }
 
     public onPageChange(event: number): void {
@@ -89,7 +94,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
 
     public handleUser(event: {
-        user: User;
+        user: UsersEntity;
         action: 'view' | 'edit' | 'delete' | 'disable';
     }): void {
         const { user, action } = event;
@@ -121,7 +126,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         });
     }
 
-    private async handleDeleteUser(user: User): Promise<void> {
+    private async handleDeleteUser(user: UsersEntity): Promise<void> {
         const result = await Swal.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.translate.instant(
@@ -145,13 +150,13 @@ export class UsersComponent implements OnInit, OnDestroy {
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     error: () => {
-                        // Error handled in facade
+
                     },
                 });
         }
     }
 
-    private async handleDisableUser(user: User): Promise<void> {
+    private async handleDisableUser(user: UsersEntity): Promise<void> {
         const result = await Swal.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.translate.instant(
@@ -183,7 +188,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         }
     }
 
-    public handleNewspaper(item: User): void {
+    public handleNewspaper(item: UsersEntity): void {
         // Journal opening will be wired when the design validation is delivered.
     }
 

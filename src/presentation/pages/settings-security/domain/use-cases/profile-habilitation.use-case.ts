@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+/* import { inject, Injectable } from '@angular/core';
 import {
     AffectedRequestDto,
     ProfileHabilitationDeleteResponseDto,
@@ -13,7 +13,7 @@ import {
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 import { ProfileHabilitation } from '../entities/profile-habilitation.entity';
-import { User } from '../entities/user.entity';
+import { UsersEntity } from '../entities/users/users.entity';
 import { ProfileHabilitationRepository } from '../repositories/profile-habilitation.repository';
 import { ProfileHabilitationFilter } from '../value-objects/profile-habilitation-filter.vo';
 
@@ -177,7 +177,7 @@ export class GetUsersByProfileUseCase {
         profileId: string,
         page: string,
         filter?: { matricule?: string }
-    ): Observable<Paginate<User>> {
+    ): Observable<Paginate<UsersEntity>> {
         return this.profileHabilitationRepository.getUsersByProfile(
             profileId,
             page,
@@ -197,10 +197,11 @@ export class GetUsersWithoutProfileUseCase {
     execute(
         page: string,
         filter?: { matricule?: string }
-    ): Observable<Paginate<User>> {
+    ): Observable<Paginate<UsersEntity>> {
         return this.profileHabilitationRepository.getUsersWithoutProfile(
             page,
             filter
         );
     }
 }
+ */

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { ProfileHabilitation } from '../../domain/entities/profile-habilitation.entity';
 import {
@@ -35,3 +35,4 @@ export class ProfileHabilitationMapper extends SimplePaginatedMapper<
         return super.mapFromDto(dto);
     }
 }
+ */

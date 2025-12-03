@@ -96,7 +96,7 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                 this.title.setTitle(
                     data['title'] ??
-                        'TEAM_ORGANIZATION.PARTICIPANT.FORM.CREATE_TITLE'
+                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.CREATE_TITLE'
                 );
                 this.module = data['module'] ?? 'TEAM_ORGANIZATION.LABEL';
                 this.subModule =
@@ -137,7 +137,6 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
         mode: 'create' | 'edit';
         action: ActionsEntity | null;
     }): void {
-        console.log('onManageAction', event);
         this.modalState.set({
             visible: true,
             mode: event.mode,
@@ -165,7 +164,6 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
         id: string;
         data: ActionsPayloadEntity;
     }): void {
-        console.log('onActionUpdate', event);
         this.actionsFacade
             .updateAction(event.id, event.data)
             .pipe(takeUntil(this.destroy$))

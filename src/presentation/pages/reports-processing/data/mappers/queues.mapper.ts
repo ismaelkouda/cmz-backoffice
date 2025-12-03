@@ -1,4 +1,3 @@
-// data/mappers/queues.mapper.ts
 import { Injectable } from '@angular/core';
 import { QueuesItemDto } from '@presentation/pages/reports-processing/data/dtos/queues/queues-response.dto';
 import {
@@ -30,7 +29,6 @@ export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
             this.mapLocation(dto),
             this.mapReportType(dto.report_type),
             this.parseOperators(dto.operators),
-            this.parseOperators(dto.cumulative_operators),
             dto.description,
             this.mapMedia(dto),
             this.mapApprovalInfo(dto),

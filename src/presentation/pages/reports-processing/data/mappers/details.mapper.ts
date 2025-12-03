@@ -1,4 +1,3 @@
-// details.mapper.ts
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { LocationMethod } from '@shared/domain/enums/location-method.enum';
 import { LocationType } from '@shared/domain/enums/location-type.enum';
@@ -44,7 +43,6 @@ export class DetailsMapper extends SimpleResponseMapper<
             this.mapLocation(dto),
             this.mapReportType(dto.report_type),
             this.mapOperators(dto.operators),
-            this.mapOperators(dto.cumulative_operators),
             dto.description,
             this.mapMedia(dto),
             this.mapTreaterInfo(dto),
@@ -224,7 +222,6 @@ export class DetailsMapper extends SimpleResponseMapper<
     }
 
     private mapReportState(state: string): ReportState {
-        console.log('state', state);
         const stateMap: Record<string, ReportState> = {
             pending: ReportState.PENDING,
             approved: ReportState.APPROVED,

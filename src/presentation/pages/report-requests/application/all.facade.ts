@@ -6,11 +6,10 @@ import { AllFilter } from '@presentation/pages/report-requests/domain/value-obje
 import { BaseFacade } from '@shared/application/base/base-facade';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AllFacade extends BaseFacade<AllEntity, AllFilter> {
-    readonly all$: Observable<AllEntity[]> = this.items$;
+    readonly all$ = this.items$;
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
@@ -74,7 +73,6 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilter> {
         }
         const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
         if (isStale) {
-            console.log('🕐 [AllFacade] Data is stale, refetching');
             return true;
         }
         const hasData = this.itemsSubject.getValue().length > 0;

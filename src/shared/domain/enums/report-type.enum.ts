@@ -1,7 +1,7 @@
 export enum ReportType {
-    ABI = 'ABI',
-    ZOB = 'ZOB',
-    CPS = 'CPS',
-    CPO = 'CPO',
-    OTHER = 'other',
+    ABI = 'Absence d\'internet',
+    ZOB = 'Zone blanche',
+    CPS = 'Couverture partielle signal',
+    CPO = 'Couverture partielle operateur',
+    OTHER = 'Autre',
 }

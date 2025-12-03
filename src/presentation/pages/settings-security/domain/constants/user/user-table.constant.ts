@@ -1,4 +1,4 @@
-export const USER_TABLE = {
+export const USER_TABLE_CONST = {
     cols: [
         {
             field: '__index',

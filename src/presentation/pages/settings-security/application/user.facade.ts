@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { PAGINATION_CONST } from '@presentation/pages/settings-security/domain/constants/pagination.constants';
 import { BaseFacade } from '@shared/application/base/base-facade';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, map, tap } from 'rxjs';
-import {
-    UserStoreRequestDto,
-    UserUpdateRequestDto,
-} from '../data/dtos/user-response.dto';
-import { User } from '../domain/entities/user.entity';
+import { Observable, tap } from 'rxjs';
+import { UsersStorePayloadEntity } from '../domain/entities/users/users-store-payload.entity';
+import { UsersUpdatePayloadEntity } from '../domain/entities/users/users-update-payload.entity';
+import { UsersEntity } from '../domain/entities/users/users.entity';
 import {
     DeleteUserUseCase,
     DisableUserUseCase,
@@ -22,8 +20,12 @@ import { UserFilter } from '../domain/value-objects/user-filter.vo';
 @Injectable({
     providedIn: 'root',
 })
-export class UserFacade extends BaseFacade<User, UserFilter> {
+export class UserFacade extends BaseFacade<UsersEntity, UserFilter> {
     readonly users$ = this.items$;
+
+    private hasInitialized = false;
+    private lastFetchTimestamp = 0;
+    private readonly STALE_TIME = 2 * 60 * 1000;
 
     constructor(
         private readonly fetchUsersUseCase: FetchUsersUseCase,
@@ -40,10 +42,18 @@ export class UserFacade extends BaseFacade<User, UserFilter> {
 
     fetchUsers(
         filter: UserFilter,
-        page: string = PAGINATION_CONST.DEFAULT_PAGE
+        page: string = PAGINATION_CONST.DEFAULT_PAGE,
+        forceRefresh: boolean = false
     ): void {
+        if (!this.shouldFetch(forceRefresh)) {
+            return;
+        }
+
         const fetch$ = this.fetchUsersUseCase.execute(filter, page);
         this.fetchData(filter, page, fetch$);
+
+        this.hasInitialized = true;
+        this.lastFetchTimestamp = Date.now();
     }
 
     changePage(pageNumber: number): void {
@@ -56,6 +66,8 @@ export class UserFacade extends BaseFacade<User, UserFilter> {
             String(pageNumber)
         );
         this.changePageInternal(pageNumber, fetch$);
+
+        this.lastFetchTimestamp = Date.now();
     }
 
     refresh(): void {
@@ -69,28 +81,67 @@ export class UserFacade extends BaseFacade<User, UserFilter> {
             currentPage
         );
         this.fetchData(currentFilter, currentPage, fetch$);
+
+        this.lastFetchTimestamp = Date.now();
     }
 
-    storeUser(payload: UserStoreRequestDto): Observable<User> {
+    private shouldFetch(forceRefresh: boolean): boolean {
+        if (forceRefresh) {
+            return true;
+        }
+        if (!this.hasInitialized) {
+            return true;
+        }
+        const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
+        if (isStale) {
+            return true;
+        }
+        const hasData = this.itemsSubject.getValue().length > 0;
+        if (!hasData) {
+            return true;
+        }
+
+        return false;
+    }
+
+    resetMemory(): void {
+        this.hasInitialized = false;
+        this.lastFetchTimestamp = 0;
+        this.reset();
+    }
+
+    getMemoryStatus(): {
+        hasInitialized: boolean;
+        lastFetch: number;
+        hasData: boolean;
+    } {
+        return {
+            hasInitialized: this.hasInitialized,
+            lastFetch: this.lastFetchTimestamp,
+            hasData: this.itemsSubject.getValue().length > 0,
+        };
+    }
+
+    storeUser(payload: UsersStorePayloadEntity): Observable<UsersEntity> {
         return this.storeUserUseCase.execute(payload).pipe(
             tap(() => {
-                this.refresh();
                 const successMessage = this.translateService.instant(
                     'SETTINGS_SECURITY.USER.MESSAGES.SUCCESS.CREATED'
                 );
                 this.toastService.success(successMessage);
+                this.refresh();
             })
         );
     }
 
-    updateUser(payload: UserUpdateRequestDto): Observable<User> {
+    updateUser(payload: UsersUpdatePayloadEntity): Observable<UsersEntity> {
         return this.updateUserUseCase.execute(payload).pipe(
             tap(() => {
-                this.refresh();
                 const successMessage = this.translateService.instant(
                     'SETTINGS_SECURITY.USER.MESSAGES.SUCCESS.UPDATED'
                 );
                 this.toastService.success(successMessage);
+                this.refresh();
             })
         );
     }
@@ -98,39 +149,36 @@ export class UserFacade extends BaseFacade<User, UserFilter> {
     deleteUser(id: string): Observable<void> {
         return this.deleteUserUseCase.execute(id).pipe(
             tap(() => {
-                this.refresh();
                 const successMessage = this.translateService.instant(
                     'SETTINGS_SECURITY.USER.MESSAGES.SUCCESS.DELETED'
                 );
                 this.toastService.success(successMessage);
-            }),
-            map(() => undefined)
+                this.refresh();
+            })
         );
     }
 
     enableUser(id: string): Observable<void> {
         return this.enableUserUseCase.execute(id).pipe(
             tap(() => {
-                this.refresh();
                 const successMessage = this.translateService.instant(
                     'SETTINGS_SECURITY.USER.MESSAGES.SUCCESS.ENABLED'
                 );
                 this.toastService.success(successMessage);
-            }),
-            map(() => undefined)
+                this.refresh();
+            })
         );
     }
 
     disableUser(id: string): Observable<void> {
         return this.disableUserUseCase.execute(id).pipe(
             tap(() => {
-                this.refresh();
                 const successMessage = this.translateService.instant(
                     'SETTINGS_SECURITY.USER.MESSAGES.SUCCESS.DISABLED'
                 );
                 this.toastService.success(successMessage);
-            }),
-            map(() => undefined)
+                this.refresh();
+            })
         );
     }
 }

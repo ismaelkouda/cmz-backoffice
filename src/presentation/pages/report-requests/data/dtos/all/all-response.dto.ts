@@ -1,5 +1,5 @@
 import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export enum ReportStatusDto {
     CONFIRMED = 'confirmed',
@@ -21,7 +21,6 @@ export interface AllItemDto {
     location_name: string;
     report_type: string;
     operators: string;
-    cumulative_operators: string;
     place_photo: string | null;
     access_place_photo: string | null;
     description: string;
@@ -41,8 +40,6 @@ export interface AllItemDto {
     updated_at: string;
 }
 
-export interface AllResponseDto {
-    error: boolean;
-    message: string;
-    data: Paginate<AllItemDto>;
-}
+export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> { }
+
+

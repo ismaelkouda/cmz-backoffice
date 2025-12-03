@@ -1,4 +1,3 @@
-// route-context.service.ts (Version améliorée)
 import { Injectable, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';

@@ -14,7 +14,6 @@ export interface TreatmentItemDto {
     location_name: string | null;
     report_type: string;
     operators: string | string[] | null;
-    cumulative_operators: string | string[] | null;
     place_photo: string | null;
     access_place_photo: string | null;
     description: string | null;

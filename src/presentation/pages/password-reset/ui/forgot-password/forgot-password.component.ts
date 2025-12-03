@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
 import { ForgotPasswordFormInterface } from '@pages/password-reset/data/interfaces/forgot-password-form.interface';
-import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
+import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,7 +30,7 @@ import { takeUntil } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordComponent implements OnDestroy {
-    public readonly LOGO_ANSUT = LOGO_ANSUT;
+    public readonly AUTH_LOGO = AUTH_LOGO;
     public isEmailSent = false;
 
     public forgotPasswordForm = new FormGroup<ForgotPasswordFormInterface>({
@@ -48,7 +48,7 @@ export class ForgotPasswordComponent implements OnDestroy {
     constructor(
         private readonly passwordResetFacade: PasswordResetFacade,
         private readonly location: Location
-    ) {}
+    ) { }
 
     ngOnDestroy(): void {
         this.destroy$.next();

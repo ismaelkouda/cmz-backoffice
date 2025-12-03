@@ -17,10 +17,6 @@ export class DetailsFacade extends BaseFacade<DetailsEntity, void> {
         translateService: TranslateService
     ) {
         super(toastService, translateService);
-
-        this.loadingDetails$.subscribe((loading) => {
-            console.log('🔄 DetailsFacade loading state:', loading);
-        });
     }
 
     fetchDetails(id: string, endPointType: EndPointType): void {

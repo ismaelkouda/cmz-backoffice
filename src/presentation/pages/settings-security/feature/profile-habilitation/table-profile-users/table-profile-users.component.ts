@@ -8,7 +8,7 @@ import {
     inject,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { User } from '@presentation/pages/settings-security/domain/entities/user.entity';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -27,7 +27,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, take } from 'rxjs';
-import { PROFILE_USERS_TABLE } from '../../../data-access/profile-habilitation/constants/profile-users-table.constant';
+import { PROFILE_USERS_TABLE } from '../../../domain/constants/profile-habilitation/profile-users-table.constant';
 
 @Component({
     selector: 'app-table-profile-users',
@@ -52,15 +52,15 @@ import { PROFILE_USERS_TABLE } from '../../../data-access/profile-habilitation/c
 })
 export class TableProfileUsersComponent {
     @Input() spinner!: boolean;
-    @Input() listUsers$!: Observable<User[]>;
-    @Input() pagination$!: Observable<Paginate<User>>;
-    @Input() selectedUsers: User[] = [];
+    @Input() listUsers$!: Observable<UsersEntity[]>;
+    @Input() pagination$!: Observable<Paginate<UsersEntity>>;
+    @Input() selectedUsers: UsersEntity[] = [];
     @Input() hideAssignButton: boolean = false;
-    @Output() selectionChange = new EventEmitter<User[]>();
+    @Output() selectionChange = new EventEmitter<UsersEntity[]>();
     @Output() refreshRequested = new EventEmitter<void>();
     @Output() assignRequested = new EventEmitter<void>();
-    @Output() removeRequested = new EventEmitter<User[]>();
-    @Output() reassignRequested = new EventEmitter<User[]>();
+    @Output() removeRequested = new EventEmitter<UsersEntity[]>();
+    @Output() reassignRequested = new EventEmitter<UsersEntity[]>();
 
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
@@ -74,7 +74,7 @@ export class TableProfileUsersComponent {
         private readonly clipboardService: ClipboardService,
         private readonly tableExportExcelFileService: TableExportExcelFileService,
         private readonly translate: TranslateService
-    ) {}
+    ) { }
 
     public onExportExcel(): void {
         this.listUsers$.pipe(take(1)).subscribe((users) => {

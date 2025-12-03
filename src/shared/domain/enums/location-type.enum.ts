@@ -1,5 +1,5 @@
 export enum LocationType {
-    GPS = 'gps',
-    NETWORK = 'network',
-    MANUAL = 'manual',
+    GPS = 'GPS',
+    NETWORK = 'NETWORK',
+    MANUAL = 'MANUAL',
 }

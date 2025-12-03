@@ -17,10 +17,11 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UserFacade } from '@presentation/pages/settings-security/application/user.facade';
-import { User } from '@presentation/pages/settings-security/domain/entities/user.entity';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
+import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Observable, Subject, map, of, switchMap, takeUntil } from 'rxjs';
@@ -31,6 +32,7 @@ export interface UserFormInterface {
     uniqId: FormControl<string>;
     matricule: FormControl<string>;
     email: FormControl<string>;
+    phone: FormControl<string>;
 }
 
 @Component({
@@ -47,6 +49,7 @@ export interface UserFormInterface {
         SelectModule,
         ButtonModule,
         BreadcrumbComponent,
+        InputMaskModule
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -62,7 +65,7 @@ export class FormUserComponent implements OnInit, OnDestroy {
     public formUser!: FormGroup<UserFormInterface>;
     public module!: string;
     public subModule!: string;
-    public user$!: Observable<User | null>;
+    public user$!: Observable<UsersEntity | null>;
     public readOnly: boolean = false;
     public profileOptions = [
         {
@@ -104,6 +107,10 @@ export class FormUserComponent implements OnInit, OnDestroy {
                 nonNullable: true,
                 validators: [Validators.required, Validators.email],
             }),
+            phone: new FormControl<string>('', {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
         });
     }
 
@@ -119,7 +126,6 @@ export class FormUserComponent implements OnInit, OnDestroy {
                     data['subModule'] ?? 'SETTINGS_SECURITY.USER.LABEL';
             });
 
-        // Check if view mode from query params
         this.activatedRoute.queryParams
             .pipe(takeUntil(this.destroy$))
             .subscribe((params) => {
@@ -132,7 +138,6 @@ export class FormUserComponent implements OnInit, OnDestroy {
             map((params) => params['id']),
             switchMap((id) => {
                 if (id) {
-                    // Load user from facade
                     return this.userFacade.users$.pipe(
                         map((users) => users.find((u) => u.id === id) ?? null)
                     );
@@ -171,7 +176,7 @@ export class FormUserComponent implements OnInit, OnDestroy {
                 email: formValue.email.trim(),
             };
 
-            this.user$
+            /* this.user$
                 .pipe(
                     switchMap((user) => {
                         if (user) {
@@ -193,7 +198,7 @@ export class FormUserComponent implements OnInit, OnDestroy {
                     error: () => {
                         // Error handled in facade
                     },
-                });
+                }); */
         } else {
             this.formUser.markAllAsTouched();
             const translatedMessage = this.translate.instant('FORM_INVALID');

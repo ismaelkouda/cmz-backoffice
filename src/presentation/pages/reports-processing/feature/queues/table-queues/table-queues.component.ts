@@ -145,7 +145,6 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     handleItemSelection(item: QueuesEntity): void {
-        console.log('Checkbox changée pour:', item.uniqId);
         this.selectionService.toggleItemSelection(item, 'checkbox');
     }
 
@@ -207,9 +206,6 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
                 const newInputValue =
                     event.selectionCount > 0 ? event.selectionCount : null;
                 this.selectionInputValue.set(newInputValue);
-                console.log(
-                    `Synchronisation: input=${newInputValue}, sélection=${event.selectionCount}`
-                );
             });
     }
 

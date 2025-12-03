@@ -31,8 +31,8 @@ export class TasksRepositoryImpl extends TasksRepository {
                             error instanceof Error
                                 ? error.message
                                 : this.translateService.instant(
-                                      'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_QUEUES'
-                                  )
+                                    'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_QUEUES'
+                                )
                         )
                 )
             )

@@ -1,4 +1,3 @@
-// map-management.component.ts
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
     ChangeDetectionStrategy,
@@ -42,7 +41,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
     readonly selectedMarker = signal<MapMarker | null>(null);
     readonly showPopup = signal(false);
 
-    // Inputs avec valeurs par défaut
     @Input() latitude!: number;
     @Input() longitude!: number;
     @Input() zoom: number = 15;
@@ -63,7 +61,7 @@ export class MapManagementComponent implements OnInit, OnDestroy {
         private ngZone: NgZone,
         private openLayersLoader: OpenLayersLoaderService,
         @Inject(PLATFORM_ID) private platformId: object
-    ) {}
+    ) { }
 
     async ngOnInit() {
         if (!isPlatformBrowser(this.platformId)) {
@@ -97,7 +95,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
             this.isMapInitialized.set(true);
             this.isLoading.set(false);
 
-            console.log('✅ Carte initialisée avec succès');
         } catch (error) {
             console.error("❌ Échec de l'initialisation de la carte:", error);
             this.isLoading.set(false);
@@ -114,7 +111,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
             throw new Error('Container de carte non trouvé');
         }
 
-        // Créer la couche OSM
         const osmLayer = new TileLayer({
             source: new OSM({
                 attributions: [
@@ -123,7 +119,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
             }),
         });
 
-        // Créer la carte
         this.map = new Map({
             target: mapContainer,
             layers: [osmLayer],
@@ -134,19 +129,12 @@ export class MapManagementComponent implements OnInit, OnDestroy {
                 maxZoom: 18,
             }),
         });
-
-        console.log(
-            '🗺️ Carte créée avec centre:',
-            this.latitude,
-            this.longitude
-        );
     }
 
     private addMarker(): void {
         const { Feature, Point, VectorLayer, VectorSource, Style, Icon } =
             this.olModules;
 
-        // Créer le marqueur
         const marker = new Feature({
             geometry: new Point(
                 this.olModules.fromLonLat([this.longitude, this.latitude])
@@ -155,7 +143,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
             description: this.markerDescription,
         });
 
-        // Style du marqueur avec SVG personnalisé
         marker.setStyle(
             new Style({
                 image: new Icon({
@@ -168,16 +155,10 @@ export class MapManagementComponent implements OnInit, OnDestroy {
             })
         );
 
-        // Ajouter le marqueur à la carte
         const source = new VectorSource({ features: [marker] });
         this.markerLayer = new VectorLayer({ source });
         this.map.addLayer(this.markerLayer);
 
-        console.log(
-            '📍 Marqueur ajouté aux coordonnées:',
-            this.latitude,
-            this.longitude
-        );
     }
 
     private generateMarkerSvg(color: string): string {
@@ -208,7 +189,7 @@ export class MapManagementComponent implements OnInit, OnDestroy {
     }
 
     private setupMapEvents(): void {
-        // Clic sur le marqueur pour ouvrir le popup
+
         this.map.on('click', (evt: any) => {
             const feature = this.map.forEachFeatureAtPixel(
                 evt.pixel,
@@ -234,7 +215,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
             }
         });
 
-        // Changement de vue
         this.map.getView().on('change', () => {
             const center = this.map.getView().getCenter();
             if (center) {
@@ -248,7 +228,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
         });
     }
 
-    // Méthodes publiques
     public recenterMap(): void {
         if (this.map && this.olModules) {
             const { fromLonLat } = this.olModules;

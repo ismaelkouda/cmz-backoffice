@@ -18,8 +18,6 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
         tap({
             next: (event) => {
                 if (!config.isDevelopment) return;
-                console.log('Request body:', req.body);
-                console.log('Response event:', event);
             },
             error: (err) => {
                 if (!config.isDevelopment) return;
@@ -27,7 +25,6 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
                 console.groupCollapsed(
                     `ERROR ${req.method} ${req.urlWithParams} (${duration}ms)`
                 );
-                console.error(err);
                 console.groupEnd();
             },
         })

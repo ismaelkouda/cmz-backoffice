@@ -1,4 +1,4 @@
-import {
+/* import {
     AffectedRequestDto,
     ProfileHabilitationDeleteResponseDto,
     ProfileHabilitationDisableResponseDto,
@@ -12,7 +12,7 @@ import {
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 import { ProfileHabilitation } from '../entities/profile-habilitation.entity';
-import { User } from '../entities/user.entity';
+import { UsersEntity } from '../entities/users/users.entity';
 import { ProfileHabilitationFilter } from '../value-objects/profile-habilitation-filter.vo';
 
 export abstract class ProfileHabilitationRepository {
@@ -55,10 +55,11 @@ export abstract class ProfileHabilitationRepository {
         profileId: string,
         page: string,
         filter?: { matricule?: string }
-    ): Observable<Paginate<User>>;
+    ): Observable<Paginate<UsersEntity>>;
 
     abstract getUsersWithoutProfile(
         page: string,
         filter?: { matricule?: string }
-    ): Observable<Paginate<User>>;
+    ): Observable<Paginate<UsersEntity>>;
 }
+ */

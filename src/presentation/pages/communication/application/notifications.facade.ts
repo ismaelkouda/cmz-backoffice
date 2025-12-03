@@ -74,7 +74,6 @@ export class NotificationsFacade extends BaseFacade<NotificationsEntity, Notific
         }
         const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
         if (isStale) {
-            console.log('🕐 [AllFacade] Data is stale, refetching');
             return true;
         }
         const hasData = this.itemsSubject.getValue().length > 0;

@@ -14,7 +14,6 @@ export interface DetailsItemDto {
     location_name: string;
     report_type: string;
     operators: string[];
-    cumulative_operators: string[];
     place_photo: string;
     access_place_photo: string;
     description: string;

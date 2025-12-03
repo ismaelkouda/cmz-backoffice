@@ -17,7 +17,6 @@ export interface TasksItemDto {
     location_name: string;
     report_type: string;
     operators: string;
-    cumulative_operators: string;
     place_photo: string | null;
     access_place_photo: string | null;
     description: string;

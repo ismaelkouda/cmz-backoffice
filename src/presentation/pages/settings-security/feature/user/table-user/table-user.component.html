@@ -1,19 +1,18 @@
 <p-table
     #dt
-    [value]="listUsers$ | async"
+    [value]="users()"
     [rowHover]="true"
     [rows]="(pagination$ | async)?.per_page"
-    [globalFilterFields]="table.globalFilterFields"
+    [globalFilterFields]="tableConfig.globalFilterFields"
     responsiveLayout="scroll"
-    scrollable="true"
-    scrollHeight="flex"
+    [scrollable]="true"
+    scrollHeight="430px"
+    data-testid="all-table"
+    role="grid"
     width="100%"
-    class="responsive-users-table"
 >
     <ng-template pTemplate="caption">
-        <div
-            class="d-flex justify-content-between flex-wrap align-items-center"
-        >
+        <div class="container-table-header">
             <app-table-title
                 [count]="(pagination$ | async)?.total"
                 [perPage]="(pagination$ | async)?.per_page"
@@ -27,100 +26,93 @@
                 <app-table-button-header
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"
-                    (other)="onAddUser()"
-                    [disabledButtonExport]="
-                        spinner || (listUsers$ | async)?.length === 0
-                    "
-                    [disabledButtonRefresh]="spinner"
+                    [disabledButtonExport]="isLoading() || !hasData()"
+                    [disabledButtonRefresh]="isLoading()"
                     [hiddenButtonOther]="false"
                     [labelOther]="'SETTINGS_SECURITY.USER.BUTTONS.ADD'"
+                    (other)="onAddUser()"
                 >
                 </app-table-button-header>
-                <app-search-table [dt]="dt"></app-search-table>
+                <app-search-table [dt]="dt" />
             </div>
         </div>
     </ng-template>
     <ng-template pTemplate="header">
-        <tr>
-            <th
-                *ngFor="let col of table.cols"
-                [class]="col.class"
-                [ngStyle]="{
-                    minWidth: col.width,
-                    width: col.width,
-                    textAlign: 'center',
-                }"
-                scope="col"
-            >
-                {{ col.header | translate }}
-            </th>
+        <tr role="row">
+            @for (col of tableConfig.cols; track trackByColField($index, col)) {
+                <th
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                        'text-align': 'center',
+                    }"
+                    role="columnheader"
+                    scope="col"
+                >
+                    {{ col.header | translate }}
+                </th>
+            }
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
-        <tr>
+        <tr role="row" [class.cursor-pointer]="!isLoading()">
+             @for (col of tableConfig.cols; track trackByColField($index, col)) {
             <td
-                *ngFor="let col of table.cols"
-                [class]="col.class"
-                [ngStyle]="{ minWidth: col.width, width: col.width }"
-                [attr.data-label]="col.header | translate"
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                    }"
+                    role="gridcell"
             >
-                <ng-container [ngSwitch]="col.field">
-                    <ng-container *ngSwitchCase="'__index'">
-                        {{
-                            ((pagination$ | async)?.current_page - 1 || 0) *
-                                ((pagination$ | async)?.per_page || 0) +
-                                rowIndex +
-                                1
-                        }}
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="'matricule'">
-                        <button
-                            type="button"
-                            (click)="copyToClipboard(item.matricule)"
-                            (keydown.enter)="copyToClipboard(item.matricule)"
-                            (keydown.space)="
-                                $event.preventDefault();
-                                copyToClipboard(item.matricule)
-                            "
-                            class="copyable"
-                            pTooltip="{{ 'COPY' | translate }}"
-                            tooltipPosition="bottom"
-                        >
-                            {{ item.matricule }}
-                        </button>
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="'profile'">
-                        <p-tag
-                            [value]="getProfileLabel(item.profile)"
-                            [severity]="item.profile ? 'info' : 'warning'"
+                @switch (col.field) {
+                        @case ('__index') {
+                            {{
+                                ((pagination$ | async)?.current_page - 1 || 0) *
+                                    ((pagination$ | async)?.per_page || 0) +
+                                    rowIndex +
+                                    1
+                            }}
+                        }
+                        @case ('matricule') {
+                            <button
+                                type="button"
+                                (click)="copyToClipboard(item.matricule)"
+                                class="copyable"
+                                pTooltip="{{ 'COPY' | translate }}"
+                                tooltipPosition="bottom"
+                            >
+                                <span class="id-text">{{ item.matricule }}</span>
+                                <!-- <i class="pi pi-copy" aria-hidden="true"></i> -->
+                            </button>
+                        }
+                        @case ('profile') {
+                            <p-tag
+                                [value]="getProfileLabel(item.profile)"
+                                [severity]="item.profile ? 'info' : 'warning'"
                             class="profil-tag"
                         ></p-tag>
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="'fullName'">
-                        {{ item.fullName }}
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="'status'">
-                        <ng-container
-                            *ngIf="
-                                getStatusLabel(item.status) as statusLabel;
-                                else noStatus
-                            "
-                        >
-                            <p-tag
-                                [value]="statusLabel"
-                                [severity]="getStatusSeverity(item.status)"
-                                class="statut-tag"
-                            ></p-tag>
-                        </ng-container>
-                        <ng-template #noStatus>-</ng-template>
-                    </ng-container>
-
-                    <ng-container *ngSwitchCase="'__action'">
-                        <div class="dropdown">
+                        }
+                        @case ('fullName') {
+                            {{ item.fullName }}
+                        }
+                        @case ('status') {
+                            <div class="tag-group" [class]="col.class">
+                                <p-tag
+                                    [value]="item.status"
+                                    [severity]="getStatusSeverity(item.status)"
+                                    class="state-tag"
+                                ></p-tag>
+                            </div>
+                        }
+                        @case ('createdAt') {
+                            <time [attr.datetime]="item.createdAt">
+                                {{ formatDate(item.createdAt) }}
+                            </time>
+                        }
+                        @case ('__action') {
+                            <div class="dropdown">
                             <button
                                 class="btn btn-sm btn-secondary dropdown-toggle"
                                 type="button"
@@ -208,39 +200,40 @@
                                 </li>
                             </ul>
                         </div>
-                    </ng-container>
-
-                    <ng-container *ngSwitchDefault>
-                        {{ item[col.field] || '-' }}
-                    </ng-container>
-                </ng-container>
+                        }
+                        @default {
+                            {{ item[col.field] }}
+                        }
+                    }
             </td>
+             }
         </tr>
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr
-            *ngIf="(listUsers$ | async)?.length <= 0 && !spinner"
-            class="loading-table"
-        >
-            <td class="posRelative" [attr.colspan]="table.cols.length">
-                <span class="posCenter">
-                    {{ 'NO_DATA_FOUND' | translate }}
-                </span>
-            </td>
-        </tr>
-        <tr *ngIf="spinner" class="loading-table">
-            <td class="posRelative" [attr.colspan]="table.cols.length">
-                <p-progressSpinner
-                    class="posCenter"
-                    [style]="{ width: '40px', height: '50px' }"
-                    styleClass="custom-spinner"
-                    strokeWidth="8"
-                    fill="#EEEEEE"
-                    animationDuration=".5s"
-                >
-                </p-progressSpinner>
-            </td>
-        </tr>
+        @if (!isLoading()) {
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
+                    <div class="empty-state text-center">
+                        {{ 'NO_DATA_FOUND' | translate }}
+                    </div>
+                </td>
+            </tr>
+        }
+        @if (isLoading()) {
+            <tr role="row" class="loading-table">
+                <td [attr.colspan]="tableConfig.cols.length">
+                    <p-progressSpinner
+                        class="posCenter"
+                        [style]="{ width: '40px', height: '50px' }"
+                        styleClass="custom-spinner"
+                        strokeWidth="8"
+                        fill="#EEEEEE"
+                        animationDuration=".5s"
+                    >
+                    </p-progressSpinner>
+                </td>
+            </tr>
+        }
     </ng-template>
 </p-table>

@@ -65,7 +65,7 @@ export abstract class BaseFacade<
     protected constructor(
         protected readonly toastService: ToastrService,
         protected readonly translateService: TranslateService
-    ) {}
+    ) { }
 
     protected fetchData(
         filter: TFilter,
