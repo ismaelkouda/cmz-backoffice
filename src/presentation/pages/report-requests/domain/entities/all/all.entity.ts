@@ -11,10 +11,10 @@ import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
 import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 export enum ReportStatus {
-    CONFIRMED = 'confirmer',
-    APPROVED = 'approver',
-    REJECTED = 'rejeter',
-    ABANDONED = 'abandoner',
+    CONFIRMED = 'confirmé',
+    APPROVED = 'approuvé',
+    REJECTED = 'rejeté',
+    ABANDONED = 'abandonné',
 }
 
 export interface All {

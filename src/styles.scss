@@ -1,5 +1,4 @@
 @use './assets/scss/app.scss';
-@import 'tailwindcss';
 .input[type='file'] {
     color: #000 !important;
 }
@@ -78,6 +77,10 @@ label {
     }
 }
 
+.state-group {
+    display: flex;
+    justify-content: center;
+}
 
 
 .container-box {
@@ -121,7 +124,6 @@ label {
 .pi-plus {
     font-size: 1.7rem !important;
 }
-
 
 .copyable {
     cursor: pointer;
@@ -310,7 +312,7 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 }
 
 .legende {
-    color: var(--theme-default);
+    color: var(--theme-secondary);
     position: relative;
     top: 0.6rem;
     text-transform: uppercase;
@@ -669,7 +671,7 @@ select:focus,
 .p-spinner:focus,
 .p-rating:focus,
 .p-slider:focus,
-.p-togglebutton:focus,
+/* .p-togglebutton:focus, */
 .p-selectbutton:focus,
 .p-knob:focus,
 .p-colorpicker:focus,
