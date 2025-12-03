@@ -1,20 +1,9 @@
-import {
-    Component,
-    EventEmitter,
-    OnDestroy,
-    OnInit,
-    Output,
-} from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-} from '@angular/forms';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UserFacade } from '@presentation/pages/settings-security/application/user.facade';
-import { UserFilterFormInterface } from '@presentation/pages/settings-security/data-access/user/interfaces/user-filter-form.interface';
-import { UserFilterInterface } from '@presentation/pages/settings-security/data-access/user/interfaces/user-filter.interface';
+import { UsersFilterFormPayloadEntity } from '@presentation/pages/settings-security/domain/entities/users/users-filter-form-payload.entity';
+import { UsersFilterPayloadEntity } from '@presentation/pages/settings-security/domain/entities/users/users-filter-payload.entity';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -37,9 +26,14 @@ import { Subject, takeUntil } from 'rxjs';
     ],
 })
 export class FilterUserComponent implements OnInit, OnDestroy {
-    @Output() filter = new EventEmitter<UserFilterInterface>();
+    private readonly toastService = inject(ToastrService);
+    private readonly fb = inject(FormBuilder);
+    private readonly translate = inject(TranslateService);
+    private readonly userFacade = inject(UserFacade);
+    @Output() filter = new EventEmitter<UsersFilterPayloadEntity>();
 
-    public formFilter!: FormGroup<UserFilterFormInterface>;
+    public formFilter!: FormGroup<UsersFilterFormPayloadEntity>;
+
     private readonly destroy$ = new Subject<void>();
 
     readonly profilOptions = [
@@ -53,7 +47,7 @@ export class FilterUserComponent implements OnInit, OnDestroy {
         },
     ] as const;
 
-    readonly stateOptions = [
+    readonly statusOptions = [
         {
             value: 'active',
             label: 'SETTINGS_SECURITY.USER.LABELS.STATUS.ACTIVE',
@@ -64,63 +58,49 @@ export class FilterUserComponent implements OnInit, OnDestroy {
         },
     ] as const;
 
-    constructor(
-        private readonly toastService: ToastrService,
-        private readonly fb: FormBuilder,
-        private readonly translate: TranslateService,
-        private readonly userFacade: UserFacade
-    ) {}
-
     ngOnInit(): void {
         this.initFormFilter();
     }
 
     public initFormFilter(): void {
-        // Initialiser le formulaire une seule fois avec des valeurs vides
         if (!this.formFilter) {
-            this.formFilter = this.fb.group<UserFilterFormInterface>({
-                user_profile: new FormControl<string>('', {
+            this.formFilter = this.fb.group<UsersFilterFormPayloadEntity>({
+                userProfile: new FormControl<string>('', {
                     nonNullable: true,
                 }),
-                state: new FormControl<string>('', {
+                status: new FormControl<string>('', {
                     nonNullable: true,
                 }),
                 matricule: new FormControl<string>('', {
                     nonNullable: true,
                 }),
-                search: new FormControl<string>('', {
+                fullName: new FormControl<string>('', {
                     nonNullable: true,
                 }),
             });
         }
 
-        // Mettre à jour le formulaire avec les valeurs du filtre actuel
         this.userFacade.currentFilter$
             .pipe(takeUntil(this.destroy$))
             .subscribe((filterValue) => {
-                if (!this.formFilter) {
-                    return;
-                }
+                if (!this.formFilter) return;
 
-                const dto =
-                    typeof filterValue?.toDto === 'function'
-                        ? filterValue.toDto()
-                        : {};
+                const dto = typeof filterValue?.toDto === 'function'
+                    ? filterValue.toDto() : {};
 
-                // Mettre à jour les valeurs sans recréer le formulaire
                 this.formFilter.patchValue(
                     {
-                        user_profile: dto['user_profile'] ?? '',
-                        state: dto['state'] ?? '',
+                        userProfile: dto['user_profile'] ?? '',
+                        status: dto['state'] ?? '',
                         matricule: dto['matricule'] ?? '',
-                        search: dto['search'] ?? '',
+                        fullName: dto['search'] ?? '',
                     },
                     { emitEvent: false }
                 );
             });
     }
 
-    public resetSelect<K extends keyof UserFilterFormInterface>(
+    public resetSelect<K extends keyof UsersFilterFormPayloadEntity>(
         controlName: K
     ): void {
         const control = this.formFilter?.controls[controlName];
@@ -130,20 +110,42 @@ export class FilterUserComponent implements OnInit, OnDestroy {
     }
 
     public onSubmitFilterForm(): void {
-        const filterData: UserFilterInterface = {
-            user_profile:
-                this.formFilter.get('user_profile')?.value?.trim() ?? '',
+        /* const createdFromControl = this.formFilter.get('created_from');
+        const createdToControl = this.formFilter.get('created_to');
+ 
+        const createdFromValue = createdFromControl?.value ?? '';
+        const createdToValue = createdToControl?.value ?? '';
+ 
+        const createdFrom = moment(createdFromValue, moment.ISO_8601, true);
+        const createdTo = moment(createdToValue, moment.ISO_8601, true);
+ 
+        if (createdFrom.isValid() && createdTo.isValid()) {
+            if (createdFrom.isAfter(createdTo)) {
+                const INVALID_DATE_RANGE =
+                    this.translate.instant('INVALID_DATE_RANGE');
+                this.toastService.error(INVALID_DATE_RANGE);
+                return;
+            }
+        }
+ 
+        const filterData: UsersFilterPayloadEntity = {
+            created_from: createdFrom.isValid()
+                ? createdFrom.format('YYYY-MM-DD')
+                : '',
+            created_to: createdTo.isValid()
+                ? createdTo.format('YYYY-MM-DD')
+                : '',
             state: this.formFilter.get('state')?.value?.trim() ?? '',
             matricule: this.formFilter.get('matricule')?.value?.trim() ?? '',
             search: this.formFilter.get('search')?.value?.trim() ?? '',
         };
-
+ 
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.error(translatedMessage);
-        }
+        } */
     }
 
     ngOnDestroy(): void {

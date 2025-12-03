@@ -60,7 +60,7 @@ export class AllComponent implements OnInit, OnDestroy {
     }
 
     private loadData(): void {
-        const defaultFilter = AllFilter.create({} as AllFilterPayloadEntity);
+        const defaultFilter = AllFilter.create();
         this.allFacade.fetchAll(defaultFilter, '1', false);
     }
 

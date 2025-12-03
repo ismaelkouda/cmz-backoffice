@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+/* import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -228,3 +228,4 @@ export class ProfileHabilitationComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
+ */

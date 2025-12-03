@@ -37,9 +37,9 @@
                         >
                             <app-table-user
                                 class="table-component"
-                                [spinner]="spinner$ | async"
+                                [loading]="loading$ | async"
                                 [pagination$]="pagination$"
-                                [listUsers$]="users$"
+                                [users$]="users$"
                                 (userRequested)="handleUser($event)"
                                 (addUserRequested)="handleAddUser()"
                                 (journalRequested)="handleNewspaper($event)"

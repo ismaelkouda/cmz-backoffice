@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
-import { FormProfileHabilitationComponent } from './feature/profile-habilitation/form-profile-habilitation/form-profile-habilitation.component';
 import { FormUserComponent } from './feature/user/form-user/form-user.component';
-import { ProfileHabilitationComponent } from './ui/profile-habilitation/profile-habilitation.component';
-import { ProfileUsersAssignComponent } from './ui/profile-users-assign/profile-users-assign.component';
-import { ProfileUsersComponent } from './ui/profile-users/profile-users.component';
 import { UsersComponent } from './ui/users/users.component';
 
 export const PROFILE_HABILITATION_ROUTE = 'permission-profiles';
@@ -14,7 +10,7 @@ export const PROFILE_USERS_ROUTE = 'users';
 export const PROFILE_USERS_ASSIGN_ROUTE = 'assign';
 
 export const routes: Routes = [
-    {
+    /* {
         path: PROFILE_HABILITATION_ROUTE,
         children: [
             {
@@ -67,7 +63,7 @@ export const routes: Routes = [
                 redirectTo: '',
             },
         ],
-    },
+    }, */
     {
         path: USER_ROUTE,
         children: [

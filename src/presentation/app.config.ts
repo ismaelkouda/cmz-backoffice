@@ -64,7 +64,7 @@ import { providePasswordReset } from './pages/password-reset/di/password-reset.p
 import { provideActions } from './pages/reports-processing/di/actions.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
-import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers';
+/* import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers'; */
 import { provideUser } from './pages/settings-security/di/user.providers';
 import { provideParticipant } from './pages/team-organization/di/participant.providers';
 import { provideTeam } from './pages/team-organization/di/team.providers';
@@ -112,7 +112,6 @@ const frenchLocale = {
     ],
     today: "Aujourd'hui",
     clear: 'Effacer',
-    // ... include other translation keys as needed
 };
 
 function initializeApp(): () => Promise<void> {
@@ -277,7 +276,7 @@ export const appConfig: ApplicationConfig = {
         ...processingTasks(),
         ...provideManagement(),
         ...provideUser(),
-        ...provideProfileHabilitation(),
+        /*  ...provideProfileHabilitation(), */
         ...provideParticipant(),
         ...provideTeam(),
     ],

@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+/* import { AsyncPipe, CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProfileHabilitationFacade } from '@presentation/pages/settings-security/application/profile-habilitation.facade';
 import { ProfileHabilitation } from '@presentation/pages/settings-security/domain/entities/profile-habilitation.entity';
-import { User } from '@presentation/pages/settings-security/domain/entities/user.entity';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
 import { FilterProfileUsersComponent } from '@presentation/pages/settings-security/feature/profile-habilitation/filter-profile-users/filter-profile-users.component';
 import { TableProfileUsersComponent } from '@presentation/pages/settings-security/feature/profile-habilitation/table-profile-users/table-profile-users.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
@@ -63,17 +63,17 @@ export class ProfileUsersAssignComponent implements OnInit, OnDestroy {
     public module!: string;
     public subModule!: string;
     public profile$!: Observable<ProfileHabilitation | null>;
-    public users$!: Observable<User[]>;
-    public pagination$!: Observable<Paginate<User>>;
+    public users$!: Observable<UsersEntity[]>;
+    public pagination$!: Observable<Paginate<UsersEntity>>;
     public spinner$!: Observable<boolean>;
-    public selectedUsers: User[] = [];
+    public selectedUsers: UsersEntity[] = [];
     public profileId: string = '';
     private readonly destroy$ = new Subject<void>();
     private readonly profileSubject =
         new BehaviorSubject<ProfileHabilitation | null>(null);
-    private readonly usersSubject = new BehaviorSubject<User[]>([]);
-    private readonly paginationSubject = new BehaviorSubject<Paginate<User>>(
-        {} as Paginate<User>
+    private readonly usersSubject = new BehaviorSubject<UsersEntity[]>([]);
+    private readonly paginationSubject = new BehaviorSubject<Paginate<UsersEntity>>(
+        {} as Paginate<UsersEntity>
     );
 
     ngOnInit(): void {
@@ -92,7 +92,7 @@ export class ProfileUsersAssignComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                 this.title.setTitle(
                     data['title'] ??
-                        'SETTINGS_SECURITY.PROFILE_HABILITATION.ASSIGN.TITLE'
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.ASSIGN.TITLE'
                 );
                 this.module = data['module'] ?? 'SETTINGS_SECURITY.LABEL';
                 this.subModule =
@@ -149,7 +149,7 @@ export class ProfileUsersAssignComponent implements OnInit, OnDestroy {
         // TODO: Implement pagination
     }
 
-    public onSelectionChange(users: User[]): void {
+    public onSelectionChange(users: UsersEntity[]): void {
         this.selectedUsers = [...users];
     }
 
@@ -218,3 +218,4 @@ export class ProfileUsersAssignComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
+ */

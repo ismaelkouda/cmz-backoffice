@@ -25,7 +25,6 @@ export interface All {
     readonly location: ReportLocation;
     readonly reportType: ReportType;
     readonly operators: TelecomOperator[];
-    readonly cumulativeOperators: TelecomOperator[];
     readonly description: string;
     readonly media: ReportMedia;
     readonly approval: ApprovalInfo;
@@ -45,7 +44,6 @@ export class AllEntity implements All {
         public readonly location: ReportLocation,
         public readonly reportType: ReportType,
         public readonly operators: TelecomOperator[],
-        public readonly cumulativeOperators: TelecomOperator[],
         public readonly description: string,
         public readonly media: ReportMedia,
         public readonly approval: ApprovalInfo,
@@ -167,7 +165,7 @@ export class AllEntity implements All {
     }
 
     public getUniqueOperators(): TelecomOperator[] {
-        const allOperators = [...this.operators, ...this.cumulativeOperators];
+        const allOperators = [...this.operators];
         return [...new Set(allOperators)];
     }
 
@@ -343,7 +341,6 @@ export class AllEntity implements All {
             updates.location ?? this.location,
             updates.reportType ?? this.reportType,
             updates.operators ?? this.operators,
-            updates.cumulativeOperators ?? this.cumulativeOperators,
             updates.description ?? this.description,
             updates.media ?? this.media,
             updates.approval ?? this.approval,

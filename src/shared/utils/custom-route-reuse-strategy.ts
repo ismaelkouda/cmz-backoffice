@@ -1,7 +1,7 @@
 import {
-    RouteReuseStrategy,
     ActivatedRouteSnapshot,
     DetachedRouteHandle,
+    RouteReuseStrategy,
 } from '@angular/router';
 
 export class CustomRouteReuseStrategy implements RouteReuseStrategy {
@@ -54,7 +54,6 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
         });
 
         routesToDelete.forEach((key) => {
-            console.log('key:', key);
             this.storedRoutes.delete(key);
         });
     }

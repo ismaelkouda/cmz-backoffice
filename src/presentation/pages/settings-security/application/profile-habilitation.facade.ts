@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PAGINATION_CONST } from '@presentation/pages/settings-security/domain/constants/pagination.constants';
 import { BaseFacade } from '@shared/application/base/base-facade';
@@ -14,7 +14,7 @@ import {
     RemoveRequestDto,
 } from '../data/dtos/profile-habilitation-response.dto';
 import { ProfileHabilitation } from '../domain/entities/profile-habilitation.entity';
-import { User } from '../domain/entities/user.entity';
+import { UsersEntity } from '../domain/entities/users/users.entity';
 import {
     AffectedUsersUseCase,
     DeleteProfileHabilitationUseCase,
@@ -207,14 +207,15 @@ export class ProfileHabilitationFacade extends BaseFacade<
         profileId: string,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         filter?: { matricule?: string }
-    ): Observable<Paginate<User>> {
+    ): Observable<Paginate<UsersEntity>> {
         return this.getUsersByProfileUseCase.execute(profileId, page, filter);
     }
 
     getUsersWithoutProfile(
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         filter?: { matricule?: string }
-    ): Observable<Paginate<User>> {
+    ): Observable<Paginate<UsersEntity>> {
         return this.getUsersWithoutProfileUseCase.execute(page, filter);
     }
 }
+ */

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, RouteReuseStrategy } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { CustomRouteReuseStrategy } from '@shared/utils/custom-route-reuse-strategy';
+import { BehaviorSubject } from 'rxjs';
 import { EncodingDataService } from './encoding-data.service';
 
 export interface Tab {
@@ -56,10 +56,8 @@ export class TabService {
     addTab(title: string, path: string, closable = true): void {
         const id = this.generateId(path);
         const tabs = this.tabs;
-        console.log('tabs0', tabs);
 
         const existingTab = tabs.find((tab) => tab.id === id);
-        console.log('existingTab', existingTab);
 
         if (existingTab) {
             this.activateTab(id);
@@ -133,7 +131,6 @@ export class TabService {
 
         const newTabs = this.tabs.filter((tab) => tab.id === dashboardTabId);
         this.tabs.map((tab) => {
-            console.log('tab', tab);
 
             this.encodingService.removeData(tab.path);
             this.encodingService.removeData(`${tab.path}_children_component`);
@@ -143,7 +140,6 @@ export class TabService {
         if (newTabs.length > 0) {
             newTabs[0].active = true;
             this.tabs = newTabs;
-            console.log('this.tabs', this.tabs);
             this.encodingService.removeData(this.STORAGE_KEY);
             this.encodingService.removeData(
                 `${this.STORAGE_KEY}_children_component`

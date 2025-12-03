@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { BreadcrumbComponent } from '../../../../../../shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '../../../../../../shared/components/page-title/page-title.component';
 import {
@@ -31,7 +32,7 @@ import { IdentificationManagedCustomersComponent } from '../identification-manag
         TranslateModule,
     ],
 })
-export class DetailsManagedCustomersComponent implements OnInit {
+export class DetailsManagedCustomersComponent implements OnInit, OnDestroy {
     public module = 'Clients gérés';
     public subModule = 'Entreprise commerciale';
     public customersDetailsForm!: FormGroup<ManagedCustomersIdentificationInterface>;
@@ -41,6 +42,8 @@ export class DetailsManagedCustomersComponent implements OnInit {
     @Output() formsView = new EventEmitter();
     public indexTabPanelActive = 0;
 
+    private readonly destroy$ = new Subject<void>();
+
     constructor(
         private fb: FormBuilder,
         public toastService: ToastrService,
@@ -48,21 +51,25 @@ export class DetailsManagedCustomersComponent implements OnInit {
         private router: Router,
         private location: Location,
         private detailsManagedCustomersApiService: ManagedCustomersApiService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.initializeState();
     }
 
     private initializeState(): void {
-        this.activatedRoute.data.subscribe((data) => {
-            this.module = data['module'];
-            this.subModule = data['subModule'][0];
-        });
+        this.activatedRoute.data
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((data) => {
+                this.module = data['module'];
+                this.subModule = data['subModule'][0];
+            });
 
-        this.activatedRoute.queryParams.subscribe((params) => {
-            this.validateParams(params);
-        });
+        this.activatedRoute.queryParams
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((params) => {
+                this.validateParams(params);
+            });
     }
 
     private validateParams(params: {
@@ -190,5 +197,10 @@ export class DetailsManagedCustomersComponent implements OnInit {
 
     public onGoToBack(): void {
         this.location.back();
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

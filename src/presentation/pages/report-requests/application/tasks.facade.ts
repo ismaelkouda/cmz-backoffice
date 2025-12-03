@@ -3,14 +3,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { BaseFacade } from '@shared/application/base/base-facade';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { TasksEntity } from '../domain/entities/tasks/tasks.entity';
 import { FetchTasksUseCase } from '../domain/use-cases/tasks.use-case';
 import { TasksFilter } from '../domain/value-objects/tasks-filter.vo';
 
 @Injectable({ providedIn: 'root' })
 export class TasksFacade extends BaseFacade<TasksEntity, TasksFilter> {
-    readonly tasks$: Observable<TasksEntity[]> = this.items$;
+    readonly tasks$ = this.items$;
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
@@ -74,7 +73,6 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilter> {
         }
         const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
         if (isStale) {
-            console.log('🕐 [TasksFacade] Data is stale, refetching');
             return true;
         }
         const hasData = this.itemsSubject.getValue().length > 0;

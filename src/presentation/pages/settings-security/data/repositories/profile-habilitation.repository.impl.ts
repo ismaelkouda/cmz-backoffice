@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
 import { ProfileHabilitation } from '../../domain/entities/profile-habilitation.entity';
-import { User } from '../../domain/entities/user.entity';
+import { UsersEntity } from '../../domain/entities/users/users.entity';
 import { ProfileHabilitationRepository } from '../../domain/repositories/profile-habilitation.repository';
 import { ProfileHabilitationFilter } from '../../domain/value-objects/profile-habilitation-filter.vo';
 import {
@@ -97,7 +97,7 @@ export class ProfileHabilitationRepositoryImpl extends ProfileHabilitationReposi
         profileId: string,
         page: string,
         filter?: { matricule?: string }
-    ): Observable<Paginate<User>> {
+    ): Observable<Paginate<UsersEntity>> {
         return this.profileHabilitationApi
             .getUsersByProfile(profileId, page, filter)
             .pipe(map((response) => this.userMapper.mapFromDto(response)));
@@ -106,9 +106,10 @@ export class ProfileHabilitationRepositoryImpl extends ProfileHabilitationReposi
     getUsersWithoutProfile(
         page: string,
         filter?: { matricule?: string }
-    ): Observable<Paginate<User>> {
+    ): Observable<Paginate<UsersEntity>> {
         return this.profileHabilitationApi
             .getUsersWithoutProfile(page, filter)
             .pipe(map((response) => this.userMapper.mapFromDto(response)));
     }
 }
+ */

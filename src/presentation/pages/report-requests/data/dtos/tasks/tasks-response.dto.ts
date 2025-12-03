@@ -1,4 +1,4 @@
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface TasksItemDto {
     id: string;
@@ -13,7 +13,6 @@ export interface TasksItemDto {
     location_name: string;
     report_type: string;
     operators: string;
-    cumulative_operators: string;
     place_photo: string | null;
     access_place_photo: string | null;
     description: string;
@@ -33,8 +32,4 @@ export interface TasksItemDto {
     updated_at: string;
 }
 
-export interface TasksResponseDto {
-    error: boolean;
-    message: string;
-    data: Paginate<TasksItemDto>;
-}
+export interface TasksResponseDto extends PaginatedResponseDto<TasksItemDto> { }

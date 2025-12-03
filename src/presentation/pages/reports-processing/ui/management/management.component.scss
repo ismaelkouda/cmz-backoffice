@@ -30,6 +30,7 @@
             .header-title {
                 font-size: 1.25rem;
                 font-weight: 600;
+                color: white;
             }
 
             .report-id-badge {
@@ -1866,7 +1867,7 @@ button:focus-visible,
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding: 0.5rem 1rem;
     background: linear-gradient(
         90deg,
         #d4edda,

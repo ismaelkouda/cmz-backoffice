@@ -25,7 +25,6 @@ export interface Queues {
     readonly location: ReportLocation;
     readonly reportType: ReportType;
     readonly operators: TelecomOperator[];
-    readonly cumulativeOperators: TelecomOperator[];
     readonly description: string;
     readonly media: ReportMedia;
     readonly approval: ApprovalInfo;
@@ -45,7 +44,6 @@ export class QueuesEntity implements Queues {
         public readonly location: ReportLocation,
         public readonly reportType: ReportType,
         public readonly operators: TelecomOperator[],
-        public readonly cumulativeOperators: TelecomOperator[],
         public readonly description: string,
         public readonly media: ReportMedia,
         public readonly approval: ApprovalInfo,
@@ -54,7 +52,7 @@ export class QueuesEntity implements Queues {
         public readonly position: string,
         public readonly timestamps: Timestamps,
         public readonly createdAt: string
-    ) {}
+    ) { }
 
     public isPending(): boolean {
         return this.status === ReportStatus.PENDING;
@@ -138,9 +136,9 @@ export class QueuesEntity implements Queues {
         const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(this.deg2rad(lat)) *
-                Math.cos(this.deg2rad(latitude)) *
-                Math.sin(dLon / 2) *
-                Math.sin(dLon / 2);
+            Math.cos(this.deg2rad(latitude)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
 
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
@@ -176,11 +174,6 @@ export class QueuesEntity implements Queues {
 
     public involvesOperator(operator: TelecomOperator): boolean {
         return this.operators.includes(operator);
-    }
-
-    public getUniqueOperators(): TelecomOperator[] {
-        const allOperators = [...this.operators, ...this.cumulativeOperators];
-        return [...new Set(allOperators)];
     }
 
     public getConfirmationRatio(): number {
@@ -355,7 +348,6 @@ export class QueuesEntity implements Queues {
             updates.location ?? this.location,
             updates.reportType ?? this.reportType,
             updates.operators ?? this.operators,
-            updates.cumulativeOperators ?? this.cumulativeOperators,
             updates.description ?? this.description,
             updates.media ?? this.media,
             updates.approval ?? this.approval,

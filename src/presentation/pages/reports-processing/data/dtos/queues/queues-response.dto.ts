@@ -17,7 +17,6 @@ export interface QueuesItemDto {
     location_name: string;
     report_type: string;
     operators: string;
-    cumulative_operators: string;
     place_photo: string | null;
     access_place_photo: string | null;
     description: string;
@@ -39,4 +38,4 @@ export interface QueuesItemDto {
 }
 
 export interface QueuesResponseDto
-    extends PaginatedResponseDto<QueuesItemDto> {}
+    extends PaginatedResponseDto<QueuesItemDto> { }

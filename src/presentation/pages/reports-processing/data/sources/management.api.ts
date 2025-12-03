@@ -14,7 +14,7 @@ export class ManagementApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchTake(
         payload: ManagementRequestDto,
@@ -59,7 +59,6 @@ export class ManagementApi {
         payload: ManagementRequestDto,
         endPointType: EndPointType
     ): Observable<SimpleResponseDto<ManagementEntity>> {
-        console.log('JSON.stringify(paramsObject)', payload);
         let url: string;
         switch (endPointType) {
             case 'requests':

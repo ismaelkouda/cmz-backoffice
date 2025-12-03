@@ -239,9 +239,6 @@ export class TableTasksComponent implements OnInit, OnDestroy {
                 const newInputValue =
                     event.selectionCount > 0 ? event.selectionCount : null;
                 this.selectionInputValue.set(newInputValue);
-                console.log(
-                    `Synchronisation: input=${newInputValue}, sélection=${event.selectionCount}`
-                );
             });
     }
 

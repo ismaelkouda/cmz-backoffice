@@ -1,22 +1,19 @@
+import { UsersFilterPayloadEntity } from "../entities/users/users-filter-payload.entity";
+
 export class UserFilter {
     private constructor(
         private readonly profilUser?: string,
-        private readonly state?: string,
+        private readonly status?: string,
         private readonly matricule?: string,
         private readonly search?: string
-    ) {}
+    ) { }
 
-    static create(data: {
-        user_profile?: string;
-        state?: string;
-        matricule?: string;
-        search?: string;
-    }): UserFilter {
+    static create(data: UsersFilterPayloadEntity = {} as UsersFilterPayloadEntity): UserFilter {
         return new UserFilter(
-            data.user_profile,
-            data.state,
+            data.userProfile,
+            data.status,
             data.matricule,
-            data.search
+            data.fullName
         );
     }
 
@@ -27,8 +24,8 @@ export class UserFilter {
             params['user_profile'] = this.profilUser;
         }
 
-        if (this.state) {
-            params['state'] = this.state;
+        if (this.status) {
+            params['status'] = this.status;
         }
 
         if (this.matricule) {

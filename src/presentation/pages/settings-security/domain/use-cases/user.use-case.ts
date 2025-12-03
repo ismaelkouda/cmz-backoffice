@@ -1,14 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import {
-    UserDeleteResponseDto,
-    UserDisableResponseDto,
-    UserEnableResponseDto,
-    UserStoreRequestDto,
-    UserUpdateRequestDto,
-} from '@presentation/pages/settings-security/data/dtos/user-response.dto';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
-import { User } from '../entities/user.entity';
+import { UsersStorePayloadEntity } from '../entities/users/users-store-payload.entity';
+import { UsersUpdatePayloadEntity } from '../entities/users/users-update-payload.entity';
+import { UsersEntity } from '../entities/users/users.entity';
 import { UserRepository } from '../repositories/user.repository';
 import { UserFilter } from '../value-objects/user-filter.vo';
 
@@ -18,7 +13,7 @@ import { UserFilter } from '../value-objects/user-filter.vo';
 export class FetchUsersUseCase {
     private readonly userRepository = inject(UserRepository);
 
-    execute(filter: UserFilter, page: string): Observable<Paginate<User>> {
+    execute(filter: UserFilter, page: string): Observable<Paginate<UsersEntity>> {
         return this.userRepository.fetchUsers(filter, page);
     }
 }
@@ -29,7 +24,7 @@ export class FetchUsersUseCase {
 export class StoreUserUseCase {
     private readonly userRepository = inject(UserRepository);
 
-    execute(payload: UserStoreRequestDto): Observable<User> {
+    execute(payload: UsersStorePayloadEntity): Observable<UsersEntity> {
         return this.userRepository.storeUser(payload);
     }
 }
@@ -40,7 +35,7 @@ export class StoreUserUseCase {
 export class UpdateUserUseCase {
     private readonly userRepository = inject(UserRepository);
 
-    execute(payload: UserUpdateRequestDto): Observable<User> {
+    execute(payload: UsersUpdatePayloadEntity): Observable<UsersEntity> {
         return this.userRepository.updateUser(payload);
     }
 }
@@ -51,7 +46,7 @@ export class UpdateUserUseCase {
 export class DeleteUserUseCase {
     private readonly userRepository = inject(UserRepository);
 
-    execute(id: string): Observable<UserDeleteResponseDto> {
+    execute(id: string): Observable<void> {
         return this.userRepository.deleteUser(id);
     }
 }
@@ -62,7 +57,7 @@ export class DeleteUserUseCase {
 export class EnableUserUseCase {
     private readonly userRepository = inject(UserRepository);
 
-    execute(id: string): Observable<UserEnableResponseDto> {
+    execute(id: string): Observable<void> {
         return this.userRepository.enableUser(id);
     }
 }
@@ -73,7 +68,7 @@ export class EnableUserUseCase {
 export class DisableUserUseCase {
     private readonly userRepository = inject(UserRepository);
 
-    execute(id: string): Observable<UserDisableResponseDto> {
+    execute(id: string): Observable<void> {
         return this.userRepository.disableUser(id);
     }
 }

@@ -36,7 +36,6 @@ import { ReportingStateService } from '../../reporting-state.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardViewerComponent implements OnInit, OnDestroy {
-    // Inputs
     public readonly dashboardUrl = input.required<string>();
     public readonly titleKey = input<string>('REPORTING.REPORT.TITLE');
     public readonly moduleKey = input<string>('REPORTING.LABEL');
@@ -48,7 +47,6 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
         'REPORTING.REPORT.ERROR_DESCRIPTION'
     );
 
-    // Injection de dépendances
     private readonly title = inject(Title);
     private readonly translate = inject(TranslateService);
     public readonly dashboardState = inject(ReportingStateService);
@@ -167,28 +165,18 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
         }
     }
 
-    // Méthode refreshDashboard complète
     public refreshDashboard(): void {
-        // Empêcher les rafraîchissements multiples
         if (this.dashboardState.isLoading()) {
             return;
         }
 
-        console.log('🔄 Manual dashboard refresh triggered');
-
-        // Mettre à jour l'état
         this.dashboardState.setLoading(true);
         this.dashboardState.updateConnectionStatus('loading');
 
-        // Nettoyer le timeout précédent
         if (this.loadTimeoutId) {
             clearTimeout(this.loadTimeoutId);
         }
-
-        // Appliquer une stratégie de rechargement intelligent
         this.performSmartRefresh();
-
-        // Timeout de sécurité
         this.loadTimeoutId = window.setTimeout(() => {
             if (this.dashboardState.isLoading()) {
                 console.warn('⚠️ Dashboard refresh timeout');
@@ -202,11 +190,9 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
 
         if (iframe && iframe.contentWindow) {
             try {
-                // Stratégie 1: Tentative de rechargement via l'API Grafana
                 if (this.isGrafanaLoaded(iframe)) {
                     this.reloadGrafanaDashboard(iframe);
                 } else {
-                    // Stratégie 2: Rechargement complet de l'iframe
                     this.reloadIframe(iframe);
                 }
             } catch (error) {
@@ -214,11 +200,9 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
                     '❌ Smart refresh failed, using fallback:',
                     error
                 );
-                // Stratégie 3: Fallback - rechargement forcé
                 this.forceIframeReload(iframe);
             }
         } else {
-            console.warn('📭 Iframe not available, using state reset');
             this.dashboardState.setLoading(false);
             this.dashboardState.updateConnectionStatus('connected');
         }
@@ -238,27 +222,21 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
 
     private reloadGrafanaDashboard(iframe: HTMLIFrameElement): void {
         try {
-            // Essayer d'utiliser l'API de refresh de Grafana si disponible
             iframe.contentWindow?.postMessage({ action: 'refresh' }, '*');
-            console.log('📊 Grafana API refresh attempted');
         } catch (error) {
-            console.warn('Grafana API refresh failed, using iframe reload');
             this.reloadIframe(iframe);
         }
     }
 
     private reloadIframe(iframe: HTMLIFrameElement): void {
-        // Technique de rechargement propre avec cache busting
         const originalSrc = iframe.src;
         const timestamp = new Date().getTime();
         const separator = originalSrc.includes('?') ? '&' : '?';
 
         iframe.src = originalSrc + separator + `_t=${timestamp}`;
-        console.log('🔄 Iframe reloaded with cache busting');
     }
 
     private forceIframeReload(iframe: HTMLIFrameElement): void {
-        // Rechargement forcé en réinitialisant complètement l'iframe
         const originalSrc = iframe.src;
         iframe.src = '';
         setTimeout(() => {
@@ -270,7 +248,5 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
         this.dashboardState.setLoading(false);
         this.dashboardState.setError(true);
         this.dashboardState.updateConnectionStatus('error');
-
-        console.error('⏰ Dashboard refresh timeout exceeded');
     }
 }

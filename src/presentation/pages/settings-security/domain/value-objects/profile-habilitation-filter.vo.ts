@@ -1,4 +1,4 @@
-import { ProfileHabilitationFilterInterface } from '../../data-access/profile-habilitation/interfaces/profile-habilitation-filter.interface';
+/* import { ProfileHabilitationFilterInterface } from '../../data-access/profile-habilitation/interfaces/profile-habilitation-filter.interface';
 
 export class ProfileHabilitationFilter {
     private constructor(
@@ -41,3 +41,4 @@ export class ProfileHabilitationFilter {
         return params;
     }
 }
+ */

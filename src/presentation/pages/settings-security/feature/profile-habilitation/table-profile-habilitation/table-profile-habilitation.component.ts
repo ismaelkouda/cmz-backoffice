@@ -26,7 +26,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, take } from 'rxjs';
-import { PROFILE_HABILITATION_TABLE } from '../../../data-access/profile-habilitation/constants/profile-habilitation-table.constant';
+import { PROFILE_HABILITATION_TABLE } from '../../../domain/constants/profile-habilitation/profile-habilitation-table.constant';
 
 @Component({
     selector: 'app-table-profile-habilitation',
@@ -71,7 +71,7 @@ export class TableProfileHabilitationComponent {
         private readonly clipboardService: ClipboardService,
         private readonly tableExportExcelFileService: TableExportExcelFileService,
         private readonly translate: TranslateService
-    ) {}
+    ) { }
 
     public onExportExcel(): void {
         this.listProfileHabilitation$.pipe(take(1)).subscribe((profils) => {

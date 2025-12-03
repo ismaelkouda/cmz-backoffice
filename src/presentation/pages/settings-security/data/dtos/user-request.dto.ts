@@ -1,6 +1,6 @@
 export interface UserRequestDto {
     user_profile?: string;
-    state?: string;
+    status?: string;
     matricule?: string;
-    search?: string; // pour recherche par nom et prénoms
+    full_name?: string;
 }

@@ -1,34 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { User } from '../../domain/entities/user.entity';
-import { UserItemDto, UserResponseDto } from '../dtos/user-response.dto';
-import { SimplePaginatedMapper } from './base/simple-paginated-mapper';
+import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+import { UsersEntity } from '../../domain/entities/users/users.entity';
+import { UserItemDto } from '../dtos/user-response.dto';
 
 @Injectable({
     providedIn: 'root',
 })
-export class UserMapper extends SimplePaginatedMapper<
-    User,
-    UserItemDto,
-    UserResponseDto
+export class UserMapper extends PaginatedMapper<
+    UsersEntity,
+    UserItemDto
 > {
-    protected override mapItemFromDto(dto: UserItemDto): User {
-        return {
-            id: dto.id,
-            matricule: dto.matricule,
-            lastName: dto.lastName,
-            firstName: dto.firstName,
-            fullName: dto.fullName ?? `${dto.firstName} ${dto.lastName}`,
-            email: dto.email,
-            uniqId: dto.uniqId,
-            profile: dto.profile,
-            status: dto.status,
-            created_at: dto.created_at,
-            updated_at: dto.updated_at,
-        };
-    }
-
-    override mapFromDto(dto: UserResponseDto): Paginate<User> {
-        return super.mapFromDto(dto);
+    protected override mapItemFromDto(dto: UserItemDto): UsersEntity {
+        return new UsersEntity(
+            dto.id,
+            dto.matricule,
+            dto.lastName,
+            dto.firstName,
+            dto.email,
+            dto.uniqId,
+            dto.profile,
+            dto.status,
+            dto.created_at,
+            dto.updated_at,
+        );
     }
 }

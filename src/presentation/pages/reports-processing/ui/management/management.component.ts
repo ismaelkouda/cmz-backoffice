@@ -3,12 +3,11 @@ import {
     ChangeDetectionStrategy,
     Component,
     EventEmitter,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
     inject,
     input,
+    OnDestroy,
+    OnInit,
+    Output
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -46,12 +45,13 @@ import { SelectModule } from 'primeng/select';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 import { DetailsFacade } from '../../application/details.facade';
 import { ManagementFacade } from '../../application/management.facade';
 import {
     DetailsEntity,
+    ManagementAction,
     ReportStatus,
 } from '../../domain/entities/details/details.entity';
 import { ManagementFormControlEntity } from '../../domain/entities/management/management-form-control.entity';
@@ -69,6 +69,7 @@ type TreaterTimestampKey =
     | 'finalizedAt';
 
 type CategoryKey = 'information' | 'photos' | 'geographicView';
+
 
 interface WorkflowStep {
     key: TreaterTimestampKey;
@@ -115,7 +116,7 @@ interface InfoCard {
 })
 export class ManagementComponent implements OnInit, OnDestroy {
     public readonly visible = input<boolean>(false);
-    @Input() reportId!: string;
+    public readonly reportId = input.required<string>();
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() closed = new EventEmitter<void>();
     public formTreatment!: FormGroup<ManagementFormControlEntity>;
@@ -199,7 +200,13 @@ export class ManagementComponent implements OnInit, OnDestroy {
         this.initializeComponent();
         this.getUrlParams();
         this.subscribeToData();
-        this.initializeWorkflowSteps();
+        this.details$.subscribe(details => {
+            if (details) {
+                this.updateWorkflowTimestamps(details);
+                this.getCategories(details);
+                this.setupConditionalValidationsTake(details);
+            }
+        });
     }
 
     ngOnDestroy(): void {
@@ -214,7 +221,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     private getUrlParams(): void {
         this.endPointType =
             this.routeContextService.currentEndPointType() ?? 'requests';
-        this.loadDetailsData(this.reportId, this.endPointType);
+        this.loadDetailsData(this.endPointType);
     }
 
     private getCategories(details: DetailsEntity): void {
@@ -234,24 +241,11 @@ export class ManagementComponent implements OnInit, OnDestroy {
         ];
     }
 
-    private loadDetailsData(
-        reportId: string,
-        endPointType: EndPointType
-    ): void {
-        this.detailsFacade.fetchDetails(reportId, endPointType);
-    }
-
-    private initializeWorkflowSteps(): void {
-        this.details$.subscribe((details) => {
-            if (details) {
-                this.updateWorkflowTimestamps(details);
-                this.getCategories(details);
-            }
-        });
+    private loadDetailsData(endPointType: EndPointType): void {
+        this.detailsFacade.fetchDetails(this.reportId(), endPointType);
     }
 
     private updateWorkflowTimestamps(details: DetailsEntity): void {
-        console.log('updateWorkflowTimestamps', details);
         this.workflowSteps = this.workflowSteps.map((step) => {
             let timestamp: string | null = null;
             const treater = details.treater;
@@ -265,11 +259,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 step.key1
             ) {
                 switch (details.status) {
-                    case 'approved':
+                    case ReportStatus.APPROVED:
                         timestamp = treater[step.key];
                         break;
-                    case 'rejected':
-                        console.log('rejected', treater[step.key1]);
+                    case ReportStatus.REJECTED:
                         timestamp = treater[step.key1];
                         break;
                     default:
@@ -278,7 +271,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
                             step.key1,
                         ];
                         for (const key of keys) {
-                            console.log('key', key);
                             if (key && treater[key]) {
                                 timestamp = treater[key];
                                 break;
@@ -316,7 +308,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 timestamp = treater[step.key];
             }
 
-            console.log('timestamp', timestamp);
 
             return { ...step, timestamp };
         });
@@ -368,34 +359,47 @@ export class ManagementComponent implements OnInit, OnDestroy {
             reason: new FormControl<string>('', {
                 nonNullable: true,
             }),
-            uniqId: new FormControl<string>(this.reportId, {
+            uniqId: new FormControl<string>(this.reportId(), {
                 nonNullable: true,
             }),
         });
-        this.setupConditionalValidationsTake();
     }
 
-    private setupConditionalValidationsTake(): void {
-        this.formTreatment
-            .get('decision')
-            ?.valueChanges.subscribe((decision) => {
-                const reasonControl = this.formTreatment.get('reason');
-                const commentControl = this.formTreatment.get('comment');
-
-                if (decision === 'rejected') {
-                    reasonControl?.setValidators([Validators.required]);
-                    commentControl?.clearValidators();
-                } else {
-                    reasonControl?.clearValidators();
-                    commentControl?.clearValidators();
-                }
-                reasonControl?.updateValueAndValidity();
-                commentControl?.updateValueAndValidity();
-            });
+    private setupConditionalValidationsTake(details: DetailsEntity): void {
+        if (this.formTreatment && details) {
+            const decisionControl = this.formTreatment.get('decision');
+            const reasonControl = this.formTreatment.get('reason');
+            const commentControl = this.formTreatment.get('comment');
+            if (details.canBeApproved) {
+                decisionControl?.setValidators([
+                    Validators.required,
+                ]);
+                decisionControl?.valueChanges
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe((decision) => {
+                        if (decision === 'rejected') {
+                            reasonControl?.setValidators([Validators.required]);
+                            commentControl?.setValidators([Validators.required]);
+                        } else {
+                            reasonControl?.clearValidators();
+                            commentControl?.clearValidators();
+                        }
+                        reasonControl?.updateValueAndValidity();
+                        commentControl?.updateValueAndValidity();
+                    });
+            } else if (details.canBeTreated || details.canBeFinalized) {
+                commentControl?.setValidators([
+                    Validators.required,
+                ]);
+            } else {
+                decisionControl?.clearValidators();
+                reasonControl?.clearValidators();
+                commentControl?.clearValidators();
+            }
+        }
     }
 
     public navigateToStep(step: WorkflowStep): void {
-        console.log('Navigation vers:', step.key);
     }
 
     public getStepIcon(step: WorkflowStep): string {
@@ -464,23 +468,22 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     public viewOnMap(): void {
-        this.details$.subscribe((details) => {
-            if (details?.location?.coordinates) {
-                const { latitude, longitude } = details.location.coordinates;
-                const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-                window.open(mapUrl, '_blank');
+        const details = this.details();
+        if (details?.location?.coordinates) {
+            const { latitude, longitude } = details.location.coordinates;
+            const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            window.open(mapUrl, '_blank');
 
-                this.messageService.add({
-                    severity: 'info',
-                    summary: this.translate.instant(
-                        'MANAGEMENT.ACTIONS.MAP_OPENED'
-                    ),
-                    detail: this.translate.instant(
-                        'MANAGEMENT.ACTIONS.VIEWING_MAP'
-                    ),
-                });
-            }
-        });
+            this.messageService.add({
+                severity: 'info',
+                summary: this.translate.instant(
+                    'MANAGEMENT.ACTIONS.MAP_OPENED'
+                ),
+                detail: this.translate.instant(
+                    'MANAGEMENT.ACTIONS.VIEWING_MAP'
+                ),
+            });
+        }
     }
 
     public copyCoordinates(): void {
@@ -522,7 +525,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     public onValidReportTreatment(details: DetailsEntity): void {
-        if (!this.reportId) {
+        if (!this.reportId()) {
             return;
         }
         if (!details.canBeTaken) {
@@ -536,7 +539,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.translate.instant(this.getSweetAlertTitle(management)),
-            text: `${this.translate.instant(this.getSweetAlertMessage(management))} ${this.reportId}`,
+            text: `${this.translate.instant(this.getSweetAlertMessage(management))} ${this.reportId()}`,
             backdrop: false,
             confirmButtonText: this.translate.instant(
                 this.getSweetAlertConfirm()
@@ -546,7 +549,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             if (
                 result.isConfirmed &&
                 this.formTreatment.valid &&
-                this.reportId
+                this.reportId()
             ) {
                 const credentials: ɵTypedOrUntyped<
                     ManagementFormControlEntity,
@@ -559,7 +562,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     private executeManagementAction(
-        management: string,
+        management: ManagementAction,
         credentials: ɵTypedOrUntyped<
             ManagementFormControlEntity,
             ɵFormGroupRawValue<ManagementFormControlEntity>,
@@ -585,14 +588,14 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     private handleManagementAction(
-        management: string,
+        management: ManagementAction,
         credentials: ɵTypedOrUntyped<
             ManagementFormControlEntity,
             ɵFormGroupRawValue<ManagementFormControlEntity>,
             any
         >
     ): () => Observable<ManagementEntity> {
-        const actionMap: Record<string, () => Observable<ManagementEntity>> = {
+        const actionMap: Record<ManagementAction, () => Observable<ManagementEntity>> = {
             take: () =>
                 this.managementFacade.take(credentials, this.endPointType),
             approve: () => {
@@ -611,6 +614,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             },
             treat: () => this.managementFacade.process(credentials),
             finalize: () => this.managementFacade.finalize(credentials),
+            see: () => of(),
         };
 
         return actionMap[management];

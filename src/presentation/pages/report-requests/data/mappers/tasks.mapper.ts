@@ -29,7 +29,6 @@ export class TasksMapper extends PaginatedMapper<TasksEntity, TasksItemDto> {
             this.mapLocation(dto),
             this.mapReportType(dto.report_type),
             this.parseOperators(dto.operators),
-            this.parseOperators(dto.cumulative_operators),
             dto.description,
             this.mapMedia(dto),
             this.mapApprovalInfo(dto),

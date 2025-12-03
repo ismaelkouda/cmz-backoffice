@@ -54,7 +54,7 @@ export class TreatmentComponent implements OnInit, OnDestroy {
     constructor(
         private readonly activatedRoute: ActivatedRoute,
         private readonly treatmentFacade: TreatmentFacade
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.activatedRoute.data
@@ -100,8 +100,6 @@ export class TreatmentComponent implements OnInit, OnDestroy {
     }
 
     public handleNewspaper(item: TreatmentEntity): void {
-        // Journal modal integration will be implemented later.
-        console.log('Journal requested for:', item.uniqId);
     }
 
     public refreshTreatments(): void {

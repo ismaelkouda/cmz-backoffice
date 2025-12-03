@@ -15,7 +15,7 @@ export class AllApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchAll(payload: AllRequestDto, page: string): Observable<AllResponseDto> {
         const url = `${this.baseUrl}${ALL_ENDPOINTS.ALL.replace('{page}', page)}`;

@@ -1,28 +1,23 @@
-import {
-    UserDeleteResponseDto,
-    UserDisableResponseDto,
-    UserEnableResponseDto,
-    UserStoreRequestDto,
-    UserUpdateRequestDto,
-} from '@presentation/pages/settings-security/data/dtos/user-response.dto';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
-import { User } from '../entities/user.entity';
+import { UsersStorePayloadEntity } from '../entities/users/users-store-payload.entity';
+import { UsersUpdatePayloadEntity } from '../entities/users/users-update-payload.entity';
+import { UsersEntity } from '../entities/users/users.entity';
 import { UserFilter } from '../value-objects/user-filter.vo';
 
 export abstract class UserRepository {
     abstract fetchUsers(
         filter: UserFilter,
         page: string
-    ): Observable<Paginate<User>>;
+    ): Observable<Paginate<UsersEntity>>;
 
-    abstract storeUser(payload: UserStoreRequestDto): Observable<User>;
+    abstract storeUser(payload: UsersStorePayloadEntity): Observable<UsersEntity>;
 
-    abstract updateUser(payload: UserUpdateRequestDto): Observable<User>;
+    abstract updateUser(payload: UsersUpdatePayloadEntity): Observable<UsersEntity>;
 
-    abstract deleteUser(id: string): Observable<UserDeleteResponseDto>;
+    abstract deleteUser(id: string): Observable<void>;
 
-    abstract enableUser(id: string): Observable<UserEnableResponseDto>;
+    abstract enableUser(id: string): Observable<void>;
 
-    abstract disableUser(id: string): Observable<UserDisableResponseDto>;
+    abstract disableUser(id: string): Observable<void>;
 }

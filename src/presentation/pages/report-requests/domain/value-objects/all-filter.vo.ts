@@ -10,9 +10,9 @@ export class AllFilter {
         private readonly reportType?: string,
         private readonly operators?: string[],
         private readonly state?: string
-    ) {}
+    ) { }
 
-    static create(data: AllFilterPayloadEntity): AllFilter {
+    static create(data: AllFilterPayloadEntity = {} as AllFilterPayloadEntity): AllFilter {
         const operatorArray = this.normalizeOperator(data.operators);
         return new AllFilter(
             data.initiator_phone_number,

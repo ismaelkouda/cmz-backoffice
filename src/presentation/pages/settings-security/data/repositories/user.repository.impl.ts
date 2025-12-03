@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
-import { User } from '../../domain/entities/user.entity';
+import { UsersStorePayloadEntity } from '../../domain/entities/users/users-store-payload.entity';
+import { UsersUpdatePayloadEntity } from '../../domain/entities/users/users-update-payload.entity';
+import { UsersEntity } from '../../domain/entities/users/users.entity';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { UserFilter } from '../../domain/value-objects/user-filter.vo';
-import {
-    UserDeleteResponseDto,
-    UserDisableResponseDto,
-    UserEnableResponseDto,
-    UserStoreRequestDto,
-    UserUpdateRequestDto,
-} from '../dtos/user-response.dto';
 import { UserMapper } from '../mappers/user.mapper';
 import { UserApi } from '../sources/user.api';
 
@@ -25,29 +20,29 @@ export class UserRepositoryImpl extends UserRepository {
         super();
     }
 
-    fetchUsers(filter: UserFilter, page: string): Observable<Paginate<User>> {
+    fetchUsers(filter: UserFilter, page: string): Observable<Paginate<UsersEntity>> {
         return this.userApi
             .fetchUsers(filter.toDto(), page)
             .pipe(map((response) => this.userMapper.mapFromDto(response)));
     }
 
-    storeUser(payload: UserStoreRequestDto): Observable<User> {
+    storeUser(payload: UsersStorePayloadEntity): Observable<UsersEntity> {
         return this.userApi.storeUser(payload);
     }
 
-    updateUser(payload: UserUpdateRequestDto): Observable<User> {
+    updateUser(payload: UsersUpdatePayloadEntity): Observable<UsersEntity> {
         return this.userApi.updateUser(payload);
     }
 
-    deleteUser(id: string): Observable<UserDeleteResponseDto> {
+    deleteUser(id: string): Observable<void> {
         return this.userApi.deleteUser(id);
     }
 
-    enableUser(id: string): Observable<UserEnableResponseDto> {
+    enableUser(id: string): Observable<void> {
         return this.userApi.enableUser(id);
     }
 
-    disableUser(id: string): Observable<UserDisableResponseDto> {
+    disableUser(id: string): Observable<void> {
         return this.userApi.disableUser(id);
     }
 }

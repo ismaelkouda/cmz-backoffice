@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+/* import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProfileHabilitationFacade } from '@presentation/pages/settings-security/application/profile-habilitation.facade';
-import { User } from '@presentation/pages/settings-security/domain/entities/user.entity';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -53,7 +53,7 @@ export interface ProfileOption {
 export class ModalReassignComponent implements OnInit, OnDestroy {
     @Input() visible: boolean = false;
     @Input() profileId: string = '';
-    @Input() users: User[] = [];
+    @Input() users: UsersEntity[] = [];
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() confirm = new EventEmitter<{
         newProfileId: string;
@@ -130,3 +130,4 @@ export class ModalReassignComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
+ */

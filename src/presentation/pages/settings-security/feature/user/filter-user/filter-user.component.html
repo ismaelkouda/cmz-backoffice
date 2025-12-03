@@ -6,11 +6,11 @@
             </label>
             <p-select
                 id="profil-user-select"
-                formControlName="user_profile"
+                formControlName="userProfile"
                 [options]="profilOptions"
                 optionValue="value"
                 [showClear]="true"
-                (onClear)="resetSelect('user_profile')"
+                (onClear)="resetSelect('userProfile')"
                 placeholder="{{ 'SELECT' | translate }}"
                 appendTo="body"
             >
@@ -24,16 +24,16 @@
         </div>
 
         <div class="filter-grid__item">
-            <label for="state-user-select">
+            <label for="status-user-select">
                 <b>{{ 'SETTINGS_SECURITY.USER.FILTER.STATE' | translate }}</b>
             </label>
             <p-select
-                id="state-user-select"
-                formControlName="state"
-                [options]="stateOptions"
+                id="status-user-select"
+                formControlName="status"
+                [options]="statusOptions"
                 optionValue="value"
                 [showClear]="true"
-                (onClear)="resetSelect('state')"
+                (onClear)="resetSelect('status')"
                 placeholder="{{ 'SELECT' | translate }}"
                 appendTo="body"
             >

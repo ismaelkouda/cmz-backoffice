@@ -10,6 +10,8 @@ import { ReportLocation } from '@shared/domain/interfaces/report-location.interf
 import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
 import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
+
+export type ManagementAction = 'take' | 'approve' | 'treat' | 'finalize' | 'see';
 export enum ReportStatus {
     PENDING = 'pending',
     APPROVED = 'approved',
@@ -84,7 +86,6 @@ export interface Details {
     readonly location: ReportLocation;
     readonly reportType: ReportType;
     readonly operators: TelecomOperator[];
-    readonly cumulativeOperators: TelecomOperator[];
     readonly description: string;
     readonly media: ReportMedia;
     readonly treater: TreaterInfo;
@@ -118,7 +119,6 @@ export class DetailsEntity implements Details {
         public readonly location: ReportLocation,
         public readonly reportType: ReportType,
         public readonly operators: TelecomOperator[],
-        public readonly cumulativeOperators: TelecomOperator[],
         public readonly description: string,
         public readonly media: ReportMedia,
         public readonly treater: TreaterInfo,
@@ -159,7 +159,7 @@ export class DetailsEntity implements Details {
         }
     }
 
-    public get managementPrams(): string {
+    public get managementPrams(): ManagementAction {
         if (this.canBeTaken) {
             return 'take';
         } else if (this.canBeApproved) {
@@ -200,7 +200,6 @@ export class DetailsEntity implements Details {
     }
 
     public get canBeTaken(): boolean {
-        console.log('canBeTaken', this.status, this.state);
         return (
             this.status === ReportStatus.PENDING ||
             (this.status === ReportStatus.PROCESSING &&
@@ -338,8 +337,7 @@ export class DetailsEntity implements Details {
     }
 
     public getUniqueOperators(): TelecomOperator[] {
-        const allOperators = [...this.operators, ...this.cumulativeOperators];
-        return [...new Set(allOperators)];
+        return [...new Set(this.operators)];
     }
 
     // === MÉTHODES D'APPROBATION ET VOTES ===
@@ -538,7 +536,6 @@ export class DetailsEntity implements Details {
             updates.location ?? this.location,
             updates.reportType ?? this.reportType,
             updates.operators ?? this.operators,
-            updates.cumulativeOperators ?? this.cumulativeOperators,
             updates.description ?? this.description,
             updates.media ?? this.media,
             updates.treater ?? this.treater,
