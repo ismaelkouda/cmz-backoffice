@@ -7,12 +7,12 @@
     border: none;
     cursor: pointer;
     text-decoration: underline;
-    color: var(--primary-color);
+    color: var(--theme-default);
     padding: 0;
 }
 
 .copyable:hover {
-    color: var(--primary-color-dark);
+    color: var(--theme-default);
 }
 
 .table-actions-footer {

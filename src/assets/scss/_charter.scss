@@ -1,58 +1,20 @@
-// Graphic Charter - Variables & Mixins
-// This file bridges CSS Custom Properties (set by AppCustomizationService) with SCSS variables
 
-// ============================================
-// HYBRID COLOR SYSTEM EXPLANATION
-// ============================================
-// We use a two-tier approach:
-// 1. SCSS Variables ($primary-color, etc.) - Static values for compilation-time functions
-// 2. CSS Custom Properties (--theme-default, etc.) - Dynamic values injected at runtime
-//
-// Why both?
-// - SCSS functions like lighten(), darken(), rgba() need concrete color values at compile time
-// - CSS Custom Properties allow runtime theme changes without recompilation
-//
-// How it works:
-// - SCSS compiles with static colors from _variables.scss
-// - AppCustomizationService injects CSS vars at runtime
-// - Utility classes below use CSS vars to override compiled styles
-
-// ============================================
-// 1- FONTS
-// ============================================
 $font-primary: var(--font-primary);
 $font-secondary: var(--font-secondary);
 
-// ============================================
-// 2- COLOR PALETTE (Static SCSS Variables)
-// ============================================
-// These reference the static colors from _variables.scss
-// They are used for SCSS compilation and color manipulation functions
-
-// Primary Colors (from _variables.scss)
 $color-primary: $primary-color;
 $color-secondary: $secondary-color;
 $color-tertiary: #ffffff;
 
-// State Colors (from _variables.scss)
 $color-success: $success-color;
 $color-error: $danger-color;
 $color-warning: $warning-color;
 $color-info: $info-color;
-
-// Neutral Colors
 $color-black: #1d1d1b;
 $color-white: #ffffff;
 $color-gray: #878787;
 $color-gray-light: #e0e0de;
 
-// ============================================
-// 3- RUNTIME THEME OVERRIDES
-// ============================================
-// These utility classes use CSS Custom Properties to override compiled styles
-// They are applied at runtime by AppCustomizationService
-
-// Override primary/secondary colors with CSS vars
 .theme-primary {
     color: var(--theme-default) !important;
 }
@@ -77,10 +39,6 @@ $color-gray-light: #e0e0de;
     border-color: var(--theme-secondary) !important;
 }
 
-// ============================================
-// 4- MIXINS
-// ============================================
-
 @mixin font-primary {
     font-family: $font-primary;
 }
@@ -89,7 +47,6 @@ $color-gray-light: #e0e0de;
     font-family: $font-secondary;
 }
 
-// Mixin to use CSS var colors (for runtime theming)
 @mixin theme-color($property, $css-var) {
     #{$property}: var(#{$css-var});
 }

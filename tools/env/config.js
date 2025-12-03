@@ -15,7 +15,7 @@ const config = {
             'https://api-services.mazone.imako.digital/base-settings/v1.0/backoffice/',
         fileUrl: 'https://api-services.mazone.imako.digital/auth/backoffice/', */
 
-        authenticationUrl: 'https://cmz-service-api.paas.imako.digital/auth/v1.0/',
+        authenticationUrl: 'https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/',
         reportUrl: 'https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/',
         settingUrl: 'https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/',
         userUrl: 'https://cmz-service-api.paas.imako.digital/users/v1.0/backoffice/',
@@ -34,7 +34,7 @@ const config = {
             appName: 'Connect My Zone',
             appLogoFull: 'assets/images/logo/logo-ansut-full.png',
             appLogoIcon: 'assets/images/favicon.png',
-            appPrimaryColor: '#0566FF',
+            appPrimaryColor: '#2256A3',
             appSecondaryColor: '#F08224',
             appTertiaryColor: '#FFFFFF',
         },
