@@ -1,19 +1,18 @@
 /* import { Injectable } from '@angular/core';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ProfileHabilitation } from '../../domain/entities/profile-habilitation.entity';
 import {
     ProfileHabilitationItemDto,
     ProfileHabilitationResponseDto,
 } from '../dtos/profile-habilitation-response.dto';
-import { SimplePaginatedMapper } from './base/simple-paginated-mapper';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ProfileHabilitationMapper extends SimplePaginatedMapper<
+export class ProfileHabilitationMapper extends PaginatedMapper<
     ProfileHabilitation,
-    ProfileHabilitationItemDto,
-    ProfileHabilitationResponseDto
+    ProfileHabilitationItemDto
 > {
     protected override mapItemFromDto(
         dto: ProfileHabilitationItemDto
@@ -34,5 +33,4 @@ export class ProfileHabilitationMapper extends SimplePaginatedMapper<
     ): Paginate<ProfileHabilitation> {
         return super.mapFromDto(dto);
     }
-}
- */
+} */

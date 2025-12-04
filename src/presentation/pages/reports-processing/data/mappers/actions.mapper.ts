@@ -19,6 +19,7 @@ export class ActionsMapper extends PaginatedMapper<
             date: dto.date,
             type: this.mapActionType(dto.type),
             description: dto.description,
+            reportProcessingsCount: dto.report_processings_count ?? false,
             createdBy: this.mapUserInfo(dto.created_by),
             updatedBy: this.mapUserInfo(dto.updated_by),
             createdAt: dto.createdAt,

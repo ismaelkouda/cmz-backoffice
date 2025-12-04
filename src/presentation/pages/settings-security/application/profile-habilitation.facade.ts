@@ -1,7 +1,7 @@
 /* import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { PAGINATION_CONST } from '@presentation/pages/settings-security/domain/constants/pagination.constants';
 import { BaseFacade } from '@shared/application/base/base-facade';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, tap } from 'rxjs';
@@ -217,5 +217,4 @@ export class ProfileHabilitationFacade extends BaseFacade<
     ): Observable<Paginate<UsersEntity>> {
         return this.getUsersWithoutProfileUseCase.execute(page, filter);
     }
-}
- */
+} */

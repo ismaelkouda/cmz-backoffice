@@ -10,7 +10,7 @@ import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
 import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 export enum ReportState {
-    COMPLETED = 'completer',
+    COMPLETED = 'effectué',
 }
 
 export interface All {

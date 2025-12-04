@@ -1,93 +1,35 @@
-<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+<form [formGroup]="filterForm" (ngSubmit)="onSubmitFilterForm()">
     <div class="filter-grid">
         <div class="filter-grid__item">
             <label for="profile-select">
                 <b>{{
-                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.PROFILE'
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.USER'
                         | translate
                 }}</b>
             </label>
             <p-select
-                id="profile-select"
-                formControlName="profile"
-                [options]="profileOptions"
-                optionValue="value"
+                [options]="users"
+                formControlName="auth_user_id"
+                optionLabel="fullName"
+                [filter]="true"
+                filterBy="lastName,firstName"
                 [showClear]="true"
-                (onClear)="resetSelect('profile')"
-                placeholder="{{ 'SELECT' | translate }}"
-                appendTo="body"
+                placeholder="Selectionner l'utilisateur"
+                emptyFilterMessage="Aucune correspondance"
+                emptyMessage="Aucune donnée"
+                [style]="{ width: '100%' }"
             >
-                <ng-template pTemplate="selectedItem" let-option>
-                    <span>{{ option?.label | translate }}</span>
+                <ng-template let-user pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ user.lastName }} {{ user.firstName }}</div>
+                    </div>
                 </ng-template>
-                <ng-template pTemplate="item" let-option>
-                    <span>{{ option.label | translate }}</span>
+                <ng-template let-user pTemplate="selectedItem">
+                    <div class="country-item" *ngIf="user">
+                        <div>{{ user.lastName }} {{ user.firstName }}</div>
+                    </div>
                 </ng-template>
             </p-select>
-        </div>
-
-        <div class="filter-grid__item">
-            <label for="state-select">
-                <b>{{
-                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.STATE'
-                        | translate
-                }}</b>
-            </label>
-            <p-select
-                id="state-select"
-                formControlName="state"
-                [options]="stateOptions"
-                optionValue="value"
-                [showClear]="true"
-                (onClear)="resetSelect('state')"
-                placeholder="{{ 'SELECT' | translate }}"
-                appendTo="body"
-            >
-                <ng-template pTemplate="selectedItem" let-option>
-                    <span>{{ option?.label | translate }}</span>
-                </ng-template>
-                <ng-template pTemplate="item" let-option>
-                    <span>{{ option.label | translate }}</span>
-                </ng-template>
-            </p-select>
-        </div>
-
-        <div class="filter-grid__item">
-            <label for="matricule-select">
-                <b>{{
-                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE'
-                        | translate
-                }}</b>
-            </label>
-            <input
-                id="matricule-select"
-                type="text"
-                pInputText
-                formControlName="matricule"
-                [placeholder]="
-                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.MATRICULE'
-                        | translate
-                "
-            />
-        </div>
-
-        <div class="filter-grid__item">
-            <label for="search-select">
-                <b>{{
-                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.SEARCH'
-                        | translate
-                }}</b>
-            </label>
-            <input
-                id="search-select"
-                type="text"
-                pInputText
-                formControlName="search"
-                [placeholder]="
-                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FILTER.SEARCH_PLACEHOLDER'
-                        | translate
-                "
-            />
         </div>
 
         <button type="submit" class="btn btn-primary px-3">

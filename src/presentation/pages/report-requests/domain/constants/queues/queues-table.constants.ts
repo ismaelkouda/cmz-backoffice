@@ -15,7 +15,6 @@ export const QUEUES_TABLE_CONST = {
         {
             field: 'reportType',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.REPORT_TYPE',
-            class: 'text-center',
             width: '12rem',
         },
         {
@@ -39,7 +38,7 @@ export const QUEUES_TABLE_CONST = {
             field: '__action',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.ACTION',
             class: 'text-center',
-            width: '6rem',
+            width: '4rem',
         },
     ],
     globalFilterFields: [

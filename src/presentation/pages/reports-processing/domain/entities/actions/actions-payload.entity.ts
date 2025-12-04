@@ -3,4 +3,5 @@ export interface ActionsPayloadEntity {
     date: string;
     type: string;
     description: string;
+    report_processings_count: boolean;
 }

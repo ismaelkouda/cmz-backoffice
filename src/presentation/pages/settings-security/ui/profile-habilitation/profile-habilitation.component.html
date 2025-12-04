@@ -25,7 +25,7 @@
                     <div class="fade-in profile-habilitation-content">
                         <app-filter-profile-habilitation
                             class="filter-component"
-                            (filter)="filter($event)"
+                            (filterChange)="onFilter($event)"
                         >
                         </app-filter-profile-habilitation>
 
@@ -33,21 +33,23 @@
 
                         <section
                             class="table-section"
-                            aria-label="Tableau des profils habilitations"
+                            [aria-label]="
+                                'COMMUNICATION.PROFILE_HABILITATION.TITLE' | translate
+                            "
                         >
                             <app-table-profile-habilitation
                                 class="table-component"
-                                [spinner]="spinner$ | async"
-                                [pagination$]="pagination$"
                                 [listProfileHabilitation$]="
                                     profileHabilitation$
                                 "
+                                [pagination$]="pagination$"
+                                [loading$]="loading$"
+                                [tableConfig]="tableConfig"
+                                (pageChange)="onPageChange($event)"
+                                (refresh)="onRefresh()"
+                                (export)="onExportExcel()"
                                 (profileHabilitationRequested)="
-                                    handleProfileHabilitation($event)
-                                "
-                                (addProfileRequested)="handleAddProfile()"
-                                (refreshRequested)="
-                                    refreshProfileHabilitation()
+                                    onProfileHabilitationRequested($event)
                                 "
                             >
                             </app-table-profile-habilitation>

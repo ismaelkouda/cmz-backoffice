@@ -65,9 +65,9 @@ import { provideActions } from './pages/reports-processing/di/actions.providers'
 import { provideDetails } from './pages/reports-processing/di/details.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
 /* import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers'; */
-import { provideUser } from './pages/settings-security/di/user.providers';
+/* import { provideUser } from './pages/settings-security/di/user.providers';
 import { provideParticipant } from './pages/team-organization/di/participant.providers';
-import { provideTeam } from './pages/team-organization/di/team.providers';
+import { provideTeam } from './pages/team-organization/di/team.providers'; */
 
 const frenchLocale = {
     firstDayOfWeek: 1,
@@ -275,9 +275,9 @@ export const appConfig: ApplicationConfig = {
         ...provideTreatment(),
         ...processingTasks(),
         ...provideManagement(),
-        ...provideUser(),
+        /* ...provideUser(), */
         /*  ...provideProfileHabilitation(), */
-        ...provideParticipant(),
-        ...provideTeam(),
+        /*         ...provideParticipant(),
+                ...provideTeam(), */
     ],
 };

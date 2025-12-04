@@ -16,8 +16,7 @@ import { ManagementComponent } from '@presentation/pages/reports-processing/ui/m
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { TasksFilterPayloadEntity } from '../../domain/entities/tasks/tasks-filter-payload.entity';
 import { TasksEntity } from '../../domain/entities/tasks/tasks.entity';
 import {
@@ -50,16 +49,15 @@ export class TasksComponent implements OnInit, OnDestroy {
     private readonly tasksFacade = inject(TasksFacade);
     public module!: string;
     public subModule!: string;
-    public pagination$!: Observable<Paginate<TasksEntity>>;
-    public tasks$!: Observable<TasksEntity[]>;
-    public loading$!: Observable<boolean>;
+    public tasks$ = this.tasksFacade.tasks$;
+    public pagination$ = this.tasksFacade.pagination$;
+    public loading$ = this.tasksFacade.isLoading$;
     private readonly destroy$ = new Subject<void>();
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
 
     ngOnInit(): void {
         this.setupRouteData();
-        this.setupObservables();
         this.loadData();
     }
 
@@ -81,12 +79,6 @@ export class TasksComponent implements OnInit, OnDestroy {
                 this.subModule =
                     data['subModule'] ?? 'REPORTS_PROCESSING.TASKS.LABEL';
             });
-    }
-
-    private setupObservables(): void {
-        this.tasks$ = this.tasksFacade.tasks$;
-        this.pagination$ = this.tasksFacade.pagination$;
-        this.loading$ = this.tasksFacade.isLoading$;
     }
 
     public filter(filterData: TasksFilterPayloadEntity): void {

@@ -55,7 +55,9 @@ export class DetailsMapper extends SimpleResponseMapper<
             dto.created_at,
             dto.reported_at,
             dto.place_photo,
-            dto.access_place_photo
+            dto.access_place_photo,
+            dto.confirm_count,
+            dto.action_count,
         );
     }
 
@@ -200,7 +202,6 @@ export class DetailsMapper extends SimpleResponseMapper<
             rejectedComment: dto.rejected_comment,
             confirmedComment: dto.confirmed_comment,
             abandonedComment: dto.abandoned_comment,
-            confirmCount: dto.confirm_count,
             denyCount: dto.deny_count,
             reason: dto.reason,
         };

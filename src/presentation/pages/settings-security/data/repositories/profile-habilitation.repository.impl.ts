@@ -111,5 +111,4 @@ export class ProfileHabilitationRepositoryImpl extends ProfileHabilitationReposi
             .getUsersWithoutProfile(page, filter)
             .pipe(map((response) => this.userMapper.mapFromDto(response)));
     }
-}
- */
+} */

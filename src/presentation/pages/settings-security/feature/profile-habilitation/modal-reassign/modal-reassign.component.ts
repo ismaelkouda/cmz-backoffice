@@ -129,5 +129,4 @@ export class ModalReassignComponent implements OnInit, OnDestroy {
         this.destroy$.next();
         this.destroy$.complete();
     }
-}
- */
+} */

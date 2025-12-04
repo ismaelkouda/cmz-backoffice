@@ -75,7 +75,7 @@ export class AllComponent implements OnInit, OnDestroy {
             });
     }
 
-    public filter(filterData: AllFilterPayloadEntity): void {
+    public onFilter(filterData: AllFilterPayloadEntity): void {
         const filter = AllFilter.create(filterData);
         this.allFacade.fetchAll(filter, '1', true);
     }

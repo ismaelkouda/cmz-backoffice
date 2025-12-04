@@ -49,7 +49,6 @@ export interface TreaterInfo {
     acknowledgedComment: string | null;
     confirmedComment: string | null;
     abandonedComment: string | null;
-    confirmCount: number;
     denyCount: number;
     reason: string | null;
 }
@@ -99,6 +98,8 @@ export interface Details {
     readonly reportedAt: string;
     readonly placePhoto: string;
     readonly accessPlacePhoto: string;
+    readonly confirmCount: number;
+    readonly actionCount: number;
 }
 
 export class DetailsEntity implements Details {
@@ -131,7 +132,9 @@ export class DetailsEntity implements Details {
         public readonly createdAt: string,
         public readonly reportedAt: string,
         public readonly placePhoto: string,
-        public readonly accessPlacePhoto: string
+        public readonly accessPlacePhoto: string,
+        public readonly confirmCount: number,
+        public readonly actionCount: number,
     ) { }
 
     public get managementTitle(): string {
@@ -156,6 +159,31 @@ export class DetailsEntity implements Details {
                 return 'MANAGEMENT.STATUS.INFORMATION';
             default:
                 return 'MANAGEMENT.STATUS.INFORMATION';
+        }
+    }
+
+    public get managementButtonSubmitText(): string {
+        switch (this.status) {
+            case ReportStatus.PENDING:
+                return 'MANAGEMENT.BUTTONS.TAKE';
+            case ReportStatus['IN-PROGRESS']:
+                return 'MANAGEMENT.BUTTONS.APPROBATION';
+            case ReportStatus.PROCESSING:
+                if (this.state === ReportState.PENDING) {
+                    return 'MANAGEMENT.BUTTONS.TAKE';
+                } else if (this.state === ReportState.IN_PROGRESS) {
+                    return 'MANAGEMENT.BUTTONS.TREATMENT';
+                }
+                return 'MANAGEMENT.BUTTONS.INFORMATION';
+            case ReportStatus.FINALIZATION:
+                if (this.state === ReportState.PENDING) {
+                    return 'MANAGEMENT.BUTTONS.TAKE';
+                } else if (this.state === ReportState.IN_PROGRESS) {
+                    return 'MANAGEMENT.BUTTONS.FINALIZATION';
+                }
+                return 'MANAGEMENT.BUTTONS.INFORMATION';
+            default:
+                return 'MANAGEMENT.BUTTONS.INFORMATION';
         }
     }
 
@@ -342,8 +370,8 @@ export class DetailsEntity implements Details {
 
     // === MÉTHODES D'APPROBATION ET VOTES ===
     public getConfirmationRatio(): number {
-        const totalVotes = this.treater.confirmCount + this.treater.denyCount;
-        return totalVotes > 0 ? this.treater.confirmCount / totalVotes : 0;
+        const totalVotes = this.confirmCount + this.treater.denyCount;
+        return totalVotes > 0 ? this.confirmCount / totalVotes : 0;
     }
 
     public isHighlyConfirmed(): boolean {
@@ -351,7 +379,7 @@ export class DetailsEntity implements Details {
     }
 
     public hasConflictingVotes(): boolean {
-        const totalVotes = this.treater.confirmCount + this.treater.denyCount;
+        const totalVotes = this.confirmCount + this.treater.denyCount;
         return (
             totalVotes >= 5 &&
             this.getConfirmationRatio() >= 0.4 &&
@@ -360,7 +388,7 @@ export class DetailsEntity implements Details {
     }
 
     public hasSufficientVotes(): boolean {
-        return this.treater.confirmCount + this.treater.denyCount >= 3;
+        return this.confirmCount + this.treater.denyCount >= 3;
     }
 
     // === MÉTHODES TEMPORELLES ===
@@ -548,7 +576,9 @@ export class DetailsEntity implements Details {
             updates.createdAt ?? this.createdAt,
             updates.reportedAt ?? this.reportedAt,
             updates.placePhoto ?? this.placePhoto,
-            updates.accessPlacePhoto ?? this.accessPlacePhoto
+            updates.accessPlacePhoto ?? this.accessPlacePhoto,
+            updates.confirmCount ?? this.confirmCount,
+            updates.actionCount ?? this.actionCount,
         );
     }
 

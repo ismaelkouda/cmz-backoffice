@@ -15,7 +15,6 @@ export const ALL_TABLE_CONST = {
         {
             field: 'reportType',
             header: 'REPORTS_REQUESTS.ALL.TABLE.REPORT_TYPE',
-            class: 'text-center',
             width: '12rem',
         },
         {
@@ -45,7 +44,7 @@ export const ALL_TABLE_CONST = {
             field: '__action',
             header: 'REPORTS_REQUESTS.ALL.TABLE.ACTION',
             class: 'text-center',
-            width: '6rem',
+            width: '4rem',
         },
     ],
     globalFilterFields: [

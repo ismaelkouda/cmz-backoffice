@@ -1,4 +1,4 @@
-/* import {
+import {
     AffectedRequestDto,
     ProfileHabilitationDeleteResponseDto,
     ProfileHabilitationDisableResponseDto,
@@ -11,23 +11,22 @@
 } from '@presentation/pages/settings-security/data/dtos/profile-habilitation-response.dto';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
-import { ProfileHabilitation } from '../entities/profile-habilitation.entity';
-import { UsersEntity } from '../entities/users/users.entity';
+import { ProfileHabilitationEntity } from '../entities/profile-habilitation/profile-habilitation.entity';
 import { ProfileHabilitationFilter } from '../value-objects/profile-habilitation-filter.vo';
 
 export abstract class ProfileHabilitationRepository {
     abstract fetchProfileHabilitation(
         filter: ProfileHabilitationFilter,
         page: string
-    ): Observable<Paginate<ProfileHabilitation>>;
+    ): Observable<Paginate<ProfileHabilitationEntity>>;
 
     abstract storeProfileHabilitation(
         payload: ProfileHabilitationStoreRequestDto
-    ): Observable<ProfileHabilitation>;
+    ): Observable<ProfileHabilitationEntity>;
 
     abstract updateProfileHabilitation(
         payload: ProfileHabilitationUpdateRequestDto
-    ): Observable<ProfileHabilitation>;
+    ): Observable<ProfileHabilitationEntity>;
 
     abstract deleteProfileHabilitation(
         id: string
@@ -55,11 +54,10 @@ export abstract class ProfileHabilitationRepository {
         profileId: string,
         page: string,
         filter?: { matricule?: string }
-    ): Observable<Paginate<UsersEntity>>;
+    ): Observable<Paginate<ProfileHabilitationEntity>>;
 
     abstract getUsersWithoutProfile(
         page: string,
         filter?: { matricule?: string }
-    ): Observable<Paginate<UsersEntity>>;
+    ): Observable<Paginate<ProfileHabilitationEntity>>;
 }
- */

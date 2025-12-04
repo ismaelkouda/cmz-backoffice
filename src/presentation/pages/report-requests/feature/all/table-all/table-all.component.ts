@@ -216,10 +216,6 @@ export class TableAllComponent implements OnDestroy {
         return this.statusSeverityMap[status] ?? 'secondary';
     }
 
-    trackByUniqId(_: number, item: AllEntity): string {
-        return item.uniqId;
-    }
-
     trackByOperator(_: number, operator: string): string {
         return operator;
     }

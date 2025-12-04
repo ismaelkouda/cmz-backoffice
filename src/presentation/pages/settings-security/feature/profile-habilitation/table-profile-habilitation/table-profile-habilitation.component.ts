@@ -1,32 +1,30 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
-import {
+/* import {
     ChangeDetectionStrategy,
     Component,
-    EventEmitter,
-    Input,
-    Output,
+    computed,
     inject,
+    input,
+    output
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ProfileHabilitation } from '@presentation/pages/settings-security/domain/entities/profile-habilitation.entity';
+import { ProfileHabilitationEntity, ProfileStatus } from '@presentation/pages/settings-security/domain/entities/profile-habilitation/profile-habilitation.entity';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
 import {
-    TableConfig,
-    TableExportExcelFileService,
+    TableConfig
 } from '@shared/services/table-export-excel-file.service';
-import { ClipboardService } from 'ngx-clipboard';
-import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable, take } from 'rxjs';
-import { PROFILE_HABILITATION_TABLE } from '../../../domain/constants/profile-habilitation/profile-habilitation-table.constant';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-table-profile-habilitation',
@@ -35,138 +33,113 @@ import { PROFILE_HABILITATION_TABLE } from '../../../domain/constants/profile-ha
     styleUrls: ['./table-profile-habilitation.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        CommonModule,
-        AsyncPipe,
         TableModule,
         TranslateModule,
+        SkeletonModule,
+        TableTitleComponent,
+        TableButtonHeaderComponent,
+        PaginationComponent,
+        SearchTableComponent,
         ButtonModule,
+        InputTextModule,
+        TagModule,
         TooltipModule,
         ProgressSpinnerModule,
-        TagModule,
-        TableButtonHeaderComponent,
-        SearchTableComponent,
-        TableTitleComponent,
     ],
 })
 export class TableProfileHabilitationComponent {
-    @Input() spinner!: boolean;
-    @Input() listProfileHabilitation$!: Observable<ProfileHabilitation[]>;
-    @Input() pagination$!: Observable<Paginate<ProfileHabilitation>>;
-    @Output() profileHabilitationRequested = new EventEmitter<{
-        profile: ProfileHabilitation;
+    private readonly translateService = inject(TranslateService);
+    public readonly profileHabilitation$ = input.required<Observable<ProfileHabilitationEntity[]>>()
+    public readonly pagination$ = input.required<Observable<Paginate<ProfileHabilitationEntity>>>()
+    public readonly loading$ = input.required<Observable<boolean>>()
+    public readonly tableConfig = input.required<TableConfig>();
+    readonly profileHabilitation = toSignal(this.profileHabilitation$(), { initialValue: [] });
+    readonly pagination = toSignal(this.pagination$(), {
+        initialValue: {} as Paginate<ProfileHabilitationEntity>
+    });
+    readonly loading = toSignal(this.loading$(), { initialValue: false });
+    public readonly pageChange = output<number>();
+    public readonly refresh = output<void>();
+    public readonly export = output<ProfileHabilitationEntity[]>();
+    public readonly profileHabilitationRequested = output<{
+        profile: ProfileHabilitationEntity;
         action: 'view' | 'edit' | 'delete' | 'enable' | 'disable' | 'users';
     }>();
-    @Output() refreshRequested = new EventEmitter<void>();
-    @Output() addProfileRequested = new EventEmitter<void>();
+    public readonly addProfileRequested = output<void>();
+    readonly hasData = computed(() => this.profileHabilitation().length > 0);
+    readonly totalItems = computed(() => this.pagination().total || 0);
+    readonly skeletonRows = computed(() => {
+        const rows = this.pagination().per_page || 5;
+        return Array(rows).fill(0);
+    });
 
-    private readonly appCustomizationService = inject(AppCustomizationService);
-    private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.config.app.name
-    );
 
-    public readonly table: TableConfig = PROFILE_HABILITATION_TABLE;
+    private readonly statusSeverityMap: Record<ProfileStatus, TagSeverity> = {
+        [ProfileStatus.ACTIVE]: 'success',
+        [ProfileStatus.INACTIVE]: 'danger',
+    };
+    private readonly nameSeverityMap: Record<string, TagSeverity> = {
+        'Admin': 'success',
+        'User': 'danger',
+    };
 
-    constructor(
-        private readonly toastService: ToastrService,
-        private readonly clipboardService: ClipboardService,
-        private readonly tableExportExcelFileService: TableExportExcelFileService,
-        private readonly translate: TranslateService
-    ) { }
+
+    onPageChange(page: number): void {
+        this.pageChange.emit(page);
+    }
+
+    onRefresh(): void {
+        this.refresh.emit();
+    }
 
     public onExportExcel(): void {
-        this.listProfileHabilitation$.pipe(take(1)).subscribe((profils) => {
-            if (profils && profils.length > 0) {
-                const fileName = `${this.exportFilePrefix}-profile-habilitations`;
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    profils,
-                    this.table,
-                    fileName
-                );
-            } else {
-                this.toastService.error(
-                    this.translate.instant('EXPORT.NO_DATA')
-                );
-            }
-        });
+        this.export.emit(this.profileHabilitation());
     }
 
-    public onRefresh(): void {
-        this.refreshRequested.emit();
-    }
+    formatDate(value: string): string {
+        if (!value) return '-';
+        try {
+            const date = new Date(value);
+            if (isNaN(date.getTime())) return value;
 
-    public copyToClipboard(data: string): void {
-        this.clipboardService.copyFromContent(data);
-        this.toastService.success(
-            this.translate.instant('COPIED_TO_THE_CLIPBOARD')
-        );
-    }
-
-    public formatDate(value: string | null | undefined): string {
-        if (!value) {
-            return '-';
-        }
-
-        const normalized = value.replace(' ', 'T');
-        const withTimezone =
-            /z$/i.test(normalized) || normalized.endsWith('Z')
-                ? normalized
-                : `${normalized}Z`;
-        const parsed = new Date(withTimezone);
-
-        if (Number.isNaN(parsed.getTime())) {
+            return date.toLocaleDateString(this.translateService.currentLang, {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch {
             return value;
         }
-
-        return parsed.toLocaleString();
     }
 
-    public getStatusSeverity(status: string | null | undefined): string {
-        const normalized = status?.toLowerCase() ?? '';
-        switch (normalized) {
-            case 'active':
-            case 'actif':
-                return 'success';
-            case 'inactive':
-            case 'inactif':
-                return 'danger';
-            default:
-                return 'secondary';
-        }
+    copyToClipboard(content: string): void {
+        if (!content) return;
+
+        navigator.clipboard.writeText(content)
+            .then(() => {
+                console.log('Copié:', content);
+            })
+            .catch(err => console.error('Erreur copie:', err));
     }
 
-    public getStatusLabel(status: string | null | undefined): string {
-        if (!status) {
-            return '-';
-        }
-        const normalized = status.toLowerCase();
-        if (normalized === 'active' || normalized === 'actif') {
-            return this.translate.instant(
-                'SETTINGS_SECURITY.PROFILE_HABILITATION.LABELS.STATUS.ACTIVE'
-            );
-        }
-        if (normalized === 'inactive' || normalized === 'inactif') {
-            return this.translate.instant(
-                'SETTINGS_SECURITY.PROFILE_HABILITATION.LABELS.STATUS.INACTIVE'
-            );
-        }
-        return status;
+    public getStatusSeverity(status: ProfileStatus): TagSeverity {
+        return this.statusSeverityMap[status] ?? 'secondary';
     }
 
-    public getProfileLabel(profile: string | null | undefined): string {
-        if (!profile) {
-            return '-';
-        }
-        return profile;
+    public getNameSeverity(name: string): TagSeverity {
+        return this.nameSeverityMap[name] ?? 'secondary';
     }
 
     public onActionClicked(
-        item: ProfileHabilitation,
+        item: ProfileHabilitationEntity,
         action: 'view' | 'edit' | 'delete' | 'enable' | 'disable'
     ): void {
         this.profileHabilitationRequested.emit({ profile: item, action });
     }
 
-    public onUsersClicked(item: ProfileHabilitation): void {
+    public onUsersClicked(item: ProfileHabilitationEntity): void {
         this.profileHabilitationRequested.emit({
             profile: item,
             action: 'users',
@@ -177,12 +150,7 @@ export class TableProfileHabilitationComponent {
         this.addProfileRequested.emit();
     }
 
-    private normalizeExportPrefix(appName: string): string {
-        return (
-            appName
-                .toLowerCase()
-                .replaceAll(/[^a-z0-9]+/g, '-')
-                .replaceAll(/(^-|-$)/g, '') || 'cmz'
-        );
-    }
 }
+type TagSeverity =
+    | 'success'
+    | 'danger' */

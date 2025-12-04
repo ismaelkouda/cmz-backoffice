@@ -15,7 +15,6 @@ export const ALL_TABLE_CONST = {
         {
             field: 'reportType',
             header: 'FINALIZATION.ALL.TABLE.REPORT_TYPE',
-            class: 'text-center',
             width: '12rem',
         },
         {

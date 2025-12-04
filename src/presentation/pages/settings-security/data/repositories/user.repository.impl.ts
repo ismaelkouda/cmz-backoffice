@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
 import { UsersStorePayloadEntity } from '../../domain/entities/users/users-store-payload.entity';
@@ -46,3 +46,4 @@ export class UserRepositoryImpl extends UserRepository {
         return this.userApi.disableUser(id);
     }
 }
+ */

@@ -1,4 +1,4 @@
-export const ProfileHabilitationEndpoint = {
+/* export const ProfileHabilitationEndpoint = {
     PROFILE_HABILITATION: 'permission-profiles?page={page}',
     STORE: 'permission-profiles/store',
     UPDATE: 'permission-profiles/update',
@@ -10,3 +10,4 @@ export const ProfileHabilitationEndpoint = {
     RETIRE: 'permission-profiles/remove',
     AFFECTED: 'permission-profiles/assign',
 } as const;
+ */

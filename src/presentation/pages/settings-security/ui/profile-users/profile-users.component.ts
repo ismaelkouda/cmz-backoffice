@@ -10,12 +10,12 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProfileHabilitationFacade } from '@presentation/pages/settings-security/application/profile-habilitation.facade';
-import { ProfileHabilitation } from '@presentation/pages/settings-security/domain/entities/profile-habilitation.entity';
 import { FilterProfileUsersComponent } from '@presentation/pages/settings-security/feature/profile-habilitation/filter-profile-users/filter-profile-users.component';
 import { TableProfileUsersComponent } from '@presentation/pages/settings-security/feature/profile-habilitation/table-profile-users/table-profile-users.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import {
@@ -27,7 +27,6 @@ import {
     takeUntil,
 } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-import { PAGINATION_CONST } from '../../domain/constants/pagination.constants';
 import { UsersEntity } from '../../domain/entities/users/users.entity';
 import { ModalReassignComponent } from '../../feature/profile-habilitation/modal-reassign/modal-reassign.component';
 
@@ -247,5 +246,4 @@ export class ProfileUsersComponent implements OnInit, OnDestroy {
         this.destroy$.next();
         this.destroy$.complete();
     }
-}
- */
+} */

@@ -28,8 +28,9 @@ export interface DetailsItemDto {
     reason: string | null;
     status: string;
     state: string;
-    confirm_count: number;
     deny_count: number;
+    confirm_count: number;
+    action_count: number;
     acknowledged_comment: string | null;
     processed_comment: string | null;
     approved_comment: string | null;

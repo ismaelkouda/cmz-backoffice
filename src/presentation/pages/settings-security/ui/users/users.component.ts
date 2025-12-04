@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+/* import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -45,6 +45,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
+
     public module!: string;
     public subModule!: string;
     public pagination$!: Observable<Paginate<UsersEntity>>;
@@ -201,3 +202,4 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
+ */

@@ -15,7 +15,6 @@ export const TREATMENT_TABLE_CONST = {
         {
             field: 'reportType',
             header: 'REPORTS_PROCESSING.TREATMENT.TABLE.REPORT_TYPE',
-            class: 'text-center',
             width: '12rem',
         },
         {
