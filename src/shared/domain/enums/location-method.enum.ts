@@ -1,4 +1,4 @@
 export enum LocationMethod {
-    AUTO = 'auto',
-    MANUAL = 'manual',
+    AUTO = 'Auto',
+    MANUAL = 'Manual',
 }

@@ -1,16 +1,22 @@
-import { Routes } from '@angular/router';
+/* import { Routes } from '@angular/router';
+import { FormProfileHabilitationComponent } from './feature/profile-habilitation/form-profile-habilitation/form-profile-habilitation.component';
 import { FormUserComponent } from './feature/user/form-user/form-user.component';
+import { AccessLogsComponent } from './ui/access-logs/access-logs.component';
+import { ProfileHabilitationComponent } from './ui/profile-habilitation/profile-habilitation.component';
+import { ProfileUsersAssignComponent } from './ui/profile-users-assign/profile-users-assign.component';
+import { ProfileUsersComponent } from './ui/profile-users/profile-users.component';
 import { UsersComponent } from './ui/users/users.component';
 
 export const PROFILE_HABILITATION_ROUTE = 'permission-profiles';
 export const USER_ROUTE = 'users';
+export const ACCESS_LOGS_ROUTE = 'access-logs';
 export const USER_FORM_ROUTE = 'form';
 export const PROFILE_FORM_ROUTE = 'form';
 export const PROFILE_USERS_ROUTE = 'users';
 export const PROFILE_USERS_ASSIGN_ROUTE = 'assign';
 
 export const routes: Routes = [
-    /* {
+    {
         path: PROFILE_HABILITATION_ROUTE,
         children: [
             {
@@ -63,7 +69,7 @@ export const routes: Routes = [
                 redirectTo: '',
             },
         ],
-    }, */
+    },
     {
         path: USER_ROUTE,
         children: [
@@ -101,6 +107,15 @@ export const routes: Routes = [
         ],
     },
     {
+        path: ACCESS_LOGS_ROUTE,
+        component: AccessLogsComponent,
+        data: {
+            title: 'SETTINGS_SECURITY.ACCESS_LOGS.TITLE',
+            module: 'SETTINGS_SECURITY.LABEL',
+            subModule: 'SETTINGS_SECURITY.ACCESS_LOGS.LABEL',
+        },
+    },
+    {
         path: '',
         redirectTo: PROFILE_HABILITATION_ROUTE,
         pathMatch: 'full',
@@ -110,3 +125,4 @@ export const routes: Routes = [
         redirectTo: PROFILE_HABILITATION_ROUTE,
     },
 ];
+ */

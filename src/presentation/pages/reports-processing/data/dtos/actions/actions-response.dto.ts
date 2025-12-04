@@ -6,6 +6,7 @@ export interface ActionsItemDto {
     date: string;
     type: string;
     description: string;
+    report_processings_count: boolean;
     created_by: {
         id: string;
         last_name: string;
@@ -23,4 +24,4 @@ export interface ActionsItemDto {
 }
 
 export interface ActionsResponseDto
-    extends PaginatedResponseDto<ActionsItemDto> {}
+    extends PaginatedResponseDto<ActionsItemDto> { }

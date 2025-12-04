@@ -15,7 +15,6 @@ export const TASKS_TABLE_CONST = {
         {
             field: 'reportType',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.REPORT_TYPE',
-            class: 'text-center',
             width: '12rem',
         },
         {
@@ -39,7 +38,7 @@ export const TASKS_TABLE_CONST = {
             field: '__action',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.ACTION',
             class: 'text-center',
-            width: '6rem',
+            width: '4rem',
         },
     ],
     globalFilterFields: [

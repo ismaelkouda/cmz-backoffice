@@ -17,6 +17,7 @@ import { TableProfileUsersComponent } from '@presentation/pages/settings-securit
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import {
@@ -28,7 +29,6 @@ import {
     takeUntil,
 } from 'rxjs';
 import Swal from 'sweetalert2';
-import { PAGINATION_CONST } from '../../domain/constants/pagination.constants';
 
 interface ProfileUsersFilterInterface {
     matricule?: string;
@@ -217,5 +217,4 @@ export class ProfileUsersAssignComponent implements OnInit, OnDestroy {
         this.destroy$.next();
         this.destroy$.complete();
     }
-}
- */
+} */

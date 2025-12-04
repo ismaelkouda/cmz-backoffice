@@ -88,7 +88,7 @@ export class FormProfileHabilitationComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                 this.title.setTitle(
                     data['title'] ??
-                        'SETTINGS_SECURITY.PROFILE_HABILITATION.FORM.CREATE_TITLE'
+                    'SETTINGS_SECURITY.PROFILE_HABILITATION.FORM.CREATE_TITLE'
                 );
                 this.module = data['module'] ?? 'SETTINGS_SECURITY.LABEL';
                 this.subModule =
@@ -196,5 +196,4 @@ export class FormProfileHabilitationComponent implements OnInit, OnDestroy {
         this.destroy$.next();
         this.destroy$.complete();
     }
-}
- */
+} */

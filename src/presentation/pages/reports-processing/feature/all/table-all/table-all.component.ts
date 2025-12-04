@@ -97,7 +97,7 @@ export class TableAllComponent implements OnDestroy {
     };
 
     private readonly stateLabelMap: Record<string, string> = {
-        alld: 'REPORTS_PROCESSING.ALL.OPTIONS.STATE.APPROVED',
+        all: 'REPORTS_PROCESSING.ALL.OPTIONS.STATE.APPROVED',
         received: 'REPORTS_PROCESSING.ALL.OPTIONS.STATE.RECEIVED',
         rejected: 'REPORTS_PROCESSING.ALL.OPTIONS.STATE.REJECTED',
     };

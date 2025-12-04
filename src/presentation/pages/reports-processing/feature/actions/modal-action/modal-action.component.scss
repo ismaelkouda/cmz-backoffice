@@ -81,4 +81,35 @@
             justify-content: flex-start;
         }
     }
+
+    // Toggle Switch Styling
+    .toggle-group {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: linear-gradient(
+            135deg,
+            rgba(var(--theme-default-rgb, 91, 155, 213), 0.05) 0%,
+            rgba(var(--theme-default-rgb, 91, 155, 213), 0.02) 100%
+        );
+        border-radius: 0.75rem;
+        border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.1);
+
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+
+            .toggle-label {
+                font-weight: 600;
+                font-size: 0.9375rem;
+                color: var(--text-primary, #1e293b);
+                margin-bottom: 0;
+            }
+
+            p-toggleswitch {
+                flex-shrink: 0;
+            }
+        }
+    }
 }

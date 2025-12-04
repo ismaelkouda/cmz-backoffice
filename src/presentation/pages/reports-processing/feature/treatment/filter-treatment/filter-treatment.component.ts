@@ -45,7 +45,7 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
 
     readonly reportTypeOptions = [
         {
-            value: 'Couverture partielle signal',
+            value: 'Couverture Partielle Signal',
             label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL',
         },
         {
@@ -53,7 +53,7 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
             label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.REPORT_TYPE.WHITE_ZONE',
         },
         {
-            value: "Absence d'internet",
+            value: "Absence d'Internet",
             label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.REPORT_TYPE.NO_INTERNET',
         },
     ] as const;
@@ -93,7 +93,7 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
         private readonly fb: FormBuilder,
         private readonly translate: TranslateService,
         private readonly treatmentFacade: TreatmentFacade
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.initFormFilter();

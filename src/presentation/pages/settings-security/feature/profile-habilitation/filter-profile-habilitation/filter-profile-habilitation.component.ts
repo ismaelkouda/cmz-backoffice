@@ -1,26 +1,26 @@
 /* import {
     Component,
     EventEmitter,
-    OnDestroy,
+    inject,
     OnInit,
-    Output,
+    Output
 } from '@angular/core';
 import {
     FormBuilder,
-    FormControl,
     FormGroup,
-    ReactiveFormsModule,
+    ReactiveFormsModule
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ProfileHabilitationFilterFormInterface } from '@pages/settings-security/data-access/profile-habilitation/interfaces/profile-habilitation-filter-form.interface';
-import { ProfileHabilitationFilterInterface } from '@pages/settings-security/data-access/profile-habilitation/interfaces/profile-habilitation-filter.interface';
-import { ProfileHabilitationFacade } from '@presentation/pages/settings-security/application/profile-habilitation.facade';
+import { UserFacade } from '@presentation/pages/settings-security/application/user.facade';
+import { ProfileHabilitationFilterFormPayloadEntity } from '@presentation/pages/settings-security/domain/entities/profile-habilitation/profile-habilitation-filter-form-payload.entity';
+import { ProfileHabilitationFilterPayloadEntity } from '@presentation/pages/settings-security/domain/entities/profile-habilitation/profile-habilitation-filter-payload.entity';
+import { UserFilter } from '@presentation/pages/settings-security/domain/value-objects/user-filter.vo';
+import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-filter-profile-habilitation',
@@ -36,13 +36,16 @@ import { Subject, takeUntil } from 'rxjs';
         RippleModule,
     ],
 })
-export class FilterProfileHabilitationComponent implements OnInit, OnDestroy {
-    @Output() filter = new EventEmitter<ProfileHabilitationFilterInterface>();
+export class FilterProfileHabilitationComponent implements OnInit {
+    private readonly toastService = inject(ToastrService);
+    private readonly userFacade = inject(UserFacade);
+    private readonly fb = inject(FormBuilder);
+    private readonly translate = inject(TranslateService);
+    @Output() filterChange = new EventEmitter<ProfileHabilitationFilterPayloadEntity>();
+    public users$ = this.userFacade.users$;
+    filterForm: FormGroup<ProfileHabilitationFilterFormPayloadEntity>;
 
-    public formFilter!: FormGroup<ProfileHabilitationFilterFormInterface>;
-    private readonly destroy$ = new Subject<void>();
-
-    readonly profileOptions = [
+    public readonly profileOptions = [
         {
             value: 'admin',
             label: 'SETTINGS_SECURITY.PROFILE_HABILITATION.OPTIONS.PROFILE.ADMIN',
@@ -53,7 +56,7 @@ export class FilterProfileHabilitationComponent implements OnInit, OnDestroy {
         },
     ] as const;
 
-    readonly stateOptions = [
+    public readonly stateOptions = [
         {
             value: 'active',
             label: 'SETTINGS_SECURITY.PROFILE_HABILITATION.LABELS.STATUS.ACTIVE',
@@ -64,91 +67,44 @@ export class FilterProfileHabilitationComponent implements OnInit, OnDestroy {
         },
     ] as const;
 
-    constructor(
-        private readonly toastService: ToastrService,
-        private readonly fb: FormBuilder,
-        private readonly translate: TranslateService,
-        private readonly profileHabilitationFacade: ProfileHabilitationFacade
-    ) {}
+    constructor() {
+        this.filterForm = this.fb.group<ProfileHabilitationFilterFormPayloadEntity>({
+            auth_user_id: this.fb.control<string | null>(null)
+        });
+    }
 
     ngOnInit(): void {
-        this.initFormFilter();
+        this.userFacade.fetchUsers(UserFilter.create());
     }
 
-    public initFormFilter(): void {
-        // Initialiser le formulaire une seule fois avec des valeurs vides
-        if (!this.formFilter) {
-            this.formFilter =
-                this.fb.group<ProfileHabilitationFilterFormInterface>({
-                    profile: new FormControl<string>('', {
-                        nonNullable: true,
-                    }),
-                    state: new FormControl<string>('', {
-                        nonNullable: true,
-                    }),
-                    matricule: new FormControl<string>('', {
-                        nonNullable: true,
-                    }),
-                    search: new FormControl<string>('', {
-                        nonNullable: true,
-                    }),
-                });
+    onSubmitFilterForm(): void {
+        const createdFromControl = this.filterForm.get('created_from');
+        const createdToControl = this.filterForm.get('created_to');
+
+        const createdFromValue = createdFromControl?.value ?? '';
+        const createdToValue = createdToControl?.value ?? '';
+
+        const createdFrom = moment(createdFromValue, moment.ISO_8601, true);
+        const createdTo = moment(createdToValue, moment.ISO_8601, true);
+
+        if (createdFrom.isValid() && createdTo.isValid()) {
+            if (createdFrom.isAfter(createdTo)) {
+                const INVALID_DATE_RANGE =
+                    this.translate.instant('INVALID_DATE_RANGE');
+                this.toastService.error(INVALID_DATE_RANGE);
+                return;
+            }
         }
 
-        // Mettre à jour le formulaire avec les valeurs du filtre actuel
-        this.profileHabilitationFacade.currentFilter$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((filterValue) => {
-                if (!this.formFilter) {
-                    return;
-                }
-
-                const dto =
-                    typeof filterValue?.toDto === 'function'
-                        ? filterValue.toDto()
-                        : {};
-
-                // Mettre à jour les valeurs sans recréer le formulaire
-                this.formFilter.patchValue(
-                    {
-                        profile: dto['profile'] ?? '',
-                        state: dto['state'] ?? '',
-                        matricule: dto['matricule'] ?? '',
-                        search: dto['search'] ?? '',
-                    },
-                    { emitEvent: false }
-                );
-            });
-    }
-
-    public resetSelect<K extends keyof ProfileHabilitationFilterFormInterface>(
-        controlName: K
-    ): void {
-        const control = this.formFilter?.controls[controlName];
-        if (control) {
-            control.setValue('', { emitEvent: false });
-        }
-    }
-
-    public onSubmitFilterForm(): void {
-        const filterData: ProfileHabilitationFilterInterface = {
-            profile: this.formFilter.get('profile')?.value?.trim() ?? '',
-            state: this.formFilter.get('state')?.value?.trim() ?? '',
-            matricule: this.formFilter.get('matricule')?.value?.trim() ?? '',
-            search: this.formFilter.get('search')?.value?.trim() ?? '',
+        const filterData: ProfileHabilitationFilterPayloadEntity = {
+            auth_user_id: this.filterForm.get('auth_user_id')?.value ?? '',
         };
 
-        if (this.formFilter.valid) {
-            this.filter.emit(filterData);
+        if (this.filterForm.valid) {
+            this.filterChange.emit(filterData);
         } else {
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-}
- */
+} */

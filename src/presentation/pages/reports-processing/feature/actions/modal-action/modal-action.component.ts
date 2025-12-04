@@ -32,6 +32,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { Subject, takeUntil } from 'rxjs';
 
 export type ActionModalMode = 'create' | 'edit';
@@ -53,6 +54,7 @@ export type ActionModalMode = 'create' | 'edit';
         InputGroupAddonModule,
         TextareaModule,
         DatePickerModule,
+        ToggleSwitchModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -146,6 +148,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
                 date: formattedDate,
                 type: action.type || '',
                 description: action.description,
+                report_processings_count: action.reportProcessingsCount || false,
             });
 
             this.actionForm.updateValueAndValidity();
@@ -196,6 +199,9 @@ export class ModalActionComponent implements OnInit, OnDestroy {
             description: new FormControl<string>('', {
                 nonNullable: true,
                 validators: [Validators.required],
+            }),
+            report_processings_count: new FormControl<boolean>(false, {
+                nonNullable: true,
             }),
         });
     }
@@ -277,6 +283,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
             date: this.formatDate(formValue.date),
             type: formValue.type,
             description: formValue.description.trim(),
+            report_processings_count: formValue.report_processings_count,
         };
     }
 

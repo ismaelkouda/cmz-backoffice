@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+/* import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UserFacade } from '@presentation/pages/settings-security/application/user.facade';
@@ -110,7 +110,7 @@ export class FilterUserComponent implements OnInit, OnDestroy {
     }
 
     public onSubmitFilterForm(): void {
-        /* const createdFromControl = this.formFilter.get('created_from');
+       const createdFromControl = this.formFilter.get('created_from');
         const createdToControl = this.formFilter.get('created_to');
  
         const createdFromValue = createdFromControl?.value ?? '';
@@ -145,7 +145,7 @@ export class FilterUserComponent implements OnInit, OnDestroy {
         } else {
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.error(translatedMessage);
-        } */
+        } 
     }
 
     ngOnDestroy(): void {
@@ -153,3 +153,4 @@ export class FilterUserComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
+ */

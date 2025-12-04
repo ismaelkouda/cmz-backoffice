@@ -1,0 +1,163 @@
+<p-table
+    #dt
+    [value]="accessLogs()"
+    [rowHover]="true"
+    [rows]="pagination().per_page || 10"
+    [globalFilterFields]="tableConfig().globalFilterFields"
+    responsiveLayout="scroll"
+    [scrollable]="true"
+    scrollHeight="430px"
+    data-testid="access-logs-table"
+    role="grid"
+    width="100%"
+>
+    <ng-template pTemplate="caption">
+        <div class="container-table-header">
+            <app-table-title
+                [count]="pagination().total"
+                [perPage]="pagination().per_page"
+                [page]="pagination().current_page"
+                [totalPage]="pagination().last_page"
+            >
+            </app-table-title>
+            <div class="d-flex gap-2 align-items-center custom-header-actions">
+                <app-table-button-header
+                    (export)="onExportExcel()"
+                    (refresh)="onRefresh()"
+                    [disabledButtonExport]="loading() || !hasData()"
+                    [disabledButtonRefresh]="loading()"
+                    [hiddenButtonOther]="true"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt" />
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr role="row">
+            @for (col of tableConfig().cols; track col.field) {
+                <th
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                        'text-align': col.class?.includes('text-center') ? 'center' : 'left'
+                    }"
+                    role="columnheader"
+                    scope="col"
+                >
+                    {{ col.header | translate }}
+                </th>
+            }
+        </tr>
+    </ng-template>
+
+    <!-- TABLE BODY - DONNÉES RÉELLES -->
+    <ng-template pTemplate="body" let-log let-rowIndex="rowIndex">
+        <tr role="row" [class.cursor-pointer]="!loading()">
+            @for (col of tableConfig().cols; track col.field) {
+                <td
+                    [class]="col.class"
+                    [style]="{
+                        'min-width': col.width,
+                        width: col.width,
+                        'text-align': col.class?.includes('text-center') ? 'center' : 'left'
+                    }"
+                    role="gridcell"
+                >
+                    @switch (col.field) {
+                        @case ('createdAt') {
+                            <time [attr.datetime]="log.createdAt">
+                                {{ formatDate(log.createdAt) }}
+                            </time>
+                        }
+                        
+                        @case ('username') {
+                            <span>{{ log.username || '-' }}</span>
+                        }
+                        
+                        @case ('ip') {
+                            <div class="d-flex align-items-center gap-1">
+                                <code>{{ log.ip || '-' }}</code>
+                                @if (log.ip) {
+                                    <button
+                                        type="button"
+                                        (click)="copyToClipboard(log.ip)"
+                                        class="p-button p-button-text p-button-sm"
+                                        pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                        tooltipPosition="bottom"
+                                    >
+                                        <i class="pi pi-copy"></i>
+                                    </button>
+                                }
+                            </div>
+                        }
+                        
+                        @case ('event') {
+                            <span [class]="getEventSeverityClass(log.event)">
+                                {{ log.event || '-' }}
+                            </span>
+                        }
+                        
+                        @case ('action') {
+                            <code>{{ log.action || '-' }}</code>
+                        }
+                        
+                        @case ('data') {
+                            @if (log.data) {
+                                <span>{{ log.data || '-' }}</span>
+                            } @else {
+                                <span class="text-muted">-</span>
+                            }
+                        }
+                        
+                        @default {
+                            {{ log[col.field] || '-' }}
+                        }
+                    }
+                </td>
+            }
+        </tr>
+    </ng-template>
+
+    @if (loading() && accessLogs().length === 0) {
+        <ng-template pTemplate="body">
+            @for (row of skeletonRows(); track row; let i = $index) {
+                <tr role="row">
+                    @for (col of tableConfig().cols; track col.field) {
+                        <td
+                            [class]="col.class"
+                            [style]="{
+                                'min-width': col.width,
+                                width: col.width,
+                                'text-align': col.class?.includes('text-center') ? 'center' : 'left'
+                            }"
+                            role="gridcell"
+                        >
+                            <p-skeleton 
+                                [width]="col.width"
+                                [height]="'1.5rem'"
+                                [styleClass]="'skeleton-' + col.field"
+                            ></p-skeleton>
+                        </td>
+                    }
+                </tr>
+            }
+        </ng-template>
+    }
+
+    <ng-template pTemplate="emptymessage">
+        @if (!loading() && accessLogs().length === 0) {
+            <tr role="row">
+                <td [attr.colspan]="tableConfig().cols.length" role="gridcell">
+                    <div class="empty-state text-center py-5">
+                        <i class="pi pi-inbox" style="font-size: 3rem; color: var(--surface-400);"></i>
+                        <h4 class="mt-3">{{ 'COMMON.NO_DATA' | translate }}</h4>
+                        <p class="text-muted">{{ 'ACCESS_LOGS.EMPTY_MESSAGE' | translate }}</p>
+                    </div>
+                </td>
+            </tr>
+        }
+    </ng-template>
+</p-table>

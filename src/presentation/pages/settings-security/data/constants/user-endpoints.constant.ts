@@ -1,4 +1,4 @@
-export const UserEndpoint = {
+/* export const UserEndpoint = {
     USERS: 'users?page={page}',
     STORE: 'users/store',
     UPDATE: 'users/update',
@@ -8,3 +8,4 @@ export const UserEndpoint = {
     USERS_WITHOUT_PROFIL: 'users/without-profil?page={page}',
     USERS_WITH_PROFIL: 'user-profiles/{id}/users?page={page}',
 } as const;
+ */

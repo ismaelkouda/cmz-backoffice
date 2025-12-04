@@ -1,0 +1,62 @@
+<main class="container-fluid access-logs-container" role="main">
+    <section class="row access-logs-row">
+        <article class="col-sm-12 access-logs-article">
+            <app-breadcrumb
+                class="profile-habilitation-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card access-logs-card">
+                <div class="card-body access-logs-card-body">
+                    <header class="access-logs-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'COMMUNICATION.ACCESS_LOGS.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="fade-in access-logs-content">
+                        <app-filter-access-logs
+                            class="filter-component"
+                            (filterChange)="onFilter($event)"
+                        ></app-filter-access-logs>
+
+                        <hr class="access-logs-divider" />
+
+                        <section
+                            class="table-section"
+                            [aria-label]="
+                                'COMMUNICATION.ACCESS_LOGS.TITLE' | translate
+                            "
+                        >
+                            <app-table-access-logs
+                                class="table-component"
+                                [accessLogs$]="accessLogs$"
+                                [pagination$]="pagination$"
+                                [loading$]="loading$"
+                                [tableConfig]="tableConfig"
+                                (pageChange)="onPageChange($event)"
+                                (refresh)="onRefresh()"
+                                (export)="onExportExcel()"
+                            ></app-table-access-logs>   
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination$ | async"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+

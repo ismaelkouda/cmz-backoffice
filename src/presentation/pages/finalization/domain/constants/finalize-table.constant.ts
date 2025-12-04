@@ -15,7 +15,6 @@ export const FINALIZE_TABLE_CONST = {
         {
             field: 'reportType',
             header: 'REPORTS_PROCESSING.FINALIZE.TABLE.REPORT_TYPE',
-            class: 'text-center',
             width: '12rem',
         },
         {

@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+/* import { AsyncPipe, CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -176,7 +176,7 @@ export class FormUserComponent implements OnInit, OnDestroy {
                 email: formValue.email.trim(),
             };
 
-            /* this.user$
+            this.user$
                 .pipe(
                     switchMap((user) => {
                         if (user) {
@@ -198,7 +198,7 @@ export class FormUserComponent implements OnInit, OnDestroy {
                     error: () => {
                         // Error handled in facade
                     },
-                }); */
+                }); 
         } else {
             this.formUser.markAllAsTouched();
             const translatedMessage = this.translate.instant('FORM_INVALID');
@@ -225,3 +225,4 @@ export class FormUserComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 }
+ */

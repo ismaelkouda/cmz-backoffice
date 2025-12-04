@@ -56,10 +56,10 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
-                    "PARTIAL_SIGNAL": "Couverture partielle signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet"
+                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATOR": {
                     "ORANGE": "Orange",
@@ -116,10 +116,10 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATOR": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -173,7 +173,7 @@
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
                 "STEP": "Étape",
-                "STATUS": "Status",
+                "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
                 "QUALIFY": "Qualifier",
                 "ACTION": "Action"
@@ -184,15 +184,15 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
                 "SOURCE": "Source",
-                "STATUS": "Status"
+                "STATUS": "Statut"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATOR": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -256,7 +256,7 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
-                "STATUS": "Status",
+                "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
                 "TAKE": "Prendre",
                 "ACTION": "Action"
@@ -270,10 +270,10 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
-                    "PARTIAL_SIGNAL": "Couverture partielle signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet"
+                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATOR": {
                     "ORANGE": "Orange",
@@ -320,7 +320,7 @@
                 "ACTION": "Action",
                 "PROCESSING_NEWSPAPERS": "Journal de traitements",
                 "STEP": "Étape",
-                "STATUS": "Status",
+                "STATUS": "Statut",
                 "SEE_MORE": "Voir plus"
             },
             "FILTER": {
@@ -333,10 +333,10 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATOR": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -390,7 +390,7 @@
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
                 "STEP": "Étape",
-                "STATUS": "Status",
+                "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
                 "QUALIFY": "Qualifier",
                 "ACTION": "Action"
@@ -401,15 +401,15 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
                 "SOURCE": "Source",
-                "STATUS": "Status"
+                "STATUS": "Statut"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATOR": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -474,10 +474,10 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
-                    "PARTIAL_SIGNAL": "Couverture partielle signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet"
+                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet"
                 },
                 "STATE": {
                     "TERMINATED": "Terminé",
@@ -513,7 +513,7 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "WHITE_ZONE": "Zone blanche"
+                    "WHITE_ZONE": "Zone Blanche"
                 },
                 "STATE": {
                     "FINALIZED": "Finalisé",
@@ -629,10 +629,10 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
-                    "PARTIAL_SIGNAL": "Couverture partielle signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet"
+                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATOR": {
                     "ORANGE": "Orange",
@@ -677,7 +677,7 @@
                 "STATE": "État",
                 "TREAT": "Traiter",
                 "STEP": "Étape",
-                "STATUS": "Status",
+                "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
                 "QUALIFY": "Qualifier",
                 "ACTION": "Action"
@@ -692,10 +692,10 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATOR": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -749,7 +749,7 @@
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
                 "STEP": "Étape",
-                "STATUS": "Status",
+                "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
                 "QUALIFY": "Qualifier",
                 "ACTION": "Action"
@@ -760,15 +760,15 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATOR": "Opérateur",
                 "SOURCE": "Source",
-                "STATUS": "Status"
+                "STATUS": "Statut"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATOR": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture partielle signal"
+                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -833,10 +833,10 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture partielle operateur",
-                    "PARTIAL_SIGNAL": "Couverture partielle signal",
-                    "WHITE_ZONE": "Zone blanche",
-                    "NO_INTERNET": "Absence d'internet"
+                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet"
                 },
                 "STATE": {
                     "TERMINATED": "Terminé",
@@ -872,7 +872,7 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "WHITE_ZONE": "Zone blanche"
+                    "WHITE_ZONE": "Zone Blanche"
                 },
                 "STATE": {
                     "FINALIZED": "Finalisé",
@@ -938,14 +938,24 @@
                 "TAKE": "Prise en charge",
                 "APPROBATION": "Approbation"
             },
+            "BUTTONS": {
+                "SUBMISSION": "Soummetre",
+                "QUALIFICATION": "Qualifier",
+                "TREATMENT": "Traiter",
+                "FINALIZATION": "Finaliser",
+                "INFORMATION": "Information",
+                "TAKE": "Prendre",
+                "APPROBATION": "Approuver"
+            },
             "HEADER": {
                 "DETAILS_REPORT": "du signalement",
                 "DETAILS_DEMAND": "de la demande",
+                "NUMBER_OF_CONFIRMATIONS": "Nombre de confirmations",
                 "REPORT_ID": "Identifiant",
                 "STATUS": "Statut",
                 "STATUS_PENDING": "En attente",
                 "TYPE": "Type",
-                "TYPE_PLACEHOLDER": "Zone blanche",
+                "TYPE_PLACEHOLDER": "Zone Blanche",
                 "DATE_PLACEHOLDER": "Date à venir..."
             },
             "STEP_BAR": {
@@ -1054,7 +1064,7 @@
                 "OPERATORS": "Opérateurs concernés",
                 "DATE_TIME_ENTRY": "Date Heure saisie",
                 "DATE_TIME_RECEIPT": "Date Heure réception",
-                "CONFIRMATION": "Nombre de confirmations",
+                "NUMBER_OF_ACTIONS": "Nombre d'actions menées",
                 "REGION": "Région",
                 "DEPARTMENT": "Département",
                 "COMMUNE": "Commune/Sous-préfecture",
@@ -1102,10 +1112,10 @@
                 "ADMIN": "Administration"
                 },
                 "REPORT_TYPE": {
-                "ABI": "Absence d'internet",
-                "ZOB": "Zone blanche",
-                "CPS": "Couverture partielle signal",
-                "CPO": "Couverture partielle operateur",
+                "ABI": "Absence d'Internet",
+                "ZOB": "Zone Blanche",
+                "CPS": "Couverture Partielle Signal",
+                "CPO": "Couverture Partielle Operateur",
                 "OTHER": "Autre"
                 },
                 "STATUS": {
@@ -1217,7 +1227,7 @@
 
 
     "ACTIONS": {
-        "TITLE": "Traitements effectués sur le signalement",
+        "TITLE": "Actions de traitement du signalement",
         "LABEL": "Actions",
         "ROUTE": "actions",
         "TABLE": {
@@ -1457,6 +1467,25 @@
                     "ACTIVE": "Actif",
                     "INACTIVE": "Inactif"
                 }
+            }
+        },
+        "ACCESS_LOGS": {
+            "TITLE": "Journaux d'accès - CMZ gestion des journaux d'accès",
+            "LABEL": "Journaux d'accès",
+            "ROUTE": "access-logs",
+            "TABLE": {
+                "DATE": "Date",
+                "USER": "Utilisateur",
+                "IP_ADDRESS": "Adresse IP",
+                "EVENT": "Événement",
+                "ACTION": "Action",
+                "DETAILS": "Détails"
+            },
+            "FILTER": {
+                "START_DATE": "Date début",
+                "END_DATE": "Date fin",
+                "USER": "Utilisateur",
+                "SEARCH": "Recherche"
             }
         }
     },
@@ -2274,15 +2303,15 @@
                     "SUBTITLE": "Signalements de couverture partielle opérateur"
                 },
                 "WHITE_ZONE_REPORTS_PROCESSING": {
-                    "LABEL": "Zone blanche",
+                    "LABEL": "Zone Blanche",
                     "SUBTITLE": "Signalements de zone blanche"
                 },
                 "PARTIAL_SIGNAL_REPORTS_PROCESSING": {
-                    "LABEL": "Couverture partielle signal",
+                    "LABEL": "Couverture Partielle Signal",
                     "SUBTITLE": "Signalements de couverture partielle"
                 },
                 "NO_INTERNET_REPORTS_PROCESSING": {
-                    "LABEL": "Absence d'internet",
+                    "LABEL": "Absence d'Internet",
                     "SUBTITLE": "Signalements d'absence d'internet"
                 }
             },

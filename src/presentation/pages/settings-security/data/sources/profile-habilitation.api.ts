@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+/* import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
@@ -152,3 +152,4 @@ export class ProfileHabilitationApi {
         return this.http.get<UserResponseDto>(url, { params });
     }
 }
+ */
