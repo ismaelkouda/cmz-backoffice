@@ -1,0 +1,393 @@
+<main class="container-fluid form-news-container" role="main">
+    <section class="row form-news-row">
+        <article class="col-sm-12 form-news-article">
+            <app-breadcrumb
+                class="team-form-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card form-news-card">
+                <div class="card-body form-news-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="
+                                    isEditMode ? ('CONTENT_MANAGEMENT.NEWS.FORM.TITLE_FORM_EDIT' | translate) : ('CONTENT_MANAGEMENT.NEWS.FORM.TITLE_FORM_ADD' | translate)
+                                "
+                            >
+                            </app-page-title>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="onCancel()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="row">
+                            <div class="col-12">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body p-4">
+                                    
+                                        <form class="form row g-3" [formGroup]="form" (ngSubmit)="onSubmit()">
+                                            
+                                            <fieldset class="fieldset">
+                                                <legend>
+                                                    <b>{{ 'CONTENT_MANAGEMENT.NEWS.FORM.GENERAL_INFO' | translate }}</b>
+                                                </legend>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label for="title" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.NEWS.FORM.TITLE' | translate }} <span class="text-danger">*</span></label>
+                                                        <input pInputText id="title" formControlName="title" class="w-100" [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.TITLE_PLACEHOLDER' | translate" />
+                                                        @if (form.get('title')?.invalid && form.get('title')?.touched) {
+                                                            <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                        }
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="resume" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.NEWS.FORM.RESUME' | translate }} <span class="text-danger">*</span></label>
+                                                        <input pInputText id="resume" formControlName="resume" class="w-100" />
+                                                        @if (form.get('resume')?.invalid && form.get('resume')?.touched) {
+                                                            <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                        }
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label for="content" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.NEWS.FORM.DESCRIPTION' | translate }}</label>
+                                                        <p-editor formControlName="content" [style]="{ height: '150px' }"></p-editor>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset class="fieldset">
+                                                <legend>
+                                                    <b>{{ 'CONTENT_MANAGEMENT.NEWS.FORM.MEDIA_DISPLAY' | translate }}</b>
+                                                </legend>
+                                                <div class="row g-3 align-items-center">
+                                                    <!-- <div class="col-md-2">
+                                                        <label for="timeDurationInSeconds" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.NEWS.FORM.DURATION' | translate }}</label>
+                                                        <input class="form-input" id="timeDurationInSeconds" type="number" min="1" max="10" formControlName="timeDurationInSeconds" />
+                                                        @if (form.get('timeDurationInSeconds')?.invalid && form.get('timeDurationInSeconds')?.touched) {
+                                                            <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                        }
+                                                    </div> -->
+
+                                                    <div class="col-md-2">
+                                                        <label for="type" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.NEWS.FORM.TYPE' | translate }} <span class="text-danger">*</span></label>
+                                                        <p-select class="form-p-select" [options]="typeOptions" formControlName="type" optionLabel="label" optionValue="value" styleClass="w-100"></p-select>
+                                                    </div>
+
+                                                    <div class="col-md-8">
+                                                        @if (isVideoType) {
+                                                            <div class="fade-in">
+                                                                <label class="form-label fw-bold d-block">
+                                                                    {{ 'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO' | translate }}
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
+                                                                
+                                                                <!-- Video Upload & Preview Area -->
+                                                                <div class="d-flex align-items-center gap-3 flex-wrap">
+                                                                    <!-- Upload Button -->
+                                                                    <p-fileUpload 
+                                                                        mode="basic" 
+                                                                        name="videoUpload" 
+                                                                        accept="video/*" 
+                                                                        [maxFileSize]="50000000" 
+                                                                        (onSelect)="onVideoSelect($event)" 
+                                                                        [chooseLabel]="'CONTENT_MANAGEMENT.NEWS.FORM.CHOOSE_VIDEO' | translate" 
+                                                                        styleClass="p-button-outlined">
+                                                                    </p-fileUpload>
+                                                                    
+                                                                    <!-- Video Preview & Actions -->
+                                                                    @if (videoPreview && !videoRemoved) {
+                                                                        <div class="media-preview-container">
+                                                                            <div class="d-flex align-items-center gap-2">
+                                                                                <!-- Preview Button -->
+                                                                                <button 
+                                                                                    pButton 
+                                                                                    type="button" 
+                                                                                    icon="pi pi-eye" 
+                                                                                    [label]="'COMMON.PREVIEW' | translate" 
+                                                                                    class="p-button-rounded p-button-info p-button-text" 
+                                                                                    (click)="openPreview('video')">
+                                                                                </button>
+                                                                                
+                                                                                <!-- Remove Button -->
+                                                                                <!-- <button 
+                                                                                    pButton 
+                                                                                    type="button" 
+                                                                                    icon="pi pi-trash" 
+                                                                                    [label]="'COMMON.DELETE' | translate" 
+                                                                                    class="p-button-rounded p-button-danger p-button-text" 
+                                                                                    (click)="removeVideo()">
+                                                                                </button> -->
+                                                                                
+                                                                                <!-- Video Indicator -->
+                                                                                <span class="text-success small">
+                                                                                    <i class="pi pi-check-circle me-1"></i>
+                                                                                    {{ uploadedVideoFile ? 
+                                                                                        ('CONTENT_MANAGEMENT.NEWS.MESSAGES.NEW_VIDEO_SELECTED' | translate) : 
+                                                                                        ('CONTENT_MANAGEMENT.NEWS.MESSAGES.EXISTING_VIDEO' | translate) 
+                                                                                    }}
+                                                                                </span>
+                                                                            </div>
+                                                                            
+                                                                            <!-- Video Thumbnail (si disponible) -->
+                                                                            @if (videoPreview && typeof videoPreview === 'string') {
+                                                                                <div class="position-relative ms-2">
+                                                                                    <div class="bg-dark rounded p-1">
+                                                                                        <i class="pi pi-video text-white" style="font-size: 1.5rem;"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                            }
+                                                                        </div>
+                                                                    }
+                                                                    
+                                                                    <!-- Restore Button (if removed in edit mode) -->
+                                                                    @if (videoRemoved && originalVideoUrl) {
+                                                                        <div class="d-flex align-items-center gap-2">
+                                                                            <button 
+                                                                                pButton 
+                                                                                type="button" 
+                                                                                icon="pi pi-undo" 
+                                                                                [label]="'COMMON.RESTORE' | translate" 
+                                                                                class="p-button-rounded p-button-warning p-button-text" 
+                                                                                (click)="restoreVideo()">
+                                                                            </button>
+                                                                        </div>
+                                                                    }
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        } @else {
+                                                            <div class="fade-in">
+                                                                <label class="form-label fw-bold d-block">
+                                                                    {{ 'CONTENT_MANAGEMENT.NEWS.FORM.IMAGE' | translate }}
+                                                                    <span class="text-danger">*</span>
+                                                                </label>
+                                                                
+                                                                <!-- Image Upload & Preview Area -->
+                                                                <div class="d-flex align-items-center gap-3 flex-wrap">
+                                                                    <!-- Upload Button -->
+                                                                    <p-fileUpload 
+                                                                        mode="basic" 
+                                                                        name="imageUpload" 
+                                                                        accept="image/*" 
+                                                                        [maxFileSize]="2000000" 
+                                                                        (onSelect)="onFileSelect($event)" 
+                                                                        [chooseLabel]="'CONTENT_MANAGEMENT.NEWS.FORM.CHOOSE_IMAGE' | translate" 
+                                                                        styleClass="p-button-outlined">
+                                                                    </p-fileUpload>
+                                                                    
+                                                                    <!-- Image Preview & Actions -->
+                                                                    @if (imagePreview && !imageRemoved) {
+                                                                        <div class="media-preview-container">
+                                                                            <div class="d-flex align-items-center gap-2">
+                                                                                <!-- Preview Button -->
+                                                                                <button 
+                                                                                    pButton 
+                                                                                    type="button" 
+                                                                                    icon="pi pi-eye" 
+                                                                                    [label]="'COMMON.PREVIEW' | translate" 
+                                                                                    class="p-button-rounded p-button-info p-button-text" 
+                                                                                    (click)="openPreview('image')">
+                                                                                </button>
+                                                                                
+                                                                                <!-- Remove Button -->
+                                                                               <!--  <button 
+                                                                                    pButton 
+                                                                                    type="button" 
+                                                                                    icon="pi pi-trash" 
+                                                                                    [label]="'COMMON.DELETE' | translate" 
+                                                                                    class="p-button-rounded p-button-danger p-button-text" 
+                                                                                    (click)="removeImage()">
+                                                                                </button> -->
+                                                                                
+                                                                                <!-- Thumbnail -->
+                                                                                <div class="position-relative">
+                                                                                    <img 
+                                                                                        [src]="imagePreview" 
+                                                                                        alt="Mini Preview" 
+                                                                                        class="img-thumbnail rounded-circle shadow-sm media-thumbnail" 
+                                                                                    />
+                                                                                
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+                                                                    
+                                                                    <!-- Restore Button (if removed in edit mode) -->
+                                                                    @if (imageRemoved && originalImageUrl) {
+                                                                        <div class="d-flex align-items-center gap-2">
+                                                                            <button 
+                                                                                pButton 
+                                                                                type="button" 
+                                                                                icon="pi pi-undo" 
+                                                                                [label]="'COMMON.RESTORE' | translate" 
+                                                                                class="p-button-rounded p-button-warning p-button-text" 
+                                                                                (click)="restoreImage()">
+                                                                            </button>
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+
+                                            <fieldset class="fieldset">
+                                                <legend>
+                                                    <b>{{ 'CONTENT_MANAGEMENT.NEWS.FORM.CONFIG' | translate }}</b>
+                                                </legend>
+                                                <div class="row g-3">
+                                                    <div class="col-md-3">
+                                                        <label for="categoryId" class="form-label fw-bold">
+                                                            {{ 'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY' | translate }} 
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                        <p-select 
+                                                            class="form-p-select"
+                                                            [options]="categoryOptions" 
+                                                            formControlName="categoryId" 
+                                                            optionLabel="label" 
+                                                            optionValue="value" 
+                                                            styleClass="w-100" 
+                                                            [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY_PLACEHOLDER' | translate">
+                                                        </p-select>
+                                                        @if (form.get('categoryId')?.invalid && form.get('categoryId')?.touched) {
+                                                            <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                        }
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="subCategoryId" class="form-label fw-bold">
+                                                            {{ 'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY' | translate }}
+                                                        </label>
+                                                        <p-select 
+                                                            class="form-p-select"
+                                                            [options]="subCategoryOptions" 
+                                                            formControlName="subCategoryId" 
+                                                            optionLabel="label" 
+                                                            optionValue="value" 
+                                                            styleClass="w-100" 
+                                                            [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY_PLACEHOLDER' | translate"
+                                                            [disabled]="!form.get('categoryId')?.value || subCategoryOptions.length === 0">
+                                                        </p-select>
+                                                        @if (!form.get('categoryId')?.value) {
+                                                            <small class="text-muted d-block mt-1">
+                                                                <i class="pi pi-info-circle me-1"></i>
+                                                                {{ 'CONTENT_MANAGEMENT.NEWS.FORM.SELECT_CATEGORY_FIRST' | translate }}
+                                                            </small>
+                                                        } @else if (subCategoryOptions.length === 0) {
+                                                            <small class="text-muted d-block mt-1">
+                                                                <i class="pi pi-info-circle me-1"></i>
+                                                                {{ 'CONTENT_MANAGEMENT.NEWS.FORM.NO_SUB_CATEGORIES' | translate }}
+                                                            </small>
+                                                        }
+                                                    </div>
+
+                                                    <div class="col-md-5">
+                                                        <label for="hashtags" class="form-label fw-bold">
+                                                            {{ 'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS' | translate }} 
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                        <p-multiSelect 
+                                                            class="form-p-select" 
+                                                            [options]="availableHashtags" 
+                                                            formControlName="hashtags" 
+                                                            styleClass="w-100" 
+                                                            [filter]="false" 
+                                                            display="chip"
+                                                            [maxSelectedLabels]="4"
+                                                            [selectedItemsLabel]="'{0} Hashtags'"
+                                                            [showToggleAll]="false" 
+                                                            [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS_PLACEHOLDER' | translate">
+                                                        </p-multiSelect>
+                                                        @if (form.get('hashtags')?.invalid && form.get('hashtags')?.touched) {
+                                                            <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+                                                <p-button label="{{ 'COMMON.CANCEL' | translate }}" styleClass="p-button-text p-button-secondary" (click)="onCancel()"></p-button>
+                                                <p-button label="{{ 'COMMON.SAVE' | translate }}" (click)="onSubmit()" [disabled]="form.invalid || form.pristine"></p-button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </section>
+
+        </article>
+    </section>
+</main>
+
+<p-dialog 
+    [(visible)]="isPreviewVisible" 
+    [modal]="true" 
+    [style]="{width: '50vw', maxWidth: '800px'}" 
+    [header]="(previewType === 'image' ? 'CONTENT_MANAGEMENT.NEWS.FORM.IMAGE_PREVIEW' : 'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO_PREVIEW') | translate" 
+    [dismissableMask]="true" 
+    [draggable]="false" 
+    [resizable]="false">
+    
+    <div class="d-flex justify-content-center align-items-center bg-light p-3 rounded">
+        @if (previewType === 'image' && previewContent) {
+            <img 
+                [src]="previewContent" 
+                alt="Full Preview" 
+                class="img-fluid rounded shadow" 
+                style="max-height: 70vh; object-fit: contain;" 
+            />
+        }
+        @if (previewType === 'video' && previewContent) {
+            <video 
+                [src]="previewContent" 
+                controls 
+                autoplay 
+                class="img-fluid rounded shadow" 
+                style="max-height: 70vh;"
+            ></video>
+        }
+        @if (!previewContent) {
+            <p class="text-muted">
+                <i class="pi pi-exclamation-circle me-2"></i>
+                {{ 'CONTENT_MANAGEMENT.NEWS.MESSAGES.NO_PREVIEW_CONTENT' | translate }}
+            </p>
+        }
+    </div>
+    
+    <ng-template pTemplate="footer">
+        <div class="d-flex justify-content-between w-100">
+            <div>
+                @if (previewType === 'image') {
+                    <small class="text-muted">
+                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.IMAGE_PREVIEW_INFO' | translate }}
+                    </small>
+                } @else {
+                    <small class="text-muted">
+                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO_PREVIEW_INFO' | translate }}
+                    </small>
+                }
+            </div>
+            <p-button 
+                label="{{ 'COMMON.CLOSE' | translate }}" 
+                (click)="isPreviewVisible = false" 
+                styleClass="p-button-text">
+            </p-button>
+        </div>
+    </ng-template>
+</p-dialog>

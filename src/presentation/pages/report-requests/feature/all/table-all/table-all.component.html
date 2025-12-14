@@ -87,13 +87,8 @@
                         }
 
                         @case ('reportType') {
-                            <div
-                                [pTooltip]="item.reportDescription | translate"
-                                tooltipPosition="bottom"
-                                showDelay="500"
-                                hideDelay="300"
-                            >
-                                {{ item.reportType }}
+                            <div>
+                                {{ item.reportType | translate }}
                             </div>
                         }
 
@@ -107,7 +102,7 @@
                                     track trackByOperator($index, operator)
                                 ) {
                                     <p-tag
-                                        [value]="getOperatorLabel(operator)"
+                                        [value]="operator | translate"
                                         [style]="getOperatorTagStyle(operator)"
                                         styleClass="operator-tag"
                                     />
@@ -119,11 +114,11 @@
                         }
 
                         @case ('status') {
-                            <div class="tag-group state-group" [class]="col.class">
+                            <div class="tag-group status-group" [class]="col.class">
                                 <p-tag
-                                    [value]="item.status"
+                                    [value]="item.status | translate"
                                     [severity]="getStatusSeverity(item.status)"
-                                    class="state-tag"
+                                    class="status-tag"
                                 ></p-tag>
                             </div>
                         }
@@ -138,11 +133,11 @@
                             <div
                                 class="source-type-content"
                             >
-                                <span [pTooltip]="item.sourceDescription | translate"
-                                    tooltipPosition="bottom">{{ item.source }}</span>&nbsp;
+                                <span>{{ item.source | translate }}</span>&nbsp;
                                 <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(item.initiatedBy)"
-                                    tooltipPosition="bottom">[ {{ item.initiatedBy }} ]</span>
+                                    (click)="copyToClipboard(item.initiatorPhoneNumber)"
+                                    tooltipPosition="bottom">[ {{ item.initiatorPhoneNumber }} ]
+                                </span>
                             </div>
                         }
 

@@ -1,0 +1,57 @@
+<main class="container-fluid news-container" role="main">
+    <section class="row news-row">
+        <article class="col-sm-12 news-article">
+            
+            <app-breadcrumb
+                class="news-breadcrumb"
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
+
+            <section class="card news-card">
+                <div class="card-body news-card-body">
+                    <header class="news-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'CONTENT_MANAGEMENT.NEWS.TITLE' | translate | lowercase"
+                        ></app-page-title>
+                    </header>
+
+                    <div class="fade-in news-content">
+                        
+                        <app-filter-news class="filter-component" 
+                            [loading]="(loading$ | async) ?? false"
+                            (filter)="filter($event)">
+                        </app-filter-news>
+
+                        <hr class="news-divider" />
+
+                        <section class="table-section">
+                            
+                            <app-table-news
+                                class="table-component"
+                                [loading]="(loading$ | async) ?? false"
+                                [news$]="news$"
+                                [pagination$]="pagination$"
+                                (refreshRequested)="refreshNews()"
+                                (createRequested)="onCreateClicked()"
+                                (editRequested)="onEditClicked($event)"
+                                (viewRequested)="onViewClicked($event)"
+                                (enableRequested)="onEnableClicked($event)"
+                                (disableRequested)="onDisableClicked($event)"
+                                (deleteRequested)="onDeleteClicked($event)"
+                            ></app-table-news>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination$]="pagination$"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

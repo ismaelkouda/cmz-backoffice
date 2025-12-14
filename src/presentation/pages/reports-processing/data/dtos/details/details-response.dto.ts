@@ -1,19 +1,26 @@
+import { ActorDto } from '@shared/data/dtos/actor.dto';
+import { AdministrativeBoundaryDto } from '@shared/data/dtos/administrative-boundary.dto';
+import { LocationMethodDto } from '@shared/data/dtos/location-method.dto';
+import { LocationTypeDto } from '@shared/data/dtos/location-type.dto';
+import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
+import { ReportTypeDto } from '@shared/data/dtos/report-type.dto';
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
 
 export interface DetailsItemDto {
     id: string;
     uniq_id: string;
     request_report_uniq_id: string;
-    source: string;
-    location_method: string;
-    location_type: string;
+    source: ReportSourceDto;
+    location_method: LocationMethodDto;
+    location_type: LocationTypeDto;
     lat: string;
     long: string;
     what3words: string;
     place_description: string;
     location_name: string;
-    report_type: string;
-    operators: string[];
+    report_type: ReportTypeDto;
+    operators: Array<TelecomOperatorDto>;
     place_photo: string;
     access_place_photo: string;
     description: string;
@@ -30,7 +37,7 @@ export interface DetailsItemDto {
     state: string;
     deny_count: number;
     confirm_count: number;
-    action_count: number;
+    report_processings_count: number;
     acknowledged_comment: string | null;
     processed_comment: string | null;
     approved_comment: string | null;
@@ -46,44 +53,16 @@ export interface DetailsItemDto {
     region_id: number;
     department_id: number;
     municipality_id: number;
-    initiator: {
-        last_name: string;
-        first_name: string;
-        phone: string;
-    };
-    acknowledged_by: {
-        last_name: string;
-        first_name: string;
-        phone: string;
-    };
-    approved_by: {
-        last_name: string;
-        first_name: string;
-        phone: string;
-    };
-    processed_by: {
-        last_name: string;
-        first_name: string;
-        phone: string;
-    };
-    rejected_by: {
-        last_name: string;
-        first_name: string;
-        phone: string;
-    };
-    confirmed_by: {
-        last_name: string;
-        first_name: string;
-        phone: string;
-    };
-    abandoned_by: {
-        last_name: string;
-        first_name: string;
-        phone: string;
-    };
-    region: string | null;
-    department: string | null;
-    municipality: string | null;
+    initiator: ActorDto | null;
+    acknowledged_by: ActorDto | null;
+    approved_by: ActorDto | null;
+    rejected_by: ActorDto | null;
+    processed_by: ActorDto | null;
+    confirmed_by: ActorDto | null;
+    abandoned_by: ActorDto | null;
+    region: AdministrativeBoundaryDto;
+    department: AdministrativeBoundaryDto;
+    municipality: AdministrativeBoundaryDto;
 }
 
 export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> { }

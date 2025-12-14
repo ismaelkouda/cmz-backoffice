@@ -811,7 +811,6 @@
                                                                     details?.source ||
                                                                         'MANAGEMENT.FORM.NOT_SPECIFIED'
                                                                         | translate
-                                                                        | uppercase
                                                                 }}
                                                             </div>
                                                         </div>
@@ -829,9 +828,7 @@
                                                                 class="field-value"
                                                             >
                                                                 {{
-                                                                    details
-                                                                        ?.location
-                                                                        .type ||
+                                                                    details?.location?.type ||
                                                                         'MANAGEMENT.FORM.NOT_SPECIFIED'
                                                                         | translate
                                                                 }}
@@ -967,12 +964,12 @@
                                                                     <p-tag
                                                                         [value]="
                                                                             getOperatorLabel(
-                                                                                operator
+                                                                                operator | translate
                                                                             )
                                                                         "
                                                                         [ngStyle]="
                                                                             getOperatorTagStyle(
-                                                                                operator
+                                                                                operator | translate
                                                                             )
                                                                         "
                                                                         styleClass="operator-tag"
@@ -1039,7 +1036,7 @@
                                                                     class="field-value"
                                                                 >
                                                                     {{
-                                                                        details?.actionCount ??
+                                                                        details?.reportProcessingsCount ??
                                                                             '0'
                                                                     }}
                                                                 </div>

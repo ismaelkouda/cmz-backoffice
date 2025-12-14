@@ -1,0 +1,57 @@
+<main class="container-fluid terms-use-container" role="main">
+    <section class="row terms-use-row">
+        <article class="col-sm-12 terms-use-article">
+            
+            <app-breadcrumb
+                class="terms-use-breadcrumb"
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
+
+            <section class="card terms-use-card">
+                <div class="card-body terms-use-card-body">
+                    <header class="terms-use-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'CONTENT_MANAGEMENT.TERMS_USE.TITLE' | translate | lowercase"
+                        ></app-page-title>
+                    </header>
+
+                    <div class="fade-in terms-use-content">
+                        
+                        <app-filter-terms-use class="filter-component" 
+                            [loading]="(loading$ | async) ?? false"
+                            (filter)="filter($event)">
+                        </app-filter-terms-use>
+
+                        <hr class="terms-use-divider" />
+
+                        <section class="table-section">
+                            
+                            <app-table-terms-use
+                                class="table-component"
+                                [loading]="(loading$ | async) ?? false"
+                                [termsUse$]="termsUse$"
+                                [pagination$]="pagination$"
+                                (refreshRequested)="refreshTermsUse()"
+                                (createRequested)="onCreateClicked()"
+                                (editRequested)="onEditClicked($event)"
+                                (deleteRequested)="onDeleteClicked($event)"
+                                (viewRequested)="onViewClicked($event)"
+                                (publishRequested)="onPublishClicked($event)"
+                                (unpublishRequested)="onUnpublishClicked($event)"
+                            ></app-table-terms-use>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination$]="pagination$"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

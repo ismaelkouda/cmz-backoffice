@@ -40,7 +40,7 @@
                         </app-table-public-enterprises>
 
                         <app-pagination
-                            [pagination]="pagination$ | async"
+                            [pagination$]="pagination$"
                             (pageChange)="onPageChange($event)"
                         ></app-pagination>
                     </div>

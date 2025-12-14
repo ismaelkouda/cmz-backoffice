@@ -6,7 +6,7 @@
                     'LAYOUT.FOOTER.COPYRIGHT'
                         | translate: { year: today | date: 'yyyy' }
                 }}
-                <span *ngIf="appSettings">© {{ appSettings.appName }}</span>
+                <span *ngIf="appSettings">© {{ currentYear }} {{ appSettings.appName }}</span>
             </p>
         </div>
     </div>

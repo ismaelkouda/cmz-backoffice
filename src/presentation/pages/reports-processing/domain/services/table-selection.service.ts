@@ -17,7 +17,7 @@ export interface SelectionEvent<T> {
 }
 
 @Injectable()
-export class TableSelectionService<T extends { id: string }> {
+export class TableSelectionService<T extends { uniqId: string }> {
     private readonly destroyRef = inject(DestroyRef);
 
     // === SIGNALS ===
@@ -43,11 +43,11 @@ export class TableSelectionService<T extends { id: string }> {
     readonly selectedItems = computed(() => {
         const items = this._availableItems();
         const ids = this._selectedIds();
-        return items.filter((item) => ids.has(item.id));
+        return items.filter((item) => ids.has(item.uniqId));
     });
 
     isItemSelected(item: T): boolean {
-        return this._selectedIds().has(item.id);
+        return this._selectedIds().has(item.uniqId);
     }
 
     // Événements réactifs
@@ -57,7 +57,7 @@ export class TableSelectionService<T extends { id: string }> {
             (prev, curr) =>
                 prev.selectionCount === curr.selectionCount &&
                 JSON.stringify(prev.selectedIds) ===
-                    JSON.stringify(curr.selectedIds)
+                JSON.stringify(curr.selectedIds)
         ),
         takeUntilDestroyed(this.destroyRef)
     );
@@ -70,10 +70,10 @@ export class TableSelectionService<T extends { id: string }> {
 
     toggleItemSelection(item: T, source: 'checkbox' = 'checkbox'): void {
         const newIds = new Set(this._selectedIds());
-        if (newIds.has(item.id)) {
-            newIds.delete(item.id);
+        if (newIds.has(item.uniqId)) {
+            newIds.delete(item.uniqId);
         } else {
-            newIds.add(item.id);
+            newIds.add(item.uniqId);
         }
         this._updateSelection(newIds, source);
     }
@@ -88,7 +88,7 @@ export class TableSelectionService<T extends { id: string }> {
         const validCount = Math.min(Math.max(0, count), items.length);
         const newSelection = new Set<string>();
         for (let i = 0; i < validCount; i++) {
-            newSelection.add(items[i].id);
+            newSelection.add(items[i].uniqId);
         }
         this._updateSelection(newSelection, source);
     }
@@ -99,7 +99,7 @@ export class TableSelectionService<T extends { id: string }> {
         const newSelection =
             currentIds.size === items.length
                 ? new Set<string>()
-                : new Set(items.map((item) => item.id));
+                : new Set(items.map((item) => item.uniqId));
         this._updateSelection(newSelection, source);
     }
 

@@ -60,6 +60,12 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
 import { provideNotifications } from './pages/communication/di/notifications.providers';
+import { provideHome } from './pages/content-management/di/home.providers';
+import { provideLegalNotice } from './pages/content-management/di/legal-notice.providers';
+import { provideNews } from './pages/content-management/di/news.providers';
+import { providePrivacyPolicy } from './pages/content-management/di/privacy-policy.providers';
+import { provideSlide } from './pages/content-management/di/slide.providers';
+import { provideTermsUse } from './pages/content-management/di/terms-use.providers';
 import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
 import { provideActions } from './pages/reports-processing/di/actions.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
@@ -245,6 +251,10 @@ export const appConfig: ApplicationConfig = {
                 preset: Aura,
                 options: {
                     darkModeSelector: false,
+                    /* cssLayer: {
+                        name: 'primeng',
+                        order: 'tailwind, primeng',
+                    }, */
                 },
             },
             translation: frenchLocale,
@@ -275,6 +285,13 @@ export const appConfig: ApplicationConfig = {
         ...provideTreatment(),
         ...processingTasks(),
         ...provideManagement(),
+
+        ...provideHome(),
+        ...provideSlide(),
+        ...provideNews(),
+        ...providePrivacyPolicy(),
+        ...provideLegalNotice(),
+        ...provideTermsUse()
         /* ...provideUser(), */
         /*  ...provideProfileHabilitation(), */
         /*         ...provideParticipant(),

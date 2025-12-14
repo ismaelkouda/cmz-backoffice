@@ -47,7 +47,7 @@
                             <div class="subtitle-item">
                                 <span class="subtitle-label">Type de signalement:</span>
                                 <p-tag
-                                    [value]="details.reportType"
+                                    [value]="details.reportType | translate"
                                     [styleClass]="'report-type-tag ' + getReportTypeColor(details.reportType)"
                                     [rounded]="true"
                                 ></p-tag>
@@ -102,7 +102,7 @@
 
                             <app-pagination
                                 class="actions-pagination-component"
-                                [pagination]="pagination$ | async"
+                                [pagination$]="pagination$"
                                 (pageChange)="onPageChange($event)"
                             ></app-pagination>
                         </section>

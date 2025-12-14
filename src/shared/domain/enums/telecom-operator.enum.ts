@@ -1,5 +1,6 @@
 export enum TelecomOperator {
-    MTN = 'mtn',
-    ORANGE = 'orange',
-    MOOV = 'moov',
+    MTN = 'COMMON.MTN',
+    ORANGE = 'COMMON.ORANGE',
+    MOOV = 'COMMON.MOOV',
+    UNKNOWN = 'COMMON.UNKNOWN',
 }

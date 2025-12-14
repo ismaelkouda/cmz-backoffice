@@ -13,13 +13,13 @@ export class MessagingApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchMessages(
         filter: MessagingRequestDto,
         page: string
     ): Observable<MessagingResponseDto> {
-        const url = `${this.baseUrl}/${MESSAGING_ENDPOINTS.GET_MESSAGES}`;
+        const url = `${this.baseUrl}${MESSAGING_ENDPOINTS.GET_MESSAGES}`;
 
         let params = new HttpParams().set('page', page);
 

@@ -32,10 +32,9 @@ import { QueuesFacade as processingQueuesFacade } from '@presentation/pages/repo
 import { TasksFacade as processingTasksFacade } from '@presentation/pages/reports-processing/application/tasks.facade';
 import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
-import { PriorityLevel } from '@shared/domain/enums/priority-level.enum';
-import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { PriorityLevelDto } from '@shared/data/dtos/priority-level.dto';
+import { PriorityLevel, PriorityLevelLabel } from '@shared/domain/enums/priority-level.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
-import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -435,32 +434,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
         return `${lat}, ${lng}`;
     }
 
-    public getPriorityClass(details: DetailsEntity | null): string {
-        if (!details) return 'priority-low';
-
-        const priority = details.getPriorityLevel();
-        const priorityMap: Record<PriorityLevel, string> = {
-            [PriorityLevel.LOW]: 'priority-low',
-            [PriorityLevel.MEDIUM]: 'priority-medium',
-            [PriorityLevel.HIGH]: 'priority-high',
-            [PriorityLevel.CRITICAL]: 'priority-high',
-        };
-
-        return priorityMap[priority] || 'priority-low';
-    }
-
-    public getPriorityText(details: DetailsEntity | null): string {
-        if (!details) return 'MANAGEMENT.STATUS.PRIORITY_LOW';
-
-        const priority = details.getPriorityLevel();
-        const priorityMap: Record<PriorityLevel, string> = {
-            [PriorityLevel.LOW]: 'MANAGEMENT.STATUS.PRIORITY_LOW',
-            [PriorityLevel.MEDIUM]: 'MANAGEMENT.STATUS.PRIORITY_MEDIUM',
-            [PriorityLevel.HIGH]: 'MANAGEMENT.STATUS.PRIORITY_HIGH',
-            [PriorityLevel.CRITICAL]: 'MANAGEMENT.STATUS.PRIORITY_CRITICAL',
-        };
-
-        return priorityMap[priority] || 'MANAGEMENT.STATUS.PRIORITY_LOW';
+    public getPriorityText(priority: PriorityLevelDto): PriorityLevelLabel {
+        return (PriorityLevel as Record<PriorityLevelDto, PriorityLevelLabel>)[priority];
     }
 
     public hasTabNotifications(categoryKey: string): boolean {
@@ -535,7 +510,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             }
         }
 
-        const management = details.managementPrams;
+        const management = details.detailsParams;
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.translate.instant(this.getSweetAlertTitle(management)),
@@ -768,29 +743,29 @@ export class ManagementComponent implements OnInit, OnDestroy {
         return iconMap[categoryKey] || 'pi pi-circle';
     }
 
-    getReportTypeClass(reportType: ReportType | undefined): string {
-        if (!reportType) return 'type-default';
+    /*     getReportTypeClass(reportType: ReportTypeDto | undefined): string {
+            if (!reportType) return 'type-default';
+    
+            const typeClassMap: Record<ReportTypeLabel, string> = {
+                [ReportType.ABI]: 'type-urgent',
+                [ReportType.ZOB]: 'type-normal',
+                [ReportType.CPS]: 'type-urgent',
+                [ReportType.CPO]: 'type-normal',
+                [ReportType.UNKNOWN]: 'type-default',
+            };
+    
+            return typeClassMap[reportType] || 'type-default';
+        } */
 
-        const typeClassMap: Record<ReportType, string> = {
-            [ReportType.ABI]: 'type-urgent',
-            [ReportType.ZOB]: 'type-normal',
-            [ReportType.CPS]: 'type-urgent',
-            [ReportType.CPO]: 'type-normal',
-            [ReportType.OTHER]: 'type-default',
-        };
-
-        return typeClassMap[reportType] || 'type-default';
-    }
-
-    getReportTypeLabel(reportType: ReportType | undefined): string {
+    getReportTypeLabel(reportType: string | undefined): string {
         if (!reportType) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
 
-        const labelMap: Record<ReportType, string> = {
-            [ReportType.ABI]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ABI',
-            [ReportType.ZOB]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ZOB',
-            [ReportType.CPS]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ABI',
-            [ReportType.CPO]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ZOB',
-            [ReportType.OTHER]: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.OTHER',
+        const labelMap: Record<string, string> = {
+            abi: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ABI',
+            zob: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ZOB',
+            cps: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ABI',
+            cpo: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ZOB',
+            other: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.OTHER',
         };
 
         return labelMap[reportType] || 'MANAGEMENT.FORM.NOT_SPECIFIED';
@@ -884,27 +859,27 @@ export class ManagementComponent implements OnInit, OnDestroy {
         return labelMap[status] || 'MANAGEMENT.FORM.NOT_SPECIFIED';
     }
 
-    getRegionFromLocation(location: ReportLocation | undefined): string {
-        if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
-        return (
-            location.name.split(',')[0]?.trim() ||
-            'MANAGEMENT.FORM.NOT_SPECIFIED'
-        );
-    }
+    /*     getRegionFromLocation(location: ReportLocation | undefined): string {
+            if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
+            return (
+                location.name.split(',')[0]?.trim() ||
+                'MANAGEMENT.FORM.NOT_SPECIFIED'
+            );
+        } */
 
-    getDepartmentFromLocation(location: ReportLocation | undefined): string {
-        if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
-        return (
-            location.name.split(',')[1]?.trim() ||
-            'MANAGEMENT.FORM.NOT_SPECIFIED'
-        );
-    }
+    /*     getDepartmentFromLocation(location: ReportLocation | undefined): string {
+            if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
+            return (
+                location.name.split(',')[1]?.trim() ||
+                'MANAGEMENT.FORM.NOT_SPECIFIED'
+            );
+        } */
 
-    getCommuneFromLocation(location: ReportLocation | undefined): string {
-        if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
-        return (
-            location.name.split(',')[2]?.trim() ||
-            'MANAGEMENT.FORM.NOT_SPECIFIED'
-        );
-    }
+    /*     getCommuneFromLocation(location: ReportLocation | undefined): string {
+            if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
+            return (
+                location.name.split(',')[2]?.trim() ||
+                'MANAGEMENT.FORM.NOT_SPECIFIED'
+            );
+        } */
 }

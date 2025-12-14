@@ -1,0 +1,57 @@
+<main class="container-fluid privacy-policy-container" role="main">
+    <section class="row privacy-policy-row">
+        <article class="col-sm-12 privacy-policy-article">
+            
+            <app-breadcrumb
+                class="privacy-policy-breadcrumb"
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
+
+            <section class="card privacy-policy-card">
+                <div class="card-body privacy-policy-card-body">
+                    <header class="privacy-policy-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'CONTENT_MANAGEMENT.PRIVACY_POLICY.TITLE' | translate | lowercase"
+                        ></app-page-title>
+                    </header>
+
+                    <div class="fade-in privacy-policy-content">
+                        
+                        <app-filter-privacy-policy class="filter-component" 
+                            [loading]="(loading$ | async) ?? false"
+                            (filter)="filter($event)">
+                        </app-filter-privacy-policy>
+
+                        <hr class="privacy-policy-divider" />
+
+                        <section class="table-section">
+                            
+                            <app-table-privacy-policy
+                                class="table-component"
+                                [loading]="(loading$ | async) ?? false"
+                                [privacyPolicy$]="privacyPolicy$"
+                                [pagination$]="pagination$"
+                                (refreshRequested)="onRefreshClicked()"
+                                (createRequested)="onCreateClicked()"
+                                (editRequested)="onEditClicked($event)"
+                                (deleteRequested)="onDeleteClicked($event)"
+                                (viewRequested)="onViewClicked($event)"
+                                (publishRequested)="onPublishClicked($event)"
+                                (unpublishRequested)="onUnpublishClicked($event)"
+                            ></app-table-privacy-policy>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination$]="pagination$"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

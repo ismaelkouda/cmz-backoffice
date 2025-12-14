@@ -45,7 +45,7 @@
 
                             <app-pagination
                                 class="pagination-component"
-                                [pagination]="pagination$ | async"
+                                [pagination$]="pagination$"
                                 (pageChange)="onPageChange($event)"
                             ></app-pagination>
                         </section>

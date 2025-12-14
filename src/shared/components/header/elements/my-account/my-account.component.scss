@@ -6,15 +6,53 @@
     transition: all 0.2s ease;
     border: 2px solid transparent;
 
-    &:hover,
-    &:focus {
+
         background-color: #f8f9fa;
         border-color: #e9ecef;
+
+    .media-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .profile-avatar {
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #dee2e6;
+    }
+
+    .profile-info {
+        display: flex;
+        flex-direction: column;
+
+        .user-name {
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .user-email {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin: 0;
+        }
     }
 
     &.active {
-        background-color: #e7f1ff;
-        border-color: #007bff;
+        background-color: color-mix(in srgb, var(--theme-default) 73%, white 100%);
+        border-color: var(--theme-default);
+        .profile-info {
+        .user-name {
+            font-weight: 600;
+            color: var(--color-white);
+        }
+
+        .user-email {
+            font-size: 0.875rem;
+            color: var(--color-gray-light);
+            margin: 0;
+        }
+        }
     }
 
     .media-wrapper {
@@ -60,7 +98,6 @@
         right: 0;
         width: 220px;
         background: white;
-        border: 1px solid #dee2e6;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         opacity: 0;
@@ -83,13 +120,9 @@
             cursor: pointer;
             transition: background-color 0.2s ease;
 
-            &:hover {
-                background-color: #f8f9fa;
-            }
-
             i {
                 width: 16px;
-                color: #6c757d;
+                color: var(--color-gray);
             }
 
             span {
@@ -103,7 +136,15 @@
                 margin: 4px 0;
             }
 
-            // Style spécifique pour la déconnexion
+            &:hover {
+                color: var(--color-white);
+                background-color: color-mix(in srgb, var(--theme-secondary) 73%, white 27%);
+
+                span {
+                    color: var(--color-white);
+                }
+            }
+
             &:last-child {
                 color: #dc3545;
 

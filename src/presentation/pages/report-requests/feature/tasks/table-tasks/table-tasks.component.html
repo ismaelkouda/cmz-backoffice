@@ -87,13 +87,8 @@
                         }
 
                         @case ('reportType') {
-                            <div
-                                [pTooltip]="task.reportDescription | translate"
-                                tooltipPosition="bottom"
-                                showDelay="500"
-                                hideDelay="300"
-                            >
-                                {{ task.reportType }}
+                            <div>
+                                {{ task.reportType | translate }}
                             </div>
                         }
 
@@ -107,8 +102,8 @@
                                     track trackByOperator($index, operator)
                                 ) {
                                     <p-tag
-                                        [value]="getOperatorLabel(operator)"
-                                        [style]="getOperatorTagStyle(operator)"
+                                        [value]="operator | translate"
+                                        [style]="getOperatorTagStyle(operator | translate)"
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -128,11 +123,11 @@
                             <div
                                 class="source-type-content"
                             >
-                                <span [pTooltip]="task.sourceDescription | translate"
-                                    tooltipPosition="bottom">{{ task.source }}</span>&nbsp;
+                                <span>{{ task.source | translate }}</span>&nbsp;
                                 <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(task.initiatedBy)"
-                                    tooltipPosition="bottom">[ {{ task.initiatedBy }} ]</span>
+                                    (click)="copyToClipboard(task.initiatorPhoneNumber)"
+                                    tooltipPosition="bottom">[ {{ task.initiatorPhoneNumber }} ]
+                                </span>
                             </div>
                         }
 

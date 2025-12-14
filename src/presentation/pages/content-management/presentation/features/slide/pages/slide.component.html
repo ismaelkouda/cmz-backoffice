@@ -1,0 +1,56 @@
+<main class="container-fluid slide-container" role="main">
+    <section class="row slide-row">
+        <article class="col-sm-12 slide-article">
+            
+            <app-breadcrumb
+                class="slide-breadcrumb"
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
+
+            <section class="card slide-card">
+                <div class="card-body slide-card-body">
+                    <header class="slide-header"> 
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'CONTENT_MANAGEMENT.SLIDE.TITLE' | translate | lowercase"
+                        ></app-page-title>
+                    </header>
+
+                    <div class="fade-in slide-content">
+                        
+                        <app-filter-slide class="filter-component" 
+                            [loading]="(loading$ | async) ?? false"
+                            (filter)="filter($event)"></app-filter-slide>
+
+                        <hr class="slide-divider" />
+
+                        <section class="table-section">
+                            
+                            <app-table-slide
+                                class="table-component"
+                                [loading]="(loading$ | async) ?? false"
+                                [slide$]="slide$"
+                                [pagination$]="pagination$"
+                                (refreshRequested)="refreshSlide()"
+                                (createRequested)="onCreateClicked()"
+                                (editRequested)="onEditClicked($event)"
+                                (deleteRequested)="onDeleteClicked($event)"
+                                (viewRequested)="onViewClicked($event)"
+                                (enableRequested)="onEnableClicked($event)"
+                                (disableRequested)="onDisableClicked($event)"
+                            ></app-table-slide>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination$]="pagination$"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

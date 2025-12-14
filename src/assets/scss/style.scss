@@ -1,13 +1,5 @@
-// *** utils ***
 @import '../scss/utils/variables';
-@import '../scss/charter'; // Graphic charter - bridges CSS vars with SCSS
-
-// ============================================
-// CSS Custom Properties
-// ============================================
-// Note: Theme colors (--theme-default, --theme-secondary, --color-*, etc.)
-// are injected dynamically by AppCustomizationService at runtime.
-// Only define UI-specific variables here that are NOT part of the config.
+@import '../scss/charter';
 
 :root {
     // UI-specific variables (not customizable via config)

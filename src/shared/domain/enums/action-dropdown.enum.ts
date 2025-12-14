@@ -1,0 +1,6 @@
+export enum ActionDropdown {
+    ACTIVE = 'COMMON.ENABLE',
+    INACTIVE = 'COMMON.DISABLE',
+    PUBLISHED = 'COMMON.PUBLISH',
+    UNPUBLISHED = 'COMMON.UNPUBLISH',
+};

@@ -14,7 +14,6 @@ import {
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TasksFacade } from '@presentation/pages/report-requests/application/tasks.facade';
-import { STATUS_CONST } from '@presentation/pages/report-requests/domain/constants/tasks/status.constant';
 import { TasksFilterFormControlEntity } from '@presentation/pages/report-requests/domain/entities/tasks/tasks-filter-form-control.entity';
 import { TasksFilterPayloadEntity } from '@presentation/pages/report-requests/domain/entities/tasks/tasks-filter-payload.entity';
 import { OPERATOR_CONST } from '@shared/domain/constants/operator';
@@ -58,7 +57,6 @@ export class FilterTasksComponent implements OnInit, OnDestroy {
     public secondFilter: boolean = false;
     readonly reportOptions = REPORT_CONST;
     public operatorOptions: any[] = [];
-    readonly stateOptions = STATUS_CONST;
     readonly sourceOptions = SOURCE_CONST;
 
     ngOnInit(): void {

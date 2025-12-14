@@ -65,24 +65,20 @@ export function setThemeColors(
     try {
         const root = document.documentElement;
 
-        // Couleurs principales
         root.style.setProperty('--theme-default', config.colors.primary);
         root.style.setProperty('--theme-secondary', config.colors.secondary);
         root.style.setProperty('--theme-tertiary', config.colors.tertiary);
 
-        // Couleurs neutres
         root.style.setProperty('--color-black', config.colors.black);
         root.style.setProperty('--color-white', config.colors.white);
         root.style.setProperty('--color-gray', config.colors.gray);
         root.style.setProperty('--color-gray-light', config.colors.grayLight);
 
-        // Couleurs d'état
         root.style.setProperty('--color-error', config.colors.error);
         root.style.setProperty('--color-warning', config.colors.warning);
         root.style.setProperty('--color-success', config.colors.success);
         root.style.setProperty('--color-info', config.colors.info);
 
-        // Valeurs RGB pour utilisation avec rgba()
         root.style.setProperty(
             '--theme-default-rgb',
             hexToRgb(config.colors.primary)

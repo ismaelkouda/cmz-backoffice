@@ -1,0 +1,120 @@
+<p-table
+    #dt
+    [value]="privacyPolicyData()"
+    [rowHover]="true"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="tableConfig.globalFilterFields"
+    responsiveLayout="scroll"
+    [scrollable]="true"
+    scrollHeight="430px"
+    data-testid="legal-notice-table"
+    role="grid"
+    width="100%"
+    [columns]="tableConfig.cols"
+    [loading]="isLoading()"
+    styleClass="p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '75rem' }"
+>
+    <ng-template pTemplate="caption">
+        <div class="container-table-header">
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (export)="onExportExcel()"
+                    (refresh)="onRefresh()"
+                    (other)="onCreateClicked()"
+                    [disabledButtonExport]="isLoading() || !hasData()"
+                    [disabledButtonRefresh]="isLoading()"
+                    [hiddenButtonOther]="false"
+
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt" />
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            @for (col of columns; track trackByColField($index, col)) {
+                <th
+                    [class]="col.class"
+                    [style.width]="col.width"
+                    [pSortableColumn]="col.field"
+                >
+                    {{ col.header | translate }}
+                    <p-sortIcon 
+                        [field]="col.field" 
+                        *ngIf="col.field !== '__action' && col.field !== '__index'"
+                    ></p-sortIcon>
+                </th>
+            }
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr role="row" [class.cursor-pointer]="!isLoading()">
+            @for (col of columns; track trackByColField($index, col)) {
+                <td [class]="col.class">
+                    @switch (col.field) {
+                        @case ('__index') {
+                            {{
+                                ((pagination$ | async)?.current_page - 1 || 0) *
+                                    ((pagination$ | async)?.per_page || 0) +
+                                    rowIndex +
+                                    1
+                            }}
+                        }
+                        @case ('status') {
+                            <p-tag
+                                [value]="rowData.status | translate"
+                                [severity]="getStatusSeverity(rowData.status)"
+                            />
+                        }
+                        @case ('content') {
+                            <span [innerHTML]="rowData.content"></span>
+                        }
+                        @case ('createdAt') {
+                            {{ formatDate(rowData.createdAt) }}
+                        }
+                        @case ('__action') {
+                            <app-home-action-dropdown
+                                [status]="rowData.status"
+                                (edit)="onEditClicked(rowData)"
+                                (view)="onViewClicked(rowData)"
+                                (enable)="onPublishClicked(rowData)"
+                                (disable)="onUnpublishClicked(rowData)"
+                                (delete)="onDeleteClicked(rowData)"
+                            ></app-home-action-dropdown>
+                        }
+                        @default {
+                            {{ rowData[col.field] }}
+                        }
+                    }
+                </td>
+            }
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            @if (!isLoading()) {
+                <td [attr.colspan]="columns.length" class="text-center">
+                    {{ 'COMMON.NO_DATA' | translate }}
+                </td>
+            } @else {
+                @for (col of columns; track trackByColField($index, col)) {
+                    <td><p-skeleton /></td>
+                }
+            }
+        </tr>
+    </ng-template>
+</p-table>

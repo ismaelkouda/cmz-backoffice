@@ -153,20 +153,7 @@ export class FilterAllComponent implements OnInit, OnDestroy {
         this.secondFilter = !this.secondFilter;
     }
 
-    public resetSelect<K extends keyof AllFilterFormControlEntity>(
-        controlName: K
-    ): void {
-        const control = this.formFilter?.controls[controlName];
-        if (!control) return;
 
-        if (controlName === 'operators') {
-            (control as FormControl<string[]>).setValue([], {
-                emitEvent: false,
-            });
-        } else {
-            (control as FormControl<string>).setValue('', { emitEvent: false });
-        }
-    }
 
     public onSubmitFilterForm(): void {
         const createdFromControl = this.formFilter.get('created_from');

@@ -1,44 +1,15 @@
-import {
-    ReportState,
-    ReportStatus,
-} from '@presentation/pages/finalization/domain/entities/tasks/tasks.entity';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
+import { ReportTypeDto } from '@shared/data/dtos/report-type.dto';
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
 
 export interface TasksItemDto {
-    id: string;
     uniq_id: string;
-    source: string;
-    location_method: string;
-    location_type: string;
-    lat: string;
-    long: string;
-    what3words: string;
-    place_description: string;
-    location_name: string;
-    report_type: string;
-    operators: string;
-    place_photo: string | null;
-    access_place_photo: string | null;
-    description: string;
+    report_type: ReportTypeDto;
+    operators: Array<TelecomOperatorDto>;
+    source: ReportSourceDto;
     initiator_phone_number: string;
-    approved_by: string | null;
-    approved_at: string | null;
-    rejected_by: string | null;
-    rejected_at: string | null;
-    status: ReportStatus;
-    state: ReportState;
-    confirm_count: number;
-    deny_count: number;
-    approved_comment: string | null;
-    duplicate_of: string | null;
-    is_duplicated: boolean;
-    position: string;
     created_at: string;
-    updated_at: string;
 }
 
-export interface TasksResponseDto {
-    error: boolean;
-    message: string;
-    data: Paginate<TasksItemDto>;
-}
+export interface TasksResponseDto extends PaginatedResponseDto<TasksItemDto> { }

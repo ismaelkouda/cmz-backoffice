@@ -1,4 +1,7 @@
-@use './assets/scss/app.scss';
+
+@use 'bootstrap/scss/bootstrap';
+
+@import './assets/scss/app.scss';
 .input[type='file'] {
     color: #000 !important;
 }
@@ -60,6 +63,10 @@ label {
     color: #2f2f3b;
 }
 
+.card .card-body {
+    padding: 20px 20px 0;
+}
+
 .tag-group {
     display: flex;
     flex-wrap: wrap;
@@ -78,6 +85,11 @@ label {
 }
 
 .state-group {
+    display: flex;
+    justify-content: center;
+}
+
+.status-group {
     display: flex;
     justify-content: center;
 }
@@ -195,11 +207,9 @@ p-password .p-disabled {
 :host ::ng-deep .spinner .p-progress-spinner-circle {
     animation: geek 5s ease-in-out infinite;
 }
-// swal2 au modal primeng
 .swal2-container {
     z-index: 20000 !important;
 }
-// toast au modal primeng
 .toast-container {
     z-index: 20000 !important;
 }
@@ -532,7 +542,7 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 @media (max-width: 768.85px) {
     .page-wrapper .card {
         margin-bottom: 30px;
-        margin-top: 30px;
+        margin-top: 10px;
     }
 }
 
@@ -593,12 +603,10 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     }
 }
 
-//p-datatable
 .p-datatable {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin: 20px 0;
     font-size: 14px;
     text-align: left;
     border-radius: 10px;
@@ -607,7 +615,7 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 
 .p-datatable .p-datatable-thead > tr > th {
     text-align: left;
-    padding: 1rem 1rem;
+    padding: 0.5rem 0.5rem;
     font-weight: 700;
     color: #fff;
     background: #000000 !important;
@@ -641,7 +649,7 @@ body .ui-table .ui-table-tbody > tr > td {
 }
 
 .p-datatable .p-datatable-header {
-    //padding: 1rem 0 !important;
+   /*  padding: 1rem 0 !important; */
 }
 
 .p-datatable .p-datatable-header {
@@ -650,7 +658,6 @@ body .ui-table .ui-table-tbody > tr > td {
     border: 0 !important;
 }
 
-// field
 input:focus,
 textarea:focus,
 select:focus,
@@ -743,11 +750,9 @@ p-password .p-disabled {
     }
 }
 
-// modern-sweet-alert.scss
 
-// Container principal
 .modern-swal-container {
-    //backdrop-filter: blur(20px);
+    /* backdrop-filter: blur(20px); */
 
     .swal2-popup {
         background: transparent;
@@ -755,10 +760,9 @@ p-password .p-disabled {
     }
 }
 
-// Popup moderne
 .modern-swal-popup {
     background: rgba(30, 41, 59, 0.95) !important;
-    //backdrop-filter: blur(40px) !important;
+    backdrop-filter: blur(40px) !important;
     border: 1px solid rgba(99, 102, 241, 0.3) !important;
     border-radius: 24px !important;
     box-shadow:
@@ -769,7 +773,6 @@ p-password .p-disabled {
     overflow: hidden;
     position: relative;
 
-    // Effet de brillance
     &::before {
         content: '';
         position: absolute;
@@ -786,14 +789,12 @@ p-password .p-disabled {
     }
 }
 
-// Header
 .modern-swal-header {
     padding: 0 !important;
     border: none !important;
     margin-bottom: 1.5rem !important;
 }
 
-// Titre moderne
 .modern-swal-title {
     color: #f8fafc !important;
     font-family:
@@ -812,7 +813,6 @@ p-password .p-disabled {
     background-clip: text;
 }
 
-// Contenu
 .modern-swal-content {
     color: #94a3b8 !important;
     font-family:
@@ -836,7 +836,6 @@ p-password .p-disabled {
     }
 }
 
-// Container d'icône
 .modern-swal-icon-container {
     margin: 0 0 1.5rem !important;
     padding: 0 !important;
@@ -852,7 +851,6 @@ p-password .p-disabled {
     }
 }
 
-// Zone d'actions
 .modern-swal-actions {
     margin: 0 !important;
     padding: 0 !important;
@@ -860,7 +858,6 @@ p-password .p-disabled {
     justify-content: center !important;
 }
 
-// Bouton de confirmation moderne
 .modern-swal-confirm-btn {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white !important;
@@ -927,7 +924,6 @@ p-password .p-disabled {
     }
 }
 
-// Bouton d'annulation moderne
 .modern-swal-cancel-btn {
     background: rgba(255, 255, 255, 0.05) !important;
     color: #94a3b8 !important;
@@ -958,7 +954,6 @@ p-password .p-disabled {
     }
 }
 
-// Animations personnalisées
 @keyframes swal2-show-modern {
     0% {
         transform: scale(0.8) translateY(-20px);
@@ -983,22 +978,22 @@ p-password .p-disabled {
 
 @keyframes swal2-backdrop-show-modern {
     0% {
-        //backdrop-filter: blur(0px);
+        /* backdrop-filter: blur(0px); */
         background: rgba(0, 0, 0, 0);
     }
     100% {
-        //backdrop-filter: blur(20px);
+        /* backdrop-filter: blur(20px); */
         background: rgba(0, 0, 0, 0.8);
     }
 }
 
 @keyframes swal2-backdrop-hide-modern {
     0% {
-        //backdrop-filter: blur(20px);
+        /* backdrop-filter: blur(20px); */
         background: rgba(0, 0, 0, 0.8);
     }
     100% {
-        //backdrop-filter: blur(0px);
+        /* backdrop-filter: blur(0px); */
         background: rgba(0, 0, 0, 0);
     }
 }
@@ -1019,7 +1014,6 @@ p-password .p-disabled {
     animation: swal2-backdrop-hide-modern 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-// Responsive
 @media (max-width: 480px) {
     .modern-swal-popup {
         margin: 1rem !important;
@@ -1047,7 +1041,6 @@ p-password .p-disabled {
     }
 }
 
-// Mode clair optionnel
 @media (prefers-color-scheme: light) {
     .modern-swal-popup {
         background: rgba(255, 255, 255, 0.95) !important;

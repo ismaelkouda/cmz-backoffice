@@ -148,7 +148,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
                 date: formattedDate,
                 type: action.type || '',
                 description: action.description,
-                report_processings_count: action.reportProcessingsCount || false,
+                should_notify_user: action.shouldNotifyUser || false,
             });
 
             this.actionForm.updateValueAndValidity();
@@ -200,7 +200,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
-            report_processings_count: new FormControl<boolean>(false, {
+            should_notify_user: new FormControl<boolean>(false, {
                 nonNullable: true,
             }),
         });
@@ -283,7 +283,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
             date: this.formatDate(formValue.date),
             type: formValue.type,
             description: formValue.description.trim(),
-            report_processings_count: formValue.report_processings_count,
+            should_notify_user: formValue.should_notify_user,
         };
     }
 

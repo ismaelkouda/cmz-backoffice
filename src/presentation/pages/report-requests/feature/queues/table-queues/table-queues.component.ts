@@ -167,30 +167,8 @@ export class TableQueuesComponent implements OnDestroy {
         return { backgroundColor, color: textColor };
     }
 
-    getOperatorLabel(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const translationMap: Record<string, string> = {
-            orange: 'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.ORANGE',
-            mtn: 'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.MTN',
-            moov: 'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.MOOV',
-        };
-        const key = translationMap[normalized];
-        return key ? this.translate.instant(key) : operator;
-    }
-
     getTakeTooltip(item: QueuesEntity): string {
-        const canTake = item.canBeTaken();
-        if (canTake) {
-            const queuesLabel = this.translate.instant(
-                'REPORTS_REQUESTS.QUEUES.TABLE.TAKE'
-            );
-            return `${queuesLabel} ${item.uniqId}`;
-        }
-        return this.translate.instant('REPORTS_REQUESTS.QUEUES.TABLE.SEE_MORE');
-    }
-
-    trackByUniqId(_: number, item: QueuesEntity): string {
-        return item.uniqId;
+        return `${this.translate.instant('REPORTS_REQUESTS.QUEUES.TABLE.TAKE')} ${item.uniqId}`;
     }
 
     trackByOperator(_: number, operator: string): string {

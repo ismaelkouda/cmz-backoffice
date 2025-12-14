@@ -1,18 +1,18 @@
 export const REPORT_CONST = [
     {
         value: 'cps',
-        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.REPORT_TYPE.PARTIAL_SIGNAL',
+        label: 'COMMON.CPS',
     },
     {
         value: 'zob',
-        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.REPORT_TYPE.WHITE_ZONE',
+        label: 'COMMON.ZOB',
     },
     {
         value: 'abi',
-        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.REPORT_TYPE.NO_INTERNET',
+        label: 'COMMON.ABI',
     },
     {
         value: 'cpo',
-        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.REPORT_TYPE.PARTIAL_OPERATOR',
+        label: 'COMMON.CPO',
     },
 ] as const;
