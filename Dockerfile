@@ -5,6 +5,11 @@ COPY package.json .
 #RUN npm install --frozen-lockfile
 
 FROM base AS dependencies
+# ---- Clear cache ----
+RUN rm -f package-lock.json       
+RUN pnpm store prune 
+RUN rm -rf .angular
+
 RUN npm install -g pnpm
 #RUN pnpm install --frozen-lockfile
 RUN pnpm install
