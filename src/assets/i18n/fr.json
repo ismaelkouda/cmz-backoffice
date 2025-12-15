@@ -379,11 +379,13 @@
         "SAVE": "Enregistrer",
         "DETAILS": "Détails",
         "ENABLE": "Activer",
+        "ACTIVATED": "Activé",
         "PUBLISH": "Publier",
         "PUBLISHED" : "Publié",
         "UNPUBLISH": "Non Publié",
         "UNPUBLISHED": "Non Publié",
-        "DISABLE": "Désactiver"
+        "DISABLE": "Désactiver",
+        "DEACTIVATED": "Désactivé"
     },
     "PAGINATION": {
         "TOTAL": "Total",
