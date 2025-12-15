@@ -67,8 +67,8 @@ export class FilterNewsComponent implements OnInit, OnDestroy {
 
     private initOptions(): void {
         this.statusOptions = [
-            { label: this.translate.instant('COMMON.ACTIVE'), value: true },
-            { label: this.translate.instant('COMMON.INACTIVE'), value: false }
+            { label: this.translate.instant('COMMON.ACTIVATED'), value: true },
+            { label: this.translate.instant('COMMON.DEACTIVATED'), value: false }
         ];
 
         this.typeOptions = Object.values(TypeMediaDto).map((type) => ({
