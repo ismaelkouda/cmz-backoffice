@@ -1,0 +1,50 @@
+<div class="filter-container">
+     <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="filter-grid">
+
+        <div class="filter-grid__item">
+            <label for="status"><b>{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FILTER.PUBLISH' | translate }}</b></label>
+            <p-select
+                [options]="isPublishedOptions"
+                formControlName="isPublished"
+                optionLabel="label"
+                optionValue="value"
+                [showClear]="true"
+                appendTo="body"
+                placeholder="{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FILTER.PUBLISH_PLACEHOLDER' | translate }}"
+            ></p-select>
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="createdFrom"><b>{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FILTER.DATE.FROM' | translate }}</b></label>
+            <p-datePicker
+                formControlName="createdFrom"
+                [showIcon]="true"
+                dateFormat="yy-mm-dd"
+                appendTo="body"
+                placeholder="{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FILTER.DATE.PLACEHOLDER' | translate }}"
+            ></p-datePicker>
+        </div>
+
+        <div class="filter-grid__item">
+            <label for="createdTo"><b>{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FILTER.DATE.TO' | translate }}</b></label>
+            <p-datePicker
+                formControlName="createdTo"
+                [showIcon]="true"
+                dateFormat="yy-mm-dd"
+                appendTo="body"
+                placeholder="{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FILTER.DATE.PLACEHOLDER' | translate }}"
+            ></p-datePicker>
+        </div>
+
+        <div class="filter-grid">
+            <button type="submit" 
+                class="btn btn-primary px-3"
+                [disabled]="isLoading()">
+                <i class="pi pi-filter"></i>
+            </button>
+        </div>
+        
+    </div>
+</form>
+</div>

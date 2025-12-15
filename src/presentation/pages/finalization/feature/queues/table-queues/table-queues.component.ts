@@ -289,19 +289,8 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     getTakeTooltip(item: QueuesEntity): string {
-        const normalizedState = item.state?.toLowerCase() ?? '';
-        if (normalizedState === 'pending') {
-            const queuesLabel = this.translate.instant(
-                'FINALIZATION.QUEUES.TABLE.TAKE'
-            );
-            return `${queuesLabel} ${item.uniqId}`;
-        }
-        return this.translate.instant('FINALIZATION.QUEUES.TABLE.SEE_MORE');
-    }
-
-    getJournalTooltip(item: QueuesEntity): string {
         const queuesLabel = this.translate.instant(
-            'FINALIZATION.QUEUES.TABLE.JOURNAL'
+            'FINALIZATION.QUEUES.TABLE.TAKE'
         );
         return `${queuesLabel} ${item.uniqId}`;
     }

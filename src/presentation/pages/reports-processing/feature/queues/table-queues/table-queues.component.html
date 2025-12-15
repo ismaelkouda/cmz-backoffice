@@ -124,7 +124,7 @@
                                 showDelay="500"
                                 hideDelay="300"
                             >
-                                {{ queue.reportType }}
+                                {{ queue.reportType | translate  }}
                             </div>
                         }
 
@@ -141,8 +141,8 @@
                                     track trackByOperator($index, operator)
                                 ) {
                                     <p-tag
-                                        [value]="getOperatorLabel(operator)"
-                                        [style]="getOperatorTagStyle(operator)"
+                                        [value]="getOperatorLabel(operator  | translate)"
+                                        [style]="getOperatorTagStyle(operator  | translate)"
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -162,11 +162,11 @@
                             <div
                                 class="source-type-content"
                             >
-                                <span [pTooltip]="queue.sourceDescription | translate"
-                                    tooltipPosition="bottom">{{ queue.source }}</span>&nbsp;
+                                <span>{{ queue.source | translate }}</span>&nbsp;
                                 <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(queue.initiatedBy)"
-                                    tooltipPosition="bottom">[ {{ queue.initiatedBy }} ]</span>
+                                    (click)="copyToClipboard(queue.initiatorPhoneNumber)"
+                                    tooltipPosition="bottom">[ {{ queue.initiatorPhoneNumber }} ]
+                                </span>
                             </div>
                         }
 

@@ -19,6 +19,7 @@ import { SearchTableComponent } from '@shared/components/search-table/search-tab
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import {
     TableConfig,
@@ -57,6 +58,10 @@ export class TableAllComponent implements OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly appCustomizationService = inject(AppCustomizationService);
+    private readonly tableExportExcelFileService = inject(
+        TableExportExcelFileService
+    );
     private readonly destroy$ = new Subject<void>();
 
     readonly all = signal<AllEntity[]>([]);
@@ -77,43 +82,17 @@ export class TableAllComponent implements OnDestroy {
         this.isLoading.set(value);
     }
 
+    private _all$!: Observable<AllEntity[]>;
+
     @Output() treatmentRequested = new EventEmitter<AllEntity>();
     @Output() journalRequested = new EventEmitter<AllEntity>();
     @Output() refreshRequested = new EventEmitter<void>();
 
-    private _all$!: Observable<AllEntity[]>;
-
-    private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.config.app.name
     );
 
     readonly tableConfig: TableConfig = ALL_TABLE_CONST;
-
-    private readonly translationCache = new Map<string, string>();
-
-    private readonly statusSeverityMap: Record<ReportStatus, TagSeverity> = {
-        [ReportStatus.ABANDONED]: 'warning',
-        [ReportStatus.APPROVED]: 'success',
-        [ReportStatus.REJECTED]: 'danger',
-        [ReportStatus.CONFIRMED]: 'contrast',
-    };
-
-    private readonly stateLabelMap: Record<string, string> = {
-        alld: 'REPORTS_REQUESTS.ALL.OPTIONS.STATE.APPROVED',
-        received: 'REPORTS_REQUESTS.ALL.OPTIONS.STATE.RECEIVED',
-        rejected: 'REPORTS_REQUESTS.ALL.OPTIONS.STATE.REJECTED',
-    };
-
-    private readonly stateSeverityMap: Record<string, TagSeverity> = {
-        alld: 'success',
-        received: 'info',
-        rejected: 'danger',
-    };
-
-    constructor(
-        private readonly tableExportExcelFileService: TableExportExcelFileService
-    ) { }
 
     ngOnDestroy(): void {
         this.destroy$.next();
@@ -184,36 +163,29 @@ export class TableAllComponent implements OnDestroy {
         return `${allLabel} ${uniqId}`;
     }
 
-    getOperatorColor(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const colorMap: Record<string, string> = {
-            orange: 'rgb(241, 110, 0)',
-            mtn: 'rgb(255, 203, 5)',
-            moov: 'rgb(0, 91, 164)',
+    getOperatorTagStyle(operator: TelecomOperator): OperatorTagStyle {
+        console.log('operator', operator);
+        const colorMap: Record<TelecomOperator, OperatorTagSeverity> = {
+            [TelecomOperator.ORANGE]: 'rgb(241, 110, 0)',
+            [TelecomOperator.MTN]: 'rgb(255, 203, 5)',
+            [TelecomOperator.MOOV]: 'rgb(0, 91, 164)',
+            [TelecomOperator.UNKNOWN]: 'rgba(var(--theme-default-rgb), 0.8)',
         };
-        return colorMap[normalized] ?? `rgba(var(--theme-default-rgb), 0.8)`;
-    }
-
-    getOperatorTagStyle(operator: string): Record<string, string> {
-        const backgroundColor = this.getOperatorColor(operator);
-        const textColor =
-            operator?.toLowerCase() === 'mtn' ? '#212121' : '#ffffff';
+        const backgroundColor: OperatorTagSeverity = colorMap[operator];
+        const textColor: operatorTextStyle =
+            operator === TelecomOperator.MTN ? '#212121' : '#ffffff';
         return { backgroundColor, color: textColor };
     }
 
-    getOperatorLabel(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const translationMap: Record<string, string> = {
-            orange: 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.ORANGE',
-            mtn: 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.MTN',
-            moov: 'REPORTS_REQUESTS.ALL.OPTIONS.OPERATOR.MOOV',
+    public getStatusSeverity(status: ReportStatus): StatusTagSeverity {
+        const severityMap: Record<ReportStatus, StatusTagSeverity> = {
+            [ReportStatus.ABANDONED]: 'warning',
+            [ReportStatus.APPROVED]: 'success',
+            [ReportStatus.REJECTED]: 'danger',
+            [ReportStatus.CONFIRMED]: 'contrast',
+            [ReportStatus.UNKNOWN]: 'dark',
         };
-        const key = translationMap[normalized];
-        return key ? this.translate.instant(key) : operator;
-    }
-
-    public getStatusSeverity(status: ReportStatus): TagSeverity {
-        return this.statusSeverityMap[status] ?? 'secondary';
+        return severityMap[status] ?? 'secondary';
     }
 
     trackByOperator(_: number, operator: string): string {
@@ -234,10 +206,23 @@ export class TableAllComponent implements OnDestroy {
     }
 }
 
-type TagSeverity =
+type StatusTagSeverity =
     | 'success'
     | 'info'
     | 'warning'
     | 'danger'
     | 'secondary'
-    | 'contrast';
+    | 'contrast'
+    | 'dark';
+type OperatorTagSeverity =
+    | 'rgb(241, 110, 0)'
+    | 'rgb(255, 203, 5)'
+    | 'rgb(0, 91, 164)'
+    | 'rgba(var(--theme-default-rgb), 0.8)';
+type operatorTextStyle = '#212121' | '#ffffff';
+type OperatorTagStyle = {
+    backgroundColor: OperatorTagSeverity;
+    color: operatorTextStyle;
+};
+
+

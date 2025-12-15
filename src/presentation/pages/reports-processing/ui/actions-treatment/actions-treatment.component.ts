@@ -200,14 +200,13 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
         this.router.navigate(['/reports-processing/tasks']);
     }
 
-    // Helper methods for premium subtitle
     public getReportTypeColor(reportType: ReportType): string {
         const colorMap: Record<ReportType, string> = {
             [ReportType.ABI]: 'card-error',
             [ReportType.ZOB]: 'card-warning',
             [ReportType.CPO]: 'card-info',
             [ReportType.CPS]: 'card-success',
-            [ReportType.OTHER]: 'card-primary',
+            [ReportType.UNKNOWN]: 'card-primary',
         };
         return colorMap[reportType] || 'card-primary';
     }
@@ -218,7 +217,7 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
             [ReportType.ZOB]: 'REPORT_TYPE.ZOB',
             [ReportType.CPO]: 'REPORT_TYPE.CPO',
             [ReportType.CPS]: 'REPORT_TYPE.CPS',
-            [ReportType.OTHER]: 'REPORT_TYPE.OTHER',
+            [ReportType.UNKNOWN]: 'REPORT_TYPE.OTHER',
         };
         return labelMap[reportType] || 'REPORT_TYPE.OTHER';
     }

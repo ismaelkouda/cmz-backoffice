@@ -1,18 +1,22 @@
 export const SOURCE_CONST = [
     {
         value: 'app',
-        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.SOURCE.APP',
+        label: 'COMMON.APP',
+    },
+    {
+        value: 'pwa',
+        label: 'COMMON.PWA',
     },
     {
         value: 'ussd',
-        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.SOURCE.USSD',
+        label: 'COMMON.USSD',
     },
     {
         value: 'sms',
-        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.SOURCE.SMS',
+        label: 'COMMON.SMS',
     },
     {
         value: 'ivr',
-        label: 'REPORTS_REQUESTS.TASKS.OPTIONS.SOURCE.IVR',
+        label: 'COMMON.IVR',
     },
 ] as const;

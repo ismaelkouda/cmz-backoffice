@@ -27,39 +27,48 @@ import { ButtonModule } from 'primeng/button';
     ],
     template: `
         <div class="table-button-header">
-            <p-button
-                *ngIf="!hiddenButtonOther"
-                severity="contrast"
+            @if (!hiddenButtonOther) {
+            <button
+                type="button"
                 [class.p-disabled]="disabledButtonOther"
-                [label]="
-                    showLabels
-                        ? (labelOther | translate) || ('CREATE' | translate)
-                        : ''
-                "
                 [styleClass]="otherButtonStyleClass"
+                class="btn btn-success"
                 [attr.aria-label]="
                     showLabels ? null : labelOther || ('CREATE' | translate)
                 "
                 (click)="onOther()"
-            />
-            <p-button
-                *ngIf="!hiddenButtonRefresh"
+            >
+                @if (labelOther) {
+                <span>{{ labelOther | translate }}</span>
+                } @else {
+                <span>{{ 'CREATE' | translate }}</span>
+                }
+            </button>
+            }
+            @if (!hiddenButtonRefresh) {
+            <button
+                type="button"
                 [class.p-disabled]="disabledButtonRefresh"
-                [label]="showLabels ? ('REFRESH' | translate) : ''"
-                styleClass="p-button-secondary"
+                class="btn btn-primary"
                 [attr.aria-label]="showLabels ? null : ('REFRESH' | translate)"
                 (click)="onRefresh()"
-            />
-            <p-button
-                *ngIf="!hiddenButtonExport"
+            >
+                <span *ngIf="showLabels">{{ 'REFRESH' | translate }}</span>
+            </button>
+            }
+            @if (!hiddenButtonExport) {
+            <button
+                type="button"
                 [class.p-disabled]="disabledButtonExport"
-                [label]="showLabels ? ('EXPORT.TITLE' | translate) : ''"
-                styleClass="p-button-success"
+                class="btn btn-dark"
                 [attr.aria-label]="
                     showLabels ? null : ('EXPORT.TITLE' | translate)
                 "
                 (click)="onExport()"
-            />
+            >
+                <span *ngIf="showLabels">{{ 'EXPORT.TITLE' | translate }}</span>
+            </button>
+            }
         </div>
     `,
 })

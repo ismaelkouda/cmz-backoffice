@@ -5,5 +5,5 @@ export interface ActionsFormControlEntity {
     date: FormControl<string>;
     type: FormControl<string>;
     description: FormControl<string>;
-    report_processings_count: FormControl<boolean>;
+    should_notify_user: FormControl<boolean>;
 }

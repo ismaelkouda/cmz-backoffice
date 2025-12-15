@@ -6,7 +6,7 @@ export interface ActionsItemDto {
     date: string;
     type: string;
     description: string;
-    report_processings_count: boolean;
+    should_notify_user: boolean;
     created_by: {
         id: string;
         last_name: string;

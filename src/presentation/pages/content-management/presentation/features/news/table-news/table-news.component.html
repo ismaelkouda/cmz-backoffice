@@ -1,0 +1,137 @@
+<p-table
+    #dt
+    [value]="newsData()"
+    [rowHover]="true"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="tableConfig.globalFilterFields"
+    responsiveLayout="scroll"
+    [scrollable]="true"
+    scrollHeight="430px"
+    data-testid="news-table"
+    role="grid"
+    width="100%"
+    [columns]="tableConfig.cols"
+    [loading]="isLoading()"
+    styleClass="p-datatable-gridlines"
+    [reorderableColumns]="true"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '75rem' }"
+>
+    <ng-template pTemplate="caption">
+        <div class="container-table-header">
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (export)="onExportExcel()"
+                    (refresh)="onRefresh()"
+                    (other)="onCreateClicked()"
+                    [disabledButtonExport]="isLoading() || !hasData()"
+                    [disabledButtonRefresh]="isLoading()"
+                    [hiddenButtonOther]="false"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt" />
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            @for (col of columns; track trackByColField($index, col)) {
+                <th
+                    [class]="col.class"
+                    [style.width]="col.width"
+                    [pSortableColumn]="col.field"
+                >
+                @if(col.field !== '__action' && col.field !== '__reorder') {
+                    {{ col.header | translate }}
+                    <p-sortIcon 
+                        [field]="col.field" 
+                        *ngIf="col.field !== '__action' && col.field !== '__reorder'"
+                    ></p-sortIcon>
+                } @else {
+                    {{ col.header | translate }}
+                }
+                </th>
+            }
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr role="row" [class.cursor-pointer]="!isLoading()" [pReorderableRow]="rowIndex">
+            @for (col of columns; track trackByColField($index, col)) {
+                <td [class]="col.class">
+                    @switch (col.field) {
+                        @case ('__reorder') {
+                            <!-- {{
+                                ((pagination$ | async)?.current_page - 1 || 0) *
+                                    ((pagination$ | async)?.per_page || 0) +
+                                    rowIndex +
+                                    1
+                            }} -->
+                                    <span class="pi pi-bars" pReorderableRowHandle></span>
+                        }
+
+                        @case ('platforms') {
+                            @for (
+                                platform of rowData.platforms;
+                                track trackByPlatform($index, platform)
+                            ) {
+                                <p-tag
+                                    [value]="getPlatformLabel(platform)"
+                                    [severity]="getPlatformTagStyle(platform)"
+                                />
+                            }
+                        }
+
+                        @case ('status') {
+                            <p-tag
+                                [value]="rowData.status | translate"
+                                [severity]="getStatusSeverity(rowData.status)"
+                            />
+                        }
+                        @case ('createdAt') {
+                            {{ formatDate(rowData.createdAt) }}
+                        }
+                        @case ('__action') {
+                            <app-home-action-dropdown
+                                [status]="rowData.status"
+                                (edit)="onEditClicked(rowData)"
+                                (view)="onViewClicked(rowData)"
+                                (enable)="onEnableClicked(rowData)"
+                                (disable)="onDisableClicked(rowData)"
+                                (delete)="onDeleteClicked(rowData)"
+                            ></app-home-action-dropdown>
+                        }
+                        @default {
+                            {{ rowData[col.field] }}
+                        }
+                    }
+                </td>
+            }
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            @if (!isLoading()) {
+                <td [attr.colspan]="columns.length" class="text-center">
+                    {{ 'COMMON.NO_DATA' | translate }}
+                </td>
+            } @else {
+                @for (col of columns; track trackByColField($index, col)) {
+                    <td><p-skeleton /></td>
+                }
+            }
+        </tr>
+    </ng-template>
+</p-table>

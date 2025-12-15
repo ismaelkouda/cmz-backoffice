@@ -31,12 +31,7 @@
 
                         <hr class="queues-divider" />
 
-                        <section
-                            class="table-section"
-                            [aria-label]="
-                                'REPORTS_REQUESTS.QUEUES.TITLE' | translate
-                            "
-                        >
+                        <section class="table-section">
                             <app-table-queues
                                 class="table-component"
                                 [loading]="loading$ | async"
@@ -49,7 +44,7 @@
 
                             <app-pagination
                                 class="pagination-component"
-                                [pagination]="pagination$ | async"
+                                [pagination$]="pagination$"
                                 (pageChange)="onPageChange($event)"
                             ></app-pagination>
                         </section>

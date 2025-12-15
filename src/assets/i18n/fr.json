@@ -6,13 +6,375 @@
         "FUTURE_DATE": "La date ne peut pas être dans le futur",
         "INVALID_DATE": "Date invalide"
     },
+    "CONTENT_MANAGEMENT": {
+        "ROUTE": "content-management",
+        "LABEL": "Gestion du contenu",
+        "HOME": {
+            "TITLE": "Blocs d'accueil",
+            "LABEL": "Acceuil",
+            "ROUTE": "home",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "Date"
+                },
+                "TYPE": "Type de contenu",
+                "STATUS": "Status",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Titre",
+                "SUBTITLE": "Sous-titre",
+                "PLATEFORM": "Plateforme",
+                "ORDER": "Ordre",
+                "RESUME": "Résumé",
+                "STATUS": "Status",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition de bloc d'accueil",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de bloc d'accueil",
+                "TITLE": "Titre",
+                "RESUME": "Résumé",
+                "DESCRIPTION": "Description (Contenu)",
+                "TYPE": "Type de Média",
+                "VIDEO_URL": "Lien Vidéo",
+                "BUTTON_LABEL": "Libellé Bouton",
+                "BUTTON_URL": "URL Bouton",
+                "PLATFORMS": "Plateformes",
+                "START_DATE": "Date de début",
+                "END_DATE": "Date de fin",
+                "IMAGE": "Ficher Image",
+                "CHOOSE_IMAGE": "Choisir une image",
+                "CHOOSE_VIDEO": "Choisir une vidéo",
+                "VIDEO_SELECTED": "Vidéo sélectionnée",
+                "IMAGE_PREVIEW": "Aperçu de l'image",
+                "VIDEO_PREVIEW": "Aperçu de la vidéo",
+                "DURATION": "Durée (secondes)",
+                "ORDER": "Ordre d'affichage",
+                "GENERAL_INFO": "Informations Générales",
+                "MEDIA_DISPLAY": "Média & Affichage",
+                "CONFIG": "Configuration & Actions",
+                "TITLE_PLACEHOLDER": "Ex: Nouveau contenu promotionnel",
+                "VIDEO": "Fichier Vidéo",
+                "VALIDATION": {
+                    "IMAGE_REQUIRED": "Image est obligatoire",
+                    "VIDEO_REQUIRED": "Video est obligatoire"
+                }
+            }
+        },
+        "STATIC_CONTENT": {
+            "CURRENT_VERSION": "Version actuelle",
+            "PUBLISHED": "Publié",
+            "DRAFT": "Brouillon",
+            "PUBLISH": "Publier",
+            "UNPUBLISH": "Dépublier",
+            "NO_CONTENT": "Aucun contenu disponible",
+            "FORM": {
+                "INFO": "Informations",
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "Ex: 1.0.0",
+                "CURRENT_VERSION": "Version actuelle",
+                "CONTENT": "Contenu"
+            }
+        },
+        "NEWS": {
+            "TITLE": "Blocs d'infos et actualités",
+            "LABEL": "News",
+            "ROUTE": "news",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "Date"
+                },
+                "TYPE": "Type de contenu",
+                "STATUS": "Status",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Titre",
+                "SUBTITLE": "Sous-titre",
+                "PLATEFORM": "Plateforme",
+                "ORDER": "Ordre",
+                "STATUS": "Status",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition du bloc Infos & Actualités",
+                "TITLE_FORM_ADD": "Formulaire d'ajout du bloc Infos & Actualités",
+                "TITLE": "Titre",
+                "RESUME": "Résumé",
+                "DESCRIPTION": "Description (Contenu)",
+                "TYPE": "Type de Média",
+                "VIDEO_URL": "Lien Vidéo",
+                "CATEGORY": "Catégorie",
+                "SUB_CATEGORY": "Sous-catégorie",
+                "HASHTAGS": "Hashtags",
+                "IMAGE": "Ficher Image",
+                "CHOOSE_IMAGE": "Choisir une image",
+                "CHOOSE_VIDEO": "Choisir une vidéo",
+                "VIDEO_SELECTED": "Vidéo sélectionnée",
+                "IMAGE_PREVIEW": "Aperçu de l'image",
+                "VIDEO_PREVIEW": "Aperçu de la vidéo",
+                "GENERAL_INFO": "Informations Générales",
+                "MEDIA_DISPLAY": "Média & Affichage",
+                "CONFIG": "Configuration & Actions",
+                "TITLE_PLACEHOLDER": "Ex: Nouveau contenu promotionnel",
+                "VIDEO": "Fichier Vidéo",
+                "PLATFORMS": "Plateformes",
+                "START_DATE": "Date de début",
+                "END_DATE": "Date de fin",
+                "DURATION": "Durée (secondes)",
+                "ORDER": "Ordre d'affichage",
+                "CATEGORY_PLACEHOLDER": "Sélectionner une catégorie",
+                "SUB_CATEGORY_PLACEHOLDER": "Sélectionner une sous-catégorie",
+                "HASHTAGS_PLACEHOLDER": "Sélectionner des hashtags",
+                "SELECT_CATEGORY_FIRST": "Veuillez d'abord sélectionner une catégorie",
+                "NO_SUB_CATEGORIES": "Cette catégorie ne contient pas de sous-catégories",
+                "VALIDATION": {
+                    "IMAGE_REQUIRED": "Image est obligatoire",
+                    "VIDEO_REQUIRED": "Video est obligatoire"
+                }
+            }
+
+        },
+        "SLIDE": {
+            "TITLE": "Gestion des slides",
+            "LABEL": "Slides",
+            "ROUTE": "sliders",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "Date"
+                },
+                "TYPE": "Type",
+                "STATUS": "Status",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Titre",
+                "SUBTITLE": "Sous-titre",
+                "PLATEFORM": "Plateforme",
+                "ORDER": "Ordre",
+                "RESUME": "Résumé",
+                "STATUS": "Status",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition de slide",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de slide",
+                "TITLE": "Titre",
+                "RESUME": "Résumé",
+                "DESCRIPTION": "Description (Contenu)",
+                "TYPE": "Type de Média",
+                "VIDEO_URL": "Lien Vidéo",
+                "BUTTON_LABEL": "Libellé Bouton",
+                "BUTTON_URL": "URL Bouton",
+                "PLATFORMS": "Plateformes",
+                "START_DATE": "Date de début",
+                "END_DATE": "Date de fin",
+                "IMAGE": "Ficher Image",
+                "CHOOSE_IMAGE": "Choisir une image",
+                "CHOOSE_VIDEO": "Choisir une vidéo",
+                "VIDEO_SELECTED": "Vidéo sélectionnée",
+                "IMAGE_PREVIEW": "Aperçu de l'image",
+                "VIDEO_PREVIEW": "Aperçu de la vidéo",
+                "DURATION": "Durée (secondes)",
+                "ORDER": "Ordre d'affichage",
+                "GENERAL_INFO": "Informations Générales",
+                "MEDIA_DISPLAY": "Média & Affichage",
+                "CONFIG": "Configuration & Actions",
+                "TITLE_PLACEHOLDER": "Ex: Nouveau contenu promotionnel",
+                "VIDEO": "Fichier Vidéo",
+                "VALIDATION": {
+                    "IMAGE_REQUIRED": "Image est obligatoire",
+                    "VIDEO_REQUIRED": "Video est obligatoire"
+                }
+            }
+        },
+        "PRIVACY_POLICY": {
+            "TITLE": "Gestion du contenu de la politique de confidentialité",
+            "LABEL": "Politique de confidentialité",
+            "ROUTE": "privacy-policy",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "Date"
+                },
+                "TYPE": "Type",
+                "STATUS": "Status",
+                "PUBLISH": "Publié",
+                "PUBLISH_PLACEHOLDER": "Publié",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Titre",
+                "CATEGORY": "Categorie",
+                "SUBCATEGORY": "Sous-categorie",
+                "PLATEFORM": "Plateforme",
+                "CONTENT": "Contenu",
+                "PUBLISHED": "Publié",
+                "ORDER": "Ordre",
+                "STATUS": "Status",
+                "STATE": "État",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition de la politique de confidentialité",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de politique de confidentialité",
+                "DESCRIPTION": "Description (Contenu)",
+                "GENERAL_INFO": "Informations Générales",
+                "CONFIG": "Configuration & Actions"
+            }
+        },
+        "LEGAL_NOTICE": {
+            "TITLE": "Gestion du contenu des mentions légales",
+            "LABEL": "Mentions légales",
+            "ROUTE": "legal-notices",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "Date"
+                },
+                "TYPE": "Type",
+                "STATUS": "Status",
+                "PUBLISH": "Publié",
+                "PUBLISH_PLACEHOLDER": "Publié",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Titre",
+                "CATEGORY": "Categorie",
+                "SUBCATEGORY": "Sous-categorie",
+                "PLATEFORM": "Plateforme",
+                "CONTENT": "Contenu",
+                "PUBLISHED": "Publié",
+                "ORDER": "Ordre",
+                "STATUS": "Status",
+                "STATE": "État",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition de mentions légale",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de mentions légale",
+                "DESCRIPTION": "Description (Contenu)",
+                "GENERAL_INFO": "Informations Générales",
+                "CONFIG": "Configuration & Actions"
+            }
+        },
+        "TERMS_USE": {
+            "TITLE": "Gestion du contenu des condtions d'utilisation",
+            "LABEL": "Conditions d'utilisation",
+            "ROUTE": "terms-of-service",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "Date"
+                },
+                "TYPE": "Type",
+                "STATUS": "Status",
+                "PUBLISH": "Publié",
+                "PUBLISH_PLACEHOLDER": "Publié",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Titre",
+                "CATEGORY": "Categorie",
+                "SUBCATEGORY": "Sous-categorie",
+                "PLATEFORM": "Plateforme",
+                "CONTENT": "Contenu",
+                "PUBLISHED": "Publié",
+                "ORDER": "Ordre",
+                "STATUS": "Status",
+                "STATE": "État",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition de conditions d'utilisation",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de conditions d'utilisation",
+                "DESCRIPTION": "Description (Contenu)",
+                "GENERAL_INFO": "Informations Générales",
+                "CONFIG": "Configuration & Actions"
+            }
+        }
+    },
     "COMMON": {
         "SELECT_PLACEHOLDER": "Sélectionner...",
         "CANCEL": "Annuler",
         "DELETE": "Supprimer",
         "COPY": "Copier",
         "COPIED_TO_CLIPBOARD": "Copier dans le presse papier",
-        "CLOSE": "Fermer"
+        "AUTO": "AUTO",
+        "MANUAL": "MANUELLE",
+        "NETWORK": "NETWORK",
+        "LOW": "BASSE",
+        "MEDIUM": "MOYENNE",
+        "HIGH": "HAUTE",
+        "CRITICAL": "CRITIQUE",
+        "GPS": "GPS",
+        "APP": "Application Mobile",
+        "PWA": "PWA",
+        "USSD": "USSD",
+        "SMS": "SMS",
+        "IVR": "IVR",
+        "ABI": "Absence d'Internet",
+        "ZOB": "Zone Blanche",
+        "CPS": "Couverture Partielle Signal",
+        "CPO": "Couverture Partielle Operateur",
+        "ORANGE": "Orange",
+        "MTN": "MTN",
+        "MOOV": "Moov",
+        "IMAGE": "Image",
+        "VIDEO": "Vidéo",
+        "ACTIVE": "Actif",
+        "INACTIVE": "Inactif",
+        "FILTER": "Filtrer",
+        "UPLOAD": "Télécharger",
+        "PREVIEW": "Aperçu",
+        "NO_DATA": "Aucune donnée disponible",
+        "UNKNOWN": "Inconnu",
+        "CHOOSE": "Choisir",
+        "CLOSE": "Fermer",
+        "RESTORE": "Restaurer",
+        "EDIT": "Modifier",
+        "SAVE": "Enregistrer",
+        "DETAILS": "Détails",
+        "ENABLE": "Activer",
+        "PUBLISH": "Publié",
+        "UNPUBLISH": "Non Publié",
+        "DISABLE": "Désactiver"
+    },
+    "PAGINATION": {
+        "TOTAL": "Total",
+        "PER_PAGE": "Par page",
+        "SHOWING": "Affichage",
+        "TO": "à",
+        "OF": "de",
+        "ENTRIES": "signalements"
     },
     "LOGOUT": {
         "SWEET_ALERT_PARAMS": {
@@ -68,6 +430,7 @@
                 },
                 "SOURCE": {
                     "APP": "Application Mobile",
+                    "PWA": "PWA",
                     "USSD": "USSD",
                     "SMS": "SMS",
                     "IVR": "IVR"
@@ -133,6 +496,7 @@
                 },
                 "SOURCE": {
                     "APP": "Application Mobile",
+                    "PWA": "PWA",
                     "USSD": "USSD",
                     "SMS": "SMS",
                     "IVR": "IVR"
@@ -165,6 +529,13 @@
             "TITLE": "demandes qualifiés",
             "LABEL": "Toutes les demandes",
             "ROUTE": "all",
+            "STATUS": {
+                "CONFIRMED": "Confirmé",
+                "APPROVED": "Approuvé",
+                "REJECTED": "Rejeté",
+                "ABANDONED": "Abandonné",
+                "UNKNOWN": "Inconnu"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -208,6 +579,7 @@
                 },
                 "SOURCE": {
                     "APP": "Application Mobile",
+                    "PWA": "PWA",
                     "USSD": "USSD",
                     "SMS": "SMS",
                     "IVR": "IVR"
@@ -350,6 +722,7 @@
                 },
                 "SOURCE": {
                     "APP": "Application Mobile",
+                    "PWA": "PWA",
                     "USSD": "USSD",
                     "SMS": "SMS",
                     "IVR": "IVR"
@@ -382,6 +755,9 @@
             "TITLE": "signalements traités",
             "LABEL": "Toutes les signalements",
             "ROUTE": "all",
+            "STATE": {
+                "TERMINATED": "Terminé"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -423,6 +799,7 @@
                 },
                 "SOURCE": {
                     "APP": "Application Mobile",
+                    "PWA": "PWA",
                     "USSD": "USSD",
                     "SMS": "SMS",
                     "IVR": "IVR"
@@ -709,6 +1086,7 @@
                 },
                 "SOURCE": {
                     "APP": "Application Mobile",
+                    "PWA": "PWA",
                     "USSD": "USSD",
                     "SMS": "SMS",
                     "IVR": "IVR"
@@ -782,6 +1160,7 @@
                 },
                 "SOURCE": {
                     "APP": "Application Mobile",
+                    "PWA": "PWA",
                     "USSD": "USSD",
                     "SMS": "SMS",
                     "IVR": "IVR"
@@ -1840,7 +2219,7 @@
             }
         },
         "FOOTER": {
-            "COPYRIGHT": "Copyright CMZ"
+            "COPYRIGHT": "Copyright ANSUT"
         }
     },
 

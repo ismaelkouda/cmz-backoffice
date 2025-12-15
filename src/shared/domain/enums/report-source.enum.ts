@@ -1,6 +1,8 @@
 export enum ReportSource {
-    APP = 'App',
-    USSD = 'USSD',
-    SMS = 'SMS',
-    IVR = 'IVR',
+    APP = 'COMMON.APP',
+    PWA = 'COMMON.PWA',
+    USSD = 'COMMON.USSD',
+    SMS = 'COMMON.SMS',
+    IVR = 'COMMON.IVR',
+    UNKNOWN = 'COMMON.UNKNOWN',
 }

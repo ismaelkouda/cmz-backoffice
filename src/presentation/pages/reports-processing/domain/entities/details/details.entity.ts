@@ -1,14 +1,15 @@
+import { AdministrativeBoundaryDto } from '@shared/data/dtos/administrative-boundary.dto';
+import { ActorEntity } from '@shared/domain/entities/actor.entity';
+import { AdministrativeBoundaryEntity } from '@shared/domain/entities/administrative-boundary.entity';
+import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
+import { ReportMediaEntity } from '@shared/domain/entities/report-media.entity';
+import { TimestampsEntity } from '@shared/domain/entities/timestamps.entity';
 import { LocationMethod } from '@shared/domain/enums/location-method.enum';
 import { LocationType } from '@shared/domain/enums/location-type.enum';
-import { PriorityLevel } from '@shared/domain/enums/priority-level.enum';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
-import { DuplicationInfo } from '@shared/domain/interfaces/duplication-info.interface';
-import { ReportLocation } from '@shared/domain/interfaces/report-location.interface';
-import { ReportMedia } from '@shared/domain/interfaces/report-media.interface';
-import { Timestamps } from '@shared/domain/interfaces/timestamps.interface';
 
 
 export type ManagementAction = 'take' | 'approve' | 'treat' | 'finalize' | 'see';
@@ -57,49 +58,42 @@ export interface AdministrativeDivision {
     regionId: number;
     departmentId: number;
     municipalityId: number;
-    region: string | null;
-    department: string | null;
-    municipality: string | null;
-}
-
-export interface actorInfo {
-    lastName: string;
-    firstName: string;
-    phone: string;
+    region: AdministrativeBoundaryDto;
+    department: AdministrativeBoundaryDto;
+    municipality: AdministrativeBoundaryDto;
 }
 
 export interface Details {
     readonly id: string;
     readonly uniqId: string;
     readonly reportUniqId: string;
-    readonly initiatedBy: string;
     readonly initiatorPhone: string;
-    readonly initiator: actorInfo;
-    readonly acknowledgedBy: actorInfo;
-    readonly processedBy: actorInfo;
-    readonly approvedBy: actorInfo;
-    readonly rejectedBy: actorInfo;
-    readonly confirmedBy: actorInfo;
-    readonly abandonedBy: actorInfo;
+    readonly initiator: ActorEntity | null;
+    readonly acknowledgedBy: ActorEntity | null;
+    readonly processedBy: ActorEntity | null;
+    readonly approvedBy: ActorEntity | null;
+    readonly rejectedBy: ActorEntity | null;
+    readonly confirmedBy: ActorEntity | null;
+    readonly abandonedBy: ActorEntity | null;
     readonly source: ReportSource;
-    readonly location: ReportLocation;
+    readonly location: ReportLocationEntity;
     readonly reportType: ReportType;
     readonly operators: TelecomOperator[];
     readonly description: string;
-    readonly media: ReportMedia;
+    readonly media: ReportMediaEntity | null;
     readonly treater: TreaterInfo;
     readonly status: ReportStatus;
     readonly state: ReportState;
-    readonly duplication: DuplicationInfo;
-    readonly position: string;
-    readonly administrative: AdministrativeDivision;
-    readonly timestamps: Timestamps;
+    readonly region: AdministrativeBoundaryEntity | null;
+    readonly department: AdministrativeBoundaryEntity | null;
+    readonly municipality: AdministrativeBoundaryEntity | null;
+    readonly timestamps: TimestampsEntity;
     readonly createdAt: string;
     readonly reportedAt: string;
     readonly placePhoto: string;
     readonly accessPlacePhoto: string;
     readonly confirmCount: number;
-    readonly actionCount: number;
+    readonly reportProcessingsCount: number;
 }
 
 export class DetailsEntity implements Details {
@@ -107,34 +101,33 @@ export class DetailsEntity implements Details {
         public readonly id: string,
         public readonly uniqId: string,
         public readonly reportUniqId: string,
-        public readonly initiatedBy: string,
         public readonly initiatorPhone: string,
-        public readonly initiator: actorInfo,
-        public readonly acknowledgedBy: actorInfo,
-        public readonly processedBy: actorInfo,
-        public readonly approvedBy: actorInfo,
-        public readonly rejectedBy: actorInfo,
-        public readonly confirmedBy: actorInfo,
-        public readonly abandonedBy: actorInfo,
+        public readonly initiator: ActorEntity | null,
+        public readonly acknowledgedBy: ActorEntity | null,
+        public readonly processedBy: ActorEntity | null,
+        public readonly approvedBy: ActorEntity | null,
+        public readonly rejectedBy: ActorEntity | null,
+        public readonly confirmedBy: ActorEntity | null,
+        public readonly abandonedBy: ActorEntity | null,
         public readonly source: ReportSource,
-        public readonly location: ReportLocation,
+        public readonly location: ReportLocationEntity,
         public readonly reportType: ReportType,
         public readonly operators: TelecomOperator[],
         public readonly description: string,
-        public readonly media: ReportMedia,
+        public readonly media: ReportMediaEntity | null,
         public readonly treater: TreaterInfo,
         public readonly status: ReportStatus,
         public readonly state: ReportState,
-        public readonly duplication: DuplicationInfo,
-        public readonly position: string,
-        public readonly administrative: AdministrativeDivision,
-        public readonly timestamps: Timestamps,
+        public readonly region: AdministrativeBoundaryEntity | null,
+        public readonly department: AdministrativeBoundaryEntity | null,
+        public readonly municipality: AdministrativeBoundaryEntity | null,
+        public readonly timestamps: TimestampsEntity,
         public readonly createdAt: string,
         public readonly reportedAt: string,
         public readonly placePhoto: string,
         public readonly accessPlacePhoto: string,
         public readonly confirmCount: number,
-        public readonly actionCount: number,
+        public readonly reportProcessingsCount: number,
     ) { }
 
     public get managementTitle(): string {
@@ -187,7 +180,7 @@ export class DetailsEntity implements Details {
         }
     }
 
-    public get managementPrams(): ManagementAction {
+    public get detailsParams(): ManagementAction {
         if (this.canBeTaken) {
             return 'take';
         } else if (this.canBeApproved) {
@@ -255,15 +248,6 @@ export class DetailsEntity implements Details {
         );
     }
 
-    public requiresImmediateAttention(): boolean {
-        return (
-            this.getPriorityLevel() === PriorityLevel.CRITICAL ||
-            (this.isRecent(1) &&
-                this.hasCompletePhotos() &&
-                this.hasMultipleOperators())
-        );
-    }
-
     public hasValidLocation(): boolean {
         const { latitude, longitude } = this.location.coordinates;
         return (
@@ -299,13 +283,6 @@ export class DetailsEntity implements Details {
         );
     }
 
-    public hasManualLocation(): boolean {
-        return (
-            this.location.method === LocationMethod.MANUAL ||
-            this.location.type === LocationType.MANUAL
-        );
-    }
-
     public hasWhat3Words(): boolean {
         return !!this.location.coordinates.what3words;
     }
@@ -334,17 +311,16 @@ export class DetailsEntity implements Details {
         return deg * (Math.PI / 180);
     }
 
-    // === MÉTHODES DE MÉDIAS ===
     public hasPhotos(): boolean {
-        return !!this.media.placePhoto || !!this.media.accessPlacePhoto;
+        return !!this.media?.placePhoto || !!this.media?.accessPlacePhoto;
     }
 
     public hasPlacePhoto(): boolean {
-        return !!this.media.placePhoto;
+        return !!this.media?.placePhoto;
     }
 
     public hasAccessPhoto(): boolean {
-        return !!this.media.accessPlacePhoto;
+        return !!this.media?.accessPlacePhoto;
     }
 
     public hasCompletePhotos(): boolean {
@@ -360,75 +336,6 @@ export class DetailsEntity implements Details {
         return this.operators.length > 1;
     }
 
-    public involvesOperator(operator: TelecomOperator): boolean {
-        return this.operators.includes(operator);
-    }
-
-    public getUniqueOperators(): TelecomOperator[] {
-        return [...new Set(this.operators)];
-    }
-
-    // === MÉTHODES D'APPROBATION ET VOTES ===
-    public getConfirmationRatio(): number {
-        const totalVotes = this.confirmCount + this.treater.denyCount;
-        return totalVotes > 0 ? this.confirmCount / totalVotes : 0;
-    }
-
-    public isHighlyConfirmed(): boolean {
-        return this.getConfirmationRatio() >= 0.7;
-    }
-
-    public hasConflictingVotes(): boolean {
-        const totalVotes = this.confirmCount + this.treater.denyCount;
-        return (
-            totalVotes >= 5 &&
-            this.getConfirmationRatio() >= 0.4 &&
-            this.getConfirmationRatio() <= 0.6
-        );
-    }
-
-    public hasSufficientVotes(): boolean {
-        return this.confirmCount + this.treater.denyCount >= 3;
-    }
-
-    // === MÉTHODES TEMPORELLES ===
-    public getDaysSinceCreation(): number {
-        const created = new Date(this.timestamps.createdAt);
-        const now = new Date();
-        const diffTime = Math.abs(now.getTime() - created.getTime());
-        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    }
-
-    public isRecent(daysThreshold: number = 7): boolean {
-        return this.getDaysSinceCreation() <= daysThreshold;
-    }
-
-    public isStale(daysThreshold: number = 30): boolean {
-        return this.getDaysSinceCreation() > daysThreshold;
-    }
-
-    public wasRecentlyUpdated(hoursThreshold: number = 24): boolean {
-        const updated = new Date(this.timestamps.updatedAt);
-        const now = new Date();
-        const diffHours =
-            Math.abs(now.getTime() - updated.getTime()) / (1000 * 60 * 60);
-        return diffHours <= hoursThreshold;
-    }
-
-    public isUrgent(): boolean {
-        return this.getDaysSinceCreation() === 0;
-    }
-
-    // === MÉTHODES DE DUPLICATION ===
-    public isDuplicate(): boolean {
-        return this.duplication.isDuplicated;
-    }
-
-    public hasDuplicates(): boolean {
-        return this.duplication.duplicateOf !== null;
-    }
-
-    // === MÉTHODES DE SOURCE ===
     public isFromMobileApp(): boolean {
         return this.source === ReportSource.APP;
     }
@@ -445,99 +352,10 @@ export class DetailsEntity implements Details {
         return this.source === ReportSource.IVR;
     }
 
-    public isReportType(reportType: ReportType): boolean {
-        return this.reportType === reportType;
+    public isFromPwa(): boolean {
+        return this.source === ReportSource.PWA;
     }
 
-    public isAbiReport(): boolean {
-        return this.reportType === ReportType.ABI;
-    }
-
-    public isZobReport(): boolean {
-        return this.reportType === ReportType.ZOB;
-    }
-
-    public isOtherReport(): boolean {
-        return this.reportType === ReportType.OTHER;
-    }
-
-    // === MÉTHODES DE PRIORITÉ ===
-    public calculatePriorityScore(): number {
-        let score = 0;
-
-        if (this.hasCompletePhotos()) score += 3;
-        if (this.hasPreciseCoordinates()) score += 2;
-        if (this.hasMultipleOperators()) score += 2;
-        if (this.isUrgent()) score += 3;
-        if (this.isHighlyConfirmed()) score += 1;
-        if (this.isRecent(1)) score += 1;
-        if (this.isDuplicate()) score -= 5;
-
-        return Math.max(0, score);
-    }
-
-    public getPriorityLevel(): PriorityLevel {
-        const score = this.calculatePriorityScore();
-
-        if (score >= 7) return PriorityLevel.CRITICAL;
-        if (score >= 5) return PriorityLevel.HIGH;
-        if (score >= 3) return PriorityLevel.MEDIUM;
-        return PriorityLevel.LOW;
-    }
-
-    public isHighPriority(): boolean {
-        const level = this.getPriorityLevel();
-        return level === PriorityLevel.HIGH || level === PriorityLevel.CRITICAL;
-    }
-
-    // === VALIDATION DE COMPLÉTUDE ===
-    public validateCompleteness(): {
-        isValid: boolean;
-        missingFields: string[];
-    } {
-        const missingFields: string[] = [];
-
-        if (!this.hasValidLocation()) missingFields.push('localisation_valide');
-        if (!this.hasPhotos()) missingFields.push('photos');
-        if (this.operators.length === 0) missingFields.push('operateurs');
-        if (!this.description || this.description.trim().length < 10)
-            missingFields.push('description_complete');
-
-        return {
-            isValid: missingFields.length === 0,
-            missingFields,
-        };
-    }
-
-    public isReadyForAutoProcessing(): boolean {
-        const completeness = this.validateCompleteness();
-        return (
-            completeness.isValid &&
-            this.hasSufficientVotes() &&
-            this.isHighlyConfirmed() &&
-            !this.isDuplicate()
-        );
-    }
-
-    public hasAdministrativeData(): boolean {
-        return (
-            this.administrative.regionId > 0 ||
-            this.administrative.departmentId > 0 ||
-            this.administrative.municipalityId > 0
-        );
-    }
-
-    public getFullAdministrativeName(): string {
-        const parts = [
-            this.administrative.region,
-            this.administrative.department,
-            this.administrative.municipality,
-        ].filter(Boolean);
-
-        return parts.join(' - ') || 'Non spécifié';
-    }
-
-    // === MÉTHODES UTILITAIRES ===
     public toString(): string {
         return `DetailsEntity[id=${this.id}, type=${this.reportType}, status=${this.status}, operators=${this.operators.join(',')}]`;
     }
@@ -551,7 +369,6 @@ export class DetailsEntity implements Details {
             updates.id ?? this.id,
             updates.uniqId ?? this.uniqId,
             updates.reportUniqId ?? this.reportUniqId,
-            updates.initiatedBy ?? this.initiatedBy,
             updates.initiatorPhone ?? this.initiatorPhone,
             updates.initiator ?? this.initiator,
             updates.acknowledgedBy ?? this.acknowledgedBy,
@@ -569,83 +386,16 @@ export class DetailsEntity implements Details {
             updates.treater ?? this.treater,
             updates.status ?? this.status,
             updates.state ?? this.state,
-            updates.duplication ?? this.duplication,
-            updates.position ?? this.position,
-            updates.administrative ?? this.administrative,
+            updates.region ?? this.region,
+            updates.department ?? this.department,
+            updates.municipality ?? this.municipality,
             updates.timestamps ?? this.timestamps,
             updates.createdAt ?? this.createdAt,
             updates.reportedAt ?? this.reportedAt,
             updates.placePhoto ?? this.placePhoto,
             updates.accessPlacePhoto ?? this.accessPlacePhoto,
             updates.confirmCount ?? this.confirmCount,
-            updates.actionCount ?? this.actionCount,
+            updates.reportProcessingsCount ?? this.reportProcessingsCount,
         );
-    }
-
-    public markAsApproved(
-        approvedBy: string,
-        comment: string = ''
-    ): DetailsEntity {
-        return this.clone({
-            status: ReportStatus.APPROVED,
-            treater: {
-                ...this.treater,
-                approvedAt: new Date().toISOString(),
-                approvedComment: comment,
-            },
-        });
-    }
-
-    public markAsProcessed(
-        processedBy: string,
-        comment: string = ''
-    ): DetailsEntity {
-        return this.clone({
-            status: ReportStatus.PROCESSING,
-            treater: {
-                ...this.treater,
-                processedAt: new Date().toISOString(),
-                processedComment: comment,
-            },
-        });
-    }
-
-    public markAsAcknowledgedBy(
-        acknowledgedBy: string,
-        comment: string = ''
-    ): DetailsEntity {
-        return this.clone({
-            status: ReportStatus.APPROVED,
-            treater: {
-                ...this.treater,
-                acknowledgedAt: new Date().toISOString(),
-                acknowledgedComment: comment,
-            },
-        });
-    }
-
-    public markAsRejected(comment: string = ''): DetailsEntity {
-        return this.clone({
-            status: ReportStatus.REJECTED,
-            treater: {
-                ...this.treater,
-                rejectedAt: new Date().toISOString(),
-                rejectedComment: comment,
-            },
-        });
-    }
-
-    public markAsAbandoned(
-        abandonedBy: string,
-        comment: string = ''
-    ): DetailsEntity {
-        return this.clone({
-            status: ReportStatus.ABANDONED,
-            treater: {
-                ...this.treater,
-                abandonedAt: new Date().toISOString(),
-                abandonedComment: comment,
-            },
-        });
     }
 }

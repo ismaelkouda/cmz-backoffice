@@ -16,4 +16,5 @@ export class FooterComponent {
     private readonly configService = inject(ConfigurationService);
     public readonly appSettings = this.configService.appSettings;
     public readonly config = inject(AppCustomizationService).config;
+    public currentYear = new Date().getFullYear();
 }

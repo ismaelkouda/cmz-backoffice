@@ -10,35 +10,35 @@ export const TASKS_TABLE_CONST = {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '10rem',
+            width: '8rem',
         },
         {
             field: 'reportType',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.REPORT_TYPE',
-            width: '12rem',
+            width: '11rem',
         },
         {
             field: 'operators',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.OPERATORS',
-            width: '13rem',
+            width: '11rem',
         },
         {
             field: 'source',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.SOURCE',
             class: 'text-center',
-            width: '9rem',
+            width: '13rem',
         },
         {
             field: 'createdAt',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.CREATED_AT',
             class: 'text-center',
-            width: '11rem',
+            width: '8rem',
         },
         {
             field: '__action',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.ACTION',
             class: 'text-center',
-            width: '4rem',
+            width: '2rem',
         },
     ],
     globalFilterFields: [
@@ -46,8 +46,6 @@ export const TASKS_TABLE_CONST = {
         'reportType',
         'operators',
         'source',
-        'createdAt',
-        'placeDescription',
-        'description',
+        'createdAt'
     ],
 };

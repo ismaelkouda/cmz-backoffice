@@ -202,7 +202,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
             this.filter.emit(filterData);
         } else {
             const translatedMessage = this.translate.instant('FORM_INVALID');
-            this.toastService.success(translatedMessage);
+            this.toastService.error(translatedMessage);
         }
     }
 

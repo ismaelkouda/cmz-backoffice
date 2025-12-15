@@ -13,6 +13,7 @@ export const SETTINGS_SECURITY_ROUTE = 'security-settings';
 export const TEAM_ORGANIZATION = 'organization';
 export const ACCOUNTING = 'accounting';
 export const COMMUNICATION_ROUTE = 'communication';
+export const CONTENT_MANAGEMENT_ROUTE = 'content-management';
 
 export const content: Routes = [
     {
@@ -102,6 +103,17 @@ export const content: Routes = [
         data: {
             module: 'COMMUNICATION',
             subModule: ['COMMUNICATION.MESSAGES.LABEL', 'COMMUNICATION.NOTIFICATIONS.LABEL'],
+        },
+    },
+    {
+        path: CONTENT_MANAGEMENT_ROUTE,
+        loadChildren: () =>
+            import('../../presentation/pages/content-management/content-management.routes').then(
+                (m) => m.routes
+            ),
+        data: {
+            module: 'CONTENT_MANAGEMENT',
+            subModule: ['CONTENT_MANAGEMENT.MESSAGES.LABEL', 'CONTENT_MANAGEMENT.NOTIFICATIONS.LABEL'],
         },
     },
     /*     {

@@ -1,0 +1,78 @@
+<main class="container-fluid form-privacy-policy-container" role="main">
+    <p-toast position="top-right"></p-toast>
+    
+    <section class="row form-privacy-policy-row">
+        <article class="col-sm-12 form-privacy-policy-article">
+            <app-breadcrumb
+                class="team-form-breadcrumb"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+
+            <section class="card form-privacy-policy-card">
+                <div class="card-body form-privacy-policy-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="
+                                    isEditMode ? ('CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.TITLE_FORM_EDIT' | translate) : ('CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.TITLE_FORM_ADD' | translate)
+                                "
+                            >
+                            </app-page-title>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="onCancel()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form class="form row g-3" [formGroup]="form" (ngSubmit)="onSubmit()">
+                                        
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.GENERAL_INFO' | translate }}</b>
+                                            </legend>
+
+                                            <div class="col-12">
+                                                <label for="content" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.DESCRIPTION' | translate }}</label>
+                                                <p-editor formControlName="content" [style]="{ height: '100vh' }"></p-editor>
+                                                @if (form.get('content')?.invalid && form.get('content')?.touched) {
+                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                    }
+                                            </div>
+                                        </fieldset>
+
+                                        <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
+                                            <p-button 
+                                                label="{{ 'COMMON.CANCEL' | translate }}" 
+                                                styleClass="p-button-text p-button-secondary" 
+                                                (click)="onCancel()">
+                                            </p-button>
+                                            
+                                            <p-button 
+                                                label="{{ 'COMMON.SAVE' | translate }}" 
+                                                (click)="onSubmit()" 
+                                                [disabled]="saveButtonState.disabled"
+                                                [styleClass]="saveButtonState.disabled ? 'p-button-disabled form-submit-button' : 'form-submit-button'">
+
+                                            </p-button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

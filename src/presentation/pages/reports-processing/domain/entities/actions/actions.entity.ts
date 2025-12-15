@@ -14,7 +14,7 @@ export interface ActionsEntity {
     date: string;
     type: ActionType;
     description: string;
-    reportProcessingsCount: boolean;
+    shouldNotifyUser: boolean;
     createdBy: UserInfo;
     updatedBy: UserInfo;
     createdAt: string;

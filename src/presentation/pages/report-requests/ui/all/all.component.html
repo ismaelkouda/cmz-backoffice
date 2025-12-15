@@ -1,6 +1,7 @@
 <main class="container-fluid all-container" role="main">
     <section class="row all-row">
         <article class="col-sm-12 all-article">
+            
             <app-breadcrumb
                 class="all-breadcrumb"
                 [title]="module | translate"
@@ -31,12 +32,7 @@
 
                         <hr class="all-divider" />
 
-                        <section
-                            class="table-section"
-                            [aria-label]="
-                                'REPORTS_REQUESTS.ALL.TITLE' | translate
-                            "
-                        >
+                        <section class="table-section">
                             <app-table-all
                                 class="table-component"
                                 [loading]="loading$ | async"
@@ -49,7 +45,7 @@
 
                             <app-pagination
                                 class="pagination-component"
-                                [pagination]="pagination$ | async"
+                                [pagination$]="pagination$"
                                 (pageChange)="onPageChange($event)"
                             ></app-pagination>
                         </section>

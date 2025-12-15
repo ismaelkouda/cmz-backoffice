@@ -1,0 +1,57 @@
+<main class="container-fluid legal-notice-container" role="main">
+    <section class="row legal-notice-row">
+        <article class="col-sm-12 legal-notice-article">
+            
+            <app-breadcrumb
+                class="legal-notice-breadcrumb"
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
+
+            <section class="card legal-notice-card">
+                <div class="card-body legal-notice-card-body">
+                    <header class="legal-notice-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'CONTENT_MANAGEMENT.LEGAL_NOTICE.TITLE' | translate | lowercase"
+                        ></app-page-title>
+                    </header>
+
+                    <div class="fade-in legal-notice-content">
+                        
+                        <app-filter-legal-notice class="filter-component" 
+                            [loading]="(loading$ | async) ?? false"
+                            (filter)="filter($event)">
+                        </app-filter-legal-notice>
+
+                        <hr class="legal-notice-divider" />
+
+                        <section class="table-section">
+                            
+                            <app-table-legal-notice
+                                class="table-component"
+                                [loading]="(loading$ | async) ?? false"
+                                [legalNotice$]="legalNotice$"
+                                [pagination$]="pagination$"
+                                (refreshRequested)="onRefreshClicked()"
+                                (createRequested)="onCreateClicked()"
+                                (editRequested)="onEditClicked($event)"
+                                (deleteRequested)="onDeleteClicked($event)"
+                                (viewRequested)="onViewClicked($event)"
+                                (publishRequested)="onPublishClicked($event)"
+                                (unpublishRequested)="onUnpublishClicked($event)"
+                            ></app-table-legal-notice>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination$]="pagination$"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

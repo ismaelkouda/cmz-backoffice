@@ -309,7 +309,7 @@ $dark-gray: var(--color-gray);
         color: rgba($black, 0.4);
     }
 
-    &--invalid {
+    &.ng-invalid.ng-touched {
         border-color: var(--color-error, #dc3545);
         background-color: color-mix(
             in srgb,
@@ -343,9 +343,6 @@ $dark-gray: var(--color-gray);
         }
     }
 
-    &--focused {
-        border-color: var(--theme-default);
-    }
 }
 
 .form-error-message {
