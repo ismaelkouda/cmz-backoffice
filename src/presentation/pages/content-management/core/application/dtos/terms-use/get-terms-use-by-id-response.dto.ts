@@ -6,4 +6,5 @@ export interface GetTermsUseByIdResponseDto extends SimpleResponseDto<GetTermsUs
 export interface GetTermsUseByIdItemDto {
     name: string;
     content: string;
+    version: string;
 }

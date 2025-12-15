@@ -24,7 +24,7 @@ export class LegalNoticeMapper extends PaginatedMapper<LegalNoticeEntity, LegalN
             dto.version,
             mappedActionDropdown,
             dto.created_at,
-            dto.updated_at
+            dto.published_at
         );
     }
     private mapActionDropdown(dto: boolean): ActionDropdownDto {

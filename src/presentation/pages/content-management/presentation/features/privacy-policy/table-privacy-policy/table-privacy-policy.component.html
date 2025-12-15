@@ -85,6 +85,9 @@
                         @case ('createdAt') {
                             {{ formatDate(rowData.createdAt) }}
                         }
+                        @case ('publishedAt') {
+                            {{ formatDate(rowData.publishedAt) }}
+                        }
                         @case ('__action') {
                             <app-home-action-dropdown
                                 [status]="rowData.status"

@@ -8,7 +8,7 @@ export class PrivacyPolicyEntity {
         public readonly version: string,
         public readonly status: ActionDropdown,
         public readonly createdAt: string,
-        public readonly updatedAt: string
+        public readonly publishedAt: string
     ) { }
 
     public clone(updates: Partial<PrivacyPolicyEntity>): PrivacyPolicyEntity {
@@ -19,7 +19,7 @@ export class PrivacyPolicyEntity {
             updates.version ?? this.version,
             updates.status ?? this.status,
             updates.createdAt ?? this.createdAt,
-            updates.updatedAt ?? this.updatedAt
+            updates.publishedAt ?? this.publishedAt
         );
     }
 }

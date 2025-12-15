@@ -6,4 +6,5 @@ export interface GetPrivacyPolicyByIdResponseDto extends SimpleResponseDto<GetPr
 export interface GetPrivacyPolicyByIdItemDto {
     name: string;
     content: string;
+    version: string;
 }

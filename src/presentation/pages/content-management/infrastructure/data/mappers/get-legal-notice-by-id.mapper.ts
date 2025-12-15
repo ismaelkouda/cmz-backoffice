@@ -14,6 +14,7 @@ export class GetLegalNoticeByIdMapper extends SimpleResponseMapper<GetLegalNotic
     public mapItemFromDto(dto: GetLegalNoticeByIdItemDto): GetLegalNoticeByIdEntity {
         return new GetLegalNoticeByIdEntity(
             dto.content,
+            dto.version,
         );
     }
 }

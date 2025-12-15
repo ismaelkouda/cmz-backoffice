@@ -6,4 +6,5 @@ export interface GetLegalNoticeByIdResponseDto extends SimpleResponseDto<GetLega
 export interface GetLegalNoticeByIdItemDto {
     name: string;
     content: string;
+    version: string;
 }
