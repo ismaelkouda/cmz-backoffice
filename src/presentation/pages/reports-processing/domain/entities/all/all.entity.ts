@@ -12,7 +12,7 @@ export interface All {
     readonly reportType: ReportType;
     readonly operators: TelecomOperator[];
     readonly source: ReportSource;
-    readonly initiator_phone_number: string;
+    readonly initiatorPhoneNumber: string;
     readonly status: ReportState;
     readonly createdAt: string;
 }
@@ -23,7 +23,7 @@ export class AllEntity implements All {
         public readonly reportType: ReportType,
         public readonly operators: TelecomOperator[],
         public readonly source: ReportSource,
-        public readonly initiator_phone_number: string,
+        public readonly initiatorPhoneNumber: string,
         public readonly status: ReportState,
         public readonly createdAt: string
     ) { }
@@ -35,7 +35,7 @@ export class AllEntity implements All {
             updates.reportType ?? this.reportType,
             updates.operators ?? this.operators,
             updates.source ?? this.source,
-            updates.initiator_phone_number ?? this.initiator_phone_number,
+            updates.initiatorPhoneNumber ?? this.initiatorPhoneNumber,
             updates.status ?? this.status,
             updates.createdAt ?? this.createdAt
         );

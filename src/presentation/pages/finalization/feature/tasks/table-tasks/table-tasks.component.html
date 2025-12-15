@@ -23,7 +23,7 @@
             />
 
             <div
-                class="flex gap-2 items-center custom-header-actions mt-2 mt-md-0"
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
             >
                 <app-table-button-header
                     (export)="onExportExcel()"
@@ -109,23 +109,17 @@
                             <button
                                 type="button"
                                 (click)="copyToClipboard(task.uniqId)"
-                                class="copyable"
                                 pTooltip="{{ 'COPY' | translate }}"
                                 tooltipPosition="bottom"
                             >
-                                <span class="id-text">{{ task.uniqId }}</span>
+                                <span class="copyable">{{ task.uniqId }}</span>
                                 <!-- <i class="pi pi-copy" aria-hidden="true"></i> -->
                             </button>
                         }
 
                         @case ('reportType') {
-                            <div
-                                [pTooltip]="task.reportDescription | translate"
-                                tooltipPosition="bottom"
-                                showDelay="500"
-                                hideDelay="300"
-                            >
-                                {{ task.reportType }}
+                            <div>
+                                {{ task.reportType | translate }}
                             </div>
                         }
 
@@ -139,8 +133,8 @@
                                     track trackByOperator($index, operator)
                                 ) {
                                     <p-tag
-                                        [value]="getOperatorLabel(operator)"
-                                        [style]="getOperatorTagStyle(operator)"
+                                        [value]="operator | translate"
+                                        [style]="getOperatorTagStyle(operator | translate)"
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -160,11 +154,11 @@
                             <div
                                 class="source-type-content"
                             >
-                                <span [pTooltip]="task.sourceDescription | translate"
-                                    tooltipPosition="bottom">{{ task.source }}</span>&nbsp;
+                                <span>{{ task.source | translate }}</span>&nbsp;
                                 <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(task.initiatedBy)"
-                                    tooltipPosition="bottom">[ {{ task.initiatedBy }} ]</span>
+                                    (click)="copyToClipboard(task.initiatorPhoneNumber)"
+                                    tooltipPosition="bottom">[ {{ task.initiatorPhoneNumber }} ]
+                                </span>
                             </div>
                         }
 

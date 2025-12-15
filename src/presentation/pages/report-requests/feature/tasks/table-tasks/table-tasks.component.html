@@ -77,11 +77,10 @@
                             <button
                                 type="button"
                                 (click)="copyToClipboard(task.uniqId)"
-                                class="copyable"
                                 pTooltip="{{ 'COPY' | translate }}"
                                 tooltipPosition="bottom"
                             >
-                                <span class="id-text">{{ task.uniqId }}</span>
+                                <span class="copyable">{{ task.uniqId }}</span>
                                 <!-- <i class="pi pi-copy" aria-hidden="true"></i> -->
                             </button>
                         }

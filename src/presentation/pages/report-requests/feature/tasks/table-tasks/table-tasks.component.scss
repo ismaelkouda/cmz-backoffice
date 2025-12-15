@@ -1,14 +1,7 @@
-
-
-
-
 .state-tag {
     min-width: 6rem;
-    justify-content: center;
     text-transform: capitalize;
 }
-
-
 
 .action-button {
     border-radius: 999px;
@@ -97,18 +90,25 @@
     }
 }
 
+.report-type-content {
+    display: block;
+}
+
 .dropdown {
     display: inline-block;
 }
+
 .dropdown-menu {
     min-width: 160px;
     font-size: 0.95rem;
     z-index: 1000;
 }
+
 .dropdown-item {
     cursor: pointer;
     transition: background 0.2s;
 }
+
 .dropdown-item:active {
     background: #f0f0f0;
 }

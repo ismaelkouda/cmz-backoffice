@@ -77,23 +77,17 @@
                             <button
                                 type="button"
                                 (click)="copyToClipboard(item.uniqId)"
-                                class="copyable"
                                 pTooltip="{{ 'COPY' | translate }}"
                                 tooltipPosition="bottom"
                             >
-                                <span class="id-text">{{ item.uniqId }}</span>
-                                <i class="pi pi-copy" aria-hidden="true"></i>
+                                <span class="copyable">{{ item.uniqId }}</span>
+                                <!-- <i class="pi pi-copy" aria-hidden="true"></i> -->
                             </button>
                         }
 
                         @case ('reportType') {
-                            <div
-                                [pTooltip]="item.reportDescription | translate"
-                                tooltipPosition="bottom"
-                                showDelay="500"
-                                hideDelay="300"
-                            >
-                                {{ item.reportType }}
+                            <div>
+                                {{ item.reportType | translate }}
                             </div>
                         }
 
@@ -107,8 +101,8 @@
                                     track trackByOperator($index, operator)
                                 ) {
                                     <p-tag
-                                        [value]="getOperatorLabel(operator)"
-                                        [style]="getOperatorTagStyle(operator)"
+                                        [value]="operator | translate"
+                                        [style]="getOperatorTagStyle(operator | translate)"
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -119,10 +113,10 @@
                         }
 
                         @case ('state') {
-                            <div class="tag-group">
+                            <div class="tag-group status-group" [class]="col.class">
                                 <p-tag
-                                    [value]="item.state"
-                                    [severity]="getStateSeverity(item.state)"
+                                    [value]="item.status | translate"
+                                    [severity]="getStateSeverity(item.status)"
                                     class="state-tag"
                                 ></p-tag>
                             </div>
@@ -138,11 +132,11 @@
                             <div
                                 class="source-type-content"
                             >
-                                <span [pTooltip]="item.sourceDescription | translate"
-                                    tooltipPosition="bottom">{{ item.source }}</span>&nbsp;
+                                <span>{{ item.source | translate }}</span>&nbsp;
                                 <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(item.initiatedBy)"
-                                    tooltipPosition="bottom">[ {{ item.initiatedBy }} ]</span>
+                                    (click)="copyToClipboard(item.initiatorPhoneNumber)"
+                                    tooltipPosition="bottom">[ {{ item.initiatorPhoneNumber }} ]
+                                </span>
                             </div>
                         }
 

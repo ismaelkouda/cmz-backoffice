@@ -8,7 +8,7 @@ export interface Tasks {
     readonly reportType: ReportType;
     readonly operators: TelecomOperator[];
     readonly source: ReportSource;
-    readonly initiator_phone_number: string;
+    readonly initiatorPhoneNumber: string;
     readonly createdAt: string;
 }
 
@@ -18,7 +18,7 @@ export class TasksEntity implements Tasks {
         public readonly reportType: ReportType,
         public readonly operators: TelecomOperator[],
         public readonly source: ReportSource,
-        public readonly initiator_phone_number: string,
+        public readonly initiatorPhoneNumber: string,
         public readonly createdAt: string,
     ) { }
 
@@ -28,7 +28,7 @@ export class TasksEntity implements Tasks {
             updates.reportType ?? this.reportType,
             updates.operators ?? this.operators,
             updates.source ?? this.source,
-            updates.initiator_phone_number ?? this.initiator_phone_number,
+            updates.initiatorPhoneNumber ?? this.initiatorPhoneNumber,
             updates.createdAt ?? this.createdAt,
         );
     }
