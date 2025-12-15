@@ -1119,6 +1119,9 @@
             "TITLE": "signalements finalisés",
             "LABEL": "Toutes les signalements",
             "ROUTE": "all",
+            "STATE": {
+                "COMPLETED": "Effectué"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",

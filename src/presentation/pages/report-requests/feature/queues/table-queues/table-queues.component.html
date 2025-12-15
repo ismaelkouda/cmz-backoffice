@@ -18,8 +18,7 @@
                 [perPage]="(pagination$ | async)?.per_page"
                 [page]="(pagination$ | async)?.current_page"
                 [totalPage]="(pagination$ | async)?.last_page"
-            >
-            </app-table-title>
+            />
             <div
                 class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
             >
@@ -29,8 +28,7 @@
                     [disabledButtonExport]="isLoading() || !hasData()"
                     [disabledButtonRefresh]="isLoading()"
                     [hiddenButtonOther]="true"
-                >
-                </app-table-button-header>
+                />
                 <app-search-table [dt]="dt" />
             </div>
         </div>

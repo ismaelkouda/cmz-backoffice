@@ -61,7 +61,7 @@
                                         class="operator-badge"
                                         [style.color]="getOperatorColor(operator)"
                                     >
-                                        {{ operator }}
+                                        {{ operator | translate }}
                                     </span>
                                     }
                                 </div>
@@ -77,7 +77,7 @@
                             <div class="subtitle-item">
                                 <span class="subtitle-label">Source [Numéro]:</span>
                                 <span class="subtitle-value">{{
-                                   details.source
+                                   details.source | translate
                                 }} [ {{ details.initiatorPhone }} ] </span>
                             </div>
                         </div>
