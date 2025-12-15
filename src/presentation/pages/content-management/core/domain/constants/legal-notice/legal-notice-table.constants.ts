@@ -3,7 +3,7 @@ export const LEGAL_NOTICE_TABLE_CONST = {
         {
             field: '__index',
             header: 'TABLE.COMMON.INDEX',
-            class: 'text-center',
+            class: 'text-top text-center',
             width: '2rem',
         },
         {
