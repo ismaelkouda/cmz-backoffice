@@ -82,6 +82,9 @@
                         @case ('createdAt') {
                             {{ formatDate(rowData.createdAt) }}
                         }
+                        @case ('publishedAt') {
+                            {{ formatDate(rowData.publishedAt) }}
+                        }
                         @case ('content') {
                             <span [innerHTML]="rowData.content"></span>
                         }

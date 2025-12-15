@@ -9,6 +9,7 @@ import { TermsUseFacade } from '@presentation/pages/content-management/core/appl
 import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -88,6 +89,7 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     private initForm(): void {
         this.form = this.fb.group({
             content: ['', Validators.required],
+            version: ['', [Validators.required, semanticVersionValidator(), Validators.pattern(/^\d+(\.\d+){0,2}$/)]]
         });
     }
 
@@ -172,7 +174,8 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
 
     private getFieldLabel(fieldName: string): string {
         const labels: { [key: string]: string } = {
-            content: this.translate.instant('CONTENT_MANAGEMENT.TERMS_USE.FORM.DESCRIPTION')
+            content: this.translate.instant('CONTENT_MANAGEMENT.TERMS_USE.FORM.DESCRIPTION'),
+            version: this.translate.instant('CONTENT_MANAGEMENT.TERMS_USE.FORM.VERSION')
         };
         return labels[fieldName] || fieldName;
     }
@@ -223,6 +226,7 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     private patchForm(item: GetTermsUseByIdEntity): void {
         this.form.patchValue({
             content: item.content,
+            version: item.version
         });
     }
 
@@ -254,6 +258,7 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
         const values = this.form.value;
 
         formData.append('content', values.content || '');
+        formData.append('version', values.version || '');
 
         return formData;
     }

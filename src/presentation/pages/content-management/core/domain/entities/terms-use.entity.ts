@@ -8,7 +8,7 @@ export class TermsUseEntity {
         public readonly version: string,
         public readonly status: ActionDropdown,
         public readonly createdAt: string,
-        public readonly updatedAt: string
+        public readonly publishedAt: string
     ) { }
 
     public clone(updates: Partial<TermsUseEntity>): TermsUseEntity {
@@ -19,7 +19,7 @@ export class TermsUseEntity {
             updates.version ?? this.version,
             updates.status ?? this.status,
             updates.createdAt ?? this.createdAt,
-            updates.updatedAt ?? this.updatedAt
+            updates.publishedAt ?? this.publishedAt
         );
     }
 }

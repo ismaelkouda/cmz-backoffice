@@ -42,12 +42,28 @@
                                                 <b>{{ 'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.GENERAL_INFO' | translate }}</b>
                                             </legend>
 
-                                            <div class="col-12">
-                                                <label for="content" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION' | translate }}</label>
-                                                <p-editor formControlName="content" [style]="{ height: '100vh' }"></p-editor>
-                                                @if (form.get('content')?.invalid && form.get('content')?.touched) {
+
+                                            <div class="row g-3">
+
+                                                <div class="col-md-2">
+                                                    <label for="version" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION' | translate }}</label>
+                                                    <input class="form-input" id="version" type="text" formControlName="version" placeholder="{{ 'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION_PLACEHOLDER' | translate }}" />
+                                                    @if (form.get('version')?.invalid && form.get('version')?.touched) {
                                                         <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
                                                     }
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row g-3">
+
+                                                <div class="col-12">
+                                                    <label for="content" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION' | translate }}</label>
+                                                    <p-editor formControlName="content" [style]="{ height: '100vh' }"></p-editor>
+                                                    @if (form.get('content')?.invalid && form.get('content')?.touched) {
+                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                    }
+                                                </div>
                                             </div>
                                         </fieldset>
 

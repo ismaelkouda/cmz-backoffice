@@ -14,6 +14,7 @@ export class GetTermsUseByIdMapper extends SimpleResponseMapper<GetTermsUseByIdE
     public mapItemFromDto(dto: GetTermsUseByIdItemDto): GetTermsUseByIdEntity {
         return new GetTermsUseByIdEntity(
             dto.content,
+            dto.version,
         );
     }
 }

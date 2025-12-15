@@ -12,5 +12,5 @@ export interface PrivacyPolicyItemDto {
     start_date: string;
     end_date: string;
     created_at: string;
-    updated_at: string;
+    published_at: string;
 }

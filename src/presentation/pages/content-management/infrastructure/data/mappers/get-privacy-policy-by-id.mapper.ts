@@ -14,6 +14,7 @@ export class GetPrivacyPolicyByIdMapper extends SimpleResponseMapper<GetPrivacyP
     public mapItemFromDto(dto: GetPrivacyPolicyByIdItemDto): GetPrivacyPolicyByIdEntity {
         return new GetPrivacyPolicyByIdEntity(
             dto.content,
+            dto.version,
         );
     }
 }

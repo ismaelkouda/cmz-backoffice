@@ -9,6 +9,7 @@ import { LegalNoticeFacade } from '@presentation/pages/content-management/core/a
 import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -88,7 +89,7 @@ export class FormLegalNoticeComponent implements OnInit, OnDestroy {
     private initForm(): void {
         this.form = this.fb.group({
             content: ['', Validators.required],
-            isPublished: [true]
+            version: ['', [Validators.required, semanticVersionValidator(), Validators.pattern(/^\d+(\.\d+){0,2}$/)]]
         });
     }
 
@@ -173,7 +174,8 @@ export class FormLegalNoticeComponent implements OnInit, OnDestroy {
 
     private getFieldLabel(fieldName: string): string {
         const labels: { [key: string]: string } = {
-            content: this.translate.instant('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION')
+            content: this.translate.instant('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION'),
+            version: this.translate.instant('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION')
         };
         return labels[fieldName] || fieldName;
     }
@@ -225,6 +227,7 @@ export class FormLegalNoticeComponent implements OnInit, OnDestroy {
     private patchForm(item: GetLegalNoticeByIdEntity): void {
         this.form.patchValue({
             content: item.content,
+            version: item.version
         });
     }
 
@@ -256,7 +259,7 @@ export class FormLegalNoticeComponent implements OnInit, OnDestroy {
         const values = this.form.value;
 
         formData.append('content', values.content || '');
-        formData.append('is_active', String(values.isPublished));
+        formData.append('version', String(values.version));
 
         return formData;
     }

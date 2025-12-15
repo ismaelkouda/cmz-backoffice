@@ -9,6 +9,7 @@ import { PrivacyPolicyFacade } from '@presentation/pages/content-management/core
 import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-privacy-policy-by-id.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -87,7 +88,7 @@ export class FormPrivacyPolicyComponent implements OnInit {
     private initForm(): void {
         this.form = this.fb.group({
             content: ['', Validators.required],
-            isPublished: [true]
+            version: ['', [Validators.required, semanticVersionValidator(), Validators.pattern(/^\d+(\.\d+){0,2}$/)]]
         });
     }
 
@@ -172,7 +173,8 @@ export class FormPrivacyPolicyComponent implements OnInit {
 
     private getFieldLabel(fieldName: string): string {
         const labels: { [key: string]: string } = {
-            content: this.translate.instant('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION')
+            content: this.translate.instant('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION'),
+            version: this.translate.instant('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION')
         };
         return labels[fieldName] || fieldName;
     }
@@ -223,6 +225,7 @@ export class FormPrivacyPolicyComponent implements OnInit {
     private patchForm(item: GetPrivacyPolicyByIdEntity): void {
         this.form.patchValue({
             content: item.content,
+            version: item.version
         });
     }
 
@@ -254,7 +257,7 @@ export class FormPrivacyPolicyComponent implements OnInit {
         const values = this.form.value;
 
         formData.append('content', values.content || '');
-        formData.append('is_active', String(values.isPublished));
+        formData.append('version', values.version || '');
 
         return formData;
     }
