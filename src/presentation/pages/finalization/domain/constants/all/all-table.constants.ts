@@ -32,7 +32,7 @@ export const ALL_TABLE_CONST = {
             field: 'state',
             header: 'FINALIZATION.ALL.TABLE.STATE',
             class: 'text-center',
-            width: '8rem',
+            width: '5rem',
         },
         {
             field: 'createdAt',

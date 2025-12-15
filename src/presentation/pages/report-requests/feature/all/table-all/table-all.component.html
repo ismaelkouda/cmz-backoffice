@@ -132,10 +132,10 @@
                             <div
                                 class="source-type-content"
                             >
-                                <span>{{ item.source | translate }}</span>&nbsp;
+                                <span>{{ item.source | translate }} </span>
                                 <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
                                     (click)="copyToClipboard(item.initiatorPhoneNumber)"
-                                    tooltipPosition="bottom">[ {{ item.initiatorPhoneNumber }} ]
+                                    tooltipPosition="bottom">[{{ item.initiatorPhoneNumber }}]
                                 </span>
                             </div>
                         }
