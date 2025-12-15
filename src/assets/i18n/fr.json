@@ -379,8 +379,10 @@
         "SAVE": "Enregistrer",
         "DETAILS": "Détails",
         "ENABLE": "Activer",
-        "PUBLISH": "Publié",
+        "PUBLISH": "Publier",
+        "PUBLISHED" : "Publié",
         "UNPUBLISH": "Non Publié",
+        "UNPUBLISHED": "Non Publié",
         "DISABLE": "Désactiver"
     },
     "PAGINATION": {
