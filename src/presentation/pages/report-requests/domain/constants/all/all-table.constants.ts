@@ -4,13 +4,13 @@ export const ALL_TABLE_CONST = {
             field: '__index',
             header: 'TABLE.COMMON.INDEX',
             class: 'text-center',
-            width: '3rem',
+            width: '2rem',
         },
         {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.ALL.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '8rem',
+            width: '9rem',
         },
         {
             field: 'reportType',
@@ -20,19 +20,19 @@ export const ALL_TABLE_CONST = {
         {
             field: 'operators',
             header: 'REPORTS_REQUESTS.ALL.TABLE.OPERATORS',
-            width: '11rem',
+            width: '10rem',
         },
         {
             field: 'source',
             header: 'REPORTS_REQUESTS.ALL.TABLE.SOURCE',
             class: 'text-center',
-            width: '13rem',
+            width: '11rem',
         },
         {
             field: 'status',
             header: 'REPORTS_REQUESTS.ALL.TABLE.STATUS',
             class: 'text-center',
-            width: '8rem',
+            width: '6rem',
         },
         {
             field: 'createdAt',
