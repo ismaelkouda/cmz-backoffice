@@ -36,7 +36,6 @@ import { Observable } from 'rxjs';
     `,
 
     styles: [`
-        /* Conteneur principal */
         .pagination-wrapper {
             display: flex;
             justify-content: center;
@@ -46,7 +45,6 @@ import { Observable } from 'rxjs';
             min-height: 60px;
         }
 
-        /* Style intuitif du paginateur */
         :host ::ng-deep .intuitive-paginator {
             background: transparent;
             border: none;
@@ -73,7 +71,6 @@ import { Observable } from 'rxjs';
             transform: translateY(-1px);
         }
 
-        /* Informations de pagination - style amélioré */
         :host ::ng-deep .intuitive-paginator .p-paginator-current {
             background: rgba(99, 102, 241, 0.08);
             border: none;
@@ -104,7 +101,6 @@ import { Observable } from 'rxjs';
             font-weight: 300;
         }
 
-        /* Boutons de navigation */
         :host ::ng-deep .intuitive-paginator .p-paginator-first,
         :host ::ng-deep .intuitive-paginator .p-paginator-prev {
             width: 40px;
@@ -167,7 +163,6 @@ import { Observable } from 'rxjs';
             box-shadow: none;
         }
 
-        /* Indicateur visuel pour les boutons actifs */
         :host ::ng-deep .intuitive-paginator .p-paginator-first::before,
         :host ::ng-deep .intuitive-paginator .p-paginator-prev::before,
         :host ::ng-deep .intuitive-paginator .p-paginator-next::before,
@@ -188,10 +183,6 @@ import { Observable } from 'rxjs';
         :host ::ng-deep .intuitive-paginator .p-paginator-last:hover::before {
             opacity: 1;
         }
-
-        /* Pages numérotées */
-
-
 
         :host ::ng-deep .intuitive-paginator .p-paginator-page.p-paginator-page-selected {
             color: var(--theme-secondary);
@@ -236,7 +227,6 @@ import { Observable } from 'rxjs';
             z-index: 1;
         }
 
-        /* Effet de "pulse" subtil pour la page active */
         :host ::ng-deep .intuitive-paginator .p-paginator-page.p-highlight::after {
             content: '';
             position: absolute;
@@ -255,7 +245,6 @@ import { Observable } from 'rxjs';
             50% { opacity: 0.4; }
         }
 
-        /* Dropdown pour lignes par page */
         :host ::ng-deep .intuitive-paginator .p-paginator-rpp-options {
             order: 4;
             margin-left: 0.5rem;
@@ -279,7 +268,6 @@ import { Observable } from 'rxjs';
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        /* Dropdown pour sauter à une page */
         :host ::ng-deep .intuitive-paginator .p-paginator-jump-to-page {
             order: 5;
         }
@@ -302,7 +290,6 @@ import { Observable } from 'rxjs';
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        /* Indicateur de chargement subtil */
         .loading-indicator {
             position: absolute;
             top: 0;
@@ -324,7 +311,6 @@ import { Observable } from 'rxjs';
             100% { transform: translateX(100%); }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .pagination-wrapper {
                 padding: 0.75rem;

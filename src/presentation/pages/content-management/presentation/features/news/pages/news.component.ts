@@ -87,7 +87,6 @@ export class NewsComponent implements OnInit, OnDestroy {
     }
 
     public onEditClicked(item: NewsEntity): void {
-        console.log("onEditClicked", item);
         this.router.navigate([item.uniqId, NEWS_EDIT_ROUTE], { relativeTo: this.activatedRoute });
     }
 

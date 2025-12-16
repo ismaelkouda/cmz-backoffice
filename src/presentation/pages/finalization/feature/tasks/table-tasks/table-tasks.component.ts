@@ -12,9 +12,11 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TasksTableMapper } from '@presentation/pages/finalization/data/mappers/tasks-table.mapper';
 import { TASKS_TABLE_CONST } from '@presentation/pages/finalization/domain/constants/tasks/tasks-table.constants';
 import { TasksEntity } from '@presentation/pages/finalization/domain/entities/tasks/tasks.entity';
 import { TableSelectionService } from '@presentation/pages/finalization/domain/services/table-selection.service';
+import { TasksTableVM } from '@presentation/pages/finalization/domain/view-models/tasks-table.vm';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -64,13 +66,14 @@ export class TableTasksComponent implements OnInit, OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly tasksTableMapper = inject(TasksTableMapper);
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly tableExportExcelFileService = inject(
         TableExportExcelFileService
     );
     private readonly destroy$ = new Subject<void>();
 
-    readonly tasks = signal<TasksEntity[]>([]);
+    readonly tasks = signal<TasksTableVM[]>([]);
     readonly isLoading = signal<boolean>(false);
     readonly hasData = signal<boolean>(false);
     readonly selectionInputValue = signal<number | null>(null);
@@ -224,7 +227,7 @@ export class TableTasksComponent implements OnInit, OnDestroy {
                 takeUntil(this.destroy$),
                 tap((data) => {
                     const items = data ?? [];
-                    this.tasks.set(items);
+                    this.tasks.set(this.tasksTableMapper.toVMList(items));
                     this.hasData.set(items.length > 0);
                     this.selectionService.setAvailableItems(items);
                 })

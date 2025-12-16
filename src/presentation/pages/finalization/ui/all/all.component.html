@@ -24,6 +24,7 @@
                         <app-filter-all
                             class="filter-component"
                             (filter)="filter($event)"
+                            [loading]="loading$ | async"
                         >
                         </app-filter-all>
 

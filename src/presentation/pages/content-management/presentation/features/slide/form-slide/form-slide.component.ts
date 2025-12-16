@@ -351,7 +351,6 @@ export class FormSlideComponent implements OnInit, OnDestroy {
             this.slideFacade.getSlideById(id)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe(item => {
-                    console.log(item);
                     this.patchForm(item);
                 });
         }

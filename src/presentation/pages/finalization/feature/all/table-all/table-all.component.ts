@@ -10,11 +10,13 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AllTableMapper } from '@presentation/pages/finalization/data/mappers/all-table.mapper';
 import { ALL_TABLE_CONST } from '@presentation/pages/finalization/domain/constants/all/all-table.constants';
 import {
     AllEntity,
     ReportState,
 } from '@presentation/pages/finalization/domain/entities/all/all.entity';
+import { AllTableVM } from '@presentation/pages/finalization/domain/view-models/all-table.vm';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -57,9 +59,10 @@ export class TableAllComponent implements OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly allTableMapper = inject(AllTableMapper);
     private readonly destroy$ = new Subject<void>();
 
-    readonly all = signal<AllEntity[]>([]);
+    readonly all = signal<AllTableVM[]>([]);
     readonly isLoading = signal<boolean>(false);
     readonly hasData = signal<boolean>(false);
 
@@ -140,7 +143,7 @@ export class TableAllComponent implements OnDestroy {
                 takeUntil(this.destroy$),
                 tap((data) => {
                     const items = data ?? [];
-                    this.all.set(items);
+                    this.all.set(this.allTableMapper.toVMList(items));
                     this.hasData.set(items.length > 0);
                 })
             )

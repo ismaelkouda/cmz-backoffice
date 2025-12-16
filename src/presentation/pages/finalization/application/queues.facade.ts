@@ -4,6 +4,7 @@ import { BaseFacade } from '@shared/application/base/base-facade';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { QueuesFilterPayloadEntity } from '../domain/entities/queues/queues-filter-payload.entity';
 import { QueuesEntity } from '../domain/entities/queues/queues.entity';
 import { FetchQueuesUseCase } from '../domain/use-cases/queues.use-case';
 import { QueuesFilter } from '../domain/value-objects/queues-filter.vo';
@@ -54,10 +55,7 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
     }
 
     refresh(): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
-            return;
-        }
+        const currentFilter = QueuesFilter.create({} as QueuesFilterPayloadEntity);
         const currentPage = this.pageSubject.getValue();
         const fetch = this.fetchUseCase.execute(currentFilter, currentPage);
         this.fetchData(currentFilter, currentPage, fetch);

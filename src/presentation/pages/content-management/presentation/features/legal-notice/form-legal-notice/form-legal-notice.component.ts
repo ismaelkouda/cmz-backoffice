@@ -218,7 +218,6 @@ export class FormLegalNoticeComponent implements OnInit, OnDestroy {
             this.legalNoticeFacade.getById(id)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe(item => {
-                    console.log(item);
                     this.patchForm(item);
                 });
         }

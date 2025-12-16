@@ -807,6 +807,7 @@
                     "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
+                    "TERMINATED": "Terminé",
                     "APPROVED": "Approuvé",
                     "RECEIVED": "Reçu",
                     "REJECTED": "Rejeté"
@@ -2265,7 +2266,7 @@
         "FORM": {
             "EMAIL": {
                 "LABEL": "Nom d'utilisateur",
-                "PLACEHOLDER": "app@yourmail.com",
+                "PLACEHOLDER": "cmz@ansut.ci",
                 "REQUIRED": "L'email est requis",
                 "INVALID_FORMAT": "Format d'email invalide"
             },
@@ -2297,7 +2298,7 @@
         "FORM": {
             "EMAIL": {
                 "LABEL": "Adresse e-mail",
-                "PLACEHOLDER": "role@name.osim.orange.ci",
+                "PLACEHOLDER": "cmz@ansut.ci",
                 "REQUIRED": "L'adresse e-mail est requise",
                 "INVALID_FORMAT": "L'adresse e-mail doit être valide"
             },

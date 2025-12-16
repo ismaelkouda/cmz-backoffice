@@ -1,10 +1,12 @@
 import {
     Component,
     EventEmitter,
+    Input,
     OnDestroy,
     OnInit,
     Output,
     inject,
+    signal,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -50,7 +52,12 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly queuesFacade = inject(QueuesFacade);
+    readonly isLoading = signal<boolean>(false);
     @Output() filter = new EventEmitter<QueuesFilterPayloadEntity>();
+    @Input()
+    set loading(value: boolean) {
+        this.isLoading.set(value);
+    }
 
     public formFilter!: FormGroup<QueuesFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();
@@ -74,25 +81,25 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
     public initFormFilter(): void {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<QueuesFilterFormControlEntity>({
-                initiator_phone_number: new FormControl<string>('', {
+                initiator_phone_number: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
-                uniq_id: new FormControl<string>('', {
+                uniq_id: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
-                created_from: new FormControl<string>('', {
+                created_from: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
-                created_to: new FormControl<string>('', {
+                created_to: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
-                report_type: new FormControl<string>('', {
+                report_type: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
                 operators: new FormControl<string[]>([], {
                     nonNullable: true,
                 }),
-                source: new FormControl<string>('', {
+                source: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
             });

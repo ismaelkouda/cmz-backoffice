@@ -1,10 +1,12 @@
 import {
     Component,
     EventEmitter,
+    Input,
     OnDestroy,
     OnInit,
     Output,
     inject,
+    signal,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -50,7 +52,12 @@ export class FilterTasksComponent implements OnInit, OnDestroy {
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly tasksFacade = inject(TasksFacade);
+    readonly isLoading = signal<boolean>(false);
     @Output() filter = new EventEmitter<TasksFilterPayloadEntity>();
+    @Input()
+    set loading(value: boolean) {
+        this.isLoading.set(value);
+    }
 
     public formFilter!: FormGroup<TasksFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();

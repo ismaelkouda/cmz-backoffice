@@ -12,9 +12,11 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { QueuesTableMapper } from '@presentation/pages/reports-processing/data/mappers/queues-table.mapper';
 import { QUEUES_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/queues-table.constant';
 import { QueuesEntity } from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
 import { TableSelectionService } from '@presentation/pages/reports-processing/domain/services/table-selection.service';
+import { QueuesTableVM } from '@presentation/pages/reports-processing/domain/view-models/queues-table.vm';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -61,9 +63,10 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly queuesTableMapper = inject(QueuesTableMapper);
     private readonly destroy$ = new Subject<void>();
 
-    readonly queues = signal<QueuesEntity[]>([]);
+    readonly queues = signal<QueuesTableVM[]>([]);
     readonly selectionInputValue = signal<number | null>(null);
     readonly isLoading = signal<boolean>(false);
     readonly hasData = signal<boolean>(false);
@@ -191,7 +194,7 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
                 takeUntil(this.destroy$),
                 tap((data) => {
                     const items = data ?? [];
-                    this.queues.set(items);
+                    this.queues.set(this.queuesTableMapper.toVMList(items));
                     this.hasData.set(items.length > 0);
                     this.selectionService.setAvailableItems(items);
                 })

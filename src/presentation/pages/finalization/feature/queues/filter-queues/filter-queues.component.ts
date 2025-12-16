@@ -2,9 +2,11 @@ import {
     Component,
     EventEmitter,
     inject,
+    Input,
     OnDestroy,
     OnInit,
     Output,
+    signal,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -50,7 +52,12 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly queuesFacade = inject(QueuesFacade);
+    readonly isLoading = signal<boolean>(false);
     @Output() filter = new EventEmitter<QueuesFilterPayloadEntity>();
+    @Input()
+    set loading(value: boolean) {
+        this.isLoading.set(value);
+    }
 
     public formFilter!: FormGroup<QueuesFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();

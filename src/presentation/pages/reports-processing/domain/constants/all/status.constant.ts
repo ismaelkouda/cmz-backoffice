@@ -1,6 +1,6 @@
 export const STATUS_CONST = [
     {
         value: 'terminated',
-        label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.TERMINATED',
+        label: 'REPORTS_PROCESSING.ALL.OPTIONS.STATUS.TERMINATED',
     },
 ] as const;

@@ -4,6 +4,7 @@ import { BaseFacade } from '@shared/application/base/base-facade';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { AllFilterPayloadEntity } from '../domain/entities/all/all-filter-payload.entity';
 import { AllEntity } from '../domain/entities/all/all.entity';
 import { FetchAllUseCase } from '../domain/use-cases/all.use-case';
 import { AllFilter } from '../domain/value-objects/all-filter.vo';
@@ -54,10 +55,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilter> {
     }
 
     refresh(): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
-            return;
-        }
+        const currentFilter = AllFilter.create({} as AllFilterPayloadEntity);
         const currentPage = this.pageSubject.getValue();
         const fetch = this.fetchUseCase.execute(currentFilter, currentPage);
         this.fetchData(currentFilter, currentPage, fetch);

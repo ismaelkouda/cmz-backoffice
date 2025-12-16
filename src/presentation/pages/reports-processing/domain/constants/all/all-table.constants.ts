@@ -49,9 +49,9 @@ export const ALL_TABLE_CONST = {
     ],
     globalFilterFields: [
         'uniqId',
-        'reportType',
-        'operators',
-        'source',
+        'reportTypeLabel',
+        'operatorsLabels',
+        'sourceLabel',
         'state',
         'createdAt',
     ],

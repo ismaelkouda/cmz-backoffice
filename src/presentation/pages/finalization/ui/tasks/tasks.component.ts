@@ -88,7 +88,7 @@ export class TasksComponent implements OnInit, OnDestroy {
 
     public filter(filterData: TasksFilterPayloadEntity): void {
         const filter = TasksFilter.create(filterData);
-        this.tasksFacade.fetchTasks(filter);
+        this.tasksFacade.fetchTasks(filter, '1', true);
     }
 
     public onPageChange(event: number): void {

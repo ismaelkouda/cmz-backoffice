@@ -10,7 +10,9 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { QueuesTableMapper } from '@presentation/pages/report-requests/data/mappers/queues-table.mapper';
 import { QueuesEntity } from '@presentation/pages/report-requests/domain/entities/queues/queues.entity';
+import { QueuesTableVM } from '@presentation/pages/report-requests/domain/view-models/queues-table.vm';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -52,13 +54,14 @@ export class TableQueuesComponent implements OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly queuesTableMapper = inject(QueuesTableMapper);
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly tableExportExcelFileService = inject(
         TableExportExcelFileService
     );
     private readonly destroy$ = new Subject<void>();
 
-    readonly queues = signal<QueuesEntity[]>([]);
+    readonly queues = signal<QueuesTableVM[]>([]);
     readonly isLoading = signal<boolean>(false);
     readonly hasData = signal<boolean>(false);
 
@@ -127,7 +130,7 @@ export class TableQueuesComponent implements OnDestroy {
                 takeUntil(this.destroy$),
                 tap((data) => {
                     const items = data ?? [];
-                    this.queues.set(items);
+                    this.queues.set(this.queuesTableMapper.toVMList(data));
                     this.hasData.set(items.length > 0);
                 })
             )
