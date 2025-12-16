@@ -5,10 +5,6 @@ COPY package.json .
 #RUN npm install --frozen-lockfile
 
 FROM base AS dependencies
-# ---- Clear cache ----
-RUN rm -f package-lock.json       
-RUN pnpm store prune 
-RUN rm -rf .angular
 
 RUN npm install -g pnpm
 #RUN pnpm install --frozen-lockfile
@@ -18,6 +14,10 @@ RUN pnpm install
 FROM dependencies AS build
 
 COPY . .
+
+# ---- Clear cache ----
+RUN pnpm store prune 
+RUN rm -rf .angular
 
 ARG ENV=dev
 RUN pnpm run build:${ENV}
