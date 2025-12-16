@@ -1,5 +1,7 @@
 export interface LegalNoticeFilterPayloadEntity {
-    createdFrom: string;
-    createdTo: string;
-    isPublished: boolean | null;
+    startDate?: string;
+    endDate?: string;
+    version?: string;
+    search?: string;
+    isPublished?: boolean | null;
 }

@@ -1,7 +1,9 @@
 import { MediaPublishDto } from "@shared/data/dtos/media-publish.dto";
 
 export interface PrivacyPolicyRequestDto {
-    createdFrom?: string;
-    createdTo?: string;
+    startDate?: string;
+    endDate?: string;
+    version?: string;
+    search?: string;
     isPublished?: MediaPublishDto;
 }

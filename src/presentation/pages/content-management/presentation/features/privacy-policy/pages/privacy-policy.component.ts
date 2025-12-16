@@ -35,7 +35,6 @@ export class PrivacyPolicyComponent implements OnInit {
   private readonly title = inject(Title);
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly facade = inject(PrivacyPolicyFacade);
   private readonly translate = inject(TranslateService);
   private readonly privacyPolicyFacade = inject(PrivacyPolicyFacade);
   public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');

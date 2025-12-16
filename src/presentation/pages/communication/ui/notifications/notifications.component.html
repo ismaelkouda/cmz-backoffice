@@ -5,7 +5,7 @@
                 class="notifications-breadcrumb"
                 [title]="module | translate"
                 [active_item]="subModule | translate"
-            ></app-breadcrumb>
+            />
 
             <section class="card notifications-card">
                 <div class="card-body notifications-card-body">
@@ -18,43 +18,33 @@
                                     | translate
                                     | lowercase
                             "
-                        >
-                        </app-page-title>
+                        />
                     </header>
 
                     <div class="fade-in notifications-content">
                         <!-- <app-notifications-filter
                             class="filter-component"
                             (filter)="filter($event)"
-                        >
-                        </app-notifications-filter>
+                        />
 
                         <hr class="notifications-divider" /> -->
 
-                        <section
-                            class="table-section"
-                            [aria-label]="
-                                'COMMUNICATION.NOTIFICATIONS.TITLE' | translate
-                            "
-                        >
+                        <section class="table-section">
                             <app-notifications-table
                                 class="table-component"
-                                [loading]="loading$ | async"
-                                [pagination$]="pagination$"
+                                [loading]="(loading$ | async) ?? false"
                                 [notifications$]="notifications$"
-                                (treatmentRequested)="
-                                    onReadOneNotification($event)
-                                "
-                                (takeRequested)="onReadAllNotifications()"
-                                (refreshRequested)="refreshNotifications()"
-                            >
-                            </app-notifications-table>
+                                [pagination$]="pagination$"
+                                (refreshRequested)="onRefreshClicked()"
+                                (treatmentRequested)="onReadOneClicked($event)"
+                                (takeRequested)="onReadAllClicked()"
+                            />
 
                             <app-pagination
                                 class="pagination-component"
                                 [pagination$]="pagination$"
                                 (pageChange)="onPageChange($event)"
-                            ></app-pagination>
+                            />
                         </section>
                     </div>
                 </div>

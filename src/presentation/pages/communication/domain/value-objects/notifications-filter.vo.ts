@@ -9,9 +9,9 @@ export class NotificationsFilter {
         private readonly uniqId?: string,
         private readonly type?: string,
         private readonly operators?: string[]
-    ) {}
+    ) { }
 
-    static create(data: NotificationsFilterPayloadEntity): NotificationsFilter {
+    static create(data: NotificationsFilterPayloadEntity = {} as NotificationsFilterPayloadEntity): NotificationsFilter {
         const operatorArray = this.normalizeOperator(data.operators);
 
         return new NotificationsFilter(

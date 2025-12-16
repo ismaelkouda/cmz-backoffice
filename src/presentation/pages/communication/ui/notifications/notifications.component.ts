@@ -8,14 +8,14 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NotificationsFacade } from '@presentation/pages/communication/application/notifications.facade';
 import { NotificationsFilter } from '@presentation/pages/communication/domain/value-objects/notifications-filter.vo';
 import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { NotificationsFilterPayloadEntity } from '../../domain/entities/notifications-filter-payload.entity';
 import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 import { NotificationsFilterComponent } from '../../feature/notifications-filter/notifications-filter.component';
@@ -42,9 +42,10 @@ import { NotificationsTableComponent } from '../../feature/notifications-table/n
 export class NotificationsComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly translate = inject(TranslateService);
     private readonly notificationsFacade = inject(NotificationsFacade);
-    public module!: string;
-    public subModule!: string;
+    public module: string = this.translate.instant('COMMUNICATION.LABEL');
+    public subModule: string = this.translate.instant('COMMUNICATION.NOTIFICATIONS.LABEL');
     public notifications$ = this.notificationsFacade.notifications$;
     public pagination$ = this.notificationsFacade.pagination$;
     public loading$ = this.notificationsFacade.isLoading$;
@@ -53,28 +54,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public selectedReportId: string | null = null;
 
     ngOnInit(): void {
-        this.setupRouteData();
+        this.setupMeta();
         this.loadData();
     }
 
     private loadData(): void {
-        const defaultFilter = NotificationsFilter.create(
-            {} as NotificationsFilterPayloadEntity
-        );
+        const defaultFilter = NotificationsFilter.create();
         this.notificationsFacade.fetchNotifications(defaultFilter, '1', false);
     }
 
-    private setupRouteData(): void {
-        this.activatedRoute.data
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((data) => {
-                this.title.setTitle(
-                    data['title'] ?? 'COMMUNICATION.NOTIFICATIONS.TITLE'
-                );
-                this.module = data['module'] ?? 'COMMUNICATION.LABEL';
-                this.subModule =
-                    data['subModule'] ?? 'COMMUNICATION.NOTIFICATIONS.LABEL';
-            });
+    private setupMeta(): void {
+        this.title.setTitle(this.translate.instant('COMMUNICATION.NOTIFICATIONS.TITLE'));
     }
 
     public filter(filterData: NotificationsFilterPayloadEntity): void {
@@ -86,13 +76,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.notificationsFacade.changePage(event + 1);
     }
 
-    public onReadOneNotification(item: NotificationsEntity): void {
+    public onReadOneClicked(item: NotificationsEntity): void {
     }
 
-    public onReadAllNotifications(): void {
+    public onReadAllClicked(): void {
     }
 
-    public refreshNotifications(): void {
+    public onRefreshClicked(): void {
         this.notificationsFacade.refresh();
     }
 
