@@ -34,6 +34,10 @@ export enum ReportState {
     TERMINATED = 'terminated',
 }
 
+export enum QualificationState {
+    COMPLETED = 'completed',
+}
+
 export interface TreaterInfo {
     acknowledgedAt: string | null;
     createdAt: string;
@@ -83,6 +87,7 @@ export interface Details {
     readonly media: ReportMediaEntity | null;
     readonly treater: TreaterInfo;
     readonly status: ReportStatus;
+    readonly qualificationState: QualificationState | null;
     readonly state: ReportState;
     readonly region: AdministrativeBoundaryEntity | null;
     readonly department: AdministrativeBoundaryEntity | null;
@@ -117,6 +122,7 @@ export class DetailsEntity implements Details {
         public readonly media: ReportMediaEntity | null,
         public readonly treater: TreaterInfo,
         public readonly status: ReportStatus,
+        public readonly qualificationState: QualificationState | null,
         public readonly state: ReportState,
         public readonly region: AdministrativeBoundaryEntity | null,
         public readonly department: AdministrativeBoundaryEntity | null,
@@ -137,6 +143,9 @@ export class DetailsEntity implements Details {
             case ReportStatus['IN-PROGRESS']:
                 return 'MANAGEMENT.STATUS.APPROBATION';
             case ReportStatus.PROCESSING:
+                if (this.qualificationState === QualificationState.COMPLETED) {
+                    return 'MANAGEMENT.STATUS.INFORMATION';
+                }
                 if (this.state === ReportState.PENDING) {
                     return 'MANAGEMENT.STATUS.TAKE';
                 } else if (this.state === ReportState.IN_PROGRESS) {
@@ -162,6 +171,9 @@ export class DetailsEntity implements Details {
             case ReportStatus['IN-PROGRESS']:
                 return 'MANAGEMENT.BUTTONS.APPROBATION';
             case ReportStatus.PROCESSING:
+                if (this.qualificationState === QualificationState.COMPLETED) {
+                    return 'MANAGEMENT.BUTTONS.INFORMATION';
+                }
                 if (this.state === ReportState.PENDING) {
                     return 'MANAGEMENT.BUTTONS.TAKE';
                 } else if (this.state === ReportState.IN_PROGRESS) {
@@ -385,6 +397,7 @@ export class DetailsEntity implements Details {
             updates.media ?? this.media,
             updates.treater ?? this.treater,
             updates.status ?? this.status,
+            updates.qualificationState ?? this.qualificationState,
             updates.state ?? this.state,
             updates.region ?? this.region,
             updates.department ?? this.department,

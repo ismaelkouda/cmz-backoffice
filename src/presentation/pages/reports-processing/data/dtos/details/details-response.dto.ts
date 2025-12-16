@@ -34,6 +34,7 @@ export interface DetailsItemDto {
     acknowledged_at: string | null;
     reason: string | null;
     status: string;
+    qualification_state: string | null;
     state: string;
     deny_count: number;
     confirm_count: number;

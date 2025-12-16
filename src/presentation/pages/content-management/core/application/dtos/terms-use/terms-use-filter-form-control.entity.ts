@@ -1,7 +1,9 @@
 import { FormControl } from '@angular/forms';
 
 export interface TermsUseFilterFormControlDto {
-    createdFrom: FormControl<string>;
-    createdTo: FormControl<string>;
+    startDate: FormControl<string>;
+    endDate: FormControl<string>;
+    version: FormControl<string | null>;
+    search: FormControl<string>;
     isPublished: FormControl<boolean | null>;
 }

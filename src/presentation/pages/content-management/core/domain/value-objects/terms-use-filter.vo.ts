@@ -2,15 +2,19 @@ import { TermsUseRequestDto } from "../../application/dtos/terms-use/terms-use-r
 
 export class TermsUseFilter {
     private constructor(
-        private readonly createdFrom?: string,
-        private readonly createdTo?: string,
+        private readonly startDate?: string,
+        private readonly endDate?: string,
+        private readonly version?: string,
+        private readonly search?: string,
         private readonly isPublished?: boolean
     ) { }
 
     static create(data: TermsUseRequestDto = {} as TermsUseRequestDto): TermsUseFilter {
         return new TermsUseFilter(
-            data.createdFrom,
-            data.createdTo,
+            data.startDate,
+            data.endDate,
+            data.version,
+            data.search,
             data.isPublished
         );
     }
@@ -18,9 +22,11 @@ export class TermsUseFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.createdFrom)
-            params['created_from'] = this.createdFrom;
-        if (this.createdTo) params['created_to'] = this.createdTo;
+        if (this.startDate)
+            params['startDate'] = this.startDate;
+        if (this.endDate) params['endDate'] = this.endDate;
+        if (this.version) params['version'] = this.version;
+        if (this.search) params['search'] = this.search;
         if (this.isPublished) params['isPublished'] = this.isPublished;
 
         return params;

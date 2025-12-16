@@ -12,6 +12,7 @@ import { TimestampsMapper } from '@shared/data/mappers/timestamps.mapper';
 import { TreaterInfoMapper } from '@shared/data/mappers/treater-info.mapper';
 import {
     DetailsEntity,
+    QualificationState,
     ReportState,
     ReportStatus
 } from '../../domain/entities/details/details.entity';
@@ -55,6 +56,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             this.reportMediaMapper.mapToEntity(dto),
             this.treaterInfoMapper.mapToEntity(dto),
             this.mapReportStatus(dto.status),
+            this.mapQualificationState(dto.qualification_state),
             this.mapReportState(dto.state),
             this.administrativeBoundaryMapper.mapToEntity(dto.region),
             this.administrativeBoundaryMapper.mapToEntity(dto.department),
@@ -82,6 +84,13 @@ export class DetailsMapper extends SimpleResponseMapper<
             finalization: ReportStatus.FINALIZATION,
         };
         return statusMap[status] || ReportStatus.PENDING;
+    }
+
+    private mapQualificationState(state: string | null): QualificationState | null {
+        const stateMap: Record<string, QualificationState> = {
+            completed: QualificationState.COMPLETED,
+        };
+        return stateMap[state || ''] || null;
     }
 
     private mapReportState(state: string): ReportState {

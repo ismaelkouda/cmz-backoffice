@@ -214,6 +214,10 @@
                     "TO": "Date de fin",
                     "PLACEHOLDER": "Date"
                 },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "Ex: 1.0.0",
                 "TYPE": "Type",
                 "STATUS": "Status",
                 "PUBLISH": "Publié",
@@ -258,6 +262,10 @@
                     "TO": "Date de fin",
                     "PLACEHOLDER": "Date"
                 },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "Ex: 1.0.0",
                 "TYPE": "Type",
                 "STATUS": "Status",
                 "PUBLISH": "Publié",
@@ -302,12 +310,14 @@
                     "TO": "Date de fin",
                     "PLACEHOLDER": "Date"
                 },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "Ex: 1.0.0",
                 "TYPE": "Type",
                 "STATUS": "Status",
-                "PUBLISH": "Publié",
-                "PUBLISH_PLACEHOLDER": "Publié",
-                "TYPE_PLACEHOLDER": "Type",
-                "STATUS_PLACEHOLDER": "Status"
+                "STATUS_PLACEHOLDER": "Status",
+                "TYPE_PLACEHOLDER": "Type"
             },
             "TABLE": {
                 "TYPE": "Type",
