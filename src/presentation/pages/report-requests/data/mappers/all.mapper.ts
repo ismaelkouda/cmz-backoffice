@@ -28,7 +28,6 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
     }
 
     private mapStatus(status: ReportStatusDto): ReportStatus {
-        console.log(status)
         if (status == null) {
             return ReportStatus.UNKNOWN;
         }

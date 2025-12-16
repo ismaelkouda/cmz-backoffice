@@ -4,6 +4,7 @@ import { BaseFacade } from '@shared/application/base/base-facade';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { TasksFilterPayloadEntity } from '../domain/entities/tasks/tasks-filter-payload.entity';
 import { TasksEntity } from '../domain/entities/tasks/tasks.entity';
 import { FetchTasksUseCase } from '../domain/use-cases/tasks.use-case';
 import { TasksFilter } from '../domain/value-objects/tasks-filter.vo';
@@ -54,10 +55,7 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilter> {
     }
 
     refresh(): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
-            return;
-        }
+        const currentFilter = TasksFilter.create({} as TasksFilterPayloadEntity);
         const currentPage = this.pageSubject.getValue();
         const fetch$ = this.fetchUseCase.execute(currentFilter, currentPage);
         this.fetchData(currentFilter, currentPage, fetch$);

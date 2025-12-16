@@ -1,0 +1,15 @@
+export interface TasksTableVM {
+    uniqId: string;
+    initiatorPhoneNumber: string;
+
+    reportType: string;
+    reportTypeLabel: string;
+
+    source: string;
+    sourceLabel: string;
+
+    operators: string[];
+    operatorsLabels: string[];
+
+    createdAt: string;
+}

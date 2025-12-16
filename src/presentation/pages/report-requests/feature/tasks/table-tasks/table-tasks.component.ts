@@ -10,8 +10,10 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TasksTableMapper } from '@presentation/pages/report-requests/data/mappers/tasks-table.mapper';
 import { TASKS_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/tasks/tasks-table.constants';
 import { TasksEntity } from '@presentation/pages/report-requests/domain/entities/tasks/tasks.entity';
+import { TasksTableVM } from '@presentation/pages/report-requests/domain/view-models/tasks-table.vm';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -52,13 +54,14 @@ export class TableTasksComponent implements OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly tasksTableMapper = inject(TasksTableMapper);
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly tableExportExcelFileService = inject(
         TableExportExcelFileService
     );
     private readonly destroy$ = new Subject<void>();
 
-    readonly tasks = signal<TasksEntity[]>([]);
+    readonly tasks = signal<TasksTableVM[]>([]);
     readonly isLoading = signal<boolean>(false);
     readonly hasData = signal<boolean>(false);
 
@@ -127,7 +130,7 @@ export class TableTasksComponent implements OnDestroy {
                 takeUntil(this.destroy$),
                 tap((data) => {
                     const items = data ?? [];
-                    this.tasks.set(items);
+                    this.tasks.set(this.tasksTableMapper.toVMList(items));
                     this.hasData.set(items.length > 0);
                 })
             )

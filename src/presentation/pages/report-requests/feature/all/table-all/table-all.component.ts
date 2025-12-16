@@ -10,11 +10,13 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AllTableMapper } from '@presentation/pages/report-requests/data/mappers/all-table.mapper';
 import { ALL_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/all/all-table.constants';
 import {
     AllEntity,
     ReportStatus,
 } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
+import { AllTableVM } from '@presentation/pages/report-requests/domain/view-models/all-table.vm';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -58,13 +60,14 @@ export class TableAllComponent implements OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
+    private readonly allTableMapper = inject(AllTableMapper);
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly tableExportExcelFileService = inject(
         TableExportExcelFileService
     );
     private readonly destroy$ = new Subject<void>();
 
-    readonly all = signal<AllEntity[]>([]);
+    readonly all = signal<AllTableVM[]>([]);
     readonly isLoading = signal<boolean>(false);
     readonly hasData = signal<boolean>(false);
 
@@ -134,7 +137,7 @@ export class TableAllComponent implements OnDestroy {
                 takeUntil(this.destroy$),
                 tap((data) => {
                     const items = data ?? [];
-                    this.all.set(items);
+                    this.all.set(this.allTableMapper.toVMList(items));
                     this.hasData.set(items.length > 0);
                 })
             )
@@ -164,7 +167,6 @@ export class TableAllComponent implements OnDestroy {
     }
 
     getOperatorTagStyle(operator: TelecomOperator): OperatorTagStyle {
-        console.log('operator', operator);
         const colorMap: Record<TelecomOperator, OperatorTagSeverity> = {
             [TelecomOperator.ORANGE]: 'rgb(241, 110, 0)',
             [TelecomOperator.MTN]: 'rgb(255, 203, 5)',

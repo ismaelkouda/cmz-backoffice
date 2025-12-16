@@ -90,8 +90,7 @@
                                                 | translate
                                         }}</span>
                                         <i
-                                            class="fa fa-angle-right ps-2"
-                                            aria-hidden="true"
+                                            class="pi pi-angle-right ps-2"
                                         ></i>
                                     </button>
                                 </li>
@@ -141,15 +140,13 @@
                                         *ngIf="menuItem.type === 'sub'"
                                         (click)="toggletNavActive(menuItem)"
                                     >
-                                        <i
-                                            [attr.data-feather]="menuItem.icon"
-                                        ></i>
+                                        <i class="pi pi-{{menuItem.icon}}"></i>
                                         <span>{{
                                             menuItem.title | translate
                                         }}</span>
                                         <div class="according-menu">
                                             <i
-                                                class="fa fa-angle-{{
+                                                class="pi pi-angle-{{
                                                     menuItem.active
                                                         ? 'down'
                                                         : 'right'
@@ -179,7 +176,7 @@
                                         }}</span>
                                         <div class="according-menu">
                                             <i
-                                                class="fa fa-angle-{{
+                                                class="pi pi-angle-{{
                                                     menuItem.active
                                                         ? 'down'
                                                         : 'right'
@@ -208,7 +205,7 @@
                                         }}</span>
                                         <div class="according-menu">
                                             <i
-                                                class="fa fa-angle-{{
+                                                class="pi pi-angle-{{
                                                     menuItem.active
                                                         ? 'down'
                                                         : 'right'
@@ -236,7 +233,7 @@
                                         <span>{{ menuItem.title }}</span>
                                         <div class="according-menu">
                                             <i
-                                                class="fa fa-angle-{{
+                                                class="pi pi-angle-{{
                                                     menuItem.active
                                                         ? 'down'
                                                         : 'right'
@@ -287,7 +284,7 @@
                                                 >
                                                 <div class="according-menu">
                                                     <i
-                                                        class="fa fa-angle-{{
+                                                        class="pi pi-angle-{{
                                                             childrenItem.active
                                                                 ? 'down'
                                                                 : 'right'
@@ -319,7 +316,7 @@
                                                         | translate
                                                 }}
                                                 <i
-                                                    class="fa fa-angle-down pull-right"
+                                                    class="pi pi-angle-down pull-right"
                                                     *ngIf="
                                                         childrenItem.children
                                                     "
@@ -347,7 +344,7 @@
                                                         | translate
                                                 }}
                                                 <i
-                                                    class="fa fa-angle-down pull-right"
+                                                    class="pi pi-angle-down pull-right"
                                                     *ngIf="
                                                         childrenItem.children
                                                     "
@@ -372,7 +369,7 @@
                                                         | translate
                                                 }}</span>
                                                 <i
-                                                    class="fa fa-angle-down pull-right"
+                                                    class="pi pi-angle-down pull-right"
                                                     *ngIf="
                                                         childrenItem.children
                                                     "

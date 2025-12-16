@@ -43,9 +43,9 @@ export const TASKS_TABLE_CONST = {
     ],
     globalFilterFields: [
         'uniqId',
-        'reportType',
-        'operators',
-        'source',
+        'reportTypeLabel',
+        'operatorsLabels',
+        'sourceLabel',
         'createdAt'
     ],
 };
