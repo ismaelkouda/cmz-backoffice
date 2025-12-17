@@ -10,7 +10,7 @@ export const ALL_TABLE_CONST = {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.ALL.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '9rem',
+            width: '10rem',
         },
         {
             field: 'reportType',
@@ -25,8 +25,7 @@ export const ALL_TABLE_CONST = {
         {
             field: 'source',
             header: 'REPORTS_REQUESTS.ALL.TABLE.SOURCE',
-            class: 'text-center',
-            width: '11rem',
+            width: '12rem',
         },
         {
             field: 'status',

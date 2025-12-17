@@ -4,13 +4,13 @@ export const QUEUES_TABLE_CONST = {
             field: '__index',
             header: 'TABLE.COMMON.INDEX',
             class: 'text-center',
-            width: '3rem',
+            width: '2rem',
         },
         {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '8rem',
+            width: '10rem',
         },
         {
             field: 'reportType',
@@ -20,13 +20,12 @@ export const QUEUES_TABLE_CONST = {
         {
             field: 'operators',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.OPERATORS',
-            width: '11rem',
+            width: '10rem',
         },
         {
             field: 'source',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.SOURCE',
-            class: 'text-center',
-            width: '13rem',
+            width: '12rem',
         },
         {
             field: 'createdAt',
@@ -38,7 +37,7 @@ export const QUEUES_TABLE_CONST = {
             field: '__action',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.ACTION',
             class: 'text-center',
-            width: '2rem',
+            width: '1rem',
         },
     ],
     globalFilterFields: [
