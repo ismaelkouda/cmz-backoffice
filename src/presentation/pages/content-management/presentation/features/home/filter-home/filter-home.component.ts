@@ -18,11 +18,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HomeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/home/home-filter-form-control.entity';
 import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
 import { HomeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/home/home-filter-payload.entity';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { Plateform } from '@shared/domain/enums/plateform.enum';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
+import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
@@ -39,6 +40,7 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
         DatePickerModule,
         ButtonModule,
         MultiSelectModule,
+        InputTextModule
     ],
 })
 export class FilterHomeComponent implements OnInit, OnDestroy {
@@ -58,7 +60,7 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
     private readonly destroy$ = new Subject<void>();
 
     public statusOptions: any[] = [];
-    public typeOptions: any[] = [];
+    public plateformOptions: any[] = [];
 
     ngOnInit(): void {
         this.initOptions();
@@ -71,8 +73,8 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
             { label: this.translate.instant('COMMON.DEACTIVATED'), value: false }
         ];
 
-        this.typeOptions = Object.values(TypeMediaDto).map((type) => ({
-            label: this.translate.instant(`COMMON.${type.toUpperCase()}`),
+        this.plateformOptions = Object.values(Plateform).map((type) => ({
+            label: this.translate.instant(`${type.toUpperCase()}`),
             value: type,
         }));
     }
@@ -80,9 +82,10 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
     private initFormFilter(): void {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<HomeFilterFormControlDto>({
-                createdFrom: new FormControl<string>('', { nonNullable: true }),
-                createdTo: new FormControl<string>('', { nonNullable: true }),
-                type: new FormControl<Array<TypeMediaDto>>([], { nonNullable: true }),
+                startDate: new FormControl<string>('', { nonNullable: true }),
+                endDate: new FormControl<string>('', { nonNullable: true }),
+                plateforms: new FormControl<Array<Plateform>>([], { nonNullable: true }),
+                search: new FormControl<string>('', { nonNullable: true }),
                 status: new FormControl<boolean | null>(null, { nonNullable: false }),
             });
         }
@@ -115,9 +118,10 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
 
                 this.formFilter.patchValue(
                     {
-                        createdFrom: (dto['createdFrom'] as string) ?? '',
-                        createdTo: (dto['createdTo'] as string) ?? '',
-                        type: (dto['type'] as Array<TypeMediaDto>) ?? [],
+                        startDate: (dto['startDate'] as string) ?? '',
+                        endDate: (dto['endDate'] as string) ?? '',
+                        plateforms: (dto['plateforms'] as Array<Plateform>) ?? [],
+                        search: (dto['search'] as string) ?? '',
                         status: (dto['status'] as boolean) ?? null,
                     },
                     { emitEvent: false }
@@ -126,17 +130,17 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
     }
 
     public onSubmitFilterForm(): void {
-        const createdFromControl = this.formFilter.get('createdFrom');
-        const createdToControl = this.formFilter.get('createdTo');
+        const startDateControl = this.formFilter.get('startDate');
+        const endDateControl = this.formFilter.get('endDate');
 
-        const createdFromValue = createdFromControl?.value ?? '';
-        const createdToValue = createdToControl?.value ?? '';
+        const startDateValue = startDateControl?.value ?? '';
+        const endDateValue = endDateControl?.value ?? '';
 
-        const createdFrom = moment(createdFromValue, moment.ISO_8601, true);
-        const createdTo = moment(createdToValue, moment.ISO_8601, true);
+        const startDate = moment(startDateValue, moment.ISO_8601, true);
+        const endDate = moment(endDateValue, moment.ISO_8601, true);
 
-        if (createdFrom.isValid() && createdTo.isValid()) {
-            if (createdFrom.isAfter(createdTo)) {
+        if (startDate.isValid() && endDate.isValid()) {
+            if (startDate.isAfter(endDate)) {
                 const INVALID_DATE_RANGE = this.translate.instant('INVALID_DATE_RANGE');
                 this.toastService.error(INVALID_DATE_RANGE);
                 return;
@@ -144,9 +148,10 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
         }
 
         const filterData: HomeFilterPayloadEntity = {
-            createdFrom: createdFrom.isValid() ? createdFrom.format('YYYY-MM-DD') : '',
-            createdTo: createdTo.isValid() ? createdTo.format('YYYY-MM-DD') : '',
-            type: this.formFilter.get('type')?.value ?? [],
+            startDate: startDate.isValid() ? startDate.format('YYYY-MM-DD') : '',
+            endDate: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
+            plateforms: this.formFilter.get('plateforms')?.value ?? [],
+            search: this.formFilter.get('search')?.value ?? '',
             status: this.formFilter.get('status')?.value ?? null,
         };
 

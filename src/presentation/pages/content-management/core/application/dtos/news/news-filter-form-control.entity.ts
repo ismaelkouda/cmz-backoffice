@@ -1,9 +1,8 @@
 import { FormControl } from '@angular/forms';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
 
 export interface NewsFilterFormControlDto {
-    createdFrom: FormControl<string>;
-    createdTo: FormControl<string>;
-    type: FormControl<Array<TypeMediaDto>>;
+    startDate: FormControl<string>;
+    endDate: FormControl<string>;
+    search: FormControl<string>;
     status: FormControl<boolean | null>;
 }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -25,8 +26,8 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-form-home',
@@ -56,8 +57,8 @@ import { map } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [MessageService]
 })
-export class FormHomeComponent implements OnInit, OnDestroy {
-    private readonly destroy$ = new Subject<void>();
+export class FormHomeComponent implements OnInit {
+    private readonly destroyRef = inject(DestroyRef);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -76,7 +77,11 @@ export class FormHomeComponent implements OnInit, OnDestroy {
     public isEditMode = false;
     public currentId?: string;
 
-    public isVideoType = false;
+    public currentType$ = new BehaviorSubject<TypeMediaDto>(TypeMediaDto.IMAGE);
+    public isVideoType$ = this.currentType$.pipe(
+        map(type => type === TypeMediaDto.VIDEO)
+    );
+    public TypeMediaDto = TypeMediaDto;
 
     public typeOptions = [
         { label: 'Image', value: TypeMediaDto.IMAGE },
@@ -89,39 +94,19 @@ export class FormHomeComponent implements OnInit, OnDestroy {
         { label: 'PWA', value: 'pwa' }
     ];
 
-    // Fichiers uploadés
     public uploadedFile: File | null = null;
-    public uploadedVideoFile: File | null = null;
-
-    // Prévisualisations
     public imagePreview: string | null = null;
-    public videoPreview: SafeUrl | string | null = null;
-
-    // Original URLs (pour restauration)
     public originalImageUrl: string | null = null;
     public originalVideoUrl: string | null = null;
-
-    // État suppression
     public imageRemoved = false;
-    public videoRemoved = false;
 
-    // Dialog prévisualisation
     public isPreviewVisible = false;
     public previewType: 'image' | 'video' = 'image';
     public previewContent: SafeUrl | string | null = null;
 
-    public isFormValid = false;
-    public saveButtonState = {
-        disabled: true,
-        tooltip: '',
-        severity: 'danger' as 'success' | 'warning' | 'danger' | 'info'
-    }
-
     ngOnInit(): void {
         this.initForm();
         this.setupRouteData();
-        this.setupTypeListener();
-        this.setupFormValidation();
         this.checkEditMode();
     }
 
@@ -132,163 +117,77 @@ export class FormHomeComponent implements OnInit, OnDestroy {
             content: ['', Validators.required],
             type: [TypeMediaDto.IMAGE, Validators.required],
             videoUrl: [''],
+            imageFile: [null, [Validators.required]],
             timeDurationInSeconds: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
-            buttonLabel: ['', Validators.required],
-            buttonUrl: ['', Validators.required],
+            buttonLabel: [''],
+            buttonUrl: [''],
             platforms: [[], Validators.required],
             startDate: [null],
             endDate: [null],
             isActive: [true]
         });
+
+        this.currentType$.next(TypeMediaDto.IMAGE);
+        this.setupFormListeners();
     }
 
-    private setupFormValidation(): void {
-        this.form.statusChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateFormValidity();
-                this.updateSaveButtonState();
-            });
-
-        this.form.valueChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateFormValidity();
-                this.updateSaveButtonState();
-            });
-    }
-
-
-    private updateFormValidity(): void {
-        const isFormValid = this.form.valid;
-        const isMediaValid = this.validateMediaSilent();
-
-        this.isFormValid = isFormValid && isMediaValid;
-        this.cdr.detectChanges();
-    }
-
-    private updateSaveButtonState(): void {
-        const isFormValid = this.form.valid;
-        const isMediaValid = this.validateMediaSilent();
-        const isPristine = this.form.pristine && !this.uploadedFile && !this.uploadedVideoFile;
-
-        if (!isFormValid || !isMediaValid) {
-            this.saveButtonState = {
-                disabled: true,
-                tooltip: this.getValidationTooltip(),
-                severity: 'danger'
-            };
-        } else if (isPristine) {
-            this.saveButtonState = {
-                disabled: true,
-                tooltip: this.translate.instant('COMMON.VALIDATION.NO_CHANGES'),
-                severity: 'info'
-            };
-        } else {
-            this.saveButtonState = {
-                disabled: false,
-                tooltip: this.translate.instant('COMMON.SAVE'),
-                severity: 'success'
-            };
-        }
-    }
-
-    public getValidationTooltip(): string {
-        const errors: string[] = [];
-
-        // Vérifier les erreurs de formulaire
-        Object.keys(this.form.controls).forEach(key => {
-            const control = this.form.get(key);
-            if (control?.invalid && control?.touched) {
-                const fieldLabel = this.getFieldLabel(key);
-                const errorMessage = this.getControlErrorMessage(control);
-                errors.push(`• ${fieldLabel}: ${errorMessage}`);
-            }
+    private setupFormListeners(): void {
+        this.form.get('type')?.valueChanges.pipe(
+            distinctUntilChanged(),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe((type: TypeMediaDto) => {
+            this.currentType$.next(type);
+            this.updateMediaFieldsBasedOnType(type);
         });
 
-        // Vérifier les erreurs de média
-        if (!this.validateMediaSilent()) {
-            const mediaType = this.isVideoType ?
-                this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VIDEO') :
-                this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.IMAGE');
-            errors.push(`• ${mediaType}: ${this.translate.instant('COMMON.VALIDATION.REQUIRED')}`);
-        }
-
-        return errors.join('\n');
-    }
-
-    // Ajoutez cette méthode publique (utilisée dans le template)
-    public getFormErrors(): string[] {
-        const errors: string[] = [];
-
-        // Vérifier les erreurs de formulaire
-        Object.keys(this.form.controls).forEach(key => {
-            const control = this.form.get(key);
-            if (control?.invalid && control?.touched) {
-                const fieldLabel = this.getFieldLabel(key);
-                const errorMessage = this.getControlErrorMessage(control);
-                errors.push(`${fieldLabel}: ${errorMessage}`);
+        this.form.get('videoUrl')?.valueChanges.pipe(
+            distinctUntilChanged(),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe((url: string) => {
+            if (url && this.currentType$.value === TypeMediaDto.VIDEO) {
+                this.validateVideoUrl(url);
             }
         });
-
-        // Vérifier les erreurs de média
-        if (!this.validateMediaSilent()) {
-            const mediaType = this.isVideoType ?
-                this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VIDEO') :
-                this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.IMAGE');
-            errors.push(`${mediaType}: ${this.translate.instant('COMMON.VALIDATION.REQUIRED')}`);
-        }
-
-        return errors;
     }
 
-    // Méthodes helpers privées
-    private getFieldLabel(fieldName: string): string {
-        const labels: { [key: string]: string } = {
-            title: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.TITLE'),
-            resume: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.RESUME'),
-            content: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.DESCRIPTION'),
-            type: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.TYPE'),
-            videoUrl: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VIDEO_URL'),
-            timeDurationInSeconds: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.DURATION'),
-            buttonLabel: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'),
-            buttonUrl: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'),
-            platforms: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS')
-        };
-        return labels[fieldName] || fieldName;
-    }
+    private updateMediaFieldsBasedOnType(type: TypeMediaDto): void {
+        const videoControl = this.form.get('videoUrl');
+        const imageControl = this.form.get('imageFile');
 
+        if (type === TypeMediaDto.VIDEO) {
+            videoControl?.setValidators([Validators.required]);
+            videoControl?.enable();
 
-    private getControlErrorMessage(control: AbstractControl): string {
-        if (control.hasError('required')) {
-            return this.translate.instant('COMMON.VALIDATION.REQUIRED');
-        } else if (control.hasError('minlength')) {
-            return this.translate.instant('COMMON.VALIDATION.MIN_LENGTH', {
-                length: control.errors?.['minlength']?.['requiredLength']
-            });
-        } else if (control.hasError('maxlength')) {
-            return this.translate.instant('COMMON.VALIDATION.MAX_LENGTH', {
-                length: control.errors?.['maxlength']?.['requiredLength']
-            });
-        } else if (control.hasError('pattern')) {
-            return this.translate.instant('COMMON.VALIDATION.PATTERN');
-        }
-        return '';
-    }
+            imageControl?.clearValidators();
+            imageControl?.reset();
+            imageControl?.disable();
 
-    // Validation silencieuse (sans message d'erreur)
-    private validateMediaSilent(): boolean {
-        if (this.isVideoType) {
-            const hasNewVideo = !!this.uploadedVideoFile;
-            const hasVideoUrl = !!this.form.get('videoUrl')?.value?.trim();
-            const hasOriginalVideo = !!this.originalVideoUrl && !this.videoRemoved;
-
-            return hasNewVideo || hasVideoUrl || hasOriginalVideo;
+            this.uploadedFile = null;
+            this.imagePreview = null;
+            this.imageRemoved = false;
         } else {
-            const hasNewImage = !!this.uploadedFile;
-            const hasOriginalImage = !!this.originalImageUrl && !this.imageRemoved;
+            videoControl?.clearValidators();
+            videoControl?.reset();
+            videoControl?.disable();
 
-            return hasNewImage || hasOriginalImage;
+            imageControl?.setValidators([Validators.required]);
+            imageControl?.enable();
+        }
+
+        videoControl?.updateValueAndValidity({ emitEvent: false });
+        imageControl?.updateValueAndValidity({ emitEvent: false });
+
+        this.form.updateValueAndValidity();
+        this.cdr.markForCheck();
+    }
+
+    private validateVideoUrl(url: string): void {
+        if (!url.trim()) return;
+
+        const urlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
+
+        if (!urlPattern.test(url)) {
+            this.form.get('videoUrl')?.setErrors({ invalidVideoUrl: true });
         }
     }
 
@@ -297,46 +196,13 @@ export class FormHomeComponent implements OnInit, OnDestroy {
             map(data => data['title'] || 'CONTENT_MANAGEMENT.HOME.LABEL')
         );
 
-        this.route.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
+        this.route.data.pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe(data => {
             this.module = data['module'] || 'CONTENT_MANAGEMENT.LABEL';
             this.subModule = data['subModule'] || 'CONTENT_MANAGEMENT.HOME.TITLE';
             this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
         });
-    }
-
-    private setupTypeListener(): void {
-        this.form.get('type')?.valueChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((value: TypeMediaDto) => {
-                this.isVideoType = value === TypeMediaDto.VIDEO;
-                this.updateValidatorsBasedOnType(value);
-                this.resetMediaOnTypeChange(value);
-            });
-    }
-
-    private updateValidatorsBasedOnType(type: TypeMediaDto): void {
-        const videoControl = this.form.get('videoUrl');
-        if (type === TypeMediaDto.VIDEO) {
-            videoControl?.clearValidators();
-        } else {
-            videoControl?.clearValidators();
-        }
-        videoControl?.updateValueAndValidity();
-    }
-
-    private resetMediaOnTypeChange(newType: TypeMediaDto): void {
-        if (newType === TypeMediaDto.IMAGE) {
-            // Si on passe de vidéo à image, reset les vidéos
-            this.uploadedVideoFile = null;
-            this.videoPreview = null;
-            this.videoRemoved = false;
-        } else {
-            // Si on passe d'image à vidéo, reset les images
-            this.uploadedFile = null;
-            this.imagePreview = null;
-            this.imageRemoved = false;
-        }
-        this.cdr.detectChanges();
     }
 
     private checkEditMode(): void {
@@ -344,21 +210,26 @@ export class FormHomeComponent implements OnInit, OnDestroy {
         if (id) {
             this.isEditMode = true;
             this.currentId = id;
-            this.homeFacade.getHomeById(id)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe(item => {
-                    this.patchForm(item);
-                });
+            this.loadHomeForEdit(id);
         }
     }
 
+    private loadHomeForEdit(id: string): void {
+        this.homeFacade.getHomeById(id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(item => {
+                this.patchForm(item);
+            });
+    }
+
     private patchForm(item: HomeEntity): void {
-        this.form.patchValue({
+        const formData = {
             title: item.title,
             resume: item.resume,
             content: item.content,
             type: item.type,
             videoUrl: item.videoUrl,
+            imageFile: item.imageFile,
             timeDurationInSeconds: item.timeDurationInSeconds,
             order: item.order,
             buttonLabel: item.buttonLabel,
@@ -367,130 +238,63 @@ export class FormHomeComponent implements OnInit, OnDestroy {
             startDate: item.startDate ? new Date(item.startDate) : null,
             endDate: item.endDate ? new Date(item.endDate) : null,
             isActive: item.status
-        });
+        };
 
-        this.isVideoType = item.type === TypeMediaDto.VIDEO;
-        this.updateValidatorsBasedOnType(item.type);
-
-        // CORRECTION ICI : Utiliser image_url de l'API
-        if (item.imageFile) {
-            this.originalImageUrl = item.imageFile;
-            this.imagePreview = item.imageFile;
-        } else if (item.imageUrl) {
-            this.originalImageUrl = item.imageUrl;
-            this.imagePreview = item.imageUrl;
+        if (item.type === TypeMediaDto.VIDEO) {
+            formData.videoUrl = item.videoUrl || '';
+            formData.imageFile = null;
         } else {
-            // Fallback: chercher dans l'objet directement
-            const anyItem = item as any;
-            if (anyItem.image_url) {
-                this.originalImageUrl = anyItem.image_url;
-                this.imagePreview = anyItem.image_url;
+            formData.videoUrl = null;
+            if (item.imageFile) {
+                formData.imageFile = item.imageFile;
+                this.imagePreview = item.imageFile;
             }
         }
 
-        // Pour la vidéo
-        if (item.videoUrl) {
-            this.originalVideoUrl = item.videoUrl;
-            this.videoPreview = item.videoUrl;
-        }
+        this.form.patchValue(formData, { emitEvent: false });
 
-        this.cdr.detectChanges();
+        this.currentType$.next(item.type);
+        this.updateMediaFieldsBasedOnType(item.type);
+
+        this.cdr.markForCheck();
     }
-
-    // ===== GESTION DES FICHIERS =====
 
     onFileSelect(event: any): void {
         if (event.files && event.files.length > 0) {
-            this.uploadedFile = event.files[0];
-            this.imageRemoved = false; // Réactiver l'image
+            const file = event.files[0];
+            this.imageRemoved = false;
+
+            this.uploadedFile = file;
+            this.form.patchValue({ imageFile: file });
 
             const reader = new FileReader();
             reader.onload = (e: any) => {
                 this.imagePreview = e.target.result;
-                this.cdr.detectChanges();
-                this.showSuccessMessage('Image sélectionnée');
+                this.imageRemoved = false;
+                this.cdr.markForCheck();
             };
-            reader.readAsDataURL(this.uploadedFile as Blob);
+            reader.readAsDataURL(file);
         }
-    }
-
-    onVideoSelect(event: any): void {
-        if (event.files && event.files.length > 0) {
-            this.uploadedVideoFile = event.files[0];
-            this.videoRemoved = false; // Réactiver la vidéo
-
-            // Créer une URL locale pour prévisualisation
-            const objectUrl = URL.createObjectURL(this.uploadedVideoFile as Blob);
-            this.videoPreview = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-
-            this.cdr.detectChanges();
-            this.showSuccessMessage('Vidéo sélectionnée');
-        }
-    }
-
-    // ===== SUPPRESSION DES MÉDIAS =====
-
-    removeImage(): void {
-        if (this.isEditMode && this.originalImageUrl) {
-            this.imageRemoved = true;
-            this.imagePreview = null;
-            this.uploadedFile = null;
-            this.showWarnMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.IMAGE_MARKED_FOR_DELETION');
-
-        } else {
-            this.imagePreview = null;
-            this.uploadedFile = null;
-            this.showInfoMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.IMAGE_DELETED');
-        }
-
-        this.updateFormValidity();
-        this.cdr.detectChanges();
-    }
-
-
-    removeVideo(): void {
-        if (this.isEditMode && this.originalVideoUrl) {
-            this.videoRemoved = true;
-            this.videoPreview = null;
-            this.uploadedVideoFile = null;
-            this.form.get('videoUrl')?.setValue('');
-            this.showWarnMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.VIDEO_MARKED_FOR_DELETION');
-
-        } else {
-            this.videoPreview = null;
-            this.uploadedVideoFile = null;
-            this.form.get('videoUrl')?.setValue('');
-            this.showInfoMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.VIDEO_DELETED');
-        }
-
-        this.updateFormValidity();
-        this.cdr.detectChanges();
     }
 
     restoreImage(): void {
-        this.imageRemoved = false;
         this.imagePreview = this.originalImageUrl;
-        this.showSuccessMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.IMAGE_RESTORED');
-        this.updateFormValidity();
-        this.cdr.detectChanges();
+        this.uploadedFile = null;
+        this.form.patchValue({ imageFile: this.originalImageUrl });
+        this.imageRemoved = false;
+        this.originalImageUrl = null;
+        this.cdr.markForCheck();
     }
-
-    restoreVideo(): void {
-        this.videoRemoved = false;
-        this.videoPreview = this.originalVideoUrl;
-        this.showSuccessMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.VIDEO_RESTORED');
-        this.updateFormValidity();
-        this.cdr.detectChanges();
-    }
-
-    // ===== PRÉVISUALISATION =====
 
     openPreview(type: 'image' | 'video'): void {
         this.previewType = type;
         if (type === 'image') {
             this.previewContent = this.imagePreview;
-        } else {
-            this.previewContent = this.videoPreview;
+        } else if (type === 'video') {
+            const videoUrl = this.form.get('videoUrl')?.value;
+            if (videoUrl) {
+                this.previewContent = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
+            }
         }
 
         if (this.previewContent) {
@@ -498,82 +302,46 @@ export class FormHomeComponent implements OnInit, OnDestroy {
         }
     }
 
-    // ===== VALIDATION ET SOUMISSION =====
-
-    private validateMedia(): { valid: boolean; message?: string } {
-        if (this.isVideoType) {
-            const hasNewVideo = !!this.uploadedVideoFile;
-            const hasVideoUrl = !!this.form.get('videoUrl')?.value?.trim();
-            const hasOriginalVideo = !!this.originalVideoUrl && !this.videoRemoved;
-
-            if (!hasNewVideo && !hasVideoUrl && !hasOriginalVideo) {
-                return {
-                    valid: false,
-                    message: 'CONTENT_MANAGEMENT.HOME.VALIDATION.VIDEO_REQUIRED'
-                };
-            }
-        } else {
-            const hasNewImage = !!this.uploadedFile;
-            const hasOriginalImage = !!this.originalImageUrl && !this.imageRemoved;
-
-            if (!hasNewImage && !hasOriginalImage) {
-                return {
-                    valid: false,
-                    message: 'CONTENT_MANAGEMENT.HOME.VALIDATION.IMAGE_REQUIRED'
-                };
-            }
-        }
-        return { valid: true };
-    }
-
     onSubmit(): void {
-        // Valider le formulaire standard
         if (this.form.invalid) {
             this.form.markAllAsTouched();
-            this.showErrorMessage('COMMON.VALIDATION.FORM_ERRORS');
             return;
         }
 
-        // Valider les médias avec message spécifique
-        const mediaValidation = this.validateMedia();
-        if (!mediaValidation.valid) {
-            this.showErrorMessage(mediaValidation.message || 'COMMON.VALIDATION.MEDIA_REQUIRED');
-            return;
-        }
+        const formData = this.prepareSubmitData();
 
-        // Créer FormData
-        const formData = this.prepareFormData();
 
-        if (this.isEditMode && this.currentId) {
-            this.homeFacade.updateHome(this.currentId, formData).subscribe({
-                next: () => {
-                    this.showSuccessMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.UPDATE_SUCCESS');
-                    this.onCancel();
-                },
-                error: (error) => {
-                    console.error('Update error:', error);
-                    this.showErrorMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.UPDATE_ERROR');
-                }
-            });
-        } else {
-            this.homeFacade.createHome(formData).subscribe({
-                next: () => {
-                    this.showSuccessMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.CREATE_SUCCESS');
-                    this.onCancel();
-                },
-                error: (error) => {
-                    console.error('Create error:', error);
-                    this.showErrorMessage('CONTENT_MANAGEMENT.HOME.MESSAGES.CREATE_ERROR');
-                }
-            });
-        }
+        const submitObservable = this.isEditMode && this.currentId
+            ? this.homeFacade.updateHome(this.currentId, formData)
+            : this.homeFacade.createHome(formData);
+
+
+        submitObservable.pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe({
+            next: () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Succès',
+                    detail: this.isEditMode ? 'News mise à jour avec succès' : 'News créée avec succès'
+                });
+                this.onCancel();
+            },
+            error: (error) => {
+                console.error('Erreur lors de la sauvegarde:', error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Une erreur est survenue lors de la sauvegarde'
+                });
+            }
+        });
     }
 
-    private prepareFormData(): FormData {
+    private prepareSubmitData(): FormData {
         const formData = new FormData();
         const values = this.form.value;
 
-        // Données de base
         formData.append('title', values.title);
         formData.append('resume', values.resume);
         formData.append('content', values.content || '');
@@ -584,13 +352,8 @@ export class FormHomeComponent implements OnInit, OnDestroy {
         formData.append('button_url', values.buttonUrl);
         formData.append('is_active', String(values.isActive));
 
-        // Gestion des médias
-        this.appendMediaData(formData);
-
-        // Plateformes
         this.appendPlatformsData(formData, values.platforms);
 
-        // Dates
         if (values.startDate) {
             formData.append('start_date', (values.startDate as Date).toISOString());
         }
@@ -598,25 +361,13 @@ export class FormHomeComponent implements OnInit, OnDestroy {
             formData.append('end_date', (values.endDate as Date).toISOString());
         }
 
-        return formData;
-    }
-
-    private appendMediaData(formData: FormData): void {
-        if (this.isVideoType) {
-            if (this.uploadedVideoFile) {
-                formData.append('video_file', this.uploadedVideoFile);
-            } else if (this.form.get('videoUrl')?.value?.trim()) {
-                formData.append('video_url', this.form.get('videoUrl')?.value?.trim());
-            } else if (this.videoRemoved) {
-                formData.append('remove_video', 'true');
-            }
-        } else {
-            if (this.uploadedFile) {
-                formData.append('image_file', this.uploadedFile);
-            } else if (this.imageRemoved) {
-                formData.append('remove_image', 'true');
-            }
+        if (values.type === TypeMediaDto.VIDEO && values.videoUrl) {
+            formData.append('video_url', values.videoUrl);
+        } else if (values.type === TypeMediaDto.IMAGE && this.uploadedFile) {
+            formData.append('image_file', this.uploadedFile);
         }
+
+        return formData;
     }
 
     private appendPlatformsData(formData: FormData, platforms: any[]): void {
@@ -627,62 +378,7 @@ export class FormHomeComponent implements OnInit, OnDestroy {
         formData.append('platforms', JSON.stringify(platformArray).toLowerCase());
     }
 
-
-
-    // ===== MESSAGES TOAST =====
-
-    private showSuccessMessage(message: string): void {
-        this.messageService.add({
-            severity: 'success',
-            summary: 'Succès',
-            detail: this.translate.instant(message),
-            life: 3000
-        });
-    }
-
-    private showErrorMessage(message: string): void {
-        this.messageService.add({
-            severity: 'error',
-            summary: 'Erreur',
-            detail: this.translate.instant(message),
-            life: 5000
-        });
-    }
-
-    private showWarnMessage(message: string): void {
-        this.messageService.add({
-            severity: 'warn',
-            summary: 'Attention',
-            detail: this.translate.instant(message),
-            life: 4000
-        });
-    }
-
-    private showInfoMessage(message: string): void {
-        this.messageService.add({
-            severity: 'info',
-            summary: 'Information',
-            detail: this.translate.instant(message),
-            life: 3000
-        });
-    }
-
-    // ===== NAVIGATION =====
-
     onCancel(): void {
         this.router.navigate([CONTENT_MANAGEMENT_ROUTE + '/' + HOME_ROUTE]);
-    }
-
-    // ===== NETTOYAGE =====
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-
-        // Nettoyer les URLs blob pour éviter les fuites mémoire
-        if (this.videoPreview && typeof this.videoPreview === 'object') {
-            // Angular gère le SafeUrl, mais si vous créez des URLs blob manuellement
-            // Il faudrait les révoquer ici
-        }
     }
 }

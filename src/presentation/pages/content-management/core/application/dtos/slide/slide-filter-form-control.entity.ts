@@ -1,9 +1,10 @@
 import { FormControl } from '@angular/forms';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { Plateform } from '@shared/domain/enums/plateform.enum';
 
 export interface SlideFilterFormControlDto {
-    createdFrom: FormControl<string>;
-    createdTo: FormControl<string>;
-    type: FormControl<Array<TypeMediaDto>>;
+    startDate: FormControl<string>;
+    endDate: FormControl<string>;
+    plateforms: FormControl<Array<Plateform>>;
+    search: FormControl<string>;
     status: FormControl<boolean | null>;
 }

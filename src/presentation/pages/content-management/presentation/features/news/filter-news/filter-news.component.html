@@ -2,19 +2,12 @@
      <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
     <div class="filter-grid">
 
-        <div class="filter-grid__item p-long">
-            <label for="type"><b>{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.TYPE' | translate }}</b></label>
-            <p-multiSelect
-                [options]="typeOptions"
-                formControlName="type"
-                optionLabel="label"
-                optionValue="value"
-                [filter]="false"
-                [showClear]="true"
-                [showToggleAll]="false"
-                appendTo="body"
-                placeholder="{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.TYPE_PLACEHOLDER' | translate }}"
-            ></p-multiSelect>
+        <div class="filter-grid__item">
+            <label for="search"><b>{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.SEARCH' | translate }}</b></label>
+            <input type="text" pInputText
+                formControlName="search"
+                placeholder="{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.SEARCH_PLACEHOLDER' | translate }}"
+            />
         </div>
 
         <div class="filter-grid__item">
@@ -31,9 +24,9 @@
         </div>
 
         <div class="filter-grid__item">
-            <label for="createdFrom"><b>{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.DATE.FROM' | translate }}</b></label>
+            <label for="startDate"><b>{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.DATE.FROM' | translate }}</b></label>
             <p-datePicker
-                formControlName="createdFrom"
+                formControlName="startDate"
                 [showIcon]="true"
                 dateFormat="yy-mm-dd"
                 appendTo="body"
@@ -42,9 +35,9 @@
         </div>
 
         <div class="filter-grid__item">
-            <label for="createdTo"><b>{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.DATE.TO' | translate }}</b></label>
+            <label for="endDate"><b>{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.DATE.TO' | translate }}</b></label>
             <p-datePicker
-                formControlName="createdTo"
+                formControlName="endDate"
                 [showIcon]="true"
                 dateFormat="yy-mm-dd"
                 appendTo="body"

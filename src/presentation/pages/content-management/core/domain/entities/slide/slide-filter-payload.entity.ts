@@ -1,8 +1,9 @@
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { Plateform } from '@shared/domain/enums/plateform.enum';
 
 export interface SlideFilterPayloadEntity {
-    createdFrom: string;
-    createdTo: string;
-    type: TypeMediaDto[];
+    startDate: string;
+    endDate: string;
+    plateforms: Plateform[];
+    search: string;
     status: boolean | null;
 }

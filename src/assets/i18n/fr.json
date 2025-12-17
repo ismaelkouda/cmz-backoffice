@@ -19,9 +19,13 @@
                     "TO": "Date de fin",
                     "PLACEHOLDER": "Date"
                 },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "PLATEFORM": "Plateforme",
+                "PLATEFORM_PLACEHOLDER": "Plateforme",
                 "TYPE": "Type de contenu",
+                "TYPE_PLACEHOLDER": "Type de contenu",
                 "STATUS": "Status",
-                "TYPE_PLACEHOLDER": "Type",
                 "STATUS_PLACEHOLDER": "Status"
             },
             "TABLE": {
@@ -40,14 +44,14 @@
                 "TITLE_FORM_ADD": "Formulaire d'ajout de bloc d'accueil",
                 "TITLE": "Titre",
                 "RESUME": "Résumé",
-                "DESCRIPTION": "Description (Contenu)",
+                "DESCRIPTION": "Contenu",
                 "TYPE": "Type de Média",
                 "VIDEO_URL": "Lien Vidéo",
                 "BUTTON_LABEL": "Libellé Bouton",
                 "BUTTON_URL": "URL Bouton",
                 "PLATFORMS": "Plateformes",
-                "START_DATE": "Date de début",
-                "END_DATE": "Date de fin",
+                "START_DATE": "Date début affichage",
+                "END_DATE": "Date fin affichage",
                 "IMAGE": "Ficher Image",
                 "CHOOSE_IMAGE": "Choisir une image",
                 "CHOOSE_VIDEO": "Choisir une vidéo",
@@ -92,9 +96,13 @@
                     "TO": "Date de fin",
                     "PLACEHOLDER": "Date"
                 },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "PLATEFORM": "Plateforme",
+                "PLATEFORM_PLACEHOLDER": "Plateforme",
                 "TYPE": "Type de contenu",
+                "TYPE_PLACEHOLDER": "Type de contenu",
                 "STATUS": "Status",
-                "TYPE_PLACEHOLDER": "Type",
                 "STATUS_PLACEHOLDER": "Status"
             },
             "TABLE": {
@@ -112,7 +120,7 @@
                 "TITLE_FORM_ADD": "Formulaire d'ajout du bloc Infos & Actualités",
                 "TITLE": "Titre",
                 "RESUME": "Résumé",
-                "DESCRIPTION": "Description (Contenu)",
+                "DESCRIPTION": "Contenu",
                 "TYPE": "Type de Média",
                 "VIDEO_URL": "Lien Vidéo",
                 "CATEGORY": "Catégorie",
@@ -130,8 +138,8 @@
                 "TITLE_PLACEHOLDER": "Ex: Nouveau contenu promotionnel",
                 "VIDEO": "Fichier Vidéo",
                 "PLATFORMS": "Plateformes",
-                "START_DATE": "Date de début",
-                "END_DATE": "Date de fin",
+                "START_DATE": "Date début affichage",
+                "END_DATE": "Date fin affichage",
                 "DURATION": "Durée (secondes)",
                 "ORDER": "Ordre d'affichage",
                 "CATEGORY_PLACEHOLDER": "Sélectionner une catégorie",
@@ -156,9 +164,13 @@
                     "TO": "Date de fin",
                     "PLACEHOLDER": "Date"
                 },
-                "TYPE": "Type",
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "PLATEFORM": "Plateforme",
+                "PLATEFORM_PLACEHOLDER": "Plateforme",
+                "TYPE": "Type de contenu",
+                "TYPE_PLACEHOLDER": "Type de contenu",
                 "STATUS": "Status",
-                "TYPE_PLACEHOLDER": "Type",
                 "STATUS_PLACEHOLDER": "Status"
             },
             "TABLE": {
@@ -177,14 +189,14 @@
                 "TITLE_FORM_ADD": "Formulaire d'ajout de slide",
                 "TITLE": "Titre",
                 "RESUME": "Résumé",
-                "DESCRIPTION": "Description (Contenu)",
+                "DESCRIPTION": "Contenu",
                 "TYPE": "Type de Média",
                 "VIDEO_URL": "Lien Vidéo",
                 "BUTTON_LABEL": "Libellé Bouton",
                 "BUTTON_URL": "URL Bouton",
                 "PLATFORMS": "Plateformes",
-                "START_DATE": "Date de début",
-                "END_DATE": "Date de fin",
+                "START_DATE": "Date début affichage",
+                "END_DATE": "Date fin affichage",
                 "IMAGE": "Ficher Image",
                 "CHOOSE_IMAGE": "Choisir une image",
                 "CHOOSE_VIDEO": "Choisir une vidéo",
@@ -247,7 +259,7 @@
                 "VERSION_PLACEHOLDER": "Ex: 1.0.0",
                 "TITLE_FORM_EDIT": "Formulaire d'édition de la politique de confidentialité",
                 "TITLE_FORM_ADD": "Formulaire d'ajout de politique de confidentialité",
-                "DESCRIPTION": "Description (Contenu)",
+                "DESCRIPTION": "Contenu",
                 "GENERAL_INFO": "Informations Générales",
                 "CONFIG": "Configuration & Actions"
             }
@@ -295,7 +307,7 @@
                 "VERSION_PLACEHOLDER": "Ex: 1.0.0",
                 "TITLE_FORM_EDIT": "Formulaire d'édition de mentions légale",
                 "TITLE_FORM_ADD": "Formulaire d'ajout de mentions légale",
-                "DESCRIPTION": "Description (Contenu)",
+                "DESCRIPTION": "Contenu",
                 "GENERAL_INFO": "Informations Générales",
                 "CONFIG": "Configuration & Actions"
             }
@@ -341,7 +353,7 @@
                 "VERSION_PLACEHOLDER": "Ex: 1.0.0",
                 "TITLE_FORM_EDIT": "Formulaire d'édition de conditions d'utilisation",
                 "TITLE_FORM_ADD": "Formulaire d'ajout de conditions d'utilisation",
-                "DESCRIPTION": "Description (Contenu)",
+                "DESCRIPTION": "Contenu",
                 "GENERAL_INFO": "Informations Générales",
                 "CONFIG": "Configuration & Actions"
             }

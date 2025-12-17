@@ -1,0 +1,116 @@
+$white: var(--color-white);
+$black: var(--color-black);
+$bg-primary: var(--color-gray-light);
+$light-gray: var(--color-gray-light);
+$medium-gray: var(--color-gray);
+$dark-gray: var(--color-gray);
+
+.hashtags-container {
+      width: 100%;
+    }
+    
+    .form-input, .p-inputtext {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid $light-gray;
+    border-radius: 12px;
+    font: 400 16px/24px var(--font-primary);
+    color: $black;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: var(--theme-default);
+        box-shadow: 0 0 0 4px
+            color-mix(in srgb, var(--theme-default) 15%, transparent);
+        background-color: $white;
+    }
+
+    &::placeholder {
+        color: rgba($black, 0.4);
+    }
+
+    &.ng-invalid.ng-touched {
+        border-color: var(--color-error, #dc3545);
+        background-color: color-mix(
+            in srgb,
+            var(--color-error, #dc3545) 5%,
+            $white
+        );
+
+        &:focus {
+            border-color: var(--color-error, #dc3545);
+            box-shadow: 0 0 0 4px
+                color-mix(in srgb, var(--color-error, #dc3545) 15%, transparent);
+        }
+    }
+
+    &--valid {
+        border-color: var(--color-success, #28a745);
+        background-color: color-mix(
+            in srgb,
+            var(--color-success, #28a745) 5%,
+            $white
+        );
+
+        &:focus {
+            border-color: var(--color-success, #28a745);
+            box-shadow: 0 0 0 4px
+                color-mix(
+                    in srgb,
+                    var(--color-success, #28a745) 15%,
+                    transparent
+                );
+        }
+    }
+
+    &--focused {
+        border-color: var(--theme-default);
+    }
+}
+    
+    .hashtags-list {
+      min-height: 60px;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      background-color: #f8f9fa;
+    }
+    
+    .hashtag-item {
+      transition: transform 0.2s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+    
+    .remove-hashtag-btn {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+      
+      &:hover {
+        opacity: 1;
+      }
+      
+      &:focus {
+        outline: 2px solid var(--p-focus-ring-color);
+        outline-offset: 2px;
+      }
+    }
+    
+    .validation-messages {
+      margin-top: 4px;
+    }
+    
+    .hashtags-stats {
+      margin-top: 8px;
+    }
+    
+    :host.ng-invalid.ng-touched .hashtags-list {
+      border-color: var(--p-danger-500);
+    }
