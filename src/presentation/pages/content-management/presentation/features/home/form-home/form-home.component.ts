@@ -229,7 +229,7 @@ export class FormHomeComponent implements OnInit {
             content: item.content,
             type: item.type,
             videoUrl: item.videoUrl,
-            imageFile: item.imageFile,
+            imageFile: item.imageUrl,
             timeDurationInSeconds: item.timeDurationInSeconds,
             order: item.order,
             buttonLabel: item.buttonLabel,
@@ -240,14 +240,15 @@ export class FormHomeComponent implements OnInit {
             isActive: item.status
         };
 
+        console.log("formData", formData);
+
         if (item.type === TypeMediaDto.VIDEO) {
             formData.videoUrl = item.videoUrl || '';
-            formData.imageFile = null;
         } else {
             formData.videoUrl = null;
-            if (item.imageFile) {
-                formData.imageFile = item.imageFile;
-                this.imagePreview = item.imageFile;
+            if (item.imageUrl) {
+                formData.imageFile = item.imageUrl;
+                this.imagePreview = item.imageUrl;
             }
         }
 

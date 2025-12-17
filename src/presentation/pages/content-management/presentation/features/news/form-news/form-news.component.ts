@@ -8,7 +8,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NEWS_ROUTE } from '@presentation/pages/content-management/content-management.routes';
 import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
 import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
-import { NewsEntity } from '@presentation/pages/content-management/core/domain/entities/news.entity';
+import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
+import { SubCategoryEntity } from '@presentation/pages/content-management/core/domain/entities/sub-category.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
@@ -25,7 +26,7 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
-import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
 import { HashtagsInputComponent } from '../hashtags-input/hashtags-input.component';
 
 @Component({
@@ -67,6 +68,22 @@ export class FormNewsComponent implements OnInit {
     private readonly sanitizer = inject(DomSanitizer);
     private readonly messageService = inject(MessageService);
 
+    public categoriesOptions$: Observable<CategoryEntity[]> = this.newsFacade.getCategory();
+    public isLoading$: Observable<boolean> = this.newsFacade.isLoading$;
+    public selectedCategoryId$ = new BehaviorSubject<number | null>(null);
+    public subCategoriesOptions$: Observable<SubCategoryEntity[]> = this.selectedCategoryId$.pipe(
+        switchMap(categoryId => {
+            if (!categoryId) {
+                return of([]);
+            }
+            return this.categoriesOptions$.pipe(
+                map(categories => {
+                    const selectedCategory = categories.find(cat => cat.id === categoryId);
+                    return selectedCategory ? selectedCategory.subCategories : [];
+                })
+            );
+        })
+    );
     public module = signal<string>('');
     public subModule = signal<string>('');
     public isEditMode = signal<boolean>(false);
@@ -100,17 +117,35 @@ export class FormNewsComponent implements OnInit {
         { label: 'PWA', value: 'pwa' }
     ];
 
-    public categoryOptions: Array<{ label: string; value: number }> = [];
-    public subCategoryOptions: Array<{ label: string; value: number }> = [];
-    public categories: CategoryEntity[] = [];
     public availableHashtags: string[] = ['#Informatique', '#Actualité', '#Innovation', '#Technologie'];
-
 
     ngOnInit(): void {
         this.initForm();
         this.setupRouteData();
         this.checkEditMode();
-        this.loadCategories();
+    }
+
+    private setupRouteData(): void {
+        this.pageTitle$ = this.route.data.pipe(
+            map(data => data['title'] || 'CONTENT_MANAGEMENT.NEWS.LABEL')
+        );
+
+        this.route.data.pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe(data => {
+            this.module.set(data['module'] || 'CONTENT_MANAGEMENT.LABEL');
+            this.subModule.set(data['subModule'] || 'CONTENT_MANAGEMENT.NEWS.TITLE');
+            this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
+        });
+    }
+
+    private checkEditMode(): void {
+        const id = this.route.snapshot.params['id'];
+        if (id) {
+            this.isEditMode.set(true);
+            this.currentId.set(id);
+            this.loadNewsForEdit(id);
+        }
     }
 
     private initForm(): void {
@@ -163,7 +198,6 @@ export class FormNewsComponent implements OnInit {
 
     public onHashtagAdded(value: string): void {
         if (!value?.trim()) return;
-
         const formattedValue = value.startsWith('#') ? value : `#${value}`;
 
         this.hashtagsArray.push(this.fb.control(formattedValue, [
@@ -184,7 +218,6 @@ export class FormNewsComponent implements OnInit {
         this.cdr.markForCheck();
     }
 
-
     private setupFormListeners(): void {
         this.form.get('type')?.valueChanges.pipe(
             distinctUntilChanged(),
@@ -198,7 +231,10 @@ export class FormNewsComponent implements OnInit {
             distinctUntilChanged(),
             takeUntilDestroyed(this.destroyRef)
         ).subscribe((categoryId: number | null) => {
-            this.updateSubCategories(categoryId);
+            if (this.form.get('subCategoryId')?.value) {
+                this.form.get('subCategoryId')?.setValue(null, { emitEvent: false });
+            }
+            this.selectedCategoryId$.next(categoryId);
         });
 
         this.form.get('videoUrl')?.valueChanges.pipe(
@@ -261,72 +297,6 @@ export class FormNewsComponent implements OnInit {
         }
     }
 
-    private loadCategories(): void {
-        this.newsFacade.getCategory().pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe({
-            next: (categories) => {
-                this.categories = categories;
-                this.categoryOptions = categories.map(category => ({
-                    label: category.name,
-                    value: category.id
-                }));
-                this.cdr.markForCheck();
-            },
-            error: (error) => {
-                console.error('Erreur lors du chargement des catégories:', error);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les catégories'
-                });
-            }
-        });
-    }
-
-    private updateSubCategories(categoryId: number | null): void {
-        this.form.get('subCategoryId')?.setValue(null, { emitEvent: false });
-
-        if (!categoryId) {
-            this.subCategoryOptions = [];
-            this.cdr.markForCheck();
-            return;
-        }
-
-        const selectedCategory = this.categories.find(cat => cat.id === categoryId);
-
-        if (selectedCategory && selectedCategory.subCategories.length > 0) {
-            this.subCategoryOptions = selectedCategory.getSubCategoriesForSelect();
-        } else {
-            this.subCategoryOptions = [];
-        }
-
-        this.cdr.markForCheck();
-    }
-
-    private setupRouteData(): void {
-        this.pageTitle$ = this.route.data.pipe(
-            map(data => data['title'] || 'CONTENT_MANAGEMENT.NEWS.LABEL')
-        );
-
-        this.route.data.pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe(data => {
-            this.module.set(data['module'] || 'CONTENT_MANAGEMENT.LABEL');
-            this.subModule.set(data['subModule'] || 'CONTENT_MANAGEMENT.NEWS.TITLE');
-            this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
-        });
-    }
-
-    private checkEditMode(): void {
-        const id = this.route.snapshot.params['id'];
-        if (id) {
-            this.isEditMode.set(true);
-            this.currentId.set(id);
-            this.loadNewsForEdit(id);
-        }
-    }
-
     private loadNewsForEdit(id: string): void {
         this.newsFacade.getNewsById(id).pipe(
             takeUntilDestroyed(this.destroyRef)
@@ -337,20 +307,23 @@ export class FormNewsComponent implements OnInit {
         });
     }
 
-    private patchForm(item: NewsEntity): void {
+    private patchForm(item: GetNewsByIdEntity): void {
         const formData = {
             title: item.title,
             resume: item.resume,
             content: item.content,
             type: item.type,
-            videoUrl: item.videoUrl,
-            imageFile: item.imageFile,
-            categoryId: item.categoryId,
+            videoUrl: item.videoUrl || null,
+            imageFile: item.imageFile || null,
+            categoryId: item.categoryId || null,
             subCategoryId: item.subCategoryId || null,
+            hashtags: item.hashtags || []
         };
 
         if (item.hashtags && Array.isArray(item.hashtags)) {
-            this.hashtagsArray.clear();
+            while (this.hashtagsArray.length) {
+                this.hashtagsArray.removeAt(0);
+            }
             item.hashtags.forEach(hashtag => {
                 this.onHashtagAdded(hashtag);
             });
@@ -365,8 +338,10 @@ export class FormNewsComponent implements OnInit {
         this.currentType$.next(item.type);
         this.updateMediaFieldsBasedOnType(item.type);
         if (item.categoryId) {
-            this.updateSubCategories(item.categoryId);
+            this.selectedCategoryId$.next(item.categoryId);
         }
+
+        console.log("item", item);
 
         this.cdr.markForCheck();
     }

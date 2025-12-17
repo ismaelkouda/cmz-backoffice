@@ -4,7 +4,7 @@ export const TASKS_TABLE_CONST = {
             field: '__selection',
             header: 'TABLE.COMMON.SELECTION',
             class: 'text-center',
-            width: '3rem',
+            width: '2rem',
             type: 'selection',
         },
         {
@@ -21,13 +21,12 @@ export const TASKS_TABLE_CONST = {
         {
             field: 'operators',
             header: 'REPORTS_PROCESSING.TASKS.TABLE.OPERATORS',
-            width: '11rem',
+            width: '10rem',
         },
         {
             field: 'source',
             header: 'REPORTS_PROCESSING.TASKS.TABLE.SOURCE',
-            class: 'text-center',
-            width: '13rem',
+            width: '12rem',
         },
         {
             field: 'createdAt',
@@ -39,7 +38,7 @@ export const TASKS_TABLE_CONST = {
             field: '__action',
             header: 'REPORTS_PROCESSING.TASKS.TABLE.ACTION',
             class: 'text-center',
-            width: '3rem',
+            width: '5rem',
         },
     ],
     globalFilterFields: [

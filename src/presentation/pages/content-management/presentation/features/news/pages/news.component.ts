@@ -87,23 +87,23 @@ export class NewsComponent implements OnInit, OnDestroy {
     }
 
     public onEditClicked(item: NewsEntity): void {
-        this.router.navigate([item.uniqId, NEWS_EDIT_ROUTE], { relativeTo: this.activatedRoute });
+        this.router.navigate([item.slug, NEWS_EDIT_ROUTE], { relativeTo: this.activatedRoute });
     }
 
     public onViewClicked(item: NewsEntity): void {
-        this.router.navigate([item.uniqId, NEWS_VIEW_ROUTE], { relativeTo: this.activatedRoute });
+        this.router.navigate([item.slug, NEWS_VIEW_ROUTE], { relativeTo: this.activatedRoute });
     }
 
     public onEnableClicked(item: NewsEntity): void {
-        this.newsFacade.enableNews(item.uniqId).subscribe();
+        this.newsFacade.enableNews(item.slug).subscribe();
     }
 
     public onDisableClicked(item: NewsEntity): void {
-        this.newsFacade.disableNews(item.uniqId).subscribe();
+        this.newsFacade.disableNews(item.slug).subscribe();
     }
 
     public onDeleteClicked(item: NewsEntity): void {
-        this.newsFacade.deleteNews(item.uniqId).subscribe();
+        this.newsFacade.deleteNews(item.slug).subscribe();
     }
 
     ngOnDestroy(): void {

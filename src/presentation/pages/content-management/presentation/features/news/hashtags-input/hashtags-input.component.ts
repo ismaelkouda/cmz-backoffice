@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, DestroyRef, forwardRef, inject, input, OnDestroy, OnInit, output, Signal, signal } from '@angular/core';
+import { Component, computed, DestroyRef, forwardRef, inject, input, OnInit, output, Signal, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,13 +29,11 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
         }
     ]
 })
-export class HashtagsInputComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
     public label = input<string>('Hashtags');
-    public placeholder = input<string>('Ajouter un hashtag...');
     public required = input<boolean>(true);
     public minHashtags = input<number>(1);
     public maxHashtags = input<number | undefined>(undefined);
-    public showValidationErrors = input<boolean>(true);
     public showStats = input<boolean>(true);
     public allowedPattern = input<string>('^[a-zA-Z0-9_]+$');
 
@@ -60,7 +58,7 @@ export class HashtagsInputComponent implements OnInit, OnDestroy, ControlValueAc
 
     constructor() {
         this.form = this.fb.group({
-            hashtags: this.fb.array<string>([], this.hashtagsArrayValidator.bind(this))
+            hashtags: this.fb.array<string>([], [this.createHashtagsArrayValidator()])
         });
 
         this.currentHashtagControl = this.fb.control('', [
@@ -74,18 +72,16 @@ export class HashtagsInputComponent implements OnInit, OnDestroy, ControlValueAc
             return !max || this.hashtagsCount() < max;
         });
         this.canClearAll = computed(() => this.hashtagsCount() > 0);
+
+
+        console.log("this.hashtagsCount()", this.hashtagsCount());
     }
 
     ngOnInit(): void {
         this.setupFormListeners();
     }
 
-    ngOnDestroy(): void {
-        // Gestion automatique avec DestroyRef
-    }
-
     private setupFormListeners(): void {
-        // Écoute des changements du champ actuel
         this.currentHashtagControl.valueChanges
             .pipe(
                 debounceTime(300),
@@ -96,7 +92,6 @@ export class HashtagsInputComponent implements OnInit, OnDestroy, ControlValueAc
                 this.validateCurrentHashtag();
             });
 
-        // Écoute des changements de l'array
         this.hashtagsArray.valueChanges
             .pipe(
                 takeUntilDestroyed(this.destroyRef)
@@ -111,23 +106,27 @@ export class HashtagsInputComponent implements OnInit, OnDestroy, ControlValueAc
         return this.form.get('hashtags') as FormArray;
     }
 
-    private hashtagsArrayValidator(control: any): { [key: string]: any } | null {
-        if (this.required() && control.length < this.minHashtags()) {
-            return { minHashtags: { required: this.minHashtags(), actual: control.length } };
-        }
+    private createHashtagsArrayValidator(): any {
+        return (control: any) => {
+            const array = control as FormArray;
 
-        const max = this.maxHashtags();
-        if (max && control.length > max) {
-            return { maxHashtags: { max, actual: control.length } };
-        }
+            if (this.required() && array.length < this.minHashtags()) {
+                return { minHashtags: { required: this.minHashtags(), actual: array.length } };
+            }
 
-        const values = control.value as string[];
-        const duplicates = values.filter((item, index) => values.indexOf(item) !== index);
-        if (duplicates.length > 0) {
-            return { duplicateHashtags: duplicates };
-        }
+            const max = this.maxHashtags();
+            if (max && array.length > max) {
+                return { maxHashtags: { max, actual: array.length } };
+            }
 
-        return null;
+            const values = array.value as string[];
+            const duplicates = values.filter((item, index) => values.indexOf(item) !== index);
+            if (duplicates.length > 0) {
+                return { duplicateHashtags: duplicates };
+            }
+
+            return null;
+        };
     }
 
     private validateCurrentHashtag(): void {
@@ -168,8 +167,6 @@ export class HashtagsInputComponent implements OnInit, OnDestroy, ControlValueAc
         }
 
         const value = this.formatHashtag(this.currentHashtagControl.value);
-        console.log("value", value);
-        console.log("this.hashtagsArray", this.hashtagsArray.value);
 
         this.hashtagsArray.push(this.fb.control(value, Validators.required));
 
@@ -238,15 +235,24 @@ export class HashtagsInputComponent implements OnInit, OnDestroy, ControlValueAc
     }
 
     writeValue(value: string[]): void {
+        console.log('writeValue appelé avec:', value);
+
         if (value && Array.isArray(value)) {
-            this.hashtagsArray.clear();
+            while (this.hashtagsArray.length > 0) {
+                this.hashtagsArray.removeAt(0);
+            }
 
             value.forEach(hashtag => {
-                const formatted = this.formatHashtag(hashtag);
-                this.hashtagsArray.push(this.fb.control(formatted, Validators.required));
+                if (hashtag && hashtag.trim()) {
+                    const formatted = this.formatHashtag(hashtag);
+                    const control = this.fb.control(formatted, Validators.required);
+                    this.hashtagsArray.push(control);
+                }
             });
+
+            this.hashtagsArray.updateValueAndValidity({ emitEvent: false });
         } else {
-            this.hashtagsArray.clear();
+            this.hashtagsArray.clear({ emitEvent: false });
         }
     }
 

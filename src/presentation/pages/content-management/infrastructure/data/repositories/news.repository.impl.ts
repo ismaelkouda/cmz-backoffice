@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
+import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
 import { NewsEntity } from '@presentation/pages/content-management/core/domain/entities/news.entity';
 import { NewsRepository } from '@presentation/pages/content-management/core/domain/repositories/news.repository';
 import { NewsFilter } from '@presentation/pages/content-management/core/domain/value-objects/news-filter.vo';
@@ -9,12 +10,14 @@ import { NewsApi } from '@presentation/pages/content-management/infrastructure/d
 import { Paginate, SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { CategoryMapper } from '../mappers/category.mapper';
+import { GetNewsByIdMapper } from '../mappers/get-news-by-id.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class NewsRepositoryImpl extends NewsRepository {
     constructor(
         private readonly api: NewsApi,
         private readonly newsMapper: NewsMapper,
+        private readonly getNewsByIdMapper: GetNewsByIdMapper,
         private readonly categoryMapper: CategoryMapper,
         private readonly translateService: TranslateService
     ) {
@@ -39,9 +42,9 @@ export class NewsRepositoryImpl extends NewsRepository {
         );
     }
 
-    getNewsById(id: string): Observable<NewsEntity> {
+    getNewsById(id: string): Observable<GetNewsByIdEntity> {
         return this.api.getNewsById(id).pipe(
-            map((dto) => this.newsMapper.toEntity(dto.data))
+            map((dto) => this.getNewsByIdMapper.toEntity(dto))
         );
     }
 

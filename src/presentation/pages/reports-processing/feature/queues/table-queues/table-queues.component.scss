@@ -8,8 +8,6 @@
     text-transform: capitalize;
 }
 
-
-
 .action-buttons-group {
     display: flex;
     align-items: center;
@@ -228,6 +226,7 @@
         width: 100%;
 
         .p-inputnumber-input {
+            padding: 0;
             width: 100%;
             text-align: center;
         }

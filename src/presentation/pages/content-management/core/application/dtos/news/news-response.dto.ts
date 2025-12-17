@@ -3,6 +3,7 @@ import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
 
 export interface NewsItemDto {
     id: string;
+    slug: string;
     title: string;
     resume: string;
     content: string;
