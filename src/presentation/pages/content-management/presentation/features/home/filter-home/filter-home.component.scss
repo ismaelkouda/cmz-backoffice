@@ -28,6 +28,7 @@
         flex-direction: column;
         gap: 0.25rem;
         min-width: 13rem;
+        max-width: 13rem;
 
         label {
             font-size: 0.875rem;
@@ -41,8 +42,14 @@
         }
 
         &.p-long {
-            min-width: 21rem;
+            min-width: 16rem;
         }
+
+        &.p-short {
+            min-width: 10rem;
+        }
+
+
     }
 
     &__actions {

@@ -11,8 +11,8 @@ export class NewsEntity {
         public readonly categoryId: number,
         public readonly subCategoryId: number | null,
         public readonly hashtags: string[],
-        public readonly imageFile: string,
-        public readonly videoUrl: string,
+        public readonly imageFile: string | null,
+        public readonly videoUrl: string | null,
         public readonly status: ActionDropdown,
         public readonly createdAt: string,
         public readonly updatedAt: string

@@ -16,11 +16,6 @@ export const NEWS_TABLE_CONST = {
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.TITLE',
             width: '8rem',
         },
-        {
-            field: 'resume',
-            header: 'CONTENT_MANAGEMENT.HOME.TABLE.RESUME',
-            width: '13rem',
-        },
         /* {
             field: 'platforms',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.PLATEFORM',

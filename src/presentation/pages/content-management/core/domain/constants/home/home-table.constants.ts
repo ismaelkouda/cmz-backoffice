@@ -17,11 +17,6 @@ export const HOME_TABLE_CONST = {
             width: '8rem',
         },
         {
-            field: 'resume',
-            header: 'CONTENT_MANAGEMENT.HOME.TABLE.RESUME',
-            width: '13rem',
-        },
-        {
             field: 'platforms',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.PLATEFORM',
             class: 'text-center',
@@ -50,7 +45,6 @@ export const HOME_TABLE_CONST = {
         'id',
         'type',
         'title',
-        'resume',
         'platforms',
         'order',
         'status',

@@ -42,7 +42,7 @@
                                                 <b>{{ 'CONTENT_MANAGEMENT.HOME.FORM.GENERAL_INFO' | translate }}</b>
                                             </legend>
                                             <div class="row g-3">
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <label for="title" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.HOME.FORM.TITLE' | translate }} <span class="text-danger">*</span></label>
                                                     <input class="form-input" id="title" formControlName="title" [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.TITLE_PLACEHOLDER' | translate" />
                                                     @if (form.get('title')?.invalid && form.get('title')?.touched) {
@@ -50,9 +50,9 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <label for="resume" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.HOME.FORM.RESUME' | translate }} <span class="text-danger">*</span></label>
-                                                    <input class="form-input" id="resume" formControlName="resume" />
+                                                    <textarea rows="5" cols="30" pTextarea id="resume" formControlName="resume" class="w-100"></textarea>
                                                     @if (form.get('resume')?.invalid && form.get('resume')?.touched) {
                                                         <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
                                                     }
@@ -87,82 +87,13 @@
                                                 </div>
 
                                                 <div class="col-md-8">
-                                                    @if (isVideoType) {
-                                                        <div class="fade-in">
-                                                            <label class="form-label fw-bold d-block">
-                                                                {{ 'CONTENT_MANAGEMENT.HOME.FORM.VIDEO' | translate }}
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                            
-                                                            <div class="d-flex align-items-center gap-3 flex-wrap">
-                                                                <p-fileUpload 
-                                                                    mode="basic" 
-                                                                    name="videoUpload" 
-                                                                    accept="video/*" 
-                                                                    [maxFileSize]="50000000" 
-                                                                    (onSelect)="onVideoSelect($event)" 
-                                                                    [chooseLabel]="'CONTENT_MANAGEMENT.HOME.FORM.CHOOSE_VIDEO' | translate" 
-                                                                    styleClass="p-button-outlined">
-                                                                </p-fileUpload>
-                                                                
-                                                                @if (videoPreview && !videoRemoved) {
-                                                                    <div class="media-preview-container">
-                                                                        <div class="d-flex align-items-center gap-2">
-                                                                            <button 
-                                                                                pButton 
-                                                                                type="button" 
-                                                                                icon="pi pi-eye" 
-                                                                                [label]="'COMMON.PREVIEW' | translate" 
-                                                                                class="p-button-rounded p-button-info p-button-text" 
-                                                                                (click)="openPreview('video')">
-                                                                            </button>
-                                                                            
-                                                                            <!-- <button 
-                                                                                pButton 
-                                                                                type="button" 
-                                                                                icon="pi pi-trash" 
-                                                                                [label]="'COMMON.DELETE' | translate" 
-                                                                                class="p-button-rounded p-button-danger p-button-text" 
-                                                                                (click)="removeVideo()">
-                                                                            </button> -->
-                                                                            
-                                                                            <span class="text-success small">
-                                                                                <i class="pi pi-check-circle me-1"></i>
-                                                                                {{ uploadedVideoFile ? 
-                                                                                    ('CONTENT_MANAGEMENT.HOME.MESSAGES.NEW_VIDEO_SELECTED' | translate) : 
-                                                                                    ('CONTENT_MANAGEMENT.HOME.MESSAGES.EXISTING_VIDEO' | translate) 
-                                                                                }}
-                                                                            </span>
-                                                                        </div>
-                                                                        
-                                                                        @if (videoPreview && typeof videoPreview === 'string') {
-                                                                            <div class="position-relative ms-2">
-                                                                                <div class="bg-dark rounded p-1">
-                                                                                    <i class="pi pi-video text-white" style="font-size: 1.5rem;"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                        }
-                                                                    </div>
-                                                                }
-                                                                
-                                                                @if (videoRemoved && originalVideoUrl) {
-                                                                    <div class="d-flex align-items-center gap-2">
-                                                                        <button 
-                                                                            pButton 
-                                                                            type="button" 
-                                                                            icon="pi pi-undo" 
-                                                                            [label]="'COMMON.RESTORE' | translate" 
-                                                                            class="p-button-rounded p-button-warning p-button-text" 
-                                                                            (click)="restoreVideo()">
-                                                                        </button>
-                                                                    </div>
-                                                                }
-                                                                
-                                                            </div>
-                                                            <small class="text-danger d-block mt-1 validation-hint">
-                                                                {{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.VIDEO_REQUIRED' | translate }}
-                                                            </small>
-                                                        </div>
+                                                    @if (form.get('type')?.value === TypeMediaDto.VIDEO) {
+                                                            <label for="videoUrl" class="form-label">{{ 'CONTENT_MANAGEMENT.HOME.FORM.VIDEO_URL' | translate }} <span class="text-danger">*</span></label>
+                                                            <input class="form-input" id="videoUrl" formControlName="videoUrl"
+                                                                placeholder="https://example.com/video.mp4" />
+                                                            @if (form.get('videoUrl')?.invalid && form.get('videoUrl')?.touched) {
+                                                                <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                            }
                                                     } @else {
                                                         <div class="fade-in">
                                                             <label class="form-label fw-bold d-block">
@@ -193,15 +124,6 @@
                                                                                 (click)="openPreview('image')">
                                                                             </button>
                                                                             
-                                                                            <!-- <button 
-                                                                                pButton 
-                                                                                type="button" 
-                                                                                icon="pi pi-trash" 
-                                                                                [label]="'COMMON.DELETE' | translate" 
-                                                                                class="p-button-rounded p-button-danger p-button-text" 
-                                                                                (click)="removeImage()">
-                                                                            </button> -->
-                                                                            
                                                                             <div class="position-relative">
                                                                                 <img 
                                                                                     [src]="imagePreview" 
@@ -212,24 +134,8 @@
                                                                         </div>
                                                                     </div>
                                                                 }
-                                                                
-                                                                @if (imageRemoved && originalImageUrl) {
-                                                                    <div class="d-flex align-items-center gap-2">
-                                                                        <button 
-                                                                            pButton 
-                                                                            type="button" 
-                                                                            icon="pi pi-undo" 
-                                                                            [label]="'COMMON.RESTORE' | translate" 
-                                                                            class="p-button-rounded p-button-warning p-button-text" 
-                                                                            (click)="restoreImage()">
-                                                                        </button>
-                                                                    </div>
-                                                                }
                                                             </div>
                                                         </div>
-                                                        <small class="text-danger d-block mt-1 validation-hint">
-                                                            {{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.IMAGE_REQUIRED' | translate }}
-                                                        </small>
                                                     }
                                                 </div>
                                             </div>
@@ -242,18 +148,18 @@
                                                 
                                             <div class="row g-3">
                                                 <div class="col-md-6">
-                                                    <label for="buttonLabel" class="form-label">{{ 'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL' | translate }} <span class="text-danger">*</span></label>
+                                                    <label for="buttonLabel" class="form-label">{{ 'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL' | translate }}</label>
                                                     <input class="form-input" id="buttonLabel" formControlName="buttonLabel" />
-                                                    @if (form.get('buttonLabel')?.invalid && form.get('buttonLabel')?.touched) {
+                                                    <!-- @if (form.get('buttonLabel')?.invalid && form.get('buttonLabel')?.touched) {
                                                         <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
-                                                    }
+                                                    } -->
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="buttonUrl" class="form-label">{{ 'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL' | translate }} <span class="text-danger">*</span></label>
+                                                    <label for="buttonUrl" class="form-label">{{ 'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL' | translate }}</label>
                                                     <input class="form-input" id="buttonUrl" formControlName="buttonUrl" />
-                                                    @if (form.get('buttonUrl')?.invalid && form.get('buttonUrl')?.touched) {
+                                                    <!-- @if (form.get('buttonUrl')?.invalid && form.get('buttonUrl')?.touched) {
                                                         <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
-                                                    }
+                                                    } -->
                                                 </div>
                                             </div>
 
@@ -307,10 +213,8 @@
                                             <p-button 
                                                 label="{{ 'COMMON.SAVE' | translate }}" 
                                                 (click)="onSubmit()" 
-                                                [disabled]="saveButtonState.disabled"
-                                                [styleClass]="saveButtonState.disabled ? 'p-button-disabled form-submit-button' : 'form-submit-button'">
-
-                                            </p-button>
+                                                [disabled]="form.invalid">
+                                            </p-button> 
                                         </div>
                                     </form>
                                 </div>

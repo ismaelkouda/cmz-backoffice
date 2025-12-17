@@ -3,17 +3,19 @@ import { MediaStatusDto } from "@shared/data/dtos/media-status.dto";
 
 export class HomeFilter {
     private constructor(
-        private readonly createdFrom?: string,
-        private readonly createdTo?: string,
-        private readonly type?: Array<string>,
+        private readonly startDate?: string,
+        private readonly endDate?: string,
+        private readonly plateforms?: Array<string>,
+        private readonly search?: string,
         private readonly status?: MediaStatusDto
     ) { }
 
     static create(data: HomeRequestDto = {} as HomeRequestDto): HomeFilter {
         return new HomeFilter(
-            data.createdFrom,
-            data.createdTo,
-            data.type,
+            data.startDate,
+            data.endDate,
+            data.plateforms,
+            data.search,
             data.status
         );
     }
@@ -21,10 +23,11 @@ export class HomeFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.createdFrom)
-            params['created_from'] = this.createdFrom;
-        if (this.createdTo) params['created_to'] = this.createdTo;
-        if (this.type) params['type'] = this.type;
+        if (this.startDate)
+            params['start_date'] = this.startDate;
+        if (this.endDate) params['end_date'] = this.endDate;
+        if (this.plateforms) params['plateforms'] = this.plateforms;
+        if (this.search) params['search'] = this.search;
         if (this.status) params['status'] = this.status;
 
         return params;

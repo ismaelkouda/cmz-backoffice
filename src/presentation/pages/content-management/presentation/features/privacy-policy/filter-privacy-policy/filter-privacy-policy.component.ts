@@ -13,11 +13,13 @@ import {
     FormControl,
     FormGroup,
     ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PrivacyPolicyFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/privacy-policy/privacy-policy-filter-form-control.entity';
 import { PrivacyPolicyFacade } from '@presentation/pages/content-management/core/application/services/privacy-policy.facade';
 import { PrivacyPolicyFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/privacy-policy/privacy-policy-filter-payload.entity';
+import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -77,7 +79,13 @@ export class FilterPrivacyPolicyComponent implements OnInit, OnDestroy {
             this.formFilter = this.fb.group<PrivacyPolicyFilterFormControlDto>({
                 startDate: new FormControl<string>('', { nonNullable: true }),
                 endDate: new FormControl<string>('', { nonNullable: true }),
-                version: new FormControl<string>('', { nonNullable: true }),
+                version: new FormControl<string | null>(null, {
+                    validators: [
+                        semanticVersionValidator(),
+                        Validators.pattern(/^\d+(\.\d+){0,2}$/)
+                    ],
+                    nonNullable: false
+                }),
                 search: new FormControl<string>('', { nonNullable: true }),
                 isPublished: new FormControl<boolean | null>(null, { nonNullable: false }),
             });

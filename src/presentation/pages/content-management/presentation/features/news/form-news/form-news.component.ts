@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -24,8 +25,8 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, startWith } from 'rxjs';
+import { HashtagsInputComponent } from '../hashtags-input/hashtags-input.component';
 
 @Component({
     selector: 'app-form-news',
@@ -37,6 +38,7 @@ import { map } from 'rxjs/operators';
         TranslateModule,
         BreadcrumbComponent,
         PageTitleComponent,
+        HashtagsInputComponent,
         ReactiveFormsModule,
         EditorModule,
         FileUploadModule,
@@ -53,8 +55,8 @@ import { map } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [MessageService]
 })
-export class FormNewsComponent implements OnInit, OnDestroy {
-    private readonly destroy$ = new Subject<void>();
+export class FormNewsComponent implements OnInit {
+    private readonly destroyRef = inject(DestroyRef);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -65,15 +67,27 @@ export class FormNewsComponent implements OnInit, OnDestroy {
     private readonly sanitizer = inject(DomSanitizer);
     private readonly messageService = inject(MessageService);
 
+    public module = signal<string>('');
+    public subModule = signal<string>('');
+    public isEditMode = signal<boolean>(false);
+    public currentId = signal<string | undefined>(undefined);
+    public imagePreview = signal<string | null>(null);
+    public uploadedFile = signal<File | null>(null);
+    public imageRemoved = signal<boolean>(false);
+    public originalImageUrl = signal<string | null>(null);
+    public isPreviewVisible = signal<boolean>(false);
+    public previewType = signal<'image' | 'video'>('image');
+    public previewContent = signal<SafeUrl | string | null>(null);
+
     public pageTitle$!: Observable<string>;
-    public module!: string;
-    public subModule!: string;
 
     public form!: FormGroup;
-    public isEditMode = false;
-    public currentId?: string;
 
-    public isVideoType = false;
+    public currentType$ = new BehaviorSubject<TypeMediaDto>(TypeMediaDto.IMAGE);
+    public isVideoType$ = this.currentType$.pipe(
+        map(type => type === TypeMediaDto.VIDEO)
+    );
+    public TypeMediaDto = TypeMediaDto;
 
     public typeOptions = [
         { label: 'Image', value: TypeMediaDto.IMAGE },
@@ -91,218 +105,165 @@ export class FormNewsComponent implements OnInit, OnDestroy {
     public categories: CategoryEntity[] = [];
     public availableHashtags: string[] = ['#Informatique', '#Actualité', '#Innovation', '#Technologie'];
 
-    // Fichiers uploadés
-    public uploadedFile: File | null = null;
-    public uploadedVideoFile: File | null = null;
-
-    // Prévisualisations
-    public imagePreview: string | null = null;
-    public videoPreview: SafeUrl | string | null = null;
-
-    // Original URLs (pour restauration)
-    public originalImageUrl: string | null = null;
-    public originalVideoUrl: string | null = null;
-
-    // État suppression
-    public imageRemoved = false;
-    public videoRemoved = false;
-
-    // Dialog prévisualisation
-    public isPreviewVisible = false;
-    public previewType: 'image' | 'video' = 'image';
-    public previewContent: SafeUrl | string | null = null;
-
-    public isFormValid = false;
-    public saveButtonState = {
-        disabled: true,
-        tooltip: '',
-        severity: 'danger' as 'success' | 'warning' | 'danger' | 'info'
-    }
 
     ngOnInit(): void {
         this.initForm();
         this.setupRouteData();
-        this.setupTypeListener();
-        this.setupCategoryListener();
         this.checkEditMode();
         this.loadCategories();
-        this.setupFormValidation();
     }
 
     private initForm(): void {
         this.form = this.fb.group({
-            title: ['', Validators.required],
-            resume: ['', Validators.required],
-            content: [''],
+            title: ['', [Validators.required]],
+            resume: ['', [Validators.required]],
+            content: ['', Validators.required],
             type: [TypeMediaDto.IMAGE, Validators.required],
-            categoryId: ['', Validators.required],
+            categoryId: [null, Validators.required],
             subCategoryId: [null],
-            hashtags: [[], Validators.required],
-            videoUrl: [''],
-            isActive: [true],
+            hashtags: this.fb.array<string>([], this.hashtagsArrayValidator()),
+            videoUrl: [null],
+            imageFile: [null, [Validators.required]],
         });
+
+        this.currentType$.next(TypeMediaDto.IMAGE);
+        this.setupFormListeners();
     }
 
-    private setupFormValidation(): void {
-        this.form.statusChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateFormValidity();
-                this.updateSaveButtonState();
-            });
+    private hashtagsArrayValidator(): ValidatorFn {
+        return (control: AbstractControl) => {
+            const array = control as FormArray;
 
-        this.form.valueChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateFormValidity();
-                this.updateSaveButtonState();
-            });
-    }
-
-
-    private updateFormValidity(): void {
-        const isFormValid = this.form.valid;
-        const isMediaValid = this.validateMediaSilent();
-
-        this.isFormValid = isFormValid && isMediaValid;
-        this.cdr.detectChanges();
-    }
-
-    private updateSaveButtonState(): void {
-        const isFormValid = this.form.valid;
-        const isMediaValid = this.validateMediaSilent();
-        const isPristine = this.form.pristine && !this.uploadedFile && !this.uploadedVideoFile;
-
-        if (!isFormValid || !isMediaValid) {
-            this.saveButtonState = {
-                disabled: true,
-                tooltip: this.getValidationTooltip(),
-                severity: 'danger'
-            };
-        } else if (isPristine) {
-            this.saveButtonState = {
-                disabled: true,
-                tooltip: this.translate.instant('COMMON.VALIDATION.NO_CHANGES'),
-                severity: 'info'
-            };
-        } else {
-            this.saveButtonState = {
-                disabled: false,
-                tooltip: this.translate.instant('COMMON.SAVE'),
-                severity: 'success'
-            };
-        }
-    }
-
-    public getValidationTooltip(): string {
-        const errors: string[] = [];
-
-        // Vérifier les erreurs de formulaire
-        Object.keys(this.form.controls).forEach(key => {
-            const control = this.form.get(key);
-            if (control?.invalid && control?.touched) {
-                const fieldLabel = this.getFieldLabel(key);
-                const errorMessage = this.getControlErrorMessage(control);
-                errors.push(`• ${fieldLabel}: ${errorMessage}`);
+            if (array.length === 0) {
+                return { required: true };
             }
-        });
 
-        // Vérifier les erreurs de média
-        if (!this.validateMediaSilent()) {
-            const mediaType = this.isVideoType ?
-                this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VIDEO') :
-                this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.IMAGE');
-            errors.push(`• ${mediaType}: ${this.translate.instant('COMMON.VALIDATION.REQUIRED')}`);
-        }
-
-        return errors.join('\n');
-    }
-
-    // Ajoutez cette méthode publique (utilisée dans le template)
-    public getFormErrors(): string[] {
-        const errors: string[] = [];
-
-        // Vérifier les erreurs de formulaire
-        Object.keys(this.form.controls).forEach(key => {
-            const control = this.form.get(key);
-            if (control?.invalid && control?.touched) {
-                const fieldLabel = this.getFieldLabel(key);
-                const errorMessage = this.getControlErrorMessage(control);
-                errors.push(`${fieldLabel}: ${errorMessage}`);
+            if (array.length > 10) {
+                return { maxHashtags: { max: 10, actual: array.length } };
             }
-        });
 
-        // Vérifier les erreurs de média
-        if (!this.validateMediaSilent()) {
-            const mediaType = this.isVideoType ?
-                this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VIDEO') :
-                this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.IMAGE');
-            errors.push(`${mediaType}: ${this.translate.instant('COMMON.VALIDATION.REQUIRED')}`);
-        }
+            const values = array.value as string[];
+            const uniqueValues = new Set(values.map(v => v.toLowerCase()));
 
-        return errors;
-    }
+            if (uniqueValues.size !== values.length) {
+                return { duplicateHashtags: true };
+            }
 
-    // Méthodes helpers privées
-    private getFieldLabel(fieldName: string): string {
-        const labels: { [key: string]: string } = {
-            title: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.TITLE'),
-            resume: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.RESUME'),
-            content: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.DESCRIPTION'),
-            type: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.TYPE'),
-            videoUrl: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VIDEO_URL'),
-            buttonLabel: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'),
-            buttonUrl: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'),
-            platforms: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS')
+            return null;
         };
-        return labels[fieldName] || fieldName;
+    }
+
+    get hashtagsArray(): FormArray {
+        return this.form.get('hashtags') as FormArray;
+    }
+
+    public onHashtagsChanged(hashtags: string[]): void {
+        console.log('Hashtags changés:', hashtags);
+    }
+
+    public onHashtagAdded(value: string): void {
+        if (!value?.trim()) return;
+
+        const formattedValue = value.startsWith('#') ? value : `#${value}`;
+
+        this.hashtagsArray.push(this.fb.control(formattedValue, [
+            Validators.required]));
+
+        this.cdr.markForCheck();
+    }
+
+    public onHashtagRemoved(index: number): void {
+        this.hashtagsArray.removeAt(index);
+        this.hashtagsArray.updateValueAndValidity();
+        this.cdr.markForCheck();
+    }
+
+    public onHashtagsCleared(): void {
+        this.hashtagsArray.clear();
+        this.hashtagsArray.updateValueAndValidity();
+        this.cdr.markForCheck();
     }
 
 
-    private getControlErrorMessage(control: AbstractControl): string {
-        if (control.hasError('required')) {
-            return this.translate.instant('COMMON.VALIDATION.REQUIRED');
-        } else if (control.hasError('minlength')) {
-            return this.translate.instant('COMMON.VALIDATION.MIN_LENGTH', {
-                length: control.errors?.['minlength']?.['requiredLength']
-            });
-        } else if (control.hasError('maxlength')) {
-            return this.translate.instant('COMMON.VALIDATION.MAX_LENGTH', {
-                length: control.errors?.['maxlength']?.['requiredLength']
-            });
-        } else if (control.hasError('pattern')) {
-            return this.translate.instant('COMMON.VALIDATION.PATTERN');
-        }
-        return '';
+    private setupFormListeners(): void {
+        this.form.get('type')?.valueChanges.pipe(
+            distinctUntilChanged(),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe((type: TypeMediaDto) => {
+            this.currentType$.next(type);
+            this.updateMediaFieldsBasedOnType(type);
+        });
+
+        this.form.get('categoryId')?.valueChanges.pipe(
+            distinctUntilChanged(),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe((categoryId: number | null) => {
+            this.updateSubCategories(categoryId);
+        });
+
+        this.form.get('videoUrl')?.valueChanges.pipe(
+            distinctUntilChanged(),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe((url: string) => {
+            if (url && this.currentType$.value === TypeMediaDto.VIDEO) {
+                this.validateVideoUrl(url);
+            }
+        });
+
+        combineLatest([
+            this.form.statusChanges.pipe(startWith(this.form.status)),
+            this.form.valueChanges.pipe(startWith(this.form.value))
+        ]).pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe(() => {
+            this.cdr.markForCheck();
+        });
     }
 
-    // Validation silencieuse (sans message d'erreur)
-    private validateMediaSilent(): boolean {
-        if (this.isVideoType) {
-            const hasNewVideo = !!this.uploadedVideoFile;
-            const hasVideoUrl = !!this.form.get('videoUrl')?.value?.trim();
-            const hasOriginalVideo = !!this.originalVideoUrl && !this.videoRemoved;
+    private updateMediaFieldsBasedOnType(type: TypeMediaDto): void {
+        const videoControl = this.form.get('videoUrl');
+        const imageControl = this.form.get('imageFile');
 
-            return hasNewVideo || hasVideoUrl || hasOriginalVideo;
+        if (type === TypeMediaDto.VIDEO) {
+            videoControl?.setValidators([Validators.required]);
+            videoControl?.enable();
+
+            imageControl?.clearValidators();
+            imageControl?.reset();
+            imageControl?.disable();
+
+            this.uploadedFile.set(null);
+            this.imagePreview.set(null);
+            this.imageRemoved.set(false);
         } else {
-            const hasNewImage = !!this.uploadedFile;
-            const hasOriginalImage = !!this.originalImageUrl && !this.imageRemoved;
+            videoControl?.clearValidators();
+            videoControl?.reset();
+            videoControl?.disable();
 
-            return hasNewImage || hasOriginalImage;
+            imageControl?.setValidators([Validators.required]);
+            imageControl?.enable();
         }
+
+        videoControl?.updateValueAndValidity({ emitEvent: false });
+        imageControl?.updateValueAndValidity({ emitEvent: false });
+
+        this.form.updateValueAndValidity();
+        this.cdr.markForCheck();
     }
 
-    private setupCategoryListener(): void {
-        this.form.get('categoryId')?.valueChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((categoryId: number) => {
-                this.updateSubCategories(categoryId);
-            });
+    private validateVideoUrl(url: string): void {
+        if (!url.trim()) return;
+
+        const urlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
+
+        if (!urlPattern.test(url)) {
+            this.form.get('videoUrl')?.setErrors({ invalidVideoUrl: true });
+        }
     }
 
     private loadCategories(): void {
         this.newsFacade.getCategory().pipe(
-            takeUntil(this.destroy$)
+            takeUntilDestroyed(this.destroyRef)
         ).subscribe({
             next: (categories) => {
                 this.categories = categories;
@@ -310,16 +271,27 @@ export class FormNewsComponent implements OnInit, OnDestroy {
                     label: category.name,
                     value: category.id
                 }));
-                this.cdr.detectChanges();
+                this.cdr.markForCheck();
             },
             error: (error) => {
                 console.error('Erreur lors du chargement des catégories:', error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les catégories'
+                });
             }
         });
     }
 
-    private updateSubCategories(categoryId: number): void {
-        this.form.get('subCategoryId')?.setValue(null);
+    private updateSubCategories(categoryId: number | null): void {
+        this.form.get('subCategoryId')?.setValue(null, { emitEvent: false });
+
+        if (!categoryId) {
+            this.subCategoryOptions = [];
+            this.cdr.markForCheck();
+            return;
+        }
 
         const selectedCategory = this.categories.find(cat => cat.id === categoryId);
 
@@ -329,7 +301,7 @@ export class FormNewsComponent implements OnInit, OnDestroy {
             this.subCategoryOptions = [];
         }
 
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
     }
 
     private setupRouteData(): void {
@@ -337,113 +309,125 @@ export class FormNewsComponent implements OnInit, OnDestroy {
             map(data => data['title'] || 'CONTENT_MANAGEMENT.NEWS.LABEL')
         );
 
-        this.route.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-            this.module = data['module'] || 'CONTENT_MANAGEMENT.LABEL';
-            this.subModule = data['subModule'] || 'CONTENT_MANAGEMENT.NEWS.TITLE';
+        this.route.data.pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe(data => {
+            this.module.set(data['module'] || 'CONTENT_MANAGEMENT.LABEL');
+            this.subModule.set(data['subModule'] || 'CONTENT_MANAGEMENT.NEWS.TITLE');
             this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
         });
-    }
-
-    private setupTypeListener(): void {
-        this.form.get('type')?.valueChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((value: TypeMediaDto) => {
-                this.isVideoType = value === TypeMediaDto.VIDEO;
-                this.updateValidatorsBasedOnType(value);
-            });
-    }
-
-    private updateValidatorsBasedOnType(type: TypeMediaDto): void {
-        const videoControl = this.form.get('videoUrl');
-
-        // If type is video, we technically need a video. 
-        // But since it can be either a new file upload OR an existing URL, validation is tricky.
-        // We will validate on submit or assume logic:
-        // If NO file AND NO existing URL => Invalid.
-
-        if (type === TypeMediaDto.VIDEO) {
-            // For now, removing strict "required" on control because we might use file upload instead.
-            // We can check validity in onSubmit or custom validator.
-            videoControl?.clearValidators();
-        } else {
-            videoControl?.clearValidators();
-        }
-        videoControl?.updateValueAndValidity();
     }
 
     private checkEditMode(): void {
         const id = this.route.snapshot.params['id'];
         if (id) {
-            this.isEditMode = true;
-            this.currentId = id;
-            this.newsFacade.getNewsById(id)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe(item => {
-                    this.patchForm(item);
-                });
+            this.isEditMode.set(true);
+            this.currentId.set(id);
+            this.loadNewsForEdit(id);
         }
     }
 
+    private loadNewsForEdit(id: string): void {
+        this.newsFacade.getNewsById(id).pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe({
+            next: (item) => {
+                this.patchForm(item);
+            }
+        });
+    }
+
     private patchForm(item: NewsEntity): void {
-        this.form.patchValue({
+        const formData = {
             title: item.title,
             resume: item.resume,
             content: item.content,
             type: item.type,
-            categoryId: item.categoryId,
-            subCategoryId: item.subCategoryId,
-            hashtags: item.hashtags,
             videoUrl: item.videoUrl,
-            isActive: item.status,
-        });
+            imageFile: item.imageFile,
+            categoryId: item.categoryId,
+            subCategoryId: item.subCategoryId || null,
+        };
 
-        // Trigger type logic manually after patch
-        this.isVideoType = item.type === TypeMediaDto.VIDEO;
-        this.updateValidatorsBasedOnType(item.type);
+        if (item.hashtags && Array.isArray(item.hashtags)) {
+            this.hashtagsArray.clear();
+            item.hashtags.forEach(hashtag => {
+                this.onHashtagAdded(hashtag);
+            });
+        }
 
-        // Mettre à jour les sous-catégories basées sur la catégorie sélectionnée
+        if (item.type === TypeMediaDto.IMAGE && item.imageFile) {
+            this.imagePreview.set(item.imageFile);
+        }
+
+        this.form.patchValue(formData, { emitEvent: false });
+
+        this.currentType$.next(item.type);
+        this.updateMediaFieldsBasedOnType(item.type);
         if (item.categoryId) {
             this.updateSubCategories(item.categoryId);
         }
 
-        if (item.imageFile) {
-            this.imagePreview = item.imageFile;
-        }
-        if (item.videoUrl) {
-            this.videoPreview = item.videoUrl;
-        }
+        this.cdr.markForCheck();
     }
 
     onFileSelect(event: any): void {
         if (event.files && event.files.length > 0) {
-            this.uploadedFile = event.files[0];
+            const file = event.files[0];
+            /* if (!file.type.startsWith('image/')) {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Veuillez sélectionner une image valide'
+                });
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'L\'image ne doit pas dépasser 2MB'
+                });
+                return;
+            } */
+
+            this.uploadedFile.set(file);
+            this.form.patchValue({ imageFile: file });
+
             const reader = new FileReader();
             reader.onload = (e: any) => {
-                this.imagePreview = e.target.result;
+                this.imagePreview.set(e.target.result);
+                this.imageRemoved.set(false);
+                this.cdr.markForCheck();
             };
-            reader.readAsDataURL(this.uploadedFile as Blob);
+            reader.readAsDataURL(file);
         }
     }
 
-    onVideoSelect(event: any): void {
-        if (event.files && event.files.length > 0) {
-            this.uploadedVideoFile = event.files[0];
-            // Create a local URL for preview
-            const objectUrl = URL.createObjectURL(this.uploadedVideoFile as Blob);
-            this.videoPreview = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-        }
+    restoreImage(): void {
+        this.imagePreview.set(this.originalImageUrl());
+        this.uploadedFile.set(null);
+        this.form.patchValue({ imageFile: this.originalImageUrl() });
+        this.imageRemoved.set(false);
+        this.originalImageUrl.set(null);
+        this.cdr.markForCheck();
     }
 
     openPreview(type: 'image' | 'video'): void {
-        this.previewType = type;
+        this.previewType.set(type);
+
         if (type === 'image') {
-            this.previewContent = this.imagePreview;
-        } else {
-            this.previewContent = this.videoPreview;
+            this.previewContent.set(this.imagePreview());
+        } else if (type === 'video') {
+            const videoUrl = this.form.get('videoUrl')?.value;
+            if (videoUrl) {
+                this.previewContent.set(this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl));
+            }
         }
 
-        if (this.previewContent) {
-            this.isPreviewVisible = true;
+        if (this.previewContent()) {
+            this.isPreviewVisible.set(true);
         }
     }
 
@@ -453,64 +437,62 @@ export class FormNewsComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const formData = new FormData();
-        const values = this.form.value;
+        const formData = this.prepareSubmitData();
 
-        // Map form values to backend keys
+        const submitObservable = this.isEditMode() && this.currentId()
+            ? this.newsFacade.updateNews(this.currentId()!, formData)
+            : this.newsFacade.createNews(formData);
+
+        submitObservable.pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe({
+            next: () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Succès',
+                    detail: this.isEditMode() ? 'News mise à jour avec succès' : 'News créée avec succès'
+                });
+                this.onCancel();
+            },
+            error: (error) => {
+                console.error('Erreur lors de la sauvegarde:', error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Une erreur est survenue lors de la sauvegarde'
+                });
+            }
+        });
+    }
+
+    private prepareSubmitData(): FormData {
+        const values = this.form.getRawValue();
+        const formData = new FormData();
+
         formData.append('title', values.title);
         formData.append('resume', values.resume);
         formData.append('content', values.content || '');
         formData.append('type', values.type);
         formData.append('category_id', values.categoryId?.toString() || '');
+
         if (values.subCategoryId) {
             formData.append('sub_category_id', values.subCategoryId.toString());
         }
-        formData.append('hashtags', JSON.stringify(values.hashtags || []));
-        formData.append('is_active', String(values.isActive));
 
-        // Conditional appending
-        if (this.isVideoType) {
-            // Priority: New Video File > Existing Video URL
-            if (this.uploadedVideoFile) {
-                formData.append('video_file', this.uploadedVideoFile);
-            } else if (values.videoUrl) {
-                formData.append('video_url', values.videoUrl);
-            }
-        } else {
-            if (this.uploadedFile) {
-                formData.append('image_file', this.uploadedFile);
-            }
+        formData.append('hashtags', JSON.stringify(this.hashtagsArray.value || []));
+
+        if (values.type === TypeMediaDto.VIDEO && values.videoUrl) {
+            formData.append('video_url', values.videoUrl);
+        } else if (values.type === TypeMediaDto.IMAGE && this.uploadedFile()) {
+            formData.append('image_file', this.uploadedFile()!);
+        } else if (values.type === TypeMediaDto.IMAGE && values.imageFile) {
+            formData.append('image_file_url', values.imageFile);
         }
 
-        if (this.isEditMode && this.currentId) {
-            this.newsFacade.updateNews(this.currentId, formData).subscribe(() => {
-                this.onCancel();
-            });
-        } else {
-            this.newsFacade.createNews(formData).subscribe(() => {
-                this.onCancel();
-            });
-        }
+        return formData;
     }
 
     onCancel(): void {
         this.router.navigate([CONTENT_MANAGEMENT_ROUTE + '/' + NEWS_ROUTE]);
     }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-
-        // Revoke ObjectURL to prevent memory leaks if we created one
-        if (this.videoPreview && typeof this.videoPreview === 'object') { // Check if it's SafeUrl wrapping a blob
-            // Note: we can't easily extract the blob URL from SafeUrl to revoke it, 
-            // but Angular handles cleanup reasonably well. 
-            // Ideally we'd store the raw blob url too.
-        }
-    }
 }
-
-
-
-
-
