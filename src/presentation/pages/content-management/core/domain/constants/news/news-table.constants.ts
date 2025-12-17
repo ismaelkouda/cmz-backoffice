@@ -4,17 +4,17 @@ export const NEWS_TABLE_CONST = {
             field: '__reorder',
             header: 'TABLE.COMMON.INDEX',
             class: 'text-center',
-            width: '3rem',
+            width: '2rem',
         },
         {
             field: 'type',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.TYPE',
-            width: '3rem',
+            width: '2rem',
         },
         {
             field: 'title',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.TITLE',
-            width: '8rem',
+            width: '17rem',
         },
         /* {
             field: 'platforms',
@@ -26,13 +26,13 @@ export const NEWS_TABLE_CONST = {
             field: 'status',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.STATUS',
             class: 'text-center',
-            width: '5rem',
+            width: '3rem',
         },
         {
             field: 'createdAt',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.CREATED_AT',
             class: 'text-center',
-            width: '5rem',
+            width: '3rem',
         },
         {
             field: '__action',

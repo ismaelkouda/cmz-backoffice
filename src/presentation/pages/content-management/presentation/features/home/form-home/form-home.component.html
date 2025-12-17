@@ -36,37 +36,6 @@
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
                                     <form class="form row g-3" [formGroup]="form" (ngSubmit)="onSubmit()">
-                                        
-                                        <fieldset class="fieldset">
-                                            <legend>
-                                                <b>{{ 'CONTENT_MANAGEMENT.HOME.FORM.GENERAL_INFO' | translate }}</b>
-                                            </legend>
-                                            <div class="row g-3">
-                                                <div class="col-md-12">
-                                                    <label for="title" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.HOME.FORM.TITLE' | translate }} <span class="text-danger">*</span></label>
-                                                    <input class="form-input" id="title" formControlName="title" [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.TITLE_PLACEHOLDER' | translate" />
-                                                    @if (form.get('title')?.invalid && form.get('title')?.touched) {
-                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
-                                                    }
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <label for="resume" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.HOME.FORM.RESUME' | translate }} <span class="text-danger">*</span></label>
-                                                    <textarea rows="5" cols="30" pTextarea id="resume" formControlName="resume" class="w-100"></textarea>
-                                                    @if (form.get('resume')?.invalid && form.get('resume')?.touched) {
-                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
-                                                    }
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <label for="content" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.HOME.FORM.DESCRIPTION' | translate }}</label>
-                                                    <p-editor formControlName="content" [style]="{ height: '100px' }"></p-editor>
-                                                    @if (form.get('content')?.invalid && form.get('content')?.touched) {
-                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </fieldset>
 
                                         <fieldset class="fieldset">
                                             <legend>
@@ -199,6 +168,37 @@
                                                         [placeholder]="'JJ-MM-AAAA'" 
                                                         dateFormat="dd-mm-yy">
                                                     </p-datePicker>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{ 'CONTENT_MANAGEMENT.HOME.FORM.GENERAL_INFO' | translate }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-12">
+                                                    <label for="title" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.HOME.FORM.TITLE' | translate }} <span class="text-danger">*</span></label>
+                                                    <input class="form-input" id="title" formControlName="title" [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.TITLE_PLACEHOLDER' | translate" />
+                                                    @if (form.get('title')?.invalid && form.get('title')?.touched) {
+                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label for="resume" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.HOME.FORM.RESUME' | translate }} <span class="text-danger">*</span></label>
+                                                    <textarea rows="3" cols="30" pTextarea id="resume" formControlName="resume" class="w-100"></textarea>
+                                                    @if (form.get('resume')?.invalid && form.get('resume')?.touched) {
+                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label for="content" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.HOME.FORM.DESCRIPTION' | translate }}</label>
+                                                    <p-editor formControlName="content" [style]="{ height: '200px' }"></p-editor>
+                                                    @if (form.get('content')?.invalid && form.get('content')?.touched) {
+                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                    }
                                                 </div>
                                             </div>
                                         </fieldset>

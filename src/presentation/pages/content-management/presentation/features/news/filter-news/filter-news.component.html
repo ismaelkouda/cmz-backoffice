@@ -2,7 +2,7 @@
      <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
     <div class="filter-grid">
 
-        <div class="filter-grid__item">
+        <div class="filter-grid__item p-long">
             <label for="search"><b>{{ 'CONTENT_MANAGEMENT.NEWS.FILTER.SEARCH' | translate }}</b></label>
             <input type="text" pInputText
                 formControlName="search"

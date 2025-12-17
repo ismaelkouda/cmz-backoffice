@@ -15,6 +15,7 @@ import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, tap } from 'rxjs';
 import { CategoryEntity } from '../../domain/entities/category.entity';
+import { GetNewsByIdEntity } from '../../domain/entities/get-news-by-id.entity';
 import { GetCategoryUseCase } from '../use-cases/get-category.use-case';
 
 @Injectable({ providedIn: 'root' })
@@ -55,7 +56,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilter> {
         this.lastFetchTimestamp = Date.now();
     }
 
-    getNewsById(id: string): Observable<NewsEntity> {
+    getNewsById(id: string): Observable<GetNewsByIdEntity> {
         return this.getByIdUseCase.execute(id);
     }
 

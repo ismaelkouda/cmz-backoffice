@@ -20,6 +20,7 @@ export class NewsMapper extends PaginatedMapper<NewsEntity, NewsItemDto> {
         const mappedActionDropdown = this.actionDropdownMapper.mapFromDto(this.mapActionDropdown(dto.is_published));
         return new NewsEntity(
             dto.id,
+            dto.slug,
             dto.title,
             dto.resume,
             dto.content,

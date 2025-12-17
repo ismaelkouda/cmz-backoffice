@@ -19,7 +19,7 @@ export const SLIDE_TABLE_CONST = {
         {
             field: 'subtitle',
             header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.SUBTITLE',
-            width: '13rem',
+            width: '17rem',
         },
         {
             field: 'platforms',

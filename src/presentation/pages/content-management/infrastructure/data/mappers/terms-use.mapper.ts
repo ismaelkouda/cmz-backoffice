@@ -24,7 +24,7 @@ export class TermsUseMapper extends PaginatedMapper<TermsUseEntity, TermsUseItem
             dto.version,
             mappedActionDropdown,
             dto.created_at,
-            dto.updated_at
+            dto.published_at
         );
     }
     private mapActionDropdown(dto: boolean): ActionDropdownDto {

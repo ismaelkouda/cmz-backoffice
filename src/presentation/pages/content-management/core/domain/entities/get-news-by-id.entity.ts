@@ -1,28 +1,22 @@
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
-import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
+import { TypeMediaDto } from "@shared/data/dtos/type-media.dto";
+import { ActionDropdown } from "@shared/domain/enums/action-dropdown.enum";
 
-export class NewsEntity {
+export class GetNewsByIdEntity {
     constructor(
-        public readonly uniqId: string,
-        public readonly slug: string,
         public readonly title: string,
         public readonly resume: string,
         public readonly content: string,
         public readonly type: TypeMediaDto,
         public readonly categoryId: number,
-        public readonly subCategoryId: number | null,
+        public readonly subCategoryId: number | undefined,
         public readonly hashtags: string[],
         public readonly imageFile: string | null,
         public readonly videoUrl: string | null,
         public readonly status: ActionDropdown,
-        public readonly createdAt: string,
-        public readonly updatedAt: string
     ) { }
 
-    public clone(updates: Partial<NewsEntity>): NewsEntity {
-        return new NewsEntity(
-            updates.uniqId ?? this.uniqId,
-            updates.slug ?? this.slug,
+    public clone(updates: Partial<GetNewsByIdEntity>): GetNewsByIdEntity {
+        return new GetNewsByIdEntity(
             updates.title ?? this.title,
             updates.resume ?? this.resume,
             updates.content ?? this.content,
@@ -33,8 +27,6 @@ export class NewsEntity {
             updates.imageFile ?? this.imageFile,
             updates.videoUrl ?? this.videoUrl,
             updates.status ?? this.status,
-            updates.createdAt ?? this.createdAt,
-            updates.updatedAt ?? this.updatedAt
         );
     }
 }

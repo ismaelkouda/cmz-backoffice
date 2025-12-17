@@ -23,7 +23,6 @@ export class CategoryEntity {
         );
     }
 
-    // Méthode utilitaire pour obtenir les sous-catégories formatées pour un select
     getSubCategoriesForSelect(): Array<{ label: string; value: number }> {
         return this.subCategories.map(subCategory => ({
             label: subCategory.name,
@@ -31,7 +30,6 @@ export class CategoryEntity {
         }));
     }
 
-    // Méthode pour trouver une sous-catégorie par ID
     findSubCategoryById(subCategoryId: number): SubCategoryEntity | undefined {
         return this.subCategories.find(sub => sub.id === subCategoryId);
     }

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoryItemDto } from '@presentation/pages/content-management/core/application/dtos/news/category-response.dto';
+import { GetNewsByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/news/get-news-by-id-response.dto';
 import { NewsRequestDto } from '@presentation/pages/content-management/core/application/dtos/news/news-request.dto';
 import { NewsItemDto, NewsResponseDto } from '@presentation/pages/content-management/core/application/dtos/news/news-response.dto';
 import { NEWS_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/news-endpoints';
@@ -19,9 +20,9 @@ export class NewsApi {
         private readonly envService: EnvService
     ) { }
 
-    getNewsById(id: string): Observable<SimpleResponseDto<NewsItemDto>> {
+    getNewsById(id: string): Observable<GetNewsByIdResponseDto> {
         const url = `${this.baseUrl}${NEWS_ENDPOINTS.GET_BY_ID.replace('{id}', id)}`;
-        return this.http.get<SimpleResponseDto<NewsItemDto>>(url);
+        return this.http.get<GetNewsByIdResponseDto>(url);
     }
 
     getCategory(): Observable<SimpleResponseDto<CategoryItemDto[]>> {

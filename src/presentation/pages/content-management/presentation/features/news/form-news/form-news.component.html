@@ -1,3 +1,5 @@
+@if (isLoading$ | async) {
+} @else {
 <main class="container-fluid form-news-container" role="main">
     <section class="row form-news-row">
         <article class="col-sm-12 form-news-article">
@@ -117,7 +119,6 @@
                                                 </div>
                                             </fieldset>
 
-
                                             <fieldset class="fieldset">
                                                 <legend>
                                                     <b>{{ 'CONTENT_MANAGEMENT.NEWS.FORM.CONFIG' | translate }}</b>
@@ -130,10 +131,10 @@
                                                         </label>
                                                         <p-select 
                                                             class="form-p-select"
-                                                            [options]="categoryOptions" 
+                                                            [options]="categoriesOptions$ | async" 
                                                             formControlName="categoryId" 
-                                                            optionLabel="label" 
-                                                            optionValue="value" 
+                                                            optionLabel="name" 
+                                                            optionValue="id" 
                                                             styleClass="w-100" 
                                                             [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY_PLACEHOLDER' | translate">
                                                         </p-select>
@@ -148,10 +149,10 @@
                                                         </label>
                                                         <p-select 
                                                             class="form-p-select"
-                                                            [options]="subCategoryOptions" 
+                                                            [options]="subCategoriesOptions$ | async" 
                                                             formControlName="subCategoryId" 
-                                                            optionLabel="label" 
-                                                            optionValue="value" 
+                                                            optionLabel="name" 
+                                                            optionValue="id" 
                                                             styleClass="w-100" 
                                                             [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY_PLACEHOLDER' | translate">
                                                         </p-select>
@@ -160,7 +161,7 @@
                                                                 <i class="pi pi-info-circle me-1"></i>
                                                                 {{ 'CONTENT_MANAGEMENT.NEWS.FORM.SELECT_CATEGORY_FIRST' | translate }}
                                                             </small>
-                                                        } @else if (subCategoryOptions.length === 0) {
+                                                        } @else if ((subCategoriesOptions$ | async)?.length === 0) {
                                                             <small class="text-muted d-block mt-1">
                                                                 <i class="pi pi-info-circle me-1"></i>
                                                                 {{ 'CONTENT_MANAGEMENT.NEWS.FORM.NO_SUB_CATEGORIES' | translate }}
@@ -171,17 +172,13 @@
                                                     <div class="col-md-5">
                                                         <label for="hashtags" class="form-label fw-bold">
                                                             {{ 'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS' | translate }} 
-                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         <app-hashtags-input
                                                             [label]="'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS' | translate"
-                                                            [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS_PLACEHOLDER' | translate"
                                                             [required]="true"
                                                             [minHashtags]="1"
                                                             [maxHashtags]="10"
-                                                            [showValidationErrors]="true"
                                                             [showStats]="true"
-                                                            formControlName="hashtags"
                                                             (hashtagsChanged)="onHashtagsChanged($event)"
                                                             (hashtagAdded)="onHashtagAdded($event)"
                                                             (hashtagRemoved)="onHashtagRemoved($event)"
@@ -251,7 +248,7 @@
         </article>
     </section>
 </main>
-
+}
 <p-dialog 
     [(visible)]="isPreviewVisible" 
     [modal]="true" 
@@ -289,17 +286,6 @@
     
     <ng-template pTemplate="footer">
         <div class="d-flex justify-content-between w-100">
-            <div>
-                @if (previewType() === 'image') {
-                    <small class="text-muted">
-                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.IMAGE_PREVIEW_INFO' | translate }}
-                    </small>
-                } @else {
-                    <small class="text-muted">
-                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO_PREVIEW_INFO' | translate }}
-                    </small>
-                }
-            </div>
             <p-button 
                 label="{{ 'COMMON.CLOSE' | translate }}" 
                 (click)="isPreviewVisible = false" 

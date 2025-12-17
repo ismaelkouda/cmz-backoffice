@@ -3,7 +3,7 @@
         
         <div class="d-flex align-items-center gap-2 flex-wrap">
           <input class="form-input" id="subtitle"
-            [placeholder]="placeholder()" [formControl]="currentHashtagControl"
+            [formControl]="currentHashtagControl"
             (keydown.enter)="addHashtag($event)" (blur)="onBlur()" autocomplete="off"/>
           
           @if (canClearAll()) {
@@ -17,23 +17,8 @@
             ></p-button>
           }
         </div>
-        
-        <!-- @if (showValidationErrors()) {
-          <div class="validation-messages">
-            @if (currentHashtagControl.invalid && currentHashtagControl.touched) {
-              <small class="text-danger d-block">
-                {{ getErrorMessage(currentHashtagControl.errors) }}
-              </small>
-            }
-            
-            @if (hashtagsArray.invalid && hashtagsArray.touched) {
-              <small class="text-danger d-block">
-                {{ 'VALIDATION.AT_LEAST_ONE_HASHTAG' | translate }}
-              </small>
-            }
-          </div>
-        } -->
-        
+        @if (hashtagsArray.controls.length > 0) {
+
         <div class="hashtags-list">
           <div class="d-flex flex-wrap gap-2">
             @for (hashtag of hashtagsArray.controls; track getHashtagTrackBy($index, hashtag); let i = $index) {
@@ -58,5 +43,7 @@
             }
           </div>
         </div>
+        }
+
       </div>
     </div>

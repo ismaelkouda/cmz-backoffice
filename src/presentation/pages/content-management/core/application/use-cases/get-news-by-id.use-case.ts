@@ -1,7 +1,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NewsEntity } from '../../domain/entities/news.entity';
+import { GetNewsByIdEntity } from '../../domain/entities/get-news-by-id.entity';
 import { NewsRepository } from '../../domain/repositories/news.repository';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { NewsRepository } from '../../domain/repositories/news.repository';
 export class GetNewsByIdUseCase {
     private readonly newsRepository = inject(NewsRepository);
 
-    execute(id: string): Observable<NewsEntity> {
+    execute(id: string): Observable<GetNewsByIdEntity> {
         return this.newsRepository.getNewsById(id);
     }
 }
