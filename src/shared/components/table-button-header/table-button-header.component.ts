@@ -32,7 +32,7 @@ import { ButtonModule } from 'primeng/button';
                 type="button"
                 [class.p-disabled]="disabledButtonOther"
                 [styleClass]="otherButtonStyleClass"
-                class="btn btn-success"
+                class="btn btn-primary"
                 [attr.aria-label]="
                     showLabels ? null : labelOther || ('CREATE' | translate)
                 "
@@ -49,7 +49,7 @@ import { ButtonModule } from 'primeng/button';
             <button
                 type="button"
                 [class.p-disabled]="disabledButtonRefresh"
-                class="btn btn-primary"
+                class="btn btn-dark"
                 [attr.aria-label]="showLabels ? null : ('REFRESH' | translate)"
                 (click)="onRefresh()"
             >
@@ -60,7 +60,7 @@ import { ButtonModule } from 'primeng/button';
             <button
                 type="button"
                 [class.p-disabled]="disabledButtonExport"
-                class="btn btn-dark"
+                class="btn btn-success"
                 [attr.aria-label]="
                     showLabels ? null : ('EXPORT.TITLE' | translate)
                 "
