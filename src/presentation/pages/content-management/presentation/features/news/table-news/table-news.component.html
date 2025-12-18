@@ -52,7 +52,7 @@
                     [style.width]="col.width"
                     [pSortableColumn]="col.field"
                 >
-                @if(col.field !== '__action' && col.field !== '__reorder') {
+                @if(col.field !== '__action' && col.field !== '__reorder' && col.field !== '__index') {
                     {{ col.header | translate }}
                     <p-sortIcon 
                         [field]="col.field" 
@@ -72,13 +72,15 @@
                 <td [class]="col.class">
                     @switch (col.field) {
                         @case ('__reorder') {
-                            <!-- {{
+                            <span class="pi pi-bars" pReorderableRowHandle></span>
+                        }
+                        @case ('__index') {
+                            {{
                                 ((pagination$ | async)?.current_page - 1 || 0) *
                                     ((pagination$ | async)?.per_page || 0) +
                                     rowIndex +
                                     1
-                            }} -->
-                                    <span class="pi pi-bars" pReorderableRowHandle></span>
+                            }}
                         }
 
                         @case ('platforms') {

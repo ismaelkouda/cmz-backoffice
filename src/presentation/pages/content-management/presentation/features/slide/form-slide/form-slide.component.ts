@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
@@ -27,8 +27,58 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+
+const VALIDATION_CONSTANTS = {
+    TITLE: {
+        MIN: 3,
+        MAX: 100,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{3,}$/
+    },
+    SUBTITLE: {
+        MIN: 10,
+        MAX: 250,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{10,}$/
+    },
+    CONTENT: {
+        MIN: 20,
+        MAX: 2000,
+        STRIP_HTML_MAX: 1000
+    },
+    BUTTON_LABEL: {
+        MIN: 1,
+        MAX: 30,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{1,}$/
+    },
+    TIME_DURATION_IN_SECONDS: {
+        MIN: 1,
+        MAX: 10,
+        STEP: 1
+    },
+    BUTTON_URL: {
+        MAX: 500,
+        PATTERN: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+    },
+    VIDEO_URL: {
+        MAX: 500,
+        PATTERNS: {
+            YOUTUBE: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
+            VIMEO: /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/,
+            DAILYMOTION: /^(https?:\/\/)?(www\.)?dailymotion\.com\/.+$/,
+            GENERIC: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?$/
+        }
+    },
+
+    IMAGE_FILE: {
+        MAX_SIZE_MB: 2,
+        ALLOWED_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
+        MAX_DIMENSIONS: {
+            WIDTH: 1920,
+            HEIGHT: 1080
+        }
+    }
+};
 
 @Component({
     selector: 'app-form-slide',
@@ -65,11 +115,13 @@ export class FormSlideComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly fb = inject(FormBuilder);
-    private readonly slideFacade = inject(SlideFacade);
+    private readonly homeFacade = inject(SlideFacade);
     private readonly translate = inject(TranslateService);
     private readonly titleService = inject(Title);
     private readonly sanitizer = inject(DomSanitizer);
     private readonly messageService = inject(MessageService);
+
+    public readonly VALIDATION = VALIDATION_CONSTANTS;
 
     public pageTitle$!: Observable<string>;
     public module!: string;
@@ -99,6 +151,7 @@ export class FormSlideComponent implements OnInit {
     public uploadedFile: File | null = null;
     public imagePreview: string | null = null;
     public originalImageUrl: string | null = null;
+    public originalVideoUrl: string | null = null;
     public imageRemoved = false;
 
     public isPreviewVisible = false;
@@ -113,23 +166,221 @@ export class FormSlideComponent implements OnInit {
 
     private initForm(): void {
         this.form = this.fb.group({
-            title: ['', Validators.required],
-            subtitle: ['', Validators.required],
-            content: ['', Validators.required],
+            title: ['', [
+                Validators.required,
+                Validators.minLength(VALIDATION_CONSTANTS.TITLE.MIN),
+                Validators.maxLength(VALIDATION_CONSTANTS.TITLE.MAX),
+                Validators.pattern(VALIDATION_CONSTANTS.TITLE.PATTERN)
+            ]],
+            subtitle: ['', [
+                Validators.required,
+                Validators.minLength(VALIDATION_CONSTANTS.SUBTITLE.MIN),
+                Validators.maxLength(VALIDATION_CONSTANTS.SUBTITLE.MAX),
+                Validators.pattern(VALIDATION_CONSTANTS.SUBTITLE.PATTERN)
+            ]],
+            content: ['', [
+                Validators.required,
+                Validators.minLength(VALIDATION_CONSTANTS.CONTENT.MIN),
+                this.htmlContentMaxLengthValidator(VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX)
+            ]],
             type: [TypeMediaDto.IMAGE, Validators.required],
             videoUrl: [''],
             imageFile: [null, [Validators.required]],
-            timeDurationInSeconds: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
-            buttonLabel: [''],
-            buttonUrl: [''],
+            timeDurationInSeconds: [5, [
+                Validators.required,
+                Validators.min(VALIDATION_CONSTANTS.TIME_DURATION_IN_SECONDS.MIN),
+                Validators.max(VALIDATION_CONSTANTS.TIME_DURATION_IN_SECONDS.MAX)
+            ]],
+            buttonLabel: ['', [
+                Validators.minLength(VALIDATION_CONSTANTS.BUTTON_LABEL.MIN),
+                Validators.maxLength(VALIDATION_CONSTANTS.BUTTON_LABEL.MAX),
+                Validators.pattern(VALIDATION_CONSTANTS.BUTTON_LABEL.PATTERN)
+            ]],
+            buttonUrl: ['', [
+                Validators.maxLength(VALIDATION_CONSTANTS.BUTTON_URL.MAX),
+                Validators.pattern(VALIDATION_CONSTANTS.BUTTON_URL.PATTERN)
+            ]],
             platforms: [[], Validators.required],
             startDate: [null],
             endDate: [null],
             isActive: [true]
-        });
+        }, { validators: this.buttonFieldsConsistencyValidator() });
 
         this.currentType$.next(TypeMediaDto.IMAGE);
         this.setupFormListeners();
+    }
+
+    public detectVideoPlatform(url: string): 'youtube' | 'vimeo' | 'dailymotion' | 'other' {
+        if (!url) return 'other';
+
+        if (VALIDATION_CONSTANTS.VIDEO_URL.PATTERNS.YOUTUBE.test(url)) {
+            return 'youtube';
+        }
+        if (VALIDATION_CONSTANTS.VIDEO_URL.PATTERNS.VIMEO.test(url)) {
+            return 'vimeo';
+        }
+        if (VALIDATION_CONSTANTS.VIDEO_URL.PATTERNS.DAILYMOTION.test(url)) {
+            return 'dailymotion';
+        }
+
+        return 'other';
+    }
+
+    public getVideoPlatformIcon(platform: string): string {
+        switch (platform) {
+            case 'youtube': return 'pi pi-youtube text-danger';
+            case 'vimeo': return 'pi pi-vimeo text-info';
+            case 'dailymotion': return 'pi pi-play-circle text-primary';
+            default: return 'pi pi-video text-muted';
+        }
+    }
+
+    public getVideoPlatformName(platform: string): string {
+        switch (platform) {
+            case 'youtube': return 'YouTube';
+            case 'vimeo': return 'Vimeo';
+            case 'dailymotion': return 'Dailymotion';
+            default: return 'Autre plateforme';
+        }
+    }
+
+    public getFileSizeStatus(fileSize: number): string {
+        const maxSize = VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
+        const sizeInMB = fileSize / 1024 / 1024;
+
+        if (sizeInMB > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
+            return `⚠️ ${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
+        }
+
+        return `${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB`;
+    }
+
+
+    private htmlContentMaxLengthValidator(maxLength: number): any {
+        return (control: any) => {
+            if (!control.value) {
+                return null;
+            }
+
+            const strippedText = control.value.replace(/<[^>]*>/g, '').trim();
+
+            if (strippedText.length > maxLength) {
+                return {
+                    htmlMaxLength: {
+                        actual: strippedText.length,
+                        maxAllowed: maxLength
+                    }
+                };
+            }
+
+            return null;
+        };
+    }
+
+    public get allowedImageTypes(): string {
+        return VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.map(t => t.split('/')[1].toUpperCase()).join(', ');
+    }
+
+    private buttonFieldsConsistencyValidator(): any {
+        return (group: FormGroup) => {
+            const buttonLabel = group.get('buttonLabel')?.value;
+            const buttonUrl = group.get('buttonUrl')?.value;
+
+            if (buttonLabel && buttonLabel.trim() && (!buttonUrl || !buttonUrl.trim())) {
+                return { buttonLabelWithoutUrl: true };
+            }
+
+            if (buttonUrl && buttonUrl.trim() && (!buttonLabel || !buttonLabel.trim())) {
+                return { buttonUrlWithoutLabel: true };
+            }
+
+            return null;
+        };
+    }
+
+    public getContentCharacterCount(): number {
+        const content = this.form.get('content')?.value || '';
+        return content.replace(/<[^>]*>/g, '').trim().length;
+    }
+
+    public getContentCountStatus(): 'safe' | 'warning' | 'danger' {
+        const count = this.getContentCharacterCount();
+        const max = VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX;
+
+        if (count > max * 0.9) return 'danger';
+        if (count > max * 0.7) return 'warning';
+        return 'safe';
+    }
+
+    public getErrorMessage(fieldName: string): string {
+        const control = this.form.get(fieldName);
+        if (!control || !control.errors) return '';
+
+        const errors = control.errors;
+
+        if (errors['min'] && fieldName === 'timeDurationInSeconds') {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.MIN_VALUE')}: ${errors['min'].min}`;
+        }
+
+        if (errors['max'] && fieldName === 'timeDurationInSeconds') {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.MAX_VALUE')}: ${errors['max'].max}`;
+        }
+
+        if (errors['minlength']) {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.MIN_LENGTH')}: ${errors['minlength'].requiredLength}`;
+        }
+
+        if (errors['maxlength']) {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
+        }
+
+        if (errors['pattern']) {
+            return this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_FORMAT');
+        }
+
+        if (errors['htmlMaxLength']) {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.CONTENT_TOO_LONG')}: ${errors['htmlMaxLength'].actual}/${errors['htmlMaxLength'].maxAllowed}`;
+        }
+
+        if (errors['buttonLabelWithoutUrl']) {
+            return this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL');
+        }
+
+        if (errors['buttonUrlWithoutLabel']) {
+            return this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL');
+        }
+
+        if (fieldName === 'videoUrl') {
+            if (errors['invalidVideoUrl']) {
+                return this.translate.instant('VALIDATION.INVALID_VIDEO_URL');
+            }
+            if (errors['maxlength']) {
+                return `${this.translate.instant('VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
+            }
+            if (errors['pattern']) {
+                return this.translate.instant('VALIDATION.INVALID_URL_FORMAT');
+            }
+        }
+
+        if (fieldName === 'imageFile') {
+            if (errors['invalidImageType']) {
+                return this.translate.instant('VALIDATION.INVALID_IMAGE_TYPE');
+            }
+            if (errors['fileTooLarge']) {
+                return this.translate.instant('VALIDATION.FILE_TOO_LARGE', {
+                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB
+                });
+            }
+            if (errors['imageDimensions']) {
+                return this.translate.instant('VALIDATION.IMAGE_DIMENSIONS_TOO_LARGE', {
+                    maxWidth: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
+                    maxHeight: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                });
+            }
+        }
+
+
+        return this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_INPUT');
     }
 
     private setupFormListeners(): void {
@@ -148,6 +399,15 @@ export class FormSlideComponent implements OnInit {
             if (url && this.currentType$.value === TypeMediaDto.VIDEO) {
                 this.validateVideoUrl(url);
             }
+        });
+
+        combineLatest([
+            this.form.statusChanges.pipe(startWith(this.form.status)),
+            this.form.valueChanges.pipe(startWith(this.form.value))
+        ]).pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe(() => {
+            this.cdr.markForCheck();
         });
     }
 
@@ -192,6 +452,55 @@ export class FormSlideComponent implements OnInit {
         }
     }
 
+    private validateImageFile(file: File): void {
+        const imageControl = this.form.get('imageFile');
+
+        // Vérification du type
+        if (!VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
+            imageControl?.setErrors({ invalidImageType: true });
+            return;
+        }
+
+        // Vérification de la taille
+        if (file.size > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
+            imageControl?.setErrors({
+                fileTooLarge: {
+                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB,
+                    actualSize: file.size
+                }
+            });
+            return;
+        }
+
+        // Vérification des dimensions (optionnelle)
+        this.checkImageDimensions(file).then(dimensions => {
+            if (dimensions.width > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                dimensions.height > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT) {
+                imageControl?.setErrors({ imageDimensions: true });
+            }
+        });
+
+        imageControl?.setErrors(null);
+    }
+
+    public removeImage(): void {
+        this.uploadedFile = null;
+        this.imagePreview = null;
+        this.form.patchValue({ imageFile: null });
+        this.form.get('imageFile')?.markAsTouched();
+        this.cdr.markForCheck();
+    }
+
+    private checkImageDimensions(file: File): Promise<{ width: number, height: number }> {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+                resolve({ width: img.width, height: img.height });
+            };
+            img.src = URL.createObjectURL(file);
+        });
+    }
+
     private setupRouteData(): void {
         this.pageTitle$ = this.route.data.pipe(
             map(data => data['title'] || 'CONTENT_MANAGEMENT.SLIDE.LABEL')
@@ -216,8 +525,7 @@ export class FormSlideComponent implements OnInit {
     }
 
     private loadSlideForEdit(id: string): void {
-
-        this.slideFacade.getSlideById(id)
+        this.homeFacade.getSlideById(id)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(item => {
                 this.patchForm(item);
@@ -240,13 +548,10 @@ export class FormSlideComponent implements OnInit {
             startDate: item.startDate ? new Date(item.startDate) : null,
             endDate: item.endDate ? new Date(item.endDate) : null,
             isActive: item.status
-        }
-
-        console.log("item", item)
+        };
 
         if (item.type === TypeMediaDto.VIDEO) {
             formData.videoUrl = item.videoUrl || '';
-            formData.imageFile = null;
         } else {
             formData.videoUrl = null;
             if (item.imageUrl) {
@@ -267,6 +572,8 @@ export class FormSlideComponent implements OnInit {
         if (event.files && event.files.length > 0) {
             const file = event.files[0];
             this.imageRemoved = false;
+
+            this.validateImageFile(file);
 
             this.uploadedFile = file;
             this.form.patchValue({ imageFile: file });
@@ -309,21 +616,74 @@ export class FormSlideComponent implements OnInit {
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
+            this.showValidationErrors();
             return;
         }
 
-        const formData = this.prepareFormData();
+        const formData = this.prepareSubmitData();
 
         const submitObservable = this.isEditMode && this.currentId
-            ? this.slideFacade.updateSlide(this.currentId, formData)
-            : this.slideFacade.createSlide(formData);
+            ? this.homeFacade.updateSlide(this.currentId, formData)
+            : this.homeFacade.createSlide(formData);
 
         submitObservable.pipe(
             takeUntilDestroyed(this.destroyRef)
-        ).subscribe();
+        ).subscribe({
+            next: () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Succès',
+                    detail: this.isEditMode ? 'Bloc mis à jour avec succès' : 'Bloc créé avec succès'
+                });
+                this.onCancel();
+            },
+            error: (error) => {
+                console.error('Erreur lors de la sauvegarde:', error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Une erreur est survenue lors de la sauvegarde'
+                });
+            }
+        });
     }
 
-    private prepareFormData(): FormData {
+    private showValidationErrors(): void {
+        const errors = [];
+
+        if (this.form.get('title')?.invalid) {
+            errors.push('Titre: ' + this.getErrorMessage('title'));
+        }
+        if (this.form.get('subtitle')?.invalid) {
+            errors.push('Sous-titre: ' + this.getErrorMessage('subtitle'));
+        }
+        if (this.form.get('content')?.invalid) {
+            errors.push('Contenu: ' + this.getErrorMessage('content'));
+        }
+        if (this.form.get('buttonLabel')?.invalid) {
+            errors.push('Label du bouton: ' + this.getErrorMessage('buttonLabel'));
+        }
+        if (this.form.get('buttonUrl')?.invalid) {
+            errors.push('URL du bouton: ' + this.getErrorMessage('buttonUrl'));
+        }
+        if (this.form.errors?.['buttonLabelWithoutUrl']) {
+            errors.push(this.translate.instant('VALIDATION.BUTTON_LABEL_WITHOUT_URL'));
+        }
+        if (this.form.errors?.['buttonUrlWithoutLabel']) {
+            errors.push(this.translate.instant('VALIDATION.BUTTON_URL_WITHOUT_LABEL'));
+        }
+
+        if (errors.length > 0) {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Erreurs de validation',
+                detail: errors.join('\n'),
+                life: 5000
+            });
+        }
+    }
+
+    private prepareSubmitData(): FormData {
         const formData = new FormData();
         const values = this.form.value;
 
@@ -333,16 +693,23 @@ export class FormSlideComponent implements OnInit {
         formData.append('type', values.type);
         formData.append('time_duration_in_seconds', values.timeDurationInSeconds?.toString() || '0');
         formData.append('order', values.order?.toString() || '0');
-        formData.append('button_label', values.buttonLabel);
-        formData.append('button_url', values.buttonUrl);
+        formData.append('button_label', values.buttonLabel || '');
+        formData.append('button_url', values.buttonUrl || '');
         formData.append('is_active', String(values.isActive));
 
         this.appendPlatformsData(formData, values.platforms);
+
         if (values.startDate) {
             formData.append('start_date', (values.startDate as Date).toISOString());
         }
         if (values.endDate) {
             formData.append('end_date', (values.endDate as Date).toISOString());
+        }
+
+        if (values.type === TypeMediaDto.VIDEO && values.videoUrl) {
+            formData.append('video_url', values.videoUrl);
+        } else if (values.type === TypeMediaDto.IMAGE && this.uploadedFile) {
+            formData.append('image_file', this.uploadedFile);
         }
 
         return formData;

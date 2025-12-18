@@ -29,6 +29,56 @@ import { ToastModule } from 'primeng/toast';
 import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
 import { HashtagsInputComponent } from '../hashtags-input/hashtags-input.component';
 
+const VALIDATION_CONSTANTS = {
+    TITLE: {
+        MIN: 3,
+        MAX: 100,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{3,}$/
+    },
+    RESUME: {
+        MIN: 10,
+        MAX: 250,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{10,}$/
+    },
+    CONTENT: {
+        MIN: 20,
+        MAX: 2000,
+        STRIP_HTML_MAX: 1000
+    },
+    BUTTON_LABEL: {
+        MIN: 1,
+        MAX: 30,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{1,}$/
+    },
+    TIME_DURATION_IN_SECONDS: {
+        MIN: 1,
+        MAX: 10,
+        STEP: 1
+    },
+    BUTTON_URL: {
+        MAX: 500,
+        PATTERN: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+    },
+    VIDEO_URL: {
+        MAX: 500,
+        PATTERNS: {
+            YOUTUBE: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
+            VIMEO: /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/,
+            DAILYMOTION: /^(https?:\/\/)?(www\.)?dailymotion\.com\/.+$/,
+            GENERIC: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?$/
+        }
+    },
+
+    IMAGE_FILE: {
+        MAX_SIZE_MB: 2,
+        ALLOWED_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
+        MAX_DIMENSIONS: {
+            WIDTH: 1920,
+            HEIGHT: 1080
+        }
+    }
+};
+
 @Component({
     selector: 'app-form-news',
     templateUrl: './form-news.component.html',
@@ -67,6 +117,8 @@ export class FormNewsComponent implements OnInit {
     private readonly titleService = inject(Title);
     private readonly sanitizer = inject(DomSanitizer);
     private readonly messageService = inject(MessageService);
+
+    public readonly VALIDATION = VALIDATION_CONSTANTS;
 
     public categoriesOptions$: Observable<CategoryEntity[]> = this.newsFacade.getCategory();
     public isLoading$: Observable<boolean> = this.newsFacade.isLoading$;
@@ -125,97 +177,175 @@ export class FormNewsComponent implements OnInit {
         this.checkEditMode();
     }
 
-    private setupRouteData(): void {
-        this.pageTitle$ = this.route.data.pipe(
-            map(data => data['title'] || 'CONTENT_MANAGEMENT.NEWS.LABEL')
-        );
-
-        this.route.data.pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe(data => {
-            this.module.set(data['module'] || 'CONTENT_MANAGEMENT.LABEL');
-            this.subModule.set(data['subModule'] || 'CONTENT_MANAGEMENT.NEWS.TITLE');
-            this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
-        });
-    }
-
-    private checkEditMode(): void {
-        const id = this.route.snapshot.params['id'];
-        if (id) {
-            this.isEditMode.set(true);
-            this.currentId.set(id);
-            this.loadNewsForEdit(id);
-        }
-    }
-
     private initForm(): void {
         this.form = this.fb.group({
-            title: ['', [Validators.required]],
-            resume: ['', [Validators.required]],
-            content: ['', Validators.required],
+            title: ['', [
+                Validators.required,
+                Validators.minLength(VALIDATION_CONSTANTS.TITLE.MIN),
+                Validators.maxLength(VALIDATION_CONSTANTS.TITLE.MAX),
+                Validators.pattern(VALIDATION_CONSTANTS.TITLE.PATTERN)
+            ]],
+            resume: ['', [
+                Validators.required,
+                Validators.minLength(VALIDATION_CONSTANTS.RESUME.MIN),
+                Validators.maxLength(VALIDATION_CONSTANTS.RESUME.MAX),
+                Validators.pattern(VALIDATION_CONSTANTS.RESUME.PATTERN)
+            ]],
+            content: ['', [
+                Validators.required,
+                Validators.minLength(VALIDATION_CONSTANTS.CONTENT.MIN),
+                this.htmlContentMaxLengthValidator(VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX)
+            ]],
             type: [TypeMediaDto.IMAGE, Validators.required],
+            videoUrl: [''],
+            imageFile: [null, [Validators.required]],
+
             categoryId: [null, Validators.required],
             subCategoryId: [null],
-            hashtags: this.fb.array<string>([], this.hashtagsArrayValidator()),
-            videoUrl: [null],
-            imageFile: [null, [Validators.required]],
-        });
+            hashtags: this.fb.array<string>([]),
+        }, { validators: this.buttonFieldsConsistencyValidator() });
 
         this.currentType$.next(TypeMediaDto.IMAGE);
         this.setupFormListeners();
     }
 
-    private hashtagsArrayValidator(): ValidatorFn {
-        return (control: AbstractControl) => {
-            const array = control as FormArray;
+    public getFileSizeStatus(fileSize: number): string {
+        const maxSize = VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
+        const sizeInMB = fileSize / 1024 / 1024;
 
-            if (array.length === 0) {
-                return { required: true };
+        if (sizeInMB > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
+            return `⚠️ ${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
+        }
+
+        return `${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB`;
+    }
+
+
+    private htmlContentMaxLengthValidator(maxLength: number): any {
+        return (control: any) => {
+            if (!control.value) {
+                return null;
             }
 
-            if (array.length > 10) {
-                return { maxHashtags: { max: 10, actual: array.length } };
-            }
+            const strippedText = control.value.replace(/<[^>]*>/g, '').trim();
 
-            const values = array.value as string[];
-            const uniqueValues = new Set(values.map(v => v.toLowerCase()));
-
-            if (uniqueValues.size !== values.length) {
-                return { duplicateHashtags: true };
+            if (strippedText.length > maxLength) {
+                return {
+                    htmlMaxLength: {
+                        actual: strippedText.length,
+                        maxAllowed: maxLength
+                    }
+                };
             }
 
             return null;
         };
     }
 
-    get hashtagsArray(): FormArray {
-        return this.form.get('hashtags') as FormArray;
+    public get allowedImageTypes(): string {
+        return VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.map(t => t.split('/')[1].toUpperCase()).join(', ');
     }
 
-    public onHashtagsChanged(hashtags: string[]): void {
-        console.log('Hashtags changés:', hashtags);
+    private buttonFieldsConsistencyValidator(): any {
+        return (group: FormGroup) => {
+            const buttonLabel = group.get('buttonLabel')?.value;
+            const buttonUrl = group.get('buttonUrl')?.value;
+
+            if (buttonLabel && buttonLabel.trim() && (!buttonUrl || !buttonUrl.trim())) {
+                return { buttonLabelWithoutUrl: true };
+            }
+
+            if (buttonUrl && buttonUrl.trim() && (!buttonLabel || !buttonLabel.trim())) {
+                return { buttonUrlWithoutLabel: true };
+            }
+
+            return null;
+        };
     }
 
-    public onHashtagAdded(value: string): void {
-        if (!value?.trim()) return;
-        const formattedValue = value.startsWith('#') ? value : `#${value}`;
-
-        this.hashtagsArray.push(this.fb.control(formattedValue, [
-            Validators.required]));
-
-        this.cdr.markForCheck();
+    public getContentCharacterCount(): number {
+        const content = this.form.get('content')?.value || '';
+        return content.replace(/<[^>]*>/g, '').trim().length;
     }
 
-    public onHashtagRemoved(index: number): void {
-        this.hashtagsArray.removeAt(index);
-        this.hashtagsArray.updateValueAndValidity();
-        this.cdr.markForCheck();
+    public getContentCountStatus(): 'safe' | 'warning' | 'danger' {
+        const count = this.getContentCharacterCount();
+        const max = VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX;
+
+        if (count > max * 0.9) return 'danger';
+        if (count > max * 0.7) return 'warning';
+        return 'safe';
     }
 
-    public onHashtagsCleared(): void {
-        this.hashtagsArray.clear();
-        this.hashtagsArray.updateValueAndValidity();
-        this.cdr.markForCheck();
+    public getErrorMessage(fieldName: string): string {
+        const control = this.form.get(fieldName);
+        if (!control || !control.errors) return '';
+
+        const errors = control.errors;
+
+        if (errors['min'] && fieldName === 'timeDurationInSeconds') {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.MIN_VALUE')}: ${errors['min'].min}`;
+        }
+
+        if (errors['max'] && fieldName === 'timeDurationInSeconds') {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.MAX_VALUE')}: ${errors['max'].max}`;
+        }
+
+        if (errors['minlength']) {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.MIN_LENGTH')}: ${errors['minlength'].requiredLength}`;
+        }
+
+        if (errors['maxlength']) {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
+        }
+
+        if (errors['pattern']) {
+            return this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.INVALID_FORMAT');
+        }
+
+        if (errors['htmlMaxLength']) {
+            return `${this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.CONTENT_TOO_LONG')}: ${errors['htmlMaxLength'].actual}/${errors['htmlMaxLength'].maxAllowed}`;
+        }
+
+        if (errors['buttonLabelWithoutUrl']) {
+            return this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL');
+        }
+
+        if (errors['buttonUrlWithoutLabel']) {
+            return this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL');
+        }
+
+        if (fieldName === 'videoUrl') {
+            if (errors['invalidVideoUrl']) {
+                return this.translate.instant('VALIDATION.INVALID_VIDEO_URL');
+            }
+            if (errors['maxlength']) {
+                return `${this.translate.instant('VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
+            }
+            if (errors['pattern']) {
+                return this.translate.instant('VALIDATION.INVALID_URL_FORMAT');
+            }
+        }
+
+        if (fieldName === 'imageFile') {
+            if (errors['invalidImageType']) {
+                return this.translate.instant('VALIDATION.INVALID_IMAGE_TYPE');
+            }
+            if (errors['fileTooLarge']) {
+                return this.translate.instant('VALIDATION.FILE_TOO_LARGE', {
+                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB
+                });
+            }
+            if (errors['imageDimensions']) {
+                return this.translate.instant('VALIDATION.IMAGE_DIMENSIONS_TOO_LARGE', {
+                    maxWidth: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
+                    maxHeight: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                });
+            }
+        }
+
+
+        return this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.INVALID_INPUT');
     }
 
     private setupFormListeners(): void {
@@ -297,6 +427,75 @@ export class FormNewsComponent implements OnInit {
         }
     }
 
+    private validateImageFile(file: File): void {
+        const imageControl = this.form.get('imageFile');
+
+        if (!VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
+            imageControl?.setErrors({ invalidImageType: true });
+            return;
+        }
+
+        if (file.size > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
+            imageControl?.setErrors({
+                fileTooLarge: {
+                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB,
+                    actualSize: file.size
+                }
+            });
+            return;
+        }
+
+        this.checkImageDimensions(file).then(dimensions => {
+            if (dimensions.width > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                dimensions.height > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT) {
+                imageControl?.setErrors({ imageDimensions: true });
+            }
+        });
+
+        imageControl?.setErrors(null);
+    }
+
+    public removeImage(): void {
+        this.uploadedFile.set(null);
+        this.imagePreview.set(null);
+        this.form.patchValue({ imageFile: null });
+        this.form.get('imageFile')?.markAsTouched();
+        this.cdr.markForCheck();
+    }
+
+    private checkImageDimensions(file: File): Promise<{ width: number, height: number }> {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+                resolve({ width: img.width, height: img.height });
+            };
+            img.src = URL.createObjectURL(file);
+        });
+    }
+
+    private setupRouteData(): void {
+        this.pageTitle$ = this.route.data.pipe(
+            map(data => data['title'] || 'CONTENT_MANAGEMENT.NEWS.LABEL')
+        );
+
+        this.route.data.pipe(
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe(data => {
+            this.module.set(data['module'] || 'CONTENT_MANAGEMENT.LABEL');
+            this.subModule.set(data['subModule'] || 'CONTENT_MANAGEMENT.NEWS.TITLE');
+            this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
+        });
+    }
+
+    private checkEditMode(): void {
+        const id = this.route.snapshot.params['id'];
+        if (id) {
+            this.isEditMode.set(true);
+            this.currentId.set(id);
+            this.loadNewsForEdit(id);
+        }
+    }
+
     private loadNewsForEdit(id: string): void {
         this.newsFacade.getNewsById(id).pipe(
             takeUntilDestroyed(this.destroyRef)
@@ -341,31 +540,15 @@ export class FormNewsComponent implements OnInit {
             this.selectedCategoryId$.next(item.categoryId);
         }
 
-        console.log("item", item);
-
         this.cdr.markForCheck();
     }
 
     onFileSelect(event: any): void {
         if (event.files && event.files.length > 0) {
             const file = event.files[0];
-            /* if (!file.type.startsWith('image/')) {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Veuillez sélectionner une image valide'
-                });
-                return;
-            }
+            this.imageRemoved.set(false);
 
-            if (file.size > 2 * 1024 * 1024) {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'L\'image ne doit pas dépasser 2MB'
-                });
-                return;
-            } */
+            this.validateImageFile(file);
 
             this.uploadedFile.set(file);
             this.form.patchValue({ imageFile: file });
@@ -406,9 +589,63 @@ export class FormNewsComponent implements OnInit {
         }
     }
 
+    private hashtagsArrayValidator(): ValidatorFn {
+        return (control: AbstractControl) => {
+            const array = control as FormArray;
+
+            if (array.length === 0) {
+                return { required: true };
+            }
+
+            if (array.length > 10) {
+                return { maxHashtags: { max: 10, actual: array.length } };
+            }
+
+            const values = array.value as string[];
+            const uniqueValues = new Set(values.map(v => v.toLowerCase()));
+
+            if (uniqueValues.size !== values.length) {
+                return { duplicateHashtags: true };
+            }
+
+            return null;
+        };
+    }
+
+    get hashtagsArray(): FormArray {
+        return this.form.get('hashtags') as FormArray;
+    }
+
+    public onHashtagsChanged(hashtags: string[]): void {
+        console.log('Hashtags changés:', hashtags);
+    }
+
+    public onHashtagAdded(value: string): void {
+        if (!value?.trim()) return;
+        const formattedValue = value.startsWith('#') ? value : `#${value}`;
+
+        this.hashtagsArray.push(this.fb.control(formattedValue, [
+            Validators.required]));
+
+        this.cdr.markForCheck();
+    }
+
+    public onHashtagRemoved(index: number): void {
+        this.hashtagsArray.removeAt(index);
+        this.hashtagsArray.updateValueAndValidity();
+        this.cdr.markForCheck();
+    }
+
+    public onHashtagsCleared(): void {
+        this.hashtagsArray.clear();
+        this.hashtagsArray.updateValueAndValidity();
+        this.cdr.markForCheck();
+    }
+
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
+            this.showValidationErrors();
             return;
         }
 
@@ -438,6 +675,41 @@ export class FormNewsComponent implements OnInit {
                 });
             }
         });
+    }
+
+    private showValidationErrors(): void {
+        const errors = [];
+
+        if (this.form.get('title')?.invalid) {
+            errors.push('Titre: ' + this.getErrorMessage('title'));
+        }
+        if (this.form.get('resume')?.invalid) {
+            errors.push('Résumé: ' + this.getErrorMessage('resume'));
+        }
+        if (this.form.get('content')?.invalid) {
+            errors.push('Contenu: ' + this.getErrorMessage('content'));
+        }
+        if (this.form.get('buttonLabel')?.invalid) {
+            errors.push('Label du bouton: ' + this.getErrorMessage('buttonLabel'));
+        }
+        if (this.form.get('buttonUrl')?.invalid) {
+            errors.push('URL du bouton: ' + this.getErrorMessage('buttonUrl'));
+        }
+        if (this.form.errors?.['buttonLabelWithoutUrl']) {
+            errors.push(this.translate.instant('VALIDATION.BUTTON_LABEL_WITHOUT_URL'));
+        }
+        if (this.form.errors?.['buttonUrlWithoutLabel']) {
+            errors.push(this.translate.instant('VALIDATION.BUTTON_URL_WITHOUT_LABEL'));
+        }
+
+        if (errors.length > 0) {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Erreurs de validation',
+                detail: errors.join('\n'),
+                life: 5000
+            });
+        }
     }
 
     private prepareSubmitData(): FormData {

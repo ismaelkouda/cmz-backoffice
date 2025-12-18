@@ -50,11 +50,15 @@
                     [style.width]="col.width"
                     [pSortableColumn]="col.field"
                 >
+                @if(col.field !== '__action' && col.field !== '__reorder' && col.field !== '__index') {
                     {{ col.header | translate }}
                     <p-sortIcon 
                         [field]="col.field" 
-                        *ngIf="col.field !== '__action' && col.field !== '__index'"
+                        *ngIf="col.field !== '__action' && col.field !== '__reorder'"
                     ></p-sortIcon>
+                } @else {
+                    {{ col.header | translate }}
+                }
                 </th>
             }
         </tr>
@@ -65,6 +69,9 @@
             @for (col of columns; track trackByColField($index, col)) {
                 <td [class]="col.class">
                     @switch (col.field) {
+                        @case ('__reorder') {
+                            <span class="pi pi-bars" pReorderableRowHandle></span>
+                        }
                         @case ('__index') {
                             {{
                                 ((pagination$ | async)?.current_page - 1 || 0) *
