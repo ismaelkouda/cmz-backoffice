@@ -1,0 +1,174 @@
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { ImageCroppedEvent, ImageCropperComponent, ImageCropperModule } from 'ngx-image-cropper';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { SliderModule } from 'primeng/slider';
+
+// import { CropConfig, ImageCropService } from './image-crop.service';
+
+interface AspectRatioOption {
+    label: string;
+    value: number;
+    icon: string;
+}
+
+@Component({
+    selector: 'app-image-cropper-dialog',
+    templateUrl: './image-cropper-dialog.component.html',
+    styleUrls: ['./image-cropper-dialog.component.scss'],
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+        ImageCropperModule,
+        ButtonModule,
+        DialogModule,
+        SliderModule,
+        DropdownModule,
+        TranslateModule
+    ]
+})
+export class ImageCropperDialogComponent {
+    // private readonly imageCropService = inject(ImageCropService);
+
+    @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
+
+    @Input() visible = false;
+    @Input() imageBase64: string | null = null;
+    @Input() originalFile: File | null = null;
+    // @Input() config: Partial<CropConfig> = {};
+
+    @Output() visibleChange = new EventEmitter<boolean>();
+    @Output() cropComplete = new EventEmitter<any>();
+    @Output() cropCancel = new EventEmitter<void>();
+
+    croppedImage: string | null = null;
+    cropEvent: ImageCroppedEvent | null = null;
+
+    rotation = 0;
+    scale = 1;
+    quality = 92;
+
+    aspectRatioOptions: AspectRatioOption[] = [
+        { label: 'Libre', value: 0, icon: 'pi pi-sliders-h' },
+        { label: 'Carré (1:1)', value: 1, icon: 'pi pi-stop' },
+        { label: 'Paysage (16:9)', value: 16 / 9, icon: 'pi pi-desktop' },
+        { label: 'Portrait (9:16)', value: 9 / 16, icon: 'pi pi-mobile' },
+        { label: '4:3', value: 4 / 3, icon: 'pi pi-tablet' },
+        { label: '2:3', value: 2 / 3, icon: 'pi pi-id-card' }
+    ];
+
+    selectedAspectRatio: AspectRatioOption = this.aspectRatioOptions[1];
+
+    formatOptions = [
+        { label: 'JPEG', value: 'jpeg' },
+        { label: 'PNG', value: 'png' },
+        { label: 'WebP', value: 'webp' }
+    ];
+
+    selectedFormat = this.formatOptions[0];
+
+    // get cropConfig(): CropConfig {
+    //     return {
+    //         aspectRatio: this.selectedAspectRatio.value || undefined,
+    //         maintainAspectRatio: this.selectedAspectRatio.value !== 0,
+    //         format: this.selectedFormat.value as 'jpeg' | 'png' | 'webp',
+    //         quality: this.quality / 100,
+    //         ...this.config
+    //     };
+    // }
+
+    onVisibleChange(visible: boolean): void {
+        this.visibleChange.emit(visible);
+        if (!visible) {
+            this.reset();
+        }
+    }
+
+    imageCropped(event: ImageCroppedEvent): void {
+        this.cropEvent = event;
+        this.croppedImage = event.base64 || null;
+    }
+
+    imageLoaded(): void {
+        console.log('Image loaded for cropping');
+    }
+
+    cropperReady(): void {
+        console.log('Cropper ready');
+    }
+
+    loadImageFailed(): void {
+        console.error('Failed to load image');
+        this.cropCancel.emit();
+        this.visibleChange.emit(false);
+    }
+
+    rotateLeft(): void {
+        this.rotation -= 90;
+        this.updateCropper();
+    }
+
+    rotateRight(): void {
+        this.rotation += 90;
+        this.updateCropper();
+    }
+
+    flipHorizontal(): void {
+        this.scale = -this.scale;
+        this.updateCropper();
+    }
+
+    flipVertical(): void {
+        this.scale = Math.abs(this.scale) * -1;
+        this.updateCropper();
+    }
+
+    reset(): void {
+        this.rotation = 0;
+        this.scale = 1;
+        this.quality = 92;
+        this.selectedAspectRatio = this.aspectRatioOptions[1];
+        this.selectedFormat = this.formatOptions[0];
+        this.croppedImage = null;
+        this.cropEvent = null;
+    }
+
+    applyCrop(): void {
+        if (this.cropEvent && this.originalFile) {
+            // this.imageCropService.cropImage(
+            //     this.imageBase64!,
+            //     this.cropEvent,
+            //     this.cropConfig,
+            //     this.originalFile
+            // ).subscribe({
+            //     next: (result) => {
+            //         this.cropComplete.emit(result);
+            //         this.visibleChange.emit(false);
+            //         this.reset();
+            //     },
+            //     error: (error) => {
+            //         console.error('Crop application failed:', error);
+            //     }
+            // });
+        }
+    }
+
+    cancel(): void {
+        this.cropCancel.emit();
+        this.visibleChange.emit(false);
+        this.reset();
+    }
+
+    private updateCropper(): void {
+        if (this.imageCropper) {
+            this.imageCropper.rotate = this.rotation;
+            this.imageCropper.scale = this.scale;
+            this.imageCropper.cropper = { ...this.imageCropper.cropper };
+        }
+    }
+}

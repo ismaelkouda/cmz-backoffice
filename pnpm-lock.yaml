@@ -53,6 +53,9 @@ importers:
       '@ngrx/router-store':
         specifier: ^20.1.0
         version: 20.1.0(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/router@20.3.9(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.9(@angular/animations@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(@ngrx/store@20.1.0(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(rxjs@7.8.2)
+      '@ngrx/signals':
+        specifier: ^21.0.0
+        version: 21.0.0(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@ngrx/store':
         specifier: ^20.1.0
         version: 20.1.0(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
@@ -110,6 +113,9 @@ importers:
       commander:
         specifier: ^14.0.2
         version: 14.0.2
+      cropperjs:
+        specifier: ^2.1.0
+        version: 2.1.0
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
@@ -1258,6 +1264,39 @@ packages:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
 
+  '@cropper/element-canvas@2.1.0':
+    resolution: {integrity: sha512-el+rfJpZxsD2q5XxDBA4fRczcrOqB65Lb7roqXOq8LKufwf4bPWA9C6DjNJJahh/TP94dsLIEy3tSkgRMDv3Aw==}
+
+  '@cropper/element-crosshair@2.1.0':
+    resolution: {integrity: sha512-0V589dAx8uZAfvJwdINLn76gfPQEafPH94ukjJ76uX0FCUovLaAVX+VRD/MDSYn0Mza/xejzmL9Dhd1DfemvmA==}
+
+  '@cropper/element-grid@2.1.0':
+    resolution: {integrity: sha512-dEnk0rO+vp553LMvsPYgfrqVFcYXeVFrgFeavBYYEhAXtO40p7kN4rmLYLMMjaN+T/Mx2BATv6kUQpALKy2HLw==}
+
+  '@cropper/element-handle@2.1.0':
+    resolution: {integrity: sha512-8BklWA4C/2GGAULupIWleSnGutECvYt3vx9flodqDfZpDEozws4LgLqmmzVuQmVkRVUdLnXdtx28kjgWLtzkHg==}
+
+  '@cropper/element-image@2.1.0':
+    resolution: {integrity: sha512-mXOV8ixJvG0XtTxLebYAKDjEkFbFOQnsF02hXPZk1yQSV0J+LLhN7a2NePrtKnoTsEV19fhhX3UorMoyGGxvzg==}
+
+  '@cropper/element-selection@2.1.0':
+    resolution: {integrity: sha512-mtFtBl6HIa/s9TWohXw+Z5eJoeYTqylrIcHvS7oVv0uM7IyeRwBW65Q7z+KtLfq/LW+2Sw/XDyvR+VN/DawBPw==}
+
+  '@cropper/element-shade@2.1.0':
+    resolution: {integrity: sha512-zMdyqbb0lc0Vd1oj2Z1miIZvhyZG41OXMHvrNt0hNwblh0dVdrvtw48lnFDgRv+672vt2CNx7Q04GuvCQfPlgg==}
+
+  '@cropper/element-viewer@2.1.0':
+    resolution: {integrity: sha512-XnxlQuqHitd1FOFZ6E0yXAF5NYd/LyIvONLLHI9p1rJw747WYKUPxQaSYtFKF7IOizJu/8mMj++Zc1dZ5ZP3YQ==}
+
+  '@cropper/element@2.1.0':
+    resolution: {integrity: sha512-2zELddqHQNmlvkPoiYzE5nxEjPE+C8nXoTPuvV3FvLp3YjBinc7qb73Icg9UXP0o9qC4+h9q96JgGo0AyMO/Ng==}
+
+  '@cropper/elements@2.1.0':
+    resolution: {integrity: sha512-qvzlYDn3VQgPPpsCu6Gi1XUO0v3vpXQFSjjxcVijbXeNsl/eiKrN7H9/CEiRgi5vr8kXfd7ZvgYxBjUBbH+y+w==}
+
+  '@cropper/utils@2.1.0':
+    resolution: {integrity: sha512-wLtpZ4/UWgo+fGmG8NBWge8x5ehjfDe9ovleDfLy8kpwFaw43XXOEXQtRL1UNr0u4JZxaeO8FcXcolRWUUrlRQ==}
+
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
@@ -1961,6 +2000,15 @@ packages:
       '@angular/router': ^20.0.0
       '@ngrx/store': 20.1.0
       rxjs: ^6.5.3 || ^7.5.0
+
+  '@ngrx/signals@21.0.0':
+    resolution: {integrity: sha512-GZaOcnt1MBzqRv+m4gvsusksveqkQQZwbfxBOofTjLj7V1JWz18kyC1R3ZI/aO/M++cqG/zqP+yh/33pFenZYw==}
+    peerDependencies:
+      '@angular/core': ^21.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    peerDependenciesMeta:
+      rxjs:
+        optional: true
 
   '@ngrx/store-devtools@20.1.0':
     resolution: {integrity: sha512-4N6X/uAfjiCFcuauX2gG+6TnDAuixrfMfUVebLYvifLkrDmqDO8lbeH+Lhk3EVGnpUih4yJiCaU437awVyKckw==}
@@ -3355,6 +3403,9 @@ packages:
 
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+
+  cropperjs@2.1.0:
+    resolution: {integrity: sha512-SsSDqdVRl+mjbIBkGWlk1gCGcc+HzBqCbH5EQ+1tkAFUdxq2KUGukXF1RqhmvXrrdrX7PDwSUkWgXS7E36KvGQ==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -8012,6 +8063,72 @@ snapshots:
 
   '@colors/colors@1.5.0': {}
 
+  '@cropper/element-canvas@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/utils': 2.1.0
+
+  '@cropper/element-crosshair@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/utils': 2.1.0
+
+  '@cropper/element-grid@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/utils': 2.1.0
+
+  '@cropper/element-handle@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/utils': 2.1.0
+
+  '@cropper/element-image@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/element-canvas': 2.1.0
+      '@cropper/utils': 2.1.0
+
+  '@cropper/element-selection@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/element-canvas': 2.1.0
+      '@cropper/element-image': 2.1.0
+      '@cropper/utils': 2.1.0
+
+  '@cropper/element-shade@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/element-canvas': 2.1.0
+      '@cropper/element-selection': 2.1.0
+      '@cropper/utils': 2.1.0
+
+  '@cropper/element-viewer@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/element-canvas': 2.1.0
+      '@cropper/element-image': 2.1.0
+      '@cropper/element-selection': 2.1.0
+      '@cropper/utils': 2.1.0
+
+  '@cropper/element@2.1.0':
+    dependencies:
+      '@cropper/utils': 2.1.0
+
+  '@cropper/elements@2.1.0':
+    dependencies:
+      '@cropper/element': 2.1.0
+      '@cropper/element-canvas': 2.1.0
+      '@cropper/element-crosshair': 2.1.0
+      '@cropper/element-grid': 2.1.0
+      '@cropper/element-handle': 2.1.0
+      '@cropper/element-image': 2.1.0
+      '@cropper/element-selection': 2.1.0
+      '@cropper/element-shade': 2.1.0
+      '@cropper/element-viewer': 2.1.0
+
+  '@cropper/utils@2.1.0': {}
+
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
@@ -8599,6 +8716,13 @@ snapshots:
       '@ngrx/store': 20.1.0(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       rxjs: 7.8.2
       tslib: 2.8.1
+
+  '@ngrx/signals@21.0.0(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/core': 20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1)
+      tslib: 2.8.1
+    optionalDependencies:
+      rxjs: 7.8.2
 
   '@ngrx/store-devtools@20.1.0(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(@ngrx/store@20.1.0(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(rxjs@7.8.2)':
     dependencies:
@@ -10079,6 +10203,11 @@ snapshots:
   crc-32@1.2.2: {}
 
   create-require@1.1.1: {}
+
+  cropperjs@2.1.0:
+    dependencies:
+      '@cropper/elements': 2.1.0
+      '@cropper/utils': 2.1.0
 
   cross-spawn@7.0.6:
     dependencies:

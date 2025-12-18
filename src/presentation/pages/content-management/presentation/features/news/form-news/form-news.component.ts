@@ -10,6 +10,11 @@ import { NewsFacade } from '@presentation/pages/content-management/core/applicat
 import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
 import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
 import { SubCategoryEntity } from '@presentation/pages/content-management/core/domain/entities/sub-category.entity';
+import { ImageProcessingStore } from '@presentation/pages/content-management/core/domain/stores/image-processing.store';
+import {
+    ProcessingResult
+} from '@presentation/pages/content-management/core/domain/types/image-processing.types';
+import { ImageCropperComponent } from '@presentation/pages/content-management/presentation/shared/image-cropper/image-cropper.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
@@ -90,6 +95,7 @@ const VALIDATION_CONSTANTS = {
         BreadcrumbComponent,
         PageTitleComponent,
         HashtagsInputComponent,
+        ImageCropperComponent,
         ReactiveFormsModule,
         EditorModule,
         FileUploadModule,
@@ -107,6 +113,8 @@ const VALIDATION_CONSTANTS = {
     providers: [MessageService]
 })
 export class FormNewsComponent implements OnInit {
+
+    private readonly imageStore = inject(ImageProcessingStore);
     private readonly destroyRef = inject(DestroyRef);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly route = inject(ActivatedRoute);
@@ -147,6 +155,11 @@ export class FormNewsComponent implements OnInit {
     public isPreviewVisible = signal<boolean>(false);
     public previewType = signal<'image' | 'video'>('image');
     public previewContent = signal<SafeUrl | string | null>(null);
+
+    // Image Cropper Signals
+    public showCropDialog = signal<boolean>(false);
+    public imageForCropping = signal<string | null>(null);
+    public selectedFileForCropping = signal<File | null>(null);
 
     public pageTitle$!: Observable<string>;
 
@@ -557,10 +570,49 @@ export class FormNewsComponent implements OnInit {
             reader.onload = (e: any) => {
                 this.imagePreview.set(e.target.result);
                 this.imageRemoved.set(false);
+                /* this.imageForCropping.set(e.target.result);
+                this.selectedFileForCropping.set(file);
+                this.showCropDialog.set(true); */
                 this.cdr.markForCheck();
             };
             reader.readAsDataURL(file);
         }
+    }
+
+    onCropComplete(result: ProcessingResult): void {
+        const newFile = new File(
+            [result.blob],
+            `cropped_${this.selectedFileForCropping()?.name}`,
+            { type: result.blob.type }
+        );
+
+        this.uploadedFile.set(newFile);
+        this.form.patchValue({ imageFile: newFile });
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            this.imagePreview.set(e.target.result);
+            this.cdr.markForCheck();
+        };
+        reader.readAsDataURL(newFile);
+
+        const compression = result.metadata.compressionRatio.toFixed(1);
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Image optimisée',
+            detail: `Réduction de ${compression}%`,
+            life: 3000
+        });
+    }
+
+    // Gérer les erreurs
+    onCropError(error: Error): void {
+        this.messageService.add({
+            severity: 'error',
+            summary: 'Erreur de traitement',
+            detail: error.message,
+            life: 5000
+        });
     }
 
     restoreImage(): void {
@@ -643,11 +695,11 @@ export class FormNewsComponent implements OnInit {
     }
 
     onSubmit(): void {
-        if (this.form.invalid) {
+        /* if (this.form.invalid) {
             this.form.markAllAsTouched();
             this.showValidationErrors();
             return;
-        }
+        } */
 
         const formData = this.prepareSubmitData();
 

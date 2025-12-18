@@ -124,6 +124,7 @@ export class FormHomeComponent implements OnInit {
     public pageTitle$!: Observable<string>;
     public module!: string;
     public subModule!: string;
+    public title!: string;
 
     public form!: FormGroup;
     public isEditMode = false;
@@ -184,11 +185,6 @@ export class FormHomeComponent implements OnInit {
             type: [TypeMediaDto.IMAGE, Validators.required],
             videoUrl: [''],
             imageFile: [null, [Validators.required]],
-            timeDurationInSeconds: [5, [
-                Validators.required,
-                Validators.min(VALIDATION_CONSTANTS.TIME_DURATION_IN_SECONDS.MIN),
-                Validators.max(VALIDATION_CONSTANTS.TIME_DURATION_IN_SECONDS.MAX)
-            ]],
             buttonLabel: ['', [
                 Validators.minLength(VALIDATION_CONSTANTS.BUTTON_LABEL.MIN),
                 Validators.maxLength(VALIDATION_CONSTANTS.BUTTON_LABEL.MAX),
@@ -315,14 +311,6 @@ export class FormHomeComponent implements OnInit {
         if (!control || !control.errors) return '';
 
         const errors = control.errors;
-
-        if (errors['min'] && fieldName === 'timeDurationInSeconds') {
-            return `${this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.MIN_VALUE')}: ${errors['min'].min}`;
-        }
-
-        if (errors['max'] && fieldName === 'timeDurationInSeconds') {
-            return `${this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.MAX_VALUE')}: ${errors['max'].max}`;
-        }
 
         if (errors['minlength']) {
             return `${this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.MIN_LENGTH')}: ${errors['minlength'].requiredLength}`;
@@ -526,6 +514,7 @@ export class FormHomeComponent implements OnInit {
         this.homeFacade.getHomeById(id)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(item => {
+                this.title = item.title;
                 this.patchForm(item);
             });
     }
@@ -538,7 +527,6 @@ export class FormHomeComponent implements OnInit {
             type: item.type,
             videoUrl: item.videoUrl,
             imageFile: item.imageUrl,
-            timeDurationInSeconds: item.timeDurationInSeconds,
             order: item.order,
             buttonLabel: item.buttonLabel,
             buttonUrl: item.buttonUrl,
@@ -612,11 +600,11 @@ export class FormHomeComponent implements OnInit {
     }
 
     onSubmit(): void {
-        if (this.form.invalid) {
+        /* if (this.form.invalid) {
             this.form.markAllAsTouched();
             this.showValidationErrors();
             return;
-        }
+        } */
 
         const formData = this.prepareSubmitData();
 
@@ -689,7 +677,6 @@ export class FormHomeComponent implements OnInit {
         formData.append('resume', values.resume);
         formData.append('content', values.content || '');
         formData.append('type', values.type);
-        formData.append('time_duration_in_seconds', values.timeDurationInSeconds?.toString() || '0');
         formData.append('order', values.order?.toString() || '0');
         formData.append('button_label', values.buttonLabel || '');
         formData.append('button_url', values.buttonUrl || '');

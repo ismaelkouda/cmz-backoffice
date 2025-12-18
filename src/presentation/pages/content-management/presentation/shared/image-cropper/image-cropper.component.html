@@ -1,0 +1,357 @@
+<p-dialog 
+  [(visible)]="visible"
+  (visibleChange)="onVisibleChange($event)"
+  [modal]="true"
+  [style]="{ width: '95vw', maxWidth: '1400px', height: '85vh' }"
+  [header]="'Rogner l\'image'"
+  [draggable]="false"
+  [resizable]="false"
+  [closeOnEscape]="true"
+  [dismissableMask]="true"
+  class="image-cropper-dialog">
+  
+  <ng-template pTemplate="content">
+    <div class="image-cropper-container h-100">
+      @if (imageSrc) {
+        <div class="row g-3 h-100">
+          <!-- Zone de rognage principale -->
+          <div class="col-12 col-lg-8 h-100">
+            <div class="cropper-wrapper h-100 border rounded bg-dark p-2 position-relative">
+              <!-- Container pour CropperJS v2 Custom Elements -->
+              <div 
+                class="cropper-v2-container"
+                style="width: 100%; height: 100%; position: relative;">
+                
+                <cropper-canvas 
+                    #cropperCanvas 
+                    *ngIf="imageSrc"
+                    background
+                    [src]="imageSrc"
+                    style="width: 100%; height: 100%;">
+                    
+                  <cropper-image 
+                    #cropperImage
+                    [src]="imageSrc" 
+                    rotatable 
+                    scalable 
+                    skewable 
+                    translatable
+                    (ready)="onImageReady($event)">
+                  </cropper-image>
+                  
+                  <cropper-shade hidden></cropper-shade>
+                  <cropper-handle action="select" plain></cropper-handle>
+                  
+                  <cropper-selection 
+                    #cropperSelection
+                    initial-coverage="0.8" 
+                    movable 
+                    resizable 
+                    [attr.aspect-ratio]="currentAspectRatio() || null">
+                    
+                    <cropper-grid role="grid" covered></cropper-grid>
+                    <cropper-crosshair centered></cropper-crosshair>
+                    <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+                    <cropper-handle action="n-resize"></cropper-handle>
+                    <cropper-handle action="e-resize"></cropper-handle>
+                    <cropper-handle action="s-resize"></cropper-handle>
+                    <cropper-handle action="w-resize"></cropper-handle>
+                    <cropper-handle action="ne-resize"></cropper-handle>
+                    <cropper-handle action="nw-resize"></cropper-handle>
+                    <cropper-handle action="se-resize"></cropper-handle>
+                    <cropper-handle action="sw-resize"></cropper-handle>
+                  </cropper-selection>
+                </cropper-canvas>
+
+              </div>
+              
+              <!-- Overlay de chargement -->
+              @if (!isReady()) {
+                <div class="loading-overlay d-flex flex-column justify-content-center align-items-center">
+                  <p-progressSpinner 
+                    styleClass="w-3rem h-3rem" 
+                    strokeWidth="4"
+                    animationDuration=".5s" />
+                  <span class="mt-3 text-light">
+                    Chargement...
+                  </span>
+                </div>
+              }
+              
+              <!-- Indicateur de traitement -->
+              @if (isProcessing()) {
+                <div class="processing-overlay d-flex flex-column justify-content-center align-items-center">
+                  <p-progressSpinner />
+                  <span class="mt-3 text-light">
+                    Traitement de l'image en cours...
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+          
+          <!-- Panneau de contrôle -->
+          <div class="col-12 col-lg-4">
+            <div class="controls-panel h-100 d-flex flex-column">
+              <!-- Informations -->
+              <div class="info-section mb-4">
+                <h6 class="text-primary mb-2">
+                  <i class="pi pi-info-circle me-2"></i>
+                  Informations
+                </h6>
+                <div class="card bg-light">
+                  <div class="card-body p-3">
+                    @if (isReady()) {
+                      <small class="text-success d-block mb-2">
+                        <i class="pi pi-check-circle me-1"></i>
+                        Prêt à rogner
+                      </small>
+                    }
+                    @if (currentAspectRatio()) {
+                      <small class="text-primary d-block mb-2">
+                        <i class="pi pi-crop me-1"></i>
+                        {{ getAspectRatioLabel(currentAspectRatio()) }}
+                      </small>
+                    }
+                    @if (selectionRect()) {
+                      <small class="text-muted d-block">
+                        <i class="pi pi-ruler me-1"></i>
+                        Taille: {{ selectionRect()!.width.toFixed(0) }}×{{ selectionRect()!.height.toFixed(0) }}px
+                      </small>
+                    }
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Contrôles de rognage -->
+              <div class="controls-section flex-grow-1">
+                <h6 class="text-primary mb-3">
+                  <i class="pi pi-sliders-h me-2"></i>
+                  Contrôles
+                </h6>
+                
+                <div class="d-grid gap-2">
+                  <!-- Ratios d'aspect -->
+                  <div class="ratio-controls mb-3">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="pi pi-crop me-1"></i>
+                      Ratio d'aspect
+                    </label>
+                    <div class="d-flex flex-wrap gap-2">
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-sliders-h"
+                        label="Libre"
+                        [outlined]="true"
+                        [severity]="!currentAspectRatio() ? 'primary' : 'secondary'"
+                        (click)="setAspectRatio(null)"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                      
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-stop"
+                        label="1:1"
+                        [outlined]="true"
+                        [severity]="currentAspectRatio() === 1 ? 'primary' : 'secondary'"
+                        (click)="setAspectRatio(1)"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                      
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-desktop"
+                        label="16:9"
+                        [outlined]="true"
+                        [severity]="currentAspectRatio() === 16/9 ? 'primary' : 'secondary'"
+                        (click)="setAspectRatio(16/9)"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                      
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-mobile"
+                        label="9:16"
+                        [outlined]="true"
+                        [severity]="currentAspectRatio() === 9/16 ? 'primary' : 'secondary'"
+                        (click)="setAspectRatio(9/16)"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- Rotation -->
+                  <div class="rotation-controls mb-3">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="pi pi-sync me-1"></i>
+                      Rotation
+                    </label>
+                    <div class="d-flex gap-2">
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-undo"
+                        label="-90°"
+                        [outlined]="true"
+                        (click)="rotate(-90)"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                      
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-redo"
+                        label="+90°"
+                        [outlined]="true"
+                        (click)="rotate(90)"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                      
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-refresh"
+                        label="Reset"
+                        [outlined]="true"
+                        severity="warning"
+                        (click)="reset()"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- Zoom -->
+                  <div class="zoom-controls mb-3">
+                    <label class="form-label fw-bold mb-2">
+                      <i class="pi pi-search me-1"></i>
+                      Zoom
+                    </label>
+                    <div class="d-flex gap-2">
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-minus"
+                        label="Zoom -"
+                        [outlined]="true"
+                        (click)="zoom(0.9)"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                      
+                      <button pButton 
+                        type="button" 
+                        icon="pi pi-plus"
+                        label="Zoom +"
+                        [outlined]="true"
+                        (click)="zoom(1.1)"
+                        [disabled]="!isReady()"
+                        size="small"
+                        class="flex-grow-1">
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Aperçu en temps réel -->
+              <div class="preview-section mt-4 pt-3 border-top">
+                <h6 class="text-primary mb-2">
+                  <i class="pi pi-eye me-2"></i>
+                  Aperçu
+                </h6>
+                <div class="preview-container border rounded bg-white p-2 text-center">
+                  @if (getCroppedCanvas()) {
+                    <img 
+                      [src]="getCroppedCanvas()!.toDataURL()" 
+                      alt="Preview"
+                      class="img-fluid rounded"
+                      style="max-height: 150px;" />
+                  } @else {
+                    <small class="text-muted">
+                      Sélectionnez une zone pour voir l'aperçu
+                    </small>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="no-image-placeholder h-100 d-flex flex-column justify-content-center align-items-center">
+          <i class="pi pi-image text-muted mb-3" style="font-size: 4rem;"></i>
+          <h5 class="text-muted mb-2">Aucune image sélectionnée</h5>
+          <p class="text-muted text-center">
+            Veuillez sélectionner une image à rogner depuis le formulaire.
+          </p>
+        </div>
+      }
+    </div>
+  </ng-template>
+  
+  <ng-template pTemplate="footer">
+    <div class="d-flex justify-content-between w-100 align-items-center">
+      <!-- État -->
+      <div class="state-info">
+        @if (isProcessing()) {
+          <div class="d-flex align-items-center text-primary">
+            <p-progressSpinner 
+              styleClass="w-1rem h-1rem mr-2" 
+              strokeWidth="4" />
+            <small>Traitement en cours...</small>
+          </div>
+        } @else if (isReady()) {
+          <small class="text-success">
+            <i class="pi pi-check-circle me-1"></i>
+            Prêt à rogner
+          </small>
+        } @else if (!_isImageLoaded()) {
+          <small class="text-warning">
+            <i class="pi pi-clock me-1"></i>
+            Chargement de l'image...
+          </small>
+        } @else {
+          <small class="text-warning">
+            <i class="pi pi-cog me-1"></i>
+            Initialisation...
+          </small>
+        }
+      </div>
+      
+      <!-- Actions -->
+      <div class="d-flex gap-2">
+        <button pButton 
+          type="button" 
+          label="Annuler"
+          icon="pi pi-times"
+          severity="secondary"
+          [outlined]="true"
+          (click)="close()"
+          [disabled]="isProcessing()"
+          size="small">
+        </button>
+        
+        <button pButton 
+          type="button" 
+          label="Appliquer"
+          icon="pi pi-check"
+          severity="success"
+          (click)="applyCrop()"
+          [disabled]="!isReady() || isProcessing()"
+          [loading]="isProcessing()"
+          size="small">
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
