@@ -614,13 +614,14 @@ export class FormSlideComponent implements OnInit {
     }
 
     onSubmit(): void {
-        if (this.form.invalid) {
+        /* if (this.form.invalid) {
             this.form.markAllAsTouched();
             this.showValidationErrors();
             return;
-        }
+        } */
 
         const formData = this.prepareSubmitData();
+        console.log(formData);
 
         const submitObservable = this.isEditMode && this.currentId
             ? this.homeFacade.updateSlide(this.currentId, formData)
@@ -709,7 +710,10 @@ export class FormSlideComponent implements OnInit {
         if (values.type === TypeMediaDto.VIDEO && values.videoUrl) {
             formData.append('video_url', values.videoUrl);
         } else if (values.type === TypeMediaDto.IMAGE && this.uploadedFile) {
+            console.log(this.uploadedFile);
             formData.append('image_file', this.uploadedFile);
+        } else if (values.type === TypeMediaDto.IMAGE && values.imageFile) {
+            formData.append('image_file_url', values.imageFile);
         }
 
         return formData;

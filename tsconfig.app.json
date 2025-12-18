@@ -29,6 +29,7 @@
     "resolveJsonModule": true,
     "useDefineForClassFields": false,
     "moduleResolution": "bundler",
+    "skipLibCheck": true
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"],

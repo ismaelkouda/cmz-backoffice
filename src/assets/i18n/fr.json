@@ -223,6 +223,7 @@
                 "TITLE_FORM_EDIT": "Formulaire d'édition de slide",
                 "TITLE_FORM_ADD": "Formulaire d'ajout de slide",
                 "TITLE": "Titre",
+                "SUBTITLE": "Sous-titre",
                 "RESUME": "Résumé",
                 "DESCRIPTION": "Contenu",
                 "TYPE": "Type de Média",
@@ -247,7 +248,28 @@
                 "VIDEO": "Fichier Vidéo",
                 "VALIDATION": {
                     "IMAGE_REQUIRED": "Image est obligatoire",
-                    "VIDEO_REQUIRED": "Video est obligatoire"
+                    "VIDEO_REQUIRED": "Video est obligatoire",
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "CONTENT_TOO_LONG": "Contenu trop long: {actual}/{maxAllowed} caractères",
+                    "BUTTON_LABEL_WITHOUT_URL": "Le label du bouton nécessite une URL",
+                    "BUTTON_URL_WITHOUT_LABEL": "L'URL du bouton nécessite un label",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire",
+                    "VIDEO_URL_HELP": "Formats supportés: YouTube, Vimeo, Dailymotion",
+                    "VIDEO_PLATFORM_SUPPORTED": "Plateforme supportée",
+                    "IMAGE_HELP": "Max. {maxSize}MB, {maxWidth}x{maxHeight}px recommandé",
+                    "SUPPORTED_FORMATS": "Formats supportés",
+                    "PREVIEW_IMAGE_TOOLTIP": "Prévisualiser l'image en grand",
+                    "REMOVE_IMAGE_TOOLTIP": "Supprimer l'image",
+                    "INVALID_VIDEO_URL": "URL vidéo non supportée. Formats: YouTube, Vimeo, Dailymotion",
+                    "INVALID_URL_FORMAT": "Format d'URL invalide",
+                    "INVALID_IMAGE_TYPE": "Type d'image non supporté",
+                    "FILE_TOO_LARGE": "Fichier trop volumineux. Max. {maxSize}MB",
+                    "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
                 }
             }
         },
@@ -439,7 +461,7 @@
         "ACTIVATED": "Activé",
         "PUBLISH": "Publier",
         "PUBLISHED" : "Publié",
-        "UNPUBLISH": "Non Publié",
+        "UNPUBLISH": "Dépublier",
         "UNPUBLISHED": "Non Publié",
         "DISABLE": "Désactiver",
         "DEACTIVATED": "Désactivé"
