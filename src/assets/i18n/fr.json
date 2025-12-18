@@ -1,11 +1,4 @@
 {
-    "VALIDATION": {
-        "REQUIRED": "Ce champ est obligatoire",
-        "MIN_LENGTH": "Minimum {{min}} caractères requis",
-        "MAX_LENGTH": "Maximum {{max}} caractères autorisés",
-        "FUTURE_DATE": "La date ne peut pas être dans le futur",
-        "INVALID_DATE": "Date invalide"
-    },
     "CONTENT_MANAGEMENT": {
         "ROUTE": "content-management",
         "LABEL": "Gestion du contenu",
@@ -49,7 +42,7 @@
                 "VIDEO_URL": "Lien Vidéo",
                 "BUTTON_LABEL": "Libellé Bouton",
                 "BUTTON_URL": "URL Bouton",
-                "PLATFORMS": "Plateformes",
+                "PLATFORMS": "Plateformes cible",
                 "START_DATE": "Date début affichage",
                 "END_DATE": "Date fin affichage",
                 "IMAGE": "Ficher Image",
@@ -67,7 +60,28 @@
                 "VIDEO": "Fichier Vidéo",
                 "VALIDATION": {
                     "IMAGE_REQUIRED": "Image est obligatoire",
-                    "VIDEO_REQUIRED": "Video est obligatoire"
+                    "VIDEO_REQUIRED": "Video est obligatoire",
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "CONTENT_TOO_LONG": "Contenu trop long: {actual}/{maxAllowed} caractères",
+                    "BUTTON_LABEL_WITHOUT_URL": "Le label du bouton nécessite une URL",
+                    "BUTTON_URL_WITHOUT_LABEL": "L'URL du bouton nécessite un label",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire",
+                    "VIDEO_URL_HELP": "Formats supportés: YouTube, Vimeo, Dailymotion",
+                    "VIDEO_PLATFORM_SUPPORTED": "Plateforme supportée",
+                    "IMAGE_HELP": "Max. {maxSize}MB, {maxWidth}x{maxHeight}px recommandé",
+                    "SUPPORTED_FORMATS": "Formats supportés",
+                    "PREVIEW_IMAGE_TOOLTIP": "Prévisualiser l'image en grand",
+                    "REMOVE_IMAGE_TOOLTIP": "Supprimer l'image",
+                    "INVALID_VIDEO_URL": "URL vidéo non supportée. Formats: YouTube, Vimeo, Dailymotion",
+                    "INVALID_URL_FORMAT": "Format d'URL invalide",
+                    "INVALID_IMAGE_TYPE": "Type d'image non supporté",
+                    "FILE_TOO_LARGE": "Fichier trop volumineux. Max. {maxSize}MB",
+                    "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
                 }
             }
         },
@@ -137,7 +151,7 @@
                 "CONFIG": "Configuration & Actions",
                 "TITLE_PLACEHOLDER": "Ex: Nouveau contenu promotionnel",
                 "VIDEO": "Fichier Vidéo",
-                "PLATFORMS": "Plateformes",
+                "PLATFORMS": "Plateformes cible",
                 "START_DATE": "Date début affichage",
                 "END_DATE": "Date fin affichage",
                 "DURATION": "Durée (secondes)",
@@ -149,7 +163,28 @@
                 "NO_SUB_CATEGORIES": "Cette catégorie ne contient pas de sous-catégories",
                 "VALIDATION": {
                     "IMAGE_REQUIRED": "Image est obligatoire",
-                    "VIDEO_REQUIRED": "Video est obligatoire"
+                    "VIDEO_REQUIRED": "Video est obligatoire",
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "CONTENT_TOO_LONG": "Contenu trop long: {actual}/{maxAllowed} caractères",
+                    "BUTTON_LABEL_WITHOUT_URL": "Le label du bouton nécessite une URL",
+                    "BUTTON_URL_WITHOUT_LABEL": "L'URL du bouton nécessite un label",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire",
+                    "VIDEO_URL_HELP": "Formats supportés: YouTube, Vimeo, Dailymotion",
+                    "VIDEO_PLATFORM_SUPPORTED": "Plateforme supportée",
+                    "IMAGE_HELP": "Max. {maxSize}MB, {maxWidth}x{maxHeight}px recommandé",
+                    "SUPPORTED_FORMATS": "Formats supportés",
+                    "PREVIEW_IMAGE_TOOLTIP": "Prévisualiser l'image en grand",
+                    "REMOVE_IMAGE_TOOLTIP": "Supprimer l'image",
+                    "INVALID_VIDEO_URL": "URL vidéo non supportée. Formats: YouTube, Vimeo, Dailymotion",
+                    "INVALID_URL_FORMAT": "Format d'URL invalide",
+                    "INVALID_IMAGE_TYPE": "Type d'image non supporté",
+                    "FILE_TOO_LARGE": "Fichier trop volumineux. Max. {maxSize}MB",
+                    "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
                 }
             }
 
@@ -194,7 +229,7 @@
                 "VIDEO_URL": "Lien Vidéo",
                 "BUTTON_LABEL": "Libellé Bouton",
                 "BUTTON_URL": "URL Bouton",
-                "PLATFORMS": "Plateformes",
+                "PLATFORMS": "Plateformes cible",
                 "START_DATE": "Date début affichage",
                 "END_DATE": "Date fin affichage",
                 "IMAGE": "Ficher Image",

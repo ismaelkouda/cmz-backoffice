@@ -1,7 +1,7 @@
 export const HOME_TABLE_CONST = {
     cols: [
         {
-            field: '__reorder',
+            field: '__index',
             header: 'TABLE.COMMON.INDEX',
             class: 'text-center',
             width: '2rem',
