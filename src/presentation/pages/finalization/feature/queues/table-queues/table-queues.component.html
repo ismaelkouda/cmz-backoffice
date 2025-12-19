@@ -106,15 +106,14 @@
                         }
 
                         @case ('uniqId') {
-                            <button
-                                type="button"
+                            <p-tag
+                                value="{{ queue.uniqId }}"
+                                severity="secondary"
+                                class="cursor-pointer"
                                 (click)="copyToClipboard(queue.uniqId)"
                                 pTooltip="{{ 'COPY' | translate }}"
                                 tooltipPosition="bottom"
-                            >
-                                <span class="copyable">{{ queue.uniqId }}</span>
-                                <!-- <i class="pi pi-copy" aria-hidden="true"></i> -->
-                            </button>
+                            />
                         }
 
                         @case ('reportType') {

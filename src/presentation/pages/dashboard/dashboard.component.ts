@@ -33,7 +33,6 @@ interface StatisticCard {
         isPositive: boolean;
     };
 }
-
 type PeriodOption = '7' | '30' | '60' | '90';
 
 @Component({
@@ -59,10 +58,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly destroy$ = new Subject<void>();
-
-    public loading = true;
-    public error: string | null = null;
-    public currentDate: string = '';
+    public isLoading$ = this.dashboardFacade.isLoading$;
+    public majDate$ = this.dashboardFacade.majDate$;
     public dashboardData: DashboardStatistics | null = null;
     public selectedPeriod: PeriodOption = '7';
 
@@ -88,37 +85,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private setupTitle(): void {
-        this.title.setTitle(
-            this.translate.instant('DASHBOARD.TITLE') ||
-                'Tableau de bord - Signalements'
-        );
+        this.title.setTitle(this.translate.instant('DASHBOARD.TITLE'));
     }
 
     private loadDashboardData(): void {
-        this.error = null;
-
         const period = parseInt(this.selectedPeriod, 10);
-
         this.dashboardFacade
             .loadStatistics(period)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (statistics) => {
                     this.handleDashboardData(statistics);
-                },
-                error: () => {
-                    this.error = this.translate.instant(
-                        'DASHBOARD.ERROR.LOAD_DATA'
-                    );
-                    this.cdr.markForCheck();
-                },
-            });
-
-        this.dashboardFacade.isLoading$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((isLoading) => {
-                this.loading = isLoading;
-                this.cdr.markForCheck();
+                }
             });
     }
 
@@ -130,7 +108,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     private handleDashboardData(data: DashboardStatistics): void {
         this.dashboardData = data;
-        this.currentDate = data.date_derniere_maj || '';
         this.generateStatistics(data);
         this.cdr.markForCheck();
     }
