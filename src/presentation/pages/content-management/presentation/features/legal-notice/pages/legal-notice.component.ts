@@ -14,6 +14,7 @@ import { Observable, Subject } from 'rxjs';
 import { FilterLegalNoticeComponent } from '../filter-legal-notice/filter-legal-notice.component';
 import { CREATE_ROUTE, EDIT_ROUTE, VIEW_ROUTE } from '../legal-notice.routes';
 import { TableLegalNoticeComponent } from '../table-legal-notice/table-legal-notice.component';
+
 @Component({
   selector: 'app-legal-notice',
   standalone: true,
@@ -31,11 +32,11 @@ import { TableLegalNoticeComponent } from '../table-legal-notice/table-legal-not
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class LegalNoticeComponent implements OnInit {
   private readonly title = inject(Title);
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly facade = inject(LegalNoticeFacade);
   private readonly translate = inject(TranslateService);
   private readonly legalNoticeFacade = inject(LegalNoticeFacade);
   public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');

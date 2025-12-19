@@ -359,7 +359,7 @@ import { Observable } from 'rxjs';
         }
 
         /* Mode sombre optionnel */
-        @media (prefers-color-scheme: dark) {
+        /* @media (prefers-color-scheme: dark) {
             :host ::ng-deep .intuitive-paginator {
                 background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
                 border-color: #334155;
@@ -394,7 +394,7 @@ import { Observable } from 'rxjs';
             :host ::ng-deep .intuitive-paginator .p-paginator-page.p-highlight {
                 background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             }
-        }
+        } */
     `],
     imports: [CommonModule, PaginatorModule, TranslateModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
