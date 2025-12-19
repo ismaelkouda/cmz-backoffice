@@ -9,10 +9,10 @@ import { PageTitleComponent } from '@shared/components/page-title/page-title.com
 import { map, Observable, switchMap } from 'rxjs';
 
 @Component({
-    selector: 'app-view-home',
-    standalone: true,
-    template: `
-    <app-breadcrumb [title]="(title$ | async)!" [title]="module" [active_item]="subModule"></app-breadcrumb>
+  selector: 'app-view-home',
+  standalone: true,
+  template: `
+    <app-breadcrumb />
     <app-page-title [title]="(title$ | async)!"></app-page-title>
 
     @if (item$ | async; as item) {
@@ -41,28 +41,28 @@ import { map, Observable, switchMap } from 'rxjs';
       </div>
     }
   `,
-    imports: [
-        CommonModule,
-        TranslateModule,
-        BreadcrumbComponent,
-        PageTitleComponent
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    BreadcrumbComponent,
+    PageTitleComponent
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewHomeComponent implements OnInit {
-    private readonly route = inject(ActivatedRoute);
-    private readonly homeFacade = inject(HomeFacade);
+  private readonly route = inject(ActivatedRoute);
+  private readonly homeFacade = inject(HomeFacade);
 
-    public module: string = 'Content Management';
-    public subModule: string = 'Home Blocks';
+  public module: string = 'Content Management';
+  public subModule: string = 'Home Blocks';
 
-    title$ = this.route.data.pipe(map(data => data['title']));
-    item$!: Observable<HomeEntity>;
+  title$ = this.route.data.pipe(map(data => data['title']));
+  item$!: Observable<HomeEntity>;
 
-    ngOnInit(): void {
-        this.item$ = this.route.params.pipe(
-            map(params => params['id']),
-            switchMap(id => this.homeFacade.getHomeById(id))
-        );
-    }
+  ngOnInit(): void {
+    this.item$ = this.route.params.pipe(
+      map(params => params['id']),
+      switchMap(id => this.homeFacade.getHomeById(id))
+    );
+  }
 }

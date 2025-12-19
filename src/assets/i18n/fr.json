@@ -1,8 +1,17 @@
 {
     "CONTENT_MANAGEMENT": {
+        "BREADCRUMB": {
+            "LABEL": "Gestion du contenu",
+            "ROUTE": "content-management",
+            "ICON": "pi-file"
+        },
         "ROUTE": "content-management",
         "LABEL": "Gestion du contenu",
         "HOME": {
+            "BREADCRUMB": {
+                "LABEL": "Blocs d'accueil",
+                "ROUTE": "home-blocks"
+            },
             "TITLE": "Blocs d'accueil",
             "LABEL": "Acceuil",
             "ROUTE": "home",
@@ -101,9 +110,13 @@
             }
         },
         "NEWS": {
+            "BREADCRUMB": {
+                "LABEL": "Infos & Actualités",
+                "ROUTE": "infos-and-news"
+            },
             "TITLE": "Blocs d'infos et actualités",
-            "LABEL": "News",
-            "ROUTE": "news",
+            "LABEL": "Infos & Actualités",
+            "ROUTE": "infos-and-news",
             "FILTER": {
                 "DATE": {
                     "FROM": "Date de début",
@@ -187,11 +200,14 @@
                     "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
                 }
             }
-
         },
         "SLIDE": {
-            "TITLE": "Gestion des slides",
-            "LABEL": "Slides",
+            "BREADCRUMB": {
+                "LABEL": "Slides show",
+                "ROUTE": "sliders"
+            },
+            "TITLE": "Slides show",
+            "LABEL": "Slides show",
             "ROUTE": "sliders",
             "FILTER": {
                 "DATE": {
@@ -274,6 +290,10 @@
             }
         },
         "PRIVACY_POLICY": {
+            "BREADCRUMB": {
+                "LABEL": "Politique de confidentialité",
+                "ROUTE": "privacy-policy"
+            },
             "TITLE": "Gestion du contenu de la politique de confidentialité",
             "LABEL": "Politique de confidentialité",
             "ROUTE": "privacy-policy",
@@ -322,6 +342,10 @@
             }
         },
         "LEGAL_NOTICE": {
+            "BREADCRUMB": {
+                "LABEL": "Mentions légales",
+                "ROUTE": "legal-notices"
+            },
             "TITLE": "Gestion du contenu des mentions légales",
             "LABEL": "Mentions légales",
             "ROUTE": "legal-notices",
@@ -370,6 +394,10 @@
             }
         },
         "TERMS_USE": {
+            "BREADCRUMB": {
+                "LABEL": "Conditions d'utilisation",
+                "ROUTE": "terms-of-service"
+            },
             "TITLE": "Gestion du contenu des condtions d'utilisation",
             "LABEL": "Conditions d'utilisation",
             "ROUTE": "terms-of-service",
@@ -487,6 +515,11 @@
             "MOOV": "Moov"
         },
     "REPORTS_REQUESTS": {
+        "BREADCRUMB": {
+                "LABEL": "Qualifications demandes",
+                "ROUTE": "requests",
+                "ICON": "pi-list-check"
+            },
         "STATUS": {
             "PRISE_EN_CHARGE": "Prise en charge",
             "APPROBATION": "Approbation"
@@ -497,6 +530,10 @@
             "TITLE": "demandes en attente de prise en charge",
             "LABEL": "File d'attente",
             "ROUTE": "queues",
+            "BREADCRUMB": {
+                "LABEL": "File d'attente",
+                "ROUTE": "queues"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -556,6 +593,10 @@
             "TITLE": "demandes en attente de qualification",
             "LABEL": "panier de taches",
             "ROUTE": "tasks",
+            "BREADCRUMB": {
+                "LABEL": "panier de taches",
+                "ROUTE": "tasks"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -627,6 +668,10 @@
             "TITLE": "demandes qualifiés",
             "LABEL": "Toutes les demandes",
             "ROUTE": "all",
+            "BREADCRUMB": {
+                "LABEL": "Toutes les demandes",
+                "ROUTE": "all"
+            },
             "STATUS": {
                 "CONFIRMED": "Confirmé",
                 "APPROVED": "Approuvé",
@@ -709,6 +754,11 @@
     },
 
     "REPORTS_PROCESSING": {
+        "BREADCRUMB": {
+            "LABEL": "Traitements Signalements",
+            "ROUTE": "reports-processing",
+            "ICON": "pi pi-check-square"
+        },
         "STATUS": {
             "TREATMENT": "Traitement",
             "FINALIZATION": "Finalisation",
@@ -720,6 +770,10 @@
             "TITLE": "signalements en attente d'affectation",
             "LABEL": "File d'attente",
             "ROUTE": "queues",
+            "BREADCRUMB": {
+                "LABEL": "File d'attente",
+                "ROUTE": "queues"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -779,6 +833,10 @@
             "TITLE": "signalements en attente de traitement",
             "LABEL": "panier de taches",
             "ROUTE": "tasks",
+            "BREADCRUMB": {
+                "LABEL": "panier de taches",
+                "ROUTE": "tasks"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -853,6 +911,10 @@
             "TITLE": "signalements traités",
             "LABEL": "Toutes les signalements",
             "ROUTE": "all",
+            "BREADCRUMB": {
+                "LABEL": "Toutes les signalements",
+                "ROUTE": "all"
+            },
             "STATE": {
                 "TERMINATED": "Terminé"
             },
@@ -1074,6 +1136,11 @@
     },
 
     "FINALIZATION": {
+        "BREADCRUMB": {
+            "LABEL": "Finalisations Signalements",
+            "ROUTE": "reports-finalization",
+            "ICON": "pi pi-stopwatch"
+        },
         "STATUS": {
             "TREATMENT": "Traitement",
             "FINALIZATION": "Finalisation",
@@ -1085,6 +1152,10 @@
             "TITLE": "Signalements en attente de prise en charge",
             "LABEL": "File d'attente",
             "ROUTE": "queues",
+            "BREADCRUMB": {
+                "LABEL": "File d'attente",
+                "ROUTE": "queues"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -1144,6 +1215,10 @@
             "TITLE": "signalements en attente de finalisation",
             "LABEL": "Panier de taches",
             "ROUTE": "tasks",
+            "BREADCRUMB": {
+                "LABEL": "Panier de taches",
+                "ROUTE": "tasks"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
@@ -1218,6 +1293,10 @@
             "TITLE": "signalements finalisés",
             "LABEL": "Toutes les signalements",
             "ROUTE": "all",
+            "BREADCRUMB": {
+                "LABEL": "Toutes les signalements",
+                "ROUTE": "all"
+            },
             "STATE": {
                 "COMPLETED": "Effectué"
             },
@@ -2220,14 +2299,27 @@
     },
 
     "REPORTING": {
+        "BREADCRUMB": {
+            "LABEL": "Suivi & Reporting",
+            "ROUTE": "reporting",
+            "ICON": "pi pi-chart-bar"
+        },
         "LABEL": "Suivi des demandes",
         "REQUESTS": {
+            "BREADCRUMB": {
+                "LABEL": "Suivi des demandes",
+                "ROUTE": "requests"
+            },
             "TITLE": "Tableau de bord analytique des demandes",
             "LABEL": "Demandes",
             "LOADING_DESCRIPTION": "Suivi des demandes en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des demandes. Veuillez recharger la page ou contacter le support."
         },
         "REPORT": {
+            "BREADCRUMB": {
+                "LABEL": "Suivi des signalements",
+                "ROUTE": "reports"
+            },
             "TITLE": "Tableau de bord analytique des signalements",
             "LABEL": "Signalement",
             "LOADING_DESCRIPTION": "Suivi des signalements en cours...",

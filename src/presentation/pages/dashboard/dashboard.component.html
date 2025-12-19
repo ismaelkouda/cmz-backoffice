@@ -48,18 +48,25 @@
         </div>
     </div>
 
+    <div *ngIf="error" class="error-message">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>{{ error }}</span>
+    </div>
+
     <div *ngIf="(isLoading$ | async)" class="loading-container">
         <p-progressSpinner></p-progressSpinner>
         <p>{{ 'DASHBOARD.LOADING' | translate }}</p>
     </div>
 
-    <div *ngIf="!(isLoading$ | async) && typeStatistics.length === 0" 
-        class="no-data-container">
+    <div
+        *ngIf="!(isLoading$ | async) && !error && typeStatistics.length === 0"
+        class="no-data-container"
+    >
         <i class="pi pi-info-circle"></i>
         <p>{{ 'DASHBOARD.NO_DATA' | translate }}</p>
     </div>
 
-    <div *ngIf="!(isLoading$ | async)" class="dashboard-content">
+    <div *ngIf="!(isLoading$ | async) && !error" class="dashboard-content">
         <div class="statistics-section" *ngIf="typeStatistics.length > 0">
             <div class="section-header">
                 <div class="section-badge">

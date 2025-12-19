@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
@@ -8,6 +8,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HOME_ROUTE } from '@presentation/pages/content-management/content-management.routes';
 import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
 import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
+import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
@@ -28,56 +29,6 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
-
-const VALIDATION_CONSTANTS = {
-    TITLE: {
-        MIN: 3,
-        MAX: 100,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{3,}$/
-    },
-    RESUME: {
-        MIN: 10,
-        MAX: 250,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{10,}$/
-    },
-    CONTENT: {
-        MIN: 20,
-        MAX: 2000,
-        STRIP_HTML_MAX: 1000
-    },
-    BUTTON_LABEL: {
-        MIN: 1,
-        MAX: 30,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{1,}$/
-    },
-    TIME_DURATION_IN_SECONDS: {
-        MIN: 1,
-        MAX: 10,
-        STEP: 1
-    },
-    BUTTON_URL: {
-        MAX: 500,
-        PATTERN: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
-    },
-    VIDEO_URL: {
-        MAX: 500,
-        PATTERNS: {
-            YOUTUBE: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
-            VIMEO: /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/,
-            DAILYMOTION: /^(https?:\/\/)?(www\.)?dailymotion\.com\/.+$/,
-            GENERIC: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?$/
-        }
-    },
-
-    IMAGE_FILE: {
-        MAX_SIZE_MB: 2,
-        ALLOWED_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
-        MAX_DIMENSIONS: {
-            WIDTH: 1920,
-            HEIGHT: 1080
-        }
-    }
-};
 
 @Component({
     selector: 'app-form-home',
@@ -118,13 +69,12 @@ export class FormHomeComponent implements OnInit {
     private readonly titleService = inject(Title);
     private readonly sanitizer = inject(DomSanitizer);
     private readonly messageService = inject(MessageService);
-
-    public readonly VALIDATION = VALIDATION_CONSTANTS;
+    public readonly VALIDATION = FormValidators;
 
     public pageTitle$!: Observable<string>;
-    public module!: string;
-    public subModule!: string;
-    public title!: string;
+    public module = signal<string>('');
+    public subModule = signal<string>('');
+    public title = signal<string>('');
 
     public form!: FormGroup;
     public isEditMode = false;
@@ -167,32 +117,32 @@ export class FormHomeComponent implements OnInit {
         this.form = this.fb.group({
             title: ['', [
                 Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.TITLE.MIN),
-                Validators.maxLength(VALIDATION_CONSTANTS.TITLE.MAX),
-                Validators.pattern(VALIDATION_CONSTANTS.TITLE.PATTERN)
+                Validators.minLength(FormValidators.TITLE.MIN),
+                Validators.maxLength(FormValidators.TITLE.MAX),
+                Validators.pattern(FormValidators.TITLE.PATTERN)
             ]],
             resume: ['', [
                 Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.RESUME.MIN),
-                Validators.maxLength(VALIDATION_CONSTANTS.RESUME.MAX),
-                Validators.pattern(VALIDATION_CONSTANTS.RESUME.PATTERN)
+                Validators.minLength(FormValidators.RESUME.MIN),
+                Validators.maxLength(FormValidators.RESUME.MAX),
+                Validators.pattern(FormValidators.RESUME.PATTERN)
             ]],
             content: ['', [
                 Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.CONTENT.MIN),
-                this.htmlContentMaxLengthValidator(VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX)
+                Validators.minLength(FormValidators.CONTENT.MIN),
+                this.htmlContentMaxLengthValidator(FormValidators.CONTENT.STRIP_HTML_MAX)
             ]],
             type: [TypeMediaDto.IMAGE, Validators.required],
             videoUrl: [''],
             imageFile: [null, [Validators.required]],
             buttonLabel: ['', [
-                Validators.minLength(VALIDATION_CONSTANTS.BUTTON_LABEL.MIN),
-                Validators.maxLength(VALIDATION_CONSTANTS.BUTTON_LABEL.MAX),
-                Validators.pattern(VALIDATION_CONSTANTS.BUTTON_LABEL.PATTERN)
+                Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
+                Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
+                Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN)
             ]],
             buttonUrl: ['', [
-                Validators.maxLength(VALIDATION_CONSTANTS.BUTTON_URL.MAX),
-                Validators.pattern(VALIDATION_CONSTANTS.BUTTON_URL.PATTERN)
+                Validators.maxLength(FormValidators.BUTTON_URL.MAX),
+                Validators.pattern(FormValidators.BUTTON_URL.PATTERN)
             ]],
             platforms: [[], Validators.required],
             startDate: [null],
@@ -207,13 +157,13 @@ export class FormHomeComponent implements OnInit {
     public detectVideoPlatform(url: string): 'youtube' | 'vimeo' | 'dailymotion' | 'other' {
         if (!url) return 'other';
 
-        if (VALIDATION_CONSTANTS.VIDEO_URL.PATTERNS.YOUTUBE.test(url)) {
+        if (FormValidators.VIDEO_URL.PATTERNS.YOUTUBE.test(url)) {
             return 'youtube';
         }
-        if (VALIDATION_CONSTANTS.VIDEO_URL.PATTERNS.VIMEO.test(url)) {
+        if (FormValidators.VIDEO_URL.PATTERNS.VIMEO.test(url)) {
             return 'vimeo';
         }
-        if (VALIDATION_CONSTANTS.VIDEO_URL.PATTERNS.DAILYMOTION.test(url)) {
+        if (FormValidators.VIDEO_URL.PATTERNS.DAILYMOTION.test(url)) {
             return 'dailymotion';
         }
 
@@ -239,14 +189,14 @@ export class FormHomeComponent implements OnInit {
     }
 
     public getFileSizeStatus(fileSize: number): string {
-        const maxSize = VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
+        const maxSize = FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
         const sizeInMB = fileSize / 1024 / 1024;
 
-        if (sizeInMB > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
-            return `⚠️ ${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
+        if (sizeInMB > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
+            return `⚠️ ${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
         }
 
-        return `${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB`;
+        return `${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB`;
     }
 
 
@@ -272,7 +222,7 @@ export class FormHomeComponent implements OnInit {
     }
 
     public get allowedImageTypes(): string {
-        return VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.map(t => t.split('/')[1].toUpperCase()).join(', ');
+        return FormValidators.IMAGE_FILE.ALLOWED_TYPES.map(t => t.split('/')[1].toUpperCase()).join(', ');
     }
 
     private buttonFieldsConsistencyValidator(): any {
@@ -299,7 +249,7 @@ export class FormHomeComponent implements OnInit {
 
     public getContentCountStatus(): 'safe' | 'warning' | 'danger' {
         const count = this.getContentCharacterCount();
-        const max = VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX;
+        const max = FormValidators.CONTENT.STRIP_HTML_MAX;
 
         if (count > max * 0.9) return 'danger';
         if (count > max * 0.7) return 'warning';
@@ -354,13 +304,13 @@ export class FormHomeComponent implements OnInit {
             }
             if (errors['fileTooLarge']) {
                 return this.translate.instant('VALIDATION.FILE_TOO_LARGE', {
-                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB
+                    maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB
                 });
             }
             if (errors['imageDimensions']) {
                 return this.translate.instant('VALIDATION.IMAGE_DIMENSIONS_TOO_LARGE', {
-                    maxWidth: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
-                    maxHeight: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                    maxWidth: FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
+                    maxHeight: FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
                 });
             }
         }
@@ -442,16 +392,16 @@ export class FormHomeComponent implements OnInit {
         const imageControl = this.form.get('imageFile');
 
         // Vérification du type
-        if (!VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
+        if (!FormValidators.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
             imageControl?.setErrors({ invalidImageType: true });
             return;
         }
 
         // Vérification de la taille
-        if (file.size > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
+        if (file.size > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
             imageControl?.setErrors({
                 fileTooLarge: {
-                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB,
+                    maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB,
                     actualSize: file.size
                 }
             });
@@ -460,8 +410,8 @@ export class FormHomeComponent implements OnInit {
 
         // Vérification des dimensions (optionnelle)
         this.checkImageDimensions(file).then(dimensions => {
-            if (dimensions.width > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
-                dimensions.height > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT) {
+            if (dimensions.width > FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                dimensions.height > FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT) {
                 imageControl?.setErrors({ imageDimensions: true });
             }
         });
@@ -514,7 +464,7 @@ export class FormHomeComponent implements OnInit {
         this.homeFacade.getHomeById(id)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(item => {
-                this.title = item.title;
+                this.title.set(item.title);
                 this.patchForm(item);
             });
     }

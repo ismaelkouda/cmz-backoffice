@@ -58,8 +58,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly cdr = inject(ChangeDetectorRef);
     private readonly destroy$ = new Subject<void>();
+
     public isLoading$ = this.dashboardFacade.isLoading$;
     public majDate$ = this.dashboardFacade.majDate$;
+    public error: string | null = null;
     public dashboardData: DashboardStatistics | null = null;
     public selectedPeriod: PeriodOption = '7';
 
@@ -89,7 +91,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private loadDashboardData(): void {
+        this.error = null;
+
         const period = parseInt(this.selectedPeriod, 10);
+
         this.dashboardFacade
             .loadStatistics(period)
             .pipe(takeUntil(this.destroy$))
@@ -124,7 +129,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 subtitle:
                     'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORTS_PROCESSING.SUBTITLE',
                 color: 'primary',
-                icon: 'pi-file',
+                icon: 'pi-chart-bar',
             },
             {
                 key: 'whiteZoneReports',
@@ -133,7 +138,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 subtitle:
                     'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORTS_PROCESSING.SUBTITLE',
                 color: 'error',
-                icon: 'pi-map',
+                icon: 'pi-map-marker',
             },
             {
                 key: 'partialOperatorReports',
@@ -142,7 +147,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 subtitle:
                     'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORTS_PROCESSING.SUBTITLE',
                 color: 'warning',
-                icon: 'pi-signal',
+                icon: 'pi-building',
             },
             {
                 key: 'partialSignalReports',
@@ -151,7 +156,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 subtitle:
                     'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORTS_PROCESSING.SUBTITLE',
                 color: 'warning',
-                icon: 'pi-signal',
+                icon: 'pi-chart-line',
             },
             {
                 key: 'noInternetReports',
@@ -160,7 +165,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 subtitle:
                     'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORTS_PROCESSING.SUBTITLE',
                 color: 'info',
-                icon: 'pi-wifi',
+                icon: 'pi-ban',
             },
         ];
 
@@ -171,7 +176,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 label: 'DASHBOARD.SECTIONS.TASK_STATUS.PENDING.LABEL',
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.PENDING.SUBTITLE',
                 color: 'primary',
-                icon: 'pi-check-square',
+                icon: 'pi-clock pi-spin',
                 routerFilter: () => this.router.navigate(['/report/queue']),
             },
             {
@@ -180,7 +185,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 label: 'DASHBOARD.SECTIONS.TASK_STATUS.IN_PROGRESS.LABEL',
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.IN_PROGRESS.SUBTITLE',
                 color: 'info',
-                icon: 'pi-users',
+                icon: 'pi-cog pi-spin',
                 routerFilter: () => this.router.navigate(['/report/approval']),
             },
             {
@@ -189,7 +194,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 label: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATED.LABEL',
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATED.SUBTITLE',
                 color: 'warning',
-                icon: 'pi-cog',
+                icon: 'pi-check',
                 routerFilter: () =>
                     this.router.navigate(['/report/processing']),
             },
@@ -199,7 +204,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 label: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZED.LABEL',
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZED.SUBTITLE',
                 color: 'success',
-                icon: 'pi-flag',
+                icon: 'pi-check-circle',
                 routerFilter: () => this.router.navigate(['/report/finalize']),
             },
             {
@@ -208,7 +213,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 label: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATED.LABEL',
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATED.SUBTITLE',
                 color: 'primary',
-                icon: 'pi-star',
+                icon: 'pi-star-fill',
             },
         ];
 

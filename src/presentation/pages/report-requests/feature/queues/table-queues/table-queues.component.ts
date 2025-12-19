@@ -24,6 +24,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
@@ -48,6 +49,7 @@ import { QUEUES_TABLE_CONST } from '../../../domain/constants/queues/queues-tabl
         TableButtonHeaderComponent,
         SearchTableComponent,
         TableTitleComponent,
+        SkeletonModule
     ],
 })
 export class TableQueuesComponent implements OnDestroy {

@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { ActionsTreatmentComponent } from './ui/actions-treatment/actions-treatment.component';
 import { AllComponent } from './ui/all/all.component';
 import { QueuesComponent } from './ui/queues/queues.component';
@@ -20,15 +20,17 @@ export const REPORT_FINALIZE_ROUTE = 'finalization';
 export const routes: Routes = [
     {
         path: QUEUES_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.QUEUES.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.QUEUES.BREADCRUMB.ICON',
+            }
+        },
         children: [
             {
                 path: '',
                 component: QueuesComponent,
-                data: {
-                    title: 'REPORTS_PROCESSING.QUEUES.TITLE',
-                    module: 'REPORTS_PROCESSING.LABEL',
-                    subModule: 'REPORTS_PROCESSING.QUEUES.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
@@ -42,23 +44,25 @@ export const routes: Routes = [
     },
     {
         path: TASKS_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.TASKS.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.TASKS.BREADCRUMB.ICON',
+            }
+        },
         children: [
             {
                 path: '',
                 component: TasksComponent,
-                data: {
-                    title: 'REPORTS_PROCESSING.TASKS.TITLE',
-                    module: 'REPORTS_PROCESSING.LABEL',
-                    subModule: 'REPORTS_PROCESSING.TASKS.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: ':taskId',
                 component: ActionsTreatmentComponent,
                 data: {
-                    title: 'ACTIONS.TITLE',
-                    module: 'REPORTS_PROCESSING.LABEL',
-                    subModule: 'ACTIONS.LABEL',
+                    breadcrumb: {
+                        label: (s: ActivatedRouteSnapshot) => `#${s.params['taskId']}`,
+                    },
                 },
             },
             {
@@ -73,15 +77,17 @@ export const routes: Routes = [
     },
     {
         path: ALL_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.ALL.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.ALL.BREADCRUMB.ICON',
+            }
+        },
         children: [
             {
                 path: '',
                 component: AllComponent,
-                data: {
-                    title: 'REPORTS_PROCESSING.ALL.TITLE',
-                    module: 'REPORTS_PROCESSING.LABEL',
-                    subModule: 'REPORTS_PROCESSING.ALL.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
@@ -95,15 +101,17 @@ export const routes: Routes = [
     },
     {
         path: TREATMENT_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.TREATMENT.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.TREATMENT.BREADCRUMB.ICON',
+            }
+        },
         children: [
             {
                 path: '',
                 component: TreatmentComponent,
-                data: {
-                    title: 'REPORTS_PROCESSING.TREATMENT.TITLE',
-                    module: 'REPORTS_PROCESSING.LABEL',
-                    subModule: 'REPORTS_PROCESSING.TREATMENT.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
@@ -112,7 +120,127 @@ export const routes: Routes = [
         ],
         // canActivate: [PagesGuard],
         // data: {
-        //     allowedPaths: [`/${TREATMENT_ROUTE}`],
+        //     allowedPaths: [`/${QUEUE_ROUTE}`],
+        // },
+    },
+    {
+        path: FINALIZE_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.FINALIZE.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.FINALIZE.BREADCRUMB.ICON',
+            }
+        },
+        children: [
+            {
+                path: '',
+                component: TreatmentComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${QUEUE_ROUTE}`],
+        // },
+    },
+    {
+        path: NOTIFICATIONS,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.NOTIFICATIONS.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.NOTIFICATIONS.BREADCRUMB.ICON',
+            }
+        },
+        children: [
+            {
+                path: '',
+                component: TreatmentComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${QUEUE_ROUTE}`],
+        // },
+    },
+    {
+        path: SIM_DEMAND_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.SIM_DEMAND.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.SIM_DEMAND.BREADCRUMB.ICON',
+            }
+        },
+        children: [
+            {
+                path: '',
+                component: TreatmentComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${QUEUE_ROUTE}`],
+        // },
+    },
+    {
+        path: INVOICE_FORM_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.INVOICE_FORM.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.INVOICE_FORM.BREADCRUMB.ICON',
+            }
+        },
+        children: [
+            {
+                path: '',
+                component: TreatmentComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${QUEUE_ROUTE}`],
+        // },
+    },
+    {
+        path: REPORT_TREATMENT_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_PROCESSING.REPORT_TREATMENT.BREADCRUMB.LABEL',
+                icon: 'REPORTS_PROCESSING.REPORT_TREATMENT.BREADCRUMB.ICON',
+            }
+        },
+        children: [
+            {
+                path: '',
+                component: TreatmentComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${QUEUE_ROUTE}`],
         // },
     },
 ];

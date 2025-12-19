@@ -28,7 +28,7 @@ import { Observable, switchMap } from 'rxjs';
     ],
     template: `
     <main class="container-fluid p-4">
-      <app-breadcrumb [title]="'CONTENT_MANAGEMENT.LABEL' | translate" [active_item]="'CONTENT_MANAGEMENT.SLIDE.TITLE' | translate"></app-breadcrumb>
+      <app-breadcrumb />
       
       <div class="card border-0 shadow-sm rounded-4 mt-3">
         <div class="card-header bg-white p-3 border-bottom-0 d-flex justify-content-between align-items-center">

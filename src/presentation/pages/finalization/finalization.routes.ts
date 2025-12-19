@@ -19,15 +19,17 @@ export const REPORT_FINALIZE_ROUTE = 'finalization';
 export const routes: Routes = [
     {
         path: QUEUES_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'FINALIZATION.QUEUES.BREADCRUMB.LABEL',
+                icon: 'FINALIZATION.QUEUES.BREADCRUMB.ICON',
+            },
+        },
         children: [
             {
                 path: '',
                 component: QueuesComponent,
-                data: {
-                    title: 'FINALIZATION.QUEUES.TITLE',
-                    module: 'FINALIZATION.LABEL',
-                    subModule: 'FINALIZATION.QUEUES.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
@@ -41,15 +43,17 @@ export const routes: Routes = [
     },
     {
         path: TASKS_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'FINALIZATION.TASKS.BREADCRUMB.LABEL',
+                icon: 'FINALIZATION.TASKS.BREADCRUMB.ICON',
+            },
+        },
         children: [
             {
                 path: '',
                 component: TasksComponent,
-                data: {
-                    title: 'FINALIZATION.TASKS.TITLE',
-                    module: 'FINALIZATION.LABEL',
-                    subModule: 'FINALIZATION.TASKS.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
@@ -63,28 +67,32 @@ export const routes: Routes = [
     },
     {
         path: ALL_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'FINALIZATION.ALL.BREADCRUMB.LABEL',
+                icon: 'FINALIZATION.ALL.BREADCRUMB.ICON',
+            },
+        },
         children: [
             {
                 path: '',
                 component: AllComponent,
-                data: {
-                    title: 'FINALIZATION.ALL.TITLE',
-                    module: 'FINALIZATION.LABEL',
-                    subModule: 'FINALIZATION.ALL.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
                 redirectTo: '',
             },
         ],
-        // canActivate: [PagesGuard],
-        // data: {
-        //     allowedPaths: [`/${QUEUE_ROUTE}`],
-        // },
     },
     {
         path: TREATMENT_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'FINALIZATION.TREATMENT.BREADCRUMB.LABEL',
+                icon: 'FINALIZATION.TREATMENT.BREADCRUMB.ICON',
+            },
+        },
         children: [
             {
                 path: '',

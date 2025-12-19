@@ -14,6 +14,7 @@ import { ImageProcessingStore } from '@presentation/pages/content-management/cor
 import {
     ProcessingResult
 } from '@presentation/pages/content-management/core/domain/types/image-processing.types';
+import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
 import { ImageCropperComponent } from '@presentation/pages/content-management/presentation/shared/image-cropper/image-cropper.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
@@ -33,56 +34,6 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
 import { HashtagsInputComponent } from '../hashtags-input/hashtags-input.component';
-
-const VALIDATION_CONSTANTS = {
-    TITLE: {
-        MIN: 3,
-        MAX: 100,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{3,}$/
-    },
-    RESUME: {
-        MIN: 10,
-        MAX: 250,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{10,}$/
-    },
-    CONTENT: {
-        MIN: 20,
-        MAX: 2000,
-        STRIP_HTML_MAX: 1000
-    },
-    BUTTON_LABEL: {
-        MIN: 1,
-        MAX: 30,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{1,}$/
-    },
-    TIME_DURATION_IN_SECONDS: {
-        MIN: 1,
-        MAX: 10,
-        STEP: 1
-    },
-    BUTTON_URL: {
-        MAX: 500,
-        PATTERN: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
-    },
-    VIDEO_URL: {
-        MAX: 500,
-        PATTERNS: {
-            YOUTUBE: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
-            VIMEO: /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/,
-            DAILYMOTION: /^(https?:\/\/)?(www\.)?dailymotion\.com\/.+$/,
-            GENERIC: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?$/
-        }
-    },
-
-    IMAGE_FILE: {
-        MAX_SIZE_MB: 2,
-        ALLOWED_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
-        MAX_DIMENSIONS: {
-            WIDTH: 1920,
-            HEIGHT: 1080
-        }
-    }
-};
 
 @Component({
     selector: 'app-form-news',
@@ -126,7 +77,7 @@ export class FormNewsComponent implements OnInit {
     private readonly sanitizer = inject(DomSanitizer);
     private readonly messageService = inject(MessageService);
 
-    public readonly VALIDATION = VALIDATION_CONSTANTS;
+    public readonly VALIDATION = FormValidators;
 
     public categoriesOptions$: Observable<CategoryEntity[]> = this.newsFacade.getCategory();
     public isLoading$: Observable<boolean> = this.newsFacade.isLoading$;
@@ -194,20 +145,20 @@ export class FormNewsComponent implements OnInit {
         this.form = this.fb.group({
             title: ['', [
                 Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.TITLE.MIN),
-                Validators.maxLength(VALIDATION_CONSTANTS.TITLE.MAX),
-                Validators.pattern(VALIDATION_CONSTANTS.TITLE.PATTERN)
+                Validators.minLength(FormValidators.TITLE.MIN),
+                Validators.maxLength(FormValidators.TITLE.MAX),
+                Validators.pattern(FormValidators.TITLE.PATTERN)
             ]],
             resume: ['', [
                 Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.RESUME.MIN),
-                Validators.maxLength(VALIDATION_CONSTANTS.RESUME.MAX),
-                Validators.pattern(VALIDATION_CONSTANTS.RESUME.PATTERN)
+                Validators.minLength(FormValidators.RESUME.MIN),
+                Validators.maxLength(FormValidators.RESUME.MAX),
+                Validators.pattern(FormValidators.RESUME.PATTERN)
             ]],
             content: ['', [
                 Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.CONTENT.MIN),
-                this.htmlContentMaxLengthValidator(VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX)
+                Validators.minLength(FormValidators.CONTENT.MIN),
+                this.htmlContentMaxLengthValidator(FormValidators.CONTENT.STRIP_HTML_MAX)
             ]],
             type: [TypeMediaDto.IMAGE, Validators.required],
             videoUrl: [''],
@@ -223,14 +174,14 @@ export class FormNewsComponent implements OnInit {
     }
 
     public getFileSizeStatus(fileSize: number): string {
-        const maxSize = VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
+        const maxSize = FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
         const sizeInMB = fileSize / 1024 / 1024;
 
-        if (sizeInMB > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
-            return `⚠️ ${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
+        if (sizeInMB > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
+            return `⚠️ ${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
         }
 
-        return `${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB`;
+        return `${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB`;
     }
 
 
@@ -256,7 +207,7 @@ export class FormNewsComponent implements OnInit {
     }
 
     public get allowedImageTypes(): string {
-        return VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.map(t => t.split('/')[1].toUpperCase()).join(', ');
+        return FormValidators.IMAGE_FILE.ALLOWED_TYPES.map(t => t.split('/')[1].toUpperCase()).join(', ');
     }
 
     private buttonFieldsConsistencyValidator(): any {
@@ -283,7 +234,7 @@ export class FormNewsComponent implements OnInit {
 
     public getContentCountStatus(): 'safe' | 'warning' | 'danger' {
         const count = this.getContentCharacterCount();
-        const max = VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX;
+        const max = FormValidators.CONTENT.STRIP_HTML_MAX;
 
         if (count > max * 0.9) return 'danger';
         if (count > max * 0.7) return 'warning';
@@ -346,13 +297,13 @@ export class FormNewsComponent implements OnInit {
             }
             if (errors['fileTooLarge']) {
                 return this.translate.instant('VALIDATION.FILE_TOO_LARGE', {
-                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB
+                    maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB
                 });
             }
             if (errors['imageDimensions']) {
                 return this.translate.instant('VALIDATION.IMAGE_DIMENSIONS_TOO_LARGE', {
-                    maxWidth: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
-                    maxHeight: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                    maxWidth: FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
+                    maxHeight: FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
                 });
             }
         }
@@ -443,15 +394,15 @@ export class FormNewsComponent implements OnInit {
     private validateImageFile(file: File): void {
         const imageControl = this.form.get('imageFile');
 
-        if (!VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
+        if (!FormValidators.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
             imageControl?.setErrors({ invalidImageType: true });
             return;
         }
 
-        if (file.size > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
+        if (file.size > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
             imageControl?.setErrors({
                 fileTooLarge: {
-                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB,
+                    maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB,
                     actualSize: file.size
                 }
             });
@@ -459,8 +410,8 @@ export class FormNewsComponent implements OnInit {
         }
 
         this.checkImageDimensions(file).then(dimensions => {
-            if (dimensions.width > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
-                dimensions.height > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT) {
+            if (dimensions.width > FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                dimensions.height > FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT) {
                 imageControl?.setErrors({ imageDimensions: true });
             }
         });

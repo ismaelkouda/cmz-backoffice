@@ -7,15 +7,17 @@ export const REQUESTS_ROUTE = 'requests';
 export const routes: Routes = [
     {
         path: REPORT_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTING.REPORT.BREADCRUMB.LABEL',
+                icon: 'REPORTING.REPORT.BREADCRUMB.ICON',
+            }
+        },
         children: [
             {
                 path: '',
                 component: ReportComponent,
-                data: {
-                    title: 'REPORTING.REPORT.TITLE',
-                    module: 'REPORTING.LABEL',
-                    subModule: 'REPORTING.REPORT.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
@@ -25,6 +27,12 @@ export const routes: Routes = [
     },
     {
         path: REQUESTS_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTING.REQUESTS.BREADCRUMB.LABEL',
+                icon: 'REPORTING.REQUESTS.BREADCRUMB.ICON',
+            }
+        },
         children: [
             {
                 path: '',
@@ -32,11 +40,7 @@ export const routes: Routes = [
                     import('./ui/requests/requests.component').then(
                         (m) => m.RequestsComponent
                     ),
-                data: {
-                    title: 'REPORTING.REQUESTS.TITLE',
-                    module: 'REPORTING.LABEL',
-                    subModule: 'REPORTING.REQUESTS.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',

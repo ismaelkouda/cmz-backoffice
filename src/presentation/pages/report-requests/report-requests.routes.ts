@@ -10,15 +10,17 @@ export const ALL_ROUTE = 'all';
 export const routes: Routes = [
     {
         path: QUEUES_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_REQUESTS.QUEUES.BREADCRUMB.LABEL',
+                icon: 'REPORTS_REQUESTS.QUEUES.BREADCRUMB.ICON',
+            },
+        },
         children: [
             {
                 path: '',
                 component: QueuesComponent,
-                data: {
-                    title: 'REPORTS_REQUESTS.QUEUES.TITLE',
-                    module: 'REPORTS_REQUESTS.LABEL',
-                    subModule: 'REPORTS_REQUESTS.QUEUES.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
@@ -28,15 +30,17 @@ export const routes: Routes = [
     },
     {
         path: TASKS_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_REQUESTS.TASKS.BREADCRUMB.LABEL',
+                icon: 'REPORTS_REQUESTS.TASKS.BREADCRUMB.ICON',
+            },
+        },
         children: [
             {
                 path: '',
                 component: TasksComponent,
-                data: {
-                    title: 'REPORTS_REQUESTS.TASKS.TITLE',
-                    module: 'REPORTS_REQUESTS.LABEL',
-                    subModule: 'REPORTS_REQUESTS.TASKS.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
@@ -46,15 +50,17 @@ export const routes: Routes = [
     },
     {
         path: ALL_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORTS_REQUESTS.ALL.BREADCRUMB.LABEL',
+                icon: 'REPORTS_REQUESTS.ALL.BREADCRUMB.ICON',
+            },
+        },
         children: [
             {
                 path: '',
                 component: AllComponent,
-                data: {
-                    title: 'REPORTS_REQUESTS.ALL.TITLE',
-                    module: 'REPORTS_REQUESTS.LABEL',
-                    subModule: 'REPORTS_REQUESTS.ALL.LABEL',
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',
