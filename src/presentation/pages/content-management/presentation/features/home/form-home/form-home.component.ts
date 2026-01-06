@@ -15,7 +15,7 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
+import { SafeUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HOME_ROUTE } from '@presentation/pages/content-management/content-management.routes';
@@ -25,6 +25,7 @@ import { FormValidators } from '@presentation/pages/content-management/core/doma
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { Plateform } from '@shared/domain/enums/plateform.enum';
 import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -40,8 +41,8 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-form-home',
@@ -80,7 +81,6 @@ export class FormHomeComponent implements OnInit {
     private readonly homeFacade = inject(HomeFacade);
     private readonly translate = inject(TranslateService);
     private readonly titleService = inject(Title);
-    private readonly sanitizer = inject(DomSanitizer);
     private readonly messageService = inject(MessageService);
     public readonly VALIDATION = FormValidators;
 
@@ -93,37 +93,30 @@ export class FormHomeComponent implements OnInit {
     public isEditMode = false;
     public currentId?: string;
 
-    public currentType$ = new BehaviorSubject<TypeMediaDto>(TypeMediaDto.IMAGE);
-    public isVideoType$ = this.currentType$.pipe(
-        map((type) => type === TypeMediaDto.VIDEO)
-    );
     public TypeMediaDto = TypeMediaDto;
 
-    public typeOptions = [
-        { label: 'Image', value: TypeMediaDto.IMAGE },
-        { label: 'Video', value: TypeMediaDto.VIDEO },
-    ];
-
-    public platformOptions: any[] = [
-        { label: 'Web', value: 'web' },
-        { label: 'Mobile', value: 'mobile' },
-        { label: 'PWA', value: 'pwa' },
-    ];
+    public plateformOptions: any[] = [];
 
     public uploadedFile: File | null = null;
     public imagePreview: string | null = null;
     public originalImageUrl: string | null = null;
-    public originalVideoUrl: string | null = null;
     public imageRemoved = false;
 
     public isPreviewVisible = false;
-    public previewType: 'image' | 'video' = 'image';
     public previewContent: SafeUrl | string | null = null;
 
     ngOnInit(): void {
         this.initForm();
+        this.initOptions();
         this.setupRouteData();
         this.checkEditMode();
+    }
+
+    private initOptions(): void {
+        this.plateformOptions = Object.values(Plateform).map((type) => ({
+            label: this.translate.instant(`${type}`),
+            value: this.translate.instant(`${type}`).toLowerCase(),
+        }));
     }
 
     private initForm(): void {
@@ -157,8 +150,6 @@ export class FormHomeComponent implements OnInit {
                         ),
                     ],
                 ],
-                type: [TypeMediaDto.IMAGE, Validators.required],
-                videoUrl: [''],
                 imageFile: [null, [Validators.required]],
                 buttonLabel: [
                     '',
@@ -182,53 +173,6 @@ export class FormHomeComponent implements OnInit {
             },
             { validators: this.buttonFieldsConsistencyValidator() }
         );
-
-        this.currentType$.next(TypeMediaDto.IMAGE);
-        this.setupFormListeners();
-    }
-
-    public detectVideoPlatform(
-        url: string
-    ): 'youtube' | 'vimeo' | 'dailymotion' | 'other' {
-        if (!url) return 'other';
-
-        if (FormValidators.VIDEO_URL.PATTERNS.YOUTUBE.test(url)) {
-            return 'youtube';
-        }
-        if (FormValidators.VIDEO_URL.PATTERNS.VIMEO.test(url)) {
-            return 'vimeo';
-        }
-        if (FormValidators.VIDEO_URL.PATTERNS.DAILYMOTION.test(url)) {
-            return 'dailymotion';
-        }
-
-        return 'other';
-    }
-
-    public getVideoPlatformIcon(platform: string): string {
-        switch (platform) {
-            case 'youtube':
-                return 'pi pi-youtube text-danger';
-            case 'vimeo':
-                return 'pi pi-vimeo text-info';
-            case 'dailymotion':
-                return 'pi pi-play-circle text-primary';
-            default:
-                return 'pi pi-video text-muted';
-        }
-    }
-
-    public getVideoPlatformName(platform: string): string {
-        switch (platform) {
-            case 'youtube':
-                return 'YouTube';
-            case 'vimeo':
-                return 'Vimeo';
-            case 'dailymotion':
-                return 'Dailymotion';
-            default:
-                return 'Autre plateforme';
-        }
     }
 
     public getFileSizeStatus(fileSize: number): string {
@@ -344,18 +288,6 @@ export class FormHomeComponent implements OnInit {
             );
         }
 
-        if (fieldName === 'videoUrl') {
-            if (errors['invalidVideoUrl']) {
-                return this.translate.instant('VALIDATION.INVALID_VIDEO_URL');
-            }
-            if (errors['maxlength']) {
-                return `${this.translate.instant('VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
-            }
-            if (errors['pattern']) {
-                return this.translate.instant('VALIDATION.INVALID_URL_FORMAT');
-            }
-        }
-
         if (fieldName === 'imageFile') {
             if (errors['invalidImageType']) {
                 return this.translate.instant('VALIDATION.INVALID_IMAGE_TYPE');
@@ -383,92 +315,9 @@ export class FormHomeComponent implements OnInit {
         );
     }
 
-    private setupFormListeners(): void {
-        this.form
-            .get('type')
-            ?.valueChanges.pipe(
-                distinctUntilChanged(),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe((type: TypeMediaDto) => {
-                this.currentType$.next(type);
-                this.updateMediaFieldsBasedOnType(type);
-            });
-
-        this.form
-            .get('videoUrl')
-            ?.valueChanges.pipe(
-                distinctUntilChanged(),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe((url: string) => {
-                if (url && this.currentType$.value === TypeMediaDto.VIDEO) {
-                    this.validateVideoUrl(url);
-                }
-            });
-
-        combineLatest([
-            this.form.statusChanges.pipe(startWith(this.form.status)),
-            this.form.valueChanges.pipe(startWith(this.form.value)),
-        ])
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.cdr.markForCheck();
-            });
-    }
-
-    private updateMediaFieldsBasedOnType(type: TypeMediaDto): void {
-        const videoControl = this.form.get('videoUrl');
-        const imageControl = this.form.get('imageFile');
-
-        if (type === TypeMediaDto.VIDEO) {
-            videoControl?.setValidators([Validators.required]);
-            videoControl?.enable();
-
-            imageControl?.clearValidators();
-            imageControl?.reset();
-            imageControl?.disable();
-
-            this.uploadedFile = null;
-            this.imagePreview = null;
-            this.imageRemoved = false;
-        } else {
-            videoControl?.clearValidators();
-            videoControl?.reset();
-            videoControl?.disable();
-
-            imageControl?.setValidators([Validators.required]);
-            imageControl?.enable();
-        }
-
-        videoControl?.updateValueAndValidity({ emitEvent: false });
-        imageControl?.updateValueAndValidity({ emitEvent: false });
-
-        this.form.updateValueAndValidity();
-        this.cdr.markForCheck();
-    }
-
-    private validateVideoUrl(url: string): void {
-        if (!url.trim()) return;
-
-        const urlPattern =
-            /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
-
-        if (!urlPattern.test(url)) {
-            this.form.get('videoUrl')?.setErrors({ invalidVideoUrl: true });
-        }
-    }
-
     private validateImageFile(file: File): void {
         const imageControl = this.form.get('imageFile');
 
-        // Vérification du type
-        if (!FormValidators.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
-            imageControl?.setErrors({ invalidImageType: true });
-            return;
-        }
-
-        // Vérification de la taille
         if (file.size > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
             imageControl?.setErrors({
                 fileTooLarge: {
@@ -479,13 +328,12 @@ export class FormHomeComponent implements OnInit {
             return;
         }
 
-        // Vérification des dimensions (optionnelle)
         this.checkImageDimensions(file).then((dimensions) => {
             if (
                 dimensions.width >
-                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
                 dimensions.height >
-                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
             ) {
                 imageControl?.setErrors({ imageDimensions: true });
             }
@@ -557,8 +405,6 @@ export class FormHomeComponent implements OnInit {
             title: item.title,
             resume: item.resume,
             content: item.content,
-            type: item.type,
-            videoUrl: item.videoUrl,
             imageFile: item.imageUrl,
             order: item.order,
             buttonLabel: item.buttonLabel,
@@ -569,21 +415,12 @@ export class FormHomeComponent implements OnInit {
             isActive: item.status,
         };
 
-        if (item.type === TypeMediaDto.VIDEO) {
-            formData.videoUrl = item.videoUrl || '';
-        } else {
-            formData.videoUrl = null;
-            if (item.imageUrl) {
-                formData.imageFile = item.imageUrl;
-                this.imagePreview = item.imageUrl;
-            }
+        if (item.imageUrl) {
+            formData.imageFile = item.imageUrl;
+            this.imagePreview = item.imageUrl;
         }
 
         this.form.patchValue(formData, { emitEvent: false });
-
-        this.currentType$.next(item.type);
-        this.updateMediaFieldsBasedOnType(item.type);
-
         this.cdr.markForCheck();
     }
 
@@ -616,18 +453,8 @@ export class FormHomeComponent implements OnInit {
         this.cdr.markForCheck();
     }
 
-    openPreview(type: 'image' | 'video'): void {
-        this.previewType = type;
-        if (type === 'image') {
-            this.previewContent = this.imagePreview;
-        } else if (type === 'video') {
-            const videoUrl = this.form.get('videoUrl')?.value;
-            if (videoUrl) {
-                this.previewContent =
-                    this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
-            }
-        }
-
+    openPreview(): void {
+        this.previewContent = this.imagePreview;
         if (this.previewContent) {
             this.isPreviewVisible = true;
         }
@@ -717,7 +544,6 @@ export class FormHomeComponent implements OnInit {
         formData.append('title', values.title);
         formData.append('resume', values.resume);
         formData.append('content', values.content || '');
-        formData.append('type', values.type);
         formData.append('order', values.order?.toString() || '0');
         formData.append('button_label', values.buttonLabel || '');
         formData.append('button_url', values.buttonUrl || '');
@@ -735,9 +561,7 @@ export class FormHomeComponent implements OnInit {
             formData.append('end_date', (values.endDate as Date).toISOString());
         }
 
-        if (values.type === TypeMediaDto.VIDEO && values.videoUrl) {
-            formData.append('video_url', values.videoUrl);
-        } else if (values.type === TypeMediaDto.IMAGE && this.uploadedFile) {
+        if (values.type === TypeMediaDto.IMAGE && this.uploadedFile) {
             formData.append('image_file', this.uploadedFile);
         }
 

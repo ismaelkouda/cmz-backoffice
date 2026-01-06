@@ -1,5 +1,5 @@
 export enum Plateform {
-    APP = 'COMMON.APP',
+    WEB = 'COMMON.WEB',
+    MOBILE = 'COMMON.MOBILE',
     PWA = 'COMMON.PWA',
-    USSD = 'COMMON.USSD',
 }

@@ -23,7 +23,7 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
             this.reportSourceMapper.mapToEnum(dto.source),
             dto.initiator_phone_number,
             this.mapState(dto.state),
-            dto.created_at
+            dto.reported_at
         );
     }
 

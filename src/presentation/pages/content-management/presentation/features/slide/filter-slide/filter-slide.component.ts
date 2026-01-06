@@ -77,8 +77,8 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
         ];
 
         this.plateformOptions = Object.values(Plateform).map((type) => ({
-            label: this.translate.instant(`${type.toUpperCase()}`),
-            value: type,
+            label: this.translate.instant(`${type}`),
+            value: this.translate.instant(`${type}`).toLowerCase(),
         }));
     }
 

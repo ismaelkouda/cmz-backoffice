@@ -29,12 +29,12 @@ import { Observable } from 'rxjs';
                     <p-paginator
                         (onPageChange)="onPageChange($event)"
                         [rows]="pagination?.per_page || 10"
-                        [totalRecords]="(pagination?.total || 0) | separatorThousandsPipe"
+                        [totalRecords]="pagination?.total || 0"
                         [first]="
-                            ((pagination?.current_page - 1 || 0) *
+                            (pagination?.current_page - 1 || 0) *
                                 (pagination?.per_page || 0) +
                                 first +
-                                1 || 0) | separatorThousandsPipe
+                                1 || 0
                         "
                         [pageLinkSize]="9"
                         [showCurrentPageReport]="true"

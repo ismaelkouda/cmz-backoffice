@@ -458,7 +458,9 @@
         "HIGH": "HAUTE",
         "CRITICAL": "CRITIQUE",
         "GPS": "GPS",
+        "WEB": "Web",
         "APP": "Application Mobile",
+        "MOBILE": "Mobile",
         "PWA": "PWA",
         "USSD": "USSD",
         "SMS": "SMS",
@@ -507,6 +509,64 @@
         "CONFIRM": "Se déconnecter du compte ?",
         "MESSAGES": "Êtes-vous sûr de vouloir vous déconnecter",
         "BUTTONS": "Se déconnecter"
+        }
+    },
+    "MY_ACCOUNT": {
+        "ACCOUNT": {
+            "TITLE": "Mon compte",
+            "FORM": {
+                "TITLE": "Mon compte",
+                "LAST_NAME": {
+                    "LABEL": "Nom",
+                    "PLACEHOLDER": "Saisissez votre nom"
+                },
+                "FIRST_NAME": {
+                    "LABEL": "Prenom",
+                    "PLACEHOLDER": "Saisissez votre prenom"
+                },
+                "EMAIL": {
+                    "LABEL": "Email",
+                    "PLACEHOLDER": "Saisissez votre email"
+                },
+                "PHONE": {
+                    "LABEL": "Téléphone",
+                    "PLACEHOLDER": "Saisissez votre numéro de téléphone"
+                },
+                "INVALID_FORMAT": "Format invalide",
+                "INVALID_START": "Le numéro doit commencer par 07, 05 ou 03",
+                "INVALID_LENGTH": "Le numéro doit contenir 10 chiffres"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "PASSWORD_UPDATED": "Mot de passe mis à jour avec succès",
+                    "PROFILE_UPDATED": "Profil mis à jour avec succès"
+                }
+            }
+        },
+        "PASSWORD": {
+            "TITLE": "Mot de passe",
+            "FORM": {
+                "TITLE": "Mot de passe",
+                "OLD_PASSWORD": {
+                    "LABEL": "Ancien mot de passe",
+                    "PLACEHOLDER": "Saisissez votre ancien mot de passe"
+                },
+                "NEW_PASSWORD": {
+                    "LABEL": "Nouveau mot de passe",
+                    "PLACEHOLDER": "Saisissez votre nouveau mot de passe"
+                },
+                "CONFIRM_NEW_PASSWORD": {
+                    "LABEL": "Confirmer le mot de passe",
+                    "PLACEHOLDER": "Confirmer votre nouveau mot de passe"
+                },
+                "INVALID_FORMAT": "Format invalide",
+                "NOT_MATCH": "Les mots de passe ne correspondent pas"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "PASSWORD_UPDATED": "Mot de passe mis à jour avec succès"
+                }
+            }
         }
     },
     "OPERATOR": {
@@ -777,6 +837,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
+                "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
@@ -840,6 +901,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
+                "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
@@ -921,6 +983,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
+                "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
@@ -2565,7 +2628,6 @@
     "MODE_OF_CREDIT": "Mode de crédit",
     "TO_RECHARGE": "Recharger",
     "MY_RELOADS": "Mes rechargements",
-    "MY_ACCOUNT": "Mon compte",
     "ACCOUNTING": "Comptabilité",
     "UNIT_PRICE": "Prix unitaire",
     "FILTER": "Filtrer",

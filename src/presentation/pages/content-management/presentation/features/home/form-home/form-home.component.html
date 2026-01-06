@@ -50,295 +50,125 @@
                                             <div
                                                 class="row g-3 align-items-center"
                                             >
-                                                <div class="col-md-3 mt-0">
-                                                    <label
-                                                        for="type"
-                                                        class="form-label fw-bold"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.TYPE'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
-                                                    >
-                                                    <p-select
-                                                        class="form-p-select"
-                                                        [options]="typeOptions"
-                                                        formControlName="type"
-                                                        optionLabel="label"
-                                                        optionValue="value"
-                                                        styleClass="w-100"
-                                                    ></p-select>
-                                                </div>
 
                                                 <div class="col-md-9">
-                                                    @if (
-                                                        form.get('type')
-                                                            ?.value ===
-                                                        TypeMediaDto.VIDEO
-                                                    ) {
-                                                        <div
-                                                            class="video-url-section"
+                                                    <div
+                                                        class="image-section"
+                                                    >
+                                                        <label
+                                                            class="form-label fw-bold d-block mb-2"
                                                         >
-                                                            <label
-                                                                for="videoUrl"
-                                                                class="form-label fw-bold"
+                                                            {{
+                                                                'CONTENT_MANAGEMENT.HOME.FORM.IMAGE'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
                                                             >
-                                                                {{
-                                                                    'CONTENT_MANAGEMENT.HOME.FORM.VIDEO_URL'
-                                                                        | translate
-                                                                }}
-                                                                <span
-                                                                    class="text-danger"
-                                                                    >*</span
-                                                                >
-                                                            </label>
+                                                        </label>
 
-                                                            <input
-                                                                class="form-input"
-                                                                id="videoUrl"
-                                                                formControlName="videoUrl"
-                                                                [placeholder]="
-                                                                    'https://youtube.com/watch?v=... ou https://vimeo.com/...'
-                                                                "
-                                                                [attr.maxlength]="
-                                                                    VALIDATION
-                                                                        .VIDEO_URL
-                                                                        .MAX
-                                                                "
-                                                                [attr.aria-label]="
-                                                                    'URL de la vidéo, formats supportés: YouTube, Vimeo, Dailymotion'
-                                                                "
-                                                            />
-
+                                                        <div
+                                                            class="image-upload-area d-flex gap-2"
+                                                        >
                                                             <div
-                                                                class="d-flex justify-content-between align-items-center mt-1"
+                                                                class="d-flex align-items-center gap-3 flex-wrap"
                                                             >
-                                                                @if (
-                                                                    form.get(
-                                                                        'videoUrl'
-                                                                    )
-                                                                        ?.invalid &&
-                                                                    form.get(
-                                                                        'videoUrl'
-                                                                    )?.touched
-                                                                ) {
-                                                                    <small
-                                                                        class="text-danger"
-                                                                    >
-                                                                        {{
-                                                                            getErrorMessage(
-                                                                                'videoUrl'
-                                                                            )
-                                                                        }}
-                                                                    </small>
-                                                                }
-
-                                                                <small
-                                                                    class="text-muted ms-auto"
-                                                                >
-                                                                    {{
-                                                                        (
-                                                                            form.get(
-                                                                                'videoUrl'
-                                                                            )
-                                                                                ?.value ||
-                                                                            ''
-                                                                        )
-                                                                            .length
-                                                                    }}/{{
+                                                                <p-fileUpload
+                                                                    mode="basic"
+                                                                    name="imageUpload"
+                                                                    accept="image/*"
+                                                                    [maxFileSize]="
                                                                         VALIDATION
-                                                                            .VIDEO_URL
-                                                                            .MAX
-                                                                    }}
-                                                                </small>
+                                                                            .IMAGE_FILE
+                                                                            .MAX_SIZE_MB *
+                                                                        1000000
+                                                                    "
+                                                                    (onSelect)="
+                                                                        onFileSelect(
+                                                                            $event
+                                                                        )
+                                                                    "
+                                                                    [chooseLabel]="
+                                                                        'CONTENT_MANAGEMENT.HOME.FORM.CHOOSE_IMAGE'
+                                                                            | translate
+                                                                    "
+                                                                    styleClass="p-button-outlined"
+                                                                >
+                                                                </p-fileUpload>
                                                             </div>
 
                                                             @if (
-                                                                form.get(
-                                                                    'videoUrl'
-                                                                )?.value &&
-                                                                form.get(
-                                                                    'videoUrl'
-                                                                )?.valid
+                                                                imagePreview &&
+                                                                !imageRemoved
                                                             ) {
                                                                 <div
-                                                                    class="video-platform-indicator mt-2"
+                                                                    class="media-preview-container"
                                                                 >
-                                                                    @let videoUrl =
-                                                                        form.get(
-                                                                            'videoUrl'
-                                                                        )
-                                                                            ?.value;
-                                                                    @let platform =
-                                                                        detectVideoPlatform(
-                                                                            videoUrl
-                                                                        );
-
                                                                     <div
-                                                                        class="d-flex align-items-center gap-2"
+                                                                        class="d-flex align-items-center gap-3"
                                                                     >
-                                                                        <i
-                                                                            [class]="
-                                                                                getVideoPlatformIcon(
-                                                                                    platform
-                                                                                )
-                                                                            "
-                                                                        ></i>
-                                                                        <small
-                                                                            class="text-success"
-                                                                        >
-                                                                            {{
-                                                                                getVideoPlatformName(
-                                                                                    platform
-                                                                                )
-                                                                            }}
-                                                                        </small>
-                                                                        <small
-                                                                            class="text-muted ms-2"
-                                                                        >
-                                                                            <i
-                                                                                class="pi pi-check-circle text-success"
-                                                                            ></i>
-                                                                            {{
-                                                                                'CONTENT_MANAGEMENT.HOME.FORM.VALIDATOR.VIDEO_PLATFORM_SUPPORTED'
+                                                                        <button
+                                                                            pButton
+                                                                            type="button"
+                                                                            icon="pi pi-eye"
+                                                                            [label]="
+                                                                                'COMMON.PREVIEW'
                                                                                     | translate
-                                                                            }}
-                                                                        </small>
+                                                                            "
+                                                                            class="p-button-rounded p-button-info p-button-text"
+                                                                            (click)="openPreview()"
+                                                                        ></button>
+
+                                                                        <div
+                                                                            class="position-relative"
+                                                                        >
+                                                                            <img
+                                                                                [src]="
+                                                                                    imagePreview
+                                                                                "
+                                                                                alt="Mini Preview"
+                                                                                class="img-thumbnail rounded shadow-sm media-thumbnail"
+                                                                            />
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             }
-
-                                                            <!-- <small class="text-muted d-block mt-2">
-                                                                <i class="pi pi-info-circle me-1"></i>
-                                                                {{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATOR.VIDEO_URL_HELP' | translate }}
-                                                            </small> -->
                                                         </div>
-                                                    } @else {
+
                                                         <div
-                                                            class="image-section"
+                                                            class="image-help"
                                                         >
-                                                            <label
-                                                                class="form-label fw-bold d-block mb-2"
+                                                            <small
+                                                                class="text-muted d-block"
                                                             >
+                                                                <i
+                                                                    class="pi pi-info-circle me-1"
+                                                                ></i>
+                                                                <!-- {{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.IMAGE_HELP' | translate:{ 
+                                                                    maxSize: VALIDATION.IMAGE_FILE.MAX_SIZE_MB,
+                                                                    maxWidth: VALIDATION.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
+                                                                    maxHeight: VALIDATION.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                                                                } }} -->
+                                                                <strong
+                                                                    >{{
+                                                                        'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.SUPPORTED_FORMATS'
+                                                                            | translate
+                                                                    }}:</strong
+                                                                >
                                                                 {{
-                                                                    'CONTENT_MANAGEMENT.HOME.FORM.IMAGE'
-                                                                        | translate
+                                                                    allowedImageTypes
                                                                 }}
-                                                                <span
-                                                                    class="text-danger"
-                                                                    >*</span
-                                                                >
-                                                            </label>
+                                                            </small>
 
-                                                            <div
-                                                                class="image-upload-area d-flex gap-2"
-                                                            >
-                                                                <div
-                                                                    class="d-flex align-items-center gap-3 flex-wrap"
-                                                                >
-                                                                    <p-fileUpload
-                                                                        mode="basic"
-                                                                        name="imageUpload"
-                                                                        accept="image/*"
-                                                                        [maxFileSize]="
-                                                                            VALIDATION
-                                                                                .IMAGE_FILE
-                                                                                .MAX_SIZE_MB *
-                                                                            1000000
-                                                                        "
-                                                                        (onSelect)="
-                                                                            onFileSelect(
-                                                                                $event
-                                                                            )
-                                                                        "
-                                                                        [chooseLabel]="
-                                                                            'CONTENT_MANAGEMENT.HOME.FORM.CHOOSE_IMAGE'
-                                                                                | translate
-                                                                        "
-                                                                        styleClass="p-button-outlined"
-                                                                    >
-                                                                    </p-fileUpload>
-                                                                </div>
-
-                                                                @if (
-                                                                    imagePreview &&
-                                                                    !imageRemoved
-                                                                ) {
-                                                                    <div
-                                                                        class="media-preview-container"
-                                                                    >
-                                                                        <div
-                                                                            class="d-flex align-items-center gap-3"
-                                                                        >
-                                                                            <button
-                                                                                pButton
-                                                                                type="button"
-                                                                                icon="pi pi-eye"
-                                                                                [label]="
-                                                                                    'COMMON.PREVIEW'
-                                                                                        | translate
-                                                                                "
-                                                                                class="p-button-rounded p-button-info p-button-text"
-                                                                                (click)="
-                                                                                    openPreview(
-                                                                                        'image'
-                                                                                    )
-                                                                                "
-                                                                            ></button>
-
-                                                                            <div
-                                                                                class="position-relative"
-                                                                            >
-                                                                                <img
-                                                                                    [src]="
-                                                                                        imagePreview
-                                                                                    "
-                                                                                    alt="Mini Preview"
-                                                                                    class="img-thumbnail rounded shadow-sm media-thumbnail"
-                                                                                />
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                }
-                                                            </div>
-
-                                                            <div
-                                                                class="image-help"
-                                                            >
-                                                                <small
-                                                                    class="text-muted d-block"
-                                                                >
-                                                                    <i
-                                                                        class="pi pi-info-circle me-1"
-                                                                    ></i>
-                                                                    <!-- {{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.IMAGE_HELP' | translate:{ 
-                                                                        maxSize: VALIDATION.IMAGE_FILE.MAX_SIZE_MB,
-                                                                        maxWidth: VALIDATION.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
-                                                                        maxHeight: VALIDATION.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
-                                                                    } }} -->
-                                                                    <strong
-                                                                        >{{
-                                                                            'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.SUPPORTED_FORMATS'
-                                                                                | translate
-                                                                        }}:</strong
-                                                                    >
-                                                                    {{
-                                                                        allowedImageTypes
-                                                                    }}
+                                                            <!-- <div class="supported-formats mt-1">
+                                                                <small class="text-muted">
+                                                                    <strong>{{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.SUPPORTED_FORMATS' | translate }}:</strong>
+                                                                    {{ allowedImageTypes }}
                                                                 </small>
-
-                                                                <!-- <div class="supported-formats mt-1">
-                                                                    <small class="text-muted">
-                                                                        <strong>{{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.SUPPORTED_FORMATS' | translate }}:</strong>
-                                                                        {{ allowedImageTypes }}
-                                                                    </small>
-                                                                </div> -->
-                                                            </div>
+                                                            </div> -->
                                                         </div>
-                                                    }
+                                                    </div>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -360,7 +190,10 @@
                                                             'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'
                                                                 | translate
                                                         }}</label
-                                                    >
+                                                    ><span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     <input
                                                         class="form-input"
                                                         id="buttonLabel"
@@ -421,7 +254,10 @@
                                                             'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'
                                                                 | translate
                                                         }}</label
-                                                    >
+                                                    ><span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     <input
                                                         class="form-input"
                                                         id="buttonUrl"
@@ -492,8 +328,10 @@
                                                     <p-multiSelect
                                                         class="form-p-select"
                                                         [options]="
-                                                            platformOptions
+                                                            plateformOptions
                                                         "
+                                                        optionLabel="label"
+                                                        optionValue="value"
                                                         formControlName="platforms"
                                                         styleClass="w-100"
                                                         [filter]="false"
@@ -797,6 +635,7 @@
                                                     'COMMON.SAVE' | translate
                                                 }}"
                                                 type="submit"
+                                                [disabled]="!form.valid"
                                             >
                                             </p-button>
                                         </div>
@@ -816,10 +655,7 @@
     [modal]="true"
     [style]="{ width: '50vw', maxWidth: '800px' }"
     [header]="
-        (previewType === 'image'
-            ? 'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW'
-            : 'CONTENT_MANAGEMENT.HOME.FORM.VIDEO_PREVIEW'
-        ) | translate
+        'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW' | translate
     "
     [dismissableMask]="true"
     [draggable]="false"
@@ -828,7 +664,7 @@
     <div
         class="d-flex justify-content-center align-items-center bg-light p-3 rounded"
     >
-        @if (previewType === 'image' && previewContent) {
+        @if (previewContent) {
             <img
                 [src]="previewContent"
                 alt="Full Preview"
@@ -836,16 +672,7 @@
                 style="max-height: 70vh; object-fit: contain"
             />
         }
-        @if (previewType === 'video' && previewContent) {
-            <video
-                [src]="previewContent"
-                controls
-                autoplay
-                class="img-fluid rounded shadow"
-                style="max-height: 70vh"
-            ></video>
-        }
-        @if (!previewContent) {
+        @else {
             <p class="text-muted">
                 <i class="pi pi-exclamation-circle me-2"></i>
                 {{

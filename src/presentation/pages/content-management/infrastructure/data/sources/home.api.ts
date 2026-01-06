@@ -19,13 +19,14 @@ export class HomeApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchHome(
         payload: HomeRequestDto,
         page: string
     ): Observable<HomeResponseDto> {
-        const url = `${this.baseUrl}${HOME_ENDPOINTS.HOME.replace('{page}', page)} `;
+        console.log("page", page);
+        const url = `${this.baseUrl}${HOME_ENDPOINTS.HOME.replace('{page}', page)}`;
 
         const params = this.createHttpParams(payload);
 

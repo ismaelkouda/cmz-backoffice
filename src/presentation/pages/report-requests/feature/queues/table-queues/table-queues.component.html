@@ -22,9 +22,7 @@
                 [page]="(pagination$ | async)?.current_page"
                 [totalPage]="(pagination$ | async)?.last_page"
             />
-            <div
-                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
-            >
+            <div class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0">
                 <app-table-button-header
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"

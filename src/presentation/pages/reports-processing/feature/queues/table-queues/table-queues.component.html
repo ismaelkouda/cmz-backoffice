@@ -63,6 +63,8 @@
                                     (keydown.enter)="$event.target.blur()"
                                     (keydown.escape)="clearSelection()"
                                     [disabled]="!hasData() || isLoading()"
+                                    pTooltip="Saisir un nombre entre 1 et {{ queues().length }}"
+                                    tooltipPosition="bottom"
                                 />
                             </div>
                         }
@@ -152,9 +154,9 @@
                             </ng-template>
                         }
 
-                        @case ('createdAt') {
-                            <time [attr.datetime]="queue.createdAt">
-                                {{ formatDate(queue.createdAt) }}
+                        @case ('reportedAt') {
+                            <time [attr.datetime]="queue.reportedAt">
+                                {{ formatDate(queue.reportedAt) }}
                             </time>
                         }
 

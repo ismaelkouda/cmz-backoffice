@@ -5,7 +5,7 @@ import { AllTableVM } from '@presentation/pages/reports-processing/domain/view-m
 
 @Injectable({ providedIn: 'root' })
 export class AllTableMapper {
-    constructor(private translate: TranslateService) {}
+    constructor(private translate: TranslateService) { }
 
     toVM(entity: AllEntity): AllTableVM {
         return {
@@ -20,7 +20,7 @@ export class AllTableMapper {
             operatorsLabels: entity.operators.map((op) =>
                 this.translate.instant(op)
             ),
-            createdAt: entity.createdAt,
+            reportedAt: entity.reportedAt,
         };
     }
 

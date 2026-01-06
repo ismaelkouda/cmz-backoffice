@@ -61,6 +61,7 @@
                                     (keydown.enter)="$event.target.blur()"
                                     (keydown.escape)="clearSelection()"
                                     [disabled]="!hasData() || isLoading()"
+                                    [disabled]="!hasData() || isLoading()"
                                 />
                             </div>
                         }
@@ -147,9 +148,9 @@
                             </ng-template>
                         }
 
-                        @case ('createdAt') {
-                            <time [attr.datetime]="task.createdAt">
-                                {{ formatDate(task.createdAt) }}
+                        @case ('reportedAt') {
+                            <time [attr.datetime]="task.reportedAt">
+                                {{ formatDate(task.reportedAt) }}
                             </time>
                         }
 

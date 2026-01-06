@@ -132,9 +132,9 @@
                             </div>
                         }
 
-                        @case ('createdAt') {
-                            <time [attr.datetime]="item.createdAt">
-                                {{ formatDate(item.createdAt) }}
+                        @case ('reportedAt') {
+                            <time [attr.datetime]="item.reportedAt">
+                                {{ formatDate(item.reportedAt) }}
                             </time>
                         }
 

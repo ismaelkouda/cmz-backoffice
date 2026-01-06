@@ -20,6 +20,15 @@ p-datepicker span {
 label {
     width: 100% !important;
 }
+
+
+::ng-deep .form-input {
+    @extend .form-input;
+    padding-right: 48px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /*debut: centrer les spinners et les messages des tableaux*/
 
 .posRelative {

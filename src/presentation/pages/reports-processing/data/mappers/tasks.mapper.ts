@@ -19,7 +19,7 @@ export class TasksMapper extends PaginatedMapper<TasksEntity, TasksItemDto> {
             this.telecomOperatorMapper.mapToEnum(dto.operators),
             this.reportSourceMapper.mapToEnum(dto.source),
             dto.initiator_phone_number,
-            dto.created_at
+            dto.reported_at
         );
     }
 }

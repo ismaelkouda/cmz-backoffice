@@ -155,7 +155,7 @@ export class FormNewsComponent implements OnInit {
         { label: 'Video', value: TypeMediaDto.VIDEO },
     ];
 
-    public platformOptions: any[] = [
+    public plateformOptions: any[] = [
         { label: 'Web', value: 'web' },
         { label: 'Mobile', value: 'mobile' },
         { label: 'PWA', value: 'pwa' },
@@ -492,9 +492,9 @@ export class FormNewsComponent implements OnInit {
         this.checkImageDimensions(file).then((dimensions) => {
             if (
                 dimensions.width >
-                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
                 dimensions.height >
-                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
             ) {
                 imageControl?.setErrors({ imageDimensions: true });
             }

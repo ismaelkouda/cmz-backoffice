@@ -163,3 +163,271 @@
         }
     }
 }
+
+$white: var(--color-white);
+$black: var(--color-black);
+$bg-primary: var(--color-gray-light);
+$light-gray: var(--color-gray-light);
+$medium-gray: var(--color-gray);
+$dark-gray: var(--color-gray);
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin transition($property) {
+    transition: $property 0.3s ease-in-out;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--color-gray-light);
+    border-radius: 12px;
+    font: 400 16px/24px var(--font-primary);
+    color: var(--color-black);
+    @include transition(all);
+    background-color: var(--color-gray-light);
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: var(--theme-default);
+        box-shadow: 0 0 0 4px
+            color-mix(in srgb, var(--theme-default) 15%, transparent);
+        background-color: var(--color-white);
+    }
+
+    &::placeholder {
+        color: rgba(var(--color-black), 0.4);
+    }
+
+    &.ng-invalid.ng-touched {
+        border-color: var(--color-error, #dc3545);
+        background-color: color-mix(
+            in srgb,
+            var(--color-error, #dc3545) 5%,
+            $white
+        );
+
+        &:focus {
+            border-color: var(--color-error, #dc3545);
+            box-shadow: 0 0 0 4px
+                color-mix(in srgb, var(--color-error, #dc3545) 15%, transparent);
+        }
+    }
+
+    &--valid {
+        border-color: var(--color-success, #28a745);
+        background-color: color-mix(
+            in srgb,
+            var(--color-success, #28a745) 5%,
+            $white
+        );
+
+        &:focus {
+            border-color: var(--color-success, #28a745);
+            box-shadow: 0 0 0 4px
+                color-mix(
+                    in srgb,
+                    var(--color-success, #28a745) 15%,
+                    transparent
+                );
+        }
+    }
+}
+
+::ng-deep .p-password {
+    display: block;
+    position: relative;
+    width: 100%;
+
+    .p-inputwrapper {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+    .p-password-input {
+        @extend .form-input;
+        padding-right: 48px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .p-inputtext {
+        @extend .form-input;
+        padding-right: 48px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .p-password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        color: rgba($black, 0.5);
+        @include transition(all);
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        line-height: 1;
+        vertical-align: middle;
+
+        i,
+        .p-icon {
+            font-size: 16px;
+            line-height: 1;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        &:hover {
+            color: var(--theme-default);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        &:focus {
+            outline: none;
+            color: var(--theme-default);
+        }
+
+        &:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+    }
+
+    &.p-input-icon-right {
+        .p-password-input {
+            padding-right: 48px;
+        }
+
+        .p-password-toggle {
+            right: 16px;
+        }
+    }
+
+    &.ng-invalid.ng-touched {
+        .p-password-input {
+            border-color: var(--color-error, #dc3545);
+            background-color: color-mix(
+                in srgb,
+                var(--color-error, #dc3545) 5%,
+                $white
+            );
+
+            &:focus {
+                box-shadow: 0 0 0 4px
+                    color-mix(
+                        in srgb,
+                        var(--color-error, #dc3545) 15%,
+                        transparent
+                    );
+            }
+        }
+    }
+
+    &.ng-valid.ng-touched {
+        .p-password-input {
+            border-color: var(--color-success, #28a745);
+            background-color: color-mix(
+                in srgb,
+                var(--color-success, #28a745) 5%,
+                $white
+            );
+
+            &:focus {
+                box-shadow: 0 0 0 4px
+                    color-mix(
+                        in srgb,
+                        var(--color-success, #28a745) 15%,
+                        transparent
+                    );
+            }
+        }
+    }
+}
+
+::ng-deep .p-inputmask {
+    display: block;
+    position: relative;
+    width: 100%;
+
+    .p-inputwrapper {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+    .p-inputtext {
+        @extend .form-input;
+        padding-right: 48px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .p-inputtext {
+        @extend .form-input;
+        padding-right: 48px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    &.ng-invalid.ng-touched {
+        .p-inputtext {
+            border-color: var(--color-error, #dc3545);
+            background-color: color-mix(
+                in srgb,
+                var(--color-error, #dc3545) 5%,
+                $white
+            );
+
+            &:focus {
+                box-shadow: 0 0 0 4px
+                    color-mix(
+                        in srgb,
+                        var(--color-error, #dc3545) 15%,
+                        transparent
+                    );
+            }
+        }
+    }
+
+    &.ng-valid.ng-touched {
+        .p-inputtext {
+            border-color: var(--color-success, #28a745);
+            background-color: color-mix(
+                in srgb,
+                var(--color-success, #28a745) 5%,
+                $white
+            );
+
+            &:focus {
+                box-shadow: 0 0 0 4px
+                    color-mix(
+                        in srgb,
+                        var(--color-success, #28a745) 15%,
+                        transparent
+                    );
+            }
+        }
+    }
+}
+

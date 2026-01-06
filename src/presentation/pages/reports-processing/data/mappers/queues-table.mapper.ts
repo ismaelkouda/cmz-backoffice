@@ -5,7 +5,7 @@ import { QueuesTableVM } from '@presentation/pages/reports-processing/domain/vie
 
 @Injectable({ providedIn: 'root' })
 export class QueuesTableMapper {
-    constructor(private translate: TranslateService) {}
+    constructor(private translate: TranslateService) { }
 
     toVM(entity: QueuesEntity): QueuesTableVM {
         return {
@@ -19,7 +19,7 @@ export class QueuesTableMapper {
             operatorsLabels: entity.operators.map((op) =>
                 this.translate.instant(op)
             ),
-            createdAt: entity.createdAt,
+            reportedAt: entity.reportedAt,
         };
     }
 

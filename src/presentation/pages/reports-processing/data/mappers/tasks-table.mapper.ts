@@ -5,7 +5,7 @@ import { TasksTableVM } from '@presentation/pages/reports-processing/domain/view
 
 @Injectable({ providedIn: 'root' })
 export class TasksTableMapper {
-    constructor(private translate: TranslateService) {}
+    constructor(private translate: TranslateService) { }
 
     toVM(entity: TasksEntity): TasksTableVM {
         return {
@@ -19,7 +19,7 @@ export class TasksTableMapper {
             operatorsLabels: entity.operators.map((op) =>
                 this.translate.instant(op)
             ),
-            createdAt: entity.createdAt,
+            reportedAt: entity.reportedAt,
         };
     }
 
