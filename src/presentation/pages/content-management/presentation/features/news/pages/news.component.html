@@ -1,7 +1,6 @@
 <main class="container-fluid news-container" role="main">
     <section class="row news-row">
         <article class="col-sm-12 news-article">
-            
             <app-breadcrumb />
 
             <section class="card news-card">
@@ -10,21 +9,25 @@
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
-                            [title]="'CONTENT_MANAGEMENT.NEWS.TITLE' | translate | lowercase"
+                            [title]="
+                                'CONTENT_MANAGEMENT.NEWS.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
                         ></app-page-title>
                     </header>
 
                     <div class="fade-in news-content">
-                        
-                        <app-filter-news class="filter-component" 
+                        <app-filter-news
+                            class="filter-component"
                             [loading]="(loading$ | async) ?? false"
-                            (filter)="filter($event)">
+                            (filter)="filter($event)"
+                        >
                         </app-filter-news>
 
                         <hr class="news-divider" />
 
                         <section class="table-section">
-                            
                             <app-table-news
                                 class="table-component"
                                 [loading]="(loading$ | async) ?? false"

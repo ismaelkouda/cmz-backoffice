@@ -64,10 +64,13 @@ export class TermsUseFacade extends BaseFacade<TermsUseEntity, TermsUseFilter> {
                 this.toastService.success(response.message);
                 this.refresh();
             })
-        )
+        );
     }
 
-    update(id: string, formData: FormData): Observable<SimpleResponseDto<void>> {
+    update(
+        id: string,
+        formData: FormData
+    ): Observable<SimpleResponseDto<void>> {
         return this.updateUseCase.execute({ id, params: formData }).pipe(
             tap((response) => {
                 this.toastService.success(response.message);

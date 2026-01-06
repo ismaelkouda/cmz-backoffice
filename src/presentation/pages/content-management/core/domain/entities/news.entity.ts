@@ -17,7 +17,7 @@ export class NewsEntity {
         public readonly status: ActionDropdown,
         public readonly createdAt: string,
         public readonly updatedAt: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<NewsEntity>): NewsEntity {
         return new NewsEntity(

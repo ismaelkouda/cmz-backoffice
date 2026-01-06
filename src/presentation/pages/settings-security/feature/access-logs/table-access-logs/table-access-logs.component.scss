@@ -23,7 +23,6 @@
     border-bottom: 1px solid #dee2e6;
 }
 
-
 .table-action-btn {
     padding: 2px 6px !important;
     font-size: 13px !important;
@@ -50,7 +49,6 @@
 .custom-table td .table-action-btn:last-child {
     margin-right: 0 !important;
 }
-
 
 .custom-table td .d-flex {
     gap: 4px !important;
@@ -87,8 +85,6 @@
     }
 }
 
-
-
 .report-type-content {
     display: block;
 }
@@ -117,7 +113,6 @@
     border-top: 1px solid #e0e0e0;
     margin: 4px 0;
 }
-
 
 ::ng-deep .p-overlaypanel {
     z-index: 9999 !important;
@@ -155,14 +150,12 @@
     cursor: help;
 }
 
-
 ::ng-deep .p-datatable-tbody > tr > td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 0; 
+    max-width: 0;
 }
-
 
 ::ng-deep .p-datatable-tbody > tr > td .truncated-text {
     display: block;
@@ -171,7 +164,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
 
 ::ng-deep .p-tooltip {
     max-width: 300px;
@@ -189,50 +181,50 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-[class^="skeleton-"] {
-        border-radius: 4px;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: skeleton-loading 1.5s infinite;
+[class^='skeleton-'] {
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+// Variantes spécifiques si besoin
+.skeleton-ip,
+.skeleton-action {
+    font-family: monospace;
+}
+
+.skeleton-data {
+    width: 60% !important; // Ajustement pour bouton/action
+}
+
+// Animation
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
     }
-    
-    // Variantes spécifiques si besoin
-    .skeleton-ip,
-    .skeleton-action {
-        font-family: monospace;
+    100% {
+        background-position: -200% 0;
     }
-    
-    .skeleton-data {
-        width: 60% !important; // Ajustement pour bouton/action
-    }
-    
-    // Animation
-    @keyframes skeleton-loading {
-        0% {
-            background-position: 200% 0;
-        }
-        100% {
-            background-position: -200% 0;
-        }
-    }
-    
-    // Styles utilitaires
-    .text-danger {
-        color: var(--red-500);
-        font-weight: 500;
-    }
-    
-    .text-warning {
-        color: var(--orange-500);
-        font-weight: 500;
-    }
-    
-    .text-success {
-        color: var(--green-500);
-        font-weight: 500;
-    }
-    
-    .text-info {
-        color: var(--blue-500);
-        font-weight: 500;
-    }
+}
+
+// Styles utilitaires
+.text-danger {
+    color: var(--red-500);
+    font-weight: 500;
+}
+
+.text-warning {
+    color: var(--orange-500);
+    font-weight: 500;
+}
+
+.text-success {
+    color: var(--green-500);
+    font-weight: 500;
+}
+
+.text-info {
+    color: var(--blue-500);
+    font-weight: 500;
+}

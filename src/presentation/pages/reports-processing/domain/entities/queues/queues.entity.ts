@@ -18,8 +18,8 @@ export class QueuesEntity implements Queues {
         public readonly operators: TelecomOperator[],
         public readonly source: ReportSource,
         public readonly initiatorPhoneNumber: string,
-        public readonly createdAt: string,
-    ) { }
+        public readonly createdAt: string
+    ) {}
 
     public clone(updates: Partial<Queues>): QueuesEntity {
         return new QueuesEntity(
@@ -28,7 +28,7 @@ export class QueuesEntity implements Queues {
             updates.operators ?? this.operators,
             updates.source ?? this.source,
             updates.initiatorPhoneNumber ?? this.initiatorPhoneNumber,
-            updates.createdAt ?? this.createdAt,
+            updates.createdAt ?? this.createdAt
         );
     }
 }

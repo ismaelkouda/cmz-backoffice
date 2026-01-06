@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    inject,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -17,11 +22,10 @@ export class BreadcrumbComponent {
     private readonly translate = inject(TranslateService);
 
     readonly items = computed(() =>
-        this.service.breadcrumbs().map(item => ({
+        this.service.breadcrumbs().map((item) => ({
             label: this.translate.instant(item.label),
             icon: this.translate.instant(item.icon ?? ''),
             routerLink: this.translate.instant(item.url),
         }))
     );
 }
-

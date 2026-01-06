@@ -1,73 +1,110 @@
 <div class="filter-container">
-     <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
-    <div class="filter-grid">
-
-        <div class="filter-grid__item p-long">
-            <label for="search"><b>{{ 'CONTENT_MANAGEMENT.HOME.FILTER.SEARCH' | translate }}</b></label>
-            <input type="text" pInputText
-                formControlName="search"
-                placeholder="{{ 'CONTENT_MANAGEMENT.HOME.FILTER.SEARCH_PLACEHOLDER' | translate }}"
-            />
-        </div>
-
-        <div class="filter-grid__item p-long">
-            <label for="plateform"><b>{{ 'CONTENT_MANAGEMENT.HOME.FILTER.PLATEFORM' | translate }}</b></label>
-            <p-multiSelect
-                [options]="plateformOptions"
-                formControlName="plateforms"
-                optionLabel="label"
-                optionValue="value"
-                [filter]="false"
-                [showClear]="true"
-                [showToggleAll]="false"
-                appendTo="body"
-                placeholder="{{ 'CONTENT_MANAGEMENT.HOME.FILTER.PLATEFORM_PLACEHOLDER' | translate }}"
-            ></p-multiSelect>
-        </div>
-
-        <div class="filter-grid__item">
-            <label for="status"><b>{{ 'CONTENT_MANAGEMENT.HOME.FILTER.STATUS' | translate }}</b></label>
-            <p-select
-                [options]="statusOptions"
-                formControlName="status"
-                optionLabel="label"
-                optionValue="value"
-                [showClear]="true"
-                appendTo="body"
-                placeholder="{{ 'CONTENT_MANAGEMENT.HOME.FILTER.STATUS_PLACEHOLDER' | translate }}"
-            ></p-select>
-        </div>
-
-        <div class="filter-grid__item p-short">
-            <label for="startDate"><b>{{ 'CONTENT_MANAGEMENT.HOME.FILTER.DATE.FROM' | translate }}</b></label>
-            <p-datePicker
-                formControlName="startDate"
-                [showIcon]="true"
-                dateFormat="yy-mm-dd"
-                appendTo="body"
-                placeholder="{{ 'CONTENT_MANAGEMENT.HOME.FILTER.DATE.PLACEHOLDER' | translate }}"
-            ></p-datePicker>
-        </div>
-
-        <div class="filter-grid__item p-short">
-            <label for="endDate"><b>{{ 'CONTENT_MANAGEMENT.HOME.FILTER.DATE.TO' | translate }}</b></label>
-            <p-datePicker
-                formControlName="endDate"
-                [showIcon]="true"
-                dateFormat="yy-mm-dd"
-                appendTo="body"
-                placeholder="{{ 'CONTENT_MANAGEMENT.HOME.FILTER.DATE.PLACEHOLDER' | translate }}"
-            ></p-datePicker>
-        </div>
-
+    <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
         <div class="filter-grid">
-            <button type="submit" 
-                class="btn btn-primary px-3"
-                [disabled]="isLoading()">
-                <i class="pi pi-filter"></i>
-            </button>
+            <div class="filter-grid__item p-long">
+                <label for="search"
+                    ><b>{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.SEARCH' | translate
+                    }}</b></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    formControlName="search"
+                    placeholder="{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.SEARCH_PLACEHOLDER'
+                            | translate
+                    }}"
+                />
+            </div>
+
+            <div class="filter-grid__item p-long">
+                <label for="plateform"
+                    ><b>{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.PLATEFORM' | translate
+                    }}</b></label
+                >
+                <p-multiSelect
+                    [options]="plateformOptions"
+                    formControlName="plateforms"
+                    optionLabel="label"
+                    optionValue="value"
+                    [filter]="false"
+                    [showClear]="true"
+                    [showToggleAll]="false"
+                    appendTo="body"
+                    placeholder="{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.PLATEFORM_PLACEHOLDER'
+                            | translate
+                    }}"
+                ></p-multiSelect>
+            </div>
+
+            <div class="filter-grid__item">
+                <label for="status"
+                    ><b>{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.STATUS' | translate
+                    }}</b></label
+                >
+                <p-select
+                    [options]="statusOptions"
+                    formControlName="status"
+                    optionLabel="label"
+                    optionValue="value"
+                    [showClear]="true"
+                    appendTo="body"
+                    placeholder="{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.STATUS_PLACEHOLDER'
+                            | translate
+                    }}"
+                ></p-select>
+            </div>
+
+            <div class="filter-grid__item p-short">
+                <label for="startDate"
+                    ><b>{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.DATE.FROM' | translate
+                    }}</b></label
+                >
+                <p-datePicker
+                    formControlName="startDate"
+                    [showIcon]="true"
+                    dateFormat="yy-mm-dd"
+                    appendTo="body"
+                    placeholder="{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.DATE.PLACEHOLDER'
+                            | translate
+                    }}"
+                ></p-datePicker>
+            </div>
+
+            <div class="filter-grid__item p-short">
+                <label for="endDate"
+                    ><b>{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.DATE.TO' | translate
+                    }}</b></label
+                >
+                <p-datePicker
+                    formControlName="endDate"
+                    [showIcon]="true"
+                    dateFormat="yy-mm-dd"
+                    appendTo="body"
+                    placeholder="{{
+                        'CONTENT_MANAGEMENT.HOME.FILTER.DATE.PLACEHOLDER'
+                            | translate
+                    }}"
+                ></p-datePicker>
+            </div>
+
+            <div class="filter-grid">
+                <button
+                    type="submit"
+                    class="btn btn-primary px-3"
+                    [disabled]="isLoading()"
+                >
+                    <i class="pi pi-filter"></i>
+                </button>
+            </div>
         </div>
-        
-    </div>
-</form>
+    </form>
 </div>

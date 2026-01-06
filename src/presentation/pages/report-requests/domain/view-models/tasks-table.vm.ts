@@ -11,5 +11,5 @@ export interface TasksTableVM {
     operators: string[];
     operatorsLabels: string[];
 
-    createdAt: string;
+    reportedAt: string;
 }

@@ -47,15 +47,22 @@
                     [pSortableColumn]="col.field"
                 >
                     {{ col.header | translate }}
-                    <p-sortIcon 
-                        [field]="col.field" 
-                        *ngIf="col.field !== '__action' && col.field !== '__index'"
+                    <p-sortIcon
+                        [field]="col.field"
+                        *ngIf="
+                            col.field !== '__action' && col.field !== '__index'
+                        "
                     ></p-sortIcon>
                 </th>
             }
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-item let-columns="columns" let-rowIndex="rowIndex">
+    <ng-template
+        pTemplate="body"
+        let-item
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+    >
         <tr role="row" [class.cursor-pointer]="!isLoading()">
             @for (col of columns; track trackByColField($index, col)) {
                 <td
@@ -111,7 +118,10 @@
                         }
 
                         @case ('status') {
-                            <div class="tag-group status-group" [class]="col.class">
+                            <div
+                                class="tag-group status-group"
+                                [class]="col.class"
+                            >
                                 <p-tag
                                     [value]="item.status | translate"
                                     [severity]="getStatusSeverity(item.status)"
@@ -120,20 +130,25 @@
                             </div>
                         }
 
-                        @case ('createdAt') {
-                            <time [attr.datetime]="item.createdAt">
-                                {{ formatDate(item.createdAt) }}
+                        @case ('reportedAt') {
+                            <time [attr.datetime]="item.reportedAt">
+                                {{ formatDate(item.reportedAt) }}
                             </time>
                         }
 
                         @case ('source') {
-                            <div
-                                class="source-type-content"
-                            >
+                            <div class="source-type-content">
                                 <span>{{ item.source | translate }} </span>
-                                <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(item.initiatorPhoneNumber)"
-                                    tooltipPosition="bottom">[{{ item.initiatorPhoneNumber }}]
+                                <span
+                                    class="copyable"
+                                    pTooltip="{{ 'COPY' | translate }}"
+                                    (click)="
+                                        copyToClipboard(
+                                            item.initiatorPhoneNumber
+                                        )
+                                    "
+                                    tooltipPosition="bottom"
+                                    >[{{ item.initiatorPhoneNumber }}]
                                 </span>
                             </div>
                         }

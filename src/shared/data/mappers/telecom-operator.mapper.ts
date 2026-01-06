@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { TelecomOperatorDto } from "@shared/data/dtos/telecom-operator.dto";
-import { TelecomOperator } from "@shared/domain/enums/telecom-operator.enum";
+import { Injectable } from '@angular/core';
+import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TelecomOperatorMapper {
     mapToEnum(dtoValue: Array<TelecomOperatorDto>): Array<TelecomOperator> {
@@ -19,7 +19,9 @@ export class TelecomOperatorMapper {
             [TelecomOperatorDto.MOOV]: TelecomOperator.MOOV,
             [TelecomOperatorDto.UNKNOWN]: TelecomOperator.UNKNOWN,
         };
-        return dtoValue.map((operator) => methodMap[operator] || TelecomOperator.UNKNOWN);
+        return dtoValue.map(
+            (operator) => methodMap[operator] || TelecomOperator.UNKNOWN
+        );
     }
 
     mapToDto(enumValue: Array<TelecomOperator>): Array<TelecomOperatorDto> {
@@ -35,6 +37,8 @@ export class TelecomOperatorMapper {
             [TelecomOperator.MOOV]: TelecomOperatorDto.MOOV,
             [TelecomOperator.UNKNOWN]: TelecomOperatorDto.UNKNOWN,
         };
-        return enumValue.map((operator) => mapping[operator] || TelecomOperatorDto.UNKNOWN);
+        return enumValue.map(
+            (operator) => mapping[operator] || TelecomOperatorDto.UNKNOWN
+        );
     }
 }

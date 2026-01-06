@@ -72,7 +72,12 @@
             }
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-queue let-columns="columns" let-rowIndex="rowIndex">
+    <ng-template
+        pTemplate="body"
+        let-queue
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+    >
         <tr
             role="row"
             [class.selected]="isItemSelected(queue)"
@@ -131,7 +136,11 @@
                                 ) {
                                     <p-tag
                                         [value]="operator | translate"
-                                        [style]="getOperatorTagStyle(operator | translate)"
+                                        [style]="
+                                            getOperatorTagStyle(
+                                                operator | translate
+                                            )
+                                        "
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -148,13 +157,19 @@
                         }
 
                         @case ('source') {
-                            <div
-                                class="source-type-content"
-                            >
-                                <span>{{ queue.source | translate }}</span>&nbsp;
-                                <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(queue.initiatorPhoneNumber)"
-                                    tooltipPosition="bottom">[ {{ queue.initiatorPhoneNumber }} ]
+                            <div class="source-type-content">
+                                <span>{{ queue.source | translate }}</span
+                                >&nbsp;
+                                <span
+                                    class="copyable"
+                                    pTooltip="{{ 'COPY' | translate }}"
+                                    (click)="
+                                        copyToClipboard(
+                                            queue.initiatorPhoneNumber
+                                        )
+                                    "
+                                    tooltipPosition="bottom"
+                                    >[ {{ queue.initiatorPhoneNumber }} ]
                                 </span>
                             </div>
                         }

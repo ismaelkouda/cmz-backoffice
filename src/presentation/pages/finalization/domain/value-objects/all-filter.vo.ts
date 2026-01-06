@@ -10,7 +10,7 @@ export class AllFilter {
         private readonly reportType?: string,
         private readonly operators?: string[],
         private readonly state?: string
-    ) { }
+    ) {}
 
     static create(data: AllFilterPayloadEntity): AllFilter {
         const operatorArray = this.normalizeOperator(data.operators);

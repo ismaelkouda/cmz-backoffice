@@ -24,7 +24,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.QUEUES.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.QUEUES.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -48,7 +48,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.TASKS.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.TASKS.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -61,7 +61,8 @@ export const routes: Routes = [
                 component: ActionsTreatmentComponent,
                 data: {
                     breadcrumb: {
-                        label: (s: ActivatedRouteSnapshot) => `#${s.params['taskId']}`,
+                        label: (s: ActivatedRouteSnapshot) =>
+                            `#${s.params['taskId']}`,
                     },
                 },
             },
@@ -81,7 +82,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.ALL.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.ALL.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -105,7 +106,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.TREATMENT.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.TREATMENT.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -129,7 +130,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.FINALIZE.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.FINALIZE.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -153,7 +154,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.NOTIFICATIONS.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.NOTIFICATIONS.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -177,7 +178,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.SIM_DEMAND.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.SIM_DEMAND.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -201,7 +202,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.INVOICE_FORM.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.INVOICE_FORM.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -225,7 +226,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.REPORT_TREATMENT.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.REPORT_TREATMENT.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {

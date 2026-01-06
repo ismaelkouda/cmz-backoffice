@@ -13,7 +13,10 @@ import { UserFilter } from '../value-objects/user-filter.vo';
 export class FetchUsersUseCase {
     private readonly userRepository = inject(UserRepository);
 
-    execute(filter: UserFilter, page: string): Observable<Paginate<UsersEntity>> {
+    execute(
+        filter: UserFilter,
+        page: string
+    ): Observable<Paginate<UsersEntity>> {
         return this.userRepository.fetchUsers(filter, page);
     }
 }

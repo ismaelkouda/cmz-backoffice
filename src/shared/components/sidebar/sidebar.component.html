@@ -89,9 +89,7 @@
                                             'LAYOUT.SIDEBAR.BACK.TEXT'
                                                 | translate
                                         }}</span>
-                                        <i
-                                            class="pi pi-angle-right ps-2"
-                                        ></i>
+                                        <i class="pi pi-angle-right ps-2"></i>
                                     </button>
                                 </li>
 
@@ -140,7 +138,9 @@
                                         *ngIf="menuItem.type === 'sub'"
                                         (click)="toggletNavActive(menuItem)"
                                     >
-                                        <i class="pi pi-{{menuItem.icon}}"></i>
+                                        <i
+                                            class="pi pi-{{ menuItem.icon }}"
+                                        ></i>
                                         <span>{{
                                             menuItem.title | translate
                                         }}</span>

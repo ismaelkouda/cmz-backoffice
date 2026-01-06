@@ -160,8 +160,6 @@ export class FilterAllComponent implements OnInit, OnDestroy {
         this.secondFilter = !this.secondFilter;
     }
 
-
-
     public onSubmitFilterForm(): void {
         const createdFromControl = this.formFilter.get('created_from');
         const createdToControl = this.formFilter.get('created_to');

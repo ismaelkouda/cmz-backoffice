@@ -681,6 +681,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
+                "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",

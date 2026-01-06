@@ -11,7 +11,10 @@ import { SlideFilter } from '../../domain/value-objects/slide-filter.vo';
 export class FetchSlideUseCase {
     private readonly slideRepository = inject(SlideRepository);
 
-    execute(filter: SlideFilter, page: string): Observable<Paginate<SlideEntity>> {
+    execute(
+        filter: SlideFilter,
+        page: string
+    ): Observable<Paginate<SlideEntity>> {
         return this.slideRepository.fetchSlide(filter, page);
     }
 }

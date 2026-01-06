@@ -1,29 +1,32 @@
 <main class="container-fluid slide-container" role="main">
     <section class="row slide-row">
         <article class="col-sm-12 slide-article">
-            
             <app-breadcrumb />
 
             <section class="card slide-card">
                 <div class="card-body slide-card-body">
-                    <header class="slide-header"> 
+                    <header class="slide-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
-                            [title]="'CONTENT_MANAGEMENT.SLIDE.TITLE' | translate | lowercase"
+                            [title]="
+                                'CONTENT_MANAGEMENT.SLIDE.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
                         ></app-page-title>
                     </header>
 
                     <div class="fade-in slide-content">
-                        
-                        <app-filter-slide class="filter-component" 
+                        <app-filter-slide
+                            class="filter-component"
                             [loading]="(loading$ | async) ?? false"
-                            (filter)="filter($event)"></app-filter-slide>
+                            (filter)="filter($event)"
+                        ></app-filter-slide>
 
                         <hr class="slide-divider" />
 
                         <section class="table-section">
-                            
                             <app-table-slide
                                 class="table-component"
                                 [loading]="(loading$ | async) ?? false"

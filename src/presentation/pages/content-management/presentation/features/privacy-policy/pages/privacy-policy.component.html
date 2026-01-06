@@ -1,7 +1,6 @@
 <main class="container-fluid privacy-policy-container" role="main">
     <section class="row privacy-policy-row">
         <article class="col-sm-12 privacy-policy-article">
-            
             <app-breadcrumb />
 
             <section class="card privacy-policy-card">
@@ -10,21 +9,25 @@
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
-                            [title]="'CONTENT_MANAGEMENT.PRIVACY_POLICY.TITLE' | translate | lowercase"
+                            [title]="
+                                'CONTENT_MANAGEMENT.PRIVACY_POLICY.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
                         ></app-page-title>
                     </header>
 
                     <div class="fade-in privacy-policy-content">
-                        
-                        <app-filter-privacy-policy class="filter-component" 
+                        <app-filter-privacy-policy
+                            class="filter-component"
                             [loading]="(loading$ | async) ?? false"
-                            (filter)="filter($event)">
+                            (filter)="filter($event)"
+                        >
                         </app-filter-privacy-policy>
 
                         <hr class="privacy-policy-divider" />
 
                         <section class="table-section">
-                            
                             <app-table-privacy-policy
                                 class="table-component"
                                 [loading]="(loading$ | async) ?? false"
@@ -36,7 +39,9 @@
                                 (deleteRequested)="onDeleteClicked($event)"
                                 (viewRequested)="onViewClicked($event)"
                                 (publishRequested)="onPublishClicked($event)"
-                                (unpublishRequested)="onUnpublishClicked($event)"
+                                (unpublishRequested)="
+                                    onUnpublishClicked($event)
+                                "
                             ></app-table-privacy-policy>
 
                             <app-pagination

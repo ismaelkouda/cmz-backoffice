@@ -72,7 +72,12 @@
             }
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-task let-columns="columns" let-rowIndex="rowIndex">
+    <ng-template
+        pTemplate="body"
+        let-task
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+    >
         <tr
             role="row"
             [class.selected]="isItemSelected(task)"
@@ -128,7 +133,11 @@
                                 ) {
                                     <p-tag
                                         [value]="operator | translate"
-                                        [style]="getOperatorTagStyle(operator | translate)"
+                                        [style]="
+                                            getOperatorTagStyle(
+                                                operator | translate
+                                            )
+                                        "
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -145,13 +154,19 @@
                         }
 
                         @case ('source') {
-                            <div
-                                class="source-type-content"
-                            >
-                                <span>{{ task.source | translate }}</span>&nbsp;
-                                <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(task.initiatorPhoneNumber)"
-                                    tooltipPosition="bottom">[ {{ task.initiatorPhoneNumber }} ]
+                            <div class="source-type-content">
+                                <span>{{ task.source | translate }}</span
+                                >&nbsp;
+                                <span
+                                    class="copyable"
+                                    pTooltip="{{ 'COPY' | translate }}"
+                                    (click)="
+                                        copyToClipboard(
+                                            task.initiatorPhoneNumber
+                                        )
+                                    "
+                                    tooltipPosition="bottom"
+                                    >[ {{ task.initiatorPhoneNumber }} ]
                                 </span>
                             </div>
                         }

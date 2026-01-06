@@ -22,7 +22,7 @@ export class HomeEntity {
         public readonly endDate: string,
         public readonly createdAt: string,
         public readonly updatedAt: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<HomeEntity>): HomeEntity {
         return new HomeEntity(

@@ -52,7 +52,7 @@ export const content: Routes = [
             breadcrumb: {
                 label: 'REPORTS_REQUESTS.BREADCRUMB.LABEL',
                 icon: 'REPORTS_REQUESTS.BREADCRUMB.ICON',
-            }
+            },
         },
         loadChildren: () =>
             import(
@@ -65,7 +65,7 @@ export const content: Routes = [
             breadcrumb: {
                 label: 'REPORTS_PROCESSING.BREADCRUMB.LABEL',
                 icon: 'REPORTS_PROCESSING.BREADCRUMB.ICON',
-            }
+            },
         },
         loadChildren: () =>
             import(
@@ -78,7 +78,7 @@ export const content: Routes = [
             breadcrumb: {
                 label: 'FINALIZATION.BREADCRUMB.LABEL',
                 icon: 'FINALIZATION.BREADCRUMB.ICON',
-            }
+            },
         },
         loadChildren: () =>
             import(
@@ -91,30 +91,33 @@ export const content: Routes = [
             breadcrumb: {
                 label: 'REPORTING.BREADCRUMB.LABEL',
                 icon: 'REPORTING.BREADCRUMB.ICON',
-            }
+            },
         },
         loadChildren: () =>
             import('../../presentation/pages/reporting/reporting.route').then(
                 (m) => m.routes
-            )
+            ),
     },
     {
         path: COMMUNICATION_ROUTE,
         loadChildren: () =>
-            import('../../presentation/pages/communication/communication.routes').then(
-                (m) => m.routes
-            ),
+            import(
+                '../../presentation/pages/communication/communication.routes'
+            ).then((m) => m.routes),
         data: {
             module: 'COMMUNICATION',
-            subModule: ['COMMUNICATION.MESSAGES.LABEL', 'COMMUNICATION.NOTIFICATIONS.LABEL'],
+            subModule: [
+                'COMMUNICATION.MESSAGES.LABEL',
+                'COMMUNICATION.NOTIFICATIONS.LABEL',
+            ],
         },
     },
     {
         path: CONTENT_MANAGEMENT_ROUTE,
         loadChildren: () =>
-            import('../../presentation/pages/content-management/content-management.routes').then(
-                (m) => m.routes
-            ),
+            import(
+                '../../presentation/pages/content-management/content-management.routes'
+            ).then((m) => m.routes),
         data: {
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.LABEL',

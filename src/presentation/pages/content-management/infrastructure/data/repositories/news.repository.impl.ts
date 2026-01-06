@@ -7,7 +7,10 @@ import { NewsRepository } from '@presentation/pages/content-management/core/doma
 import { NewsFilter } from '@presentation/pages/content-management/core/domain/value-objects/news-filter.vo';
 import { NewsMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news.mapper';
 import { NewsApi } from '@presentation/pages/content-management/infrastructure/data/sources/news.api';
-import { Paginate, SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { CategoryMapper } from '../mappers/category.mapper';
 import { GetNewsByIdMapper } from '../mappers/get-news-by-id.mapper';
@@ -24,7 +27,10 @@ export class NewsRepositoryImpl extends NewsRepository {
         super();
     }
 
-    fetchNews(filter: NewsFilter, page: string): Observable<Paginate<NewsEntity>> {
+    fetchNews(
+        filter: NewsFilter,
+        page: string
+    ): Observable<Paginate<NewsEntity>> {
         return this.api.fetchNews(filter.toDto(), page).pipe(
             map((response) => this.newsMapper.mapFromDto(response)),
             catchError((error: unknown) =>
@@ -34,8 +40,8 @@ export class NewsRepositoryImpl extends NewsRepository {
                             error instanceof Error
                                 ? error.message
                                 : this.translateService.instant(
-                                    'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
-                                )
+                                      'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
+                                  )
                         )
                 )
             )
@@ -43,28 +49,33 @@ export class NewsRepositoryImpl extends NewsRepository {
     }
 
     getNewsById(id: string): Observable<GetNewsByIdEntity> {
-        return this.api.getNewsById(id).pipe(
-            map((dto) => this.getNewsByIdMapper.toEntity(dto))
-        );
+        return this.api
+            .getNewsById(id)
+            .pipe(map((dto) => this.getNewsByIdMapper.toEntity(dto)));
     }
 
     getCategory(): Observable<CategoryEntity[]> {
-        return this.api.getCategory().pipe(
-            map(apiResponse => this.categoryMapper.mapCategoriesFromApiResponse(apiResponse))
-        );
+        return this.api
+            .getCategory()
+            .pipe(
+                map((apiResponse) =>
+                    this.categoryMapper.mapCategoriesFromApiResponse(
+                        apiResponse
+                    )
+                )
+            );
     }
 
-
     createNews(payload: FormData): Observable<NewsEntity> {
-        return this.api.createNews(payload).pipe(
-            map((dto) => this.newsMapper.toEntity(dto))
-        );
+        return this.api
+            .createNews(payload)
+            .pipe(map((dto) => this.newsMapper.toEntity(dto)));
     }
 
     updateNews(id: string, payload: FormData): Observable<NewsEntity> {
-        return this.api.updateNews(id, payload).pipe(
-            map((dto) => this.newsMapper.toEntity(dto))
-        );
+        return this.api
+            .updateNews(id, payload)
+            .pipe(map((dto) => this.newsMapper.toEntity(dto)));
     }
 
     deleteNews(id: string): Observable<SimpleResponseDto<void>> {

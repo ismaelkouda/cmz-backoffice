@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { ActionDropdown } from "@shared/domain/enums/action-dropdown.enum";
-import { ActionDropdownDto } from "../dtos/action-dropdown.dto";
+import { Injectable } from '@angular/core';
+import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
+import { ActionDropdownDto } from '../dtos/action-dropdown.dto';
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ActionDropdownMapper {
     mapFromDto(dtoValue: ActionDropdownDto): ActionDropdown {
@@ -17,5 +17,4 @@ export class ActionDropdownMapper {
         };
         return methodMap[dtoValue] || ActionDropdown.ACTIVE;
     }
-
 }

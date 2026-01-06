@@ -57,16 +57,16 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
         <tr role="row" [class.cursor-pointer]="!isLoading()">
-             @for (col of tableConfig.cols; track trackByColField($index, col)) {
-            <td
+            @for (col of tableConfig.cols; track trackByColField($index, col)) {
+                <td
                     [class]="col.class"
                     [style]="{
                         'min-width': col.width,
                         width: col.width,
                     }"
                     role="gridcell"
-            >
-                @switch (col.field) {
+                >
+                    @switch (col.field) {
                         @case ('__index') {
                             {{
                                 ((pagination$ | async)?.current_page - 1 || 0) *
@@ -83,7 +83,9 @@
                                 pTooltip="{{ 'COPY' | translate }}"
                                 tooltipPosition="bottom"
                             >
-                                <span class="id-text">{{ item.matricule }}</span>
+                                <span class="id-text">{{
+                                    item.matricule
+                                }}</span>
                                 <!-- <i class="pi pi-copy" aria-hidden="true"></i> -->
                             </button>
                         }
@@ -91,8 +93,8 @@
                             <p-tag
                                 [value]="getProfileLabel(item.profile)"
                                 [severity]="item.profile ? 'info' : 'warning'"
-                            class="profil-tag"
-                        ></p-tag>
+                                class="profil-tag"
+                            ></p-tag>
                         }
                         @case ('fullName') {
                             {{ item.fullName }}
@@ -113,100 +115,103 @@
                         }
                         @case ('__action') {
                             <div class="dropdown">
-                            <button
-                                class="btn btn-sm btn-secondary dropdown-toggle"
-                                type="button"
-                                id="actionDropdown{{ rowIndex }}"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                                [attr.aria-label]="
-                                    'SETTINGS_SECURITY.USER.TABLE.ACTION'
-                                        | translate
-                                "
-                            >
-                                {{
-                                    'SETTINGS_SECURITY.USER.TABLE.ACTION'
-                                        | translate
-                                }}
-                            </button>
-                            <ul
-                                class="dropdown-menu"
-                                [attr.aria-labelledby]="
-                                    'actionDropdown' + rowIndex
-                                "
-                            >
-                                <li>
-                                    <a
-                                        class="dropdown-item"
-                                        (click)="
-                                            onActionClicked(item, 'view');
-                                            $event.preventDefault()
-                                        "
-                                        href="#"
-                                    >
-                                        {{
-                                            'SETTINGS_SECURITY.USER.ACTIONS.VIEW'
-                                                | translate
-                                        }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        class="dropdown-item"
-                                        (click)="
-                                            onActionClicked(item, 'edit');
-                                            $event.preventDefault()
-                                        "
-                                        href="#"
-                                    >
-                                        {{
-                                            'SETTINGS_SECURITY.USER.ACTIONS.EDIT'
-                                                | translate
-                                        }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        class="dropdown-item text-danger"
-                                        (click)="
-                                            onActionClicked(item, 'disable');
-                                            $event.preventDefault()
-                                        "
-                                        href="#"
-                                    >
-                                        {{
-                                            'SETTINGS_SECURITY.USER.ACTIONS.DISABLE'
-                                                | translate
-                                        }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider" />
-                                </li>
-                                <li>
-                                    <a
-                                        class="dropdown-item text-danger"
-                                        (click)="
-                                            onActionClicked(item, 'delete');
-                                            $event.preventDefault()
-                                        "
-                                        href="#"
-                                    >
-                                        {{
-                                            'SETTINGS_SECURITY.USER.ACTIONS.DELETE'
-                                                | translate
-                                        }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                                <button
+                                    class="btn btn-sm btn-secondary dropdown-toggle"
+                                    type="button"
+                                    id="actionDropdown{{ rowIndex }}"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    [attr.aria-label]="
+                                        'SETTINGS_SECURITY.USER.TABLE.ACTION'
+                                            | translate
+                                    "
+                                >
+                                    {{
+                                        'SETTINGS_SECURITY.USER.TABLE.ACTION'
+                                            | translate
+                                    }}
+                                </button>
+                                <ul
+                                    class="dropdown-menu"
+                                    [attr.aria-labelledby]="
+                                        'actionDropdown' + rowIndex
+                                    "
+                                >
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            (click)="
+                                                onActionClicked(item, 'view');
+                                                $event.preventDefault()
+                                            "
+                                            href="#"
+                                        >
+                                            {{
+                                                'SETTINGS_SECURITY.USER.ACTIONS.VIEW'
+                                                    | translate
+                                            }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            (click)="
+                                                onActionClicked(item, 'edit');
+                                                $event.preventDefault()
+                                            "
+                                            href="#"
+                                        >
+                                            {{
+                                                'SETTINGS_SECURITY.USER.ACTIONS.EDIT'
+                                                    | translate
+                                            }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item text-danger"
+                                            (click)="
+                                                onActionClicked(
+                                                    item,
+                                                    'disable'
+                                                );
+                                                $event.preventDefault()
+                                            "
+                                            href="#"
+                                        >
+                                            {{
+                                                'SETTINGS_SECURITY.USER.ACTIONS.DISABLE'
+                                                    | translate
+                                            }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item text-danger"
+                                            (click)="
+                                                onActionClicked(item, 'delete');
+                                                $event.preventDefault()
+                                            "
+                                            href="#"
+                                        >
+                                            {{
+                                                'SETTINGS_SECURITY.USER.ACTIONS.DELETE'
+                                                    | translate
+                                            }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         }
                         @default {
                             {{ item[col.field] }}
                         }
                     }
-            </td>
-             }
+                </td>
+            }
         </tr>
     </ng-template>
 

@@ -1,5 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Paginate, SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 import { HomeEntity } from '../../domain/entities/home.entity';
 import { HomeRepository } from '../../domain/repositories/home.repository';
@@ -11,7 +14,10 @@ import { HomeFilter } from '../../domain/value-objects/home-filter.vo';
 export class FetchHomeUseCase {
     private readonly homeRepository = inject(HomeRepository);
 
-    execute(filter: HomeFilter, page: string): Observable<Paginate<HomeEntity>> {
+    execute(
+        filter: HomeFilter,
+        page: string
+    ): Observable<Paginate<HomeEntity>> {
         return this.homeRepository.fetchHome(filter, page);
     }
 }

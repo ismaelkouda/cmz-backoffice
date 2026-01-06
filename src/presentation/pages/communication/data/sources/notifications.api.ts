@@ -14,7 +14,7 @@ export class NotificationsApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
     fetchNotifications(
         payload: NotificationsRequestDto,
@@ -40,9 +40,7 @@ export class NotificationsApi {
         });
     }
 
-    fetchReadAll(
-        payload: string[]
-    ): Observable<SimpleResponseDto<void>> {
+    fetchReadAll(payload: string[]): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${NOTIFICATIONS_ENDPOINTS.READ_ALL}`;
         return this.http.put<SimpleResponseDto<void>>(url, payload);
     }

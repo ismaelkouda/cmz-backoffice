@@ -6,6 +6,6 @@ interface Timestamps {
 export class TimestampsEntity implements Timestamps {
     constructor(
         public readonly createdAt: string,
-        public readonly updatedAt: string,
-    ) { }
+        public readonly updatedAt: string
+    ) {}
 }

@@ -43,7 +43,10 @@
                 type="button"
                 [attr.aria-label]="'DASHBOARD.REFRESH' | translate"
             >
-                <i class="pi pi-refresh" [class.pi-spin]="isLoading$ | async"></i>
+                <i
+                    class="pi pi-refresh"
+                    [class.pi-spin]="isLoading$ | async"
+                ></i>
             </button>
         </div>
     </div>
@@ -53,7 +56,7 @@
         <span>{{ error }}</span>
     </div>
 
-    <div *ngIf="(isLoading$ | async)" class="loading-container">
+    <div *ngIf="isLoading$ | async" class="loading-container">
         <p-progressSpinner></p-progressSpinner>
         <p>{{ 'DASHBOARD.LOADING' | translate }}</p>
     </div>

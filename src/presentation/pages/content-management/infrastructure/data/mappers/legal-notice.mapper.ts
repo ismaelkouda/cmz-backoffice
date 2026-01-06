@@ -8,15 +8,20 @@ import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.ma
 @Injectable({
     providedIn: 'root',
 })
-export class LegalNoticeMapper extends PaginatedMapper<LegalNoticeEntity, LegalNoticeItemDto> {
-
-    private readonly actionDropdownMapper: ActionDropdownMapper = inject(ActionDropdownMapper)
+export class LegalNoticeMapper extends PaginatedMapper<
+    LegalNoticeEntity,
+    LegalNoticeItemDto
+> {
+    private readonly actionDropdownMapper: ActionDropdownMapper =
+        inject(ActionDropdownMapper);
 
     public toEntity(dto: LegalNoticeItemDto): LegalNoticeEntity {
         return this.mapItemFromDto(dto);
     }
     public override mapItemFromDto(dto: LegalNoticeItemDto): LegalNoticeEntity {
-        const mappedActionDropdown = this.actionDropdownMapper.mapFromDto(this.mapActionDropdown(dto.is_published));
+        const mappedActionDropdown = this.actionDropdownMapper.mapFromDto(
+            this.mapActionDropdown(dto.is_published)
+        );
         return new LegalNoticeEntity(
             dto.id,
             dto.name,

@@ -19,6 +19,5 @@ export interface CategoryItemDto {
     sub_categories: SubCategoryItemDto[];
 }
 
-export interface CategoryResponseDto extends PaginatedResponseDto<CategoryItemDto> { }
-
-
+export interface CategoryResponseDto
+    extends PaginatedResponseDto<CategoryItemDto> {}

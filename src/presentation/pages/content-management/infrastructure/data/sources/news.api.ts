@@ -3,7 +3,10 @@ import { Injectable } from '@angular/core';
 import { CategoryItemDto } from '@presentation/pages/content-management/core/application/dtos/news/category-response.dto';
 import { GetNewsByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/news/get-news-by-id-response.dto';
 import { NewsRequestDto } from '@presentation/pages/content-management/core/application/dtos/news/news-request.dto';
-import { NewsItemDto, NewsResponseDto } from '@presentation/pages/content-management/core/application/dtos/news/news-response.dto';
+import {
+    NewsItemDto,
+    NewsResponseDto,
+} from '@presentation/pages/content-management/core/application/dtos/news/news-response.dto';
 import { NEWS_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/news-endpoints';
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { EnvService } from '@shared/services/env.service';
@@ -18,7 +21,7 @@ export class NewsApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
     getNewsById(id: string): Observable<GetNewsByIdResponseDto> {
         const url = `${this.baseUrl}${NEWS_ENDPOINTS.GET_BY_ID.replace('{id}', id)}`;
@@ -55,7 +58,10 @@ export class NewsApi {
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
-    fetchNews(payload: NewsRequestDto, page: string): Observable<NewsResponseDto> {
+    fetchNews(
+        payload: NewsRequestDto,
+        page: string
+    ): Observable<NewsResponseDto> {
         const url = `${this.baseUrl}${NEWS_ENDPOINTS.NEWS.replace('{page}', page)}`;
 
         const paramsObject = Object.entries(payload ?? {}).reduce<

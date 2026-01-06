@@ -1,4 +1,4 @@
-import { PaginatedResponseDto } from "@shared/data/dtos/simple-response.dto";
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface TermsUseItemDto {
     id: string;
@@ -12,4 +12,5 @@ export interface TermsUseItemDto {
     published_at: string;
 }
 
-export interface TermsUseResponseDto extends PaginatedResponseDto<TermsUseItemDto> { }
+export interface TermsUseResponseDto
+    extends PaginatedResponseDto<TermsUseItemDto> {}

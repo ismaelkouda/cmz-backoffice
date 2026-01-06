@@ -3,7 +3,7 @@
 import {
     CropRegion,
     ImageProcessingError,
-    ProcessingOptions
+    ProcessingOptions,
 } from '../../domain/types/image-processing.types';
 
 interface WorkerMessage {
@@ -36,19 +36,20 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
         self.postMessage({
             id,
             success: true,
-            data: result
+            data: result,
         });
     } catch (error) {
         self.postMessage({
             id,
             success: false,
-            error: error instanceof ImageProcessingError
-                ? error
-                : new ImageProcessingError(
-                    'Worker processing failed',
-                    'PROCESSING_FAILED',
-                    error
-                )
+            error:
+                error instanceof ImageProcessingError
+                    ? error
+                    : new ImageProcessingError(
+                          'Worker processing failed',
+                          'PROCESSING_FAILED',
+                          error
+                      ),
         });
     }
 };
@@ -62,11 +63,19 @@ async function processInWorker(
     // Utiliser OffscreenCanvas si disponible
     return new Promise((resolve, reject) => {
         try {
-            const canvas = new OffscreenCanvas(cropRegion.width, cropRegion.height);
+            const canvas = new OffscreenCanvas(
+                cropRegion.width,
+                cropRegion.height
+            );
             const ctx = canvas.getContext('2d');
 
             if (!ctx) {
-                reject(new ImageProcessingError('Canvas context not available', 'PROCESSING_FAILED'));
+                reject(
+                    new ImageProcessingError(
+                        'Canvas context not available',
+                        'PROCESSING_FAILED'
+                    )
+                );
                 return;
             }
 
@@ -81,13 +90,26 @@ async function processInWorker(
                 cropRegion.y,
                 cropRegion.width,
                 cropRegion.height
-            ).then(bitmap => {
-                ctx.drawImage(bitmap, 0, 0);
-                const croppedData = ctx.getImageData(0, 0, cropRegion.width, cropRegion.height);
-                resolve(croppedData);
-            }).catch(reject);
+            )
+                .then((bitmap) => {
+                    ctx.drawImage(bitmap, 0, 0);
+                    const croppedData = ctx.getImageData(
+                        0,
+                        0,
+                        cropRegion.width,
+                        cropRegion.height
+                    );
+                    resolve(croppedData);
+                })
+                .catch(reject);
         } catch (error) {
-            reject(new ImageProcessingError('Processing failed', 'PROCESSING_FAILED', error));
+            reject(
+                new ImageProcessingError(
+                    'Processing failed',
+                    'PROCESSING_FAILED',
+                    error
+                )
+            );
         }
     });
 }

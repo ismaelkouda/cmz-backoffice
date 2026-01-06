@@ -1,4 +1,3 @@
-
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CategoryEntity } from '../../domain/entities/category.entity';

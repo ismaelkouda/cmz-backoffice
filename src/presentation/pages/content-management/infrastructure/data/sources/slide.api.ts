@@ -4,7 +4,10 @@ import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
 import { SlideRequestDto } from '../../../core/application/dtos/slide/slide-request.dto';
-import { SlideItemDto, SlideResponseDto } from '../../../core/application/dtos/slide/slide-response.dto';
+import {
+    SlideItemDto,
+    SlideResponseDto,
+} from '../../../core/application/dtos/slide/slide-response.dto';
 import { SLIDE_ENDPOINTS } from '../endpoints/slide-endpoints';
 
 @Injectable({
@@ -16,9 +19,12 @@ export class SlideApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
-    fetchSlides(payload: SlideRequestDto, page: string): Observable<SlideResponseDto> {
+    fetchSlides(
+        payload: SlideRequestDto,
+        page: string
+    ): Observable<SlideResponseDto> {
         const url = `${this.baseUrl}${SLIDE_ENDPOINTS.SLIDE.replace('{page}', page)}`;
 
         const paramsObject = Object.entries(payload ?? {}).reduce<

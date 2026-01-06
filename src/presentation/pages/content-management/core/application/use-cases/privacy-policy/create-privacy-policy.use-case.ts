@@ -7,7 +7,7 @@ import { PrivacyPolicyRepository } from '../../../domain/repositories/privacy-po
     providedIn: 'root',
 })
 export class CreatePrivacyPolicyUseCase {
-    constructor(private readonly repository: PrivacyPolicyRepository) { }
+    constructor(private readonly repository: PrivacyPolicyRepository) {}
 
     execute(params: FormData): Observable<SimpleResponseDto<void>> {
         return this.repository.createPrivacyPolicy(params);

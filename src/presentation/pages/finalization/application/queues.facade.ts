@@ -55,7 +55,9 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
     }
 
     refresh(): void {
-        const currentFilter = QueuesFilter.create({} as QueuesFilterPayloadEntity);
+        const currentFilter = QueuesFilter.create(
+            {} as QueuesFilterPayloadEntity
+        );
         const currentPage = this.pageSubject.getValue();
         const fetch = this.fetchUseCase.execute(currentFilter, currentPage);
         this.fetchData(currentFilter, currentPage, fetch);
@@ -100,4 +102,3 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
         };
     }
 }
-

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class GetLegalNoticeByIdUseCase {
-    constructor(private readonly repository: LegalNoticeRepository) { }
+    constructor(private readonly repository: LegalNoticeRepository) {}
 
     execute(id: string): Observable<GetLegalNoticeByIdEntity> {
         return this.repository.getLegalNoticeById(id);

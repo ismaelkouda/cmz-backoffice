@@ -1,11 +1,10 @@
-import { Injectable } from "@angular/core";
-import { LocationMethod } from "@shared/domain/enums/location-method.enum";
-import { LocationMethodDto } from "../dtos/location-method.dto";
+import { Injectable } from '@angular/core';
+import { LocationMethod } from '@shared/domain/enums/location-method.enum';
+import { LocationMethodDto } from '../dtos/location-method.dto';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class LocationMethodMapper {
     mapToEnum(dtoValue: LocationMethodDto): LocationMethod {
         if (dtoValue == null) {

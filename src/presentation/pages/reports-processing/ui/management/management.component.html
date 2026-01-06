@@ -34,17 +34,22 @@
                         {{ 'MANAGEMENT.HEADER.DETAILS_DEMAND' | translate }}
                     </span>
                 }
-                <span class="header-title copyable" 
+                <span
+                    class="header-title copyable"
                     pTooltip="{{ 'COPY' | translate }}"
                     tooltipPosition="bottom"
-                    (click)="copyToClipboard(reportId())" 
-                    *ngIf="reportId()">
+                    (click)="copyToClipboard(reportId())"
+                    *ngIf="reportId()"
+                >
                     [ {{ reportId() }} ]
                 </span>
 
                 @if (details.inProcessing || details.inFinalization) {
                     <span class="header-title">
-                        {{ 'MANAGEMENT.HEADER.NUMBER_OF_CONFIRMATIONS' | translate }}
+                        {{
+                            'MANAGEMENT.HEADER.NUMBER_OF_CONFIRMATIONS'
+                                | translate
+                        }}
                         [ {{ details?.confirmCount }} ]
                     </span>
                 }
@@ -552,7 +557,8 @@
                                         *ngIf="!(isSubmitting$ | async)"
                                     ></i>
                                     {{
-                                        (details$ | async)?.managementButtonSubmitText
+                                        (details$ | async)
+                                            ?.managementButtonSubmitText
                                             | translate
                                     }}
                                 </button>
@@ -693,9 +699,7 @@
                                                         | translate
                                                 }}:</strong
                                             >
-                                            {{
-                                                details.processedBy?.lastName
-                                            }}
+                                            {{ details.processedBy?.lastName }}
                                         </p>
                                         <p>
                                             <strong
@@ -704,9 +708,7 @@
                                                         | translate
                                                 }}:</strong
                                             >
-                                            {{
-                                                details.processedBy?.firstName
-                                            }}
+                                            {{ details.processedBy?.firstName }}
                                         </p>
                                         <p>
                                             <strong
@@ -828,7 +830,9 @@
                                                                 class="field-value"
                                                             >
                                                                 {{
-                                                                    details?.location?.type ||
+                                                                    details
+                                                                        ?.location
+                                                                        ?.type ||
                                                                         'MANAGEMENT.FORM.NOT_SPECIFIED'
                                                                         | translate
                                                                 }}
@@ -962,12 +966,14 @@
                                                                     <p-tag
                                                                         [value]="
                                                                             getOperatorLabel(
-                                                                                operator | translate
+                                                                                operator
+                                                                                    | translate
                                                                             )
                                                                         "
                                                                         [ngStyle]="
                                                                             getOperatorTagStyle(
-                                                                                operator | translate
+                                                                                operator
+                                                                                    | translate
                                                                             )
                                                                         "
                                                                         styleClass="operator-tag"
@@ -1020,8 +1026,13 @@
                                                             </div>
                                                         </div>
 
-                                                        @if (details.inProcessing || details.inFinalization) {
-                                                            <div class="data-field">
+                                                        @if (
+                                                            details.inProcessing ||
+                                                            details.inFinalization
+                                                        ) {
+                                                            <div
+                                                                class="data-field"
+                                                            >
                                                                 <label
                                                                     class="field-label"
                                                                 >
@@ -1409,7 +1420,14 @@
                                         (click)="toggleTreatmentForm()"
                                     >
                                         <div class="treatment-form-toggle">
-                                            <i [class]="'pi ' + (isTreatmentFormExpanded ? 'pi-chevron-up' : 'pi-chevron-down')"></i>
+                                            <i
+                                                [class]="
+                                                    'pi ' +
+                                                    (isTreatmentFormExpanded
+                                                        ? 'pi-chevron-up'
+                                                        : 'pi-chevron-down')
+                                                "
+                                            ></i>
                                             <span class="toggle-label">
                                                 {{
                                                     'MANAGEMENT.TREATMENT.TAKE_ACTION.TITLE'
@@ -1423,112 +1441,125 @@
                                         <div class="treatment-form-content">
                                             <div class="treatment-form-body">
                                                 <div class="action-section">
-                                                    <form class="decision-form-row">
+                                                    <form
+                                                        class="decision-form-row"
+                                                    >
                                                         <div class="row">
-
                                                             <div class="row">
-
-                                                            @if (details?.canBeApproved) {
-                                                                <div class="col-md-4">
-                                                                    <label class="decision-label">{{
-                                                                            'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION'
-                                                                                | translate
-                                                                        }}
-                                                                    </label>
-                                                                    <div class="col-md-12">
-                                                                        <div class="container-radio-option col-md-12">
-                                                                            <div class="radio-option col-md">
+                                                                @if (
+                                                                    details?.canBeApproved
+                                                                ) {
+                                                                    <div
+                                                                        class="col-md-4"
+                                                                    >
+                                                                        <label
+                                                                            class="decision-label"
+                                                                            >{{
+                                                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION'
+                                                                                    | translate
+                                                                            }}
+                                                                        </label>
+                                                                        <div
+                                                                            class="col-md-12"
+                                                                        >
+                                                                            <div
+                                                                                class="container-radio-option col-md-12"
+                                                                            >
                                                                                 <div
-                                                                                    class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                                                                    (click)="
-                                                                                        setDecision(
-                                                                                            'accepted'
-                                                                                        )
-                                                                                    "
-                                                                                    [class.selected]="
-                                                                                        formTreatment.get(
-                                                                                            'decision'
-                                                                                        )
-                                                                                            ?.value ===
-                                                                                        'accepted'
-                                                                                    "
+                                                                                    class="radio-option col-md"
                                                                                 >
                                                                                     <div
-                                                                                        class="radio-indicator"
-                                                                                    >
-                                                                                        <div
-                                                                                            class="radio-dot"
-                                                                                            [class.checked]="
-                                                                                                formTreatment.get(
-                                                                                                    'decision'
-                                                                                                )
-                                                                                                    ?.value ===
+                                                                                        class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
+                                                                                        (click)="
+                                                                                            setDecision(
                                                                                                 'accepted'
-                                                                                            "
-                                                                                        ></div>
-                                                                                    </div>
-                                                                                    <div
-                                                                                        class="radio-content"
+                                                                                            )
+                                                                                        "
+                                                                                        [class.selected]="
+                                                                                            formTreatment.get(
+                                                                                                'decision'
+                                                                                            )
+                                                                                                ?.value ===
+                                                                                            'accepted'
+                                                                                        "
                                                                                     >
-                                                                                        <!-- <i class="pi pi-check-circle radio-icon accepted"></i> -->
                                                                                         <div
-                                                                                            class="radio-text"
+                                                                                            class="radio-indicator"
                                                                                         >
                                                                                             <div
-                                                                                                class="radio-title"
+                                                                                                class="radio-dot"
+                                                                                                [class.checked]="
+                                                                                                    formTreatment.get(
+                                                                                                        'decision'
+                                                                                                    )
+                                                                                                        ?.value ===
+                                                                                                    'accepted'
+                                                                                                "
+                                                                                            ></div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="radio-content"
+                                                                                        >
+                                                                                            <!-- <i class="pi pi-check-circle radio-icon accepted"></i> -->
+                                                                                            <div
+                                                                                                class="radio-text"
                                                                                             >
-                                                                                                {{
-                                                                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.APPROVE.LABEL'
-                                                                                                        | translate
-                                                                                                }}
+                                                                                                <div
+                                                                                                    class="radio-title"
+                                                                                                >
+                                                                                                    {{
+                                                                                                        'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.APPROVE.LABEL'
+                                                                                                            | translate
+                                                                                                    }}
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                                <div
-                                                                                    class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                                                                    (click)="
-                                                                                        setDecision(
-                                                                                            'rejected'
-                                                                                        )
-                                                                                    "
-                                                                                    [class.selected]="
-                                                                                        formTreatment.get(
-                                                                                            'decision'
-                                                                                        )
-                                                                                            ?.value ===
-                                                                                        'rejected'
-                                                                                    "
-                                                                                >
                                                                                     <div
-                                                                                        class="radio-indicator"
-                                                                                    >
-                                                                                        <div
-                                                                                            class="radio-dot"
-                                                                                            [class.checked]="
-                                                                                                formTreatment.get(
-                                                                                                    'decision'
-                                                                                                )
-                                                                                                    ?.value ===
+                                                                                        class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
+                                                                                        (click)="
+                                                                                            setDecision(
                                                                                                 'rejected'
-                                                                                            "
-                                                                                        ></div>
-                                                                                    </div>
-                                                                                    <div
-                                                                                        class="radio-content"
+                                                                                            )
+                                                                                        "
+                                                                                        [class.selected]="
+                                                                                            formTreatment.get(
+                                                                                                'decision'
+                                                                                            )
+                                                                                                ?.value ===
+                                                                                            'rejected'
+                                                                                        "
                                                                                     >
-                                                                                        <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
                                                                                         <div
-                                                                                            class="radio-text"
+                                                                                            class="radio-indicator"
                                                                                         >
                                                                                             <div
-                                                                                                class="radio-title"
+                                                                                                class="radio-dot"
+                                                                                                [class.checked]="
+                                                                                                    formTreatment.get(
+                                                                                                        'decision'
+                                                                                                    )
+                                                                                                        ?.value ===
+                                                                                                    'rejected'
+                                                                                                "
+                                                                                            ></div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="radio-content"
+                                                                                        >
+                                                                                            <!-- <i class="pi pi-times-circle radio-icon rejected"></i> -->
+                                                                                            <div
+                                                                                                class="radio-text"
                                                                                             >
-                                                                                                {{
-                                                                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.REJECT.LABEL'
-                                                                                                        | translate
-                                                                                                }}
+                                                                                                <div
+                                                                                                    class="radio-title"
+                                                                                                >
+                                                                                                    {{
+                                                                                                        'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.REJECT.LABEL'
+                                                                                                            | translate
+                                                                                                    }}
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -1536,64 +1567,70 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
 
-                                                                <div class="col-md-4">
-                                                                    <label class="decision-label">{{
-                                                                            'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
-                                                                                        | translate
-                                                                        }}
-                                                                    </label>
-                                                                    <p-select
-                                                                        class="form-p-select"
-                                                                        formControlName="reason"
-                                                                        [disabled]="
-                                                                            formTreatment.get(
-                                                                                'decision'
-                                                                            )
-                                                                                ?.value !==
-                                                                            'rejected'
-                                                                        "
-                                                                        [options]="
-                                                                            motifOptions
-                                                                        "
-                                                                        optionLabel="label"
-                                                                        optionValue="code"
-                                                                        [placeholder]="
-                                                                            'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
-                                                                                | translate
-                                                                        "
-                                                                        [showClear]="
-                                                                            true
-                                                                        "
-                                                                        styleClass="w-100" 
-                                                                        appendTo="body"
-                                                                    >
-                                                                    </p-select>
                                                                     <div
-                                                                    class="validation-error"
-                                                                    *ngIf="
-                                                                        formTreatment.get(
-                                                                        'reason'
-                                                                    )
-                                                                        ?.invalid &&
-                                                                    formTreatment.get(
-                                                                        'reason'
-                                                                    )
-                                                                        ?.touched
-                                                                "
-                                                            >
-                                                                {{
-                                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.VALIDATION.MOTIF_REQUIRED'
-                                                                        | translate
-                                                                }}
+                                                                        class="col-md-4"
+                                                                    >
+                                                                        <label
+                                                                            class="decision-label"
+                                                                            >{{
+                                                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
+                                                                                    | translate
+                                                                            }}
+                                                                        </label>
+                                                                        <p-select
+                                                                            class="form-p-select"
+                                                                            formControlName="reason"
+                                                                            [disabled]="
+                                                                                formTreatment.get(
+                                                                                    'decision'
+                                                                                )
+                                                                                    ?.value !==
+                                                                                'rejected'
+                                                                            "
+                                                                            [options]="
+                                                                                motifOptions
+                                                                            "
+                                                                            optionLabel="label"
+                                                                            optionValue="code"
+                                                                            [placeholder]="
+                                                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
+                                                                                    | translate
+                                                                            "
+                                                                            [showClear]="
+                                                                                true
+                                                                            "
+                                                                            styleClass="w-100"
+                                                                            appendTo="body"
+                                                                        >
+                                                                        </p-select>
+                                                                        <div
+                                                                            class="validation-error"
+                                                                            *ngIf="
+                                                                                formTreatment.get(
+                                                                                    'reason'
+                                                                                )
+                                                                                    ?.invalid &&
+                                                                                formTreatment.get(
+                                                                                    'reason'
+                                                                                )
+                                                                                    ?.touched
+                                                                            "
+                                                                        >
+                                                                            {{
+                                                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.VALIDATION.MOTIF_REQUIRED'
+                                                                                    | translate
+                                                                            }}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                }
 
-                                                            }
-
-                                                                <div class="col-md">
-                                                                    <label class="comment-label">
+                                                                <div
+                                                                    class="col-md"
+                                                                >
+                                                                    <label
+                                                                        class="comment-label"
+                                                                    >
                                                                         {{
                                                                             'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
                                                                                 | translate
@@ -1624,8 +1661,6 @@
                                                                     ></div>
                                                                 </div>
                                                             </div>
-
-                                                            
                                                         </div>
 
                                                         <div

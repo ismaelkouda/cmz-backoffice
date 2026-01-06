@@ -20,7 +20,7 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.HOME.BREADCRUMB.LABEL',
                 icon: 'CONTENT_MANAGEMENT.HOME.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
@@ -51,12 +51,15 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.NEWS.BREADCRUMB.LABEL',
                 icon: 'CONTENT_MANAGEMENT.NEWS.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
                 path: '',
-                loadChildren: () => import('./presentation/features/news/news.routes').then(m => m.NEWS_ROUTES),
+                loadChildren: () =>
+                    import('./presentation/features/news/news.routes').then(
+                        (m) => m.NEWS_ROUTES
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -68,12 +71,15 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.SLIDE.BREADCRUMB.LABEL',
                 icon: 'CONTENT_MANAGEMENT.SLIDE.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
                 path: '',
-                loadChildren: () => import('./presentation/features/slide/slide.routes').then((m) => m.SLIDE_ROUTES),
+                loadChildren: () =>
+                    import('./presentation/features/slide/slide.routes').then(
+                        (m) => m.SLIDE_ROUTES
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -85,12 +91,15 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.BREADCRUMB.LABEL',
                 icon: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
                 path: '',
-                loadChildren: () => import('./presentation/features/privacy-policy/privacy-policy.routes').then((m) => m.PRIVACY_POLICY_ROUTES),
+                loadChildren: () =>
+                    import(
+                        './presentation/features/privacy-policy/privacy-policy.routes'
+                    ).then((m) => m.PRIVACY_POLICY_ROUTES),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -102,12 +111,15 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.TERMS_USE.BREADCRUMB.LABEL',
                 icon: 'CONTENT_MANAGEMENT.TERMS_USE.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
                 path: '',
-                loadChildren: () => import('./presentation/features/terms-use/terms-use.routes').then((m) => m.TERMS_USE_ROUTES),
+                loadChildren: () =>
+                    import(
+                        './presentation/features/terms-use/terms-use.routes'
+                    ).then((m) => m.TERMS_USE_ROUTES),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -119,12 +131,15 @@ export const routes: Routes = [
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.BREADCRUMB.LABEL',
                 icon: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.BREADCRUMB.ICON',
-            }
+            },
         },
         children: [
             {
                 path: '',
-                loadChildren: () => import('./presentation/features/legal-notice/legal-notice.routes').then((m) => m.LEGAL_NOTICE_ROUTES),
+                loadChildren: () =>
+                    import(
+                        './presentation/features/legal-notice/legal-notice.routes'
+                    ).then((m) => m.LEGAL_NOTICE_ROUTES),
                 data: { breadcrumb: { hide: true } },
             },
         ],

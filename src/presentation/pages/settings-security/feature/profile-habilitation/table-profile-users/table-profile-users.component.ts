@@ -74,7 +74,7 @@ export class TableProfileUsersComponent {
         private readonly clipboardService: ClipboardService,
         private readonly tableExportExcelFileService: TableExportExcelFileService,
         private readonly translate: TranslateService
-    ) { }
+    ) {}
 
     public onExportExcel(): void {
         this.listUsers$.pipe(take(1)).subscribe((users) => {

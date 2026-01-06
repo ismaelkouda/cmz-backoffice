@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { TreaterInfoEntity } from "@shared/domain/entities/treater-info.entity";
-import { TreaterInfoDto } from "../dtos/treater-info.dto";
+import { Injectable } from '@angular/core';
+import { TreaterInfoEntity } from '@shared/domain/entities/treater-info.entity';
+import { TreaterInfoDto } from '../dtos/treater-info.dto';
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TreaterInfoMapper {
     mapToDto(treaterInfo: TreaterInfoEntity): TreaterInfoDto {
@@ -45,7 +45,7 @@ export class TreaterInfoMapper {
             treaterInfoDto.confirmed_comment,
             treaterInfoDto.abandoned_comment,
             treaterInfoDto.deny_count,
-            treaterInfoDto.reason,
+            treaterInfoDto.reason
         );
     }
 }

@@ -4,7 +4,7 @@ import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
 
 export enum ReportStateDto {
-    TERMINATED = 'terminated'
+    TERMINATED = 'terminated',
 }
 
 export interface AllItemDto {
@@ -17,4 +17,4 @@ export interface AllItemDto {
     created_at: string;
 }
 
-export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> { }
+export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> {}

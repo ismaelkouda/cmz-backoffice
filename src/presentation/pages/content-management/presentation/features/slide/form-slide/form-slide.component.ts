@@ -1,7 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    DestroyRef,
+    inject,
+    OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -55,10 +67,10 @@ import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
         InputNumberModule,
         ToastModule,
         TooltipModule,
-        FileUploadI18nDirective
+        FileUploadI18nDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class FormSlideComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
@@ -83,19 +95,19 @@ export class FormSlideComponent implements OnInit {
 
     public currentType$ = new BehaviorSubject<TypeMediaDto>(TypeMediaDto.IMAGE);
     public isVideoType$ = this.currentType$.pipe(
-        map(type => type === TypeMediaDto.VIDEO)
+        map((type) => type === TypeMediaDto.VIDEO)
     );
     public TypeMediaDto = TypeMediaDto;
 
     public typeOptions = [
         { label: 'Image', value: TypeMediaDto.IMAGE },
-        { label: 'Video', value: TypeMediaDto.VIDEO }
+        { label: 'Video', value: TypeMediaDto.VIDEO },
     ];
 
     public platformOptions: any[] = [
         { label: 'Web', value: 'web' },
         { label: 'Mobile', value: 'mobile' },
-        { label: 'PWA', value: 'pwa' }
+        { label: 'PWA', value: 'pwa' },
     ];
 
     public uploadedFile: File | null = null;
@@ -115,52 +127,81 @@ export class FormSlideComponent implements OnInit {
     }
 
     private initForm(): void {
-        this.form = this.fb.group({
-            title: ['', [
-                Validators.required,
-                Validators.minLength(FormValidators.TITLE.MIN),
-                Validators.maxLength(FormValidators.TITLE.MAX),
-                Validators.pattern(FormValidators.TITLE.PATTERN)
-            ]],
-            subtitle: ['', [
-                Validators.required,
-                Validators.minLength(FormValidators.SUBTITLE.MIN),
-                Validators.maxLength(FormValidators.SUBTITLE.MAX),
-                Validators.pattern(FormValidators.SUBTITLE.PATTERN)
-            ]],
-            content: ['', [
-                Validators.required,
-                Validators.minLength(FormValidators.CONTENT.MIN),
-                this.htmlContentMaxLengthValidator(FormValidators.CONTENT.STRIP_HTML_MAX)
-            ]],
-            type: [TypeMediaDto.IMAGE, Validators.required],
-            videoUrl: [''],
-            imageFile: [null, [Validators.required]],
-            timeDurationInSeconds: [5, [
-                Validators.required,
-                Validators.min(FormValidators.TIME_DURATION_IN_SECONDS.MIN),
-                Validators.max(FormValidators.TIME_DURATION_IN_SECONDS.MAX)
-            ]],
-            buttonLabel: ['', [
-                Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
-                Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
-                Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN)
-            ]],
-            buttonUrl: ['', [
-                Validators.maxLength(FormValidators.BUTTON_URL.MAX),
-                Validators.pattern(FormValidators.BUTTON_URL.PATTERN)
-            ]],
-            platforms: [[], Validators.required],
-            startDate: [null],
-            endDate: [null],
-            isActive: [true]
-        }, { validators: this.buttonFieldsConsistencyValidator() });
+        this.form = this.fb.group(
+            {
+                title: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(FormValidators.TITLE.MIN),
+                        Validators.maxLength(FormValidators.TITLE.MAX),
+                        Validators.pattern(FormValidators.TITLE.PATTERN),
+                    ],
+                ],
+                subtitle: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(FormValidators.SUBTITLE.MIN),
+                        Validators.maxLength(FormValidators.SUBTITLE.MAX),
+                        Validators.pattern(FormValidators.SUBTITLE.PATTERN),
+                    ],
+                ],
+                content: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(FormValidators.CONTENT.MIN),
+                        this.htmlContentMaxLengthValidator(
+                            FormValidators.CONTENT.STRIP_HTML_MAX
+                        ),
+                    ],
+                ],
+                type: [TypeMediaDto.IMAGE, Validators.required],
+                videoUrl: [''],
+                imageFile: [null, [Validators.required]],
+                timeDurationInSeconds: [
+                    5,
+                    [
+                        Validators.required,
+                        Validators.min(
+                            FormValidators.TIME_DURATION_IN_SECONDS.MIN
+                        ),
+                        Validators.max(
+                            FormValidators.TIME_DURATION_IN_SECONDS.MAX
+                        ),
+                    ],
+                ],
+                buttonLabel: [
+                    '',
+                    [
+                        Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
+                        Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
+                        Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
+                    ],
+                ],
+                buttonUrl: [
+                    '',
+                    [
+                        Validators.maxLength(FormValidators.BUTTON_URL.MAX),
+                        Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
+                    ],
+                ],
+                platforms: [[], Validators.required],
+                startDate: [null],
+                endDate: [null],
+                isActive: [true],
+            },
+            { validators: this.buttonFieldsConsistencyValidator() }
+        );
 
         this.currentType$.next(TypeMediaDto.IMAGE);
         this.setupFormListeners();
     }
 
-    public detectVideoPlatform(url: string): 'youtube' | 'vimeo' | 'dailymotion' | 'other' {
+    public detectVideoPlatform(
+        url: string
+    ): 'youtube' | 'vimeo' | 'dailymotion' | 'other' {
         if (!url) return 'other';
 
         if (FormValidators.VIDEO_URL.PATTERNS.YOUTUBE.test(url)) {
@@ -178,19 +219,27 @@ export class FormSlideComponent implements OnInit {
 
     public getVideoPlatformIcon(platform: string): string {
         switch (platform) {
-            case 'youtube': return 'pi pi-youtube text-danger';
-            case 'vimeo': return 'pi pi-vimeo text-info';
-            case 'dailymotion': return 'pi pi-play-circle text-primary';
-            default: return 'pi pi-video text-muted';
+            case 'youtube':
+                return 'pi pi-youtube text-danger';
+            case 'vimeo':
+                return 'pi pi-vimeo text-info';
+            case 'dailymotion':
+                return 'pi pi-play-circle text-primary';
+            default:
+                return 'pi pi-video text-muted';
         }
     }
 
     public getVideoPlatformName(platform: string): string {
         switch (platform) {
-            case 'youtube': return 'YouTube';
-            case 'vimeo': return 'Vimeo';
-            case 'dailymotion': return 'Dailymotion';
-            default: return 'Autre plateforme';
+            case 'youtube':
+                return 'YouTube';
+            case 'vimeo':
+                return 'Vimeo';
+            case 'dailymotion':
+                return 'Dailymotion';
+            default:
+                return 'Autre plateforme';
         }
     }
 
@@ -205,7 +254,6 @@ export class FormSlideComponent implements OnInit {
         return `${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB`;
     }
 
-
     private htmlContentMaxLengthValidator(maxLength: number): any {
         return (control: any) => {
             if (!control.value) {
@@ -218,8 +266,8 @@ export class FormSlideComponent implements OnInit {
                 return {
                     htmlMaxLength: {
                         actual: strippedText.length,
-                        maxAllowed: maxLength
-                    }
+                        maxAllowed: maxLength,
+                    },
                 };
             }
 
@@ -228,7 +276,9 @@ export class FormSlideComponent implements OnInit {
     }
 
     public get allowedImageTypes(): string {
-        return FormValidators.IMAGE_FILE.ALLOWED_TYPES.map(t => t.split('/')[1].toUpperCase()).join(', ');
+        return FormValidators.IMAGE_FILE.ALLOWED_TYPES.map((t) =>
+            t.split('/')[1].toUpperCase()
+        ).join(', ');
     }
 
     private buttonFieldsConsistencyValidator(): any {
@@ -236,11 +286,19 @@ export class FormSlideComponent implements OnInit {
             const buttonLabel = group.get('buttonLabel')?.value;
             const buttonUrl = group.get('buttonUrl')?.value;
 
-            if (buttonLabel && buttonLabel.trim() && (!buttonUrl || !buttonUrl.trim())) {
+            if (
+                buttonLabel &&
+                buttonLabel.trim() &&
+                (!buttonUrl || !buttonUrl.trim())
+            ) {
                 return { buttonLabelWithoutUrl: true };
             }
 
-            if (buttonUrl && buttonUrl.trim() && (!buttonLabel || !buttonLabel.trim())) {
+            if (
+                buttonUrl &&
+                buttonUrl.trim() &&
+                (!buttonLabel || !buttonLabel.trim())
+            ) {
                 return { buttonUrlWithoutLabel: true };
             }
 
@@ -285,7 +343,9 @@ export class FormSlideComponent implements OnInit {
         }
 
         if (errors['pattern']) {
-            return this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_FORMAT');
+            return this.translate.instant(
+                'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_FORMAT'
+            );
         }
 
         if (errors['htmlMaxLength']) {
@@ -293,72 +353,97 @@ export class FormSlideComponent implements OnInit {
         }
 
         if (errors['buttonLabelWithoutUrl']) {
-            return this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL');
+            return this.translate.instant(
+                'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL'
+            );
         }
 
         if (errors['buttonUrlWithoutLabel']) {
-            return this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL');
+            return this.translate.instant(
+                'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL'
+            );
         }
 
         if (fieldName === 'videoUrl') {
             if (errors['invalidVideoUrl']) {
-                return this.translate.instant('VALIDATION.INVALID_VIDEO_URL');
+                return this.translate.instant(
+                    'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_VIDEO_URL'
+                );
             }
             if (errors['maxlength']) {
-                return `${this.translate.instant('VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
+                return `${this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
             }
             if (errors['pattern']) {
-                return this.translate.instant('VALIDATION.INVALID_URL_FORMAT');
+                return this.translate.instant(
+                    'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_URL_FORMAT'
+                );
             }
         }
 
         if (fieldName === 'imageFile') {
             if (errors['invalidImageType']) {
-                return this.translate.instant('VALIDATION.INVALID_IMAGE_TYPE');
+                return this.translate.instant(
+                    'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_IMAGE_TYPE'
+                );
             }
             if (errors['fileTooLarge']) {
-                return this.translate.instant('VALIDATION.FILE_TOO_LARGE', {
-                    maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB
-                });
+                return this.translate.instant(
+                    'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.FILE_TOO_LARGE',
+                    {
+                        maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB,
+                    }
+                );
             }
             if (errors['imageDimensions']) {
-                return this.translate.instant('VALIDATION.IMAGE_DIMENSIONS_TOO_LARGE', {
-                    maxWidth: FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
-                    maxHeight: FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
-                });
+                return this.translate.instant(
+                    'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.IMAGE_DIMENSIONS_TOO_LARGE',
+                    {
+                        maxWidth:
+                            FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
+                        maxHeight:
+                            FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT,
+                    }
+                );
             }
         }
 
-
-        return this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_INPUT');
+        return this.translate.instant(
+            'CONTENT_MANAGEMENT.SLIDE.FORM.VALIDATION.INVALID_INPUT'
+        );
     }
 
     private setupFormListeners(): void {
-        this.form.get('type')?.valueChanges.pipe(
-            distinctUntilChanged(),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe((type: TypeMediaDto) => {
-            this.currentType$.next(type);
-            this.updateMediaFieldsBasedOnType(type);
-        });
+        this.form
+            .get('type')
+            ?.valueChanges.pipe(
+                distinctUntilChanged(),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe((type: TypeMediaDto) => {
+                this.currentType$.next(type);
+                this.updateMediaFieldsBasedOnType(type);
+            });
 
-        this.form.get('videoUrl')?.valueChanges.pipe(
-            distinctUntilChanged(),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe((url: string) => {
-            if (url && this.currentType$.value === TypeMediaDto.VIDEO) {
-                this.validateVideoUrl(url);
-            }
-        });
+        this.form
+            .get('videoUrl')
+            ?.valueChanges.pipe(
+                distinctUntilChanged(),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe((url: string) => {
+                if (url && this.currentType$.value === TypeMediaDto.VIDEO) {
+                    this.validateVideoUrl(url);
+                }
+            });
 
         combineLatest([
             this.form.statusChanges.pipe(startWith(this.form.status)),
-            this.form.valueChanges.pipe(startWith(this.form.value))
-        ]).pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe(() => {
-            this.cdr.markForCheck();
-        });
+            this.form.valueChanges.pipe(startWith(this.form.value)),
+        ])
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => {
+                this.cdr.markForCheck();
+            });
     }
 
     private updateMediaFieldsBasedOnType(type: TypeMediaDto): void {
@@ -395,7 +480,8 @@ export class FormSlideComponent implements OnInit {
     private validateVideoUrl(url: string): void {
         if (!url.trim()) return;
 
-        const urlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
+        const urlPattern =
+            /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
 
         if (!urlPattern.test(url)) {
             this.form.get('videoUrl')?.setErrors({ invalidVideoUrl: true });
@@ -416,16 +502,20 @@ export class FormSlideComponent implements OnInit {
             imageControl?.setErrors({
                 fileTooLarge: {
                     maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB,
-                    actualSize: file.size
-                }
+                    actualSize: file.size,
+                },
             });
             return;
         }
 
         // Vérification des dimensions (optionnelle)
-        this.checkImageDimensions(file).then(dimensions => {
-            if (dimensions.width > FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
-                dimensions.height > FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT) {
+        this.checkImageDimensions(file).then((dimensions) => {
+            if (
+                dimensions.width >
+                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                dimensions.height >
+                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+            ) {
                 imageControl?.setErrors({ imageDimensions: true });
             }
         });
@@ -441,7 +531,9 @@ export class FormSlideComponent implements OnInit {
         this.cdr.markForCheck();
     }
 
-    private checkImageDimensions(file: File): Promise<{ width: number, height: number }> {
+    private checkImageDimensions(
+        file: File
+    ): Promise<{ width: number; height: number }> {
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = () => {
@@ -453,16 +545,21 @@ export class FormSlideComponent implements OnInit {
 
     private setupRouteData(): void {
         this.pageTitle$ = this.route.data.pipe(
-            map(data => data['title'] || 'CONTENT_MANAGEMENT.SLIDE.LABEL')
+            map((data) => data['title'] || 'CONTENT_MANAGEMENT.SLIDE.LABEL')
         );
 
-        this.route.data.pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe(data => {
-            this.module = data['module'] || 'CONTENT_MANAGEMENT.LABEL';
-            this.subModule = data['subModule'] || 'CONTENT_MANAGEMENT.SLIDE.TITLE';
-            this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
-        });
+        this.route.data
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((data) => {
+                this.module = data['module'] || 'CONTENT_MANAGEMENT.LABEL';
+                this.subModule =
+                    data['subModule'] || 'CONTENT_MANAGEMENT.SLIDE.TITLE';
+                this.titleService.setTitle(
+                    data['title']
+                        ? this.translate.instant(data['title'])
+                        : 'CMZ'
+                );
+            });
     }
 
     private checkEditMode(): void {
@@ -475,9 +572,10 @@ export class FormSlideComponent implements OnInit {
     }
 
     private loadSlideForEdit(id: string): void {
-        this.homeFacade.getSlideById(id)
+        this.homeFacade
+            .getSlideById(id)
             .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(item => {
+            .subscribe((item) => {
                 this.patchForm(item);
             });
     }
@@ -497,7 +595,7 @@ export class FormSlideComponent implements OnInit {
             platforms: item.platforms,
             startDate: item.startDate ? new Date(item.startDate) : null,
             endDate: item.endDate ? new Date(item.endDate) : null,
-            isActive: item.status
+            isActive: item.status,
         };
 
         if (item.type === TypeMediaDto.VIDEO) {
@@ -554,7 +652,8 @@ export class FormSlideComponent implements OnInit {
         } else if (type === 'video') {
             const videoUrl = this.form.get('videoUrl')?.value;
             if (videoUrl) {
-                this.previewContent = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
+                this.previewContent =
+                    this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
             }
         }
 
@@ -573,18 +672,19 @@ export class FormSlideComponent implements OnInit {
         const formData = this.prepareSubmitData();
         console.log(formData);
 
-        const submitObservable = this.isEditMode && this.currentId
-            ? this.homeFacade.updateSlide(this.currentId, formData)
-            : this.homeFacade.createSlide(formData);
+        const submitObservable =
+            this.isEditMode && this.currentId
+                ? this.homeFacade.updateSlide(this.currentId, formData)
+                : this.homeFacade.createSlide(formData);
 
-        submitObservable.pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe({
+        submitObservable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: () => {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Succès',
-                    detail: this.isEditMode ? 'Bloc mis à jour avec succès' : 'Bloc créé avec succès'
+                    detail: this.isEditMode
+                        ? 'Bloc mis à jour avec succès'
+                        : 'Bloc créé avec succès',
                 });
                 this.onCancel();
             },
@@ -593,9 +693,9 @@ export class FormSlideComponent implements OnInit {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Erreur',
-                    detail: 'Une erreur est survenue lors de la sauvegarde'
+                    detail: 'Une erreur est survenue lors de la sauvegarde',
                 });
-            }
+            },
         });
     }
 
@@ -612,16 +712,22 @@ export class FormSlideComponent implements OnInit {
             errors.push('Contenu: ' + this.getErrorMessage('content'));
         }
         if (this.form.get('buttonLabel')?.invalid) {
-            errors.push('Label du bouton: ' + this.getErrorMessage('buttonLabel'));
+            errors.push(
+                'Label du bouton: ' + this.getErrorMessage('buttonLabel')
+            );
         }
         if (this.form.get('buttonUrl')?.invalid) {
             errors.push('URL du bouton: ' + this.getErrorMessage('buttonUrl'));
         }
         if (this.form.errors?.['buttonLabelWithoutUrl']) {
-            errors.push(this.translate.instant('VALIDATION.BUTTON_LABEL_WITHOUT_URL'));
+            errors.push(
+                this.translate.instant('VALIDATION.BUTTON_LABEL_WITHOUT_URL')
+            );
         }
         if (this.form.errors?.['buttonUrlWithoutLabel']) {
-            errors.push(this.translate.instant('VALIDATION.BUTTON_URL_WITHOUT_LABEL'));
+            errors.push(
+                this.translate.instant('VALIDATION.BUTTON_URL_WITHOUT_LABEL')
+            );
         }
 
         if (errors.length > 0) {
@@ -629,7 +735,7 @@ export class FormSlideComponent implements OnInit {
                 severity: 'error',
                 summary: 'Erreurs de validation',
                 detail: errors.join('\n'),
-                life: 5000
+                life: 5000,
             });
         }
     }
@@ -642,7 +748,10 @@ export class FormSlideComponent implements OnInit {
         formData.append('subtitle', values.subtitle);
         formData.append('content', values.content || '');
         formData.append('type', values.type);
-        formData.append('time_duration_in_seconds', values.timeDurationInSeconds?.toString() || '0');
+        formData.append(
+            'time_duration_in_seconds',
+            values.timeDurationInSeconds?.toString() || '0'
+        );
         formData.append('order', values.order?.toString() || '0');
         formData.append('button_label', values.buttonLabel || '');
         formData.append('button_url', values.buttonUrl || '');
@@ -651,7 +760,10 @@ export class FormSlideComponent implements OnInit {
         this.appendPlatformsData(formData, values.platforms);
 
         if (values.startDate) {
-            formData.append('start_date', (values.startDate as Date).toISOString());
+            formData.append(
+                'start_date',
+                (values.startDate as Date).toISOString()
+            );
         }
         if (values.endDate) {
             formData.append('end_date', (values.endDate as Date).toISOString());
@@ -671,10 +783,17 @@ export class FormSlideComponent implements OnInit {
 
     private appendPlatformsData(formData: FormData, platforms: any[]): void {
         let platformArray = platforms;
-        if (Array.isArray(platformArray) && platformArray.length > 0 && typeof platformArray[0] === 'object') {
+        if (
+            Array.isArray(platformArray) &&
+            platformArray.length > 0 &&
+            typeof platformArray[0] === 'object'
+        ) {
             platformArray = platformArray.map((p: any) => p.id || p.value || p);
         }
-        formData.append('platforms', JSON.stringify(platformArray).toLowerCase());
+        formData.append(
+            'platforms',
+            JSON.stringify(platformArray).toLowerCase()
+        );
     }
 
     onCancel(): void {

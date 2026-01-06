@@ -7,7 +7,7 @@ import {
     ImageMetadata,
     ImageProcessingError,
     ProcessingOptions,
-    ProcessingResult
+    ProcessingResult,
 } from '../../domain/types/image-processing.types';
 
 @Injectable({ providedIn: 'root' })
@@ -18,13 +18,14 @@ export class ImageProcessorCoreService {
      * Charger une image depuis une URL ou un File
      */
     loadImage$(source: string | File): Observable<HTMLImageElement> {
-        return new Observable<HTMLImageElement>(subscriber => {
+        return new Observable<HTMLImageElement>((subscriber) => {
             const img = new Image();
             img.crossOrigin = 'anonymous';
 
-            const objectUrl = typeof source === 'string'
-                ? source
-                : URL.createObjectURL(source);
+            const objectUrl =
+                typeof source === 'string'
+                    ? source
+                    : URL.createObjectURL(source);
 
             img.onload = () => {
                 subscriber.next(img);
@@ -35,10 +36,12 @@ export class ImageProcessorCoreService {
             };
 
             img.onerror = () => {
-                subscriber.error(new ImageProcessingError(
-                    'Failed to load image',
-                    ImageErrors.PROCESSING_FAILED
-                ));
+                subscriber.error(
+                    new ImageProcessingError(
+                        'Failed to load image',
+                        ImageErrors.PROCESSING_FAILED
+                    )
+                );
                 if (typeof source !== 'string') {
                     URL.revokeObjectURL(objectUrl);
                 }
@@ -51,25 +54,33 @@ export class ImageProcessorCoreService {
     /**
      * Valider un fichier image (pure logique)
      */
-    validateFile(file: File, maxSizeMB = 20): { valid: boolean; error?: ImageProcessingError } {
+    validateFile(
+        file: File,
+        maxSizeMB = 20
+    ): { valid: boolean; error?: ImageProcessingError } {
         if (!file.type.startsWith('image/')) {
             return {
                 valid: false,
                 error: new ImageProcessingError(
                     'File is not an image',
                     ImageErrors.INVALID_FILE_TYPE
-                )
+                ),
             };
         }
 
-        const supportedFormats = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+        const supportedFormats = [
+            'image/jpeg',
+            'image/png',
+            'image/webp',
+            'image/avif',
+        ];
         if (!supportedFormats.includes(file.type)) {
             return {
                 valid: false,
                 error: new ImageProcessingError(
                     'Unsupported image format',
                     ImageErrors.UNSUPPORTED_FORMAT
-                )
+                ),
             };
         }
 
@@ -79,7 +90,7 @@ export class ImageProcessorCoreService {
                 error: new ImageProcessingError(
                     `File too large (max ${maxSizeMB}MB)`,
                     ImageErrors.FILE_TOO_LARGE
-                )
+                ),
             };
         }
 
@@ -100,7 +111,7 @@ export class ImageProcessorCoreService {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d', {
                 alpha: options.format === 'image/png',
-                willReadFrequently: false
+                willReadFrequently: false,
             });
 
             if (!ctx) {
@@ -139,8 +150,19 @@ export class ImageProcessorCoreService {
             );
 
             // Convertir en blob
-            return this.canvasToBlob$(canvas, options.format, options.quality).pipe(
-                map(blob => this.createProcessingResult(blob, image, startTime, outputDimensions))
+            return this.canvasToBlob$(
+                canvas,
+                options.format,
+                options.quality
+            ).pipe(
+                map((blob) =>
+                    this.createProcessingResult(
+                        blob,
+                        image,
+                        startTime,
+                        outputDimensions
+                    )
+                )
             );
         });
     }
@@ -158,7 +180,7 @@ export class ImageProcessorCoreService {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d', {
                 alpha: options.format === 'image/png',
-                willReadFrequently: false
+                willReadFrequently: false,
             });
 
             if (!ctx) {
@@ -187,7 +209,14 @@ export class ImageProcessorCoreService {
 
             // Convertir en blob avec qualité adaptative
             return this.canvasToOptimizedBlob$(canvas, options).pipe(
-                map(blob => this.createProcessingResult(blob, image, startTime, dimensions))
+                map((blob) =>
+                    this.createProcessingResult(
+                        blob,
+                        image,
+                        startTime,
+                        dimensions
+                    )
+                )
             );
         });
     }
@@ -229,7 +258,11 @@ export class ImageProcessorCoreService {
         let width = originalWidth;
         let height = originalHeight;
 
-        const { maxWidth = 1920, maxHeight = 1080, maintainAspectRatio = true } = options;
+        const {
+            maxWidth = 1920,
+            maxHeight = 1080,
+            maintainAspectRatio = true,
+        } = options;
 
         if (width > maxWidth || height > maxHeight) {
             if (maintainAspectRatio) {
@@ -254,17 +287,19 @@ export class ImageProcessorCoreService {
         format?: string,
         quality?: number
     ): Observable<Blob> {
-        return new Observable<Blob>(subscriber => {
+        return new Observable<Blob>((subscriber) => {
             canvas.toBlob(
-                blob => {
+                (blob) => {
                     if (blob) {
                         subscriber.next(blob);
                         subscriber.complete();
                     } else {
-                        subscriber.error(new ImageProcessingError(
-                            'Canvas to blob conversion failed',
-                            ImageErrors.PROCESSING_FAILED
-                        ));
+                        subscriber.error(
+                            new ImageProcessingError(
+                                'Canvas to blob conversion failed',
+                                ImageErrors.PROCESSING_FAILED
+                            )
+                        );
                     }
                 },
                 format || 'image/webp',
@@ -277,26 +312,28 @@ export class ImageProcessorCoreService {
         canvas: HTMLCanvasElement,
         options: ProcessingOptions
     ): Observable<Blob> {
-        return new Observable<Blob>(subscriber => {
+        return new Observable<Blob>((subscriber) => {
             const strategies = [
                 { format: 'image/webp' as const, quality: 0.85 },
                 { format: 'image/webp' as const, quality: 0.75 },
-                { format: 'image/jpeg' as const, quality: 0.80 },
-                { format: 'image/jpeg' as const, quality: 0.65 }
+                { format: 'image/jpeg' as const, quality: 0.8 },
+                { format: 'image/jpeg' as const, quality: 0.65 },
             ];
 
             const tryStrategy = (index: number): void => {
                 if (index >= strategies.length) {
-                    subscriber.error(new ImageProcessingError(
-                        'All optimization strategies failed',
-                        ImageErrors.PROCESSING_FAILED
-                    ));
+                    subscriber.error(
+                        new ImageProcessingError(
+                            'All optimization strategies failed',
+                            ImageErrors.PROCESSING_FAILED
+                        )
+                    );
                     return;
                 }
 
                 const strategy = strategies[index];
                 canvas.toBlob(
-                    blob => {
+                    (blob) => {
                         if (blob) {
                             subscriber.next(blob);
                             subscriber.complete();
@@ -324,7 +361,7 @@ export class ImageProcessorCoreService {
             height: originalImage.naturalHeight,
             size: 0, // Non disponible ici
             type: '',
-            lastModified: Date.now()
+            lastModified: Date.now(),
         };
 
         const processingTime = performance.now() - startTime;
@@ -338,11 +375,11 @@ export class ImageProcessorCoreService {
                     height: outputDimensions.height,
                     size: blob.size,
                     type: blob.type,
-                    lastModified: Date.now()
+                    lastModified: Date.now(),
                 },
                 processingTime,
-                compressionRatio: 0 // Calculé par l'appelant si original size disponible
-            }
+                compressionRatio: 0, // Calculé par l'appelant si original size disponible
+            },
         };
     }
 }

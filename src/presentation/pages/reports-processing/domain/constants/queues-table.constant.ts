@@ -46,6 +46,6 @@ export const QUEUES_TABLE_CONST = {
         'reportTypeLabel',
         'operatorsLabels',
         'sourceLabel',
-        'createdAt'
+        'createdAt',
     ],
 };

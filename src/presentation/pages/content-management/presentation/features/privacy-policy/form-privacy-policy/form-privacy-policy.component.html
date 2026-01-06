@@ -1,6 +1,6 @@
 <main class="container-fluid form-privacy-policy-container" role="main">
     <p-toast position="top-right"></p-toast>
-    
+
     <section class="row form-privacy-policy-row">
         <article class="col-sm-12 form-privacy-policy-article">
             <app-breadcrumb />
@@ -14,7 +14,11 @@
                                 [displayDate]="false"
                                 [displayList]="false"
                                 [title]="
-                                    isEditMode ? ('CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.TITLE_FORM_EDIT' | translate) : ('CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.TITLE_FORM_ADD' | translate)
+                                    isEditMode
+                                        ? ('CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.TITLE_FORM_EDIT'
+                                          | translate)
+                                        : ('CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.TITLE_FORM_ADD'
+                                          | translate)
                                 "
                             >
                             </app-page-title>
@@ -31,51 +35,116 @@
                         <div class="col-12">
                             <div class="card shadow-sm border-0">
                                 <div class="card-body">
-                                    <form class="form row g-3" [formGroup]="form" (ngSubmit)="onSubmit()">
-                                        
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                    >
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.GENERAL_INFO' | translate }}</b>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.GENERAL_INFO'
+                                                        | translate
+                                                }}</b>
                                             </legend>
 
                                             <div class="row g-3">
-
                                                 <div class="col-md-2">
-                                                    <label for="version" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.VERSION' | translate }}</label>
-                                                    <input class="form-input" id="version" type="text" formControlName="version" placeholder="{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.VERSION_PLACEHOLDER' | translate }}" />
-                                                    @if (form.get('version')?.invalid && form.get('version')?.touched) {
-                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                    <label
+                                                        for="version"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.VERSION'
+                                                                | translate
+                                                        }}</label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="version"
+                                                        type="text"
+                                                        formControlName="version"
+                                                        placeholder="{{
+                                                            'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.VERSION_PLACEHOLDER'
+                                                                | translate
+                                                        }}"
+                                                    />
+                                                    @if (
+                                                        form.get('version')
+                                                            ?.invalid &&
+                                                        form.get('version')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
                                                     }
                                                 </div>
-
                                             </div>
 
                                             <div class="row g-3">
-
                                                 <div class="col-12">
-                                                    <label for="content" class="form-label fw-bold">{{ 'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.DESCRIPTION' | translate }}</label>
-                                                    <p-editor formControlName="content" [style]="{ height: '100vh' }"></p-editor>
-                                                    @if (form.get('content')?.invalid && form.get('content')?.touched) {
-                                                        <small class="text-danger d-block mt-1">{{ 'VALIDATION.REQUIRED' | translate }}</small>
+                                                    <label
+                                                        for="content"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'CONTENT_MANAGEMENT.PRIVACY_POLICY.FORM.DESCRIPTION'
+                                                                | translate
+                                                        }}</label
+                                                    >
+                                                    <p-editor
+                                                        formControlName="content"
+                                                        [style]="{
+                                                            height: '100vh',
+                                                        }"
+                                                    ></p-editor>
+                                                    @if (
+                                                        form.get('content')
+                                                            ?.invalid &&
+                                                        form.get('content')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
                                                     }
                                                 </div>
                                             </div>
-                                            
                                         </fieldset>
 
-                                        <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
-                                            <p-button 
-                                                label="{{ 'COMMON.CANCEL' | translate }}" 
-                                                styleClass="p-button-text p-button-secondary" 
-                                                (click)="onCancel()">
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.CANCEL' | translate
+                                                }}"
+                                                styleClass="p-button-text p-button-secondary"
+                                                (click)="onCancel()"
+                                            >
                                             </p-button>
-                                            
-                                            <p-button 
-                                                label="{{ 'COMMON.SAVE' | translate }}" 
-                                                (click)="onSubmit()" 
-                                                [disabled]="saveButtonState.disabled"
-                                                [styleClass]="saveButtonState.disabled ? 'p-button-disabled form-submit-button' : 'form-submit-button'">
 
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.SAVE' | translate
+                                                }}"
+                                                (click)="onSubmit()"
+                                                [disabled]="
+                                                    saveButtonState.disabled
+                                                "
+                                                [styleClass]="
+                                                    saveButtonState.disabled
+                                                        ? 'p-button-disabled form-submit-button'
+                                                        : 'form-submit-button'
+                                                "
+                                            >
                                             </p-button>
                                         </div>
                                     </form>

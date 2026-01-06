@@ -176,7 +176,9 @@ export class TableNewsComponent implements OnDestroy {
                 ? normalized
                 : `${normalized}Z`;
             const date = new Date(withTimezone);
-            return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
+            return Number.isNaN(date.getTime())
+                ? value
+                : date.toLocaleDateString();
         } catch {
             return value;
         }

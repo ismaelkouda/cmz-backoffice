@@ -17,9 +17,12 @@ export class TermsUseApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
-    fetchTermsUse(payload: TermsUseRequestDto, page: string): Observable<TermsUseResponseDto> {
+    fetchTermsUse(
+        payload: TermsUseRequestDto,
+        page: string
+    ): Observable<TermsUseResponseDto> {
         const url = `${this.baseUrl}${TERMS_USE_ENDPOINTS.TERMS_USE.replace('{page}', page)} `;
 
         const paramsObject = Object.entries(payload ?? {}).reduce<
@@ -45,8 +48,6 @@ export class TermsUseApi {
         );
     }
 
-
-
     createTermsUse(payload: FormData): Observable<SimpleResponseDto<void>> {
         return this.http.post<SimpleResponseDto<void>>(
             `${this.baseUrl}${TERMS_USE_ENDPOINTS.CREATE}`,
@@ -54,7 +55,10 @@ export class TermsUseApi {
         );
     }
 
-    updateTermsUse(id: string, payload: FormData): Observable<SimpleResponseDto<void>> {
+    updateTermsUse(
+        id: string,
+        payload: FormData
+    ): Observable<SimpleResponseDto<void>> {
         return this.http.post<SimpleResponseDto<void>>(
             `${this.baseUrl}${TERMS_USE_ENDPOINTS.UPDATE.replace('{id}', id)}`,
             payload

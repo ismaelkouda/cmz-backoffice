@@ -6,9 +6,8 @@
     transition: all 0.2s ease;
     border: 2px solid transparent;
 
-
-        background-color: #f8f9fa;
-        border-color: #e9ecef;
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
 
     .media-wrapper {
         display: flex;
@@ -39,19 +38,23 @@
     }
 
     &.active {
-        background-color: color-mix(in srgb, var(--theme-default) 73%, white 100%);
+        background-color: color-mix(
+            in srgb,
+            var(--theme-default) 73%,
+            white 100%
+        );
         border-color: var(--theme-default);
         .profile-info {
-        .user-name {
-            font-weight: 600;
-            color: var(--color-white);
-        }
+            .user-name {
+                font-weight: 600;
+                color: var(--color-white);
+            }
 
-        .user-email {
-            font-size: 0.875rem;
-            color: var(--color-gray-light);
-            margin: 0;
-        }
+            .user-email {
+                font-size: 0.875rem;
+                color: var(--color-gray-light);
+                margin: 0;
+            }
         }
     }
 
@@ -138,7 +141,11 @@
 
             &:hover {
                 color: var(--color-white);
-                background-color: color-mix(in srgb, var(--theme-secondary) 73%, white 27%);
+                background-color: color-mix(
+                    in srgb,
+                    var(--theme-secondary) 73%,
+                    white 27%
+                );
 
                 span {
                     color: var(--color-white);

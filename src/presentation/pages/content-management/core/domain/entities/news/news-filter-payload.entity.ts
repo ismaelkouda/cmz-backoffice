@@ -1,4 +1,3 @@
-
 export interface NewsFilterPayloadEntity {
     startDate: string;
     endDate: string;

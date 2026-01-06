@@ -67,7 +67,7 @@
         border: 1px solid #000;
         z-index: 10;
 
-        &[action="move"] {
+        &[action='move'] {
             cursor: move;
             top: 0;
             left: 0;
@@ -78,16 +78,52 @@
             border: none;
         }
 
-        &[action="n-resize"] { top: -5px; left: 50%; margin-left: -5px; cursor: n-resize; }
-        &[action="e-resize"] { top: 50%; right: -5px; margin-top: -5px; cursor: e-resize; }
-        &[action="s-resize"] { bottom: -5px; left: 50%; margin-left: -5px; cursor: s-resize; }
-        &[action="w-resize"] { top: 50%; left: -5px; margin-top: -5px; cursor: w-resize; }
-        &[action="ne-resize"] { top: -5px; right: -5px; cursor: ne-resize; }
-        &[action="nw-resize"] { top: -5px; left: -5px; cursor: nw-resize; }
-        &[action="se-resize"] { bottom: -5px; right: -5px; cursor: se-resize; }
-        &[action="sw-resize"] { bottom: -5px; left: -5px; cursor: sw-resize; }
+        &[action='n-resize'] {
+            top: -5px;
+            left: 50%;
+            margin-left: -5px;
+            cursor: n-resize;
+        }
+        &[action='e-resize'] {
+            top: 50%;
+            right: -5px;
+            margin-top: -5px;
+            cursor: e-resize;
+        }
+        &[action='s-resize'] {
+            bottom: -5px;
+            left: 50%;
+            margin-left: -5px;
+            cursor: s-resize;
+        }
+        &[action='w-resize'] {
+            top: 50%;
+            left: -5px;
+            margin-top: -5px;
+            cursor: w-resize;
+        }
+        &[action='ne-resize'] {
+            top: -5px;
+            right: -5px;
+            cursor: ne-resize;
+        }
+        &[action='nw-resize'] {
+            top: -5px;
+            left: -5px;
+            cursor: nw-resize;
+        }
+        &[action='se-resize'] {
+            bottom: -5px;
+            right: -5px;
+            cursor: se-resize;
+        }
+        &[action='sw-resize'] {
+            bottom: -5px;
+            left: -5px;
+            cursor: sw-resize;
+        }
     }
-    
+
     cropper-grid {
         display: block;
         width: 100%;

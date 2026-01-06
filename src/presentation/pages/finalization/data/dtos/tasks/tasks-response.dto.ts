@@ -12,4 +12,4 @@ export interface TasksItemDto {
     created_at: string;
 }
 
-export interface TasksResponseDto extends PaginatedResponseDto<TasksItemDto> { }
+export interface TasksResponseDto extends PaginatedResponseDto<TasksItemDto> {}

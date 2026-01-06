@@ -9,21 +9,25 @@
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
-                            [title]="'CONTENT_MANAGEMENT.TERMS_USE.TITLE' | translate | lowercase"
+                            [title]="
+                                'CONTENT_MANAGEMENT.TERMS_USE.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
                         ></app-page-title>
                     </header>
 
                     <div class="fade-in terms-use-content">
-                        
-                        <app-filter-terms-use class="filter-component" 
+                        <app-filter-terms-use
+                            class="filter-component"
                             [loading]="(loading$ | async) ?? false"
-                            (filter)="filter($event)">
+                            (filter)="filter($event)"
+                        >
                         </app-filter-terms-use>
 
                         <hr class="terms-use-divider" />
 
                         <section class="table-section">
-                            
                             <app-table-terms-use
                                 class="table-component"
                                 [loading]="(loading$ | async) ?? false"
@@ -35,7 +39,9 @@
                                 (deleteRequested)="onDeleteClicked($event)"
                                 (viewRequested)="onViewClicked($event)"
                                 (publishRequested)="onPublishClicked($event)"
-                                (unpublishRequested)="onUnpublishClicked($event)"
+                                (unpublishRequested)="
+                                    onUnpublishClicked($event)
+                                "
                             ></app-table-terms-use>
 
                             <app-pagination

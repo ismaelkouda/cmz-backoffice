@@ -3,4 +3,4 @@ export enum ActionDropdown {
     INACTIVE = 'COMMON.DEACTIVATED',
     PUBLISHED = 'COMMON.PUBLISHED',
     UNPUBLISHED = 'COMMON.UNPUBLISHED',
-};
+}

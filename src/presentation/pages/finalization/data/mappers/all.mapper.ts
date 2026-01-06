@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { AllItemDto } from '@presentation/pages/finalization/data/dtos/all/all-response.dto';
 import {
     AllEntity,
-    ReportState
+    ReportState,
 } from '@presentation/pages/finalization/domain/entities/all/all.entity';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
@@ -11,9 +11,9 @@ import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.map
 
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
-    reportTypeMapper = inject(ReportTypeMapper)
-    telecomOperatorMapper = inject(TelecomOperatorMapper)
-    reportSourceMapper = inject(ReportSourceMapper)
+    reportTypeMapper = inject(ReportTypeMapper);
+    telecomOperatorMapper = inject(TelecomOperatorMapper);
+    reportSourceMapper = inject(ReportSourceMapper);
 
     protected override mapItemFromDto(dto: AllItemDto): AllEntity {
         return new AllEntity(

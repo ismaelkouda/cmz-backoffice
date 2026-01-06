@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: (statistics) => {
                     this.handleDashboardData(statistics);
-                }
+                },
             });
     }
 

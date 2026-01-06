@@ -11,7 +11,10 @@ import { TermsUseFilter } from '../../../domain/value-objects/terms-use-filter.v
 export class FetchTermsUseUseCase {
     private readonly termsUseRepository = inject(TermsUseRepository);
 
-    execute(filter: TermsUseFilter, page: string): Observable<Paginate<TermsUseEntity>> {
+    execute(
+        filter: TermsUseFilter,
+        page: string
+    ): Observable<Paginate<TermsUseEntity>> {
         return this.termsUseRepository.fetchTermsUse(filter, page);
     }
 }

@@ -12,4 +12,5 @@ export interface QueuesItemDto {
     created_at: string;
 }
 
-export interface QueuesResponseDto extends PaginatedResponseDto<QueuesItemDto> { }
+export interface QueuesResponseDto
+    extends PaginatedResponseDto<QueuesItemDto> {}

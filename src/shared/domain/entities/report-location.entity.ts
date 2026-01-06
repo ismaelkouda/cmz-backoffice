@@ -16,6 +16,6 @@ export class ReportLocationEntity implements ReportLocation {
         public readonly method: LocationMethod,
         public readonly type: LocationType,
         public readonly name: string,
-        public readonly description: string,
-    ) { }
+        public readonly description: string
+    ) {}
 }

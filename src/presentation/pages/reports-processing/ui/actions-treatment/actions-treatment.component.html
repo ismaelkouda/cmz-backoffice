@@ -39,44 +39,61 @@
 
                         <!-- Premium Subtitle Section -->
                         @if (details$(); as details) {
-                        <div class="report-subtitle">
-                            <div class="subtitle-item">
-                                <span class="subtitle-label">Type de signalement:</span>
-                                <p-tag
-                                    [value]="details.reportType | translate"
-                                    [styleClass]="'report-type-tag ' + getReportTypeColor(details.reportType)"
-                                    [rounded]="true"
-                                ></p-tag>
-                            </div>
-
-                            <div class="subtitle-item">
-                                <span class="subtitle-label">Opérateurs:</span>
-                                <div class="operators-list">
-                                    @for (operator of details.operators; track operator) {
-                                    <span
-                                        class="operator-badge"
-                                        [style.color]="getOperatorColor(operator)"
+                            <div class="report-subtitle">
+                                <div class="subtitle-item">
+                                    <span class="subtitle-label"
+                                        >Type de signalement:</span
                                     >
-                                        {{ operator | translate }}
+                                    <p-tag
+                                        [value]="details.reportType | translate"
+                                        [styleClass]="
+                                            'report-type-tag ' +
+                                            getReportTypeColor(
+                                                details.reportType
+                                            )
+                                        "
+                                        [rounded]="true"
+                                    ></p-tag>
+                                </div>
+
+                                <div class="subtitle-item">
+                                    <span class="subtitle-label"
+                                        >Opérateurs:</span
+                                    >
+                                    <div class="operators-list">
+                                        @for (
+                                            operator of details.operators;
+                                            track operator
+                                        ) {
+                                            <span
+                                                class="operator-badge"
+                                                [style.color]="
+                                                    getOperatorColor(operator)
+                                                "
+                                            >
+                                                {{ operator | translate }}
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="subtitle-item">
+                                    <span class="subtitle-label">Créé le:</span>
+                                    <span class="subtitle-value">{{
+                                        formatCreationDate(details.createdAt)
+                                    }}</span>
+                                </div>
+
+                                <div class="subtitle-item">
+                                    <span class="subtitle-label"
+                                        >Source [Numéro]:</span
+                                    >
+                                    <span class="subtitle-value"
+                                        >{{ details.source | translate }} [
+                                        {{ details.initiatorPhone }} ]
                                     </span>
-                                    }
                                 </div>
                             </div>
-
-                            <div class="subtitle-item">
-                                <span class="subtitle-label">Créé le:</span>
-                                <span class="subtitle-value">{{
-                                    formatCreationDate(details.createdAt)
-                                }}</span>
-                            </div>
-
-                            <div class="subtitle-item">
-                                <span class="subtitle-label">Source [Numéro]:</span>
-                                <span class="subtitle-value">{{
-                                   details.source | translate
-                                }} [ {{ details.initiatorPhone }} ] </span>
-                            </div>
-                        </div>
                         }
 
                         <hr class="actions-divider" />

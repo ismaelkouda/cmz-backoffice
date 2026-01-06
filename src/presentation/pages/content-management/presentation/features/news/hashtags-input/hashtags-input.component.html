@@ -1,49 +1,57 @@
-    <div class="hashtags-container" [formGroup]="form">
-      <div class="d-flex flex-column gap-3">
-        
+<div class="hashtags-container" [formGroup]="form">
+    <div class="d-flex flex-column gap-3">
         <div class="d-flex align-items-center gap-2 flex-wrap">
-          <input class="form-input" id="subtitle"
-            [formControl]="currentHashtagControl"
-            (keydown.enter)="addHashtag($event)" (blur)="onBlur()" autocomplete="off"/>
-          
-          @if (canClearAll()) {
-            <p-button
-              type="button"
-              icon="pi pi-trash"
-              [rounded]="true"
-              [text]="true"
-              [severity]="'danger'"
-              (onClick)="clearAll()"
-            ></p-button>
-          }
+            <input
+                class="form-input"
+                id="subtitle"
+                [formControl]="currentHashtagControl"
+                (keydown.enter)="addHashtag($event)"
+                (blur)="onBlur()"
+                autocomplete="off"
+            />
+
+            @if (canClearAll()) {
+                <p-button
+                    type="button"
+                    icon="pi pi-trash"
+                    [rounded]="true"
+                    [text]="true"
+                    [severity]="'danger'"
+                    (onClick)="clearAll()"
+                ></p-button>
+            }
         </div>
         @if (hashtagsArray.controls.length > 0) {
-
-        <div class="hashtags-list">
-          <div class="d-flex flex-wrap gap-2">
-            @for (hashtag of hashtagsArray.controls; track getHashtagTrackBy($index, hashtag); let i = $index) {
-              <div class="hashtag-item">
-                <p-tag
-                  [value]="hashtag.value"
-                  [severity]="'info'"
-                  [rounded]="true"
-                  styleClass="p-2"
-                >
-                  <div class="d-flex align-items-center gap-1">
-                    <button
-                      type="button"
-                      class="remove-hashtag-btn p-0"
-                      (click)="removeHashtag(i)"
-                    >
-                      <i class="pi pi-times text-danger ml-1"></i>
-                    </button>
-                  </div>
-                </p-tag>
-              </div>
-            }
-          </div>
-        </div>
+            <div class="hashtags-list">
+                <div class="d-flex flex-wrap gap-2">
+                    @for (
+                        hashtag of hashtagsArray.controls;
+                        track getHashtagTrackBy($index, hashtag);
+                        let i = $index
+                    ) {
+                        <div class="hashtag-item">
+                            <p-tag
+                                [value]="hashtag.value"
+                                [severity]="'info'"
+                                [rounded]="true"
+                                styleClass="p-2"
+                            >
+                                <div class="d-flex align-items-center gap-1">
+                                    <button
+                                        type="button"
+                                        class="remove-hashtag-btn p-0"
+                                        (click)="removeHashtag(i)"
+                                    >
+                                        <i
+                                            class="pi pi-times text-danger ml-1"
+                                        ></i>
+                                    </button>
+                                </div>
+                            </p-tag>
+                        </div>
+                    }
+                </div>
+            </div>
         }
-
-      </div>
     </div>
+</div>

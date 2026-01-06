@@ -4,8 +4,6 @@
     text-transform: capitalize;
 }
 
-
-
 .action-button {
     border-radius: 999px;
     border: 1px solid rgba(var(--theme-default-rgb), 0.35);
@@ -30,7 +28,6 @@
     background: #f8f9fa;
     border-bottom: 1px solid #dee2e6;
 }
-
 
 .table-action-btn {
     padding: 2px 6px !important;
@@ -58,7 +55,6 @@
 .custom-table td .table-action-btn:last-child {
     margin-right: 0 !important;
 }
-
 
 .custom-table td .d-flex {
     gap: 4px !important;
@@ -95,8 +91,6 @@
     }
 }
 
-
-
 .report-type-content {
     display: block;
 }
@@ -125,7 +119,6 @@
     border-top: 1px solid #e0e0e0;
     margin: 4px 0;
 }
-
 
 ::ng-deep .p-overlaypanel {
     z-index: 9999 !important;
@@ -163,14 +156,12 @@
     cursor: help;
 }
 
-
 ::ng-deep .p-datatable-tbody > tr > td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 0; 
+    max-width: 0;
 }
-
 
 ::ng-deep .p-datatable-tbody > tr > td .truncated-text {
     display: block;
@@ -179,7 +170,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
 
 ::ng-deep .p-tooltip {
     max-width: 300px;

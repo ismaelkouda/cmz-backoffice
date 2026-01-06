@@ -46,15 +46,22 @@
                     [pSortableColumn]="col.field"
                 >
                     {{ col.header | translate }}
-                    <p-sortIcon 
-                        [field]="col.field" 
-                        *ngIf="col.field !== '__action' && col.field !== '__index'"
+                    <p-sortIcon
+                        [field]="col.field"
+                        *ngIf="
+                            col.field !== '__action' && col.field !== '__index'
+                        "
                     ></p-sortIcon>
                 </th>
             }
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-queue let-columns="columns" let-rowIndex="rowIndex">
+    <ng-template
+        pTemplate="body"
+        let-queue
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+    >
         <tr role="row" [class.cursor-pointer]="!isLoading()">
             @for (col of columns; track trackByColField($index, col)) {
                 <td
@@ -102,7 +109,11 @@
                                 ) {
                                     <p-tag
                                         [value]="operator | translate"
-                                        [style]="getOperatorTagStyle(operator | translate)"
+                                        [style]="
+                                            getOperatorTagStyle(
+                                                operator | translate
+                                            )
+                                        "
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -112,20 +123,26 @@
                             </ng-template>
                         }
 
-                        @case ('createdAt') {
-                            <time [attr.datetime]="queue.createdAt">
-                                {{ formatDate(queue.createdAt) }}
+                        @case ('reportedAt') {
+                            <time [attr.datetime]="queue.reportedAt">
+                                {{ formatDate(queue.reportedAt) }}
                             </time>
                         }
 
                         @case ('source') {
-                            <div
-                                class="source-type-content"
-                            >
-                                <span>{{ queue.source | translate }}</span>&nbsp;
-                                <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(queue.initiatorPhoneNumber)"
-                                    tooltipPosition="bottom">[ {{ queue.initiatorPhoneNumber }} ]
+                            <div class="source-type-content">
+                                <span>{{ queue.source | translate }}</span
+                                >&nbsp;
+                                <span
+                                    class="copyable"
+                                    pTooltip="{{ 'COPY' | translate }}"
+                                    (click)="
+                                        copyToClipboard(
+                                            queue.initiatorPhoneNumber
+                                        )
+                                    "
+                                    tooltipPosition="bottom"
+                                    >[ {{ queue.initiatorPhoneNumber }} ]
                                 </span>
                             </div>
                         }

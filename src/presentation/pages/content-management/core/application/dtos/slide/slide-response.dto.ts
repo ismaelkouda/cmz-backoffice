@@ -23,6 +23,4 @@ export interface SlideItemDto {
     updated_at: string;
 }
 
-export interface SlideResponseDto extends PaginatedResponseDto<SlideItemDto> { }
-
-
+export interface SlideResponseDto extends PaginatedResponseDto<SlideItemDto> {}

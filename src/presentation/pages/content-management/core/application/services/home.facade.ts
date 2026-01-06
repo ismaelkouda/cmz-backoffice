@@ -14,7 +14,7 @@ import {
     EnableHomeUseCase,
     FetchHomeUseCase,
     GetHomeByIdUseCase,
-    UpdateHomeUseCase
+    UpdateHomeUseCase,
 } from '../use-cases/home.use-case';
 
 @Injectable({ providedIn: 'root' })

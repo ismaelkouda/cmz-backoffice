@@ -49,7 +49,7 @@ import { QUEUES_TABLE_CONST } from '../../../domain/constants/queues/queues-tabl
         TableButtonHeaderComponent,
         SearchTableComponent,
         TableTitleComponent,
-        SkeletonModule
+        SkeletonModule,
     ],
 })
 export class TableQueuesComponent implements OnDestroy {

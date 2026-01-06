@@ -29,7 +29,7 @@ export interface OpenLayersModules {
 export class OpenLayersLoaderService {
     private modules$: Observable<OpenLayersModules> | null = null;
 
-    constructor(private ngZone: NgZone) { }
+    constructor(private ngZone: NgZone) {}
 
     loadModules(): Observable<OpenLayersModules> {
         if (!this.modules$) {
@@ -62,7 +62,6 @@ export class OpenLayersLoaderService {
     private async loadOpenLayersModules(): Promise<OpenLayersModules> {
         return this.ngZone.runOutsideAngular(async () => {
             try {
-
                 // Importations principales
                 const mapModule = await import('ol/Map');
                 const viewModule = await import('ol/View');

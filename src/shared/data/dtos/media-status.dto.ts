@@ -3,4 +3,5 @@ export const MediaStatusDto = {
     INACTIVE: false,
 } as const;
 
-export type MediaStatusDto = (typeof MediaStatusDto)[keyof typeof MediaStatusDto];
+export type MediaStatusDto =
+    (typeof MediaStatusDto)[keyof typeof MediaStatusDto];

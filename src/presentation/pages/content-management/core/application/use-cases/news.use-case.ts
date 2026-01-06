@@ -11,7 +11,10 @@ import { NewsFilter } from '../../domain/value-objects/news-filter.vo';
 export class FetchNewsUseCase {
     private readonly newsRepository = inject(NewsRepository);
 
-    execute(filter: NewsFilter, page: string): Observable<Paginate<NewsEntity>> {
+    execute(
+        filter: NewsFilter,
+        page: string
+    ): Observable<Paginate<NewsEntity>> {
         return this.newsRepository.fetchNews(filter, page);
     }
 }

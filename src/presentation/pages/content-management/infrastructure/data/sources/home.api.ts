@@ -1,8 +1,10 @@
-
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HomeRequestDto } from '@presentation/pages/content-management/core/application/dtos/home/home-request.dto';
-import { HomeItemDto, HomeResponseDto } from '@presentation/pages/content-management/core/application/dtos/home/home-response.dto';
+import {
+    HomeItemDto,
+    HomeResponseDto,
+} from '@presentation/pages/content-management/core/application/dtos/home/home-response.dto';
 import { HOME_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/home-endpoints';
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { EnvService } from '@shared/services/env.service';
@@ -17,26 +19,35 @@ export class HomeApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
-    fetchHome(payload: HomeRequestDto, page: string): Observable<HomeResponseDto> {
+    fetchHome(
+        payload: HomeRequestDto,
+        page: string
+    ): Observable<HomeResponseDto> {
         const url = `${this.baseUrl}${HOME_ENDPOINTS.HOME.replace('{page}', page)} `;
 
-        const paramsObject = Object.entries(payload ?? {}).reduce<
-            Record<string, string>
-        >((acc, [key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                acc[key] = String(value);
-            }
-            return acc;
-        }, {});
-
-        const params =
-            Object.keys(paramsObject).length > 0
-                ? new HttpParams({ fromObject: paramsObject })
-                : undefined;
+        const params = this.createHttpParams(payload);
 
         return this.http.get<HomeResponseDto>(url, { params });
+    }
+
+    private createHttpParams(payload: any): HttpParams {
+        let params = new HttpParams();
+
+        if (payload) {
+            Object.entries(payload).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && value !== '') {
+                    if (value instanceof Date) {
+                        params = params.set(key, value.toISOString());
+                    } else {
+                        params = params.set(key, String(value));
+                    }
+                }
+            });
+        }
+
+        return params;
     }
 
     getHomeById(id: string): Observable<SimpleResponseDto<HomeItemDto>> {

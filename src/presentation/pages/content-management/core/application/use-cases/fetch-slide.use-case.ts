@@ -9,7 +9,7 @@ import { SlideFilter } from '../../domain/value-objects/slide-filter.vo';
     providedIn: 'root',
 })
 export class FetchSlideUseCase {
-    constructor(private readonly slideRepository: SlideRepository) { }
+    constructor(private readonly slideRepository: SlideRepository) {}
 
     execute(params: {
         filter: SlideFilter;

@@ -54,7 +54,9 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilter> {
     }
 
     refresh(): void {
-        const currentFilter = TasksFilter.create({} as TasksFilterPayloadEntity);
+        const currentFilter = TasksFilter.create(
+            {} as TasksFilterPayloadEntity
+        );
         const currentPage = this.pageSubject.getValue();
         const fetch$ = this.fetchUseCase.execute(currentFilter, currentPage);
         this.fetchData(currentFilter, currentPage, fetch$);

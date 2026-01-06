@@ -40,7 +40,7 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
         DatePickerModule,
         ButtonModule,
         MultiSelectModule,
-        InputTextModule
+        InputTextModule,
     ],
 })
 export class FilterSlideComponent implements OnInit, OnDestroy {
@@ -70,7 +70,10 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
     private initOptions(): void {
         this.statusOptions = [
             { label: this.translate.instant('COMMON.ACTIVATED'), value: true },
-            { label: this.translate.instant('COMMON.DEACTIVATED'), value: false }
+            {
+                label: this.translate.instant('COMMON.DEACTIVATED'),
+                value: false,
+            },
         ];
 
         this.plateformOptions = Object.values(Plateform).map((type) => ({
@@ -84,9 +87,13 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
             this.formFilter = this.fb.group<SlideFilterFormControlDto>({
                 startDate: new FormControl<string>('', { nonNullable: true }),
                 endDate: new FormControl<string>('', { nonNullable: true }),
-                plateforms: new FormControl<Array<Plateform>>([], { nonNullable: true }),
+                plateforms: new FormControl<Array<Plateform>>([], {
+                    nonNullable: true,
+                }),
                 search: new FormControl<string>('', { nonNullable: true }),
-                status: new FormControl<boolean | null>(null, { nonNullable: false }),
+                status: new FormControl<boolean | null>(null, {
+                    nonNullable: false,
+                }),
             });
         }
 
@@ -114,13 +121,17 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
                     return;
                 }
 
-                const dto = typeof filterValue?.toDto === 'function' ? filterValue.toDto() : {};
+                const dto =
+                    typeof filterValue?.toDto === 'function'
+                        ? filterValue.toDto()
+                        : {};
 
                 this.formFilter.patchValue(
                     {
                         startDate: (dto['startDate'] as string) ?? '',
                         endDate: (dto['endDate'] as string) ?? '',
-                        plateforms: (dto['plateforms'] as Array<Plateform>) ?? [],
+                        plateforms:
+                            (dto['plateforms'] as Array<Plateform>) ?? [],
                         search: (dto['search'] as string) ?? '',
                         status: (dto['status'] as boolean) ?? null,
                     },
@@ -141,14 +152,17 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const INVALID_DATE_RANGE = this.translate.instant('INVALID_DATE_RANGE');
+                const INVALID_DATE_RANGE =
+                    this.translate.instant('INVALID_DATE_RANGE');
                 this.toastService.error(INVALID_DATE_RANGE);
                 return;
             }
         }
 
         const filterData: SlideFilterPayloadEntity = {
-            startDate: startDate.isValid() ? startDate.format('YYYY-MM-DD') : '',
+            startDate: startDate.isValid()
+                ? startDate.format('YYYY-MM-DD')
+                : '',
             endDate: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
             plateforms: this.formFilter.get('plateforms')?.value ?? [],
             search: this.formFilter.get('search')?.value ?? '',

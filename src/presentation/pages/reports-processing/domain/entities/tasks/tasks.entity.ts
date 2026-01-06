@@ -18,8 +18,8 @@ export class TasksEntity implements Tasks {
         public readonly operators: TelecomOperator[],
         public readonly source: ReportSource,
         public readonly initiatorPhoneNumber: string,
-        public readonly createdAt: string,
-    ) { }
+        public readonly createdAt: string
+    ) {}
 
     public clone(updates: Partial<Tasks>): TasksEntity {
         return new TasksEntity(
@@ -28,7 +28,7 @@ export class TasksEntity implements Tasks {
             updates.operators ?? this.operators,
             updates.source ?? this.source,
             updates.initiatorPhoneNumber ?? this.initiatorPhoneNumber,
-            updates.createdAt ?? this.createdAt,
+            updates.createdAt ?? this.createdAt
         );
     }
 }

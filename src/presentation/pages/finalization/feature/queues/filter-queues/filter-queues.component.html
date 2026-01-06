@@ -28,9 +28,7 @@
                 type="text"
                 pInputText
                 formControlName="uniq_id"
-                [placeholder]="
-                    'FINALIZATION.QUEUES.FILTER.UNIQ_ID' | translate
-                "
+                [placeholder]="'FINALIZATION.QUEUES.FILTER.UNIQ_ID' | translate"
             />
         </div>
 
@@ -46,7 +44,6 @@
                 [options]="reportOptions"
                 optionValue="value"
                 [showClear]="true"
-                
                 placeholder="{{ 'SELECT' | translate }}"
                 appendTo="body"
             >
@@ -61,9 +58,7 @@
 
         <div class="filter-grid__item">
             <label for="operator-select">
-                <b>{{
-                    'FINALIZATION.QUEUES.FILTER.OPERATOR' | translate
-                }}</b>
+                <b>{{ 'FINALIZATION.QUEUES.FILTER.OPERATOR' | translate }}</b>
             </label>
             <p-multiselect
                 id="operator-multiselect"
@@ -81,7 +76,11 @@
 
         <div class="filter-grid">
             @if (!secondFilter) {
-                <button type="submit" class="btn btn-primary px-3" [disabled]="isLoading()">
+                <button
+                    type="submit"
+                    class="btn btn-primary px-3"
+                    [disabled]="isLoading()"
+                >
                     <i class="pi pi-filter"></i>
                 </button>
             }
@@ -110,9 +109,7 @@
         <div class="filter-grid">
             <div class="filter-grid__item">
                 <label for="source-select">
-                    <b>{{
-                        'FINALIZATION.QUEUES.FILTER.SOURCE' | translate
-                    }}</b>
+                    <b>{{ 'FINALIZATION.QUEUES.FILTER.SOURCE' | translate }}</b>
                 </label>
                 <p-select
                     id="source-select"
@@ -120,7 +117,6 @@
                     [options]="sourceOptions"
                     optionValue="value"
                     [showClear]="true"
-                    
                     placeholder="{{ 'SELECT' | translate }}"
                     appendTo="body"
                 >
@@ -162,7 +158,11 @@
             </div>
 
             <div class="filter-grid">
-                <button type="submit" class="btn btn-primary px-3" [disabled]="isLoading()">
+                <button
+                    type="submit"
+                    class="btn btn-primary px-3"
+                    [disabled]="isLoading()"
+                >
                     <i class="pi pi-filter"></i>
                 </button>
             </div>

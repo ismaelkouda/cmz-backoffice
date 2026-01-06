@@ -1,5 +1,5 @@
-import { TypeMediaDto } from "@shared/data/dtos/type-media.dto";
-import { ActionDropdown } from "@shared/domain/enums/action-dropdown.enum";
+import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
 export class GetNewsByIdEntity {
     constructor(
@@ -12,8 +12,8 @@ export class GetNewsByIdEntity {
         public readonly hashtags: string[],
         public readonly imageFile: string | null,
         public readonly videoUrl: string | null,
-        public readonly status: ActionDropdown,
-    ) { }
+        public readonly status: ActionDropdown
+    ) {}
 
     public clone(updates: Partial<GetNewsByIdEntity>): GetNewsByIdEntity {
         return new GetNewsByIdEntity(
@@ -26,7 +26,7 @@ export class GetNewsByIdEntity {
             updates.hashtags ?? this.hashtags,
             updates.imageFile ?? this.imageFile,
             updates.videoUrl ?? this.videoUrl,
-            updates.status ?? this.status,
+            updates.status ?? this.status
         );
     }
 }

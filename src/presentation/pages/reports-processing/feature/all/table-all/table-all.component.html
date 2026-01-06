@@ -47,13 +47,20 @@
                     {{ col.header | translate }}
                     <p-sortIcon
                         [field]="col.field"
-                        *ngIf="col.field !== '__action' && col.field !== '__index'"
+                        *ngIf="
+                            col.field !== '__action' && col.field !== '__index'
+                        "
                     ></p-sortIcon>
                 </th>
             }
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-item let-columns="columns" let-rowIndex="rowIndex">
+    <ng-template
+        pTemplate="body"
+        let-item
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+    >
         <tr role="row" [class.cursor-pointer]="!isLoading()">
             @for (col of columns; track trackByColField($index, col)) {
                 <td
@@ -99,7 +106,11 @@
                                 ) {
                                     <p-tag
                                         [value]="operator | translate"
-                                        [style]="getOperatorTagStyle(operator | translate)"
+                                        [style]="
+                                            getOperatorTagStyle(
+                                                operator | translate
+                                            )
+                                        "
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -110,7 +121,10 @@
                         }
 
                         @case ('state') {
-                            <div class="tag-group status-group" [class]="col.class">
+                            <div
+                                class="tag-group status-group"
+                                [class]="col.class"
+                            >
                                 <p-tag
                                     [value]="item.status | translate"
                                     [severity]="getStateSeverity(item.status)"
@@ -125,13 +139,19 @@
                         }
 
                         @case ('source') {
-                            <div
-                                class="source-type-content"
-                            >
-                                <span>{{ item.source | translate }}</span>&nbsp;
-                                <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(item.initiatorPhoneNumber)"
-                                    tooltipPosition="bottom">[ {{ item.initiatorPhoneNumber }} ]
+                            <div class="source-type-content">
+                                <span>{{ item.source | translate }}</span
+                                >&nbsp;
+                                <span
+                                    class="copyable"
+                                    pTooltip="{{ 'COPY' | translate }}"
+                                    (click)="
+                                        copyToClipboard(
+                                            item.initiatorPhoneNumber
+                                        )
+                                    "
+                                    tooltipPosition="bottom"
+                                    >[ {{ item.initiatorPhoneNumber }} ]
                                 </span>
                             </div>
                         }

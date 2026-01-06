@@ -14,4 +14,4 @@ export interface UserItemDto {
     updated_at?: string;
 }
 
-export interface UserResponseDto extends PaginatedResponseDto<UserItemDto> { }
+export interface UserResponseDto extends PaginatedResponseDto<UserItemDto> {}

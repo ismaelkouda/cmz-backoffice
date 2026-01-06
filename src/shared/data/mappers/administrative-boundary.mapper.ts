@@ -1,22 +1,22 @@
-import { AdministrativeBoundaryDto } from "@shared/data/dtos/administrative-boundary.dto";
-import { AdministrativeBoundaryEntity } from "@shared/domain/entities/administrative-boundary.entity";
+import { AdministrativeBoundaryDto } from '@shared/data/dtos/administrative-boundary.dto';
+import { AdministrativeBoundaryEntity } from '@shared/domain/entities/administrative-boundary.entity';
 
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class AdministrativeBoundaryMapper {
-    mapToEntity(dtoValue: AdministrativeBoundaryDto | null): AdministrativeBoundaryEntity | null {
+    mapToEntity(
+        dtoValue: AdministrativeBoundaryDto | null
+    ): AdministrativeBoundaryEntity | null {
         if (!dtoValue) return null;
 
-        return new AdministrativeBoundaryEntity(
-            dtoValue.id,
-            dtoValue.name,
-        );
+        return new AdministrativeBoundaryEntity(dtoValue.id, dtoValue.name);
     }
 
-    mapToDto(entityValue: AdministrativeBoundaryEntity | null): AdministrativeBoundaryDto | null {
+    mapToDto(
+        entityValue: AdministrativeBoundaryEntity | null
+    ): AdministrativeBoundaryDto | null {
         if (!entityValue) return null;
 
         return {

@@ -53,7 +53,7 @@ import { HomeActionDropdownComponent } from '../../home/table-home/home-action-d
         TableTitleComponent,
         TableTitleComponent,
         SkeletonModule,
-        HomeActionDropdownComponent
+        HomeActionDropdownComponent,
     ],
 })
 export class TableSlideComponent implements OnDestroy {
@@ -177,7 +177,9 @@ export class TableSlideComponent implements OnDestroy {
                 ? normalized
                 : `${normalized}Z`;
             const date = new Date(withTimezone);
-            return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
+            return Number.isNaN(date.getTime())
+                ? value
+                : date.toLocaleDateString();
         } catch {
             return value;
         }

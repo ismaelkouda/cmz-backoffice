@@ -1,8 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { AllItemDto, ReportStatusDto } from '@presentation/pages/report-requests/data/dtos/all/all-response.dto';
+import {
+    AllItemDto,
+    ReportStatusDto,
+} from '@presentation/pages/report-requests/data/dtos/all/all-response.dto';
 import {
     AllEntity,
-    ReportStatus
+    ReportStatus,
 } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
@@ -11,9 +14,9 @@ import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.map
 
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
-    reportTypeMapper = inject(ReportTypeMapper)
-    telecomOperatorMapper = inject(TelecomOperatorMapper)
-    reportSourceMapper = inject(ReportSourceMapper)
+    reportTypeMapper = inject(ReportTypeMapper);
+    telecomOperatorMapper = inject(TelecomOperatorMapper);
+    reportSourceMapper = inject(ReportSourceMapper);
 
     protected override mapItemFromDto(dto: AllItemDto): AllEntity {
         return new AllEntity(
@@ -23,7 +26,7 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
             this.reportSourceMapper.mapToEnum(dto.source),
             dto.initiator_phone_number,
             this.mapStatus(dto.status),
-            dto.created_at
+            dto.reported_at
         );
     }
 
@@ -37,9 +40,7 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
             [ReportStatusDto.REJECTED]: ReportStatus.REJECTED,
             [ReportStatusDto.ABANDONED]: ReportStatus.ABANDONED,
             [ReportStatusDto.UNKNOWN]: ReportStatus.UNKNOWN,
-
         };
         return statusMap[status] || ReportStatus.UNKNOWN;
     }
-
 }

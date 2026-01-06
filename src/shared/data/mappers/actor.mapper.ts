@@ -1,11 +1,9 @@
-
-import { Injectable } from "@angular/core";
-import { ActorDto } from "@shared/data/dtos/actor.dto";
-import { ActorEntity } from "@shared/domain/entities/actor.entity";
+import { Injectable } from '@angular/core';
+import { ActorDto } from '@shared/data/dtos/actor.dto';
+import { ActorEntity } from '@shared/domain/entities/actor.entity';
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class ActorMapper {
     mapToEntity(dtoValue: ActorDto | null): ActorEntity | null {
         if (!dtoValue) return null;
@@ -14,7 +12,7 @@ export class ActorMapper {
             dtoValue.id,
             dtoValue.first_name,
             dtoValue.last_name,
-            dtoValue.phone,
+            dtoValue.phone
         );
     }
 

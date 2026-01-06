@@ -5,7 +5,7 @@
 
             <section
                 class="reporting-card"
-                [class.fullscreen-mode]="dashboardState.isFullscreen()"
+                [class.fullscreen-mode]="isFullscreen()"
             >
                 <header class="reporting-card-header">
                     <div class="header-content">
@@ -14,7 +14,7 @@
                                 class="page-title-component"
                                 [displayDate]="false"
                                 [displayList]="false"
-                                [title]="'REPORTING.LABEL' | translate"
+                                [title]="titleKey() | translate"
                             >
                             </app-page-title>
                         </div>
@@ -22,15 +22,26 @@
                         <div class="header-actions">
                             <button
                                 pButton
+                                icon="pi pi-refresh"
+                                class="p-button-outlined p-button-secondary action-btn"
+                                (click)="handleRefreshDashboard()"
+                                pTooltip="{{
+                                    'REFRESH'
+                                        | translate
+                                }}"
+                                tooltipPosition="bottom"
+                            ></button>
+                            <button
+                                pButton
                                 [icon]="
-                                    dashboardState.isFullscreen()
+                                    isFullscreen()
                                         ? 'pi pi-compress'
                                         : 'pi pi-expand'
                                 "
                                 class="p-button-outlined p-button-secondary action-btn"
                                 (click)="toggleFullscreen()"
                                 pTooltip="{{
-                                    dashboardState.isFullscreen()
+                                    isFullscreen()
                                         ? 'REPORTING.DASHBOARD.ACTIONS.EXIT_FULLSCREEN'
                                         : ('REPORTING.DASHBOARD.ACTIONS.ENTER_FULLSCREEN'
                                           | translate)
@@ -38,7 +49,7 @@
                                 tooltipPosition="bottom"
                             ></button>
 
-                            @if (dashboardState.isFullscreen()) {
+                            @if (isFullscreen()) {
                                 <button
                                     class="close-fullscreen-btn"
                                     (click)="toggleFullscreen()"
@@ -46,6 +57,7 @@
                                         'REPORTING.DASHBOARD.ACTIONS.EXIT_FULLSCREEN'
                                             | translate
                                     }}"
+                                    tooltipPosition="bottom"
                                 >
                                     <i class="pi pi-times"></i>
                                 </button>
@@ -55,41 +67,25 @@
                 </header>
 
                 <div class="reporting-card-body">
-                    @if (dashboardState.isLoading()) {
+                    @if (isLoading()) {
                         <div class="loading-state">
                             <p-progressSpinner
                                 strokeWidth="4"
                                 animationDuration=".5s"
                             >
                             </p-progressSpinner>
-                            <h3>
-                                {{ 'REPORTING.DASHBOARD.LOADING' | translate }}
-                            </h3>
-                            <p>
-                                {{
-                                    'REPORTING.REPORT.LOADING_DESCRIPTION'
-                                        | translate
-                                }}
-                            </p>
+                            <h3>{{ 'DASHBOARD.LOADING' | translate }}</h3>
+                            <p>{{ loadingDescription() | translate }}</p>
                         </div>
                     }
 
-                    @if (
-                        dashboardState.hasError() && !dashboardState.isLoading()
-                    ) {
+                    <!-- @if (connectionStatus() === 'error') {
                         <div class="error-state">
                             <div class="error-icon">
                                 <i class="pi pi-exclamation-triangle"></i>
                             </div>
-                            <h3>
-                                {{ 'REPORTING.DASHBOARD.ERROR' | translate }}
-                            </h3>
-                            <p>
-                                {{
-                                    'REPORTING.REPORT.ERROR_DESCRIPTION'
-                                        | translate
-                                }}
-                            </p>
+                            <h3>{{ 'DASHBOARD.ERROR.TITLE' | translate }}</h3>
+                            <p>{{ errorDescription() | translate }}</p>
                             <button
                                 pButton
                                 icon="pi pi-refresh"
@@ -97,22 +93,20 @@
                                     'REPORTING.DASHBOARD.ACTIONS.RETRY'
                                         | translate
                                 }}"
-                                (click)="refreshDashboard()"
+                                (click)="handleRefreshDashboard()"
                                 class="p-button-primary"
                             ></button>
                         </div>
-                    }
+                    } -->
 
-                    @if (
-                        !dashboardState.hasError() &&
-                        !dashboardState.isLoading()
-                    ) {
+                    @else {
                         <div
                             class="grafana-container"
-                            [class.fullscreen]="dashboardState.isFullscreen()"
+                            [class.fullscreen]="isFullscreen()"
                         >
                             <iframe
-                                [src]="GRAFANA_URL | safeUrl"
+                                #grafanaIframe
+                                [src]="grafanaLink() | safeUrl"
                                 (load)="onIframeLoad()"
                                 (error)="onIframeError()"
                                 frameborder="0"

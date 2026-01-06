@@ -17,9 +17,12 @@ export class LegalNoticeApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
-    fetchLegalNotice(payload: LegalNoticeRequestDto, page: string): Observable<LegalNoticeResponseDto> {
+    fetchLegalNotice(
+        payload: LegalNoticeRequestDto,
+        page: string
+    ): Observable<LegalNoticeResponseDto> {
         const url = `${this.baseUrl}${LEGAL_NOTICE_ENDPOINTS.LEGAL_NOTICE.replace('{page}', page)} `;
 
         const paramsObject = Object.entries(payload ?? {}).reduce<
@@ -45,8 +48,6 @@ export class LegalNoticeApi {
         );
     }
 
-
-
     createLegalNotice(payload: FormData): Observable<SimpleResponseDto<void>> {
         return this.http.post<SimpleResponseDto<void>>(
             `${this.baseUrl}${LEGAL_NOTICE_ENDPOINTS.CREATE}`,
@@ -54,7 +55,10 @@ export class LegalNoticeApi {
         );
     }
 
-    updateLegalNotice(id: string, payload: FormData): Observable<SimpleResponseDto<void>> {
+    updateLegalNotice(
+        id: string,
+        payload: FormData
+    ): Observable<SimpleResponseDto<void>> {
         return this.http.post<SimpleResponseDto<void>>(
             `${this.baseUrl}${LEGAL_NOTICE_ENDPOINTS.UPDATE.replace('{id}', id)}`,
             payload

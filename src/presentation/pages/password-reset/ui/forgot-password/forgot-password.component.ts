@@ -48,7 +48,7 @@ export class ForgotPasswordComponent implements OnDestroy {
     constructor(
         private readonly passwordResetFacade: PasswordResetFacade,
         private readonly location: Location
-    ) { }
+    ) {}
 
     ngOnDestroy(): void {
         this.destroy$.next();

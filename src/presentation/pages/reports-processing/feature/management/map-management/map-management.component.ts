@@ -61,7 +61,7 @@ export class MapManagementComponent implements OnInit, OnDestroy {
         private ngZone: NgZone,
         private openLayersLoader: OpenLayersLoaderService,
         @Inject(PLATFORM_ID) private platformId: object
-    ) { }
+    ) {}
 
     async ngOnInit() {
         if (!isPlatformBrowser(this.platformId)) {
@@ -94,7 +94,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
 
             this.isMapInitialized.set(true);
             this.isLoading.set(false);
-
         } catch (error) {
             console.error("❌ Échec de l'initialisation de la carte:", error);
             this.isLoading.set(false);
@@ -158,7 +157,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
         const source = new VectorSource({ features: [marker] });
         this.markerLayer = new VectorLayer({ source });
         this.map.addLayer(this.markerLayer);
-
     }
 
     private generateMarkerSvg(color: string): string {
@@ -189,7 +187,6 @@ export class MapManagementComponent implements OnInit, OnDestroy {
     }
 
     private setupMapEvents(): void {
-
         this.map.on('click', (evt: any) => {
             const feature = this.map.forEachFeatureAtPixel(
                 evt.pixel,

@@ -11,7 +11,6 @@ interface Users {
     readonly updated_at?: string;
 }
 
-
 export class UsersEntity implements Users {
     constructor(
         public readonly id: string,
@@ -24,7 +23,7 @@ export class UsersEntity implements Users {
         public readonly status: string,
         public readonly created_at: string,
         public readonly updated_at?: string
-    ) { }
+    ) {}
 
     public get fullName(): string {
         return `${this.firstName} ${this.lastName}`;

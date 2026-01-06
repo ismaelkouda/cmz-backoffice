@@ -28,46 +28,50 @@ import { ButtonModule } from 'primeng/button';
     template: `
         <div class="table-button-header">
             @if (!hiddenButtonOther) {
-            <button
-                type="button"
-                [class.p-disabled]="disabledButtonOther"
-                [styleClass]="otherButtonStyleClass"
-                class="btn btn-primary"
-                [attr.aria-label]="
-                    showLabels ? null : labelOther || ('CREATE' | translate)
-                "
-                (click)="onOther()"
-            >
-                @if (labelOther) {
-                <span>{{ labelOther | translate }}</span>
-                } @else {
-                <span>{{ 'CREATE' | translate }}</span>
-                }
-            </button>
+                <button
+                    type="button"
+                    [class.p-disabled]="disabledButtonOther"
+                    [styleClass]="otherButtonStyleClass"
+                    class="btn btn-primary"
+                    [attr.aria-label]="
+                        showLabels ? null : labelOther || ('CREATE' | translate)
+                    "
+                    (click)="onOther()"
+                >
+                    @if (labelOther) {
+                        <span>{{ labelOther | translate }}</span>
+                    } @else {
+                        <span>{{ 'CREATE' | translate }}</span>
+                    }
+                </button>
             }
             @if (!hiddenButtonRefresh) {
-            <button
-                type="button"
-                [class.p-disabled]="disabledButtonRefresh"
-                class="btn btn-dark"
-                [attr.aria-label]="showLabels ? null : ('REFRESH' | translate)"
-                (click)="onRefresh()"
-            >
-                <span *ngIf="showLabels">{{ 'REFRESH' | translate }}</span>
-            </button>
+                <button
+                    type="button"
+                    [class.p-disabled]="disabledButtonRefresh"
+                    class="btn btn-dark"
+                    [attr.aria-label]="
+                        showLabels ? null : ('REFRESH' | translate)
+                    "
+                    (click)="onRefresh()"
+                >
+                    <span *ngIf="showLabels">{{ 'REFRESH' | translate }}</span>
+                </button>
             }
             @if (!hiddenButtonExport) {
-            <button
-                type="button"
-                [class.p-disabled]="disabledButtonExport"
-                class="btn btn-success"
-                [attr.aria-label]="
-                    showLabels ? null : ('EXPORT.TITLE' | translate)
-                "
-                (click)="onExport()"
-            >
-                <span *ngIf="showLabels">{{ 'EXPORT.TITLE' | translate }}</span>
-            </button>
+                <button
+                    type="button"
+                    [class.p-disabled]="disabledButtonExport"
+                    class="btn btn-success"
+                    [attr.aria-label]="
+                        showLabels ? null : ('EXPORT.TITLE' | translate)
+                    "
+                    (click)="onExport()"
+                >
+                    <span *ngIf="showLabels">{{
+                        'EXPORT.TITLE' | translate
+                    }}</span>
+                </button>
             }
         </div>
     `,

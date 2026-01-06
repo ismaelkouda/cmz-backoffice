@@ -1,8 +1,8 @@
-import { computed, effect, inject, Injectable, signal } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { filter } from "rxjs";
-import { BreadcrumbItem } from "./breadcrumb.model";
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
+import { BreadcrumbItem } from './breadcrumb.model';
 
 @Injectable({ providedIn: 'root' })
 export class BreadcrumbService {
@@ -13,7 +13,7 @@ export class BreadcrumbService {
 
     private readonly navigationEnd = toSignal(
         this.router.events.pipe(
-            filter(event => event instanceof NavigationEnd)
+            filter((event) => event instanceof NavigationEnd)
         ),
         { initialValue: null }
     );
@@ -38,9 +38,7 @@ export class BreadcrumbService {
         if (!children.length) return breadcrumbs;
 
         for (const child of children) {
-            const segment = child.snapshot.url
-                .map(s => s.path)
-                .join('/');
+            const segment = child.snapshot.url.map((s) => s.path).join('/');
 
             const nextUrl = segment ? `${url}/${segment}` : url;
 
@@ -53,7 +51,7 @@ export class BreadcrumbService {
                         : crumb.label;
 
                 // 🛡️ anti-duplication
-                if (!breadcrumbs.some(b => b.label === label)) {
+                if (!breadcrumbs.some((b) => b.label === label)) {
                     breadcrumbs.push({
                         label,
                         icon: crumb.icon,

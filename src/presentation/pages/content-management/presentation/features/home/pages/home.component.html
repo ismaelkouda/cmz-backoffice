@@ -1,29 +1,32 @@
 <main class="container-fluid home-container" role="main">
     <section class="row home-row">
         <article class="col-sm-12 home-article">
-            
             <app-breadcrumb />
 
             <section class="card home-card">
                 <div class="card-body home-card-body">
-                    <header class="home-header"> 
+                    <header class="home-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
-                            [title]="'CONTENT_MANAGEMENT.HOME.TITLE' | translate | lowercase"
+                            [title]="
+                                'CONTENT_MANAGEMENT.HOME.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
                         ></app-page-title>
                     </header>
 
                     <div class="fade-in home-content">
-                        
-                        <app-filter-home class="filter-component" 
+                        <app-filter-home
+                            class="filter-component"
                             [loading]="(loading$ | async) ?? false"
-                            (filter)="filter($event)"></app-filter-home>
+                            (filter)="filter($event)"
+                        ></app-filter-home>
 
                         <hr class="home-divider" />
 
                         <section class="table-section">
-                            
                             <app-table-home
                                 class="table-component"
                                 [loading]="(loading$ | async) ?? false"

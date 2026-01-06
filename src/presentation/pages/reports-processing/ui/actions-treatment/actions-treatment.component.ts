@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -17,7 +17,6 @@ import { ActionsPayloadEntity } from '@presentation/pages/reports-processing/dom
 import { ActionsEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions.entity';
 import { DetailsEntity } from '@presentation/pages/reports-processing/domain/entities/details/details.entity';
 import { ActionsFilter } from '@presentation/pages/reports-processing/domain/value-objects/actions-filter.vo';
-import { FilterActionsComponent } from '@presentation/pages/reports-processing/feature/actions/filter-actions/filter-actions.component';
 import { ModalActionComponent } from '@presentation/pages/reports-processing/feature/actions/modal-action/modal-action.component';
 import { TableActionsComponent } from '@presentation/pages/reports-processing/feature/actions/table-actions/table-actions.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
@@ -38,11 +37,9 @@ import { Observable, Subject, takeUntil } from 'rxjs';
     imports: [
         CommonModule,
         TranslateModule,
-        AsyncPipe,
         PageTitleComponent,
         PaginationComponent,
         TableActionsComponent,
-        FilterActionsComponent,
         ModalActionComponent,
         ButtonModule,
         BreadcrumbComponent,

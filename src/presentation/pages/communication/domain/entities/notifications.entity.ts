@@ -10,8 +10,8 @@ export class NotificationsEntity implements Notifications {
         public readonly uniqId: string,
         public readonly type: string,
         public readonly message: string,
-        public readonly createdAt: string,
-    ) { }
+        public readonly createdAt: string
+    ) {}
 
     public clone(updates: Partial<Notifications>): NotificationsEntity {
         return new NotificationsEntity(

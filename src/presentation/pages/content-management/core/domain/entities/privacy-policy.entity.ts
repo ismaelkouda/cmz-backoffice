@@ -1,4 +1,4 @@
-import { ActionDropdown } from "@shared/domain/enums/action-dropdown.enum";
+import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
 export class PrivacyPolicyEntity {
     constructor(
@@ -9,7 +9,7 @@ export class PrivacyPolicyEntity {
         public readonly status: ActionDropdown,
         public readonly createdAt: string,
         public readonly publishedAt: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<PrivacyPolicyEntity>): PrivacyPolicyEntity {
         return new PrivacyPolicyEntity(

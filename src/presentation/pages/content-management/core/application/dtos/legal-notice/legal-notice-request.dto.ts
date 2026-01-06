@@ -1,4 +1,4 @@
-import { MediaPublishDto } from "@shared/data/dtos/media-publish.dto";
+import { MediaPublishDto } from '@shared/data/dtos/media-publish.dto';
 
 export interface LegalNoticeRequestDto {
     startDate?: string;

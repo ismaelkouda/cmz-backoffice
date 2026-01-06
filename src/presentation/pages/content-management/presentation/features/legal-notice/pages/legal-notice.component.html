@@ -1,7 +1,6 @@
 <main class="container-fluid legal-notice-container" role="main">
     <section class="row legal-notice-row">
         <article class="col-sm-12 legal-notice-article">
-            
             <app-breadcrumb />
 
             <section class="card legal-notice-card">
@@ -10,21 +9,25 @@
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
-                            [title]="'CONTENT_MANAGEMENT.LEGAL_NOTICE.TITLE' | translate | lowercase"
+                            [title]="
+                                'CONTENT_MANAGEMENT.LEGAL_NOTICE.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
                         ></app-page-title>
                     </header>
 
                     <div class="fade-in legal-notice-content">
-                        
-                        <app-filter-legal-notice class="filter-component" 
+                        <app-filter-legal-notice
+                            class="filter-component"
                             [loading]="(loading$ | async) ?? false"
-                            (filter)="filter($event)">
+                            (filter)="filter($event)"
+                        >
                         </app-filter-legal-notice>
 
                         <hr class="legal-notice-divider" />
 
                         <section class="table-section">
-                            
                             <app-table-legal-notice
                                 class="table-component"
                                 [loading]="(loading$ | async) ?? false"
@@ -36,7 +39,9 @@
                                 (deleteRequested)="onDeleteClicked($event)"
                                 (viewRequested)="onViewClicked($event)"
                                 (publishRequested)="onPublishClicked($event)"
-                                (unpublishRequested)="onUnpublishClicked($event)"
+                                (unpublishRequested)="
+                                    onUnpublishClicked($event)
+                                "
                             ></app-table-legal-notice>
 
                             <app-pagination

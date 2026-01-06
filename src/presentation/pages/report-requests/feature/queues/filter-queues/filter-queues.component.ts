@@ -125,6 +125,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                 takeUntil(this.destroy$)
             )
             .subscribe((filterValue) => {
+                console.log("filterValue", filterValue)
                 if (!this.formFilter) {
                     return;
                 }

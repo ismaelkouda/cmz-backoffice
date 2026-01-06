@@ -7,7 +7,7 @@ import { SlideRepository } from '../../domain/repositories/slide.repository';
     providedIn: 'root',
 })
 export class GetSlideByIdUseCase {
-    constructor(private readonly slideRepository: SlideRepository) { }
+    constructor(private readonly slideRepository: SlideRepository) {}
 
     execute(id: string): Observable<SlideEntity> {
         return this.slideRepository.getSlideById(id);

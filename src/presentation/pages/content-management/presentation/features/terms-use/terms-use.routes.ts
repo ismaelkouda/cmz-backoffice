@@ -7,14 +7,23 @@ export const VIEW_ROUTE = 'view';
 export const TERMS_USE_ROUTES: Routes = [
     {
         path: '',
-        loadComponent: () => import('./pages/terms-use.component').then(m => m.TermsUseComponent),
+        loadComponent: () =>
+            import('./pages/terms-use.component').then(
+                (m) => m.TermsUseComponent
+            ),
     },
     {
         path: CREATE_ROUTE,
-        loadComponent: () => import('./form-terms-use/form-terms-use.component').then(m => m.FormTermsUseComponent),
+        loadComponent: () =>
+            import('./form-terms-use/form-terms-use.component').then(
+                (m) => m.FormTermsUseComponent
+            ),
     },
     {
         path: `:id/${EDIT_ROUTE}`,
-        loadComponent: () => import('./form-terms-use/form-terms-use.component').then(m => m.FormTermsUseComponent),
-    }
+        loadComponent: () =>
+            import('./form-terms-use/form-terms-use.component').then(
+                (m) => m.FormTermsUseComponent
+            ),
+    },
 ];

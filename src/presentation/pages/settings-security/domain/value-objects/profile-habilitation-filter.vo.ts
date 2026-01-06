@@ -11,7 +11,7 @@ export class ProfileHabilitationFilter {
         private readonly state?: string,
         private readonly matricule?: string,
         private readonly search?: string // pour recherche par nom et prénoms
-    ) { }
+    ) {}
 
     static create(
         data: ProfileHabilitationFilterInterface = {}

@@ -11,7 +11,10 @@ import { LegalNoticeFilter } from '../../../domain/value-objects/legal-notice-fi
 export class FetchLegalNoticeUseCase {
     private readonly legalNoticeRepository = inject(LegalNoticeRepository);
 
-    execute(filter: LegalNoticeFilter, page: string): Observable<Paginate<LegalNoticeEntity>> {
+    execute(
+        filter: LegalNoticeFilter,
+        page: string
+    ): Observable<Paginate<LegalNoticeEntity>> {
         return this.legalNoticeRepository.fetchLegalNotice(filter, page);
     }
 }

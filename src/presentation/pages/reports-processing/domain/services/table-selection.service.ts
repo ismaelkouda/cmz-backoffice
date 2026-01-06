@@ -57,7 +57,7 @@ export class TableSelectionService<T extends { uniqId: string }> {
             (prev, curr) =>
                 prev.selectionCount === curr.selectionCount &&
                 JSON.stringify(prev.selectedIds) ===
-                JSON.stringify(curr.selectedIds)
+                    JSON.stringify(curr.selectedIds)
         ),
         takeUntilDestroyed(this.destroyRef)
     );

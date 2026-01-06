@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
-import { TasksEntity } from "@presentation/pages/reports-processing/domain/entities/tasks/tasks.entity";
-import { TasksTableVM } from "@presentation/pages/reports-processing/domain/view-models/tasks-table.vm";
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { TasksEntity } from '@presentation/pages/reports-processing/domain/entities/tasks/tasks.entity';
+import { TasksTableVM } from '@presentation/pages/reports-processing/domain/view-models/tasks-table.vm';
 
 @Injectable({ providedIn: 'root' })
 export class TasksTableMapper {
-    constructor(private translate: TranslateService) { }
+    constructor(private translate: TranslateService) {}
 
     toVM(entity: TasksEntity): TasksTableVM {
         return {
@@ -16,7 +16,7 @@ export class TasksTableMapper {
             source: entity.source,
             sourceLabel: this.translate.instant(entity.source),
             operators: entity.operators,
-            operatorsLabels: entity.operators.map(op =>
+            operatorsLabels: entity.operators.map((op) =>
                 this.translate.instant(op)
             ),
             createdAt: entity.createdAt,
@@ -24,6 +24,6 @@ export class TasksTableMapper {
     }
 
     toVMList(entities: TasksEntity[]): TasksTableVM[] {
-        return entities.map(e => this.toVM(e));
+        return entities.map((e) => this.toVM(e));
     }
 }

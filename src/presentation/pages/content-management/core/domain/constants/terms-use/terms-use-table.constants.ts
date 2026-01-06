@@ -39,7 +39,7 @@ export const TERMS_USE_TABLE_CONST = {
             header: 'CONTENT_MANAGEMENT.TERMS_USE.TABLE.ACTION',
             class: ' text-center',
             width: '6rem',
-        }
+        },
     ],
     globalFilterFields: [
         'uniqId',

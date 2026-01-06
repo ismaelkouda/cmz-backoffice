@@ -1,7 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, DestroyRef, forwardRef, inject, input, OnInit, output, Signal, signal } from '@angular/core';
+import {
+    Component,
+    computed,
+    DestroyRef,
+    forwardRef,
+    inject,
+    input,
+    OnInit,
+    output,
+    Signal,
+    signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    ControlValueAccessor,
+    FormArray,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    NG_VALUE_ACCESSOR,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,7 +37,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
         TranslateModule,
         InputTextModule,
         ButtonModule,
-        TagModule
+        TagModule,
     ],
     templateUrl: './hashtags-input.component.html',
     styleUrl: './hashtags-input.component.scss',
@@ -25,9 +45,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => HashtagsInputComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
 export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
     public label = input<string>('Hashtags');
@@ -52,18 +72,21 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
     public canAddMore: Signal<boolean> = signal(true);
     public canClearAll: Signal<boolean> = signal(false);
 
-    private onChange: (value: string[]) => void = () => { };
-    private onTouched: () => void = () => { };
+    private onChange: (value: string[]) => void = () => {};
+    private onTouched: () => void = () => {};
     private isDisabled = false;
 
     constructor() {
         this.form = this.fb.group({
-            hashtags: this.fb.array<string>([], [this.createHashtagsArrayValidator()])
+            hashtags: this.fb.array<string>(
+                [],
+                [this.createHashtagsArrayValidator()]
+            ),
         });
 
         this.currentHashtagControl = this.fb.control('', [
             Validators.pattern(this.allowedPattern()),
-            Validators.maxLength(50)
+            Validators.maxLength(50),
         ]);
 
         this.hashtagsCount = computed(() => this.hashtagsArray.length);
@@ -73,8 +96,7 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
         });
         this.canClearAll = computed(() => this.hashtagsCount() > 0);
 
-
-        console.log("this.hashtagsCount()", this.hashtagsCount());
+        console.log('this.hashtagsCount()', this.hashtagsCount());
     }
 
     ngOnInit(): void {
@@ -93,9 +115,7 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
             });
 
         this.hashtagsArray.valueChanges
-            .pipe(
-                takeUntilDestroyed(this.destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((hashtags: string[]) => {
                 this.onChange(hashtags);
                 this.hashtagsChanged.emit(hashtags);
@@ -111,7 +131,12 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
             const array = control as FormArray;
 
             if (this.required() && array.length < this.minHashtags()) {
-                return { minHashtags: { required: this.minHashtags(), actual: array.length } };
+                return {
+                    minHashtags: {
+                        required: this.minHashtags(),
+                        actual: array.length,
+                    },
+                };
             }
 
             const max = this.maxHashtags();
@@ -120,7 +145,9 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
             }
 
             const values = array.value as string[];
-            const duplicates = values.filter((item, index) => values.indexOf(item) !== index);
+            const duplicates = values.filter(
+                (item, index) => values.indexOf(item) !== index
+            );
             if (duplicates.length > 0) {
                 return { duplicateHashtags: duplicates };
             }
@@ -138,7 +165,9 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
         }
 
         if (value.length > 50) {
-            this.currentHashtagControl.setErrors({ maxlength: { requiredLength: 50, actualLength: value.length } });
+            this.currentHashtagControl.setErrors({
+                maxlength: { requiredLength: 50, actualLength: value.length },
+            });
             return;
         }
 
@@ -176,7 +205,9 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
         this.currentHashtagControl.markAsUntouched();
 
         setTimeout(() => {
-            const input = document.querySelector('.hashtag-input') as HTMLInputElement;
+            const input = document.querySelector(
+                '.hashtag-input'
+            ) as HTMLInputElement;
             if (input) input.focus();
         });
     }
@@ -206,15 +237,20 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
     }
 
     public canAddCurrentHashtag(): boolean {
-        return this.currentHashtagControl.valid &&
+        return (
+            this.currentHashtagControl.valid &&
             this.currentHashtagControl.value?.trim() &&
-            this.canAddMore();
+            this.canAddMore()
+        );
     }
 
     public onBlur(): void {
         this.onTouched();
 
-        if (this.currentHashtagControl.valid && this.currentHashtagControl.value?.trim()) {
+        if (
+            this.currentHashtagControl.valid &&
+            this.currentHashtagControl.value?.trim()
+        ) {
             this.addHashtag();
         }
     }
@@ -242,10 +278,13 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
                 this.hashtagsArray.removeAt(0);
             }
 
-            value.forEach(hashtag => {
+            value.forEach((hashtag) => {
                 if (hashtag && hashtag.trim()) {
                     const formatted = this.formatHashtag(hashtag);
-                    const control = this.fb.control(formatted, Validators.required);
+                    const control = this.fb.control(
+                        formatted,
+                        Validators.required
+                    );
                     this.hashtagsArray.push(control);
                 }
             });

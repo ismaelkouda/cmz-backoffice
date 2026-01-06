@@ -3,5 +3,4 @@ export interface BreadcrumbItem {
     url: string;
     icon?: string;
     hide?: boolean;
-
 }

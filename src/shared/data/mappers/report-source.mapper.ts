@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { ReportSourceDto } from "@shared/data/dtos/report-source.dto";
-import { ReportSource } from "@shared/domain/enums/report-source.enum";
+import { Injectable } from '@angular/core';
+import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
+import { ReportSource } from '@shared/domain/enums/report-source.enum';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ReportSourceMapper {
     mapToEnum(dtoValue: ReportSourceDto): ReportSource {

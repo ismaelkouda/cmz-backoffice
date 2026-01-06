@@ -1,14 +1,18 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Subject, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CropRegion, ProcessingOptions, ProcessingResult } from '../../domain/types/image-processing.types';
+import {
+    CropRegion,
+    ProcessingOptions,
+    ProcessingResult,
+} from '../../domain/types/image-processing.types';
 
 @Injectable({ providedIn: 'root' })
 export class ImageProcessorWorkerService {
     private worker: Worker | null = null;
     private readonly messageSubject = new Subject<any>();
 
-    constructor(private ngZone: NgZone) { }
+    constructor(private ngZone: NgZone) {}
 
     processInWorker$(
         imageData: ImageData,
@@ -16,10 +20,10 @@ export class ImageProcessorWorkerService {
         options?: ProcessingOptions
     ): Observable<ProcessingResult> {
         return this.ensureWorker().pipe(
-            switchMap(worker => {
+            switchMap((worker) => {
                 const id = this.generateId();
 
-                return new Observable<ProcessingResult>(subscriber => {
+                return new Observable<ProcessingResult>((subscriber) => {
                     const handler = (event: MessageEvent) => {
                         if (event.data.id === id) {
                             worker.removeEventListener('message', handler);
@@ -27,27 +31,39 @@ export class ImageProcessorWorkerService {
                             this.ngZone.run(() => {
                                 if (event.data.success && event.data.data) {
                                     // Convertir ImageData en blob
-                                    this.imageDataToBlob(event.data.data, options)
-                                        .then(blob => {
+                                    this.imageDataToBlob(
+                                        event.data.data,
+                                        options
+                                    )
+                                        .then((blob) => {
                                             const result: ProcessingResult = {
                                                 blob,
                                                 metadata: {
-                                                    original: { width: 0, height: 0, size: 0, type: '', lastModified: 0 },
+                                                    original: {
+                                                        width: 0,
+                                                        height: 0,
+                                                        size: 0,
+                                                        type: '',
+                                                        lastModified: 0,
+                                                    },
                                                     processed: {
                                                         width: cropRegion.width,
                                                         height: cropRegion.height,
                                                         size: blob.size,
                                                         type: blob.type,
-                                                        lastModified: Date.now()
+                                                        lastModified:
+                                                            Date.now(),
                                                     },
                                                     processingTime: 0,
-                                                    compressionRatio: 0
-                                                }
+                                                    compressionRatio: 0,
+                                                },
                                             };
                                             subscriber.next(result);
                                             subscriber.complete();
                                         })
-                                        .catch(error => subscriber.error(error));
+                                        .catch((error) =>
+                                            subscriber.error(error)
+                                        );
                                 } else {
                                     subscriber.error(event.data.error);
                                 }
@@ -61,7 +77,7 @@ export class ImageProcessorWorkerService {
                         id,
                         imageData,
                         options,
-                        cropRegion
+                        cropRegion,
                     });
                 });
             })
@@ -73,11 +89,14 @@ export class ImageProcessorWorkerService {
             return from([this.worker]);
         }
 
-        return new Observable<Worker>(subscriber => {
+        return new Observable<Worker>((subscriber) => {
             this.ngZone.runOutsideAngular(() => {
                 try {
                     this.worker = new Worker(
-                        new URL('../workers/image-processor.worker', import.meta.url),
+                        new URL(
+                            '../workers/image-processor.worker',
+                            import.meta.url
+                        ),
                         { type: 'module' }
                     );
                     subscriber.next(this.worker);
@@ -104,7 +123,7 @@ export class ImageProcessorWorkerService {
 
         return await canvas.convertToBlob({
             type: options?.format || 'image/webp',
-            quality: options?.quality || 0.85
+            quality: options?.quality || 0.85,
         });
     }
 

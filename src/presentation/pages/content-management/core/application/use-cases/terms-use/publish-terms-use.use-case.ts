@@ -7,7 +7,7 @@ import { TermsUseRepository } from '../../../domain/repositories/terms-use.repos
     providedIn: 'root',
 })
 export class PublishTermsUseUseCase {
-    constructor(private readonly repository: TermsUseRepository) { }
+    constructor(private readonly repository: TermsUseRepository) {}
 
     execute(id: string): Observable<SimpleResponseDto<void>> {
         return this.repository.publishTermsUse(id);

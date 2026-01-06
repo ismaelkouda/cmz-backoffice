@@ -1,4 +1,3 @@
-
 import { inject, Injectable } from '@angular/core';
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';

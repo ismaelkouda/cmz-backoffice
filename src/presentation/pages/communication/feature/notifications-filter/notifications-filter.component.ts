@@ -73,29 +73,30 @@ export class NotificationsFilterComponent implements OnInit, OnDestroy {
 
     public initFormFilter(): void {
         if (!this.formFilter) {
-            this.formFilter = this.fb.group<NotificationsFilterFormControlEntity>({
-                initiator_phone_number: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-                uniq_id: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-                created_from: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-                created_to: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-                report_type: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-                operators: new FormControl<string[]>([], {
-                    nonNullable: true,
-                }),
-                source: new FormControl<string>('', {
-                    nonNullable: true,
-                }),
-            });
+            this.formFilter =
+                this.fb.group<NotificationsFilterFormControlEntity>({
+                    initiator_phone_number: new FormControl<string>('', {
+                        nonNullable: true,
+                    }),
+                    uniq_id: new FormControl<string>('', {
+                        nonNullable: true,
+                    }),
+                    created_from: new FormControl<string>('', {
+                        nonNullable: true,
+                    }),
+                    created_to: new FormControl<string>('', {
+                        nonNullable: true,
+                    }),
+                    report_type: new FormControl<string>('', {
+                        nonNullable: true,
+                    }),
+                    operators: new FormControl<string[]>([], {
+                        nonNullable: true,
+                    }),
+                    source: new FormControl<string>('', {
+                        nonNullable: true,
+                    }),
+                });
         }
 
         this.notificationsFacade.currentFilter$

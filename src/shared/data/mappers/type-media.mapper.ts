@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { TypeMediaDto } from "@shared/data/dtos/type-media.dto";
-import { TypeMedia } from "@shared/domain/enums/type-media.enum";
+import { Injectable } from '@angular/core';
+import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TypeMediaMapper {
     mapToEnum(dtoValue: TypeMediaDto): TypeMedia {

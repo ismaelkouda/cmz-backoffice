@@ -36,6 +36,6 @@ export class TreaterInfoEntity implements TreaterInfo {
         public readonly confirmedComment: string | null,
         public readonly abandonedComment: string | null,
         public readonly denyCount: number,
-        public readonly reason: string | null,
-    ) { }
+        public readonly reason: string | null
+    ) {}
 }

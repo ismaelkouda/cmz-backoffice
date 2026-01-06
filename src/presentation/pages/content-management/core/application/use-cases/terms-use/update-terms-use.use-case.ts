@@ -7,9 +7,12 @@ import { TermsUseRepository } from '../../../domain/repositories/terms-use.repos
     providedIn: 'root',
 })
 export class UpdateTermsUseUseCase {
-    constructor(private readonly repository: TermsUseRepository) { }
+    constructor(private readonly repository: TermsUseRepository) {}
 
-    execute(request: { id: string; params: FormData }): Observable<SimpleResponseDto<void>> {
+    execute(request: {
+        id: string;
+        params: FormData;
+    }): Observable<SimpleResponseDto<void>> {
         return this.repository.updateTermsUse(request.id, request.params);
     }
 }
