@@ -7,5 +7,5 @@ export class AccessLogsEntity {
         public readonly ip: string,
         public readonly username: string,
         public readonly data: any
-    ) { }
+    ) {}
 }

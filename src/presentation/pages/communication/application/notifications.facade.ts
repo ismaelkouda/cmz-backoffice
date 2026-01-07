@@ -9,7 +9,10 @@ import { NotificationsUseCase } from '../domain/use-cases/notifications.use-case
 import { NotificationsFilter } from '../domain/value-objects/notifications-filter.vo';
 
 @Injectable({ providedIn: 'root' })
-export class NotificationsFacade extends BaseFacade<NotificationsEntity, NotificationsFilter> {
+export class NotificationsFacade extends BaseFacade<
+    NotificationsEntity,
+    NotificationsFilter
+> {
     readonly notifications$: Observable<NotificationsEntity[]> = this.items$;
 
     private hasInitialized = false;
@@ -44,10 +47,7 @@ export class NotificationsFacade extends BaseFacade<NotificationsEntity, Notific
         if (!currentFilter) {
             return;
         }
-        const fetch = this.useCase.execute(
-            currentFilter,
-            String(pageNumber)
-        );
+        const fetch = this.useCase.execute(currentFilter, String(pageNumber));
         this.changePageInternal(pageNumber, fetch);
 
         this.lastFetchTimestamp = Date.now();
@@ -102,11 +102,7 @@ export class NotificationsFacade extends BaseFacade<NotificationsEntity, Notific
         };
     }
 
-
-
-    readOne(
-        payload: string,
-    ): Observable<void> {
+    readOne(payload: string): Observable<void> {
         return this.useCase.executeReadOne(payload).pipe(
             tap(() => {
                 this.toastService.success(
@@ -119,9 +115,7 @@ export class NotificationsFacade extends BaseFacade<NotificationsEntity, Notific
         );
     }
 
-    readAll(
-        payload: string[],
-    ): Observable<void> {
+    readAll(payload: string[]): Observable<void> {
         return this.useCase.executeReadAll(payload).pipe(
             tap(() => {
                 this.toastService.success(

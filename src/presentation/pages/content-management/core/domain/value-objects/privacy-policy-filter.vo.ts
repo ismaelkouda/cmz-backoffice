@@ -1,4 +1,4 @@
-import { PrivacyPolicyRequestDto } from "../../application/dtos/privacy-policy/privacy-policy-request.dto";
+import { PrivacyPolicyRequestDto } from '../../application/dtos/privacy-policy/privacy-policy-request.dto';
 
 export class PrivacyPolicyFilter {
     private constructor(
@@ -7,9 +7,11 @@ export class PrivacyPolicyFilter {
         private readonly version?: string,
         private readonly search?: string,
         private readonly isPublished?: boolean
-    ) { }
+    ) {}
 
-    static create(data: PrivacyPolicyRequestDto = {} as PrivacyPolicyRequestDto): PrivacyPolicyFilter {
+    static create(
+        data: PrivacyPolicyRequestDto = {} as PrivacyPolicyRequestDto
+    ): PrivacyPolicyFilter {
         return new PrivacyPolicyFilter(
             data.startDate,
             data.endDate,

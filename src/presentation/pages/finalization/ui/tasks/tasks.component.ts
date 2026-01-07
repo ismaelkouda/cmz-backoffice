@@ -20,7 +20,10 @@ import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { TasksFilterPayloadEntity } from '../../domain/entities/tasks/tasks-filter-payload.entity';
 import { TasksEntity } from '../../domain/entities/tasks/tasks.entity';
-import { TableTasksComponent, TreatmentRequested } from '../../feature/tasks/table-tasks/table-tasks.component';
+import {
+    TableTasksComponent,
+    TreatmentRequested,
+} from '../../feature/tasks/table-tasks/table-tasks.component';
 
 @Component({
     selector: 'app-tasks',

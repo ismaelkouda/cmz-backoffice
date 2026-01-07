@@ -1,7 +1,7 @@
 import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
-export interface LegalNoticeResponseDto extends PaginatedResponseDto<LegalNoticeItemDto> { }
-
+export interface LegalNoticeResponseDto
+    extends PaginatedResponseDto<LegalNoticeItemDto> {}
 
 export interface LegalNoticeItemDto {
     id: string;

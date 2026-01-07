@@ -1,15 +1,15 @@
-import { Injectable } from "@angular/core";
-import { DetailsItemDto } from "@presentation/pages/reports-processing/data/dtos/details/details-response.dto";
-import { CoordinatesEntity } from "@shared/domain/entities/coordinates.entity";
+import { Injectable } from '@angular/core';
+import { DetailsItemDto } from '@presentation/pages/reports-processing/data/dtos/details/details-response.dto';
+import { CoordinatesEntity } from '@shared/domain/entities/coordinates.entity';
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class CoordinateMapper {
     mapFromDto(dto: DetailsItemDto): CoordinatesEntity {
         return new CoordinatesEntity(
             this.parseLatitude(dto.lat),
             this.parseLongitude(dto.long),
-            this.normalizeWhat3Words(dto.what3words),
+            this.normalizeWhat3Words(dto.what3words)
         );
     }
 

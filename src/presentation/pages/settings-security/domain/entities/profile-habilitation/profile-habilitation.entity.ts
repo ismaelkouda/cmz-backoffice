@@ -16,7 +16,6 @@ interface ProfileHabilitation {
     readonly updated_at?: string;
 }
 
-
 export class ProfileHabilitationEntity implements ProfileHabilitation {
     constructor(
         public readonly id: string,
@@ -29,7 +28,7 @@ export class ProfileHabilitationEntity implements ProfileHabilitation {
         public readonly status: ProfileStatus,
         public readonly created_at: string,
         public readonly updated_at?: string
-    ) { }
+    ) {}
 
     public get fullName(): string {
         return `${this.firstName} ${this.lastName}`;

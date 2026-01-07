@@ -19,7 +19,10 @@ import { GetPrivacyPolicyByIdEntity } from '../../domain/entities/get-privacy-po
 @Injectable({
     providedIn: 'root',
 })
-export class PrivacyPolicyFacade extends BaseFacade<PrivacyPolicyEntity, PrivacyPolicyFilter> {
+export class PrivacyPolicyFacade extends BaseFacade<
+    PrivacyPolicyEntity,
+    PrivacyPolicyFilter
+> {
     readonly privacyPolicy$ = this.items$;
 
     private hasInitialized = false;
@@ -39,8 +42,6 @@ export class PrivacyPolicyFacade extends BaseFacade<PrivacyPolicyEntity, Privacy
     ) {
         super(toastService, translateService);
     }
-
-
 
     fetchPrivacyPolicy(
         filter: PrivacyPolicyFilter,
@@ -67,10 +68,13 @@ export class PrivacyPolicyFacade extends BaseFacade<PrivacyPolicyEntity, Privacy
                 this.toastService.success(response.message);
                 this.refresh();
             })
-        )
+        );
     }
 
-    update(id: string, formData: FormData): Observable<SimpleResponseDto<void>> {
+    update(
+        id: string,
+        formData: FormData
+    ): Observable<SimpleResponseDto<void>> {
         return this.updateUseCase.execute({ id, params: formData }).pipe(
             tap((response) => {
                 this.toastService.success(response.message);

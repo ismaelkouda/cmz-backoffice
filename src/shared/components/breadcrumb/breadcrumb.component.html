@@ -1,16 +1,11 @@
-<nav
-    aria-label="breadcrumb"
-    class="d-none d-md-inline-block wrapper_breadcrumb"
->
-    <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-        <li class="breadcrumb-item">
-            <a href="dashboard">
-                <i class="pi pi-home"></i>
-            </a>
-        </li>
-        <li class="breadcrumb-item">{{ title }}</li>
-        <li class="breadcrumb-item" aria-current="page">
-            <a>{{ active_item }}</a>
-        </li>
-    </ol>
-</nav>
+<p-breadcrumb [model]="items()">
+    <ng-template pTemplate="item" let-item>
+        <a
+            [routerLink]="item.routerLink"
+            class="d-flex align-items-center justify-content-center gap-2"
+        >
+            <i *ngIf="item.icon" [class]="'pi ' + item.icon"></i>
+            <span>{{ item.label }}</span>
+        </a>
+    </ng-template>
+</p-breadcrumb>

@@ -34,8 +34,8 @@ export const ALL_TABLE_CONST = {
             width: '3rem',
         },
         {
-            field: 'createdAt',
-            header: 'REPORTS_REQUESTS.ALL.TABLE.CREATED_AT',
+            field: 'reportedAt',
+            header: 'REPORTS_REQUESTS.ALL.TABLE.REPORTED_AT',
             class: 'text-center',
             width: '8rem',
         },
@@ -52,6 +52,6 @@ export const ALL_TABLE_CONST = {
         'operatorsLabels',
         'sourceLabel',
         'state',
-        'createdAt',
+        'reportedAt',
     ],
 };

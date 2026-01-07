@@ -2,8 +2,8 @@ import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
 import { CategoryItemDto, SubCategoryItemDto } from './category-response.dto';
 
-export interface GetNewsByIdResponseDto extends SimpleResponseDto<GetNewsByIdItemDto> { }
-
+export interface GetNewsByIdResponseDto
+    extends SimpleResponseDto<GetNewsByIdItemDto> {}
 
 export interface GetNewsByIdItemDto {
     title: string;

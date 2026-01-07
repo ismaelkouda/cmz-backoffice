@@ -22,7 +22,10 @@ import { TableButtonHeaderComponent } from '@shared/components/table-button-head
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableConfig, TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
+import {
+    TableConfig,
+    TableExportExcelFileService,
+} from '@shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';

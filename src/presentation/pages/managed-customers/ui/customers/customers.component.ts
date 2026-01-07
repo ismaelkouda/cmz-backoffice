@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -39,7 +39,6 @@ interface PageAction {
         FilterCustomersComponent,
         TableCustomersComponent,
         PaginationComponent,
-        AsyncPipe,
         TranslateModule,
     ],
 })
@@ -58,7 +57,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private customersApiService: CustomersApiService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {

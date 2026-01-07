@@ -11,9 +11,13 @@ export abstract class UserRepository {
         page: string
     ): Observable<Paginate<UsersEntity>>;
 
-    abstract storeUser(payload: UsersStorePayloadEntity): Observable<UsersEntity>;
+    abstract storeUser(
+        payload: UsersStorePayloadEntity
+    ): Observable<UsersEntity>;
 
-    abstract updateUser(payload: UsersUpdatePayloadEntity): Observable<UsersEntity>;
+    abstract updateUser(
+        payload: UsersUpdatePayloadEntity
+    ): Observable<UsersEntity>;
 
     abstract deleteUser(id: string): Observable<void>;
 

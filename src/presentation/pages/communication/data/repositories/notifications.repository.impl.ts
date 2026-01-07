@@ -31,8 +31,8 @@ export class NotificationsRepositoryImpl extends NotificationsRepository {
                             error instanceof Error
                                 ? error.message
                                 : this.translateService.instant(
-                                    'COMMUNICATION.MESSAGES.ERROR.UNABLE_TO_FETCH_NOTIFICATIONS'
-                                )
+                                      'COMMUNICATION.MESSAGES.ERROR.UNABLE_TO_FETCH_NOTIFICATIONS'
+                                  )
                         )
                 )
             )

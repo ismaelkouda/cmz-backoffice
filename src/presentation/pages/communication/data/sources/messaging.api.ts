@@ -13,7 +13,7 @@ export class MessagingApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
     fetchMessages(
         filter: MessagingRequestDto,

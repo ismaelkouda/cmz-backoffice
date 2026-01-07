@@ -1,4 +1,4 @@
-import { MediaStatusDto } from "@shared/data/dtos/media-status.dto";
+import { MediaStatusDto } from '@shared/data/dtos/media-status.dto';
 
 export interface NewsRequestDto {
     startDate?: string;

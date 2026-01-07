@@ -2,7 +2,6 @@ import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
-
 export interface Tasks {
     readonly uniqId: string;
     readonly reportType: ReportType;
@@ -19,8 +18,8 @@ export class TasksEntity implements Tasks {
         public readonly operators: TelecomOperator[],
         public readonly source: ReportSource,
         public readonly initiatorPhoneNumber: string,
-        public readonly createdAt: string,
-    ) { }
+        public readonly createdAt: string
+    ) {}
 
     public clone(updates: Partial<Tasks>): TasksEntity {
         return new TasksEntity(
@@ -29,7 +28,7 @@ export class TasksEntity implements Tasks {
             updates.operators ?? this.operators,
             updates.source ?? this.source,
             updates.initiatorPhoneNumber ?? this.initiatorPhoneNumber,
-            updates.createdAt ?? this.createdAt,
+            updates.createdAt ?? this.createdAt
         );
     }
 }

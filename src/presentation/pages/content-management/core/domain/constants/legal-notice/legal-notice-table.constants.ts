@@ -39,7 +39,7 @@ export const LEGAL_NOTICE_TABLE_CONST = {
             header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.ACTION',
             class: 'text-center',
             width: '6rem',
-        }
+        },
     ],
     globalFilterFields: [
         'uniqId',

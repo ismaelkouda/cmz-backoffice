@@ -11,8 +11,12 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 
-
-export type ManagementAction = 'take' | 'approve' | 'treat' | 'finalize' | 'see';
+export type ManagementAction =
+    | 'take'
+    | 'approve'
+    | 'treat'
+    | 'finalize'
+    | 'see';
 export enum ReportStatus {
     PENDING = 'pending',
     APPROVED = 'approved',
@@ -133,8 +137,8 @@ export class DetailsEntity implements Details {
         public readonly placePhoto: string,
         public readonly accessPlacePhoto: string,
         public readonly confirmCount: number,
-        public readonly reportProcessingsCount: number,
-    ) { }
+        public readonly reportProcessingsCount: number
+    ) {}
 
     public get managementTitle(): string {
         switch (this.status) {
@@ -311,9 +315,9 @@ export class DetailsEntity implements Details {
         const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(this.deg2rad(lat)) *
-            Math.cos(this.deg2rad(latitude)) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
+                Math.cos(this.deg2rad(latitude)) *
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
 
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
@@ -408,7 +412,7 @@ export class DetailsEntity implements Details {
             updates.placePhoto ?? this.placePhoto,
             updates.accessPlacePhoto ?? this.accessPlacePhoto,
             updates.confirmCount ?? this.confirmCount,
-            updates.reportProcessingsCount ?? this.reportProcessingsCount,
+            updates.reportProcessingsCount ?? this.reportProcessingsCount
         );
     }
 }

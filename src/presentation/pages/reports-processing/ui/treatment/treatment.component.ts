@@ -54,7 +54,7 @@ export class TreatmentComponent implements OnInit, OnDestroy {
     constructor(
         private readonly activatedRoute: ActivatedRoute,
         private readonly treatmentFacade: TreatmentFacade
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.activatedRoute.data
@@ -99,8 +99,7 @@ export class TreatmentComponent implements OnInit, OnDestroy {
         this.selectedReportId = null;
     }
 
-    public handleNewspaper(item: TreatmentEntity): void {
-    }
+    public handleNewspaper(item: TreatmentEntity): void {}
 
     public refreshTreatments(): void {
         this.treatmentFacade.refresh();

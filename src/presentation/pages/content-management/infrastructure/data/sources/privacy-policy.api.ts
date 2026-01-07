@@ -17,9 +17,12 @@ export class PrivacyPolicyApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
-    fetchPrivacyPolicy(filter: PrivacyPolicyRequestDto, page: string): Observable<PrivacyPolicyResponseDto> {
+    fetchPrivacyPolicy(
+        filter: PrivacyPolicyRequestDto,
+        page: string
+    ): Observable<PrivacyPolicyResponseDto> {
         const url = `${this.baseUrl}${PRIVACY_POLICY_ENDPOINTS.PRIVACY_POLICY.replace('{page}', page)} `;
 
         const paramsObject = Object.entries(filter ?? {}).reduce<
@@ -39,20 +42,27 @@ export class PrivacyPolicyApi {
         return this.http.get<PrivacyPolicyResponseDto>(url, { params });
     }
 
-    getPrivacyPolicyById(id: string): Observable<GetPrivacyPolicyByIdResponseDto> {
+    getPrivacyPolicyById(
+        id: string
+    ): Observable<GetPrivacyPolicyByIdResponseDto> {
         return this.http.get<GetPrivacyPolicyByIdResponseDto>(
             `${this.baseUrl}${PRIVACY_POLICY_ENDPOINTS.GET_BY_ID.replace('{id}', id)}`
         );
     }
 
-    createPrivacyPolicy(payload: FormData): Observable<SimpleResponseDto<void>> {
+    createPrivacyPolicy(
+        payload: FormData
+    ): Observable<SimpleResponseDto<void>> {
         return this.http.post<SimpleResponseDto<void>>(
             `${this.baseUrl}${PRIVACY_POLICY_ENDPOINTS.CREATE}`,
             payload
         );
     }
 
-    updatePrivacyPolicy(id: string, payload: FormData): Observable<SimpleResponseDto<void>> {
+    updatePrivacyPolicy(
+        id: string,
+        payload: FormData
+    ): Observable<SimpleResponseDto<void>> {
         return this.http.post<SimpleResponseDto<void>>(
             `${this.baseUrl}${PRIVACY_POLICY_ENDPOINTS.UPDATE.replace('{id}', id)}`,
             payload

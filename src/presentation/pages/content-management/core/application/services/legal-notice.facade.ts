@@ -19,7 +19,10 @@ import { Observable, tap } from 'rxjs';
 @Injectable({
     providedIn: 'root',
 })
-export class LegalNoticeFacade extends BaseFacade<LegalNoticeEntity, LegalNoticeFilter> {
+export class LegalNoticeFacade extends BaseFacade<
+    LegalNoticeEntity,
+    LegalNoticeFilter
+> {
     public readonly legalNotice$ = this.items$;
 
     private hasInitialized = false;
@@ -35,7 +38,7 @@ export class LegalNoticeFacade extends BaseFacade<LegalNoticeEntity, LegalNotice
         private readonly publishUseCase: PublishLegalNoticeUseCase,
         private readonly unpublishUseCase: UnpublishLegalNoticeUseCase,
         toastrService: ToastrService,
-        translateService: TranslateService,
+        translateService: TranslateService
     ) {
         super(toastrService, translateService);
     }
@@ -65,10 +68,13 @@ export class LegalNoticeFacade extends BaseFacade<LegalNoticeEntity, LegalNotice
                 this.toastService.success(response.message);
                 this.refresh();
             })
-        )
+        );
     }
 
-    update(id: string, formData: FormData): Observable<SimpleResponseDto<void>> {
+    update(
+        id: string,
+        formData: FormData
+    ): Observable<SimpleResponseDto<void>> {
         return this.updateUseCase.execute({ id, params: formData }).pipe(
             tap((response) => {
                 this.toastService.success(response.message);

@@ -15,7 +15,6 @@ import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, tap } from 'rxjs';
 
-
 @Injectable({
     providedIn: 'root',
 })
@@ -119,7 +118,10 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilter> {
         if (!currentFilter) {
             return;
         }
-        const fetch = this.fetchUseCase.execute(currentFilter, String(pageNumber));
+        const fetch = this.fetchUseCase.execute(
+            currentFilter,
+            String(pageNumber)
+        );
         this.changePageInternal(pageNumber, fetch);
 
         this.lastFetchTimestamp = Date.now();

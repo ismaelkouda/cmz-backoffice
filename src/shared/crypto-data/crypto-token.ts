@@ -7,7 +7,7 @@ import { deriveKey, fromBase64, toBase64 } from './crypto-utils';
 export class CryptoToken {
     private readonly password = 'Ct2&Ro0~Yk2#Pe5{';
 
-    constructor() { }
+    constructor() {}
 
     async saveTokenData(key: string, value: string): Promise<void> {
         const encoder = new TextEncoder();

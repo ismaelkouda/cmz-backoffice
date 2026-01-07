@@ -1,6 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    inject,
+    OnInit,
+} from '@angular/core';
+import {
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -48,10 +60,10 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
         TagModule,
         InputNumberModule,
         ToastModule,
-        TooltipModule
+        TooltipModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class FormPrivacyPolicyComponent implements OnInit {
     private readonly destroy$ = new Subject<void>();
@@ -75,8 +87,8 @@ export class FormPrivacyPolicyComponent implements OnInit {
     public saveButtonState = {
         disabled: true,
         tooltip: '',
-        severity: 'danger' as 'success' | 'warning' | 'danger' | 'info'
-    }
+        severity: 'danger' as 'success' | 'warning' | 'danger' | 'info',
+    };
 
     ngOnInit(): void {
         this.initForm();
@@ -88,26 +100,28 @@ export class FormPrivacyPolicyComponent implements OnInit {
     private initForm(): void {
         this.form = this.fb.group({
             content: ['', Validators.required],
-            version: ['', [Validators.required, semanticVersionValidator(), Validators.pattern(/^\d+(\.\d+){0,2}$/)]]
+            version: [
+                '',
+                [
+                    Validators.required,
+                    semanticVersionValidator(),
+                    Validators.pattern(/^\d+(\.\d+){0,2}$/),
+                ],
+            ],
         });
     }
 
     private setupFormValidation(): void {
-        this.form.statusChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateFormValidity();
-                this.updateSaveButtonState();
-            });
+        this.form.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            this.updateFormValidity();
+            this.updateSaveButtonState();
+        });
 
-        this.form.valueChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateFormValidity();
-                this.updateSaveButtonState();
-            });
+        this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            this.updateFormValidity();
+            this.updateSaveButtonState();
+        });
     }
-
 
     private updateFormValidity(): void {
         const isFormValid = this.form.valid;
@@ -124,19 +138,19 @@ export class FormPrivacyPolicyComponent implements OnInit {
             this.saveButtonState = {
                 disabled: true,
                 tooltip: this.getValidationTooltip(),
-                severity: 'danger'
+                severity: 'danger',
             };
         } else if (isPristine) {
             this.saveButtonState = {
                 disabled: true,
                 tooltip: this.translate.instant('COMMON.VALIDATION.NO_CHANGES'),
-                severity: 'info'
+                severity: 'info',
             };
         } else {
             this.saveButtonState = {
                 disabled: false,
                 tooltip: this.translate.instant('COMMON.SAVE'),
-                severity: 'success'
+                severity: 'success',
             };
         }
     }
@@ -144,7 +158,7 @@ export class FormPrivacyPolicyComponent implements OnInit {
     public getValidationTooltip(): string {
         const errors: string[] = [];
 
-        Object.keys(this.form.controls).forEach(key => {
+        Object.keys(this.form.controls).forEach((key) => {
             const control = this.form.get(key);
             if (control?.invalid && control?.touched) {
                 const fieldLabel = this.getFieldLabel(key);
@@ -159,7 +173,7 @@ export class FormPrivacyPolicyComponent implements OnInit {
     public getFormErrors(): string[] {
         const errors: string[] = [];
 
-        Object.keys(this.form.controls).forEach(key => {
+        Object.keys(this.form.controls).forEach((key) => {
             const control = this.form.get(key);
             if (control?.invalid && control?.touched) {
                 const fieldLabel = this.getFieldLabel(key);
@@ -173,23 +187,26 @@ export class FormPrivacyPolicyComponent implements OnInit {
 
     private getFieldLabel(fieldName: string): string {
         const labels: { [key: string]: string } = {
-            content: this.translate.instant('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION'),
-            version: this.translate.instant('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION')
+            content: this.translate.instant(
+                'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION'
+            ),
+            version: this.translate.instant(
+                'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION'
+            ),
         };
         return labels[fieldName] || fieldName;
     }
-
 
     private getControlErrorMessage(control: AbstractControl): string {
         if (control.hasError('required')) {
             return this.translate.instant('COMMON.VALIDATION.REQUIRED');
         } else if (control.hasError('minlength')) {
             return this.translate.instant('COMMON.VALIDATION.MIN_LENGTH', {
-                length: control.errors?.['minlength']?.['requiredLength']
+                length: control.errors?.['minlength']?.['requiredLength'],
             });
         } else if (control.hasError('maxlength')) {
             return this.translate.instant('COMMON.VALIDATION.MAX_LENGTH', {
-                length: control.errors?.['maxlength']?.['requiredLength']
+                length: control.errors?.['maxlength']?.['requiredLength'],
             });
         } else if (control.hasError('pattern')) {
             return this.translate.instant('COMMON.VALIDATION.PATTERN');
@@ -199,13 +216,19 @@ export class FormPrivacyPolicyComponent implements OnInit {
 
     private setupRouteData(): void {
         this.pageTitle$ = this.route.data.pipe(
-            map(data => data['title'] || 'CONTENT_MANAGEMENT.LEGAL_NOTICE.LABEL')
+            map(
+                (data) =>
+                    data['title'] || 'CONTENT_MANAGEMENT.LEGAL_NOTICE.LABEL'
+            )
         );
 
-        this.route.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
+        this.route.data.pipe(takeUntil(this.destroy$)).subscribe((data) => {
             this.module = data['module'] || 'CONTENT_MANAGEMENT.LABEL';
-            this.subModule = data['subModule'] || 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TITLE';
-            this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
+            this.subModule =
+                data['subModule'] || 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TITLE';
+            this.titleService.setTitle(
+                data['title'] ? this.translate.instant(data['title']) : 'CMZ'
+            );
         });
     }
 
@@ -214,9 +237,10 @@ export class FormPrivacyPolicyComponent implements OnInit {
         if (id) {
             this.isEditMode = true;
             this.currentId = id;
-            this.privacyPolicyFacade.getById(id)
+            this.privacyPolicyFacade
+                .getById(id)
                 .pipe(takeUntil(this.destroy$))
-                .subscribe(item => {
+                .subscribe((item) => {
                     this.patchForm(item);
                 });
         }
@@ -225,7 +249,7 @@ export class FormPrivacyPolicyComponent implements OnInit {
     private patchForm(item: GetPrivacyPolicyByIdEntity): void {
         this.form.patchValue({
             content: item.content,
-            version: item.version
+            version: item.version,
         });
     }
 
@@ -238,11 +262,13 @@ export class FormPrivacyPolicyComponent implements OnInit {
         const formData = this.prepareFormData();
 
         if (this.isEditMode && this.currentId) {
-            this.privacyPolicyFacade.update(this.currentId, formData).subscribe({
-                next: () => {
-                    this.onCancel();
-                },
-            });
+            this.privacyPolicyFacade
+                .update(this.currentId, formData)
+                .subscribe({
+                    next: () => {
+                        this.onCancel();
+                    },
+                });
         } else {
             this.privacyPolicyFacade.create(formData).subscribe({
                 next: () => {
@@ -263,7 +289,9 @@ export class FormPrivacyPolicyComponent implements OnInit {
     }
 
     onCancel(): void {
-        this.router.navigate([CONTENT_MANAGEMENT_ROUTE + '/' + PRIVACY_POLICY_ROUTE]);
+        this.router.navigate([
+            CONTENT_MANAGEMENT_ROUTE + '/' + PRIVACY_POLICY_ROUTE,
+        ]);
     }
 
     ngOnDestroy(): void {

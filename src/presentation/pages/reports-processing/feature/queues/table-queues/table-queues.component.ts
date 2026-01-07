@@ -314,4 +314,3 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
         return col.field;
     }
 }
-

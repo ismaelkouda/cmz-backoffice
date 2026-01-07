@@ -79,7 +79,11 @@
 
         <div class="filter-grid">
             @if (!secondFilter) {
-                <button type="submit" class="btn btn-primary px-3" [disabled]="isLoading()">
+                <button
+                    type="submit"
+                    class="btn btn-primary px-3"
+                    [disabled]="isLoading()"
+                >
                     <i class="pi pi-filter"></i>
                 </button>
             }
@@ -118,7 +122,6 @@
                     [options]="stateOptions"
                     optionValue="value"
                     [showClear]="true"
-                    
                     placeholder="{{ 'SELECT' | translate }}"
                     appendTo="body"
                 >
@@ -184,7 +187,11 @@
             </div>
 
             <div class="filter-grid">
-                <button type="submit" class="btn btn-primary px-3" [disabled]="isLoading()">
+                <button
+                    type="submit"
+                    class="btn btn-primary px-3"
+                    [disabled]="isLoading()"
+                >
                     <i class="pi pi-filter"></i>
                 </button>
             </div>

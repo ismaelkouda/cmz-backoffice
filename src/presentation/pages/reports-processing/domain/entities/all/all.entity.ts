@@ -1,4 +1,3 @@
-
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
@@ -14,7 +13,7 @@ export interface All {
     readonly source: ReportSource;
     readonly initiatorPhoneNumber: string;
     readonly status: ReportState;
-    readonly createdAt: string;
+    readonly reportedAt: string;
 }
 
 export class AllEntity implements All {
@@ -25,9 +24,8 @@ export class AllEntity implements All {
         public readonly source: ReportSource,
         public readonly initiatorPhoneNumber: string,
         public readonly status: ReportState,
-        public readonly createdAt: string
+        public readonly reportedAt: string
     ) { }
-
 
     public clone(updates: Partial<All>): AllEntity {
         return new AllEntity(
@@ -37,8 +35,7 @@ export class AllEntity implements All {
             updates.source ?? this.source,
             updates.initiatorPhoneNumber ?? this.initiatorPhoneNumber,
             updates.status ?? this.status,
-            updates.createdAt ?? this.createdAt
+            updates.reportedAt ?? this.reportedAt
         );
     }
-
 }

@@ -14,26 +14,24 @@ import {
     DetailsEntity,
     QualificationState,
     ReportState,
-    ReportStatus
+    ReportStatus,
 } from '../../domain/entities/details/details.entity';
-import {
-    DetailsItemDto
-} from '../dtos/details/details-response.dto';
+import { DetailsItemDto } from '../dtos/details/details-response.dto';
 
 export class DetailsMapper extends SimpleResponseMapper<
     DetailsEntity,
     DetailsItemDto
 > {
-    actorMapper = inject(ActorMapper)
-    reportSourceMapper = inject(ReportSourceMapper)
-    locationTypeMapper = inject(LocationTypeMapper)
-    reportTypeMapper = inject(ReportTypeMapper)
-    locationMapper = inject(LocationMapper)
-    telecomOperatorMapper = inject(TelecomOperatorMapper)
-    reportMediaMapper = inject(ReportMediaMapper)
-    treaterInfoMapper = inject(TreaterInfoMapper)
-    administrativeBoundaryMapper = inject(AdministrativeBoundaryMapper)
-    timestampsMapper = inject(TimestampsMapper)
+    actorMapper = inject(ActorMapper);
+    reportSourceMapper = inject(ReportSourceMapper);
+    locationTypeMapper = inject(LocationTypeMapper);
+    reportTypeMapper = inject(ReportTypeMapper);
+    locationMapper = inject(LocationMapper);
+    telecomOperatorMapper = inject(TelecomOperatorMapper);
+    reportMediaMapper = inject(ReportMediaMapper);
+    treaterInfoMapper = inject(TreaterInfoMapper);
+    administrativeBoundaryMapper = inject(AdministrativeBoundaryMapper);
+    timestampsMapper = inject(TimestampsMapper);
 
     protected override mapItemFromDto(dto: DetailsItemDto): DetailsEntity {
         return new DetailsEntity(
@@ -67,7 +65,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             dto.place_photo,
             dto.access_place_photo,
             dto.confirm_count,
-            dto.report_processings_count,
+            dto.report_processings_count
         );
     }
 
@@ -86,7 +84,9 @@ export class DetailsMapper extends SimpleResponseMapper<
         return statusMap[status] || ReportStatus.PENDING;
     }
 
-    private mapQualificationState(state: string | null): QualificationState | null {
+    private mapQualificationState(
+        state: string | null
+    ): QualificationState | null {
         const stateMap: Record<string, QualificationState> = {
             completed: QualificationState.COMPLETED,
         };

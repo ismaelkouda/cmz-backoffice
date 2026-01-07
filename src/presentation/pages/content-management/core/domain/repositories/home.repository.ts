@@ -1,6 +1,9 @@
 import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 import { HomeFilter } from '@presentation/pages/content-management/core/domain/value-objects/home-filter.vo';
-import { Paginate, SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
 
 export abstract class HomeRepository {

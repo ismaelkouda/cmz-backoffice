@@ -1,46 +1,61 @@
 import { Routes } from '@angular/router';
-import { ReportComponent } from './ui/report/report.component';
 
 export const REPORT_ROUTE = 'reports';
 export const REQUESTS_ROUTE = 'requests';
 
 export const routes: Routes = [
     {
-        path: REPORT_ROUTE,
+        path: '',
         children: [
             {
-                path: '',
-                component: ReportComponent,
+                path: REPORT_ROUTE,
                 data: {
-                    title: 'REPORTING.REPORT.TITLE',
-                    module: 'REPORTING.LABEL',
-                    subModule: 'REPORTING.REPORT.LABEL',
+                    breadcrumb: {
+                        label: 'REPORTING.REPORT.BREADCRUMB.LABEL',
+                        icon: 'REPORTING.REPORT.BREADCRUMB.ICON',
+                    },
                 },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import(
+                                './presentation/features/report/pages/report-page/report-page.component'
+                            ).then((m) => m.ReportPageComponent),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: REQUESTS_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'REPORTING.REQUESTS.BREADCRUMB.LABEL',
+                        icon: 'REPORTING.REQUESTS.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import(
+                                './presentation/features/requests/pages/requests-page/requests-page.component'
+                            ).then((m) => m.RequestsPageComponent),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
             },
             {
                 path: '**',
-                redirectTo: '',
-            },
-        ],
-    },
-    {
-        path: REQUESTS_ROUTE,
-        children: [
-            {
-                path: '',
-                loadComponent: () =>
-                    import('./ui/requests/requests.component').then(
-                        (m) => m.RequestsComponent
-                    ),
-                data: {
-                    title: 'REPORTING.REQUESTS.TITLE',
-                    module: 'REPORTING.LABEL',
-                    subModule: 'REPORTING.REQUESTS.LABEL',
-                },
-            },
-            {
-                path: '**',
-                redirectTo: '',
+                redirectTo: REPORT_ROUTE,
             },
         ],
     },

@@ -107,7 +107,7 @@ export class TableAllComponent implements OnDestroy {
 
     constructor(
         private readonly tableExportExcelFileService: TableExportExcelFileService
-    ) { }
+    ) {}
 
     ngOnDestroy(): void {
         this.destroy$.next();

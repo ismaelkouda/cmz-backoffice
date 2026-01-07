@@ -8,16 +8,23 @@ import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.ma
 @Injectable({
     providedIn: 'root',
 })
-export class PrivacyPolicyMapper extends PaginatedMapper<PrivacyPolicyEntity, PrivacyPolicyItemDto> {
-
-    private readonly actionDropdownMapper: ActionDropdownMapper = inject(ActionDropdownMapper)
+export class PrivacyPolicyMapper extends PaginatedMapper<
+    PrivacyPolicyEntity,
+    PrivacyPolicyItemDto
+> {
+    private readonly actionDropdownMapper: ActionDropdownMapper =
+        inject(ActionDropdownMapper);
 
     public toEntity(dto: PrivacyPolicyItemDto): PrivacyPolicyEntity {
         return this.mapItemFromDto(dto);
     }
 
-    public override mapItemFromDto(dto: PrivacyPolicyItemDto): PrivacyPolicyEntity {
-        const mappedActionDropdown = this.actionDropdownMapper.mapFromDto(this.mapActionDropdown(dto.is_published));
+    public override mapItemFromDto(
+        dto: PrivacyPolicyItemDto
+    ): PrivacyPolicyEntity {
+        const mappedActionDropdown = this.actionDropdownMapper.mapFromDto(
+            this.mapActionDropdown(dto.is_published)
+        );
         return new PrivacyPolicyEntity(
             dto.id,
             dto.name,

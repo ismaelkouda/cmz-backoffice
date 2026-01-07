@@ -23,6 +23,4 @@ export interface HomeItemDto {
     updated_at: string;
 }
 
-export interface HomeResponseDto extends PaginatedResponseDto<HomeItemDto> { }
-
-
+export interface HomeResponseDto extends PaginatedResponseDto<HomeItemDto> {}

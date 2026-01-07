@@ -3,20 +3,19 @@ import {
     Directive,
     ElementRef,
     Input,
-    Renderer2
+    Renderer2,
 } from '@angular/core';
 
 @Directive({
-    selector: '[appFileUploadI18n]'
+    selector: '[appFileUploadI18n]',
 })
 export class FileUploadI18nDirective implements AfterViewInit {
-
     @Input() emptyLabel = 'Aucun fichier sélectionné';
 
     constructor(
         private el: ElementRef,
         private renderer: Renderer2
-    ) { }
+    ) {}
 
     ngAfterViewInit(): void {
         const host: HTMLElement = this.el.nativeElement;
@@ -35,7 +34,11 @@ export class FileUploadI18nDirective implements AfterViewInit {
         input.addEventListener('change', () => {
             const files = (input as HTMLInputElement).files;
             if (!files || files.length === 0) {
-                this.renderer.setProperty(label, 'textContent', this.emptyLabel);
+                this.renderer.setProperty(
+                    label,
+                    'textContent',
+                    this.emptyLabel
+                );
             } else {
                 this.renderer.setProperty(label, 'textContent', files[0].name);
             }

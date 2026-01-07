@@ -1,13 +1,11 @@
 import { inject, Injectable, OnInit } from '@angular/core';
 import { AppCustomizationService } from './app-customization.service';
 
-
 @Injectable({
     providedIn: 'root',
 })
 export class LayoutService implements OnInit {
     private readonly customizationService = inject(AppCustomizationService);
-
 
     public readonly config = {
         settings: {
@@ -27,10 +25,8 @@ export class LayoutService implements OnInit {
         this.applyLayoutConfiguration();
     }
 
-
     private applyLayoutConfiguration(): void {
         try {
-
             if (this.config.settings.layout_type === 'rtl') {
                 document.documentElement.setAttribute(
                     'dir',

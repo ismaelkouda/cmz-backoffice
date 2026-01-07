@@ -10,6 +10,9 @@
     data-testid="queues-table"
     role="grid"
     width="100%"
+    [columns]="tableConfig.cols"
+    styleClass="p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '75rem' }"
     selectionMode="multiple"
     datakey="id"
 >
@@ -37,18 +40,14 @@
         </div>
     </ng-template>
 
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" let-columns>
         <tr role="row">
-            @for (col of tableConfig.cols; track trackByColField($index, col)) {
+            @for (col of columns; track trackByColField($index, col)) {
                 <th
                     [class]="col.class"
-                    [style]="{
-                        'min-width': col.width,
-                        width: col.width,
-                        'text-align': 'center',
-                    }"
-                    role="columnheader"
-                    scope="col"
+                    [style.width]="col.width"
+                    [pSortableColumn]="col.field"
+                    [pSortableColumnDisabled]="col.sortable === false"
                 >
                     @switch (col.field) {
                         @case ('__selection') {
@@ -64,6 +63,8 @@
                                     (keydown.enter)="$event.target.blur()"
                                     (keydown.escape)="clearSelection()"
                                     [disabled]="!hasData() || isLoading()"
+                                    pTooltip="Saisir un nombre entre 1 et {{ queues().length }}"
+                                    tooltipPosition="bottom"
                                 />
                             </div>
                         }
@@ -75,7 +76,12 @@
             }
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-queue let-rowIndex="rowIndex">
+    <ng-template
+        pTemplate="body"
+        let-queue
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+    >
         <tr
             role="row"
             [class.selected]="isItemSelected(queue)"
@@ -83,13 +89,10 @@
             (click)="handleRowClick($event, queue)"
             [class.cursor-pointer]="!isLoading()"
         >
-            @for (col of tableConfig.cols; track trackByColField($index, col)) {
+            @for (col of columns; track trackByColField($index, col)) {
                 <td
                     [class]="col.class"
-                    [style]="{
-                        'min-width': col.width,
-                        width: col.width,
-                    }"
+                    [style.width]="col.width"
                     role="gridcell"
                 >
                     @switch (col.field) {
@@ -137,7 +140,11 @@
                                 ) {
                                     <p-tag
                                         [value]="operator | translate"
-                                        [style]="getOperatorTagStyle(operator | translate)"
+                                        [style]="
+                                            getOperatorTagStyle(
+                                                operator | translate
+                                            )
+                                        "
                                         styleClass="operator-tag"
                                     />
                                 }
@@ -147,20 +154,26 @@
                             </ng-template>
                         }
 
-                        @case ('createdAt') {
-                            <time [attr.datetime]="queue.createdAt">
-                                {{ formatDate(queue.createdAt) }}
+                        @case ('reportedAt') {
+                            <time [attr.datetime]="queue.reportedAt">
+                                {{ formatDate(queue.reportedAt) }}
                             </time>
                         }
 
                         @case ('source') {
-                            <div
-                                class="source-type-content"
-                            >
-                                <span>{{ queue.source | translate }}</span>&nbsp;
-                                <span class="copyable" pTooltip="{{ 'COPY' | translate }}"
-                                    (click)="copyToClipboard(queue.initiatorPhoneNumber)"
-                                    tooltipPosition="bottom">[ {{ queue.initiatorPhoneNumber }} ]
+                            <div class="source-type-content">
+                                <span>{{ queue.source | translate }}</span
+                                >&nbsp;
+                                <span
+                                    class="copyable"
+                                    pTooltip="{{ 'COPY' | translate }}"
+                                    (click)="
+                                        copyToClipboard(
+                                            queue.initiatorPhoneNumber
+                                        )
+                                    "
+                                    tooltipPosition="bottom"
+                                    >[ {{ queue.initiatorPhoneNumber }} ]
                                 </span>
                             </div>
                         }
@@ -205,30 +218,20 @@
         </tr>
     </ng-template>
 
-    <ng-template pTemplate="emptymessage">
-        @if (!isLoading()) {
-            <tr role="row" class="loading-table">
-                <td [attr.colspan]="tableConfig.cols.length" role="gridcell">
-                    <div class="empty-state text-center">
-                        {{ 'NO_DATA_FOUND' | translate }}
-                    </div>
-                </td>
-            </tr>
-        }
-        @if (isLoading()) {
-            <tr role="row" class="loading-table">
-                <td [attr.colspan]="tableConfig.cols.length">
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr role="row">
+            <td [attr.colspan]="columns.length" class="text-center">
+                @if (!isLoading()) {
+                    {{ 'COMMON.NO_DATA' | translate }}
+                } @else {
                     <p-progressSpinner
-                        class="posCenter"
-                        [style]="{ width: '40px', height: '50px' }"
-                        styleClass="custom-spinner"
+                        [style]="{ width: '30px', height: '50px' }"
                         strokeWidth="8"
                         fill="#EEEEEE"
                         animationDuration=".5s"
-                    >
-                    </p-progressSpinner>
-                </td>
-            </tr>
-        }
+                    ></p-progressSpinner>
+                }
+            </td>
+        </tr>
     </ng-template>
 </p-table>

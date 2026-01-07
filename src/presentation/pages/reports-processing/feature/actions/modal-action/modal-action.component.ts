@@ -121,7 +121,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
 
     public readonly maxDescriptionLength = 1000;
 
-    constructor() { }
+    constructor() {}
 
     ngOnInit(): void {
         this.actionForm = this.buildForm();
@@ -183,15 +183,13 @@ export class ModalActionComponent implements OnInit, OnDestroy {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
-            date: new FormControl<string>('',
-                {
-                    nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        this.dateValidator.bind(this),
-                    ],
-                }
-            ),
+            date: new FormControl<string>('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    this.dateValidator.bind(this),
+                ],
+            }),
             type: new FormControl<string>('', {
                 nonNullable: true,
                 validators: [Validators.required],

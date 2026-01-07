@@ -67,6 +67,7 @@ import { providePrivacyPolicy } from './pages/content-management/di/privacy-poli
 import { provideSlide } from './pages/content-management/di/slide.providers';
 import { provideTermsUse } from './pages/content-management/di/terms-use.providers';
 import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
+import { provideReporting } from './pages/reporting/di/reporting.providers';
 import { provideActions } from './pages/reports-processing/di/actions.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
@@ -277,6 +278,8 @@ export const appConfig: ApplicationConfig = {
         ...processingAll(),
         ...finalizationAll(),
 
+        ...provideReporting(),
+
         ...provideActions(),
 
         ...provideNotifications(),
@@ -291,7 +294,7 @@ export const appConfig: ApplicationConfig = {
         ...provideNews(),
         ...providePrivacyPolicy(),
         ...provideLegalNotice(),
-        ...provideTermsUse()
+        ...provideTermsUse(),
         /* ...provideUser(), */
         /*  ...provideProfileHabilitation(), */
         /*         ...provideParticipant(),

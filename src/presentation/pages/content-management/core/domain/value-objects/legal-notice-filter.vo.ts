@@ -1,4 +1,4 @@
-import { LegalNoticeRequestDto } from "../../application/dtos/legal-notice/legal-notice-request.dto";
+import { LegalNoticeRequestDto } from '../../application/dtos/legal-notice/legal-notice-request.dto';
 
 export class LegalNoticeFilter {
     private constructor(
@@ -7,9 +7,11 @@ export class LegalNoticeFilter {
         private readonly version?: string,
         private readonly search?: string,
         private readonly isPublished?: boolean
-    ) { }
+    ) {}
 
-    static create(data: LegalNoticeRequestDto = {} as LegalNoticeRequestDto): LegalNoticeFilter {
+    static create(
+        data: LegalNoticeRequestDto = {} as LegalNoticeRequestDto
+    ): LegalNoticeFilter {
         return new LegalNoticeFilter(
             data.startDate,
             data.endDate,

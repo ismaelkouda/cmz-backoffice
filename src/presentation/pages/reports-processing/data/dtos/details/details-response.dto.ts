@@ -66,4 +66,4 @@ export interface DetailsItemDto {
     municipality: AdministrativeBoundaryDto;
 }
 
-export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> { }
+export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> {}

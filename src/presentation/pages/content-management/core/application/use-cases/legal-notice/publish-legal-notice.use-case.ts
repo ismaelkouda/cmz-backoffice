@@ -7,7 +7,7 @@ import { LegalNoticeRepository } from '../../../domain/repositories/legal-notice
     providedIn: 'root',
 })
 export class PublishLegalNoticeUseCase {
-    constructor(private readonly repository: LegalNoticeRepository) { }
+    constructor(private readonly repository: LegalNoticeRepository) {}
 
     execute(id: string): Observable<SimpleResponseDto<void>> {
         return this.repository.publishLegalNotice(id);

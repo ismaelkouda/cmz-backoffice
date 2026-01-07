@@ -6,6 +6,6 @@ interface AdministrativeBoundary {
 export class AdministrativeBoundaryEntity implements AdministrativeBoundary {
     constructor(
         public readonly id: string,
-        public readonly name: string,
-    ) { }
+        public readonly name: string
+    ) {}
 }

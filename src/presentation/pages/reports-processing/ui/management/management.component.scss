@@ -295,9 +295,10 @@ $dark-gray: var(--color-gray);
     }
 }
 
-
-
-.form-p-select, .form-p-datepicker, p-fileupload, textarea {
+.form-p-select,
+.form-p-datepicker,
+p-fileupload,
+textarea {
     padding: 7px;
     border: 2px solid $light-gray;
     border-radius: 12px;
@@ -1936,11 +1937,7 @@ button:focus-visible,
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    background: linear-gradient(
-        90deg,
-        #d4edda,
-        #c8e6c9
-    );
+    background: linear-gradient(90deg, #d4edda, #c8e6c9);
     border-bottom: 1px solid #e9ecef;
     cursor: pointer;
     transition: background-color 0.2s ease;

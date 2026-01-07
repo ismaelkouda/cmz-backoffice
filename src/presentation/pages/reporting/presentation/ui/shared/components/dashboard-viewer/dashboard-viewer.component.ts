@@ -6,6 +6,8 @@ import {
     computed,
     inject,
     input,
+    output,
+    signal,
     viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -17,7 +19,8 @@ import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 import { Subject, takeUntil, timer } from 'rxjs';
-import { ReportingStateService } from '../../reporting-state.service';
+
+type ConnectionStatus = 'connected' | 'loading' | 'error';
 
 @Component({
     selector: 'app-dashboard-viewer',
@@ -36,7 +39,7 @@ import { ReportingStateService } from '../../reporting-state.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardViewerComponent implements OnInit, OnDestroy {
-    public readonly dashboardUrl = input.required<string>();
+    public readonly grafanaLink = input.required<string>();
     public readonly titleKey = input<string>('REPORTING.REPORT.TITLE');
     public readonly moduleKey = input<string>('REPORTING.LABEL');
     public readonly subModuleKey = input<string>('REPORTING.REPORT.LABEL');
@@ -46,10 +49,15 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     public readonly errorDescription = input<string>(
         'REPORTING.REPORT.ERROR_DESCRIPTION'
     );
+    public readonly refresh = output<void>();
+    public readonly isLoading = input<boolean>();
 
     private readonly title = inject(Title);
     private readonly translate = inject(TranslateService);
-    public readonly dashboardState = inject(ReportingStateService);
+
+    public readonly connectionStatus = signal<ConnectionStatus>('loading');
+    public readonly lastUpdated = signal<Date | null>(null);
+    public readonly isFullscreen = signal<boolean>(false);
 
     private readonly destroy$ = new Subject<void>();
     private readonly grafanaIframe =
@@ -60,7 +68,7 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     private loadTimeoutId?: number;
 
     public readonly statusIcon = computed(() => {
-        const status = this.dashboardState.connectionStatus();
+        const status = this.connectionStatus();
         switch (status) {
             case 'connected':
                 return 'pi pi-check-circle';
@@ -74,7 +82,7 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     });
 
     public readonly formattedLastUpdated = computed(() => {
-        const lastUpdated = this.dashboardState.lastUpdated();
+        const lastUpdated = this.lastUpdated();
         if (!lastUpdated) return '';
 
         return new Intl.DateTimeFormat('fr-FR', {
@@ -112,10 +120,8 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
         }
 
         setTimeout(() => {
-            this.dashboardState.setLoading(false);
-            this.dashboardState.setError(false);
-            this.dashboardState.updateConnectionStatus('connected');
-            this.dashboardState.updateLastUpdated();
+            this.connectionStatus.set('connected');
+            this.lastUpdated.set(new Date());
         }, 2000);
     }
 
@@ -126,14 +132,12 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
             clearTimeout(this.loadTimeoutId);
         }
 
-        this.dashboardState.setLoading(false);
-        this.dashboardState.setError(true);
-        this.dashboardState.updateConnectionStatus('error');
+        this.connectionStatus.set('error');
     }
 
     public toggleFullscreen(): void {
-        const newFullscreenState = !this.dashboardState.isFullscreen();
-        this.dashboardState.setFullscreen(newFullscreenState);
+        const newFullscreenState = !this.isFullscreen();
+        this.isFullscreen.set(newFullscreenState);
 
         if (newFullscreenState) {
             document.body.style.overflow = 'hidden';
@@ -143,14 +147,11 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     }
 
     public refreshReporting(): void {
-        this.dashboardState.setLoading(true);
-        this.dashboardState.updateConnectionStatus('loading');
+        this.connectionStatus.set('loading');
 
         this.loadTimeoutId = window.setTimeout(() => {
-            if (this.dashboardState.isLoading()) {
-                this.dashboardState.setLoading(false);
-                this.dashboardState.setError(true);
-                this.dashboardState.updateConnectionStatus('error');
+            if (this.isLoading()) {
+                this.connectionStatus.set('error');
             }
         }, this.LOAD_TIMEOUT);
     }
@@ -165,24 +166,8 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
         }
     }
 
-    public refreshDashboard(): void {
-        if (this.dashboardState.isLoading()) {
-            return;
-        }
-
-        this.dashboardState.setLoading(true);
-        this.dashboardState.updateConnectionStatus('loading');
-
-        if (this.loadTimeoutId) {
-            clearTimeout(this.loadTimeoutId);
-        }
-        this.performSmartRefresh();
-        this.loadTimeoutId = window.setTimeout(() => {
-            if (this.dashboardState.isLoading()) {
-                console.warn('⚠️ Dashboard refresh timeout');
-                this.handleRefreshTimeout();
-            }
-        }, this.LOAD_TIMEOUT);
+    public handleRefreshDashboard(): void {
+        this.refresh.emit();
     }
 
     private performSmartRefresh(): void {
@@ -203,8 +188,7 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
                 this.forceIframeReload(iframe);
             }
         } else {
-            this.dashboardState.setLoading(false);
-            this.dashboardState.updateConnectionStatus('connected');
+            this.connectionStatus.set('connected');
         }
     }
 
@@ -245,8 +229,6 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     }
 
     private handleRefreshTimeout(): void {
-        this.dashboardState.setLoading(false);
-        this.dashboardState.setError(true);
-        this.dashboardState.updateConnectionStatus('error');
+        this.connectionStatus.set('error');
     }
 }

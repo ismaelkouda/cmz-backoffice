@@ -1,7 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    DestroyRef,
+    OnInit,
+    inject,
+    signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    FormArray,
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    ValidatorFn,
+    Validators,
+} from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -11,9 +27,8 @@ import { CategoryEntity } from '@presentation/pages/content-management/core/doma
 import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
 import { SubCategoryEntity } from '@presentation/pages/content-management/core/domain/entities/sub-category.entity';
 import { ImageProcessingStore } from '@presentation/pages/content-management/core/domain/stores/image-processing.store';
-import {
-    ProcessingResult
-} from '@presentation/pages/content-management/core/domain/types/image-processing.types';
+import { ProcessingResult } from '@presentation/pages/content-management/core/domain/types/image-processing.types';
+import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
 import { ImageCropperComponent } from '@presentation/pages/content-management/presentation/shared/image-cropper/image-cropper.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
@@ -31,58 +46,17 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
-import { BehaviorSubject, Observable, combineLatest, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
+import {
+    BehaviorSubject,
+    Observable,
+    combineLatest,
+    distinctUntilChanged,
+    map,
+    of,
+    startWith,
+    switchMap,
+} from 'rxjs';
 import { HashtagsInputComponent } from '../hashtags-input/hashtags-input.component';
-
-const VALIDATION_CONSTANTS = {
-    TITLE: {
-        MIN: 3,
-        MAX: 100,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{3,}$/
-    },
-    RESUME: {
-        MIN: 10,
-        MAX: 250,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{10,}$/
-    },
-    CONTENT: {
-        MIN: 20,
-        MAX: 2000,
-        STRIP_HTML_MAX: 1000
-    },
-    BUTTON_LABEL: {
-        MIN: 1,
-        MAX: 30,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{1,}$/
-    },
-    TIME_DURATION_IN_SECONDS: {
-        MIN: 1,
-        MAX: 10,
-        STEP: 1
-    },
-    BUTTON_URL: {
-        MAX: 500,
-        PATTERN: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
-    },
-    VIDEO_URL: {
-        MAX: 500,
-        PATTERNS: {
-            YOUTUBE: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
-            VIMEO: /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/,
-            DAILYMOTION: /^(https?:\/\/)?(www\.)?dailymotion\.com\/.+$/,
-            GENERIC: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?$/
-        }
-    },
-
-    IMAGE_FILE: {
-        MAX_SIZE_MB: 2,
-        ALLOWED_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
-        MAX_DIMENSIONS: {
-            WIDTH: 1920,
-            HEIGHT: 1080
-        }
-    }
-};
 
 @Component({
     selector: 'app-form-news',
@@ -107,13 +81,12 @@ const VALIDATION_CONSTANTS = {
         ButtonModule,
         DialogModule,
         TagModule,
-        ToastModule
+        ToastModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class FormNewsComponent implements OnInit {
-
     private readonly imageStore = inject(ImageProcessingStore);
     private readonly destroyRef = inject(DestroyRef);
     private readonly cdr = inject(ChangeDetectorRef);
@@ -126,24 +99,30 @@ export class FormNewsComponent implements OnInit {
     private readonly sanitizer = inject(DomSanitizer);
     private readonly messageService = inject(MessageService);
 
-    public readonly VALIDATION = VALIDATION_CONSTANTS;
+    public readonly VALIDATION = FormValidators;
 
-    public categoriesOptions$: Observable<CategoryEntity[]> = this.newsFacade.getCategory();
+    public categoriesOptions$: Observable<CategoryEntity[]> =
+        this.newsFacade.getCategory();
     public isLoading$: Observable<boolean> = this.newsFacade.isLoading$;
     public selectedCategoryId$ = new BehaviorSubject<number | null>(null);
-    public subCategoriesOptions$: Observable<SubCategoryEntity[]> = this.selectedCategoryId$.pipe(
-        switchMap(categoryId => {
-            if (!categoryId) {
-                return of([]);
-            }
-            return this.categoriesOptions$.pipe(
-                map(categories => {
-                    const selectedCategory = categories.find(cat => cat.id === categoryId);
-                    return selectedCategory ? selectedCategory.subCategories : [];
-                })
-            );
-        })
-    );
+    public subCategoriesOptions$: Observable<SubCategoryEntity[]> =
+        this.selectedCategoryId$.pipe(
+            switchMap((categoryId) => {
+                if (!categoryId) {
+                    return of([]);
+                }
+                return this.categoriesOptions$.pipe(
+                    map((categories) => {
+                        const selectedCategory = categories.find(
+                            (cat) => cat.id === categoryId
+                        );
+                        return selectedCategory
+                            ? selectedCategory.subCategories
+                            : [];
+                    })
+                );
+            })
+        );
     public module = signal<string>('');
     public subModule = signal<string>('');
     public isEditMode = signal<boolean>(false);
@@ -167,22 +146,27 @@ export class FormNewsComponent implements OnInit {
 
     public currentType$ = new BehaviorSubject<TypeMediaDto>(TypeMediaDto.IMAGE);
     public isVideoType$ = this.currentType$.pipe(
-        map(type => type === TypeMediaDto.VIDEO)
+        map((type) => type === TypeMediaDto.VIDEO)
     );
     public TypeMediaDto = TypeMediaDto;
 
     public typeOptions = [
         { label: 'Image', value: TypeMediaDto.IMAGE },
-        { label: 'Video', value: TypeMediaDto.VIDEO }
+        { label: 'Video', value: TypeMediaDto.VIDEO },
     ];
 
-    public platformOptions: any[] = [
+    public plateformOptions: any[] = [
         { label: 'Web', value: 'web' },
         { label: 'Mobile', value: 'mobile' },
-        { label: 'PWA', value: 'pwa' }
+        { label: 'PWA', value: 'pwa' },
     ];
 
-    public availableHashtags: string[] = ['#Informatique', '#Actualité', '#Innovation', '#Technologie'];
+    public availableHashtags: string[] = [
+        '#Informatique',
+        '#Actualité',
+        '#Innovation',
+        '#Technologie',
+    ];
 
     ngOnInit(): void {
         this.initForm();
@@ -191,48 +175,61 @@ export class FormNewsComponent implements OnInit {
     }
 
     private initForm(): void {
-        this.form = this.fb.group({
-            title: ['', [
-                Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.TITLE.MIN),
-                Validators.maxLength(VALIDATION_CONSTANTS.TITLE.MAX),
-                Validators.pattern(VALIDATION_CONSTANTS.TITLE.PATTERN)
-            ]],
-            resume: ['', [
-                Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.RESUME.MIN),
-                Validators.maxLength(VALIDATION_CONSTANTS.RESUME.MAX),
-                Validators.pattern(VALIDATION_CONSTANTS.RESUME.PATTERN)
-            ]],
-            content: ['', [
-                Validators.required,
-                Validators.minLength(VALIDATION_CONSTANTS.CONTENT.MIN),
-                this.htmlContentMaxLengthValidator(VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX)
-            ]],
-            type: [TypeMediaDto.IMAGE, Validators.required],
-            videoUrl: [''],
-            imageFile: [null, [Validators.required]],
+        this.form = this.fb.group(
+            {
+                title: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(FormValidators.TITLE.MIN),
+                        Validators.maxLength(FormValidators.TITLE.MAX),
+                        Validators.pattern(FormValidators.TITLE.PATTERN),
+                    ],
+                ],
+                resume: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(FormValidators.RESUME.MIN),
+                        Validators.maxLength(FormValidators.RESUME.MAX),
+                        Validators.pattern(FormValidators.RESUME.PATTERN),
+                    ],
+                ],
+                content: [
+                    '',
+                    [
+                        Validators.required,
+                        Validators.minLength(FormValidators.CONTENT.MIN),
+                        this.htmlContentMaxLengthValidator(
+                            FormValidators.CONTENT.STRIP_HTML_MAX
+                        ),
+                    ],
+                ],
+                type: [TypeMediaDto.IMAGE, Validators.required],
+                videoUrl: [''],
+                imageFile: [null, [Validators.required]],
 
-            categoryId: [null, Validators.required],
-            subCategoryId: [null],
-            hashtags: this.fb.array<string>([]),
-        }, { validators: this.buttonFieldsConsistencyValidator() });
+                categoryId: [null, Validators.required],
+                subCategoryId: [null],
+                hashtags: this.fb.array<string>([]),
+            },
+            { validators: this.buttonFieldsConsistencyValidator() }
+        );
 
         this.currentType$.next(TypeMediaDto.IMAGE);
         this.setupFormListeners();
     }
 
     public getFileSizeStatus(fileSize: number): string {
-        const maxSize = VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
+        const maxSize = FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
         const sizeInMB = fileSize / 1024 / 1024;
 
-        if (sizeInMB > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
-            return `⚠️ ${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
+        if (sizeInMB > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
+            return `⚠️ ${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
         }
 
-        return `${sizeInMB.toFixed(2)}/${VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB} MB`;
+        return `${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB`;
     }
-
 
     private htmlContentMaxLengthValidator(maxLength: number): any {
         return (control: any) => {
@@ -246,8 +243,8 @@ export class FormNewsComponent implements OnInit {
                 return {
                     htmlMaxLength: {
                         actual: strippedText.length,
-                        maxAllowed: maxLength
-                    }
+                        maxAllowed: maxLength,
+                    },
                 };
             }
 
@@ -256,7 +253,9 @@ export class FormNewsComponent implements OnInit {
     }
 
     public get allowedImageTypes(): string {
-        return VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.map(t => t.split('/')[1].toUpperCase()).join(', ');
+        return FormValidators.IMAGE_FILE.ALLOWED_TYPES.map((t) =>
+            t.split('/')[1].toUpperCase()
+        ).join(', ');
     }
 
     private buttonFieldsConsistencyValidator(): any {
@@ -264,11 +263,19 @@ export class FormNewsComponent implements OnInit {
             const buttonLabel = group.get('buttonLabel')?.value;
             const buttonUrl = group.get('buttonUrl')?.value;
 
-            if (buttonLabel && buttonLabel.trim() && (!buttonUrl || !buttonUrl.trim())) {
+            if (
+                buttonLabel &&
+                buttonLabel.trim() &&
+                (!buttonUrl || !buttonUrl.trim())
+            ) {
                 return { buttonLabelWithoutUrl: true };
             }
 
-            if (buttonUrl && buttonUrl.trim() && (!buttonLabel || !buttonLabel.trim())) {
+            if (
+                buttonUrl &&
+                buttonUrl.trim() &&
+                (!buttonLabel || !buttonLabel.trim())
+            ) {
                 return { buttonUrlWithoutLabel: true };
             }
 
@@ -283,7 +290,7 @@ export class FormNewsComponent implements OnInit {
 
     public getContentCountStatus(): 'safe' | 'warning' | 'danger' {
         const count = this.getContentCharacterCount();
-        const max = VALIDATION_CONSTANTS.CONTENT.STRIP_HTML_MAX;
+        const max = FormValidators.CONTENT.STRIP_HTML_MAX;
 
         if (count > max * 0.9) return 'danger';
         if (count > max * 0.7) return 'warning';
@@ -313,7 +320,9 @@ export class FormNewsComponent implements OnInit {
         }
 
         if (errors['pattern']) {
-            return this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.INVALID_FORMAT');
+            return this.translate.instant(
+                'CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.INVALID_FORMAT'
+            );
         }
 
         if (errors['htmlMaxLength']) {
@@ -321,11 +330,15 @@ export class FormNewsComponent implements OnInit {
         }
 
         if (errors['buttonLabelWithoutUrl']) {
-            return this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL');
+            return this.translate.instant(
+                'CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL'
+            );
         }
 
         if (errors['buttonUrlWithoutLabel']) {
-            return this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL');
+            return this.translate.instant(
+                'CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL'
+            );
         }
 
         if (fieldName === 'videoUrl') {
@@ -346,57 +359,74 @@ export class FormNewsComponent implements OnInit {
             }
             if (errors['fileTooLarge']) {
                 return this.translate.instant('VALIDATION.FILE_TOO_LARGE', {
-                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB
+                    maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB,
                 });
             }
             if (errors['imageDimensions']) {
-                return this.translate.instant('VALIDATION.IMAGE_DIMENSIONS_TOO_LARGE', {
-                    maxWidth: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
-                    maxHeight: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
-                });
+                return this.translate.instant(
+                    'VALIDATION.IMAGE_DIMENSIONS_TOO_LARGE',
+                    {
+                        maxWidth:
+                            FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
+                        maxHeight:
+                            FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT,
+                    }
+                );
             }
         }
 
-
-        return this.translate.instant('CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.INVALID_INPUT');
+        return this.translate.instant(
+            'CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.INVALID_INPUT'
+        );
     }
 
     private setupFormListeners(): void {
-        this.form.get('type')?.valueChanges.pipe(
-            distinctUntilChanged(),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe((type: TypeMediaDto) => {
-            this.currentType$.next(type);
-            this.updateMediaFieldsBasedOnType(type);
-        });
+        this.form
+            .get('type')
+            ?.valueChanges.pipe(
+                distinctUntilChanged(),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe((type: TypeMediaDto) => {
+                this.currentType$.next(type);
+                this.updateMediaFieldsBasedOnType(type);
+            });
 
-        this.form.get('categoryId')?.valueChanges.pipe(
-            distinctUntilChanged(),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe((categoryId: number | null) => {
-            if (this.form.get('subCategoryId')?.value) {
-                this.form.get('subCategoryId')?.setValue(null, { emitEvent: false });
-            }
-            this.selectedCategoryId$.next(categoryId);
-        });
+        this.form
+            .get('categoryId')
+            ?.valueChanges.pipe(
+                distinctUntilChanged(),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe((categoryId: number | null) => {
+                if (this.form.get('subCategoryId')?.value) {
+                    this.form
+                        .get('subCategoryId')
+                        ?.setValue(null, { emitEvent: false });
+                }
+                this.selectedCategoryId$.next(categoryId);
+            });
 
-        this.form.get('videoUrl')?.valueChanges.pipe(
-            distinctUntilChanged(),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe((url: string) => {
-            if (url && this.currentType$.value === TypeMediaDto.VIDEO) {
-                this.validateVideoUrl(url);
-            }
-        });
+        this.form
+            .get('videoUrl')
+            ?.valueChanges.pipe(
+                distinctUntilChanged(),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe((url: string) => {
+                if (url && this.currentType$.value === TypeMediaDto.VIDEO) {
+                    this.validateVideoUrl(url);
+                }
+            });
 
         combineLatest([
             this.form.statusChanges.pipe(startWith(this.form.status)),
-            this.form.valueChanges.pipe(startWith(this.form.value))
-        ]).pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe(() => {
-            this.cdr.markForCheck();
-        });
+            this.form.valueChanges.pipe(startWith(this.form.value)),
+        ])
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => {
+                this.cdr.markForCheck();
+            });
     }
 
     private updateMediaFieldsBasedOnType(type: TypeMediaDto): void {
@@ -433,7 +463,8 @@ export class FormNewsComponent implements OnInit {
     private validateVideoUrl(url: string): void {
         if (!url.trim()) return;
 
-        const urlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
+        const urlPattern =
+            /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
 
         if (!urlPattern.test(url)) {
             this.form.get('videoUrl')?.setErrors({ invalidVideoUrl: true });
@@ -443,24 +474,28 @@ export class FormNewsComponent implements OnInit {
     private validateImageFile(file: File): void {
         const imageControl = this.form.get('imageFile');
 
-        if (!VALIDATION_CONSTANTS.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
+        if (!FormValidators.IMAGE_FILE.ALLOWED_TYPES.includes(file.type)) {
             imageControl?.setErrors({ invalidImageType: true });
             return;
         }
 
-        if (file.size > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
+        if (file.size > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
             imageControl?.setErrors({
                 fileTooLarge: {
-                    maxSize: VALIDATION_CONSTANTS.IMAGE_FILE.MAX_SIZE_MB,
-                    actualSize: file.size
-                }
+                    maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB,
+                    actualSize: file.size,
+                },
             });
             return;
         }
 
-        this.checkImageDimensions(file).then(dimensions => {
-            if (dimensions.width > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
-                dimensions.height > VALIDATION_CONSTANTS.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT) {
+        this.checkImageDimensions(file).then((dimensions) => {
+            if (
+                dimensions.width >
+                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                dimensions.height >
+                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+            ) {
                 imageControl?.setErrors({ imageDimensions: true });
             }
         });
@@ -476,7 +511,9 @@ export class FormNewsComponent implements OnInit {
         this.cdr.markForCheck();
     }
 
-    private checkImageDimensions(file: File): Promise<{ width: number, height: number }> {
+    private checkImageDimensions(
+        file: File
+    ): Promise<{ width: number; height: number }> {
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = () => {
@@ -488,16 +525,22 @@ export class FormNewsComponent implements OnInit {
 
     private setupRouteData(): void {
         this.pageTitle$ = this.route.data.pipe(
-            map(data => data['title'] || 'CONTENT_MANAGEMENT.NEWS.LABEL')
+            map((data) => data['title'] || 'CONTENT_MANAGEMENT.NEWS.LABEL')
         );
 
-        this.route.data.pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe(data => {
-            this.module.set(data['module'] || 'CONTENT_MANAGEMENT.LABEL');
-            this.subModule.set(data['subModule'] || 'CONTENT_MANAGEMENT.NEWS.TITLE');
-            this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
-        });
+        this.route.data
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((data) => {
+                this.module.set(data['module'] || 'CONTENT_MANAGEMENT.LABEL');
+                this.subModule.set(
+                    data['subModule'] || 'CONTENT_MANAGEMENT.NEWS.TITLE'
+                );
+                this.titleService.setTitle(
+                    data['title']
+                        ? this.translate.instant(data['title'])
+                        : 'CMZ'
+                );
+            });
     }
 
     private checkEditMode(): void {
@@ -510,13 +553,14 @@ export class FormNewsComponent implements OnInit {
     }
 
     private loadNewsForEdit(id: string): void {
-        this.newsFacade.getNewsById(id).pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe({
-            next: (item) => {
-                this.patchForm(item);
-            }
-        });
+        this.newsFacade
+            .getNewsById(id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (item) => {
+                    this.patchForm(item);
+                },
+            });
     }
 
     private patchForm(item: GetNewsByIdEntity): void {
@@ -529,14 +573,14 @@ export class FormNewsComponent implements OnInit {
             imageFile: item.imageFile || null,
             categoryId: item.categoryId || null,
             subCategoryId: item.subCategoryId || null,
-            hashtags: item.hashtags || []
+            hashtags: item.hashtags || [],
         };
 
         if (item.hashtags && Array.isArray(item.hashtags)) {
             while (this.hashtagsArray.length) {
                 this.hashtagsArray.removeAt(0);
             }
-            item.hashtags.forEach(hashtag => {
+            item.hashtags.forEach((hashtag) => {
                 this.onHashtagAdded(hashtag);
             });
         }
@@ -601,7 +645,7 @@ export class FormNewsComponent implements OnInit {
             severity: 'success',
             summary: 'Image optimisée',
             detail: `Réduction de ${compression}%`,
-            life: 3000
+            life: 3000,
         });
     }
 
@@ -611,7 +655,7 @@ export class FormNewsComponent implements OnInit {
             severity: 'error',
             summary: 'Erreur de traitement',
             detail: error.message,
-            life: 5000
+            life: 5000,
         });
     }
 
@@ -632,7 +676,9 @@ export class FormNewsComponent implements OnInit {
         } else if (type === 'video') {
             const videoUrl = this.form.get('videoUrl')?.value;
             if (videoUrl) {
-                this.previewContent.set(this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl));
+                this.previewContent.set(
+                    this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl)
+                );
             }
         }
 
@@ -654,7 +700,7 @@ export class FormNewsComponent implements OnInit {
             }
 
             const values = array.value as string[];
-            const uniqueValues = new Set(values.map(v => v.toLowerCase()));
+            const uniqueValues = new Set(values.map((v) => v.toLowerCase()));
 
             if (uniqueValues.size !== values.length) {
                 return { duplicateHashtags: true };
@@ -676,8 +722,9 @@ export class FormNewsComponent implements OnInit {
         if (!value?.trim()) return;
         const formattedValue = value.startsWith('#') ? value : `#${value}`;
 
-        this.hashtagsArray.push(this.fb.control(formattedValue, [
-            Validators.required]));
+        this.hashtagsArray.push(
+            this.fb.control(formattedValue, [Validators.required])
+        );
 
         this.cdr.markForCheck();
     }
@@ -703,18 +750,19 @@ export class FormNewsComponent implements OnInit {
 
         const formData = this.prepareSubmitData();
 
-        const submitObservable = this.isEditMode() && this.currentId()
-            ? this.newsFacade.updateNews(this.currentId()!, formData)
-            : this.newsFacade.createNews(formData);
+        const submitObservable =
+            this.isEditMode() && this.currentId()
+                ? this.newsFacade.updateNews(this.currentId()!, formData)
+                : this.newsFacade.createNews(formData);
 
-        submitObservable.pipe(
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe({
+        submitObservable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: () => {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Succès',
-                    detail: this.isEditMode() ? 'News mise à jour avec succès' : 'News créée avec succès'
+                    detail: this.isEditMode()
+                        ? 'News mise à jour avec succès'
+                        : 'News créée avec succès',
                 });
                 this.onCancel();
             },
@@ -723,9 +771,9 @@ export class FormNewsComponent implements OnInit {
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Erreur',
-                    detail: 'Une erreur est survenue lors de la sauvegarde'
+                    detail: 'Une erreur est survenue lors de la sauvegarde',
                 });
-            }
+            },
         });
     }
 
@@ -742,16 +790,22 @@ export class FormNewsComponent implements OnInit {
             errors.push('Contenu: ' + this.getErrorMessage('content'));
         }
         if (this.form.get('buttonLabel')?.invalid) {
-            errors.push('Label du bouton: ' + this.getErrorMessage('buttonLabel'));
+            errors.push(
+                'Label du bouton: ' + this.getErrorMessage('buttonLabel')
+            );
         }
         if (this.form.get('buttonUrl')?.invalid) {
             errors.push('URL du bouton: ' + this.getErrorMessage('buttonUrl'));
         }
         if (this.form.errors?.['buttonLabelWithoutUrl']) {
-            errors.push(this.translate.instant('VALIDATION.BUTTON_LABEL_WITHOUT_URL'));
+            errors.push(
+                this.translate.instant('VALIDATION.BUTTON_LABEL_WITHOUT_URL')
+            );
         }
         if (this.form.errors?.['buttonUrlWithoutLabel']) {
-            errors.push(this.translate.instant('VALIDATION.BUTTON_URL_WITHOUT_LABEL'));
+            errors.push(
+                this.translate.instant('VALIDATION.BUTTON_URL_WITHOUT_LABEL')
+            );
         }
 
         if (errors.length > 0) {
@@ -759,7 +813,7 @@ export class FormNewsComponent implements OnInit {
                 severity: 'error',
                 summary: 'Erreurs de validation',
                 detail: errors.join('\n'),
-                life: 5000
+                life: 5000,
             });
         }
     }
@@ -778,7 +832,10 @@ export class FormNewsComponent implements OnInit {
             formData.append('sub_category_id', values.subCategoryId.toString());
         }
 
-        formData.append('hashtags', JSON.stringify(this.hashtagsArray.value || []));
+        formData.append(
+            'hashtags',
+            JSON.stringify(this.hashtagsArray.value || [])
+        );
 
         if (values.type === TypeMediaDto.VIDEO && values.videoUrl) {
             formData.append('video_url', values.videoUrl);

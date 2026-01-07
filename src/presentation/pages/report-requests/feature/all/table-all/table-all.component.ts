@@ -226,5 +226,3 @@ type OperatorTagStyle = {
     backgroundColor: OperatorTagSeverity;
     color: operatorTextStyle;
 };
-
-

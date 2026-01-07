@@ -1,11 +1,7 @@
 <main class="container-fluid profile-habilitation-container" role="main">
     <section class="row profile-habilitation-row">
         <article class="col-sm-12 profile-habilitation-article">
-            <app-breadcrumb
-                class="profile-habilitation-breadcrumb"
-                [title]="module | translate"
-                [active_item]="subModule | translate"
-            ></app-breadcrumb>
+            <app-breadcrumb />
 
             <section class="card profile-habilitation-card">
                 <div class="card-body profile-habilitation-card-body">
@@ -34,7 +30,8 @@
                         <section
                             class="table-section"
                             [aria-label]="
-                                'COMMUNICATION.PROFILE_HABILITATION.TITLE' | translate
+                                'COMMUNICATION.PROFILE_HABILITATION.TITLE'
+                                    | translate
                             "
                         >
                             <app-table-profile-habilitation

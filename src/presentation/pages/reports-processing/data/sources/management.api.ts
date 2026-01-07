@@ -14,7 +14,7 @@ export class ManagementApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
     fetchTake(
         payload: ManagementRequestDto,

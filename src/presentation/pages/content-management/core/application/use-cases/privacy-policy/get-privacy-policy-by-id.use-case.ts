@@ -7,7 +7,7 @@ import { GetPrivacyPolicyByIdEntity } from '../../../domain/entities/get-privacy
     providedIn: 'root',
 })
 export class GetPrivacyPolicyByIdUseCase {
-    constructor(private readonly repository: PrivacyPolicyRepository) { }
+    constructor(private readonly repository: PrivacyPolicyRepository) {}
 
     execute(id: string): Observable<GetPrivacyPolicyByIdEntity> {
         return this.repository.getPrivacyPolicyById(id);

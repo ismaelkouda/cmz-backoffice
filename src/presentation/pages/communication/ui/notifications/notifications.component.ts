@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -18,7 +18,6 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { Subject } from 'rxjs';
 import { NotificationsFilterPayloadEntity } from '../../domain/entities/notifications-filter-payload.entity';
 import { NotificationsEntity } from '../../domain/entities/notifications.entity';
-import { NotificationsFilterComponent } from '../../feature/notifications-filter/notifications-filter.component';
 import { NotificationsTableComponent } from '../../feature/notifications-table/notifications-table.component';
 
 @Component({
@@ -34,8 +33,6 @@ import { NotificationsTableComponent } from '../../feature/notifications-table/n
         PaginationComponent,
         TranslateModule,
         NotificationsTableComponent,
-        NotificationsFilterComponent,
-        AsyncPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -45,7 +42,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private readonly translate = inject(TranslateService);
     private readonly notificationsFacade = inject(NotificationsFacade);
     public module: string = this.translate.instant('COMMUNICATION.LABEL');
-    public subModule: string = this.translate.instant('COMMUNICATION.NOTIFICATIONS.LABEL');
+    public subModule: string = this.translate.instant(
+        'COMMUNICATION.NOTIFICATIONS.LABEL'
+    );
     public notifications$ = this.notificationsFacade.notifications$;
     public pagination$ = this.notificationsFacade.pagination$;
     public loading$ = this.notificationsFacade.isLoading$;
@@ -64,7 +63,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     private setupMeta(): void {
-        this.title.setTitle(this.translate.instant('COMMUNICATION.NOTIFICATIONS.TITLE'));
+        this.title.setTitle(
+            this.translate.instant('COMMUNICATION.NOTIFICATIONS.TITLE')
+        );
     }
 
     public filter(filterData: NotificationsFilterPayloadEntity): void {
@@ -76,11 +77,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.notificationsFacade.changePage(event + 1);
     }
 
-    public onReadOneClicked(item: NotificationsEntity): void {
-    }
+    public onReadOneClicked(item: NotificationsEntity): void { }
 
-    public onReadAllClicked(): void {
-    }
+    public onReadAllClicked(): void { }
 
     public onRefreshClicked(): void {
         this.notificationsFacade.refresh();

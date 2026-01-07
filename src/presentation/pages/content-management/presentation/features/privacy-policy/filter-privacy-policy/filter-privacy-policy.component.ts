@@ -70,7 +70,10 @@ export class FilterPrivacyPolicyComponent implements OnInit, OnDestroy {
     private initOptions(): void {
         this.isPublishedOptions = [
             { label: this.translate.instant('COMMON.PUBLISHED'), value: true },
-            { label: this.translate.instant('COMMON.UNPUBLISHED'), value: false }
+            {
+                label: this.translate.instant('COMMON.UNPUBLISHED'),
+                value: false,
+            },
         ];
     }
 
@@ -82,18 +85,23 @@ export class FilterPrivacyPolicyComponent implements OnInit, OnDestroy {
                 version: new FormControl<string | null>(null, {
                     validators: [
                         semanticVersionValidator(),
-                        Validators.pattern(/^\d+(\.\d+){0,2}$/)
+                        Validators.pattern(/^\d+(\.\d+){0,2}$/),
                     ],
-                    nonNullable: false
+                    nonNullable: false,
                 }),
                 search: new FormControl<string>('', { nonNullable: true }),
-                isPublished: new FormControl<boolean | null>(null, { nonNullable: false }),
+                isPublished: new FormControl<boolean | null>(null, {
+                    nonNullable: false,
+                }),
             });
         }
 
         this.privacyPolicyFacade.currentFilter$
             .pipe(
-                distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
+                distinctUntilChanged(
+                    (prev, curr) =>
+                        JSON.stringify(prev) === JSON.stringify(curr)
+                ),
                 takeUntil(this.destroy$)
             )
             .subscribe((filterValue) => {
@@ -101,7 +109,10 @@ export class FilterPrivacyPolicyComponent implements OnInit, OnDestroy {
                     return;
                 }
 
-                const dto = typeof filterValue?.toDto === 'function' ? filterValue.toDto() : {};
+                const dto =
+                    typeof filterValue?.toDto === 'function'
+                        ? filterValue.toDto()
+                        : {};
 
                 this.formFilter.patchValue(
                     {
@@ -128,14 +139,17 @@ export class FilterPrivacyPolicyComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const INVALID_DATE_RANGE = this.translate.instant('INVALID_DATE_RANGE');
+                const INVALID_DATE_RANGE =
+                    this.translate.instant('INVALID_DATE_RANGE');
                 this.toastService.error(INVALID_DATE_RANGE);
                 return;
             }
         }
 
         const filterData: PrivacyPolicyFilterPayloadEntity = {
-            startDate: startDate.isValid() ? startDate.format('YYYY-MM-DD') : '',
+            startDate: startDate.isValid()
+                ? startDate.format('YYYY-MM-DD')
+                : '',
             endDate: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
             version: this.formFilter.get('version')?.value ?? '',
             search: this.formFilter.get('search')?.value ?? '',

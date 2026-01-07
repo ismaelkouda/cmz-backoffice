@@ -93,7 +93,7 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
         private readonly fb: FormBuilder,
         private readonly translate: TranslateService,
         private readonly treatmentFacade: TreatmentFacade
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.initFormFilter();

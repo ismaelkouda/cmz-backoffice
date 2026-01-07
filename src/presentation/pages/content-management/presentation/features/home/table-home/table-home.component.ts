@@ -52,7 +52,7 @@ import { HomeActionDropdownComponent } from './home-action-dropdown/home-action-
         SearchTableComponent,
         TableTitleComponent,
         SkeletonModule,
-        HomeActionDropdownComponent
+        HomeActionDropdownComponent,
     ],
 })
 export class TableHomeComponent implements OnDestroy {
@@ -176,7 +176,9 @@ export class TableHomeComponent implements OnDestroy {
                 ? normalized
                 : `${normalized}Z`;
             const date = new Date(withTimezone);
-            return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
+            return Number.isNaN(date.getTime())
+                ? value
+                : date.toLocaleDateString();
         } catch {
             return value;
         }

@@ -1,4 +1,4 @@
-import { UsersFilterPayloadEntity } from "../entities/users/users-filter-payload.entity";
+import { UsersFilterPayloadEntity } from '../entities/users/users-filter-payload.entity';
 
 export class UserFilter {
     private constructor(
@@ -6,9 +6,11 @@ export class UserFilter {
         private readonly status?: string,
         private readonly matricule?: string,
         private readonly search?: string
-    ) { }
+    ) {}
 
-    static create(data: UsersFilterPayloadEntity = {} as UsersFilterPayloadEntity): UserFilter {
+    static create(
+        data: UsersFilterPayloadEntity = {} as UsersFilterPayloadEntity
+    ): UserFilter {
         return new UserFilter(
             data.userProfile,
             data.status,

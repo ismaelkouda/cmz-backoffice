@@ -15,7 +15,7 @@ export class ActionsApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
     fetchActions(
         payload: ActionsRequestDto,

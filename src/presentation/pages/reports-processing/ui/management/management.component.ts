@@ -7,7 +7,7 @@ import {
     input,
     OnDestroy,
     OnInit,
-    Output
+    Output,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -33,7 +33,10 @@ import { TasksFacade as processingTasksFacade } from '@presentation/pages/report
 import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { PriorityLevelDto } from '@shared/data/dtos/priority-level.dto';
-import { PriorityLevel, PriorityLevelLabel } from '@shared/domain/enums/priority-level.enum';
+import {
+    PriorityLevel,
+    PriorityLevelLabel,
+} from '@shared/domain/enums/priority-level.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
@@ -68,7 +71,6 @@ type TreaterTimestampKey =
     | 'finalizedAt';
 
 type CategoryKey = 'information' | 'photos' | 'geographicView';
-
 
 interface WorkflowStep {
     key: TreaterTimestampKey;
@@ -199,7 +201,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         this.initializeComponent();
         this.getUrlParams();
         this.subscribeToData();
-        this.details$.subscribe(details => {
+        this.details$.subscribe((details) => {
             if (details) {
                 this.updateWorkflowTimestamps(details);
                 this.getCategories(details);
@@ -253,10 +255,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 return { ...step, timestamp };
             }
 
-            if (
-                step.key === 'approvedAt' &&
-                step.key1
-            ) {
+            if (step.key === 'approvedAt' && step.key1) {
                 switch (details.status) {
                     case ReportStatus.APPROVED:
                         timestamp = treater[step.key];
@@ -276,11 +275,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                             }
                         }
                 }
-            } else if (
-                step.key === 'confirmedAt' &&
-                step.key1 &&
-                step.key2
-            ) {
+            } else if (step.key === 'confirmedAt' && step.key1 && step.key2) {
                 switch (details.status) {
                     case ReportStatus.CONFIRM:
                         timestamp = treater[step.key];
@@ -306,7 +301,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
             } else {
                 timestamp = treater[step.key];
             }
-
 
             return { ...step, timestamp };
         });
@@ -370,15 +364,15 @@ export class ManagementComponent implements OnInit, OnDestroy {
             const reasonControl = this.formTreatment.get('reason');
             const commentControl = this.formTreatment.get('comment');
             if (details.canBeApproved) {
-                decisionControl?.setValidators([
-                    Validators.required,
-                ]);
+                decisionControl?.setValidators([Validators.required]);
                 decisionControl?.valueChanges
                     .pipe(takeUntil(this.destroy$))
                     .subscribe((decision) => {
                         if (decision === 'rejected') {
                             reasonControl?.setValidators([Validators.required]);
-                            commentControl?.setValidators([Validators.required]);
+                            commentControl?.setValidators([
+                                Validators.required,
+                            ]);
                         } else {
                             reasonControl?.clearValidators();
                             commentControl?.clearValidators();
@@ -387,9 +381,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         commentControl?.updateValueAndValidity();
                     });
             } else if (details.canBeTreated || details.canBeFinalized) {
-                commentControl?.setValidators([
-                    Validators.required,
-                ]);
+                commentControl?.setValidators([Validators.required]);
             } else {
                 decisionControl?.clearValidators();
                 reasonControl?.clearValidators();
@@ -398,8 +390,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         }
     }
 
-    public navigateToStep(step: WorkflowStep): void {
-    }
+    public navigateToStep(step: WorkflowStep): void {}
 
     public getStepIcon(step: WorkflowStep): string {
         const iconMap: Record<string, string> = {
@@ -435,7 +426,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     public getPriorityText(priority: PriorityLevelDto): PriorityLevelLabel {
-        return (PriorityLevel as Record<PriorityLevelDto, PriorityLevelLabel>)[priority];
+        return (PriorityLevel as Record<PriorityLevelDto, PriorityLevelLabel>)[
+            priority
+        ];
     }
 
     public hasTabNotifications(categoryKey: string): boolean {
@@ -570,7 +563,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
             any
         >
     ): () => Observable<ManagementEntity> {
-        const actionMap: Record<ManagementAction, () => Observable<ManagementEntity>> = {
+        const actionMap: Record<
+            ManagementAction,
+            () => Observable<ManagementEntity>
+        > = {
             take: () =>
                 this.managementFacade.take(credentials, this.endPointType),
             approve: () => {

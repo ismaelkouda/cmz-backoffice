@@ -1,5 +1,5 @@
-import { MediaStatusDto } from "@shared/data/dtos/media-status.dto";
-import { Plateform } from "@shared/domain/enums/plateform.enum";
+import { MediaStatusDto } from '@shared/data/dtos/media-status.dto';
+import { Plateform } from '@shared/domain/enums/plateform.enum';
 
 export interface HomeRequestDto {
     startDate?: string;

@@ -89,9 +89,7 @@ export class TeamApi {
         }>(url);
     }
 
-    getFreeParticipants(
-        role: string
-    ): Observable<{
+    getFreeParticipants(role: string): Observable<{
         error: boolean;
         message: string;
         data: ParticipantLibreDto[];

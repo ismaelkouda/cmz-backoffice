@@ -24,4 +24,4 @@ export interface ActionsItemDto {
 }
 
 export interface ActionsResponseDto
-    extends PaginatedResponseDto<ActionsItemDto> { }
+    extends PaginatedResponseDto<ActionsItemDto> {}

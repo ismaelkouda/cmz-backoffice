@@ -1,5 +1,11 @@
 import { Location } from '@angular/common';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    OnDestroy,
+    OnInit,
+    Output,
+} from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -51,7 +57,7 @@ export class DetailsManagedCustomersComponent implements OnInit, OnDestroy {
         private router: Router,
         private location: Location,
         private detailsManagedCustomersApiService: ManagedCustomersApiService
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.initializeState();

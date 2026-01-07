@@ -1,5 +1,5 @@
-import { SlideRequestDto } from "@presentation/pages/content-management/core/application/dtos/slide/slide-request.dto";
-import { MediaStatusDto } from "@shared/data/dtos/media-status.dto";
+import { SlideRequestDto } from '@presentation/pages/content-management/core/application/dtos/slide/slide-request.dto';
+import { MediaStatusDto } from '@shared/data/dtos/media-status.dto';
 
 export class SlideFilter {
     private constructor(
@@ -8,7 +8,7 @@ export class SlideFilter {
         private readonly plateforms?: Array<string>,
         private readonly search?: string,
         private readonly status?: MediaStatusDto
-    ) { }
+    ) {}
 
     static create(data: SlideRequestDto = {} as SlideRequestDto): SlideFilter {
         return new SlideFilter(
@@ -23,8 +23,7 @@ export class SlideFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.startDate)
-            params['start_date'] = this.startDate;
+        if (this.startDate) params['start_date'] = this.startDate;
         if (this.endDate) params['end_date'] = this.endDate;
         if (this.plateforms) params['plateforms'] = this.plateforms;
         if (this.search) params['search'] = this.search;

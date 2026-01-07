@@ -39,7 +39,7 @@ export const PRIVACY_POLICY_TABLE_CONST = {
             header: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.TABLE.ACTION',
             class: 'text-center',
             width: '6rem',
-        }
+        },
     ],
     globalFilterFields: [
         'uniqId',

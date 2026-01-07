@@ -6,10 +6,7 @@ import { UserItemDto } from '../dtos/user-response.dto';
 @Injectable({
     providedIn: 'root',
 })
-export class UserMapper extends PaginatedMapper<
-    UsersEntity,
-    UserItemDto
-> {
+export class UserMapper extends PaginatedMapper<UsersEntity, UserItemDto> {
     protected override mapItemFromDto(dto: UserItemDto): UsersEntity {
         return new UsersEntity(
             dto.id,
@@ -21,7 +18,7 @@ export class UserMapper extends PaginatedMapper<
             dto.profile,
             dto.status,
             dto.created_at,
-            dto.updated_at,
+            dto.updated_at
         );
     }
 }

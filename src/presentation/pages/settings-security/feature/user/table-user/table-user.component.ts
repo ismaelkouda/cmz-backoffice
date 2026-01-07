@@ -92,8 +92,8 @@ export class TableUserComponent {
     public readonly tableConfig: TableConfig = USER_TABLE_CONST;
 
     constructor(
-        private readonly tableExportExcelFileService: TableExportExcelFileService,
-    ) { }
+        private readonly tableExportExcelFileService: TableExportExcelFileService
+    ) {}
 
     private _subscribeToData(): void {
         this._users$

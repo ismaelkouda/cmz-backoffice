@@ -1,7 +1,7 @@
 import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
-export interface PrivacyPolicyResponseDto extends PaginatedResponseDto<PrivacyPolicyItemDto> { }
-
+export interface PrivacyPolicyResponseDto
+    extends PaginatedResponseDto<PrivacyPolicyItemDto> {}
 
 export interface PrivacyPolicyItemDto {
     id: string;

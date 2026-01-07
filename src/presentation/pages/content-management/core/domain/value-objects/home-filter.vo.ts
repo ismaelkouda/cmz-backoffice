@@ -1,5 +1,5 @@
-import { HomeRequestDto } from "@presentation/pages/content-management/core/application/dtos/home/home-request.dto";
-import { MediaStatusDto } from "@shared/data/dtos/media-status.dto";
+import { HomeRequestDto } from '@presentation/pages/content-management/core/application/dtos/home/home-request.dto';
+import { MediaStatusDto } from '@shared/data/dtos/media-status.dto';
 
 export class HomeFilter {
     private constructor(
@@ -8,7 +8,7 @@ export class HomeFilter {
         private readonly plateforms?: Array<string>,
         private readonly search?: string,
         private readonly status?: MediaStatusDto
-    ) { }
+    ) {}
 
     static create(data: HomeRequestDto = {} as HomeRequestDto): HomeFilter {
         return new HomeFilter(
@@ -23,8 +23,7 @@ export class HomeFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.startDate)
-            params['start_date'] = this.startDate;
+        if (this.startDate) params['start_date'] = this.startDate;
         if (this.endDate) params['end_date'] = this.endDate;
         if (this.plateforms) params['plateforms'] = this.plateforms;
         if (this.search) params['search'] = this.search;

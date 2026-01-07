@@ -1,15 +1,19 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
+    ChangeDetectionStrategy,
+    Component,
+    OnDestroy,
+    OnInit,
+    inject,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CREATE_ROUTE, EDIT_ROUTE, VIEW_ROUTE } from '@presentation/pages/content-management/content-management.routes';
+import {
+    CREATE_ROUTE,
+    EDIT_ROUTE,
+    VIEW_ROUTE,
+} from '@presentation/pages/content-management/content-management.routes';
 import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
 import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 import { HomeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/home/home-filter-payload.entity';
@@ -23,91 +27,102 @@ import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  imports: [
-    CommonModule,
-    BreadcrumbComponent,
-    FilterHomeComponent,
-    TableHomeComponent,
-    PageTitleComponent,
-    PaginationComponent,
-    TranslateModule,
-    AsyncPipe,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-home',
+    standalone: true,
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    imports: [
+        CommonModule,
+        BreadcrumbComponent,
+        FilterHomeComponent,
+        TableHomeComponent,
+        PageTitleComponent,
+        PaginationComponent,
+        TranslateModule,
+        AsyncPipe,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private readonly title = inject(Title);
-  private readonly router = inject(Router);
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly translate = inject(TranslateService);
-  private readonly homeFacade = inject(HomeFacade);
-  public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');
-  public subModule: string = this.translate.instant('CONTENT_MANAGEMENT.HOME.LABEL');
-  public home$: Observable<HomeEntity[]> = this.homeFacade.home$;
-  public pagination$: Observable<Paginate<HomeEntity>> = this.homeFacade.pagination$;
-  public loading$: Observable<boolean> = this.homeFacade.isLoading$;
-  private readonly destroy$ = new Subject<void>();
+    private readonly title = inject(Title);
+    private readonly router = inject(Router);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly translate = inject(TranslateService);
+    private readonly homeFacade = inject(HomeFacade);
+    public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');
+    public subModule: string = this.translate.instant(
+        'CONTENT_MANAGEMENT.HOME.LABEL'
+    );
+    public home$: Observable<HomeEntity[]> = this.homeFacade.home$;
+    public pagination$: Observable<Paginate<HomeEntity>> =
+        this.homeFacade.pagination$;
+    public loading$: Observable<boolean> = this.homeFacade.isLoading$;
+    private readonly destroy$ = new Subject<void>();
 
-  ngOnInit(): void {
-    this.setupMeta();
-    this.loadData();
-  }
+    ngOnInit(): void {
+        this.setupMeta();
+        this.loadData();
+    }
 
-  private loadData(): void {
-    const defaultFilter = HomeFilter.create();
-    this.homeFacade.fetchHome(defaultFilter, '1', false);
-  }
+    private loadData(): void {
+        const defaultFilter = HomeFilter.create();
+        this.homeFacade.fetchHome(defaultFilter, '1', false);
+    }
 
-  private setupMeta(): void {
-    this.title.setTitle(this.translate.instant('CONTENT_MANAGEMENT.HOME.TITLE'));
-  }
+    private setupMeta(): void {
+        this.title.setTitle(
+            this.translate.instant('CONTENT_MANAGEMENT.HOME.TITLE')
+        );
+    }
 
-  public filter(filterData: HomeFilterPayloadEntity): void {
-    const filter = HomeFilter.create({
-      ...filterData,
-      status: filterData.status ?? undefined
-    });
-    this.homeFacade.fetchHome(filter, '1', true);
-  }
+    public filter(filterData: HomeFilterPayloadEntity): void {
+        const filter = HomeFilter.create({
+            ...filterData,
+            status: filterData.status ?? undefined,
+        });
+        this.homeFacade.fetchHome(filter, '1', true);
+    }
 
-  public onPageChange(event: number): void {
-    this.homeFacade.changePage(event + 1);
-  }
+    public onPageChange(event: number): void {
+        this.homeFacade.changePage(event + 1);
+    }
 
-  public refreshHome(): void {
-    this.homeFacade.refresh();
-  }
+    public refreshHome(): void {
+        this.homeFacade.refresh();
+    }
 
-  public onCreateClicked(): void {
-    this.router.navigate([CREATE_ROUTE], { relativeTo: this.activatedRoute });
-  }
+    public onCreateClicked(): void {
+        this.router.navigate([CREATE_ROUTE], {
+            relativeTo: this.activatedRoute,
+        });
+    }
 
-  public onEditClicked(item: HomeEntity): void {
-    this.router.navigate([item.uniqId, EDIT_ROUTE], { relativeTo: this.activatedRoute });
-  }
+    public onEditClicked(item: HomeEntity): void {
+        this.router.navigate([item.uniqId, EDIT_ROUTE], {
+            relativeTo: this.activatedRoute,
+        });
+    }
 
-  public onViewClicked(item: HomeEntity): void {
-    this.router.navigate([item.uniqId, VIEW_ROUTE], { relativeTo: this.activatedRoute });
-  }
+    public onViewClicked(item: HomeEntity): void {
+        this.router.navigate([item.uniqId, VIEW_ROUTE], {
+            relativeTo: this.activatedRoute,
+        });
+    }
 
-  public onEnableClicked(item: HomeEntity): void {
-    this.homeFacade.enableHome(item.uniqId).subscribe();
-  }
+    public onEnableClicked(item: HomeEntity): void {
+        this.homeFacade.enableHome(item.uniqId).subscribe();
+    }
 
-  public onDisableClicked(item: HomeEntity): void {
-    this.homeFacade.disableHome(item.uniqId).subscribe();
-  }
+    public onDisableClicked(item: HomeEntity): void {
+        this.homeFacade.disableHome(item.uniqId).subscribe();
+    }
 
-  public onDeleteClicked(item: HomeEntity): void {
-    this.homeFacade.deleteHome(item.uniqId).subscribe();
-  }
+    public onDeleteClicked(item: HomeEntity): void {
+        this.homeFacade.deleteHome(item.uniqId).subscribe();
+    }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 }

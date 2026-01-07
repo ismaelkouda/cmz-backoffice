@@ -8,7 +8,7 @@ export interface Tasks {
     readonly operators: TelecomOperator[];
     readonly source: ReportSource;
     readonly initiatorPhoneNumber: string;
-    readonly createdAt: string;
+    readonly reportedAt: string;
 }
 
 export class TasksEntity implements Tasks {
@@ -18,7 +18,7 @@ export class TasksEntity implements Tasks {
         public readonly operators: TelecomOperator[],
         public readonly source: ReportSource,
         public readonly initiatorPhoneNumber: string,
-        public readonly createdAt: string,
+        public readonly reportedAt: string
     ) { }
 
     public clone(updates: Partial<Tasks>): TasksEntity {
@@ -28,7 +28,7 @@ export class TasksEntity implements Tasks {
             updates.operators ?? this.operators,
             updates.source ?? this.source,
             updates.initiatorPhoneNumber ?? this.initiatorPhoneNumber,
-            updates.createdAt ?? this.createdAt,
+            updates.reportedAt ?? this.reportedAt
         );
     }
 }

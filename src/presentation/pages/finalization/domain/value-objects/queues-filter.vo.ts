@@ -9,7 +9,7 @@ export class QueuesFilter {
         private readonly uniqId?: string,
         private readonly reportType?: string,
         private readonly operators?: string[]
-    ) { }
+    ) {}
 
     static create(data: QueuesFilterPayloadEntity): QueuesFilter {
         const operatorArray = this.normalizeOperator(data.operators);

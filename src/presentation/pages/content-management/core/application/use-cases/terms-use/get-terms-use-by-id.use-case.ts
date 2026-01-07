@@ -6,7 +6,7 @@ import { GetTermsUseByIdEntity } from '../../../domain/entities/get-terms-use-by
     providedIn: 'root',
 })
 export class GetTermsUseByIdUseCase {
-    constructor(private readonly repository: TermsUseRepository) { }
+    constructor(private readonly repository: TermsUseRepository) {}
 
     execute(id: string): Observable<GetTermsUseByIdEntity> {
         return this.repository.getTermsUseById(id);

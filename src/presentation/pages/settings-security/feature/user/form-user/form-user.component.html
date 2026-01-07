@@ -1,11 +1,7 @@
 <main class="container-fluid user-form-container" role="main">
     <section class="row user-form-row">
         <article class="col-sm-12 user-form-article">
-            <app-breadcrumb
-                class="user-form-breadcrumb"
-                [title]="module | translate"
-                [active_item]="subModule | translate"
-            ></app-breadcrumb>
+            <app-breadcrumb />
 
             <section class="card user-form-card">
                 <div class="card-body user-form-card-body">
@@ -39,7 +35,6 @@
 
                     <div class="fade-in user-form-content">
                         <form [formGroup]="formUser" (ngSubmit)="onSubmit()">
-
                             <div class="row">
                                 <div class="col-md-4 form-group mb-3">
                                     <label for="matricule">
@@ -47,7 +42,9 @@
                                             >{{
                                                 'SETTINGS_SECURITY.USER.FORM.MATRICULE'
                                                     | translate
-                                            }}<span class="text-danger">*</span></b
+                                            }}<span class="text-danger"
+                                                >*</span
+                                            ></b
                                         >
                                     </label>
                                     <input
@@ -57,14 +54,16 @@
                                         formControlName="matricule"
                                         [readonly]="readOnly"
                                         [class.ng-invalid]="
-                                            formUser.get('matricule')?.invalid &&
+                                            formUser.get('matricule')
+                                                ?.invalid &&
                                             formUser.get('matricule')?.touched
                                         "
                                     />
                                     <small
                                         class="p-error"
                                         *ngIf="
-                                            formUser.get('matricule')?.invalid &&
+                                            formUser.get('matricule')
+                                                ?.invalid &&
                                             formUser.get('matricule')?.touched
                                         "
                                     >
@@ -81,7 +80,9 @@
                                             >{{
                                                 'SETTINGS_SECURITY.USER.FORM.LAST_NAME'
                                                     | translate
-                                            }}<span class="text-danger">*</span></b
+                                            }}<span class="text-danger"
+                                                >*</span
+                                            ></b
                                         >
                                     </label>
                                     <input
@@ -115,7 +116,9 @@
                                             >{{
                                                 'SETTINGS_SECURITY.USER.FORM.FIRST_NAME'
                                                     | translate
-                                            }}<span class="text-danger">*</span></b
+                                            }}<span class="text-danger"
+                                                >*</span
+                                            ></b
                                         >
                                     </label>
                                     <input
@@ -125,14 +128,16 @@
                                         formControlName="firstName"
                                         [readonly]="readOnly"
                                         [class.ng-invalid]="
-                                            formUser.get('firstName')?.invalid &&
+                                            formUser.get('firstName')
+                                                ?.invalid &&
                                             formUser.get('firstName')?.touched
                                         "
                                     />
                                     <small
                                         class="p-error"
                                         *ngIf="
-                                            formUser.get('firstName')?.invalid &&
+                                            formUser.get('firstName')
+                                                ?.invalid &&
                                             formUser.get('firstName')?.touched
                                         "
                                     >
@@ -146,38 +151,40 @@
 
                             <div class="row">
                                 <div class="col-md-4 form-group mb-3">
-                                <label for="phone">
-                                    <b
-                                        >{{
-                                            'SETTINGS_SECURITY.USER.FORM.PHONE'
-                                                | translate
-                                        }}<span class="text-danger">*</span></b
+                                    <label for="phone">
+                                        <b
+                                            >{{
+                                                'SETTINGS_SECURITY.USER.FORM.PHONE'
+                                                    | translate
+                                            }}<span class="text-danger"
+                                                >*</span
+                                            ></b
+                                        >
+                                    </label>
+                                    <p-inputmask
+                                        id="phone"
+                                        mask="99 99 99 99 99"
+                                        formControlName="phone"
+                                        placeholder="07 07 07 07 07"
+                                        [autoClear]="false"
+                                        [readonly]="readOnly"
+                                        [class.ng-invalid]="
+                                            formUser.get('phone')?.invalid &&
+                                            formUser.get('phone')?.touched
+                                        "
+                                    ></p-inputmask>
+                                    <small
+                                        class="p-error"
+                                        *ngIf="
+                                            formUser.get('phone')?.invalid &&
+                                            formUser.get('phone')?.touched
+                                        "
                                     >
-                                </label>
-                                <p-inputmask
-                                    id="phone"
-                                    mask="99 99 99 99 99"
-                                    formControlName="phone"
-                                    placeholder="07 07 07 07 07"
-                                    [autoClear]="false"
-                                    [readonly]="readOnly"
-                                    [class.ng-invalid]="
-                                        formUser.get('phone')?.invalid &&
-                                        formUser.get('phone')?.touched
-                                    "
-                                ></p-inputmask>
-                                <small
-                                    class="p-error"
-                                    *ngIf="
-                                        formUser.get('phone')?.invalid &&
-                                        formUser.get('phone')?.touched
-                                    "
-                                >
-                                    {{
-                                        'SETTINGS_SECURITY.USER.FORM.PHONE_REQUIRED'
-                                            | translate
-                                    }}
-                                </small>
+                                        {{
+                                            'SETTINGS_SECURITY.USER.FORM.PHONE_REQUIRED'
+                                                | translate
+                                        }}
+                                    </small>
                                 </div>
 
                                 <div class="col-md-4 form-group mb-3">
@@ -186,7 +193,9 @@
                                             >{{
                                                 'SETTINGS_SECURITY.USER.FORM.PROFILE'
                                                     | translate
-                                            }}<span class="text-danger">*</span></b
+                                            }}<span class="text-danger"
+                                                >*</span
+                                            ></b
                                         >
                                     </label>
                                     <p-select
@@ -212,7 +221,10 @@
                                                 option?.label | translate
                                             }}</span>
                                         </ng-template>
-                                        <ng-template pTemplate="item" let-option>
+                                        <ng-template
+                                            pTemplate="item"
+                                            let-option
+                                        >
                                             <span>{{
                                                 option.label | translate
                                             }}</span>
@@ -238,7 +250,9 @@
                                             >{{
                                                 'SETTINGS_SECURITY.USER.FORM.EMAIL'
                                                     | translate
-                                            }}<span class="text-danger">*</span></b
+                                            }}<span class="text-danger"
+                                                >*</span
+                                            ></b
                                         >
                                     </label>
                                     <input
@@ -286,7 +300,6 @@
                                     </small>
                                 </div>
                             </div>
-                            
                         </form>
 
                         <div class="user-form-actions">

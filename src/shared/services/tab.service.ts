@@ -131,7 +131,6 @@ export class TabService {
 
         const newTabs = this.tabs.filter((tab) => tab.id === dashboardTabId);
         this.tabs.map((tab) => {
-
             this.encodingService.removeData(tab.path);
             this.encodingService.removeData(`${tab.path}_children_component`);
         });

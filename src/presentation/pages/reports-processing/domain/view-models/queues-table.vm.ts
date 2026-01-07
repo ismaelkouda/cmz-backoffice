@@ -11,5 +11,5 @@ export interface QueuesTableVM {
     operators: string[];
     operatorsLabels: string[];
 
-    createdAt: string;
+    reportedAt: string;
 }

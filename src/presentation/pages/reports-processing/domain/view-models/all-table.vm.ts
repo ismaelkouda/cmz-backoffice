@@ -8,5 +8,5 @@ export interface AllTableVM {
     sourceLabel: string;
     operators: string[];
     operatorsLabels: string[];
-    createdAt: string;
+    reportedAt: string;
 }

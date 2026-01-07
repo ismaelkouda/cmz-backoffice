@@ -6,7 +6,7 @@ export class SubCategoryEntity {
         public readonly color: string,
         public readonly backgroundColor: string,
         public readonly description: string | null
-    ) { }
+    ) {}
 
     public clone(updates: Partial<SubCategoryEntity>): SubCategoryEntity {
         return new SubCategoryEntity(

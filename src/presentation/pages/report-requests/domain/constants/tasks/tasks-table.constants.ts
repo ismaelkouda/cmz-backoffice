@@ -28,7 +28,7 @@ export const TASKS_TABLE_CONST = {
             width: '12rem',
         },
         {
-            field: 'createdAt',
+            field: 'reportedAt',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.CREATED_AT',
             class: 'text-center',
             width: '8rem',
@@ -45,6 +45,6 @@ export const TASKS_TABLE_CONST = {
         'reportTypeLabel',
         'operatorsLabels',
         'sourceLabel',
-        'createdAt'
+        'reportedAt',
     ],
 };

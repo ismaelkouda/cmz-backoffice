@@ -4,8 +4,13 @@ import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.ma
 import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 
 @Injectable({ providedIn: 'root' })
-export class NotificationsMapper extends PaginatedMapper<NotificationsEntity, NotificationsItemDto> {
-    protected override mapItemFromDto(dto: NotificationsItemDto): NotificationsEntity {
+export class NotificationsMapper extends PaginatedMapper<
+    NotificationsEntity,
+    NotificationsItemDto
+> {
+    protected override mapItemFromDto(
+        dto: NotificationsItemDto
+    ): NotificationsEntity {
         return new NotificationsEntity(
             dto.uniq_id,
             dto.type,

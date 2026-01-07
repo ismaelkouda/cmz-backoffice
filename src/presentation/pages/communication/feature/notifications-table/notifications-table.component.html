@@ -76,7 +76,12 @@
             }
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <ng-template
+        pTemplate="body"
+        let-rowData
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+    >
         <tr role="row" [class.cursor-pointer]="!isLoading()">
             @for (col of columns; track trackByColField($index, col)) {
                 <td [class]="col.class">
@@ -88,13 +93,9 @@
                                 (onChange)="handleItemSelection(rowData)"
                                 [inputId]="'select-' + rowData.uniqId"
                                 [name]="'select-' + rowData.uniqId"
-                                [ariaLabelledBy]="
-                                    'select-' + rowData.uniqId
-                                "
+                                [ariaLabelledBy]="'select-' + rowData.uniqId"
                                 [disabled]="isLoading()"
-                                data-testid="item-checkbox-{{
-                                    rowData.uniqId
-                                }}"
+                                data-testid="item-checkbox-{{ rowData.uniqId }}"
                             />
                         }
 

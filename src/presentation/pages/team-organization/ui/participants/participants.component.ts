@@ -16,7 +16,6 @@ import { FilterParticipantComponent } from '@presentation/pages/team-organizatio
 import { TableParticipantComponent } from '@presentation/pages/team-organization/feature/participants/table-participant/table-participant.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { ExcelService } from '@shared/services/excel.service';
 import { TabsModule } from 'primeng/tabs';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -30,7 +29,6 @@ import { FORM_ROUTE, PARTICIPANT_ROUTE } from '../../team-organization.routes';
         CommonModule,
         BreadcrumbComponent,
         PageTitleComponent,
-        TableButtonHeaderComponent,
         TabsModule,
         TranslateModule,
         FilterParticipantComponent,
@@ -64,7 +62,7 @@ export class ParticipantsComponent implements OnInit, OnDestroy {
                 this.subModule = Array.isArray(data['subModule'])
                     ? data['subModule'][0]
                     : (data['subModule'] ??
-                      'TEAM_ORGANIZATION.PARTICIPANT.LABEL');
+                        'TEAM_ORGANIZATION.PARTICIPANT.LABEL');
             });
 
         this.participants$ = this.participantFacade.items$;

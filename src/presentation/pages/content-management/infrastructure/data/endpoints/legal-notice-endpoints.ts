@@ -1,5 +1,4 @@
 export const LEGAL_NOTICE_ENDPOINTS = {
-
     LEGAL_NOTICE: 'cms/legal-notices?page={page}',
     GET_BY_ID: 'cms/legal-notices/{id}',
     CREATE: 'cms/legal-notices/store',

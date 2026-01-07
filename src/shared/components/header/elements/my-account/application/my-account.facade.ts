@@ -11,6 +11,8 @@ import {
     finalize,
     throwError,
 } from 'rxjs';
+import { ChangePasswordRequestDto } from '../data/dtos/change-password-request.dto';
+import { UpdateProfileRequestDto } from '../data/dtos/update-profile-request.dto';
 import { LogoutEntity } from '../domain/entities/logout.entity';
 import { MyAccountUseCase } from '../domain/use-cases/my-account.use-case';
 
@@ -25,7 +27,7 @@ export class MyAccountFacade {
         private readonly myAccountUseCase: MyAccountUseCase,
         private readonly toastService: ToastrService,
         protected readonly translateService: TranslateService
-    ) {}
+    ) { }
 
     logout(): Observable<LogoutEntity> {
         if (this.loadingSubject.getValue()) {
@@ -33,6 +35,42 @@ export class MyAccountFacade {
         }
         this.loadingSubject.next(true);
         return this.myAccountUseCase.executeFetchTake().pipe(
+            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
+            finalize(() => this.loadingSubject.next(false)),
+            catchError((error: unknown) => {
+                const errorMessage = this.getErrorMessage(error);
+                this.toastService.error(errorMessage);
+                return throwError(() => error);
+            })
+        );
+    }
+
+    updatePassword(payload: ChangePasswordRequestDto): Observable<void> {
+        if (this.loadingSubject.getValue()) {
+            return throwError(
+                () => new Error('Operation updatePassword in progress')
+            );
+        }
+        this.loadingSubject.next(true);
+        return this.myAccountUseCase.executeUpdatePassword(payload).pipe(
+            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
+            finalize(() => this.loadingSubject.next(false)),
+            catchError((error: unknown) => {
+                const errorMessage = this.getErrorMessage(error);
+                this.toastService.error(errorMessage);
+                return throwError(() => error);
+            })
+        );
+    }
+
+    updateProfile(payload: UpdateProfileRequestDto): Observable<void> {
+        if (this.loadingSubject.getValue()) {
+            return throwError(
+                () => new Error('Operation updateProfile in progress')
+            );
+        }
+        this.loadingSubject.next(true);
+        return this.myAccountUseCase.executeUpdateProfile(payload).pipe(
             debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
             finalize(() => this.loadingSubject.next(false)),
             catchError((error: unknown) => {

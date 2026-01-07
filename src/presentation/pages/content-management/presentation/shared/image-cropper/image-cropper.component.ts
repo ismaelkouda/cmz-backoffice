@@ -14,7 +14,7 @@ import {
     OnInit,
     Output,
     signal,
-    ViewChild
+    ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -23,7 +23,10 @@ import 'cropperjs';
 
 // Stores et types
 import { ImageProcessingStore } from '@presentation/pages/content-management/core/domain/stores/image-processing.store';
-import { ProcessingOptions, ProcessingResult } from '@presentation/pages/content-management/core/domain/types/image-processing.types';
+import {
+    ProcessingOptions,
+    ProcessingResult,
+} from '@presentation/pages/content-management/core/domain/types/image-processing.types';
 
 // PrimeNG
 import { MessageService } from 'primeng/api';
@@ -48,7 +51,9 @@ interface CropperImage extends HTMLElement {
     scalable?: boolean;
     skewable?: boolean;
     translatable?: boolean;
-    $ready(callback?: (image: HTMLImageElement) => void): Promise<HTMLImageElement>;
+    $ready(
+        callback?: (image: HTMLImageElement) => void
+    ): Promise<HTMLImageElement>;
     $rotate(angle: number): void;
     $scale(x: number, y?: number): void;
     $zoom(scale: number): void;
@@ -75,14 +80,9 @@ interface CropperSelection extends HTMLElement {
     templateUrl: './image-cropper.component.html',
     styleUrls: ['./image-cropper.component.scss'],
     standalone: true,
-    imports: [
-        CommonModule,
-        ButtonModule,
-        DialogModule,
-        ProgressSpinnerModule
-    ],
+    imports: [CommonModule, ButtonModule, DialogModule, ProgressSpinnerModule],
     providers: [ImageProcessingStore],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ImageCropperComponent implements OnInit, OnDestroy {
     private readonly store = inject(ImageProcessingStore);
@@ -92,7 +92,8 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     @ViewChild('cropperCanvas') cropperCanvasRef!: ElementRef<CropperCanvas>;
     @ViewChild('cropperImage') cropperImageRef!: ElementRef<CropperImage>;
-    @ViewChild('cropperSelection') cropperSelectionRef!: ElementRef<CropperSelection>;
+    @ViewChild('cropperSelection')
+    cropperSelectionRef!: ElementRef<CropperSelection>;
 
     @Input() set imageSrc(value: string | null) {
         this._imageSrc.set(value);
@@ -145,7 +146,9 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     readonly currentAspectRatio = computed(() => this._currentAspectRatio());
 
-    readonly selectionRect = computed<{ width: number; height: number; } | null>(() => null);
+    readonly selectionRect = computed<{ width: number; height: number } | null>(
+        () => null
+    );
 
     // Getters simples pour éviter les computed problématiques - removed faulty getter
     // get currentAspectRatio(): number | null {
@@ -166,7 +169,7 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
     }
 
     constructor() {
-        console.log("this.originalFile", this.imageSrc);
+        console.log('this.originalFile', this.imageSrc);
         // Écouter les résultats - avec gestion d'erreur
         effect(() => {
             try {
@@ -237,9 +240,9 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
      * Quand l'image a une erreur
      */
     onImageError(event: Event): void {
-        console.error('Erreur de chargement de l\'image');
+        console.error("Erreur de chargement de l'image");
         this._hasError.set(true);
-        this._errorMessage.set('Impossible de charger l\'image');
+        this._errorMessage.set("Impossible de charger l'image");
         this._isReady.set(false);
         this.cdr.markForCheck();
     }
@@ -249,7 +252,10 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
      */
     async applyCrop(): Promise<void> {
         if (!this.cropperSelectionRef?.nativeElement || !this.originalFile) {
-            this.showError('Action impossible', 'Cropper non prêt ou fichier manquant');
+            this.showError(
+                'Action impossible',
+                'Cropper non prêt ou fichier manquant'
+            );
             return;
         }
 
@@ -257,86 +263,111 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
             severity: 'info',
             summary: 'Traitement',
             detail: 'Rognage en cours...',
-            life: 3000
+            life: 3000,
         });
 
         try {
             // 1. Obtenir le canvas rogné et transformé depuis le Web Component
             // Cela inclut le zoom, la rotation, etc.
-            const canvas = await this.cropperSelectionRef.nativeElement.$toCanvas({
-                width: this.processingOptions.maxWidth,
-                height: this.processingOptions.maxHeight
-            });
+            const canvas =
+                await this.cropperSelectionRef.nativeElement.$toCanvas({
+                    width: this.processingOptions.maxWidth,
+                    height: this.processingOptions.maxHeight,
+                });
 
             // 2. Convertir en Blob avec les options de format/qualité
             const format = this.processingOptions.format || 'image/webp';
             const quality = this.processingOptions.quality || 0.8;
 
-            canvas.toBlob((blob) => {
-                if (!blob) {
-                    this.showError('Erreur', 'Conversion de l\'image échouée');
-                    return;
-                }
+            canvas.toBlob(
+                (blob) => {
+                    if (!blob) {
+                        this.showError(
+                            'Erreur',
+                            "Conversion de l'image échouée"
+                        );
+                        return;
+                    }
 
-                // 3. Créer le résultat
-                // Obtenir les dimensions originales via $ready qui retourne l'élément img sous-jacent
-                this.cropperImageRef.nativeElement.$ready().then((img) => {
-                    const result: ProcessingResult = {
-                        blob: blob,
-                        metadata: {
-                            original: {
-                                width: img.naturalWidth || 0,
-                                height: img.naturalHeight || 0,
-                                size: this.originalFile!.size,
-                                type: this.originalFile!.type,
-                                lastModified: this.originalFile!.lastModified
-                            },
-                            processed: {
-                                width: canvas.width,
-                                height: canvas.height,
-                                size: blob.size,
-                                type: blob.type,
-                                lastModified: Date.now()
-                            },
-                            processingTime: 0,
-                            compressionRatio: this.originalFile!.size > 0 ? blob.size / this.originalFile!.size : 1
-                        }
-                    };
+                    // 3. Créer le résultat
+                    // Obtenir les dimensions originales via $ready qui retourne l'élément img sous-jacent
+                    this.cropperImageRef.nativeElement
+                        .$ready()
+                        .then((img) => {
+                            const result: ProcessingResult = {
+                                blob: blob,
+                                metadata: {
+                                    original: {
+                                        width: img.naturalWidth || 0,
+                                        height: img.naturalHeight || 0,
+                                        size: this.originalFile!.size,
+                                        type: this.originalFile!.type,
+                                        lastModified:
+                                            this.originalFile!.lastModified,
+                                    },
+                                    processed: {
+                                        width: canvas.width,
+                                        height: canvas.height,
+                                        size: blob.size,
+                                        type: blob.type,
+                                        lastModified: Date.now(),
+                                    },
+                                    processingTime: 0,
+                                    compressionRatio:
+                                        this.originalFile!.size > 0
+                                            ? blob.size /
+                                              this.originalFile!.size
+                                            : 1,
+                                },
+                            };
 
-                    // 4. Mettre à jour le store directement
-                    this.store.setResult(result);
-                }).catch(err => {
-                    console.error('Erreur lors de la récupération des métadonnées image:', err);
-                    // Fallback si $ready échoue (rare)
-                    const result: ProcessingResult = {
-                        blob: blob,
-                        metadata: {
-                            original: {
-                                width: 0,
-                                height: 0,
-                                size: this.originalFile!.size,
-                                type: this.originalFile!.type,
-                                lastModified: this.originalFile!.lastModified
-                            },
-                            processed: {
-                                width: canvas.width,
-                                height: canvas.height,
-                                size: blob.size,
-                                type: blob.type,
-                                lastModified: Date.now()
-                            },
-                            processingTime: 0,
-                            compressionRatio: this.originalFile!.size > 0 ? blob.size / this.originalFile!.size : 1
-                        }
-                    };
-                    this.store.setResult(result);
-                });
-
-            }, format, quality);
-
+                            // 4. Mettre à jour le store directement
+                            this.store.setResult(result);
+                        })
+                        .catch((err) => {
+                            console.error(
+                                'Erreur lors de la récupération des métadonnées image:',
+                                err
+                            );
+                            // Fallback si $ready échoue (rare)
+                            const result: ProcessingResult = {
+                                blob: blob,
+                                metadata: {
+                                    original: {
+                                        width: 0,
+                                        height: 0,
+                                        size: this.originalFile!.size,
+                                        type: this.originalFile!.type,
+                                        lastModified:
+                                            this.originalFile!.lastModified,
+                                    },
+                                    processed: {
+                                        width: canvas.width,
+                                        height: canvas.height,
+                                        size: blob.size,
+                                        type: blob.type,
+                                        lastModified: Date.now(),
+                                    },
+                                    processingTime: 0,
+                                    compressionRatio:
+                                        this.originalFile!.size > 0
+                                            ? blob.size /
+                                              this.originalFile!.size
+                                            : 1,
+                                },
+                            };
+                            this.store.setResult(result);
+                        });
+                },
+                format,
+                quality
+            );
         } catch (error) {
             console.error('Erreur lors du rognage:', error);
-            this.showError('Erreur de rognage', 'Impossible d\'appliquer le rognage');
+            this.showError(
+                'Erreur de rognage',
+                "Impossible d'appliquer le rognage"
+            );
         }
     }
 
@@ -351,7 +382,7 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
             severity: 'info',
             summary: 'Ratio changé',
             detail: this.getAspectRatioLabel(ratio),
-            life: 2000
+            life: 2000,
         });
     }
 
@@ -411,7 +442,7 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
                 severity: 'info',
                 summary: 'Réinitialisé',
                 detail: 'Tous les réglages ont été réinitialisés',
-                life: 2000
+                life: 2000,
             });
         } catch (error) {
             console.error('Erreur de réinitialisation:', error);
@@ -449,7 +480,7 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
             severity: 'error',
             summary,
             detail,
-            life: 5000
+            life: 5000,
         });
 
         this.error.emit(new Error(`${summary}: ${detail}`));

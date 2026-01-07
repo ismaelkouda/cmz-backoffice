@@ -1,4 +1,4 @@
-import { SubCategoryEntity } from "./sub-category.entity";
+import { SubCategoryEntity } from './sub-category.entity';
 
 export class CategoryEntity {
     constructor(
@@ -9,7 +9,7 @@ export class CategoryEntity {
         public readonly backgroundColor: string,
         public readonly description: string,
         public readonly subCategories: SubCategoryEntity[]
-    ) { }
+    ) {}
 
     public clone(updates: Partial<CategoryEntity>): CategoryEntity {
         return new CategoryEntity(
@@ -24,13 +24,13 @@ export class CategoryEntity {
     }
 
     getSubCategoriesForSelect(): Array<{ label: string; value: number }> {
-        return this.subCategories.map(subCategory => ({
+        return this.subCategories.map((subCategory) => ({
             label: subCategory.name,
-            value: subCategory.id
+            value: subCategory.id,
         }));
     }
 
     findSubCategoryById(subCategoryId: number): SubCategoryEntity | undefined {
-        return this.subCategories.find(sub => sub.id === subCategoryId);
+        return this.subCategories.find((sub) => sub.id === subCategoryId);
     }
 }

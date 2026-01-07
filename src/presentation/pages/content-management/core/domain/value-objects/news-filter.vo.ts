@@ -1,5 +1,5 @@
-import { MediaStatusDto } from "@shared/data/dtos/media-status.dto";
-import { NewsRequestDto } from "../../application/dtos/news/news-request.dto";
+import { MediaStatusDto } from '@shared/data/dtos/media-status.dto';
+import { NewsRequestDto } from '../../application/dtos/news/news-request.dto';
 
 export class NewsFilter {
     private constructor(
@@ -7,7 +7,7 @@ export class NewsFilter {
         private readonly endDate?: string,
         private readonly search?: string,
         private readonly status?: MediaStatusDto
-    ) { }
+    ) {}
 
     static create(data: NewsRequestDto = {} as NewsRequestDto): NewsFilter {
         return new NewsFilter(
@@ -21,8 +21,7 @@ export class NewsFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.startDate)
-            params['start_date'] = this.startDate;
+        if (this.startDate) params['start_date'] = this.startDate;
         if (this.endDate) params['end_date'] = this.endDate;
         if (this.search) params['search'] = this.search;
         if (this.status) params['status'] = this.status;

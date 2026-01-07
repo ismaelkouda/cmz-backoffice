@@ -4,4 +4,4 @@ export enum ReportType {
     CPS = 'COMMON.CPS',
     CPO = 'COMMON.CPO',
     UNKNOWN = 'COMMON.UNKNOWN',
-};
+}

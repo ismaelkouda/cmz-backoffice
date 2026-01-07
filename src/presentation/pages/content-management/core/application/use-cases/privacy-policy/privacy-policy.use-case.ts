@@ -11,7 +11,10 @@ import { PrivacyPolicyFilter } from '../../../domain/value-objects/privacy-polic
 export class FetchPrivacyPolicyUseCase {
     private readonly privacyPolicyRepository = inject(PrivacyPolicyRepository);
 
-    execute(filter: PrivacyPolicyFilter, page: string): Observable<Paginate<PrivacyPolicyEntity>> {
+    execute(
+        filter: PrivacyPolicyFilter,
+        page: string
+    ): Observable<Paginate<PrivacyPolicyEntity>> {
         return this.privacyPolicyRepository.fetchPrivacyPolicy(filter, page);
     }
 }

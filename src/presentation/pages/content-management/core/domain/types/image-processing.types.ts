@@ -1,5 +1,14 @@
-export type ImageFormat = 'image/jpeg' | 'image/png' | 'image/webp' | 'image/avif';
-export type ProcessingStage = 'idle' | 'loading' | 'processing' | 'completed' | 'error';
+export type ImageFormat =
+    | 'image/jpeg'
+    | 'image/png'
+    | 'image/webp'
+    | 'image/avif';
+export type ProcessingStage =
+    | 'idle'
+    | 'loading'
+    | 'processing'
+    | 'completed'
+    | 'error';
 
 export interface ImageMetadata {
     width: number;
@@ -53,5 +62,5 @@ export const ImageErrors = {
     FILE_TOO_LARGE: 'FILE_TOO_LARGE',
     PROCESSING_FAILED: 'PROCESSING_FAILED',
     DIMENSIONS_TOO_SMALL: 'DIMENSIONS_TOO_SMALL',
-    DIMENSIONS_TOO_LARGE: 'DIMENSIONS_TOO_LARGE'
+    DIMENSIONS_TOO_LARGE: 'DIMENSIONS_TOO_LARGE',
 } as const;

@@ -7,7 +7,7 @@ import { TermsUseRepository } from '../../../domain/repositories/terms-use.repos
     providedIn: 'root',
 })
 export class DeleteTermsUseUseCase {
-    constructor(private readonly repository: TermsUseRepository) { }
+    constructor(private readonly repository: TermsUseRepository) {}
 
     execute(id: string): Observable<SimpleResponseDto<void>> {
         return this.repository.deleteTermsUse(id);

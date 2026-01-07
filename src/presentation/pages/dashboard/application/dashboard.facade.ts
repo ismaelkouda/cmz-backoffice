@@ -18,7 +18,9 @@ export class DashboardFacade {
     private readonly statisticsSubject =
         new BehaviorSubject<DashboardStatistics | null>(null);
     private readonly loadingSubject = new BehaviorSubject<boolean>(false);
-    private readonly majDateSubject = new BehaviorSubject<string | undefined>(undefined);
+    private readonly majDateSubject = new BehaviorSubject<string | undefined>(
+        undefined
+    );
 
     readonly statistics$: Observable<DashboardStatistics | null> =
         this.statisticsSubject.asObservable();
@@ -31,7 +33,7 @@ export class DashboardFacade {
         private readonly loadStatisticsUseCase: LoadDashboardStatisticsUseCase,
         private readonly toastService: ToastrService,
         private readonly translateService: TranslateService
-    ) { }
+    ) {}
 
     loadStatistics(period?: number): Observable<DashboardStatistics> {
         const filter = DashboardPeriodFilter.create(period);

@@ -9,7 +9,7 @@ export class TasksFilter {
         private readonly uniqId?: string,
         private readonly reportType?: string,
         private readonly operators?: string[]
-    ) { }
+    ) {}
 
     static create(data: TasksFilterPayloadEntity): TasksFilter {
         const operatorArray = this.normalizeOperator(data.operators);

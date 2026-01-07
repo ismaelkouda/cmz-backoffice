@@ -1,11 +1,10 @@
-import { LocationType } from "@shared/domain/enums/location-type.enum";
-import { LocationTypeDto } from "../dtos/location-type.dto";
+import { LocationType } from '@shared/domain/enums/location-type.enum';
+import { LocationTypeDto } from '../dtos/location-type.dto';
 
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class LocationTypeMapper {
     mapToEnum(dtoValue: LocationTypeDto): LocationType {
         if (dtoValue == null) {

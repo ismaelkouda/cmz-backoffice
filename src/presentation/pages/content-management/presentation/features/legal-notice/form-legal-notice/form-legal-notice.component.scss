@@ -63,7 +63,6 @@ $dark-gray: var(--color-gray);
     gap: 1rem;
 }
 
-
 .form {
     .fieldset {
         border: 1px solid var(--theme-default);
@@ -165,7 +164,9 @@ $dark-gray: var(--color-gray);
     }
 }
 
-.form-p-select, .form-p-datepicker, p-fileupload {
+.form-p-select,
+.form-p-datepicker,
+p-fileupload {
     padding: 7px;
     border: 2px solid $light-gray;
     border-radius: 12px;
@@ -224,7 +225,8 @@ $dark-gray: var(--color-gray);
     }
 }
 
-.form-input, .p-inputtext {
+.form-input,
+.p-inputtext {
     width: 100%;
     padding: 16px;
     border: 2px solid $light-gray;
@@ -284,67 +286,70 @@ $dark-gray: var(--color-gray);
     }
 }
 
-
 // form-legal-notice.component.scss
 .form-legal-notice-container {
-  padding: 1rem;
+    padding: 1rem;
 }
 
 .fieldset {
-  border: 1px solid #dee2e6;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: #f8f9fa;
 }
 
 .fieldset legend {
-  padding: 0 0.5rem;
-  font-size: 1.1rem;
-  color: #495057;
+    padding: 0 0.5rem;
+    font-size: 1.1rem;
+    color: #495057;
 }
 
 // Styles pour les boutons d'action média
 .media-actions-container {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .media-thumbnail {
-  height: 40px;
-  width: 40px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 // États de suppression
 .media-removed {
-  opacity: 0.5;
-  text-decoration: line-through;
+    opacity: 0.5;
+    text-decoration: line-through;
 }
 
 // Animation de fade
 .fade-in {
-  animation: fadeIn 0.3s ease-in;
+    animation: fadeIn 0.3s ease-in;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 // Responsive
 @media (max-width: 768px) {
-  .media-actions-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .fieldset {
-    padding: 1rem;
-  }
+    .media-actions-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .fieldset {
+        padding: 1rem;
+    }
 }

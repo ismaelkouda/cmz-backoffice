@@ -66,7 +66,7 @@ body[class='dark-only'] {
 @import 'base/typography';
 @import 'global';
 //  *** components ***
-@import '../scss/pages/custom.scss';
+/* @import '../scss/pages/custom.scss';
 @import 'components/according.scss';
 @import 'components/alert.scss';
 @import 'components/avatars.scss';
@@ -140,7 +140,7 @@ body[class='dark-only'] {
 @import 'pages/timeliny.scss';
 @import 'pages/user-profile.scss';
 @import 'pages/wishlist.scss';
-@import 'pages/portail.scss';
+@import 'pages/portail.scss'; */
 
 /* ---------------------
 	*** themes ***
@@ -156,5 +156,5 @@ body[class='dark-only'] {
 @import 'layout/search.scss';
 @import 'layout/select2.scss';
 @import 'layout/sidebar.scss';
-@import 'layout/rtl.scss';
+/* @import 'layout/rtl.scss'; */
 @import 'layout/box-layout.scss';

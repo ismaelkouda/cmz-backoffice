@@ -7,7 +7,7 @@ import { SlideRepository } from '../../domain/repositories/slide.repository';
     providedIn: 'root',
 })
 export class UpdateSlideUseCase {
-    constructor(private readonly slideRepository: SlideRepository) { }
+    constructor(private readonly slideRepository: SlideRepository) {}
 
     execute(params: { id: string; data: FormData }): Observable<SlideEntity> {
         return this.slideRepository.updateSlide(params.id, params.data);

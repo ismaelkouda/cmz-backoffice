@@ -7,4 +7,5 @@ export interface NotificationsItemDto {
     created_at: string;
 }
 
-export interface NotificationsResponseDto extends PaginatedResponseDto<NotificationsItemDto> { }
+export interface NotificationsResponseDto
+    extends PaginatedResponseDto<NotificationsItemDto> {}

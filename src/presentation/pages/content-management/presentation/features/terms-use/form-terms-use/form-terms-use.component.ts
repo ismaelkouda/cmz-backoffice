@@ -1,6 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    inject,
+} from '@angular/core';
+import {
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -49,10 +62,10 @@ import { map } from 'rxjs/operators';
         TagModule,
         InputNumberModule,
         ToastModule,
-        TooltipModule
+        TooltipModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class FormTermsUseComponent implements OnInit, OnDestroy {
     private readonly destroy$ = new Subject<void>();
@@ -76,8 +89,8 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     public saveButtonState = {
         disabled: true,
         tooltip: '',
-        severity: 'danger' as 'success' | 'warning' | 'danger' | 'info'
-    }
+        severity: 'danger' as 'success' | 'warning' | 'danger' | 'info',
+    };
 
     ngOnInit(): void {
         this.initForm();
@@ -89,26 +102,28 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     private initForm(): void {
         this.form = this.fb.group({
             content: ['', Validators.required],
-            version: ['', [Validators.required, semanticVersionValidator(), Validators.pattern(/^\d+(\.\d+){0,2}$/)]]
+            version: [
+                '',
+                [
+                    Validators.required,
+                    semanticVersionValidator(),
+                    Validators.pattern(/^\d+(\.\d+){0,2}$/),
+                ],
+            ],
         });
     }
 
     private setupFormValidation(): void {
-        this.form.statusChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateFormValidity();
-                this.updateSaveButtonState();
-            });
+        this.form.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            this.updateFormValidity();
+            this.updateSaveButtonState();
+        });
 
-        this.form.valueChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateFormValidity();
-                this.updateSaveButtonState();
-            });
+        this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            this.updateFormValidity();
+            this.updateSaveButtonState();
+        });
     }
-
 
     private updateFormValidity(): void {
         const isFormValid = this.form.valid;
@@ -125,19 +140,19 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
             this.saveButtonState = {
                 disabled: true,
                 tooltip: this.getValidationTooltip(),
-                severity: 'danger'
+                severity: 'danger',
             };
         } else if (isPristine) {
             this.saveButtonState = {
                 disabled: true,
                 tooltip: this.translate.instant('COMMON.VALIDATION.NO_CHANGES'),
-                severity: 'info'
+                severity: 'info',
             };
         } else {
             this.saveButtonState = {
                 disabled: false,
                 tooltip: this.translate.instant('COMMON.SAVE'),
-                severity: 'success'
+                severity: 'success',
             };
         }
     }
@@ -145,7 +160,7 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     public getValidationTooltip(): string {
         const errors: string[] = [];
 
-        Object.keys(this.form.controls).forEach(key => {
+        Object.keys(this.form.controls).forEach((key) => {
             const control = this.form.get(key);
             if (control?.invalid && control?.touched) {
                 const fieldLabel = this.getFieldLabel(key);
@@ -160,7 +175,7 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     public getFormErrors(): string[] {
         const errors: string[] = [];
 
-        Object.keys(this.form.controls).forEach(key => {
+        Object.keys(this.form.controls).forEach((key) => {
             const control = this.form.get(key);
             if (control?.invalid && control?.touched) {
                 const fieldLabel = this.getFieldLabel(key);
@@ -174,23 +189,26 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
 
     private getFieldLabel(fieldName: string): string {
         const labels: { [key: string]: string } = {
-            content: this.translate.instant('CONTENT_MANAGEMENT.TERMS_USE.FORM.DESCRIPTION'),
-            version: this.translate.instant('CONTENT_MANAGEMENT.TERMS_USE.FORM.VERSION')
+            content: this.translate.instant(
+                'CONTENT_MANAGEMENT.TERMS_USE.FORM.DESCRIPTION'
+            ),
+            version: this.translate.instant(
+                'CONTENT_MANAGEMENT.TERMS_USE.FORM.VERSION'
+            ),
         };
         return labels[fieldName] || fieldName;
     }
-
 
     private getControlErrorMessage(control: AbstractControl): string {
         if (control.hasError('required')) {
             return this.translate.instant('COMMON.VALIDATION.REQUIRED');
         } else if (control.hasError('minlength')) {
             return this.translate.instant('COMMON.VALIDATION.MIN_LENGTH', {
-                length: control.errors?.['minlength']?.['requiredLength']
+                length: control.errors?.['minlength']?.['requiredLength'],
             });
         } else if (control.hasError('maxlength')) {
             return this.translate.instant('COMMON.VALIDATION.MAX_LENGTH', {
-                length: control.errors?.['maxlength']?.['requiredLength']
+                length: control.errors?.['maxlength']?.['requiredLength'],
             });
         } else if (control.hasError('pattern')) {
             return this.translate.instant('COMMON.VALIDATION.PATTERN');
@@ -200,13 +218,16 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
 
     private setupRouteData(): void {
         this.pageTitle$ = this.route.data.pipe(
-            map(data => data['title'] || 'CONTENT_MANAGEMENT.TERMS_USE.LABEL')
+            map((data) => data['title'] || 'CONTENT_MANAGEMENT.TERMS_USE.LABEL')
         );
 
-        this.route.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
+        this.route.data.pipe(takeUntil(this.destroy$)).subscribe((data) => {
             this.module = data['module'] || 'CONTENT_MANAGEMENT.LABEL';
-            this.subModule = data['subModule'] || 'CONTENT_MANAGEMENT.TERMS_USE.TITLE';
-            this.titleService.setTitle(data['title'] ? this.translate.instant(data['title']) : 'CMZ');
+            this.subModule =
+                data['subModule'] || 'CONTENT_MANAGEMENT.TERMS_USE.TITLE';
+            this.titleService.setTitle(
+                data['title'] ? this.translate.instant(data['title']) : 'CMZ'
+            );
         });
     }
 
@@ -215,9 +236,10 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
         if (id) {
             this.isEditMode = true;
             this.currentId = id;
-            this.termsUseFacade.getById(id)
+            this.termsUseFacade
+                .getById(id)
                 .pipe(takeUntil(this.destroy$))
-                .subscribe(item => {
+                .subscribe((item) => {
                     this.patchForm(item);
                 });
         }
@@ -226,7 +248,7 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     private patchForm(item: GetTermsUseByIdEntity): void {
         this.form.patchValue({
             content: item.content,
-            version: item.version
+            version: item.version,
         });
     }
 
@@ -264,7 +286,9 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     }
 
     onCancel(): void {
-        this.router.navigate([CONTENT_MANAGEMENT_ROUTE + '/' + TERMS_USE_ROUTE]);
+        this.router.navigate([
+            CONTENT_MANAGEMENT_ROUTE + '/' + TERMS_USE_ROUTE,
+        ]);
     }
 
     ngOnDestroy(): void {
