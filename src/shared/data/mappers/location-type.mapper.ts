@@ -14,6 +14,7 @@ export class LocationTypeMapper {
             [LocationTypeDto.GPS]: LocationType.GPS,
             [LocationTypeDto.NETWORK]: LocationType.NETWORK,
             [LocationTypeDto.MANUAL]: LocationType.MANUAL,
+            [LocationTypeDto.WHAT3WORDS]: LocationType.WHAT3WORDS,
             [LocationTypeDto.UNKNOWN]: LocationType.UNKNOWN,
         };
         return methodMap[dtoValue] || LocationType.UNKNOWN;
@@ -27,6 +28,7 @@ export class LocationTypeMapper {
             [LocationType.GPS]: LocationTypeDto.GPS,
             [LocationType.NETWORK]: LocationTypeDto.NETWORK,
             [LocationType.MANUAL]: LocationTypeDto.MANUAL,
+            [LocationType.WHAT3WORDS]: LocationTypeDto.WHAT3WORDS,
             [LocationType.UNKNOWN]: LocationTypeDto.UNKNOWN,
         };
         return mapping[enumValue] || LocationTypeDto.UNKNOWN;

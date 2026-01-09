@@ -5,7 +5,7 @@ import { TasksFilter } from '../value-objects/tasks-filter.vo';
 
 export abstract class TasksRepository {
     abstract fetchTasks(
-        filter: TasksFilter,
+        filter: TasksFilter | null,
         page: string
     ): Observable<Paginate<TasksEntity>>;
 }

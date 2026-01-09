@@ -5,7 +5,7 @@ import { TreatmentFilter } from '../value-objects/treatment-filter.vo';
 
 export abstract class TreatmentRepository {
     abstract fetchTreatments(
-        filter: TreatmentFilter,
+        filter: TreatmentFilter | null,
         page: string
     ): Observable<Paginate<TreatmentEntity>>;
 }

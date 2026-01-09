@@ -20,7 +20,7 @@ export interface DashboardStatisticsDataDto {
     readonly averageTreatmentTime?: number;
     readonly completionRate?: number;
     readonly responseTime?: number;
-    readonly date_derniere_maj?: string;
+    readonly last_refresh_at?: string;
 }
 
 export interface DashboardResponseDto {

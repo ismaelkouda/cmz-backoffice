@@ -201,7 +201,7 @@ export class FormUserComponent implements OnInit, OnDestroy {
                 }); 
         } else {
             this.formUser.markAllAsTouched();
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }

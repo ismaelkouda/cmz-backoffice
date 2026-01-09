@@ -160,9 +160,9 @@ export class FilterActionsComponent implements OnInit, OnDestroy {
 
         if (dateFrom.isValid() && dateTo.isValid()) {
             if (dateFrom.isAfter(dateTo)) {
-                const INVALID_DATE_RANGE =
-                    this.translate.instant('INVALID_DATE_RANGE');
-                this.toastService.error(INVALID_DATE_RANGE);
+                const invalidDateRange =
+                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                this.toastService.error(invalidDateRange);
                 return;
             }
         }
@@ -178,7 +178,7 @@ export class FilterActionsComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.success(translatedMessage);
         }
     }

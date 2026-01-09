@@ -7,6 +7,31 @@ import { ReportTypeDto } from '@shared/data/dtos/report-type.dto';
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
 
+export type ReportStatusDto =
+    | 'confirmed'
+    | 'approved'
+    | 'rejected'
+    | 'abandoned'
+    | 'pending'
+    | 'terminated'
+    | 'in-progress'
+    | 'processing'
+    | 'finalization';
+
+export type ReportStateDto =
+    | 'pending'
+    | 'approved'
+    | 'rejected'
+    | 'in-progress'
+    | 'completed'
+    | 'terminated';
+
+export type QualificationStateDto = 'completed';
+
+export type ProcessingStateDto = 'pending' | 'in-progress';
+
+export type FinalizationStateDto = 'pending' | 'in-progress';
+
 export interface DetailsItemDto {
     id: string;
     uniq_id: string;
@@ -33,9 +58,11 @@ export interface DetailsItemDto {
     abandoned_at: string | null;
     acknowledged_at: string | null;
     reason: string | null;
-    status: string;
-    qualification_state: string | null;
-    state: string;
+    status: ReportStatusDto;
+    qualification_state: QualificationStateDto | null;
+    processing_state: ProcessingStateDto | null;
+    finalization_state: FinalizationStateDto | null;
+    state: ReportStateDto;
     deny_count: number;
     confirm_count: number;
     report_processings_count: number;
@@ -66,4 +93,4 @@ export interface DetailsItemDto {
     municipality: AdministrativeBoundaryDto;
 }
 
-export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> {}
+export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> { }

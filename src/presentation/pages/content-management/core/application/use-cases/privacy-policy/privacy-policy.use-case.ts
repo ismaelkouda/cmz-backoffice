@@ -12,7 +12,7 @@ export class FetchPrivacyPolicyUseCase {
     private readonly privacyPolicyRepository = inject(PrivacyPolicyRepository);
 
     execute(
-        filter: PrivacyPolicyFilter,
+        filter: PrivacyPolicyFilter | null,
         page: string
     ): Observable<Paginate<PrivacyPolicyEntity>> {
         return this.privacyPolicyRepository.fetchPrivacyPolicy(filter, page);

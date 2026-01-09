@@ -9,7 +9,7 @@ export interface TasksItemDto {
     operators: Array<TelecomOperatorDto>;
     source: ReportSourceDto;
     initiator_phone_number: string;
-    created_at: string;
+    reported_at: string;
 }
 
-export interface TasksResponseDto extends PaginatedResponseDto<TasksItemDto> {}
+export interface TasksResponseDto extends PaginatedResponseDto<TasksItemDto> { }

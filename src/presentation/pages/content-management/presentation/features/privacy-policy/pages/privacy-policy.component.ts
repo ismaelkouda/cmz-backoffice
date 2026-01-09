@@ -42,10 +42,6 @@ export class PrivacyPolicyComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
     private readonly privacyPolicyFacade = inject(PrivacyPolicyFacade);
-    public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');
-    public subModule: string = this.translate.instant(
-        'CONTENT_MANAGEMENT.PRIVACY_POLICY.LABEL'
-    );
     public privacyPolicy$: Observable<PrivacyPolicyEntity[]> =
         this.privacyPolicyFacade.privacyPolicy$;
     public pagination$: Observable<Paginate<PrivacyPolicyEntity>> =

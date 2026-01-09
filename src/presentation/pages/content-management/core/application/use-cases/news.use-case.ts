@@ -12,7 +12,7 @@ export class FetchNewsUseCase {
     private readonly newsRepository = inject(NewsRepository);
 
     execute(
-        filter: NewsFilter,
+        filter: NewsFilter | null,
         page: string
     ): Observable<Paginate<NewsEntity>> {
         return this.newsRepository.fetchNews(filter, page);

@@ -6,7 +6,7 @@ import { ActionsFilter } from '../value-objects/actions-filter.vo';
 
 export abstract class ActionsRepository {
     abstract fetchActions(
-        filter: ActionsFilter,
+        filter: ActionsFilter | null,
         page: string
     ): Observable<Paginate<ActionsEntity>>;
 

@@ -43,10 +43,6 @@ export class LegalNoticeComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
     private readonly legalNoticeFacade = inject(LegalNoticeFacade);
-    public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');
-    public subModule: string = this.translate.instant(
-        'CONTENT_MANAGEMENT.LEGAL_NOTICE.LABEL'
-    );
     public legalNotice$: Observable<LegalNoticeEntity[]> =
         this.legalNoticeFacade.legalNotice$;
     public pagination$: Observable<Paginate<LegalNoticeEntity>> =

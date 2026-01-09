@@ -10,7 +10,7 @@ export const QUEUES_TABLE_CONST = {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '10rem',
+            width: '8rem',
         },
         {
             field: 'reportType',
@@ -20,7 +20,7 @@ export const QUEUES_TABLE_CONST = {
         {
             field: 'operators',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.OPERATORS',
-            width: '10rem',
+            width: '12rem',
         },
         {
             field: 'source',

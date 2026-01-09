@@ -458,6 +458,7 @@
         "HIGH": "HAUTE",
         "CRITICAL": "CRITIQUE",
         "GPS": "GPS",
+        "WHAT3WORDS": "What3Words",
         "WEB": "Web",
         "APP": "Application Mobile",
         "MOBILE": "Mobile",
@@ -494,7 +495,18 @@
         "UNPUBLISH": "Dépublier",
         "UNPUBLISHED": "Non Publié",
         "DISABLE": "Désactiver",
-        "DEACTIVATED": "Désactivé"
+        "DEACTIVATED": "Désactivé",
+        "INVALID_DATE_RANGE": "Plage de date invalide",
+        "FORM_INVALID": "Formulaire invalide",
+        "DATE_PLACEHOLDER": "AAAA-MM-JJ",
+        "SUCCESS": {
+            "CREATE": "Création reussie",
+            "UPDATE": "Mise à jour reussie",
+            "DELETE": "Suppression reussie",
+            "ENABLE": "Activation reussie",
+            "DISABLE": "Désactivation reussie",
+            "READ": "Lecture reussie"
+        }
     },
     "PAGINATION": {
         "TOTAL": "Total",
@@ -1695,6 +1707,13 @@
                 "TYPE": "Type de signalement",
                 "STATUS": "Statut",
                 "DESCRIPTION": "Description du signalement",
+                "COMMENT_APPROVER": "Commentaire approbateur",
+                "NO_COMMENT_APPROVER": "Aucun commentaire approbateur fourni",
+                "COMMENT_TREATMENT": "Commentaire traitement",
+                "COMMENT_FINALIZATION": "Commentaire finalisation",
+                "NO_COMMENT_FINALIZATION": "Aucun commentaire finalisation fourni",
+                "NO_COMMENT_TREATMENT": "Aucun commentaire traitement fourni",
+                "COMMENT_TREAT": "Commentaire traitement",
                 "LOCATION_NAME": "Lien avec la zone",
                 "NO_DESCRIPTION": "Aucune description de localisation fournie"
             },
@@ -2691,7 +2710,6 @@
     "THIRD_LEVEL": "Niveau trois",
     "SECOND_LEVEL": "Niveau deux",
     "FIRST_LEVEL": "Niveau un",
-    "FORM_INVALID": "Formulaire invalide",
     "PLEASE_START_WORKING_DAY": "Veuillez démarrer la journée de travail avant de continuer",
     "SOURCE": "Source",
     "DETAILS": "Détails",
@@ -2799,7 +2817,6 @@
     "CANNOT_MAKE_A_PAYMENT": "Impossible d'effectuer un paiement",
     "CANNOT_MODIFY_THE_PROFILE": "Impossible de modifier le profil",
     "CANNOT_AFFECT_THE_PROFILE": "Impossible d'affecter le profil",
-    "INVALID_DATE_RANGE": "Plage de date invalide",
     "SOMETHING_WENT_WRONG": "Une erreur s'est produite",
     "EDIT_SUCCESSFULLY_ADDED": "Modification ajoutée avec succès",
     "UPDATED_CHANGE": "Modification mise à jour",

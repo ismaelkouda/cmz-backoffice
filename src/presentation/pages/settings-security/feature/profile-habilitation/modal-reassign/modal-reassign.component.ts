@@ -120,7 +120,7 @@ export class ModalReassignComponent implements OnInit, OnDestroy {
                     )
                 );
             } else {
-                this.toastService.error(this.translate.instant('FORM_INVALID'));
+                this.toastService.error(this.translate.instant('COMMON.FORM_INVALID'));
             }
         }
     }

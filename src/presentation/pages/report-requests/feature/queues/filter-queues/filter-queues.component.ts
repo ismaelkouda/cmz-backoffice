@@ -87,10 +87,10 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                 uniq_id: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
-                created_from: new FormControl<string | null>(null, {
+                start_date: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
-                created_to: new FormControl<string | null>(null, {
+                end_date: new FormControl<string | null>(null, {
                     nonNullable: true,
                 }),
                 report_type: new FormControl<string | null>(null, {
@@ -125,7 +125,6 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                 takeUntil(this.destroy$)
             )
             .subscribe((filterValue) => {
-                console.log("filterValue", filterValue)
                 if (!this.formFilter) {
                     return;
                 }
@@ -135,14 +134,16 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                         ? filterValue.toDto()
                         : {};
 
+                console.log("dto", dto)
+
                 this.formFilter.patchValue(
                     {
                         initiator_phone_number:
                             (dto['initiator_phone_number'] as string) ?? '',
                         uniq_id: (dto['uniq_id'] as string) ?? '',
-                        created_from: (dto['created_from'] as string) ?? '',
+                        start_date: (dto['start_date'] as string) ?? '',
                         source: (dto['source'] as string) ?? '',
-                        created_to: (dto['created_to'] as string) ?? '',
+                        end_date: (dto['end_date'] as string) ?? '',
                         report_type: (dto['report_type'] as string) ?? '',
                         operators: (dto['operators'] as string[]) ?? [],
                     },
@@ -171,20 +172,20 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
     }
 
     public onSubmitFilterForm(): void {
-        const createdFromControl = this.formFilter.get('created_from');
-        const createdToControl = this.formFilter.get('created_to');
+        const createdFromControl = this.formFilter.get('start_date');
+        const createdToControl = this.formFilter.get('end_date');
 
         const createdFromValue = createdFromControl?.value ?? '';
         const createdToValue = createdToControl?.value ?? '';
 
-        const createdFrom = moment(createdFromValue, moment.ISO_8601, true);
-        const createdTo = moment(createdToValue, moment.ISO_8601, true);
+        const startDate = moment(createdFromValue, moment.ISO_8601, true);
+        const endDate = moment(createdToValue, moment.ISO_8601, true);
 
-        if (createdFrom.isValid() && createdTo.isValid()) {
-            if (createdFrom.isAfter(createdTo)) {
-                const INVALID_DATE_RANGE =
-                    this.translate.instant('INVALID_DATE_RANGE');
-                this.toastService.error(INVALID_DATE_RANGE);
+        if (startDate.isValid() && endDate.isValid()) {
+            if (startDate.isAfter(endDate)) {
+                const invalidDateRange =
+                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                this.toastService.error(invalidDateRange);
                 return;
             }
         }
@@ -194,11 +195,11 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
                 this.formFilter.get('initiator_phone_number')?.value?.trim() ??
                 '',
             uniq_id: this.formFilter.get('uniq_id')?.value?.trim() ?? '',
-            created_from: createdFrom.isValid()
-                ? createdFrom.format('YYYY-MM-DD')
+            start_date: startDate.isValid()
+                ? startDate.format('YYYY-MM-DD')
                 : '',
-            created_to: createdTo.isValid()
-                ? createdTo.format('YYYY-MM-DD')
+            end_date: endDate.isValid()
+                ? endDate.format('YYYY-MM-DD')
                 : '',
             source: this.formFilter.get('source')?.value?.trim() ?? '',
             report_type:
@@ -209,7 +210,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }

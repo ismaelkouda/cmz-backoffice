@@ -173,7 +173,7 @@ export class FormProfileHabilitationComponent implements OnInit, OnDestroy {
                 });
         } else {
             this.formProfile.markAllAsTouched();
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }

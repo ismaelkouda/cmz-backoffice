@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { DetailsEntity } from '../../domain/entities/details/details.entity';
 import { DetailsRepository } from '../../domain/repositories/details.repository';
+import { DetailsFilter } from '../../domain/value-objects/details-filter.vo';
 import { DetailsMapper } from '../mappers/details.mapper';
 import { DetailsApi } from '../sources/details.api';
 
@@ -9,19 +10,15 @@ import { DetailsApi } from '../sources/details.api';
     providedIn: 'root',
 })
 export class DetailsRepositoryImpl extends DetailsRepository {
-    constructor(
-        private readonly detailsApi: DetailsApi,
-        private readonly detailsMapper: DetailsMapper
-    ) {
-        super();
-    }
+    private readonly detailsApi = inject(DetailsApi);
+    private readonly detailsMapper = inject(DetailsMapper);
 
     fetchDetails(
-        id: string,
-        endPointType: EndPointType
+        filter: DetailsFilter,
+        endPointType?: EndPointType
     ): Observable<DetailsEntity> {
         return this.detailsApi
-            .fetchDetails(id, endPointType)
+            .fetchDetails(filter, endPointType)
             .pipe(map((response) => this.detailsMapper.mapFromDto(response)));
     }
 }

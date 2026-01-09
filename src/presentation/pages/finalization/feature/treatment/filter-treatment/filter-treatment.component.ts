@@ -93,7 +93,7 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
         private readonly fb: FormBuilder,
         private readonly translate: TranslateService,
         private readonly treatmentFacade: TreatmentFacade
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.initFormFilter();
@@ -102,10 +102,10 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
     private initFormFilter(): void {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<TreatmentFilterFormControlEntity>({
-                created_from: new FormControl<string>('', {
+                start_date: new FormControl<string>('', {
                     nonNullable: true,
                 }),
-                created_to: new FormControl<string>('', {
+                end_date: new FormControl<string>('', {
                     nonNullable: true,
                 }),
                 report_type: new FormControl<string>('', {
@@ -134,8 +134,8 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
 
                 this.formFilter.patchValue(
                     {
-                        created_from: dto['created_from'] ?? '',
-                        created_to: dto['created_to'] ?? '',
+                        start_date: dto['start_date'] ?? '',
+                        end_date: dto['end_date'] ?? '',
                         report_type: dto['report_type'] ?? '',
                         state: dto['state'] ?? '',
                         operator: dto['operator'] ?? '',
@@ -155,30 +155,30 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
     }
 
     public onSubmitFilterForm(): void {
-        const createdFromControl = this.formFilter.get('created_from');
-        const createdToControl = this.formFilter.get('created_to');
+        const createdFromControl = this.formFilter.get('start_date');
+        const createdToControl = this.formFilter.get('end_date');
 
         const createdFromValue = createdFromControl?.value ?? '';
         const createdToValue = createdToControl?.value ?? '';
 
-        const createdFrom = moment(createdFromValue, moment.ISO_8601, true);
-        const createdTo = moment(createdToValue, moment.ISO_8601, true);
+        const startDate = moment(createdFromValue, moment.ISO_8601, true);
+        const endDate = moment(createdToValue, moment.ISO_8601, true);
 
-        if (createdFrom.isValid() && createdTo.isValid()) {
-            if (createdFrom.isAfter(createdTo)) {
-                const INVALID_DATE_RANGE =
-                    this.translate.instant('INVALID_DATE_RANGE');
-                this.toastService.error(INVALID_DATE_RANGE);
+        if (startDate.isValid() && endDate.isValid()) {
+            if (startDate.isAfter(endDate)) {
+                const invalidDateRange =
+                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                this.toastService.error(invalidDateRange);
                 return;
             }
         }
 
         const filterData: TreatmentFilterPayloadEntity = {
-            created_from: createdFrom.isValid()
-                ? createdFrom.format('YYYY-MM-DD')
+            start_date: startDate.isValid()
+                ? startDate.format('YYYY-MM-DD')
                 : '',
-            created_to: createdTo.isValid()
-                ? createdTo.format('YYYY-MM-DD')
+            end_date: endDate.isValid()
+                ? endDate.format('YYYY-MM-DD')
                 : '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
@@ -189,7 +189,7 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }

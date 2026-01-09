@@ -1,104 +1,58 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { inject, Injectable } from '@angular/core';
 import { QueuesEntity } from '@presentation/pages/report-requests/domain/entities/queues/queues.entity';
 import { FetchQueuesUseCase } from '@presentation/pages/report-requests/domain/use-cases/queues.use-case';
 import { QueuesFilter } from '@presentation/pages/report-requests/domain/value-objects/queues-filter.vo';
 import { BaseFacade } from '@shared/application/base/base-facade';
+import { shouldFetch } from '@shared/application/base/facade.utils';
+import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
-import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { QueuesFilterPayloadEntity } from '../domain/entities/queues/queues-filter-payload.entity';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
+    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly fetchUseCase = inject(FetchQueuesUseCase);
+
     readonly queues$: Observable<QueuesEntity[]> = this.items$;
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    constructor(
-        private readonly fetchUseCase: FetchQueuesUseCase,
-        toastService: ToastrService,
-        translateService: TranslateService
-    ) {
-        super(toastService, translateService);
-    }
+    fetchQueues(filter: QueuesFilter, page: string = PAGINATION_CONST.DEFAULT_PAGE, forceRefresh: boolean = false): void {
+        const hasData = this.itemsSubject.getValue().length > 0;
+        if (!shouldFetch(forceRefresh, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
 
-    fetchQueues(
-        filter: QueuesFilter,
-        page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh: boolean = false
-    ): void {
-        if (!this.shouldFetch(forceRefresh)) {
-            return;
-        }
-        const fetch = this.fetchUseCase.execute(filter, page);
-        this.fetchData(filter, page, fetch);
+        this.fetchWithFilterAndPage(filter, page, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
     }
 
+    refresh(): void {
+        this.filterSubject.next(null);
+
+        const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
+        this.pageSubject.next(firstPage);
+
+        this.fetchWithFilterAndPage(null, firstPage, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+
+        this.lastFetchTimestamp = Date.now();
+    }
+
     changePage(pageNumber: number): void {
         const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
-            return;
-        }
-        const fetch = this.fetchUseCase.execute(
-            currentFilter,
-            String(pageNumber)
-        );
-        this.changePageInternal(pageNumber, fetch);
+        if (!currentFilter) return;
+
+        this.fetchWithFilterAndPage(currentFilter, String(pageNumber), this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
 
         this.lastFetchTimestamp = Date.now();
     }
 
-    refresh(): void {
-        const currentFilter = QueuesFilter.create(
-            {} as QueuesFilterPayloadEntity
-        );
+    refreshWithLastFilterAndPage(): void {
+        const currentFilter = this.filterSubject.getValue();
         const currentPage = this.pageSubject.getValue();
-        const fetch = this.fetchUseCase.execute(currentFilter, currentPage);
-        this.fetchData(currentFilter, currentPage, fetch);
-
+        this.fetchWithFilterAndPage(currentFilter, currentPage, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
-    }
-
-    private shouldFetch(forceRefresh: boolean): boolean {
-        if (forceRefresh) {
-            return true;
-        }
-        if (!this.hasInitialized) {
-            return true;
-        }
-        const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
-        if (isStale) {
-            return true;
-        }
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (!hasData) {
-            return true;
-        }
-
-        return false;
-    }
-
-    resetMemory(): void {
-        this.hasInitialized = false;
-        this.lastFetchTimestamp = 0;
-        this.reset();
-    }
-
-    getMemoryStatus(): {
-        hasInitialized: boolean;
-        lastFetch: number;
-        hasData: boolean;
-    } {
-        return {
-            hasInitialized: this.hasInitialized,
-            lastFetch: this.lastFetchTimestamp,
-            hasData: this.itemsSubject.getValue().length > 0,
-        };
     }
 }

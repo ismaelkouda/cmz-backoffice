@@ -6,7 +6,19 @@ import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
     providedIn: 'root',
 })
 export class TelecomOperatorMapper {
-    mapToEnum(dtoValue: Array<TelecomOperatorDto>): Array<TelecomOperator> {
+    private static readonly MAP = new Map<TelecomOperatorDto, TelecomOperator>([
+        [TelecomOperatorDto.MTN, TelecomOperator.MTN],
+        [TelecomOperatorDto.ORANGE, TelecomOperator.ORANGE],
+        [TelecomOperatorDto.MOOV, TelecomOperator.MOOV],
+        [TelecomOperatorDto.UNKNOWN, TelecomOperator.UNKNOWN],
+    ]);
+
+    mapToEnum(dto: TelecomOperatorDto | null | undefined): TelecomOperator {
+        return TelecomOperatorMapper.MAP.get(dto ?? TelecomOperatorDto.UNKNOWN)
+            ?? TelecomOperator.UNKNOWN;
+    }
+
+    mapStringToEnum(dtoValue: Array<TelecomOperatorDto>): Array<TelecomOperator> {
         if (dtoValue == null) {
             return [TelecomOperator.UNKNOWN];
         }
@@ -21,24 +33,6 @@ export class TelecomOperatorMapper {
         };
         return dtoValue.map(
             (operator) => methodMap[operator] || TelecomOperator.UNKNOWN
-        );
-    }
-
-    mapToDto(enumValue: Array<TelecomOperator>): Array<TelecomOperatorDto> {
-        if (enumValue == null) {
-            return [TelecomOperatorDto.UNKNOWN];
-        }
-        if (!Array.isArray(enumValue)) {
-            return [TelecomOperatorDto.UNKNOWN];
-        }
-        const mapping: Record<TelecomOperator, TelecomOperatorDto> = {
-            [TelecomOperator.MTN]: TelecomOperatorDto.MTN,
-            [TelecomOperator.ORANGE]: TelecomOperatorDto.ORANGE,
-            [TelecomOperator.MOOV]: TelecomOperatorDto.MOOV,
-            [TelecomOperator.UNKNOWN]: TelecomOperatorDto.UNKNOWN,
-        };
-        return enumValue.map(
-            (operator) => mapping[operator] || TelecomOperatorDto.UNKNOWN
         );
     }
 }

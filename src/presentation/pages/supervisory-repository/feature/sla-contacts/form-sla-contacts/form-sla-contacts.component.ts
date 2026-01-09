@@ -53,7 +53,7 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         private toastService: ToastrService,
         private translate: TranslateService,
         private slaContactsApiService: SlaContactsApiService
-    ) {}
+    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (
@@ -62,7 +62,7 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         ) {
             if (
                 changes['formMode']?.currentValue ===
-                    SLA_CONTACTS_FORM_MODE_ENUM.SEE ||
+                SLA_CONTACTS_FORM_MODE_ENUM.SEE ||
                 this.formMode === SLA_CONTACTS_FORM_MODE_ENUM.SEE
             ) {
                 this.fetchRegimesBusiness();
@@ -73,11 +73,11 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         }
     }
 
-    private fetchApplicants(): void {}
+    private fetchApplicants(): void { }
 
-    private fetchRegimesBusiness(): void {}
+    private fetchRegimesBusiness(): void { }
 
-    private fetchLegalForms(): void {}
+    private fetchLegalForms(): void { }
 
     public get disabledEditableForm(): boolean {
         return this.formMode === SLA_CONTACTS_FORM_MODE_ENUM.SEE;
@@ -412,7 +412,7 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
     async handleSave(): Promise<void> {
         if (this.slaContactsForm.invalid) {
             this.slaContactsForm.markAllAsTouched();
-            this.toastService.error(this.translate.instant('FORM_INVALID'));
+            this.toastService.error(this.translate.instant('COMMON.FORM_INVALID'));
             return;
         }
 

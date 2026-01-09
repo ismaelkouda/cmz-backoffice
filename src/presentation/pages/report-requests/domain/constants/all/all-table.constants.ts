@@ -10,17 +10,17 @@ export const ALL_TABLE_CONST = {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.ALL.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '10rem',
+            width: '8rem',
         },
         {
             field: 'reportType',
             header: 'REPORTS_REQUESTS.ALL.TABLE.REPORT_TYPE',
-            width: '11rem',
+            width: '12rem',
         },
         {
             field: 'operators',
             header: 'REPORTS_REQUESTS.ALL.TABLE.OPERATORS',
-            width: '10rem',
+            width: '12rem',
         },
         {
             field: 'source',

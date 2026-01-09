@@ -43,10 +43,6 @@ export class TermsUseComponent implements OnInit {
     private readonly facade = inject(TermsUseFacade);
     private readonly translate = inject(TranslateService);
     private readonly termsUseFacade = inject(TermsUseFacade);
-    public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');
-    public subModule: string = this.translate.instant(
-        'CONTENT_MANAGEMENT.TERMS_USE.LABEL'
-    );
     public termsUse$: Observable<TermsUseEntity[]> =
         this.termsUseFacade.termsUse$;
     public pagination$: Observable<Paginate<TermsUseEntity>> =

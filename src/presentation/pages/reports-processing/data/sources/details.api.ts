@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+import { DetailsFilter } from '../../domain/value-objects/details-filter.vo';
 import { DetailsResponseDto } from '../dtos/details/details-response.dto';
 import { DETAILS_ENDPOINTS } from '../endpoint/details-endpoints';
 
@@ -14,21 +15,21 @@ export class DetailsApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchDetails(
-        id: string,
-        endPointType: EndPointType
+        filter: DetailsFilter,
+        endPointType?: EndPointType
     ): Observable<DetailsResponseDto> {
         let url: string;
         switch (endPointType) {
             case 'requests':
-                url = `${this.baseUrl}${DETAILS_ENDPOINTS.DETAILS_REQUESTS.replace('{id}', id)}`;
+                url = `${this.baseUrl}${DETAILS_ENDPOINTS.DETAILS_REQUESTS.replace('{id}', filter.id)}`;
                 break;
 
             case 'reports-processing':
             case 'reports-finalization':
-                url = `${this.baseUrl}${DETAILS_ENDPOINTS.DETAILS_REPORTS.replace('{id}', id)}`;
+                url = `${this.baseUrl}${DETAILS_ENDPOINTS.DETAILS_REPORTS.replace('{id}', filter.id)}`;
                 break;
 
             default:

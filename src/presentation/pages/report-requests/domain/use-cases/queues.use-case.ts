@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class FetchQueuesUseCase {
-    constructor(private readonly queuesRepository: QueuesRepository) {}
+    constructor(private readonly queuesRepository: QueuesRepository) { }
 
     execute(
-        filter: QueuesFilter,
+        filter: QueuesFilter | null,
         page: string
     ): Observable<Paginate<QueuesEntity>> {
         return this.queuesRepository.fetchQueues(filter, page);

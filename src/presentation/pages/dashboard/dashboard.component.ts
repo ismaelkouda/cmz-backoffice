@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
     Component,
-    OnDestroy,
     OnInit,
+    effect,
     inject,
+    signal
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -15,7 +16,6 @@ import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SkeletonModule } from 'primeng/skeleton';
-import { Subject, takeUntil } from 'rxjs';
 import { separatorThousands } from '../../../shared/functions/separator-thousands';
 import { DashboardFacade } from './application/dashboard.facade';
 import { DashboardStatistics } from './domain/entities/dashboard-statistics.entity';
@@ -51,19 +51,20 @@ type PeriodOption = '7' | '30' | '60' | '90';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
     private readonly title = inject(Title);
     private readonly router = inject(Router);
-    private readonly dashboardFacade = inject(DashboardFacade);
+    private readonly facade = inject(DashboardFacade);
     private readonly translate = inject(TranslateService);
-    private readonly cdr = inject(ChangeDetectorRef);
-    private readonly destroy$ = new Subject<void>();
 
-    public isLoading$ = this.dashboardFacade.isLoading$;
-    public majDate$ = this.dashboardFacade.majDate$;
+    public isLoading$ = this.facade.isLoading$;
+    public items$ = this.facade.items$;
     public error: string | null = null;
-    public dashboardData: DashboardStatistics | null = null;
-    public selectedPeriod: PeriodOption = '7';
+
+    public readonly selectedPeriod = signal<PeriodOption>('7');
+    readonly dashboardData = toSignal(this.facade.items$, {
+        initialValue: null,
+    });
 
     public periodOptions = [
         { label: '7', value: '7' },
@@ -76,48 +77,37 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public taskStatusStatistics: StatisticCard[] = [];
     public performanceStatistics: StatisticCard[] = [];
 
+    constructor() {
+        effect(() => {
+            const period = Number(this.selectedPeriod());
+            this.facade.loadStatistics(period);
+        });
+
+        effect(() => {
+            const data = this.dashboardData();
+            if (data) {
+                this.generateStatistics(data);
+            }
+        });
+    }
+
     ngOnInit(): void {
-        this.setupTitle();
-        this.loadDashboardData();
-    }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    private setupTitle(): void {
         this.title.setTitle(this.translate.instant('DASHBOARD.TITLE'));
     }
 
-    private loadDashboardData(): void {
-        this.error = null;
-
-        const period = parseInt(this.selectedPeriod, 10);
-
-        this.dashboardFacade
-            .loadStatistics(period)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: (statistics) => {
-                    this.handleDashboardData(statistics);
-                },
-            });
+    onPeriodChange(period: PeriodOption): void {
+        this.selectedPeriod.set(period);
     }
 
-    public onPeriodChange(period: PeriodOption): void {
-        this.selectedPeriod = period;
-        this.cdr.markForCheck();
-        this.loadDashboardData();
+    refreshData(): void {
+        this.facade.loadStatistics(Number(this.selectedPeriod()));
     }
 
-    private handleDashboardData(data: DashboardStatistics): void {
-        this.dashboardData = data;
-        this.generateStatistics(data);
-        this.cdr.markForCheck();
+    public navigateToReport(stat: StatisticCard): void {
+        stat.routerFilter?.();
     }
 
-    private generateStatistics(data: DashboardStatistics | null): void {
+    private generateStatistics(data: DashboardStatistics): void {
         if (!data) {
             return;
         }
@@ -255,15 +245,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 icon: 'pi-clock',
             },
         ];
-    }
-
-    public refreshData(): void {
-        this.loadDashboardData();
-    }
-
-    public navigateToReport(stat: StatisticCard): void {
-        if (stat.routerFilter) {
-            stat.routerFilter();
-        }
     }
 }

@@ -11,7 +11,7 @@ import { AllFilter } from '../value-objects/all-filter.vo';
 export class FetchAllUseCase {
     private readonly allRepository = inject(AllRepository);
 
-    execute(filter: AllFilter, page: string): Observable<Paginate<AllEntity>> {
+    execute(filter: AllFilter | null, page: string): Observable<Paginate<AllEntity>> {
         return this.allRepository.fetchAll(filter, page);
     }
 }

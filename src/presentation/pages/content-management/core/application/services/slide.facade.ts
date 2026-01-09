@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { inject, Injectable } from '@angular/core';
 import { CreateSlideUseCase } from '@presentation/pages/content-management/core/application/use-cases/create-slide.use-case';
 import { DeleteSlideUseCase } from '@presentation/pages/content-management/core/application/use-cases/delete-slide.use-case';
 import { DisableSlideUseCase } from '@presentation/pages/content-management/core/application/use-cases/disable-slide.use-case';
@@ -10,47 +9,61 @@ import { UpdateSlideUseCase } from '@presentation/pages/content-management/core/
 import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
 import { SlideFilter } from '@presentation/pages/content-management/core/domain/value-objects/slide-filter.vo';
 import { BaseFacade } from '@shared/application/base/base-facade';
+import { handleObservableWithFeedback, shouldFetch } from '@shared/application/base/facade.utils';
+import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { ToastrService } from 'ngx-toastr';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class SlideFacade extends BaseFacade<SlideEntity, SlideFilter> {
+    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly fetchUseCase = inject(FetchSlideUseCase);
+    private readonly getByIdUseCase = inject(GetSlideByIdUseCase);
+    private readonly createUseCase = inject(CreateSlideUseCase);
+    private readonly updateUseCase = inject(UpdateSlideUseCase);
+    private readonly deleteUseCase = inject(DeleteSlideUseCase);
+    private readonly enableUseCase = inject(EnableSlideUseCase);
+    private readonly disableUseCase = inject(DisableSlideUseCase);
+
     public readonly slide$ = this.items$;
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    constructor(
-        private readonly fetchUseCase: FetchSlideUseCase,
-        private readonly getByIdUseCase: GetSlideByIdUseCase,
-        private readonly createUseCase: CreateSlideUseCase,
-        private readonly updateUseCase: UpdateSlideUseCase,
-        private readonly deleteUseCase: DeleteSlideUseCase,
-        private readonly enableUseCase: EnableSlideUseCase,
-        private readonly disableUseCase: DisableSlideUseCase,
-        toastService: ToastrService,
-        translateService: TranslateService
-    ) {
-        super(toastService, translateService);
+    private handleActionWithRefresh<T>(observable: Observable<T>, successKey: string): Observable<T> {
+        return handleObservableWithFeedback(observable, this.uiFeedbackService, successKey, () => this.refresh());
     }
 
-    fetchSlide(
-        filter: SlideFilter,
-        page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh: boolean = false
-    ): void {
-        if (!this.shouldFetch(forceRefresh)) {
-            return;
-        }
-        const fetch = this.fetchUseCase.execute(filter, page);
-        this.fetchData(filter, page, fetch);
+    fetchSlide(filter: SlideFilter, page: string = PAGINATION_CONST.DEFAULT_PAGE, forceRefresh: boolean = false): void {
+        const hasData = this.itemsSubject.getValue().length > 0;
+        if (!shouldFetch(forceRefresh, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
+
+        this.fetchWithFilterAndPage(filter, page, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
 
         this.hasInitialized = true;
+        this.lastFetchTimestamp = Date.now();
+    }
+
+    refresh(): void {
+        this.filterSubject.next(null);
+
+        const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
+        this.pageSubject.next(firstPage);
+
+        this.fetchWithFilterAndPage(null, firstPage, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+
+        this.lastFetchTimestamp = Date.now();
+    }
+
+    changePage(pageNumber: number): void {
+        const currentFilter = this.filterSubject.getValue();
+        if (!currentFilter) return;
+
+        this.fetchWithFilterAndPage(currentFilter, String(pageNumber), this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -58,104 +71,24 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilter> {
         return this.getByIdUseCase.execute(id);
     }
 
-    createSlide(payload: FormData): Observable<SlideEntity> {
-        return this.createUseCase.execute(payload).pipe(
-            tap(() => {
-                this.toastService.success(
-                    this.translateService.instant('COMMON.SUCCESS.CREATE')
-                );
-                this.refresh();
-            })
-        );
+    createSlide(payload: FormData) {
+        return this.handleActionWithRefresh(this.createUseCase.execute(payload), 'COMMON.SUCCESS.CREATE');
     }
 
-    updateSlide(id: string, payload: FormData): Observable<SlideEntity> {
-        return this.updateUseCase.execute({ id, data: payload }).pipe(
-            tap(() => {
-                this.toastService.success(
-                    this.translateService.instant('COMMON.SUCCESS.UPDATE')
-                );
-                this.refresh();
-            })
-        );
+    updateSlide(id: string, payload: FormData) {
+        return this.handleActionWithRefresh(this.updateUseCase.execute({ id, data: payload }), 'COMMON.SUCCESS.UPDATE');
     }
 
-    deleteSlide(id: string): Observable<SimpleResponseDto<void>> {
-        return this.deleteUseCase.execute(id).pipe(
-            tap(() => {
-                this.toastService.success(
-                    this.translateService.instant('COMMON.SUCCESS.DELETE')
-                );
-                this.refresh();
-            })
-        );
+    deleteSlide(id: string) {
+        return this.handleActionWithRefresh(this.deleteUseCase.execute(id), 'COMMON.SUCCESS.DELETE');
     }
 
-    enableSlide(id: string): Observable<SimpleResponseDto<void>> {
-        return this.enableUseCase.execute(id).pipe(
-            tap(() => {
-                this.toastService.success(
-                    this.translateService.instant('COMMON.SUCCESS.UPDATE')
-                );
-                this.refresh();
-            })
-        );
+    enableSlide(id: string) {
+        return this.handleActionWithRefresh(this.enableUseCase.execute(id), 'COMMON.SUCCESS.UPDATE');
     }
 
-    disableSlide(id: string): Observable<SimpleResponseDto<void>> {
-        return this.disableUseCase.execute(id).pipe(
-            tap(() => {
-                this.toastService.success(
-                    this.translateService.instant('COMMON.SUCCESS.UPDATE')
-                );
-                this.refresh();
-            })
-        );
-    }
-
-    changePage(pageNumber: number): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
-            return;
-        }
-        const fetch = this.fetchUseCase.execute(
-            currentFilter,
-            String(pageNumber)
-        );
-        this.changePageInternal(pageNumber, fetch);
-
-        this.lastFetchTimestamp = Date.now();
-    }
-
-    refresh(): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
-            return;
-        }
-        const currentPage = this.pageSubject.getValue();
-        const fetch = this.fetchUseCase.execute(currentFilter, currentPage);
-        this.fetchData(currentFilter, currentPage, fetch);
-
-        this.lastFetchTimestamp = Date.now();
-    }
-
-    private shouldFetch(forceRefresh: boolean): boolean {
-        if (forceRefresh) {
-            return true;
-        }
-        if (!this.hasInitialized) {
-            return true;
-        }
-        const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
-        if (isStale) {
-            return true;
-        }
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (!hasData) {
-            return true;
-        }
-
-        return false;
+    disableSlide(id: string) {
+        return this.handleActionWithRefresh(this.disableUseCase.execute(id), 'COMMON.SUCCESS.UPDATE');
     }
 
     resetMemory(): void {

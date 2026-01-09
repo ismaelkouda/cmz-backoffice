@@ -78,20 +78,20 @@ export class FilterProfileHabilitationComponent implements OnInit {
     }
 
     onSubmitFilterForm(): void {
-        const createdFromControl = this.filterForm.get('created_from');
-        const createdToControl = this.filterForm.get('created_to');
+        const createdFromControl = this.filterForm.get('start_date');
+        const createdToControl = this.filterForm.get('end_date');
 
         const createdFromValue = createdFromControl?.value ?? '';
         const createdToValue = createdToControl?.value ?? '';
 
-        const createdFrom = moment(createdFromValue, moment.ISO_8601, true);
-        const createdTo = moment(createdToValue, moment.ISO_8601, true);
+        const startDate = moment(createdFromValue, moment.ISO_8601, true);
+        const endDate = moment(createdToValue, moment.ISO_8601, true);
 
-        if (createdFrom.isValid() && createdTo.isValid()) {
-            if (createdFrom.isAfter(createdTo)) {
-                const INVALID_DATE_RANGE =
-                    this.translate.instant('INVALID_DATE_RANGE');
-                this.toastService.error(INVALID_DATE_RANGE);
+        if (startDate.isValid() && endDate.isValid()) {
+            if (startDate.isAfter(endDate)) {
+                const invalidDateRange =
+                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                this.toastService.error(invalidDateRange);
                 return;
             }
         }
@@ -103,7 +103,7 @@ export class FilterProfileHabilitationComponent implements OnInit {
         if (this.filterForm.valid) {
             this.filterChange.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }

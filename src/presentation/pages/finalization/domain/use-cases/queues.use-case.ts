@@ -12,7 +12,7 @@ export class FetchQueuesUseCase {
     private readonly queuesRepository = inject(QueuesRepository);
 
     execute(
-        filter: QueuesFilter,
+        filter: QueuesFilter | null,
         page: string
     ): Observable<Paginate<QueuesEntity>> {
         return this.queuesRepository.fetchQueues(filter, page);

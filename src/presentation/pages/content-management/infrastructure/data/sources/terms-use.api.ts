@@ -17,13 +17,13 @@ export class TermsUseApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchTermsUse(
         payload: TermsUseRequestDto,
         page: string
     ): Observable<TermsUseResponseDto> {
-        const url = `${this.baseUrl}${TERMS_USE_ENDPOINTS.TERMS_USE.replace('{page}', page)} `;
+        const url = `${this.baseUrl}${TERMS_USE_ENDPOINTS.TERMS_USE.replace('{page}', page)}`;
 
         const paramsObject = Object.entries(payload ?? {}).reduce<
             Record<string, string>

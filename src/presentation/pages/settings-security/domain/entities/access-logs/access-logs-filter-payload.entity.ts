@@ -1,5 +1,5 @@
 export interface AccessLogsFilterPayloadEntity {
-    created_from?: string;
-    created_to?: string;
+    start_date?: string;
+    end_date?: string;
     auth_user_id?: string;
 }

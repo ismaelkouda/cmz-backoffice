@@ -86,7 +86,7 @@ export class FilterCustomersComponent implements OnInit, OnDestroy {
         private toastService: ToastrService,
         private translate: TranslateService,
         private customersApiService: CustomersApiService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.initFormFilter();
@@ -175,9 +175,9 @@ export class FilterCustomersComponent implements OnInit, OnDestroy {
             date_fin &&
             moment(date_debut).isAfter(moment(date_fin))
         ) {
-            const INVALID_DATE_RANGE =
-                this.translate.instant('INVALID_DATE_RANGE');
-            this.toastService.error(INVALID_DATE_RANGE);
+            const invalidDateRange =
+                this.translate.instant('COMMON.INVALID_DATE_RANGE');
+            this.toastService.error(invalidDateRange);
             return;
         }
 
@@ -192,7 +192,7 @@ export class FilterCustomersComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.success(translatedMessage);
         }
     }

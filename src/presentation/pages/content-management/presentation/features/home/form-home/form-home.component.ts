@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     DestroyRef,
     inject,
     OnInit,
-    signal,
+    signal
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -69,7 +68,6 @@ import { map } from 'rxjs/operators';
         ToastModule,
         TooltipModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [MessageService],
 })
 export class FormHomeComponent implements OnInit {
@@ -169,7 +167,6 @@ export class FormHomeComponent implements OnInit {
                 platforms: [[], Validators.required],
                 startDate: [null],
                 endDate: [null],
-                isActive: [true],
             },
             { validators: this.buttonFieldsConsistencyValidator() }
         );
@@ -254,6 +251,19 @@ export class FormHomeComponent implements OnInit {
 
     public getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
+
+        if (fieldName === 'buttonLabel' && this.form.errors?.['buttonLabelWithoutUrl']) {
+            return this.translate.instant(
+                'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL'
+            );
+        }
+
+        if (fieldName === 'buttonUrl' && this.form.errors?.['buttonUrlWithoutLabel']) {
+            return this.translate.instant(
+                'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL'
+            );
+        }
+
         if (!control || !control.errors) return '';
 
         const errors = control.errors;
@@ -274,18 +284,6 @@ export class FormHomeComponent implements OnInit {
 
         if (errors['htmlMaxLength']) {
             return `${this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.CONTENT_TOO_LONG')}: ${errors['htmlMaxLength'].actual}/${errors['htmlMaxLength'].maxAllowed}`;
-        }
-
-        if (errors['buttonLabelWithoutUrl']) {
-            return this.translate.instant(
-                'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL'
-            );
-        }
-
-        if (errors['buttonUrlWithoutLabel']) {
-            return this.translate.instant(
-                'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL'
-            );
         }
 
         if (fieldName === 'imageFile') {
@@ -412,7 +410,6 @@ export class FormHomeComponent implements OnInit {
             platforms: item.platforms,
             startDate: item.startDate ? new Date(item.startDate) : null,
             endDate: item.endDate ? new Date(item.endDate) : null,
-            isActive: item.status,
         };
 
         if (item.imageUrl) {
@@ -429,7 +426,7 @@ export class FormHomeComponent implements OnInit {
             const file = event.files[0];
             this.imageRemoved = false;
 
-            this.validateImageFile(file);
+            /* this.validateImageFile(file); */
 
             this.uploadedFile = file;
             this.form.patchValue({ imageFile: file });
@@ -547,7 +544,6 @@ export class FormHomeComponent implements OnInit {
         formData.append('order', values.order?.toString() || '0');
         formData.append('button_label', values.buttonLabel || '');
         formData.append('button_url', values.buttonUrl || '');
-        formData.append('is_active', String(values.isActive));
 
         this.appendPlatformsData(formData, values.platforms);
 

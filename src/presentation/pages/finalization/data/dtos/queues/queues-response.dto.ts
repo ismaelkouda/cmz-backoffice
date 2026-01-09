@@ -9,8 +9,8 @@ export interface QueuesItemDto {
     operators: Array<TelecomOperatorDto>;
     source: ReportSourceDto;
     initiator_phone_number: string;
-    created_at: string;
+    reported_at: string;
 }
 
 export interface QueuesResponseDto
-    extends PaginatedResponseDto<QueuesItemDto> {}
+    extends PaginatedResponseDto<QueuesItemDto> { }

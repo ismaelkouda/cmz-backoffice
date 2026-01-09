@@ -5,7 +5,7 @@ import { NotificationsFilter } from '../value-objects/notifications-filter.vo';
 
 export abstract class NotificationsRepository {
     abstract fetchNotifications(
-        filter: NotificationsFilter,
+        filter: NotificationsFilter | null,
         page: string
     ): Observable<Paginate<NotificationsEntity>>;
 
