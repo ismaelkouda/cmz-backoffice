@@ -113,14 +113,13 @@ export class FilterLegalNoticeComponent implements OnInit, OnDestroy {
                     typeof filterValue?.toDto === 'function'
                         ? filterValue.toDto()
                         : {};
-
                 this.formFilter.patchValue(
                     {
-                        startDate: (dto['startDate'] as string) ?? '',
-                        endDate: (dto['endDate'] as string) ?? '',
+                        startDate: (dto['start_date'] as string) ?? '',
+                        endDate: (dto['end_date'] as string) ?? '',
                         version: (dto['version'] as string) ?? '',
                         search: (dto['search'] as string) ?? '',
-                        isPublished: (dto['isPublished'] as boolean) ?? null,
+                        isPublished: (dto['is_published'] as boolean) ?? null,
                     },
                     { emitEvent: false }
                 );
@@ -139,9 +138,9 @@ export class FilterLegalNoticeComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const INVALID_DATE_RANGE =
-                    this.translate.instant('INVALID_DATE_RANGE');
-                this.toastService.error(INVALID_DATE_RANGE);
+                const invalidDateRange =
+                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                this.toastService.error(invalidDateRange);
                 return;
             }
         }
@@ -159,7 +158,7 @@ export class FilterLegalNoticeComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }

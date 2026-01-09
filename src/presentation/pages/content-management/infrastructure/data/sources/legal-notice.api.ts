@@ -17,13 +17,13 @@ export class LegalNoticeApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchLegalNotice(
         payload: LegalNoticeRequestDto,
         page: string
     ): Observable<LegalNoticeResponseDto> {
-        const url = `${this.baseUrl}${LEGAL_NOTICE_ENDPOINTS.LEGAL_NOTICE.replace('{page}', page)} `;
+        const url = `${this.baseUrl}${LEGAL_NOTICE_ENDPOINTS.LEGAL_NOTICE.replace('{page}', page)}`;
 
         const paramsObject = Object.entries(payload ?? {}).reduce<
             Record<string, string>

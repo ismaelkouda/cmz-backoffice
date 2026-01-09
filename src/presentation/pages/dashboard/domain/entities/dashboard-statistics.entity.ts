@@ -20,5 +20,5 @@ export interface DashboardStatistics {
     readonly averageTreatmentTime?: number;
     readonly completionRate?: number;
     readonly responseTime?: number;
-    readonly dateDerniereMaj?: string;
+    readonly lastRefreshAt?: string;
 }

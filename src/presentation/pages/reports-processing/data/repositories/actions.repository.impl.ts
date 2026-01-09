@@ -18,11 +18,11 @@ export class ActionsRepositoryImpl extends ActionsRepository {
     }
 
     fetchActions(
-        filter: ActionsFilter,
+        filter: ActionsFilter | null,
         page: string
     ): Observable<Paginate<ActionsEntity>> {
         return this.actionsApi
-            .fetchActions(filter.toDto(), page)
+            .fetchActions(filter?.toDto() ?? {}, page)
             .pipe(map((response) => this.actionsMapper.mapFromDto(response)));
     }
 

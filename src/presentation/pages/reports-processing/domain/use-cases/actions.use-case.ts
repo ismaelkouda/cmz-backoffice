@@ -10,7 +10,7 @@ export class FetchActionsUseCase {
     private readonly actionsRepository = inject(ActionsRepository);
 
     execute(
-        filter: ActionsFilter,
+        filter: ActionsFilter | null,
         page: string
     ): Observable<Paginate<ActionsEntity>> {
         return this.actionsRepository.fetchActions(filter, page);

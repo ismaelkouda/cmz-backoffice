@@ -5,7 +5,7 @@ import { QueuesFilter } from '../value-objects/queues-filter.vo';
 
 export abstract class QueuesRepository {
     abstract fetchQueues(
-        filter: QueuesFilter,
+        filter: QueuesFilter | null,
         page: string
     ): Observable<Paginate<QueuesEntity>>;
 }

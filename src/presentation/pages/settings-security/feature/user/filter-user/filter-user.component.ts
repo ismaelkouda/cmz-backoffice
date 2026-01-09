@@ -110,30 +110,30 @@ export class FilterUserComponent implements OnInit, OnDestroy {
     }
 
     public onSubmitFilterForm(): void {
-       const createdFromControl = this.formFilter.get('created_from');
-        const createdToControl = this.formFilter.get('created_to');
+       const createdFromControl = this.formFilter.get('start_date');
+        const createdToControl = this.formFilter.get('end_date');
  
         const createdFromValue = createdFromControl?.value ?? '';
         const createdToValue = createdToControl?.value ?? '';
  
-        const createdFrom = moment(createdFromValue, moment.ISO_8601, true);
-        const createdTo = moment(createdToValue, moment.ISO_8601, true);
+        const startDate = moment(createdFromValue, moment.ISO_8601, true);
+        const endDate = moment(createdToValue, moment.ISO_8601, true);
  
-        if (createdFrom.isValid() && createdTo.isValid()) {
-            if (createdFrom.isAfter(createdTo)) {
-                const INVALID_DATE_RANGE =
-                    this.translate.instant('INVALID_DATE_RANGE');
-                this.toastService.error(INVALID_DATE_RANGE);
+        if (startDate.isValid() && endDate.isValid()) {
+            if (startDate.isAfter(endDate)) {
+                const invalidDateRange =
+                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                this.toastService.error(invalidDateRange);
                 return;
             }
         }
  
         const filterData: UsersFilterPayloadEntity = {
-            created_from: createdFrom.isValid()
-                ? createdFrom.format('YYYY-MM-DD')
+            start_date: startDate.isValid()
+                ? startDate.format('YYYY-MM-DD')
                 : '',
-            created_to: createdTo.isValid()
-                ? createdTo.format('YYYY-MM-DD')
+            end_date: endDate.isValid()
+                ? endDate.format('YYYY-MM-DD')
                 : '',
             state: this.formFilter.get('state')?.value?.trim() ?? '',
             matricule: this.formFilter.get('matricule')?.value?.trim() ?? '',
@@ -143,7 +143,7 @@ export class FilterUserComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         } 
     }

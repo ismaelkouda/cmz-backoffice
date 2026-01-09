@@ -9,7 +9,7 @@ import { LegalNoticeFilter } from '../value-objects/legal-notice-filter.vo';
 
 export abstract class LegalNoticeRepository {
     abstract fetchLegalNotice(
-        filter: LegalNoticeFilter,
+        filter: LegalNoticeFilter | null,
         page: string
     ): Observable<Paginate<LegalNoticeEntity>>;
     abstract getLegalNoticeById(

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 export abstract class HomeRepository {
     abstract fetchHome(
-        filter: HomeFilter,
+        filter: HomeFilter | null,
         page: string
     ): Observable<Paginate<HomeEntity>>;
 

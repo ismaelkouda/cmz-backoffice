@@ -10,56 +10,165 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { TimestampsMapper } from '@shared/data/mappers/timestamps.mapper';
 import { TreaterInfoMapper } from '@shared/data/mappers/treater-info.mapper';
+import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
 import {
     DetailsEntity,
+    FinalizationState,
+    ProcessingState,
     QualificationState,
     ReportState,
     ReportStatus,
 } from '../../domain/entities/details/details.entity';
 import { DetailsItemDto } from '../dtos/details/details-response.dto';
 
+/* const REPORT_STATUS_MAP: Readonly<Record<string, ReportStatus>> = {
+    pending: ReportStatus.PENDING,
+    approved: ReportStatus.APPROVED,
+    rejected: ReportStatus.REJECTED,
+    abandoned: ReportStatus.ABANDONED,
+    confirmed: ReportStatus.CONFIRM,
+    terminated: ReportStatus.TERMINATED,
+    'in-progress': ReportStatus.IN_PROGRESS,
+    processing: ReportStatus.PROCESSING,
+    finalization: ReportStatus.FINALIZATION,
+} as const;
+
+function mapReportStatus(status: string): ReportStatus {
+    return REPORT_STATUS_MAP[status] || ReportStatus.PENDING;
+}
+
+const REPORT_STATE_MAP: Readonly<Record<string, ReportState>> = {
+    pending: ReportState.PENDING,
+    approved: ReportState.APPROVED,
+    rejected: ReportState.REJECTED,
+    'in-progress': ReportState.IN_PROGRESS,
+    completed: ReportState.COMPLETED,
+    terminated: ReportState.TERMINATED,
+} as const;
+
+function mapReportState(state: string): ReportState {
+    return REPORT_STATE_MAP[state] || ReportState.PENDING;
+}
+
+const QUALIFICATION_STATE_MAP: Readonly<Record<string, QualificationState>> = {
+    completed: QualificationState.COMPLETED,
+} as const;
+
+function mapQualificationState(state: string | null): QualificationState | null {
+    if (!state) return null;
+    return QUALIFICATION_STATE_MAP[state] || null;
+} */
+
 export class DetailsMapper extends SimpleResponseMapper<
     DetailsEntity,
     DetailsItemDto
 > {
-    actorMapper = inject(ActorMapper);
-    reportSourceMapper = inject(ReportSourceMapper);
-    locationTypeMapper = inject(LocationTypeMapper);
-    reportTypeMapper = inject(ReportTypeMapper);
-    locationMapper = inject(LocationMapper);
-    telecomOperatorMapper = inject(TelecomOperatorMapper);
-    reportMediaMapper = inject(ReportMediaMapper);
-    treaterInfoMapper = inject(TreaterInfoMapper);
-    administrativeBoundaryMapper = inject(AdministrativeBoundaryMapper);
-    timestampsMapper = inject(TimestampsMapper);
+
+    private readonly utils = new MapperUtils();
+
+    private readonly entityCache = new Map<string, DetailsEntity>();
+
+    private readonly actorMapper = inject(ActorMapper);
+    private readonly reportSourceMapper = inject(ReportSourceMapper);
+    private readonly locationTypeMapper = inject(LocationTypeMapper);
+    private readonly reportTypeMapper = inject(ReportTypeMapper);
+    private readonly locationMapper = inject(LocationMapper);
+    private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
+    private readonly reportMediaMapper = inject(ReportMediaMapper);
+    private readonly treaterInfoMapper = inject(TreaterInfoMapper);
+    private readonly administrativeBoundaryMapper = inject(AdministrativeBoundaryMapper);
+    private readonly timestampsMapper = inject(TimestampsMapper);
+
+    private static readonly STATUS_MAP = MapperUtils.createEnumMap({
+        pending: ReportStatus.PENDING,
+        approved: ReportStatus.APPROVED,
+        rejected: ReportStatus.REJECTED,
+        abandoned: ReportStatus.ABANDONED,
+        confirmed: ReportStatus.CONFIRM,
+        terminated: ReportStatus.TERMINATED,
+        'in-progress': ReportStatus.IN_PROGRESS,
+        processing: ReportStatus.PROCESSING,
+        finalization: ReportStatus.FINALIZATION,
+    });
+
+    private static readonly STATE_MAP = MapperUtils.createEnumMap({
+        pending: ReportState.PENDING,
+        approved: ReportState.APPROVED,
+        rejected: ReportState.REJECTED,
+        'in-progress': ReportState.IN_PROGRESS,
+        completed: ReportState.COMPLETED,
+        terminated: ReportState.TERMINATED,
+    });
+
+    private static readonly QUALIFICATION_STATE_MAP = MapperUtils.createEnumMap({
+        completed: QualificationState.COMPLETED,
+    });
+
+    private static readonly PROCESSING_STATE_MAP = MapperUtils.createEnumMap({
+        pending: ProcessingState.PENDING,
+        'in-progress': ProcessingState.IN_PROGRESS,
+    });
+
+    private static readonly FINALIZATION_STATE_MAP = MapperUtils.createEnumMap({
+        pending: FinalizationState.PENDING,
+        'in-progress': FinalizationState.IN_PROGRESS,
+    });
+
+    private clearCache(): void {
+        this.entityCache.clear();
+        this.utils.clearCache();
+    }
 
     protected override mapItemFromDto(dto: DetailsItemDto): DetailsEntity {
-        return new DetailsEntity(
-            dto.id,
+
+        MapperUtils.validateDto(dto, {
+            required: ['uniq_id']
+        });
+
+        const cacheKey = `dto:${dto.uniq_id}:${dto.updated_at || dto.created_at}`;
+        const cached = this.entityCache.get(cacheKey);
+        if (cached) return cached;
+
+        const entity = new DetailsEntity(
             dto.uniq_id,
             dto.request_report_uniq_id,
             dto.initiator_phone_number,
-            this.actorMapper.mapToEntity(dto.initiator),
-            this.actorMapper.mapToEntity(dto.acknowledged_by),
-            this.actorMapper.mapToEntity(dto.processed_by),
-            this.actorMapper.mapToEntity(dto.approved_by),
-            this.actorMapper.mapToEntity(dto.rejected_by),
-            this.actorMapper.mapToEntity(dto.confirmed_by),
-            this.actorMapper.mapToEntity(dto.abandoned_by),
+            this.utils.memoized(dto.initiator, i => this.actorMapper.mapToEntity(i)),
+            this.utils.memoized(dto.acknowledged_by, a => this.actorMapper.mapToEntity(a)),
+            this.utils.memoized(dto.processed_by, p => this.actorMapper.mapToEntity(p)),
+            this.utils.memoized(dto.approved_by, a => this.actorMapper.mapToEntity(a)),
+            this.utils.memoized(dto.rejected_by, r => this.actorMapper.mapToEntity(r)),
+            this.utils.memoized(dto.confirmed_by, c => this.actorMapper.mapToEntity(c)),
+            this.utils.memoized(dto.abandoned_by, a => this.actorMapper.mapToEntity(a)),
+
             this.reportSourceMapper.mapToEnum(dto.source),
             this.locationMapper.mapToEntity(dto),
             this.reportTypeMapper.mapToEnum(dto.report_type),
-            this.telecomOperatorMapper.mapToEnum(dto.operators),
+            this.utils.memoizedList(dto.operators,
+                op => this.telecomOperatorMapper.mapToEnum(op),
+                op => `telecom:${op}`
+            ),
             dto.description,
             this.reportMediaMapper.mapToEntity(dto),
             this.treaterInfoMapper.mapToEntity(dto),
-            this.mapReportStatus(dto.status),
-            this.mapQualificationState(dto.qualification_state),
-            this.mapReportState(dto.state),
-            this.administrativeBoundaryMapper.mapToEntity(dto.region),
-            this.administrativeBoundaryMapper.mapToEntity(dto.department),
-            this.administrativeBoundaryMapper.mapToEntity(dto.municipality),
+
+            dto.qualification_state
+                ? DetailsMapper.QUALIFICATION_STATE_MAP.get(dto.qualification_state) ?? null
+                : null,
+            dto.processing_state
+                ? DetailsMapper.PROCESSING_STATE_MAP.get(dto.processing_state) ?? null
+                : null,
+            dto.finalization_state
+                ? DetailsMapper.FINALIZATION_STATE_MAP.get(dto.finalization_state) ?? null
+                : null,
+            DetailsMapper.STATUS_MAP.get(dto.status) ?? ReportStatus.PENDING,
+            DetailsMapper.STATE_MAP.get(dto.state) ?? ReportState.PENDING,
+
+            this.utils.memoized(dto.region, r => this.administrativeBoundaryMapper.mapToEntity(r)),
+            this.utils.memoized(dto.department, d => this.administrativeBoundaryMapper.mapToEntity(d)),
+            this.utils.memoized(dto.municipality, m => this.administrativeBoundaryMapper.mapToEntity(m)),
             this.timestampsMapper.mapToEntity(dto),
+
             dto.created_at,
             dto.reported_at,
             dto.place_photo,
@@ -67,41 +176,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             dto.confirm_count,
             dto.report_processings_count
         );
-    }
-
-    private mapReportStatus(status: string): ReportStatus {
-        const statusMap: Record<string, ReportStatus> = {
-            pending: ReportStatus.PENDING,
-            approved: ReportStatus.APPROVED,
-            rejected: ReportStatus.REJECTED,
-            abandoned: ReportStatus.ABANDONED,
-            confirmed: ReportStatus.CONFIRM,
-            terminated: ReportStatus.TERMINATED,
-            'in-progress': ReportStatus['IN-PROGRESS'],
-            processing: ReportStatus.PROCESSING,
-            finalization: ReportStatus.FINALIZATION,
-        };
-        return statusMap[status] || ReportStatus.PENDING;
-    }
-
-    private mapQualificationState(
-        state: string | null
-    ): QualificationState | null {
-        const stateMap: Record<string, QualificationState> = {
-            completed: QualificationState.COMPLETED,
-        };
-        return stateMap[state || ''] || null;
-    }
-
-    private mapReportState(state: string): ReportState {
-        const stateMap: Record<string, ReportState> = {
-            pending: ReportState.PENDING,
-            approved: ReportState.APPROVED,
-            rejected: ReportState.REJECTED,
-            ['in-progress']: ReportState.IN_PROGRESS,
-            completed: ReportState.COMPLETED,
-            terminated: ReportState.TERMINATED,
-        };
-        return stateMap[state] || ReportState.PENDING;
+        this.entityCache.set(cacheKey, entity);
+        return entity;
     }
 }

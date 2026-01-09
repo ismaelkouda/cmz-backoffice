@@ -10,7 +10,7 @@ export const TASKS_TABLE_CONST = {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '10rem',
+            width: '8rem',
         },
         {
             field: 'reportType',
@@ -20,7 +20,7 @@ export const TASKS_TABLE_CONST = {
         {
             field: 'operators',
             header: 'REPORTS_REQUESTS.TASKS.TABLE.OPERATORS',
-            width: '10rem',
+            width: '12rem',
         },
         {
             field: 'source',

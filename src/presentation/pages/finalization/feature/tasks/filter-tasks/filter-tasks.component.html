@@ -132,12 +132,13 @@
                     <b>{{ 'START_DATE' | translate }}</b>
                 </label>
                 <p-datepicker
-                    id="created_from"
-                    formControlName="created_from"
+                    id="start_date"
+                    formControlName="start_date"
                     [showIcon]="true"
-                    [placeholder]="'JJ-MM-AAAA'"
-                    dateFormat="dd-mm-yy"
+                    [placeholder]="'COMMON.DATE_PLACEHOLDER' | translate"
+                    dateFormat="yy-mm-dd"
                     appendTo="body"
+                    [showButtonBar]="true"
                 ></p-datepicker>
             </div>
 
@@ -146,12 +147,13 @@
                     <b>{{ 'END_DATE' | translate }}</b>
                 </label>
                 <p-datepicker
-                    id="created_to"
-                    formControlName="created_to"
+                    id="end_date"
+                    formControlName="end_date"
                     [showIcon]="true"
-                    [placeholder]="'JJ-MM-AAAA'"
-                    dateFormat="dd-mm-yy"
+                    [placeholder]="'COMMON.DATE_PLACEHOLDER' | translate"
+                    dateFormat="yy-mm-dd"
                     appendTo="body"
+                    [showButtonBar]="true"
                 ></p-datepicker>
             </div>
 

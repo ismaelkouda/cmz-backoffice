@@ -4,12 +4,12 @@ export class QueuesFilter {
     private constructor(
         private readonly initiatorPhoneNumber?: string,
         private readonly source?: string,
-        private readonly createdFrom?: string,
-        private readonly createdTo?: string,
+        private readonly startDate?: string,
+        private readonly endDate?: string,
         private readonly uniqId?: string,
         private readonly reportType?: string,
         private readonly operators?: string[]
-    ) {}
+    ) { }
 
     static create(data: QueuesFilterPayloadEntity): QueuesFilter {
         const operatorArray = this.normalizeOperator(data.operators);
@@ -17,8 +17,8 @@ export class QueuesFilter {
         return new QueuesFilter(
             data.initiator_phone_number,
             data.source,
-            data.created_from,
-            data.created_to,
+            data.start_date,
+            data.end_date,
             data.uniq_id,
             data.report_type,
             operatorArray
@@ -40,8 +40,8 @@ export class QueuesFilter {
         if (this.initiatorPhoneNumber)
             params['initiator_phone_number'] = this.initiatorPhoneNumber;
         if (this.uniqId) params['uniq_id'] = this.uniqId;
-        if (this.createdFrom) params['created_from'] = this.createdFrom;
-        if (this.createdTo) params['created_to'] = this.createdTo;
+        if (this.startDate) params['start_date'] = this.startDate;
+        if (this.endDate) params['end_date'] = this.endDate;
         if (this.reportType) params['report_type'] = this.reportType;
         if (this.source) params['source'] = this.source;
         if (this.operators && this.operators.length > 0)

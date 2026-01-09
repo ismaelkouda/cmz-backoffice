@@ -1,8 +1,8 @@
 import { FormControl } from '@angular/forms';
 
 export interface FinalizeFilterFormControlEntity {
-    created_from: FormControl<string>;
-    created_to: FormControl<string>;
+    start_date: FormControl<string>;
+    end_date: FormControl<string>;
     report_type: FormControl<string>;
     state: FormControl<string>;
     operator: FormControl<string>;

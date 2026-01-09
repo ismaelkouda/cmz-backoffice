@@ -1,9 +1,10 @@
 import { Observable } from 'rxjs';
 import { DetailsEntity } from '../entities/details/details.entity';
+import { DetailsFilter } from '../value-objects/details-filter.vo';
 
 export abstract class DetailsRepository {
     abstract fetchDetails(
-        id: string,
-        endPointType: EndPointType
+        filter: DetailsFilter,
+        endPointType?: EndPointType
     ): Observable<DetailsEntity>;
 }

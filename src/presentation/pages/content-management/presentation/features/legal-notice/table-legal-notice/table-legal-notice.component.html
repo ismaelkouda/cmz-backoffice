@@ -100,6 +100,7 @@
                         }
                         @case ('__action') {
                             <app-home-action-dropdown
+                                [disabled]="isLoading()"
                                 [status]="rowData.status"
                                 (edit)="onEditClicked(rowData)"
                                 (view)="onViewClicked(rowData)"

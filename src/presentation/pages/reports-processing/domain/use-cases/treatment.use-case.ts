@@ -12,7 +12,7 @@ export class FetchTreatmentsUseCase {
     private readonly treatmentRepository = inject(TreatmentRepository);
 
     execute(
-        filter: TreatmentFilter,
+        filter: TreatmentFilter | null,
         page: string
     ): Observable<Paginate<TreatmentEntity>> {
         return this.treatmentRepository.fetchTreatments(filter, page);

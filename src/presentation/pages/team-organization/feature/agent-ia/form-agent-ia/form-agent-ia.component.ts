@@ -90,7 +90,7 @@ export class FormAgentIaComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                 this.title.setTitle(
                     data['title'] ??
-                        'TEAM_ORGANIZATION.AGENT_IA.FORM.CREATE_TITLE'
+                    'TEAM_ORGANIZATION.AGENT_IA.FORM.CREATE_TITLE'
                 );
                 this.module = data['module'] ?? 'TEAM_ORGANIZATION.LABEL';
                 this.subModule =
@@ -169,7 +169,7 @@ export class FormAgentIaComponent implements OnInit, OnDestroy {
                 });
         } else {
             this.formAgent.markAllAsTouched();
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }

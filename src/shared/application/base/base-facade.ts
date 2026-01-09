@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { ApiError } from '@shared/domain/errors/api.error';
-import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
     Observable,
@@ -28,7 +26,7 @@ export abstract class BaseFacade<
     protected readonly paginationSubject = new BehaviorSubject<
         Paginate<TEntity>
     >({} as Paginate<TEntity>);
-    protected readonly loadingSubject = new BehaviorSubject<boolean>(false);
+    protected readonly isLoadingSubject = new BehaviorSubject<boolean>(false);
     protected readonly filterSubject = new BehaviorSubject<TFilter | null>(
         null
     );
@@ -40,7 +38,7 @@ export abstract class BaseFacade<
     readonly pagination$: Observable<Paginate<TEntity>> =
         this.paginationSubject.asObservable();
     readonly isLoading$: Observable<boolean> =
-        this.loadingSubject.asObservable();
+        this.isLoadingSubject.asObservable();
     readonly currentFilter$: Observable<TFilter | null> = this.filterSubject
         .asObservable()
         .pipe(
@@ -62,156 +60,60 @@ export abstract class BaseFacade<
         );
     readonly currentPage$: Observable<string> = this.pageSubject.asObservable();
 
-    protected constructor(
-        protected readonly toastService: ToastrService,
-        protected readonly translateService: TranslateService
-    ) {}
-
-    protected fetchData(
-        filter: TFilter,
+    protected fetchWithFilterAndPage(
+        filter: TFilter | null,
         page: string,
-        fetchObservable: Observable<Paginate<TEntity>>
+        fetchFn: (filter: TFilter | null, page: string) => Observable<Paginate<TEntity>>,
+        uiFeedback?: UiFeedbackService
     ): void {
-        if (this.loadingSubject.getValue()) {
-            return;
-        }
+        const fetch$ = fetchFn(filter, page);
 
-        const currentFilter = this.filterSubject.getValue();
-        const filterChanged =
-            !currentFilter || this.hasFilterChanged(currentFilter, filter);
+        if (this.isLoadingSubject.getValue()) return;
 
-        this.loadingSubject.next(true);
-
-        if (filterChanged) {
+        const prevFilter = this.filterSubject.getValue();
+        if (!prevFilter || this.hasFilterChanged(prevFilter, filter)) {
             this.filterSubject.next(filter);
         }
-
         this.pageSubject.next(page);
+        this.isLoadingSubject.next(true);
 
-        fetchObservable
-            .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                tap((response) => {
-                    this.itemsSubject.next(response.data);
-                    this.paginationSubject.next(response);
-                }),
-                finalize(() => this.loadingSubject.next(false)),
-                catchError((error: unknown) => {
-                    const errorMessage = this.getErrorMessage(error);
-                    this.toastService.error(errorMessage);
-                    return throwError(() => error);
-                })
-            )
-            .subscribe();
+        fetch$.pipe(
+            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
+            tap(response => {
+                this.itemsSubject.next(response.data);
+                this.paginationSubject.next(response);
+            }),
+            catchError(err => {
+                uiFeedback?.errorFromApi(err);
+                return throwError(() => err);
+            }),
+            finalize(() => this.isLoadingSubject.next(false))
+        ).subscribe();
     }
 
-    protected changePageInternal(
-        pageNumber: number,
-        fetchObservable: Observable<Paginate<TEntity>>
-    ): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (currentFilter) {
-            this.fetchData(
-                currentFilter,
-                JSON.stringify(pageNumber),
-                fetchObservable
-            );
-        }
-    }
-
-    protected getErrorMessage(error: any): string {
-        if (error instanceof ApiError) {
-            const translatedMessage = this.translateService.instant(error.code);
-            if (translatedMessage === error.code) {
-                return error.message;
-            }
-            return translatedMessage;
-        }
-
-        if (error instanceof Error) {
-            const translatedMessage = this.translateService.instant(
-                error.message
-            );
-            if (translatedMessage === error.message) {
-                return error.message;
-            }
-            return translatedMessage;
-        }
-
-        return this.translateService.instant(error['message']);
-    }
-
-    private hasFilterChanged(prevFilter: TFilter, newFilter: TFilter): boolean {
-        const prevDto = (prevFilter as PaginationFilter).toDto();
-        const newDto = (newFilter as PaginationFilter).toDto();
+    private hasFilterChanged(prevFilter: TFilter | null, newFilter: TFilter | null): boolean {
+        const prevDto = (prevFilter as any).toDto?.() ?? {};
+        const newDto = (newFilter as any).toDto?.() ?? {};
 
         const prevKeys = Object.keys(prevDto).sort();
         const newKeys = Object.keys(newDto).sort();
 
-        if (prevKeys.length !== newKeys.length) {
-            return true;
-        }
+        if (prevKeys.length !== newKeys.length) return true;
 
-        return !prevKeys.every((key) => prevDto[key] === newDto[key]);
+        return !prevKeys.every(key => prevDto[key] === newDto[key]);
+    }
+
+    protected shouldFetch(forceRefresh: boolean, hasData: boolean, lastFetch: number, staleTime: number): boolean {
+        if (forceRefresh) return true;
+        const isStale = Date.now() - lastFetch > staleTime;
+        return !hasData || isStale;
     }
 
     reset(): void {
         this.itemsSubject.next([]);
         this.paginationSubject.next({} as Paginate<TEntity>);
-        this.loadingSubject.next(false);
+        this.isLoadingSubject.next(false);
         this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
     }
-
-    protected readonly itemsDetailsSubject = new BehaviorSubject<TEntity>(
-        {} as TEntity
-    );
-    protected readonly loadingDetailsSubject = new BehaviorSubject<boolean>(
-        false
-    );
-    protected readonly endPointTypeDetailsSubject =
-        new BehaviorSubject<EndPointType>('requests');
-
-    readonly itemsDetails$: Observable<TEntity> =
-        this.itemsDetailsSubject.asObservable();
-    readonly loadingDetails$: Observable<boolean> =
-        this.loadingDetailsSubject.asObservable();
-    readonly endPointType$: Observable<EndPointType> =
-        this.endPointTypeDetailsSubject.asObservable();
-
-    protected fetchDataDetails(
-        fetchObservable: Observable<TEntity>,
-        endPointType: EndPointType
-    ): void {
-        if (this.loadingDetailsSubject.getValue()) {
-            return;
-        }
-
-        this.loadingDetailsSubject.next(true);
-        this.endPointTypeDetailsSubject.next(endPointType);
-
-        fetchObservable
-            .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                tap((response) => {
-                    this.itemsDetailsSubject.next(response);
-                }),
-                finalize(() => this.loadingDetailsSubject.next(false)),
-                catchError((error: unknown) => {
-                    const errorMessage = this.getErrorMessage(error);
-                    this.toastService.error(errorMessage);
-                    return throwError(() => error);
-                })
-            )
-            .subscribe();
-    }
-
-    resetDetails(): void {
-        this.itemsDetailsSubject.next({} as TEntity);
-        this.loadingDetailsSubject.next(false);
-    }
-
-    protected readonly loadingTreatmentSubject = new BehaviorSubject<boolean>(
-        false
-    );
 }

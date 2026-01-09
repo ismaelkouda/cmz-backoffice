@@ -17,11 +17,11 @@ export class TasksRepositoryImpl extends TasksRepository {
     }
 
     fetchTasks(
-        filter: TasksFilter,
+        filter: TasksFilter | null,
         page: string
     ): Observable<Paginate<TasksEntity>> {
         return this.tasksApi
-            .fetchTasks(filter.toDto(), page)
+            .fetchTasks(filter?.toDto() ?? {}, page)
             .pipe(map((response) => this.tasksMapper.mapFromDto(response)));
     }
 }

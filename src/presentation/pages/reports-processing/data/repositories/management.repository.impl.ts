@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { ManagementEntity } from '../../domain/entities/management/management.entity';
 import { ManagementRepository } from '../../domain/repositories/management.repository';
 import { ManagementForm } from '../../domain/value-objects/management-form.vo';
@@ -24,7 +24,10 @@ export class ManagementRepositoryImpl extends ManagementRepository {
         return this.api
             .fetchTake(payload.toDto(), endPointType)
             .pipe(
-                map((response) => this.managementMapper.mapFromDto(response))
+                map((response) => this.managementMapper.mapFromDto(response)),
+                tap(() => {
+                    this.translateService.instant('COMMON.SUCCESS.TAKE');
+                })
             );
     }
 
@@ -35,7 +38,10 @@ export class ManagementRepositoryImpl extends ManagementRepository {
         return this.api
             .fetchApprove(payload.toDto(), endPointType)
             .pipe(
-                map((response) => this.managementMapper.mapFromDto(response))
+                map((response) => this.managementMapper.mapFromDto(response)),
+                tap(() => {
+                    this.translateService.instant('COMMON.SUCCESS.APPROVE');
+                })
             );
     }
 
@@ -46,7 +52,10 @@ export class ManagementRepositoryImpl extends ManagementRepository {
         return this.api
             .fetchReject(payload.toDto(), endPointType)
             .pipe(
-                map((response) => this.managementMapper.mapFromDto(response))
+                map((response) => this.managementMapper.mapFromDto(response)),
+                tap(() => {
+                    this.translateService.instant('COMMON.SUCCESS.REJECT');
+                })
             );
     }
 
@@ -54,7 +63,10 @@ export class ManagementRepositoryImpl extends ManagementRepository {
         return this.api
             .fetchProcess(payload.toDto())
             .pipe(
-                map((response) => this.managementMapper.mapFromDto(response))
+                map((response) => this.managementMapper.mapFromDto(response)),
+                tap(() => {
+                    this.translateService.instant('COMMON.SUCCESS.PROCESS');
+                })
             );
     }
 
@@ -62,7 +74,10 @@ export class ManagementRepositoryImpl extends ManagementRepository {
         return this.api
             .fetchFinalize(payload.toDto())
             .pipe(
-                map((response) => this.managementMapper.mapFromDto(response))
+                map((response) => this.managementMapper.mapFromDto(response)),
+                tap(() => {
+                    this.translateService.instant('COMMON.SUCCESS.FINALIZE');
+                })
             );
     }
 }

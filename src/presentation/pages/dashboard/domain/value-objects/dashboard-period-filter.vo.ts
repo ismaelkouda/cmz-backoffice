@@ -1,20 +1,20 @@
-export class DashboardPeriodFilter {
-    private constructor(public readonly period: number) {}
+import { Filter } from "@shared/application/base/object-base-facade";
+import { InvalidFilterError } from "@shared/domain/errors/filter.error";
 
-    static create(period: number | null | undefined): DashboardPeriodFilter {
+export class DashboardPeriodFilter implements Filter {
+    private constructor(public readonly period: number) { }
+
+    static create(period: number): DashboardPeriodFilter {
         const validPeriod = period ?? 30;
 
         if (validPeriod < 1) {
-            throw new Error('DASHBOARD.FILTER.PERIOD.INVALID');
+            throw new InvalidFilterError('DASHBOARD.FILTER.PERIOD.INVALID');
         }
 
         return new DashboardPeriodFilter(validPeriod);
     }
 
-    toQueryParams(): { period: string } | Record<string, never> {
-        if (this.period === 30) {
-            return {};
-        }
+    toDto(): Record<string, string> {
         return { period: this.period.toString() };
     }
 }

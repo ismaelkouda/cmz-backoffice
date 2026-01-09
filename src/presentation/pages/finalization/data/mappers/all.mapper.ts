@@ -8,32 +8,42 @@ import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.ma
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
+import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
-    reportTypeMapper = inject(ReportTypeMapper);
-    telecomOperatorMapper = inject(TelecomOperatorMapper);
-    reportSourceMapper = inject(ReportSourceMapper);
+
+    private readonly utils = new MapperUtils();
+    private readonly entityCache = new Map<string, AllEntity>();
+
+    private readonly reportTypeMapper = inject(ReportTypeMapper);
+    private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
+    private readonly reportSourceMapper = inject(ReportSourceMapper);
+
+    private static readonly stateMap: Record<string, ReportState> = {
+        [ReportState.COMPLETED]: ReportState.COMPLETED,
+    };
 
     protected override mapItemFromDto(dto: AllItemDto): AllEntity {
-        return new AllEntity(
+        MapperUtils.validateDto(dto, {
+            required: ['uniq_id']
+        });
+
+        const cacheKey = `dto:${dto.uniq_id}`;
+        const cached = this.entityCache.get(cacheKey);
+        if (cached) return cached;
+
+        const entity = new AllEntity(
             dto.uniq_id,
             this.reportTypeMapper.mapToEnum(dto.report_type),
-            this.telecomOperatorMapper.mapToEnum(dto.operators),
+            this.telecomOperatorMapper.mapStringToEnum(dto.operators),
             this.reportSourceMapper.mapToEnum(dto.source),
             dto.initiator_phone_number,
-            this.mapState(dto.state),
-            dto.created_at
+            ReportState.COMPLETED,
+            dto.reported_at
         );
-    }
 
-    private mapState(status: string): ReportState {
-        if (status == null) {
-            return ReportState.COMPLETED;
-        }
-        const statusMap: Record<string, ReportState> = {
-            [ReportState.COMPLETED]: ReportState.COMPLETED,
-        };
-        return statusMap[status] || ReportState.COMPLETED;
+        this.entityCache.set(cacheKey, entity);
+        return entity;
     }
 }

@@ -141,11 +141,12 @@
                 </label>
                 <p-datepicker
                     id="created-from"
-                    formControlName="created_from"
+                    formControlName="start_date"
                     [showIcon]="true"
-                    [placeholder]="'JJ-MM-AAAA'"
-                    dateFormat="dd-mm-yy"
+                    [placeholder]="'COMMON.DATE_PLACEHOLDER' | translate"
+                    dateFormat="yy-mm-dd"
                     appendTo="body"
+                    [showButtonBar]="true"
                 ></p-datepicker>
             </div>
 
@@ -155,11 +156,12 @@
                 </label>
                 <p-datepicker
                     id="created-to"
-                    formControlName="created_to"
+                    formControlName="end_date"
                     [showIcon]="true"
-                    [placeholder]="'JJ-MM-AAAA'"
-                    dateFormat="dd-mm-yy"
+                    [placeholder]="'COMMON.DATE_PLACEHOLDER' | translate"
+                    dateFormat="yy-mm-dd"
                     appendTo="body"
+                    [showButtonBar]="true"
                 ></p-datepicker>
             </div>
 

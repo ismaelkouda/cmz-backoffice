@@ -49,10 +49,6 @@ export class NewsComponent implements OnInit, OnDestroy {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
     private readonly newsFacade = inject(NewsFacade);
-    public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');
-    public subModule: string = this.translate.instant(
-        'CONTENT_MANAGEMENT.HOME.LABEL'
-    );
     public news$: Observable<NewsEntity[]> = this.newsFacade.news$;
     public pagination$: Observable<Paginate<NewsEntity>> =
         this.newsFacade.pagination$;

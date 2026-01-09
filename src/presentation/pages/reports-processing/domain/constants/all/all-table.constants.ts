@@ -10,7 +10,7 @@ export const ALL_TABLE_CONST = {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.ALL.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '10rem',
+            width: '8rem',
         },
         {
             field: 'reportType',
@@ -20,7 +20,7 @@ export const ALL_TABLE_CONST = {
         {
             field: 'operators',
             header: 'REPORTS_REQUESTS.ALL.TABLE.OPERATORS',
-            width: '10rem',
+            width: '12rem',
         },
         {
             field: 'source',
@@ -31,7 +31,7 @@ export const ALL_TABLE_CONST = {
             field: 'state',
             header: 'REPORTS_REQUESTS.ALL.TABLE.STATE',
             class: 'text-center',
-            width: '3rem',
+            width: '4rem',
         },
         {
             field: 'reportedAt',

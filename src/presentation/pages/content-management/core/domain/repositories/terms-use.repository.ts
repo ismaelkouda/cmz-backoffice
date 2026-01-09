@@ -9,7 +9,7 @@ import { GetTermsUseByIdEntity } from '../entities/get-terms-use-by-id.entity';
 
 export abstract class TermsUseRepository {
     abstract fetchTermsUse(
-        filter: TermsUseFilter,
+        filter: TermsUseFilter | null,
         page: string
     ): Observable<Paginate<TermsUseEntity>>;
     abstract getTermsUseById(id: string): Observable<GetTermsUseByIdEntity>;

@@ -10,7 +10,7 @@ export class NotificationsUseCase {
     private readonly notificationsRepository = inject(NotificationsRepository);
 
     execute(
-        filter: NotificationsFilter,
+        filter: NotificationsFilter | null,
         page: string
     ): Observable<Paginate<NotificationsEntity>> {
         return this.notificationsRepository.fetchNotifications(filter, page);

@@ -3,7 +3,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     input,
-    output,
+    output
 } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,6 +15,7 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
     template: `
         <div ngbDropdown class="action-dropdown" container="body">
             <button
+                [disabled]="disabled()"
                 type="button"
                 class="action-dropdown__trigger"
                 ngbDropdownToggle
@@ -363,6 +364,7 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeActionDropdownComponent {
+    public readonly disabled = input<boolean>();
     public readonly status = input.required<ActionDropdown>();
     public readonly actionDropdown = ActionDropdown;
 

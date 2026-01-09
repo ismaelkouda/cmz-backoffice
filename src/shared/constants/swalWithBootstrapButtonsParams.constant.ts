@@ -1,17 +1,16 @@
-import type { SweetAlertOptions } from 'sweetalert2';
 
 export const SWEET_ALERT_PARAMS = {
     buttonsStyling: false,
-    message: {
-        title: 'En êtes vous sûr ?',
-        html: `htmlMessage.`,
-        icon: 'warning' as const,
-        showCancelButton: true,
-        confirmButtonColor: '#569C5B',
-        cancelButtonColor: '#dc3545',
-        cancelButtonText: 'Annuler',
-        confirmButtonText: 'Oui',
-    } as SweetAlertOptions,
+    /*     message: {
+            title: 'En êtes vous sûr ?',
+            html: `htmlMessage.`,
+            icon: 'warning' as const,
+            showCancelButton: true,
+            confirmButtonColor: '#569C5B',
+            cancelButtonColor: '#dc3545',
+            cancelButtonText: 'Annuler',
+            confirmButtonText: 'Oui',
+        } as SweetAlertOptions, */
 
     showCancelButton: true,
 

@@ -11,7 +11,6 @@
     role="grid"
     width="100%"
     [columns]="tableConfig.cols"
-    [loading]="isLoading()"
     styleClass="p-datatable-gridlines"
     [reorderableColumns]="true"
     selectionMode="single"
@@ -125,6 +124,7 @@
                         }
                         @case ('__action') {
                             <app-home-action-dropdown
+                                [disabled]="isLoading()"
                                 [status]="rowData.status"
                                 (edit)="onEditClicked(rowData)"
                                 (view)="onViewClicked(rowData)"

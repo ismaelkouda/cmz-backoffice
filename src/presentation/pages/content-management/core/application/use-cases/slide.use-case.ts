@@ -12,7 +12,7 @@ export class FetchSlideUseCase {
     private readonly slideRepository = inject(SlideRepository);
 
     execute(
-        filter: SlideFilter,
+        filter: SlideFilter | null,
         page: string
     ): Observable<Paginate<SlideEntity>> {
         return this.slideRepository.fetchSlide(filter, page);

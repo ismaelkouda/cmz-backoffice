@@ -49,10 +49,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
     private readonly homeFacade = inject(HomeFacade);
-    public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');
-    public subModule: string = this.translate.instant(
-        'CONTENT_MANAGEMENT.HOME.LABEL'
-    );
     public home$: Observable<HomeEntity[]> = this.homeFacade.home$;
     public pagination$: Observable<Paginate<HomeEntity>> =
         this.homeFacade.pagination$;

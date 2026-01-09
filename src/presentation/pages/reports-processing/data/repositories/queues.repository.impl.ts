@@ -17,11 +17,11 @@ export class QueuesRepositoryImpl extends QueuesRepository {
     }
 
     fetchQueues(
-        filter: QueuesFilter,
+        filter: QueuesFilter | null,
         page: string
     ): Observable<Paginate<QueuesEntity>> {
         return this.queuesApi
-            .fetchQueues(filter.toDto(), page)
+            .fetchQueues(filter?.toDto() ?? {}, page)
             .pipe(map((response) => this.queuesMapper.mapFromDto(response)));
     }
 }

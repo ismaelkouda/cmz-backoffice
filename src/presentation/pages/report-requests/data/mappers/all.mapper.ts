@@ -11,36 +11,45 @@ import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.ma
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
+import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
-    reportTypeMapper = inject(ReportTypeMapper);
-    telecomOperatorMapper = inject(TelecomOperatorMapper);
-    reportSourceMapper = inject(ReportSourceMapper);
+    private readonly utils = new MapperUtils();
+    private readonly entityCache = new Map<string, AllEntity>();
+
+    private readonly reportTypeMapper = inject(ReportTypeMapper);
+    private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
+    private readonly reportSourceMapper = inject(ReportSourceMapper);
+
+    private static readonly STATUS_MAP: Record<ReportStatusDto, ReportStatus> = {
+        [ReportStatusDto.CONFIRMED]: ReportStatus.CONFIRMED,
+        [ReportStatusDto.APPROVED]: ReportStatus.APPROVED,
+        [ReportStatusDto.REJECTED]: ReportStatus.REJECTED,
+        [ReportStatusDto.ABANDONED]: ReportStatus.ABANDONED,
+        [ReportStatusDto.UNKNOWN]: ReportStatus.UNKNOWN,
+    };
 
     protected override mapItemFromDto(dto: AllItemDto): AllEntity {
-        return new AllEntity(
+        MapperUtils.validateDto(dto, {
+            required: ['uniq_id']
+        });
+
+        const cacheKey = `dto:${dto.uniq_id}`;
+        const cached = this.entityCache.get(cacheKey);
+        if (cached) return cached;
+
+        const entity = new AllEntity(
             dto.uniq_id,
             this.reportTypeMapper.mapToEnum(dto.report_type),
-            this.telecomOperatorMapper.mapToEnum(dto.operators),
+            this.telecomOperatorMapper.mapStringToEnum(dto.operators),
             this.reportSourceMapper.mapToEnum(dto.source),
             dto.initiator_phone_number,
-            this.mapStatus(dto.status),
+            AllMapper.STATUS_MAP[dto.status],
             dto.reported_at
         );
-    }
 
-    private mapStatus(status: ReportStatusDto): ReportStatus {
-        if (status == null) {
-            return ReportStatus.UNKNOWN;
-        }
-        const statusMap: Record<ReportStatusDto, ReportStatus> = {
-            [ReportStatusDto.CONFIRMED]: ReportStatus.CONFIRMED,
-            [ReportStatusDto.APPROVED]: ReportStatus.APPROVED,
-            [ReportStatusDto.REJECTED]: ReportStatus.REJECTED,
-            [ReportStatusDto.ABANDONED]: ReportStatus.ABANDONED,
-            [ReportStatusDto.UNKNOWN]: ReportStatus.UNKNOWN,
-        };
-        return statusMap[status] || ReportStatus.UNKNOWN;
+        this.entityCache.set(cacheKey, entity);
+        return entity;
     }
 }

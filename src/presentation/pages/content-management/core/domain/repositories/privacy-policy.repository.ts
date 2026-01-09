@@ -9,7 +9,7 @@ import { PrivacyPolicyFilter } from '../value-objects/privacy-policy-filter.vo';
 
 export abstract class PrivacyPolicyRepository {
     abstract fetchPrivacyPolicy(
-        filter: PrivacyPolicyFilter,
+        filter: PrivacyPolicyFilter | null,
         page: string
     ): Observable<Paginate<PrivacyPolicyEntity>>;
     abstract getPrivacyPolicyById(

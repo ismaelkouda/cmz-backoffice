@@ -70,7 +70,7 @@ export class FilterTeamTenantsComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = 'FORM_INVALID';
+            const translatedMessage = 'COMMON.FORM_INVALID';
             this.toastService.error(translatedMessage);
         }
     }

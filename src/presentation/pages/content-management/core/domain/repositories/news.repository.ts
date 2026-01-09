@@ -10,7 +10,7 @@ import { NewsFilter } from '../value-objects/news-filter.vo';
 
 export abstract class NewsRepository {
     abstract fetchNews(
-        filter: NewsFilter,
+        filter: NewsFilter | null,
         page: string
     ): Observable<Paginate<NewsEntity>>;
     abstract getNewsById(id: string): Observable<GetNewsByIdEntity>;

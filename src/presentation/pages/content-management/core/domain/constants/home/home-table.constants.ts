@@ -7,11 +7,6 @@ export const HOME_TABLE_CONST = {
             width: '2rem',
         },
         {
-            field: 'type',
-            header: 'CONTENT_MANAGEMENT.HOME.TABLE.TYPE',
-            width: '2rem',
-        },
-        {
             field: 'title',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.TITLE',
             width: '17rem',
@@ -19,7 +14,6 @@ export const HOME_TABLE_CONST = {
         {
             field: 'platforms',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.PLATEFORM',
-            class: 'text-center',
             width: '6rem',
         },
         {
@@ -43,7 +37,6 @@ export const HOME_TABLE_CONST = {
     ],
     globalFilterFields: [
         'id',
-        'type',
         'title',
         'platforms',
         'order',

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export abstract class QueuesRepository {
     abstract fetchQueues(
-        filter: QueuesFilter,
+        filter: QueuesFilter | null,
         page: string
     ): Observable<Paginate<QueuesEntity>>;
 }

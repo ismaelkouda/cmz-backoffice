@@ -8,7 +8,7 @@ export class HomeFilter {
         private readonly plateforms?: Array<string>,
         private readonly search?: string,
         private readonly status?: MediaStatusDto
-    ) {}
+    ) { }
 
     static create(data: HomeRequestDto = {} as HomeRequestDto): HomeFilter {
         return new HomeFilter(
@@ -25,9 +25,9 @@ export class HomeFilter {
 
         if (this.startDate) params['start_date'] = this.startDate;
         if (this.endDate) params['end_date'] = this.endDate;
-        if (this.plateforms) params['plateforms'] = this.plateforms;
+        if (this.plateforms && this.plateforms?.length > 0) params['plateforms'] = this.plateforms;
         if (this.search) params['search'] = this.search;
-        if (this.status) params['status'] = this.status;
+        if (this.status !== undefined) params['status'] = this.status;
 
         return params;
     }

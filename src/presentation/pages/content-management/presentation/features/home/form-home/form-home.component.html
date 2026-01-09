@@ -77,13 +77,6 @@
                                                                 <p-fileUpload
                                                                     mode="basic"
                                                                     name="imageUpload"
-                                                                    accept="image/*"
-                                                                    [maxFileSize]="
-                                                                        VALIDATION
-                                                                            .IMAGE_FILE
-                                                                            .MAX_SIZE_MB *
-                                                                        1000000
-                                                                    "
                                                                     (onSelect)="
                                                                         onFileSelect(
                                                                             $event
@@ -190,10 +183,7 @@
                                                             'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'
                                                                 | translate
                                                         }}</label
-                                                    ><span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        >
+                                                    >
                                                     <input
                                                         class="form-input"
                                                         id="buttonLabel"
@@ -211,9 +201,9 @@
                                                         class="d-flex justify-content-between align-items-center mt-1"
                                                     >
                                                         @if (
-                                                            form.get(
+                                                            (form.get(
                                                                 'buttonLabel'
-                                                            )?.invalid &&
+                                                            )?.invalid || form.errors?.['buttonLabelWithoutUrl']) &&
                                                             form.get(
                                                                 'buttonLabel'
                                                             )?.touched
@@ -254,10 +244,7 @@
                                                             'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'
                                                                 | translate
                                                         }}</label
-                                                    ><span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        >
+                                                    >
                                                     <input
                                                         class="form-input"
                                                         id="buttonUrl"
@@ -274,9 +261,9 @@
                                                         class="d-flex justify-content-between align-items-center mt-1"
                                                     >
                                                         @if (
-                                                            form.get(
+                                                            (form.get(
                                                                 'buttonUrl'
-                                                            )?.invalid &&
+                                                            )?.invalid || form.errors?.['buttonUrlWithoutLabel']) &&
                                                             form.get(
                                                                 'buttonUrl'
                                                             )?.touched
@@ -338,20 +325,6 @@
                                                         [showToggleAll]="false"
                                                     >
                                                     </p-multiSelect>
-                                                    @if (
-                                                        form.get('platforms')
-                                                            ?.invalid &&
-                                                        form.get('platforms')
-                                                            ?.touched
-                                                    ) {
-                                                        <small
-                                                            class="text-danger d-block mt-1"
-                                                            >{{
-                                                                'VALIDATION.REQUIRED'
-                                                                    | translate
-                                                            }}</small
-                                                        >
-                                                    }
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label

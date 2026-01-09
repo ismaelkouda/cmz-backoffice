@@ -1,57 +1,26 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { inject, Injectable } from '@angular/core';
 import { DashboardStatistics } from '@pages/dashboard/domain/entities/dashboard-statistics.entity';
 import { LoadDashboardStatisticsUseCase } from '@pages/dashboard/domain/use-cases/dashboard.use-case';
 import { DashboardPeriodFilter } from '@pages/dashboard/domain/value-objects/dashboard-period-filter.vo';
-import { ToastrService } from 'ngx-toastr';
-import {
-    BehaviorSubject,
-    Observable,
-    catchError,
-    finalize,
-    tap,
-    throwError,
-} from 'rxjs';
+import { shouldFetch } from '@shared/application/base/facade.utils';
+import { ObjectBaseFacade } from '@shared/application/base/object-base-facade';
+import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 
 @Injectable({ providedIn: 'root' })
-export class DashboardFacade {
-    private readonly statisticsSubject =
-        new BehaviorSubject<DashboardStatistics | null>(null);
-    private readonly loadingSubject = new BehaviorSubject<boolean>(false);
-    private readonly majDateSubject = new BehaviorSubject<string | undefined>(
-        undefined
-    );
+export class DashboardFacade extends ObjectBaseFacade<DashboardStatistics, DashboardPeriodFilter> {
+    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly fetchUseCase = inject(LoadDashboardStatisticsUseCase);
 
-    readonly statistics$: Observable<DashboardStatistics | null> =
-        this.statisticsSubject.asObservable();
-    readonly isLoading$: Observable<boolean> =
-        this.loadingSubject.asObservable();
-    readonly majDate$: Observable<string | undefined> =
-        this.majDateSubject.asObservable();
+    readonly statistics$ = this.items$;
 
-    constructor(
-        private readonly loadStatisticsUseCase: LoadDashboardStatisticsUseCase,
-        private readonly toastService: ToastrService,
-        private readonly translateService: TranslateService
-    ) {}
+    private lastFetchTimestamp = 0;
+    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    loadStatistics(period?: number): Observable<DashboardStatistics> {
+    loadStatistics(period: number): void {
         const filter = DashboardPeriodFilter.create(period);
-        this.loadingSubject.next(true);
+        const hasData = this.itemsSubject.getValue() != null;
+        if (!shouldFetch(false, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
 
-        return this.loadStatisticsUseCase.execute(filter).pipe(
-            tap((statistics) => {
-                this.statisticsSubject.next(statistics);
-                this.majDateSubject.next(statistics.dateDerniereMaj);
-            }),
-            finalize(() => this.loadingSubject.next(false)),
-            catchError((error: Error) => {
-                const errorMessage =
-                    this.translateService.instant(error.message) ||
-                    error.message;
-                this.toastService.error(errorMessage);
-                return throwError(() => error);
-            })
-        );
+        this.fetchWithFilter(filter, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
     }
 }

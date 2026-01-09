@@ -4,12 +4,9 @@ import { AdministrativeBoundaryEntity } from '@shared/domain/entities/administra
 import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
 import { ReportMediaEntity } from '@shared/domain/entities/report-media.entity';
 import { TimestampsEntity } from '@shared/domain/entities/timestamps.entity';
-import { LocationMethod } from '@shared/domain/enums/location-method.enum';
-import { LocationType } from '@shared/domain/enums/location-type.enum';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
-import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 
 export type ManagementAction =
     | 'take'
@@ -22,7 +19,7 @@ export enum ReportStatus {
     APPROVED = 'approved',
     REJECTED = 'rejected',
     ABANDONED = 'abandoned',
-    'IN-PROGRESS' = 'in-progress',
+    'IN_PROGRESS' = 'in-progress',
     TERMINATED = 'terminated',
     CONFIRM = 'confirmed',
     PROCESSING = 'processing',
@@ -40,6 +37,16 @@ export enum ReportState {
 
 export enum QualificationState {
     COMPLETED = 'completed',
+}
+
+export enum ProcessingState {
+    PENDING = 'pending',
+    IN_PROGRESS = 'in-progress',
+}
+
+export enum FinalizationState {
+    PENDING = 'pending',
+    IN_PROGRESS = 'in-progress',
 }
 
 export interface TreaterInfo {
@@ -72,7 +79,6 @@ export interface AdministrativeDivision {
 }
 
 export interface Details {
-    readonly id: string;
     readonly uniqId: string;
     readonly reportUniqId: string;
     readonly initiatorPhone: string;
@@ -92,6 +98,8 @@ export interface Details {
     readonly treater: TreaterInfo;
     readonly status: ReportStatus;
     readonly qualificationState: QualificationState | null;
+    readonly processingState: ProcessingState | null;
+    readonly finalizationState: FinalizationState | null;
     readonly state: ReportState;
     readonly region: AdministrativeBoundaryEntity | null;
     readonly department: AdministrativeBoundaryEntity | null;
@@ -106,8 +114,15 @@ export interface Details {
 }
 
 export class DetailsEntity implements Details {
+    public validate(): string[] {
+        const errors: string[] = [];
+
+        if (!this.reportType) errors.push('Report type is required');
+        if (this.operators.length === 0) errors.push('At least one operator required');
+
+        return errors;
+    }
     constructor(
-        public readonly id: string,
         public readonly uniqId: string,
         public readonly reportUniqId: string,
         public readonly initiatorPhone: string,
@@ -125,8 +140,10 @@ export class DetailsEntity implements Details {
         public readonly description: string,
         public readonly media: ReportMediaEntity | null,
         public readonly treater: TreaterInfo,
-        public readonly status: ReportStatus,
         public readonly qualificationState: QualificationState | null,
+        public readonly processingState: ProcessingState | null,
+        public readonly finalizationState: FinalizationState | null,
+        public readonly status: ReportStatus,
         public readonly state: ReportState,
         public readonly region: AdministrativeBoundaryEntity | null,
         public readonly department: AdministrativeBoundaryEntity | null,
@@ -138,13 +155,13 @@ export class DetailsEntity implements Details {
         public readonly accessPlacePhoto: string,
         public readonly confirmCount: number,
         public readonly reportProcessingsCount: number
-    ) {}
+    ) { }
 
     public get managementTitle(): string {
         switch (this.status) {
             case ReportStatus.PENDING:
                 return 'MANAGEMENT.STATUS.TAKE';
-            case ReportStatus['IN-PROGRESS']:
+            case ReportStatus['IN_PROGRESS']:
                 return 'MANAGEMENT.STATUS.APPROBATION';
             case ReportStatus.PROCESSING:
                 if (this.qualificationState === QualificationState.COMPLETED) {
@@ -172,7 +189,7 @@ export class DetailsEntity implements Details {
         switch (this.status) {
             case ReportStatus.PENDING:
                 return 'MANAGEMENT.BUTTONS.TAKE';
-            case ReportStatus['IN-PROGRESS']:
+            case ReportStatus['IN_PROGRESS']:
                 return 'MANAGEMENT.BUTTONS.APPROBATION';
             case ReportStatus.PROCESSING:
                 if (this.qualificationState === QualificationState.COMPLETED) {
@@ -196,6 +213,11 @@ export class DetailsEntity implements Details {
         }
     }
 
+    public get getLongLat(): string {
+        return `${this.location.coordinates.longitude} ${this.location.coordinates.latitude}`;
+    }
+
+
     public get detailsParams(): ManagementAction {
         if (this.canBeTaken) {
             return 'take';
@@ -212,177 +234,91 @@ export class DetailsEntity implements Details {
         }
     }
 
-    public get inProcessing(): boolean {
+    public get statusPending(): boolean {
+        return this.status === ReportStatus.PENDING;
+    }
+
+    public get statusInProgress(): boolean {
+        return this.status === ReportStatus['IN_PROGRESS'];
+    }
+
+    private get statusProcessing(): boolean {
         return this.status === ReportStatus.PROCESSING;
     }
 
-    public get inFinalization(): boolean {
+    private get statusFinalization(): boolean {
         return this.status === ReportStatus.FINALIZATION;
     }
 
-    public get isReceived(): boolean {
-        return this.status === ReportStatus['IN-PROGRESS'];
-    }
-
-    public isApproved(): boolean {
+    private get statusApproved(): boolean {
         return this.status === ReportStatus.APPROVED;
     }
 
-    public isRejected(): boolean {
-        return this.status === ReportStatus.REJECTED;
+    public get statePending(): boolean {
+        return this.state === ReportState.PENDING;
     }
 
-    public isAbandoned(): boolean {
-        return this.status === ReportStatus.ABANDONED;
+    private get stateInProgress(): boolean {
+        return this.state === ReportState.IN_PROGRESS;
+    }
+
+    public get stateCompleted(): boolean {
+        return this.state === ReportState.COMPLETED;
+    }
+
+    private get submissionStatePending(): boolean {
+        return this.state === ReportState.PENDING;
+    }
+
+    private get submissionStateInProgress(): boolean {
+        return this.state === ReportState.IN_PROGRESS;
+    }
+
+    private get progressingStatePending(): boolean {
+        return this.processingState === ProcessingState.PENDING;
+    }
+
+    private get progressingStateInProgress(): boolean {
+        return this.processingState === ProcessingState.IN_PROGRESS;
+    }
+
+    private get finalizationStatePending(): boolean {
+        return this.finalizationState === FinalizationState.PENDING;
+    }
+
+    private get finalizationStateInProgress(): boolean {
+        return this.finalizationState === FinalizationState.IN_PROGRESS;
     }
 
     public get canBeTaken(): boolean {
-        return (
-            this.status === ReportStatus.PENDING ||
-            (this.status === ReportStatus.PROCESSING &&
-                this.state == ReportState.PENDING) ||
-            (this.status === ReportStatus.FINALIZATION &&
-                this.state == ReportState.PENDING)
+        return (this.statusPending ||
+            (this.progressingStatePending) ||
+            (this.finalizationStatePending)
         );
     }
 
     public get canBeApproved(): boolean {
-        return this.status === ReportStatus['IN-PROGRESS'];
+        return this.statusInProgress;
     }
 
     public get canBeTreated(): boolean {
-        return (
-            this.status === ReportStatus.PROCESSING &&
-            this.state == ReportState.IN_PROGRESS
-        );
+        return this.progressingStateInProgress;
     }
 
     public get canBeFinalized(): boolean {
-        return (
-            this.status === ReportStatus.FINALIZATION &&
-            this.state == ReportState.IN_PROGRESS
-        );
-    }
-
-    public hasValidLocation(): boolean {
-        const { latitude, longitude } = this.location.coordinates;
-        return (
-            !Number.isNaN(latitude) &&
-            !Number.isNaN(longitude) &&
-            latitude >= -90 &&
-            latitude <= 90 &&
-            longitude >= -180 &&
-            longitude <= 180
-        );
-    }
-
-    public hasPreciseCoordinates(): boolean {
-        if (!this.hasValidLocation()) return false;
-        const { latitude, longitude } = this.location.coordinates;
-        const latPrecision = latitude.toString().split('.')[1]?.length || 0;
-        const longPrecision = longitude.toString().split('.')[1]?.length || 0;
-        return latPrecision >= 6 && longPrecision >= 6;
-    }
-
-    public getCoordinates(): Coordinates {
-        return this.location.coordinates;
-    }
-
-    public get getLongLat(): string {
-        return `${this.location.coordinates.longitude} ${this.location.coordinates.latitude}`;
-    }
-
-    public hasAutomaticLocation(): boolean {
-        return (
-            this.location.method === LocationMethod.AUTO &&
-            this.location.type === LocationType.GPS
-        );
-    }
-
-    public hasWhat3Words(): boolean {
-        return !!this.location.coordinates.what3words;
-    }
-
-    // === MÉTHODES DE CALCUL DE DISTANCE ===
-    public calculateDistanceFrom(lat: number, long: number): number | null {
-        if (!this.hasValidLocation()) return null;
-
-        const { latitude, longitude } = this.location.coordinates;
-        const R = 6371;
-        const dLat = this.deg2rad(latitude - lat);
-        const dLon = this.deg2rad(longitude - long);
-
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(this.deg2rad(lat)) *
-                Math.cos(this.deg2rad(latitude)) *
-                Math.sin(dLon / 2) *
-                Math.sin(dLon / 2);
-
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
-    }
-
-    private deg2rad(deg: number): number {
-        return deg * (Math.PI / 180);
-    }
-
-    public hasPhotos(): boolean {
-        return !!this.media?.placePhoto || !!this.media?.accessPlacePhoto;
-    }
-
-    public hasPlacePhoto(): boolean {
-        return !!this.media?.placePhoto;
-    }
-
-    public hasAccessPhoto(): boolean {
-        return !!this.media?.accessPlacePhoto;
-    }
-
-    public hasCompletePhotos(): boolean {
-        return this.hasPlacePhoto() && this.hasAccessPhoto();
-    }
-
-    // === MÉTHODES D'OPÉRATEURS ===
-    public getOperatorCount(): number {
-        return this.operators.length;
-    }
-
-    public hasMultipleOperators(): boolean {
-        return this.operators.length > 1;
-    }
-
-    public isFromMobileApp(): boolean {
-        return this.source === ReportSource.APP;
-    }
-
-    public isFromUssd(): boolean {
-        return this.source === ReportSource.USSD;
-    }
-
-    public isFromSms(): boolean {
-        return this.source === ReportSource.SMS;
-    }
-
-    public isFromIvr(): boolean {
-        return this.source === ReportSource.IVR;
-    }
-
-    public isFromPwa(): boolean {
-        return this.source === ReportSource.PWA;
+        return this.finalizationStateInProgress;
     }
 
     public toString(): string {
-        return `DetailsEntity[id=${this.id}, type=${this.reportType}, status=${this.status}, operators=${this.operators.join(',')}]`;
+        return `DetailsEntity[id=${this.uniqId}, type=${this.reportType}, status=${this.status}, operators=${this.operators.join(',')}]`;
     }
 
     public equals(other: DetailsEntity): boolean {
-        return this.id === other.id;
+        return this.uniqId === other.uniqId;
     }
 
     public clone(updates: Partial<Details>): DetailsEntity {
         return new DetailsEntity(
-            updates.id ?? this.id,
             updates.uniqId ?? this.uniqId,
             updates.reportUniqId ?? this.reportUniqId,
             updates.initiatorPhone ?? this.initiatorPhone,
@@ -400,8 +336,10 @@ export class DetailsEntity implements Details {
             updates.description ?? this.description,
             updates.media ?? this.media,
             updates.treater ?? this.treater,
-            updates.status ?? this.status,
             updates.qualificationState ?? this.qualificationState,
+            updates.processingState ?? this.processingState,
+            updates.finalizationState ?? this.finalizationState,
+            updates.status ?? this.status,
             updates.state ?? this.state,
             updates.region ?? this.region,
             updates.department ?? this.department,

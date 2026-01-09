@@ -18,9 +18,9 @@ export class AllRepositoryImpl extends AllRepository {
         super();
     }
 
-    fetchAll(filter: AllFilter, page: string): Observable<Paginate<AllEntity>> {
+    fetchAll(filter: AllFilter | null, page: string): Observable<Paginate<AllEntity>> {
         return this.allApi
-            .fetchAll(filter.toDto(), page)
+            .fetchAll(filter?.toDto() ?? {}, page)
             .pipe(map((response) => this.allMapper.mapFromDto(response)));
     }
 }

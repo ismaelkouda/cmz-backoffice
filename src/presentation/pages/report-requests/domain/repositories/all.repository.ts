@@ -5,7 +5,7 @@ import { AllFilter } from '../value-objects/all-filter.vo';
 
 export abstract class AllRepository {
     abstract fetchAll(
-        filter: AllFilter,
+        filter: AllFilter | null,
         page: string
     ): Observable<Paginate<AllEntity>>;
 }

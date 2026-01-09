@@ -37,7 +37,6 @@ import {
     PriorityLevel,
     PriorityLevelLabel,
 } from '@shared/domain/enums/priority-level.enum';
-import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -188,7 +187,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     readonly details = toSignal(this.detailsFacade.details$, {
         initialValue: null,
     });
-    readonly loading = toSignal(this.detailsFacade.loadingDetails$, {
+    readonly loading = toSignal(this.detailsFacade.isLoading$, {
         initialValue: false,
     });
 
@@ -390,33 +389,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
         }
     }
 
-    public navigateToStep(step: WorkflowStep): void {}
-
-    public getStepIcon(step: WorkflowStep): string {
-        const iconMap: Record<string, string> = {
-            PRISE_EN_CHARGE: 'pi pi-user-plus',
-            APPROBATION: 'pi pi-check-circle',
-            TREATMENT: 'pi pi-cog',
-            FINALIZATION: 'pi pi-flag',
-            EVALUATION: 'pi pi-star',
-        };
-        return iconMap[step.key] || 'pi pi-circle';
-    }
-
-    public getReportType(details: DetailsEntity | null): string {
-        if (!details?.reportType) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
-        return this.getReportTypeLabel(details.reportType);
-    }
-
-    public getStatusText(details: DetailsEntity | null): string {
-        if (!details?.status) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
-        return this.getStatusLabel(details.status);
-    }
-
-    public getOperators(details: DetailsEntity | null): TelecomOperator[] {
-        return details?.operators || [];
-    }
-
     public getCoordinates(details: DetailsEntity | null): string {
         if (!details?.location?.coordinates)
             return 'MANAGEMENT.FORM.NOT_SPECIFIED';
@@ -433,56 +405,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     public hasTabNotifications(categoryKey: string): boolean {
         return false;
-    }
-
-    public viewOnMap(): void {
-        const details = this.details();
-        if (details?.location?.coordinates) {
-            const { latitude, longitude } = details.location.coordinates;
-            const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-            window.open(mapUrl, '_blank');
-
-            this.messageService.add({
-                severity: 'info',
-                summary: this.translate.instant(
-                    'MANAGEMENT.ACTIONS.MAP_OPENED'
-                ),
-                detail: this.translate.instant(
-                    'MANAGEMENT.ACTIONS.VIEWING_MAP'
-                ),
-            });
-        }
-    }
-
-    public copyCoordinates(): void {
-        this.details$.subscribe((details) => {
-            const coords = this.getCoordinates(details);
-            navigator.clipboard
-                .writeText(coords)
-                .then(() => {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translate.instant(
-                            'MANAGEMENT.ACTIONS.COORDINATES_COPIED'
-                        ),
-                        detail: this.translate.instant(
-                            'MANAGEMENT.ACTIONS.COORDINATES_COPIED_DETAIL'
-                        ),
-                    });
-                })
-                .catch((err) => {
-                    console.error('Erreur lors de la copie:', err);
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translate.instant(
-                            'MANAGEMENT.ACTIONS.COPY_FAILED'
-                        ),
-                        detail: this.translate.instant(
-                            'MANAGEMENT.ACTIONS.COPY_FAILED_DETAIL'
-                        ),
-                    });
-                });
-        });
     }
 
     copyToClipboard(value: string): void {
@@ -596,46 +518,46 @@ export class ManagementComponent implements OnInit, OnDestroy {
             take: () => {
                 switch (this.endPointType) {
                     case 'requests':
-                        this.requestsQueuesFacade.refresh();
-                        this.requestsTasksFacade.refresh();
+                        this.requestsQueuesFacade.refreshWithLastFilterAndPage();
+                        this.requestsTasksFacade.refreshWithLastFilterAndPage();
                         break;
 
                     case 'reports-processing':
-                        this.processingQueuesFacade.refresh();
-                        this.processingTasksFacade.refresh();
+                        this.processingQueuesFacade.refreshWithLastFilterAndPage();
+                        this.processingTasksFacade.refreshWithLastFilterAndPage();
                         break;
 
                     case 'reports-finalization':
-                        this.finalizationQueuesFacade.refresh();
-                        this.finalizationTasksFacade.refresh();
+                        this.finalizationQueuesFacade.refreshWithLastFilterAndPage();
+                        this.finalizationTasksFacade.refreshWithLastFilterAndPage();
                         break;
                 }
             },
             approve: () => {
                 switch (this.endPointType) {
                     case 'requests':
-                        this.requestsTasksFacade.refresh();
-                        this.requestsAllFacade.refresh();
+                        this.requestsTasksFacade.refreshWithLastFilterAndPage();
+                        this.requestsAllFacade.refreshWithLastFilterAndPage();
                         break;
 
                     case 'reports-processing':
-                        this.processingTasksFacade.refresh();
-                        this.processingAllFacade.refresh();
+                        this.processingTasksFacade.refreshWithLastFilterAndPage();
+                        this.processingAllFacade.refreshWithLastFilterAndPage();
                         break;
 
                     case 'reports-finalization':
-                        this.finalizationQueuesFacade.refresh();
-                        this.finalizationAllFacade.refresh();
+                        this.finalizationQueuesFacade.refreshWithLastFilterAndPage();
+                        this.finalizationAllFacade.refreshWithLastFilterAndPage();
                         break;
                 }
             },
             treat: () => {
-                this.processingTasksFacade.refresh();
-                this.processingAllFacade.refresh();
+                this.processingTasksFacade.refreshWithLastFilterAndPage();
+                this.processingAllFacade.refreshWithLastFilterAndPage();
             },
             finalize: () => {
-                this.finalizationTasksFacade.refresh();
-                this.finalizationAllFacade.refresh();
+                this.finalizationTasksFacade.refreshWithLastFilterAndPage();
+                this.finalizationAllFacade.refreshWithLastFilterAndPage();
             },
         };
         actionMap[management]();
@@ -698,23 +620,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
         return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.CONFIRM';
     }
 
-    /* private getSweetAlertConfirm(management: string): string {
-        if (management === 'take') {
-            return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.WAITING.TITLE';
-        } else if (management === 'approve') {
-            const decision = this.formTreatment.get('decision')?.value;
-            if (decision === 'rejected') {
-                return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.REJECT.TITLE';
-            } else {
-                return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.APPROVAL.TITLE';
-            }
-        } else if (management === 'treat') {
-            return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.TREATMENT.TITLE';
-        } else if (management === 'finalize') {
-            return 'MANAGEMENT.SWEET_ALERT_PARAMS.BUTTONS.FINALIZE.TITLE';
-        } else return '';
-    } */
-
     trackByTab(_: number, tab: Categories): string {
         return tab.key;
     }
@@ -738,20 +643,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
         };
         return iconMap[categoryKey] || 'pi pi-circle';
     }
-
-    /*     getReportTypeClass(reportType: ReportTypeDto | undefined): string {
-            if (!reportType) return 'type-default';
-    
-            const typeClassMap: Record<ReportTypeLabel, string> = {
-                [ReportType.ABI]: 'type-urgent',
-                [ReportType.ZOB]: 'type-normal',
-                [ReportType.CPS]: 'type-urgent',
-                [ReportType.CPO]: 'type-normal',
-                [ReportType.UNKNOWN]: 'type-default',
-            };
-    
-            return typeClassMap[reportType] || 'type-default';
-        } */
 
     getReportTypeLabel(reportType: string | undefined): string {
         if (!reportType) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
@@ -826,7 +717,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             [ReportStatus.ABANDONED]: 'status-closed',
             [ReportStatus.CONFIRM]: 'status-confirmed',
             [ReportStatus.TERMINATED]: 'status-terminated',
-            [ReportStatus['IN-PROGRESS']]: 'status-in-progress',
+            [ReportStatus['IN_PROGRESS']]: 'status-in-progress',
             [ReportStatus.PROCESSING]: 'status-in-progress',
         };
 
@@ -848,34 +739,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
             [ReportStatus.CONFIRM]: 'MANAGEMENT.FORM.VALUES.STATUS.CONFIRM',
             [ReportStatus.TERMINATED]:
                 'MANAGEMENT.FORM.VALUES.STATUS.TERMINATED',
-            [ReportStatus['IN-PROGRESS']]:
+            [ReportStatus['IN_PROGRESS']]:
                 'MANAGEMENT.FORM.VALUES.STATUS.IN_PROGRESS',
         };
 
         return labelMap[status] || 'MANAGEMENT.FORM.NOT_SPECIFIED';
     }
-
-    /*     getRegionFromLocation(location: ReportLocation | undefined): string {
-            if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
-            return (
-                location.name.split(',')[0]?.trim() ||
-                'MANAGEMENT.FORM.NOT_SPECIFIED'
-            );
-        } */
-
-    /*     getDepartmentFromLocation(location: ReportLocation | undefined): string {
-            if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
-            return (
-                location.name.split(',')[1]?.trim() ||
-                'MANAGEMENT.FORM.NOT_SPECIFIED'
-            );
-        } */
-
-    /*     getCommuneFromLocation(location: ReportLocation | undefined): string {
-            if (!location?.name) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
-            return (
-                location.name.split(',')[2]?.trim() ||
-                'MANAGEMENT.FORM.NOT_SPECIFIED'
-            );
-        } */
 }

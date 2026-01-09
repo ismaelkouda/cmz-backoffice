@@ -33,7 +33,7 @@ export class DashboardMapper {
             averageTreatmentTime: dto.data.averageTreatmentTime,
             completionRate: dto.data.completionRate,
             responseTime: dto.data.responseTime,
-            dateDerniereMaj: dto.data.date_derniere_maj,
+            lastRefreshAt: dto.data.last_refresh_at,
         };
     }
 }

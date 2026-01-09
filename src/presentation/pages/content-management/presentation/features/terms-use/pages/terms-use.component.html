@@ -14,7 +14,7 @@
                                     | translate
                                     | lowercase
                             "
-                        ></app-page-title>
+                        />
                     </header>
 
                     <div class="fade-in terms-use-content">
@@ -22,8 +22,7 @@
                             class="filter-component"
                             [loading]="(loading$ | async) ?? false"
                             (filter)="filter($event)"
-                        >
-                        </app-filter-terms-use>
+                        />
 
                         <hr class="terms-use-divider" />
 
@@ -42,13 +41,13 @@
                                 (unpublishRequested)="
                                     onUnpublishClicked($event)
                                 "
-                            ></app-table-terms-use>
+                            />
 
                             <app-pagination
                                 class="pagination-component"
                                 [pagination$]="pagination$"
                                 (pageChange)="onPageChange($event)"
-                            ></app-pagination>
+                            />
                         </section>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ export class FetchTermsUseUseCase {
     private readonly termsUseRepository = inject(TermsUseRepository);
 
     execute(
-        filter: TermsUseFilter,
+        filter: TermsUseFilter | null,
         page: string
     ): Observable<Paginate<TermsUseEntity>> {
         return this.termsUseRepository.fetchTermsUse(filter, page);

@@ -49,10 +49,6 @@ export class SlideComponent implements OnInit, OnDestroy {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
     private readonly slideFacade = inject(SlideFacade);
-    public module: string = this.translate.instant('CONTENT_MANAGEMENT.LABEL');
-    public subModule: string = this.translate.instant(
-        'CONTENT_MANAGEMENT.SLIDE.LABEL'
-    );
     public slide$: Observable<SlideEntity[]> = this.slideFacade.slide$;
     public pagination$: Observable<Paginate<SlideEntity>> =
         this.slideFacade.pagination$;

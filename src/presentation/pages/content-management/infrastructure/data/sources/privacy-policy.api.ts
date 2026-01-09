@@ -17,13 +17,13 @@ export class PrivacyPolicyApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) {}
+    ) { }
 
     fetchPrivacyPolicy(
         filter: PrivacyPolicyRequestDto,
         page: string
     ): Observable<PrivacyPolicyResponseDto> {
-        const url = `${this.baseUrl}${PRIVACY_POLICY_ENDPOINTS.PRIVACY_POLICY.replace('{page}', page)} `;
+        const url = `${this.baseUrl}${PRIVACY_POLICY_ENDPOINTS.PRIVACY_POLICY.replace('{page}', page)}`;
 
         const paramsObject = Object.entries(filter ?? {}).reduce<
             Record<string, string>

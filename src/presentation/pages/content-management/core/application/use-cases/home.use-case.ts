@@ -15,7 +15,7 @@ export class FetchHomeUseCase {
     private readonly homeRepository = inject(HomeRepository);
 
     execute(
-        filter: HomeFilter,
+        filter: HomeFilter | null,
         page: string
     ): Observable<Paginate<HomeEntity>> {
         return this.homeRepository.fetchHome(filter, page);

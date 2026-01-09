@@ -62,7 +62,6 @@ export class MyAccountComponent implements OnInit, OnDestroy {
 
     public closeDropdown(): void {
         this.isDropdownOpen.set(false);
-        SweetAlert.close();
     }
 
     @HostListener('document:click', ['$event'])
@@ -81,7 +80,9 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     }
 
     private openFormAccount(modalRef: TemplateRef<unknown>): void {
+        this.ngbModal.dismissAll();
         const user = this.currentUser();
+        this.accountForm.reset();
         this.accountForm.patchValue({
             last_name: user?.last_name,
             first_name: user?.first_name,
@@ -89,7 +90,11 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             phone: user?.phone,
             id: user?.id,
         });
-        this.ngbModal.open(modalRef);
+        this.ngbModal.open(modalRef, {
+            centered: true,
+            backdrop: 'static',
+            keyboard: false,
+        });
     }
 
     public openPasswordModal(): void {
@@ -101,18 +106,22 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     }
 
     private openFormPassword(modalRef: TemplateRef<any>): void {
-        this.ngbModal.open(modalRef);
+        this.ngbModal.dismissAll();
         this.passwordForm.reset();
+        this.ngbModal.open(modalRef, {
+            centered: true,
+            backdrop: 'static',
+            keyboard: false,
+        });
     }
 
     public logout(): void {
+        this.ngbModal.dismissAll();
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
+            confirmButtonColor: '#dc3545',
             title: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.CONFIRM'),
-            text: this.translate.instant(
-                this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.MESSAGES')
-            ),
-            backdrop: false,
+            text: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.MESSAGES'),
             confirmButtonText: this.translate.instant(
                 'LOGOUT.SWEET_ALERT_PARAMS.BUTTONS'
             ),

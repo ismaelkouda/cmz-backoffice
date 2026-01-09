@@ -14,7 +14,7 @@ export interface AllItemDto {
     source: ReportSourceDto;
     initiator_phone_number: string;
     state: ReportStateDto;
-    created_at: string;
+    reported_at: string;
 }
 
-export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> {}
+export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> { }

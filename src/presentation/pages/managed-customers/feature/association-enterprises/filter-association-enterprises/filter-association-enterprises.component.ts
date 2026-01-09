@@ -66,8 +66,7 @@ import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-cust
     imports: [CommonModule, ReactiveFormsModule, TranslateModule, SelectModule],
 })
 export class FilterAssociationEnterprisesComponent
-    implements OnInit, OnDestroy
-{
+    implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<
         AssociationEnterprisesFilterInterface | {}
     >();
@@ -85,7 +84,7 @@ export class FilterAssociationEnterprisesComponent
         private toastService: ToastrService,
         private translate: TranslateService,
         private associationEnterprisesApiService: AssociationEnterprisesApiService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.initFormFilter();
@@ -168,9 +167,9 @@ export class FilterAssociationEnterprisesComponent
             date_fin &&
             moment(date_debut).isAfter(moment(date_fin))
         ) {
-            const INVALID_DATE_RANGE =
-                this.translate.instant('INVALID_DATE_RANGE');
-            this.toastService.error(INVALID_DATE_RANGE);
+            const invalidDateRange =
+                this.translate.instant('COMMON.INVALID_DATE_RANGE');
+            this.toastService.error(invalidDateRange);
             return;
         }
 
@@ -185,7 +184,7 @@ export class FilterAssociationEnterprisesComponent
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.success(translatedMessage);
         }
     }

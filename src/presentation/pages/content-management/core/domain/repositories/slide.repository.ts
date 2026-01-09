@@ -8,7 +8,7 @@ import { SlideFilter } from '../value-objects/slide-filter.vo';
 
 export abstract class SlideRepository {
     abstract fetchSlide(
-        filter: SlideFilter,
+        filter: SlideFilter | null,
         page: string
     ): Observable<Paginate<SlideEntity>>;
 

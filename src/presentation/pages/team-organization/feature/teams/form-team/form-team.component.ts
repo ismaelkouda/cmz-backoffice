@@ -168,7 +168,7 @@ export class FormTeamComponent implements OnInit, OnDestroy {
                 });
         } else {
             this.formTeam.markAllAsTouched();
-            const translatedMessage = this.translate.instant('FORM_INVALID');
+            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
             this.toastService.error(translatedMessage);
         }
     }

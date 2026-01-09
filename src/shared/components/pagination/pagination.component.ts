@@ -461,7 +461,7 @@ import { Observable } from 'rxjs';
             :host ::ng-deep .intuitive-paginator .p-paginator-page.p-highlight {
                 background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             }
-        } */
+        }*/
         `,
     ],
     imports: [CommonModule, PaginatorModule, TranslateModule, SeparatorThousandsPipe],
@@ -477,7 +477,6 @@ export class PaginationComponent {
     @Input() defaultRows = 10;
     @Input() rowsPerPageOptions = [10, 20, 50, 100];
     @Input() showJumpToPage = false;
-    @Input() isLoading = false;
 
     onPageChange(event: any): void {
         const pageNumber = event.page;

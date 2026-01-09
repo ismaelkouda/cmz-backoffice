@@ -7,7 +7,7 @@ export class TermsUseFilter {
         private readonly version?: string,
         private readonly search?: string,
         private readonly isPublished?: boolean
-    ) {}
+    ) { }
 
     static create(
         data: TermsUseRequestDto = {} as TermsUseRequestDto
@@ -28,7 +28,7 @@ export class TermsUseFilter {
         if (this.endDate) params['endDate'] = this.endDate;
         if (this.version) params['version'] = this.version;
         if (this.search) params['search'] = this.search;
-        if (this.isPublished) params['isPublished'] = this.isPublished;
+        if (this.isPublished !== undefined) params['is_published'] = this.isPublished;
 
         return params;
     }

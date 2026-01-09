@@ -12,7 +12,7 @@ export class FetchTasksUseCase {
     private readonly tasksRepository = inject(TasksRepository);
 
     execute(
-        filter: TasksFilter,
+        filter: TasksFilter | null,
         page: string
     ): Observable<Paginate<TasksEntity>> {
         return this.tasksRepository.fetchTasks(filter, page);

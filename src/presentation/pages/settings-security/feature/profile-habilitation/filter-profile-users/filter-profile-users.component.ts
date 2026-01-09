@@ -48,7 +48,7 @@ export class FilterProfileUsersComponent implements OnInit, OnDestroy {
     constructor(
         private readonly toastService: ToastrService,
         private readonly fb: FormBuilder
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.initFormFilter();
@@ -72,7 +72,7 @@ export class FilterProfileUsersComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = 'FORM_INVALID';
+            const translatedMessage = 'COMMON.FORM_INVALID';
             this.toastService.error(translatedMessage);
         }
     }

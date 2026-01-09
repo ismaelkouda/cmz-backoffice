@@ -7,7 +7,7 @@ export class NewsFilter {
         private readonly endDate?: string,
         private readonly search?: string,
         private readonly status?: MediaStatusDto
-    ) {}
+    ) { }
 
     static create(data: NewsRequestDto = {} as NewsRequestDto): NewsFilter {
         return new NewsFilter(
@@ -24,7 +24,7 @@ export class NewsFilter {
         if (this.startDate) params['start_date'] = this.startDate;
         if (this.endDate) params['end_date'] = this.endDate;
         if (this.search) params['search'] = this.search;
-        if (this.status) params['status'] = this.status;
+        if (this.status !== undefined) params['status'] = this.status;
 
         return params;
     }

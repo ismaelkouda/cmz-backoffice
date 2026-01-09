@@ -34,7 +34,7 @@
         <div class="header-actions">
             <div class="date-info">
                 {{ 'DASHBOARD.UPDATED_DATE' | translate }}:
-                {{ (majDate$ | async) || ('DASHBOARD.NO_DATE' | translate) }}
+                {{ (items$ | async)?.lastRefreshAt || ('DASHBOARD.NO_DATE' | translate) }}
             </div>
             <button
                 class="refresh-btn"
