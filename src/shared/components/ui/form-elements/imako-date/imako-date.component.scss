@@ -1,0 +1,20 @@
+.imako-date-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+
+    .imako-label {
+        font-size: 0.875rem;
+        color: #344767;
+        margin-bottom: 0.25rem;
+    }
+
+    ::ng-deep .p-datepicker {
+        width: 100%;
+        
+        .p-inputtext {
+            width: 100%;
+        }
+    }
+}

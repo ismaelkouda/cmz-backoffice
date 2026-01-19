@@ -24,8 +24,8 @@ export class TermsUseFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.startDate) params['startDate'] = this.startDate;
-        if (this.endDate) params['endDate'] = this.endDate;
+        if (this.startDate) params['start_date'] = this.startDate;
+        if (this.endDate) params['end_date'] = this.endDate;
         if (this.version) params['version'] = this.version;
         if (this.search) params['search'] = this.search;
         if (this.isPublished !== undefined) params['is_published'] = this.isPublished;

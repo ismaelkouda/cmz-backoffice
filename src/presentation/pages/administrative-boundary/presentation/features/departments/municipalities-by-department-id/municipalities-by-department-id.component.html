@@ -1,0 +1,86 @@
+<main class="container-fluid municipalities-container" role="main">
+    <section class="row municipalities-row">
+        <article class="col-sm-12 municipalities-article">
+            <app-breadcrumb />
+
+            <section class="card municipalities-card">
+                <div class="card-body municipalities-card-body">
+                    <header class="municipalities-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [title]="
+                                    'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_BY_DEPARTMENT_ID.TITLE' | translate | lowercase
+                                "
+                            >
+                            </app-page-title>
+                            <div class="ms-auto">
+                                <p-tag
+                                    severity="success"
+                                    [value]="paramsName()"
+                                />
+                            </div>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="onCancel()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="fade-in actions-content">    
+
+                        <!-- <div class="report-subtitle">
+                            <div class="subtitle-item">
+                                <span class="subtitle-label"
+                                    >'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_BY_DEPARTMENT_ID.NAME' | translate:</span
+                                >
+                                <p-tag
+                                    [value]="departmentName()"
+                                    [styleClass]="
+                                        'department-name-tag ' +departmentName()"
+                                    [rounded]="true"
+                                ></p-tag>
+                            </div>
+
+                            <div class="subtitle-item">
+                                <span class="subtitle-label">'COMMON.CREATED_AT' | translate:</span>
+                                <span class="subtitle-value">{{departmentCreatedAt()}}</span>
+                            </div>
+                        </div> -->
+                            
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="isLoading()"
+                            [formGroup]="formFilter"
+                            [fields]="filterFields"
+                            (filter)="filter($event)"
+                        ></app-filter>
+
+                        <section
+                            class="table-section"
+                            [aria-label]="'ACTIONS.TITLE' | translate"
+                        >
+                            <app-table
+                                class="table-component"
+                                [loading]="isLoading()"
+                                [items]="municipalities()"
+                                [pagination]="pagination()"
+                                [config]="tableConfig"
+                                (refreshRequested)="refresh()"
+                                dataKey="uniqId"
+                            ></app-table>
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

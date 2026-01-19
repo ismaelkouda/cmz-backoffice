@@ -1,0 +1,35 @@
+<div class="fade-in municipalities-content">
+    <app-filter
+        class="filter-component"
+        [isLoading]="isLoading()"
+        [formGroup]="formFilter"
+        [fields]="filterFields"
+        (filter)="filter($event)"
+        [filterState]="facade.currentFilter$"
+        [limit]="5"
+    ></app-filter>
+
+    <hr class="municipalities-divider" />
+
+    <section class="table-section">
+        <app-table
+            class="table-component"
+            [loading]="isLoading()"
+            [items]="municipalities()"
+            [pagination]="pagination()"
+            [config]="tableConfig"
+            (refreshRequested)="refresh()"
+            (createRequested)="onCreateClicked($event)"
+            (editRequested)="onEditClicked($event)"
+            (deleteRequested)="onDeleteClicked($event)"
+            [hiddenButtonOther]="false"
+            dataKey="uniqId"
+        ></app-table>
+
+        <app-pagination
+            class="pagination-component"
+            [pagination]="pagination()"
+            (pageChange)="onPageChange($event)"
+        ></app-pagination>
+    </section>
+</div>

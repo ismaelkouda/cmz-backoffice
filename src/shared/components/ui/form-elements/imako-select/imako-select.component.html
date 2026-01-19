@@ -1,0 +1,20 @@
+<div class="imako-select-container" [ngClass]="styleClass()">
+    @if (label()) {
+        <label class="imako-label">
+            <b>{{ label() | translate }}</b>
+        </label>
+    }
+    <p-select
+        [options]="options()"
+        [formControl]="control()"
+        [optionLabel]="optionLabel()"
+        [optionValue]="optionValue()"
+        [showClear]="showClear()"
+        [filter]="filter()"
+        [filterBy]="optionLabel()"
+        appendTo="body"
+        [placeholder]="placeholder() | translate"
+        (onBlur)="onTouch()"
+        styleClass="w-100"
+    ></p-select>
+</div>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { QueuesEntity } from '@presentation/pages/report-requests/domain/entities/queues/queues.entity';
 import { QueuesRepository } from '@presentation/pages/report-requests/domain/repositories/queues.repository';
 import { QueuesFilter } from '@presentation/pages/report-requests/domain/value-objects/queues-filter.vo';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class FetchQueuesUseCase {
-    constructor(private readonly queuesRepository: QueuesRepository) { }
+    private readonly queuesRepository = inject(QueuesRepository);
 
     execute(
         filter: QueuesFilter | null,

@@ -1,0 +1,45 @@
+.departments-card {
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+    border: none;
+}
+
+.departments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+
+        .current-values {
+            color: var(--theme-default);
+            margin-left: 0.5rem;
+        }
+    }
+
+    p-tag {
+        font-size: large;
+    }
+}
+
+.departments-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-top: 1rem;
+}
+
+.departments-divider {
+    opacity: 0.25;
+    margin: 0;
+}
+
+.table-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

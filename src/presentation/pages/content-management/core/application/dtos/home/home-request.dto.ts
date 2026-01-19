@@ -4,7 +4,7 @@ import { Plateform } from '@shared/domain/enums/plateform.enum';
 export interface HomeRequestDto {
     startDate?: string;
     endDate?: string;
-    plateforms?: Array<Plateform>;
+    platforms?: Array<Plateform>;
     search?: string;
     status?: MediaStatusDto;
 }

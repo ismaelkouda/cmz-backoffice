@@ -19,14 +19,14 @@
             </div>
 
             <div class="filter-grid__item">
-                <label for="status"
+                <label for="isPublished"
                     ><b>{{
                         'CONTENT_MANAGEMENT.NEWS.FILTER.STATUS' | translate
                     }}</b></label
                 >
                 <p-select
-                    [options]="statusOptions"
-                    formControlName="status"
+                    [options]="publishedOptions"
+                    formControlName="isPublished"
                     optionLabel="label"
                     optionValue="value"
                     [showClear]="true"

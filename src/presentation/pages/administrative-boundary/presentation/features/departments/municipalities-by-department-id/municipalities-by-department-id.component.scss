@@ -1,0 +1,170 @@
+.municipalities-card {
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+    border: none;
+}
+
+.municipalities-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+
+        .current-values {
+            color: var(--theme-default);
+            margin-left: 0.5rem;
+        }
+    }
+
+    p-tag {
+        font-size: large;
+    }
+}
+
+.municipalities-content {
+    //padding: 1rem 0;
+}
+
+.form-group {
+    //margin-bottom: 1rem;
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .p-error {
+        display: block;
+        margin-top: 0.25rem;
+        color: #dc3545;
+        font-size: 0.875rem;
+    }
+}
+
+.actions-divider {
+    opacity: 0.25;
+    margin: 0;
+}
+
+.table-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.municipalities-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 6rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.report-subtitle {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--theme-default-rgb), 0.05) 0%,
+        rgba(var(--theme-default-rgb), 0.02) 100%
+    );
+    border-radius: 12px;
+    border: 1px solid rgba(var(--theme-default-rgb), 0.1);
+    flex-wrap: wrap;
+    align-items: center;
+
+    .subtitle-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .subtitle-label {
+            font-weight: 600;
+            color: var(--text-secondary, #64748b);
+            font-size: large;
+        }
+
+        .subtitle-value {
+            color: var(--text-primary, #1e293b);
+            font-weight: 500;
+            font-size: medium;
+        }
+
+        .operators-list {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+
+            .operator-badge {
+                padding: 0.25rem 0.75rem;
+                border-radius: 16px;
+                background: rgba(255, 255, 255, 0.9);
+                font-weight: 600;
+                font-size: 0.875rem;
+                border: 2px solid currentColor;
+                text-transform: uppercase;
+            }
+        }
+    }
+}
+
+// Report type color classes
+::ng-deep {
+    .department-name-tag {
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+
+        &.card-primary {
+            background: linear-gradient(
+                135deg,
+                #5b9bd5 0%,
+                rgba(91, 155, 213, 0.9) 100%
+            );
+            color: white;
+        }
+
+        &.card-success {
+            background: linear-gradient(
+                135deg,
+                #70ad47 0%,
+                rgba(112, 173, 71, 0.9) 100%
+            );
+            color: white;
+        }
+
+        &.card-warning {
+            background: linear-gradient(
+                135deg,
+                #ffc000 0%,
+                rgba(255, 192, 0, 0.9) 100%
+            );
+            color: white;
+        }
+
+        &.card-error {
+            background: linear-gradient(
+                135deg,
+                #c00000 0%,
+                rgba(192, 0, 0, 0.9) 100%
+            );
+            color: white;
+        }
+
+        &.card-info {
+            background: linear-gradient(
+                135deg,
+                #44546a 0%,
+                rgba(68, 84, 106, 0.9) 100%
+            );
+            color: white;
+        }
+    }
+}

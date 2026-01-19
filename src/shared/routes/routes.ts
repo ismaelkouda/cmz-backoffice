@@ -14,6 +14,7 @@ export const TEAM_ORGANIZATION = 'organization';
 export const ACCOUNTING = 'accounting';
 export const COMMUNICATION_ROUTE = 'communication';
 export const CONTENT_MANAGEMENT_ROUTE = 'content-management';
+export const ADMINISTRATIVE_BOUNDARY_ROUTE = 'territorial-structure';
 
 export const content: Routes = [
     {
@@ -122,6 +123,19 @@ export const content: Routes = [
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.LABEL',
                 icon: 'pi-folder',
+            },
+        },
+    },
+    {
+        path: ADMINISTRATIVE_BOUNDARY_ROUTE,
+        loadChildren: () =>
+            import(
+                '../../presentation/pages/administrative-boundary/administrative-boundary.route'
+            ).then((m) => m.routes),
+        data: {
+            breadcrumb: {
+                label: 'ADMINISTRATIVE_BOUNDARY.LABEL',
+                icon: 'pi-sitemap',
             },
         },
     },

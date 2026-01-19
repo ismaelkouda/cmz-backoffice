@@ -1,0 +1,18 @@
+<div class="imako-input-container" [ngClass]="styleClass()">
+    @if (label()) {
+        <label class="imako-label">
+            <b>{{ label() | translate }}</b>
+            @if (required()) {
+                <span class="text-danger">*</span>
+            }
+        </label>
+    }
+    <input 
+        [type]="type()" 
+        pInputText 
+        [formControl]="control()" 
+        [placeholder]="placeholder() | translate"
+        (blur)="onTouch()"
+        class="imako-input-field"
+    />
+</div>

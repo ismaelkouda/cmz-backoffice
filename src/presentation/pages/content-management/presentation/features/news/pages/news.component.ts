@@ -74,7 +74,7 @@ export class NewsComponent implements OnInit, OnDestroy {
     public filter(filterData: NewsFilterPayloadEntity): void {
         const filter = NewsFilter.create({
             ...filterData,
-            status: filterData.status ?? undefined,
+            isPublished: filterData.isPublished ?? undefined,
         });
         this.newsFacade.fetchNews(filter, '1', true);
     }

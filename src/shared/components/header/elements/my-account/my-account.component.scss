@@ -118,10 +118,17 @@
         li {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 10px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            color: var(--text-color, #212529);
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            padding: 0.625rem 0.875rem;
+            text-align: left;
+            width: 100%;
+            transition: all 0.15s ease;
+            margin: 0.125rem 0;
 
             i {
                 width: 16px;
@@ -158,6 +165,16 @@
                 i,
                 span {
                     color: #dc3545;
+                }
+
+
+                &:hover {
+                    background-color: rgba(220, 53, 69, 0.1);
+                    color: var(--red-600, #dc3545);
+                }
+
+                &:active {
+                    background-color: rgba(220, 53, 69, 0.15);
                 }
             }
         }
@@ -430,4 +447,3 @@ $dark-gray: var(--color-gray);
         }
     }
 }
-

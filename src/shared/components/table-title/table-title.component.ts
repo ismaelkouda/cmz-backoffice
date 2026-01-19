@@ -8,7 +8,7 @@ import { AppCustomizationService } from '../../services/app-customization.servic
     standalone: true,
     imports: [CommonModule, SeparatorThousandsPipe],
     template: `
-        <div style="padding: 1.2rem 0 0.8rem 0">
+        <div style="padding: 0rem 0 0.8rem 0">
             <span class="table-header-wrapper">
                 <b *ngIf="page">
                     <span *ngIf="label">Resultat du filtre</span>
@@ -19,7 +19,7 @@ import { AppCustomizationService } from '../../services/app-customization.servic
                         <span [style.color]="config.colors.primary">{{
                             page
                         }}</span>
-                        / {{ totalPage }}] [{{ perPage }}]
+                        / {{ totalPage | separatorThousandsPipe }}] [{{ perPage }}]
                     </span>
                 </b>
                 <b *ngIf="!page">

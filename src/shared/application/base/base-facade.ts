@@ -20,7 +20,7 @@ export interface PaginationFilter {
 @Injectable({ providedIn: 'root' })
 export abstract class BaseFacade<
     TEntity,
-    TFilter extends PaginationFilter | void = void,
+    TFilter,
 > {
     protected readonly itemsSubject = new BehaviorSubject<TEntity[]>([]);
     protected readonly paginationSubject = new BehaviorSubject<
@@ -47,8 +47,8 @@ export abstract class BaseFacade<
                 if (!prev && !curr) return true;
                 if (!prev || !curr) return false;
 
-                const prevDto = prev.toDto();
-                const currDto = curr.toDto();
+                const prevDto: Record<string, string | string[]> = prev;
+                const currDto: Record<string, string | string[]> = curr;
 
                 const prevKeys = Object.keys(prevDto).sort();
                 const currKeys = Object.keys(currDto).sort();
@@ -67,7 +67,6 @@ export abstract class BaseFacade<
         uiFeedback?: UiFeedbackService
     ): void {
         const fetch$ = fetchFn(filter, page);
-
         if (this.isLoadingSubject.getValue()) return;
 
         const prevFilter = this.filterSubject.getValue();
@@ -92,8 +91,8 @@ export abstract class BaseFacade<
     }
 
     private hasFilterChanged(prevFilter: TFilter | null, newFilter: TFilter | null): boolean {
-        const prevDto = (prevFilter as any).toDto?.() ?? {};
-        const newDto = (newFilter as any).toDto?.() ?? {};
+        const prevDto = prevFilter as Record<string, string | string[]>;
+        const newDto = newFilter as Record<string, string | string[]>;
 
         const prevKeys = Object.keys(prevDto).sort();
         const newKeys = Object.keys(newDto).sort();

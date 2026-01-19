@@ -59,6 +59,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
+import { provideAdministrativeBoundary } from './pages/administrative-boundary/di/administrative-boundary.providers';
 import { provideNotifications } from './pages/communication/di/notifications.providers';
 import { provideHome } from './pages/content-management/di/home.providers';
 import { provideLegalNotice } from './pages/content-management/di/legal-notice.providers';
@@ -288,6 +289,8 @@ export const appConfig: ApplicationConfig = {
         ...provideTreatment(),
         ...processingTasks(),
         ...provideManagement(),
+
+        ...provideAdministrativeBoundary(),
 
         ...provideHome(),
         ...provideSlide(),

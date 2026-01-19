@@ -1,0 +1,15 @@
+.imako-select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+
+    .imako-label {
+        font-size: 14px;
+        color: #344767;
+    }
+
+    ::ng-deep .p-select {
+        width: 100%;
+    }
+}

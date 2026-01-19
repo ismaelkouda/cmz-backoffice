@@ -444,9 +444,306 @@
             }
         }
     },
+    "ADMINISTRATIVE_BOUNDARY": {
+        "BREADCRUMB": {
+            "LABEL": "Structure territoriale",
+            "ROUTE": "content-management",
+            "ICON": "pi-file"
+        },
+        "ROUTE": "content-management",
+        "LABEL": "Structure territoriale",
+        "DEPARTMENTS": {
+            "BREADCRUMB": {
+                "LABEL": "Departements",
+                "ROUTE": "departments"
+            },
+            "TABS": {
+                "DEPARTMENTS": {
+                    "LABEL": "Departements",
+                    "ROUTE": "departments"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Departements",
+            "LABEL": "Departements",
+            "ROUTE": "departments",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "PLATEFORM": "Plateforme",
+                "REGION": "Région",
+                "TYPE": "Type de contenu",
+                "TYPE_PLACEHOLDER": "Type de contenu",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Nom du département",
+                "REGION": "Région",
+                "DESCRIPTION": "Description",
+                "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                "POPULATION_SIZE": "# Population",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition de département",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de département",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "Ex: 1",
+                    "NAME": "Nom du département",
+                    "NAME_PLACEHOLDER": "Ex: Nouveau département",
+                    "REGION": "Région",
+                    "REGION_PLACEHOLDER": "Ex: Nouvelle région",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
+                    "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
+                    "POPULATION_SIZE": "# Population",
+                    "CREATED_AT": "Créé le",
+                    "ACTION": "Action"
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire"
+                }
+            },
+            "DELETE": {
+                "CONFIRM": "Confirmer",
+                "CANCEL": "Annuler"
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de département",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce département ?",
+                "TITLE_CREATE": "Création de département",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce département ?",
+                "TITLE_DELETE": "Suppression de département",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer ce département ?"
+            }
+        },
+        "MUNICIPALITIES": {
+            "BREADCRUMB": {
+                "LABEL": "Municipalités",
+                "ROUTE": "municipalities"
+            },
+            "TABS": {
+                "MUNICIPALITIES": {
+                    "LABEL": "Municipalités",
+                    "ROUTE": "municipalities"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Municipalités",
+            "LABEL": "Municipalités",
+            "ROUTE": "municipalities",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "PLATEFORM": "Plateforme",
+                "REGION": "Région",
+                "TYPE": "Type de contenu",
+                "TYPE_PLACEHOLDER": "Type de contenu",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "DEPARTMENT": "Département",
+                "DEPARTMENT_PLACEHOLDER": "Département"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Nom de la municipalité",
+                "REGION": "Région",
+                "DEPARTMENT": "Département",
+                "DESCRIPTION": "Description",
+                "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                "POPULATION_SIZE": "# Population",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition de municipalité",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de municipalité",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "Ex: 1",
+                    "NAME": "Nom de la municipalité",
+                    "NAME_PLACEHOLDER": "Ex: Nouvelle municipalité",
+                    "REGION": "Région",
+                    "REGION_PLACEHOLDER": "Ex: Nouvelle région",
+                    "DEPARTMENT": "Département",
+                    "DEPARTMENT_PLACEHOLDER": "Ex: Nouveau département",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
+                    "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
+                    "POPULATION_SIZE": "# Population",
+                    "CREATED_AT": "Créé le",
+                    "ACTION": "Action"
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire"
+                }
+            },
+            "DELETE": {
+                "CONFIRM": "Confirmer",
+                "CANCEL": "Annuler"
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de municipalité",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette municipalité ?",
+                "TITLE_CREATE": "Création de municipalité",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette municipalité ?",
+                "TITLE_DELETE": "Suppression de municipalité",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette municipalité ?"
+            }
+        },
+        "REGIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Régions",
+                "ROUTE": "regions"
+            },
+            "TABS": {
+                "REGIONS": {
+                    "LABEL": "Régions",
+                    "ROUTE": "regions"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Régions",
+            "LABEL": "Régions",
+            "ROUTE": "regions",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "PLATEFORM": "Plateforme",
+                "REGION": "Région",
+                "TYPE": "Type de contenu",
+                "TYPE_PLACEHOLDER": "Type de contenu",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Nom de la région",
+                "REGION": "Région",
+                "DEPARTMENTS_COUNT": "# Départements",
+                "DESCRIPTION": "Description",
+                "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                "POPULATION_SIZE": "# Population",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulaire d'édition de région",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de région",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "Ex: 1",
+                    "NAME": "Nom de la région",
+                    "NAME_PLACEHOLDER": "Ex: Nouvelle région",
+                    "REGION": "Région",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
+                    "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
+                    "POPULATION_SIZE": "# Population",
+                    "CREATED_AT": "Créé le",
+                    "ACTION": "Action"
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire"
+                }
+            },
+            "DELETE": {
+                "CONFIRM": "Confirmer",
+                "CANCEL": "Annuler"
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de région",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette région ?",
+                "TITLE_CREATE": "Création de région",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette région ?",
+                "TITLE_DELETE": "Suppression de région",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette région ?"
+            }
+        },
+        "DEPARTMENTS_BY_REGION_ID": {
+            "BREADCRUMB": {
+                "LABEL": "Départements",
+                "ROUTE": "departments-by-region-id"
+            },
+            "TITLE": "Départements de la région",
+            "LABEL": "Départements",
+            "ROUTE": "departments-by-region-id",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Nom du département",
+                "MUNICIPALITIES_COUNT": "# Communes/sous-préfectures",
+                "DESCRIPTION": "Description",
+                "POPULATION_SIZE": "# Population",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            }
+        }
+    },
     "COMMON": {
         "SELECT_PLACEHOLDER": "Sélectionner...",
         "CANCEL": "Annuler",
+        "CONFIRM": "Confirmer",
         "DELETE": "Supprimer",
         "COPY": "Copier",
         "COPIED_TO_CLIPBOARD": "Copier dans le presse papier",
@@ -506,6 +803,12 @@
             "ENABLE": "Activation reussie",
             "DISABLE": "Désactivation reussie",
             "READ": "Lecture reussie"
+        },
+        "ERROR": {
+            "GENERIC": "Une erreur est survenue"
+        },
+        "VALIDATION": {
+            "REQUIRED": "Champ obligatoire"
         }
     },
     "PAGINATION": {
@@ -620,8 +923,12 @@
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "OPERATOR": "Opérateur",
-                "SOURCE": "Source"
+                "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -749,6 +1056,7 @@
                 "APPROVED": "Approuvé",
                 "REJECTED": "Rejeté",
                 "ABANDONED": "Abandonné",
+                "TERMINATED": "Terminé",
                 "UNKNOWN": "Inconnu"
             },
             "TABLE": {

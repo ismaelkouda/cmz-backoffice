@@ -10,7 +10,7 @@ export interface Filter {
 }
 export class ObjectBaseFacade<
     TEntity,
-    TFilter extends Filter,
+    TFilter,
 > {
     protected readonly itemsSubject = new BehaviorSubject<TEntity>(
         {} as TEntity
@@ -34,8 +34,8 @@ export class ObjectBaseFacade<
                 if (!prev && !curr) return true;
                 if (!prev || !curr) return false;
 
-                const prevDto = prev.toDto();
-                const currDto = curr.toDto();
+                const prevDto: Record<string, string | string[]> = prev;
+                const currDto: Record<string, string | string[]> = curr;
 
                 const prevKeys = Object.keys(prevDto).sort();
                 const currKeys = Object.keys(currDto).sort();

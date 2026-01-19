@@ -766,14 +766,6 @@ export class FormNewsComponent implements OnInit {
                 });
                 this.onCancel();
             },
-            error: (error) => {
-                console.error('Erreur lors de la sauvegarde:', error);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Une erreur est survenue lors de la sauvegarde',
-                });
-            },
         });
     }
 

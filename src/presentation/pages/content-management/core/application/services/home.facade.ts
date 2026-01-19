@@ -40,7 +40,6 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilter> {
     fetchHome(filter: HomeFilter, page: string = PAGINATION_CONST.DEFAULT_PAGE, forceRefresh: boolean = false): void {
         const hasData = this.itemsSubject.getValue().length > 0;
         if (!shouldFetch(forceRefresh, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
-
         this.fetchWithFilterAndPage(filter, page, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
 
         this.hasInitialized = true;

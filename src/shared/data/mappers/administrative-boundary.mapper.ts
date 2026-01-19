@@ -11,7 +11,7 @@ export class AdministrativeBoundaryMapper {
     ): AdministrativeBoundaryEntity | null {
         if (!dtoValue) return null;
 
-        return new AdministrativeBoundaryEntity(dtoValue.id, dtoValue.name);
+        return new AdministrativeBoundaryEntity(dtoValue.id, dtoValue.name, dtoValue.code);
     }
 
     mapToDto(
@@ -22,6 +22,7 @@ export class AdministrativeBoundaryMapper {
         return {
             id: entityValue.id,
             name: entityValue.name,
+            code: entityValue?.code,
         };
     }
 }

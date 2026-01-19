@@ -943,6 +943,65 @@ p-password .p-disabled {
     }
 }
 
+.modern-swal-logout-btn {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    color: white !important;
+    font-family: 'Inter', -apple-system, sans-serif !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    padding: 0.875rem 2rem !important;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 
+        0 4px 12px rgba(220, 53, 69, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+        );
+        transition: left 0.6s;
+    }
+
+    &:hover {
+        background: linear-gradient(135deg, #e4606d 0%, #dc3545 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 
+            0 8px 20px rgba(220, 53, 69, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+
+        &::before {
+            left: 100%;
+        }
+    }
+
+    &:active {
+        transform: translateY(0) !important;
+        box-shadow: 
+            0 2px 8px rgba(220, 53, 69, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    }
+
+    &:focus {
+        outline: none !important;
+        box-shadow: 
+            0 0 0 3px rgba(220, 53, 69, 0.3),
+            0 4px 12px rgba(220, 53, 69, 0.3) !important;
+    }
+}
+
 .modern-swal-cancel-btn {
     background: rgba(255, 255, 255, 0.05) !important;
     color: #94a3b8 !important;

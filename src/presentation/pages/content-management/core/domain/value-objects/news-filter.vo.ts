@@ -1,4 +1,3 @@
-import { MediaStatusDto } from '@shared/data/dtos/media-status.dto';
 import { NewsRequestDto } from '../../application/dtos/news/news-request.dto';
 
 export class NewsFilter {
@@ -6,7 +5,7 @@ export class NewsFilter {
         private readonly startDate?: string,
         private readonly endDate?: string,
         private readonly search?: string,
-        private readonly status?: MediaStatusDto
+        private readonly isPublished?: boolean
     ) { }
 
     static create(data: NewsRequestDto = {} as NewsRequestDto): NewsFilter {
@@ -14,7 +13,7 @@ export class NewsFilter {
             data.startDate,
             data.endDate,
             data.search,
-            data.status
+            data.isPublished
         );
     }
 
@@ -24,7 +23,7 @@ export class NewsFilter {
         if (this.startDate) params['start_date'] = this.startDate;
         if (this.endDate) params['end_date'] = this.endDate;
         if (this.search) params['search'] = this.search;
-        if (this.status !== undefined) params['status'] = this.status;
+        if (this.isPublished !== undefined) params['is_published'] = this.isPublished;
 
         return params;
     }
