@@ -14,6 +14,7 @@ export class MunicipalitiesFindoneRepositoryImpl implements MunicipalitiesFindon
     ) { }
 
     read(filter: MunicipalitiesFindoneFilter | null): Observable<MunicipalitiesFindoneEntity> {
+        console.log('filter', filter);
         return this.api
             .read(filter?.toDto() ?? {})
             .pipe(map((response) => this.mapper.mapFromDto(response)));

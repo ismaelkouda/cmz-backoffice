@@ -16,21 +16,10 @@ export class MunicipalitiesMapper extends PaginatedMapper<
         });
 
         const cacheKey = `dto:${dto.id}`;
-
         const cached = this.entityCache.get(cacheKey);
 
-        if (cached) {
-            console.log("dto", dto);
-            console.log('cached', cached.updatedAt);
-            console.log('dto', dto.updated_at);
-            if (cached.updatedAt !== dto.updated_at) {
-                console.log('Updating cached entity');
-                cached.syncFromDto(dto);
-            }
-            return cached;
-        }
+        const entity = cached ? cached.with(dto) : MunicipalitiesEntity.fromDto(dto);
 
-        const entity = new MunicipalitiesEntity(dto.id, dto.name, dto.code, dto.description, dto.region.name, dto.department.name, dto.population_size, dto.is_active, dto.created_by, dto.updated_by, dto.created_at, dto.updated_at);
         this.entityCache.set(cacheKey, entity);
         return entity;
     }

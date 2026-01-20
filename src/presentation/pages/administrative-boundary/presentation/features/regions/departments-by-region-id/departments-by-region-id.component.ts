@@ -40,6 +40,7 @@ export class DepartmentsByRegionIdComponent {
     private readonly facade = inject(DepartmentsByRegionIdFacade);
     private readonly title = inject(Title);
     readonly departments = toSignal(this.facade.items$, { initialValue: [] });
+    private readonly filterData = toSignal(this.facade.currentFilter$, { initialValue: null });
     readonly isLoading = toSignal(this.facade.isLoading$, { initialValue: false });
     readonly pagination = toSignal(this.facade.pagination$, { initialValue: {} as Paginate<DepartmentsByRegionIdEntity> });
     private readonly paramsCode: Signal<string> = toSignal(
@@ -56,7 +57,7 @@ export class DepartmentsByRegionIdComponent {
     public formFilter: FormGroup<DepartmentsByRegionIdFilterControl> = this.fb.group<DepartmentsByRegionIdFilterControl>({
         regionCode: new FormControl<string | null>(this.paramsCode()),
         search: new FormControl<string | null>(null),
-        municipalityId: new FormControl<string | null>(null),
+        municipalityCode: new FormControl<string | null>(null),
         isActive: new FormControl<boolean | null>(null),
         startDate: new FormControl<string | null>(null),
         endDate: new FormControl<string | null>(null),
@@ -71,7 +72,7 @@ export class DepartmentsByRegionIdComponent {
         },
         /* {
             type: 'select',
-            name: 'municipalityId',
+            name: 'municipalityCode',
             label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS_BY_REGION_ID.FILTER.MUNICIPALITY',
             placeholder: 'COMMON.SELECT_PLACEHOLDER',
             options: ,
@@ -97,31 +98,50 @@ export class DepartmentsByRegionIdComponent {
     constructor() {
         this.title.setTitle(this.translate.instant("ADMINISTRATIVE_BOUNDARY.DEPARTMENTS_BY_REGION_ID.TITLE"));
         effect(() => {
-            this.facade.execute({ regionCode: this.paramsCode() });
+            const regionCode = this.paramsCode();
+            if (regionCode) {
+                this.facade.reset();
+                this.facade.execute({ regionCode });
+            } else {
+                this.facade.reset();
+                this.formFilter.reset();
+            }
+        });
+        effect(() => {
+            if (this.filterData()) {
+                this.formFilter.patchValue({
+                    regionCode: this.paramsCode(),
+                    search: this.filterData()?.search,
+                    municipalityCode: this.filterData()?.municipalityCode,
+                    isActive: this.filterData()?.isActive,
+                    startDate: this.filterData()?.startDate,
+                    endDate: this.filterData()?.endDate,
+                });
+            }
         });
     }
 
     public filter(filterValue: any): void {
-        if (this.paramsCode()) {
-            const {
-                startDate,
-                endDate,
-                isValidRange
-            } = parseAndValidateDateRange(filterValue.startDate, filterValue.endDate);
-            if (!isValidRange) {
-                this.toastService.error(
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE')
-                );
-                return;
-            }
-            const filter = {
-                ...filterValue,
-                regionCode: this.paramsCode(),
-                startDate: startDate?.format('YYYY-MM-DD'),
-                endDate: endDate?.format('YYYY-MM-DD')
-            }
-            this.facade.execute(filter, '1', true);
+        if (!this.paramsCode()) return;
+        const {
+            startDate,
+            endDate,
+            isValidRange
+        } = parseAndValidateDateRange(filterValue.startDate, filterValue.endDate);
+        if (!isValidRange) {
+            this.toastService.error(
+                this.translate.instant('COMMON.INVALID_DATE_RANGE')
+            );
+            return;
         }
+        const filter = {
+            ...filterValue,
+            regionCode: this.paramsCode(),
+            municipalityCode: filterValue.municipalityCode,
+            startDate: startDate?.format('YYYY-MM-DD'),
+            endDate: endDate?.format('YYYY-MM-DD')
+        }
+        this.facade.execute(filter, '1', true);
     }
 
     public onPageChange(event: number): void {

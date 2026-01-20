@@ -16,11 +16,11 @@ export const MUNICIPALITIES_BY_DEPARTMENT_ID_TABLE_CONST = {
             header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_BY_DEPARTMENT_ID.TABLE.NAME',
             width: '17rem',
         },
-        {
+        /* {
             field: 'region',
             header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_BY_DEPARTMENT_ID.TABLE.REGION',
             width: '12rem',
-        },
+        }, */
         {
             field: 'populationSize',
             header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_BY_DEPARTMENT_ID.TABLE.POPULATION_SIZE',
@@ -49,7 +49,7 @@ export const MUNICIPALITIES_BY_DEPARTMENT_ID_TABLE_CONST = {
         'id',
         'code',
         'name',
-        'region',
+        /* 'region', */
         'populationSize',
         'createdAt',
     ],

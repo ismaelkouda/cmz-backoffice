@@ -15,6 +15,7 @@ export class MunicipalitiesFindoneUseCase {
         filterDto: MunicipalitiesFindoneFilterDto,
     ): Observable<MunicipalitiesFindoneEntity> {
         const filter = MunicipalitiesFindoneFilter.create(filterDto);
+        console.log('MunicipalitiesFindoneUseCase', filter);
         return this.repository.read(filter);
     }
 }

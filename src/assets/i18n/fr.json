@@ -738,6 +738,32 @@
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             }
+        },
+        "MUNICIPALITIES_BY_DEPARTMENT_ID": {
+            "BREADCRUMB": {
+                "LABEL": "Municipalités",
+                "ROUTE": "municipalities-by-department-id"
+            },
+            "TITLE": "Municipalités du département",
+            "LABEL": "Municipalités",
+            "ROUTE": "municipalities-by-department-id",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Nom de la municipalité",
+                "DESCRIPTION": "Description",
+                "POPULATION_SIZE": "# Population",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            }
         }
     },
     "COMMON": {

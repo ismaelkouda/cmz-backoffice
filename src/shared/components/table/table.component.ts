@@ -17,6 +17,7 @@ import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { SeparatorThousandsPipe } from '@shared/pipes/separator-thousands.pipe';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
+import { BadgeModule } from 'primeng/badge';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TagModule } from 'primeng/tag';
 
@@ -26,6 +27,7 @@ import { TagModule } from 'primeng/tag';
     imports: [
         CommonModule,
         TableModule,
+        BadgeModule,
         ButtonModule,
         TranslateModule,
         SearchTableComponent,
@@ -143,5 +145,11 @@ export class TableComponent {
         const textColor =
             operator?.toLowerCase() === 'mtn' ? '#212121' : '#ffffff';
         return { backgroundColor, color: textColor };
+    }
+
+    public numberSeverity(value: number) {
+        if (value === 0) return 'danger';
+        else if (value > 0 && value < 999999) return 'warn';
+        else return 'success';
     }
 }

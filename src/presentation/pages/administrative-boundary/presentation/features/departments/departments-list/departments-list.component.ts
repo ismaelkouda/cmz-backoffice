@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, effect, inject } from "@angular/core";
+import { Component, OnInit, computed, effect, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -23,6 +23,7 @@ import { ToastrService } from "ngx-toastr";
 import SweetAlert from 'sweetalert2';
 import { CrudFormType } from "../../../../../../../shared/domain/utils/crud-form-utils";
 import { DEPARTMENTS_FORM, MUNICIPALITIES_BY_DEPARTMENT_ID_ROUTE } from "../departments.routes";
+
 
 @Component({
     selector: "app-departments-list",
@@ -51,21 +52,53 @@ export class DepartmentsListComponent implements OnInit {
         this.appCustomizationService.config.app.name
     );
     public formFilter!: FormGroup<DepartmentsFilterControl>;
-    public filterFields: FilterField[] = [];
+
+    readonly filterFields = computed<FilterField[]>(() => [
+        {
+            type: 'text',
+            name: 'search',
+            label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.SEARCH',
+            placeholder: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.SEARCH_PLACEHOLDER',
+        },
+        {
+
+            type: 'select',
+            name: 'regionCode',
+            label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.REGION',
+            placeholder: 'COMMON.SELECT_PLACEHOLDER',
+            options: this.regions(),
+            optionLabel: 'name',
+            optionValue: 'code',
+            showClear: true,
+            filter: true,
+        },
+        {
+            type: 'date',
+            name: 'startDate',
+            label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.DATE.FROM',
+            placeholder: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.DATE.PLACEHOLDER',
+        },
+        {
+            type: 'date',
+            name: 'endDate',
+            label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.DATE.TO',
+            placeholder: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.DATE.PLACEHOLDER',
+        }
+    ]);
+
     public statusOptions: { label: string; value: boolean }[] = [];
 
     constructor() {
         this.title.setTitle(this.translate.instant("ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TITLE"));
         effect(() => {
             this.facade.readAll();
-            this.regionFacade.readAll();
+            this.regionFacade.readAll(true);
         });
     }
 
     ngOnInit(): void {
         this.loadTranslatedOptions();
         this.initFilter();
-        this.initFilterFields();
     }
 
     private loadTranslatedOptions(): void {
@@ -83,57 +116,12 @@ export class DepartmentsListComponent implements OnInit {
             this.formFilter = this.fb.group<DepartmentsFilterControl>({
                 search: new FormControl<string | null>(null),
                 regionCode: new FormControl<string | null>(null),
-                municipalityId: new FormControl<string | null>(null),
+                municipalityCode: new FormControl<string | null>(null),
                 isActive: new FormControl<boolean | null>(null),
                 startDate: new FormControl<string | null>(null),
                 endDate: new FormControl<string | null>(null),
             });
         }
-    }
-
-    private initFilterFields(): void {
-        this.filterFields = [
-            {
-                type: 'text',
-                name: 'search',
-                label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.SEARCH',
-                placeholder: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.SEARCH_PLACEHOLDER',
-            },
-            {
-                type: 'select',
-                name: 'regionCode',
-                label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.REGION',
-                placeholder: 'COMMON.SELECT_PLACEHOLDER',
-                options: this.regions(),
-                optionLabel: 'name',
-                optionValue: 'code',
-                showClear: true,
-                filter: true,
-            },
-            /* {
-                type: 'select',
-                name: 'isActive',
-                label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.STATUS',
-                placeholder: 'COMMON.SELECT_PLACEHOLDER',
-                options: this.statusOptions,
-                optionLabel: 'label',
-                optionValue: 'value',
-                showClear: true,
-                filter: false,
-            }, */
-            {
-                type: 'date',
-                name: 'startDate',
-                label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.DATE.FROM',
-                placeholder: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.DATE.PLACEHOLDER',
-            },
-            {
-                type: 'date',
-                name: 'endDate',
-                label: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.DATE.TO',
-                placeholder: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FILTER.DATE.PLACEHOLDER',
-            }
-        ];
     }
 
     public filter(formValue: any): void {

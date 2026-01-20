@@ -1,34 +1,42 @@
+import { RegionsItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-response-api.dto";
 
 export class RegionsEntity {
     constructor(
         public readonly uniqId: string,
-        public readonly name: string,
-        public readonly code: string,
-        public readonly description: string,
-        public readonly populationSize: number,
-        public readonly departmentsCount: number,
-        public readonly municipalitiesCount: number,
-        public readonly isActive: boolean,
-        public readonly createdBy: string,
-        public readonly updatedBy: string,
-        public readonly createdAt: string,
-        public readonly updatedAt: string
+        public name: string,
+        public code: string,
+        public description: string,
+        public populationSize: number,
+        public departmentsCount: number,
+        public municipalitiesCount: number,
+        public isActive: boolean,
+        public createdBy: string,
+        public updatedBy: string,
+        public createdAt: string,
+        public updatedAt: string
     ) { }
 
-    public clone(updates: Partial<RegionsEntity>): RegionsEntity {
+    static fromDto(dto: RegionsItemApiDto): RegionsEntity {
         return new RegionsEntity(
-            updates.uniqId ?? this.uniqId,
-            updates.name ?? this.name,
-            updates.code ?? this.code,
-            updates.description ?? this.description,
-            updates.populationSize ?? this.populationSize,
-            updates.departmentsCount ?? this.departmentsCount,
-            updates.municipalitiesCount ?? this.municipalitiesCount,
-            updates.isActive ?? this.isActive,
-            updates.createdBy ?? this.createdBy,
-            updates.updatedBy ?? this.updatedBy,
-            updates.createdAt ?? this.createdAt,
-            updates.updatedAt ?? this.updatedAt
+            dto.id,
+            dto.name,
+            dto.code,
+            dto.description,
+            dto.population_size,
+            dto.departments_count,
+            dto.municipalities_count,
+            dto.is_active,
+            dto.created_by,
+            dto.updated_by,
+            dto.created_at,
+            dto.updated_at
         );
+    }
+
+    public with(dto: RegionsItemApiDto): RegionsEntity {
+        if (this.updatedAt === dto.updated_at) {
+            return this;
+        }
+        return RegionsEntity.fromDto(dto);
     }
 }

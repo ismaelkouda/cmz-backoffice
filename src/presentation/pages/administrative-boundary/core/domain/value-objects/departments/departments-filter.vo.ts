@@ -4,7 +4,7 @@ export class DepartmentsFilter {
     private constructor(
         readonly search?: string,
         readonly regionCode?: string,
-        readonly municipalityId?: string,
+        readonly municipalityCode?: string,
         readonly isActive?: boolean,
         readonly startDate?: string,
         readonly endDate?: string,
@@ -19,7 +19,7 @@ export class DepartmentsFilter {
         return new DepartmentsFilter(
             data?.search,
             data?.regionCode,
-            data?.municipalityId,
+            data?.municipalityCode,
             data?.isActive,
             data?.startDate,
             data?.endDate,

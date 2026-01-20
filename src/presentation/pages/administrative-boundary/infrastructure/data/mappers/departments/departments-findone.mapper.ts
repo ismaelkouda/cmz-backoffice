@@ -7,19 +7,16 @@ export class DepartmentsFindoneMapper extends SimpleResponseMapper<
     DepartmentsFindoneEntity,
     DepartmentsFindoneItemApiDto
 > {
-    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, DepartmentsFindoneEntity>();
 
     protected override mapItemFromDto(dto: DepartmentsFindoneItemApiDto): DepartmentsFindoneEntity {
-        MapperUtils.validateDto(dto, {
-            required: ['updated_at']
-        });
+        MapperUtils.validateDto(dto, { required: ['id'] });
 
-        const cacheKey = `dto:${dto.updated_at}`;
+        const cacheKey = `dto:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
-        if (cached) return cached;
 
-        const entity = new DepartmentsFindoneEntity(dto.id, dto.name, dto.code, dto.description, dto.region.code, dto.population_size, dto.municipalities_count, dto.is_active, dto.created_by, dto.updated_by, dto.created_at, dto.updated_at);
+        const entity = cached ? cached.with(dto) : DepartmentsFindoneEntity.fromDto(dto);
+
         this.entityCache.set(cacheKey, entity);
         return entity;
     }

@@ -1,3 +1,4 @@
+import { DepartmentsFindoneItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-findone-response-api.dto";
 
 export class DepartmentsFindoneEntity {
     constructor(
@@ -15,20 +16,27 @@ export class DepartmentsFindoneEntity {
         public readonly updatedAt: string
     ) { }
 
-    public clone(updates: Partial<DepartmentsFindoneEntity>): DepartmentsFindoneEntity {
+    static fromDto(dto: DepartmentsFindoneItemApiDto): DepartmentsFindoneEntity {
         return new DepartmentsFindoneEntity(
-            updates.uniqId ?? this.uniqId,
-            updates.name ?? this.name,
-            updates.code ?? this.code,
-            updates.description ?? this.description,
-            updates.region ?? this.region,
-            updates.populationSize ?? this.populationSize,
-            updates.municipalitiesCount ?? this.municipalitiesCount,
-            updates.isActive ?? this.isActive,
-            updates.createdBy ?? this.createdBy,
-            updates.updatedBy ?? this.updatedBy,
-            updates.createdAt ?? this.createdAt,
-            updates.updatedAt ?? this.updatedAt
+            dto.id,
+            dto.name,
+            dto.code,
+            dto.description,
+            dto.region.code,
+            dto.population_size,
+            dto.municipalities_count,
+            dto.is_active,
+            dto.created_by,
+            dto.updated_by,
+            dto.created_at,
+            dto.updated_at
         );
+    }
+
+    public with(dto: DepartmentsFindoneItemApiDto): DepartmentsFindoneEntity {
+        if (this.updatedAt === dto.updated_at) {
+            return this;
+        }
+        return DepartmentsFindoneEntity.fromDto(dto);
     }
 }

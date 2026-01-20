@@ -6,7 +6,7 @@
     [globalFilterFields]="config().globalFilterFields"
     responsiveLayout="scroll"
     [scrollable]="true"
-    scrollHeight="430px"
+    scrollHeight="450px"
     role="grid"
     width="100%"
     [columns]="config().cols"
@@ -84,7 +84,7 @@
                             </ng-template>
                         }
                     } @else if (col.type === 'number') {
-                        {{ rowData[col.field] | separatorThousandsPipe }}
+                        <p-badge [value]="rowData[col.field] | separatorThousandsPipe" [severity]="numberSeverity(rowData[col.field])" />
                     } @else {
                         @switch (col.field) {
                             @case ('__reorder') {

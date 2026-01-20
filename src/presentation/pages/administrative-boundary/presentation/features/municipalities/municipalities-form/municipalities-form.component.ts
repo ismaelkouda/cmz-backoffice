@@ -4,7 +4,6 @@ import {
     computed,
     effect,
     inject,
-    OnInit,
     Signal
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -59,7 +58,7 @@ import SweetAlert from 'sweetalert2';
     ],
     providers: [MessageService],
 })
-export class MunicipalitiesFormComponent implements OnInit {
+export class MunicipalitiesFormComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly fb = inject(FormBuilder);
@@ -115,8 +114,8 @@ export class MunicipalitiesFormComponent implements OnInit {
             this.departmentsFacade.readAll();
             const code = this.paramsCode();
             if (code) {
-                this.findOneFacade.read({ code });
-                console.log("code", code);
+                this.findOneFacade.reset();
+                this.findOneFacade.read({ code }, true);
             } else {
                 this.findOneFacade.reset();
                 this.form.reset();
@@ -135,8 +134,6 @@ export class MunicipalitiesFormComponent implements OnInit {
             }
         });
     }
-
-    ngOnInit(): void { }
 
     public getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
@@ -199,16 +196,16 @@ export class MunicipalitiesFormComponent implements OnInit {
     private showValidationErrors(): void {
         const errors = [];
         if (this.form.controls.code.invalid) {
-            errors.push('Code: ' + this.getErrorMessage('code'));
+            errors.push(this.getErrorMessage('code'));
         }
         if (this.form.controls.departmentCode.invalid) {
-            errors.push('Code du département: ' + this.getErrorMessage('departmentCode'));
+            errors.push(this.getErrorMessage('departmentCode'));
         }
         if (this.form.controls.name.invalid) {
-            errors.push('Nom: ' + this.getErrorMessage('name'));
+            errors.push(this.getErrorMessage('name'));
         }
         if (this.form.controls.description.invalid) {
-            errors.push('Description: ' + this.getErrorMessage('description'));
+            errors.push(this.getErrorMessage('description'));
         }
 
         if (errors.length > 0) {

@@ -17,9 +17,8 @@ export class MunicipalitiesByDepartmentIdMapper extends PaginatedMapper<
 
         const cacheKey = `dto:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
-        if (cached) return cached;
 
-        const entity = new MunicipalitiesByDepartmentIdEntity(dto.id, dto.name, dto.code, dto.description, dto.region.name, dto.population_size, dto.is_active, dto.created_by, dto.updated_by, dto.created_at, dto.updated_at);
+        const entity = cached ? cached.with(dto) : MunicipalitiesByDepartmentIdEntity.fromDto(dto);
         this.entityCache.set(cacheKey, entity);
         return entity;
     }

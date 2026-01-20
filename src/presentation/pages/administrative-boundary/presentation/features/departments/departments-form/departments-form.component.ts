@@ -114,7 +114,8 @@ export class DepartmentsFormComponent {
             this.regionsFacade.readAll();
             const code = this.paramsCode();
             if (code) {
-                this.findOneFacade.read({ code });
+                this.findOneFacade.reset();
+                this.findOneFacade.read({ code }, true);
             } else {
                 this.findOneFacade.reset();
                 this.form.reset();
@@ -195,16 +196,16 @@ export class DepartmentsFormComponent {
     private showValidationErrors(): void {
         const errors = [];
         if (this.form.controls.code.invalid) {
-            errors.push('Code: ' + this.getErrorMessage('code'));
+            errors.push(this.getErrorMessage('code'));
         }
         if (this.form.controls.regionCode.invalid) {
-            errors.push('Code de la région: ' + this.getErrorMessage('regionCode'));
+            errors.push(this.getErrorMessage('regionCode'));
         }
         if (this.form.controls.name.invalid) {
-            errors.push('Nom: ' + this.getErrorMessage('name'));
+            errors.push(this.getErrorMessage('name'));
         }
         if (this.form.controls.description.invalid) {
-            errors.push('Description: ' + this.getErrorMessage('description'));
+            errors.push(this.getErrorMessage('description'));
         }
 
         if (errors.length > 0) {

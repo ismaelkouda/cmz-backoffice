@@ -1,3 +1,4 @@
+import { DepartmentsByRegionIdItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/departments-by-region-id-response-api.dto";
 
 export class DepartmentsByRegionIdEntity {
     constructor(
@@ -14,19 +15,26 @@ export class DepartmentsByRegionIdEntity {
         public readonly updatedAt: string
     ) { }
 
-    public clone(updates: Partial<DepartmentsByRegionIdEntity>): DepartmentsByRegionIdEntity {
+    static fromDto(dto: DepartmentsByRegionIdItemApiDto): DepartmentsByRegionIdEntity {
         return new DepartmentsByRegionIdEntity(
-            updates.uniqId ?? this.uniqId,
-            updates.name ?? this.name,
-            updates.code ?? this.code,
-            updates.description ?? this.description,
-            updates.populationSize ?? this.populationSize,
-            updates.municipalitiesCount ?? this.municipalitiesCount,
-            updates.isActive ?? this.isActive,
-            updates.createdBy ?? this.createdBy,
-            updates.updatedBy ?? this.updatedBy,
-            updates.createdAt ?? this.createdAt,
-            updates.updatedAt ?? this.updatedAt
+            dto.id,
+            dto.name,
+            dto.code,
+            dto.description,
+            dto.population_size,
+            dto.municipalities_count,
+            dto.is_active,
+            dto.created_by,
+            dto.updated_by,
+            dto.created_at,
+            dto.updated_at
         );
+    }
+
+    public with(dto: DepartmentsByRegionIdItemApiDto): DepartmentsByRegionIdEntity {
+        if (this.updatedAt === dto.updated_at) {
+            return this;
+        }
+        return DepartmentsByRegionIdEntity.fromDto(dto);
     }
 }

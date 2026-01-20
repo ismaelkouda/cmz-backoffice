@@ -4,7 +4,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { DEPARTMENTS_ROUTE } from "@presentation/pages/administrative-boundary/administrative-boundary.route";
 import { MunicipalitiesByDepartmentIdFacade } from "@presentation/pages/administrative-boundary/core/application/services/departments/municipalities-by-department-id.facade";
 import { MUNICIPALITIES_BY_DEPARTMENT_ID_TABLE_CONST } from "@presentation/pages/administrative-boundary/core/domain/constants/departments/municipalities-by-department-id-table.constants";
@@ -17,7 +17,9 @@ import { PageTitleComponent } from "@shared/components/page-title/page-title.com
 import { PaginationComponent } from "@shared/components/pagination/pagination.component";
 import { TableComponent } from "@shared/components/table/table.component";
 import { Paginate } from "@shared/data/dtos/simple-response.dto";
+import { parseAndValidateDateRange } from "@shared/domain/utils/date-range.utils";
 import { ADMINISTRATIVE_BOUNDARY_ROUTE } from "@shared/routes/routes";
+import { ToastrService } from "ngx-toastr";
 import { ButtonModule } from "primeng/button";
 import { TagModule } from "primeng/tag";
 import { map } from "rxjs";
@@ -33,6 +35,8 @@ export class MunicipalitiesByDepartmentIdComponent {
     private readonly title = inject(Title);
     private readonly facade = inject(MunicipalitiesByDepartmentIdFacade);
     private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly translate = inject(TranslateService);
+    private readonly toastService = inject(ToastrService);
     private readonly router = inject(Router);
     private readonly fb = inject(FormBuilder);
     readonly municipalities = toSignal(this.facade.items$, { initialValue: [] });
@@ -50,7 +54,7 @@ export class MunicipalitiesByDepartmentIdComponent {
     );
 
     public formFilter: FormGroup<MunicipalitiesByDepartmentIdFilterControl> = this.fb.group<MunicipalitiesByDepartmentIdFilterControl>({
-        departmentCode: new FormControl(null),
+        departmentCode: new FormControl(this.paramsCode()),
         search: new FormControl(''),
         isActive: new FormControl(null),
         startDate: new FormControl(null),
@@ -83,6 +87,7 @@ export class MunicipalitiesByDepartmentIdComponent {
         effect(() => {
             const departmentCode = this.paramsCode();
             if (departmentCode) {
+                this.facade.reset();
                 this.facade.execute({ departmentCode });
             } else {
                 this.facade.reset();
@@ -91,13 +96,13 @@ export class MunicipalitiesByDepartmentIdComponent {
         });
 
         effect(() => {
-            const filter = this.currentFilter();
-            if (filter && Object.keys(filter).length > 0) {
+            if (this.currentFilter()) {
                 this.formFilter.patchValue({
-                    search: filter.search,
-                    isActive: filter.isActive,
-                    startDate: filter.startDate,
-                    endDate: filter.endDate
+                    departmentCode: this.paramsCode(),
+                    search: this.currentFilter()?.search,
+                    isActive: this.currentFilter()?.isActive,
+                    startDate: this.currentFilter()?.startDate,
+                    endDate: this.currentFilter()?.endDate
                 });
             }
         });
@@ -105,9 +110,22 @@ export class MunicipalitiesByDepartmentIdComponent {
 
     public filter(filterValue: any): void {
         if (!this.paramsCode()) return;
+        const {
+            startDate,
+            endDate,
+            isValidRange
+        } = parseAndValidateDateRange(filterValue.startDate, filterValue.endDate);
+        if (!isValidRange) {
+            this.toastService.error(
+                this.translate.instant('COMMON.INVALID_DATE_RANGE')
+            );
+            return;
+        }
         const filter = {
             ...filterValue,
-            departmentCode: this.paramsCode()
+            departmentCode: this.paramsCode(),
+            startDate: startDate?.format('YYYY-MM-DD'),
+            endDate: endDate?.format('YYYY-MM-DD')
         }
         this.facade.execute(filter, '1', true);
     }

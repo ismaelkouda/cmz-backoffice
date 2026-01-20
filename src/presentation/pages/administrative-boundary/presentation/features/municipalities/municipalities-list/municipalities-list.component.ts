@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, effect, inject } from "@angular/core";
+import { Component, OnInit, computed, effect, inject } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
@@ -54,7 +54,59 @@ export class MunicipalitiesListComponent implements OnInit {
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.config.app.name
     );
-    public filterFields: FilterField[] = [];
+    readonly filterFields = computed<FilterField[]>(() => [
+        {
+            type: 'text',
+            name: 'search',
+            label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.SEARCH',
+            placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.SEARCH_PLACEHOLDER',
+        },
+        {
+            type: 'select',
+            name: 'regionCode',
+            label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.REGION',
+            placeholder: 'COMMON.SELECT_PLACEHOLDER',
+            options: this.regions(),
+            optionLabel: 'name',
+            optionValue: 'code',
+            showClear: true,
+            filter: true,
+        },
+        {
+            type: 'select',
+            name: 'departmentCode',
+            label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DEPARTMENT',
+            placeholder: 'COMMON.SELECT_PLACEHOLDER',
+            options: this.departments(),
+            optionLabel: 'name',
+            optionValue: 'code',
+            showClear: true,
+            filter: true,
+        },
+        /* {
+            type: 'select',
+            name: 'isActive',
+            label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.STATUS',
+            placeholder: 'COMMON.SELECT_PLACEHOLDER',
+            options: this.statusOptions,
+            optionLabel: 'label',
+            optionValue: 'value',
+            showClear: true,
+            filter: false,
+        }, */
+        {
+            type: 'date',
+            name: 'startDate',
+            label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.FROM',
+            placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
+        },
+        {
+            type: 'date',
+            name: 'endDate',
+            label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.TO',
+            placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
+        }
+    ]);
     public statusOptions: { label: string; value: boolean }[] = [];
 
     public formFilter: FormGroup<MunicipalitiesFilterControl> = this.fb.group<MunicipalitiesFilterControl>({
@@ -89,7 +141,6 @@ export class MunicipalitiesListComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadTranslatedOptions();
-        this.initFilterFields();
     }
 
     private loadTranslatedOptions(): void {
@@ -99,62 +150,6 @@ export class MunicipalitiesListComponent implements OnInit {
                 label: this.translate.instant('COMMON.DEACTIVATED'),
                 value: false,
             },
-        ];
-    }
-
-    private initFilterFields(): void {
-        this.filterFields = [
-            {
-                type: 'text',
-                name: 'search',
-                label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.SEARCH',
-                placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.SEARCH_PLACEHOLDER',
-            },
-            {
-                type: 'select',
-                name: 'regionCode',
-                label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.REGION',
-                placeholder: 'COMMON.SELECT_PLACEHOLDER',
-                options: this.regions(),
-                optionLabel: 'name',
-                optionValue: 'code',
-                showClear: true,
-                filter: true,
-            },
-            {
-                type: 'select',
-                name: 'departmentCode',
-                label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DEPARTMENT',
-                placeholder: 'COMMON.SELECT_PLACEHOLDER',
-                options: this.departments(),
-                optionLabel: 'name',
-                optionValue: 'code',
-                showClear: true,
-                filter: true,
-            },
-            /* {
-                type: 'select',
-                name: 'isActive',
-                label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.STATUS',
-                placeholder: 'COMMON.SELECT_PLACEHOLDER',
-                options: this.statusOptions,
-                optionLabel: 'label',
-                optionValue: 'value',
-                showClear: true,
-                filter: false,
-            }, */
-            {
-                type: 'date',
-                name: 'startDate',
-                label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.FROM',
-                placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
-            },
-            {
-                type: 'date',
-                name: 'endDate',
-                label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.TO',
-                placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
-            }
         ];
     }
 

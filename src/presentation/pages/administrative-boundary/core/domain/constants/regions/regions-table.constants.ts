@@ -14,7 +14,7 @@ export const REGIONS_TABLE_CONST = {
         {
             field: 'name',
             header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.NAME',
-            width: '10rem',
+            width: '15rem',
         },
         {
             field: 'departmentsCount',
@@ -23,13 +23,13 @@ export const REGIONS_TABLE_CONST = {
             width: '2rem',
             type: 'badge-button',
         },
-        {
-            field: 'municipalitiesCount',
-            header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.MUNICIPALITIES_COUNT',
-            class: 'text-center',
-            width: '2rem',
-            type: 'badge-button',
-        },
+        /*  {
+             field: 'municipalitiesCount',
+             header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.MUNICIPALITIES_COUNT',
+             class: 'text-center',
+             width: '2rem',
+             type: 'badge-button',
+         }, */
         {
             field: 'populationSize',
             header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.POPULATION_SIZE',

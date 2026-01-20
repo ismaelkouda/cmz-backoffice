@@ -11,30 +11,13 @@ export class MunicipalitiesFindoneMapper extends SimpleResponseMapper<
     private readonly entityCache = new Map<string, MunicipalitiesFindoneEntity>();
 
     protected override mapItemFromDto(dto: MunicipalitiesFindoneItemApiDto): MunicipalitiesFindoneEntity {
-        console.log('mapItemFromDto', dto);
-        MapperUtils.validateDto(dto, {
-            required: ['id']
-        });
+        MapperUtils.validateDto(dto, { required: ['id'] });
 
         const cacheKey = `dto:${dto.id}`;
+        let cached = this.entityCache.get(cacheKey);
 
-        const cached = this.entityCache.get(cacheKey);
+        const entity = cached ? cached.with(dto) : MunicipalitiesFindoneEntity.fromDto(dto);
 
-        if (cached) {
-            console.log("dto", dto);
-            console.log('cached', cached.updatedAt);
-            console.log('dto', dto.updated_at);
-            if (cached.updatedAt !== dto.updated_at) {
-                console.log('Updating cached entity');
-                console.log('cached', cached);
-                cached.syncFromDto(dto);
-            }
-            return cached;
-        }
-        console.log('Creating new entity');
-        console.log('Creating dto', dto);
-
-        const entity = new MunicipalitiesFindoneEntity(dto.id, dto.name, dto.code, dto.description, dto.region.code, dto.department.code, dto.population_size, dto.is_active, dto.created_by, dto.updated_by, dto.created_at, dto.updated_at);
         this.entityCache.set(cacheKey, entity);
         return entity;
     }

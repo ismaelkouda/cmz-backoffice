@@ -81,7 +81,7 @@ export class RegionsListComponent implements OnInit {
             this.formFilter = this.fb.group<RegionsFilterControl>({
                 search: new FormControl<string | null>(null),
                 departmentCode: new FormControl<string | null>(null),
-                municipalityId: new FormControl<string | null>(null),
+                municipalityCode: new FormControl<string | null>(null),
                 isActive: new FormControl<boolean | null>(null),
                 startDate: new FormControl<string | null>(null),
                 endDate: new FormControl<string | null>(null),

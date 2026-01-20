@@ -1,3 +1,4 @@
+import { MunicipalitiesByDepartmentIdItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/municipalities-by-department-id-response-api.dto";
 
 export class MunicipalitiesByDepartmentIdEntity {
     constructor(
@@ -14,19 +15,26 @@ export class MunicipalitiesByDepartmentIdEntity {
         public readonly updatedAt: string
     ) { }
 
-    public clone(updates: Partial<MunicipalitiesByDepartmentIdEntity>): MunicipalitiesByDepartmentIdEntity {
+    static fromDto(dto: MunicipalitiesByDepartmentIdItemApiDto): MunicipalitiesByDepartmentIdEntity {
         return new MunicipalitiesByDepartmentIdEntity(
-            updates.uniqId ?? this.uniqId,
-            updates.name ?? this.name,
-            updates.code ?? this.code,
-            updates.description ?? this.description,
-            updates.region ?? this.region,
-            updates.populationSize ?? this.populationSize,
-            updates.isActive ?? this.isActive,
-            updates.createdBy ?? this.createdBy,
-            updates.updatedBy ?? this.updatedBy,
-            updates.createdAt ?? this.createdAt,
-            updates.updatedAt ?? this.updatedAt
+            dto.id,
+            dto.name,
+            dto.code,
+            dto.description,
+            dto.region.name,
+            dto.population_size,
+            dto.is_active,
+            dto.created_by,
+            dto.updated_by,
+            dto.created_at,
+            dto.updated_at
         );
+    }
+
+    public with(dto: MunicipalitiesByDepartmentIdItemApiDto): MunicipalitiesByDepartmentIdEntity {
+        if (this.updatedAt === dto.updated_at) {
+            return this;
+        }
+        return MunicipalitiesByDepartmentIdEntity.fromDto(dto);
     }
 }

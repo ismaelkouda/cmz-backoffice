@@ -10,7 +10,7 @@ export class DepartmentsByRegionIdFilterMapper {
         if (filter.startDate) params['start_date'] = filter.startDate;
         if (filter.endDate) params['end_date'] = filter.endDate;
         if (filter.search) params['search'] = filter.search;
-        if (filter.municipalityId) params['municipality_id'] = filter.municipalityId;
+        if (filter.municipalityCode) params['municipality_code'] = filter.municipalityCode;
         if (filter.isActive !== undefined && filter.isActive !== null) params['is_active'] = filter.isActive;
 
         return params;

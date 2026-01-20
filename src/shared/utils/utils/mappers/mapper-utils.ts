@@ -135,6 +135,49 @@ export class MapperUtils {
         }
     }
 
+    static syncCollection<T, D>(
+        target: T[],
+        source: D[],
+        getKey: (item: T | D) => string,
+        update: (target: T, source: D) => void,
+        create: (source: D) => T
+    ): void {
+        const sourceMap = new Map(source.map(s => [getKey(s), s]));
+
+        for (let i = target.length - 1; i >= 0; i--) {
+            const key = getKey(target[i]);
+            const sourceItem = sourceMap.get(key);
+
+            if (!sourceItem) {
+                target.splice(i, 1);
+            } else {
+                update(target[i], sourceItem);
+                sourceMap.delete(key);
+            }
+        }
+
+        for (const sourceItem of sourceMap.values()) {
+            target.push(create(sourceItem));
+        }
+    }
+
+    static mergeImmutable<E, D, K>(
+        current: readonly E[],
+        incoming: readonly D[],
+        key: (item: E | D) => K,
+        update: (entity: E, dto: D) => E,
+        create: (dto: D) => E
+    ): readonly E[] {
+        const map = new Map(current.map(e => [key(e), e]));
+
+        return incoming.map(dto => {
+            const k = key(dto);
+            const existing = map.get(k);
+            return existing ? update(existing, dto) : create(dto);
+        });
+    }
+
+
     clearCache(): void {
         this.cache.clear();
     }

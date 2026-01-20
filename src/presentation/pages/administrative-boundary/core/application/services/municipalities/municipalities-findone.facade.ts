@@ -20,9 +20,11 @@ export class MunicipalitiesFindoneFacade extends ObjectBaseFacade<Municipalities
     private readonly STALE_TIME = 2 * 60 * 1000;
 
     read(filter: MunicipalitiesFindoneFilterDto, forceRefresh: boolean = false): void {
+        console.log('MunicipalitiesFindoneFilterDto', filter);
         const hasData = this.itemsSubject.getValue() != null;
         if (!shouldFetch(forceRefresh, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
         this.fetchWithFilter(filter, this.useCase.read.bind(this.useCase), this.uiFeedbackService);
+        console.log('MunicipalitiesFindoneFacade', this.items$);
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
     }

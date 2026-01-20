@@ -80,7 +80,7 @@ export interface DetailsItemDto {
     updated_at: string;
     region_code: number;
     department_code: number;
-    municipality_id: number;
+    municipality_code: number;
     initiator: ActorDto | null;
     acknowledged_by: ActorDto | null;
     approved_by: ActorDto | null;

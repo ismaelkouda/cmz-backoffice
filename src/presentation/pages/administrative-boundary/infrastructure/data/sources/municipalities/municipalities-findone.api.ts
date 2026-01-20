@@ -16,6 +16,7 @@ export class MunicipalitiesFindoneApi {
     ) { }
 
     read(paramsDto: MunicipalitiesFindoneFilterApiDto): Observable<MunicipalitiesFindoneResponseApiDto> {
+        console.log('paramsDto', paramsDto);
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.MUNICIPALITIES}/${paramsDto.code}`;
 
         const params = this.createHttpParams(paramsDto);
@@ -28,7 +29,7 @@ export class MunicipalitiesFindoneApi {
 
         if (payload) {
             Object.entries(payload).forEach(([key, value]) => {
-                if (value !== undefined && value !== null && value !== '' && key !== 'id') {
+                if (value !== undefined && value !== null && value !== '' && key !== 'code') {
                     if (value instanceof Date) {
                         params = params.set(key, value.toISOString());
                     } else {

@@ -7,19 +7,16 @@ export class MunicipalitiesSelectMapper extends ArrayResponseMapper<
     MunicipalitiesSelectEntity,
     MunicipalitiesSelectItemApiDto
 > {
-    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, MunicipalitiesSelectEntity>();
 
     protected override mapItemFromDto(dto: MunicipalitiesSelectItemApiDto): MunicipalitiesSelectEntity {
-        MapperUtils.validateDto(dto, {
-            required: ['id']
-        });
+        MapperUtils.validateDto(dto, { required: ['id'] });
 
         const cacheKey = `dto:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
-        if (cached) return cached;
 
-        const entity = new MunicipalitiesSelectEntity(dto.name, dto.code);
+        const entity = cached ? cached.with(dto) : MunicipalitiesSelectEntity.fromDto(dto)
+
         this.entityCache.set(cacheKey, entity);
         return entity;
     }

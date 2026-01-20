@@ -3,7 +3,7 @@ import { DepartmentsByRegionIdFilterApiDto } from "@presentation/pages/administr
 export class DepartmentsByRegionIdFilter {
     private constructor(
         readonly regionCode: string,
-        readonly municipalityId?: string,
+        readonly municipalityCode?: string,
         readonly search?: string,
         readonly isActive?: boolean,
         readonly startDate?: string,
@@ -13,7 +13,7 @@ export class DepartmentsByRegionIdFilter {
     static create(data: any = {} as any): DepartmentsByRegionIdFilter {
         return new DepartmentsByRegionIdFilter(
             data.regionCode,
-            data.municipalityId,
+            data.municipalityCode,
             data.search,
             data.isActive,
             data.startDate,
@@ -26,7 +26,7 @@ export class DepartmentsByRegionIdFilter {
 
         params.region_code = this.regionCode;
         if (this.search) params.search = this.search;
-        if (this.municipalityId) params.municipality_id = this.municipalityId;
+        if (this.municipalityCode) params.municipality_code = this.municipalityCode;
         if (this.isActive !== undefined && this.isActive !== null) params.is_active = this.isActive;
         if (this.startDate) params.start_date = this.startDate;
         if (this.endDate) params.end_date = this.endDate;
