@@ -1,16 +1,6 @@
 
 export const SWEET_ALERT_PARAMS = {
     buttonsStyling: false,
-    /*     message: {
-            title: 'En êtes vous sûr ?',
-            html: `htmlMessage.`,
-            icon: 'warning' as const,
-            showCancelButton: true,
-            confirmButtonColor: '#569C5B',
-            cancelButtonColor: '#dc3545',
-            cancelButtonText: 'Annuler',
-            confirmButtonText: 'Oui',
-        } as SweetAlertOptions, */
 
     showCancelButton: true,
 
@@ -28,11 +18,9 @@ export const SWEET_ALERT_PARAMS = {
 
     showClass: {
         popup: 'swal2-show-modern',
-        backdrop: 'swal2-backdrop-show-modern',
     },
     hideClass: {
         popup: 'swal2-hide-modern',
-        backdrop: 'swal2-backdrop-hide-modern',
     },
     focusConfirm: false,
     allowEscapeKey: true,

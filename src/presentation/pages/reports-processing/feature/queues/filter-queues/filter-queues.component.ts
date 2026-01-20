@@ -78,7 +78,7 @@ export class FilterQueuesComponent implements OnInit, OnDestroy {
         }));
     }
 
-    public initFormFilter(): void {
+    private initFormFilter(): void {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<QueuesFilterFormControlEntity>({
                 initiator_phone_number: new FormControl<string>('', {

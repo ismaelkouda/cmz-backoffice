@@ -5,7 +5,7 @@ export class SlideFilter {
     private constructor(
         private readonly startDate?: string,
         private readonly endDate?: string,
-        private readonly plateforms?: Array<string>,
+        private readonly platforms?: Array<string>,
         private readonly search?: string,
         private readonly status?: MediaStatusDto
     ) { }
@@ -14,7 +14,7 @@ export class SlideFilter {
         return new SlideFilter(
             data.startDate,
             data.endDate,
-            data.plateforms,
+            data.platforms,
             data.search,
             data.status
         );
@@ -25,7 +25,7 @@ export class SlideFilter {
 
         if (this.startDate) params['start_date'] = this.startDate;
         if (this.endDate) params['end_date'] = this.endDate;
-        if (this.plateforms && this.plateforms?.length > 0) params['plateforms'] = this.plateforms;
+        if (this.platforms && this.platforms?.length > 0) params['platforms'] = this.platforms;
         if (this.search) params['search'] = this.search;
         if (this.status !== undefined) params['status'] = this.status;
 

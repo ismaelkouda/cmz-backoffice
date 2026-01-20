@@ -1,0 +1,15 @@
+.imako-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+
+    .imako-label {
+        font-size: 14px;
+        color: #344767;
+    }
+
+    .imako-input-field {
+        width: 100%;
+    }
+}

@@ -31,20 +31,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
         filter: TermsUseFilter,
         page: string
     ): Observable<Paginate<TermsUseEntity>> {
-        return this.api.fetchTermsUse(filter.toDto(), page).pipe(
-            map((response) => this.termsUseMapper.mapFromDto(response)),
-            catchError((error: unknown) =>
-                throwError(
-                    () =>
-                        new Error(
-                            error instanceof Error
-                                ? error.message
-                                : this.translateService.instant(
-                                      'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
-                                  )
-                        )
-                )
-            )
+        return this.api.fetchTermsUse(filter?.toDto() ?? {}, page).pipe(
+            map((response) => this.termsUseMapper.mapFromDto(response))
         );
     }
 
@@ -65,8 +53,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_CREATE'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_CREATE'
+                                    )
                             )
                     )
                 )
@@ -87,8 +75,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UPDATE'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UPDATE'
+                                    )
                             )
                     )
                 )
@@ -106,8 +94,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_DELETE'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_DELETE'
+                                    )
                             )
                     )
                 )
@@ -125,8 +113,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_PUBLISH'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_PUBLISH'
+                                    )
                             )
                     )
                 )
@@ -144,8 +132,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UNPUBLISH'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UNPUBLISH'
+                                    )
                             )
                     )
                 )

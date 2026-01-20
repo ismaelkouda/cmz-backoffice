@@ -2,13 +2,12 @@ import { CommonModule } from '@angular/common';
 import {
     Component,
     ElementRef,
-    HostListener,
     inject,
     OnDestroy,
     OnInit,
     signal,
     TemplateRef,
-    viewChild,
+    viewChild
 } from '@angular/core';
 import {
     AbstractControl,
@@ -64,13 +63,6 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         this.isDropdownOpen.set(false);
     }
 
-    @HostListener('document:click', ['$event'])
-    onDocumentClick(event: MouseEvent): void {
-        if (!this.elementRef.nativeElement.contains(event.target)) {
-            this.closeDropdown();
-        }
-    }
-
     public openAccountModal(): void {
         this.closeDropdown();
         const template = this.accountModalTemplate();
@@ -116,10 +108,18 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     }
 
     public logout(): void {
-        this.ngbModal.dismissAll();
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            confirmButtonColor: '#dc3545',
+            customClass: {
+                container: 'modern-swal-container',
+                popup: 'modern-swal-popup',
+                title: 'modern-swal-title',
+                htmlContainer: 'modern-swal-content',
+                actions: 'modern-swal-actions',
+                confirmButton: 'modern-swal-logout-btn',
+                cancelButton: 'modern-swal-cancel-btn',
+                icon: 'modern-swal-icon-container',
+            },
             title: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.CONFIRM'),
             text: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.MESSAGES'),
             confirmButtonText: this.translate.instant(

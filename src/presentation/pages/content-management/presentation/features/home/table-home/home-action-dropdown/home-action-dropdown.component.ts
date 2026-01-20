@@ -19,8 +19,7 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 type="button"
                 class="action-dropdown__trigger"
                 ngbDropdownToggle
-                [attr.aria-label]="'COMMON.ACTIONS' | translate"
-                [title]="'COMMON.ACTIONS' | translate"
+                [attr.aria-label]="'COMMON.CHOOSE' | translate"
             >
                 <span class="action-dropdown__trigger-icon">
                     {{ 'COMMON.CHOOSE' | translate }}
@@ -167,8 +166,8 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
             }
 
             .action-dropdown__trigger {
-                background: var(--theme-default, #3b82f6);
-                border: 1px solid var(--theme-default, #3b82f6);
+                background: var(--theme-default);
+                border: 1px solid var(--theme-default);
                 border-radius: 6px;
                 color: #ffffff;
                 cursor: pointer;
@@ -179,30 +178,23 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 margin: 0;
 
                 &:hover:not(:disabled) {
-                    background: var(--theme-default-hover, #2563eb);
-                    border-color: var(--theme-default-hover, #2563eb);
+                    background: color-mix(in srgb, var(--theme-default) 30%, transparent);
+                    border-color: color-mix(in srgb, var(--theme-default) 30%, transparent);
                     color: #ffffff;
                     transform: translateY(-1px);
-                    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+                    box-shadow: 0 2px 8px var(--theme-default);
                 }
 
                 &:active:not(:disabled) {
-                    background: var(--theme-default-active, #1d4ed8);
-                    border-color: var(--theme-default-active, #1d4ed8);
+                    background: color-mix(in srgb, var(--theme-default) 70%, transparent);
+                    border-color: color-mix(in srgb, var(--theme-default) 70%, transparent);
                     transform: translateY(0);
-                    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-                }
-
-                &:disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                    background: var(--theme-default-disabled, #93c5fd);
-                    border-color: var(--theme-default-disabled, #93c5fd);
+                    box-shadow: inset 0 2px 4px var(--theme-default);
                 }
 
                 &:focus {
                     outline: none;
-                    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+                    box-shadow: 0 0 0 3px var(--theme-default);
                 }
             }
 
@@ -249,9 +241,12 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 margin: 0.125rem 0;
 
                 &:hover {
-                    background-color: var(--surface-hover, #f8f9fa);
-                    color: var(--primary-color, #3b82f6);
-                    transform: translateX(2px);
+                    color: var(--color-white);
+                    background-color: color-mix(
+                        in srgb,
+                        var(--theme-secondary) 73%,
+                        white 27%
+                    );
                 }
 
                 &:active {

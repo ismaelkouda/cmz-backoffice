@@ -1,0 +1,273 @@
+<main class="container-fluid form-region-container" role="main">
+
+    <section class="row form-region-row">
+        <article class="col-sm-12 form-region-article">
+            <app-breadcrumb />
+
+            <section class="card form-region-card">
+                <div class="card-body form-region-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="
+                                    isEditMode()
+                                        ? ('ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.TITLE_FORM_EDIT'
+                                          | translate)
+                                        : ('ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.TITLE_FORM_ADD'
+                                          | translate)
+                                "
+                            >
+                            </app-page-title>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="onCancel()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                    >
+
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label
+                                                        for="code"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.CODE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="code"
+                                                        formControlName="code"
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.CODE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.CODE.MAX
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('code')
+                                                                ?.invalid &&
+                                                            form.get('code')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'code'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'code'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION.CODE
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label
+                                                        for="name"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="name"
+                                                        formControlName="name"
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.NAME.MAX
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('name')
+                                                                ?.invalid &&
+                                                            form.get('name')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'name'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'name'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION.NAME
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label
+                                                        for="description"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <textarea
+                                                        rows="3"
+                                                        cols="30"
+                                                        pTextarea
+                                                        id="description"
+                                                        formControlName="description"
+                                                        class="w-100"
+                                                        [attr.maxlength]="
+                                                            VALIDATION.DESCRIPTION
+                                                                .MAX
+                                                        "
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    ></textarea>
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('description')
+                                                                ?.invalid &&
+                                                            form.get('description')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'description'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'description'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION
+                                                                    .DESCRIPTION.MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.CANCEL' | translate
+                                                }}"
+                                                styleClass="p-button-text p-button-secondary"
+                                                (click)="onCancel()"
+                                            >
+                                            </p-button>
+
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.SAVE' | translate
+                                                }}"
+                                                type="submit"
+                                                [disabled]="!form.valid"
+                                            >
+                                            </p-button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

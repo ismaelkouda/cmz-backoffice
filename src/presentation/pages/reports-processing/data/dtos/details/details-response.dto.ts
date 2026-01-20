@@ -78,9 +78,9 @@ export interface DetailsItemDto {
     created_at: string;
     reported_at: string;
     updated_at: string;
-    region_id: number;
-    department_id: number;
-    municipality_id: number;
+    region_code: number;
+    department_code: number;
+    municipality_code: number;
     initiator: ActorDto | null;
     acknowledged_by: ActorDto | null;
     approved_by: ActorDto | null;

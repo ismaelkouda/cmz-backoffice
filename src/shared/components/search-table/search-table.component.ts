@@ -23,6 +23,7 @@ import { Table } from 'primeng/table';
                 (input)="onSearch($event.target.value.trim())"
                 placeholder="{{ 'RESEARCH' | translate }}..."
                 class="search-input"
+                aria-label="Search"
             />
         </div>
     `,

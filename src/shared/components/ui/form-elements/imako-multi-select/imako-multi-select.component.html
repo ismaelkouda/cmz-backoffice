@@ -1,0 +1,20 @@
+<div class="imako-multi-select-container" [ngClass]="styleClass()">
+    @if (label()) {
+        <label class="imako-label">
+            <b>{{ label() | translate }}</b>
+        </label>
+    }
+    <p-multiSelect
+        [options]="options()"
+        [formControl]="control()"
+        [optionLabel]="optionLabel()"
+        [optionValue]="optionValue()"
+        [filter]="filter()"
+        [showClear]="showClear()"
+        [showToggleAll]="showToggleAll()"
+        appendTo="body"
+        [placeholder]="placeholder() | translate"
+        (onBlur)="onTouch()"
+        styleClass="w-100"
+    ></p-multiSelect>
+</div>

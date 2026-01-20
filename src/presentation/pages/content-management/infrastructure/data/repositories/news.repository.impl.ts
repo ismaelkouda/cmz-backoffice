@@ -11,7 +11,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { CategoryMapper } from '../mappers/category.mapper';
 import { GetNewsByIdMapper } from '../mappers/get-news-by-id.mapper';
 
@@ -31,20 +31,8 @@ export class NewsRepositoryImpl extends NewsRepository {
         filter: NewsFilter,
         page: string
     ): Observable<Paginate<NewsEntity>> {
-        return this.api.fetchNews(filter.toDto(), page).pipe(
-            map((response) => this.newsMapper.mapFromDto(response)),
-            catchError((error: unknown) =>
-                throwError(
-                    () =>
-                        new Error(
-                            error instanceof Error
-                                ? error.message
-                                : this.translateService.instant(
-                                      'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
-                                  )
-                        )
-                )
-            )
+        return this.api.fetchNews(filter?.toDto() ?? {}, page).pipe(
+            map((response) => this.newsMapper.mapFromDto(response))
         );
     }
 

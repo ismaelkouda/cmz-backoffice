@@ -9,7 +9,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HomeRepositoryImpl extends HomeRepository {
@@ -22,23 +22,11 @@ export class HomeRepositoryImpl extends HomeRepository {
     }
 
     fetchHome(
-        filter: HomeFilter,
+        filter: HomeFilter | null,
         page: string
     ): Observable<Paginate<HomeEntity>> {
-        return this.api.fetchHome(filter.toDto(), page).pipe(
-            map((response) => this.homeMapper.mapFromDto(response)),
-            catchError((error: unknown) =>
-                throwError(
-                    () =>
-                        new Error(
-                            error instanceof Error
-                                ? error.message
-                                : this.translateService.instant(
-                                      'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
-                                  )
-                        )
-                )
-            )
+        return this.api.fetchHome(filter?.toDto() ?? {}, page).pipe(
+            map((response) => this.homeMapper.mapFromDto(response))
         );
     }
 

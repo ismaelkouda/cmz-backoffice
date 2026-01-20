@@ -1,0 +1,35 @@
+<main class="container-fluid departments-container" role="main">
+    <section class="row departments-row">
+        <article class="col-sm-12 departments-article">
+            <app-breadcrumb />
+
+            <section class="card departments-card">
+                <div class="card-body departments-card-body">
+                    <header class="departments-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TITLE' | translate | lowercase"
+                        ></app-page-title>
+                    </header>
+
+                    <p-tabs
+                        lazy
+                        [value]="route"
+                    >
+                        <p-tablist>
+                            @for(tab of tabs; track tab.route){
+                                <p-tab [value]="tab.value" [routerLink]="tab.route" class="d-flex items-center !gap-2 text-inherit">
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

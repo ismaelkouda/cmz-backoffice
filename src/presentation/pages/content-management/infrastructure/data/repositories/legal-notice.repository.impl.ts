@@ -23,26 +23,14 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
         private readonly mapper: LegalNoticeMapper,
         private readonly getLegalNoticeByIdMapper: GetLegalNoticeByIdMapper,
         private readonly translateService: TranslateService
-    ) {}
+    ) { }
 
     fetchLegalNotice(
         filter: LegalNoticeFilter,
         page: string
     ): Observable<Paginate<LegalNoticeEntity>> {
-        return this.api.fetchLegalNotice(filter.toDto(), page).pipe(
-            map((response) => this.mapper.mapFromDto(response)),
-            catchError((error: unknown) =>
-                throwError(
-                    () =>
-                        new Error(
-                            error instanceof Error
-                                ? error.message
-                                : this.translateService.instant(
-                                      'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
-                                  )
-                        )
-                )
-            )
+        return this.api.fetchLegalNotice(filter?.toDto() ?? {}, page).pipe(
+            map((response) => this.mapper.mapFromDto(response))
         );
     }
 
@@ -63,8 +51,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_CREATE'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_CREATE'
+                                    )
                             )
                     )
                 )
@@ -85,8 +73,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UPDATE'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UPDATE'
+                                    )
                             )
                     )
                 )
@@ -104,8 +92,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_DELETE'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_DELETE'
+                                    )
                             )
                     )
                 )
@@ -123,8 +111,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_PUBLISH'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_PUBLISH'
+                                    )
                             )
                     )
                 )
@@ -142,8 +130,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UNPUBLISH'
-                                      )
+                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UNPUBLISH'
+                                    )
                             )
                     )
                 )

@@ -1,6 +1,5 @@
 import { Injectable, inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import { ApiError } from "@shared/domain/errors/api.error";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable({ providedIn: 'root' })
@@ -16,12 +15,8 @@ export class UiFeedbackService {
         this.toastrService.error(this.translateService.instant(key));
     }
 
-    errorFromApi(error: unknown): void {
-        if (error instanceof ApiError) {
-            this.toastrService.error(this.translateService.instant(error.code));
-            return;
-        }
-        this.toastrService.error(this.translateService.instant('COMMON.ERROR.GENERIC'));
+    errorFromApi(error: any): void {
+        this.toastrService.error(this.translateService.instant(error?.error?.message));
     }
 
 }

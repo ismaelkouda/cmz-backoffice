@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { SlideEntity } from '../../../core/domain/entities/slide.entity';
 import { SlideRepository } from '../../../core/domain/repositories/slide.repository';
 import { SlideFilter } from '../../../core/domain/value-objects/slide-filter.vo';
@@ -18,27 +17,14 @@ export class SlideRepositoryImpl implements SlideRepository {
     constructor(
         private readonly api: SlideApi,
         private readonly slideMapper: SlideMapper,
-        private readonly translateService: TranslateService
-    ) {}
+    ) { }
 
     fetchSlide(
         filter: SlideFilter,
         page: string
     ): Observable<Paginate<SlideEntity>> {
-        return this.api.fetchSlides(filter.toDto(), page).pipe(
-            map((response) => this.slideMapper.mapFromDto(response)),
-            catchError((error: unknown) =>
-                throwError(
-                    () =>
-                        new Error(
-                            error instanceof Error
-                                ? error.message
-                                : this.translateService.instant(
-                                      'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_ALL'
-                                  )
-                        )
-                )
-            )
+        return this.api.fetchSlides(filter?.toDto() ?? {}, page).pipe(
+            map((response) => this.slideMapper.mapFromDto(response))
         );
     }
 

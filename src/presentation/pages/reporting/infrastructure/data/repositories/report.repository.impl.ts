@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { ReportEntity } from '../../../core/domain/entities/report/report.entity';
 import { ReportRepository } from '../../../core/domain/repositories/report-repository.interface';
@@ -7,10 +7,8 @@ import { ReportApi } from '../sources/report.api';
 
 @Injectable({ providedIn: 'root' })
 export class ReportRepositoryImpl implements ReportRepository {
-    constructor(
-        private readonly api: ReportApi,
-        private readonly reportMapper: ReportMapper
-    ) { }
+    private readonly api = inject(ReportApi);
+    private readonly reportMapper = inject(ReportMapper);
 
     getReport(): Observable<ReportEntity> {
         return this.api

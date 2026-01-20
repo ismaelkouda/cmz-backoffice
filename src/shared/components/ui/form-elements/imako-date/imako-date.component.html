@@ -1,0 +1,22 @@
+<div class="imako-date-container" [ngClass]="styleClass()">
+    @if (label()) {
+        <label class="imako-label">
+            <b>{{ label() | translate }}</b>
+            @if (required()) {
+                <span class="text-danger">*</span>
+            }
+        </label>
+    }
+    <p-datepicker
+        [formControl]="control()"
+        [placeholder]="placeholder() | translate"
+        [showIcon]="showIcon()"
+        [dateFormat]="dateFormat()"
+        [appendTo]="appendTo()"
+        [showButtonBar]="showButtonBar()"
+        [selectionMode]="selectionMode()"
+        (onBlur)="onTouch()"
+        styleClass="w-100"
+        inputStyleClass="w-100"
+    ></p-datepicker>
+</div>

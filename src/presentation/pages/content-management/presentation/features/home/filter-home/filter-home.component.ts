@@ -87,7 +87,7 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
             this.formFilter = this.fb.group<HomeFilterFormControlDto>({
                 startDate: new FormControl<string>('', { nonNullable: true }),
                 endDate: new FormControl<string>('', { nonNullable: true }),
-                plateforms: new FormControl<Array<Plateform> | null>(null, {
+                platforms: new FormControl<Array<Plateform> | null>(null, {
                     nonNullable: true,
                 }),
                 search: new FormControl<string>('', { nonNullable: true }),
@@ -129,8 +129,8 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
                     {
                         startDate: (dto['start_date'] as string) ?? '',
                         endDate: (dto['end_date'] as string) ?? '',
-                        plateforms:
-                            (dto['plateforms'] as Array<Plateform>) ?? [],
+                        platforms:
+                            (dto['platforms'] as Array<Plateform>) ?? [],
                         search: (dto['search'] as string) ?? '',
                         status: (dto['status'] as boolean) ?? '',
                     },
@@ -163,7 +163,7 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
                 ? startDate.format('YYYY-MM-DD')
                 : '',
             endDate: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
-            plateforms: this.formFilter.get('plateforms')?.value ?? [],
+            platforms: this.formFilter.get('platforms')?.value ?? [],
             search: this.formFilter.get('search')?.value ?? '',
             status: this.formFilter.get('status')?.value ?? null,
         };

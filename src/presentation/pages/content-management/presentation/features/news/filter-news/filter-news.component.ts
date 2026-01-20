@@ -59,7 +59,7 @@ export class FilterNewsComponent implements OnInit, OnDestroy {
     public formFilter!: FormGroup<NewsFilterFormControlDto>;
     private readonly destroy$ = new Subject<void>();
 
-    public statusOptions: any[] = [];
+    public publishedOptions: any[] = [];
     public plateformOptions: any[] = [];
 
     ngOnInit(): void {
@@ -68,10 +68,10 @@ export class FilterNewsComponent implements OnInit, OnDestroy {
     }
 
     private initOptions(): void {
-        this.statusOptions = [
-            { label: this.translate.instant('COMMON.ACTIVATED'), value: true },
+        this.publishedOptions = [
+            { label: this.translate.instant('COMMON.PUBLISHED'), value: true },
             {
-                label: this.translate.instant('COMMON.DEACTIVATED'),
+                label: this.translate.instant('COMMON.UNPUBLISHED'),
                 value: false,
             },
         ];
@@ -88,7 +88,7 @@ export class FilterNewsComponent implements OnInit, OnDestroy {
                 startDate: new FormControl<string>('', { nonNullable: true }),
                 endDate: new FormControl<string>('', { nonNullable: true }),
                 search: new FormControl<string>('', { nonNullable: true }),
-                status: new FormControl<boolean | null>(null, {
+                isPublished: new FormControl<boolean | null>(null, {
                     nonNullable: false,
                 }),
             });
@@ -117,7 +117,7 @@ export class FilterNewsComponent implements OnInit, OnDestroy {
                         startDate: (dto['start_date'] as string) ?? '',
                         endDate: (dto['end_date'] as string) ?? '',
                         search: (dto['search'] as string) ?? '',
-                        status: (dto['status'] as boolean) ?? null,
+                        isPublished: (dto['is_published'] as boolean) ?? null,
                     },
                     { emitEvent: false }
                 );
@@ -149,7 +149,7 @@ export class FilterNewsComponent implements OnInit, OnDestroy {
                 : '',
             endDate: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
             search: this.formFilter.get('search')?.value ?? '',
-            status: this.formFilter.get('status')?.value ?? null,
+            isPublished: this.formFilter.get('isPublished')?.value ?? null,
         };
 
         if (this.formFilter.valid) {
