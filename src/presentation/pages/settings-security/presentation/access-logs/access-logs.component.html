@@ -1,0 +1,55 @@
+<main class="container-fluid access-logs-container" role="main">
+    <section class="row access-logs-row">
+        <article class="col-sm-12 access-logs-article">
+            <app-breadcrumb />
+
+            <section class="card access-logs-card">
+                <div class="card-body access-logs-card-body">
+                    <header class="access-logs-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'SETTINGS_SECURITY.ACCESS_LOGS.TITLE' | translate | lowercase"
+                        ></app-page-title>
+                    </header>
+
+                    <div class="fade-in access-logs-content">
+
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="isLoading()"
+                            [formGroup]="formFilter"
+                            [fields]="filterFields()"
+                            (filter)="filter($event)"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="5"
+                        ></app-filter>
+
+                        <hr class="access-logs-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                [loading]="isLoading()"
+                                [items]="items()"
+                                [pagination]="pagination()"
+                                [config]="tableConfig"
+                                (refreshRequested)="refresh()"
+                                dataKey="uniqId"
+                            ></app-table>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+
+                    </div>
+
+                    
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

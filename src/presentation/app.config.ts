@@ -73,6 +73,7 @@ import { provideReporting } from './pages/reporting/di/reporting.providers';
 import { provideActions } from './pages/reports-processing/di/actions.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
+import { provideSettingsSecurity } from './pages/settings-security/di/settings-security.providers';
 /* import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers'; */
 /* import { provideUser } from './pages/settings-security/di/user.providers';
 import { provideParticipant } from './pages/team-organization/di/participant.providers';
@@ -299,6 +300,8 @@ export const appConfig: ApplicationConfig = {
         ...provideManagement(),
 
         ...provideAdministrativeBoundary(),
+
+        ...provideSettingsSecurity(),
 
         ...provideHome(),
         ...provideSlide(),

@@ -34,7 +34,7 @@ import { ButtonModule } from 'primeng/button';
                     [styleClass]="otherButtonStyleClass"
                     class="btn btn-primary"
                     [attr.aria-label]="
-                        showLabels ? null : labelOther || ('CREATE' | translate)
+                        showLabels ? null : labelOther || ('COMMON.CREATE' | translate)
                     "
                     (click)="onOther()"
                 >

@@ -29,8 +29,8 @@
                 },
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
-                "PLATEFORM": "Plateforme",
-                "PLATEFORM_PLACEHOLDER": "Plateforme",
+                "PLATFORM": "Plateforme",
+                "PLATFORM_PLACEHOLDER": "Plateforme",
                 "TYPE": "Type de contenu",
                 "TYPE_PLACEHOLDER": "Type de contenu",
                 "STATUS": "Status",
@@ -40,7 +40,7 @@
                 "TYPE": "Type",
                 "TITLE": "Titre",
                 "SUBTITLE": "Sous-titre",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "ORDER": "Ordre",
                 "RESUME": "Résumé",
                 "STATUS": "Status",
@@ -131,8 +131,8 @@
                 },
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
-                "PLATEFORM": "Plateforme",
-                "PLATEFORM_PLACEHOLDER": "Plateforme",
+                "PLATFORM": "Plateforme",
+                "PLATFORM_PLACEHOLDER": "Plateforme",
                 "TYPE": "Type de contenu",
                 "TYPE_PLACEHOLDER": "Type de contenu",
                 "STATUS": "Status",
@@ -142,7 +142,7 @@
                 "TYPE": "Type",
                 "TITLE": "Titre",
                 "SUBTITLE": "Sous-titre",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "ORDER": "Ordre",
                 "STATUS": "Status",
                 "CREATED_AT": "Créé le",
@@ -223,8 +223,8 @@
                 },
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
-                "PLATEFORM": "Plateforme",
-                "PLATEFORM_PLACEHOLDER": "Plateforme",
+                "PLATFORM": "Plateforme",
+                "PLATFORM_PLACEHOLDER": "Plateforme",
                 "TYPE": "Type de contenu",
                 "TYPE_PLACEHOLDER": "Type de contenu",
                 "STATUS": "Status",
@@ -234,7 +234,7 @@
                 "TYPE": "Type",
                 "TITLE": "Titre",
                 "SUBTITLE": "Sous-titre",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "ORDER": "Ordre",
                 "RESUME": "Résumé",
                 "STATUS": "Status",
@@ -325,7 +325,7 @@
                 "TITLE": "Titre",
                 "CATEGORY": "Categorie",
                 "SUBCATEGORY": "Sous-categorie",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "CONTENT": "Contenu",
                 "PUBLISHED": "Publié",
                 "ORDER": "Ordre",
@@ -377,7 +377,7 @@
                 "TITLE": "Titre",
                 "CATEGORY": "Categorie",
                 "SUBCATEGORY": "Sous-categorie",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "CONTENT": "Contenu",
                 "PUBLISHED": "Publié",
                 "ORDER": "Ordre",
@@ -427,7 +427,7 @@
                 "TITLE": "Titre",
                 "CATEGORY": "Categorie",
                 "SUBCATEGORY": "Sous-categorie",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "CONTENT": "Contenu",
                 "VERSION": "Version",
                 "NAME": "Nom",
@@ -484,7 +484,7 @@
                 },
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "REGION": "Région",
                 "TYPE": "Type de contenu",
                 "TYPE_PLACEHOLDER": "Type de contenu",
@@ -569,7 +569,7 @@
                 },
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "REGION": "Région",
                 "TYPE": "Type de contenu",
                 "TYPE_PLACEHOLDER": "Type de contenu",
@@ -659,7 +659,7 @@
                 },
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
-                "PLATEFORM": "Plateforme",
+                "PLATFORM": "Plateforme",
                 "REGION": "Région",
                 "TYPE": "Type de contenu",
                 "TYPE_PLACEHOLDER": "Type de contenu",
@@ -814,7 +814,10 @@
         "NO_DATA": "Aucune donnée disponible",
         "UNKNOWN": "Inconnu",
         "CHOOSE": "Choisir",
+        "CREATE": "Créer",
         "CLOSE": "Fermer",
+        "VISUALISE": "Visualiser",
+        "FILTER_RESULT": "Resultat du filtre",
         "RESTORE": "Restaurer",
         "EDIT": "Modifier",
         "SAVE": "Enregistrer",
@@ -2258,6 +2261,11 @@
         }
     },
     "SETTINGS_SECURITY": {
+        "BREADCRUMB": {
+            "LABEL": "Paramètres & Sécurité",
+            "ROUTE": "security-settings",
+            "ICON": "pi-cog"
+        },
         "LABEL": "Paramètres & Sécurité",
         "ROUTE": "security-settings",
         "USER": {
@@ -2451,22 +2459,35 @@
             }
         },
         "ACCESS_LOGS": {
-            "TITLE": "Journaux d'accès - CMZ gestion des journaux d'accès",
+            "BREADCRUMB": {
+                "LABEL": "Journaux d'accès",
+                "ROUTE": "access-logs"
+            },
+            "TITLE": "Journaux d'accès",
             "LABEL": "Journaux d'accès",
             "ROUTE": "access-logs",
-            "TABLE": {
-                "DATE": "Date",
-                "USER": "Utilisateur",
-                "IP_ADDRESS": "Adresse IP",
-                "EVENT": "Événement",
-                "ACTION": "Action",
-                "DETAILS": "Détails"
-            },
             "FILTER": {
-                "START_DATE": "Date début",
-                "END_DATE": "Date fin",
-                "USER": "Utilisateur",
-                "SEARCH": "Recherche"
+                "ACTION": "Action",
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "ACTIONS_OPTIONS": {
+                    "LOGIN": "Connexion",
+                    "LOGOUT": "Déconnexion",
+                    "ATTEMPTED_LOGIN": "Tentative de connexion",
+                    "BLOCKED_ATTEMPTED_LOGIN": "Connexion bloquée",
+                    "ATTEMPTS_EXCEEDED": "Tentatives de connexion échouées"
+                },
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "TABLE": {
+                "SOURCE": "Source",
+                "USED_AGENT": "Agent utilisé",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
             }
         }
     },
@@ -3209,66 +3230,6 @@
                 "DISABLE_MESSAGE": "Voulez-vous désactiver l'agent IA {{ name }} ?",
                 "DELETE_TITLE": "Supprimer l'agent IA",
                 "DELETE_MESSAGE": "Voulez-vous supprimer l'agent IA {{ name }} ? Cette action est irréversible."
-            }
-        }
-    },
-    "PARAMETRE_SECURITE": {
-        "TITLE": "Paramètres de sécurité",
-        "LABEL": "Paramètres de sécurité",
-        "PROFIL_HABILITATION": {
-            "TITLE": "Profils habilitations",
-            "LABEL": "Profils habilitations",
-            "TABLE": {
-                "INDEX": "#",
-                "NOM": "Nom",
-                "DESCRIPTION": "Description",
-                "USERS_COUNT": "# utilisateurs",
-                "STATUT": "Statut",
-                "CREATED_AT": "Créé le",
-                "ACTION": "Action"
-            },
-            "STATUT": {
-                "ACTIF": "Actif",
-                "INACTIF": "Inactif"
-            }
-        },
-        "JOURNAL_AUTHENTICATION": {
-            "TITLE": "Journal d'authentification",
-            "LABEL": "Journal d'authentification",
-            "TABLE": {
-                "INDEX": "#",
-                "CREATED_AT": "Date",
-                "USERNAME": "Nom d'utilisateur",
-                "ACTION": "Action",
-                "IP_ADDRESS": "Adresse IP",
-                "USER_AGENT": "User Agent"
-            },
-            "FILTER": {
-                "USER": "Utilisateur"
-            }
-        },
-        "JOURNAL_POINTAGE": {
-            "TITLE": "Journal de pointage",
-            "LABEL": "Journal de pointage",
-            "TABLE": {
-                "INDEX": "#",
-                "DATE": "Date",
-                "USERNAME": "Nom d'utilisateur",
-                "HEURE_ENTREE": "Heure d'entrée",
-                "HEURE_SORTIE": "Heure de sortie",
-                "STATUT": "Statut",
-                "ACTION": "Action"
-            },
-            "FILTER": {
-                "USER": "Utilisateur",
-                "STATUT": "Statut"
-            },
-            "OPTIONS": {
-                "STATUT": {
-                    "DEMARRE": "Démarré",
-                    "CLOTURE": "Clôturé",
-                    "BLOQUE": "Bloqué"
-                }
             }
         }
     }

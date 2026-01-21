@@ -821,6 +821,9 @@
         "UNKNOWN": "Unknown",
         "CHOOSE": "Choose",
         "CLOSE": "Close",
+        "CREATE": "Create",
+        "VISUALISE": "Visualise",
+        "FILTER_RESULT": "Filter result",
         "RESTORE": "Restore",
         "EDIT": "Edit",
         "SAVE": "Save",
@@ -956,7 +959,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -966,7 +969,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiator Number",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source",
@@ -1023,7 +1026,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -1034,7 +1037,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiator Number",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATOR": "Operator",
                 "SOURCE": "Source"
@@ -1107,7 +1110,7 @@
             "TABLE": {
                 "CREATED_AT": "Created On",
                 "REPORTED_AT": "Reported On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -1120,7 +1123,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiator Number",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATOR": "Operator",
                 "SOURCE": "Source",
@@ -1202,7 +1205,7 @@
             "TABLE": {
                 "CREATED_AT": "Created On",
                 "REPORTED_AT": "Reported On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -1213,7 +1216,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiator Number",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATOR": "Operator",
                 "SOURCE": "Source"
@@ -1266,7 +1269,7 @@
             "TABLE": {
                 "CREATED_AT": "Created On",
                 "REPORTED_AT": "Reported On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -1280,7 +1283,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiator Number",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATOR": "Operator",
                 "SOURCE": "Source"
@@ -1348,7 +1351,7 @@
             "TABLE": {
                 "CREATED_AT": "Created On",
                 "REPORTED_AT": "Reported On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -1361,7 +1364,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiator Number",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATOR": "Operator",
                 "SOURCE": "Source",
@@ -1423,7 +1426,7 @@
             "ROUTE": "progress",
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "STATE": "State",
@@ -1463,7 +1466,7 @@
             "ROUTE": "finalize",
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "STATE": "State",
@@ -1495,7 +1498,7 @@
             "REPORT_FINALIZE": {
                 "TITLE": "Report Finalization",
                 "LABEL": "Report Finalization",
-                "REPORT_ID": "Report Identifier",
+                "REPORT_ID": "Report Identify",
                 "PLACEHOLDER": "Finalization content coming soon..."
             },
             "SWEET_ALERT_PARAMS": {
@@ -1585,7 +1588,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -1597,7 +1600,7 @@
             "FILTER": {
                 "INITIATOR": "Initiator",
                 "REPORT_TYPE": "Report Type",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "OPERATOR": "Operator",
                 "STATE": "State"
             },
@@ -1648,7 +1651,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -1663,7 +1666,7 @@
             "FILTER": {
                 "INITIATOR": "Initiator",
                 "REPORT_TYPE": "Report Type",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "STATE": "State",
                 "OPERATOR": "Operator"
             },
@@ -1729,7 +1732,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "SOURCE": "Source [Num]",
@@ -1742,7 +1745,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiator",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATOR": "Operator",
                 "SOURCE": "Source",
@@ -1803,7 +1806,7 @@
             "ROUTE": "progress",
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "STATE": "State",
@@ -1843,7 +1846,7 @@
             "ROUTE": "finalize",
             "TABLE": {
                 "CREATED_AT": "Created On",
-                "UNIQ_ID": "Identifier",
+                "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
                 "OPERATORS": "Operators",
                 "STATE": "State",
@@ -1875,7 +1878,7 @@
             "REPORT_FINALIZE": {
                 "TITLE": "Report Finalization",
                 "LABEL": "Report Finalization",
-                "REPORT_ID": "Report Identifier",
+                "REPORT_ID": "Report Identify",
                 "PLACEHOLDER": "Finalization content coming soon..."
             }
         }
@@ -1910,7 +1913,7 @@
     "MANAGEMENT": {
         "TITLE": "Report Treatment",
         "LABEL": "Report Treatment",
-        "REPORT_ID": "Report Identifier",
+        "REPORT_ID": "Report Identify",
         "PLACEHOLDER": "Treatment content coming soon...",
         "STATUS": {
             "SUBMISSION": "Submission",
@@ -1934,7 +1937,7 @@
             "DETAILS_REPORT": "Report Details",
             "DETAILS_DEMAND": "Request Details",
             "NUMBER_OF_CONFIRMATIONS": "Number of Confirmations",
-            "REPORT_ID": "Identifier",
+            "REPORT_ID": "Identify",
             "STATUS": "Status",
             "STATUS_PENDING": "Pending",
             "TYPE": "Type",
@@ -2227,7 +2230,7 @@
             "ACTION": "Action"
         },
         "FILTER": {
-            "UNIQ_ID": "Identifier",
+            "UNIQ_ID": "Identify",
             "TYPE": "Action Type"
         },
         "MODAL": {
@@ -2263,6 +2266,11 @@
         }
     },
     "SETTINGS_SECURITY": {
+        "BREADCRUMB": {
+            "LABEL": "Settings & Security",
+            "ROUTE": "security-settings",
+            "ICON": "pi-cog"
+        },
         "LABEL": "Settings & Security",
         "ROUTE": "security-settings",
         "USER": {
@@ -2456,22 +2464,35 @@
             }
         },
         "ACCESS_LOGS": {
-            "TITLE": "Access Logs - CMZ Access Log Management",
+            "BREADCRUMB": {
+                "LABEL": "Access Logs",
+                "ROUTE": "access-logs"
+            },
+            "TITLE": "Access Logs",
             "LABEL": "Access Logs",
             "ROUTE": "access-logs",
-            "TABLE": {
-                "DATE": "Date",
-                "USER": "User",
-                "IP_ADDRESS": "IP Address",
-                "EVENT": "Event",
-                "ACTION": "Action",
-                "DETAILS": "Details"
-            },
             "FILTER": {
-                "START_DATE": "Start Date",
-                "END_DATE": "End Date",
-                "USER": "User",
-                "SEARCH": "Search"
+                "ACTION": "Action",
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "ACTIONS_OPTIONS": {
+                    "LOGIN": "Login",
+                    "LOGOUT": "Logout",
+                    "ATTEMPTED_LOGIN": "Attempted Login",
+                    "BLOCKED_ATTEMPTED_LOGIN": "Blocked Attempted Login",
+                    "ATTEMPTS_EXCEEDED": "Attempts Exceeded"
+                },
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "Date"
+                }
+            },
+            "TABLE": {
+                "SOURCE": "Source",
+                "USED_AGENT": "Agent used",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
             }
         }
     },
@@ -3213,66 +3234,6 @@
                 "DISABLE_MESSAGE": "Do you want to disable AI Agent {{ name }}?",
                 "DELETE_TITLE": "Delete AI Agent",
                 "DELETE_MESSAGE": "Do you want to delete AI Agent {{ name }}? This action is irreversible."
-            }
-        }
-    },
-    "PARAMETRE_SECURITE": {
-        "TITLE": "Security Settings",
-        "LABEL": "Security Settings",
-        "PROFIL_HABILITATION": {
-            "TITLE": "Permission Profiles",
-            "LABEL": "Permission Profiles",
-            "TABLE": {
-                "INDEX": "#",
-                "NOM": "Name",
-                "DESCRIPTION": "Description",
-                "USERS_COUNT": "# Users",
-                "STATUT": "Status",
-                "CREATED_AT": "Created On",
-                "ACTION": "Action"
-            },
-            "STATUT": {
-                "ACTIF": "Active",
-                "INACTIF": "Inactive"
-            }
-        },
-        "JOURNAL_AUTHENTICATION": {
-            "TITLE": "Authentication Log",
-            "LABEL": "Authentication Log",
-            "TABLE": {
-                "INDEX": "#",
-                "CREATED_AT": "Date",
-                "USERNAME": "Username",
-                "ACTION": "Action",
-                "IP_ADDRESS": "IP Address",
-                "USER_AGENT": "User Agent"
-            },
-            "FILTER": {
-                "USER": "User"
-            }
-        },
-        "JOURNAL_POINTAGE": {
-            "TITLE": "Time Tracking Log",
-            "LABEL": "Time Tracking Log",
-            "TABLE": {
-                "INDEX": "#",
-                "DATE": "Date",
-                "USERNAME": "Username",
-                "HEURE_ENTREE": "Entry Time",
-                "HEURE_SORTIE": "Exit Time",
-                "STATUT": "Status",
-                "ACTION": "Action"
-            },
-            "FILTER": {
-                "USER": "User",
-                "STATUT": "Status"
-            },
-            "OPTIONS": {
-                "STATUT": {
-                    "DEMARRE": "Started",
-                    "CLOTURE": "Closed",
-                    "BLOQUE": "Blocked"
-                }
             }
         }
     }

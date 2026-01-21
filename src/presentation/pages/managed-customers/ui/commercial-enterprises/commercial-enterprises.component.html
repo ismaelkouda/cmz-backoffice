@@ -35,10 +35,10 @@
                         >
                         </app-table-commercial-enterprises>
 
-                        <!-- <app-pagination
-                            [pagination$]="pagination$"
+                        <app-pagination
+                            [pagination]="pagination$ | async"
                             (pageChange)="onPageChange($event)"
-                        ></app-pagination> -->
+                        ></app-pagination>
                     </div>
                 </div>
             </div>

@@ -18,7 +18,7 @@ export const NEWS_TABLE_CONST = {
         },
         /* {
             field: 'platforms',
-            header: 'CONTENT_MANAGEMENT.HOME.TABLE.PLATEFORM',
+            header: 'CONTENT_MANAGEMENT.HOME.TABLE.PLATFORM',
             class: 'text-center',
             width: '8rem',
         }, */

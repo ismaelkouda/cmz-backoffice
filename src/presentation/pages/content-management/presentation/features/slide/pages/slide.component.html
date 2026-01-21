@@ -41,11 +41,11 @@
                                 (disableRequested)="onDisableClicked($event)"
                             ></app-table-slide>
 
-                            <!-- <app-pagination
+                            <app-pagination
                                 class="pagination-component"
-                                [pagination$]="pagination$"
+                                [pagination]="pagination$ | async"
                                 (pageChange)="onPageChange($event)"
-                            ></app-pagination> -->
+                            ></app-pagination>
                         </section>
                     </div>
                 </div>

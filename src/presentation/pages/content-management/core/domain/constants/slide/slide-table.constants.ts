@@ -23,8 +23,7 @@ export const SLIDE_TABLE_CONST = {
         },
         {
             field: 'platforms',
-            header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.PLATEFORM',
-            class: 'text-center',
+            header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.PLATFORM',
             width: '8rem',
         },
         {
