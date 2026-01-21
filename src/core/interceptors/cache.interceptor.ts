@@ -5,7 +5,7 @@ import { of, shareReplay, tap } from 'rxjs';
 import {
     isInternalUrl,
     isStaticAssetRequest,
-} from './utils/request-filter.util';
+} from './utils/interceptor-request-filter.util';
 
 interface CacheEntry {
     response: HttpResponse<any>;

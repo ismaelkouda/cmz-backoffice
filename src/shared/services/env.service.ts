@@ -6,7 +6,6 @@ export class EnvService {
     public reportUrl!: string;
     public settingUrl!: string;
     public fileUrl!: string;
-    public verifyIdentityDocumentUrl!: string;
     public environmentDeployment!: string;
     public enableDebug!: boolean;
     public appSettings: any = {};

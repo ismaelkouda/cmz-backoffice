@@ -62,25 +62,15 @@ function measureBootstrapPerformance(): void {
     }
 }
 
-/**
- * Affiche une erreur de bootstrap de manière visible
- * @private
- * @param {Error | unknown} error - Erreur à afficher
- * @returns {void}
- */
 function displayBootstrapError(error: Error): void {
     if (typeof document === 'undefined') {
         return;
     }
 
-    const errorMessage =
-        error instanceof Error ? error.message : 'APP.BOOTSTRAP.ERROR_UNKNOWN';
-
+    const errorMessage = error instanceof Error ? error.message : 'APP.BOOTSTRAP.ERROR_UNKNOWN';
     const errorElement = document.createElement('div');
     errorElement.setAttribute('role', ERROR_DISPLAY_CONFIG.role);
     errorElement.setAttribute('aria-live', ERROR_DISPLAY_CONFIG.ariaLive);
-
-    // Appliquer les styles
     const styles = ERROR_DISPLAY_CONFIG.styles;
     errorElement.style.cssText = Object.entries(styles)
         .map(([key, value]) => {
@@ -102,11 +92,6 @@ function displayBootstrapError(error: Error): void {
     document.body.appendChild(errorElement);
 }
 
-/**
- * Point d'entrée principal de l'application Angular
- * Configure les gestionnaires d'erreurs, mesure les performances et bootstrap l'application
- * @returns {void}
- */
 function bootstrapApp(): void {
     try {
         // Configurer les gestionnaires d'erreurs globaux

@@ -4,6 +4,7 @@ import {
     Component,
     inject,
     OnDestroy,
+    OnInit,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -13,7 +14,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthenticationFacade } from '@pages/authentication/application/authentication.facade';
 import { LoginFormInterface } from '@pages/authentication/data/interfaces/login-form.interface';
 import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
@@ -45,9 +46,10 @@ import { takeUntil } from 'rxjs/operators';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy {
     private readonly authenticationFacade = inject(AuthenticationFacade);
     private readonly encodingDataService = inject(EncodingDataService);
+    private readonly translateService = inject(TranslateService);
     private readonly router = inject(Router);
     public readonly REINITIALIZATION = REINITIALIZATION;
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
@@ -70,6 +72,10 @@ export class LoginComponent implements OnDestroy {
 
     private destroy$ = new Subject<void>();
     public readonly config = inject(AppCustomizationService).config;
+
+    ngOnInit(): void {
+        console.log('LoginComponent ngOnInit', this.translateService.getCurrentLang());
+    }
 
     ngOnDestroy(): void {
         this.destroy$.next();

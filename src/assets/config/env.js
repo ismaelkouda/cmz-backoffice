@@ -1,6 +1,5 @@
 (function (window) {
             window.__env = {
-    "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
     "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
     "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
     "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
@@ -23,7 +22,7 @@
     }
 };
             window.__env.buildInfo = {
-                timestamp: '2026-01-16T15:55:16.206Z',
+                timestamp: '2026-01-20T19:03:17.169Z',
                 environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
@@ -8,32 +8,18 @@ export class TranslationManagerService {
     private translate = inject(TranslateService);
 
     private readonly SUPPORTED_LANGS = ['fr', 'en', 'es'];
-    private readonly STORAGE_KEY = 'imako_lang';
+    private readonly STORAGE_KEY = 'language';
+
+    // Signals for modern reactivity
+    private currentLangSignal = signal<string>('fr');
+    public currentLang = this.currentLangSignal.asReadonly();
+    public supportedLangs = signal<string[]>(this.SUPPORTED_LANGS).asReadonly();
 
     private debugTranslationLoading(): void {
         console.log('🔍 Debug translation configuration:');
         console.log('- Default language:', this.translate.defaultLang);
         console.log('- Current language:', this.translate.currentLang);
         console.log('- Supported languages:', this.translate.getLangs());
-
-        // Test direct dans le navigateur
-        if (typeof window !== 'undefined') {
-            fetch('/assets/i18n/fr.json')
-                .then((response) => {
-                    console.log(
-                        '📦 Direct fetch result:',
-                        response.status,
-                        response.statusText
-                    );
-                    return response.json();
-                })
-                .then((data) =>
-                    console.log('📄 Translation file content:', data)
-                )
-                .catch((error) =>
-                    console.error('❌ Direct fetch failed:', error)
-                );
-        }
     }
 
     async initialize(): Promise<string> {
@@ -44,16 +30,15 @@ export class TranslationManagerService {
 
             console.log('🎯 Initializing translations with language:', lang);
 
-            this.translate.setDefaultLang('fr');
-
             await this.loadLanguage(lang);
+            this.currentLangSignal.set(lang);
 
             console.log(`✅ Translations initialized: ${lang}`);
             return lang;
         } catch (error) {
             console.error('❌ Translation initialization failed:', error);
-
             this.translate.use('fr');
+            this.currentLangSignal.set('fr');
             return 'fr';
         }
     }
@@ -75,10 +60,12 @@ export class TranslationManagerService {
         browserLang: string | undefined
     ): string {
         if (savedLang && this.isLanguageSupported(savedLang)) {
+            console.log('🎯 Using saved language:', savedLang);
             return savedLang;
         }
 
         if (browserLang && this.isLanguageSupported(browserLang)) {
+            console.log('🎯 Using browser language:', browserLang);
             return browserLang;
         }
 
@@ -89,23 +76,17 @@ export class TranslationManagerService {
         return this.SUPPORTED_LANGS.includes(lang);
     }
 
-    getCurrentLang(): string {
-        return this.translate.currentLang;
-    }
-
-    getSupportedLangs(): string[] {
-        return this.SUPPORTED_LANGS;
-    }
-
     async changeLanguage(lang: string): Promise<void> {
         if (!this.SUPPORTED_LANGS.includes(lang)) {
             throw new Error(`Unsupported language: ${lang}`);
         }
+        console.log('🎯 Changing language to:', lang);
 
         return new Promise<void>((resolve, reject) => {
             this.translate.use(lang).subscribe({
                 next: () => {
                     localStorage.setItem(this.STORAGE_KEY, lang);
+                    this.currentLangSignal.set(lang);
                     resolve();
                 },
                 error: (error) => {

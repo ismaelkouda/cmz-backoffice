@@ -2,7 +2,7 @@ export const PROFILE_HABILITATION_TABLE = {
     cols: [
         {
             field: '__index',
-            header: 'TABLE.COMMON.INDEX',
+            header: 'COMMON.INDEX',
             class: 'text-center',
             width: '3rem',
         },

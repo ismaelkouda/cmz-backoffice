@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { AppConfig, BuildInfo } from 'environments/config.types';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -75,8 +75,6 @@ export class ConfigurationService {
         // Import dynamique pour éviter les références circulaires
         const configs = {
             dev: {
-                verifyIdentityDocumentUrl:
-                    'https://sim-monitoring.cateli.io:8013/',
                 authenticationUrl:
                     'http://10.10.70.64:7000/auth/v1.0/backoffice/',
                 reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
@@ -102,8 +100,6 @@ export class ConfigurationService {
                 },
             },
             test: {
-                verifyIdentityDocumentUrl:
-                    'https://sim-monitoring.cateli.io:8013/',
                 authenticationUrl:
                     'http://10.10.70.64:7000/auth/v1.0/backoffice/',
                 reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
@@ -114,8 +110,6 @@ export class ConfigurationService {
                 enableDebug: true,
             },
             prod: {
-                verifyIdentityDocumentUrl:
-                    'https://sim-monitoring.cateli.io:8013/',
                 authenticationUrl:
                     'http://10.10.70.64:7000/auth/v1.0/backoffice/',
                 reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',

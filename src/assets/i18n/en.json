@@ -1,83 +1,2770 @@
 {
-    "CONFIRM_PROFILE_MODIFICATION": "Confirm profile modification",
-    "CONFIRM_PROFILE_CREATION": "Confirm profile creation",
-    "SELECT_CUSTOMER_TYPE": "Select customer type",
-    "EMISSION": "Emission",
-    "REQUESTER": "Requester",
-"PROFILES_AUTHORIZATIONS": "Profiles authorizations",
-"PARAMETER_SECURITY": "Parameter security",
-"ACTIVE": "Active",
-"INACTIVE": "Inactive",
-"REPORTS_PROCESSING": {
-    "TITLE": "Pending reports list"
-},
-"TABLE": {
-    "COMMON": {
-        "INDEX": "#"
-    }
-},
-"WAITING": {
-    "TITLE": "Waiting queue",
-    "LABEL": "Waiting queue",
-    "TABLE": {
-        "CREATED_AT": "Created at",
-        "UNIQ_ID": "Identifier",
-        "REPORT_TYPE": "Report type",
-        "OPERATORS": "Operators",
-        "STATE": "State",
-        "SEE_MORE": "See more"
+    "LANGUAGES": {
+        "LABEL": "Language",
+        "FR": "French",
+        "EN": "English",
+        "ES": "Spanish"
     },
-    "FILTER": {
-        "REPORT_TYPE": "Report type",
-        "OPERATOR": "Operator",
-        "STATE": "State"
-    },
-    "OPTIONS": {
-        "REPORT_TYPE": {
-            "PARTIAL_SIGNAL": "Partial signal coverage",
-            "WHITE_ZONE": "White zone",
-            "NO_INTERNET": "No internet access"
+    "CONTENT_MANAGEMENT": {
+        "BREADCRUMB": {
+            "LABEL": "Content Management",
+            "ROUTE": "content-management",
+            "ICON": "pi-file"
         },
-        "OPERATOR": {
-            "ORANGE": "Orange",
-            "MTN": "MTN",
-            "MOOV": "Moov"
+        "ROUTE": "content-management",
+        "LABEL": "Content Management",
+        "HOME": {
+            "BREADCRUMB": {
+                "LABEL": "Home Blocks",
+                "ROUTE": "home-blocks"
+            },
+            "TITLE": "Home Blocks",
+            "LABEL": "Home",
+            "ROUTE": "home",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "Date"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "PLATFORM": "Platform",
+                "PLATFORM_PLACEHOLDER": "Platform",
+                "TYPE": "Content Type",
+                "TYPE_PLACEHOLDER": "Content Type",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Title",
+                "SUBTITLE": "Subtitle",
+                "PLATFORM": "Platform",
+                "ORDER": "Order",
+                "RESUME": "Summary",
+                "STATUS": "Status",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Home Block Edit Form",
+                "TITLE_FORM_ADD": "Home Block Add Form",
+                "TITLE": "Title",
+                "RESUME": "Summary",
+                "DESCRIPTION": "Content",
+                "TYPE": "Media Type",
+                "VIDEO_URL": "Video Link",
+                "BUTTON_LABEL": "Button Label",
+                "BUTTON_URL": "Button URL",
+                "PLATFORMS": "Target Platforms",
+                "START_DATE": "Display Start Date",
+                "END_DATE": "Display End Date",
+                "IMAGE": "Image File",
+                "CHOOSE_IMAGE": "Choose an image",
+                "CHOOSE_VIDEO": "Choose a video",
+                "VIDEO_SELECTED": "Video selected",
+                "IMAGE_PREVIEW": "Image Preview",
+                "VIDEO_PREVIEW": "Video Preview",
+                "DURATION": "Duration (seconds)",
+                "ORDER": "Display Order",
+                "GENERAL_INFO": "General Information",
+                "MEDIA_DISPLAY": "Media & Display",
+                "CONFIG": "Configuration & Actions",
+                "TITLE_PLACEHOLDER": "E.g.: New promotional content",
+                "VIDEO": "Video File",
+                "VALIDATION": {
+                    "IMAGE_REQUIRED": "Image is required",
+                    "VIDEO_REQUIRED": "Video is required",
+                    "MIN_LENGTH": "Minimum characters required",
+                    "MAX_LENGTH": "Maximum characters allowed",
+                    "CONTENT_TOO_LONG": "Content too long: {actual}/{maxAllowed} characters",
+                    "BUTTON_LABEL_WITHOUT_URL": "Button label requires a URL",
+                    "BUTTON_URL_WITHOUT_LABEL": "Button URL requires a label",
+                    "MIN_VALUE": "Minimum value",
+                    "MAX_VALUE": "Maximum value",
+                    "INVALID_FORMAT": "Invalid format",
+                    "INVALID_INPUT": "Invalid value",
+                    "REQUIRED": "This field is required",
+                    "VIDEO_URL_HELP": "Supported formats: YouTube, Vimeo, Dailymotion",
+                    "VIDEO_PLATFORM_SUPPORTED": "Supported platform",
+                    "IMAGE_HELP": "Max. {maxSize}MB, {maxWidth}x{maxHeight}px recommended",
+                    "SUPPORTED_FORMATS": "Supported formats",
+                    "PREVIEW_IMAGE_TOOLTIP": "Preview image in large size",
+                    "REMOVE_IMAGE_TOOLTIP": "Remove image",
+                    "INVALID_VIDEO_URL": "Unsupported video URL. Formats: YouTube, Vimeo, Dailymotion",
+                    "INVALID_URL_FORMAT": "Invalid URL format",
+                    "INVALID_IMAGE_TYPE": "Unsupported image type",
+                    "FILE_TOO_LARGE": "File too large. Max. {maxSize}MB",
+                    "IMAGE_DIMENSIONS_TOO_LARGE": "Image too large. Max. {maxWidth}x{maxHeight}px"
+                }
+            }
         },
-        "STATE": {
-            "PENDING": "Pending",
-            "REJECTED": "Rejected"
+        "STATIC_CONTENT": {
+            "CURRENT_VERSION": "Current version",
+            "PUBLISHED": "Published",
+            "DRAFT": "Draft",
+            "PUBLISH": "Publish",
+            "UNPUBLISH": "Unpublish",
+            "NO_CONTENT": "No content available",
+            "FORM": {
+                "INFO": "Information",
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "E.g.: 1.0.0",
+                "CURRENT_VERSION": "Current version",
+                "CONTENT": "Content"
+            }
+        },
+        "NEWS": {
+            "BREADCRUMB": {
+                "LABEL": "Infos & News",
+                "ROUTE": "infos-and-news"
+            },
+            "TITLE": "Infos & News Blocks",
+            "LABEL": "Infos & News",
+            "ROUTE": "infos-and-news",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "Date"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "PLATFORM": "Platform",
+                "PLATFORM_PLACEHOLDER": "Platform",
+                "TYPE": "Content Type",
+                "TYPE_PLACEHOLDER": "Content Type",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Title",
+                "SUBTITLE": "Subtitle",
+                "PLATFORM": "Platform",
+                "ORDER": "Order",
+                "STATUS": "Status",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Infos & News Block Edit Form",
+                "TITLE_FORM_ADD": "Infos & News Block Add Form",
+                "TITLE": "Title",
+                "RESUME": "Summary",
+                "DESCRIPTION": "Content",
+                "TYPE": "Media Type",
+                "VIDEO_URL": "Video Link",
+                "CATEGORY": "Category",
+                "SUB_CATEGORY": "Sub-category",
+                "HASHTAGS": "Hashtags",
+                "IMAGE": "Image File",
+                "CHOOSE_IMAGE": "Choose an image",
+                "CHOOSE_VIDEO": "Choose a video",
+                "VIDEO_SELECTED": "Video selected",
+                "IMAGE_PREVIEW": "Image Preview",
+                "VIDEO_PREVIEW": "Video Preview",
+                "GENERAL_INFO": "General Information",
+                "MEDIA_DISPLAY": "Media & Display",
+                "CONFIG": "Configuration & Actions",
+                "TITLE_PLACEHOLDER": "E.g.: New promotional content",
+                "VIDEO": "Video File",
+                "PLATFORMS": "Target Platforms",
+                "START_DATE": "Display Start Date",
+                "END_DATE": "Display End Date",
+                "DURATION": "Duration (seconds)",
+                "ORDER": "Display Order",
+                "CATEGORY_PLACEHOLDER": "Select a category",
+                "SUB_CATEGORY_PLACEHOLDER": "Select a sub-category",
+                "HASHTAGS_PLACEHOLDER": "Select hashtags",
+                "SELECT_CATEGORY_FIRST": "Please select a category first",
+                "NO_SUB_CATEGORIES": "This category has no sub-categories",
+                "VALIDATION": {
+                    "IMAGE_REQUIRED": "Image is required",
+                    "VIDEO_REQUIRED": "Video is required",
+                    "MIN_LENGTH": "Minimum characters required",
+                    "MAX_LENGTH": "Maximum characters allowed",
+                    "CONTENT_TOO_LONG": "Content too long: {actual}/{maxAllowed} characters",
+                    "BUTTON_LABEL_WITHOUT_URL": "Button label requires a URL",
+                    "BUTTON_URL_WITHOUT_LABEL": "Button URL requires a label",
+                    "MIN_VALUE": "Minimum value",
+                    "MAX_VALUE": "Maximum value",
+                    "INVALID_FORMAT": "Invalid format",
+                    "INVALID_INPUT": "Invalid value",
+                    "REQUIRED": "This field is required",
+                    "VIDEO_URL_HELP": "Supported formats: YouTube, Vimeo, Dailymotion",
+                    "VIDEO_PLATFORM_SUPPORTED": "Supported platform",
+                    "IMAGE_HELP": "Max. {maxSize}MB, {maxWidth}x{maxHeight}px recommended",
+                    "SUPPORTED_FORMATS": "Supported formats",
+                    "PREVIEW_IMAGE_TOOLTIP": "Preview image in large size",
+                    "REMOVE_IMAGE_TOOLTIP": "Remove image",
+                    "INVALID_VIDEO_URL": "Unsupported video URL. Formats: YouTube, Vimeo, Dailymotion",
+                    "INVALID_URL_FORMAT": "Invalid URL format",
+                    "INVALID_IMAGE_TYPE": "Unsupported image type",
+                    "FILE_TOO_LARGE": "File too large. Max. {maxSize}MB",
+                    "IMAGE_DIMENSIONS_TOO_LARGE": "Image too large. Max. {maxWidth}x{maxHeight}px"
+                }
+            }
+        },
+        "SLIDE": {
+            "BREADCRUMB": {
+            "LABEL": "Slideshow",
+            "ROUTE": "sliders"
+            },
+            "TITLE": "Slideshow",
+            "LABEL": "Slideshow",
+            "ROUTE": "sliders",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "Date"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "PLATFORM": "Platform",
+                "PLATFORM_PLACEHOLDER": "Platform",
+                "TYPE": "Content Type",
+                "TYPE_PLACEHOLDER": "Content Type",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Title",
+                "SUBTITLE": "Subtitle",
+                "PLATFORM": "Platform",
+                "ORDER": "Order",
+                "RESUME": "Summary",
+                "STATUS": "Status",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Slide Edit Form",
+                "TITLE_FORM_ADD": "Slide Add Form",
+                "TITLE": "Title",
+                "SUBTITLE": "Subtitle",
+                "RESUME": "Summary",
+                "DESCRIPTION": "Content",
+                "TYPE": "Media Type",
+                "VIDEO_URL": "Video Link",
+                "BUTTON_LABEL": "Button Label",
+                "BUTTON_URL": "Button URL",
+                "PLATFORMS": "Target Platforms",
+                "START_DATE": "Display Start Date",
+                "END_DATE": "Display End Date",
+                "IMAGE": "Image File",
+                "CHOOSE_IMAGE": "Choose an image",
+                "CHOOSE_VIDEO": "Choose a video",
+                "VIDEO_SELECTED": "Video selected",
+                "IMAGE_PREVIEW": "Image Preview",
+                "VIDEO_PREVIEW": "Video Preview",
+                "DURATION": "Duration (seconds)",
+                "ORDER": "Display Order",
+                "GENERAL_INFO": "General Information",
+                "MEDIA_DISPLAY": "Media & Display",
+                "CONFIG": "Configuration & Actions",
+                "TITLE_PLACEHOLDER": "E.g.: New promotional content",
+                "VIDEO": "Video File",
+                "VALIDATION": {
+                    "IMAGE_REQUIRED": "Image is required",
+                    "VIDEO_REQUIRED": "Video is required",
+                    "MIN_LENGTH": "Minimum characters required",
+                    "MAX_LENGTH": "Maximum characters allowed",
+                    "CONTENT_TOO_LONG": "Content too long: {actual}/{maxAllowed} characters",
+                    "BUTTON_LABEL_WITHOUT_URL": "Button label requires a URL",
+                    "BUTTON_URL_WITHOUT_LABEL": "Button URL requires a label",
+                    "MIN_VALUE": "Minimum value",
+                    "MAX_VALUE": "Maximum value",
+                    "INVALID_FORMAT": "Invalid format",
+                    "INVALID_INPUT": "Invalid value",
+                    "REQUIRED": "This field is required",
+                    "VIDEO_URL_HELP": "Supported formats: YouTube, Vimeo, Dailymotion",
+                    "VIDEO_PLATFORM_SUPPORTED": "Supported platform",
+                    "IMAGE_HELP": "Max. {maxSize}MB, {maxWidth}x{maxHeight}px recommended",
+                    "SUPPORTED_FORMATS": "Supported formats",
+                    "PREVIEW_IMAGE_TOOLTIP": "Preview image in large size",
+                    "REMOVE_IMAGE_TOOLTIP": "Remove image",
+                    "INVALID_VIDEO_URL": "Unsupported video URL. Formats: YouTube, Vimeo, Dailymotion",
+                    "INVALID_URL_FORMAT": "Invalid URL format",
+                    "INVALID_IMAGE_TYPE": "Unsupported image type",
+                    "FILE_TOO_LARGE": "File too large. Max. {maxSize}MB",
+                    "IMAGE_DIMENSIONS_TOO_LARGE": "Image too large. Max. {maxWidth}x{maxHeight}px"
+                }
+            }
+        },
+        "PRIVACY_POLICY": {
+            "BREADCRUMB": {
+                "LABEL": "Privacy Policy",
+                "ROUTE": "privacy-policy"
+            },
+            "TITLE": "Privacy Policy Content Management",
+            "LABEL": "Privacy Policy",
+            "ROUTE": "privacy-policy",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "Date"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "E.g.: 1.0.0",
+                "TYPE": "Type",
+                "STATUS": "Status",
+                "PUBLISH": "Published",
+                "PUBLISH_PLACEHOLDER": "Published",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Title",
+                "CATEGORY": "Category",
+                "SUBCATEGORY": "Subcategory",
+                "PLATFORM": "Platform",
+                "CONTENT": "Content",
+                "PUBLISHED": "Published",
+                "ORDER": "Order",
+                "VERSION": "Version",
+                "NAME": "Name",
+                "STATUS": "Status",
+                "STATE": "State",
+                "CREATED_AT": "Created On",
+                "PUBLISHED_AT": "Published On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "E.g.: 1.0.0",
+                "TITLE_FORM_EDIT": "Privacy Policy Edit Form",
+                "TITLE_FORM_ADD": "Privacy Policy Add Form",
+                "DESCRIPTION": "Content",
+                "GENERAL_INFO": "General Information",
+                "CONFIG": "Configuration & Actions"
+            }
+        },
+        "LEGAL_NOTICE": {
+            "BREADCRUMB": {
+                "LABEL": "Legal Notices",
+                "ROUTE": "legal-notices"
+            },
+            "TITLE": "Legal Notices Content Management",
+            "LABEL": "Legal Notices",
+            "ROUTE": "legal-notices",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "Date"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "E.g.: 1.0.0",
+                "TYPE": "Type",
+                "STATUS": "Status",
+                "PUBLISH": "Published",
+                "PUBLISH_PLACEHOLDER": "Published",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Title",
+                "CATEGORY": "Category",
+                "SUBCATEGORY": "Subcategory",
+                "PLATFORM": "Platform",
+                "CONTENT": "Content",
+                "PUBLISHED": "Published",
+                "ORDER": "Order",
+                "VERSION": "Version",
+                "NAME": "Name",
+                "STATUS": "Status",
+                "STATE": "State",
+                "CREATED_AT": "Created On",
+                "PUBLISHED_AT": "Published On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "E.g.: 1.0.0",
+                "TITLE_FORM_EDIT": "Legal Notices Edit Form",
+                "TITLE_FORM_ADD": "Legal Notices Add Form",
+                "DESCRIPTION": "Content",
+                "GENERAL_INFO": "General Information",
+                "CONFIG": "Configuration & Actions"
+            }
+        },
+        "TERMS_USE": {
+            "BREADCRUMB": {
+                "LABEL": "Terms of Use",
+                "ROUTE": "terms-of-service"
+            },
+            "TITLE": "Terms of Use Content Management",
+            "LABEL": "Terms of Use",
+            "ROUTE": "terms-of-service",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "Date"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "E.g.: 1.0.0",
+                "TYPE": "Type",
+                "STATUS": "Status",
+                "PUBLISH": "Published",
+                "PUBLISH_PLACEHOLDER": "Published",
+                "TYPE_PLACEHOLDER": "Type",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "TYPE": "Type",
+                "TITLE": "Title",
+                "CATEGORY": "Category",
+                "SUBCATEGORY": "Subcategory",
+                "PLATFORM": "Platform",
+                "CONTENT": "Content",
+                "PUBLISHED": "Published",
+                "ORDER": "Order",
+                "VERSION": "Version",
+                "NAME": "Name",
+                "STATUS": "Status",
+                "STATE": "State",
+                "CREATED_AT": "Created On",
+                "PUBLISHED_AT": "Published On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "VERSION": "Version",
+                "VERSION_PLACEHOLDER": "E.g.: 1.0.0",
+                "TITLE_FORM_EDIT": "Terms of Use Edit Form",
+                "TITLE_FORM_ADD": "Terms of Use Add Form",
+                "DESCRIPTION": "Content",
+                "GENERAL_INFO": "General Information",
+                "CONFIG": "Configuration & Actions"
+            }
         }
     },
-    "LABELS": {
+    "ADMINISTRATIVE_BOUNDARY": {
+        "BREADCRUMB": {
+            "LABEL": "Territorial Structure",
+            "ROUTE": "administrative-boundary",
+            "ICON": "pi-file"
+        },
+        "ROUTE": "administrative-boundary",
+        "LABEL": "Territorial Structure",
+        "DEPARTMENTS": {
+            "BREADCRUMB": {
+                "LABEL": "Departments",
+                "ROUTE": "departments"
+            },
+            "TABS": {
+                "DEPARTMENTS": {
+                    "LABEL": "Departments",
+                    "ROUTE": "departments"
+                },
+                "HISTORY": {
+                    "LABEL": "History",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Departments",
+            "LABEL": "Departments",
+            "ROUTE": "departments",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "PLATFORM": "Platform",
+                "REGION": "Region",
+                "TYPE": "Content Type",
+                "TYPE_PLACEHOLDER": "Content Type",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Department Name",
+                "REGION": "Region",
+                "DESCRIPTION": "Description",
+                "MUNICIPALITIES_COUNT": "# Municipalities/Sub-prefectures",
+                "POPULATION_SIZE": "Population Count",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Department Edit Form",
+                "TITLE_FORM_ADD": "Department Add Form",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "General Information",
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "E.g.: 1",
+                    "NAME": "Department Name",
+                    "NAME_PLACEHOLDER": "E.g.: New department",
+                    "REGION": "Region",
+                    "REGION_PLACEHOLDER": "E.g.: New region",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "E.g.: Department description",
+                    "MUNICIPALITIES_COUNT": "# Municipalities/Sub-prefectures",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "E.g.: 100",
+                    "POPULATION_SIZE": "Population Count",
+                    "POPULATION_SIZE_PLACEHOLDER": "E.g.: 500000",
+                    "CREATED_AT": "Created On",
+                    "ACTION": "Action"
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum characters required",
+                    "MAX_LENGTH": "Maximum characters allowed",
+                    "MIN_VALUE": "Minimum value",
+                    "MAX_VALUE": "Maximum value",
+                    "INVALID_FORMAT": "Invalid format",
+                    "INVALID_INPUT": "Invalid value",
+                    "REQUIRED": "This field is required"
+                }
+            },
+            "DELETE": {
+                "CONFIRM": "Confirm",
+                "CANCEL": "Cancel"
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Department Update",
+                "MESSAGE_UPDATE": "Are you sure you want to update this department?",
+                "TITLE_CREATE": "Department Creation",
+                "MESSAGE_CREATE": "Are you sure you want to create this department?",
+                "TITLE_DELETE": "Department Deletion",
+                "MESSAGE_DELETE": "Are you sure you want to delete this department?"
+            }
+        },
+        "MUNICIPALITIES": {
+            "BREADCRUMB": {
+                "LABEL": "Municipalities",
+                "ROUTE": "municipalities"
+            },
+            "TABS": {
+                "MUNICIPALITIES": {
+                    "LABEL": "Municipalities",
+                    "ROUTE": "municipalities"
+                },
+                "HISTORY": {
+                    "LABEL": "History",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Municipalities",
+            "LABEL": "Municipalities",
+            "ROUTE": "municipalities",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "PLATFORM": "Platform",
+                "REGION": "Region",
+                "TYPE": "Content Type",
+                "TYPE_PLACEHOLDER": "Content Type",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "DEPARTMENT": "Department",
+                "DEPARTMENT_PLACEHOLDER": "Department"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Municipality Name",
+                "REGION": "Region",
+                "DEPARTMENT": "Department",
+                "DESCRIPTION": "Description",
+                "MUNICIPALITIES_COUNT": "# Municipalities/Sub-prefectures",
+                "POPULATION_SIZE": "Population Count",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Municipality Edit Form",
+                "TITLE_FORM_ADD": "Municipality Add Form",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "General Information",
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "E.g.: 1",
+                    "NAME": "Municipality Name",
+                    "NAME_PLACEHOLDER": "E.g.: New municipality",
+                    "REGION": "Region",
+                    "REGION_PLACEHOLDER": "E.g.: New region",
+                    "DEPARTMENT": "Department",
+                    "DEPARTMENT_PLACEHOLDER": "E.g.: New department",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "E.g.: Municipality description",
+                    "MUNICIPALITIES_COUNT": "# Municipalities/Sub-prefectures",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "E.g.: 50",
+                    "POPULATION_SIZE": "Population Count",
+                    "POPULATION_SIZE_PLACEHOLDER": "E.g.: 100000",
+                    "CREATED_AT": "Created On",
+                    "ACTION": "Action"
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum characters required",
+                    "MAX_LENGTH": "Maximum characters allowed",
+                    "MIN_VALUE": "Minimum value",
+                    "MAX_VALUE": "Maximum value",
+                    "INVALID_FORMAT": "Invalid format",
+                    "INVALID_INPUT": "Invalid value",
+                    "REQUIRED": "This field is required"
+                }
+            },
+            "DELETE": {
+                "CONFIRM": "Confirm",
+                "CANCEL": "Cancel"
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Municipality Update",
+                "MESSAGE_UPDATE": "Are you sure you want to update this municipality?",
+                "TITLE_CREATE": "Municipality Creation",
+                "MESSAGE_CREATE": "Are you sure you want to create this municipality?",
+                "TITLE_DELETE": "Municipality Deletion",
+                "MESSAGE_DELETE": "Are you sure you want to delete this municipality?"
+            }
+        },
+        "REGIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Regions",
+                "ROUTE": "regions"
+            },
+            "TABS": {
+                "REGIONS": {
+                    "LABEL": "Regions",
+                    "ROUTE": "regions"
+                },
+                "HISTORY": {
+                    "LABEL": "History",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Regions",
+            "LABEL": "Regions",
+            "ROUTE": "regions",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "PLATFORM": "Platform",
+                "REGION": "Region",
+                "TYPE": "Content Type",
+                "TYPE_PLACEHOLDER": "Content Type",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Region Name",
+                "REGION": "Region",
+                "DEPARTMENTS_COUNT": "# Departments",
+                "DESCRIPTION": "Description",
+                "MUNICIPALITIES_COUNT": "# Municipalities/Sub-prefectures",
+                "POPULATION_SIZE": "Population Count",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Region Edit Form",
+                "TITLE_FORM_ADD": "Region Add Form",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "General Information",
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "E.g.: 1",
+                    "NAME": "Region Name",
+                    "NAME_PLACEHOLDER": "E.g.: New region",
+                    "REGION": "Region",
+                    "REGION_PLACEHOLDER": "Select region",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "E.g.: Region description",
+                    "MUNICIPALITIES_COUNT": "# Municipalities/Sub-prefectures",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "E.g.: 500",
+                    "POPULATION_SIZE": "Population Count",
+                    "POPULATION_SIZE_PLACEHOLDER": "E.g.: 2000000",
+                    "CREATED_AT": "Created On",
+                    "ACTION": "Action"
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum characters required",
+                    "MAX_LENGTH": "Maximum characters allowed",
+                    "MIN_VALUE": "Minimum value",
+                    "MAX_VALUE": "Maximum value",
+                    "INVALID_FORMAT": "Invalid format",
+                    "INVALID_INPUT": "Invalid value",
+                    "REQUIRED": "This field is required"
+                }
+            },
+            "DELETE": {
+                "CONFIRM": "Confirm",
+                "CANCEL": "Cancel"
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Region Update",
+                "MESSAGE_UPDATE": "Are you sure you want to update this region?",
+                "TITLE_CREATE": "Region Creation",
+                "MESSAGE_CREATE": "Are you sure you want to create this region?",
+                "TITLE_DELETE": "Region Deletion",
+                "MESSAGE_DELETE": "Are you sure you want to delete this region?"
+            }
+        },
+        "DEPARTMENTS_BY_REGION_ID": {
+            "BREADCRUMB": {
+                "LABEL": "Departments",
+                "ROUTE": "departments-by-region-id"
+            },
+            "TITLE": "Region Departments",
+            "LABEL": "Departments",
+            "ROUTE": "departments-by-region-id",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Department Name",
+                "MUNICIPALITIES_COUNT": "# Municipalities/Sub-prefectures",
+                "DESCRIPTION": "Description",
+                "POPULATION_SIZE": "Population Count",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
+            }
+        },
+        "MUNICIPALITIES_BY_DEPARTMENT_ID": {
+            "BREADCRUMB": {
+                "LABEL": "Municipalities",
+                "ROUTE": "municipalities-by-department-id"
+            },
+            "TITLE": "Department Municipalities",
+            "LABEL": "Municipalities",
+            "ROUTE": "municipalities-by-department-id",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Municipality Name",
+                "DESCRIPTION": "Description",
+                "POPULATION_SIZE": "Population Count",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
+            }
+        }
+    },
+    "COMMON": {
+        "INDEX": "#",
+        "SELECTION": "Selection",
+        "SELECT_PLACEHOLDER": "Select...",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm",
+        "DELETE": "Delete",
+        "COPY": "Copy",
+        "COPIED_TO_CLIPBOARD": "Copied to clipboard",
+        "AUTO": "AUTO",
+        "MANUAL": "MANUAL",
+        "NETWORK": "NETWORK",
+        "LOW": "LOW",
+        "MEDIUM": "MEDIUM",
+        "HIGH": "HIGH",
+        "CRITICAL": "CRITICAL",
+        "GPS": "GPS",
+        "WHAT3WORDS": "What3Words",
+        "WEB": "Web",
+        "APP": "Mobile App",
+        "MOBILE": "Mobile",
+        "PWA": "PWA",
+        "USSD": "USSD",
+        "SMS": "SMS",
+        "IVR": "IVR",
+        "ABI": "No Internet",
+        "ZOB": "White Zone",
+        "CPS": "Partial Signal Coverage",
+        "CPO": "Partial Operator Coverage",
+        "ORANGE": "Orange",
+        "MTN": "MTN",
+        "MOOV": "Moov",
+        "IMAGE": "Image",
+        "VIDEO": "Video",
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive",
+        "FILTER": "Filter",
+        "UPLOAD": "Upload",
+        "PREVIEW": "Preview",
+        "NO_DATA": "No data available",
+        "UNKNOWN": "Unknown",
+        "CHOOSE": "Choose",
+        "CLOSE": "Close",
+        "RESTORE": "Restore",
+        "EDIT": "Edit",
+        "SAVE": "Save",
+        "DETAILS": "Details",
+        "ENABLE": "Enable",
+        "ACTIVATED": "Activated",
+        "PUBLISH": "Publish",
+        "PUBLISHED": "Published",
+        "UNPUBLISH": "Unpublish",
+        "UNPUBLISHED": "Unpublished",
+        "DISABLE": "Disable",
+        "DEACTIVATED": "Deactivated",
+        "INVALID_DATE_RANGE": "Invalid date range",
+        "FORM_INVALID": "Invalid form",
+        "DATE_PLACEHOLDER": "YYYY-MM-DD",
+        "REFRESH": "Refresh",
+        "EXPORT": "Export",
+        "RESEARCH": "Research",
+        "LIST_OF": "List of",
+        "UPDATED_AT": "Updated at",
+        "SUCCESS": {
+            "CREATE": "Creation successful",
+            "UPDATE": "Update successful",
+            "DELETE": "Deletion successful",
+            "ENABLE": "Activation successful",
+            "DISABLE": "Deactivation successful",
+            "READ": "Read successful"
+        },
+        "ERROR": {
+            "GENERIC": "An error occurred"
+        },
+        "VALIDATION": {
+            "REQUIRED": "Required field"
+        }
+    },
+    "PAGINATION": {
+        "TOTAL": "Total",
+        "PER_PAGE": "Per page",
+        "SHOWING": "Showing",
+        "TO": "to",
+        "OF": "of",
+        "ENTRIES": "reports"
+    },
+    "LOGOUT": {
+        "SWEET_ALERT_PARAMS": {
+            "CONFIRM": "Log out of account?",
+            "MESSAGES": "Are you sure you want to log out?",
+            "BUTTONS": "Log out"
+        }
+    },
+    "MY_ACCOUNT": {
+        "ACCOUNT": {
+            "TITLE": "My Account",
+            "FORM": {
+                "TITLE": "My Account",
+                "LAST_NAME": {
+                    "LABEL": "Last Name",
+                    "PLACEHOLDER": "Enter your last name"
+                },
+                "FIRST_NAME": {
+                    "LABEL": "First Name",
+                    "PLACEHOLDER": "Enter your first name"
+                },
+                "EMAIL": {
+                    "LABEL": "Email",
+                    "PLACEHOLDER": "Enter your email"
+                },
+                "PHONE": {
+                    "LABEL": "Phone",
+                    "PLACEHOLDER": "Enter your phone number"
+                },
+                "INVALID_FORMAT": "Invalid format",
+                "INVALID_START": "Number must start with 07, 05, or 03",
+                "INVALID_LENGTH": "Number must contain 10 digits"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "PASSWORD_UPDATED": "Password updated successfully",
+                    "PROFILE_UPDATED": "Profile updated successfully"
+                }
+            }
+        },
+        "PASSWORD": {
+            "TITLE": "Password",
+            "FORM": {
+                "TITLE": "Password",
+                "OLD_PASSWORD": {
+                    "LABEL": "Old Password",
+                    "PLACEHOLDER": "Enter your old password"
+                },
+                "NEW_PASSWORD": {
+                    "LABEL": "New Password",
+                    "PLACEHOLDER": "Enter your new password"
+                },
+                "CONFIRM_NEW_PASSWORD": {
+                    "LABEL": "Confirm Password",
+                    "PLACEHOLDER": "Confirm your new password"
+                },
+                "INVALID_FORMAT": "Invalid format",
+                "NOT_MATCH": "Passwords do not match"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "PASSWORD_UPDATED": "Password updated successfully"
+                }
+            }
+        }
+    },
+    "OPERATOR": {
+        "ORANGE": "Orange",
+        "MTN": "MTN",
+        "MOOV": "Moov"
+    },
+    "REPORTS_REQUESTS": {
+        "BREADCRUMB": {
+            "LABEL": "Request Qualifications",
+            "ROUTE": "requests",
+            "ICON": "pi-list-check"
+        },
+        "STATUS": {
+            "PRISE_EN_CHARGE": "Taken in Charge",
+            "APPROBATION": "Approval"
+        },
+        "LABEL": "Qualifications",
+        "ROUTE": "requests",
+        "QUEUES": {
+            "TITLE": "Requests Pending Assignment",
+            "LABEL": "Queue",
+            "ROUTE": "queues",
+            "BREADCRUMB": {
+                "LABEL": "Queue",
+                "ROUTE": "queues"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "SEE_MORE": "See More",
+                "TAKE": "Take",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator Number",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source",
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date"
+                }
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Mobile App",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                }
+            }
+        },
+        "TASKS": {
+            "TITLE": "Requests Pending Qualification",
+            "LABEL": "Task Basket",
+            "ROUTE": "tasks",
+            "BREADCRUMB": {
+                "LABEL": "Task Basket",
+                "ROUTE": "tasks"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "SEE_MORE": "See More",
+                "QUALIFY": "Quality",
+                "TAKE": "Take",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator Number",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATOR": "Operator",
+                "SOURCE": "Source"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet",
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARIAL_SIGNAL": "Partial Signal Coverage"
+                },
+                "STATUS": {
+                    "APPROVED": "Approved",
+                    "RECEIVED": "Received",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Mobile App",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                },
+                "STATE": {
+                    "OPEN": "Open",
+                    "IN_REVIEW": "Under Review",
+                    "QUEUED": "Closed"
+                }
+            }
+        },
+        "ALL": {
+            "TITLE": "Qualified Requests",
+            "LABEL": "All Requests",
+            "ROUTE": "all",
+            "BREADCRUMB": {
+                "LABEL": "All Requests",
+                "ROUTE": "all"
+            },
+            "STATUS": {
+                "CONFIRMED": "Confirmed",
+                "APPROVED": "Approved",
+                "REJECTED": "Rejected",
+                "ABANDONED": "Abandoned",
+                "TERMINATED": "Terminated",
+                "UNKNOWN": "Unknown"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "REPORTED_AT": "Reported On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "STATE": "State",
+                "STEP": "Step",
+                "STATUS": "Status",
+                "SEE_MORE": "See More",
+                "QUALIFY": "Quality",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator Number",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATOR": "Operator",
+                "SOURCE": "Source",
+                "STATUS": "Status"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet",
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARIAL_SIGNAL": "Partial Signal Coverage"
+                },
+                "STATUS": {
+                    "APPROVED": "Approved",
+                    "RECEIVED": "Received",
+                    "REJECTED": "Rejected",
+                    "ABANDONED": "Abandoned",
+                    "CONFIRMED": "Confirmed"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Mobile App",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                },
+                "STATE": {
+                    "OPEN": "Open",
+                    "IN_REVIEW": "Under Review",
+                    "QUEUED": "Closed"
+                }
+            }
+        }
+    },
+    "REPORTS_PROCESSING": {
+        "BREADCRUMB": {
+            "LABEL": "Report Processing",
+            "ROUTE": "reports-processing",
+            "ICON": "pi pi-check-square"
+        },
+        "STATUS": {
+            "TREATMENT": "Treatment",
+            "FINALIZATION": "Finalization",
+            "EVALUATION": "Evaluation"
+        },
+        "LABEL": "Report Processing",
+        "ROUTE": "reports-processing",
+        "QUEUES": {
+            "TITLE": "Reports Pending Assignment",
+            "LABEL": "Queue",
+            "ROUTE": "queues",
+            "BREADCRUMB": {
+                "LABEL": "Queue",
+                "ROUTE": "queues"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "REPORTED_AT": "Reported On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "STATUS": "Status",
+                "SEE_MORE": "See More",
+                "TAKE": "Take",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator Number",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATOR": "Operator",
+                "SOURCE": "Source"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "STATUS": {
+                    "PENDING": "Pending",
+                    "REJECTED": "Rejected",
+                    "APPROVED": "Approved",
+                    "ABANDONED": "Abandoned"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                }
+            }
+        },
+        "TASKS": {
+            "TITLE": "Reports Pending Treatment",
+            "LABEL": "Task Basket",
+            "ROUTE": "tasks",
+            "BREADCRUMB": {
+                "LABEL": "Task Basket",
+                "ROUTE": "tasks"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "REPORTED_AT": "Reported On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "STATE": "State",
+                "TREAT": "Treat",
+                "ACTION": "Action",
+                "PROCESSING_NEWSPAPERS": "Treatment Journal",
+                "STEP": "Step",
+                "STATUS": "Status",
+                "SEE_MORE": "See More"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator Number",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATOR": "Operator",
+                "SOURCE": "Source"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet",
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARIAL_SIGNAL": "Partial Signal Coverage"
+                },
+                "STATUS": {
+                    "APPROVED": "Approved",
+                    "RECEIVED": "Received",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Mobile App",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                },
+                "STATE": {
+                    "OPEN": "Open",
+                    "IN_REVIEW": "Under Review",
+                    "QUEUED": "Closed"
+                }
+            }
+        },
+        "ALL": {
+            "TITLE": "Processed Reports",
+            "LABEL": "All Reports",
+            "ROUTE": "all",
+            "BREADCRUMB": {
+                "LABEL": "All Reports",
+                "ROUTE": "all"
+            },
+            "STATE": {
+                "TERMINATED": "Terminated"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "REPORTED_AT": "Reported On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "STATE": "State",
+                "STEP": "Step",
+                "STATUS": "Status",
+                "SEE_MORE": "See More",
+                "QUALIFY": "Quality",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator Number",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATOR": "Operator",
+                "SOURCE": "Source",
+                "STATUS": "Status"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet",
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARIAL_SIGNAL": "Partial Signal Coverage"
+                },
+                "STATUS": {
+                    "TERMINATED": "Terminated",
+                    "APPROVED": "Approved",
+                    "RECEIVED": "Received",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Mobile App",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                },
+                "STATE": {
+                    "OPEN": "Open",
+                    "IN_REVIEW": "Under Review",
+                    "QUEUED": "Closed"
+                }
+            }
+        },
+        "TREATMENT": {
+            "TITLE": "Reports Under Treatment",
+            "LABEL": "Treatment",
+            "ROUTE": "progress",
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "STATE": "State",
+                "SEE_MORE": "See More",
+                "TREAT": "Treat",
+                "JOURNAL": "Journal",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator",
+                "REPORT_TYPE": "Report Type",
+                "STATE": "State",
+                "OPERATOR": "Operator"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet"
+                },
+                "STATE": {
+                    "TERMINATED": "Terminated",
+                    "IN_PROGRESS": "In Progress",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            }
+        },
+        "FINALIZE": {
+            "TITLE": "Reports Pending Finalization",
+            "LABEL": "Finalization",
+            "ROUTE": "finalize",
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "STATE": "State",
+                "SEE_MORE": "See More",
+                "FINALIZE": "Finalize",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator",
+                "REPORT_TYPE": "Report Type",
+                "STATE": "State",
+                "OPERATOR": "Operator"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "WHITE_ZONE": "White Zone"
+                },
+                "STATE": {
+                    "FINALIZED": "Finalized",
+                    "PENDING": "Pending",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            },
+            "REPORT_FINALIZE": {
+                "TITLE": "Report Finalization",
+                "LABEL": "Report Finalization",
+                "REPORT_ID": "Report Identifier",
+                "PLACEHOLDER": "Finalization content coming soon..."
+            },
+            "SWEET_ALERT_PARAMS": {
+                "CONFIRM": {
+                    "WAITING": {
+                        "TITLE": "Take Charge of Report"
+                    },
+                    "REJECT": {
+                        "TITLE": "Reject Report"
+                    },
+                    "APPROVAL": {
+                        "TITLE": "Approve Report"
+                    },
+                    "TREATMENT": {
+                        "TITLE": "Treat Report"
+                    },
+                    "FINALIZE": {
+                        "TITLE": "Finalize Report"
+                    },
+                    "EVALUATE": {
+                        "TITLE": "Evaluate Report"
+                    }
+                },
+                "MESSAGES": {
+                    "WAITING": {
+                        "TITLE": "Are you sure you want to take charge of this report?"
+                    },
+                    "REJECT": {
+                        "TITLE": "Are you sure you want to reject this report?"
+                    },
+                    "APPROVAL": {
+                        "TITLE": "Are you sure you want to approve this report?"
+                    },
+                    "TREATMENT": {
+                        "TITLE": "Are you sure you want to treat this report?"
+                    },
+                    "FINALIZE": {
+                        "TITLE": "Are you sure you want to finalize this report?"
+                    },
+                    "EVALUATE": {
+                        "TITLE": "Are you sure you want to evaluate this report?"
+                    }
+                },
+                "BUTTONS": {
+                    "WAITING": {
+                        "TITLE": "Take Charge"
+                    },
+                    "REJECT": {
+                        "TITLE": "Reject"
+                    },
+                    "APPROVAL": {
+                        "TITLE": "Approve"
+                    },
+                    "TREATMENT": {
+                        "TITLE": "Treat"
+                    },
+                    "FINALIZE": {
+                        "TITLE": "Finalize"
+                    },
+                    "EVALUATE": {
+                        "TITLE": "Evaluate"
+                    }
+                }
+            }
+        }
+    },
+    "FINALIZATION": {
+        "BREADCRUMB": {
+            "LABEL": "Report Finalization",
+            "ROUTE": "reports-finalization",
+            "ICON": "pi pi-stopwatch"
+        },
+        "STATUS": {
+            "TREATMENT": "Treatment",
+            "FINALIZATION": "Finalization",
+            "EVALUATION": "Evaluation"
+        },
+        "LABEL": "Report Finalization",
+        "ROUTE": "reports-finalization",
+        "QUEUES": {
+            "TITLE": "Reports Pending Assignment",
+            "LABEL": "Queue",
+            "ROUTE": "queues",
+            "BREADCRUMB": {
+                "LABEL": "Queue",
+                "ROUTE": "queues"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "STATE": "State",
+                "SEE_MORE": "See More",
+                "TAKE": "Take",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator",
+                "REPORT_TYPE": "Report Type",
+                "UNIQ_ID": "Identifier",
+                "OPERATOR": "Operator",
+                "STATE": "State"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "STATUS": {
+                    "PENDING": "Pending",
+                    "REJECTED": "Rejected",
+                    "APPROVED": "Approved",
+                    "ABANDONED": "Abandoned"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                }
+            }
+        },
+        "TASKS": {
+            "TITLE": "Reports Pending Finalization",
+            "LABEL": "Task Basket",
+            "ROUTE": "tasks",
+            "BREADCRUMB": {
+                "LABEL": "Task Basket",
+                "ROUTE": "tasks"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "STATE": "State",
+                "TREAT": "Treat",
+                "STEP": "Step",
+                "STATUS": "Status",
+                "SEE_MORE": "See More",
+                "QUALIFY": "Quality",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator",
+                "REPORT_TYPE": "Report Type",
+                "UNIQ_ID": "Identifier",
+                "STATE": "State",
+                "OPERATOR": "Operator"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet",
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARIAL_SIGNAL": "Partial Signal Coverage"
+                },
+                "STATUS": {
+                    "APPROVED": "Approved",
+                    "RECEIVED": "Received",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Mobile App",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                },
+                "STATE": {
+                    "OPEN": "Open",
+                    "IN_REVIEW": "Under Review",
+                    "QUEUED": "Closed"
+                }
+            }
+        },
+        "ALL": {
+            "TITLE": "Finalized Reports",
+            "LABEL": "All Reports",
+            "ROUTE": "all",
+            "BREADCRUMB": {
+                "LABEL": "All Reports",
+                "ROUTE": "all"
+            },
+            "STATE": {
+                "COMPLETED": "Completed"
+            },
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "SOURCE": "Source [Num]",
+                "STATE": "State",
+                "STEP": "Step",
+                "STATUS": "Status",
+                "SEE_MORE": "See More",
+                "QUALIFY": "Quality",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATOR": "Operator",
+                "SOURCE": "Source",
+                "STATUS": "Status"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet",
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARIAL_SIGNAL": "Partial Signal Coverage"
+                },
+                "STATUS": {
+                    "APPROVED": "Approved",
+                    "RECEIVED": "Received",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Mobile App",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing",
+                    "CLOSURE": "Closure"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "Pending",
+                    "ACKNOWLEDGED": "Acknowledged",
+                    "VALIDATED": "Validated"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "COMPLETED": "Completed"
+                },
+                "STATE": {
+                    "OPEN": "Open",
+                    "IN_REVIEW": "Under Review",
+                    "QUEUED": "Closed"
+                }
+            }
+        },
+        "TREATMENT": {
+            "TITLE": "Reports Under Treatment",
+            "LABEL": "Treatment",
+            "ROUTE": "progress",
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "STATE": "State",
+                "SEE_MORE": "See More",
+                "TREAT": "Treat",
+                "JOURNAL": "Journal",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator",
+                "REPORT_TYPE": "Report Type",
+                "STATE": "State",
+                "OPERATOR": "Operator"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_SIGNAL": "Partial Signal Coverage",
+                    "WHITE_ZONE": "White Zone",
+                    "NO_INTERNET": "No Internet"
+                },
+                "STATE": {
+                    "TERMINATED": "Terminated",
+                    "IN_PROGRESS": "In Progress",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            }
+        },
+        "FINALIZE": {
+            "TITLE": "Reports Pending Finalization",
+            "LABEL": "Finalization",
+            "ROUTE": "finalize",
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "UNIQ_ID": "Identifier",
+                "REPORT_TYPE": "Report Type",
+                "OPERATORS": "Operators",
+                "STATE": "State",
+                "SEE_MORE": "See More",
+                "FINALIZE": "Finalize",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Initiator",
+                "REPORT_TYPE": "Report Type",
+                "STATE": "State",
+                "OPERATOR": "Operator"
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "WHITE_ZONE": "White Zone"
+                },
+                "STATE": {
+                    "FINALIZED": "Finalized",
+                    "PENDING": "Pending",
+                    "REJECTED": "Rejected"
+                },
+                "OPERATOR": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                }
+            },
+            "REPORT_FINALIZE": {
+                "TITLE": "Report Finalization",
+                "LABEL": "Report Finalization",
+                "REPORT_ID": "Report Identifier",
+                "PLACEHOLDER": "Finalization content coming soon..."
+            }
+        }
+    },
+    "COMMUNICATION": {
+        "LABEL": "Communication",
+        "ROUTE": "communication",
+        "NOTIFICATIONS": {
+            "TITLE": "Notifications",
+            "LABEL": "Notifications",
+            "ROUTE": "notifications",
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "REFERENCE": "Reference",
+                "NOTIFICATION_TYPE": "Notification Type",
+                "DESCRIPTION": "Description",
+                "SEE_MORE": "See More",
+                "READ": "Read",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "REFERENCE": "Reference",
+                "NOTIFICATION_TYPE": "Notification Type",
+                "DESCRIPTION": "Description",
+                "CREATED_AT": "Created On"
+            },
+            "BUTTONS": {
+                "DELETE": "Delete"
+            }
+        }
+    },
+    "MANAGEMENT": {
+        "TITLE": "Report Treatment",
+        "LABEL": "Report Treatment",
+        "REPORT_ID": "Report Identifier",
+        "PLACEHOLDER": "Treatment content coming soon...",
         "STATUS": {
             "SUBMISSION": "Submission",
-            "PROCESSING": "Processing",
-            "CLOSURE": "Closure"
+            "QUALIFICATION": "Qualification",
+            "TREATMENT": "Treatment",
+            "FINALIZATION": "Finalization",
+            "INFORMATION": "Information",
+            "TAKE": "Take in Charge",
+            "APPROBATION": "Approval"
         },
-        "SUBMISSION_STATE": {
-            "PENDING": "Pending",
-            "ACKNOWLEDGED": "Acknowledged",
-            "VALIDATED": "Validated"
+        "BUTTONS": {
+            "SUBMISSION": "Submit",
+            "QUALIFICATION": "Quality",
+            "TREATMENT": "Treat",
+            "FINALIZATION": "Finalize",
+            "INFORMATION": "Information",
+            "TAKE": "Take",
+            "APPROBATION": "Approve"
         },
-        "PROCESSING_STATE": {
-            "RECEIVED": "Received",
-            "IN_PROGRESS": "In progress",
-            "COMPLETED": "Completed"
+        "HEADER": {
+            "DETAILS_REPORT": "Report Details",
+            "DETAILS_DEMAND": "Request Details",
+            "NUMBER_OF_CONFIRMATIONS": "Number of Confirmations",
+            "REPORT_ID": "Identifier",
+            "STATUS": "Status",
+            "STATUS_PENDING": "Pending",
+            "TYPE": "Type",
+            "TYPE_PLACEHOLDER": "White Zone",
+            "DATE_PLACEHOLDER": "Date coming soon..."
+        },
+        "STEP_BAR": {
+            "PRISE_EN_CHARGE": "Taken in Charge at",
+            "APPROBATION": "Approved at",
+            "TREATMENT": "Treated at",
+            "FINALIZATION": "Finalized at",
+            "EVALUATION": "Evaluated at"
+        },
+        "SIDEBAR": {
+            "INITIATOR": {
+                "TITLE": "Applicant Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "APPROVER": {
+                "TITLE": "Approver Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "TOOK": {
+                "TITLE": "Manager Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "REFUSER": {
+                "TITLE": "Refuser Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "PROCESSED": {
+                "TITLE": "Processor Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "LOCATION": {
+                "TITLE": "Location",
+                "PLACEHOLDER": "Location coming soon..."
+            }
+        },
+        "TABS": {
+            "CATEGORIES": {
+                "INFORMATION": "Information",
+                "PHOTOS": "Photos",
+                "GEOGRAPHIC_VIEW": "Geographic View",
+                "TREATMENT_LOGS": "Treatment Log"
+            },
+            "SECTIONS": {
+                "INFO": "Information"
+            }
+        },
+        "CONTENT": {
+            "INFORMATION": {
+                "PLACEHOLDER": "Information content coming soon..."
+            },
+            "PHOTOS": {
+                "PLACEHOLDER": "Photos content coming soon..."
+            },
+            "GEOGRAPHIC_VIEW": {
+                "PLACEHOLDER": "Geographic view content coming soon..."
+            }
+        },
+        "TREATMENT": {
+            "PANEL": "Treatment Panel",
+            "TAKE_ACTION": {
+                "TITLE": "Take Charge of Report",
+                "REQUIRED": "Required",
+                "DECISION": "Decision",
+                "COMMENT": "Comment",
+                "COMMENT_PLACEHOLDER": "Enter your comment...",
+                "MOTIF": "Reason",
+                "MOTIF_PLACEHOLDER": "Enter your reason...",
+                "OPTIONS": {
+                    "APPROVE": {
+                        "LABEL": "Accept",
+                        "DESCRIPTION": "Take charge of the report"
+                    },
+                    "REJECT": {
+                        "LABEL": "Reject",
+                        "DESCRIPTION": "Reject the report"
+                    }
+                },
+                "VALIDATION": {
+                    "MOTIF_REQUIRED": "Reason is required",
+                    "COMMENT_REQUIRED": "A comment is required for rejection"
+                }
+            }
+        },
+        "FORM": {
+            "READ_ONLY": "Read Only",
+            "NOT_SPECIFIED": "Not Specified",
+            "NO_DESCRIPTION": "No description provided",
+            "STATUS": {
+                "INVALID": "Invalid",
+                "VALID": "Valid"
+            },
+            "REPORT_INFO": {
+                "TITLE": "Report Information",
+                "TRANSMISSION_CHANNEL": "Transmission Channel",
+                "GEOLOCATION_SYSTEM": "Geolocation System",
+                "OPERATORS": "Concerned Operators",
+                "DATE_TIME_ENTRY": "Entry Date/Time",
+                "DATE_TIME_RECEIPT": "Receipt Date/Time",
+                "NUMBER_OF_ACTIONS": "Number of Actions Taken",
+                "REGION": "Region",
+                "DEPARTMENT": "Department",
+                "COMMUNE": "Municipality/Sub-prefecture",
+                "TYPE": "Report Type",
+                "STATUS": "Status",
+                "DESCRIPTION": "Report Description",
+                "COMMENT_APPROVER": "Approver Comment",
+                "NO_COMMENT_APPROVER": "No approver comment provided",
+                "COMMENT_TREATMENT": "Treatment Comment",
+                "COMMENT_FINALIZATION": "Finalization Comment",
+                "NO_COMMENT_FINALIZATION": "No finalization comment provided",
+                "NO_COMMENT_TREATMENT": "No treatment comment provided",
+                "COMMENT_TREAT": "Treatment Comment",
+                "LOCATION_NAME": "Connection with Zone",
+                "NO_DESCRIPTION": "No location description provided"
+            },
+            "LOCATION_INFO": {
+                "TITLE": "Location Information",
+                "COORDINATES": "Coordinates",
+                "LOCATION_METHOD": "Coordinate Reading",
+                "LONGITUDE": "Longitude",
+                "LATITUDE": "Latitude",
+                "PLACE_DESCRIPTION": "Place Description",
+                "NO_DESCRIPTION": "No location description provided"
+            },
+            "PICTURES_INFO": {
+                "TITLE": "Place Description"
+            },
+            "PICTURES": {
+                "TITLE": "Photos",
+                "ACCESS_ROAD": "Access Road",
+                "OBSERVATION_POINT": "Observation Point",
+                "NO_DATA": "No photos available."
+            },
+            "FIELDS": {
+                "REPORT_ID": "Report ID",
+                "SOURCE": "Source",
+                "INITIATOR": "Initiator",
+                "OPERATORS": "Concerned Operators",
+                "LOCATION_NAME": "Place Name",
+                "LOCATION_METHOD": "Method",
+                "LOCATION_TYPE": "Location Type",
+                "REGION": "Region",
+                "DEPARTMENT": "Department",
+                "COMMUNE": "Municipality/Sub-prefecture"
+            },
+            "VALUES": {
+                "SOURCE": {
+                    "APP": "Mobile App",
+                    "WEB": "Website",
+                    "ADMIN": "Administration"
+                },
+                "REPORT_TYPE": {
+                    "ABI": "No Internet",
+                    "ZOB": "White Zone",
+                    "CPS": "Partial Signal Coverage",
+                    "CPO": "Partial Operator Coverage",
+                    "OTHER": "Other"
+                },
+                "STATUS": {
+                    "PENDING": "Pending",
+                    "APPROVED": "Approved",
+                    "REJECTED": "Rejected",
+                    "ABANDONED": "Abandoned",
+                    "CONFIRM": "Confirm",
+                    "TERMINATED": "Terminated",
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing"
+                },
+                "OPERATORS": {
+                    "MTN": "MTN",
+                    "ORANGE": "Orange",
+                    "MOOV": "Moov"
+                },
+                "LOCATION": {
+                    "METHOD_AUTO": "Automatic",
+                    "METHOD_MANUAL": "Manual",
+                    "TYPE_GPS": "GPS",
+                    "TYPE_NETWORK": "Network",
+                    "TYPE_MANUAL": "Manual"
+                }
+            },
+            "ACTIONS": {
+                "VIEW_MAP": "View on Map",
+                "COPY_COORDINATES": "Copy Coordinates",
+                "OPEN_MAP": "Open Map"
+            }
+        },
+        "FOOTER": {
+            "ACTIONS": {
+                "TAKE_CHARGE": "Take Charge",
+                "APPROVE": "Approve",
+                "PROCESS": "Treat",
+                "FINALIZE": "Finalize",
+                "EVALUATE": "Evaluate",
+                "SAVE": "Save",
+                "CANCEL": "Cancel"
+            }
+        },
+        "SWEET_ALERT_PARAMS": {
+            "CONFIRM": {
+                "WAITING": {
+                    "TITLE": "Take Charge of Report"
+                },
+                "REJECT": {
+                    "TITLE": "Reject Report"
+                },
+                "APPROVAL": {
+                    "TITLE": "Approve Report"
+                },
+                "TREATMENT": {
+                    "TITLE": "Treat Report"
+                },
+                "FINALIZE": {
+                    "TITLE": "Finalize Report"
+                },
+                "EVALUATE": {
+                    "TITLE": "Evaluate Report"
+                }
+            },
+            "MESSAGES": {
+                "WAITING": {
+                    "TITLE": "Are you sure you want to take charge of this report?"
+                },
+                "REJECT": {
+                    "TITLE": "Are you sure you want to reject this report?"
+                },
+                "APPROVAL": {
+                    "TITLE": "Are you sure you want to approve this report?"
+                },
+                "TREATMENT": {
+                    "TITLE": "Are you sure you want to treat this report?"
+                },
+                "FINALIZE": {
+                    "TITLE": "Are you sure you want to finalize this report?"
+                },
+                "EVALUATE": {
+                    "TITLE": "Are you sure you want to evaluate this report?"
+                }
+            },
+            "BUTTONS": {
+                "WAITING": {
+                    "TITLE": "Take Charge"
+                },
+                "REJECT": {
+                    "TITLE": "Reject"
+                },
+                "APPROVAL": {
+                    "TITLE": "Approve"
+                },
+                "TREATMENT": {
+                    "TITLE": "Treat"
+                },
+                "FINALIZE": {
+                    "TITLE": "Finalize"
+                },
+                "EVALUATE": {
+                    "TITLE": "Evaluate"
+                },
+                "CONFIRM": "Confirm"
+            }
         }
-    }
-},
-"EXPORT": {
-    "NO_DATA": "No data to export."
-},
+    },
+    "ACTIONS": {
+        "TITLE": "Report Treatment Actions",
+        "LABEL": "Actions",
+        "ROUTE": "actions",
+        "TABLE": {
+            "CREATED_AT": "Created On",
+            "CREATED_BY": "Created By",
+            "DATE": "Date",
+            "TYPE": "Type",
+            "DESCRIPTION": "Description",
+            "USER": "User",
+            "ACTION": "Action"
+        },
+        "FILTER": {
+            "UNIQ_ID": "Identifier",
+            "TYPE": "Action Type"
+        },
+        "MODAL": {
+            "TITLE": {
+                "CREATE": "Add Action",
+                "EDIT": "Edit Action"
+            }
+        },
+        "BUTTONS": {
+            "CREATE": "Add",
+            "UPDATE": "Update"
+        },
+        "FIELDS": {
+            "DATE": "Date",
+            "TYPE": "Type",
+            "DESCRIPTION": "Description"
+        },
+        "PLACEHOLDERS": {
+            "TYPE": "Select a type",
+            "DESCRIPTION": "Enter a description"
+        },
+        "TOOLTIPS": {
+            "EDIT": "Edit",
+            "DELETE": "Delete"
+        },
+        "TYPES": {
+            "ANALYSIS": "Analysis",
+            "TREATMENT": "Treatment",
+            "VERIFICATION": "Verification",
+            "CORRECTION": "Correction",
+            "VALIDATION": "Validation",
+            "OTHER": "Other"
+        }
+    },
+    "SETTINGS_SECURITY": {
+        "LABEL": "Settings & Security",
+        "ROUTE": "security-settings",
+        "USER": {
+            "TITLE": "Users - CMZ Centralized User Management",
+            "LABEL": "Users",
+            "ROUTE": "users",
+            "TABLE": {
+                "USERNAME": "Username",
+                "NOM": "Last Name",
+                "PRENOMS": "First Name",
+                "EMAIL": "Email",
+                "MATRICULE": "Employee ID",
+                "FULL_NAME": "Full Name",
+                "PROFIL": "Profile",
+                "STATUT": "Status",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "PROFIL": "Profile",
+                "STATE": "State",
+                "MATRICULE": "Employee ID",
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Last name and first name"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Add User",
+                "EDIT_TITLE": "Edit User",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Phone",
+                "PROFILE": "User Profile",
+                "MATRICULE": "Employee ID",
+                "EMAIL": "Email",
+                "LAST_NAME_REQUIRED": "Last name is required",
+                "FIRST_NAME_REQUIRED": "First name is required",
+                "PROFILE_REQUIRED": "Profile is required",
+                "MATRICULE_REQUIRED": "Employee ID is required",
+                "EMAIL_REQUIRED": "Email is required",
+                "EMAIL_INVALID": "Email is invalid",
+                "PHONE_REQUIRED": "Phone is required"
+            },
+            "BUTTONS": {
+                "ADD": "Add"
+            },
+            "ACTIONS": {
+                "VIEW": "View More",
+                "EDIT": "Edit",
+                "DELETE": "Delete",
+                "DISABLE": "Disable"
+            },
+            "CONFIRM": {
+                "DELETE_TITLE": "Delete User",
+                "DELETE_MESSAGE": "Are you sure you want to delete user {{name}}? This action is irreversible.",
+                "DISABLE_TITLE": "Disable User",
+                "DISABLE_MESSAGE": "Are you sure you want to disable user {{name}}?"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "CREATED": "User created successfully",
+                    "UPDATED": "User updated successfully",
+                    "DELETED": "User deleted successfully",
+                    "ENABLED": "User enabled successfully",
+                    "DISABLED": "User disabled successfully"
+                }
+            },
+            "OPTIONS": {
+                "PROFIL": {
+                    "ADMIN": "Administrator",
+                    "USER": "User"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "PROFIL": {
+                "NOT_ASSIGNED": "Not Assigned"
+            }
+        },
+        "PROFILE_HABILITATION": {
+            "TITLE": "Permission Profiles - CMZ Centralized Permission Profile Management",
+            "LABEL": "Permission Profiles",
+            "ROUTE": "permission-profiles",
+            "TABLE": {
+                "CREATED_AT": "Created On",
+                "PROFILE": "Profile",
+                "DESCRIPTION": "Description",
+                "USERS_COUNT": "# Users",
+                "STATUT": "Status",
+                "SEE_MORE": "View More",
+                "EDIT": "Edit",
+                "DELETE": "Delete",
+                "ADD": "Add",
+                "ACTIVE": "Active",
+                "INACTIVE": "Inactive",
+                "ASSIGNED": "Assigned",
+                "UNASSIGNED": "Unassigned",
+                "ASSIGN": "Assign",
+                "UNASSIGN": "Unassign",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "PROFILE": "Profile",
+                "STATE": "State",
+                "MATRICULE": "Employee ID",
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Last name and first name"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Add Profile",
+                "EDIT_TITLE": "Edit Profile",
+                "NAME": "Profile",
+                "DESCRIPTION": "Description",
+                "NAME_REQUIRED": "Profile name is required",
+                "DESCRIPTION_REQUIRED": "Description is required"
+            },
+            "BUTTONS": {
+                "ADD": "Add",
+                "ASSIGN": "Assign",
+                "REASSIGN": "Reassign",
+                "RETIRE": "Remove"
+            },
+            "ACTIONS": {
+                "VIEW": "View More",
+                "EDIT": "Edit",
+                "DELETE": "Delete",
+                "ENABLE": "Enable",
+                "DISABLE": "Disable"
+            },
+            "CONFIRM": {
+                "DELETE_TITLE": "Delete Profile",
+                "DELETE_MESSAGE": "Are you sure you want to delete profile {{name}}? This action is irreversible.",
+                "DISABLE_TITLE": "Disable Profile",
+                "DISABLE_MESSAGE": "Are you sure you want to disable profile {{name}}?",
+                "RETIRE_TITLE": "Remove Users",
+                "RETIRE_MESSAGE": "Are you sure you want to remove {{count}} user(s) from this profile?",
+                "ASSIGN_TITLE": "Assign Users",
+                "ASSIGN_MESSAGE": "Are you sure you want to assign {{count}} user(s) to this profile?"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "CREATED": "Profile created successfully",
+                    "UPDATED": "Profile updated successfully",
+                    "DELETED": "Profile deleted successfully",
+                    "ENABLED": "Profile enabled successfully",
+                    "DISABLED": "Profile disabled successfully",
+                    "REASSIGNED": "Users reassigned successfully",
+                    "RETIRED": "Users removed successfully",
+                    "AFFECTED": "Users assigned successfully"
+                },
+                "NO_SELECTION": "Please select at least one user"
+            },
+            "MODAL": {
+                "REASSIGN_TITLE": "Reassign Users",
+                "NEW_PROFILE": "New Profile",
+                "NEW_PROFILE_REQUIRED": "New profile is required",
+                "REASSIGN_MESSAGE": "{{count}} user(s) will be reassigned"
+            },
+            "USERS": {
+                "TITLE": "Profile Users",
+                "LABEL": "Users"
+            },
+            "ASSIGN": {
+                "TITLE": "Assign Users to Profile",
+                "LABEL": "Assign Users",
+                "ASSIGN_CONFIRMATION": "Do you want to assign this profile to these users?",
+                "UNASSIGN_CONFIRMATION": "Do you want to unassign this profile from these users?",
+                "ASSIGN_CONFIRMATION_TITLE": "Profile Assignment",
+                "UNASSIGN_CONFIRMATION_TITLE": "Profile Unassignment",
+                "ASSIGN_CONFIRMATION_MESSAGE": "This action is irreversible.",
+                "UNASSIGN_CONFIRMATION_MESSAGE": "This action is irreversible.",
+                "ASSIGN_CONFIRMATION_BUTTON": "Assign",
+                "UNASSIGN_CONFIRMATION_BUTTON": "Unassign",
+                "ASSIGN_CONFIRMATION_BUTTON_CANCEL": "Cancel",
+                "UNASSIGN_CONFIRMATION_BUTTON_CANCEL": "Cancel",
+                "ASSIGN_CONFIRMATION_BUTTON_ASSIGN": "Assign"
+            },
+            "OPTIONS": {
+                "PROFILE": {
+                    "ADMIN": "Administrator",
+                    "USER": "User"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            }
+        },
+        "ACCESS_LOGS": {
+            "TITLE": "Access Logs - CMZ Access Log Management",
+            "LABEL": "Access Logs",
+            "ROUTE": "access-logs",
+            "TABLE": {
+                "DATE": "Date",
+                "USER": "User",
+                "IP_ADDRESS": "IP Address",
+                "EVENT": "Event",
+                "ACTION": "Action",
+                "DETAILS": "Details"
+            },
+            "FILTER": {
+                "START_DATE": "Start Date",
+                "END_DATE": "End Date",
+                "USER": "User",
+                "SEARCH": "Search"
+            }
+        }
+    },
+    "TEAM_ORGANIZATION": {
+        "LABEL": "Time Organization",
+        "PARTICIPANT": {
+            "LABEL": "Agents",
+            "TITLE": "Agents - CMZ Agent Management",
+            "ROUTE": "agents",
+            "HEADER": {
+                "PLURAL": "agents",
+                "SINGULAR": "agent"
+            },
+            "TABS": {
+                "PARTICIPANTS": "Agents",
+                "HISTORY": "History"
+            },
+            "BUTTONS": {
+                "ADD": "Add"
+            },
+            "FILTER": {
+                "ROLE": "Role",
+                "MATRICULE": "Employee ID",
+                "FULLNAME": "Full Name",
+                "TEAM": "Team",
+                "STATUS": "Status",
+                "SELECT_PLACEHOLDER": "Select..."
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive",
+                    "ASSIGNED": "Assigned"
+                }
+            },
+            "MESSAGES": {
+                "ERROR": {
+                    "LOAD_ROLES": "Error loading roles",
+                    "LOAD_TEAMS": "Error loading teams"
+                },
+                "SUCCESS": {
+                    "CREATED": "Agent created successfully",
+                    "UPDATED": "Agent updated successfully",
+                    "DELETED": "Agent deleted successfully",
+                    "ENABLED": "Agent enabled successfully",
+                    "DISABLED": "Agent disabled successfully"
+                }
+            },
+            "FORM": {
+                "CREATE_TITLE": "Add Agent",
+                "EDIT_TITLE": "Edit Agent",
+                "TABS": {
+                    "IDENTIFICATION": "Identification",
+                    "HISTORY": "History"
+                },
+                "FIELDSET": {
+                    "PARTICIPANT_INFO": "Agent Information"
+                },
+                "FIELDS": {
+                    "NOM": "Last Name",
+                    "PRENOMS": "First Name",
+                    "USERNAME": "Login Name",
+                    "EMAIL": "Email",
+                    "CONTACTS": "Contact",
+                    "ADRESSE": "Address",
+                    "ROLE": "Role"
+                },
+                "PLACEHOLDERS": {
+                    "NOM": "Enter last name",
+                    "PRENOMS": "Enter first name",
+                    "USERNAME": "Enter login name",
+                    "EMAIL": "Enter email",
+                    "CONTACTS": "Enter contact",
+                    "ADRESSE": "Enter address",
+                    "ROLE": "Select a role"
+                },
+                "VALIDATION": {
+                    "NOM_REQUIRED": "Last name is required",
+                    "PRENOMS_REQUIRED": "First name is required",
+                    "USERNAME_REQUIRED": "Login name is required",
+                    "EMAIL_REQUIRED": "Email is required",
+                    "EMAIL_INVALID": "Email is invalid",
+                    "CONTACTS_REQUIRED": "Contact is required",
+                    "ROLE_REQUIRED": "Role is required"
+                }
+            },
+            "TABLE": {
+                "MATRICULE": "Employee ID",
+                "NOM": "Last Name",
+                "PRENOMS": "First Name",
+                "USERNAME": "Login Name",
+                "CONTACT": "Contact",
+                "ROLE": "Role",
+                "AFFECTE": "Assigned",
+                "STATUT": "Status",
+                "ACTION": "Action"
+            },
+            "ACTIONS": {
+                "VIEW": "View",
+                "EDIT": "Edit",
+                "DELETE": "Delete",
+                "ENABLE": "Enable",
+                "DISABLE": "Disable"
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "CONFIRM": {
+                "DELETE_TITLE": "Delete Agent",
+                "DELETE_MESSAGE": "Are you sure you want to delete this agent? This action is irreversible.",
+                "ENABLE_TITLE": "Enable Agent",
+                "ENABLE_MESSAGE": "Are you sure you want to enable this agent?",
+                "DISABLE_TITLE": "Disable Agent",
+                "DISABLE_MESSAGE": "Are you sure you want to disable this agent?"
+            }
+        },
+        "TEAM": {
+            "LABEL": "Teams",
+            "TITLE": "Teams - CMZ Team Management",
+            "ROUTE": "teams",
+            "HEADER": {
+                "PLURAL": "teams",
+                "SINGULAR": "team"
+            },
+            "BUTTONS": {
+                "ADD": "Add Team"
+            },
+            "FILTER": {
+                "CODE_NAME": "Name / Team Code",
+                "CODE_NAME_PLACEHOLDER": "Name or team code",
+                "PARTICIPANT": "Agent",
+                "STATUS": "Status",
+                "SELECT_PLACEHOLDER": "Select"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Add Team",
+                "EDIT_TITLE": "Edit Team",
+                "CODE": "Code",
+                "CODE_REQUIRED": "Code is required",
+                "NAME": "Name",
+                "NAME_REQUIRED": "Name is required",
+                "DESCRIPTION": "Description"
+            },
+            "MANAGEMENT_AFFECTED": {
+                "TITLE": "Assigned Management",
+                "FILTER": {
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "Code",
+                    "MATRICULE": "Employee ID",
+                    "MATRICULE_PLACEHOLDER": "Employee ID"
+                },
+                "TABLE": {
+                    "CODE": "Code",
+                    "TENANT_NAME": "Client Name",
+                    "ACCOUNT_CLIENT": "Client Account",
+                    "STATUS": "Status",
+                    "MATRICULE": "Employee ID",
+                    "FULL_NAME": "Full Name",
+                    "EMAIL": "Email",
+                    "CONTACTS": "Contacts"
+                },
+                "BUTTONS": {
+                    "ASSIGN": "Assign",
+                    "REASSIGN": "Reassign",
+                    "RETIRE": "Remove"
+                },
+                "MODAL": {
+                    "REASSIGN_PARTICIPANTS_TITLE": "Reassign Agents",
+                    "REASSIGN_PARTICIPANTS_MESSAGE": "{{count}} agent(s) will be reassigned",
+                    "NEW_TEAM": "New Team",
+                    "NEW_TEAM_REQUIRED": "New team is required"
+                },
+                "CONFIRM": {
+                    "RETIRE_TENANTS_TITLE": "Remove Clients",
+                    "RETIRE_TENANTS_MESSAGE": "Do you want to remove {{count}} client(s) from this team?",
+                    "RETIRE_PARTICIPANTS_TITLE": "Remove Agents",
+                    "RETIRE_PARTICIPANTS_MESSAGE": "Do you want to remove {{count}} agent(s) from this team?"
+                },
+                "MESSAGES": {
+                    "NO_SELECTION": "Please select at least one item"
+                }
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "MESSAGES": {
+                "STORE_SUCCESS": "Team created successfully",
+                "UPDATE_SUCCESS": "Team updated successfully",
+                "DELETE_SUCCESS": "Team deleted successfully",
+                "ENABLE_SUCCESS": "Team enabled successfully",
+                "DISABLE_SUCCESS": "Team disabled successfully",
+                "AFFECT_SUCCESS": "Assignment completed successfully",
+                "REASSIGN_SUCCESS": "Reassignment completed successfully",
+                "RETIRE_SUCCESS": "Removal completed successfully",
+                "ERROR": {
+                    "LOAD_PARTICIPANTS": "Error loading agents",
+                    "LOAD_TENANTS": "Error loading tenants"
+                }
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Name",
+                "TENANTS": "# Assigned Clients",
+                "PARTICIPANTS": "# Assigned Agents",
+                "STATUS": "Status",
+                "ACTION": "Action"
+            },
+            "ACTIONS": {
+                "VIEW": "View More",
+                "EDIT": "Edit",
+                "ENABLE": "Enable",
+                "DISABLE": "Disable",
+                "DELETE": "Delete",
+                "MANAGE_TENANTS": "Manage Assigned Clients",
+                "MANAGE_PARTICIPANTS": "Manage Assigned Agents"
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "CONFIRM": {
+                "ENABLE_TITLE": "Enable Team",
+                "ENABLE_MESSAGE": "Do you want to enable team {{ name }}?",
+                "DISABLE_TITLE": "Disable Team",
+                "DISABLE_MESSAGE": "Do you want to disable team {{ name }}?",
+                "DELETE_TITLE": "Delete Team",
+                "DELETE_MESSAGE": "Do you want to delete team {{ name }}? This action is irreversible."
+            }
+        },
+        "AGENT_IA": {
+            "LABEL": "AI Agents",
+            "TITLE": "AI Agents - CMZ AI Agent Management",
+            "ROUTE": "ai-agents"
+        }
+    },
+    "REPORTING": {
+        "BREADCRUMB": {
+            "LABEL": "Monitoring & Reporting",
+            "ROUTE": "reporting",
+            "ICON": "pi pi-chart-bar"
+        },
+        "LABEL": "Request Monitoring",
+        "REQUESTS": {
+            "BREADCRUMB": {
+                "LABEL": "Request Monitoring",
+                "ROUTE": "requests"
+            },
+            "TITLE": "Requests Analytical Dashboard",
+            "LABEL": "Requests",
+            "LOADING_DESCRIPTION": "Monitoring requests in progress...",
+            "ERROR_DESCRIPTION": "An error occurred while loading the requests dashboard. Please reload the page or contact support."
+        },
+        "REPORT": {
+            "BREADCRUMB": {
+                "LABEL": "Report Monitoring",
+                "ROUTE": "reports"
+            },
+            "TITLE": "Reports Analytical Dashboard",
+            "LABEL": "Report",
+            "LOADING_DESCRIPTION": "Monitoring reports in progress...",
+            "ERROR_DESCRIPTION": "An error occurred while loading the reports dashboard. Please reload the page or contact support."
+        },
+        "DASHBOARD": {
+            "ACTIONS": {
+                "EXIT_FULLSCREEN": "Exit Fullscreen Mode",
+                "ENTER_FULLSCREEN": "Enter Fullscreen Mode",
+                "RETRY": "Reload"
+            },
+            "LOADING": "Loading dashboard...",
+            "ERROR": "Dashboard Error"
+        }
+    },
+    "EXPORT": {
+        "TITLE": "Export",
+        "NO_DATA": "No data to export."
+    },
     "APP": {
         "TITLE": "Connect My Zone Back-office",
-        "DESCRIPTION": "Non-connected zones management system",
+        "DESCRIPTION": "Unconnected Zones Management System",
         "LOADING": "Loading application...",
         "BOOTSTRAP": {
-            "SUCCESS": "Application successfully bootstrapped",
-            "FAILED": "Failed to bootstrap application",
+            "SUCCESS": "Application started successfully",
+            "FAILED": "Application startup failed",
             "ERROR_TITLE": "Application Error",
-            "ERROR_MESSAGE": "Failed to load the application. Please refresh the page or contact support.",
+            "ERROR_MESSAGE": "Unable to load application. Please refresh the page or contact support.",
             "ERROR_UNKNOWN": "Unknown error",
             "PERFORMANCE_MEASUREMENT_FAILED": "Performance measurement failed"
         },
@@ -89,7 +2776,7 @@
         "SETTINGS": {
             "NOT_AVAILABLE": "Application settings not available",
             "CONFIGURED": "Application settings configured",
-            "CONFIGURATION_ERROR": "Error configuring application settings"
+            "CONFIGURATION_ERROR": "Error configuring settings"
         },
         "FAVICON": {
             "CONFIGURED": "Favicon configured: {url}",
@@ -99,8 +2786,8 @@
             "ERROR": "Error initializing application"
         },
         "ERROR": {
-            "GLOBAL": "Global Error",
-            "UNHANDLED_PROMISE_REJECTION": "Unhandled Promise Rejection"
+            "GLOBAL": "Global error",
+            "UNHANDLED_PROMISE_REJECTION": "Unhandled promise rejection"
         },
         "LOADING_BAR": {
             "ARIA_LABEL": "Loading in progress"
@@ -138,28 +2825,31 @@
             }
         },
         "FOOTER": {
-            "COPYRIGHT": "Copyright CSP"
+            "COPYRIGHT": "Copyright ANSUT"
         }
     },
     "AUTHENTICATION": {
         "TITLE": "Authentication",
         "UI": {
             "APP_TITLE": "Connect My Zone",
-            "APP_SUBTITLE": "Your Gateway to Digital Excellence",
+            "APP_SUBTITLE": "Back-Office",
             "CONNECTION": "Connection",
-            "CONNECT_BUTTON": "Connect",
-            "FORGOT_PASSWORD": "Forgot password?",
+            "CONNECT_BUTTON": "Sign In",
+            "FORGOT_PASSWORD": "Forgot Password",
             "FEATURES": {
                 "SECURE_ACCESS": "Secure Access",
+                "TREATMENT_AND_MONITORING_OF_REPORTS_PROCESSING": "Report Processing Monitoring and Treatment",
                 "REAL_TIME_DASHBOARD": "Real-time Dashboard",
-                "ADVANCED_ANALYTICS": "Advanced Analytics"
+                "TEAM_MANAGEMENT": "Team Management",
+                "EXTRACTION_OF_DATA": "Data Extraction",
+                "SETTINGS": "Settings & Security"
             }
         },
         "FORM": {
             "EMAIL": {
                 "LABEL": "Username",
-                "PLACEHOLDER": "app@yourmail.com",
-                "REQUIRED": "Email is required",
+                "PLACEHOLDER": "cmz@ansut.ci",
+                "REQUIRED": "Username is required",
                 "INVALID_FORMAT": "Invalid email format"
             },
             "PASSWORD": {
@@ -179,488 +2869,411 @@
             }
         }
     },
-    "USERNAME": "Username",
-    "LAST_NAME": "Last Name",
-    "FIRST_NAME": "First Name",
-    "CONNECTION": "Connection",
-    "FORGOT_PASSWORD": "Forgot password?",
-    "NO": "No",
-    "YES": "Yes",
-    "REQUESTS_SERVICE": "Service Requests",
-    "CUSTOMERS_ACTIVATE": "Customers activate",
-    "INVOICE_AMOUNT_NOTICE": "The amount of this invoice will be <strong style=\"color: #5B9BD5;\">registered in the billing system</strong>. Payment will be made later according to the agreed conditions.",
-    "CONFIRM_CLIENT_ABANDON": "Confirm client abandon",
-    "CONFIRM_CLIENT_MODIFICATION": "Confirm client modification",
-    "CONFIRM_CLIENT_CREATION": "Confirm client creation",
-    "IMAKO_SERVICE_REQUEST_GATEWAY": "IMAKO service request gateway",
-    "WEB_PORTAL_IMAKO": "IMAKO WEB PORTAL",
-    "STEP_1_DOWNLOAD_MODEL": "Step 1: Download model",
-    "STEP_2_IMPORT_FILE": "Step 2: Import file",
-    "STEP_3_CHECK_COHERENCE": "Step 3: Check coherence",
-    "I_CONFIRM_IMPORTED_NUMBERS_ARE_CONTRACTED": "I confirm imported numbers are contracted",
-    "DOWNLOAD_MODEL": "Download model",
-    "UPLOAD_FILE": "Upload file",
-    "CHECK_FILE": "Check file",
-    "FISCAL_DECLARATION": "Fiscal declaration",
-    "MORAL_DECLARATION": "Moral declaration",
-    "MANAGER_INFORMATION": "Manager information",
-    "PHONE_MANAGER_INFORMATION": "Phone manager information",
-    "REP_DG_INFORMATION": "Rep. / DG Information",
-    "MANAGER_INFORMATION2": "Manager Information",
-    "ADMINISTRATOR_INFORMATION": "Administrator Information [Phone Manager]",
-    "ESCALADE_INFORMATION": "Escalade information",
-    "IDENTITY_DOCUMENT": "Identity document",
-    "LEGAL_FORM": "Legal form",
-    "NUMBER_CC": "Num CC",
-    "NUMBER_OF_IMPORTED_SIM": "Number of imported SIM",
-    "ACTIVITY_DOMAIN": "Activity domain",
-    "CENTER": "Center",
-    "LOGO_ENTERPRISE": "Logo",
-    "PRIVATE_ENTERPRISE": "Private enterprise",
-    "REGIME": "Regime",
-    "INFORMATION_CUSTOMER": "Information customer",
-    "ADDRESS": "Address",
-    "SIM_CRITICAL_ALARMS": "SIM critical alarms",
-    "SIM_MAJOR_ALARMS": "SIM major alarms",
-    "SIM_MINOR_ALARMS": "SIM minor alarms",
-    "SIM_NORMAL_ALARMS": "SIM normal alarms",
-    "SIM_TERMINATED": "SIM terminated",
-    "SIM_SUSPENDED": "SIM suspended",
-    "SIM_ACTIVE": "SIM active",
-    "SIM_TOTAL": "SIM total",
-    "MY_ACCOUNT_STATEMENT": "my account statement",
-    "SLA_MANAGEMENT_CONTRACT": "SLA management contract",
-    "SUPERVISORY_PROFILES": "supervisory profiles",
-    "SUPERVISORY_REPOSITORY": "Supervisory repository",
-    "SLIP_ATTACHMENT": "Slip attachment",
-    "LAST_SLIP_ATTACHMENT": "Last slip attachment",
-    "MY_BALANCE": "My balance",
-    "PAYMENTS": "payments",
-    "MY_PAYMENTS": "My payments",
-    "DEPOSER": "Deposer",
-    "SHOOTER": "Shooter",
-    "ACCOUNT_RESERVED": "Account reserved",
-    "CLOSING": "Closing",
-    "ACCEPTED": "Accept",
-    "PATRIMONY": "Patrimony",
-    "REQUESTS_PRODUCTS": "Requests products",
-    "NUMBER_PHONE_APPLICANT": "Number phone of applicant",
-    "PRENAME_OF_APPLICANT": "Prename of applicant",
-    "NAME_OF_APPLICANT": "Name of applicant",
-    "NAME_OF_THE_PROFILE": "Name of the profile",
-    "DESCRIPTION_OF_THE_PROFILE": "Description of the profile",
-    "BANK": "Bank",
-    "AGENCY": "Agency",
-    "PASSWORD": "Password",
-    "ACCOUNT_HOLDER": "Account holder",
-    "THE_COMMENT_IS_REQUIRED": "The comment is required",
-    "NEWSPAPER": "Newspaper",
-    "DEMANDS_IN_WAITING": "demands in waiting",
-    "DEMANDS_TO_APPROVE": "demands to approve",
-    "TRANSACTIONS_IN_WAITING": "transactions in waiting",
-    "TRANSACTIONS_TO_APPROVE": "transactions to approve",
-    "THE_AMOUNT_OF_THE_DEPOSIT_WILL_BE_CARRIED_OVER_TO_YOUR_BALANCE": "The amount of the deposit will be carried over to your balance",
-    "THE_AMOUNT_OF_THE_CHEQUE_WILL_BE_CARRIED_OVER_TO_YOUR_BALANCE": "The amount of the cheque will be carried over to your balance",
-    "CHEQUE": "Cheque",
-    "SPECIE": "Specie",
-    "MODE_OF_CREDIT": "Mode of credit",
-    "TO_RECHARGE": "Charge",
-    "ACCOUNT_CREDITS": "account credits",
-    "MY_ACCOUNT_CREDITS": "My account credit",
-    "MY_RELOADS": "My reloads",
-    "MY_ACCOUNT": "My account",
-    "ACCOUNTING": "Accounting",
-    "UNIT_PRICE": "unit price",
-    "FILTER": "Filter",
-    "INVOICE": "Invoice",
-    "INVOICES": "Invoices",
-    "MY_INVOICES": "Invoices",
-    "DETECTION_SUPPLIES_DATA": "Detection of supplies data",
-    "DETECTION_SUPPLIES_SMS": "Detection of supplies sms",
-    "ALARM_ANALYSIS_DATA": "Alarm analysis data",
-    "ALARM_ANALYSIS_SMS": "Alarm analysis sms",
-    "SUPERVISION_SIM": "supervision of SIM",
-    "TREATMENT_MONITORING": "Treatment monitoring",
-    "CLEAR": "Clear",
-    "NOTIFICATIONS": "notifications",
-    "MY_NOTIFICATIONS": "My notification",
-    "MY_INBOX": "My inbox",
-    "NOTIFICATIONS_CENTER": "Notification center",
-    "SEE_REPORT": "See report",
-    "REPORT": "Report",
-    "DESCRIPTION": "Description",
-    "NOTIFICATION_TYPE": "Notification type",
-    "PAYMENT_TYPE": "Payment type",
-    "CUSTOMER_TYPE": "Customer type",
-    "ESCALADE": "escalade",
-    "RECEPTION": "Reception",
-    "SERVICE_DESCRIPTION": "sService description",
-    "SLA_AGREEMENTS": "SLA Agreements",
-    "INDICATORS_ALARMS": "Indicators Alarms",
-    "UNIT": "Unit",
-    "TYPE_OF_MEASURE": "type of measure",
-    "DESCRIPTION_MEASURE": "Description Measure",
-    "SERVICES": "services",
-    "RATE_USE": "Rate of use",
-    "USED": "Used",
-    "LOT_REFERENCE_NUMBER": "lot reference number",
-    "OUT": "out",
-    "SIZE": "Taille",
-    "FILE": "file",
-    "BALANCE": "balance",
-    "TRAFFIC_ZONE": "Traffic Zone",
-    "ALARM": "Alarm",
-    "STATUS_OF_BALANCE": "status of balances",
-    "THE_INFORMATION_OF_THE_CONNECTED_EQUIPMENT_WILL_BE_ATTACHED_TO_THE_SIM": "The information of the connected equipment will be attached to the SIM",
-    "THE_INFORMATION_OF_THIS_NATURAL_PERSON_WILL_BE_ATTACHED_TO_THE_SIM": "The information of this natural person will be attached to the SIM",
-    "DETAILS_OF_THE_SIM": "details of the {MSISDN}",
-    "QR_CODE_OF_THE_SIM": "QR CODE of the SIM {MSISDN}",
-    "CANNOT_SEE_THE_QR_CODE": "Cannot see the QR CODE",
-    "LOCATION_OF_THE_SIM": "Location of the SIM {MSISDN}",
-    "CANNOT_SEE_THE_LOCATION": "Cannot see the Location",
-    "IDENTIFICATION": "Identification",
-    "THIRD_LEVEL": "Third Level",
-    "SECOND_LEVEL": "Second Level",
-    "FIRST_LEVEL": "First Level",
-    "PLEASE_TAKE_BATCH": "Please take a batch",
-    "FORM_INVALID": "Form is invalid",
-    "SOURCE": "Source",
-    "DETAILS": "Details",
-    "DETAILS_OF_THE_CUSTOMER": "Details of the customer",
-    "OPERATION": "operation",
-    "HISTORY": "History",
-    "HISTORIES": "Histories",
-    "WHITE_SIMPLE": "white SIM",
-    "VALIDATE": "Validate",
-    "CONFIRM": "Confirm",
-    "COMMENT": "Comment",
-    "YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION": "You are about to abandon the transaction",
-    "YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST": "You are about to abandon the request",
-    "WOULD_YOU_LIKE_TO_QUEUE_THE_REQUEST": "Would you like to close the request",
-    "WOULD_YOU_LIKE_TO_MODIFY_THE_REQUEST": "Would you like to modify the request",
-    "COMMENT_OF_THE_ABANDONMENT": "Comment of the abandonment",
-    "COMMENT_ON_CLOSING": "Closing comment",
-    "COMMENT_ON_DELIVERY": "Comment on delivery",
-    "COMMENT_ON_FINALIZATION": "Comment on finalization",
-    "COMMENT_ON_APPROVAL": "Comment on approval",
-    "COMMENT_ON_THE_APPLICATION": "Comment on the Application",
-    "DOWNLOAD": "Download",
-    "DOWNLOADING": "downloading",
-    "NO_PAYMENTS": "no payments",
-    "DEBITED_FROM_YOUR_ACCOUNT": "debited from your account",
-    "DIFFERED_ON_THE_INVOICE": "Differed on the invoice",
-    "PAYMENT": "payment",
-    "DESTINATION_FORMULA": "Destination Formula",
-    "QUANTITY": "quantity",
-    "DESIGNATION": "designation",
-    "SUBMISSION": "submission",
-    "FULL_NAME": "Full name",
-    "FINALIST": "Finalist",
-    "LINES": "lines",
-    "DATE": "Date",
-    "EMAIL": "email",
-    "TELEPHONE": "Phone",
-    "CONTACT": "Contact",
-    "NAME": "Name",
-    "SET_DAILY_GOAL": "Set daily goal",
-    "NO_DATA_FOUND": "Data no found",
-    "NO_MATCH": "No match",
-    "DATE_TIME": "Date / Time",
-    "MASS_DEMAND": "Mass demand",
-    "MASS_IMPORTATION": "Mass importation",
-    "SIMPLE_DEMAND": "Simple demand",
-    "NUMBER_STATEMENT": "N° Statement",
-    "NUMBER_ACCOUNT": "N° Account ",
-    "NUMBER_CHEQUE": "N° Cheque",
-    "NUMBER_FOLDER": "N° Folder",
-    "NUMBER_COMMAND": "N° Command",
-    "NUMBER_TRANSACTION": "N° Transaction",
-    "NUMBER_REFERENCE": "N° Reference",
-    "SELECTION": "Selection",
-    "NUMBER_LINES": "# Lines",
-    "NUMBER_TREATED": "# Treated",
-    "NUMBER_IDENTIFIED": "# Identified",
-    "NUMBER_IMPORTED": "# Imported",
-    "NUMBER_FAILED": "# Failed",
-    "NUMBER_PRODUCTS": "# Products",
-    "APPLICANT": "Applicant",
-    "STEP": "Step",
-    "STATE": "State",
-    "COPIED_TO_THE_CLIPBOARD": "Copied to the clipboard",
-    "COPY": "Copy",
-    "STOP_OR_CHANGE": "stop, or change",
-    "REFRESH": "Refresh",
-    "RESEARCH": "Research",
-    "COMMERCIAL_ENTERPRISE": "Commercial enterprises",
-    "PUBLIC_ENTERPRISES": "Public enterprises",
-    "ASSOCIATION_ENTERPRISES": "Association enterprises",
-    "INDIVIDUALS": "Individuals",
-    "ASSOCIATION": "Association / NGO",
-    "CUSTOMERS": "Customers",
-    "CUSTOMER": "Customer",
-    "CUSTOMER_ACCOUNT": "Customer account",
-    "ACCOUNT": "Account",
-    "CODE": "Code",
-    "ACCOUNT_MANAGER": "Account manager",
-    "FOLDERS": "Folders",
-    "FOLDER": "Dossier",
-    "MSISDN": "MSISDN",
-    "IMSI": "IMSI",
-    "APN": "APN",
-    "IP_ADDRESS": "IP address",
-    "START_DATE": "Start date",
-    "END_DATE": "End date",
-    "STATUS": "Status",
-    "DEMAND": "Demand",
-    "AVAILABLE": "available",
-    "IN_TREATMENT": "in treatment",
-    "COMPLETED": "completed",
-    "TO_APPROVE": "to approve",
-    "APPROVAL": {
-        "TITLE": "Approvals",
-        "LABEL": "Approval",
-        "TABLE": {
-            "CREATED_AT": "Created at",
-            "UNIQ_ID": "Unique ID",
-            "REPORT_TYPE": "Report type",
-            "OPERATORS": "Operators",
-            "STATE": "State",
-            "STEP": "Step",
-            "SEE_MORE": "See more"
+    "PASSWORD_RESET": {
+        "UI": {
+            "FORGOT_PASSWORD_TITLE": "Forgot Password",
+            "FORGOT_PASSWORD_SUBTITLE": "Enter your email address and we'll send you a link to reset your password",
+            "RESET_PASSWORD_TITLE": "Password Reset",
+            "RESET_PASSWORD_SUBTITLE": "Enter your new password"
         },
-        "FILTER": {
-            "REPORT_TYPE": "Report type",
-            "STATE": "State",
-            "OPERATOR": "Operator"
-        },
-        "OPTIONS": {
-            "REPORT_TYPE": {
-                "PARTIAL_SIGNAL": "Partial signal coverage",
-                "WHITE_ZONE": "White zone",
-                "NO_INTERNET": "No internet"
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Email Address",
+                "PLACEHOLDER": "cmz@ansut.ci",
+                "REQUIRED": "Email address is required",
+                "INVALID_FORMAT": "Email address must be valid"
             },
-            "STATE": {
-                "APPROVED": "Approved",
-                "RECEIVED": "Received",
-                "REJECTED": "Rejected"
+            "PASSWORD": {
+                "LABEL": "New Password",
+                "REQUIRED": "Password is required",
+                "MIN_LENGTH": "Password must contain at least 6 characters",
+                "MISMATCH": "Passwords must match"
             },
-            "OPERATOR": {
-                "ORANGE": "Orange",
-                "MTN": "MTN",
-                "MOOV": "Moov"
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirm Password",
+                "REQUIRED": "Password confirmation is required"
             }
         },
-        "LABELS": {
+        "BUTTONS": {
+            "RESET": "Reset",
+            "CONFIRM": "Confirm",
+            "CANCEL": "Cancel",
+            "BACK_TO_LOGIN": "Back to Login",
+            "RESEND": "Resend",
+            "LOADING": "Loading..."
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "EMAIL_SENT": "Email sent successfully",
+                "EMAIL_SENT_MESSAGE": "If the email address you provided matches an account in our system, you will soon receive an email with instructions to reset your password. Please check your inbox.",
+                "PASSWORD_RESET": "Password reset successfully"
+            },
+            "NOT_RECEIVED": "Haven't received the email?",
+            "ERROR": {
+                "FAILED": "Password reset failed",
+                "UNABLE_TO_COMPLETE_REQUEST": "Unable to complete request",
+                "UNABLE_TO_COMPLETE_RESET": "Unable to complete reset"
+            }
+        }
+    },
+    "DASHBOARD": {
+        "TITLE": "Dashboard",
+        "UPDATED_DATE": "Last Updated",
+        "NO_DATE": "Not Available",
+        "REFRESH": "Refresh",
+        "LOADING": "Loading statistics...",
+        "NO_DATA": "No data available",
+        "FILTER": {
+            "PERIOD_LABEL": "Period",
+            "PERIOD_INDICATOR": "Days"
+        },
+        "ERROR": {
+            "LOAD_DATA": "Error loading dashboard data"
+        },
+        "SECTIONS": {
+            "OVERVIEW": {
+                "TITLE": "Overview",
+                "PENDING_REPORTS_PROCESSING": {
+                    "LABEL": "Pending",
+                    "SUBTITLE": "Reports in queue"
+                },
+                "IN_TREATMENT_REPORTS_PROCESSING": {
+                    "LABEL": "In Treatment",
+                    "SUBTITLE": "Reports under treatment"
+                },
+                "QUEUED_REPORTS_PROCESSING": {
+                    "LABEL": "Closed",
+                    "SUBTITLE": "Closed reports"
+                }
+            },
             "STATUS": {
-                "SUBMISSION": "Submission",
-                "PROCESSING": "Processing",
-                "CLOSURE": "Closure"
+                "TITLE": "By Status",
+                "APPROVED_REPORTS_PROCESSING": {
+                    "LABEL": "Approved",
+                    "SUBTITLE": "Approved reports"
+                },
+                "REJECTED_REPORTS_PROCESSING": {
+                    "LABEL": "Rejected",
+                    "SUBTITLE": "Rejected reports"
+                },
+                "FINALIZED_REPORTS_PROCESSING": {
+                    "LABEL": "Finalized",
+                    "SUBTITLE": "Finalized reports"
+                }
             },
-            "SUBMISSION_STATE": {
-                "PENDING": "Pending",
-                "ACKNOWLEDGED": "Acknowledged",
-                "VALIDATED": "Validated"
+            "TYPE": {
+                "TITLE": "Report Type",
+                "TOTAL_REPORTS_PROCESSING": {
+                    "LABEL": "Total Reports",
+                    "SUBTITLE": "All reports combined"
+                },
+                "PARTIAL_OPERATOR_REPORTS_PROCESSING": {
+                    "LABEL": "Partial Operator Coverage",
+                    "SUBTITLE": "Partial operator coverage reports"
+                },
+                "WHITE_ZONE_REPORTS_PROCESSING": {
+                    "LABEL": "White Zone",
+                    "SUBTITLE": "White zone reports"
+                },
+                "PARTIAL_SIGNAL_REPORTS_PROCESSING": {
+                    "LABEL": "Partial Signal Coverage",
+                    "SUBTITLE": "Partial signal coverage reports"
+                },
+                "NO_INTERNET_REPORTS_PROCESSING": {
+                    "LABEL": "No Internet",
+                    "SUBTITLE": "No internet reports"
+                }
             },
-            "PROCESSING_STATE": {
-                "RECEIVED": "Received",
-                "IN_PROGRESS": "In progress",
-                "COMPLETED": "Completed"
+            "TASK_STATUS": {
+                "TITLE": "Pending Task Queue Status",
+                "PENDING": {
+                    "LABEL": "Pending",
+                    "SUBTITLE": "Reports pending qualification"
+                },
+                "IN_PROGRESS": {
+                    "LABEL": "In Treatment",
+                    "SUBTITLE": "Reports pending assignment"
+                },
+                "TREATED": {
+                    "LABEL": "Treated",
+                    "SUBTITLE": "Reports under treatment"
+                },
+                "FINALIZED": {
+                    "LABEL": "Finalized",
+                    "SUBTITLE": "Reports pending finalization"
+                },
+                "EVALUATED": {
+                    "LABEL": "Evaluated",
+                    "SUBTITLE": "Reports pending evaluation"
+                }
             },
-            "STATE": {
-                "OPEN": "Open",
-                "IN_REVIEW": "In review",
-                "QUEUED": "Closed"
+            "PERFORMANCE": {
+                "TITLE": "Performance & Metrics",
+                "TREATMENT_RATE": {
+                    "LABEL": "Treatment Rate",
+                    "SUBTITLE": "Percentage of treated reports"
+                },
+                "COMPLETION_RATE": {
+                    "LABEL": "Completion Rate",
+                    "SUBTITLE": "Percentage of completed reports"
+                },
+                "AVERAGE_TREATMENT_TIME": {
+                    "LABEL": "Average Processing Time",
+                    "SUBTITLE": "Average treatment time (days)"
+                },
+                "RESPONSE_TIME": {
+                    "LABEL": "Response Time",
+                    "SUBTITLE": "Average response time (hours)"
+                }
             }
         }
     },
-    "TREATMENT": {
-        "TITLE": "Treatments",
-        "LABEL": "Treatment",
-        "TABLE": {
-            "CREATED_AT": "Created at",
-            "UNIQ_ID": "Unique ID",
-            "REPORT_TYPE": "Report type",
-            "OPERATORS": "Operators",
-            "STATE": "State",
-            "SEE_MORE": "See more",
-            "JOURNAL": "Journal"
-        },
-        "FILTER": {
-            "REPORT_TYPE": "Report type",
-            "STATE": "State",
-            "OPERATOR": "Operator"
-        },
-        "OPTIONS": {
-            "REPORT_TYPE": {
-                "PARTIAL_SIGNAL": "Partial signal coverage",
-                "WHITE_ZONE": "White zone",
-                "NO_INTERNET": "No internet"
+    "TEAM_ORGANIZATION_EXTRA": {
+        "PARTICIPANT": {
+            "LABEL": "Agents",
+            "TITLE": "Agents - CMZ Agent Management",
+            "FILTER": {
+                "ROLE": "Role",
+                "MATRICULE": "Employee ID",
+                "FULLNAME": "Name",
+                "TEAM": "Team",
+                "STATUS": "Status",
+                "SELECT_PLACEHOLDER": "Select"
             },
-            "STATE": {
-                "TERMINATED": "Terminated",
-                "IN_PROGRESS": "In progress",
-                "REJECTED": "Rejected"
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive",
+                    "ASSIGNED": "Assigned"
+                }
             },
-            "OPERATOR": {
-                "ORANGE": "Orange",
-                "MTN": "MTN",
-                "MOOV": "Moov"
+            "MESSAGES": {
+                "ERROR": {
+                    "LOAD_ROLES": "Error loading roles",
+                    "LOAD_TEAMS": "Error loading teams"
+                }
+            }
+        },
+        "TEAM": {
+            "LABEL": "Teams",
+            "TITLE": "Teams - CMZ Team Management",
+            "FILTER": {
+                "CODE_NAME": "Name / Team Code",
+                "CODE_NAME_PLACEHOLDER": "Name or team code",
+                "PARTICIPANT": "Agent",
+                "STATUS": "Status",
+                "SELECT_PLACEHOLDER": "Select"
+            },
+            "BUTTONS": {
+                "ADD": "Add Team"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Add Team",
+                "EDIT_TITLE": "Edit Team",
+                "CODE": "Code",
+                "CODE_REQUIRED": "Code is required",
+                "NAME": "Name",
+                "NAME_REQUIRED": "Name is required",
+                "DESCRIPTION": "Description",
+                "DESCRIPTION_REQUIRED": "Description is required"
+            },
+            "MANAGEMENT_AFFECTED": {
+                "TITLE": "Assigned Management"
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "MESSAGES": {
+                "STORE_SUCCESS": "Team created successfully",
+                "UPDATE_SUCCESS": "Team updated successfully",
+                "DELETE_SUCCESS": "Team deleted successfully",
+                "ENABLE_SUCCESS": "Team enabled successfully",
+                "DISABLE_SUCCESS": "Team disabled successfully",
+                "AFFECT_SUCCESS": "Assignment completed successfully",
+                "REASSIGN_SUCCESS": "Reassignment completed successfully",
+                "RETIRE_SUCCESS": "Removal completed successfully",
+                "ERROR": {
+                    "LOAD_PARTICIPANTS": "Error loading agents",
+                    "LOAD_TENANTS": "Error loading tenants"
+                }
+            },
+            "TABLE": {
+                "ARIA_LABEL": "Teams table",
+                "CODE": "Code",
+                "NAME": "Name",
+                "TENANTS": "# Assigned Clients",
+                "PARTICIPANTS": "# Assigned Agents",
+                "STATUS": "Status",
+                "ACTION": "Action"
+            },
+            "ACTIONS": {
+                "VIEW": "View More",
+                "EDIT": "Edit",
+                "ENABLE": "Enable",
+                "DISABLE": "Disable",
+                "DELETE": "Delete",
+                "MANAGE_TENANTS": "Manage Assigned Clients",
+                "MANAGE_PARTICIPANTS": "Manage Assigned Agents"
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "HEADER": {
+                "PLURAL": "Teams",
+                "SINGULAR": "Team"
+            },
+            "CONFIRM": {
+                "ENABLE_TITLE": "Enable Team",
+                "ENABLE_MESSAGE": "Do you want to enable team {{ name }}?",
+                "DISABLE_TITLE": "Disable Team",
+                "DISABLE_MESSAGE": "Do you want to disable team {{ name }}?",
+                "DELETE_TITLE": "Delete Team",
+                "DELETE_MESSAGE": "Do you want to delete team {{ name }}? This action is irreversible."
+            }
+        },
+        "AGENT_IA": {
+            "LABEL": "AI Agents",
+            "TITLE": "AI Agents - CMZ AI Agent Management",
+            "FILTER": {
+                "CODE_NAME": "Name / Agent Code",
+                "CODE_NAME_PLACEHOLDER": "Name or agent code",
+                "STATUS": "Status",
+                "SELECT_PLACEHOLDER": "Select"
+            },
+            "BUTTONS": {
+                "ADD": "Add AI Agent"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Add AI Agent",
+                "EDIT_TITLE": "Edit AI Agent",
+                "CODE": "Code",
+                "CODE_REQUIRED": "Code is required",
+                "NAME": "Name",
+                "NAME_REQUIRED": "Name is required",
+                "DESCRIPTION": "Description"
+            },
+            "MANAGEMENT_AFFECTED": {
+                "TITLE": "Assigned Management"
+            },
+            "OPTIONS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "MESSAGES": {
+                "STORE_SUCCESS": "AI Agent created successfully",
+                "UPDATE_SUCCESS": "AI Agent updated successfully",
+                "DELETE_SUCCESS": "AI Agent deleted successfully",
+                "ENABLE_SUCCESS": "AI Agent enabled successfully",
+                "DISABLE_SUCCESS": "AI Agent disabled successfully",
+                "AFFECT_SUCCESS": "Assignment completed successfully",
+                "REASSIGN_SUCCESS": "Reassignment completed successfully",
+                "RETIRE_SUCCESS": "Removal completed successfully",
+                "ERROR": {
+                    "LOAD_TENANTS": "Error loading tenants"
+                }
+            },
+            "TABLE": {
+                "ARIA_LABEL": "AI Agents table",
+                "CODE": "Code",
+                "NAME": "Name",
+                "TENANTS": "# Assigned Clients",
+                "STATUS": "Status",
+                "ACTION": "Action"
+            },
+            "ACTIONS": {
+                "VIEW": "View More",
+                "EDIT": "Edit",
+                "ENABLE": "Enable",
+                "DISABLE": "Disable",
+                "DELETE": "Delete",
+                "MANAGE_TENANTS": "Manage Assigned Clients"
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Active",
+                    "INACTIVE": "Inactive"
+                }
+            },
+            "HEADER": {
+                "PLURAL": "AI Agents",
+                "SINGULAR": "AI Agent"
+            },
+            "CONFIRM": {
+                "ENABLE_TITLE": "Enable AI Agent",
+                "ENABLE_MESSAGE": "Do you want to enable AI Agent {{ name }}?",
+                "DISABLE_TITLE": "Disable AI Agent",
+                "DISABLE_MESSAGE": "Do you want to disable AI Agent {{ name }}?",
+                "DELETE_TITLE": "Delete AI Agent",
+                "DELETE_MESSAGE": "Do you want to delete AI Agent {{ name }}? This action is irreversible."
             }
         }
     },
-    "QUEUES": {
-        "TITLE": "Closures",
-        "LABEL": "Closure",
-        "TABLE": {
-            "CREATED_AT": "Created at",
-            "UNIQ_ID": "Unique ID",
-            "REPORT_TYPE": "Report type",
-            "OPERATORS": "Operators",
-            "STATE": "State",
-            "ACTION": "Action",
-            "JOURNAL": "Journal"
-        },
-        "FILTER": {
-            "REPORT_TYPE": "Report type",
-            "STATE": "State",
-            "OPERATOR": "Operator"
-        },
-        "OPTIONS": {
-            "REPORT_TYPE": {
-                "PARTIAL_SIGNAL": "Partial signal coverage",
-                "WHITE_ZONE": "White zone",
-                "NO_INTERNET": "No internet"
+    "PARAMETRE_SECURITE": {
+        "TITLE": "Security Settings",
+        "LABEL": "Security Settings",
+        "PROFIL_HABILITATION": {
+            "TITLE": "Permission Profiles",
+            "LABEL": "Permission Profiles",
+            "TABLE": {
+                "INDEX": "#",
+                "NOM": "Name",
+                "DESCRIPTION": "Description",
+                "USERS_COUNT": "# Users",
+                "STATUT": "Status",
+                "CREATED_AT": "Created On",
+                "ACTION": "Action"
             },
-            "STATE": {
-                "ACCEPTED": "Accepted",
-                "PENDING": "Pending",
-                "REJECTED": "Rejected"
+            "STATUT": {
+                "ACTIF": "Active",
+                "INACTIF": "Inactive"
+            }
+        },
+        "JOURNAL_AUTHENTICATION": {
+            "TITLE": "Authentication Log",
+            "LABEL": "Authentication Log",
+            "TABLE": {
+                "INDEX": "#",
+                "CREATED_AT": "Date",
+                "USERNAME": "Username",
+                "ACTION": "Action",
+                "IP_ADDRESS": "IP Address",
+                "USER_AGENT": "User Agent"
             },
-            "OPERATOR": {
-                "ORANGE": "Orange",
-                "MTN": "MTN",
-                "MOOV": "Moov"
+            "FILTER": {
+                "USER": "User"
+            }
+        },
+        "JOURNAL_POINTAGE": {
+            "TITLE": "Time Tracking Log",
+            "LABEL": "Time Tracking Log",
+            "TABLE": {
+                "INDEX": "#",
+                "DATE": "Date",
+                "USERNAME": "Username",
+                "HEURE_ENTREE": "Entry Time",
+                "HEURE_SORTIE": "Exit Time",
+                "STATUT": "Status",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "USER": "User",
+                "STATUT": "Status"
+            },
+            "OPTIONS": {
+                "STATUT": {
+                    "DEMARRE": "Started",
+                    "CLOTURE": "Closed",
+                    "BLOQUE": "Blocked"
+                }
             }
         }
-    },
-    "APPROVE": "approve",
-    "SOLVE": "solve",
-    "MAKE_A_PAYMENT": "make a payment",
-    "MODIFY_THE_PAYMENT": "modify the payment",
-    "CANNOT_MAKE_A_PAYMENT": "cannot make a payment",
-    "CANNOT_MODIFY_THE_PROFILE": "cannot modify the profile",
-    "CANNOT_AFFECT_THE_PROFILE": "cannot affect the profile",
-    "INVALID_DATE_RANGE": "invalid date range",
-    "SOMETHING_WENT_WRONG": "something went wrong",
-    "EDIT_SUCCESSFULLY_ADDED": "edit successfully added",
-    "UPDATED_CHANGE": "Updated change",
-    "SAVE": "Save",
-    "ABANDON": "Abandon",
-    "TO_ABANDON": "Abandon",
-    "MATRICULE": "Matricule",
-    "SELECT": "Select",
-    "TO_DELIVER": "to deliver",
-    "SLA_KO": "SLA KO",
-    "SLA": "SLA",
-    "TO_CLOSURE": "to closure",
-    "CLOSURE": "Closure",
-    "CLAIMS": "Claims",
-    "MY_CLAIMS": "My claims",
-    "CLAIM": "Claim",
-    "SATISFACTION_RATE": "Satisfaction rate",
-    "STOCK_SOURCE_SIM_CARD": "Stock source SIM card",
-    "ORANGE_STOCK": "Orange stock",
-    "MY_STOCK": "My stock",
-    "ORANGE_WILL_PROVIDE_THE_SIM_CARDS": "Orange will provide the SIM cards",
-    "THE_SUBSCRIPTION_WILL_BE_MADE_ON_THE_SIM_CARDS_IN_MY_POSSESSION": "The subscription will be made on the SIM cards in my possession",
-    "INFORMATION_REQUEST": "Informations request",
-    "INFORMATION_CLAIM": "Informations claim",
-    "MESSAGES": "Messages",
-    "NUMBER": "Number",
-    "USAGE": "Usage",
-    "SUBSCRIPTION_FORMULA": "Subscription formula",
-    "FORMULA_SIM_AMOUNT": "Formula/SIM amount",
-    "PU": "PU",
-    "BALANCE_PRIOR": "balance prior",
-    "BALANCE_AFTER": "balance after",
-    "AMOUNT": "Amount",
-    "NET_AMOUNT": "net amount",
-    "GROSS_AMOUNT": "gross amount",
-    "MAIL_OR_DOCUMENT": "Mail or Document",
-    "ALLOCATION_INFORMATION": "allocation information",
-    "NAME_LOCATION": "Name Location",
-    "EMAIL_ADDRESS": "email address",
-    "COMMERCIAL_NAME": "Commercial name (CN)",
-    "CLIENT_INFORMATION": "Client information",
-    "CLIENT_ABREVIATION": "Abbreviation of CN",
-    "GEOGRAPHICAL_ADDRESS": "Geographical address",
-    "LATITUDE": "Latitude",
-    "LONGITUDE": "Longitude",
-    "REQUEST_DESCRIPTION": "request description",
-    "DETAILS_OF_THE_REQUEST": "details of the request",
-    "DETAILS_OF_THE_CLAIM": "details of the claim",
-    "SIM_OF_THE_REQUEST": "SIM of the request",
-    "CANNOT_SEE_THE_SIM": "Cannot see the SIM",
-    "MANAGERS": "Managers",
-    "MANAGER": "Manager",
-    "TAKEN": "Taken",
-    "TASKS": "TASKS",
-    "TO_FINALIZE": "to finalize",
-    "PROCESSED": "Processed",
-    "PRODUCTS": "Products",
-    "TO_TREATED": "To Treated",
-    "BASKET_CAPACITY": "basket capacity",
-    "BASKET": "basket",
-    "GLOBAL": "Global",
-    "TOTAL": "Total",
-    "RECEIVED": "received",
-    "IN_PROGRESS": "en progress",
-    "FINALIZATION": "Finalization",
-    "CONNECTED": "connected",
-    "ADV": "ADV",
-    "LOT": "Lot",
-    "ACTIONS": "Actions",
-    "LAST_90_DAYS": "over the last 90 days",
-    "Supervisor": "Supervisor",
-    "SUPERVISORS": "Supervisors",
-    "USER": "User",
-    "USERS": "Users",
-    "CUSTOMERS_MANAGED": "Managed customers",
-    "CUSTOMERS_B2B": "Customers B2B",
-    "MOBILE_SUBSCRIPTIONS": "Mobile subscriptions",
-    "CUSTOMERS_SUBSCRIPTIONS": "Customers Activation",
-    "SIM_IMPORTATION": "Importations SIM",
-    "CONFIRM_THE_TRANSACTION_BY": "Confirm the transaction by",
-    "CONFIRM_THE_REQUEST_FOR": "Confirm the importation for",
-    "CONFIRM_THE_IMPORTATION_FOR": "Confirm the request for",
-    "SIM_CARD": "SIM card",
-    "SIM_CARDS": "SIM cards",
-    "MY_SIM_CARDS": "My SIM cards",
-    "CREATE": "Create",
-    "UPDATED_DATE": "Updated Date ",
-    "VIEW": "View",
-    "VIEW_MORE": "View more",
-    "DASHBOARD_UPDATED_DATE": "TB Updated Date",
-    "DASHBOARD": "Dashboard",
-    "DASHBOARD_TITLE": "General view - Dashboard",
-    "HANDLE_ACTIVATE_CUSTOMER": "Do you want to activate the customer nom_tenant",
-    "HANDLE_DISABLE_CUSTOMER": "Do you want to Disable the customer nom_tenant",
-    "TRACKING_PROCESSING": "Tracking & Processing",
-    "MOBILE_SUBSCRIPTION": "Mobile subscription",
-    "WHITE_SIM": "White SIM",
-    "SIM_ORDERS": "SIM orders",
-    "EDIT_THE_PROFILE": "Edit the profile",
-    "AFFECT_THE_PROFILE": "Affect the profile",
-    "DETAILS_ACCOUNT_CREDIT_TRANSACTION": "Details of the account credit transaction",
-    "EDIT_ACCOUNT_CREDIT_TRANSACTION": "Edit the account credit transaction",
-    "ACCOUNT_CREDIT_TRANSACTION": "account credit transactions",
-    "ACCOUNT_RELOAD_FORM": "Account credit transaction",
-    "CAUSE_OF_COMPLAINT": "cause of complaint",
-    "CAUSE": "Motif",
-    "SIM_CARD_SUBSCRIPTION_ADD_ON_REQUEST_FORM": "SIM Card Subscription Bulk Add-on Form",
-    "SIMPLE_SIM_CARD_SUBSCRIPTION_ADD_ON_REQUEST_FORM": "Simple SIM Card Subscription Add-on Request Form",
-    "WHITE_SIM_BULK_ADD_ON_FORM": "White SIM bulk Add-on form",
-    "WHITE_SIM_SIMPLE_ADD_ON_FORM": "White SIM Simple Add-on Form",
-    "LIST_OF_AVAILABLE_WHITE_SIM_BUNDLES": "List of available white SIM bundles",
-    "NUMBER_OF_ELEMENTS_SELECTED": "Number of elements selected"
+    }
 }

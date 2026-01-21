@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { LayoutService } from '@shared/services/layout.service';
 import { NavService } from '@shared/services/nav.service';
+import { LanguagesComponent } from './elements/languages/languages.component';
 import { MyAccountComponent } from './elements/my-account/my-account.component';
 
 @Component({
@@ -12,7 +13,7 @@ import { MyAccountComponent } from './elements/my-account/my-account.component';
     standalone: true,
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    imports: [CommonModule, MyAccountComponent, TranslateModule],
+    imports: [CommonModule, MyAccountComponent, LanguagesComponent, TranslateModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
@@ -22,9 +23,9 @@ export class HeaderComponent {
         public layout: LayoutService,
         public navServices: NavService,
         private router: Router
-    ) {}
+    ) { }
 
-    public handleRefreshNotification(): void {}
+    public handleRefreshNotification(): void { }
 
     statusLayout(): boolean {
         return localStorage.getItem('layout') === 'Barcelona';

@@ -41,7 +41,7 @@ import { ButtonModule } from 'primeng/button';
                     @if (labelOther) {
                         <span>{{ labelOther | translate }}</span>
                     } @else {
-                        <span>{{ 'CREATE' | translate }}</span>
+                        <span>{{ 'COMMON.CREATE' | translate }}</span>
                     }
                 </button>
             }
@@ -51,11 +51,11 @@ import { ButtonModule } from 'primeng/button';
                     [class.p-disabled]="disabledButtonRefresh"
                     class="btn btn-dark"
                     [attr.aria-label]="
-                        showLabels ? null : ('REFRESH' | translate)
+                        showLabels ? null : ('COMMON.REFRESH' | translate)
                     "
                     (click)="onRefresh()"
                 >
-                    <span *ngIf="showLabels">{{ 'REFRESH' | translate }}</span>
+                    <span *ngIf="showLabels">{{ 'COMMON.REFRESH' | translate }}</span>
                 </button>
             }
             @if (!hiddenButtonExport) {
@@ -64,12 +64,12 @@ import { ButtonModule } from 'primeng/button';
                     [class.p-disabled]="disabledButtonExport"
                     class="btn btn-success"
                     [attr.aria-label]="
-                        showLabels ? null : ('EXPORT.TITLE' | translate)
+                        showLabels ? null : ('COMMON.EXPORT' | translate)
                     "
                     (click)="onExport()"
                 >
                     <span *ngIf="showLabels">{{
-                        'EXPORT.TITLE' | translate
+                        'COMMON.EXPORT' | translate
                     }}</span>
                 </button>
             }

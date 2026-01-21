@@ -2,7 +2,7 @@ export const PRIVACY_POLICY_TABLE_CONST = {
     cols: [
         {
             field: '__index',
-            header: 'TABLE.COMMON.INDEX',
+            header: 'COMMON.INDEX',
             class: 'text-center',
             width: '2rem',
         },

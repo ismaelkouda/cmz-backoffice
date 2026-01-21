@@ -1395,6 +1395,7 @@
         .page-header {
             margin-left: $sidebar-compact-width;
             width: calc(100% - $sidebar-compact-width);
+            transition: 0.5s;
 
             &.close_icon {
                 // margin-left: 110px;
@@ -1431,7 +1432,7 @@
                     border-bottom-right-radius: 20px;
                     .logo-wrapper,
                     .logo-icon-wrapper {
-                        padding: 27px 30px 0px;
+                        /* padding: 27px 30px 0px; */
                         box-shadow: -9px 0 20px rgba($semi-dark, 0.1);
                     }
 
@@ -1567,6 +1568,7 @@
                             transform: translate(183px);
                         }
 
+                        ~ .page-header,
                         ~ .page-body,
                         ~ footer {
                             // margin-left: 110px;
@@ -2230,7 +2232,7 @@
             }
 
             .page-body {
-                min-height: calc(95vh - 80px);
+                /* min-height: calc(95vh - 80px); */
                 margin-top: 80px;
                 margin-left: $sidebar-compact-width;
                 animation: pagebody 1000ms ease-in-out;

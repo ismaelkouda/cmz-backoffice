@@ -1,8 +1,7 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2026-01-16T15:55:16.206Z
+// Generated at: 2026-01-20T19:03:17.168Z
 
 export interface AppConfig {
-    verifyIdentityDocumentUrl: string;
     authenticationUrl: string;
     reportUrl: string;
     settingUrl: string;
@@ -41,7 +40,6 @@ declare global {
 // Environment-specific configurations
 export const ENVIRONMENTS = {
   "dev": {
-    "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
     "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
     "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
     "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
@@ -65,7 +63,6 @@ export const ENVIRONMENTS = {
     }
   },
   "cloud": {
-    "verifyIdentityDocumentUrl": "https://localhost/",
     "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
     "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
     "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
@@ -88,7 +85,6 @@ export const ENVIRONMENTS = {
     }
   },
   "cmz_dev": {
-    "verifyIdentityDocumentUrl": "https://localhost/",
     "authenticationUrl": "https://api-services.mazone-test.ansut.ci/auth/v1.0/backoffice/",
     "reportUrl": "https://api-services.mazone-test.ansut.ci/reports/v1.0/backoffice/",
     "settingUrl": "https://api-services.mazone-test.ansut.ci/base-settings/v1.0/backoffice/",
@@ -111,7 +107,6 @@ export const ENVIRONMENTS = {
     }
   },
   "test": {
-    "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
     "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
     "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
     "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
@@ -120,7 +115,6 @@ export const ENVIRONMENTS = {
     "enableDebug": true
   },
   "prod": {
-    "verifyIdentityDocumentUrl": "https://sim-monitoring.cateli.io:8013/",
     "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
     "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
     "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",

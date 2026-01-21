@@ -5,7 +5,7 @@ import {
     isInternalUrl,
     isStaticAssetRequest,
     pickBaseForRelativeEndpoint,
-} from './utils/request-filter.util';
+} from './utils/interceptor-request-filter.util';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);

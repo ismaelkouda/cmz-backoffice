@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 const configSchema = Joi.object({
-    verifyIdentityDocumentUrl: Joi.string().uri().required(),
     authenticationUrl: Joi.string().uri().required(),
     reportUrl: Joi.string().uri().required(),
     settingUrl: Joi.string().uri().required(),
@@ -48,7 +47,6 @@ export function generateTypes(config) {
 // Generated at: ${new Date().toISOString()}
 
 export interface AppConfig {
-    verifyIdentityDocumentUrl: string;
     authenticationUrl: string;
     reportUrl: string;
     settingUrl: string;
