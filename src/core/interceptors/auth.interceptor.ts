@@ -6,7 +6,7 @@ import { EncodingDataService } from '@shared/services/encoding-data.service';
 import {
     isInternalUrl,
     isStaticAssetRequest,
-} from './utils/request-filter.util';
+} from './utils/interceptor-request-filter.util';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);

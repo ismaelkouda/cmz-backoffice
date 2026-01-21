@@ -116,28 +116,42 @@
                                                                 />
 
                                                                 <div
-                                                                    class="d-flex justify-content-between align-items-center mt-1"
+                                                                    class="d-flex justify-content-between align-items-center"
                                                                 >
-                                                                    @if (
-                                                                        form.get(
-                                                                            'videoUrl'
-                                                                        )
-                                                                            ?.invalid &&
-                                                                        form.get(
-                                                                            'videoUrl'
-                                                                        )
-                                                                            ?.touched
-                                                                    ) {
+                                                                    <div>
+                                                                        @if (
+                                                                            form.get(
+                                                                                'videoUrl'
+                                                                            )
+                                                                                ?.invalid &&
+                                                                            form.get(
+                                                                                'videoUrl'
+                                                                            )
+                                                                                ?.touched
+                                                                        ) {
+                                                                            <small
+                                                                                class="text-danger"
+                                                                            >
+                                                                                {{
+                                                                                    getErrorMessage(
+                                                                                        'videoUrl'
+                                                                                    )
+                                                                                }}
+                                                                            </small>
+                                                                        }
+
                                                                         <small
-                                                                            class="text-danger"
+                                                                            class="text-muted d-block"
                                                                         >
+                                                                            <i
+                                                                                class="pi pi-info-circle me-1"
+                                                                            ></i>
                                                                             {{
-                                                                                getErrorMessage(
-                                                                                    'videoUrl'
-                                                                                )
+                                                                                'CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.VIDEO_URL_HELP'
+                                                                                    | translate
                                                                             }}
                                                                         </small>
-                                                                    }
+                                                                    </div>
 
                                                                     <small
                                                                         class="text-muted ms-auto"
@@ -158,73 +172,6 @@
                                                                         }}
                                                                     </small>
                                                                 </div>
-
-                                                                @if (
-                                                                    form.get(
-                                                                        'videoUrl'
-                                                                    )?.value &&
-                                                                    form.get(
-                                                                        'videoUrl'
-                                                                    )?.valid
-                                                                ) {
-                                                                    <div
-                                                                        class="video-platform-indicator mt-2"
-                                                                    >
-                                                                        @let videoUrl =
-                                                                            form.get(
-                                                                                'videoUrl'
-                                                                            )
-                                                                                ?.value;
-                                                                        @let platform =
-                                                                            detectVideoPlatform(
-                                                                                videoUrl
-                                                                            );
-
-                                                                        <div
-                                                                            class="d-flex align-items-center gap-2"
-                                                                        >
-                                                                            <i
-                                                                                [class]="
-                                                                                    getVideoPlatformIcon(
-                                                                                        platform
-                                                                                    )
-                                                                                "
-                                                                            ></i>
-                                                                            <small
-                                                                                class="text-success"
-                                                                            >
-                                                                                {{
-                                                                                    getVideoPlatformName(
-                                                                                        platform
-                                                                                    )
-                                                                                }}
-                                                                            </small>
-                                                                            <small
-                                                                                class="text-muted ms-2"
-                                                                            >
-                                                                                <i
-                                                                                    class="pi pi-check-circle text-success"
-                                                                                ></i>
-                                                                                {{
-                                                                                    'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO_PLATFORM_SUPPORTED'
-                                                                                        | translate
-                                                                                }}
-                                                                            </small>
-                                                                        </div>
-                                                                    </div>
-                                                                }
-
-                                                                <small
-                                                                    class="text-muted d-block mt-2"
-                                                                >
-                                                                    <i
-                                                                        class="pi pi-info-circle me-1"
-                                                                    ></i>
-                                                                    {{
-                                                                        'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO_URL_HELP'
-                                                                            | translate
-                                                                    }}
-                                                                </small>
                                                             </div>
                                                         } @else {
                                                             <div

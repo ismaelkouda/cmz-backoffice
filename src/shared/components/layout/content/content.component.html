@@ -1,10 +1,13 @@
 <!-- page-wrapper Start-->
 <div [ngClass]="layout.config.settings.layout_type">
     <div class="page-wrapper" id="canvas-bookmark" [ngClass]="layoutClass">
-        <app-header></app-header>
+        
+        <header class="header">
+            <app-header [collapseSidebar]="navServices.collapseSidebar"></app-header>
+        </header>
         <!-- Page Body Start-->
         <div class="page-body-wrapper">
-            <div
+            <div 
                 class="sidebar-wrapper"
                 [attr.sidebar-layout]="layout.config.settings.sidebar_type"
                 [attr.icon]="layout.config.settings.icon"
@@ -30,6 +33,7 @@
             <!-- footer start-->
             <footer class="footer">
                 <app-footer></app-footer>
+        {{navServices.collapseSidebar}}
             </footer>
             <!-- footer End-->
         </div>

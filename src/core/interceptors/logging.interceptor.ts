@@ -5,7 +5,7 @@ import { tap } from 'rxjs';
 import {
     isInternalUrl,
     isStaticAssetRequest,
-} from './utils/request-filter.util';
+} from './utils/interceptor-request-filter.util';
 
 export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
     const config = inject(ConfigurationService);

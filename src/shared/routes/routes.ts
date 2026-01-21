@@ -139,20 +139,19 @@ export const content: Routes = [
             },
         },
     },
-    /*     {
-            path: SETTINGS_SECURITY_ROUTE,
-            loadChildren: () =>
-                import(
-                    '../../presentation/pages/settings-security/settings-security.routes'
-                ).then((m) => m.routes),
-            data: {
-                module: 'SETTINGS_SECURITY',
-                subModule: [
-                    'SETTINGS_SECURITY.USER.LABEL',
-                    'SETTINGS_SECURITY.PROFILE_HABILITATION.LABEL',
-                ],
+    {
+        path: SETTINGS_SECURITY_ROUTE,
+        loadChildren: () =>
+            import(
+                '../../presentation/pages/settings-security/settings-security.routes'
+            ).then((m) => m.routes),
+        data: {
+            breadcrumb: {
+                label: 'SETTINGS_SECURITY.LABEL',
+                icon: 'pi-cog',
             },
-        }, */
+        },
+    },
     /*     {
         path: CUSTOMERS_MANAGED,
         loadChildren: () =>

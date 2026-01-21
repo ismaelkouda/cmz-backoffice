@@ -1,3 +1,9 @@
 {
+    "LANGUAGES": {
+        "LABEL": "Idioma",
+        "FR": "Francés",
+        "EN": "Inglés",
+        "ES": "Español"
+    },
     "no_data_found": "no hay datos disponibles"
 }

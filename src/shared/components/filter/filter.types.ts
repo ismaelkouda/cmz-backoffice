@@ -17,3 +17,8 @@ export interface FilterField {
     filter?: boolean;
     template?: TemplateRef<any>;
 }
+
+export interface FilterOption {
+    label: string;
+    value: string;
+}

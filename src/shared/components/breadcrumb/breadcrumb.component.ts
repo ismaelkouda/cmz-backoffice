@@ -16,6 +16,7 @@ import { BreadcrumbService } from './breadcrumb.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CommonModule, BreadcrumbModule, RouterModule, TranslateModule],
     templateUrl: './breadcrumb.component.html',
+    styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent {
     private readonly service = inject(BreadcrumbService);

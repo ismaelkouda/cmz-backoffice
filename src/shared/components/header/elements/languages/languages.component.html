@@ -1,0 +1,49 @@
+<div class="language-selector-container">
+    <button
+        class="language-toggle"
+        [class.active]="isDropdownOpen()"
+        (click)="toggleDropdown()"
+        (keydown.enter)="toggleDropdown()"
+        (keydown.escape)="closeDropdown()"
+        tabindex="0"
+        role="button"
+        aria-haspopup="true"
+        [attr.aria-expanded]="isDropdownOpen()"
+    >
+        <div class="current-lang-wrapper">
+            <img
+                [src]="getFlagUrl(currentLanguage())"
+                [alt]="currentLanguage()"
+                class="flag-icon"
+                width="24"
+                height="16"
+            />
+            <span class="lang-code text-uppercase">{{ currentLanguage() }}</span>
+            <i class="pi pi-chevron-down dropdown-arrow" [class.rotated]="isDropdownOpen()"></i>
+        </div>
+    </button>
+
+    <div class="language-dropdown-menu" [class.show]="isDropdownOpen()">
+        <div class="dropdown-header">
+            <span>{{ 'LANGUAGES.LABEL' | translate }}</span>
+        </div>
+        <ul role="menu">
+            <li
+                *ngFor="let lang of languages"
+                role="menuitem"
+                [class.active]="currentLanguage() === lang.code"
+                (click)="selectLanguage(lang.code)"
+                (keydown.enter)="selectLanguage(lang.code)"
+                tabindex="0"
+            >
+                <div class="lang-option">
+                    <img [src]="lang.flag" [alt]="lang.code" class="flag-icon" width="20" height="auto" />
+                    <span>{{ lang.label | translate }}</span>
+                    <i *ngIf="currentLanguage() === lang.code" class="pi pi-check selected-icon"></i>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div *ngIf="isDropdownOpen()" class="dropdown-overlay" (click)="closeDropdown()"></div>

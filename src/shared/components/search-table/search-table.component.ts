@@ -21,7 +21,7 @@ import { Table } from 'primeng/table';
                 type="text"
                 icon="pi pi-search"
                 (input)="onSearch($event.target.value.trim())"
-                placeholder="{{ 'RESEARCH' | translate }}..."
+                placeholder="{{ 'COMMON.RESEARCH' | translate }}..."
                 class="search-input"
                 aria-label="Search"
             />

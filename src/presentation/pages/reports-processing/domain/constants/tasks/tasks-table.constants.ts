@@ -2,7 +2,7 @@ export const TASKS_TABLE_CONST = {
     cols: [
         {
             field: '__selection',
-            header: 'TABLE.COMMON.SELECTION',
+            header: 'COMMON.SELECTION',
             class: 'text-center',
             width: '2rem',
             type: 'selection',

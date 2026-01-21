@@ -125,7 +125,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             confirmButtonText: this.translate.instant(
                 'LOGOUT.SWEET_ALERT_PARAMS.BUTTONS'
             ),
-            cancelButtonText: this.translate.instant('CANCEL'),
+            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
                 this.myAccountFacade.logout();

@@ -1,7 +1,5 @@
 const config = {
-    dev: {
-        verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
-        
+    dev: {        
         /* authenticationUrl: 'http://10.10.0.9:7000/auth/v1.0/backoffice/',
         reportUrl: 'http://10.10.0.9:7001/reports/v1.0/backoffice/',
         settingUrl: 'http://10.10.0.9:7002/base-settings/v1.0/backoffice/',
@@ -40,7 +38,6 @@ const config = {
         },
     },
     cloud: {
-        verifyIdentityDocumentUrl: 'https://localhost/',
         authenticationUrl: 'https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/',
         reportUrl: 'https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/',
         settingUrl: 'https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/',
@@ -64,7 +61,6 @@ const config = {
         },
     },
     cmz_dev: {
-        verifyIdentityDocumentUrl: 'https://localhost/',
         authenticationUrl: 'https://api-services.mazone-test.ansut.ci/auth/v1.0/backoffice/',
         reportUrl: 'https://api-services.mazone-test.ansut.ci/reports/v1.0/backoffice/',
         settingUrl: 'https://api-services.mazone-test.ansut.ci/base-settings/v1.0/backoffice/',
@@ -88,7 +84,6 @@ const config = {
         },
     },
     test: {
-        verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
         authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
         reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
         settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
@@ -97,7 +92,6 @@ const config = {
         enableDebug: true,
     },
     prod: {
-        verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
         authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
         reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
         settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',

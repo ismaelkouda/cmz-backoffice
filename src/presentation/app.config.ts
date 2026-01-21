@@ -1,4 +1,5 @@
 import {
+    HttpClient,
     provideHttpClient,
     withFetch,
     withInterceptors,
@@ -23,12 +24,12 @@ import {
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { provideTranslateHttpLoader, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import Aura from '@primeng/themes/aura';
 import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
-import { CoreModule } from '../core/core.module';
+/* import { CoreModule } from '../core/core.module'; */
 import { apiInterceptor } from '../core/interceptors/api.interceptor';
 import { authInterceptor } from '../core/interceptors/auth.interceptor';
 import { cacheInterceptor } from '../core/interceptors/cache.interceptor';
@@ -72,6 +73,7 @@ import { provideReporting } from './pages/reporting/di/reporting.providers';
 import { provideActions } from './pages/reports-processing/di/actions.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
+import { provideSettingsSecurity } from './pages/settings-security/di/settings-security.providers';
 /* import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers'; */
 /* import { provideUser } from './pages/settings-security/di/user.providers';
 import { provideParticipant } from './pages/team-organization/di/participant.providers';
@@ -122,6 +124,10 @@ const frenchLocale = {
     clear: 'Effacer',
 };
 
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+    return new TranslateHttpLoader();
+}
+
 function initializeApp(): () => Promise<void> {
     return () => {
         const injector = inject(EnvironmentInjector);
@@ -138,7 +144,8 @@ function initializeApp(): () => Promise<void> {
                 if (
                     !configService.authenticationUrl &&
                     !configService.reportUrl &&
-                    !configService.settingUrl
+                    !configService.settingUrl &&
+                    !configService.fileUrl
                 ) {
                     throw new Error('Configuration API URL is required');
                 }
@@ -165,8 +172,10 @@ const environmentInterceptors = isDevMode()
     : [cacheInterceptor];
 
 export const appConfig: ApplicationConfig = {
+
     providers: [
-        // Angular Animations (required for PrimeNG overlays)
+        /* { provide: APP_BASE_HREF, useValue: '/imako/' }, */
+
         provideAnimations(),
 
         provideZoneChangeDetection({
@@ -204,18 +213,19 @@ export const appConfig: ApplicationConfig = {
             LoadingBarRouterModule
         ),
 
-        provideTranslateService({
-            defaultLanguage: 'fr',
-            useDefaultLang: true,
-        }),
-
-        provideTranslateHttpLoader({
-            prefix: '../assets/i18n/',
-            suffix: '.json',
-        }),
+        importProvidersFrom(
+            TranslateModule.forRoot({
+                defaultLanguage: 'fr',
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: HttpLoaderFactory,
+                    deps: [HttpClient]
+                }
+            })
+        ),
 
         ...provideTranslateHttpLoader({
-            prefix: '../assets/i18n/',
+            prefix: './assets/i18n/',
             suffix: '.json',
         }),
 
@@ -225,15 +235,14 @@ export const appConfig: ApplicationConfig = {
         }),
 
         provideToastr({
-            timeOut: 5000,
+            timeOut: 4000,
             positionClass: 'toast-top-right',
             preventDuplicates: true,
             progressBar: true,
-            closeButton: true,
+            closeButton: false,
             newestOnTop: true,
             enableHtml: false,
             tapToDismiss: true,
-
             maxOpened: 5,
             autoDismiss: true,
             iconClasses: {
@@ -246,13 +255,13 @@ export const appConfig: ApplicationConfig = {
 
         provideAppInitializer(initializeApp()),
 
-        importProvidersFrom(CoreModule),
+        /* importProvidersFrom(CoreModule), */
 
         providePrimeNG({
             theme: {
                 preset: Aura,
                 options: {
-                    darkModeSelector: false,
+                    darkModeSelector: true,
                     /* cssLayer: {
                         name: 'primeng',
                         order: 'tailwind, primeng',
@@ -291,6 +300,8 @@ export const appConfig: ApplicationConfig = {
         ...provideManagement(),
 
         ...provideAdministrativeBoundary(),
+
+        ...provideSettingsSecurity(),
 
         ...provideHome(),
         ...provideSlide(),

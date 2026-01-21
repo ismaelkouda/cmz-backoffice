@@ -2,7 +2,7 @@ export const HOME_TABLE_CONST = {
     cols: [
         {
             field: '__index',
-            header: 'TABLE.COMMON.INDEX',
+            header: 'COMMON.INDEX',
             class: 'text-center',
             width: '2rem',
         },
@@ -13,7 +13,7 @@ export const HOME_TABLE_CONST = {
         },
         {
             field: 'platforms',
-            header: 'CONTENT_MANAGEMENT.HOME.TABLE.PLATEFORM',
+            header: 'CONTENT_MANAGEMENT.HOME.TABLE.PLATFORM',
             width: '6rem',
         },
         {
