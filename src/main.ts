@@ -1,5 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+
 import { appConfig } from '@presentation/app.config';
+
 import { AppComponent } from './presentation/app.component';
 import { DEFAULT_CUSTOMIZATION } from './shared/services/app-customization.config';
 
@@ -67,7 +69,8 @@ function displayBootstrapError(error: Error): void {
         return;
     }
 
-    const errorMessage = error instanceof Error ? error.message : 'APP.BOOTSTRAP.ERROR_UNKNOWN';
+    const errorMessage =
+        error instanceof Error ? error.message : 'APP.BOOTSTRAP.ERROR_UNKNOWN';
     const errorElement = document.createElement('div');
     errorElement.setAttribute('role', ERROR_DISPLAY_CONFIG.role);
     errorElement.setAttribute('aria-live', ERROR_DISPLAY_CONFIG.ariaLive);

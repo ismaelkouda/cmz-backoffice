@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 
@@ -15,7 +16,7 @@ export class ReportSourceMapper {
         [ReportSourceDto.UNKNOWN, ReportSource.UNKNOWN],
     ]);
     mapToEnum(dtoValue: ReportSourceDto): ReportSource {
-        if (dtoValue == null) {
+        if (dtoValue === null || dtoValue === undefined) {
             return ReportSource.UNKNOWN;
         }
         return ReportSourceMapper.MAP.get(dtoValue) || ReportSource.UNKNOWN;

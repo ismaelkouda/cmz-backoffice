@@ -114,6 +114,7 @@
                             (click)="copyToClipboard(item?.[col.field])"
                             [pTooltip]="'COPY' | translate"
                             tooltipPosition="bottom"
+                            (keypress)="copyToClipboard(item?.[col.field])"
                         >
                             {{ item?.[col.field] }}
                         </span>

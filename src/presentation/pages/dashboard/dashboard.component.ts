@@ -5,7 +5,7 @@ import {
     OnInit,
     effect,
     inject,
-    signal
+    signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,9 @@ import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SkeletonModule } from 'primeng/skeleton';
+
 import { separatorThousands } from '../../../shared/functions/separator-thousands';
+
 import { DashboardFacade } from './application/dashboard.facade';
 import { DashboardStatistics } from './domain/entities/dashboard-statistics.entity';
 
@@ -57,7 +59,9 @@ export class DashboardComponent implements OnInit {
     private readonly facade = inject(DashboardFacade);
     private readonly translate = inject(TranslateService);
 
-    public isLoading$ = this.facade.isLoading$;
+    readonly isLoading = toSignal(this.facade.isLoading$, {
+        initialValue: false,
+    });
     public items$ = this.facade.items$;
     public error: string | null = null;
 

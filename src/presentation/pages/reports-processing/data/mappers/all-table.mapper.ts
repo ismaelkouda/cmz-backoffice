@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { AllEntity } from '@presentation/pages/reports-processing/domain/entities/all/all.entity';
 import { AllTableVM } from '@presentation/pages/reports-processing/domain/view-models/all-table.vm';
 
 @Injectable({ providedIn: 'root' })
 export class AllTableMapper {
-    constructor(private translate: TranslateService) { }
+    constructor(private translate: TranslateService) {}
 
     toVM(entity: AllEntity): AllTableVM {
         return {

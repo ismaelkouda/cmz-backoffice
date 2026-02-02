@@ -1,23 +1,38 @@
-
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, input, signal } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    signal,
+} from '@angular/core';
+import {
+    ControlValueAccessor,
+    FormControl,
+    NG_VALUE_ACCESSOR,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { DatePickerModule } from 'primeng/datepicker';
 
 @Component({
-    selector: 'imako-date',
+    selector: 'app-imako-date',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, DatePickerModule, TranslateModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        DatePickerModule,
+        TranslateModule,
+    ],
     templateUrl: './imako-date.component.html',
     styleUrls: ['./imako-date.component.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ImakoDateComponent),
-            multi: true
-        }
-    ]
+            useExisting: ImakoDateComponent,
+            multi: true,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImakoDateComponent implements ControlValueAccessor {
     public readonly label = input<string>('');
@@ -29,14 +44,14 @@ export class ImakoDateComponent implements ControlValueAccessor {
     public readonly dateFormat = input<string>('yy-mm-dd');
     public readonly appendTo = input<string>('body');
     public readonly showButtonBar = input<boolean>(true);
-    public readonly selectionMode = input<'single' | 'multiple' | 'range'>('single');
+    public readonly selectionMode = input<'single' | 'multiple' | 'range'>(
+        'single'
+    );
 
-    // Internal signal for value
     protected readonly value = signal<any>(null);
 
-    // CVA methods
-    onChange: any = () => { };
-    onTouch: any = () => { };
+    protected onChange!: (value: any) => void;
+    protected onTouch!: () => void;
 
     writeValue(value: any): void {
         this.value.set(value);

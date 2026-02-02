@@ -9,13 +9,16 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NotificationsFacade } from '@presentation/pages/communication/application/notifications.facade';
-import { NotificationsFilter } from '@presentation/pages/communication/domain/value-objects/notifications-filter.vo';
-import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
+import { Subject } from 'rxjs';
+
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Subject } from 'rxjs';
+
+import { NotificationsFacade } from '@presentation/pages/communication/application/notifications.facade';
+import { NotificationsFilter } from '@presentation/pages/communication/domain/value-objects/notifications-filter.vo';
+import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
+
 import { NotificationsFilterPayloadEntity } from '../../domain/entities/notifications-filter-payload.entity';
 import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 import { NotificationsTableComponent } from '../../feature/notifications-table/notifications-table.component';
@@ -77,9 +80,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.notificationsFacade.changePage(event + 1);
     }
 
-    public onReadOneClicked(item: NotificationsEntity): void { }
+    public onReadOneClicked(item: NotificationsEntity): void {
+        console.log('Read notification', item);
+    }
 
-    public onReadAllClicked(): void { }
+    public onReadAllClicked(): void {
+        /* empty */
+    }
 
     public onRefreshClicked(): void {
         this.notificationsFacade.refresh();

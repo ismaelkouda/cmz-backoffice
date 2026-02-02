@@ -17,11 +17,6 @@ export const DEPARTMENTS_TABLE_CONST = {
             width: '10rem',
         },
         {
-            field: 'region',
-            header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.REGION',
-            width: '12rem',
-        },
-        {
             field: 'municipalitiesCount',
             header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.MUNICIPALITIES_COUNT',
             class: 'text-center',
@@ -29,11 +24,16 @@ export const DEPARTMENTS_TABLE_CONST = {
             type: 'badge-button',
         },
         {
+            field: 'region',
+            header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.REGION',
+            width: '12rem',
+        },
+        {
             field: 'populationSize',
             header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.POPULATION_SIZE',
             class: 'text-center',
             width: '2rem',
-            type: 'number'
+            type: 'number',
         },
         /*  {
              field: 'description',
@@ -54,7 +54,6 @@ export const DEPARTMENTS_TABLE_CONST = {
         },
     ],
     globalFilterFields: [
-        'id',
         'code',
         'name',
         'region',

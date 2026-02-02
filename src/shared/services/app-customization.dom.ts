@@ -1,4 +1,5 @@
 import { Title } from '@angular/platform-browser';
+
 import { AppCustomizationConfig } from './app-customization.interface';
 import { getDynamicTitle } from './app-customization.utils';
 

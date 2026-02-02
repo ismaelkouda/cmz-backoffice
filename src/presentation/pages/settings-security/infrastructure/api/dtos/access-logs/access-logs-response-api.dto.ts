@@ -1,4 +1,4 @@
-import { PaginatedResponseDto } from "@shared/data/dtos/simple-response.dto";
+import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface AccessLogsItemApiDto {
     id: string;
@@ -8,4 +8,5 @@ export interface AccessLogsItemApiDto {
     created_at: string;
 }
 
-export interface AccessLogsResponseApiDto extends PaginatedResponseDto<AccessLogsItemApiDto> { }
+export type AccessLogsResponseApiDto =
+    PaginatedResponseDto<AccessLogsItemApiDto>;

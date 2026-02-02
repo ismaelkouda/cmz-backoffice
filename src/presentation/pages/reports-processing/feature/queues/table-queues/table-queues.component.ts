@@ -12,15 +12,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { QueuesTableMapper } from '@presentation/pages/reports-processing/data/mappers/queues-table.mapper';
-import { QUEUES_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/queues-table.constant';
-import { QueuesEntity } from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
-import { TableSelectionService } from '@presentation/pages/reports-processing/domain/services/table-selection.service';
-import { QueuesTableVM } from '@presentation/pages/reports-processing/domain/view-models/queues-table.vm';
-import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
-import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
-import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -31,6 +22,17 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
+import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
+import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
+import { QueuesTableMapper } from '@presentation/pages/reports-processing/data/mappers/queues-table.mapper';
+import { QUEUES_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/queues-table.constant';
+import { QueuesEntity } from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
+import { TableSelectionService } from '@presentation/pages/reports-processing/domain/services/table-selection.service';
+import { QueuesTableVM } from '@presentation/pages/reports-processing/domain/view-models/queues-table.vm';
 
 @Component({
     selector: 'app-table-queues',
@@ -213,7 +215,9 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value
@@ -229,7 +233,9 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     getStateSeverity(state: string | null | undefined): string {
-        if (!state) return 'secondary';
+        if (!state) {
+            return 'secondary';
+        }
         const severityMap: Record<string, string> = {
             accepted: 'success',
             pending: 'warning',
@@ -239,7 +245,9 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     }
 
     getStateLabel(state: string | null | undefined): string {
-        if (!state) return '-';
+        if (!state) {
+            return '-';
+        }
         const labelMap: Record<string, string> = {
             accepted: 'FINALIZATION.QUEUES.OPTIONS.STATE.ACCEPTED',
             pending: 'FINALIZATION.QUEUES.OPTIONS.STATUS.PENDING',
@@ -269,9 +277,9 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     getOperatorLabel(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
         const translationMap: Record<string, string> = {
-            orange: 'FINALIZATION.QUEUES.OPTIONS.OPERATOR.ORANGE',
-            mtn: 'FINALIZATION.QUEUES.OPTIONS.OPERATOR.MTN',
-            moov: 'FINALIZATION.QUEUES.OPTIONS.OPERATOR.MOOV',
+            orange: 'FINALIZATION.QUEUES.OPTIONS.OPERATORS.ORANGE',
+            mtn: 'FINALIZATION.QUEUES.OPTIONS.OPERATORS.MTN',
+            moov: 'FINALIZATION.QUEUES.OPTIONS.OPERATORS.MOOV',
         };
         const key = translationMap[normalized];
         return key ? this.translate.instant(key) : operator;
@@ -291,7 +299,7 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
         return key ? this.translate.instant(key) : reportType;
     }
 
-    getTakeTooltip(item: QueuesEntity): string {
+    getTakeTooltip(): string {
         return this.translate.instant('FINALIZATION.QUEUES.TABLE.TAKE');
     }
 

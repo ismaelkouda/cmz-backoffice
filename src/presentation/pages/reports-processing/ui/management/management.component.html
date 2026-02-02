@@ -39,6 +39,7 @@
                     pTooltip="{{ 'COPY' | translate }}"
                     tooltipPosition="bottom"
                     (click)="copyToClipboard(reportId())"
+                    (keypress)="copyToClipboard(reportId())"
                     *ngIf="reportId()"
                 >
                     [ {{ reportId() }} ]
@@ -549,12 +550,12 @@
                                     class="treatment-btn treatment-btn-primary"
                                     type="button"
                                     (click)="onValidReportTreatment(details)"
-                                    [disabled]="isSubmitting$ | async"
-                                    [class.loading]="isSubmitting$ | async"
+                                    [disabled]="isSubmitting()"
+                                    [class.loading]="isSubmitting()"
                                 >
                                     <i
                                         class="pi pi-check"
-                                        *ngIf="!(isSubmitting$ | async)"
+                                        *ngIf="!isSubmitting()"
                                     ></i>
                                     {{
                                         (details$ | async)
@@ -771,11 +772,7 @@
                                             ></i>
                                             <div
                                                 class="tab-pulse"
-                                                *ngIf="
-                                                    hasTabNotifications(
-                                                        category.key
-                                                    )
-                                                "
+                                                *ngIf="hasTabNotifications()"
                                             ></div>
                                         </div>
                                         <span class="tab-label">{{
@@ -856,6 +853,11 @@
                                                             <div
                                                                 class="field-value coordinate-value"
                                                                 (click)="
+                                                                    copyToClipboard(
+                                                                        details.getLongLat
+                                                                    )
+                                                                "
+                                                                (keypress)="
                                                                     copyToClipboard(
                                                                         details.getLongLat
                                                                     )
@@ -1082,97 +1084,123 @@
                                                         </div>
                                                     </div>
 
-                                                    @if (!details?.statusPending && !details?.statusInProgress) {
-                                                     <div class="data-row full">
-                                                        <div class="data-field">
-                                                            <label
-                                                                class="field-label"
-                                                            >
-                                                                <i
-                                                                    class="pi pi-file-edit"
-                                                                ></i>
-                                                                {{
-                                                                    'MANAGEMENT.FORM.REPORT_INFO.COMMENT_APPROVER'
-                                                                        | translate
-                                                                }}
-                                                            </label>
+                                                    @if (
+                                                        !details?.statusPending &&
+                                                        !details?.statusInProgress
+                                                    ) {
+                                                        <div
+                                                            class="data-row full"
+                                                        >
                                                             <div
-                                                                class="field-value description"
+                                                                class="data-field"
                                                             >
-                                                                <div
-                                                                    class="description-content"
+                                                                <label
+                                                                    class="field-label"
                                                                 >
+                                                                    <i
+                                                                        class="pi pi-file-edit"
+                                                                    ></i>
                                                                     {{
-                                                                        details.treater?.approvedComment ||
-                                                                            'MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_APPROVER'
+                                                                        'MANAGEMENT.FORM.REPORT_INFO.COMMENT_APPROVER'
                                                                             | translate
                                                                     }}
+                                                                </label>
+                                                                <div
+                                                                    class="field-value description"
+                                                                >
+                                                                    <div
+                                                                        class="description-content"
+                                                                    >
+                                                                        {{
+                                                                            details
+                                                                                .treater
+                                                                                ?.approvedComment ||
+                                                                                'MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_APPROVER'
+                                                                                | translate
+                                                                        }}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                     }
 
-                                                    @if (details?.statusFinalization) {
-                                                     <div class="data-row full">
-                                                        <div class="data-field">
-                                                            <label
-                                                                class="field-label"
-                                                            >
-                                                                <i
-                                                                    class="pi pi-file-edit"
-                                                                ></i>
-                                                                {{
-                                                                    'MANAGEMENT.FORM.REPORT_INFO.COMMENT_TREATMENT'
-                                                                        | translate
-                                                                }}
-                                                            </label>
+                                                    @if (
+                                                        details?.statusFinalization
+                                                    ) {
+                                                        <div
+                                                            class="data-row full"
+                                                        >
                                                             <div
-                                                                class="field-value description"
+                                                                class="data-field"
                                                             >
-                                                                <div
-                                                                    class="description-content"
+                                                                <label
+                                                                    class="field-label"
                                                                 >
+                                                                    <i
+                                                                        class="pi pi-file-edit"
+                                                                    ></i>
                                                                     {{
-                                                                        details.treater?.processedComment ||
-                                                                            'MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_APPROVER'
+                                                                        'MANAGEMENT.FORM.REPORT_INFO.COMMENT_TREATMENT'
                                                                             | translate
                                                                     }}
+                                                                </label>
+                                                                <div
+                                                                    class="field-value description"
+                                                                >
+                                                                    <div
+                                                                        class="description-content"
+                                                                    >
+                                                                        {{
+                                                                            details
+                                                                                .treater
+                                                                                ?.processedComment ||
+                                                                                'MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_APPROVER'
+                                                                                | translate
+                                                                        }}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                     }
 
-                                                    @if (details?.statusFinalization && details?.stateCompleted) {
-                                                     <div class="data-row full">
-                                                        <div class="data-field">
-                                                            <label
-                                                                class="field-label"
-                                                            >
-                                                                <i
-                                                                    class="pi pi-file-edit"
-                                                                ></i>
-                                                                {{
-                                                                    'MANAGEMENT.FORM.REPORT_INFO.COMMENT_FINALIZATION'
-                                                                        | translate
-                                                                }}
-                                                            </label>
+                                                    @if (
+                                                        details?.statusFinalization &&
+                                                        details?.stateCompleted
+                                                    ) {
+                                                        <div
+                                                            class="data-row full"
+                                                        >
                                                             <div
-                                                                class="field-value description"
+                                                                class="data-field"
                                                             >
-                                                                <div
-                                                                    class="description-content"
+                                                                <label
+                                                                    class="field-label"
                                                                 >
+                                                                    <i
+                                                                        class="pi pi-file-edit"
+                                                                    ></i>
                                                                     {{
-                                                                        details.treater?.finalizedComment ||
-                                                                            'MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_FINALIZATION'
+                                                                        'MANAGEMENT.FORM.REPORT_INFO.COMMENT_FINALIZATION'
                                                                             | translate
                                                                     }}
+                                                                </label>
+                                                                <div
+                                                                    class="field-value description"
+                                                                >
+                                                                    <div
+                                                                        class="description-content"
+                                                                    >
+                                                                        {{
+                                                                            details
+                                                                                .treater
+                                                                                ?.finalizedComment ||
+                                                                                'MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_FINALIZATION'
+                                                                                | translate
+                                                                        }}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                     }
                                                 </div>
                                             </div>
@@ -1511,6 +1539,7 @@
                                     <div
                                         class="treatment-form-header"
                                         (click)="toggleTreatmentForm()"
+                                        (keypress)="toggleTreatmentForm()"
                                     >
                                         <div class="treatment-form-toggle">
                                             <i
@@ -1568,6 +1597,11 @@
                                                                                                 'accepted'
                                                                                             )
                                                                                         "
+                                                                                        (keypress)="
+                                                                                            setDecision(
+                                                                                                'accepted'
+                                                                                            )
+                                                                                        "
                                                                                         [class.selected]="
                                                                                             formTreatment.get(
                                                                                                 'decision'
@@ -1612,6 +1646,11 @@
                                                                                     <div
                                                                                         class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
                                                                                         (click)="
+                                                                                            setDecision(
+                                                                                                'rejected'
+                                                                                            )
+                                                                                        "
+                                                                                        (keypress)="
                                                                                             setDecision(
                                                                                                 'rejected'
                                                                                             )
@@ -1784,22 +1823,17 @@
                                                                     )
                                                                 "
                                                                 [disabled]="
-                                                                    (isSubmitting$
-                                                                        | async) ||
+                                                                    isSubmitting() ||
                                                                     formTreatment.invalid
                                                                 "
                                                                 [class.loading]="
-                                                                    isSubmitting$
-                                                                        | async
+                                                                    isSubmitting()
                                                                 "
                                                             >
                                                                 <i
                                                                     class="pi pi-check"
                                                                     *ngIf="
-                                                                        !(
-                                                                            isSubmitting$
-                                                                            | async
-                                                                        )
+                                                                        isSubmitting()
                                                                     "
                                                                 ></i>
                                                                 {{

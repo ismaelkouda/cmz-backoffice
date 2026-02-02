@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
-import { ApiError } from '@shared/domain/errors/api.error';
 import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
@@ -11,6 +9,10 @@ import {
     finalize,
     throwError,
 } from 'rxjs';
+
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { ApiError } from '@shared/domain/errors/api.error';
+
 import { ChangePasswordRequestDto } from '../data/dtos/change-password-request.dto';
 import { UpdateProfileRequestDto } from '../data/dtos/update-profile-request.dto';
 import { LogoutEntity } from '../domain/entities/logout.entity';
@@ -27,7 +29,7 @@ export class MyAccountFacade {
         private readonly myAccountUseCase: MyAccountUseCase,
         private readonly toastService: ToastrService,
         protected readonly translateService: TranslateService
-    ) { }
+    ) {}
 
     logout(): Observable<LogoutEntity> {
         if (this.loadingSubject.getValue()) {

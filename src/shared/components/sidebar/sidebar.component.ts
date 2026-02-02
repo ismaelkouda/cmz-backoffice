@@ -14,6 +14,8 @@ import {
     RouterLinkActive,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+
 import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
 import {
     MenuItem,
@@ -24,7 +26,6 @@ import { EncodingDataService } from '@shared/services/encoding-data.service';
 import { LayoutService } from '@shared/services/layout.service';
 import { NavService } from '@shared/services/nav.service';
 import { TabService } from '@shared/services/tab.service';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-sidebar',

@@ -23,7 +23,7 @@ export class CategoryEntity {
         );
     }
 
-    getSubCategoriesForSelect(): Array<{ label: string; value: number }> {
+    getSubCategoriesForSelect(): { label: string; value: number }[] {
         return this.subCategories.map((subCategory) => ({
             label: subCategory.name,
             value: subCategory.id,

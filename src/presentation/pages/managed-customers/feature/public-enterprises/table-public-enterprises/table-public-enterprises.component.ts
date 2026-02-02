@@ -8,12 +8,14 @@ import {
 } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import {
     TableConfig,
     TableExportExcelFileService,

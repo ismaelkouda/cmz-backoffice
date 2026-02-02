@@ -1,6 +1,6 @@
-import { Injectable, inject } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
-import { ToastrService } from "ngx-toastr";
+import { Injectable, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({ providedIn: 'root' })
 export class UiFeedbackService {
@@ -16,7 +16,8 @@ export class UiFeedbackService {
     }
 
     errorFromApi(error: any): void {
-        this.toastrService.error(this.translateService.instant(error?.error?.message));
+        this.toastrService.error(
+            this.translateService.instant(error?.error?.message)
+        );
     }
-
 }

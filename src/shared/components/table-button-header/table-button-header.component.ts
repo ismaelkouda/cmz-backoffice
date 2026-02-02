@@ -11,6 +11,16 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 
+export interface TableHeaderButton {
+    label?: string;
+    icon?: string;
+    class?: string; // e.g. 'btn-primary', 'btn-danger'
+    actionId: string; // ID to emit when clicked
+    disabled?: boolean;
+    hidden?: boolean;
+    translateKey?: string; // Optional: specific translation key for label
+}
+
 @Component({
     selector: 'app-table-button-header',
     standalone: true,
@@ -34,7 +44,9 @@ import { ButtonModule } from 'primeng/button';
                     [styleClass]="otherButtonStyleClass"
                     class="btn btn-primary"
                     [attr.aria-label]="
-                        showLabels ? null : labelOther || ('COMMON.CREATE' | translate)
+                        showLabels
+                            ? null
+                            : labelOther || ('COMMON.CREATE' | translate)
                     "
                     (click)="onOther()"
                 >
@@ -45,6 +57,34 @@ import { ButtonModule } from 'primeng/button';
                     }
                 </button>
             }
+
+            @for (btn of customButtons; track btn.actionId) {
+                @if (!btn.hidden) {
+                    <button
+                        type="button"
+                        [class.p-disabled]="btn.disabled"
+                        class="btn"
+                        [ngClass]="btn.class || 'btn-secondary'"
+                        [attr.aria-label]="
+                            showLabels
+                                ? null
+                                : (btn.translateKey || btn.label || ''
+                                  | translate)
+                        "
+                        (click)="onButtonClick(btn.actionId)"
+                    >
+                        @if (btn.icon) {
+                            <i [class]="btn.icon" [class.me-2]="showLabels"></i>
+                        }
+                        @if (showLabels && (btn.label || btn.translateKey)) {
+                            <span>{{
+                                btn.translateKey || btn.label | translate
+                            }}</span>
+                        }
+                    </button>
+                }
+            }
+
             @if (!hiddenButtonRefresh) {
                 <button
                     type="button"
@@ -55,7 +95,10 @@ import { ButtonModule } from 'primeng/button';
                     "
                     (click)="onRefresh()"
                 >
-                    <span *ngIf="showLabels">{{ 'COMMON.REFRESH' | translate }}</span>
+                    <i class="pi pi-refresh me-2"></i>
+                    <span *ngIf="showLabels">{{
+                        'COMMON.REFRESH' | translate
+                    }}</span>
                 </button>
             }
             @if (!hiddenButtonExport) {
@@ -68,6 +111,7 @@ import { ButtonModule } from 'primeng/button';
                     "
                     (click)="onExport()"
                 >
+                    <i class="pi pi-file me-2"></i>
                     <span *ngIf="showLabels">{{
                         'COMMON.EXPORT' | translate
                     }}</span>
@@ -81,6 +125,8 @@ export class TableButtonHeaderComponent implements OnInit {
     @Output() refresh = new EventEmitter<void>();
     @Output() export = new EventEmitter<void>();
     @Output() other = new EventEmitter<void>();
+    @Output() buttonClick = new EventEmitter<string>();
+
     @Input() hiddenButtonRefresh!: boolean;
     @Input() hiddenButtonExport!: boolean;
     @Input() hiddenButtonOther!: boolean;
@@ -90,6 +136,8 @@ export class TableButtonHeaderComponent implements OnInit {
     @Input() disabledButtonExport!: boolean;
     @Input() disabledButtonOther!: boolean;
     @Input() disabledButtonRefresh = false;
+
+    @Input() customButtons: TableHeaderButton[] = [];
 
     get otherButtonStyleClass(): string {
         return this.colorOther
@@ -111,6 +159,10 @@ export class TableButtonHeaderComponent implements OnInit {
 
     onOther() {
         this.other.emit();
+    }
+
+    onButtonClick(actionId: string) {
+        this.buttonClick.emit(actionId);
     }
 
     @HostListener('window:resize')

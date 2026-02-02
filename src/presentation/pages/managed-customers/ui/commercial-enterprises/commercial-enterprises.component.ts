@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
 import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
@@ -11,14 +13,14 @@ import { CommercialEnterprisesFilterInterface } from '../../data-access/commerci
 import { CommercialEnterprisesInterface } from '../../data-access/commercial-enterprises/interfaces/commercial-enterprises.interface';
 import { CommercialEnterprisesApiService } from '../../data-access/commercial-enterprises/services/commercial-enterprises-api.service';
 import { CommercialEnterprisesNavigationGuardService } from '../../data-access/commercial-enterprises/services/commercial-enterprises-navigation-guard.service';
+import {
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
+} from '../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 import { ManagedCustomersPageActionsType } from '../../data-access/managed-customers/types/managed-customers-page-actions.type';
 import { FilterCommercialEnterprisesComponent } from '../../feature/commercial-enterprises/filter-commercial-enterprises/filter-commercial-enterprises.component';
 import { TableCommercialEnterprisesComponent } from '../../feature/commercial-enterprises/table-commercial-enterprises/table-commercial-enterprises.component';
-import {
-    CUSTOMERS_MANAGED_STEP_ENUM,
-    T_CUSTOMERS_MANAGED_STEP_ENUM,
-} from './../../data-access/managed-customers/enums/managed-customers-step.enum';
 
 @Component({
     selector: 'app-commercial-enterprises',

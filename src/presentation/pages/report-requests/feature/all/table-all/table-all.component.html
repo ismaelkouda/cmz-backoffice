@@ -147,6 +147,11 @@
                                             item.initiatorPhoneNumber
                                         )
                                     "
+                                    (keypress)="
+                                        copyToClipboard(
+                                            item.initiatorPhoneNumber
+                                        )
+                                    "
                                     tooltipPosition="bottom"
                                     >[{{ item.initiatorPhoneNumber }}]
                                 </span>

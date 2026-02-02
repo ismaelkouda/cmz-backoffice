@@ -22,7 +22,9 @@ export class FileUploadI18nDirective implements AfterViewInit {
 
         // input[type="file"]
         const input = host.querySelector('input[type="file"]');
-        if (!input) return;
+        if (!input) {
+            return;
+        }
 
         // span label affichant le nom du fichier
         const label = host.querySelector('.p-fileupload-filename');

@@ -17,13 +17,6 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TERMS_USE_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
-import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
-import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -39,6 +32,15 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
+import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
+
+import { TERMS_USE_ROUTE } from '@presentation/pages/content-management/content-management.routes';
+import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
+import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
 
 @Component({
     selector: 'app-form-terms-use',
@@ -188,7 +190,7 @@ export class FormTermsUseComponent implements OnInit, OnDestroy {
     }
 
     private getFieldLabel(fieldName: string): string {
-        const labels: { [key: string]: string } = {
+        const labels: Record<string, string> = {
             content: this.translate.instant(
                 'CONTENT_MANAGEMENT.TERMS_USE.FORM.DESCRIPTION'
             ),

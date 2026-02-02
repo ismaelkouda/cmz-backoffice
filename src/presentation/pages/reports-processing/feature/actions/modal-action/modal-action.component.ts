@@ -21,9 +21,6 @@ import {
     Validators,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ActionsFormControlEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-form-control.entity';
-import { ActionsPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-payload.entity';
-import { ActionsEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions.entity';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -34,6 +31,10 @@ import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { Subject, takeUntil } from 'rxjs';
+
+import { ActionsFormControlEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-form-control.entity';
+import { ActionsPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-payload.entity';
+import { ActionsEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions.entity';
 
 export type ActionModalMode = 'create' | 'edit';
 
@@ -61,7 +62,7 @@ export type ActionModalMode = 'create' | 'edit';
 export class ModalActionComponent implements OnInit, OnDestroy {
     public readonly visible = input<boolean>(false);
     public readonly reportUniqId = input.required<string>();
-    public readonly action = input<ActionsEntity | null>(null);
+    public readonly action = input<ActionsEntity | undefined>(undefined);
     public readonly mode = input<ActionModalMode>('create');
 
     public readonly visibleChange = output<boolean>();
@@ -70,7 +71,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
         id: string;
         data: ActionsPayloadEntity;
     }>();
-    public readonly closed = output<void>();
+    public readonly closed = output<undefined>();
 
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
@@ -121,8 +122,6 @@ export class ModalActionComponent implements OnInit, OnDestroy {
 
     public readonly maxDescriptionLength = 1000;
 
-    constructor() {}
-
     ngOnInit(): void {
         this.actionForm = this.buildForm();
         this.setupFormListeners();
@@ -155,7 +154,9 @@ export class ModalActionComponent implements OnInit, OnDestroy {
         }
     }
     private formatDateForPicker(dateString: string): string {
-        if (!dateString) return '';
+        if (!dateString) {
+            return '';
+        }
 
         try {
             const date = new Date(dateString);
@@ -220,7 +221,9 @@ export class ModalActionComponent implements OnInit, OnDestroy {
     private dateValidator(control: AbstractControl): ValidationErrors | null {
         const value = control.value;
 
-        if (!value) return null;
+        if (!value) {
+            return null;
+        }
 
         try {
             const inputDate = new Date(value);
@@ -262,7 +265,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
             const formData = this.prepareFormData();
             if (this.mode() === 'edit' && this.action()?.id) {
                 this.actionUpdate.emit({
-                    id: this.action()!.id!,
+                    id: this.action()?.id ?? '',
                     data: formData,
                 });
             } else {
@@ -305,7 +308,7 @@ export class ModalActionComponent implements OnInit, OnDestroy {
 
     private closeModal(): void {
         this.visibleChange.emit(false);
-        this.closed.emit();
+        this.closed.emit(undefined);
         this.resetForm();
     }
 

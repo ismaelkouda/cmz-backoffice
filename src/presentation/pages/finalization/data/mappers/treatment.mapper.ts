@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+
 import { TreatmentEntity } from '../../domain/entities/treatment/treatment.entity';
 import { TreatmentItemDto } from '../dtos/treatment/treatment-response.dto';
 

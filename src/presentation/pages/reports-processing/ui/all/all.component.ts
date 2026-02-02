@@ -9,16 +9,19 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+
 import { AllFacade } from '@presentation/pages/reports-processing/application/all.facade';
 import { AllEntity } from '@presentation/pages/reports-processing/domain/entities/all/all.entity';
 import { AllFilter } from '@presentation/pages/reports-processing/domain/value-objects/all-filter.vo';
 import { FilterAllComponent } from '@presentation/pages/reports-processing/feature/all/filter-all/filter-all.component';
 import { TableAllComponent } from '@presentation/pages/reports-processing/feature/all/table-all/table-all.component';
 import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Subject, takeUntil } from 'rxjs';
+
 import { AllFilterPayloadEntity } from '../../domain/entities/all/all-filter-payload.entity';
 
 @Component({

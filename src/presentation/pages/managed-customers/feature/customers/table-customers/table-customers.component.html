@@ -101,6 +101,7 @@
                     <ng-container *ngSwitchCase="'Code'">
                         <span
                             (click)="copyToClipboard(item?.[col.field])"
+                            (keypress)="copyToClipboard(item?.[col.field])"
                             [pTooltip]="'COPY' | translate"
                             tooltipPosition="bottom"
                         >
@@ -110,6 +111,7 @@
                     <ng-container *ngSwitchCase="'Compte client'">
                         <span
                             (click)="copyToClipboard(item?.[col.field])"
+                            (keypress)="copyToClipboard(item?.[col.field])"
                             [pTooltip]="'COPY' | translate"
                             tooltipPosition="bottom"
                         >

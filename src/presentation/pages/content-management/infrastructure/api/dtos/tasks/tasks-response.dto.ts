@@ -6,10 +6,10 @@ import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
 export interface TasksItemDto {
     uniq_id: string;
     report_type: ReportTypeDto;
-    operators: Array<TelecomOperatorDto>;
+    operators: TelecomOperatorDto[];
     source: ReportSourceDto;
     initiator_phone_number: string;
     created_at: string;
 }
 
-export interface TasksResponseDto extends PaginatedResponseDto<TasksItemDto> {}
+export type TasksResponseDto = PaginatedResponseDto<TasksItemDto>;

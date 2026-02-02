@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { RegionsSelectEntity } from '../../../domain/entities/regions/regions-select.entity';
 import { RegionsSelectRepository } from '../../../domain/repositories/regions/regions-select-repository';
 
@@ -9,7 +10,7 @@ import { RegionsSelectRepository } from '../../../domain/repositories/regions/re
 export class RegionsSelectUseCase {
     private readonly repository = inject(RegionsSelectRepository);
 
-    readAll(): Observable<Array<RegionsSelectEntity>> {
+    readAll(): Observable<RegionsSelectEntity[]> {
         return this.repository.readAll();
     }
 }

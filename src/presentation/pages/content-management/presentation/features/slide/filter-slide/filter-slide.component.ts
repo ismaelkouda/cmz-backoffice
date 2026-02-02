@@ -15,10 +15,6 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SlideFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/slide/slide-filter-form-control.entity';
-import { SlideFacade } from '@presentation/pages/content-management/core/application/services/slide.facade';
-import { SlideFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/slide/slide-filter-payload.entity';
-import { Plateform } from '@shared/domain/enums/plateform.enum';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -27,6 +23,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+
+import { Plateform } from '@shared/domain/enums/plateform.enum';
+
+import { SlideFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/slide/slide-filter-form-control.entity';
+import { SlideFacade } from '@presentation/pages/content-management/core/application/services/slide.facade';
+import { SlideFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/slide/slide-filter-payload.entity';
 
 @Component({
     selector: 'app-filter-slide',
@@ -87,7 +89,7 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
             this.formFilter = this.fb.group<SlideFilterFormControlDto>({
                 startDate: new FormControl<string>('', { nonNullable: true }),
                 endDate: new FormControl<string>('', { nonNullable: true }),
-                platforms: new FormControl<Array<Plateform>>([], {
+                platforms: new FormControl<Plateform[]>([], {
                     nonNullable: true,
                 }),
                 search: new FormControl<string>('', { nonNullable: true }),
@@ -100,16 +102,24 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
         this.slideFacade.currentFilter$
             .pipe(
                 distinctUntilChanged((prev, curr) => {
-                    if (prev === curr) return true;
-                    if (!prev && !curr) return true;
-                    if (!prev || !curr) return false;
+                    if (prev === curr) {
+                        return true;
+                    }
+                    if (!prev && !curr) {
+                        return true;
+                    }
+                    if (!prev || !curr) {
+                        return false;
+                    }
 
                     const prevDto = prev.toDto();
                     const currDto = curr.toDto();
                     const prevKeys = Object.keys(prevDto).sort();
                     const currKeys = Object.keys(currDto).sort();
 
-                    if (prevKeys.length !== currKeys.length) return false;
+                    if (prevKeys.length !== currKeys.length) {
+                        return false;
+                    }
                     return prevKeys.every(
                         (key) => prevDto[key] === currDto[key]
                     );
@@ -130,8 +140,7 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
                     {
                         startDate: (dto['start_date'] as string) ?? '',
                         endDate: (dto['end_date'] as string) ?? '',
-                        platforms:
-                            (dto['platforms'] as Array<Plateform>) ?? [],
+                        platforms: (dto['platforms'] as Plateform[]) ?? [],
                         search: (dto['search'] as string) ?? '',
                         status: (dto['status'] as boolean) ?? null,
                     },
@@ -152,8 +161,9 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const invalidDateRange =
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                const invalidDateRange = this.translate.instant(
+                    'COMMON.INVALID_DATE_RANGE'
+                );
                 this.toastService.error(invalidDateRange);
                 return;
             }
@@ -172,7 +182,9 @@ export class FilterSlideComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.error(translatedMessage);
         }
     }

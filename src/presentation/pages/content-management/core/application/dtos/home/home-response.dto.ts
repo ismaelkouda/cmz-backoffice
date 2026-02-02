@@ -4,7 +4,7 @@ import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
 
 export interface HomeItemDto {
     id: string;
-    platforms: Array<ReportSourceDto>;
+    platforms: ReportSourceDto[];
     title: string;
     resume: string;
     content: string;
@@ -23,4 +23,4 @@ export interface HomeItemDto {
     updated_at: string;
 }
 
-export interface HomeResponseDto extends PaginatedResponseDto<HomeItemDto> {}
+export type HomeResponseDto = PaginatedResponseDto<HomeItemDto>;

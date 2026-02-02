@@ -791,7 +791,7 @@
         "GPS": "GPS",
         "WHAT3WORDS": "What3Words",
         "WEB": "Web",
-        "APP": "Application Mobile",
+        "APP": "Appli Mobile",
         "MOBILE": "Mobile",
         "PWA": "PWA",
         "USSD": "USSD",
@@ -926,7 +926,7 @@
             }
         }
     },
-    "OPERATOR": {
+    "OPERATORS": {
         "ORANGE": "Orange",
         "MTN": "MTN",
         "MOOV": "Moov"
@@ -974,12 +974,12 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
                     "PARTIAL_SIGNAL": "Couverture Partielle Signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1033,15 +1033,19 @@
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "OPERATOR": "Opérateur",
-                "SOURCE": "Source"
+                "OPERATORS": "Opérateur",
+                "SOURCE": "Source",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
                     "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
@@ -1049,7 +1053,7 @@
                     "RECEIVED": "Reçu",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1119,16 +1123,20 @@
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "OPERATOR": "Opérateur",
+                "OPERATORS": "Opérateurs",
                 "SOURCE": "Source",
-                "STATUS": "Statut"
+                "STATE": "Statut",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
                     "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
@@ -1138,7 +1146,7 @@
                     "ABANDONED": "Abandonné",
                     "CONFIRMED": "Confirmé"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1212,17 +1220,17 @@
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "OPERATOR": "Opérateur",
+                "OPERATORS": "Opérateur",
                 "SOURCE": "Source"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
                     "PARTIAL_SIGNAL": "Couverture Partielle Signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1279,7 +1287,7 @@
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "OPERATOR": "Opérateur",
+                "OPERATORS": "Opérateur",
                 "SOURCE": "Source"
             },
             "OPTIONS": {
@@ -1287,7 +1295,7 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
                     "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
@@ -1295,7 +1303,7 @@
                     "RECEIVED": "Reçu",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1360,7 +1368,7 @@
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "OPERATOR": "Opérateur",
+                "OPERATORS": "Opérateur",
                 "SOURCE": "Source",
                 "STATUS": "Statut"
             },
@@ -1369,7 +1377,7 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
                     "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
@@ -1378,7 +1386,7 @@
                     "RECEIVED": "Reçu",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1433,11 +1441,11 @@
                 "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATORS": "Opérateur"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
                     "PARTIAL_SIGNAL": "Couverture Partielle Signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
@@ -1447,7 +1455,7 @@
                     "IN_PROGRESS": "En cours",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1472,7 +1480,7 @@
                 "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATORS": "Opérateur"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -1483,7 +1491,7 @@
                     "PENDING": "En attente",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1595,17 +1603,17 @@
                 "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "UNIQ_ID": "Identifiant",
-                "OPERATOR": "Opérateur",
+                "OPERATORS": "Opérateur",
                 "STATE": "État"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
                     "PARTIAL_SIGNAL": "Couverture Partielle Signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1662,14 +1670,14 @@
                 "REPORT_TYPE": "Type de signalement",
                 "UNIQ_ID": "Identifiant",
                 "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATORS": "Opérateur"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
                     "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
@@ -1677,7 +1685,7 @@
                     "RECEIVED": "Reçu",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1741,7 +1749,7 @@
                 "INITIATOR": "Initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
-                "OPERATOR": "Opérateur",
+                "OPERATORS": "Opérateur",
                 "SOURCE": "Source",
                 "STATUS": "Statut"
             },
@@ -1750,7 +1758,7 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATOR": "Couverture partielle opérateur",
+                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
                     "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
                 "STATUS": {
@@ -1758,7 +1766,7 @@
                     "RECEIVED": "Reçu",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1813,11 +1821,11 @@
                 "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATORS": "Opérateur"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
                     "PARTIAL_SIGNAL": "Couverture Partielle Signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
@@ -1827,7 +1835,7 @@
                     "IN_PROGRESS": "En cours",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1852,7 +1860,7 @@
                 "INITIATOR": "Initiateur",
                 "REPORT_TYPE": "Type de signalement",
                 "STATE": "État",
-                "OPERATOR": "Opérateur"
+                "OPERATORS": "Opérateur"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -1863,7 +1871,7 @@
                     "PENDING": "En attente",
                     "REJECTED": "Rejeté"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -2268,19 +2276,34 @@
         },
         "LABEL": "Paramètres & Sécurité",
         "ROUTE": "security-settings",
-        "USER": {
-            "TITLE": "Utilisateurs - CMZ gestion centralisée des utilisateurs",
-            "LABEL": "Utilisateurs",
+        "USERS": {
+            "BREADCRUMB": {
+                "LABEL": "Utilisateurs",
+                "ROUTE": "users"
+            },
+            "TABS": {
+                "USERS": {
+                    "LABEL": "Utilisateurs",
+                    "ROUTE": "users"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Utilisateurs",
             "ROUTE": "users",
             "TABLE": {
-                "USERNAME": "Nom d'utilisateur",
-                "NOM": "Nom",
-                "PRENOMS": "Prénoms",
-                "EMAIL": "Email",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Téléphone",
+                "PROFILE": "Profil Utilisateur",
                 "MATRICULE": "Matricule",
-                "FULL_NAME": "Nom & Prénoms",
-                "PROFIL": "Profil",
-                "STATUT": "Statut",
+                "EMAIL": "Email",
+                "RESPONSIBILITY": "Responsabilité",
+                "STATUS": "Statut",
+                "CREATED_AT": "Créé le",
+                "CREATED_BY": "Créé par",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -2293,8 +2316,6 @@
             "FORM": {
                 "CREATE_TITLE": "Ajouter un utilisateur",
                 "EDIT_TITLE": "Modifier un utilisateur",
-                "LAST_NAME": "Nom",
-                "FIRST_NAME": "Prénoms",
                 "PHONE": "Téléphone",
                 "PROFILE": "Profil Utilisateur",
                 "MATRICULE": "Matricule",
@@ -2305,7 +2326,25 @@
                 "MATRICULE_REQUIRED": "Le matricule est requis",
                 "EMAIL_REQUIRED": "L'email est requis",
                 "EMAIL_INVALID": "L'email n'est pas valide",
-                "PHONE_REQUIRED": "Le téléphone est requis"
+                "PHONE_REQUIRED": "Le téléphone est requis",
+                "TITLE_FORM_ADD": "Formulaire d'ajout d'utilisateur",
+                "TITLE_FORM_EDIT": "Formulaire de modification d'utilisateur",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Téléphone",
+                    "PROFILE": "Profil Utilisateur",
+                    "RESPONSIBILITY": "Responsabilité",
+                    "MATRICULE": "Matricule",
+                    "EMAIL": "Email",
+                    "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "PHONE_PLACEHOLDER": "Ex: 0612345678",
+                    "PROFILE_PLACEHOLDER": "Ex: Admin",
+                    "MATRICULE_PLACEHOLDER": "Ex: 123456",
+                    "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                }
             },
             "BUTTONS": {
                 "ADD": "Ajouter"
@@ -2347,16 +2386,38 @@
                 "NOT_ASSIGNED": "Non assigné"
             }
         },
-        "PROFILE_HABILITATION": {
-            "TITLE": "Profils habilitations - CMZ gestion centralisée des profils habilitations",
+        "PROFILES_HABILITATIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Profils et Habilitations",
+                "ROUTE": "profils et habilitations"
+            },
+            "TABS": {
+                "PROFILES_HABILITATIONS": {
+                    "LABEL": "Profils et Habilitations",
+                    "ROUTE": "profils et habilitations"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Profils habilitations",
             "LABEL": "Permissions Profils",
             "ROUTE": "permission-profiles",
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "USER": "Utilisateur",
+                "USER_PLACEHOLDER": "Trouver un utilisateur"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
-                "PROFILE": "Profil",
+                "NAME": "Profil",
                 "DESCRIPTION": "Description",
                 "USERS_COUNT": "# utilisateurs",
-                "STATUT": "Statut",
+                "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
                 "EDIT": "Modifier",
                 "DELETE": "Supprimer",
@@ -2369,20 +2430,36 @@
                 "UNASSIGN": "Déassigner",
                 "ACTION": "Action"
             },
-            "FILTER": {
-                "PROFILE": "Profil",
-                "STATE": "État",
-                "MATRICULE": "Matricule",
-                "SEARCH": "Recherche",
-                "SEARCH_PLACEHOLDER": "Nom et prénoms"
-            },
             "FORM": {
-                "CREATE_TITLE": "Ajouter un profil",
-                "EDIT_TITLE": "Modifier un profil",
-                "NAME": "Profil",
-                "DESCRIPTION": "Description",
-                "NAME_REQUIRED": "Le nom du profil est requis",
-                "DESCRIPTION_REQUIRED": "La description est requise"
+                "TITLE_FORM_ADD": "Formulaire d'ajout de profil",
+                "TITLE_FORM_EDIT": "Formulaire de modification de profil",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "NAME": "Nom du profil",
+                    "NAME_PLACEHOLDER": "Ex: Nouveau profil",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "Ex: Description du profil"
+                },
+                "FIELDSET_PERMISSIONS": {
+                    "TITLE": "Permissions",
+                    "NAME": "Nom du profil",
+                    "NAME_PLACEHOLDER": "Ex: Nouveau profil",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "Ex: Description du profil",
+                    "EXPAND_ALL": "Dérouler tout",
+                    "COLLAPSE_ALL": "Fermer tout",
+                    "SELECTED_COUNT": "Nombre de permissions accordées",
+                    "NO_PERMISSIONS_AVAILABLE": "Permission non disponible"
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire"
+                }
             },
             "BUTTONS": {
                 "ADD": "Ajouter",
@@ -2492,243 +2569,268 @@
         }
     },
     "TEAM_ORGANIZATION": {
-        "LABEL": "Organisation du temps",
-        "PARTICIPANT": {
-            "LABEL": "Intervenants",
-            "TITLE": "Intervenants - CMZ gestion des intervenants",
-            "ROUTE": "participants",
-            "HEADER": {
-                "PLURAL": "intervenants",
-                "SINGULAR": "intervenant"
+        "BREADCRUMB": {
+            "LABEL": "Organisation des équipes",
+            "ROUTE": "organization",
+            "ICON": "pi-users"
+        },
+        "LABEL": "Organisation des équipes",
+        "ROUTE": "organization",
+        "PARTICIPANTS": {
+            "BREADCRUMB": {
+                "LABEL": "Intervenants",
+                "ROUTE": "participant"
             },
             "TABS": {
-                "PARTICIPANTS": "Intervenants",
-                "HISTORY": "Historique"
+                "PARTICIPANTS": {
+                    "LABEL": "Intervenants",
+                    "ROUTE": "participant"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Intervenants",
+            "ROUTE": "participant",
+            "TABLE": {
+                "MATRICULE": "Matricule",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "EMAIL": "Email",
+                "PHONE": "Téléphone",
+                "ROLE": "Rôle",
+                "RESPONSIBILITY": "Responsabilité",
+                "STATE": "État",
+                "STATUS": "Statut",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "PROFIL": "Profil",
+                "STATE": "État",
+                "MATRICULE": "Matricule",
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Nom et prénoms"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter un intervenant",
+                "EDIT_TITLE": "Modifier un intervenant",
+                "PHONE": "Téléphone",
+                "ROLE": "Rôle",
+                "MATRICULE": "Matricule",
+                "EMAIL": "Email",
+                "LAST_NAME_REQUIRED": "Le nom est requis",
+                "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
+                "ROLE_REQUIRED": "Le rôle est requis",
+                "MATRICULE_REQUIRED": "Le matricule est requis",
+                "EMAIL_REQUIRED": "L'email est requis",
+                "EMAIL_INVALID": "L'email n'est pas valide",
+                "PHONE_REQUIRED": "Le téléphone est requis",
+                "TITLE_FORM_ADD": "Formulaire d'ajout d'intervenant",
+                "TITLE_FORM_EDIT": "Formulaire de modification d'intervenant",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Téléphone",
+                    "ROLE": "Rôle",
+                    "MATRICULE": "Matricule",
+                    "EMAIL": "Email",
+                    "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "PHONE_PLACEHOLDER": "Ex: 0612345678",
+                    "ROLE_PLACEHOLDER": "Ex: Admin",
+                    "MATRICULE_PLACEHOLDER": "Ex: 123456",
+                    "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                }
             },
             "BUTTONS": {
                 "ADD": "Ajouter"
             },
-            "FILTER": {
-                "ROLE": "Rôle",
-                "MATRICULE": "Matricule",
-                "FULLNAME": "Nom et prénoms",
-                "TEAM": "Équipe",
-                "STATUS": "Statut",
-                "SELECT_PLACEHOLDER": "Sélectionner..."
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "DISABLE": "Désactiver"
             },
-            "OPTIONS": {
-                "STATUS": {
-                    "ACTIVE": "Actif",
-                    "INACTIVE": "Inactif",
-                    "ASSIGNED": "Affecté"
-                }
+            "CONFIRM": {
+                "DELETE_TITLE": "Supprimer l'intervenant",
+                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'intervenant {{name}} ? Cette action est irréversible.",
+                "DISABLE_TITLE": "Désactiver l'intervenant",
+                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver l'intervenant {{name}} ?"
             },
             "MESSAGES": {
-                "ERROR": {
-                    "LOAD_ROLES": "Erreur lors du chargement des rôles",
-                    "LOAD_TEAMS": "Erreur lors du chargement des équipes"
-                },
                 "SUCCESS": {
-                        "CREATED": "Intervenant créé avec succès",
+                    "CREATED": "Intervenant créé avec succès",
                     "UPDATED": "Intervenant modifié avec succès",
                     "DELETED": "Intervenant supprimé avec succès",
                     "ENABLED": "Intervenant activé avec succès",
                     "DISABLED": "Intervenant désactivé avec succès"
                 }
             },
+            "OPTIONS": {
+                "ROLE": {
+                    "ADMIN": "Administrateur",
+                    "USER": "Intervenant"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "PROFIL": {
+                "NOT_ASSIGNED": "Non assigné"
+            }
+        },
+        "TEAMS": {
+            "BREADCRUMB": {
+                "LABEL": "Equipes",
+                "ROUTE": "team"
+            },
+            "TABS": {
+                "TEAMS": {
+                    "LABEL": "Equipes",
+                    "ROUTE": "team"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Equipes",
+            "LABEL": "équipes",
+            "ROUTE": "team",
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "PARTICIPANT": "Participant",
+                "PARTICIPANT_PLACEHOLDER": "Trouver un participant"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Profil",
+                "DESCRIPTION": "Description",
+                "STATUS": "Statut",
+                "PARTICIPANTS_COUNT": "# intervenants",
+                "CREATED_AT": "Créé le",
+                "UPDATED_AT": "Modifié le",
+                "SEE_MORE": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "ADD": "Ajouter",
+                "ACTIVE": "Actif",
+                "INACTIVE": "Inactif",
+                "ASSIGNED": "Assigné",
+                "UNASSIGNED": "Non assigné",
+                "ASSIGN": "Assigner",
+                "UNASSIGN": "Déassigner",
+                "ACTION": "Action"
+            },
             "FORM": {
-                "CREATE_TITLE": "Ajouter un intervenant",
-                "EDIT_TITLE": "Modifier un intervenant",
-                "TABS": {
-                    "IDENTIFICATION": "Identification",
-                    "HISTORY": "Historique"
-                },
-                "FIELDSET": {
-                    "PARTICIPANT_INFO": "Informations de l'intervenant"
-                },
-                "FIELDS": {
-                    "NOM": "Nom",
-                    "PRENOMS": "Prénoms",
-                    "USERNAME": "Nom de connexion",
-                    "EMAIL": "Email",
-                    "CONTACTS": "Contact",
-                    "ADRESSE": "Adresse",
-                    "ROLE": "Rôle"
-                },
-                "PLACEHOLDERS": {
-                    "NOM": "Entrez le nom",
-                    "PRENOMS": "Entrez les prénoms",
-                    "USERNAME": "Entrez le nom de connexion",
-                    "EMAIL": "Entrez l'email",
-                    "CONTACTS": "Entrez le contact",
-                    "ADRESSE": "Entrez l'adresse",
-                    "ROLE": "Sélectionnez un rôle"
+                "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
+                "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "CODE": "Code",
+                    "CODE_PLACEHOLDER": "Ex: TE001",
+                    "NAME": "Nom de l'équipe",
+                    "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
                 },
                 "VALIDATION": {
-                    "NOM_REQUIRED": "Le nom est requis",
-                    "PRENOMS_REQUIRED": "Les prénoms sont requis",
-                    "USERNAME_REQUIRED": "Le nom de connexion est requis",
-                    "EMAIL_REQUIRED": "L'email est requis",
-                    "EMAIL_INVALID": "L'email n'est pas valide",
-                    "CONTACTS_REQUIRED": "Le contact est requis",
-                    "ROLE_REQUIRED": "Le rôle est requis"
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire"
                 }
             },
-            "TABLE": {
-                "MATRICULE": "Matricule",
-                "NOM": "Nom",
-                "PRENOMS": "Prénoms",
-                "USERNAME": "Nom de connexion",
-                "CONTACT": "Contact",
-                "ROLE": "Rôle",
-                "AFFECTE": "Affecté",
-                "STATUT": "Statut",
-                "ACTION": "Action"
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de l'équipe",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette équipe ?",
+                "TITLE_CREATE": "Création de l'équipe",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette équipe ?",
+                "TITLE_DELETE": "Suppression de l'équipe",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette équipe ?",
+                "TITLE_ENABLE": "Activation de l'équipe",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cette équipe ?",
+                "TITLE_DISABLE": "Désactivation de l'équipe",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?"
             },
-            "ACTIONS": {
-                "VIEW": "Voir",
-                "EDIT": "Éditer",
-                "DELETE": "Supprimer",
-                "ENABLE": "Activer",
-                "DISABLE": "Désactiver"
-            },
-            "LABELS": {
-                "STATUS": {
-                    "ACTIVE": "Actif",
-                    "INACTIVE": "Inactif"
-                }
-            },
-            "CONFIRM": {
-                "DELETE_TITLE": "Supprimer l'intervenant",
-                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer ce participant ? Cette action est irréversible.",
-                "ENABLE_TITLE": "Activer l'intervenant",
-                "ENABLE_MESSAGE": "Êtes-vous sûr de vouloir activer l'intervenant ?",
-                "DISABLE_TITLE": "Désactiver l'intervenant",
-                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver l'intervenant ?"
-            }
-        },
-        "TEAM": {
-            "LABEL": "Équipes",
-            "TITLE": "Équipes - CMZ gestion des équipes",
-            "ROUTE": "teams",
-            "HEADER": {
-                "PLURAL": "équipes",
-                "SINGULAR": "équipe"
-            },
-            "BUTTONS": {
-                "ADD": "Ajouter une équipe"
-            },
-            "FILTER": {
-                "CODE_NAME": "Nom / Code équipe",
-                "CODE_NAME_PLACEHOLDER": "Nom ou code équipe",
-                "PARTICIPANT": "Participant",
-                "STATUS": "Statut",
-                "SELECT_PLACEHOLDER": "Sélectionner"
-            },
-            "FORM": {
-                "CREATE_TITLE": "Ajouter une équipe",
-                "EDIT_TITLE": "Modifier une équipe",
-                "CODE": "Code",
-                "CODE_REQUIRED": "Le code est requis",
-                "NAME": "Nom",
-                "NAME_REQUIRED": "Le nom est requis",
-                "DESCRIPTION": "Description"
-            },
-            "MANAGEMENT_AFFECTED": {
-                "TITLE": "Gestion des affectés",
+            "PARTICIPANTS": {
+                "BREADCRUMB": {
+                    "LABEL": "Participants",
+                    "ROUTE": "participant"
+                },
+                "TITLE": "Participants de l'équipe",
+                "LABEL": "participants",
+                "ROUTE": "team-users",
                 "FILTER": {
-                    "CODE": "Code",
-                    "CODE_PLACEHOLDER": "Code",
-                    "MATRICULE": "Matricule",
-                    "MATRICULE_PLACEHOLDER": "Matricule"
+                    "SEARCH": "Rechercher",
+                    "SEARCH_PLACEHOLDER": "Rechercher",
+                    "EMAIL": "Email",
+                    "EMAIL_PLACEHOLDER": "Email",
+                    "PHONE": "Téléphone",
+                    "PHONE_PLACEHOLDER": "Téléphone"
                 },
                 "TABLE": {
+                    "BUTTONS": {
+                        "ADD": "Ajouter",
+                        "ASSIGN": "Affecter",
+                        "REASSIGN": "Réaffecter",
+                        "REMOVE": "Retirer"
+                    },
                     "CODE": "Code",
-                    "TENANT_NAME": "Nom du client",
-                    "ACCOUNT_CLIENT": "Compte client",
-                    "STATUS": "Statut",
-                    "MATRICULE": "Matricule",
-                    "FULL_NAME": "Nom complet",
-                    "EMAIL": "Email",
-                    "CONTACTS": "Contacts"
+                    "FIRST_NAME": "Prénom",
+                    "LAST_NAME": "Nom",
+                    "PHONE": "Téléphone",
+                    "EMAIL": "Email"
                 },
-                "BUTTONS": {
-                    "ASSIGN": "Affecter",
-                    "REASSIGN": "Réaffecter",
-                    "RETIRE": "Retirer"
+                "FORM": {
+                    "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
+                    "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
+                    "FIELDSET_GENERAL_INFO": {
+                        "TITLE": "Informations Générales",
+                        "CODE": "Code",
+                        "CODE_PLACEHOLDER": "Ex: TE001",
+                        "NAME": "Nom de l'équipe",
+                        "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
+                        "DESCRIPTION": "Description",
+                        "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
+                    },
+                    "VALIDATION": {
+                        "MIN_LENGTH": "Minimum caractères requis",
+                        "MAX_LENGTH": "Maximum caractères autorisés",
+                        "MIN_VALUE": "Valeur minimale",
+                        "MAX_VALUE": "Valeur maximale",
+                        "INVALID_FORMAT": "Format invalide",
+                        "INVALID_INPUT": "Valeur invalide",
+                        "REQUIRED": "Ce champ est obligatoire"
+                    }
+                },
+                "SWEET_ALERT": {
+                    "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?",
+                    "TITLE_REASSIGN": "Réaffectation d'intervenant(s)",
+                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} intervenant(s) de cette équipe ?",
+                    "TITLE_REMOVE": "Retrait d'intervenant(s)",
+                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} intervenant(s) de cette équipe ?"
                 },
                 "MODAL": {
-                    "REASSIGN_PARTICIPANTS_TITLE": "Réaffecter les participants",
-                    "REASSIGN_PARTICIPANTS_MESSAGE": "{{count}} participant(s) seront réaffectés",
-                    "NEW_TEAM": "Nouvelle équipe",
-                    "NEW_TEAM_REQUIRED": "La nouvelle équipe est requise"
-                },
-                "CONFIRM": {
-                    "RETIRE_TENANTS_TITLE": "Retirer les clients",
-                    "RETIRE_TENANTS_MESSAGE": "Voulez-vous retirer {{count}} client(s) de cette équipe ?",
-                    "RETIRE_PARTICIPANTS_TITLE": "Retirer les participants",
-                    "RETIRE_PARTICIPANTS_MESSAGE": "Voulez-vous retirer {{count}} participant(s) de cette équipe ?"
-                },
-                "MESSAGES": {
-                    "NO_SELECTION": "Veuillez sélectionner au moins un élément"
+                    "REASSIGN_TITLE": "Réaffectation des intervenants",
+                    "REASSIGN_LABEL": "Équipe",
+                    "NEW_PROFILE": "Nouveau profil",
+                    "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
+                    "REASSIGN_MESSAGE": "{{count}} intervenant(s) seront réaffectés"
                 }
-            },
-            "OPTIONS": {
-                "STATUS": {
-                    "ACTIVE": "Actif",
-                    "INACTIVE": "Inactif"
-                }
-            },
-            "MESSAGES": {
-                "STORE_SUCCESS": "Équipe créée avec succès",
-                "UPDATE_SUCCESS": "Équipe mise à jour avec succès",
-                "DELETE_SUCCESS": "Équipe supprimée avec succès",
-                "ENABLE_SUCCESS": "Équipe activée avec succès",
-                "DISABLE_SUCCESS": "Équipe désactivée avec succès",
-                "AFFECT_SUCCESS": "Affectation réalisée avec succès",
-                "REASSIGN_SUCCESS": "Réaffectation réalisée avec succès",
-                "RETIRE_SUCCESS": "Retrait réalisé avec succès",
-                "ERROR": {
-                    "LOAD_PARTICIPANTS": "Erreur lors du chargement des participants",
-                    "LOAD_TENANTS": "Erreur lors du chargement des tenants"
-                }
-            },
-            "TABLE": {
-                "CODE": "Code",
-                "NAME": "Nom",
-                "TENANTS": "# Clients affectés",
-                "PARTICIPANTS": "# Participants affectés",
-                "STATUS": "Statut",
-                "ACTION": "Action"
-            },
-            "ACTIONS": {
-                "VIEW": "Voir plus",
-                "EDIT": "Modifier",
-                "ENABLE": "Activer",
-                "DISABLE": "Désactiver",
-                "DELETE": "Supprimer",
-                "MANAGE_TENANTS": "Gérer les clients affectés",
-                "MANAGE_PARTICIPANTS": "Gérer les participants affectés"
-            },
-            "LABELS": {
-                "STATUS": {
-                    "ACTIVE": "Actif",
-                    "INACTIVE": "Inactif"
-                }
-            },
-            "CONFIRM": {
-                "ENABLE_TITLE": "Activer l'équipe",
-                "ENABLE_MESSAGE": "Voulez-vous activer l'équipe {{ name }} ?",
-                "DISABLE_TITLE": "Désactiver l'équipe",
-                "DISABLE_MESSAGE": "Voulez-vous désactiver l'équipe {{ name }} ?",
-                "DELETE_TITLE": "Supprimer l'équipe",
-                "DELETE_MESSAGE": "Voulez-vous supprimer l'équipe {{ name }} ? Cette action est irréversible."
             }
-        },
-        "AGENT_IA": {
-            "LABEL": "Agents IA",
-            "TITLE": "Agents IA - CMZ gestion des agents IA",
-            "ROUTE": "agent-ia"
         }
     },
     "REPORTING": {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, defer } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import {
     CropRegion,
     ImageErrors,
@@ -16,6 +17,7 @@ export class ImageProcessorCoreService {
 
     /**
      * Charger une image depuis une URL ou un File
+     * @param source
      */
     loadImage$(source: string | File): Observable<HTMLImageElement> {
         return new Observable<HTMLImageElement>((subscriber) => {
@@ -53,6 +55,8 @@ export class ImageProcessorCoreService {
 
     /**
      * Valider un fichier image (pure logique)
+     * @param file
+     * @param maxSizeMB
      */
     validateFile(
         file: File,
@@ -99,6 +103,9 @@ export class ImageProcessorCoreService {
 
     /**
      * Rogner une image avec Canvas
+     * @param image
+     * @param cropRegion
+     * @param options
      */
     cropImage$(
         image: HTMLImageElement,
@@ -169,6 +176,8 @@ export class ImageProcessorCoreService {
 
     /**
      * Optimiser une image avec compression progressive
+     * @param image
+     * @param options
      */
     optimizeImage$(
         image: HTMLImageElement,
@@ -312,6 +321,10 @@ export class ImageProcessorCoreService {
         canvas: HTMLCanvasElement,
         options: ProcessingOptions
     ): Observable<Blob> {
+        console.log(
+            'Starting optimized blob conversion with options:',
+            options
+        );
         return new Observable<Blob>((subscriber) => {
             const strategies = [
                 { format: 'image/webp' as const, quality: 0.85 },

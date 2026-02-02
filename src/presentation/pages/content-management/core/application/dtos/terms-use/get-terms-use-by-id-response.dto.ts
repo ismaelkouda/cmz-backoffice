@@ -1,7 +1,7 @@
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 
-export interface GetTermsUseByIdResponseDto
-    extends SimpleResponseDto<GetTermsUseByIdItemDto> {}
+export type GetTermsUseByIdResponseDto =
+    SimpleResponseDto<GetTermsUseByIdItemDto>;
 
 export interface GetTermsUseByIdItemDto {
     name: string;

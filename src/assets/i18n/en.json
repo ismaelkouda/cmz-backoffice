@@ -932,7 +932,7 @@
             }
         }
     },
-    "OPERATOR": {
+    "OPERATORS": {
         "ORANGE": "Orange",
         "MTN": "MTN",
         "MOOV": "Moov"
@@ -980,12 +980,12 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1039,15 +1039,19 @@
                 "INITIATOR": "Initiator Number",
                 "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
-                "OPERATOR": "Operator",
-                "SOURCE": "Source"
+                "OPERATORS": "Operators",
+                "SOURCE": "Source",
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date"
+                }
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet",
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARIAL_SIGNAL": "Partial Signal Coverage"
                 },
                 "STATUS": {
@@ -1055,7 +1059,7 @@
                     "RECEIVED": "Received",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1125,16 +1129,20 @@
                 "INITIATOR": "Initiator Number",
                 "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
-                "OPERATOR": "Operator",
+                "OPERATORS": "Operators",
                 "SOURCE": "Source",
-                "STATUS": "Status"
+                "STATE": "Status",
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date"
+                }
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet",
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARIAL_SIGNAL": "Partial Signal Coverage"
                 },
                 "STATUS": {
@@ -1144,7 +1152,7 @@
                     "ABANDONED": "Abandoned",
                     "CONFIRMED": "Confirmed"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1218,17 +1226,17 @@
                 "INITIATOR": "Initiator Number",
                 "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
-                "OPERATOR": "Operator",
+                "OPERATORS": "Operators",
                 "SOURCE": "Source"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1285,7 +1293,7 @@
                 "INITIATOR": "Initiator Number",
                 "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
-                "OPERATOR": "Operator",
+                "OPERATORS": "Operators",
                 "SOURCE": "Source"
             },
             "OPTIONS": {
@@ -1293,7 +1301,7 @@
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet",
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARIAL_SIGNAL": "Partial Signal Coverage"
                 },
                 "STATUS": {
@@ -1301,7 +1309,7 @@
                     "RECEIVED": "Received",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1366,7 +1374,7 @@
                 "INITIATOR": "Initiator Number",
                 "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
-                "OPERATOR": "Operator",
+                "OPERATORS": "Operators",
                 "SOURCE": "Source",
                 "STATUS": "Status"
             },
@@ -1375,7 +1383,7 @@
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet",
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARIAL_SIGNAL": "Partial Signal Coverage"
                 },
                 "STATUS": {
@@ -1384,7 +1392,7 @@
                     "RECEIVED": "Received",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1439,11 +1447,11 @@
                 "INITIATOR": "Initiator",
                 "REPORT_TYPE": "Report Type",
                 "STATE": "State",
-                "OPERATOR": "Operator"
+                "OPERATORS": "Operators"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet"
@@ -1453,7 +1461,7 @@
                     "IN_PROGRESS": "In Progress",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1478,7 +1486,7 @@
                 "INITIATOR": "Initiator",
                 "REPORT_TYPE": "Report Type",
                 "STATE": "State",
-                "OPERATOR": "Operator"
+                "OPERATORS": "Operators"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -1489,7 +1497,7 @@
                     "PENDING": "Pending",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1601,17 +1609,17 @@
                 "INITIATOR": "Initiator",
                 "REPORT_TYPE": "Report Type",
                 "UNIQ_ID": "Identify",
-                "OPERATOR": "Operator",
+                "OPERATORS": "Operators",
                 "STATE": "State"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1668,14 +1676,14 @@
                 "REPORT_TYPE": "Report Type",
                 "UNIQ_ID": "Identify",
                 "STATE": "State",
-                "OPERATOR": "Operator"
+                "OPERATORS": "Operators"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet",
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARIAL_SIGNAL": "Partial Signal Coverage"
                 },
                 "STATUS": {
@@ -1683,7 +1691,7 @@
                     "RECEIVED": "Received",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1747,7 +1755,7 @@
                 "INITIATOR": "Initiator",
                 "UNIQ_ID": "Identify",
                 "REPORT_TYPE": "Report Type",
-                "OPERATOR": "Operator",
+                "OPERATORS": "Operators",
                 "SOURCE": "Source",
                 "STATUS": "Status"
             },
@@ -1756,7 +1764,7 @@
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet",
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARIAL_SIGNAL": "Partial Signal Coverage"
                 },
                 "STATUS": {
@@ -1764,7 +1772,7 @@
                     "RECEIVED": "Received",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1819,11 +1827,11 @@
                 "INITIATOR": "Initiator",
                 "REPORT_TYPE": "Report Type",
                 "STATE": "State",
-                "OPERATOR": "Operator"
+                "OPERATORS": "Operators"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATOR": "Partial Operator Coverage",
+                    "PARTIAL_OPERATORS": "Partial Operator Coverage",
                     "PARTIAL_SIGNAL": "Partial Signal Coverage",
                     "WHITE_ZONE": "White Zone",
                     "NO_INTERNET": "No Internet"
@@ -1833,7 +1841,7 @@
                     "IN_PROGRESS": "In Progress",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -1858,7 +1866,7 @@
                 "INITIATOR": "Initiator",
                 "REPORT_TYPE": "Report Type",
                 "STATE": "State",
-                "OPERATOR": "Operator"
+                "OPERATORS": "Operators"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -1869,7 +1877,7 @@
                     "PENDING": "Pending",
                     "REJECTED": "Rejected"
                 },
-                "OPERATOR": {
+                "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
@@ -2497,10 +2505,16 @@
         }
     },
     "TEAM_ORGANIZATION": {
-        "LABEL": "Time Organization",
+        "BREADCRUMB": {
+            "LABEL": "Team Organization",
+            "ROUTE": "team-organization",
+            "ICON": "pi-cog"
+        },
+        "LABEL": "Team Organization",
+        "ROUTE": "team-organization",
         "PARTICIPANT": {
             "LABEL": "Agents",
-            "TITLE": "Agents - CMZ Agent Management",
+            "TITLE": "Agents",
             "ROUTE": "agents",
             "HEADER": {
                 "PLURAL": "agents",

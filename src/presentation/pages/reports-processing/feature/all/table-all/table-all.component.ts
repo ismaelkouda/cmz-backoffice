@@ -10,13 +10,15 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AllTableMapper } from '@presentation/pages/reports-processing/data/mappers/all-table.mapper';
-import { ALL_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/all/all-table.constants';
-import {
-    AllEntity,
-    ReportState,
-} from '@presentation/pages/reports-processing/domain/entities/all/all.entity';
-import { AllTableVM } from '@presentation/pages/reports-processing/domain/view-models/all-table.vm';
+import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -26,14 +28,14 @@ import {
     TableConfig,
     TableExportExcelFileService,
 } from '@shared/services/table-export-excel-file.service';
-import { ClipboardService } from 'ngx-clipboard';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { AllTableMapper } from '@presentation/pages/reports-processing/data/mappers/all-table.mapper';
+import { ALL_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/all/all-table.constants';
+import {
+    AllEntity,
+    ReportState,
+} from '@presentation/pages/reports-processing/domain/entities/all/all.entity';
+import { AllTableVM } from '@presentation/pages/reports-processing/domain/view-models/all-table.vm';
 
 @Component({
     selector: 'app-table-all',
@@ -157,7 +159,9 @@ export class TableAllComponent implements OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value
@@ -198,9 +202,9 @@ export class TableAllComponent implements OnDestroy {
     getOperatorLabel(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
         const translationMap: Record<string, string> = {
-            orange: 'REPORTS_PROCESSING.ALL.OPTIONS.OPERATOR.ORANGE',
-            mtn: 'REPORTS_PROCESSING.ALL.OPTIONS.OPERATOR.MTN',
-            moov: 'REPORTS_PROCESSING.ALL.OPTIONS.OPERATOR.MOOV',
+            orange: 'REPORTS_PROCESSING.ALL.OPTIONS.OPERATORS.ORANGE',
+            mtn: 'REPORTS_PROCESSING.ALL.OPTIONS.OPERATORS.MTN',
+            moov: 'REPORTS_PROCESSING.ALL.OPTIONS.OPERATORS.MOOV',
         };
         const key = translationMap[normalized];
         return key ? this.translate.instant(key) : operator;

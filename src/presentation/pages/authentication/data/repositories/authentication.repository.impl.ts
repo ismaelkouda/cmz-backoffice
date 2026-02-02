@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
-import { AuthVariables } from '@pages/authentication/domain/entities/auth-variables.entity';
-import { AuthenticationRepository } from '@pages/authentication/domain/repositories/authentication.repository';
-import { LoginCredentials } from '@pages/authentication/domain/value-objects/login-credentials.vo';
+
 import { LoginResponseDto } from '@pages/authentication/data/dtos/login-response.dto';
 import { VariablesResponseDto } from '@pages/authentication/data/dtos/variables-response.dto';
 import { AuthSessionMapper } from '@pages/authentication/data/mappers/auth-session.mapper';
 import { AuthVariablesMapper } from '@pages/authentication/data/mappers/auth-variables.mapper';
 import { AuthenticationApi } from '@pages/authentication/data/sources/authentication.api';
+import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
+import { AuthVariables } from '@pages/authentication/domain/entities/auth-variables.entity';
+import { AuthenticationRepository } from '@pages/authentication/domain/repositories/authentication.repository';
+import { LoginCredentials } from '@pages/authentication/domain/value-objects/login-credentials.vo';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationRepositoryImpl extends AuthenticationRepository {

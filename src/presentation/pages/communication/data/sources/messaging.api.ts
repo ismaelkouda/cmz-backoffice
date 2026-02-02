@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+
+import { EnvService } from '@shared/services/env.service';
+
 import { MessagingRequestDto } from '../dtos/messaging-request.dto';
 import { MessagingResponseDto } from '../dtos/messaging-response.dto';
 import { MESSAGING_ENDPOINTS } from '../endpoint/messaging.endpoints';

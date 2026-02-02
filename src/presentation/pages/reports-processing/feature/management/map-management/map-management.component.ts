@@ -12,6 +12,7 @@ import {
     signal,
 } from '@angular/core';
 import { Subject } from 'rxjs';
+
 import { OpenLayersLoaderService } from './service/openlayers-loader.service';
 
 export interface MapMarker {
@@ -43,12 +44,12 @@ export class MapManagementComponent implements OnInit, OnDestroy {
 
     @Input() latitude!: number;
     @Input() longitude!: number;
-    @Input() zoom: number = 15;
-    @Input() markerTitle: string = 'Position';
-    @Input() markerDescription: string = 'Localisation spécifiée';
-    @Input() markerColor: string = '#3366ff';
-    @Input() enablePopup: boolean = true;
-    @Input() enableAnimations: boolean = true;
+    @Input() zoom = 15;
+    @Input() markerTitle = 'Position';
+    @Input() markerDescription = 'Localisation spécifiée';
+    @Input() markerColor = '#3366ff';
+    @Input() enablePopup = true;
+    @Input() enableAnimations = true;
 
     private map: any = null;
     private markerLayer: any = null;

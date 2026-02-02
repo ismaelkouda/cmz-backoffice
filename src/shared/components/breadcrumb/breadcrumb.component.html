@@ -5,7 +5,11 @@
                 [routerLink]="item.routerLink"
                 class="d-flex align-items-center justify-content-center gap-2"
             >
-                <i class="icon-gray" *ngIf="item.icon" [class]="'pi ' + item.icon"></i>
+                <i
+                    class="icon-gray"
+                    *ngIf="item.icon"
+                    [class]="'pi ' + item.icon"
+                ></i>
                 <span class="text-primary">{{ item.label }}</span>
             </a>
         </ng-template>

@@ -24,7 +24,7 @@
                 [options]="periodOptions"
                 [(ngModel)]="selectedPeriod"
                 (onChange)="onPeriodChange($event.value)"
-                [disabled]="isLoading$ | async"
+                [disabled]="isLoading()"
                 optionLabel="label"
                 optionValue="value"
                 styleClass="period-select-button"
@@ -34,19 +34,19 @@
         <div class="header-actions">
             <div class="date-info">
                 {{ 'DASHBOARD.UPDATED_DATE' | translate }}:
-                {{ (items$ | async)?.lastRefreshAt || ('DASHBOARD.NO_DATE' | translate) }}
+                {{
+                    (items$ | async)?.lastRefreshAt ||
+                        ('DASHBOARD.NO_DATE' | translate)
+                }}
             </div>
             <button
                 class="refresh-btn"
                 (click)="refreshData()"
-                [disabled]="isLoading$ | async"
+                [disabled]="isLoading()"
                 type="button"
                 [attr.aria-label]="'DASHBOARD.REFRESH' | translate"
             >
-                <i
-                    class="pi pi-refresh"
-                    [class.pi-spin]="isLoading$ | async"
-                ></i>
+                <i class="pi pi-refresh" [class.pi-spin]="isLoading()"></i>
             </button>
         </div>
     </div>
@@ -56,20 +56,20 @@
         <span>{{ error }}</span>
     </div>
 
-    <div *ngIf="isLoading$ | async" class="loading-container">
+    <div *ngIf="isLoading()" class="loading-container">
         <p-progressSpinner></p-progressSpinner>
         <p>{{ 'DASHBOARD.LOADING' | translate }}</p>
     </div>
 
     <div
-        *ngIf="!(isLoading$ | async) && !error && typeStatistics.length === 0"
+        *ngIf="!isLoading() && !error && typeStatistics.length === 0"
         class="no-data-container"
     >
         <i class="pi pi-info-circle"></i>
         <p>{{ 'DASHBOARD.NO_DATA' | translate }}</p>
     </div>
 
-    <div *ngIf="!(isLoading$ | async) && !error" class="dashboard-content">
+    <div *ngIf="!isLoading() && !error" class="dashboard-content">
         <div class="statistics-section" *ngIf="typeStatistics.length > 0">
             <div class="section-header">
                 <div class="section-badge">
@@ -83,6 +83,7 @@
                     class="stat-card card-{{ stat.color }}"
                     [class.clickable]="stat.routerFilter"
                     (click)="navigateToReport(stat)"
+                    (keypress)="navigateToReport(stat)"
                 >
                     <div class="card-content">
                         <div class="stat-header">
@@ -116,6 +117,7 @@
                     class="stat-card card-{{ stat.color }}"
                     [class.clickable]="stat.routerFilter"
                     (click)="navigateToReport(stat)"
+                    (keypress)="navigateToReport(stat)"
                 >
                     <div class="card-content">
                         <div class="stat-header">

@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     Component,
     computed,
     effect,
     inject,
-    Signal
+    Signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -16,16 +17,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DEPARTMENTS_ROUTE } from '@presentation/pages/administrative-boundary/administrative-boundary.route';
-import { DepartmentsFindoneFacade } from '@presentation/pages/administrative-boundary/core/application/services/departments/departments-findone.facade';
-import { DepartmentsFacade } from '@presentation/pages/administrative-boundary/core/application/services/departments/departments.facade';
-import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/core/application/services/regions/regions-select.facade';
-import { DepartmentsFormControls } from '@presentation/pages/administrative-boundary/core/domain/controls/departments/departments-form.control';
-import { FormValidators } from '@presentation/pages/administrative-boundary/core/domain/validators/form-validators';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
-import { ADMINISTRATIVE_BOUNDARY_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -36,6 +27,18 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map } from 'rxjs';
 import SweetAlert from 'sweetalert2';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { ADMINISTRATIVE_BOUNDARY_ROUTE } from '@shared/routes/routes';
+
+import { DEPARTMENTS_ROUTE } from '@presentation/pages/administrative-boundary/administrative-boundary.route';
+import { DepartmentsFindoneFacade } from '@presentation/pages/administrative-boundary/core/application/services/departments/departments-findone.facade';
+import { DepartmentsFacade } from '@presentation/pages/administrative-boundary/core/application/services/departments/departments.facade';
+import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/core/application/services/regions/regions-select.facade';
+import { DepartmentsFormControls } from '@presentation/pages/administrative-boundary/core/domain/controls/departments/departments-form.control';
+import { FormValidators } from '@presentation/pages/administrative-boundary/core/domain/validators/form-validators';
 
 @Component({
     selector: 'app-departments-form',
@@ -57,6 +60,7 @@ import SweetAlert from 'sweetalert2';
         TooltipModule,
     ],
     providers: [MessageService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DepartmentsFormComponent {
     private readonly activatedRoute = inject(ActivatedRoute);
@@ -68,46 +72,51 @@ export class DepartmentsFormComponent {
     private readonly translate = inject(TranslateService);
     private readonly messageService = inject(MessageService);
     public readonly VALIDATION = FormValidators;
-    readonly regions = toSignal(this.regionsFacade.items$, { initialValue: [] });
-    readonly currentDepartment = toSignal(this.findOneFacade.item$, { initialValue: null });
+    readonly regions = toSignal(this.regionsFacade.items$, {
+        initialValue: [],
+    });
+    readonly currentDepartment = toSignal(this.findOneFacade.item$, {
+        initialValue: null,
+    });
     private readonly paramsCode: Signal<string> = toSignal(
-        this.activatedRoute.queryParams.pipe(map(params => params['code'])),
+        this.activatedRoute.queryParams.pipe(map((params) => params['code'])),
         { initialValue: '' }
     );
     readonly isEditMode = computed(() => !!this.paramsCode());
-    public form: FormGroup<DepartmentsFormControls> = this.fb.nonNullable.group<DepartmentsFormControls>({
-        code: new FormControl('', {
-            nonNullable: true,
-            validators: [
-                Validators.required,
-                Validators.minLength(FormValidators.CODE.MIN),
-                Validators.maxLength(FormValidators.CODE.MAX),
-                Validators.pattern(FormValidators.CODE.PATTERN),
-            ],
-        }),
-        name: new FormControl('', {
-            nonNullable: true,
-            validators: [
-                Validators.required,
-                Validators.minLength(FormValidators.NAME.MIN),
-                Validators.maxLength(FormValidators.NAME.MAX),
-                Validators.pattern(FormValidators.NAME.PATTERN),
-            ],
-        }),
-        regionCode: new FormControl('', {
-            nonNullable: true,
-            validators: [Validators.required],
-        }),
-        description: new FormControl('', {
-            nonNullable: true,
-            validators: [
-                Validators.required,
-                Validators.minLength(FormValidators.DESCRIPTION.MIN),
-                Validators.maxLength(FormValidators.DESCRIPTION.MAX),
-                Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
-            ],
-        }),
-    });
+    public form: FormGroup<DepartmentsFormControls> =
+        this.fb.nonNullable.group<DepartmentsFormControls>({
+            code: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.CODE.MIN),
+                    Validators.maxLength(FormValidators.CODE.MAX),
+                    Validators.pattern(FormValidators.CODE.PATTERN),
+                ],
+            }),
+            name: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.NAME.MIN),
+                    Validators.maxLength(FormValidators.NAME.MAX),
+                    Validators.pattern(FormValidators.NAME.PATTERN),
+                ],
+            }),
+            regionCode: new FormControl('', {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            description: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.DESCRIPTION.MIN),
+                    Validators.maxLength(FormValidators.DESCRIPTION.MAX),
+                    Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
+                ],
+            }),
+        });
 
     constructor() {
         effect(() => {
@@ -137,7 +146,9 @@ export class DepartmentsFormComponent {
 
     public getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
-        if (!control || !control.errors) return '';
+        if (!control || !control.errors) {
+            return '';
+        }
 
         const errors = control.errors;
         if (errors['minlength']) {
@@ -147,9 +158,13 @@ export class DepartmentsFormComponent {
             return `${this.translate.instant('ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
         }
         if (errors['pattern']) {
-            return this.translate.instant('ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.VALIDATION.INVALID_FORMAT');
+            return this.translate.instant(
+                'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.VALIDATION.INVALID_FORMAT'
+            );
         }
-        return this.translate.instant('ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.VALIDATION.INVALID_INPUT');
+        return this.translate.instant(
+            'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.VALIDATION.INVALID_INPUT'
+        );
     }
 
     onSubmit(): void {
@@ -172,13 +187,13 @@ export class DepartmentsFormComponent {
                 const id: string = this.paramsCode();
                 if (this.isEditMode() && id) {
                     this.facade.update({ id, ...formData }).subscribe(() => {
-                        this.onCancel()
-                        this.facade.refreshWithLastFilterAndPage()
+                        this.onCancel();
+                        this.facade.refreshWithLastFilterAndPage();
                     });
                 } else {
                     this.facade.create(formData).subscribe(() => {
-                        this.onCancel()
-                        this.facade.refreshWithLastFilterAndPage()
+                        this.onCancel();
+                        this.facade.refreshWithLastFilterAndPage();
                     });
                 }
             }
@@ -186,11 +201,15 @@ export class DepartmentsFormComponent {
     }
 
     private getSweetAlertTitle(): string {
-        return this.isEditMode() ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_UPDATE' : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_CREATE';
+        return this.isEditMode()
+            ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_UPDATE'
+            : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_CREATE';
     }
 
     private getSweetAlertMessage(): string {
-        return this.isEditMode() ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE_UPDATE' : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE_CREATE';
+        return this.isEditMode()
+            ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE_UPDATE'
+            : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE_CREATE';
     }
 
     private showValidationErrors(): void {
@@ -219,6 +238,8 @@ export class DepartmentsFormComponent {
     }
 
     onCancel(): void {
-        this.router.navigate([ADMINISTRATIVE_BOUNDARY_ROUTE + '/' + DEPARTMENTS_ROUTE]);
+        this.router.navigate([
+            ADMINISTRATIVE_BOUNDARY_ROUTE + '/' + DEPARTMENTS_ROUTE,
+        ]);
     }
 }

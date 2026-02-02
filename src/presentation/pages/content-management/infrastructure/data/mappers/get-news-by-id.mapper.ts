@@ -1,12 +1,14 @@
 import { inject, Injectable } from '@angular/core';
+
+import { ActionDropdownDto } from '@shared/data/dtos/action-dropdown.dto';
+import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+
 import {
     GetNewsByIdItemDto,
     GetNewsByIdResponseDto,
 } from '@presentation/pages/content-management/core/application/dtos/news/get-news-by-id-response.dto';
 import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
-import { ActionDropdownDto } from '@shared/data/dtos/action-dropdown.dto';
-import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 
 @Injectable({
     providedIn: 'root',

@@ -1,11 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { MunicipalitiesFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/municipalities/municipalities-filter-api.dto';
 import { MunicipalitiesResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/municipalities/municipalities-response-api.dto';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { MunicipalitiesCreateApiDto } from '../../../api/dtos/municipalities/municipalities-create-api.dto';
 import { MunicipalitiesUpdateApiDto } from '../../../api/dtos/municipalities/municipalities-update-api.dto';
 
@@ -15,10 +18,14 @@ import { MunicipalitiesUpdateApiDto } from '../../../api/dtos/municipalities/mun
 export class MunicipalitiesApi {
     constructor(
         private readonly http: HttpClient,
-        @Inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL) private readonly baseUrl: string
-    ) { }
+        @Inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL)
+        private readonly baseUrl: string
+    ) {}
 
-    readAll(paramsDto: MunicipalitiesFilterApiDto, page: string): Observable<MunicipalitiesResponseApiDto> {
+    readAll(
+        paramsDto: MunicipalitiesFilterApiDto,
+        page: string
+    ): Observable<MunicipalitiesResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.MUNICIPALITIES}?page=${page}`;
 
         const params = this.createHttpParams(paramsDto);
@@ -44,13 +51,17 @@ export class MunicipalitiesApi {
         return params;
     }
 
-    create(payload: MunicipalitiesCreateApiDto): Observable<SimpleResponseDto<void>> {
+    create(
+        payload: MunicipalitiesCreateApiDto
+    ): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.MUNICIPALITIES}/store`;
 
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
-    update(payload: MunicipalitiesUpdateApiDto): Observable<SimpleResponseDto<void>> {
+    update(
+        payload: MunicipalitiesUpdateApiDto
+    ): Observable<SimpleResponseDto<void>> {
         const { id, ...rest } = payload;
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.MUNICIPALITIES}/${id}/update`;
         return this.http.post<SimpleResponseDto<void>>(url, rest);

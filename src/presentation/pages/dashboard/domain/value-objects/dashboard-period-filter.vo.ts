@@ -1,8 +1,8 @@
-import { Filter } from "@shared/application/base/object-base-facade";
-import { InvalidFilterError } from "@shared/domain/errors/filter.error";
+import { Filter } from '@shared/application/base/object-base-facade';
+import { InvalidFilterError } from '@shared/domain/errors/filter.error';
 
 export class DashboardPeriodFilter implements Filter {
-    private constructor(public readonly period: number) { }
+    private constructor(public readonly period: number) {}
 
     static create(period: number): DashboardPeriodFilter {
         const validPeriod = period ?? 30;

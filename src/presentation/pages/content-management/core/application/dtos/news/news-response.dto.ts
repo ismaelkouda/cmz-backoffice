@@ -18,4 +18,4 @@ export interface NewsItemDto {
     updated_at: string;
 }
 
-export interface NewsResponseDto extends PaginatedResponseDto<NewsItemDto> {}
+export type NewsResponseDto = PaginatedResponseDto<NewsItemDto>;

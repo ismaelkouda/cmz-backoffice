@@ -2,17 +2,17 @@ export const FormValidators = {
     TITLE: {
         MIN: 3,
         MAX: 100,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{3,}$/,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*/=°§]{3,}$/,
     },
     SUBTITLE: {
         MIN: 10,
         MAX: 250,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{10,}$/,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*/=°§]{10,}$/,
     },
     RESUME: {
         MIN: 10,
         MAX: 250,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{10,}$/,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*/=°§]{10,}$/,
     },
     CONTENT: {
         MIN: 20,
@@ -22,7 +22,7 @@ export const FormValidators = {
     BUTTON_LABEL: {
         MIN: 1,
         MAX: 30,
-        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*\/=°§]{1,}$/,
+        PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*/=°§]{1,}$/,
     },
     TIME_DURATION_IN_SECONDS: {
         MIN: 1,
@@ -39,7 +39,7 @@ export const FormValidators = {
             YOUTUBE: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
             VIMEO: /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/,
             DAILYMOTION: /^(https?:\/\/)?(www\.)?dailymotion\.com\/.+$/,
-            GENERIC: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?$/,
+            GENERIC: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/,
         },
     },
 

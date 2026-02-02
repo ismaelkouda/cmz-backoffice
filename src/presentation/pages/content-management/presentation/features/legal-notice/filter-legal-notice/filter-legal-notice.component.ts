@@ -16,10 +16,6 @@ import {
     Validators,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LegalNoticeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/legal-notice-filter-form-control.entity';
-import { LegalNoticeFacade } from '@presentation/pages/content-management/core/application/services/legal-notice.facade';
-import { LegalNoticeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice/legal-notice-filter-payload.entity';
-import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -28,6 +24,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+
+import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
+
+import { LegalNoticeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/legal-notice-filter-form-control.entity';
+import { LegalNoticeFacade } from '@presentation/pages/content-management/core/application/services/legal-notice.facade';
+import { LegalNoticeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice/legal-notice-filter-payload.entity';
 
 @Component({
     selector: 'app-filter-legal-notice',
@@ -138,8 +140,9 @@ export class FilterLegalNoticeComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const invalidDateRange =
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                const invalidDateRange = this.translate.instant(
+                    'COMMON.INVALID_DATE_RANGE'
+                );
                 this.toastService.error(invalidDateRange);
                 return;
             }
@@ -158,7 +161,9 @@ export class FilterLegalNoticeComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.error(translatedMessage);
         }
     }

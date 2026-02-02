@@ -76,4 +76,16 @@ export const enum EndPointUrl {
     REGIME_BUSINESS = 'parametres-securite/regimes-entreprise/all',
 
     CUSTOMERS_MANAGED = 'demandes-services/all?page={page}',
+
+    GET_ALL_ROLES = 'users/roles',
+    GET_ALL_USERS_CONNECTES = 'pointages-journee',
+    GET_ALL_TENANTS = 'gestion-tenants/portefeuilles-tenant/all',
+    POST_CONTRATS_SLA_OBJECTIF_JOURNALIER = 'contrats-sla/objectif-journalier',
+    POST_CONTRATS_SLA_OBJECTIF_JOURNALIER_ALL = 'contrats-sla/objectif-journalier/all',
+    POST_CONTRATS_SLA_OBJECTIF_JOURNALIER_DEFINIR_OBJECTIF = 'contrats-sla/objectif-journalier/definir-objectif',
+    POST_CONTRATS_SLA_OBJECTIF_JOURNALIER_MODIFIER_OBJECTIF = 'contrats-sla/objectif-journalier/modifier-objectif',
+    POST_GESTION_STOCKS_JOURNAL_EVENEMENTS = 'gestion-stocks/journal-evenements',
+    POST_GESTION_PORTEFEUILLE_JOURNAL_EVENEMENTS = 'gestion-portefeuille/journal-evenements',
+    POST_GESTION_IDENTIFICATIONS_JOURNAL_EVENEMENTS = 'gestion-identifications/journal-evenements',
+    POST_ORGANISATION_ADV_INTERVENANTS_ADV = 'organisation-adv/intervenants-adv/in-same-equipe',
 }

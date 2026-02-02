@@ -8,14 +8,17 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LegalNoticeFacade } from '@presentation/pages/content-management/core/application/services/legal-notice.facade';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';
-import { LegalNoticeFilter } from '@presentation/pages/content-management/core/domain/value-objects/legal-notice-filter.vo';
+import { Observable, Subject } from 'rxjs';
+
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject } from 'rxjs';
+
+import { LegalNoticeFacade } from '@presentation/pages/content-management/core/application/services/legal-notice.facade';
+import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';
+import { LegalNoticeFilter } from '@presentation/pages/content-management/core/domain/value-objects/legal-notice-filter.vo';
+
 import { FilterLegalNoticeComponent } from '../filter-legal-notice/filter-legal-notice.component';
 import { CREATE_ROUTE, EDIT_ROUTE, VIEW_ROUTE } from '../legal-notice.routes';
 import { TableLegalNoticeComponent } from '../table-legal-notice/table-legal-notice.component';

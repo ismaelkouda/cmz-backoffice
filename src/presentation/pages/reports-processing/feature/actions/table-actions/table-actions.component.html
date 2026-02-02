@@ -112,7 +112,7 @@
                                     pButton
                                     icon="pi pi-pencil"
                                     (click)="onUpdateClicked(action)"
-                                    [pTooltip]="getUpdateTooltip(action)"
+                                    [pTooltip]="getUpdateTooltip()"
                                     tooltipPosition="bottom"
                                     [disabled]="isLoading()"
                                     size="small"
@@ -124,7 +124,7 @@
                                     severity="danger"
                                     icon="pi pi-trash"
                                     (click)="onDeleteClicked(action)"
-                                    [pTooltip]="getDeleteTooltip(action)"
+                                    [pTooltip]="getDeleteTooltip()"
                                     tooltipPosition="bottom"
                                     [disabled]="isLoading()"
                                     size="small"

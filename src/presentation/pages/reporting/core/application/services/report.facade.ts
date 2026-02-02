@@ -1,31 +1,22 @@
-import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { inject, Injectable } from '@angular/core';
+
 import { SimpleBaseFacade } from '@shared/application/base/simple-base-facade';
-import { ToastrService } from 'ngx-toastr';
+
 import { ReportEntity } from '../../domain/entities/report/report.entity';
 import { FetchReportUseCase } from '../use-cases/report/fetch-report.use-case';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-export class ReportFacade extends SimpleBaseFacade<ReportEntity, void> {
+export class ReportFacade extends SimpleBaseFacade<ReportEntity, undefined> {
+    private readonly fetchReportUseCase = inject(FetchReportUseCase);
     readonly requests$ = this.items$;
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    constructor(
-        private readonly fetchReportUseCase: FetchReportUseCase,
-        toastService: ToastrService,
-        translateService: TranslateService
-    ) {
-        super(toastService, translateService);
-    }
-
-    fetchReport(
-        forceRefresh: boolean = false
-    ): void {
+    fetchReport(forceRefresh = false): void {
         if (!this.shouldFetch(forceRefresh)) {
             return;
         }

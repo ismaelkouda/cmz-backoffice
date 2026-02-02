@@ -35,7 +35,7 @@ export const REGIONS_TABLE_CONST = {
             header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.POPULATION_SIZE',
             class: 'text-center',
             width: '2rem',
-            type: 'number'
+            type: 'number',
         },
         /*  {
              field: 'description',
@@ -43,8 +43,8 @@ export const REGIONS_TABLE_CONST = {
              width: '17rem',
          }, */
         {
-            field: 'createdAt',
-            header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.CREATED_AT',
+            field: 'updatedAt',
+            header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.UPDATED_AT',
             class: 'text-center',
             width: '8rem',
         },
@@ -63,6 +63,6 @@ export const REGIONS_TABLE_CONST = {
         'municipalitiesCount',
         'populationSize',
         /*  'description', */
-        'createdAt',
+        'updatedAt',
     ],
 };

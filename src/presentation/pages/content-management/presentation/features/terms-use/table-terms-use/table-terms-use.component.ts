@@ -10,8 +10,16 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TERMS_USE_TABLE_CONST } from '@presentation/pages/content-management/core/domain/constants/terms-use/terms-use-table.constants';
-import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
+import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SkeletonModule } from 'primeng/skeleton';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -22,15 +30,10 @@ import {
     TableConfig,
     TableExportExcelFileService,
 } from '@shared/services/table-export-excel-file.service';
-import { ClipboardService } from 'ngx-clipboard';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SkeletonModule } from 'primeng/skeleton';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { TERMS_USE_TABLE_CONST } from '@presentation/pages/content-management/core/domain/constants/terms-use/terms-use-table.constants';
+import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
+
 import { HomeActionDropdownComponent } from '../../home/table-home/home-action-dropdown/home-action-dropdown.component';
 
 @Component({
@@ -167,7 +170,9 @@ export class TableTermsUseComponent implements OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value

@@ -7,7 +7,7 @@ export class TreatmentFilter {
         private readonly reportType?: string,
         private readonly state?: string,
         private readonly operator?: string
-    ) { }
+    ) {}
 
     static create(data: TreatmentFilterPayloadEntity): TreatmentFilter {
         return new TreatmentFilter(

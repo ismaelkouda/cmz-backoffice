@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+
 import { Paginate } from '../../../../../../shared/data/dtos/simple-response.dto';
 import { TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-customers.enum';
 import { EnvService } from '../../../../../../shared/services/env.service';
@@ -13,7 +14,7 @@ import {
     CustomersStatsInterface,
 } from '../interfaces/customers.interface';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CustomersApiService {
     private BASE_URL: string;
     constructor(

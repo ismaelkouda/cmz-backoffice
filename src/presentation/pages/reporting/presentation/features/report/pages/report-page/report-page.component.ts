@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    OnInit,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { ReportFacade } from '../../../../../core/application/services/report.facade';
 import { DashboardViewerComponent } from '../../../../ui/shared/components/dashboard-viewer/dashboard-viewer.component';
 
@@ -33,7 +39,7 @@ import { DashboardViewerComponent } from '../../../../ui/shared/components/dashb
 export class ReportPageComponent implements OnInit {
     private readonly facade = inject(ReportFacade);
     readonly report = toSignal(this.facade.items$);
-    readonly isLoading = toSignal(this.facade.isLoading$)
+    readonly isLoading = toSignal(this.facade.isLoading$);
 
     ngOnInit(): void {
         this.facade.fetchReport();

@@ -1,5 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
 import { DetailsEntity } from '../../domain/entities/details/details.entity';
 import { DetailsRepository } from '../../domain/repositories/details.repository';
 import { DetailsFilter } from '../../domain/value-objects/details-filter.vo';

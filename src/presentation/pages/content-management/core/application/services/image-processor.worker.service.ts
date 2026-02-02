@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Subject, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
 import {
     CropRegion,
     ProcessingOptions,

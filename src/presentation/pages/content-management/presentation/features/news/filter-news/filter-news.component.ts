@@ -15,10 +15,6 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NewsFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/news/news-filter-form-control.entity';
-import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
-import { NewsFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/news/news-filter-payload.entity';
-import { Plateform } from '@shared/domain/enums/plateform.enum';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -27,6 +23,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+
+import { Plateform } from '@shared/domain/enums/plateform.enum';
+
+import { NewsFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/news/news-filter-form-control.entity';
+import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
+import { NewsFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/news/news-filter-payload.entity';
 
 @Component({
     selector: 'app-filter-news',
@@ -136,8 +138,9 @@ export class FilterNewsComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const invalidDateRange =
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                const invalidDateRange = this.translate.instant(
+                    'COMMON.INVALID_DATE_RANGE'
+                );
                 this.toastService.error(invalidDateRange);
                 return;
             }
@@ -155,7 +158,9 @@ export class FilterNewsComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.error(translatedMessage);
         }
     }

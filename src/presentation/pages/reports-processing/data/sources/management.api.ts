@@ -1,8 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { EndPointType } from '@shared/domain/types/end-point.types';
+import { EnvService } from '@shared/services/env.service';
+import { buildHttpPayload } from '@shared/utils/utils/build-http-payload.util';
+
 import { ManagementEntity } from '../../domain/entities/management/management.entity';
 import { ManagementRequestDto } from '../dtos/management/management-request.dto';
 import { MANAGEMENT_ENDPOINTS } from '../endpoint/management-endpoint';
@@ -38,21 +42,10 @@ export class ManagementApi {
                 throw new Error('Endpoint non defini');
                 break;
         }
-        const { uniq_id, ...bodyParams } = payload;
 
-        const paramsObject = Object.entries(bodyParams).reduce<
-            Record<string, string>
-        >((acc, [key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                acc[key] = String(value);
-            }
-            return acc;
-        }, {});
+        const body = buildHttpPayload(payload, ['reason']);
 
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(
-            url,
-            paramsObject
-        );
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, body);
     }
 
     fetchApprove(
@@ -77,21 +70,9 @@ export class ManagementApi {
                 throw new Error('Endpoint non defini');
                 break;
         }
-        const { uniq_id, reason, ...bodyParams } = payload;
+        const body = buildHttpPayload(payload, ['uniq_id', 'reason']);
 
-        const paramsObject = Object.entries(bodyParams).reduce<
-            Record<string, string>
-        >((acc, [key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                acc[key] = String(value);
-            }
-            return acc;
-        }, {});
-
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(
-            url,
-            paramsObject
-        );
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, body);
     }
 
     fetchReject(
@@ -112,62 +93,26 @@ export class ManagementApi {
                 throw new Error('Endpoint non defini');
                 break;
         }
-        const { uniq_id, ...bodyParams } = payload;
+        const body = buildHttpPayload(payload, ['uniq_id']);
 
-        const paramsObject = Object.entries(bodyParams).reduce<
-            Record<string, string>
-        >((acc, [key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                acc[key] = String(value);
-            }
-            return acc;
-        }, {});
-
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(
-            url,
-            paramsObject
-        );
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, body);
     }
 
     fetchProcess(
         payload: ManagementRequestDto
     ): Observable<SimpleResponseDto<ManagementEntity>> {
         const url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.PROCESS.replace('{id}', payload.uniq_id)}`;
-        const { uniq_id, reason, ...bodyParams } = payload;
+        const body = buildHttpPayload(payload, ['uniq_id', 'reason']);
 
-        const paramsObject = Object.entries(bodyParams).reduce<
-            Record<string, string>
-        >((acc, [key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                acc[key] = String(value);
-            }
-            return acc;
-        }, {});
-
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(
-            url,
-            paramsObject
-        );
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, body);
     }
 
     fetchFinalize(
         payload: ManagementRequestDto
     ): Observable<SimpleResponseDto<ManagementEntity>> {
         const url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.FINALIZE.replace('{id}', payload.uniq_id)}`;
-        const { uniq_id, ...bodyParams } = payload;
+        const body = buildHttpPayload(payload, ['uniq_id']);
 
-        const paramsObject = Object.entries(bodyParams).reduce<
-            Record<string, string>
-        >((acc, [key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                acc[key] = String(value);
-            }
-            return acc;
-        }, {});
-
-        return this.http.post<SimpleResponseDto<ManagementEntity>>(
-            url,
-            paramsObject
-        );
+        return this.http.post<SimpleResponseDto<ManagementEntity>>(url, body);
     }
 }

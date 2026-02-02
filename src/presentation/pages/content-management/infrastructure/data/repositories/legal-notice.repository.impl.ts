@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';
-import { LegalNoticeRepository } from '@presentation/pages/content-management/core/domain/repositories/legal-notice.repository';
-import { LegalNoticeFilter } from '@presentation/pages/content-management/core/domain/value-objects/legal-notice-filter.vo';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+
+import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
+import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';
+import { LegalNoticeRepository } from '@presentation/pages/content-management/core/domain/repositories/legal-notice.repository';
+import { LegalNoticeFilter } from '@presentation/pages/content-management/core/domain/value-objects/legal-notice-filter.vo';
+
 import { GetLegalNoticeByIdMapper } from '../mappers/get-legal-notice-by-id.mapper';
 import { LegalNoticeMapper } from '../mappers/legal-notice.mapper';
 import { LegalNoticeApi } from '../sources/legal-notice.api';
@@ -23,15 +26,15 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
         private readonly mapper: LegalNoticeMapper,
         private readonly getLegalNoticeByIdMapper: GetLegalNoticeByIdMapper,
         private readonly translateService: TranslateService
-    ) { }
+    ) {}
 
     fetchLegalNotice(
         filter: LegalNoticeFilter,
         page: string
     ): Observable<Paginate<LegalNoticeEntity>> {
-        return this.api.fetchLegalNotice(filter?.toDto() ?? {}, page).pipe(
-            map((response) => this.mapper.mapFromDto(response))
-        );
+        return this.api
+            .fetchLegalNotice(filter?.toDto() ?? {}, page)
+            .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
     getLegalNoticeById(id: string): Observable<GetLegalNoticeByIdEntity> {
@@ -51,8 +54,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_CREATE'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_CREATE'
+                                      )
                             )
                     )
                 )
@@ -73,8 +76,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UPDATE'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UPDATE'
+                                      )
                             )
                     )
                 )
@@ -92,8 +95,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_DELETE'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_DELETE'
+                                      )
                             )
                     )
                 )
@@ -111,8 +114,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_PUBLISH'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_PUBLISH'
+                                      )
                             )
                     )
                 )
@@ -130,8 +133,8 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UNPUBLISH'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UNPUBLISH'
+                                      )
                             )
                     )
                 )

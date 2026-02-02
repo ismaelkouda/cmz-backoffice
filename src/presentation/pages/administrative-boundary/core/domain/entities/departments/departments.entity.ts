@@ -1,4 +1,4 @@
-import { DepartmentsItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-response-api.dto";
+import { DepartmentsItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-response-api.dto';
 
 export class DepartmentsEntity {
     constructor(
@@ -14,7 +14,7 @@ export class DepartmentsEntity {
         public updatedBy: string,
         public createdAt: string,
         public updatedAt: string
-    ) { }
+    ) {}
 
     static fromDto(dto: DepartmentsItemApiDto): DepartmentsEntity {
         return new DepartmentsEntity(

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+
 import { EncodingDataService } from './encoding-data.service';
 import { EnvService } from './env.service';
 
@@ -27,12 +28,9 @@ export class MappingService {
     public sourceStockOrangeSim: string;
     public sourceSoldeDotation: string;
     public sourceSoldeDotationOrange: string;
-    public _volumeDataGlobalSource: BehaviorSubject<string> =
-        new BehaviorSubject('');
+    public _volumeDataGlobalSource = new BehaviorSubject<string>('');
     public volumeDataGlobal$ = this._volumeDataGlobalSource.asObservable();
-    public _ligneCreditSource: BehaviorSubject<string> = new BehaviorSubject(
-        ''
-    );
+    public _ligneCreditSource = new BehaviorSubject<string>('');
     public ligneCreditGlobal$ = this._ligneCreditSource.asObservable();
     public currentVariables: any;
     public analyseAlarmeNormales: any;

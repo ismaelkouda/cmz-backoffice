@@ -4,7 +4,7 @@ export interface TableSelectionConfig {
     selectionMode: 'single' | 'multiple' | 'range';
 }
 
-export interface SelectionState<T> {
+export interface SelectionState {
     selectedIds: Set<string>;
     lastSelectedIndex: number | null;
     isAllSelected: boolean;

@@ -1,4 +1,4 @@
-import { RegionsFilterDto } from "../../../application/dtos/regions/regions-filter.dto";
+import { RegionsFilterDto } from '../../../application/dtos/regions/regions-filter.dto';
 
 export class RegionsFilter {
     private constructor(
@@ -7,10 +7,12 @@ export class RegionsFilter {
         readonly municipalityCode?: string,
         readonly isActive?: boolean,
         readonly startDate?: string,
-        readonly endDate?: string,
-    ) { }
+        readonly endDate?: string
+    ) {}
 
-    static create(data: RegionsFilterDto | null = {} as RegionsFilterDto): RegionsFilter {
+    static create(
+        data: RegionsFilterDto | null = {} as RegionsFilterDto
+    ): RegionsFilter {
         if (data?.startDate && data?.endDate) {
             if (new Date(data.startDate) > new Date(data.endDate)) {
                 throw new Error('Invalid date range');
@@ -22,7 +24,7 @@ export class RegionsFilter {
             data?.municipalityCode,
             data?.isActive,
             data?.startDate,
-            data?.endDate,
+            data?.endDate
         );
     }
 }

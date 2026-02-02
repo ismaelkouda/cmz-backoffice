@@ -12,9 +12,6 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TreatmentFacade } from '@pages/reports-processing/application/treatment.facade';
-import { TreatmentFilterFormControlEntity } from '@presentation/pages/reports-processing/domain/entities/treatment/treatment-filter-form-control.entity';
-import { TreatmentFilterPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/treatment/treatment-filter-payload.entity';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -22,6 +19,11 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
+
+import { TreatmentFilterFormControlEntity } from '@presentation/pages/reports-processing/domain/entities/treatment/treatment-filter-form-control.entity';
+import { TreatmentFilterPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/treatment/treatment-filter-payload.entity';
+
+import { TreatmentFacade } from '@pages/reports-processing/application/treatment.facade';
 
 @Component({
     selector: 'app-filter-treatment',
@@ -61,15 +63,15 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
     readonly operatorOptions = [
         {
             value: 'orange',
-            label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATOR.ORANGE',
+            label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATORS.ORANGE',
         },
         {
             value: 'mtn',
-            label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATOR.MTN',
+            label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATORS.MTN',
         },
         {
             value: 'moov',
-            label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATOR.MOOV',
+            label: 'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATORS.MOOV',
         },
     ] as const;
 
@@ -93,7 +95,7 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
         private readonly fb: FormBuilder,
         private readonly translate: TranslateService,
         private readonly treatmentFacade: TreatmentFacade
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.initFormFilter();
@@ -166,8 +168,9 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const invalidDateRange =
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                const invalidDateRange = this.translate.instant(
+                    'COMMON.INVALID_DATE_RANGE'
+                );
                 this.toastService.error(invalidDateRange);
                 return;
             }
@@ -177,9 +180,7 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
             start_date: startDate.isValid()
                 ? startDate.format('YYYY-MM-DD')
                 : '',
-            end_date: endDate.isValid()
-                ? endDate.format('YYYY-MM-DD')
-                : '',
+            end_date: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
             state: this.formFilter.get('state')?.value?.trim() ?? '',
@@ -189,7 +190,9 @@ export class FilterTreatmentComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.error(translatedMessage);
         }
     }

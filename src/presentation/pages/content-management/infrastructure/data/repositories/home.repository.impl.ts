@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, map } from 'rxjs';
+
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
+
 import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 import { HomeRepository } from '@presentation/pages/content-management/core/domain/repositories/home.repository';
 import { HomeFilter } from '@presentation/pages/content-management/core/domain/value-objects/home-filter.vo';
 import { HomeMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/home.mapper';
 import { HomeApi } from '@presentation/pages/content-management/infrastructure/data/sources/home.api';
-import {
-    Paginate,
-    SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
-import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HomeRepositoryImpl extends HomeRepository {
@@ -25,9 +27,9 @@ export class HomeRepositoryImpl extends HomeRepository {
         filter: HomeFilter | null,
         page: string
     ): Observable<Paginate<HomeEntity>> {
-        return this.api.fetchHome(filter?.toDto() ?? {}, page).pipe(
-            map((response) => this.homeMapper.mapFromDto(response))
-        );
+        return this.api
+            .fetchHome(filter?.toDto() ?? {}, page)
+            .pipe(map((response) => this.homeMapper.mapFromDto(response)));
     }
 
     getHomeById(id: string): Observable<HomeEntity> {

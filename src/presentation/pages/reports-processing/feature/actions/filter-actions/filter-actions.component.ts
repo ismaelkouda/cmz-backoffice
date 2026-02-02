@@ -13,9 +13,6 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ActionsFacade } from '@presentation/pages/reports-processing/application/actions.facade';
-import { ActionsFilterFormControlEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-filter-form-control.entity';
-import { ActionsFilterPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-filter-payload.entity';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -23,6 +20,10 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+
+import { ActionsFacade } from '@presentation/pages/reports-processing/application/actions.facade';
+import { ActionsFilterFormControlEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-filter-form-control.entity';
+import { ActionsFilterPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-filter-payload.entity';
 
 @Component({
     selector: 'app-filter-actions',
@@ -102,16 +103,24 @@ export class FilterActionsComponent implements OnInit, OnDestroy {
         this.actionsFacade.currentFilter$
             .pipe(
                 distinctUntilChanged((prev, curr) => {
-                    if (prev === curr) return true;
-                    if (!prev && !curr) return true;
-                    if (!prev || !curr) return false;
+                    if (prev === curr) {
+                        return true;
+                    }
+                    if (!prev && !curr) {
+                        return true;
+                    }
+                    if (!prev || !curr) {
+                        return false;
+                    }
 
                     const prevDto = prev.toDto();
                     const currDto = curr.toDto();
                     const prevKeys = Object.keys(prevDto).sort();
                     const currKeys = Object.keys(currDto).sort();
 
-                    if (prevKeys.length !== currKeys.length) return false;
+                    if (prevKeys.length !== currKeys.length) {
+                        return false;
+                    }
                     return prevKeys.every(
                         (key) => prevDto[key] === currDto[key]
                     );
@@ -144,7 +153,9 @@ export class FilterActionsComponent implements OnInit, OnDestroy {
         controlName: K
     ): void {
         const control = this.formFilter?.controls[controlName];
-        if (!control) return;
+        if (!control) {
+            return;
+        }
         (control as FormControl<string>).setValue('', { emitEvent: false });
     }
 
@@ -160,8 +171,9 @@ export class FilterActionsComponent implements OnInit, OnDestroy {
 
         if (dateFrom.isValid() && dateTo.isValid()) {
             if (dateFrom.isAfter(dateTo)) {
-                const invalidDateRange =
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                const invalidDateRange = this.translate.instant(
+                    'COMMON.INVALID_DATE_RANGE'
+                );
                 this.toastService.error(invalidDateRange);
                 return;
             }
@@ -178,7 +190,9 @@ export class FilterActionsComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.success(translatedMessage);
         }
     }

@@ -1,4 +1,4 @@
-export const OPERATOR_CONST = [
+export const OPERATORS_CONST = [
     {
         value: 'orange',
         label: 'COMMON.ORANGE',

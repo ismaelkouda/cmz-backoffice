@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+
+import { EnvService } from '@shared/services/env.service';
+
 import { TreatmentRequestDto } from '../dtos/treatment/treatment-request.dto';
 import { TreatmentResponseDto } from '../dtos/treatment/treatment-response.dto';
 import { TREATMENT_ENDPOINTS } from '../endpoint/treatment-endpoints';

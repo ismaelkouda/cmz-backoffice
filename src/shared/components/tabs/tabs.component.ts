@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
@@ -7,14 +8,17 @@ import {
     ViewChild,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { EncodingDataService } from '../../services/encoding-data.service';
 import { TabService } from '../../services/tab.service';
+
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 
 @Component({
     selector: 'app-tabs',
     standalone: true,
     imports: [ConfirmationModalComponent, TranslateModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="tabs-container">
             <div
@@ -165,7 +169,7 @@ import { ConfirmationModalComponent } from './confirmation-modal.component';
 })
 export class TabsComponent implements OnInit, AfterViewInit {
     tabs: any[] = [];
-    isModalOpen: boolean = false;
+    isModalOpen = false;
 
     @ViewChild('tabsContainer') tabsContainer!: ElementRef;
 
@@ -192,34 +196,46 @@ export class TabsComponent implements OnInit, AfterViewInit {
     }
 
     adjustTabsAppearance(): void {
-        if (!this.tabsContainer || !this.tabsContainer.nativeElement) return;
+        if (!this.tabsContainer || !this.tabsContainer.nativeElement) {
+            return;
+        }
 
         const container = this.tabsContainer.nativeElement;
         const tabs = container.querySelectorAll('.nav-item');
         const tabCount = tabs.length;
 
         if (tabCount > 1) {
-            // let fontSize = '0.9rem';
-            // let padding = '10px 15px';
+            let fontSize = '0.9rem';
+            let padding = '10px 15px';
 
-            // if (tabCount > 5) fontSize = '0.85rem';
-            // if (tabCount > 10) fontSize = '0.8rem';
-            // if (tabCount > 15) fontSize = '0.75rem';
+            if (tabCount > 5) {
+                fontSize = '0.85rem';
+            }
+            if (tabCount > 10) {
+                fontSize = '0.8rem';
+            }
+            if (tabCount > 15) {
+                fontSize = '0.75rem';
+            }
 
-            // if (tabCount > 5) padding = '8px 12px';
-            // if (tabCount > 10) padding = '6px 10px';
+            if (tabCount > 5) {
+                padding = '8px 12px';
+            }
+            if (tabCount > 10) {
+                padding = '6px 10px';
+            }
 
             tabs.forEach((tab: Element) => {
                 const titleEl = tab.querySelector('.tab-title');
                 const linkEl = tab.querySelector('.nav-link');
 
-                // if (titleEl) {
-                //     (titleEl as HTMLElement).style.fontSize = fontSize;
-                // }
+                if (titleEl) {
+                    (titleEl as HTMLElement).style.fontSize = fontSize;
+                }
 
-                // if (linkEl) {
-                //     (linkEl as HTMLElement).style.padding = padding;
-                // }
+                if (linkEl) {
+                    (linkEl as HTMLElement).style.padding = padding;
+                }
             });
         }
     }

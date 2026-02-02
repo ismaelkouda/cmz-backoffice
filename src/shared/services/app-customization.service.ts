@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
+
 import { DEFAULT_CUSTOMIZATION } from './app-customization.config';
 import {
     setDocumentTitle,

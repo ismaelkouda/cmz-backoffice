@@ -17,7 +17,9 @@ export function isInternalUrl(
     url: string,
     configService: ConfigurationService
 ): boolean {
-    if (!isAbsoluteUrl(url)) return true;
+    if (!isAbsoluteUrl(url)) {
+        return true;
+    }
 
     const bases = [
         configService.authenticationUrl,
@@ -39,14 +41,22 @@ export function isInternalUrl(
     );
 
     const hostname = extractHostname(url);
-    if (!hostname) return false;
+    if (!hostname) {
+        return false;
+    }
     return hostnames.has(hostname);
 }
 
 export function isStaticAssetRequest(url: string): boolean {
-    if (!url) return false;
-    if (url.includes('/assets/') && !url.includes('/assets/i18n/')) return true;
-    if (url.includes('/assets/i18n/') && url.endsWith('.json')) return true;
+    if (!url) {
+        return false;
+    }
+    if (url.includes('/assets/') && !url.includes('/assets/i18n/')) {
+        return true;
+    }
+    if (url.includes('/assets/i18n/') && url.endsWith('.json')) {
+        return true;
+    }
 
     const staticExt = [
         '.png',
@@ -65,7 +75,9 @@ export function isStaticAssetRequest(url: string): boolean {
         '.webm',
         '.mp4',
     ];
-    if (staticExt.some((ext) => url.endsWith(ext))) return true;
+    if (staticExt.some((ext) => url.endsWith(ext))) {
+        return true;
+    }
 
     const staticPatterns = [
         'manifest.webmanifest',
@@ -73,7 +85,9 @@ export function isStaticAssetRequest(url: string): boolean {
         'ngsw.json',
         'favicon.ico',
     ];
-    if (staticPatterns.some((p) => url.includes(p))) return true;
+    if (staticPatterns.some((p) => url.includes(p))) {
+        return true;
+    }
 
     return false;
 }

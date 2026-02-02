@@ -19,29 +19,36 @@
                     </header>
 
                     <div class="fade-in tasks-content">
-                        <app-filter-tasks
+                        <app-filter
                             class="filter-component"
+                            [isLoading]="isLoading()"
+                            [formGroup]="formFilter"
+                            [fields]="filterFields"
+                            [filterState]="facade.currentFilter$"
                             (filter)="filter($event)"
-                            [loading]="loading$ | async"
                         >
-                        </app-filter-tasks>
+                        </app-filter>
 
                         <hr class="tasks-divider" />
 
                         <section class="table-section">
-                            <app-table-tasks
+                            <app-table
                                 class="table-component"
-                                [loading]="loading$ | async"
-                                [pagination$]="pagination$"
-                                [tasks$]="tasks$"
-                                (treatmentRequested)="onTasksAction($event)"
+                                [loading]="isLoading()"
+                                [items]="tasksItems()"
+                                [config]="tableConfig"
+                                [pagination]="pagination()"
                                 (refreshRequested)="refreshTasks()"
+                                (actionClicked)="onActionClicked($event)"
+                                (export)="onExportExcel()"
+                                [hiddenButtonOther]="true"
+                                dataKey="uniqId"
                             >
-                            </app-table-tasks>
+                            </app-table>
 
                             <app-pagination
                                 class="pagination-component"
-                                [pagination]="pagination$ | async"
+                                [pagination]="pagination()"
                                 (pageChange)="onPageChange($event)"
                             ></app-pagination>
                         </section>

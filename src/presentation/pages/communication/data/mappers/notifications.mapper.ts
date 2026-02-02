@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NotificationsItemDto } from '@presentation/pages/communication/data/dtos/notifications-response.dto';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+
+import { NotificationsItemDto } from '@presentation/pages/communication/data/dtos/notifications-response.dto';
+
 import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 
 @Injectable({ providedIn: 'root' })

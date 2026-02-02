@@ -1,0 +1,25 @@
+<div class="fade-in users-content">
+    <section class="table-section">
+        <app-table
+            class="table-component"
+            [loading]="loading()"
+            [items]="items()"
+            [pagination]="pagination()"
+            [config]="tableConfig"
+            (refreshRequested)="onRefreshClicked()"
+            (createRequested)="onNavigateToForm($event)"
+            (editRequested)="onNavigateToForm($event)"
+            (deleteRequested)="onDeleteClicked($event)"
+            (enableRequested)="onEnableClicked($event)"
+            (disableRequested)="onDisableClicked($event)"
+            [hiddenButtonOther]="false"
+            dataKey="uniqId"
+        ></app-table>
+
+        <app-pagination
+            class="pagination-component"
+            [pagination]="pagination()"
+            (pageChange)="onPageChangeClicked($event)"
+        ></app-pagination>
+    </section>
+</div>

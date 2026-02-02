@@ -1,8 +1,10 @@
+import { Observable } from 'rxjs';
+
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { SlideEntity } from '../entities/slide.entity';
 import { SlideFilter } from '../value-objects/slide-filter.vo';
 

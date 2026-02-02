@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { SlaAgreementsEndpointEnum } from '../enums/sla-agreements-endpoint.enum';
 import {
@@ -9,7 +10,9 @@ import {
     SlaAgreementsInterface,
 } from '../interfaces/sla-agreements.interface';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class SlaAgreementsApiService {
     private BASE_URL: string;
 

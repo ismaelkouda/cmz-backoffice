@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { ForgotPasswordComponent } from './ui/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './ui/reset-password/reset-password.component';
 

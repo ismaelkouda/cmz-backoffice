@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2026-01-20T19:03:17.168Z
+// Generated at: 2026-02-02T12:46:56.900Z
 
 export interface AppConfig {
     authenticationUrl: string;
@@ -39,89 +39,102 @@ declare global {
 
 // Environment-specific configurations
 export const ENVIRONMENTS = {
-  "dev": {
-    "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
-    "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
-    "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
-    "userUrl": "https://cmz-service-api.paas.imako.digital/users/v1.0/backoffice/",
-    "fileUrl": "https://cmz-service-api.paas.imako.digital/auth/backoffice/",
-    "environmentDeployment": "DEV",
-    "enableDebug": true,
-    "messageApp": {
-      "sourceStockTenantSim": "Le système utilisera une SIM blanche du Stock du Tenant",
-      "sourceStockOrangeSim": "Orange fournira la SIM...",
-      "sourceSoldeDotation": "Le solde de la dotation Data...",
-      "sourceSoldeDotationOrange": "Orange fera le dépôt..."
+    dev: {
+        authenticationUrl:
+            'https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/',
+        reportUrl:
+            'https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/',
+        settingUrl:
+            'https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/',
+        userUrl:
+            'https://cmz-service-api.paas.imako.digital/users/v1.0/backoffice/',
+        fileUrl: 'https://cmz-service-api.paas.imako.digital/auth/backoffice/',
+        environmentDeployment: 'DEV',
+        enableDebug: true,
+        messageApp: {
+            sourceStockTenantSim:
+                'Le système utilisera une SIM blanche du Stock du Tenant',
+            sourceStockOrangeSim: 'Orange fournira la SIM...',
+            sourceSoldeDotation: 'Le solde de la dotation Data...',
+            sourceSoldeDotationOrange: 'Orange fera le dépôt...',
+        },
+        appSettings: {
+            appName: 'Connect My Zone',
+            appLogoFull: 'assets/images/logo/logo-ansut-full.png',
+            appLogoIcon: 'assets/images/favicon.png',
+            appPrimaryColor: '#2256A3',
+            appSecondaryColor: '#F08224',
+            appTertiaryColor: '#FFFFFF',
+        },
     },
-    "appSettings": {
-      "appName": "Connect My Zone",
-      "appLogoFull": "assets/images/logo/logo-ansut-full.png",
-      "appLogoIcon": "assets/images/favicon.png",
-      "appPrimaryColor": "#2256A3",
-      "appSecondaryColor": "#F08224",
-      "appTertiaryColor": "#FFFFFF"
-    }
-  },
-  "cloud": {
-    "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
-    "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
-    "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://cmz-service-api.paas.imako.digital/auth/backoffice/",
-    "environmentDeployment": "DEV",
-    "enableDebug": true,
-    "messageApp": {
-      "sourceStockTenantSim": "Le système utilisera une SIM blanche du Stock du Tenant",
-      "sourceStockOrangeSim": "Orange fournira la SIM...",
-      "sourceSoldeDotation": "Le solde de la dotation Data...",
-      "sourceSoldeDotationOrange": "Orange fera le dépôt..."
+    cloud: {
+        authenticationUrl:
+            'https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/',
+        reportUrl:
+            'https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/',
+        settingUrl:
+            'https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/',
+        fileUrl: 'https://cmz-service-api.paas.imako.digital/auth/backoffice/',
+        environmentDeployment: 'DEV',
+        enableDebug: true,
+        messageApp: {
+            sourceStockTenantSim:
+                'Le système utilisera une SIM blanche du Stock du Tenant',
+            sourceStockOrangeSim: 'Orange fournira la SIM...',
+            sourceSoldeDotation: 'Le solde de la dotation Data...',
+            sourceSoldeDotationOrange: 'Orange fera le dépôt...',
+        },
+        appSettings: {
+            appName: 'Connect My Zone',
+            appLogoFull: 'assets/images/logo/logo-ansut-full.png',
+            appLogoIcon: 'assets/images/favicon.png',
+            appPrimaryColor: '#2256A3',
+            appSecondaryColor: '#F08224',
+            appTertiaryColor: '#FFFFFF',
+        },
     },
-    "appSettings": {
-      "appName": "Connect My Zone",
-      "appLogoFull": "assets/images/logo/logo-ansut-full.png",
-      "appLogoIcon": "assets/images/favicon.png",
-      "appPrimaryColor": "#2256A3",
-      "appSecondaryColor": "#F08224",
-      "appTertiaryColor": "#FFFFFF"
-    }
-  },
-  "cmz_dev": {
-    "authenticationUrl": "https://api-services.mazone-test.ansut.ci/auth/v1.0/backoffice/",
-    "reportUrl": "https://api-services.mazone-test.ansut.ci/reports/v1.0/backoffice/",
-    "settingUrl": "https://api-services.mazone-test.ansut.ci/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://api-services.mazone-test.ansut.ci/auth/backoffice/",
-    "environmentDeployment": "DEV",
-    "enableDebug": true,
-    "messageApp": {
-      "sourceStockTenantSim": "Le système utilisera une SIM blanche du Stock du Tenant",
-      "sourceStockOrangeSim": "Orange fournira la SIM...",
-      "sourceSoldeDotation": "Le solde de la dotation Data...",
-      "sourceSoldeDotationOrange": "Orange fera le dépôt..."
+    cmz_dev: {
+        authenticationUrl:
+            'https://api-services.mazone-test.ansut.ci/auth/v1.0/backoffice/',
+        reportUrl:
+            'https://api-services.mazone-test.ansut.ci/reports/v1.0/backoffice/',
+        settingUrl:
+            'https://api-services.mazone-test.ansut.ci/base-settings/v1.0/backoffice/',
+        fileUrl: 'https://api-services.mazone-test.ansut.ci/auth/backoffice/',
+        environmentDeployment: 'DEV',
+        enableDebug: true,
+        messageApp: {
+            sourceStockTenantSim:
+                'Le système utilisera une SIM blanche du Stock du Tenant',
+            sourceStockOrangeSim: 'Orange fournira la SIM...',
+            sourceSoldeDotation: 'Le solde de la dotation Data...',
+            sourceSoldeDotationOrange: 'Orange fera le dépôt...',
+        },
+        appSettings: {
+            appName: 'Connect My Zone',
+            appLogoFull: 'assets/images/logo/logo-ansut-full.png',
+            appLogoIcon: 'assets/images/favicon.png',
+            appPrimaryColor: '#2256A3',
+            appSecondaryColor: '#F08224',
+            appTertiaryColor: '#FFFFFF',
+        },
     },
-    "appSettings": {
-      "appName": "Connect My Zone",
-      "appLogoFull": "assets/images/logo/logo-ansut-full.png",
-      "appLogoIcon": "assets/images/favicon.png",
-      "appPrimaryColor": "#2256A3",
-      "appSecondaryColor": "#F08224",
-      "appTertiaryColor": "#FFFFFF"
-    }
-  },
-  "test": {
-    "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
-    "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
-    "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
-    "fileUrl": "http://10.10.0.200:12555/",
-    "environmentDeployment": "TEST",
-    "enableDebug": true
-  },
-  "prod": {
-    "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
-    "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
-    "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://sim-monitoring.cateli.io:12555/",
-    "environmentDeployment": "PROD",
-    "enableDebug": false
-  }
+    test: {
+        authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.0.200:12555/',
+        environmentDeployment: 'TEST',
+        enableDebug: true,
+    },
+    prod: {
+        authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+        fileUrl: 'https://sim-monitoring.cateli.io:12555/',
+        environmentDeployment: 'PROD',
+        enableDebug: false,
+    },
 } as const;
 
 export type EnvironmentName = keyof typeof ENVIRONMENTS;

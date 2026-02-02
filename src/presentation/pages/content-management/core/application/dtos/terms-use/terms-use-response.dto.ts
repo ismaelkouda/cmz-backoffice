@@ -12,5 +12,4 @@ export interface TermsUseItemDto {
     published_at: string;
 }
 
-export interface TermsUseResponseDto
-    extends PaginatedResponseDto<TermsUseItemDto> {}
+export type TermsUseResponseDto = PaginatedResponseDto<TermsUseItemDto>;

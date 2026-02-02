@@ -22,17 +22,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import 'cropperjs';
 
 // Stores et types
-import { ImageProcessingStore } from '@presentation/pages/content-management/core/domain/stores/image-processing.store';
-import {
-    ProcessingOptions,
-    ProcessingResult,
-} from '@presentation/pages/content-management/core/domain/types/image-processing.types';
 
 // PrimeNG
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
+import { ImageProcessingStore } from '@presentation/pages/content-management/core/domain/stores/image-processing.store';
+import {
+    ProcessingOptions,
+    ProcessingResult,
+} from '@presentation/pages/content-management/core/domain/types/image-processing.types';
 
 // Types pour CropperJS v2
 interface CropperCanvas extends HTMLElement {
@@ -227,9 +228,10 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     /**
      * Quand l'image est chargée
+     * @param event
      */
     onImageReady(event: Event): void {
-        console.log('Image chargée avec succès');
+        console.log('Image chargée avec succès', event);
         this._isReady.set(true);
         this._hasError.set(false);
         this._errorMessage.set(null);
@@ -238,9 +240,10 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     /**
      * Quand l'image a une erreur
+     * @param event
      */
     onImageError(event: Event): void {
-        console.error("Erreur de chargement de l'image");
+        console.error("Erreur de chargement de l'image", event);
         this._hasError.set(true);
         this._errorMessage.set("Impossible de charger l'image");
         this._isReady.set(false);
@@ -300,10 +303,11 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
                                     original: {
                                         width: img.naturalWidth || 0,
                                         height: img.naturalHeight || 0,
-                                        size: this.originalFile!.size,
-                                        type: this.originalFile!.type,
+                                        size: this.originalFile?.size || 0,
+                                        type: this.originalFile?.type || '',
                                         lastModified:
-                                            this.originalFile!.lastModified,
+                                            this.originalFile?.lastModified ||
+                                            0,
                                     },
                                     processed: {
                                         width: canvas.width,
@@ -314,9 +318,10 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
                                     },
                                     processingTime: 0,
                                     compressionRatio:
-                                        this.originalFile!.size > 0
+                                        this.originalFile?.size &&
+                                        this.originalFile?.size > 0
                                             ? blob.size /
-                                              this.originalFile!.size
+                                              this.originalFile?.size
                                             : 1,
                                 },
                             };
@@ -336,10 +341,11 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
                                     original: {
                                         width: 0,
                                         height: 0,
-                                        size: this.originalFile!.size,
-                                        type: this.originalFile!.type,
+                                        size: this.originalFile?.size || 0,
+                                        type: this.originalFile?.type || '',
                                         lastModified:
-                                            this.originalFile!.lastModified,
+                                            this.originalFile?.lastModified ||
+                                            0,
                                     },
                                     processed: {
                                         width: canvas.width,
@@ -350,9 +356,10 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
                                     },
                                     processingTime: 0,
                                     compressionRatio:
-                                        this.originalFile!.size > 0
+                                        this.originalFile?.size &&
+                                        this.originalFile?.size > 0
                                             ? blob.size /
-                                              this.originalFile!.size
+                                              this.originalFile?.size
                                             : 1,
                                 },
                             };
@@ -373,6 +380,7 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     /**
      * Changer le ratio d'aspect
+     * @param ratio
      */
     setAspectRatio(ratio: number | null): void {
         this._currentAspectRatio.set(ratio);
@@ -388,6 +396,7 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     /**
      * Rotation
+     * @param degrees
      */
     rotate(degrees: number): void {
         if (!this.cropperImageRef?.nativeElement) {
@@ -406,6 +415,7 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     /**
      * Zoom
+     * @param factor
      */
     zoom(factor: number): void {
         if (!this.cropperImageRef?.nativeElement) {
@@ -461,6 +471,7 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     /**
      * Gérer le changement de visibilité
+     * @param visible
      */
     onVisibleChange(visible: boolean): void {
         this._visible.set(visible);
@@ -471,6 +482,8 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     /**
      * Afficher une erreur
+     * @param summary
+     * @param detail
      */
     private showError(summary: string, detail: string): void {
         this._hasError.set(true);
@@ -489,13 +502,24 @@ export class ImageCropperComponent implements OnInit, OnDestroy {
 
     /**
      * Obtenir le label du ratio
+     * @param ratio
      */
     getAspectRatioLabel(ratio: number | null): string {
-        if (ratio === null) return 'Libre';
-        if (Math.abs(ratio - 1) < 0.01) return 'Carré (1:1)';
-        if (Math.abs(ratio - 16 / 9) < 0.01) return 'Paysage (16:9)';
-        if (Math.abs(ratio - 9 / 16) < 0.01) return 'Portrait (9:16)';
-        if (Math.abs(ratio - 4 / 3) < 0.01) return 'Standard (4:3)';
+        if (ratio === null) {
+            return 'Libre';
+        }
+        if (Math.abs(ratio - 1) < 0.01) {
+            return 'Carré (1:1)';
+        }
+        if (Math.abs(ratio - 16 / 9) < 0.01) {
+            return 'Paysage (16:9)';
+        }
+        if (Math.abs(ratio - 9 / 16) < 0.01) {
+            return 'Portrait (9:16)';
+        }
+        if (Math.abs(ratio - 4 / 3) < 0.01) {
+            return 'Standard (4:3)';
+        }
         return `Ratio: ${ratio.toFixed(2)}`;
     }
 

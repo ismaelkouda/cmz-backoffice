@@ -1,10 +1,13 @@
 import { inject } from '@angular/core';
-import { DetailsItemDto } from '@presentation/pages/reports-processing/data/dtos/details/details-response.dto';
+import { Injectable } from '@angular/core';
+
 import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
+
+import { DetailsItemDto } from '@presentation/pages/reports-processing/data/dtos/details/details-response.dto';
+
 import { LocationMethodMapper } from './location-method.mapper';
 import { LocationTypeMapper } from './location-type.mapper';
 
-import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root',
 })

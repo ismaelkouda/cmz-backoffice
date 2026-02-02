@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+
+import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
+
 import {
     CategoryItemDto,
     SubCategoryItemDto,
 } from '@presentation/pages/content-management/core/application/dtos/news/category-response.dto';
 import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
 import { SubCategoryEntity } from '@presentation/pages/content-management/core/domain/entities/sub-category.entity';
-import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryMapper extends ArrayResponseMapper<
@@ -52,7 +54,7 @@ export class CategoryMapper extends ArrayResponseMapper<
 
     public formatCategoriesForSelect(
         categories: CategoryEntity[]
-    ): Array<{ label: string; value: number }> {
+    ): { label: string; value: number }[] {
         return categories.map((category) => ({
             label: category.name,
             value: category.id,

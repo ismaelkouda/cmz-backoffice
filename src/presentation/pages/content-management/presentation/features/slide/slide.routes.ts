@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { FormSlideComponent } from './form-slide/form-slide.component';
 import { SlideComponent } from './pages/slide.component';
 

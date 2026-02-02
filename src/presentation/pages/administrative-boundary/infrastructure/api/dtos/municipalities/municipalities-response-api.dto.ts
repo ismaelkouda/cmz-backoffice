@@ -2,18 +2,19 @@ import { AdministrativeBoundaryDto } from '@shared/data/dtos/administrative-boun
 import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface MunicipalitiesItemApiDto {
-    id: string,
-    name: string,
-    code: string,
-    description: string,
-    region: AdministrativeBoundaryDto,
-    department: AdministrativeBoundaryDto,
-    population_size: number,
-    is_active: boolean,
-    created_by: string,
-    updated_by: string,
-    created_at: string,
-    updated_at: string
+    id: string;
+    name: string;
+    code: string;
+    description: string;
+    region: AdministrativeBoundaryDto;
+    department: AdministrativeBoundaryDto;
+    population_size: number;
+    is_active: boolean;
+    created_by: string;
+    updated_by: string;
+    created_at: string;
+    updated_at: string;
 }
 
-export interface MunicipalitiesResponseApiDto extends PaginatedResponseDto<MunicipalitiesItemApiDto> { }
+export type MunicipalitiesResponseApiDto =
+    PaginatedResponseDto<MunicipalitiesItemApiDto>;

@@ -14,25 +14,19 @@ export const ACCESS_LOGS_TABLE_CONSTANT = {
         {
             field: 'source',
             header: 'SETTINGS_SECURITY.ACCESS_LOGS.TABLE.SOURCE',
-            width: '10rem',
+            width: '18rem',
         },
         {
             field: 'usedAgent',
             header: 'SETTINGS_SECURITY.ACCESS_LOGS.TABLE.USED_AGENT',
-            width: '20rem',
+            width: '18rem',
         },
         {
             field: 'createdAt',
             header: 'SETTINGS_SECURITY.ACCESS_LOGS.TABLE.CREATED_AT',
             class: 'text-center',
-            width: '8rem',
-        }
+            width: '9rem',
+        },
     ],
-    globalFilterFields: [
-        'id',
-        'action',
-        'source',
-        'usedAgent',
-        'createdAt',
-    ],
+    globalFilterFields: ['action', 'source', 'usedAgent', 'createdAt'],
 };

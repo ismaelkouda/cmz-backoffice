@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { TermsUseRepository } from '@presentation/pages/content-management/core/domain/repositories/terms-use.repository';
 import { Observable } from 'rxjs';
+
+import { TermsUseRepository } from '@presentation/pages/content-management/core/domain/repositories/terms-use.repository';
+
 import { GetTermsUseByIdEntity } from '../../../domain/entities/get-terms-use-by-id.entity';
 @Injectable({
     providedIn: 'root',

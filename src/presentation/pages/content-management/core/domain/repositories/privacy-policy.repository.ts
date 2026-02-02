@@ -1,8 +1,10 @@
+import { Observable } from 'rxjs';
+
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { GetPrivacyPolicyByIdEntity } from '../entities/get-privacy-policy-by-id.entity';
 import { PrivacyPolicyEntity } from '../entities/privacy-policy.entity';
 import { PrivacyPolicyFilter } from '../value-objects/privacy-policy-filter.vo';

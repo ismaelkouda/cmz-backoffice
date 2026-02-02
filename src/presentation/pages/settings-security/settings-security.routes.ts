@@ -1,12 +1,8 @@
 import { Routes } from '@angular/router';
 
-export const PROFILE_HABILITATION_ROUTE = 'permission-profiles';
-export const USER_ROUTE = 'users';
+export const PROFILES_HABILITATIONS_ROUTE = 'profile-and-permissions';
 export const ACCESS_LOGS_ROUTE = 'auth-logs';
-export const USER_FORM_ROUTE = 'form';
-export const PROFILE_FORM_ROUTE = 'form';
-export const PROFILE_USERS_ROUTE = 'users';
-export const PROFILE_USERS_ASSIGN_ROUTE = 'assign';
+export const USERS_ROUTE = 'users';
 
 export const routes: Routes = [
     {
@@ -34,8 +30,53 @@ export const routes: Routes = [
                         redirectTo: '',
                     },
                 ],
-            }
-        ]
-    }
+            },
+            {
+                path: PROFILES_HABILITATIONS_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.BREADCRUMB.LABEL',
+                        icon: 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import(
+                                './presentation/profils-habilitations/profils-habilitations.routes'
+                            ).then((m) => m.PROFILES_HABILITATIONS_ROUTES),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: USERS_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'SETTINGS_SECURITY.USERS.BREADCRUMB.LABEL',
+                        icon: 'SETTINGS_SECURITY.USERS.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import('./presentation/users/users.routes').then(
+                                (m) => m.USERS_ROUTES
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+        ],
+    },
 ];
-

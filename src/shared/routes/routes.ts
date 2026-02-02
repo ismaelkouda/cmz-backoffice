@@ -10,7 +10,7 @@ export const CUSTOMERS_MANAGED = 'managed-customers';
 export const REQUESTS_SERVICE = 'requests-services';
 export const SUPERVISORY_REPOSITORY = 'sla-reference';
 export const SETTINGS_SECURITY_ROUTE = 'security-settings';
-export const TEAM_ORGANIZATION = 'organization';
+export const TEAM_ORGANIZATION_ROUTE = 'organization';
 export const ACCOUNTING = 'accounting';
 export const COMMUNICATION_ROUTE = 'communication';
 export const CONTENT_MANAGEMENT_ROUTE = 'content-management';
@@ -33,19 +33,17 @@ export const content: Routes = [
         },
     },
     {
-        path: TEAM_ORGANIZATION,
+        path: TEAM_ORGANIZATION_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'TEAM_ORGANIZATION.BREADCRUMB.LABEL',
+                icon: 'TEAM_ORGANIZATION.BREADCRUMB.ICON',
+            },
+        },
         loadChildren: () =>
             import(
                 '../../presentation/pages/team-organization/team-organization.routes'
             ).then((m) => m.routes),
-        data: {
-            module: 'TEAM_ORGANIZATION',
-            subModule: [
-                'TEAM_ORGANIZATION.PARTICIPANT.LABEL',
-                'TEAM_ORGANIZATION.TEAM.LABEL',
-                'TEAM_ORGANIZATION.AGENT_IA.LABEL',
-            ],
-        },
     },
     {
         path: REPORT_REQUESTS_ROUTE,

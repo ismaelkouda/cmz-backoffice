@@ -1,5 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { EnvService } from '@shared/services/env.service';
+
 import { CategoryItemDto } from '@presentation/pages/content-management/core/application/dtos/news/category-response.dto';
 import { GetNewsByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/news/get-news-by-id-response.dto';
 import { NewsRequestDto } from '@presentation/pages/content-management/core/application/dtos/news/news-request.dto';
@@ -8,9 +13,6 @@ import {
     NewsResponseDto,
 } from '@presentation/pages/content-management/core/application/dtos/news/news-response.dto';
 import { NEWS_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/news-endpoints';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
-import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

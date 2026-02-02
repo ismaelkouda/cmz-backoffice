@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { DASHBOARD } from '@shared/routes/routes';
+
 import { TokenInterface } from '@shared/interfaces/token.interface';
+import { DASHBOARD } from '@shared/routes/routes';
 import { EncodingDataService } from '@shared/services/encoding-data.service';
 
 export const unauthGuard: CanActivateFn = () => {

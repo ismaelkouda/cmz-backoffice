@@ -1,7 +1,9 @@
 <div>
     <span class="table-header-wrapper">
         <b
-            ><span *ngIf="displayList">{{ 'COMMON.LIST_OF' | translate }}&nbsp;</span>{{ title }}&nbsp;
+            ><span *ngIf="displayList"
+                >{{ 'COMMON.LIST_OF' | translate }}&nbsp;</span
+            >{{ title }}&nbsp;
             <span style="text-decoration: underline" *ngIf="displayDate"
                 >{{ 'COMMON.UPDATED_AT' | translate }} {{ currentDate }}</span
             >

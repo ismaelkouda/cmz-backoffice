@@ -9,15 +9,18 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
-import { NewsEntity } from '@presentation/pages/content-management/core/domain/entities/news.entity';
-import { NewsFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/news/news-filter-payload.entity';
-import { NewsFilter } from '@presentation/pages/content-management/core/domain/value-objects/news-filter.vo';
+import { Observable, Subject } from 'rxjs';
+
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject } from 'rxjs';
+
+import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
+import { NewsFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/news/news-filter-payload.entity';
+import { NewsEntity } from '@presentation/pages/content-management/core/domain/entities/news.entity';
+import { NewsFilter } from '@presentation/pages/content-management/core/domain/value-objects/news-filter.vo';
+
 import { FilterNewsComponent } from '../filter-news/filter-news.component';
 import {
     NEWS_CREATE_ROUTE,

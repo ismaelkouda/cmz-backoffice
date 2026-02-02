@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { QueuesEntity } from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
 import { QueuesTableVM } from '@presentation/pages/reports-processing/domain/view-models/queues-table.vm';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesTableMapper {
-    constructor(private translate: TranslateService) { }
+    constructor(private translate: TranslateService) {}
 
     toVM(entity: QueuesEntity): QueuesTableVM {
         return {

@@ -1,5 +1,6 @@
-import { DEPARTMENTS_ROUTE } from "@presentation/pages/administrative-boundary/administrative-boundary.route";
-import { ADMINISTRATIVE_BOUNDARY_ROUTE } from "@shared/routes/routes";
+import { ADMINISTRATIVE_BOUNDARY_ROUTE } from '@shared/routes/routes';
+
+import { DEPARTMENTS_ROUTE } from '@presentation/pages/administrative-boundary/administrative-boundary.route';
 
 export const DEPARTMENTS_TABS = [
     {

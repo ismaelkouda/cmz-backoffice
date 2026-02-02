@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { SeparatorThousandsPipe } from '@shared/pipes/separator-thousands.pipe';
+
 import { AppCustomizationService } from '../../services/app-customization.service';
 
 @Component({
@@ -9,24 +11,34 @@ import { AppCustomizationService } from '../../services/app-customization.servic
     standalone: true,
     imports: [CommonModule, SeparatorThousandsPipe, TranslateModule],
     template: `
-        <div style="padding: 0rem 0 0.8rem 0">
+        <div>
             <span class="table-header-wrapper">
                 <b *ngIf="page">
-                    <span *ngIf="label">{{ 'COMMON.FILTER_RESULT' | translate }}</span>
+                    <span *ngIf="label">{{
+                        'COMMON.FILTER_RESULT' | translate
+                    }}</span>
                     <span *ngIf="!label">Total :</span>
-                    <span class="text-success"> {{ (count || 0) | separatorThousandsPipe }}</span>
+                    <span class="text-success">
+                        {{ count || 0 | separatorThousandsPipe }}</span
+                    >
                     <span *ngIf="count > 0 && page && totalPage">
                         [Page
                         <span [style.color]="config.colors.primary">{{
                             page
                         }}</span>
-                        / {{ totalPage | separatorThousandsPipe }}] [{{ perPage }}]
+                        / {{ totalPage | separatorThousandsPipe }}] [{{
+                            perPage
+                        }}]
                     </span>
                 </b>
                 <b *ngIf="!page">
-                    <span *ngIf="label">{{ 'COMMON.FILTER_RESULT' | translate }}</span>
+                    <span *ngIf="label">{{
+                        'COMMON.FILTER_RESULT' | translate
+                    }}</span>
                     <span *ngIf="!label">Total :</span>
-                    <span class="text-success"> {{ (count || 0) | separatorThousandsPipe }}</span></b
+                    <span class="text-success">
+                        {{ count || 0 | separatorThousandsPipe }}</span
+                    ></b
                 >
             </span>
         </div>
@@ -35,7 +47,7 @@ import { AppCustomizationService } from '../../services/app-customization.servic
 export class TableTitleComponent {
     public readonly config = inject(AppCustomizationService).config;
 
-    @Input() label: boolean = true;
+    @Input() label = true;
     @Input() count!: number;
     @Input() page!: number;
     @Input() totalPage!: number;

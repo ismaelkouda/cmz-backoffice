@@ -10,17 +10,6 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TasksTableMapper } from '@presentation/pages/report-requests/data/mappers/tasks-table.mapper';
-import { TASKS_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/tasks/tasks-table.constants';
-import { TasksEntity } from '@presentation/pages/report-requests/domain/entities/tasks/tasks.entity';
-import { TasksTableVM } from '@presentation/pages/report-requests/domain/view-models/tasks-table.vm';
-import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
-import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
-import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { TableConfig } from '@shared/interfaces/table-config';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -29,6 +18,19 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
+import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
+import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { TableConfig } from '@shared/interfaces/table-config';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
+
+import { TasksTableMapper } from '@presentation/pages/report-requests/data/mappers/tasks-table.mapper';
+import { TASKS_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/tasks/tasks-table.constants';
+import { TasksEntity } from '@presentation/pages/report-requests/domain/entities/tasks/tasks.entity';
+import { TasksTableVM } from '@presentation/pages/report-requests/domain/view-models/tasks-table.vm';
 
 @Component({
     selector: 'app-table-tasks',
@@ -138,7 +140,9 @@ export class TableTasksComponent implements OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value

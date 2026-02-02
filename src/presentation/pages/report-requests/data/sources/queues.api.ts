@@ -1,10 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { EnvService } from '@shared/services/env.service';
+
 import { QueuesRequestDto } from '@presentation/pages/report-requests/data/dtos/queues/queues-request.dto';
 import { QueuesResponseDto } from '@presentation/pages/report-requests/data/dtos/queues/queues-response.dto';
 import { QUEUES_ENDPOINTS } from '@presentation/pages/report-requests/data/endpoints/queues-endpoints';
-import { EnvService } from '@shared/services/env.service';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesApi {

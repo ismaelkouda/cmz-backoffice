@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
 import { PaginationComponent } from '../../../../../shared/components/pagination/pagination.component';
@@ -57,7 +59,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private customersApiService: CustomersApiService
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {

@@ -45,7 +45,7 @@ export interface DetailsItemDto {
     place_description: string;
     location_name: string;
     report_type: ReportTypeDto;
-    operators: Array<TelecomOperatorDto>;
+    operators: TelecomOperatorDto[];
     place_photo: string;
     access_place_photo: string;
     description: string;
@@ -93,4 +93,4 @@ export interface DetailsItemDto {
     municipality: AdministrativeBoundaryDto;
 }
 
-export interface DetailsResponseDto extends SimpleResponseDto<DetailsItemDto> { }
+export type DetailsResponseDto = SimpleResponseDto<DetailsItemDto>;

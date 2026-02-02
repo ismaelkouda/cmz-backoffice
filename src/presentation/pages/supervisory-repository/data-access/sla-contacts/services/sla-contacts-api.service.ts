@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { SlaContactsEndpointEnum } from '../enums/sla-contacts-endpoint.enum';
 import {
@@ -14,7 +15,9 @@ import {
     SlaContactsInterface,
 } from '../interfaces/sla-contacts.interface';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class SlaContactsApiService {
     private BASE_URL: string;
 

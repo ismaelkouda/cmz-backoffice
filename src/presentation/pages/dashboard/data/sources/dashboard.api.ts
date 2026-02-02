@@ -1,10 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DashboardEndpoint } from '@pages/dashboard/data/constants/dashboard-endpoints.constant';
-import { DashboardResponseDto } from '@pages/dashboard/data/dtos/dashboard-response.dto';
+import { Observable } from 'rxjs';
+
 import { Filter } from '@shared/application/base/object-base-facade';
 import { EnvService } from '@shared/services/env.service';
-import { Observable } from 'rxjs';
+
+import { DashboardEndpoint } from '@pages/dashboard/data/constants/dashboard-endpoints.constant';
+import { DashboardResponseDto } from '@pages/dashboard/data/dtos/dashboard-response.dto';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardApi {
@@ -13,11 +15,9 @@ export class DashboardApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
-    loadStatistics(
-        params: Filter
-    ): Observable<DashboardResponseDto> {
+    loadStatistics(params: Filter): Observable<DashboardResponseDto> {
         const url = `${this.baseUrl}${DashboardEndpoint.STATISTICS}`;
         let httpParams = new HttpParams();
 

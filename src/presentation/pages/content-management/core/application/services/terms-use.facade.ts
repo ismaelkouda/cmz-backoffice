@@ -1,4 +1,15 @@
 import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { BaseFacade } from '@shared/application/base/base-facade';
+import {
+    handleObservableWithFeedback,
+    shouldFetch,
+} from '@shared/application/base/facade.utils';
+import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+
 import { CreateTermsUseUseCase } from '@presentation/pages/content-management/core/application/use-cases/terms-use/create-terms-use.use-case';
 import { DeleteTermsUseUseCase } from '@presentation/pages/content-management/core/application/use-cases/terms-use/delete-terms-use.use-case';
 import { GetTermsUseByIdUseCase } from '@presentation/pages/content-management/core/application/use-cases/terms-use/get-terms-use-by-id.use-case';
@@ -7,12 +18,7 @@ import { FetchTermsUseUseCase } from '@presentation/pages/content-management/cor
 import { UpdateTermsUseUseCase } from '@presentation/pages/content-management/core/application/use-cases/terms-use/update-terms-use.use-case';
 import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
 import { TermsUseFilter } from '@presentation/pages/content-management/core/domain/value-objects/terms-use-filter.vo';
-import { BaseFacade } from '@shared/application/base/base-facade';
-import { handleObservableWithFeedback, shouldFetch } from '@shared/application/base/facade.utils';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
-import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { GetTermsUseByIdEntity } from '../../domain/entities/get-terms-use-by-id.entity';
 import { UnpublishTermsUseUseCase } from '../use-cases/terms-use/unpublish-terms-use.use-case';
 @Injectable({
@@ -33,15 +39,41 @@ export class TermsUseFacade extends BaseFacade<TermsUseEntity, TermsUseFilter> {
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    private handleActionWithRefresh<T>(observable: Observable<T>, successKey: string): Observable<T> {
-        return handleObservableWithFeedback(observable, this.uiFeedbackService, successKey, () => this.refresh());
+    private handleActionWithRefresh<T>(
+        observable: Observable<T>,
+        successKey: string
+    ): Observable<T> {
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedbackService,
+            successKey,
+            () => this.refresh()
+        );
     }
 
-    fetchTermsUse(filter: TermsUseFilter, page: string = PAGINATION_CONST.DEFAULT_PAGE, forceRefresh: boolean = false): void {
+    fetchTermsUse(
+        filter: TermsUseFilter,
+        page: string = PAGINATION_CONST.DEFAULT_PAGE,
+        forceRefresh = false
+    ): void {
         const hasData = this.itemsSubject.getValue().length > 0;
-        if (!shouldFetch(forceRefresh, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
+        if (
+            !shouldFetch(
+                forceRefresh,
+                hasData,
+                this.lastFetchTimestamp,
+                this.STALE_TIME
+            )
+        ) {
+            return;
+        }
 
-        this.fetchWithFilterAndPage(filter, page, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            filter,
+            page,
+            this.fetchUseCase.execute.bind(this.fetchUseCase),
+            this.uiFeedbackService
+        );
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -53,16 +85,28 @@ export class TermsUseFacade extends BaseFacade<TermsUseEntity, TermsUseFilter> {
         const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
         this.pageSubject.next(firstPage);
 
-        this.fetchWithFilterAndPage(null, firstPage, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            null,
+            firstPage,
+            this.fetchUseCase.execute.bind(this.fetchUseCase),
+            this.uiFeedbackService
+        );
 
         this.lastFetchTimestamp = Date.now();
     }
 
     changePage(pageNumber: number): void {
         const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) return;
+        if (!currentFilter) {
+            return;
+        }
 
-        this.fetchWithFilterAndPage(currentFilter, String(pageNumber), this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            currentFilter,
+            String(pageNumber),
+            this.fetchUseCase.execute.bind(this.fetchUseCase),
+            this.uiFeedbackService
+        );
 
         this.lastFetchTimestamp = Date.now();
     }
@@ -72,26 +116,41 @@ export class TermsUseFacade extends BaseFacade<TermsUseEntity, TermsUseFilter> {
     }
 
     create(payload: FormData): Observable<SimpleResponseDto<void>> {
-        return this.handleActionWithRefresh(this.createUseCase.execute(payload), 'COMMON.SUCCESS.CREATE');
+        return this.handleActionWithRefresh(
+            this.createUseCase.execute(payload),
+            'COMMON.SUCCESS.CREATE'
+        );
     }
 
     update(
         id: string,
         formData: FormData
     ): Observable<SimpleResponseDto<void>> {
-        return this.handleActionWithRefresh(this.updateUseCase.execute({ id, params: formData }), 'COMMON.SUCCESS.UPDATE');
+        return this.handleActionWithRefresh(
+            this.updateUseCase.execute({ id, params: formData }),
+            'COMMON.SUCCESS.UPDATE'
+        );
     }
 
     delete(id: string): Observable<SimpleResponseDto<void>> {
-        return this.handleActionWithRefresh(this.deleteUseCase.execute(id), 'COMMON.SUCCESS.DELETE');
+        return this.handleActionWithRefresh(
+            this.deleteUseCase.execute(id),
+            'COMMON.SUCCESS.DELETE'
+        );
     }
 
     publish(id: string): Observable<SimpleResponseDto<void>> {
-        return this.handleActionWithRefresh(this.publishUseCase.execute(id), 'COMMON.SUCCESS.UPDATE');
+        return this.handleActionWithRefresh(
+            this.publishUseCase.execute(id),
+            'COMMON.SUCCESS.UPDATE'
+        );
     }
 
     unpublish(id: string): Observable<SimpleResponseDto<void>> {
-        return this.handleActionWithRefresh(this.unpublishUseCase.execute(id), 'COMMON.SUCCESS.UPDATE');
+        return this.handleActionWithRefresh(
+            this.unpublishUseCase.execute(id),
+            'COMMON.SUCCESS.UPDATE'
+        );
     }
 
     resetMemory(): void {

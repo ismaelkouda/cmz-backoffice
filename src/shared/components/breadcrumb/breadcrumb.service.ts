@@ -2,6 +2,7 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+
 import { BreadcrumbItem } from './breadcrumb.model';
 
 @Injectable({ providedIn: 'root' })
@@ -35,7 +36,9 @@ export class BreadcrumbService {
         breadcrumbs: BreadcrumbItem[]
     ): BreadcrumbItem[] {
         const children = route.children;
-        if (!children.length) return breadcrumbs;
+        if (!children.length) {
+            return breadcrumbs;
+        }
 
         for (const child of children) {
             const segment = child.snapshot.url.map((s) => s.path).join('/');

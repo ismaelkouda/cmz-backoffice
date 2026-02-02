@@ -24,7 +24,7 @@
                             [isLoading]="isLoading()"
                             [formGroup]="formFilter"
                             [fields]="filterFields"
-                            [filterState]="queuesFacade.currentFilter$"
+                            [filterState]="facade.currentFilter$"
                             (filter)="filter($event)"
                         >
                         </app-filter>

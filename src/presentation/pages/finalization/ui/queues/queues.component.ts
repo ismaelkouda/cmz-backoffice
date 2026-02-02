@@ -9,17 +9,20 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { QueuesFacade } from '@presentation/pages/finalization/application/queues.facade';
 import { QueuesFilter } from '@presentation/pages/finalization/domain/value-objects/queues-filter.vo';
 import { FilterQueuesComponent } from '@presentation/pages/finalization/feature/queues/filter-queues/filter-queues.component';
 import { TableQueuesComponent } from '@presentation/pages/finalization/feature/queues/table-queues/table-queues.component';
 import { ManagementFacade } from '@presentation/pages/reports-processing/application/management.facade';
 import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { QueuesFilterPayloadEntity } from '../../domain/entities/queues/queues-filter-payload.entity';
 import { QueuesEntity } from '../../domain/entities/queues/queues.entity';
 

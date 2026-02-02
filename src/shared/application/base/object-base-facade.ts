@@ -1,38 +1,49 @@
-import { Injectable } from "@angular/core";
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
-import { PAGINATION_CONST } from "@shared/constants/pagination.constants";
-import { BehaviorSubject, catchError, debounceTime, distinctUntilChanged, finalize, Observable, tap, throwError } from "rxjs";
+import { Injectable } from '@angular/core';
+import {
+    BehaviorSubject,
+    catchError,
+    debounceTime,
+    distinctUntilChanged,
+    finalize,
+    Observable,
+    tap,
+    throwError,
+} from 'rxjs';
 
-Injectable({ providedIn: 'root' })
+import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
+Injectable({ providedIn: 'root' });
 
 export interface Filter {
     toDto(): Record<string, string | string[]>;
 }
-export class ObjectBaseFacade<
-    TEntity,
-    TFilter,
-> {
+export class ObjectBaseFacade<TEntity, TFilter> {
     protected readonly itemsSubject = new BehaviorSubject<TEntity>(
         {} as TEntity
     );
-    protected readonly isLoadingSubject = new BehaviorSubject<boolean>(
-        false
-    );
+    protected readonly isLoadingSubject = new BehaviorSubject<boolean>(false);
     protected readonly filterSubject = new BehaviorSubject<TFilter | null>(
         null
     );
 
-    readonly items$: Observable<TEntity> =
-        this.itemsSubject.asObservable();
+    readonly items$: Observable<TEntity> = this.itemsSubject.asObservable();
     readonly isLoading$: Observable<boolean> =
         this.isLoadingSubject.asObservable();
     readonly currentFilter$: Observable<TFilter | null> = this.filterSubject
         .asObservable()
         .pipe(
             distinctUntilChanged((prev, curr) => {
-                if (prev === curr) return true;
-                if (!prev && !curr) return true;
-                if (!prev || !curr) return false;
+                if (prev === curr) {
+                    return true;
+                }
+                if (!prev && !curr) {
+                    return true;
+                }
+                if (!prev || !curr) {
+                    return false;
+                }
 
                 const prevDto: Record<string, string | string[]> = prev;
                 const currDto: Record<string, string | string[]> = curr;
@@ -40,7 +51,9 @@ export class ObjectBaseFacade<
                 const prevKeys = Object.keys(prevDto).sort();
                 const currKeys = Object.keys(currDto).sort();
 
-                if (prevKeys.length !== currKeys.length) return false;
+                if (prevKeys.length !== currKeys.length) {
+                    return false;
+                }
 
                 return prevKeys.every((key) => prevDto[key] === currDto[key]);
             })
@@ -48,13 +61,18 @@ export class ObjectBaseFacade<
 
     protected fetchWithFilter(
         filter: Exclude<TFilter, void>,
-        fetchFn: (filter: TFilter, endPointType?: EndPointType) => Observable<TEntity>,
+        fetchFn: (
+            filter: TFilter,
+            endPointType?: EndPointType
+        ) => Observable<TEntity>,
         uiFeedback?: UiFeedbackService,
         endPointType?: EndPointType
     ): void {
         const fetch$ = fetchFn(filter, endPointType);
 
-        if (this.isLoadingSubject.getValue()) return;
+        if (this.isLoadingSubject.getValue()) {
+            return;
+        }
 
         const prevFilter = this.filterSubject.getValue();
         if (!prevFilter || this.hasFilterChanged(prevFilter, filter)) {
@@ -63,17 +81,19 @@ export class ObjectBaseFacade<
 
         this.isLoadingSubject.next(true);
 
-        fetch$.pipe(
-            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-            tap(response => {
-                this.itemsSubject.next(response);
-            }),
-            catchError(err => {
-                uiFeedback?.errorFromApi(err);
-                return throwError(() => err);
-            }),
-            finalize(() => this.isLoadingSubject.next(false))
-        ).subscribe();
+        fetch$
+            .pipe(
+                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
+                tap((response) => {
+                    this.itemsSubject.next(response);
+                }),
+                catchError((err) => {
+                    uiFeedback?.errorFromApi(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this.isLoadingSubject.next(false))
+            )
+            .subscribe();
     }
 
     private hasFilterChanged(prevFilter: TFilter, newFilter: TFilter): boolean {
@@ -83,13 +103,22 @@ export class ObjectBaseFacade<
         const prevKeys = Object.keys(prevDto).sort();
         const newKeys = Object.keys(newDto).sort();
 
-        if (prevKeys.length !== newKeys.length) return true;
+        if (prevKeys.length !== newKeys.length) {
+            return true;
+        }
 
-        return !prevKeys.every(key => prevDto[key] === newDto[key]);
+        return !prevKeys.every((key) => prevDto[key] === newDto[key]);
     }
 
-    protected shouldFetch(forceRefresh: boolean, hasData: boolean, lastFetch: number, staleTime: number): boolean {
-        if (forceRefresh) return true;
+    protected shouldFetch(
+        forceRefresh: boolean,
+        hasData: boolean,
+        lastFetch: number,
+        staleTime: number
+    ): boolean {
+        if (forceRefresh) {
+            return true;
+        }
         const isStale = Date.now() - lastFetch > staleTime;
         return !hasData || isStale;
     }
@@ -99,6 +128,4 @@ export class ObjectBaseFacade<
         this.isLoadingSubject.next(false);
         this.filterSubject.next(null);
     }
-
-
 }

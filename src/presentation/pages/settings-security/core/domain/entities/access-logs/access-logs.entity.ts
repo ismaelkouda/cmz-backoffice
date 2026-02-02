@@ -1,4 +1,4 @@
-import { AccessLogsItemApiDto } from "@presentation/pages/settings-security/infrastructure/api/dtos/access-logs/access-logs-response-api.dto";
+import { AccessLogsItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dtos/access-logs/access-logs-response-api.dto';
 
 export class AccessLogsEntity {
     constructor(
@@ -7,7 +7,7 @@ export class AccessLogsEntity {
         public source: string,
         public usedAgent: string,
         public createdAt: string
-    ) { }
+    ) {}
 
     static fromDto(dto: AccessLogsItemApiDto): AccessLogsEntity {
         return new AccessLogsEntity(

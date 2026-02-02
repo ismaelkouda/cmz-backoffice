@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { QueuesEntity } from '@presentation/pages/finalization/domain/entities/queues/queues.entity';
 import { QueuesTableVM } from '@presentation/pages/finalization/domain/view-models/queues-table.vm';
 

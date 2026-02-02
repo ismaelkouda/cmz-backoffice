@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { NotificationsComponent } from './ui/notifications/notifications.component';
 
 export const MESSAGING_ROUTE = 'messaging';

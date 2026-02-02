@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
+
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable, map } from 'rxjs';
+
 import { SlideEntity } from '../../../core/domain/entities/slide.entity';
 import { SlideRepository } from '../../../core/domain/repositories/slide.repository';
 import { SlideFilter } from '../../../core/domain/value-objects/slide-filter.vo';
@@ -16,16 +18,16 @@ import { SlideApi } from '../sources/slide.api';
 export class SlideRepositoryImpl implements SlideRepository {
     constructor(
         private readonly api: SlideApi,
-        private readonly slideMapper: SlideMapper,
-    ) { }
+        private readonly slideMapper: SlideMapper
+    ) {}
 
     fetchSlide(
         filter: SlideFilter,
         page: string
     ): Observable<Paginate<SlideEntity>> {
-        return this.api.fetchSlides(filter?.toDto() ?? {}, page).pipe(
-            map((response) => this.slideMapper.mapFromDto(response))
-        );
+        return this.api
+            .fetchSlides(filter?.toDto() ?? {}, page)
+            .pipe(map((response) => this.slideMapper.mapFromDto(response)));
     }
 
     getSlideById(id: string): Observable<SlideEntity> {

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { AllComponent } from './ui/all/all.component';
 import { QueuesComponent } from './ui/queues/queues.component';
 import { TasksComponent } from './ui/tasks/tasks.component';

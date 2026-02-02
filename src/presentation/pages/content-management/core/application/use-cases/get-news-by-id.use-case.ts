@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { GetNewsByIdEntity } from '../../domain/entities/get-news-by-id.entity';
 import { NewsRepository } from '../../domain/repositories/news.repository';
 

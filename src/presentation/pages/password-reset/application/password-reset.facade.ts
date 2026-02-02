@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { PasswordResetResponse } from '../domain/entities/password-reset-response.entity';
-import {
-    ForgotPasswordUseCase,
-    ResetPasswordUseCase,
-} from '../domain/use-cases/password-reset.use-case';
-import { ForgotPasswordRequest } from '../domain/value-objects/forgot-password-request.vo';
-import { ResetPasswordRequest } from '../domain/value-objects/reset-password-request.vo';
 import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
@@ -16,6 +9,14 @@ import {
     tap,
     throwError,
 } from 'rxjs';
+
+import { PasswordResetResponse } from '../domain/entities/password-reset-response.entity';
+import {
+    ForgotPasswordUseCase,
+    ResetPasswordUseCase,
+} from '../domain/use-cases/password-reset.use-case';
+import { ForgotPasswordRequest } from '../domain/value-objects/forgot-password-request.vo';
+import { ResetPasswordRequest } from '../domain/value-objects/reset-password-request.vo';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetFacade {
@@ -44,7 +45,7 @@ export class PasswordResetFacade {
         this.forgotPasswordLoadingSubject.next(true);
 
         return this.forgotPasswordUseCase.execute(request).pipe(
-            tap((response) => {
+            tap(() => {
                 const successMessage = this.translateService.instant(
                     'PASSWORD_RESET.MESSAGES.SUCCESS.EMAIL_SENT'
                 );
@@ -71,7 +72,7 @@ export class PasswordResetFacade {
         this.resetPasswordLoadingSubject.next(true);
 
         return this.resetPasswordUseCase.execute(request).pipe(
-            tap((response) => {
+            tap(() => {
                 const successMessage = this.translateService.instant(
                     'PASSWORD_RESET.MESSAGES.SUCCESS.PASSWORD_RESET'
                 );

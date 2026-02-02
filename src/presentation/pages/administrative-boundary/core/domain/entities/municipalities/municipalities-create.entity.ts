@@ -4,9 +4,11 @@ export class MunicipalitiesCreateEntity {
         public readonly name: string,
         public readonly departmentCode: string,
         public readonly description: string
-    ) { }
+    ) {}
 
-    public clone(updates: Partial<MunicipalitiesCreateEntity>): MunicipalitiesCreateEntity {
+    public clone(
+        updates: Partial<MunicipalitiesCreateEntity>
+    ): MunicipalitiesCreateEntity {
         return new MunicipalitiesCreateEntity(
             updates.code ?? this.code,
             updates.name ?? this.name,

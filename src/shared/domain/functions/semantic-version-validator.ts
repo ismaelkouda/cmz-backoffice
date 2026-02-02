@@ -1,7 +1,7 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export function semanticVersionValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
+    return (control: AbstractControl): Record<string, any> | null => {
         if (!control.value) {
             return null; // La validation required est séparée
         }
@@ -18,9 +18,9 @@ export function semanticVersionValidator(): ValidatorFn {
         // Vérifier si c'est une version sémantique complète
         if (semanticVersionPattern.test(value)) {
             const match = value.match(semanticVersionPattern);
-            const major = parseInt(match![1], 10);
-            const minor = parseInt(match![2], 10);
-            const patch = parseInt(match![3], 10);
+            const major = parseInt(match[1], 10);
+            const minor = parseInt(match[2], 10);
+            const patch = parseInt(match[3], 10);
 
             // Validation des valeurs
             if (major < 0 || minor < 0 || patch < 0) {
@@ -31,8 +31,8 @@ export function semanticVersionValidator(): ValidatorFn {
             }
 
             // Vérifier les pré-releases si présentes
-            if (match![4]) {
-                const preRelease = match![4];
+            if (match[4]) {
+                const preRelease = match[4];
                 const preReleasePattern = /^[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*$/;
                 if (!preReleasePattern.test(preRelease)) {
                     return {
@@ -42,8 +42,8 @@ export function semanticVersionValidator(): ValidatorFn {
             }
 
             // Vérifier les build metadata si présentes
-            if (match![5]) {
-                const buildMetadata = match![5];
+            if (match[5]) {
+                const buildMetadata = match[5];
                 const buildPattern = /^[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*$/;
                 if (!buildPattern.test(buildMetadata)) {
                     return {

@@ -1,8 +1,10 @@
+import { Observable } from 'rxjs';
+
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { GetLegalNoticeByIdEntity } from '../entities/get-legal-notice-by-id.entity';
 import { LegalNoticeEntity } from '../entities/legal-notice.entity';
 import { LegalNoticeFilter } from '../value-objects/legal-notice-filter.vo';

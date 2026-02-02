@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { TasksEntity } from '@presentation/pages/finalization/domain/entities/tasks/tasks.entity';
 import { TasksTableVM } from '@presentation/pages/finalization/domain/view-models/tasks-table.vm';
 

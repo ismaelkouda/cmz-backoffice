@@ -1,5 +1,4 @@
-import { DepartmentsUpdateDto } from "../../../application/dtos/departments/departments-update.dto";
-
+import { DepartmentsUpdateDto } from '@presentation/pages/administrative-boundary/core/application/dtos/departments/departments-update.dto';
 
 export class DepartmentsUpdate {
     private constructor(
@@ -7,17 +6,18 @@ export class DepartmentsUpdate {
         readonly code: string,
         readonly name: string,
         readonly regionCode: string,
-        readonly description: string,
-    ) { }
+        readonly description: string
+    ) {}
 
-    static create(data: DepartmentsUpdateDto = {} as DepartmentsUpdateDto): DepartmentsUpdate {
-
+    static create(
+        data: DepartmentsUpdateDto = {} as DepartmentsUpdateDto
+    ): DepartmentsUpdate {
         return new DepartmentsUpdate(
             data.id,
             data.code,
             data.name,
             data.regionCode,
-            data.description,
+            data.description
         );
     }
 }

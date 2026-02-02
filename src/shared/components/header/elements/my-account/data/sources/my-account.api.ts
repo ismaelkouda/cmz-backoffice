@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { EnvService } from '@shared/services/env.service';
-import { Observable } from 'rxjs';
+
 import { MY_ACCOUNT_ENDPOINTS } from '../constants/my-account-endpoints.constant';
 import { ChangePasswordRequestDto } from '../dtos/change-password-request.dto';
 import { UpdateProfileRequestDto } from '../dtos/update-profile-request.dto';
@@ -14,7 +16,7 @@ export class MyAccountApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
     fetchLogout(): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${MY_ACCOUNT_ENDPOINTS.LOGOUT}`;

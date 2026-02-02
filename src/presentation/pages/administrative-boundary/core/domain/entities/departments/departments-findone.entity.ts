@@ -1,4 +1,4 @@
-import { DepartmentsFindoneItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-findone-response-api.dto";
+import { DepartmentsFindoneItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-findone-response-api.dto';
 
 export class DepartmentsFindoneEntity {
     constructor(
@@ -14,9 +14,11 @@ export class DepartmentsFindoneEntity {
         public readonly updatedBy: string,
         public readonly createdAt: string,
         public readonly updatedAt: string
-    ) { }
+    ) {}
 
-    static fromDto(dto: DepartmentsFindoneItemApiDto): DepartmentsFindoneEntity {
+    static fromDto(
+        dto: DepartmentsFindoneItemApiDto
+    ): DepartmentsFindoneEntity {
         return new DepartmentsFindoneEntity(
             dto.id,
             dto.name,

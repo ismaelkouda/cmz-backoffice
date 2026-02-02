@@ -29,7 +29,7 @@ export class AllEntity implements All {
         public readonly initiatorPhoneNumber: string,
         public readonly status: ReportStatus,
         public readonly reportedAt: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<All>): AllEntity {
         return new AllEntity(

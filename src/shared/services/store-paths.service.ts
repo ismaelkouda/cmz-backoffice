@@ -1,6 +1,8 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+
 import { CurrentUser } from '@shared/interfaces/current-user.interface';
+
 import { EncodingDataService } from './encoding-data.service';
 
 @Injectable({

@@ -1,8 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ConfigurationService } from '@core/services/configuration.service';
+
 import { AuthToken } from '@shared/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/services/encoding-data.service';
+
+import { ConfigurationService } from '@core/services/configuration.service';
+
 import {
     isInternalUrl,
     isStaticAssetRequest,

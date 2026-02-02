@@ -7,11 +7,13 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
-import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
+import { map, Observable, switchMap } from 'rxjs';
+
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { map, Observable, switchMap } from 'rxjs';
+
+import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
+import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 
 @Component({
     selector: 'app-view-home',
@@ -132,8 +134,8 @@ export class ViewHomeComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly homeFacade = inject(HomeFacade);
 
-    public module: string = 'Content Management';
-    public subModule: string = 'Home Blocks';
+    public module = 'Content Management';
+    public subModule = 'Home Blocks';
 
     title$ = this.route.data.pipe(map((data) => data['title']));
     item$!: Observable<HomeEntity>;

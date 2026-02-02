@@ -25,6 +25,7 @@ import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
+
 import {
     T_TYPE_CUSTOMERS_ENUM,
     TYPE_CUSTOMERS_ENUM,
@@ -70,7 +71,7 @@ import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-cust
     imports: [CommonModule, ReactiveFormsModule, TranslateModule, SelectModule],
 })
 export class FilterCustomersComponent implements OnInit, OnDestroy {
-    @Output() filter = new EventEmitter<CustomersFilterInterface | {}>();
+    @Output() filter = new EventEmitter<CustomersFilterInterface | object>();
     @Input() listCustomersStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
     public listCustomersType: T_TYPE_CUSTOMERS_ENUM[] =
         Object.values(TYPE_CUSTOMERS_ENUM);
@@ -86,7 +87,7 @@ export class FilterCustomersComponent implements OnInit, OnDestroy {
         private toastService: ToastrService,
         private translate: TranslateService,
         private customersApiService: CustomersApiService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.initFormFilter();
@@ -175,8 +176,9 @@ export class FilterCustomersComponent implements OnInit, OnDestroy {
             date_fin &&
             moment(date_debut).isAfter(moment(date_fin))
         ) {
-            const invalidDateRange =
-                this.translate.instant('COMMON.INVALID_DATE_RANGE');
+            const invalidDateRange = this.translate.instant(
+                'COMMON.INVALID_DATE_RANGE'
+            );
             this.toastService.error(invalidDateRange);
             return;
         }
@@ -192,7 +194,9 @@ export class FilterCustomersComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.success(translatedMessage);
         }
     }

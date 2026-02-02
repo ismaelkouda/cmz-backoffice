@@ -8,8 +8,15 @@ import {
     inject,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TREATMENT_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/treatment-table.constant';
-import { TreatmentEntity } from '@presentation/pages/reports-processing/domain/entities/treatment/treatment.entity';
+import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { Observable, take } from 'rxjs';
+
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -19,14 +26,9 @@ import {
     TableConfig,
     TableExportExcelFileService,
 } from '@shared/services/table-export-excel-file.service';
-import { ClipboardService } from 'ngx-clipboard';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
-import { Observable, take } from 'rxjs';
+
+import { TREATMENT_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/treatment-table.constant';
+import { TreatmentEntity } from '@presentation/pages/reports-processing/domain/entities/treatment/treatment.entity';
 
 @Component({
     selector: 'app-table-treatment',
@@ -162,15 +164,15 @@ export class TableTreatmentComponent {
         switch (normalized) {
             case 'orange':
                 translationKey =
-                    'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATOR.ORANGE';
+                    'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATORS.ORANGE';
                 break;
             case 'mtn':
                 translationKey =
-                    'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATOR.MTN';
+                    'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATORS.MTN';
                 break;
             case 'moov':
                 translationKey =
-                    'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATOR.MOOV';
+                    'REPORTS_PROCESSING.TREATMENT.OPTIONS.OPERATORS.MOOV';
                 break;
             default:
                 return operator;

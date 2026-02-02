@@ -1,0 +1,28 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { HistoryFilterApiDto } from '@shared/components/history/infrastructure/api/dtos/history-filter-api.dto';
+import { HistoryResponseApiDto } from '@shared/components/history/infrastructure/api/dtos/history-response.api.dto';
+import { HISTORY_ENDPOINTS } from '@shared/components/history/infrastructure/api/dtos/history.endpoints';
+import { HISTORY_BASE_URL } from '@shared/components/history/infrastructure/api/history.base-url';
+import { buildHttpParams } from '@shared/utils/utils/build-http-params.utils';
+
+@Injectable({ providedIn: 'root' })
+export class HistoryApi {
+    constructor(
+        private readonly http: HttpClient,
+        @Inject(HISTORY_BASE_URL) private readonly baseUrl: string
+    ) {}
+
+    readAll(
+        filter: HistoryFilterApiDto,
+        page: string
+    ): Observable<HistoryResponseApiDto> {
+        const url = `${this.baseUrl}${HISTORY_ENDPOINTS.HISTORY}?page=${page}`;
+
+        const params = buildHttpParams(filter);
+
+        return this.http.get<HistoryResponseApiDto>(url, { params });
+    }
+}

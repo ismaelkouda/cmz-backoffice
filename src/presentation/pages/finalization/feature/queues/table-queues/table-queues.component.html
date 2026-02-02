@@ -168,6 +168,11 @@
                                             queue.initiatorPhoneNumber
                                         )
                                     "
+                                    (keypress)="
+                                        copyToClipboard(
+                                            queue.initiatorPhoneNumber
+                                        )
+                                    "
                                     tooltipPosition="bottom"
                                     >[ {{ queue.initiatorPhoneNumber }} ]
                                 </span>

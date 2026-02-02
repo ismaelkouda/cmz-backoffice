@@ -3,7 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, startWith } from 'rxjs/operators';
 
-@Injectable()
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
+@Injectable({ providedIn: 'root' })
 export class RouteContextService {
     readonly currentEndPointType = toSignal(
         this.router.events.pipe(

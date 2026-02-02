@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+
 import {
     GetLegalNoticeByIdItemDto,
     GetLegalNoticeByIdResponseDto,
 } from '@presentation/pages/content-management/core/application/dtos/legal-notice/get-legal-notice-by-id-response.dto';
 import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 
 @Injectable({
     providedIn: 'root',

@@ -1,9 +1,15 @@
 import { Injectable, inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
+
 import { RegionsEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/regions/regions.entity';
 import { RegionsRepository } from '@presentation/pages/administrative-boundary/core/domain/repositories/regions/regions-repository';
 import { RegionsFilter } from '@presentation/pages/administrative-boundary/core/domain/value-objects/regions/regions-filter.vo';
-import { Paginate, SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { RegionsCreate } from '../../../domain/value-objects/regions/regions-create.vo';
 import { RegionsUpdate } from '../../../domain/value-objects/regions/regions-update.vo';
 import { RegionsCreateDto } from '../../dtos/regions/regions-create.dto';

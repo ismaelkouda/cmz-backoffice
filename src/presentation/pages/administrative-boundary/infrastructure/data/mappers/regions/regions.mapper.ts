@@ -1,6 +1,8 @@
-import { RegionsEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/regions/regions.entity';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+
+import { RegionsEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/regions/regions.entity';
+
 import { RegionsItemApiDto } from '../../../api/dtos/regions/regions-response-api.dto';
 
 export class RegionsMapper extends PaginatedMapper<
@@ -12,7 +14,7 @@ export class RegionsMapper extends PaginatedMapper<
 
     protected override mapItemFromDto(dto: RegionsItemApiDto): RegionsEntity {
         MapperUtils.validateDto(dto, {
-            required: ['id']
+            required: ['id'],
         });
 
         const cacheKey = `dto:${dto.id}`;

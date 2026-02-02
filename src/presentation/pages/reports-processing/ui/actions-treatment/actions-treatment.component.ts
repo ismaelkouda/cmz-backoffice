@@ -7,9 +7,19 @@ import {
     inject,
     signal,
 } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+
 import { ActionsFacade } from '@presentation/pages/reports-processing/application/actions.facade';
 import { DetailsFacade } from '@presentation/pages/reports-processing/application/details.facade';
 import { ActionsFilterPayloadEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions-filter-payload.entity';
@@ -19,15 +29,6 @@ import { DetailsEntity } from '@presentation/pages/reports-processing/domain/ent
 import { ActionsFilter } from '@presentation/pages/reports-processing/domain/value-objects/actions-filter.vo';
 import { ModalActionComponent } from '@presentation/pages/reports-processing/feature/actions/modal-action/modal-action.component';
 import { TableActionsComponent } from '@presentation/pages/reports-processing/feature/actions/table-actions/table-actions.component';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { ReportType } from '@shared/domain/enums/report-type.enum';
-import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
-import { Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-actions-treatment',
@@ -57,13 +58,10 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
     private readonly router = inject(Router);
     private readonly datePipe = inject(DatePipe);
 
-    public title = inject(Title);
-    public module = signal<string>('');
-    public subModule = signal<string>('');
-    public readOnly = signal<boolean>(false);
+    public readonly readOnly = signal<boolean>(false);
 
-    public reportUniqId = signal<string>('');
-    public details$ = signal<DetailsEntity | null>(null);
+    public readonly reportUniqId = signal<string>('');
+    public readonly details$ = signal<DetailsEntity | null>(null);
 
     public pagination$!: Observable<Paginate<ActionsEntity>>;
     public actions$!: Observable<ActionsEntity[]>;
@@ -81,7 +79,6 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.setupRoute();
-        this.setupRouteData();
         this.setupObservables();
         this.setupDetailsObservable();
     }
@@ -94,20 +91,6 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
                 this.loadActionsData(taskId);
             }
         });
-    }
-
-    private setupRouteData(): void {
-        this.activatedRoute.data
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((data) => {
-                this.title.setTitle(
-                    data['title'] ??
-                    'TEAM_ORGANIZATION.PARTICIPANT.FORM.CREATE_TITLE'
-                );
-                this.module = data['module'] ?? 'TEAM_ORGANIZATION.LABEL';
-                this.subModule =
-                    data['subModule'] ?? 'TEAM_ORGANIZATION.PARTICIPANT.LABEL';
-            });
     }
 
     private loadActionsData(reportUniqId: string): void {

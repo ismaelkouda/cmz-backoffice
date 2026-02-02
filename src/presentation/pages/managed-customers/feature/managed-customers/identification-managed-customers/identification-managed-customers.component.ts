@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
+
 import { ManagedCustomersDetailsInterface } from '../../../data-access/managed-customers/interfaces/managed-customers-details.interface';
 
 @Component({

@@ -5,9 +5,12 @@ import {
     RouterStateSnapshot,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+
 import { StorePathsService } from '@shared/services/store-paths.service';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class PagesGuard {
     constructor(
         private storePathsService: StorePathsService,

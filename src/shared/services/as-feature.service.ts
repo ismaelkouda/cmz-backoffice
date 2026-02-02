@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { EncodingDataService } from './encoding-data.service';
 
 @Injectable({
@@ -19,7 +20,7 @@ export class AsFeatureService {
         this.encodingService.getData('modules');
         const asAccessFeature = this.encodingService.getData(
             'modules'
-        ) as Array<string>;
+        ) as string[];
         return asAccessFeature.includes(feature);
     }
 }

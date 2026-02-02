@@ -9,17 +9,21 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TreatmentFacade } from '@pages/reports-processing/application/treatment.facade';
-import { TreatmentFilter } from '@pages/reports-processing/domain/value-objects/treatment-filter.vo';
-import { FilterTreatmentComponent } from '@pages/reports-processing/feature/treatment/filter-treatment/filter-treatment.component';
-import { TableTreatmentComponent } from '@pages/reports-processing/feature/treatment/table-treatment/table-treatment.component';
-import { TreatmentEntity } from '@presentation/pages/reports-processing/domain/entities/treatment/treatment.entity';
-import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
+import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { TreatmentEntity } from '@presentation/pages/reports-processing/domain/entities/treatment/treatment.entity';
+import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
+
+import { TreatmentFacade } from '@pages/reports-processing/application/treatment.facade';
+import { TreatmentFilter } from '@pages/reports-processing/domain/value-objects/treatment-filter.vo';
+import { FilterTreatmentComponent } from '@pages/reports-processing/feature/treatment/filter-treatment/filter-treatment.component';
+import { TableTreatmentComponent } from '@pages/reports-processing/feature/treatment/table-treatment/table-treatment.component';
+
 import { TreatmentFilterPayloadEntity } from '../../domain/entities/treatment/treatment-filter-payload.entity';
 
 @Component({
@@ -54,7 +58,7 @@ export class TreatmentComponent implements OnInit, OnDestroy {
     constructor(
         private readonly activatedRoute: ActivatedRoute,
         private readonly treatmentFacade: TreatmentFacade
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.activatedRoute.data
@@ -99,7 +103,9 @@ export class TreatmentComponent implements OnInit, OnDestroy {
         this.selectedReportId = null;
     }
 
-    public handleNewspaper(item: TreatmentEntity): void { }
+    public handleNewspaper(item: TreatmentEntity): void {
+        console.log('Newspaper clicked for report:', item);
+    }
 
     public refreshTreatments(): void {
         this.treatmentFacade.refresh();

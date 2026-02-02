@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { DepartmentsByRegionIdComponent } from './departments-by-region-id/departments-by-region-id.component';
 import { RegionsFormComponent } from './regions-form/regions-form.component';
 import { RegionsListComponent } from './regions-list/regions-list.component';
@@ -44,5 +45,5 @@ export const REGIONS_ROUTES: Routes = [
             title: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TITLE',
             breadcrumb: 'ADMINISTRATIVE_BOUNDARY.REGIONS.BREADCRUMB_LABEL',
         },
-    }
+    },
 ];

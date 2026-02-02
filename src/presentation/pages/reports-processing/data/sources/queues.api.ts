@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+
+import { EnvService } from '@shared/services/env.service';
+
 import { QueuesRequestDto } from '../dtos/queues/queues-request.dto';
 import { QueuesResponseDto } from '../dtos/queues/queues-response.dto';
 import { QUEUES_ENDPOINTS } from '../endpoint/queues-endpoints';

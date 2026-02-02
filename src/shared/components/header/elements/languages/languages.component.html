@@ -11,15 +11,20 @@
         [attr.aria-expanded]="isDropdownOpen()"
     >
         <div class="current-lang-wrapper">
-            <img
+            <!-- <img
                 [src]="getFlagUrl(currentLanguage())"
                 [alt]="currentLanguage()"
                 class="flag-icon"
                 width="24"
                 height="16"
-            />
-            <span class="lang-code text-uppercase">{{ currentLanguage() }}</span>
-            <i class="pi pi-chevron-down dropdown-arrow" [class.rotated]="isDropdownOpen()"></i>
+            /> -->
+            <span class="lang-code text-uppercase">{{
+                currentLanguage()
+            }}</span>
+            <i
+                class="pi pi-chevron-down dropdown-arrow"
+                [class.rotated]="isDropdownOpen()"
+            ></i>
         </div>
     </button>
 
@@ -37,13 +42,28 @@
                 tabindex="0"
             >
                 <div class="lang-option">
-                    <img [src]="lang.flag" [alt]="lang.code" class="flag-icon" width="20" height="auto" />
+                    <!-- <img
+                        [src]="lang.flag"
+                        [alt]="lang.code"
+                        class="flag-icon"
+                        width="20"
+                        height="auto"
+                    /> -->
                     <span>{{ lang.label | translate }}</span>
-                    <i *ngIf="currentLanguage() === lang.code" class="pi pi-check selected-icon"></i>
+                    <i
+                        *ngIf="currentLanguage() === lang.code"
+                        class="pi pi-check selected-icon"
+                    ></i>
                 </div>
             </li>
         </ul>
     </div>
 </div>
 
-<div *ngIf="isDropdownOpen()" class="dropdown-overlay" (click)="closeDropdown()"></div>
+@if (isDropdownOpen()) {
+    <div
+        class="dropdown-overlay"
+        (click)="closeDropdown()"
+        (keydown.escape)="closeDropdown()"
+    ></div>
+}

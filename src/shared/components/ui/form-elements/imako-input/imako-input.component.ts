@@ -1,22 +1,38 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, input, signal } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    signal,
+} from '@angular/core';
+import {
+    ControlValueAccessor,
+    FormControl,
+    NG_VALUE_ACCESSOR,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
-    selector: 'imako-input',
+    selector: 'app-imako-input',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, InputTextModule, TranslateModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        InputTextModule,
+        TranslateModule,
+    ],
     templateUrl: './imako-input.component.html',
     styleUrls: ['./imako-input.component.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ImakoInputComponent),
-            multi: true
-        }
-    ]
+            useExisting: ImakoInputComponent,
+            multi: true,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImakoInputComponent implements ControlValueAccessor {
     public readonly label = input<string>('');
@@ -26,12 +42,10 @@ export class ImakoInputComponent implements ControlValueAccessor {
     public readonly control = input<FormControl>(new FormControl());
     public readonly styleClass = input<string>('');
 
-    // Internal signal for value (though mainly handled via control)
     protected readonly value = signal<any>('');
 
-    // CVA methods
-    onChange: any = () => { };
-    onTouch: any = () => { };
+    protected onChange!: (value: any) => void;
+    protected onTouch!: () => void;
 
     writeValue(value: any): void {
         this.value.set(value);

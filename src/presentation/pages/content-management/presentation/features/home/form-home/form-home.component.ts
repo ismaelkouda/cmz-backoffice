@@ -5,7 +5,7 @@ import {
     DestroyRef,
     inject,
     OnInit,
-    signal
+    signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -17,15 +17,6 @@ import {
 import { SafeUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HOME_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
-import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
-import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
-import { Plateform } from '@shared/domain/enums/plateform.enum';
-import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -40,8 +31,17 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { Plateform } from '@shared/domain/enums/plateform.enum';
+import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
+
+import { HOME_ROUTE } from '@presentation/pages/content-management/content-management.routes';
+import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
+import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
+import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
 
 @Component({
     selector: 'app-form-home',
@@ -82,10 +82,9 @@ export class FormHomeComponent implements OnInit {
     private readonly messageService = inject(MessageService);
     public readonly VALIDATION = FormValidators;
 
-    public pageTitle$!: Observable<string>;
-    public module = signal<string>('');
-    public subModule = signal<string>('');
-    public title = signal<string>('');
+    public readonly module = signal<string>('');
+    public readonly subModule = signal<string>('');
+    public readonly title = signal<string>('');
 
     public form!: FormGroup;
     public isEditMode = false;
@@ -106,7 +105,6 @@ export class FormHomeComponent implements OnInit {
     ngOnInit(): void {
         this.initForm();
         this.initOptions();
-        this.setupRouteData();
         this.checkEditMode();
     }
 
@@ -172,17 +170,6 @@ export class FormHomeComponent implements OnInit {
         );
     }
 
-    public getFileSizeStatus(fileSize: number): string {
-        const maxSize = FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
-        const sizeInMB = fileSize / 1024 / 1024;
-
-        if (sizeInMB > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
-            return `⚠️ ${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
-        }
-
-        return `${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB`;
-    }
-
     private htmlContentMaxLengthValidator(maxLength: number): any {
         return (control: any) => {
             if (!control.value) {
@@ -244,27 +231,39 @@ export class FormHomeComponent implements OnInit {
         const count = this.getContentCharacterCount();
         const max = FormValidators.CONTENT.STRIP_HTML_MAX;
 
-        if (count > max * 0.9) return 'danger';
-        if (count > max * 0.7) return 'warning';
+        if (count > max * 0.9) {
+            return 'danger';
+        }
+        if (count > max * 0.7) {
+            return 'warning';
+        }
         return 'safe';
     }
 
     public getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
 
-        if (fieldName === 'buttonLabel' && this.form.errors?.['buttonLabelWithoutUrl']) {
+        if (
+            fieldName === 'buttonLabel' &&
+            this.form.errors?.['buttonLabelWithoutUrl']
+        ) {
             return this.translate.instant(
                 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL'
             );
         }
 
-        if (fieldName === 'buttonUrl' && this.form.errors?.['buttonUrlWithoutLabel']) {
+        if (
+            fieldName === 'buttonUrl' &&
+            this.form.errors?.['buttonUrlWithoutLabel']
+        ) {
             return this.translate.instant(
                 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.BUTTON_URL_WITHOUT_LABEL'
             );
         }
 
-        if (!control || !control.errors) return '';
+        if (!control || !control.errors) {
+            return '';
+        }
 
         const errors = control.errors;
 
@@ -329,9 +328,9 @@ export class FormHomeComponent implements OnInit {
         this.checkImageDimensions(file).then((dimensions) => {
             if (
                 dimensions.width >
-                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
                 dimensions.height >
-                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
             ) {
                 imageControl?.setErrors({ imageDimensions: true });
             }
@@ -358,25 +357,6 @@ export class FormHomeComponent implements OnInit {
             };
             img.src = URL.createObjectURL(file);
         });
-    }
-
-    private setupRouteData(): void {
-        this.pageTitle$ = this.route.data.pipe(
-            map((data) => data['title'] || 'CONTENT_MANAGEMENT.HOME.LABEL')
-        );
-
-        this.route.data
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((data) => {
-                this.module = data['module'] || 'CONTENT_MANAGEMENT.LABEL';
-                this.subModule =
-                    data['subModule'] || 'CONTENT_MANAGEMENT.HOME.TITLE';
-                this.titleService.setTitle(
-                    data['title']
-                        ? this.translate.instant(data['title'])
-                        : 'CMZ'
-                );
-            });
     }
 
     private checkEditMode(): void {

@@ -1,0 +1,42 @@
+<main class="container-fluid profils-habilitations-container" role="main">
+    <section class="row profils-habilitations-row">
+        <article class="col-sm-12 profils-habilitations-article">
+            <app-breadcrumb />
+
+            <section class="card profils-habilitations-card">
+                <div class="card-body profils-habilitations-card-body">
+                    <header class="profils-habilitations-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'SETTINGS_SECURITY.PROFILES_HABILITATIONS.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
+                        ></app-page-title>
+                    </header>
+
+                    <p-tabs [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.route) {
+                                <p-tab
+                                    [routerLink]="[tab.route]"
+                                    routerLinkActive="p-highlight"
+                                    #rla="routerLinkActive"
+                                    [value]="tab.value"
+                                    [class.p-highlight]="rla.isActive"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

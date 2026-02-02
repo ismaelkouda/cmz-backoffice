@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+
+import { EnvService } from '@shared/services/env.service';
+
 import { AllRequestDto } from '../dtos/all/all-request.dto';
 import { AllResponseDto } from '../dtos/all/all-response.dto';
 import { ALL_ENDPOINTS } from '../endpoint/all-endpoints';

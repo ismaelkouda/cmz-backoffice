@@ -3,7 +3,7 @@ export class RegionsCreateEntity {
         public readonly code: string,
         public readonly name: string,
         public readonly description: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<RegionsCreateEntity>): RegionsCreateEntity {
         return new RegionsCreateEntity(

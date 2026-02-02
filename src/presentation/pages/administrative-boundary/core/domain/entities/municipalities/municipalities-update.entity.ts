@@ -5,9 +5,11 @@ export class MunicipalitiesUpdateEntity {
         public readonly name: string,
         public readonly departmentCode: string,
         public readonly description: string
-    ) { }
+    ) {}
 
-    public clone(updates: Partial<MunicipalitiesUpdateEntity>): MunicipalitiesUpdateEntity {
+    public clone(
+        updates: Partial<MunicipalitiesUpdateEntity>
+    ): MunicipalitiesUpdateEntity {
         return new MunicipalitiesUpdateEntity(
             updates.id ?? this.id,
             updates.code ?? this.code,

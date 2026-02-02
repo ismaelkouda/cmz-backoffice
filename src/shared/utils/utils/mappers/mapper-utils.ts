@@ -1,6 +1,4 @@
-
 export class MapperUtils {
-
     static createEnumMap<const T extends Record<string, unknown>>(
         mapping: T
     ): ReadonlyMap<keyof T & string, T[keyof T]> {
@@ -23,7 +21,9 @@ export class MapperUtils {
         mapper: (input: TInput) => TOutput,
         key?: string
     ): TOutput | null {
-        if (input == null) return null;
+        if (input === null || input === undefined) {
+            return null;
+        }
 
         const cacheKey = key ?? this.generateCacheKey(input);
 
@@ -38,13 +38,13 @@ export class MapperUtils {
     }
 
     memoizedList<TInput, TOutput>(
-        inputs: readonly (TInput)[],
+        inputs: readonly TInput[],
         mapper: (input: TInput) => TOutput,
         keyGenerator?: (input: TInput) => string
-    ): Array<TOutput> {
-        return inputs.map(input =>
-            this.memoized(input, mapper, keyGenerator?.(input))!
-        );
+    ): TOutput[] {
+        return inputs
+            .map((input) => this.memoized(input, mapper, keyGenerator?.(input)))
+            .filter((v): v is TOutput => v !== null);
     }
 
     private setCache(key: string, value: unknown): void {
@@ -53,7 +53,9 @@ export class MapperUtils {
     }
 
     private ensureCacheLimit(): void {
-        if (this.cache.size <= this.maxCacheSize) return;
+        if (this.cache.size <= this.maxCacheSize) {
+            return;
+        }
 
         const overflow = this.cache.size - this.maxCacheSize;
         const keysToDelete = Array.from(this.cache.keys()).slice(0, overflow);
@@ -75,14 +77,12 @@ export class MapperUtils {
         return `${typeof value}:${String(value)}`;
     }
 
-    private isIdentifiable(
-        value: unknown
-    ): value is { id: string | number } {
+    private isIdentifiable(value: unknown): value is { id: string | number } {
         return (
             typeof value === 'object' &&
             value !== null &&
             'id' in value &&
-            (value as any).id !== undefined
+            (value as { id: unknown }).id !== undefined
         );
     }
 
@@ -112,11 +112,22 @@ export class MapperUtils {
         dto: T,
         schema: {
             required?: readonly (keyof T)[];
-            nullable?: readonly (keyof T)[];
         }
     ): void {
+        if (!dto || typeof dto !== 'object') {
+            throw new Error('DTO must be an object');
+        }
+
         if (schema.required) {
-            this.validateRequiredFields(dto, schema.required);
+            const missing = schema.required.filter(
+                (key) => dto[key] === undefined || dto[key] === null
+            );
+
+            if (missing.length) {
+                throw new Error(
+                    `Missing required fields: ${missing.join(', ')}`
+                );
+            }
         }
     }
 
@@ -125,13 +136,11 @@ export class MapperUtils {
         fields: readonly (keyof T)[]
     ): void {
         const missing = fields.filter(
-            f => dto[f] === undefined || dto[f] === null || dto[f] === ''
+            (f) => dto[f] === undefined || dto[f] === null || dto[f] === ''
         );
 
         if (missing.length) {
-            throw new Error(
-                `Missing required fields: ${missing.join(', ')}`
-            );
+            throw new Error(`Missing required fields: ${missing.join(', ')}`);
         }
     }
 
@@ -142,7 +151,7 @@ export class MapperUtils {
         update: (target: T, source: D) => void,
         create: (source: D) => T
     ): void {
-        const sourceMap = new Map(source.map(s => [getKey(s), s]));
+        const sourceMap = new Map(source.map((s) => [getKey(s), s]));
 
         for (let i = target.length - 1; i >= 0; i--) {
             const key = getKey(target[i]);
@@ -168,15 +177,14 @@ export class MapperUtils {
         update: (entity: E, dto: D) => E,
         create: (dto: D) => E
     ): readonly E[] {
-        const map = new Map(current.map(e => [key(e), e]));
+        const map = new Map(current.map((e) => [key(e), e]));
 
-        return incoming.map(dto => {
+        return incoming.map((dto) => {
             const k = key(dto);
             const existing = map.get(k);
             return existing ? update(existing, dto) : create(dto);
         });
     }
-
 
     clearCache(): void {
         this.cache.clear();

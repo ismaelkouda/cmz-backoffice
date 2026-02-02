@@ -9,14 +9,17 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+
 import { TasksFacade } from '@presentation/pages/reports-processing/application/tasks.facade';
 import { TasksFilter } from '@presentation/pages/reports-processing/domain/value-objects/tasks-filter.vo';
 import { FilterTasksComponent } from '@presentation/pages/reports-processing/feature/tasks/filter-tasks/filter-tasks.component';
 import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Subject, takeUntil } from 'rxjs';
+
 import { TasksFilterPayloadEntity } from '../../domain/entities/tasks/tasks-filter-payload.entity';
 import { TasksEntity } from '../../domain/entities/tasks/tasks.entity';
 import {

@@ -4,7 +4,7 @@ import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
 
 export interface SlideItemDto {
     id: string;
-    platforms: Array<ReportSourceDto>;
+    platforms: ReportSourceDto[];
     title: string;
     subtitle: string;
     content: string;
@@ -23,4 +23,4 @@ export interface SlideItemDto {
     updated_at: string;
 }
 
-export interface SlideResponseDto extends PaginatedResponseDto<SlideItemDto> {}
+export type SlideResponseDto = PaginatedResponseDto<SlideItemDto>;

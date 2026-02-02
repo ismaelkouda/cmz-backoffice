@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+
+import { EnvService } from '@shared/services/env.service';
+
 import { FinalizeRequestDto } from '../dtos/finalize/finalize-request.dto';
 import { FinalizeResponseDto } from '../dtos/finalize/finalize-response.dto';
 import { FINALIZE_ENDPOINTS } from '../endpoint/finalize-endpoints';
