@@ -18,7 +18,7 @@
     "start:prod": "bun run pre-start:prod && ng serve --host 0.0.0.0 --port 4404",
     "start:test": "bun run pre-start:test && ng serve --host 0.0.0.0 --port 4403",
     "start": "bun run start:dev",
-    "build": "bun run build:dev",
+    "build": "pnpm run build:dev",
     "build:dev": "bun run env:dev && ng build",
     "build:cloud": "bun run env:cloud && ng build",
     "build:cmz_dev": "bun run env:cmz_dev && ng build",

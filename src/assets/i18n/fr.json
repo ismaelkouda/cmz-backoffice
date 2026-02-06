@@ -545,12 +545,12 @@
         },
         "MUNICIPALITIES": {
             "BREADCRUMB": {
-                "LABEL": "Municipalités",
+                "LABEL": "Communes/sous-préfectures",
                 "ROUTE": "municipalities"
             },
             "TABS": {
                 "MUNICIPALITIES": {
-                    "LABEL": "Municipalités",
+                    "LABEL": "Communes/sous-préfectures",
                     "ROUTE": "municipalities"
                 },
                 "HISTORY": {
@@ -558,8 +558,8 @@
                     "ROUTE": "history"
                 }
             },
-            "TITLE": "Municipalités",
-            "LABEL": "Municipalités",
+            "TITLE": "Communes/sous-préfectures",
+            "LABEL": "Communes/sous-préfectures",
             "ROUTE": "municipalities",
             "FILTER": {
                 "DATE": {
@@ -580,7 +580,7 @@
             },
             "TABLE": {
                 "CODE": "Code",
-                "NAME": "Nom de la municipalité",
+                "NAME": "Nom de la Communes/sous-préfectures",
                 "REGION": "Région",
                 "DEPARTMENT": "Département",
                 "DESCRIPTION": "Description",
@@ -590,14 +590,14 @@
                 "ACTION": "Action"
             },
             "FORM": {
-                "TITLE_FORM_EDIT": "Formulaire d'édition de municipalité",
-                "TITLE_FORM_ADD": "Formulaire d'ajout de municipalité",
+                "TITLE_FORM_EDIT": "Formulaire d'édition de Communes/sous-préfectures",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de Communes/sous-préfectures",
                 "FIELDSET_GENERAL_INFO": {
                     "TITLE": "Informations Générales",
                     "CODE": "Code",
                     "CODE_PLACEHOLDER": "Ex: 1",
-                    "NAME": "Nom de la municipalité",
-                    "NAME_PLACEHOLDER": "Ex: Nouvelle municipalité",
+                    "NAME": "Nom de la Communes / sous-préfectures",
+                    "NAME_PLACEHOLDER": "Ex: Nouvelle Communes/sous-préfectures",
                     "REGION": "Région",
                     "REGION_PLACEHOLDER": "Ex: Nouvelle région",
                     "DEPARTMENT": "Département",
@@ -625,12 +625,12 @@
                 "CANCEL": "Annuler"
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de municipalité",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette municipalité ?",
-                "TITLE_CREATE": "Création de municipalité",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette municipalité ?",
-                "TITLE_DELETE": "Suppression de municipalité",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette municipalité ?"
+                "TITLE_UPDATE": "Mise à jour de Commune/sous-préfecture",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette Commune/sous-préfecture ?",
+                "TITLE_CREATE": "Création de Commune/sous-préfecture",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette Commune/sous-préfecture ?",
+                "TITLE_DELETE": "Suppression de Commune/sous-préfecture",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette Commune/sous-préfecture ?"
             }
         },
         "REGIONS": {
@@ -748,11 +748,11 @@
         },
         "MUNICIPALITIES_BY_DEPARTMENT_ID": {
             "BREADCRUMB": {
-                "LABEL": "Municipalités",
+                "LABEL": "Communes/sous-préfectures",
                 "ROUTE": "municipalities-by-department-id"
             },
-            "TITLE": "Municipalités du département",
-            "LABEL": "Municipalités",
+            "TITLE": "Communes/sous-préfectures du département",
+            "LABEL": "Communes/sous-préfectures",
             "ROUTE": "municipalities-by-department-id",
             "FILTER": {
                 "DATE": {
@@ -765,7 +765,7 @@
             },
             "TABLE": {
                 "CODE": "Code",
-                "NAME": "Nom de la municipalité",
+                "NAME": "Nom de la Commune/sous-préfecture",
                 "DESCRIPTION": "Description",
                 "POPULATION_SIZE": "# Population",
                 "CREATED_AT": "Créé le",
