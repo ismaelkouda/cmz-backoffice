@@ -25,6 +25,7 @@ import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { SelectModule } from 'primeng/select';
 import { Subject, takeUntil } from 'rxjs';
+
 import { CommercialEnterprisesFilterInterface } from '../../../data-access/commercial-enterprises/interfaces/commercial-enterprises-filter.interface';
 import { CommercialEnterprisesApiService } from '../../../data-access/commercial-enterprises/services/commercial-enterprises-api.service';
 import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
@@ -67,7 +68,7 @@ import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-cust
 })
 export class FilterCommercialEnterprisesComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<
-        CommercialEnterprisesFilterInterface | {}
+        CommercialEnterprisesFilterInterface | object
     >();
     @Input()
     listCommercialEnterprisesStep!: T_CUSTOMERS_MANAGED_STEP_ENUM[];
@@ -82,7 +83,7 @@ export class FilterCommercialEnterprisesComponent implements OnInit, OnDestroy {
         private toastService: ToastrService,
         private translate: TranslateService,
         private customersApiService: CommercialEnterprisesApiService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.initFormFilter();
@@ -160,8 +161,9 @@ export class FilterCommercialEnterprisesComponent implements OnInit, OnDestroy {
             date_fin &&
             moment(date_debut).isAfter(moment(date_fin))
         ) {
-            const invalidDateRange =
-                this.translate.instant('COMMON.INVALID_DATE_RANGE');
+            const invalidDateRange = this.translate.instant(
+                'COMMON.INVALID_DATE_RANGE'
+            );
             this.toastService.error(invalidDateRange);
             return;
         }
@@ -177,7 +179,9 @@ export class FilterCommercialEnterprisesComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.success(translatedMessage);
         }
     }

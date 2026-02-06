@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { AllEntity } from '@presentation/pages/finalization/domain/entities/all/all.entity';
 import { AllTableVM } from '@presentation/pages/finalization/domain/view-models/all-table.vm';
 

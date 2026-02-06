@@ -21,22 +21,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AllFacade as finalizationAllFacade } from '@presentation/pages/finalization/application/all.facade';
-import { QueuesFacade as finalizationQueuesFacade } from '@presentation/pages/finalization/application/queues.facade';
-import { TasksFacade as finalizationTasksFacade } from '@presentation/pages/finalization/application/tasks.facade';
-import { AllFacade as requestAllFacade } from '@presentation/pages/report-requests/application/all.facade';
-import { QueuesFacade as requestsQueuesFacade } from '@presentation/pages/report-requests/application/queues.facade';
-import { TasksFacade as requestTasksFacade } from '@presentation/pages/report-requests/application/tasks.facade';
-import { AllFacade as processingAllFacade } from '@presentation/pages/reports-processing/application/all.facade';
-import { QueuesFacade as processingQueuesFacade } from '@presentation/pages/reports-processing/application/queues.facade';
-import { TasksFacade as processingTasksFacade } from '@presentation/pages/reports-processing/application/tasks.facade';
-import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
-import { PriorityLevelDto } from '@shared/data/dtos/priority-level.dto';
-import {
-    PriorityLevel,
-    PriorityLevelLabel,
-} from '@shared/domain/enums/priority-level.enum';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -48,6 +32,26 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, of, Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
+
+import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { PriorityLevelDto } from '@shared/data/dtos/priority-level.dto';
+import {
+    PriorityLevel,
+    PriorityLevelLabel,
+} from '@shared/domain/enums/priority-level.enum';
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
+import { AllFacade as finalizationAllFacade } from '@presentation/pages/finalization/application/all.facade';
+import { QueuesFacade as finalizationQueuesFacade } from '@presentation/pages/finalization/application/queues.facade';
+import { TasksFacade as finalizationTasksFacade } from '@presentation/pages/finalization/application/tasks.facade';
+import { AllFacade as requestAllFacade } from '@presentation/pages/report-requests/application/all.facade';
+import { QueuesFacade as requestsQueuesFacade } from '@presentation/pages/report-requests/application/queues.facade';
+import { TasksFacade as requestTasksFacade } from '@presentation/pages/report-requests/application/tasks.facade';
+import { AllFacade as processingAllFacade } from '@presentation/pages/reports-processing/application/all.facade';
+import { QueuesFacade as processingQueuesFacade } from '@presentation/pages/reports-processing/application/queues.facade';
+import { TasksFacade as processingTasksFacade } from '@presentation/pages/reports-processing/application/tasks.facade';
+
 import { DetailsFacade } from '../../application/details.facade';
 import { ManagementFacade } from '../../application/management.facade';
 import {
@@ -85,12 +89,6 @@ interface Categories {
     label: string;
 }
 
-interface InfoCard {
-    type: string;
-    title: string;
-    icon: string;
-}
-
 @Component({
     selector: 'app-management',
     standalone: true,
@@ -120,12 +118,11 @@ export class ManagementComponent implements OnInit, OnDestroy {
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() closed = new EventEmitter<void>();
     public formTreatment!: FormGroup<ManagementFormControlEntity>;
-    public isSubmitting$!: Observable<boolean>;
     public details$!: Observable<DetailsEntity>;
     public isLoading$!: Observable<boolean>;
 
-    public selectedCategoryIndex: number = 0;
-    public selectedSectionIndex: number = 0;
+    public selectedCategoryIndex = 0;
+    public selectedSectionIndex = 0;
 
     public workflowSteps: WorkflowStep[] = [
         {
@@ -195,6 +192,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     public isTreatmentFormExpanded = true;
     public endPointType!: EndPointType;
+    readonly isSubmitting = toSignal(this.managementFacade.loading$, {
+        initialValue: false,
+    });
 
     ngOnInit(): void {
         this.initializeComponent();
@@ -203,7 +203,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         this.details$.subscribe((details) => {
             if (details) {
                 this.updateWorkflowTimestamps(details);
-                this.getCategories(details);
+                this.getCategories();
                 this.setupConditionalValidationsTake(details);
             }
         });
@@ -224,7 +224,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         this.loadDetailsData(this.endPointType);
     }
 
-    private getCategories(details: DetailsEntity): void {
+    private getCategories(): void {
         this.categories = [
             {
                 key: 'information',
@@ -262,7 +262,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                     case ReportStatus.REJECTED:
                         timestamp = treater[step.key1];
                         break;
-                    default:
+                    default: {
                         const keys: TreaterTimestampKey[] = [
                             step.key,
                             step.key1,
@@ -273,6 +273,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                                 break;
                             }
                         }
+                    }
                 }
             } else if (step.key === 'confirmedAt' && step.key1 && step.key2) {
                 switch (details.status) {
@@ -285,7 +286,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                     case ReportStatus.FINALIZATION:
                         timestamp = treater[step.key2];
                         break;
-                    default:
+                    default: {
                         const keys: TreaterTimestampKey[] = [
                             step.key,
                             step.key1,
@@ -296,6 +297,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                                 break;
                             }
                         }
+                    }
                 }
             } else {
                 timestamp = treater[step.key];
@@ -337,7 +339,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
     private subscribeToData(): void {
         this.details$ = this.detailsFacade.details$;
         this.isLoading$ = this.detailsFacade.isLoading$;
-        this.isSubmitting$ = this.managementFacade.loading$;
     }
 
     private initForm(): void {
@@ -390,8 +391,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     public getCoordinates(details: DetailsEntity | null): string {
-        if (!details?.location?.coordinates)
+        if (!details?.location?.coordinates) {
             return 'MANAGEMENT.FORM.NOT_SPECIFIED';
+        }
         const lat = details.location.coordinates.latitude?.toString() || 'N/A';
         const lng = details.location.coordinates.longitude?.toString() || 'N/A';
         return `${lat}, ${lng}`;
@@ -403,7 +405,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         ];
     }
 
-    public hasTabNotifications(categoryKey: string): boolean {
+    public hasTabNotifications(): boolean {
         return false;
     }
 
@@ -595,11 +597,12 @@ export class ManagementComponent implements OnInit, OnDestroy {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.TREATMENT.TITLE';
         } else if (management === 'finalize') {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.FINALIZE.TITLE';
-        } else return '';
+        } else {
+            return '';
+        }
     }
 
     private getSweetAlertMessage(management: string): string {
-        let title: string;
         if (management === 'take') {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.WAITING.TITLE';
         } else if (management === 'approve') {
@@ -613,7 +616,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.TREATMENT.TITLE';
         } else if (management === 'finalize') {
             return 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.FINALIZE.TITLE';
-        } else return '';
+        } else {
+            return '';
+        }
     }
 
     private getSweetAlertConfirm(): string {
@@ -645,7 +650,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     getReportTypeLabel(reportType: string | undefined): string {
-        if (!reportType) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
+        if (!reportType) {
+            return 'MANAGEMENT.FORM.NOT_SPECIFIED';
+        }
 
         const labelMap: Record<string, string> = {
             abi: 'MANAGEMENT.FORM.VALUES.REPORT_TYPE.ABI',
@@ -665,14 +672,15 @@ export class ManagementComponent implements OnInit, OnDestroy {
         switch (normalized) {
             case 'orange':
                 translationKey =
-                    'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.ORANGE';
+                    'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATORS.ORANGE';
                 break;
             case 'mtn':
-                translationKey = 'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.MTN';
+                translationKey =
+                    'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATORS.MTN';
                 break;
             case 'moov':
                 translationKey =
-                    'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATOR.MOOV';
+                    'REPORTS_REQUESTS.QUEUES.OPTIONS.OPERATORS.MOOV';
                 break;
             default:
                 return operator;
@@ -707,7 +715,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     getStatusClass(status: ReportStatus | undefined): string {
-        if (!status) return 'status-default';
+        if (!status) {
+            return 'status-default';
+        }
 
         const statusClassMap: Record<ReportStatus, string> = {
             [ReportStatus.PENDING]: 'status-pending',
@@ -725,7 +735,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     getStatusLabel(status: ReportStatus | undefined): string {
-        if (!status) return 'MANAGEMENT.FORM.NOT_SPECIFIED';
+        if (!status) {
+            return 'MANAGEMENT.FORM.NOT_SPECIFIED';
+        }
 
         const labelMap: Record<ReportStatus, string> = {
             [ReportStatus.PROCESSING]:

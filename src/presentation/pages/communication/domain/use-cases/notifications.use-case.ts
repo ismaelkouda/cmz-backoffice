@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { NotificationsEntity } from '../entities/notifications.entity';
 import { NotificationsRepository } from '../repositories/notifications.repository';
 import { NotificationsFilter } from '../value-objects/notifications-filter.vo';

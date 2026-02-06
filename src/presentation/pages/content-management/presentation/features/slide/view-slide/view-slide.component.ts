@@ -7,15 +7,17 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { SLIDE_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-import { SlideFacade } from '@presentation/pages/content-management/core/application/services/slide.facade';
-import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChipModule } from 'primeng/chip';
 import { TagModule } from 'primeng/tag';
 import { Observable, switchMap } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+
+import { SLIDE_ROUTE } from '@presentation/pages/content-management/content-management.routes';
+import { SlideFacade } from '@presentation/pages/content-management/core/application/services/slide.facade';
+import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
 
 @Component({
     selector: 'app-view-slide',

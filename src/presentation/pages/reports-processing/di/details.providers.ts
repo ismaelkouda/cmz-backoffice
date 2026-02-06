@@ -1,4 +1,5 @@
 import { Provider } from '@angular/core';
+
 import { DetailsMapper } from '../data/mappers/details.mapper';
 import { DetailsRepositoryImpl } from '../data/repositories/details.repository.impl';
 import { DetailsApi } from '../data/sources/details.api';

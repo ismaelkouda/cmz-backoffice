@@ -1,14 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { RegionsFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-filter-api.dto';
 import { RegionsResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-response-api.dto';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { RegionsCreateApiDto } from '../../../api/dtos/regions/regions-create-api.dto';
 import { RegionsUpdateApiDto } from '../../../api/dtos/regions/regions-update-api.dto';
-
 
 @Injectable({
     providedIn: 'root',
@@ -16,10 +18,14 @@ import { RegionsUpdateApiDto } from '../../../api/dtos/regions/regions-update-ap
 export class RegionsApi {
     constructor(
         private readonly http: HttpClient,
-        @Inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL) private readonly baseUrl: string
-    ) { }
+        @Inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL)
+        private readonly baseUrl: string
+    ) {}
 
-    readAll(paramsDto: RegionsFilterApiDto, page: string): Observable<RegionsResponseApiDto> {
+    readAll(
+        paramsDto: RegionsFilterApiDto,
+        page: string
+    ): Observable<RegionsResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.REGIONS}?page=${page}`;
         const params = this.createHttpParams(paramsDto);
 

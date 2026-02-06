@@ -112,6 +112,7 @@
                     <ng-container *ngSwitchCase="'Référence'">
                         <span
                             (click)="copyToClipboard(item?.[col.field])"
+                            (keypress)="copyToClipboard(item?.[col.field])"
                             [pTooltip]="'COPY' | translate"
                             tooltipPosition="bottom"
                         >

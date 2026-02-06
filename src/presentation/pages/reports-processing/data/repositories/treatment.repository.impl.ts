@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { TreatmentEntity } from '../../domain/entities/treatment/treatment.entity';
 import { TreatmentRepository } from '../../domain/repositories/treatment.repository';
 import { TreatmentFilter } from '../../domain/value-objects/treatment-filter.vo';
 import { TreatmentMapper } from '../mappers/treatment.mapper';
 import { TreatmentApi } from '../sources/treatment.api';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TreatmentRepositoryImpl extends TreatmentRepository {
     constructor(
         private readonly treatmentApi: TreatmentApi,

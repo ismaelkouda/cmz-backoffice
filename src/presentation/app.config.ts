@@ -15,6 +15,7 @@ import {
     provideZoneChangeDetection,
     runInInjectionContext,
 } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import {
     provideRouter,
     withInMemoryScrolling,
@@ -22,45 +23,34 @@ import {
     withViewTransitions,
 } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
-
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { provideTranslateHttpLoader, TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {
+    provideTranslateHttpLoader,
+    TranslateHttpLoader,
+} from '@ngx-translate/http-loader';
 import Aura from '@primeng/themes/aura';
 import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
+
+import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
+
 /* import { CoreModule } from '../core/core.module'; */
+import { historyProviders } from '@shared/components/history/di/history.providers';
+
 import { apiInterceptor } from '../core/interceptors/api.interceptor';
 import { authInterceptor } from '../core/interceptors/auth.interceptor';
 import { cacheInterceptor } from '../core/interceptors/cache.interceptor';
 import { errorHandlerInterceptor } from '../core/interceptors/error-handler.interceptor';
 import { loggingInterceptor } from '../core/interceptors/logging.interceptor';
-
 import { ConfigurationService } from '../core/services/configuration.service';
 import { TranslationManagerService } from '../core/services/translation-manager.service';
+
 import { routes } from './app.routes';
-import { provideAuthentication } from './pages/authentication/di/authentication.providers';
-import { provideDashboard } from './pages/dashboard/di/dashboard.providers';
-
-import { provideAll as finalizationAll } from './pages/finalization/di/all.providers';
-import { provideAll as requestsAll } from './pages/report-requests/di/all.providers';
-import { provideAll as processingAll } from './pages/reports-processing/di/all.providers';
-
-import { provideQueues as finalizationQueues } from './pages/finalization/di/queues.providers';
-import { provideQueues as requestsQueues } from './pages/report-requests/di/queues.providers';
-import { provideQueues as processingQueues } from './pages/reports-processing/di/queues.providers';
-
-import { provideTasks as finalizationTasks } from './pages/finalization/di/tasks.providers';
-import { provideTasks as requestsTasks } from './pages/report-requests/di/tasks.providers';
-import { provideTasks as processingTasks } from './pages/reports-processing/di/tasks.providers';
-
-import { provideTreatment } from './pages/reports-processing/di/treatment.providers';
-
-import { LoadingBarModule } from '@ngx-loading-bar/core';
-import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
-import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
 import { provideAdministrativeBoundary } from './pages/administrative-boundary/di/administrative-boundary.providers';
+import { provideAuthentication } from './pages/authentication/di/authentication.providers';
 import { provideNotifications } from './pages/communication/di/notifications.providers';
 import { provideHome } from './pages/content-management/di/home.providers';
 import { provideLegalNotice } from './pages/content-management/di/legal-notice.providers';
@@ -68,12 +58,24 @@ import { provideNews } from './pages/content-management/di/news.providers';
 import { providePrivacyPolicy } from './pages/content-management/di/privacy-policy.providers';
 import { provideSlide } from './pages/content-management/di/slide.providers';
 import { provideTermsUse } from './pages/content-management/di/terms-use.providers';
+import { provideDashboard } from './pages/dashboard/di/dashboard.providers';
+import { provideAll as finalizationAll } from './pages/finalization/di/all.providers';
+import { provideQueues as finalizationQueues } from './pages/finalization/di/queues.providers';
+import { provideTasks as finalizationTasks } from './pages/finalization/di/tasks.providers';
 import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
+import { provideAll as requestsAll } from './pages/report-requests/di/all.providers';
+import { provideQueues as requestsQueues } from './pages/report-requests/di/queues.providers';
+import { provideTasks as requestsTasks } from './pages/report-requests/di/tasks.providers';
 import { provideReporting } from './pages/reporting/di/reporting.providers';
 import { provideActions } from './pages/reports-processing/di/actions.providers';
+import { provideAll as processingAll } from './pages/reports-processing/di/all.providers';
 import { provideDetails } from './pages/reports-processing/di/details.providers';
 import { provideManagement } from './pages/reports-processing/di/management.providers';
+import { provideQueues as processingQueues } from './pages/reports-processing/di/queues.providers';
+import { provideTasks as processingTasks } from './pages/reports-processing/di/tasks.providers';
+import { provideTreatment } from './pages/reports-processing/di/treatment.providers';
 import { provideSettingsSecurity } from './pages/settings-security/di/settings-security.providers';
+import { provideTeamOrganization } from './pages/team-organization/di/team-organisation.providers';
 /* import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers'; */
 /* import { provideUser } from './pages/settings-security/di/user.providers';
 import { provideParticipant } from './pages/team-organization/di/participant.providers';
@@ -124,7 +126,7 @@ const frenchLocale = {
     clear: 'Effacer',
 };
 
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+export function HttpLoaderFactory(): TranslateHttpLoader {
     return new TranslateHttpLoader();
 }
 
@@ -172,7 +174,6 @@ const environmentInterceptors = isDevMode()
     : [cacheInterceptor];
 
 export const appConfig: ApplicationConfig = {
-
     providers: [
         /* { provide: APP_BASE_HREF, useValue: '/imako/' }, */
 
@@ -219,8 +220,8 @@ export const appConfig: ApplicationConfig = {
                 loader: {
                     provide: TranslateLoader,
                     useFactory: HttpLoaderFactory,
-                    deps: [HttpClient]
-                }
+                    deps: [HttpClient],
+                },
             })
         ),
 
@@ -299,6 +300,8 @@ export const appConfig: ApplicationConfig = {
         ...processingTasks(),
         ...provideManagement(),
 
+        ...provideTeamOrganization(),
+
         ...provideAdministrativeBoundary(),
 
         ...provideSettingsSecurity(),
@@ -309,6 +312,9 @@ export const appConfig: ApplicationConfig = {
         ...providePrivacyPolicy(),
         ...provideLegalNotice(),
         ...provideTermsUse(),
+
+        ...historyProviders(),
+
         /* ...provideUser(), */
         /*  ...provideProfileHabilitation(), */
         /*         ...provideParticipant(),

@@ -1,4 +1,4 @@
-import { MunicipalitiesFilterDto } from "../../../application/dtos/municipalities/municipalities-filter.dto";
+import { MunicipalitiesFilterDto } from '../../../application/dtos/municipalities/municipalities-filter.dto';
 
 export class MunicipalitiesFilter {
     private constructor(
@@ -7,10 +7,12 @@ export class MunicipalitiesFilter {
         readonly departmentCode?: string,
         readonly isActive?: boolean,
         readonly startDate?: string,
-        readonly endDate?: string,
-    ) { }
+        readonly endDate?: string
+    ) {}
 
-    static create(data: MunicipalitiesFilterDto | null = {} as MunicipalitiesFilterDto): MunicipalitiesFilter {
+    static create(
+        data: MunicipalitiesFilterDto | null = {} as MunicipalitiesFilterDto
+    ): MunicipalitiesFilter {
         if (data?.startDate && data.endDate) {
             if (new Date(data.startDate) > new Date(data.endDate)) {
                 throw new Error('Invalid date range');
@@ -22,7 +24,7 @@ export class MunicipalitiesFilter {
             data?.departmentCode,
             data?.isActive,
             data?.startDate,
-            data?.endDate,
+            data?.endDate
         );
     }
 }

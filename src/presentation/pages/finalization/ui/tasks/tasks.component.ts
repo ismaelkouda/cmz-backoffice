@@ -9,15 +9,18 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TasksFacade } from '@presentation/pages/finalization/application/tasks.facade';
-import { TasksFilter } from '@presentation/pages/finalization/domain/value-objects/tasks-filter.vo';
-import { FilterTasksComponent } from '@presentation/pages/finalization/feature/tasks/filter-tasks/filter-tasks.component';
-import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
+import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { TasksFacade } from '@presentation/pages/finalization/application/tasks.facade';
+import { TasksFilter } from '@presentation/pages/finalization/domain/value-objects/tasks-filter.vo';
+import { FilterTasksComponent } from '@presentation/pages/finalization/feature/tasks/filter-tasks/filter-tasks.component';
+import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
+
 import { TasksFilterPayloadEntity } from '../../domain/entities/tasks/tasks-filter-payload.entity';
 import { TasksEntity } from '../../domain/entities/tasks/tasks.entity';
 import {

@@ -56,4 +56,3 @@ export const DEPARTMENTS_BY_REGION_ID_TABLE_CONST = {
         'createdAt',
     ],
 };
-

@@ -1,6 +1,12 @@
-import { TemplateRef } from "@angular/core";
+import { TemplateRef } from '@angular/core';
 
-export type FilterFieldType = 'text' | 'select' | 'multi-select' | 'date' | 'date-range' | 'template';
+export type FilterFieldType =
+    | 'text'
+    | 'select'
+    | 'multi-select'
+    | 'date'
+    | 'date-range'
+    | 'template';
 
 export interface FilterField {
     type: FilterFieldType;
@@ -20,5 +26,5 @@ export interface FilterField {
 
 export interface FilterOption {
     label: string;
-    value: string;
+    value: string | number | boolean;
 }

@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     EventEmitter,
     Input,
@@ -15,10 +16,6 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HomeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/home/home-filter-form-control.entity';
-import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
-import { HomeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/home/home-filter-payload.entity';
-import { Plateform } from '@shared/domain/enums/plateform.enum';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -27,6 +24,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+
+import { Plateform } from '@shared/domain/enums/plateform.enum';
+
+import { HomeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/home/home-filter-form-control.entity';
+import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
+import { HomeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/home/home-filter-payload.entity';
 
 @Component({
     selector: 'app-filter-home',
@@ -42,6 +45,7 @@ import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
         MultiSelectModule,
         InputTextModule,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterHomeComponent implements OnInit, OnDestroy {
     private readonly fb = inject(FormBuilder);
@@ -87,7 +91,7 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
             this.formFilter = this.fb.group<HomeFilterFormControlDto>({
                 startDate: new FormControl<string>('', { nonNullable: true }),
                 endDate: new FormControl<string>('', { nonNullable: true }),
-                platforms: new FormControl<Array<Plateform> | null>(null, {
+                platforms: new FormControl<Plateform[] | null>(null, {
                     nonNullable: true,
                 }),
                 search: new FormControl<string>('', { nonNullable: true }),
@@ -100,16 +104,24 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
         this.homeFacade.currentFilter$
             .pipe(
                 distinctUntilChanged((prev, curr) => {
-                    if (prev === curr) return true;
-                    if (!prev && !curr) return true;
-                    if (!prev || !curr) return false;
+                    if (prev === curr) {
+                        return true;
+                    }
+                    if (!prev && !curr) {
+                        return true;
+                    }
+                    if (!prev || !curr) {
+                        return false;
+                    }
 
                     const prevDto = prev.toDto();
                     const currDto = curr.toDto();
                     const prevKeys = Object.keys(prevDto).sort();
                     const currKeys = Object.keys(currDto).sort();
 
-                    if (prevKeys.length !== currKeys.length) return false;
+                    if (prevKeys.length !== currKeys.length) {
+                        return false;
+                    }
                     return prevKeys.every(
                         (key) => prevDto[key] === currDto[key]
                     );
@@ -129,8 +141,7 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
                     {
                         startDate: (dto['start_date'] as string) ?? '',
                         endDate: (dto['end_date'] as string) ?? '',
-                        platforms:
-                            (dto['platforms'] as Array<Plateform>) ?? [],
+                        platforms: (dto['platforms'] as Plateform[]) ?? [],
                         search: (dto['search'] as string) ?? '',
                         status: (dto['status'] as boolean) ?? '',
                     },
@@ -151,8 +162,9 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const invalidDateRange =
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                const invalidDateRange = this.translate.instant(
+                    'COMMON.INVALID_DATE_RANGE'
+                );
                 this.toastService.error(invalidDateRange);
                 return;
             }
@@ -171,7 +183,9 @@ export class FilterHomeComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.error(translatedMessage);
         }
     }

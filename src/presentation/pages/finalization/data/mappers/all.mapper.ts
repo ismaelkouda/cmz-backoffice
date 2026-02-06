@@ -1,18 +1,19 @@
 import { inject, Injectable } from '@angular/core';
-import { AllItemDto } from '@presentation/pages/finalization/data/dtos/all/all-response.dto';
-import {
-    AllEntity,
-    ReportState,
-} from '@presentation/pages/finalization/domain/entities/all/all.entity';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
 
+import { AllItemDto } from '@presentation/pages/finalization/data/dtos/all/all-response.dto';
+import {
+    AllEntity,
+    ReportState,
+} from '@presentation/pages/finalization/domain/entities/all/all.entity';
+
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
-
     private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, AllEntity>();
 
@@ -26,12 +27,14 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
 
     protected override mapItemFromDto(dto: AllItemDto): AllEntity {
         MapperUtils.validateDto(dto, {
-            required: ['uniq_id']
+            required: ['uniq_id'],
         });
 
         const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
-        if (cached) return cached;
+        if (cached) {
+            return cached;
+        }
 
         const entity = new AllEntity(
             dto.uniq_id,

@@ -1,12 +1,18 @@
 import { Injectable, inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
+
 import { DepartmentsCreateDto } from '@presentation/pages/administrative-boundary/core/application/dtos/departments/departments-create.dto';
 import { DepartmentsFilterDto } from '@presentation/pages/administrative-boundary/core/application/dtos/departments/departments-filter.dto';
 import { DepartmentsUpdateDto } from '@presentation/pages/administrative-boundary/core/application/dtos/departments/departments-update.dto';
 import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/departments/departments.entity';
 import { DepartmentsRepository } from '@presentation/pages/administrative-boundary/core/domain/repositories/departments/departments-repository';
 import { DepartmentsFilter } from '@presentation/pages/administrative-boundary/core/domain/value-objects/departments/departments-filter.vo';
-import { Paginate, SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { DepartmentsCreate } from '../../../domain/value-objects/departments/departments-create.vo';
 import { DepartmentsUpdate } from '../../../domain/value-objects/departments/departments-update.vo';
 
@@ -24,12 +30,16 @@ export class DepartmentsUseCase {
         return this.repository.readAll(filter, page);
     }
 
-    create(createDto: DepartmentsCreateDto): Observable<SimpleResponseDto<void>> {
+    create(
+        createDto: DepartmentsCreateDto
+    ): Observable<SimpleResponseDto<void>> {
         const create = DepartmentsCreate.create(createDto);
         return this.repository.create(create);
     }
 
-    update(updateDto: DepartmentsUpdateDto): Observable<SimpleResponseDto<void>> {
+    update(
+        updateDto: DepartmentsUpdateDto
+    ): Observable<SimpleResponseDto<void>> {
         const update = DepartmentsUpdate.create(updateDto);
         return this.repository.update(update);
     }

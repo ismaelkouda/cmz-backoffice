@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { TasksEntity } from '../../domain/entities/tasks/tasks.entity';
 import { TasksRepository } from '../../domain/repositories/tasks.repository';
 import { TasksFilter } from '../../domain/value-objects/tasks-filter.vo';
 import { TasksMapper } from '../mappers/tasks.mapper';
 import { TasksApi } from '../sources/tasks.api';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TasksRepositoryImpl extends TasksRepository {
     constructor(
         private readonly tasksApi: TasksApi,

@@ -1,5 +1,4 @@
 <main class="container-fluid form-municipalities-container" role="main">
-
     <section class="row form-municipalities-row">
         <article class="col-sm-12 form-municipalities">
             <app-breadcrumb />
@@ -39,7 +38,6 @@
                                         [formGroup]="form"
                                         (ngSubmit)="onSubmit()"
                                     >
-
                                         <fieldset class="fieldset">
                                             <legend>
                                                 <b>{{
@@ -110,7 +108,6 @@
                                                     </div>
                                                 </div>
 
-
                                                 <div class="col-md-4">
                                                     <label
                                                         for="name"
@@ -178,7 +175,8 @@
                                                         for="departmentCode"
                                                         class="form-label fw-bold"
                                                     >
-                                                        {{'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.FIELDSET_GENERAL_INFO.DEPARTMENT'
+                                                        {{
+                                                            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.FIELDSET_GENERAL_INFO.DEPARTMENT'
                                                                 | translate
                                                         }}
                                                         <span
@@ -188,7 +186,9 @@
                                                     </label>
                                                     <p-select
                                                         class="form-p-select"
-                                                        [options]="departments()"
+                                                        [options]="
+                                                            departments()
+                                                        "
                                                         formControlName="departmentCode"
                                                         optionLabel="name"
                                                         optionValue="code"
@@ -240,8 +240,8 @@
                                                         formControlName="description"
                                                         class="w-100"
                                                         [attr.maxlength]="
-                                                            VALIDATION.DESCRIPTION
-                                                                .MAX
+                                                            VALIDATION
+                                                                .DESCRIPTION.MAX
                                                         "
                                                         [placeholder]="
                                                             'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION_PLACEHOLDER'
@@ -252,10 +252,12 @@
                                                         class="d-flex justify-content-between align-items-center mt-1"
                                                     >
                                                         @if (
-                                                            form.get('description')
-                                                                ?.invalid &&
-                                                            form.get('description')
-                                                                ?.touched
+                                                            form.get(
+                                                                'description'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'description'
+                                                            )?.touched
                                                         ) {
                                                             <small
                                                                 class="text-danger"
@@ -279,7 +281,8 @@
                                                                 ).length
                                                             }}/{{
                                                                 VALIDATION
-                                                                    .DESCRIPTION.MAX
+                                                                    .DESCRIPTION
+                                                                    .MAX
                                                             }}
                                                         </small>
                                                     </div>

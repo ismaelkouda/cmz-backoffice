@@ -1,8 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { EnvService } from '@shared/services/env.service';
-import { Observable } from 'rxjs';
+
 import { SlideRequestDto } from '../../../core/application/dtos/slide/slide-request.dto';
 import {
     SlideItemDto,

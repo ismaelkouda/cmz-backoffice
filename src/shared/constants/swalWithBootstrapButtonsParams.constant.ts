@@ -1,4 +1,3 @@
-
 export const SWEET_ALERT_PARAMS = {
     buttonsStyling: false,
 

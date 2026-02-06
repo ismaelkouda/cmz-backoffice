@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'separatorThousandsPipe'
+    name: 'separatorThousandsPipe',
 })
 export class SeparatorThousandsPipe implements PipeTransform {
     transform(value: number | string | null | undefined): string {

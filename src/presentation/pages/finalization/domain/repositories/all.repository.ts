@@ -1,5 +1,7 @@
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { AllEntity } from '../entities/all/all.entity';
 import { AllFilter } from '../value-objects/all-filter.vo';
 

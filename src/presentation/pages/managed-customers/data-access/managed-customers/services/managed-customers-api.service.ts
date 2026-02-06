@@ -2,11 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { ManagedCustomersDetailsEndpointEnum } from '../enums/managed-customers-details-endpoint.enum';
 import { ManagedCustomersDetailsInterface } from '../interfaces/managed-customers-details.interface';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class ManagedCustomersApiService {
     private BASE_URL: string;
     constructor(

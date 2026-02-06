@@ -1,6 +1,7 @@
 import { Provider } from '@angular/core';
-import { TreatmentRepository } from '../domain/repositories/treatment.repository';
+
 import { TreatmentRepositoryImpl } from '../data/repositories/treatment.repository.impl';
+import { TreatmentRepository } from '../domain/repositories/treatment.repository';
 
 export const provideTreatment = (): Provider[] => [
     {

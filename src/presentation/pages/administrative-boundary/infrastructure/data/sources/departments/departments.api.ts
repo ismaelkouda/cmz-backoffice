@@ -1,11 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { DepartmentsFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-filter-api.dto';
 import { DepartmentsResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-response-api.dto';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
 import { DepartmentsCreateApiDto } from '../../../api/dtos/departments/departments-create-api.dto';
 import { DepartmentsUpdateApiDto } from '../../../api/dtos/departments/departments-update-api.dto';
 
@@ -15,11 +18,14 @@ import { DepartmentsUpdateApiDto } from '../../../api/dtos/departments/departmen
 export class DepartmentsApi {
     constructor(
         private readonly http: HttpClient,
-        @Inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL) private readonly baseUrl: string
-    ) { }
+        @Inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL)
+        private readonly baseUrl: string
+    ) {}
 
-    readAll(paramsDto: DepartmentsFilterApiDto, page: string): Observable<DepartmentsResponseApiDto> {
-
+    readAll(
+        paramsDto: DepartmentsFilterApiDto,
+        page: string
+    ): Observable<DepartmentsResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.DEPARTMENTS}?page=${page}`;
 
         const params = this.createHttpParams(paramsDto);
@@ -45,13 +51,17 @@ export class DepartmentsApi {
         return params;
     }
 
-    create(payload: DepartmentsCreateApiDto): Observable<SimpleResponseDto<void>> {
+    create(
+        payload: DepartmentsCreateApiDto
+    ): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.DEPARTMENTS}/store`;
 
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
-    update(payload: DepartmentsUpdateApiDto): Observable<SimpleResponseDto<void>> {
+    update(
+        payload: DepartmentsUpdateApiDto
+    ): Observable<SimpleResponseDto<void>> {
         const { id, ...rest } = payload;
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.DEPARTMENTS}/${id}/update`;
         return this.http.post<SimpleResponseDto<void>>(url, rest);

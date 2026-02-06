@@ -8,8 +8,6 @@ export class EncodingDataService {
     private readonly DEFAULT_ENCRYPTION_KEY = 'Im@k0';
     private readonly ENCRYPTION_PREFIX = '0715517685:';
 
-    constructor() {}
-
     /**
      * Sauvegarde des données dans le stockage local
      * @param key Clé de stockage

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { filter, Observable } from 'rxjs';
+
 import { ManagedCustomersPageActionsType } from '../../managed-customers/types/managed-customers-page-actions.type';
+
 import { CommercialEnterprisesNavigationStoreService } from './commercial-enterprises-navigation-store.service';
 
 interface NavigationState {
@@ -15,7 +17,7 @@ const initialNavigationState: NavigationState = {
     lastUpdated: Date.now(),
 };
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CommercialEnterprisesNavigationGuardService extends CommercialEnterprisesNavigationStoreService<NavigationState> {
     constructor() {
         super(initialNavigationState);

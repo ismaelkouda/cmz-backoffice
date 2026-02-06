@@ -1,9 +1,12 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ConfigurationService } from '@core/services/configuration.service';
 import { TranslateService } from '@ngx-translate/core';
-import { EncodingDataService } from '@shared/services/encoding-data.service';
 import { catchError, throwError } from 'rxjs';
+
+import { EncodingDataService } from '@shared/services/encoding-data.service';
+
+import { ConfigurationService } from '@core/services/configuration.service';
+
 import {
     isInternalUrl,
     isStaticAssetRequest,
@@ -12,10 +15,14 @@ import {
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     const config = inject(ConfigurationService);
     const encodingDataService = inject(EncodingDataService);
-    const translateService = inject(TranslateService)
+    const translateService = inject(TranslateService);
 
-    if (isStaticAssetRequest(req.url)) return next(req);
-    if (!isInternalUrl(req.url, config)) return next(req);
+    if (isStaticAssetRequest(req.url)) {
+        return next(req);
+    }
+    if (!isInternalUrl(req.url, config)) {
+        return next(req);
+    }
 
     return next(req).pipe(
         catchError((error) => {
@@ -30,7 +37,7 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
                 });
                 translateService.instant(
                     'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_FETCH_QUEUES'
-                )
+                );
             }
 
             if (status === 401) {

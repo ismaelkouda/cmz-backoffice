@@ -6,7 +6,7 @@ export class NewsFilter {
         private readonly endDate?: string,
         private readonly search?: string,
         private readonly isPublished?: boolean
-    ) { }
+    ) {}
 
     static create(data: NewsRequestDto = {} as NewsRequestDto): NewsFilter {
         return new NewsFilter(
@@ -20,10 +20,18 @@ export class NewsFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.startDate) params['start_date'] = this.startDate;
-        if (this.endDate) params['end_date'] = this.endDate;
-        if (this.search) params['search'] = this.search;
-        if (this.isPublished !== undefined) params['is_published'] = this.isPublished;
+        if (this.startDate) {
+            params['start_date'] = this.startDate;
+        }
+        if (this.endDate) {
+            params['end_date'] = this.endDate;
+        }
+        if (this.search) {
+            params['search'] = this.search;
+        }
+        if (this.isPublished !== undefined) {
+            params['is_published'] = this.isPublished;
+        }
 
         return params;
     }

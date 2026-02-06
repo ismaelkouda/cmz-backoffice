@@ -1,4 +1,5 @@
 import { Provider } from '@angular/core';
+
 import { NotificationsRepositoryImpl } from '../data/repositories/notifications.repository.impl';
 import { NotificationsRepository } from '../domain/repositories/notifications.repository';
 

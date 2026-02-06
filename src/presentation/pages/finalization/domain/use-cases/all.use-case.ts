@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { AllEntity } from '../entities/all/all.entity';
 import { AllRepository } from '../repositories/all.repository';
 import { AllFilter } from '../value-objects/all-filter.vo';
@@ -11,7 +13,10 @@ import { AllFilter } from '../value-objects/all-filter.vo';
 export class FetchAllUseCase {
     private readonly allRepository = inject(AllRepository);
 
-    execute(filter: AllFilter | null, page: string): Observable<Paginate<AllEntity>> {
+    execute(
+        filter: AllFilter | null,
+        page: string
+    ): Observable<Paginate<AllEntity>> {
         return this.allRepository.fetchAll(filter, page);
     }
 }

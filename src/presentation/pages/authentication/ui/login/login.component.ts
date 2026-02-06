@@ -15,11 +15,10 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthenticationFacade } from '@pages/authentication/application/authentication.facade';
-import { LoginFormInterface } from '@pages/authentication/data/interfaces/login-form.interface';
-import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
-import { FORGOT_PASSWORD } from '@pages/password-reset/password-reset.routes';
-import { REINITIALIZATION } from '@presentation/app.routes';
+import { PasswordModule } from 'primeng/password';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
 import {
     AuthToken,
@@ -28,9 +27,13 @@ import {
 import { DASHBOARD } from '@shared/routes/routes';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { EncodingDataService } from '@shared/services/encoding-data.service';
-import { PasswordModule } from 'primeng/password';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+
+import { REINITIALIZATION } from '@presentation/app.routes';
+
+import { AuthenticationFacade } from '@pages/authentication/application/authentication.facade';
+import { LoginFormInterface } from '@pages/authentication/data/interfaces/login-form.interface';
+import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
+import { FORGOT_PASSWORD } from '@pages/password-reset/password-reset.routes';
 
 @Component({
     selector: 'app-login',
@@ -74,7 +77,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     public readonly config = inject(AppCustomizationService).config;
 
     ngOnInit(): void {
-        console.log('LoginComponent ngOnInit', this.translateService.getCurrentLang());
+        console.log(
+            'LoginComponent ngOnInit',
+            this.translateService.getCurrentLang()
+        );
     }
 
     ngOnDestroy(): void {

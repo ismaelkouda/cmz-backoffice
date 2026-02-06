@@ -1,10 +1,13 @@
-import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
-import { TermsUseFilter } from '@presentation/pages/content-management/core/domain/value-objects/terms-use-filter.vo';
+import { Observable } from 'rxjs';
+
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
+import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
+import { TermsUseFilter } from '@presentation/pages/content-management/core/domain/value-objects/terms-use-filter.vo';
+
 import { GetTermsUseByIdEntity } from '../entities/get-terms-use-by-id.entity';
 
 export abstract class TermsUseRepository {

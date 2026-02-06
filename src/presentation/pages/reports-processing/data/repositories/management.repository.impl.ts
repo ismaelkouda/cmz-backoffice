@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, map, tap } from 'rxjs';
+
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
 import { ManagementEntity } from '../../domain/entities/management/management.entity';
 import { ManagementRepository } from '../../domain/repositories/management.repository';
 import { ManagementForm } from '../../domain/value-objects/management-form.vo';
@@ -21,63 +24,53 @@ export class ManagementRepositoryImpl extends ManagementRepository {
         payload: ManagementForm,
         endPointType: EndPointType
     ): Observable<ManagementEntity> {
-        return this.api
-            .fetchTake(payload.toDto(), endPointType)
-            .pipe(
-                map((response) => this.managementMapper.mapFromDto(response)),
-                tap(() => {
-                    this.translateService.instant('COMMON.SUCCESS.TAKE');
-                })
-            );
+        return this.api.fetchTake(payload.toDto(), endPointType).pipe(
+            map((response) => this.managementMapper.mapFromDto(response)),
+            tap(() => {
+                this.translateService.instant('COMMON.SUCCESS.TAKE');
+            })
+        );
     }
 
     fetchApprove(
         payload: ManagementForm,
         endPointType: EndPointType
     ): Observable<ManagementEntity> {
-        return this.api
-            .fetchApprove(payload.toDto(), endPointType)
-            .pipe(
-                map((response) => this.managementMapper.mapFromDto(response)),
-                tap(() => {
-                    this.translateService.instant('COMMON.SUCCESS.APPROVE');
-                })
-            );
+        return this.api.fetchApprove(payload.toDto(), endPointType).pipe(
+            map((response) => this.managementMapper.mapFromDto(response)),
+            tap(() => {
+                this.translateService.instant('COMMON.SUCCESS.APPROVE');
+            })
+        );
     }
 
     fetchReject(
         payload: ManagementForm,
         endPointType: EndPointType
     ): Observable<ManagementEntity> {
-        return this.api
-            .fetchReject(payload.toDto(), endPointType)
-            .pipe(
-                map((response) => this.managementMapper.mapFromDto(response)),
-                tap(() => {
-                    this.translateService.instant('COMMON.SUCCESS.REJECT');
-                })
-            );
+        return this.api.fetchReject(payload.toDto(), endPointType).pipe(
+            map((response) => this.managementMapper.mapFromDto(response)),
+            tap(() => {
+                this.translateService.instant('COMMON.SUCCESS.REJECT');
+            })
+        );
     }
 
     fetchProcess(payload: ManagementForm): Observable<ManagementEntity> {
-        return this.api
-            .fetchProcess(payload.toDto())
-            .pipe(
-                map((response) => this.managementMapper.mapFromDto(response)),
-                tap(() => {
-                    this.translateService.instant('COMMON.SUCCESS.PROCESS');
-                })
-            );
+        return this.api.fetchProcess(payload.toDto()).pipe(
+            map((response) => this.managementMapper.mapFromDto(response)),
+            tap(() => {
+                this.translateService.instant('COMMON.SUCCESS.PROCESS');
+            })
+        );
     }
 
     fetchFinalize(payload: ManagementForm): Observable<ManagementEntity> {
-        return this.api
-            .fetchFinalize(payload.toDto())
-            .pipe(
-                map((response) => this.managementMapper.mapFromDto(response)),
-                tap(() => {
-                    this.translateService.instant('COMMON.SUCCESS.FINALIZE');
-                })
-            );
+        return this.api.fetchFinalize(payload.toDto()).pipe(
+            map((response) => this.managementMapper.mapFromDto(response)),
+            tap(() => {
+                this.translateService.instant('COMMON.SUCCESS.FINALIZE');
+            })
+        );
     }
 }

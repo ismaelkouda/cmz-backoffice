@@ -8,6 +8,7 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, of, pipe, switchMap, tap } from 'rxjs';
+
 import { ImageProcessorCoreService } from '../../application/services/image-processor.core.service';
 import { ImageProcessorWorkerService } from '../../application/services/image-processor.worker.service';
 import {
@@ -39,7 +40,7 @@ const initialState: ImageProcessingState = {
 })
 export class ImageProcessingStore extends signalStore(
     withState(initialState),
-    withComputed(({ stage, progress, currentResult, error }) => ({
+    withComputed(({ stage, currentResult, error }) => ({
         isProcessing: computed(() => stage() === 'processing'),
         isCompleted: computed(() => stage() === 'completed'),
         hasError: computed(() => error() !== null),
@@ -146,7 +147,7 @@ export class ImageProcessingStore extends signalStore(
                                         )
                                         .pipe(
                                             tap((result) => setResult(result)),
-                                            catchError((error) => {
+                                            catchError(() => {
                                                 return coreService
                                                     .cropImage$(
                                                         image,
@@ -226,10 +227,11 @@ export class ImageProcessingStore extends signalStore(
                                         const canvas =
                                             document.createElement('canvas');
                                         const ctx = canvas.getContext('2d');
-                                        if (!ctx)
+                                        if (!ctx) {
                                             throw new Error(
                                                 'Canvas context not available'
                                             );
+                                        }
                                         canvas.width = image.naturalWidth;
                                         canvas.height = image.naturalHeight;
                                         ctx.drawImage(image, 0, 0);
@@ -250,7 +252,7 @@ export class ImageProcessingStore extends signalStore(
                                                 tap((result) =>
                                                     setResult(result)
                                                 ),
-                                                catchError((error) => {
+                                                catchError(() => {
                                                     return coreService
                                                         .cropImage$(
                                                             image,

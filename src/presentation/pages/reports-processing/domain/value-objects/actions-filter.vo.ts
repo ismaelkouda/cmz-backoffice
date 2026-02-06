@@ -20,10 +20,18 @@ export class ActionsFilter {
     toDto(): Record<string, string> {
         const dto: Record<string, string> = {};
 
-        if (this.reportUniqId) dto['report_uniq_id'] = this.reportUniqId;
-        if (this.type) dto['type'] = this.type;
-        if (this.dateFrom) dto['date_from'] = this.dateFrom;
-        if (this.dateTo) dto['date_to'] = this.dateTo;
+        if (this.reportUniqId) {
+            dto['report_uniq_id'] = this.reportUniqId;
+        }
+        if (this.type) {
+            dto['type'] = this.type;
+        }
+        if (this.dateFrom) {
+            dto['date_from'] = this.dateFrom;
+        }
+        if (this.dateTo) {
+            dto['date_to'] = this.dateTo;
+        }
 
         return dto;
     }

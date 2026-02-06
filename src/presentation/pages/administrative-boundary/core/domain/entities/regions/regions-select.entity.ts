@@ -1,13 +1,14 @@
-import { DepartmentsSelectEntity } from "@presentation/pages/administrative-boundary/core/domain/entities/departments/departments-select.entity";
-import { RegionsSelectItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-select-response-api.dto";
-import { MapperUtils } from "@shared/utils/utils/mappers/mapper-utils";
+import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+
+import { DepartmentsSelectEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/departments/departments-select.entity';
+import { RegionsSelectItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-select-response-api.dto';
 
 export class RegionsSelectEntity {
     constructor(
         public readonly name: string,
         public readonly code: string,
         public readonly departments: readonly DepartmentsSelectEntity[]
-    ) { }
+    ) {}
 
     static fromDto(dto: RegionsSelectItemApiDto): RegionsSelectEntity {
         return new RegionsSelectEntity(
@@ -21,7 +22,7 @@ export class RegionsSelectEntity {
         const departments = MapperUtils.mergeImmutable(
             this.departments,
             dto.departments,
-            d => d.code,
+            (d) => d.code,
             (entity, dto) => entity.with(dto),
             DepartmentsSelectEntity.fromDto
         );

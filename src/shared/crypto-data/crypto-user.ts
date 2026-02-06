@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { deriveKey, fromBase64, toBase64 } from './crypto-utils';
 
 @Injectable({
@@ -6,8 +7,6 @@ import { deriveKey, fromBase64, toBase64 } from './crypto-utils';
 })
 export class CryptoUser {
     private readonly password = 'Cu2&Rs0~Ye2#Pr5{';
-
-    constructor() {}
 
     async saveUserData(
         key: string,
@@ -40,7 +39,9 @@ export class CryptoUser {
     async getUserData(key: string, token: string): Promise<string | null> {
         // initialiser
         const raw = localStorage.getItem(key);
-        if (!raw) return null;
+        if (!raw) {
+            return null;
+        }
         //   reprendre le process a l'inverse
         try {
             const payload = JSON.parse(raw);

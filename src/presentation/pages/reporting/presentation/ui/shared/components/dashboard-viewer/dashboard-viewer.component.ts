@@ -12,13 +12,14 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SafeUrlPipe } from '@shared/utils/safe-url.pipe';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 import { Subject, takeUntil, timer } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SafeUrlPipe } from '@shared/utils/safe-url.pipe';
 
 type ConnectionStatus = 'connected' | 'loading' | 'error';
 
@@ -49,7 +50,7 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     public readonly errorDescription = input<string>(
         'REPORTING.REPORT.ERROR_DESCRIPTION'
     );
-    public readonly refresh = output<void>();
+    public readonly refresh = output<undefined>();
     public readonly isLoading = input<boolean>();
 
     private readonly title = inject(Title);
@@ -83,7 +84,9 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
 
     public readonly formattedLastUpdated = computed(() => {
         const lastUpdated = this.lastUpdated();
-        if (!lastUpdated) return '';
+        if (!lastUpdated) {
+            return '';
+        }
 
         return new Intl.DateTimeFormat('fr-FR', {
             hour: '2-digit',
@@ -167,7 +170,7 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
     }
 
     public handleRefreshDashboard(): void {
-        this.refresh.emit();
+        this.refresh.emit(undefined);
     }
 
     private performSmartRefresh(): void {
@@ -209,6 +212,10 @@ export class DashboardViewerComponent implements OnInit, OnDestroy {
             iframe.contentWindow?.postMessage({ action: 'refresh' }, '*');
         } catch (error) {
             this.reloadIframe(iframe);
+            console.error(
+                '❌ Grafana refresh failed, reloading iframe:',
+                error
+            );
         }
     }
 

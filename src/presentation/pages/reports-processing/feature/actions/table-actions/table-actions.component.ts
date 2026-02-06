@@ -10,14 +10,6 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ACTIONS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/actions-table.constant';
-import { ActionsEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions.entity';
-import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
-import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
-import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -25,6 +17,16 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
+import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
+import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
+
+import { ACTIONS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/actions-table.constant';
+import { ActionsEntity } from '@presentation/pages/reports-processing/domain/entities/actions/actions.entity';
 
 @Component({
     selector: 'app-table-actions',
@@ -129,11 +131,11 @@ export class TableActionsComponent implements OnDestroy {
         this.deleteRequested.emit(item);
     }
 
-    getUpdateTooltip(action: ActionsEntity): string {
+    getUpdateTooltip(): string {
         return this.translate.instant('ACTIONS.TOOLTIPS.EDIT');
     }
 
-    getDeleteTooltip(action: ActionsEntity): string {
+    getDeleteTooltip(): string {
         return this.translate.instant('ACTIONS.TOOLTIPS.DELETE');
     }
 
@@ -160,7 +162,9 @@ export class TableActionsComponent implements OnDestroy {
     }
 
     getCreatedByName(action: ActionsEntity): string {
-        if (!action.createdBy) return '-';
+        if (!action.createdBy) {
+            return '-';
+        }
         return `${action.createdBy.first_name} ${action.createdBy.last_name}`;
     }
 
@@ -178,7 +182,9 @@ export class TableActionsComponent implements OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value

@@ -1,0 +1,209 @@
+<main class="container-fluid teams-participants-container" team="main">
+    <section class="row teams-participants-row">
+        <article class="col-sm-12 teams-participants-article">
+            <app-breadcrumb />
+
+            <section class="card teams-participants-card">
+                <div class="card-body teams-participants-card-body">
+                    <header class="teams-participants-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [title]="
+                                    'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TITLE'
+                                        | translate
+                                        | lowercase
+                                "
+                            >
+                            </app-page-title>
+                            <div class="ms-auto">
+                                <p-tag
+                                    severity="success"
+                                    [value]="paramsName()"
+                                />
+                            </div>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="onCancel()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="fade-in teams-participants-content">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="loading()"
+                            [formGroup]="formFilter"
+                            [fields]="filterFields()"
+                            (filter)="onFilter($event)"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="5"
+                        ></app-filter>
+
+                        <hr class="teams-participants-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                [loading]="loading()"
+                                [items]="curentTeamsParticipants()"
+                                [pagination]="pagination()"
+                                [config]="tableConfig"
+                                (refreshRequested)="onRefresh()"
+                                dataKey="uniqId"
+                                [headerButtons]="headerButtons()"
+                                selectionMode="multiple"
+                                [selection]="assignedParticipants()"
+                                (selectionChange)="onSelectionChange($event)"
+                                (headerButtonClicked)="
+                                    onHeaderButtonClicked($event)
+                                "
+                            ></app-table>
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+
+<p-dialog
+    [visible]="displayReassignModal()"
+    (visibleChange)="displayReassignModal.set($event)"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{
+        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.REASSIGN_TITLE' | translate
+    }}"
+>
+    <form [formGroup]="reassignForm">
+        <div class="form-group my-1">
+            <label for="team">
+                <b>
+                    {{
+                        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.REASSIGN_LABEL'
+                            | translate
+                    }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-select
+                formControlName="team"
+                [options]="teams()"
+                optionLabel="label"
+                optionValue="value"
+                [loading]="loadingTeams()"
+                [filter]="true"
+                filterBy="label"
+                appendTo="body"
+                [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                styleClass="w-100"
+                [class.ng-invalid]="
+                    reassignForm.get('team')?.invalid &&
+                    reassignForm.get('team')?.touched
+                "
+            ></p-select>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeReassignModal()"
+        ></p-button>
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            [icon]="
+                facade.actionState() === 'loading'
+                    ? 'pi pi-spin pi-spinner'
+                    : 'pi pi-check'
+            "
+            (onClick)="onSubmitReassign()"
+            [disabled]="
+                reassignForm.invalid ||
+                !assignedParticipants().length ||
+                !teams().length ||
+                loadingTeams() ||
+                facade.actionState() === 'loading'
+            "
+        ></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog
+    [visible]="displayAssignModal()"
+    (visibleChange)="displayAssignModal.set($event)"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{
+        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.ASSIGN_TITLE' | translate
+    }}"
+>
+    <form [formGroup]="assignForm">
+        <div class="form-group my-1">
+            <label for="team">
+                <b>
+                    {{
+                        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.ASSIGN_LABEL'
+                            | translate
+                    }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-multiselect
+                formControlName="participants"
+                [options]="participants()"
+                optionLabel="label"
+                optionValue="value"
+                [filter]="true"
+                filterBy="label"
+                [showToggleAll]="false"
+                [showClear]="true"
+                placeholder="{{ 'COMMON.SELECT_PLACEHOLDER' | translate }}"
+                appendTo="body"
+                styleClass="w-100"
+                [class.ng-invalid]="
+                    assignForm.get('participants')?.invalid &&
+                    assignForm.get('participants')?.touched
+                "
+            />
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeAssignModal()"
+        ></p-button>
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            [icon]="
+                facade.actionState() === 'loading'
+                    ? 'pi pi-spin pi-spinner'
+                    : 'pi pi-check'
+            "
+            (onClick)="onSubmitAssign()"
+            [disabled]="
+                assignForm.invalid ||
+                !paramsUniqId().length ||
+                !participants().length ||
+                loadingParticipants() ||
+                facade.actionState() === 'loading'
+            "
+        ></p-button>
+    </ng-template>
+</p-dialog>

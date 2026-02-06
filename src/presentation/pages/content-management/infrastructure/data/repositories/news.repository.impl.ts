@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, map } from 'rxjs';
+
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
+
 import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
 import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
 import { NewsEntity } from '@presentation/pages/content-management/core/domain/entities/news.entity';
@@ -7,11 +14,7 @@ import { NewsRepository } from '@presentation/pages/content-management/core/doma
 import { NewsFilter } from '@presentation/pages/content-management/core/domain/value-objects/news-filter.vo';
 import { NewsMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news.mapper';
 import { NewsApi } from '@presentation/pages/content-management/infrastructure/data/sources/news.api';
-import {
-    Paginate,
-    SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
-import { Observable, map } from 'rxjs';
+
 import { CategoryMapper } from '../mappers/category.mapper';
 import { GetNewsByIdMapper } from '../mappers/get-news-by-id.mapper';
 
@@ -31,9 +34,9 @@ export class NewsRepositoryImpl extends NewsRepository {
         filter: NewsFilter,
         page: string
     ): Observable<Paginate<NewsEntity>> {
-        return this.api.fetchNews(filter?.toDto() ?? {}, page).pipe(
-            map((response) => this.newsMapper.mapFromDto(response))
-        );
+        return this.api
+            .fetchNews(filter?.toDto() ?? {}, page)
+            .pipe(map((response) => this.newsMapper.mapFromDto(response)));
     }
 
     getNewsById(id: string): Observable<GetNewsByIdEntity> {

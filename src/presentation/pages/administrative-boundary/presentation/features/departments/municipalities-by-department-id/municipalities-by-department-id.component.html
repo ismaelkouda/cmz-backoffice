@@ -11,7 +11,9 @@
                                 class="page-title-component"
                                 [displayDate]="false"
                                 [title]="
-                                    'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_BY_DEPARTMENT_ID.TITLE' | translate | lowercase
+                                    'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_BY_DEPARTMENT_ID.TITLE'
+                                        | translate
+                                        | lowercase
                                 "
                             >
                             </app-page-title>
@@ -30,8 +32,7 @@
                         </p-button>
                     </header>
 
-                    <div class="fade-in municipalities-content">    
-
+                    <div class="fade-in municipalities-content">
                         <!-- <div class="report-subtitle">
                             <div class="subtitle-item">
                                 <span class="subtitle-label"
@@ -50,7 +51,7 @@
                                 <span class="subtitle-value">{{departmentCreatedAt()}}</span>
                             </div>
                         </div> -->
-                            
+
                         <app-filter
                             class="filter-component"
                             [isLoading]="isLoading()"

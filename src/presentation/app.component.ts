@@ -7,6 +7,7 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { NgxLoadingBar } from '@ngx-loading-bar/core';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { TapToTopComponent } from '../shared/components/tap-to-top/tap-to-top.component';
 import { AppCustomizationService } from '../shared/services/app-customization.service';
 import { EncodingDataService } from '../shared/services/encoding-data.service';

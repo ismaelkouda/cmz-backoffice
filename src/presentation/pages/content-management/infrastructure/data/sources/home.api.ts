@@ -1,14 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { EnvService } from '@shared/services/env.service';
+
 import { HomeRequestDto } from '@presentation/pages/content-management/core/application/dtos/home/home-request.dto';
 import {
     HomeItemDto,
     HomeResponseDto,
 } from '@presentation/pages/content-management/core/application/dtos/home/home-response.dto';
 import { HOME_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/home-endpoints';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
-import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -19,13 +21,12 @@ export class HomeApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
     fetchHome(
         payload: HomeRequestDto,
         page: string
     ): Observable<HomeResponseDto> {
-        console.log("page", page);
         const url = `${this.baseUrl}${HOME_ENDPOINTS.HOME.replace('{page}', page)}`;
 
         const params = this.createHttpParams(payload);

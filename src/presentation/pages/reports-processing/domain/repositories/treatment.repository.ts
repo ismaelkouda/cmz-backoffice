@@ -1,5 +1,7 @@
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { TreatmentEntity } from '../entities/treatment/treatment.entity';
 import { TreatmentFilter } from '../value-objects/treatment-filter.vo';
 

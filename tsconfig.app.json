@@ -33,5 +33,5 @@
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["src/**/*.ts", "src/presentation/pages/content-management/core/application/use-cases/privacy-policy/get-privacy-policy-by-id.use-case.tsq"]
+  "include": ["src/**/*.ts"]
 }

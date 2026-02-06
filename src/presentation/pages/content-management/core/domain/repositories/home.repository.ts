@@ -1,10 +1,12 @@
-import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
-import { HomeFilter } from '@presentation/pages/content-management/core/domain/value-objects/home-filter.vo';
+import { Observable } from 'rxjs';
+
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
-import { Observable } from 'rxjs';
+
+import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
+import { HomeFilter } from '@presentation/pages/content-management/core/domain/value-objects/home-filter.vo';
 
 export abstract class HomeRepository {
     abstract fetchHome(

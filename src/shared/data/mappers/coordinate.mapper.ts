@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DetailsItemDto } from '@presentation/pages/reports-processing/data/dtos/details/details-response.dto';
+
 import { CoordinatesEntity } from '@shared/domain/entities/coordinates.entity';
+
+import { DetailsItemDto } from '@presentation/pages/reports-processing/data/dtos/details/details-response.dto';
 @Injectable({
     providedIn: 'root',
 })
@@ -24,7 +26,9 @@ export class CoordinateMapper {
     }
 
     private normalizeWhat3Words(words: string): string {
-        if (!words) return '';
-        return words.toLowerCase().replace(/[^\w\.]/g, '');
+        if (!words) {
+            return '';
+        }
+        return words.toLowerCase().replace(/[^\w.]/g, '');
     }
 }

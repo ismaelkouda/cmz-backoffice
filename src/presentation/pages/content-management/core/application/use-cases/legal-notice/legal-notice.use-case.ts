@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { LegalNoticeEntity } from '../../../domain/entities/legal-notice.entity';
 import { LegalNoticeRepository } from '../../../domain/repositories/legal-notice.repository';
 import { LegalNoticeFilter } from '../../../domain/value-objects/legal-notice-filter.vo';

@@ -5,9 +5,11 @@ export class DepartmentsByRegionIdFilterEntity {
         public readonly isActive: boolean,
         public readonly startDate: string,
         public readonly endDate: string
-    ) { }
+    ) {}
 
-    public clone(updates: Partial<DepartmentsByRegionIdFilterEntity>): DepartmentsByRegionIdFilterEntity {
+    public clone(
+        updates: Partial<DepartmentsByRegionIdFilterEntity>
+    ): DepartmentsByRegionIdFilterEntity {
         return new DepartmentsByRegionIdFilterEntity(
             updates.regionCode ?? this.regionCode,
             updates.search ?? this.search,

@@ -10,8 +10,16 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SLIDE_TABLE_CONST } from '@presentation/pages/content-management/core/domain/constants/slide/slide-table.constants';
-import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
+import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SkeletonModule } from 'primeng/skeleton';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -22,15 +30,10 @@ import {
     TableConfig,
     TableExportExcelFileService,
 } from '@shared/services/table-export-excel-file.service';
-import { ClipboardService } from 'ngx-clipboard';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SkeletonModule } from 'primeng/skeleton';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { SLIDE_TABLE_CONST } from '@presentation/pages/content-management/core/domain/constants/slide/slide-table.constants';
+import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
+
 import { HomeActionDropdownComponent } from '../../home/table-home/home-action-dropdown/home-action-dropdown.component';
 
 @Component({
@@ -168,7 +171,9 @@ export class TableSlideComponent implements OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value
@@ -213,6 +218,7 @@ export class TableSlideComponent implements OnDestroy {
             [ActionDropdown.UNPUBLISHED]: 'danger',
             [ActionDropdown.ACTIVE]: 'success',
             [ActionDropdown.INACTIVE]: 'danger',
+            [ActionDropdown.AFFECTED]: 'success',
         };
         return map[status];
     }

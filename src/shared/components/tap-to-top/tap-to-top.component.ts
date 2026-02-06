@@ -1,5 +1,10 @@
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    HostListener,
+    inject,
+} from '@angular/core';
 
 @Component({
     selector: 'app-tap-to-top',
@@ -7,13 +12,12 @@ import { Component, HostListener } from '@angular/core';
     templateUrl: './tap-to-top.component.html',
     styleUrls: ['./tap-to-top.component.scss'],
     imports: [CommonModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TapToTopComponent {
+    private readonly viewScroller = inject(ViewportScroller);
     public show = false;
 
-    constructor(private viewScroller: ViewportScroller) {}
-
-    // @HostListener Decorator
     @HostListener('window:scroll', [])
     onWindowScroll() {
         const number =

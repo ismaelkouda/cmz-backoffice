@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { PrivacyPolicyRepository } from '@presentation/pages/content-management/core/domain/repositories/privacy-policy.repository';
 import { Observable } from 'rxjs';
+
+import { PrivacyPolicyRepository } from '@presentation/pages/content-management/core/domain/repositories/privacy-policy.repository';
+
 import { GetPrivacyPolicyByIdEntity } from '../../../domain/entities/get-privacy-policy-by-id.entity';
 
 @Injectable({

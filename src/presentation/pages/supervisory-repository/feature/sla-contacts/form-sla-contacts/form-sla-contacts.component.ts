@@ -17,15 +17,16 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
+
 import { FormatFormData } from '../../../../../../shared/functions/formatFormData.function';
 import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
-import { SlaContactsFormInterface } from '../../../data-access/sla-contacts/interfaces/sla-contacts-form.interface';
-import { SlaContactsInterface } from '../../../data-access/sla-contacts/interfaces/sla-contacts.interface';
-import { SlaContactsApiService } from '../../../data-access/sla-contacts/services/sla-contacts-api.service';
 import {
     SLA_CONTACTS_FORM_MODE_ENUM,
     T_SLA_CONTACTS_FORM_MODE_ENUM,
-} from './../../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
+} from '../../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
+import { SlaContactsFormInterface } from '../../../data-access/sla-contacts/interfaces/sla-contacts-form.interface';
+import { SlaContactsInterface } from '../../../data-access/sla-contacts/interfaces/sla-contacts.interface';
+import { SlaContactsApiService } from '../../../data-access/sla-contacts/services/sla-contacts-api.service';
 
 @Component({
     selector: 'app-form-sla-contacts',
@@ -40,11 +41,9 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
     public SLA_CONTACTS_FORM_MODE_ENUM = SLA_CONTACTS_FORM_MODE_ENUM;
     public slaContactsForm!: FormGroup<SlaContactsFormInterface>;
 
-    public listRegimesBusiness$!: Observable<
-        Array<{ code: string; nom: string }>
-    >;
-    public listLegalForm$!: Observable<Array<{ code: string; nom: string }>>;
-    public listApplicants$!: Observable<Array<ApplicantInterface>>;
+    public listRegimesBusiness$!: Observable<{ code: string; nom: string }[]>;
+    public listLegalForm$!: Observable<{ code: string; nom: string }[]>;
+    public listApplicants$!: Observable<ApplicantInterface[]>;
 
     private destroy$ = new Subject<void>();
 
@@ -53,7 +52,7 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         private toastService: ToastrService,
         private translate: TranslateService,
         private slaContactsApiService: SlaContactsApiService
-    ) { }
+    ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (
@@ -62,7 +61,7 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         ) {
             if (
                 changes['formMode']?.currentValue ===
-                SLA_CONTACTS_FORM_MODE_ENUM.SEE ||
+                    SLA_CONTACTS_FORM_MODE_ENUM.SEE ||
                 this.formMode === SLA_CONTACTS_FORM_MODE_ENUM.SEE
             ) {
                 this.fetchRegimesBusiness();
@@ -73,11 +72,17 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         }
     }
 
-    private fetchApplicants(): void { }
+    private fetchApplicants(): void {
+        /* empty */
+    }
 
-    private fetchRegimesBusiness(): void { }
+    private fetchRegimesBusiness(): void {
+        /* empty */
+    }
 
-    private fetchLegalForms(): void { }
+    private fetchLegalForms(): void {
+        /* empty */
+    }
 
     public get disabledEditableForm(): boolean {
         return this.formMode === SLA_CONTACTS_FORM_MODE_ENUM.SEE;
@@ -324,7 +329,9 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         const contactControl = this.slaContactsForm.get(contactControlName);
         const emailControl = this.slaContactsForm.get(emailControlName);
 
-        if (!idControl) return;
+        if (!idControl) {
+            return;
+        }
 
         idControl.valueChanges
             .pipe(
@@ -381,7 +388,9 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
         excelInput?: HTMLInputElement
     ): void {
         this.slaContactsForm.get(control)?.reset();
-        if (excelInput) excelInput.value = '';
+        if (excelInput) {
+            excelInput.value = '';
+        }
     }
 
     public viewFile(field: keyof SlaContactsFormInterface) {
@@ -394,8 +403,12 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
             this.toastService.info('Aucun fichier à afficher');
             return;
         }
-        if (file) window.open(URL.createObjectURL(file as File), '_blank');
-        if (defaultFile) window.open(defaultFile, '_blank');
+        if (file) {
+            window.open(URL.createObjectURL(file as File), '_blank');
+        }
+        if (defaultFile) {
+            window.open(defaultFile, '_blank');
+        }
     }
 
     isInvalid(path: keyof SlaContactsFormInterface): boolean {
@@ -412,7 +425,9 @@ export class FormSlaContactsComponent implements OnChanges, OnDestroy {
     async handleSave(): Promise<void> {
         if (this.slaContactsForm.invalid) {
             this.slaContactsForm.markAllAsTouched();
-            this.toastService.error(this.translate.instant('COMMON.FORM_INVALID'));
+            this.toastService.error(
+                this.translate.instant('COMMON.FORM_INVALID')
+            );
             return;
         }
 

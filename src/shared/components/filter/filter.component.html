@@ -3,12 +3,20 @@
         <div class="filter-grid">
             @for (field of primaryFields(); track field.name) {
                 <div class="filter-grid__item" [ngClass]="field.class || ''">
-                    <ng-container *ngTemplateOutlet="fieldRenderer; context: { $implicit: field }"></ng-container>
+                    <ng-container
+                        *ngTemplateOutlet="
+                            fieldRenderer;
+                            context: { $implicit: field }
+                        "
+                    ></ng-container>
                 </div>
             }
 
-            <div class="filter-grid__item d-flex align-items-end gap-2" style="flex-direction: row; min-width: auto;">
-                 @if (!isExpanded() || secondaryFields().length === 0) {
+            <div
+                class="filter-grid__item d-flex align-items-end gap-2"
+                style="flex-direction: row; min-width: auto"
+            >
+                @if (!isExpanded() || secondaryFields().length === 0) {
                     <button
                         type="submit"
                         class="btn btn-primary px-3"
@@ -19,12 +27,15 @@
                 }
 
                 @if (secondaryFields().length > 0) {
-                     <button
+                    <button
                         type="button"
                         (click)="toggleExpanded()"
                         class="btn btn-dark px-3"
                     >
-                        <i class="pi" [ngClass]="isExpanded() ? 'pi-minus' : 'pi-plus'"></i>
+                        <i
+                            class="pi"
+                            [ngClass]="isExpanded() ? 'pi-minus' : 'pi-plus'"
+                        ></i>
                     </button>
                 }
             </div>
@@ -33,12 +44,23 @@
         @if (isExpanded() && secondaryFields().length > 0) {
             <div class="filter-grid mt-3">
                 @for (field of secondaryFields(); track field.name) {
-                    <div class="filter-grid__item" [ngClass]="field.class || ''">
-                         <ng-container *ngTemplateOutlet="fieldRenderer; context: { $implicit: field }"></ng-container>
+                    <div
+                        class="filter-grid__item"
+                        [ngClass]="field.class || ''"
+                    >
+                        <ng-container
+                            *ngTemplateOutlet="
+                                fieldRenderer;
+                                context: { $implicit: field }
+                            "
+                        ></ng-container>
                     </div>
                 }
 
-                <div class="filter-grid__item d-flex align-items-end" style="min-width: auto;">
+                <div
+                    class="filter-grid__item d-flex align-items-end"
+                    style="min-width: auto"
+                >
                     <button
                         type="submit"
                         class="btn btn-primary px-3"
@@ -55,14 +77,14 @@
 <ng-template #fieldRenderer let-field>
     @switch (field.type) {
         @case ('text') {
-            <imako-input
+            <app-imako-input
                 [label]="field.label"
                 [control]="getControl(field.name)"
                 [placeholder]="field.placeholder || ''"
-            ></imako-input>
+            ></app-imako-input>
         }
         @case ('select') {
-            <imako-select
+            <app-imako-select
                 [label]="field.label"
                 [control]="getControl(field.name)"
                 [options]="field.options || []"
@@ -73,10 +95,10 @@
                 [loading]="field.loading || false"
                 [styleClass]="field.class || ''"
                 [filter]="field.filter !== false"
-            ></imako-select>
+            ></app-imako-select>
         }
         @case ('multi-select') {
-            <imako-multi-select
+            <app-imako-multi-select
                 [label]="field.label"
                 [control]="getControl(field.name)"
                 [options]="field.options || []"
@@ -88,18 +110,20 @@
                 [showClear]="field.showClear !== false"
                 [filter]="field.filter !== false"
                 [styleClass]="field.class || ''"
-            ></imako-multi-select>
+            ></app-imako-multi-select>
         }
         @case ('date') {
-            <imako-date
+            <app-imako-date
                 [label]="field.label"
                 [control]="getControl(field.name)"
                 [placeholder]="field.placeholder || ''"
                 [styleClass]="field.class || ''"
-            ></imako-date>
+            ></app-imako-date>
         }
         @case ('template') {
-            <ng-container *ngTemplateOutlet="field.template || null"></ng-container>
+            <ng-container
+                *ngTemplateOutlet="field.template || null"
+            ></ng-container>
         }
     }
 </ng-template>

@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dtos/simple-response.dto';
+
 import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
 import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
 import { TermsUseRepository } from '@presentation/pages/content-management/core/domain/repositories/terms-use.repository';
 import { TermsUseFilter } from '@presentation/pages/content-management/core/domain/value-objects/terms-use-filter.vo';
 import { TermsUseMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/terms-use.mapper';
 import { TermsUseApi } from '@presentation/pages/content-management/infrastructure/data/sources/terms-use.api';
-import {
-    Paginate,
-    SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+
 import { GetTermsUseByIdMapper } from '../mappers/get-terms-use-by-id.mapper';
 
 @Injectable({
@@ -31,9 +34,9 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
         filter: TermsUseFilter,
         page: string
     ): Observable<Paginate<TermsUseEntity>> {
-        return this.api.fetchTermsUse(filter?.toDto() ?? {}, page).pipe(
-            map((response) => this.termsUseMapper.mapFromDto(response))
-        );
+        return this.api
+            .fetchTermsUse(filter?.toDto() ?? {}, page)
+            .pipe(map((response) => this.termsUseMapper.mapFromDto(response)));
     }
 
     getTermsUseById(id: string): Observable<GetTermsUseByIdEntity> {
@@ -53,8 +56,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_CREATE'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_CREATE'
+                                      )
                             )
                     )
                 )
@@ -75,8 +78,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UPDATE'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UPDATE'
+                                      )
                             )
                     )
                 )
@@ -94,8 +97,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_DELETE'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_DELETE'
+                                      )
                             )
                     )
                 )
@@ -113,8 +116,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_PUBLISH'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_PUBLISH'
+                                      )
                             )
                     )
                 )
@@ -132,8 +135,8 @@ export class TermsUseRepositoryImpl extends TermsUseRepository {
                                 error instanceof Error
                                     ? error.message
                                     : this.translateService.instant(
-                                        'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UNPUBLISH'
-                                    )
+                                          'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNABLE_TO_UNPUBLISH'
+                                      )
                             )
                     )
                 )

@@ -138,6 +138,11 @@
                                             task.initiatorPhoneNumber
                                         )
                                     "
+                                    (keypress)="
+                                        copyToClipboard(
+                                            task.initiatorPhoneNumber
+                                        )
+                                    "
                                     tooltipPosition="bottom"
                                     >[ {{ task.initiatorPhoneNumber }} ]
                                 </span>

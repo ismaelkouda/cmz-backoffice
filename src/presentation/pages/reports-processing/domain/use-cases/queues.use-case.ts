@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { QueuesEntity } from '../entities/queues/queues.entity';
 import { QueuesRepository } from '../repositories/queues.repository';
 import { QueuesFilter } from '../value-objects/queues-filter.vo';

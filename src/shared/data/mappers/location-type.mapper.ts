@@ -1,13 +1,15 @@
+import { Injectable } from '@angular/core';
+
 import { LocationType } from '@shared/domain/enums/location-type.enum';
+
 import { LocationTypeDto } from '../dtos/location-type.dto';
 
-import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root',
 })
 export class LocationTypeMapper {
     mapToEnum(dtoValue: LocationTypeDto): LocationType {
-        if (dtoValue == null) {
+        if (dtoValue === null || dtoValue === undefined) {
             return LocationType.UNKNOWN;
         }
         const methodMap: Record<LocationTypeDto, LocationType> = {
@@ -21,7 +23,7 @@ export class LocationTypeMapper {
     }
 
     mapToDto(enumValue: LocationType): LocationTypeDto {
-        if (enumValue == null) {
+        if (enumValue === null || enumValue === undefined) {
             return LocationTypeDto.UNKNOWN;
         }
         const mapping: Record<LocationType, LocationTypeDto> = {

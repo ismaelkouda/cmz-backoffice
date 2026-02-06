@@ -61,7 +61,6 @@
                                     (keydown.enter)="$event.target.blur()"
                                     (keydown.escape)="clearSelection()"
                                     [disabled]="!hasData() || isLoading()"
-                                    [disabled]="!hasData() || isLoading()"
                                 />
                             </div>
                         }
@@ -166,6 +165,11 @@
                                             task.initiatorPhoneNumber
                                         )
                                     "
+                                    (keypress)="
+                                        copyToClipboard(
+                                            task.initiatorPhoneNumber
+                                        )
+                                    "
                                     tooltipPosition="bottom"
                                     >[ {{ task.initiatorPhoneNumber }} ]
                                 </span>
@@ -229,3 +233,5 @@
         </tr>
     </ng-template>
 </p-table>
+
+<div>{{ selectionChanged | async | json }}</div>

@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { NewsEntity } from '../../domain/entities/news.entity';
 import { NewsRepository } from '../../domain/repositories/news.repository';
 import { NewsFilter } from '../../domain/value-objects/news-filter.vo';

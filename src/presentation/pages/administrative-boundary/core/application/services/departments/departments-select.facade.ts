@@ -1,14 +1,19 @@
 import { inject, Injectable } from '@angular/core';
+
 import { ArrayBaseFacade } from '@shared/application/base/array-base-facade';
 import { shouldFetch } from '@shared/application/base/facade.utils';
 import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+
 import { DepartmentsSelectEntity } from '../../../domain/entities/departments/departments-select.entity';
 import { DepartmentsSelectUseCase } from '../../use-cases/departments/departments-select.use-case';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-export class DepartmentsSelectFacade extends ArrayBaseFacade<DepartmentsSelectEntity, void> {
+export class DepartmentsSelectFacade extends ArrayBaseFacade<
+    DepartmentsSelectEntity,
+    void
+> {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly fetchUseCase = inject(DepartmentsSelectUseCase);
 
@@ -18,11 +23,24 @@ export class DepartmentsSelectFacade extends ArrayBaseFacade<DepartmentsSelectEn
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    readAll(forceRefresh: boolean = false): void {
+    readAll(forceRefresh = false): void {
         const hasData = this.itemsSubject.getValue().length > 0;
-        if (!shouldFetch(forceRefresh, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
+        if (
+            !shouldFetch(
+                forceRefresh,
+                hasData,
+                this.lastFetchTimestamp,
+                this.STALE_TIME
+            )
+        ) {
+            return;
+        }
 
-        this.fetchWithFilter(null, this.fetchUseCase.readAll.bind(this.fetchUseCase), this.uiFeedbackService);
+        this.fetchWithFilter(
+            null,
+            this.fetchUseCase.readAll.bind(this.fetchUseCase),
+            this.uiFeedbackService
+        );
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -31,7 +49,11 @@ export class DepartmentsSelectFacade extends ArrayBaseFacade<DepartmentsSelectEn
     refresh(): void {
         this.filterSubject.next(null);
 
-        this.fetchWithFilter(null, this.fetchUseCase.readAll.bind(this.fetchUseCase), this.uiFeedbackService);
+        this.fetchWithFilter(
+            null,
+            this.fetchUseCase.readAll.bind(this.fetchUseCase),
+            this.uiFeedbackService
+        );
 
         this.lastFetchTimestamp = Date.now();
     }

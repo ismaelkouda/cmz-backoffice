@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EnvService } from '@shared/services/env.service';
 import { Observable } from 'rxjs';
+
+import { EndPointType } from '@shared/domain/types/end-point.types';
+import { EnvService } from '@shared/services/env.service';
+
 import { DetailsFilter } from '../../domain/value-objects/details-filter.vo';
 import { DetailsResponseDto } from '../dtos/details/details-response.dto';
 import { DETAILS_ENDPOINTS } from '../endpoint/details-endpoints';
@@ -15,7 +18,7 @@ export class DetailsApi {
     constructor(
         private readonly http: HttpClient,
         private readonly envService: EnvService
-    ) { }
+    ) {}
 
     fetchDetails(
         filter: DetailsFilter,

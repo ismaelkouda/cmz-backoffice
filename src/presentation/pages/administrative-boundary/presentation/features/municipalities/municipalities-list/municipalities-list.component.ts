@@ -1,35 +1,58 @@
-import { CommonModule } from "@angular/common";
-import { Component, OnInit, computed, effect, inject, untracked } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
-import { MunicipalitiesFacade } from "@presentation/pages/administrative-boundary/core/application/services/municipalities/municipalities.facade";
-import { RegionsSelectFacade } from "@presentation/pages/administrative-boundary/core/application/services/regions/regions-select.facade";
-import { MUNICIPALITIES_TABLE_CONST } from "@presentation/pages/administrative-boundary/core/domain/constants/municipalities/municipalities-table.constants";
-import { MunicipalitiesFilterControl } from "@presentation/pages/administrative-boundary/core/domain/controls/municipalities/municipalities-filter.control";
-import { MunicipalitiesEntity } from "@presentation/pages/administrative-boundary/core/domain/entities/municipalities/municipalities.entity";
-import { FilterComponent } from "@shared/components/filter/filter.component";
-import { FilterField } from "@shared/components/filter/filter.types";
-import { PaginationComponent } from "@shared/components/pagination/pagination.component";
-import { TableComponent } from "@shared/components/table/table.component";
-import { SWEET_ALERT_PARAMS } from "@shared/constants/swalWithBootstrapButtonsParams.constant";
-import { Paginate } from "@shared/data/dtos/simple-response.dto";
-import { CrudFormType } from "@shared/domain/utils/crud-form-utils";
-import { parseAndValidateDateRange } from "@shared/domain/utils/date-range.utils";
-import { AppCustomizationService } from "@shared/services/app-customization.service";
-import { TableExportExcelFileService } from "@shared/services/table-export-excel-file.service";
-import { ToastrService } from "ngx-toastr";
+import { CommonModule } from '@angular/common';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    OnInit,
+    computed,
+    effect,
+    inject,
+    untracked,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+} from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import SweetAlert from 'sweetalert2';
-import { MUNICIPALITIES_FORM } from "../../municipalities/municipalities.routes";
+
+import { FilterComponent } from '@shared/components/filter/filter.component';
+import { FilterField } from '@shared/components/filter/filter.types';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { TableComponent } from '@shared/components/table/table.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
+import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
+
+import { MunicipalitiesFacade } from '@presentation/pages/administrative-boundary/core/application/services/municipalities/municipalities.facade';
+import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/core/application/services/regions/regions-select.facade';
+import { MUNICIPALITIES_TABLE_CONST } from '@presentation/pages/administrative-boundary/core/domain/constants/municipalities/municipalities-table.constants';
+import { MunicipalitiesFilterControl } from '@presentation/pages/administrative-boundary/core/domain/controls/municipalities/municipalities-filter.control';
+import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/municipalities/municipalities.entity';
+
+import { MUNICIPALITIES_FORM } from '../../municipalities/municipalities.routes';
 
 @Component({
-    selector: "app-municipalities-list",
+    selector: 'app-municipalities-list',
     standalone: true,
-    imports: [CommonModule, FilterComponent, TableComponent, PaginationComponent, ReactiveFormsModule],
-    templateUrl: "./municipalities-list.component.html",
-    styleUrls: ["./municipalities-list.component.scss"],
+    imports: [
+        CommonModule,
+        FilterComponent,
+        TableComponent,
+        PaginationComponent,
+        ReactiveFormsModule,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './municipalities-list.component.html',
+    styleUrls: ['./municipalities-list.component.scss'],
 })
 export class MunicipalitiesListComponent implements OnInit {
     private readonly title = inject(Title);
@@ -40,35 +63,51 @@ export class MunicipalitiesListComponent implements OnInit {
     private readonly translate = inject(TranslateService);
     private readonly toastService = inject(ToastrService);
     private readonly fb = inject(FormBuilder);
-    private readonly tableExportExcelFileService = inject(TableExportExcelFileService);
+    private readonly tableExportExcelFileService = inject(
+        TableExportExcelFileService
+    );
     private readonly appCustomizationService = inject(AppCustomizationService);
     public readonly tableConfig = MUNICIPALITIES_TABLE_CONST;
 
-    public formFilter: FormGroup<MunicipalitiesFilterControl> = this.fb.group<MunicipalitiesFilterControl>({
-        search: new FormControl<string | null>(null),
-        regionCode: new FormControl<string | null>(null),
-        departmentCode: new FormControl<string | null>(null),
-        isActive: new FormControl<boolean | null>(null),
-        startDate: new FormControl<string | null>(null),
-        endDate: new FormControl<string | null>(null),
-    });
+    public formFilter: FormGroup<MunicipalitiesFilterControl> =
+        this.fb.group<MunicipalitiesFilterControl>({
+            search: new FormControl<string | null>(null),
+            regionCode: new FormControl<string | null>(null),
+            departmentCode: new FormControl<string | null>(null),
+            isActive: new FormControl<boolean | null>(null),
+            startDate: new FormControl<string | null>(null),
+            endDate: new FormControl<string | null>(null),
+        });
 
     readonly regions = toSignal(this.regionFacade.items$, { initialValue: [] });
-    private readonly selectedRegionCode = toSignal(this.formFilter.controls.regionCode.valueChanges, { initialValue: null });
+    private readonly selectedRegionCode = toSignal(
+        this.formFilter.controls.regionCode.valueChanges,
+        { initialValue: null }
+    );
 
     readonly filteredDepartments = computed(() => {
         const regionCode = this.selectedRegionCode();
         console.log(regionCode);
-        if (!regionCode) return [];
+        if (!regionCode) {
+            return [];
+        }
 
-        const region = this.regions().find(r => r.code === regionCode);
+        const region = this.regions().find((r) => r.code === regionCode);
         return region?.departments || [];
     });
 
-    private readonly filterData = toSignal(this.facade.currentFilter$, { initialValue: null });
-    readonly municipalities = toSignal(this.facade.items$, { initialValue: [] });
-    readonly isLoading = toSignal(this.facade.isLoading$, { initialValue: false });
-    readonly pagination = toSignal(this.facade.pagination$, { initialValue: {} as Paginate<MunicipalitiesEntity> });
+    private readonly filterData = toSignal(this.facade.currentFilter$, {
+        initialValue: null,
+    });
+    readonly municipalities = toSignal(this.facade.items$, {
+        initialValue: [],
+    });
+    readonly isLoading = toSignal(this.facade.isLoading$, {
+        initialValue: false,
+    });
+    readonly pagination = toSignal(this.facade.pagination$, {
+        initialValue: {} as Paginate<MunicipalitiesEntity>,
+    });
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.config.app.name
     );
@@ -77,7 +116,8 @@ export class MunicipalitiesListComponent implements OnInit {
             type: 'text',
             name: 'search',
             label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.SEARCH',
-            placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.SEARCH_PLACEHOLDER',
+            placeholder:
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.SEARCH_PLACEHOLDER',
         },
         {
             type: 'select',
@@ -107,19 +147,27 @@ export class MunicipalitiesListComponent implements OnInit {
             type: 'date',
             name: 'startDate',
             label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.FROM',
-            placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
+            placeholder:
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
+            class: 'p-short',
         },
         {
             type: 'date',
             name: 'endDate',
             label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.TO',
-            placeholder: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
-        }
+            placeholder:
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
+            class: 'p-short',
+        },
     ]);
     public statusOptions: { label: string; value: boolean }[] = [];
 
     constructor() {
-        this.title.setTitle(this.translate.instant("ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TITLE"));
+        this.title.setTitle(
+            this.translate.instant(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TITLE'
+            )
+        );
 
         effect(() => {
             this.facade.readAll();
@@ -129,17 +177,20 @@ export class MunicipalitiesListComponent implements OnInit {
         effect(() => {
             const filter = this.filterData();
             const regionCode = this.selectedRegionCode();
-            console.log("regionCode", regionCode);
+            console.log('regionCode', regionCode);
 
             untracked(() => {
                 if (filter) {
-                    this.formFilter.patchValue({
-                        search: filter.search,
-                        departmentCode: filter.departmentCode,
-                        isActive: filter.isActive,
-                        startDate: filter.startDate,
-                        endDate: filter.endDate,
-                    }, { emitEvent: false });
+                    this.formFilter.patchValue(
+                        {
+                            search: filter.search,
+                            departmentCode: filter.departmentCode,
+                            isActive: filter.isActive,
+                            startDate: filter.startDate,
+                            endDate: filter.endDate,
+                        },
+                        { emitEvent: false }
+                    );
                 }
 
                 const deptControl = this.formFilter.controls.departmentCode;
@@ -151,7 +202,9 @@ export class MunicipalitiesListComponent implements OnInit {
                 }
 
                 if (regionCode && deptControl.value) {
-                    const isValid = this.filteredDepartments().some(d => d.code === deptControl.value);
+                    const isValid = this.filteredDepartments().some(
+                        (d) => d.code === deptControl.value
+                    );
                     if (!isValid) {
                         deptControl.setValue(null, { emitEvent: false });
                     }
@@ -175,11 +228,10 @@ export class MunicipalitiesListComponent implements OnInit {
     }
 
     public filter(formValue: any): void {
-        const {
-            startDate,
-            endDate,
-            isValidRange
-        } = parseAndValidateDateRange(formValue.startDate, formValue.endDate);
+        const { startDate, endDate, isValidRange } = parseAndValidateDateRange(
+            formValue.startDate,
+            formValue.endDate
+        );
         if (!isValidRange) {
             this.toastService.error(
                 this.translate.instant('COMMON.INVALID_DATE_RANGE')
@@ -192,7 +244,7 @@ export class MunicipalitiesListComponent implements OnInit {
             departmentCode: formValue.departmentCode,
             isActive: formValue.isActive,
             startDate: startDate?.format('YYYY-MM-DD'),
-            endDate: endDate?.format('YYYY-MM-DD')
+            endDate: endDate?.format('YYYY-MM-DD'),
         };
         this.facade.readAll(filter, '1', true);
     }
@@ -214,7 +266,13 @@ export class MunicipalitiesListComponent implements OnInit {
         });
     }
 
-    public onEditClicked({ item, ref }: { item: MunicipalitiesEntity, ref: CrudFormType }): void {
+    public onEditClicked({
+        item,
+        ref,
+    }: {
+        item: MunicipalitiesEntity;
+        ref: CrudFormType;
+    }): void {
         this.router.navigate([MUNICIPALITIES_FORM], {
             relativeTo: this.activatedRoute,
             queryParams: {
@@ -224,26 +282,26 @@ export class MunicipalitiesListComponent implements OnInit {
         });
     }
 
-    public onViewClicked(item: MunicipalitiesEntity): void {
-        /* this.router.navigate([item.uniqId, MUNICIPALITIES_VIEW_ROUTE], {
-            relativeTo: this.activatedRoute,
-        }); */
-    }
-
     public onDeleteClicked(item: MunicipalitiesEntity): void {
         if (!item.code) {
             return;
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant('ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_DELETE'),
-            text: `${this.translate.instant('ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE_DELETE')}`,
+            title: this.translate.instant(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE_DELETE'
+            ),
+            text: `${this.translate.instant('ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE_DELETE')}`,
             backdrop: false,
             confirmButtonText: this.translate.instant('COMMON.CONFIRM'),
             cancelButtonText: this.translate.instant('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.delete(item.code).subscribe(() => this.facade.refreshWithLastFilterAndPage());
+                this.facade
+                    .delete(item.code)
+                    .subscribe(() =>
+                        this.facade.refreshWithLastFilterAndPage()
+                    );
             }
         });
     }

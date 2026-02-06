@@ -9,22 +9,24 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Observable, Subject } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import {
     CREATE_ROUTE,
     EDIT_ROUTE,
     VIEW_ROUTE,
 } from '@presentation/pages/content-management/content-management.routes';
 import { SlideFacade } from '@presentation/pages/content-management/core/application/services/slide.facade';
-import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
 import { SlideFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/slide/slide-filter-payload.entity';
+import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
 import { SlideFilter } from '@presentation/pages/content-management/core/domain/value-objects/slide-filter.vo';
 import { FilterSlideComponent } from '@presentation/pages/content-management/presentation/features/slide/filter-slide/filter-slide.component';
 import { TableSlideComponent } from '@presentation/pages/content-management/presentation/features/slide/table-slide/table-slide.component';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-slide',

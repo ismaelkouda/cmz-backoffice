@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     Component,
     computed,
     DestroyRef,
-    forwardRef,
     inject,
     input,
     OnInit,
@@ -44,23 +44,24 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => HashtagsInputComponent),
+            useExisting: HashtagsInputComponent,
             multi: true,
         },
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
-    public label = input<string>('Hashtags');
-    public required = input<boolean>(true);
-    public minHashtags = input<number>(1);
-    public maxHashtags = input<number | undefined>(undefined);
-    public showStats = input<boolean>(true);
-    public allowedPattern = input<string>('^[a-zA-Z0-9_]+$');
+    public readonly label = input<string>('Hashtags');
+    public readonly required = input<boolean>(true);
+    public readonly minHashtags = input<number>(1);
+    public readonly maxHashtags = input<number | undefined>(undefined);
+    public readonly showStats = input<boolean>(true);
+    public readonly allowedPattern = input<string>('^[a-zA-Z0-9_]+$');
 
     public hashtagsChanged = output<string[]>();
     public hashtagAdded = output<string>();
     public hashtagRemoved = output<string>();
-    public hashtagsCleared = output<void>();
+    public hashtagsCleared = output<undefined>();
 
     private readonly fb = inject(FormBuilder);
     private readonly destroyRef = inject(DestroyRef);
@@ -68,12 +69,16 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
     public form: FormGroup;
     public currentHashtagControl: FormControl;
 
-    public hashtagsCount: Signal<number> = signal(0);
-    public canAddMore: Signal<boolean> = signal(true);
-    public canClearAll: Signal<boolean> = signal(false);
+    public readonly hashtagsCount: Signal<number> = signal(0);
+    public readonly canAddMore: Signal<boolean> = signal(true);
+    public readonly canClearAll: Signal<boolean> = signal(false);
 
-    private onChange: (value: string[]) => void = () => {};
-    private onTouched: () => void = () => {};
+    private onChange: (value: string[]) => void = () => {
+        /* empty */
+    };
+    private onTouched: () => void = () => {
+        /* empty */
+    };
     private isDisabled = false;
 
     constructor() {
@@ -208,7 +213,9 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
             const input = document.querySelector(
                 '.hashtag-input'
             ) as HTMLInputElement;
-            if (input) input.focus();
+            if (input) {
+                input.focus();
+            }
         });
     }
 
@@ -224,7 +231,7 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
 
     public clearAll(): void {
         this.hashtagsArray.clear();
-        this.hashtagsCleared.emit();
+        this.hashtagsCleared.emit(undefined);
 
         this.hashtagsArray.markAsTouched();
         this.hashtagsArray.updateValueAndValidity();
@@ -260,12 +267,22 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
     }
 
     public getErrorMessage(errors: any): string {
-        if (!errors) return '';
+        if (!errors) {
+            return '';
+        }
 
-        if (errors.required) return 'VALIDATION.REQUIRED';
-        if (errors.pattern) return 'VALIDATION.INVALID_HASHTAG_FORMAT';
-        if (errors.maxlength) return 'VALIDATION.MAX_LENGTH_EXCEEDED';
-        if (errors.duplicate) return 'VALIDATION.DUPLICATE_HASHTAG';
+        if (errors.required) {
+            return 'VALIDATION.REQUIRED';
+        }
+        if (errors.pattern) {
+            return 'VALIDATION.INVALID_HASHTAG_FORMAT';
+        }
+        if (errors.maxlength) {
+            return 'VALIDATION.MAX_LENGTH_EXCEEDED';
+        }
+        if (errors.duplicate) {
+            return 'VALIDATION.DUPLICATE_HASHTAG';
+        }
 
         return 'VALIDATION.INVALID_INPUT';
     }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable, map } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { AllEntity } from '../../domain/entities/all/all.entity';
 import { AllRepository } from '../../domain/repositories/all.repository';
 import { AllFilter } from '../../domain/value-objects/all-filter.vo';
@@ -18,7 +20,10 @@ export class AllRepositoryImpl extends AllRepository {
         super();
     }
 
-    fetchAll(filter: AllFilter | null, page: string): Observable<Paginate<AllEntity>> {
+    fetchAll(
+        filter: AllFilter | null,
+        page: string
+    ): Observable<Paginate<AllEntity>> {
         return this.allApi
             .fetchAll(filter?.toDto() ?? {}, page)
             .pipe(map((response) => this.allMapper.mapFromDto(response)));

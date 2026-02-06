@@ -7,7 +7,7 @@ export class PrivacyPolicyFilter {
         private readonly version?: string,
         private readonly search?: string,
         private readonly isPublished?: boolean
-    ) { }
+    ) {}
 
     static create(
         data: PrivacyPolicyRequestDto = {} as PrivacyPolicyRequestDto
@@ -24,11 +24,21 @@ export class PrivacyPolicyFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.startDate) params['start_date'] = this.startDate;
-        if (this.endDate) params['end_date'] = this.endDate;
-        if (this.version) params['version'] = this.version;
-        if (this.search) params['search'] = this.search;
-        if (this.isPublished !== undefined) params['is_published'] = this.isPublished;
+        if (this.startDate) {
+            params['start_date'] = this.startDate;
+        }
+        if (this.endDate) {
+            params['end_date'] = this.endDate;
+        }
+        if (this.version) {
+            params['version'] = this.version;
+        }
+        if (this.search) {
+            params['search'] = this.search;
+        }
+        if (this.isPublished !== undefined) {
+            params['is_published'] = this.isPublished;
+        }
 
         return params;
     }

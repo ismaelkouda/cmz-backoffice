@@ -22,12 +22,24 @@ export class RequestFilter {
     toDto(): any {
         const params: any = {};
 
-        if (this.status) params['status'] = this.status;
-        if (this.startDate) params['start_date'] = this.startDate;
-        if (this.endDate) params['end_date'] = this.endDate;
-        if (this.search) params['search'] = this.search;
-        if (this.page) params['page'] = this.page;
-        if (this.pageSize) params['page_size'] = this.pageSize;
+        if (this.status) {
+            params['status'] = this.status;
+        }
+        if (this.startDate) {
+            params['start_date'] = this.startDate;
+        }
+        if (this.endDate) {
+            params['end_date'] = this.endDate;
+        }
+        if (this.search) {
+            params['search'] = this.search;
+        }
+        if (this.page) {
+            params['page'] = this.page;
+        }
+        if (this.pageSize) {
+            params['page_size'] = this.pageSize;
+        }
 
         return params;
     }

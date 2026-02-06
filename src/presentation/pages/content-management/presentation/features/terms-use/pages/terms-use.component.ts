@@ -8,14 +8,17 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
-import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
-import { TermsUseFilter } from '@presentation/pages/content-management/core/domain/value-objects/terms-use-filter.vo';
+import { Observable, Subject } from 'rxjs';
+
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject } from 'rxjs';
+
+import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
+import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
+import { TermsUseFilter } from '@presentation/pages/content-management/core/domain/value-objects/terms-use-filter.vo';
+
 import { FilterTermsUseComponent } from '../filter-terms-use/filter-terms-use.component';
 import { TableTermsUseComponent } from '../table-terms-use/table-terms-use.component';
 import { CREATE_ROUTE, EDIT_ROUTE, VIEW_ROUTE } from '../terms-use.routes';

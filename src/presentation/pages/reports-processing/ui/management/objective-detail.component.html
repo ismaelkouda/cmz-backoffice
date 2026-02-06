@@ -347,6 +347,7 @@
             <div
                 class="accordion-header"
                 (click)="toggleAccordion('parentObjective')"
+                (keypress)="toggleAccordion('parentObjective')"
             >
                 <div class="header-left">
                     <span>Objectif parent</span>
@@ -469,6 +470,7 @@
             <div
                 class="accordion-header"
                 (click)="toggleAccordion('accordion1')"
+                (keypress)="toggleAccordion('accordion1')"
             >
                 <div class="header-left">
                     <span>{{
@@ -508,6 +510,7 @@
             <div
                 class="accordion-header"
                 (click)="toggleAccordion('accordion2')"
+                (keypress)="toggleAccordion('accordion2')"
             >
                 <div class="header-left">
                     <span>Détermination des Résultats Clés OKR</span>
@@ -535,6 +538,7 @@
                     <div
                         class="accordion-header"
                         (click)="toggleQuarterAccordion(quarter)"
+                        (keypress)="toggleQuarterAccordion(quarter)"
                     >
                         <div class="header-left">
                             <span
@@ -562,6 +566,12 @@
                                             <div
                                                 class="okr-accordion-header"
                                                 (click)="
+                                                    toggleOkrAccordionForQuarter(
+                                                        quarter,
+                                                        i
+                                                    )
+                                                "
+                                                (keypress)="
                                                     toggleOkrAccordionForQuarter(
                                                         quarter,
                                                         i
@@ -704,6 +714,7 @@
             <div
                 class="accordion-header"
                 (click)="toggleAccordion('accordion3')"
+                (keypress)="toggleAccordion('accordion3')"
             >
                 <div class="header-left">
                     <span>Critères d'évaluation</span>
@@ -747,6 +758,7 @@
             <div
                 class="accordion-header"
                 (click)="toggleAccordion('accordion4')"
+                (keypress)="toggleAccordion('accordion4')"
             >
                 <div class="header-left">
                     <span>Commentaires</span>

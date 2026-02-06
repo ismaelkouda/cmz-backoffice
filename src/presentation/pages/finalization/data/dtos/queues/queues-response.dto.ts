@@ -6,11 +6,10 @@ import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
 export interface QueuesItemDto {
     uniq_id: string;
     report_type: ReportTypeDto;
-    operators: Array<TelecomOperatorDto>;
+    operators: TelecomOperatorDto[];
     source: ReportSourceDto;
     initiator_phone_number: string;
     reported_at: string;
 }
 
-export interface QueuesResponseDto
-    extends PaginatedResponseDto<QueuesItemDto> { }
+export type QueuesResponseDto = PaginatedResponseDto<QueuesItemDto>;

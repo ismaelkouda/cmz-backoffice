@@ -13,10 +13,6 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NotificationsFacade } from '@presentation/pages/communication/application/notifications.facade';
-import { OPERATOR_CONST } from '@shared/domain/constants/operator';
-import { REPORT_CONST } from '@shared/domain/constants/report';
-import { SOURCE_CONST } from '@shared/domain/constants/source';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -26,6 +22,13 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { RippleModule } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+
+import { OPERATORS_CONST } from '@shared/domain/constants/operator';
+import { REPORT_CONST } from '@shared/domain/constants/report';
+import { SOURCE_CONST } from '@shared/domain/constants/source';
+
+import { NotificationsFacade } from '@presentation/pages/communication/application/notifications.facade';
+
 import { NotificationsFilterFormControlEntity } from '../../domain/entities/notifications-filter-form-control.entity';
 import { NotificationsFilterPayloadEntity } from '../../domain/entities/notifications-filter-payload.entity';
 
@@ -54,7 +57,7 @@ export class NotificationsFilterComponent implements OnInit, OnDestroy {
 
     public formFilter!: FormGroup<NotificationsFilterFormControlEntity>;
     private readonly destroy$ = new Subject<void>();
-    public secondFilter: boolean = false;
+    public secondFilter = false;
     readonly reportOptions = REPORT_CONST;
     public operatorOptions: any[] = [];
     readonly sourceOptions = SOURCE_CONST;
@@ -65,7 +68,7 @@ export class NotificationsFilterComponent implements OnInit, OnDestroy {
     }
 
     private loadTranslatedOptions(): void {
-        this.operatorOptions = OPERATOR_CONST.map((operator) => ({
+        this.operatorOptions = OPERATORS_CONST.map((operator) => ({
             ...operator,
             label: this.translate.instant(operator.label),
         }));
@@ -102,16 +105,24 @@ export class NotificationsFilterComponent implements OnInit, OnDestroy {
         this.notificationsFacade.currentFilter$
             .pipe(
                 distinctUntilChanged((prev, curr) => {
-                    if (prev === curr) return true;
-                    if (!prev && !curr) return true;
-                    if (!prev || !curr) return false;
+                    if (prev === curr) {
+                        return true;
+                    }
+                    if (!prev && !curr) {
+                        return true;
+                    }
+                    if (!prev || !curr) {
+                        return false;
+                    }
 
                     const prevDto = prev.toDto();
                     const currDto = curr.toDto();
                     const prevKeys = Object.keys(prevDto).sort();
                     const currKeys = Object.keys(currDto).sort();
 
-                    if (prevKeys.length !== currKeys.length) return false;
+                    if (prevKeys.length !== currKeys.length) {
+                        return false;
+                    }
                     return prevKeys.every(
                         (key) => prevDto[key] === currDto[key]
                     );
@@ -152,7 +163,9 @@ export class NotificationsFilterComponent implements OnInit, OnDestroy {
         controlName: K
     ): void {
         const control = this.formFilter?.controls[controlName];
-        if (!control) return;
+        if (!control) {
+            return;
+        }
 
         if (controlName === 'operators') {
             (control as FormControl<string[]>).setValue([], {
@@ -175,8 +188,9 @@ export class NotificationsFilterComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const invalidDateRange =
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                const invalidDateRange = this.translate.instant(
+                    'COMMON.INVALID_DATE_RANGE'
+                );
                 this.toastService.error(invalidDateRange);
                 return;
             }
@@ -190,9 +204,7 @@ export class NotificationsFilterComponent implements OnInit, OnDestroy {
             start_date: startDate.isValid()
                 ? startDate.format('YYYY-MM-DD')
                 : '',
-            end_date: endDate.isValid()
-                ? endDate.format('YYYY-MM-DD')
-                : '',
+            end_date: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
             source: this.formFilter.get('source')?.value?.trim() ?? '',
             report_type:
                 this.formFilter.get('report_type')?.value?.trim() ?? '',
@@ -202,7 +214,9 @@ export class NotificationsFilterComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.success(translatedMessage);
         }
     }

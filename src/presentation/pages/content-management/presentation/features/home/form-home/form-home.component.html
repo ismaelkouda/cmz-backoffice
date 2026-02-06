@@ -50,11 +50,8 @@
                                             <div
                                                 class="row g-3 align-items-center"
                                             >
-
                                                 <div class="col-md-9">
-                                                    <div
-                                                        class="image-section"
-                                                    >
+                                                    <div class="image-section">
                                                         <label
                                                             class="form-label fw-bold d-block mb-2"
                                                         >
@@ -110,7 +107,9 @@
                                                                                     | translate
                                                                             "
                                                                             class="p-button-rounded p-button-info p-button-text"
-                                                                            (click)="openPreview()"
+                                                                            (click)="
+                                                                                openPreview()
+                                                                            "
                                                                         ></button>
 
                                                                         <div
@@ -129,9 +128,7 @@
                                                             }
                                                         </div>
 
-                                                        <div
-                                                            class="image-help"
-                                                        >
+                                                        <div class="image-help">
                                                             <small
                                                                 class="text-muted d-block"
                                                             >
@@ -203,7 +200,10 @@
                                                         @if (
                                                             (form.get(
                                                                 'buttonLabel'
-                                                            )?.invalid || form.errors?.['buttonLabelWithoutUrl']) &&
+                                                            )?.invalid ||
+                                                                form.errors?.[
+                                                                    'buttonLabelWithoutUrl'
+                                                                ]) &&
                                                             form.get(
                                                                 'buttonLabel'
                                                             )?.touched
@@ -263,7 +263,10 @@
                                                         @if (
                                                             (form.get(
                                                                 'buttonUrl'
-                                                            )?.invalid || form.errors?.['buttonUrlWithoutLabel']) &&
+                                                            )?.invalid ||
+                                                                form.errors?.[
+                                                                    'buttonUrlWithoutLabel'
+                                                                ]) &&
                                                             form.get(
                                                                 'buttonUrl'
                                                             )?.touched
@@ -627,9 +630,7 @@
     [(visible)]="isPreviewVisible"
     [modal]="true"
     [style]="{ width: '50vw', maxWidth: '800px' }"
-    [header]="
-        'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW' | translate
-    "
+    [header]="'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW' | translate"
     [dismissableMask]="true"
     [draggable]="false"
     [resizable]="false"
@@ -644,8 +645,7 @@
                 class="img-fluid rounded shadow"
                 style="max-height: 70vh; object-fit: contain"
             />
-        }
-        @else {
+        } @else {
             <p class="text-muted">
                 <i class="pi pi-exclamation-circle me-2"></i>
                 {{

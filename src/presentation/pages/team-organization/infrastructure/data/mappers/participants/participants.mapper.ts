@@ -1,0 +1,47 @@
+import { inject, Injectable } from '@angular/core';
+
+import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
+import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+
+import {
+    ParticipantsEntity,
+    ParticipantsProps,
+} from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
+import { ParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-response-api.dto';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class ParticipantsMapper extends PaginatedMapper<
+    ParticipantsEntity,
+    ParticipantsItemApiDto
+> {
+    private readonly actionDropdownMapper: ActionDropdownMapper =
+        inject(ActionDropdownMapper);
+    private readonly entityCache = new Map<string, ParticipantsEntity>();
+
+    protected mapItemFromDto(dto: ParticipantsItemApiDto): ParticipantsEntity {
+        MapperUtils.validateDto(dto, { required: ['id'] });
+        const props: ParticipantsProps = {
+            uniqId: dto.id,
+            lastName: dto.last_name,
+            firstName: dto.first_name,
+            email: dto.email,
+            phone: dto.phone,
+            role: dto.role,
+            status: this.actionDropdownMapper.mapFromDto(dto.status),
+            updatedAt: dto.updated_at,
+        };
+
+        const cacheKey = `dto:${dto.id}`;
+        const cached = this.entityCache.get(cacheKey);
+
+        const entity = cached
+            ? cached.with(props)
+            : new ParticipantsEntity(props);
+
+        this.entityCache.set(cacheKey, entity);
+        return entity;
+    }
+}

@@ -1,7 +1,7 @@
-import { InvalidFilterError } from "@shared/domain/errors/filter.error";
+import { InvalidFilterError } from '@shared/domain/errors/filter.error';
 
 export class DetailsFilter {
-    private constructor(public readonly id: string) { }
+    private constructor(public readonly id: string) {}
 
     static create(id: string): DetailsFilter {
         const validId = id;

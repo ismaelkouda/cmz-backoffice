@@ -1,4 +1,4 @@
-import { RegionsItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-response-api.dto";
+import { RegionsItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-response-api.dto';
 
 export class RegionsEntity {
     constructor(
@@ -14,7 +14,7 @@ export class RegionsEntity {
         public updatedBy: string,
         public createdAt: string,
         public updatedAt: string
-    ) { }
+    ) {}
 
     static fromDto(dto: RegionsItemApiDto): RegionsEntity {
         return new RegionsEntity(

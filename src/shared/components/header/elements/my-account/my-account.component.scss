@@ -167,7 +167,6 @@
                     color: #dc3545;
                 }
 
-
                 &:hover {
                     background-color: rgba(220, 53, 69, 0.1);
                     color: var(--red-600, #dc3545);
@@ -212,7 +211,7 @@ $dark-gray: var(--color-gray);
     font: 400 16px/24px var(--font-primary);
     color: var(--color-black);
     @include transition(all);
-    background-color: var(--color-gray-light);
+    // background-color: var(--color-gray-light);
     box-sizing: border-box;
 
     &:focus {

@@ -9,17 +9,20 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { AllFacade } from '@presentation/pages/finalization/application/all.facade';
 import { AllEntity } from '@presentation/pages/finalization/domain/entities/all/all.entity';
 import { AllFilter } from '@presentation/pages/finalization/domain/value-objects/all-filter.vo';
 import { FilterAllComponent } from '@presentation/pages/finalization/feature/all/filter-all/filter-all.component';
 import { TableAllComponent } from '@presentation/pages/finalization/feature/all/table-all/table-all.component';
 import { ManagementComponent } from '@presentation/pages/reports-processing/ui/management/management.component';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { AllFilterPayloadEntity } from '../../domain/entities/all/all-filter-payload.entity';
 
 @Component({

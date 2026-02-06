@@ -1,4 +1,4 @@
-import { RegionsFindoneItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-findone-response-api.dto";
+import { RegionsFindoneItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-findone-response-api.dto';
 
 export class RegionsFindoneEntity {
     constructor(
@@ -14,7 +14,7 @@ export class RegionsFindoneEntity {
         public readonly updatedBy: string,
         public readonly createdAt: string,
         public readonly updatedAt: string
-    ) { }
+    ) {}
 
     static fromDto(dto: RegionsFindoneItemApiDto): RegionsFindoneEntity {
         return new RegionsFindoneEntity(

@@ -12,18 +12,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TasksTableMapper } from '@presentation/pages/reports-processing/data/mappers/tasks-table.mapper';
-import { TASKS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/tasks/tasks-table.constants';
-import { TasksEntity } from '@presentation/pages/reports-processing/domain/entities/tasks/tasks.entity';
-import { TableSelectionService } from '@presentation/pages/reports-processing/domain/services/table-selection.service';
-import { TasksTableVM } from '@presentation/pages/reports-processing/domain/view-models/tasks-table.vm';
-import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
-import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
-import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { TableConfig } from '@shared/interfaces/table-config';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -34,6 +22,20 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
+import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
+import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { TableConfig } from '@shared/interfaces/table-config';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
+
+import { TasksTableMapper } from '@presentation/pages/reports-processing/data/mappers/tasks-table.mapper';
+import { TASKS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/tasks/tasks-table.constants';
+import { TasksEntity } from '@presentation/pages/reports-processing/domain/entities/tasks/tasks.entity';
+import { TableSelectionService } from '@presentation/pages/reports-processing/domain/services/table-selection.service';
+import { TasksTableVM } from '@presentation/pages/reports-processing/domain/view-models/tasks-table.vm';
 
 export type TreatmentRequested = 'treat' | 'action';
 @Component({
@@ -154,6 +156,7 @@ export class TableTasksComponent implements OnInit, OnDestroy {
     }
 
     handleSelectCount(value: number | null): void {
+        console.log(value);
         if (!value || value <= 0) {
             this.selectionService.clearSelection('input');
         } else {
@@ -166,6 +169,7 @@ export class TableTasksComponent implements OnInit, OnDestroy {
     }
 
     isItemSelected(item: TasksEntity): boolean {
+        console.log('item: TasksEntity', item);
         return this.selectionService.isItemSelected(item);
     }
 
@@ -201,6 +205,7 @@ export class TableTasksComponent implements OnInit, OnDestroy {
     }
 
     onActionClicked(item: TasksEntity, action: TreatmentRequested): void {
+        console.log(item, action);
         if (action === 'treat') {
             this.treatmentRequested.emit({ item, action });
         } else if (action === 'action') {
@@ -247,7 +252,9 @@ export class TableTasksComponent implements OnInit, OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value
@@ -282,9 +289,9 @@ export class TableTasksComponent implements OnInit, OnDestroy {
     getOperatorLabel(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
         const translationMap: Record<string, string> = {
-            orange: 'REPORTS_PROCESSING.TASKS.OPTIONS.OPERATOR.ORANGE',
-            mtn: 'REPORTS_PROCESSING.TASKS.OPTIONS.OPERATOR.MTN',
-            moov: 'REPORTS_PROCESSING.TASKS.OPTIONS.OPERATOR.MOOV',
+            orange: 'REPORTS_PROCESSING.TASKS.OPTIONS.OPERATORS.ORANGE',
+            mtn: 'REPORTS_PROCESSING.TASKS.OPTIONS.OPERATORS.MTN',
+            moov: 'REPORTS_PROCESSING.TASKS.OPTIONS.OPERATORS.MOOV',
         };
         const key = translationMap[normalized];
         return key ? this.translate.instant(key) : operator;

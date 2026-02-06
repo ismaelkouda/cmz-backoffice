@@ -24,7 +24,6 @@
         type="button"
         class="back-btn sidebar-icon"
         (click)="sidebarToggle()"
-        [attr.aria-label]="'LAYOUT.SIDEBAR.TOGGLE.ARIA_LABEL' | translate"
     >
         <i [attr.data-feather]="'sidebar'"></i>
     </button>
@@ -34,7 +33,6 @@
         id="left-arrow"
         [class.d-none]="leftArrowNone"
         (click)="scrollToLeft()"
-        [attr.aria-label]="'LAYOUT.SIDEBAR.SCROLL_LEFT.ARIA_LABEL' | translate"
     >
         <i [attr.data-feather]="'arrow-left'"></i>
     </button>
@@ -44,7 +42,6 @@
         id="right-arrow"
         [class.d-none]="rightArrowNone"
         (click)="scrollToRight()"
-        [attr.aria-label]="'LAYOUT.SIDEBAR.SCROLL_RIGHT.ARIA_LABEL' | translate"
     >
         <i [attr.data-feather]="'arrow-right'"></i>
     </button>
@@ -80,10 +77,6 @@
                                         type="button"
                                         class="mobile-back text-end"
                                         (click)="sidebarToggle()"
-                                        [attr.aria-label]="
-                                            'LAYOUT.SIDEBAR.BACK.ARIA_LABEL'
-                                                | translate
-                                        "
                                     >
                                         <span>{{
                                             'LAYOUT.SIDEBAR.BACK.TEXT'
@@ -118,12 +111,6 @@
                                             menuItem.badgeType &&
                                             menuItem.badgeValue
                                         "
-                                        [attr.aria-label]="
-                                            ('LAYOUT.SIDEBAR.BADGE.ARIA_LABEL'
-                                                | translate) +
-                                            ': ' +
-                                            menuItem.badgeValue
-                                        "
                                         >{{ menuItem.badgeValue }}</output
                                     >
                                     <!-- Sub -->
@@ -135,6 +122,7 @@
                                             active:
                                                 menuItem.active && !menuActive,
                                         }"
+                                        [title]="menuItem.title | translate"
                                         *ngIf="menuItem.type === 'sub'"
                                         (click)="toggletNavActive(menuItem)"
                                     >
@@ -166,6 +154,7 @@
                                         class="sidebar-link sidebar-title"
                                         [class.link-nav]="!menuItem.children"
                                         [ngClass]="{ active: menuItem.active }"
+                                        [title]="menuItem.title | translate"
                                         *ngIf="menuItem.type === 'link'"
                                     >
                                         <i
@@ -195,6 +184,7 @@
                                         class="sidebar-link sidebar-title"
                                         [class.link-nav]="!menuItem.children"
                                         [ngClass]="{ active: menuItem.active }"
+                                        [title]="menuItem.title | translate"
                                         *ngIf="menuItem.type === 'extLink'"
                                     >
                                         <i
@@ -225,6 +215,7 @@
                                         class="sidebar-link sidebar-title"
                                         [class.link-nav]="!menuItem.children"
                                         [ngClass]="{ active: menuItem.active }"
+                                        [title]="menuItem.title | translate"
                                         *ngIf="menuItem.type === 'extTabLink'"
                                     >
                                         <i
@@ -267,6 +258,10 @@
                                             <a
                                                 class="submenu-title"
                                                 href="javascript:void(0)"
+                                                [title]="
+                                                    childrenItem.title
+                                                        | translate
+                                                "
                                                 *ngIf="
                                                     childrenItem.type === 'sub'
                                                 "
@@ -303,6 +298,10 @@
                                                         ? null
                                                         : [childrenItem.path]
                                                 "
+                                                [title]="
+                                                    childrenItem.title
+                                                        | translate
+                                                "
                                                 *ngIf="
                                                     childrenItem.type === 'link'
                                                 "
@@ -330,6 +329,10 @@
                                                         ? null
                                                         : childrenItem.path
                                                 }}"
+                                                [title]="
+                                                    childrenItem.title
+                                                        | translate
+                                                "
                                                 *ngIf="
                                                     childrenItem.type ===
                                                     'extLink'
@@ -359,6 +362,10 @@
                                                         : childrenItem.path
                                                 }}"
                                                 target="_blank"
+                                                [title]="
+                                                    childrenItem.title
+                                                        | translate
+                                                "
                                                 *ngIf="
                                                     childrenItem.type ===
                                                     'extTabLink'
@@ -410,6 +417,10 @@
                                                                 : [
                                                                       childrenSubItem.path,
                                                                   ]
+                                                        "
+                                                        [title]="
+                                                            childrenSubItem.title
+                                                                | translate
                                                         "
                                                         *ngIf="
                                                             childrenSubItem.type ===

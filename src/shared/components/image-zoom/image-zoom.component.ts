@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
+    inject,
     Input,
-    OnInit,
-    Renderer2,
 } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 
@@ -15,8 +15,10 @@ import { DialogModule } from 'primeng/dialog';
     templateUrl: './image-zoom.component.html',
     styleUrls: ['./image-zoom.component.scss'],
     imports: [CommonModule, DialogModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomComponent implements OnInit {
+export class ImageZoomComponent {
+    private readonly el: ElementRef = inject(ElementRef);
     @Input() src!: string;
     @Input() label?: string;
 
@@ -28,13 +30,6 @@ export class ImageZoomComponent implements OnInit {
 
     rotation = 0;
     modalVisible = false;
-
-    constructor(
-        private el: ElementRef,
-        private renderer: Renderer2
-    ) {}
-
-    ngOnInit() {}
 
     rotateLeft() {
         this.rotation = (this.rotation - 90) % 360;
@@ -49,11 +44,14 @@ export class ImageZoomComponent implements OnInit {
         this.onLeave();
     }
 
-    @HostListener('mouseenter', ['$event'])
-    onEnter(event: MouseEvent) {
-        this.rect = (this.el.nativeElement as HTMLElement)
-            .querySelector('.image-wrapper')!
-            .getBoundingClientRect();
+    @HostListener('mouseenter')
+    onEnter() {
+        const imageWrapper =
+            this.el.nativeElement.querySelector('.image-wrapper');
+        if (!imageWrapper) {
+            return;
+        }
+        this.rect = imageWrapper.getBoundingClientRect();
         const windowWidth = window.innerWidth;
         const imageRight = this.rect.right;
         this.alignRight = imageRight + 450 > windowWidth;
@@ -62,7 +60,9 @@ export class ImageZoomComponent implements OnInit {
 
     @HostListener('mousemove', ['$event'])
     onMove(event: MouseEvent) {
-        if (!this.zoomVisible || this.modalVisible) return;
+        if (!this.zoomVisible || this.modalVisible) {
+            return;
+        }
 
         const x = event.clientX - this.rect.left;
         const y = event.clientY - this.rect.top;

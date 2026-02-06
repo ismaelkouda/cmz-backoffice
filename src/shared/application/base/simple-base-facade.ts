@@ -1,28 +1,32 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
-import { ApiError } from '@shared/domain/errors/api.error';
 import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
-    Observable,
     catchError,
     debounceTime,
     distinctUntilChanged,
     finalize,
+    Observable,
     tap,
     throwError,
 } from 'rxjs';
 
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { ApiError } from '@shared/domain/errors/api.error';
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
 export interface PaginationFilter {
-    toDto(): Record<string, string | string[] | void>;
+    toDto(): Record<string, string | string[] | undefined>;
 }
 
 @Injectable({ providedIn: 'root' })
 export abstract class SimpleBaseFacade<
     TEntity,
-    TFilter extends PaginationFilter | void = void,
+    TFilter extends PaginationFilter | undefined = undefined,
 > {
+    protected readonly toastService = inject(ToastrService);
+    protected readonly translateService = inject(TranslateService);
     protected readonly itemsSubject = new BehaviorSubject<TEntity>(
         {} as TEntity
     );
@@ -38,9 +42,15 @@ export abstract class SimpleBaseFacade<
         .asObservable()
         .pipe(
             distinctUntilChanged((prev, curr) => {
-                if (prev === curr) return true;
-                if (!prev && !curr) return true;
-                if (!prev || !curr) return false;
+                if (prev === curr) {
+                    return true;
+                }
+                if (!prev && !curr) {
+                    return true;
+                }
+                if (!prev || !curr) {
+                    return false;
+                }
 
                 const prevDto = prev.toDto();
                 const currDto = curr.toDto();
@@ -48,16 +58,13 @@ export abstract class SimpleBaseFacade<
                 const prevKeys = Object.keys(prevDto).sort();
                 const currKeys = Object.keys(currDto).sort();
 
-                if (prevKeys.length !== currKeys.length) return false;
+                if (prevKeys.length !== currKeys.length) {
+                    return false;
+                }
 
                 return prevKeys.every((key) => prevDto[key] === currDto[key]);
             })
         );
-
-    protected constructor(
-        protected readonly toastService: ToastrService,
-        protected readonly translateService: TranslateService
-    ) {}
 
     protected fetchData(
         filter: TFilter | null = null,

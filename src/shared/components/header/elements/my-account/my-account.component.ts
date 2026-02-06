@@ -7,7 +7,7 @@ import {
     OnInit,
     signal,
     TemplateRef,
-    viewChild
+    viewChild,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -18,14 +18,17 @@ import {
 } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { ToastrService } from 'ngx-toastr';
 import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
 import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
+
+import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+
 import { CurrentUser } from '../../../../interfaces/current-user.interface';
 import { EncodingDataService } from '../../../../services/encoding-data.service';
+
 import { MyAccountFacade } from './application/my-account.facade';
 import { ChangePasswordRequestDto } from './data/dtos/change-password-request.dto';
 import { UpdateProfileRequestDto } from './data/dtos/update-profile-request.dto';
@@ -35,7 +38,13 @@ import { UpdateProfileRequestDto } from './data/dtos/update-profile-request.dto'
     standalone: true,
     templateUrl: './my-account.component.html',
     styleUrls: ['./my-account.component.scss'],
-    imports: [CommonModule, ReactiveFormsModule, PasswordModule, InputMaskModule, TranslateModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        PasswordModule,
+        InputMaskModule,
+        TranslateModule,
+    ],
 })
 export class MyAccountComponent implements OnInit, OnDestroy {
     private readonly toastService = inject(ToastrService);
@@ -50,10 +59,12 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     public passwordForm!: FormGroup;
     private readonly destroy$ = new Subject<void>();
 
-    private readonly passwordModalTemplate = viewChild<TemplateRef<unknown>>('passwordV');
-    private readonly accountModalTemplate = viewChild<TemplateRef<unknown>>('accountV');
+    private readonly passwordModalTemplate =
+        viewChild<TemplateRef<unknown>>('passwordV');
+    private readonly accountModalTemplate =
+        viewChild<TemplateRef<unknown>>('accountV');
 
-    public isDropdownOpen = signal<boolean>(false);
+    public readonly isDropdownOpen = signal<boolean>(false);
 
     public toggleDropdown(): void {
         this.isDropdownOpen.set(!this.isDropdownOpen());
@@ -154,7 +165,10 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         this.passwordForm = this.fb.group(
             {
                 old_password: [null, [Validators.required]],
-                new_password: [null, [Validators.required, Validators.minLength(6)]],
+                new_password: [
+                    null,
+                    [Validators.required, Validators.minLength(6)],
+                ],
                 confirm_new_password: [
                     null,
                     [Validators.required, Validators.minLength(6)],
@@ -164,7 +178,9 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         );
     }
 
-    private passwordsMatchValidator(group: FormGroup): { [key: string]: boolean } | null {
+    private passwordsMatchValidator(
+        group: FormGroup
+    ): Record<string, boolean> | null {
         const password = group.get('new_password')?.value;
         const confirmPassword = group.get('confirm_new_password')?.value;
         return password === confirmPassword ? null : { notMatching: true };
@@ -182,17 +198,23 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         return this.passwordForm.get('confirm_new_password');
     }
 
-    public isFieldInvalidPassword(fieldName: 'old_password' | 'new_password' | 'confirm_new_password'): boolean {
+    public isFieldInvalidPassword(
+        fieldName: 'old_password' | 'new_password' | 'confirm_new_password'
+    ): boolean {
         const control = this.passwordForm.get(fieldName);
         return !!(control && control.invalid && control.touched);
     }
 
-    public isFieldValidPassword(fieldName: 'old_password' | 'new_password' | 'confirm_new_password'): boolean {
+    public isFieldValidPassword(
+        fieldName: 'old_password' | 'new_password' | 'confirm_new_password'
+    ): boolean {
         const control = this.accountForm.get(fieldName);
         return !!(control && control.valid && control.touched);
     }
 
-    public getFieldErrorPassword(fieldName: 'new_password' | 'confirm_new_password'): string | null {
+    public getFieldErrorPassword(
+        fieldName: 'new_password' | 'confirm_new_password'
+    ): string | null {
         const control = this.passwordForm.get(fieldName);
         if (!control || !control.errors || !control.touched) {
             return null;
@@ -202,7 +224,10 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             return 'MY_ACCOUNT.PASSWORD.FORM.INVALID_FORMAT';
         }
 
-        if (this.passwordForm.hasError('notMatching') && fieldName === 'confirm_new_password') {
+        if (
+            this.passwordForm.hasError('notMatching') &&
+            fieldName === 'confirm_new_password'
+        ) {
             return 'MY_ACCOUNT.PASSWORD.FORM.NOT_MATCH';
         }
 
@@ -215,14 +240,15 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             first_name: ['', [Validators.required]],
             email: [
                 '',
-                [Validators.required, Validators.email, Validators.minLength(6)],
+                [
+                    Validators.required,
+                    Validators.email,
+                    Validators.minLength(6),
+                ],
             ],
             phone: [
                 '',
-                [
-                    Validators.required,
-                    Validators.pattern(/^(07|05|03)\d{8}$/),
-                ],
+                [Validators.required, Validators.pattern(/^(07|05|03)\d{8}$/)],
             ],
             id: [this.currentUser()?.id],
         });
@@ -244,12 +270,16 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         return this.accountForm.get('phone');
     }
 
-    public isFieldInvalidAccount(fieldName: 'email' | 'phone' | 'first_name' | 'last_name'): boolean {
+    public isFieldInvalidAccount(
+        fieldName: 'email' | 'phone' | 'first_name' | 'last_name'
+    ): boolean {
         const control = this.accountForm.get(fieldName);
         return !!(control && control.invalid && control.touched);
     }
 
-    public isFieldValidAccount(fieldName: 'email' | 'phone' | 'first_name' | 'last_name'): boolean {
+    public isFieldValidAccount(
+        fieldName: 'email' | 'phone' | 'first_name' | 'last_name'
+    ): boolean {
         const control = this.accountForm.get(fieldName);
         return !!(control && control.valid && control.touched);
     }
@@ -291,7 +321,8 @@ export class MyAccountComponent implements OnInit, OnDestroy {
 
         const payload: ChangePasswordRequestDto = {
             ...this.passwordForm.value,
-            new_password_confirmation: this.passwordForm.value.confirm_new_password
+            new_password_confirmation:
+                this.passwordForm.value.confirm_new_password,
         };
 
         this.myAccountFacade
@@ -299,7 +330,9 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
                 this.toastService.success(
-                    this.translate.instant('MY_ACCOUNT.MESSAGES.SUCCESS.PASSWORD_UPDATED')
+                    this.translate.instant(
+                        'MY_ACCOUNT.MESSAGES.SUCCESS.PASSWORD_UPDATED'
+                    )
                 );
                 this.hideFormPassword();
             });
@@ -319,9 +352,14 @@ export class MyAccountComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
                 this.toastService.success(
-                    this.translate.instant('MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED')
+                    this.translate.instant(
+                        'MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
+                    )
                 );
-                const updatedUser = { ...this.currentUser(), ...payload } as CurrentUser;
+                const updatedUser = {
+                    ...this.currentUser(),
+                    ...payload,
+                } as CurrentUser;
                 this.encodingDataService.saveData('user_data', updatedUser);
                 this.currentUser.set(updatedUser);
                 this.hideFormAccount();

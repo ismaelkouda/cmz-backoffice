@@ -12,15 +12,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NOTIFICATIONS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/notifications-table.constant';
-import { TableSelectionService } from '@presentation/pages/reports-processing/domain/services/table-selection.service';
-import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
-import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
-import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { TableConfig } from '@shared/interfaces/table-config';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -31,6 +22,18 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
+import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
+import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { TableConfig } from '@shared/interfaces/table-config';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
+
+import { NOTIFICATIONS_TABLE_CONST } from '@presentation/pages/reports-processing/domain/constants/notifications-table.constant';
+import { TableSelectionService } from '@presentation/pages/reports-processing/domain/services/table-selection.service';
+
 import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 
 @Component({
@@ -227,7 +230,9 @@ export class NotificationsTableComponent implements OnInit, OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value
@@ -262,15 +267,15 @@ export class NotificationsTableComponent implements OnInit, OnDestroy {
     getOperatorLabel(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
         const translationMap: Record<string, string> = {
-            orange: 'COMMUNICATION.NOTIFICATIONS.OPTIONS.OPERATOR.ORANGE',
-            mtn: 'COMMUNICATION.NOTIFICATIONS.OPTIONS.OPERATOR.MTN',
-            moov: 'COMMUNICATION.NOTIFICATIONS.OPTIONS.OPERATOR.MOOV',
+            orange: 'COMMUNICATION.NOTIFICATIONS.OPTIONS.OPERATORS.ORANGE',
+            mtn: 'COMMUNICATION.NOTIFICATIONS.OPTIONS.OPERATORS.MTN',
+            moov: 'COMMUNICATION.NOTIFICATIONS.OPTIONS.OPERATORS.MOOV',
         };
         const key = translationMap[normalized];
         return key ? this.translate.instant(key) : operator;
     }
 
-    getSeeMoreTooltip(item: NotificationsEntity): string {
+    getSeeMoreTooltip(): string {
         return this.translate.instant(
             'COMMUNICATION.NOTIFICATIONS.TABLE.SEE_MORE'
         );

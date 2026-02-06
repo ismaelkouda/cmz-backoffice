@@ -8,6 +8,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+
 import { BreadcrumbService } from './breadcrumb.service';
 
 @Component({

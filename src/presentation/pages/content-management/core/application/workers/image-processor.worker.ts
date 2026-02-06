@@ -14,13 +14,6 @@ interface WorkerMessage {
     cropRegion?: CropRegion;
 }
 
-interface WorkerResult {
-    id: string;
-    success: boolean;
-    data?: ImageData;
-    error?: ImageProcessingError;
-}
-
 self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
     const { type, id, imageData, options, cropRegion } = event.data;
 
@@ -59,6 +52,7 @@ async function processInWorker(
     cropRegion: CropRegion,
     options?: ProcessingOptions
 ): Promise<ImageData> {
+    console.log('Processing image in worker with options:', options);
     // Implémentation optimisée pour le Worker
     // Utiliser OffscreenCanvas si disponible
     return new Promise((resolve, reject) => {
@@ -118,6 +112,7 @@ async function optimizeInWorker(
     imageData: ImageData,
     options?: ProcessingOptions
 ): Promise<ImageData> {
+    console.log('Optimizing image in worker with options:', options);
     // Logique d'optimisation dans le Worker
     return imageData; // Simplifié pour l'exemple
 }

@@ -1,4 +1,5 @@
-import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
+
 import { ActionsTreatmentComponent } from './ui/actions-treatment/actions-treatment.component';
 import { AllComponent } from './ui/all/all.component';
 import { QueuesComponent } from './ui/queues/queues.component';
@@ -59,12 +60,7 @@ export const routes: Routes = [
             {
                 path: ':taskId',
                 component: ActionsTreatmentComponent,
-                data: {
-                    breadcrumb: {
-                        label: (s: ActivatedRouteSnapshot) =>
-                            `#${s.params['taskId']}`,
-                    },
-                },
+                data: { breadcrumb: { hide: true } },
             },
             {
                 path: '**',

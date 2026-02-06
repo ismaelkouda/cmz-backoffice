@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ɵFormGroupRawValue, ɵTypedOrUntyped } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiError } from '@shared/domain/errors/api.error';
 import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
@@ -11,6 +10,10 @@ import {
     finalize,
     throwError,
 } from 'rxjs';
+
+import { ApiError } from '@shared/domain/errors/api.error';
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
 import { PAGINATION_CONST } from '../../../../shared/constants/pagination.constants';
 import { ManagementFormControlEntity } from '../domain/entities/management/management-form-control.entity';
 import { ManagementEntity } from '../domain/entities/management/management.entity';

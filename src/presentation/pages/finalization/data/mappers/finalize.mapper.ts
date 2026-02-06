@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+
 import { FinalizeEntity } from '../../domain/entities/finalize/finalize.entity';
 import { FinalizeItemDto } from '../dtos/finalize/finalize-response.dto';
 

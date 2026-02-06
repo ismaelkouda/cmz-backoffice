@@ -1,6 +1,8 @@
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { UiFeedbackService } from '../ui/ui-feedback.service';
 
 export interface FetchOptions<TEntity, TFilter> {
@@ -68,7 +70,6 @@ export function hasFilterChanged<TFilter>(prevFilter: TFilter, newFilter: TFilte
     return !prevKeys.every(key => prevDto[key] === newDto[key]);
 } */
 
-
 export function handleObservableWithFeedback<T>(
     obs: Observable<T>,
     uiFeedback: UiFeedbackService,
@@ -77,10 +78,14 @@ export function handleObservableWithFeedback<T>(
 ): Observable<T> {
     return obs.pipe(
         tap(() => {
-            if (successKey) uiFeedback.success(successKey);
-            if (refresh) refresh();
+            if (successKey) {
+                uiFeedback.success(successKey);
+            }
+            if (refresh) {
+                refresh();
+            }
         }),
-        catchError(error => {
+        catchError((error) => {
             uiFeedback.errorFromApi(error);
             return throwError(() => error);
         })
@@ -93,7 +98,9 @@ export function shouldFetch(
     lastFetch: number,
     staleTime: number
 ): boolean {
-    if (forceRefresh) return true;
+    if (forceRefresh) {
+        return true;
+    }
     const isStale = Date.now() - lastFetch > staleTime;
     return !hasData || isStale;
 }

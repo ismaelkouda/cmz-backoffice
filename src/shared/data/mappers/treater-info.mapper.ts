@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { TreaterInfoEntity } from '@shared/domain/entities/treater-info.entity';
+
 import { TreaterInfoDto } from '../dtos/treater-info.dto';
 @Injectable({
     providedIn: 'root',

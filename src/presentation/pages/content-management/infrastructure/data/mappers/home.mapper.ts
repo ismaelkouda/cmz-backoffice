@@ -1,9 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { HomeItemDto } from '@presentation/pages/content-management/core/application/dtos/home/home-response.dto';
-import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
+
 import { ActionDropdownDto } from '@shared/data/dtos/action-dropdown.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+
+import { HomeItemDto } from '@presentation/pages/content-management/core/application/dtos/home/home-response.dto';
+import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 
 @Injectable({ providedIn: 'root' })
 export class HomeMapper extends PaginatedMapper<HomeEntity, HomeItemDto> {

@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, debounceTime, finalize, switchMap } from 'rxjs/operators';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-customers.enum';
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { IndividualsEndpointEnum } from '../enums/individuals-endpoint.enum';
@@ -13,7 +15,7 @@ import {
     IndividualsStatsInterface,
 } from '../interfaces/individuals.interface';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class IndividualsApiService {
     private BASE_URL: string;
     constructor(

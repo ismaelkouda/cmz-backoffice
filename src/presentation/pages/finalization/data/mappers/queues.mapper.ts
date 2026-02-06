@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import { QueuesItemDto } from '@presentation/pages/finalization/data/dtos/queues/queues-response.dto';
-import { QueuesEntity } from '@presentation/pages/finalization/domain/entities/queues/queues.entity';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+
+import { QueuesItemDto } from '@presentation/pages/finalization/data/dtos/queues/queues-response.dto';
+import { QueuesEntity } from '@presentation/pages/finalization/domain/entities/queues/queues.entity';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
@@ -18,12 +20,14 @@ export class QueuesMapper extends PaginatedMapper<QueuesEntity, QueuesItemDto> {
 
     protected override mapItemFromDto(dto: QueuesItemDto): QueuesEntity {
         MapperUtils.validateDto(dto, {
-            required: ['uniq_id']
+            required: ['uniq_id'],
         });
 
         const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
-        if (cached) return cached;
+        if (cached) {
+            return cached;
+        }
 
         const entity = new QueuesEntity(
             dto.uniq_id,

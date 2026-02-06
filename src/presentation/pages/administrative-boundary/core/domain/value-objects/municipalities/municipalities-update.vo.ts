@@ -1,5 +1,4 @@
-import { MunicipalitiesUpdateDto } from "../../../application/dtos/municipalities/municipalities-update.dto";
-
+import { MunicipalitiesUpdateDto } from '../../../application/dtos/municipalities/municipalities-update.dto';
 
 export class MunicipalitiesUpdate {
     private constructor(
@@ -7,16 +6,18 @@ export class MunicipalitiesUpdate {
         readonly code?: string,
         readonly name?: string,
         readonly departmentCode?: string,
-        readonly description?: string,
-    ) { }
+        readonly description?: string
+    ) {}
 
-    static create(data: MunicipalitiesUpdateDto = {} as MunicipalitiesUpdateDto): MunicipalitiesUpdate {
+    static create(
+        data: MunicipalitiesUpdateDto = {} as MunicipalitiesUpdateDto
+    ): MunicipalitiesUpdate {
         return new MunicipalitiesUpdate(
             data.id,
             data.code,
             data.name,
             data.departmentCode,
-            data.description,
+            data.description
         );
     }
 }

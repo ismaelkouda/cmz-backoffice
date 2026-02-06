@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+
 import {
     GetTermsUseByIdItemDto,
     GetTermsUseByIdResponseDto,
 } from '@presentation/pages/content-management/core/application/dtos/terms-use/get-terms-use-by-id-response.dto';
 import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 
 @Injectable({
     providedIn: 'root',

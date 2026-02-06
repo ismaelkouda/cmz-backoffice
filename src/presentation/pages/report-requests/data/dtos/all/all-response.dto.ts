@@ -8,17 +8,19 @@ export enum ReportStatusDto {
     APPROVED = 'approved',
     REJECTED = 'rejected',
     ABANDONED = 'abandoned',
+    'in-progress' = 'in-progress',
+    TERMINATED = 'terminated',
     UNKNOWN = 'unknown',
 }
 
 export interface AllItemDto {
     uniq_id: string;
     report_type: ReportTypeDto;
-    operators: Array<TelecomOperatorDto>;
+    operators: TelecomOperatorDto[];
     source: ReportSourceDto;
     initiator_phone_number: string;
     status: ReportStatusDto;
     reported_at: string;
 }
 
-export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> { }
+export type AllResponseDto = PaginatedResponseDto<AllItemDto>;

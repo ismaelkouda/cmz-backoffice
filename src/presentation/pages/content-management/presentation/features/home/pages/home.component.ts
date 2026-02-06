@@ -9,22 +9,24 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Observable, Subject } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import {
     CREATE_ROUTE,
     EDIT_ROUTE,
     VIEW_ROUTE,
 } from '@presentation/pages/content-management/content-management.routes';
 import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
-import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 import { HomeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/home/home-filter-payload.entity';
+import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 import { HomeFilter } from '@presentation/pages/content-management/core/domain/value-objects/home-filter.vo';
 import { FilterHomeComponent } from '@presentation/pages/content-management/presentation/features/home/filter-home/filter-home.component';
 import { TableHomeComponent } from '@presentation/pages/content-management/presentation/features/home/table-home/table-home.component';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-home',

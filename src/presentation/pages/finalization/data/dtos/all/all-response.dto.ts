@@ -10,11 +10,11 @@ export enum ReportStateDto {
 export interface AllItemDto {
     uniq_id: string;
     report_type: ReportTypeDto;
-    operators: Array<TelecomOperatorDto>;
+    operators: TelecomOperatorDto[];
     source: ReportSourceDto;
     initiator_phone_number: string;
     state: ReportStateDto;
     reported_at: string;
 }
 
-export interface AllResponseDto extends PaginatedResponseDto<AllItemDto> { }
+export type AllResponseDto = PaginatedResponseDto<AllItemDto>;

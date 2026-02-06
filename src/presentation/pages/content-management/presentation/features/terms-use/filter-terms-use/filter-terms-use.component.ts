@@ -16,10 +16,6 @@ import {
     Validators,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TermsUseFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/terms-use-filter-form-control.entity';
-import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
-import { TermsUseFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use/terms-use-filter-payload.entity';
-import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -28,6 +24,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+
+import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
+
+import { TermsUseFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/terms-use-filter-form-control.entity';
+import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
+import { TermsUseFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use/terms-use-filter-payload.entity';
 
 @Component({
     selector: 'app-filter-terms-use',
@@ -139,8 +141,9 @@ export class FilterTermsUseComponent implements OnInit, OnDestroy {
 
         if (startDate.isValid() && endDate.isValid()) {
             if (startDate.isAfter(endDate)) {
-                const invalidDateRange =
-                    this.translate.instant('COMMON.INVALID_DATE_RANGE');
+                const invalidDateRange = this.translate.instant(
+                    'COMMON.INVALID_DATE_RANGE'
+                );
                 this.toastService.error(invalidDateRange);
                 return;
             }
@@ -159,7 +162,9 @@ export class FilterTermsUseComponent implements OnInit, OnDestroy {
         if (this.formFilter.valid) {
             this.filter.emit(filterData);
         } else {
-            const translatedMessage = this.translate.instant('COMMON.FORM_INVALID');
+            const translatedMessage = this.translate.instant(
+                'COMMON.FORM_INVALID'
+            );
             this.toastService.error(translatedMessage);
         }
     }

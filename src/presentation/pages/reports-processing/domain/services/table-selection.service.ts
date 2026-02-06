@@ -16,7 +16,7 @@ export interface SelectionEvent<T> {
     previousSelection: string[];
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TableSelectionService<T extends { uniqId: string }> {
     private readonly destroyRef = inject(DestroyRef);
 
@@ -112,7 +112,9 @@ export class TableSelectionService<T extends { uniqId: string }> {
         source: SelectionEvent<T>['selectionSource']
     ): void {
         const previousIds = Array.from(this._selectedIds());
-        if (this._areSetsEqual(newIds, this._selectedIds())) return;
+        if (this._areSetsEqual(newIds, this._selectedIds())) {
+            return;
+        }
 
         this._selectedIds.set(newIds);
         this._emitSelectionChange(source, previousIds);
@@ -135,9 +137,13 @@ export class TableSelectionService<T extends { uniqId: string }> {
         setA: Set<string>,
         setB: ReadonlySet<string>
     ): boolean {
-        if (setA.size !== setB.size) return false;
+        if (setA.size !== setB.size) {
+            return false;
+        }
         for (const item of setA) {
-            if (!setB.has(item)) return false;
+            if (!setB.has(item)) {
+                return false;
+            }
         }
         return true;
     }

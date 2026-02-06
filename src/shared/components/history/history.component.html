@@ -1,0 +1,58 @@
+<div class="fade-in history-content">
+    <app-filter
+        class="filter-component"
+        [isLoading]="loading()"
+        [formGroup]="form"
+        [fields]="filterFields()"
+        [limit]="5"
+    ></app-filter>
+
+    <hr class="history-divider" />
+
+    <section class="table-section">
+        <app-table
+            class="table-component"
+            [loading]="loading()"
+            [items]="items()"
+            [pagination]="pagination()"
+            [config]="tableConfig"
+            [hiddenButtonOther]="true"
+            (refreshRequested)="onRefresh()"
+            (otherActionClicked)="onViewDetails($event)"
+            dataKey="uniqId"
+        ></app-table>
+
+        <app-pagination
+            class="pagination-component"
+            [pagination]="pagination()"
+        ></app-pagination>
+    </section>
+
+    <p-dialog
+        [header]="'HISTORY.DETAILS.TITLE' | translate"
+        [(visible)]="displayDetails"
+        [modal]="true"
+        [style]="{ width: '50vw' }"
+        [draggable]="false"
+        [resizable]="false"
+    >
+        <div *ngIf="selectedItem() as item" class="history-details">
+            <div class="field">
+                <label>{{ 'HISTORY.DETAILS.ACTION' | translate }}:</label>
+                <span>{{ item.action }}</span>
+            </div>
+            <div class="field">
+                <label>{{ 'HISTORY.DETAILS.USER' | translate }}:</label>
+                <span>{{ item.user }}</span>
+            </div>
+            <div class="field">
+                <label>{{ 'HISTORY.DETAILS.DATE' | translate }}:</label>
+                <span>{{ item.createdAt | date: 'medium' }}</span>
+            </div>
+            <div class="field">
+                <label>{{ 'HISTORY.DETAILS.DATA' | translate }}:</label>
+                <pre>{{ item.details | json }}</pre>
+            </div>
+        </div>
+    </p-dialog>
+</div>

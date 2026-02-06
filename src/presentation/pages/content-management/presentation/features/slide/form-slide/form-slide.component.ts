@@ -17,15 +17,6 @@ import {
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SLIDE_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-import { SlideFacade } from '@presentation/pages/content-management/core/application/services/slide.facade';
-import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
-import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
-import { FileUploadI18nDirective } from '@shared/directives/file-upload-i18n.directive';
-import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -42,6 +33,17 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { FileUploadI18nDirective } from '@shared/directives/file-upload-i18n.directive';
+import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
+
+import { SLIDE_ROUTE } from '@presentation/pages/content-management/content-management.routes';
+import { SlideFacade } from '@presentation/pages/content-management/core/application/services/slide.facade';
+import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
+import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
 
 @Component({
     selector: 'app-form-slide',
@@ -202,7 +204,9 @@ export class FormSlideComponent implements OnInit {
     public detectVideoPlatform(
         url: string
     ): 'youtube' | 'vimeo' | 'dailymotion' | 'other' {
-        if (!url) return 'other';
+        if (!url) {
+            return 'other';
+        }
 
         if (FormValidators.VIDEO_URL.PATTERNS.YOUTUBE.test(url)) {
             return 'youtube';
@@ -241,17 +245,6 @@ export class FormSlideComponent implements OnInit {
             default:
                 return 'Autre plateforme';
         }
-    }
-
-    public getFileSizeStatus(fileSize: number): string {
-        const maxSize = FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
-        const sizeInMB = fileSize / 1024 / 1024;
-
-        if (sizeInMB > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
-            return `⚠️ ${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
-        }
-
-        return `${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB`;
     }
 
     private htmlContentMaxLengthValidator(maxLength: number): any {
@@ -315,14 +308,20 @@ export class FormSlideComponent implements OnInit {
         const count = this.getContentCharacterCount();
         const max = FormValidators.CONTENT.STRIP_HTML_MAX;
 
-        if (count > max * 0.9) return 'danger';
-        if (count > max * 0.7) return 'warning';
+        if (count > max * 0.9) {
+            return 'danger';
+        }
+        if (count > max * 0.7) {
+            return 'warning';
+        }
         return 'safe';
     }
 
     public getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
-        if (!control || !control.errors) return '';
+        if (!control || !control.errors) {
+            return '';
+        }
 
         const errors = control.errors;
 
@@ -478,7 +477,9 @@ export class FormSlideComponent implements OnInit {
     }
 
     private validateVideoUrl(url: string): void {
-        if (!url.trim()) return;
+        if (!url.trim()) {
+            return;
+        }
 
         const urlPattern =
             /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
@@ -512,9 +513,9 @@ export class FormSlideComponent implements OnInit {
         this.checkImageDimensions(file).then((dimensions) => {
             if (
                 dimensions.width >
-                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
                 dimensions.height >
-                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
             ) {
                 imageControl?.setErrors({ imageDimensions: true });
             }

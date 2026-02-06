@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+
 import {
     GetPrivacyPolicyByIdItemDto,
     GetPrivacyPolicyByIdResponseDto,
 } from '@presentation/pages/content-management/core/application/dtos/privacy-policy/get-privacy-policy-by-id-response.dto';
 import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-privacy-policy-by-id.entity';
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 
 @Injectable({
     providedIn: 'root',

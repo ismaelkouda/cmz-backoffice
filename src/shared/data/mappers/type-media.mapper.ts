@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 
@@ -7,7 +8,7 @@ import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 })
 export class TypeMediaMapper {
     mapToEnum(dtoValue: TypeMediaDto): TypeMedia {
-        if (dtoValue == null) {
+        if (dtoValue === null || dtoValue === undefined) {
             return TypeMedia.UNKNOWN;
         }
         const methodMap: Record<TypeMediaDto, TypeMedia> = {
@@ -19,7 +20,7 @@ export class TypeMediaMapper {
     }
 
     mapToDto(enumValue: TypeMedia): TypeMediaDto {
-        if (enumValue == null) {
+        if (enumValue === null || enumValue === undefined) {
             return TypeMediaDto.UNKNOWN;
         }
         const mapping: Record<TypeMedia, TypeMediaDto> = {

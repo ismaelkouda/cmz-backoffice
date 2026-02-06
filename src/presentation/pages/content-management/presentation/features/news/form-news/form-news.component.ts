@@ -21,19 +21,6 @@ import {
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NEWS_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
-import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
-import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
-import { SubCategoryEntity } from '@presentation/pages/content-management/core/domain/entities/sub-category.entity';
-import { ImageProcessingStore } from '@presentation/pages/content-management/core/domain/stores/image-processing.store';
-import { ProcessingResult } from '@presentation/pages/content-management/core/domain/types/image-processing.types';
-import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
-import { ImageCropperComponent } from '@presentation/pages/content-management/presentation/shared/image-cropper/image-cropper.component';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
-import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -56,6 +43,22 @@ import {
     startWith,
     switchMap,
 } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
+
+import { NEWS_ROUTE } from '@presentation/pages/content-management/content-management.routes';
+import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
+import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
+import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
+import { SubCategoryEntity } from '@presentation/pages/content-management/core/domain/entities/sub-category.entity';
+import { ImageProcessingStore } from '@presentation/pages/content-management/core/domain/stores/image-processing.store';
+import { ProcessingResult } from '@presentation/pages/content-management/core/domain/types/image-processing.types';
+import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
+import { ImageCropperComponent } from '@presentation/pages/content-management/presentation/shared/image-cropper/image-cropper.component';
+
 import { HashtagsInputComponent } from '../hashtags-input/hashtags-input.component';
 
 @Component({
@@ -123,22 +126,22 @@ export class FormNewsComponent implements OnInit {
                 );
             })
         );
-    public module = signal<string>('');
-    public subModule = signal<string>('');
-    public isEditMode = signal<boolean>(false);
-    public currentId = signal<string | undefined>(undefined);
-    public imagePreview = signal<string | null>(null);
-    public uploadedFile = signal<File | null>(null);
-    public imageRemoved = signal<boolean>(false);
-    public originalImageUrl = signal<string | null>(null);
-    public isPreviewVisible = signal<boolean>(false);
-    public previewType = signal<'image' | 'video'>('image');
-    public previewContent = signal<SafeUrl | string | null>(null);
+    public readonly module = signal<string>('');
+    public readonly subModule = signal<string>('');
+    public readonly isEditMode = signal<boolean>(false);
+    public readonly currentId = signal<string | undefined>(undefined);
+    public readonly imagePreview = signal<string | null>(null);
+    public readonly uploadedFile = signal<File | null>(null);
+    public readonly imageRemoved = signal<boolean>(false);
+    public readonly originalImageUrl = signal<string | null>(null);
+    public readonly isPreviewVisible = signal<boolean>(false);
+    public readonly previewType = signal<'image' | 'video'>('image');
+    public readonly previewContent = signal<SafeUrl | string | null>(null);
 
     // Image Cropper Signals
-    public showCropDialog = signal<boolean>(false);
-    public imageForCropping = signal<string | null>(null);
-    public selectedFileForCropping = signal<File | null>(null);
+    public readonly showCropDialog = signal<boolean>(false);
+    public readonly imageForCropping = signal<string | null>(null);
+    public readonly selectedFileForCropping = signal<File | null>(null);
 
     public pageTitle$!: Observable<string>;
 
@@ -220,17 +223,6 @@ export class FormNewsComponent implements OnInit {
         this.setupFormListeners();
     }
 
-    public getFileSizeStatus(fileSize: number): string {
-        const maxSize = FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1024 * 1024;
-        const sizeInMB = fileSize / 1024 / 1024;
-
-        if (sizeInMB > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 0.9) {
-            return `⚠️ ${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB (presque plein)`;
-        }
-
-        return `${sizeInMB.toFixed(2)}/${FormValidators.IMAGE_FILE.MAX_SIZE_MB} MB`;
-    }
-
     private htmlContentMaxLengthValidator(maxLength: number): any {
         return (control: any) => {
             if (!control.value) {
@@ -292,14 +284,20 @@ export class FormNewsComponent implements OnInit {
         const count = this.getContentCharacterCount();
         const max = FormValidators.CONTENT.STRIP_HTML_MAX;
 
-        if (count > max * 0.9) return 'danger';
-        if (count > max * 0.7) return 'warning';
+        if (count > max * 0.9) {
+            return 'danger';
+        }
+        if (count > max * 0.7) {
+            return 'warning';
+        }
         return 'safe';
     }
 
     public getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
-        if (!control || !control.errors) return '';
+        if (!control || !control.errors) {
+            return '';
+        }
 
         const errors = control.errors;
 
@@ -461,7 +459,9 @@ export class FormNewsComponent implements OnInit {
     }
 
     private validateVideoUrl(url: string): void {
-        if (!url.trim()) return;
+        if (!url.trim()) {
+            return;
+        }
 
         const urlPattern =
             /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com)\/.+$/;
@@ -492,9 +492,9 @@ export class FormNewsComponent implements OnInit {
         this.checkImageDimensions(file).then((dimensions) => {
             if (
                 dimensions.width >
-                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
+                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
                 dimensions.height >
-                FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
             ) {
                 imageControl?.setErrors({ imageDimensions: true });
             }
@@ -719,7 +719,9 @@ export class FormNewsComponent implements OnInit {
     }
 
     public onHashtagAdded(value: string): void {
-        if (!value?.trim()) return;
+        if (!value?.trim()) {
+            return;
+        }
         const formattedValue = value.startsWith('#') ? value : `#${value}`;
 
         this.hashtagsArray.push(
@@ -749,10 +751,11 @@ export class FormNewsComponent implements OnInit {
         } */
 
         const formData = this.prepareSubmitData();
+        const currentId = this.currentId();
 
         const submitObservable =
-            this.isEditMode() && this.currentId()
-                ? this.newsFacade.updateNews(this.currentId()!, formData)
+            this.isEditMode() && currentId
+                ? this.newsFacade.updateNews(currentId, formData)
                 : this.newsFacade.createNews(formData);
 
         submitObservable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
@@ -832,7 +835,10 @@ export class FormNewsComponent implements OnInit {
         if (values.type === TypeMediaDto.VIDEO && values.videoUrl) {
             formData.append('video_url', values.videoUrl);
         } else if (values.type === TypeMediaDto.IMAGE && this.uploadedFile()) {
-            formData.append('image_file', this.uploadedFile()!);
+            const uploadedFile = this.uploadedFile();
+            if (uploadedFile) {
+                formData.append('image_file', uploadedFile);
+            }
         } else if (values.type === TypeMediaDto.IMAGE && values.imageFile) {
             formData.append('image_file_url', values.imageFile);
         }

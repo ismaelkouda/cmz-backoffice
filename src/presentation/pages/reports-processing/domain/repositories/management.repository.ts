@@ -1,4 +1,7 @@
 import { Observable } from 'rxjs';
+
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
 import { ManagementEntity } from '../entities/management/management.entity';
 import { ManagementForm } from '../value-objects/management-form.vo';
 

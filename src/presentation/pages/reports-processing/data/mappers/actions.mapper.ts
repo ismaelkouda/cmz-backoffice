@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { UserInfo } from '@shared/domain/interfaces/user-info.interface';
+
 import {
     ActionType,
     ActionsEntity,

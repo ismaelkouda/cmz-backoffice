@@ -117,8 +117,12 @@ export class DetailsEntity implements Details {
     public validate(): string[] {
         const errors: string[] = [];
 
-        if (!this.reportType) errors.push('Report type is required');
-        if (this.operators.length === 0) errors.push('At least one operator required');
+        if (!this.reportType) {
+            errors.push('Report type is required');
+        }
+        if (this.operators.length === 0) {
+            errors.push('At least one operator required');
+        }
 
         return errors;
     }
@@ -155,7 +159,7 @@ export class DetailsEntity implements Details {
         public readonly accessPlacePhoto: string,
         public readonly confirmCount: number,
         public readonly reportProcessingsCount: number
-    ) { }
+    ) {}
 
     public get managementTitle(): string {
         switch (this.status) {
@@ -216,7 +220,6 @@ export class DetailsEntity implements Details {
     public get getLongLat(): string {
         return `${this.location.coordinates.longitude} ${this.location.coordinates.latitude}`;
     }
-
 
     public get detailsParams(): ManagementAction {
         if (this.canBeTaken) {
@@ -291,9 +294,14 @@ export class DetailsEntity implements Details {
     }
 
     public get canBeTaken(): boolean {
-        return (this.statusPending ||
-            (this.progressingStatePending) ||
-            (this.finalizationStatePending)
+        console.log('statusPending', this.statusPending);
+        console.log('processingState', this.processingState);
+        console.log('progressingStatePending', this.progressingStatePending);
+        console.log('finalizationStatePending', this.finalizationStatePending);
+        return (
+            this.statusPending ||
+            this.progressingStatePending ||
+            this.finalizationStatePending
         );
     }
 

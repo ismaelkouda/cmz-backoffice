@@ -4,4 +4,4 @@ export interface ReportItemDto {
     reportReportingLink: string;
 }
 
-export interface ReportResponseDto extends SimpleResponseDto<ReportItemDto> { }
+export type ReportResponseDto = SimpleResponseDto<ReportItemDto>;

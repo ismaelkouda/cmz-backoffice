@@ -5,6 +5,7 @@ import {
     inject,
     OnDestroy,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
     AbstractControl,
     FormControl,
@@ -14,12 +15,14 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
-import { ForgotPasswordFormInterface } from '@pages/password-reset/data/interfaces/forgot-password-form.interface';
-import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+
+import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
+import { ForgotPasswordFormInterface } from '@pages/password-reset/data/interfaces/forgot-password-form.interface';
 
 @Component({
     selector: 'app-forgot-password',
@@ -42,9 +45,12 @@ export class ForgotPasswordComponent implements OnDestroy {
 
     private destroy$ = new Subject<void>();
     public readonly config = inject(AppCustomizationService).config;
-    public readonly isForgotPasswordLoading$ =
-        this.passwordResetFacade.isForgotPasswordLoading$;
-
+    readonly isForgotPasswordLoading = toSignal(
+        this.passwordResetFacade.isForgotPasswordLoading$,
+        {
+            initialValue: false,
+        }
+    );
     constructor(
         private readonly passwordResetFacade: PasswordResetFacade,
         private readonly location: Location

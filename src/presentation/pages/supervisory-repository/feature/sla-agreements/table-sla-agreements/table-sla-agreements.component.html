@@ -96,7 +96,10 @@
                         {{ rowIndex + 1 }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Services'">
-                        <span (click)="copyToClipboard(item?.[col.field])">
+                        <span
+                            (click)="copyToClipboard(item?.[col.field])"
+                            (keypress)="copyToClipboard(item?.[col.field])"
+                        >
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>

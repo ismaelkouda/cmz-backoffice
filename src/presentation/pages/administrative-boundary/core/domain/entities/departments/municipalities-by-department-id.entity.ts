@@ -1,4 +1,4 @@
-import { MunicipalitiesByDepartmentIdItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/municipalities-by-department-id-response-api.dto";
+import { MunicipalitiesByDepartmentIdItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/municipalities-by-department-id-response-api.dto';
 
 export class MunicipalitiesByDepartmentIdEntity {
     constructor(
@@ -13,9 +13,11 @@ export class MunicipalitiesByDepartmentIdEntity {
         public readonly updatedBy: string,
         public readonly createdAt: string,
         public readonly updatedAt: string
-    ) { }
+    ) {}
 
-    static fromDto(dto: MunicipalitiesByDepartmentIdItemApiDto): MunicipalitiesByDepartmentIdEntity {
+    static fromDto(
+        dto: MunicipalitiesByDepartmentIdItemApiDto
+    ): MunicipalitiesByDepartmentIdEntity {
         return new MunicipalitiesByDepartmentIdEntity(
             dto.id,
             dto.name,
@@ -31,7 +33,9 @@ export class MunicipalitiesByDepartmentIdEntity {
         );
     }
 
-    public with(dto: MunicipalitiesByDepartmentIdItemApiDto): MunicipalitiesByDepartmentIdEntity {
+    public with(
+        dto: MunicipalitiesByDepartmentIdItemApiDto
+    ): MunicipalitiesByDepartmentIdEntity {
         if (this.updatedAt === dto.updated_at) {
             return this;
         }

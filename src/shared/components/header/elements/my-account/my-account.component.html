@@ -63,7 +63,7 @@
     <form [formGroup]="passwordForm">
         <div class="modal-header">
             <h4 class="modal-title">
-                {{'MY_ACCOUNT.PASSWORD.FORM.TITLE' | translate}}
+                {{ 'MY_ACCOUNT.PASSWORD.FORM.TITLE' | translate }}
             </h4>
             <button
                 type="button"
@@ -75,7 +75,10 @@
         <div class="modal-body" novalidate>
             <div class="form-group mb-3">
                 <label for="old_password">
-                    {{'MY_ACCOUNT.PASSWORD.FORM.OLD_PASSWORD.LABEL' | translate}}<span class="text-danger">*</span>
+                    {{
+                        'MY_ACCOUNT.PASSWORD.FORM.OLD_PASSWORD.LABEL'
+                            | translate
+                    }}<span class="text-danger">*</span>
                 </label>
                 <p-password
                     id="old_password"
@@ -90,9 +93,7 @@
                         (isFieldValidPassword('old_password')
                             ? ' form-input--valid'
                             : '') +
-                        (oldPassword?.touched
-                            ? ' form-input--focused'
-                            : '')
+                        (oldPassword?.touched ? ' form-input--focused' : '')
                     "
                     [attr.aria-invalid]="isFieldInvalidPassword('old_password')"
                     [attr.aria-describedby]="
@@ -108,7 +109,10 @@
             </div>
             <div class="form-group mb-4">
                 <label for="new_password">
-                    {{'MY_ACCOUNT.PASSWORD.FORM.NEW_PASSWORD.LABEL' | translate}}<span class="text-danger">*</span>
+                    {{
+                        'MY_ACCOUNT.PASSWORD.FORM.NEW_PASSWORD.LABEL'
+                            | translate
+                    }}<span class="text-danger">*</span>
                 </label>
                 <p-password
                     id="new_password"
@@ -123,9 +127,7 @@
                         (isFieldValidPassword('new_password')
                             ? ' form-input--valid'
                             : '') +
-                        (newPassword?.touched
-                            ? ' form-input--focused'
-                            : '')
+                        (newPassword?.touched ? ' form-input--focused' : '')
                     "
                     [attr.aria-invalid]="isFieldInvalidPassword('new_password')"
                     [attr.aria-describedby]="
@@ -146,7 +148,10 @@
             </div>
             <div class="form-group mb-3">
                 <label for="confirm_new_password">
-                    {{'MY_ACCOUNT.PASSWORD.FORM.CONFIRM_NEW_PASSWORD.LABEL' | translate}}<span class="text-danger">*</span>
+                    {{
+                        'MY_ACCOUNT.PASSWORD.FORM.CONFIRM_NEW_PASSWORD.LABEL'
+                            | translate
+                    }}<span class="text-danger">*</span>
                 </label>
                 <p-password
                     id="confirm_new_password"
@@ -165,7 +170,9 @@
                             ? ' form-input--focused'
                             : '')
                     "
-                    [attr.aria-invalid]="isFieldInvalidPassword('confirm_new_password')"
+                    [attr.aria-invalid]="
+                        isFieldInvalidPassword('confirm_new_password')
+                    "
                     [attr.aria-describedby]="
                         isFieldInvalidPassword('confirm_new_password')
                             ? 'confirm_new_password-error'
@@ -178,7 +185,10 @@
                 />
                 @if (getFieldErrorPassword('confirm_new_password')) {
                     <small class="text-danger">
-                        {{ getFieldErrorPassword('confirm_new_password') | translate }}
+                        {{
+                            getFieldErrorPassword('confirm_new_password')
+                                | translate
+                        }}
                     </small>
                 }
             </div>
@@ -186,7 +196,11 @@
 
         <div class="modal-footer">
             <div>
-                <button type="button" class="btn btn-hide" (click)="hideFormPassword()">
+                <button
+                    type="button"
+                    class="btn btn-hide"
+                    (click)="hideFormPassword()"
+                >
                     Fermer
                 </button>
             </div>
@@ -207,7 +221,9 @@
 <ng-template #accountV let-modal>
     <form [formGroup]="accountForm">
         <div class="modal-header">
-            <h4 class="modal-title">{{'MY_ACCOUNT.ACCOUNT.FORM.TITLE' | translate}}</h4>
+            <h4 class="modal-title">
+                {{ 'MY_ACCOUNT.ACCOUNT.FORM.TITLE' | translate }}
+            </h4>
             <button
                 type="button"
                 class="btn-close"
@@ -218,7 +234,12 @@
         <div class="modal-body" novalidate>
             <div class="form-group mb-3">
                 <label for="last_name">
-                    <b>{{'MY_ACCOUNT.ACCOUNT.FORM.LAST_NAME.LABEL' | translate}}<span class="text-danger">*</span></b>
+                    <b
+                        >{{
+                            'MY_ACCOUNT.ACCOUNT.FORM.LAST_NAME.LABEL'
+                                | translate
+                        }}<span class="text-danger">*</span></b
+                    >
                 </label>
                 <input
                     id="last_name"
@@ -231,9 +252,7 @@
                     [class.form-input--invalid]="
                         isFieldInvalidAccount('last_name')
                     "
-                    [class.form-input--valid]="
-                        isFieldValidAccount('last_name')
-                    "
+                    [class.form-input--valid]="isFieldValidAccount('last_name')"
                     [class.form-input--focused]="last_name?.touched"
                     class="form-input"
                     [attr.aria-invalid]="isFieldInvalidAccount('last_name')"
@@ -247,7 +266,12 @@
             </div>
             <div class="form-group mb-3">
                 <label for="first_name">
-                    <b>{{'MY_ACCOUNT.ACCOUNT.FORM.FIRST_NAME.LABEL' | translate}}<span class="text-danger">*</span></b>
+                    <b
+                        >{{
+                            'MY_ACCOUNT.ACCOUNT.FORM.FIRST_NAME.LABEL'
+                                | translate
+                        }}<span class="text-danger">*</span></b
+                    >
                 </label>
                 <input
                     id="first_name-input"
@@ -276,29 +300,25 @@
             </div>
             <div class="form-group mb-3">
                 <label for="email">
-                    <b>{{'MY_ACCOUNT.ACCOUNT.FORM.EMAIL.LABEL' | translate}}<span class="text-danger">*</span></b>
+                    <b
+                        >{{ 'MY_ACCOUNT.ACCOUNT.FORM.EMAIL.LABEL' | translate
+                        }}<span class="text-danger">*</span></b
+                    >
                 </label>
                 <input
                     id="email-input"
                     type="email"
                     formControlName="email"
                     [placeholder]="
-                        'MY_ACCOUNT.ACCOUNT.FORM.EMAIL.PLACEHOLDER'
-                            | translate
+                        'MY_ACCOUNT.ACCOUNT.FORM.EMAIL.PLACEHOLDER' | translate
                     "
-                    [class.form-input--invalid]="
-                        isFieldInvalidAccount('email')
-                    "
-                    [class.form-input--valid]="
-                        isFieldValidAccount('email')
-                    "
+                    [class.form-input--invalid]="isFieldInvalidAccount('email')"
+                    [class.form-input--valid]="isFieldValidAccount('email')"
                     [class.form-input--focused]="email?.touched"
                     class="form-input"
                     [attr.aria-invalid]="isFieldInvalidAccount('email')"
                     [attr.aria-describedby]="
-                        isFieldInvalidAccount('email')
-                            ? 'email-error'
-                            : null
+                        isFieldInvalidAccount('email') ? 'email-error' : null
                     "
                     aria-required="true"
                 />
@@ -310,7 +330,10 @@
             </div>
             <div class="form-group mb-3">
                 <label for="phone">
-                    <b>{{'MY_ACCOUNT.ACCOUNT.FORM.PHONE.LABEL' | translate}}<span class="text-danger">*</span></b>
+                    <b
+                        >{{ 'MY_ACCOUNT.ACCOUNT.FORM.PHONE.LABEL' | translate
+                        }}<span class="text-danger">*</span></b
+                    >
                 </label>
                 <p-inputMask
                     id="phone-input"
@@ -325,19 +348,14 @@
                         (isFieldValidAccount('phone')
                             ? ' form-input--valid'
                             : '') +
-                        (phone?.touched
-                            ? ' form-input--focused'
-                            : '')
+                        (phone?.touched ? ' form-input--focused' : '')
                     "
                     [attr.aria-invalid]="isFieldInvalidAccount('phone')"
                     [attr.aria-describedby]="
-                        isFieldInvalidAccount('phone')
-                            ? 'phone-error'
-                            : null
+                        isFieldInvalidAccount('phone') ? 'phone-error' : null
                     "
                     [ariaLabel]="
-                        'MY_ACCOUNT.ACCOUNT.FORM.PHONE.LABEL'
-                            | translate
+                        'MY_ACCOUNT.ACCOUNT.FORM.PHONE.LABEL' | translate
                     "
                 />
                 @if (fieldErrorPhone) {
@@ -354,7 +372,7 @@
                     class="btn btn-hide"
                     (click)="hideFormAccount()"
                 >
-                    {{'COMMON.CANCEL' | translate}}
+                    {{ 'COMMON.CANCEL' | translate }}
                 </button>
             </div>
             <div>
@@ -364,7 +382,7 @@
                     (click)="handleUpdateAccount()"
                     [disabled]="accountForm.invalid"
                 >
-                    {{'COMMON.SAVE' | translate}}
+                    {{ 'COMMON.SAVE' | translate }}
                 </button>
             </div>
         </div>

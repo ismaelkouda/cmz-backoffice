@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+
 import { NewsRepository } from '../../domain/repositories/news.repository';
 
 @Injectable({

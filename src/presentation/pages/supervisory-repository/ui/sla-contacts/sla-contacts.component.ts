@@ -3,13 +3,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
+
 import { BreadcrumbComponent } from '../../../../../shared/components/breadcrumb/breadcrumb.component';
-import { SlaContactsInterface } from '../../data-access/sla-contacts/interfaces/sla-contacts.interface';
-import { SlaContactsApiService } from '../../data-access/sla-contacts/services/sla-contacts-api.service';
 import {
     SLA_CONTACTS_FORM_MODE_ENUM,
     T_SLA_CONTACTS_FORM_MODE_ENUM,
-} from './../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
+} from '../../data-access/sla-contacts/enums/sla-contacts-form-mode.enum';
+import { SlaContactsInterface } from '../../data-access/sla-contacts/interfaces/sla-contacts.interface';
+import { SlaContactsApiService } from '../../data-access/sla-contacts/services/sla-contacts-api.service';
 
 @Component({
     selector: 'app-sla-contacts',

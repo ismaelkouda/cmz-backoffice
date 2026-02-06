@@ -1,4 +1,4 @@
-import { DepartmentsFilterDto } from "../../../application/dtos/departments/departments-filter.dto";
+import { DepartmentsFilterDto } from '@presentation/pages/administrative-boundary/core/application/dtos/departments/departments-filter.dto';
 
 export class DepartmentsFilter {
     private constructor(
@@ -7,10 +7,12 @@ export class DepartmentsFilter {
         readonly municipalityCode?: string,
         readonly isActive?: boolean,
         readonly startDate?: string,
-        readonly endDate?: string,
-    ) { }
+        readonly endDate?: string
+    ) {}
 
-    static create(data: DepartmentsFilterDto | null = {} as DepartmentsFilterDto): DepartmentsFilter {
+    static create(
+        data: DepartmentsFilterDto | null = {} as DepartmentsFilterDto
+    ): DepartmentsFilter {
         if (data?.startDate && data.endDate) {
             if (new Date(data.startDate) > new Date(data.endDate)) {
                 throw new Error('Invalid date range');
@@ -22,7 +24,7 @@ export class DepartmentsFilter {
             data?.municipalityCode,
             data?.isActive,
             data?.startDate,
-            data?.endDate,
+            data?.endDate
         );
     }
 }

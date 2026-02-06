@@ -1,4 +1,4 @@
-import { MunicipalitiesItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/municipalities/municipalities-response-api.dto";
+import { MunicipalitiesItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/municipalities/municipalities-response-api.dto';
 
 export class MunicipalitiesEntity {
     constructor(
@@ -13,8 +13,8 @@ export class MunicipalitiesEntity {
         public createdBy: string,
         public updatedBy: string,
         public createdAt: string,
-        public updatedAt: string,
-    ) { }
+        public updatedAt: string
+    ) {}
 
     static fromDto(dto: MunicipalitiesItemApiDto): MunicipalitiesEntity {
         return new MunicipalitiesEntity(

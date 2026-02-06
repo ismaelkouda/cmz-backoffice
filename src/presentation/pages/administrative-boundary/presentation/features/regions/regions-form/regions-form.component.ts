@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-    Component,
-    computed,
-    effect,
-    inject,
-    Signal
-} from '@angular/core';
+import { Component, computed, effect, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
@@ -16,15 +10,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { REGIONS_ROUTE } from '@presentation/pages/administrative-boundary/administrative-boundary.route';
-import { RegionsFindoneFacade } from '@presentation/pages/administrative-boundary/core/application/services/regions/regions-findone.facade';
-import { RegionsFacade } from '@presentation/pages/administrative-boundary/core/application/services/regions/regions.facade';
-import { RegionsFormControl } from '@presentation/pages/administrative-boundary/core/domain/controls/regions/regions-form.control';
-import { FormValidators } from '@presentation/pages/administrative-boundary/core/domain/validators/form-validators';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
-import { ADMINISTRATIVE_BOUNDARY_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -34,6 +19,17 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map } from 'rxjs';
 import SweetAlert from 'sweetalert2';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { ADMINISTRATIVE_BOUNDARY_ROUTE } from '@shared/routes/routes';
+
+import { REGIONS_ROUTE } from '@presentation/pages/administrative-boundary/administrative-boundary.route';
+import { RegionsFindoneFacade } from '@presentation/pages/administrative-boundary/core/application/services/regions/regions-findone.facade';
+import { RegionsFacade } from '@presentation/pages/administrative-boundary/core/application/services/regions/regions.facade';
+import { RegionsFormControl } from '@presentation/pages/administrative-boundary/core/domain/controls/regions/regions-form.control';
+import { FormValidators } from '@presentation/pages/administrative-boundary/core/domain/validators/form-validators';
 
 @Component({
     selector: 'app-regions-form',
@@ -64,41 +60,44 @@ export class RegionsFormComponent {
     private readonly translate = inject(TranslateService);
     private readonly messageService = inject(MessageService);
     public readonly VALIDATION = FormValidators;
-    readonly currentRegion = toSignal(this.findOneFacade.item$, { initialValue: null });
+    readonly currentRegion = toSignal(this.findOneFacade.item$, {
+        initialValue: null,
+    });
     private readonly paramsCode: Signal<string> = toSignal(
-        this.route.queryParams.pipe(map(params => params['code'])),
+        this.route.queryParams.pipe(map((params) => params['code'])),
         { initialValue: '' }
     );
     readonly isEditMode = computed(() => !!this.paramsCode());
-    public form: FormGroup<RegionsFormControl> = this.fb.nonNullable.group<RegionsFormControl>({
-        code: new FormControl('', {
-            nonNullable: true,
-            validators: [
-                Validators.required,
-                Validators.minLength(FormValidators.CODE.MIN),
-                Validators.maxLength(FormValidators.CODE.MAX),
-                Validators.pattern(FormValidators.CODE.PATTERN),
-            ],
-        }),
-        name: new FormControl('', {
-            nonNullable: true,
-            validators: [
-                Validators.required,
-                Validators.minLength(FormValidators.NAME.MIN),
-                Validators.maxLength(FormValidators.NAME.MAX),
-                Validators.pattern(FormValidators.NAME.PATTERN),
-            ],
-        }),
-        description: new FormControl('', {
-            nonNullable: true,
-            validators: [
-                Validators.required,
-                Validators.minLength(FormValidators.DESCRIPTION.MIN),
-                Validators.maxLength(FormValidators.DESCRIPTION.MAX),
-                Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
-            ],
-        }),
-    });
+    public form: FormGroup<RegionsFormControl> =
+        this.fb.nonNullable.group<RegionsFormControl>({
+            code: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.CODE.MIN),
+                    Validators.maxLength(FormValidators.CODE.MAX),
+                    Validators.pattern(FormValidators.CODE.PATTERN),
+                ],
+            }),
+            name: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.NAME.MIN),
+                    Validators.maxLength(FormValidators.NAME.MAX),
+                    Validators.pattern(FormValidators.NAME.PATTERN),
+                ],
+            }),
+            description: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.DESCRIPTION.MIN),
+                    Validators.maxLength(FormValidators.DESCRIPTION.MAX),
+                    Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
+                ],
+            }),
+        });
 
     constructor() {
         effect(() => {
@@ -126,7 +125,9 @@ export class RegionsFormComponent {
 
     public getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
-        if (!control || !control.errors) return '';
+        if (!control || !control.errors) {
+            return '';
+        }
 
         const errors = control.errors;
         if (errors['minlength']) {
@@ -136,9 +137,13 @@ export class RegionsFormComponent {
             return `${this.translate.instant('ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;
         }
         if (errors['pattern']) {
-            return this.translate.instant('ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.VALIDATION.INVALID_FORMAT');
+            return this.translate.instant(
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.VALIDATION.INVALID_FORMAT'
+            );
         }
-        return this.translate.instant('ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.VALIDATION.INVALID_INPUT');
+        return this.translate.instant(
+            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.VALIDATION.INVALID_INPUT'
+        );
     }
 
     onSubmit(): void {
@@ -161,13 +166,13 @@ export class RegionsFormComponent {
                 const id: string = this.paramsCode();
                 if (this.isEditMode() && id) {
                     this.facade.update({ id, ...formData }).subscribe(() => {
-                        this.onCancel()
-                        this.facade.refreshWithLastFilterAndPage()
+                        this.onCancel();
+                        this.facade.refreshWithLastFilterAndPage();
                     });
                 } else {
                     this.facade.create(formData).subscribe(() => {
-                        this.onCancel()
-                        this.facade.refreshWithLastFilterAndPage()
+                        this.onCancel();
+                        this.facade.refreshWithLastFilterAndPage();
                     });
                 }
             }
@@ -175,11 +180,15 @@ export class RegionsFormComponent {
     }
 
     private getSweetAlertTitle(): string {
-        return this.isEditMode() ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE_UPDATE' : 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE_CREATE';
+        return this.isEditMode()
+            ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE_UPDATE'
+            : 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE_CREATE';
     }
 
     private getSweetAlertMessage(): string {
-        return this.isEditMode() ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE_UPDATE' : 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE_CREATE';
+        return this.isEditMode()
+            ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE_UPDATE'
+            : 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE_CREATE';
     }
 
     private showValidationErrors(): void {
@@ -205,6 +214,8 @@ export class RegionsFormComponent {
     }
 
     onCancel(): void {
-        this.router.navigate([ADMINISTRATIVE_BOUNDARY_ROUTE + '/' + REGIONS_ROUTE]);
+        this.router.navigate([
+            ADMINISTRATIVE_BOUNDARY_ROUTE + '/' + REGIONS_ROUTE,
+        ]);
     }
 }

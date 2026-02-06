@@ -1,6 +1,9 @@
 import { inject, Provider } from '@angular/core';
+
 import { EnvService } from '@shared/services/env.service';
+
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '../infrastructure/api/administrative-boundary.config';
+
 import { provideDepartmentsFindone } from './departments/departments-findone.providers';
 import { departmentsSelectProviders } from './departments/departments-select.providers';
 import { provideDepartments } from './departments/departments.providers';

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
@@ -14,12 +15,14 @@ export class TelecomOperatorMapper {
     ]);
 
     mapToEnum(dto: TelecomOperatorDto | null | undefined): TelecomOperator {
-        return TelecomOperatorMapper.MAP.get(dto ?? TelecomOperatorDto.UNKNOWN)
-            ?? TelecomOperator.UNKNOWN;
+        return (
+            TelecomOperatorMapper.MAP.get(dto ?? TelecomOperatorDto.UNKNOWN) ??
+            TelecomOperator.UNKNOWN
+        );
     }
 
-    mapStringToEnum(dtoValue: Array<TelecomOperatorDto>): Array<TelecomOperator> {
-        if (dtoValue == null) {
+    mapStringToEnum(dtoValue: TelecomOperatorDto[]): TelecomOperator[] {
+        if (dtoValue === null || dtoValue === undefined) {
             return [TelecomOperator.UNKNOWN];
         }
         if (!Array.isArray(dtoValue)) {

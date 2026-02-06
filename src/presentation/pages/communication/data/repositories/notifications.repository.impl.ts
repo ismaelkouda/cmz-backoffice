@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, catchError, map, throwError } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { NotificationsMapper } from '@presentation/pages/communication/data/mappers/notifications.mapper';
 import { NotificationsApi } from '@presentation/pages/communication/data/sources/notifications.api';
 import { NotificationsRepository } from '@presentation/pages/communication/domain/repositories/notifications.repository';
 import { NotificationsFilter } from '@presentation/pages/communication/domain/value-objects/notifications-filter.vo';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { Observable, catchError, map, throwError } from 'rxjs';
+
 import { NotificationsEntity } from '../../domain/entities/notifications.entity';
 
 @Injectable({ providedIn: 'root' })

@@ -1,7 +1,10 @@
 import { inject, Injectable } from '@angular/core';
+
 import { shouldFetch } from '@shared/application/base/facade.utils';
 import { ObjectBaseFacade } from '@shared/application/base/object-base-facade';
 import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { EndPointType } from '@shared/domain/types/end-point.types';
+
 import { DetailsEntity } from '../domain/entities/details/details.entity';
 import { FetchDetailsUseCase } from '../domain/use-cases/details.use-case';
 import { DetailsFilter } from '../domain/value-objects/details-filter.vo';
@@ -9,7 +12,10 @@ import { DetailsFilter } from '../domain/value-objects/details-filter.vo';
 @Injectable({
     providedIn: 'root',
 })
-export class DetailsFacade extends ObjectBaseFacade<DetailsEntity, DetailsFilter> {
+export class DetailsFacade extends ObjectBaseFacade<
+    DetailsEntity,
+    DetailsFilter
+> {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly fetchUseCase = inject(FetchDetailsUseCase);
 
@@ -21,9 +27,23 @@ export class DetailsFacade extends ObjectBaseFacade<DetailsEntity, DetailsFilter
 
     fetchDetails(id: string, endPointType?: EndPointType): void {
         const filter = DetailsFilter.create(id);
-        const hasData = this.itemsSubject.getValue() != null;
-        if (!shouldFetch(false, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
+        const hasData = this.itemsSubject.getValue() !== null;
+        if (
+            !shouldFetch(
+                false,
+                hasData,
+                this.lastFetchTimestamp,
+                this.STALE_TIME
+            )
+        ) {
+            return;
+        }
 
-        this.fetchWithFilter(filter, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService, endPointType);
+        this.fetchWithFilter(
+            filter,
+            this.fetchUseCase.execute.bind(this.fetchUseCase),
+            this.uiFeedbackService,
+            endPointType
+        );
     }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { SlideEntity } from '../../domain/entities/slide.entity';
 import { SlideRepository } from '../../domain/repositories/slide.repository';
 

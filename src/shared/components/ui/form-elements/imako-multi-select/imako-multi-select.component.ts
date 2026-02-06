@@ -1,22 +1,38 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, input, signal } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    signal,
+} from '@angular/core';
+import {
+    ControlValueAccessor,
+    FormControl,
+    NG_VALUE_ACCESSOR,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
-    selector: 'imako-multi-select',
+    selector: 'app-imako-multi-select',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MultiSelectModule, TranslateModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MultiSelectModule,
+        TranslateModule,
+    ],
     templateUrl: './imako-multi-select.component.html',
     styleUrls: ['./imako-multi-select.component.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ImakoMultiSelectComponent),
-            multi: true
-        }
-    ]
+            useExisting: ImakoMultiSelectComponent,
+            multi: true,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImakoMultiSelectComponent implements ControlValueAccessor {
     public readonly label = input<string>('');
@@ -32,8 +48,8 @@ export class ImakoMultiSelectComponent implements ControlValueAccessor {
 
     protected readonly value = signal<any>('');
 
-    onChange: any = () => { };
-    onTouch: any = () => { };
+    protected onChange!: (value: any) => void;
+    protected onTouch!: () => void;
 
     writeValue(value: any): void {
         this.value.set(value);

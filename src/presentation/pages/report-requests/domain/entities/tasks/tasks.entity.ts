@@ -19,7 +19,7 @@ export class TasksEntity implements Tasks {
         public readonly source: ReportSource,
         public readonly initiatorPhoneNumber: string,
         public readonly reportedAt: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<Tasks>): TasksEntity {
         return new TasksEntity(

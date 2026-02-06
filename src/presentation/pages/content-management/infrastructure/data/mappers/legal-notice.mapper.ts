@@ -1,9 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { LegalNoticeItemDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/legal-notice-response.dto';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';
+
 import { ActionDropdownDto } from '@shared/data/dtos/action-dropdown.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+
+import { LegalNoticeItemDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/legal-notice-response.dto';
+import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';
 
 @Injectable({
     providedIn: 'root',

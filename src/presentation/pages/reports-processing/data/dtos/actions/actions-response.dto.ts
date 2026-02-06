@@ -23,5 +23,4 @@ export interface ActionsItemDto {
     updatedAt: string;
 }
 
-export interface ActionsResponseDto
-    extends PaginatedResponseDto<ActionsItemDto> {}
+export type ActionsResponseDto = PaginatedResponseDto<ActionsItemDto>;

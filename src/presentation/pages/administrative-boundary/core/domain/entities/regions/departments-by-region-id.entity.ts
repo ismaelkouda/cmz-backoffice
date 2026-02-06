@@ -1,4 +1,4 @@
-import { DepartmentsByRegionIdItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/departments-by-region-id-response-api.dto";
+import { DepartmentsByRegionIdItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/departments-by-region-id-response-api.dto';
 
 export class DepartmentsByRegionIdEntity {
     constructor(
@@ -13,9 +13,11 @@ export class DepartmentsByRegionIdEntity {
         public readonly updatedBy: string,
         public readonly createdAt: string,
         public readonly updatedAt: string
-    ) { }
+    ) {}
 
-    static fromDto(dto: DepartmentsByRegionIdItemApiDto): DepartmentsByRegionIdEntity {
+    static fromDto(
+        dto: DepartmentsByRegionIdItemApiDto
+    ): DepartmentsByRegionIdEntity {
         return new DepartmentsByRegionIdEntity(
             dto.id,
             dto.name,
@@ -31,7 +33,9 @@ export class DepartmentsByRegionIdEntity {
         );
     }
 
-    public with(dto: DepartmentsByRegionIdItemApiDto): DepartmentsByRegionIdEntity {
+    public with(
+        dto: DepartmentsByRegionIdItemApiDto
+    ): DepartmentsByRegionIdEntity {
         if (this.updatedAt === dto.updated_at) {
             return this;
         }

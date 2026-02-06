@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { Observable } from 'rxjs';
+
+import { Paginate } from '@shared/data/dtos/simple-response.dto';
+
 import { SlideEntity } from '../../domain/entities/slide.entity';
 import { SlideRepository } from '../../domain/repositories/slide.repository';
 import { SlideFilter } from '../../domain/value-objects/slide-filter.vo';

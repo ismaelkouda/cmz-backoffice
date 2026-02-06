@@ -3,10 +3,11 @@ import {
     ChangeDetectionStrategy,
     Component,
     input,
-    output
+    output,
 } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
 @Component({
@@ -178,16 +179,32 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 margin: 0;
 
                 &:hover:not(:disabled) {
-                    background: color-mix(in srgb, var(--theme-default) 30%, transparent);
-                    border-color: color-mix(in srgb, var(--theme-default) 30%, transparent);
+                    background: color-mix(
+                        in srgb,
+                        var(--theme-default) 30%,
+                        transparent
+                    );
+                    border-color: color-mix(
+                        in srgb,
+                        var(--theme-default) 30%,
+                        transparent
+                    );
                     color: #ffffff;
                     transform: translateY(-1px);
                     box-shadow: 0 2px 8px var(--theme-default);
                 }
 
                 &:active:not(:disabled) {
-                    background: color-mix(in srgb, var(--theme-default) 70%, transparent);
-                    border-color: color-mix(in srgb, var(--theme-default) 70%, transparent);
+                    background: color-mix(
+                        in srgb,
+                        var(--theme-default) 70%,
+                        transparent
+                    );
+                    border-color: color-mix(
+                        in srgb,
+                        var(--theme-default) 70%,
+                        transparent
+                    );
                     transform: translateY(0);
                     box-shadow: inset 0 2px 4px var(--theme-default);
                 }
@@ -363,29 +380,29 @@ export class HomeActionDropdownComponent {
     public readonly status = input.required<ActionDropdown>();
     public readonly actionDropdown = ActionDropdown;
 
-    public readonly edit = output<void>();
-    public readonly view = output<void>();
-    public readonly enable = output<void>();
-    public readonly disable = output<void>();
-    public readonly delete = output<void>();
+    public readonly edit = output<undefined>();
+    public readonly view = output<undefined>();
+    public readonly enable = output<undefined>();
+    public readonly disable = output<undefined>();
+    public readonly delete = output<undefined>();
 
     onEdit(): void {
-        this.edit.emit();
+        this.edit.emit(undefined);
     }
 
     onView(): void {
-        this.view.emit();
+        this.view.emit(undefined);
     }
 
     onEnable(): void {
-        this.enable.emit();
+        this.enable.emit(undefined);
     }
 
     onDisable(): void {
-        this.disable.emit();
+        this.disable.emit(undefined);
     }
 
     onDelete(): void {
-        this.delete.emit();
+        this.delete.emit(undefined);
     }
 }

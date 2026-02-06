@@ -10,13 +10,15 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AllTableMapper } from '@presentation/pages/report-requests/data/mappers/all-table.mapper';
-import { ALL_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/all/all-table.constants';
-import {
-    AllEntity,
-    ReportStatus,
-} from '@presentation/pages/report-requests/domain/entities/all/all.entity';
-import { AllTableVM } from '@presentation/pages/report-requests/domain/view-models/all-table.vm';
+import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
@@ -27,14 +29,14 @@ import {
     TableConfig,
     TableExportExcelFileService,
 } from '@shared/services/table-export-excel-file.service';
-import { ClipboardService } from 'ngx-clipboard';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+
+import { AllTableMapper } from '@presentation/pages/report-requests/data/mappers/all-table.mapper';
+import { ALL_TABLE_CONST } from '@presentation/pages/report-requests/domain/constants/all/all-table.constants';
+import {
+    AllEntity,
+    ReportStatus,
+} from '@presentation/pages/report-requests/domain/entities/all/all.entity';
+import { AllTableVM } from '@presentation/pages/report-requests/domain/view-models/all-table.vm';
 
 @Component({
     selector: 'app-table-all',
@@ -128,6 +130,7 @@ export class TableAllComponent implements OnDestroy {
     }
 
     public onActionClicked(item: AllEntity): void {
+        console.log('item', item);
         this.treatmentRequested.emit(item);
     }
 
@@ -145,7 +148,9 @@ export class TableAllComponent implements OnDestroy {
     }
 
     formatDate(value: string): string {
-        if (!value) return '-';
+        if (!value) {
+            return '-';
+        }
         try {
             const normalized = value.includes('T')
                 ? value
@@ -185,6 +190,8 @@ export class TableAllComponent implements OnDestroy {
             [ReportStatus.APPROVED]: 'success',
             [ReportStatus.REJECTED]: 'danger',
             [ReportStatus.CONFIRMED]: 'contrast',
+            [ReportStatus.IN_PROGRESS]: 'Warn',
+            [ReportStatus.TERMINATED]: 'info',
             [ReportStatus.UNKNOWN]: 'dark',
         };
         return severityMap[status] ?? 'secondary';
@@ -215,14 +222,15 @@ type StatusTagSeverity =
     | 'danger'
     | 'secondary'
     | 'contrast'
-    | 'dark';
+    | 'dark'
+    | 'Warn';
 type OperatorTagSeverity =
     | 'rgb(241, 110, 0)'
     | 'rgb(255, 203, 5)'
     | 'rgb(0, 91, 164)'
     | 'rgba(var(--theme-default-rgb), 0.8)';
 type operatorTextStyle = '#212121' | '#ffffff';
-type OperatorTagStyle = {
+interface OperatorTagStyle {
     backgroundColor: OperatorTagSeverity;
     color: operatorTextStyle;
-};
+}

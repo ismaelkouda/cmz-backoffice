@@ -1,4 +1,4 @@
-import { MunicipalitiesFindoneItemApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/municipalities/municipalities-findone-response-api.dto";
+import { MunicipalitiesFindoneItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/municipalities/municipalities-findone-response-api.dto';
 
 export class MunicipalitiesFindoneEntity {
     constructor(
@@ -13,10 +13,12 @@ export class MunicipalitiesFindoneEntity {
         public readonly createdBy: string,
         public readonly updatedBy: string,
         public readonly createdAt: string,
-        public readonly updatedAt: string,
-    ) { }
+        public readonly updatedAt: string
+    ) {}
 
-    static fromDto(dto: MunicipalitiesFindoneItemApiDto): MunicipalitiesFindoneEntity {
+    static fromDto(
+        dto: MunicipalitiesFindoneItemApiDto
+    ): MunicipalitiesFindoneEntity {
         return new MunicipalitiesFindoneEntity(
             dto.id,
             dto.name,
@@ -33,7 +35,9 @@ export class MunicipalitiesFindoneEntity {
         );
     }
 
-    public with(dto: MunicipalitiesFindoneItemApiDto): MunicipalitiesFindoneEntity {
+    public with(
+        dto: MunicipalitiesFindoneItemApiDto
+    ): MunicipalitiesFindoneEntity {
         if (this.updatedAt === dto.updated_at) {
             return this;
         }

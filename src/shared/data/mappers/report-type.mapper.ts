@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { ReportTypeDto } from '@shared/data/dtos/report-type.dto';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
@@ -7,7 +8,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 })
 export class ReportTypeMapper {
     mapToEnum(dtoValue: ReportTypeDto): ReportType {
-        if (dtoValue == null) {
+        if (dtoValue === null || dtoValue === undefined) {
             return ReportType.UNKNOWN;
         }
         const methodMap: Record<ReportTypeDto, ReportType> = {
@@ -21,7 +22,7 @@ export class ReportTypeMapper {
     }
 
     mapToDto(enumValue: ReportType): ReportTypeDto {
-        if (enumValue == null) {
+        if (enumValue === null || enumValue === undefined) {
             return ReportTypeDto.UNKNOWN;
         }
         const mapping: Record<ReportType, ReportTypeDto> = {

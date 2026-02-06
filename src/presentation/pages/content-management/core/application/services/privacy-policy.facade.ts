@@ -1,4 +1,14 @@
 import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { BaseFacade } from '@shared/application/base/base-facade';
+import {
+    handleObservableWithFeedback,
+    shouldFetch,
+} from '@shared/application/base/facade.utils';
+import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+
 import { CreatePrivacyPolicyUseCase } from '@presentation/pages/content-management/core/application/use-cases/privacy-policy/create-privacy-policy.use-case';
 import { DeletePrivacyPolicyUseCase } from '@presentation/pages/content-management/core/application/use-cases/privacy-policy/delete-privacy-policy.use-case';
 import { GetPrivacyPolicyByIdUseCase } from '@presentation/pages/content-management/core/application/use-cases/privacy-policy/get-privacy-policy-by-id.use-case';
@@ -8,17 +18,16 @@ import { UnpublishPrivacyPolicyUseCase } from '@presentation/pages/content-manag
 import { UpdatePrivacyPolicyUseCase } from '@presentation/pages/content-management/core/application/use-cases/privacy-policy/update-privacy-policy.use-case';
 import { PrivacyPolicyEntity } from '@presentation/pages/content-management/core/domain/entities/privacy-policy.entity';
 import { PrivacyPolicyFilter } from '@presentation/pages/content-management/core/domain/value-objects/privacy-policy-filter.vo';
-import { BaseFacade } from '@shared/application/base/base-facade';
-import { handleObservableWithFeedback, shouldFetch } from '@shared/application/base/facade.utils';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
-import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
-import { Observable } from 'rxjs';
+
 import { GetPrivacyPolicyByIdEntity } from '../../domain/entities/get-privacy-policy-by-id.entity';
 
 @Injectable({
     providedIn: 'root',
 })
-export class PrivacyPolicyFacade extends BaseFacade<PrivacyPolicyEntity, PrivacyPolicyFilter> {
+export class PrivacyPolicyFacade extends BaseFacade<
+    PrivacyPolicyEntity,
+    PrivacyPolicyFilter
+> {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly fetchUseCase = inject(FetchPrivacyPolicyUseCase);
     private readonly createUseCase = inject(CreatePrivacyPolicyUseCase);
@@ -34,15 +43,41 @@ export class PrivacyPolicyFacade extends BaseFacade<PrivacyPolicyEntity, Privacy
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    private handleActionWithRefresh<T>(observable: Observable<T>, successKey: string): Observable<T> {
-        return handleObservableWithFeedback(observable, this.uiFeedbackService, successKey, () => this.refresh());
+    private handleActionWithRefresh<T>(
+        observable: Observable<T>,
+        successKey: string
+    ): Observable<T> {
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedbackService,
+            successKey,
+            () => this.refresh()
+        );
     }
 
-    fetchPrivacyPolicy(filter: PrivacyPolicyFilter, page: string = PAGINATION_CONST.DEFAULT_PAGE, forceRefresh: boolean = false): void {
+    fetchPrivacyPolicy(
+        filter: PrivacyPolicyFilter,
+        page: string = PAGINATION_CONST.DEFAULT_PAGE,
+        forceRefresh = false
+    ): void {
         const hasData = this.itemsSubject.getValue().length > 0;
-        if (!shouldFetch(forceRefresh, hasData, this.lastFetchTimestamp, this.STALE_TIME)) return;
+        if (
+            !shouldFetch(
+                forceRefresh,
+                hasData,
+                this.lastFetchTimestamp,
+                this.STALE_TIME
+            )
+        ) {
+            return;
+        }
 
-        this.fetchWithFilterAndPage(filter, page, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            filter,
+            page,
+            this.fetchUseCase.execute.bind(this.fetchUseCase),
+            this.uiFeedbackService
+        );
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -54,16 +89,28 @@ export class PrivacyPolicyFacade extends BaseFacade<PrivacyPolicyEntity, Privacy
         const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
         this.pageSubject.next(firstPage);
 
-        this.fetchWithFilterAndPage(null, firstPage, this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            null,
+            firstPage,
+            this.fetchUseCase.execute.bind(this.fetchUseCase),
+            this.uiFeedbackService
+        );
 
         this.lastFetchTimestamp = Date.now();
     }
 
     changePage(pageNumber: number): void {
         const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) return;
+        if (!currentFilter) {
+            return;
+        }
 
-        this.fetchWithFilterAndPage(currentFilter, String(pageNumber), this.fetchUseCase.execute.bind(this.fetchUseCase), this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            currentFilter,
+            String(pageNumber),
+            this.fetchUseCase.execute.bind(this.fetchUseCase),
+            this.uiFeedbackService
+        );
 
         this.lastFetchTimestamp = Date.now();
     }
@@ -73,23 +120,38 @@ export class PrivacyPolicyFacade extends BaseFacade<PrivacyPolicyEntity, Privacy
     }
 
     create(payload: FormData) {
-        return this.handleActionWithRefresh(this.createUseCase.execute(payload), 'COMMON.SUCCESS.CREATE');
+        return this.handleActionWithRefresh(
+            this.createUseCase.execute(payload),
+            'COMMON.SUCCESS.CREATE'
+        );
     }
 
     update(id: string, payload: FormData) {
-        return this.handleActionWithRefresh(this.updateUseCase.execute({ id, params: payload }), 'COMMON.SUCCESS.UPDATE');
+        return this.handleActionWithRefresh(
+            this.updateUseCase.execute({ id, params: payload }),
+            'COMMON.SUCCESS.UPDATE'
+        );
     }
 
     delete(id: string) {
-        return this.handleActionWithRefresh(this.deleteUseCase.execute(id), 'COMMON.SUCCESS.DELETE');
+        return this.handleActionWithRefresh(
+            this.deleteUseCase.execute(id),
+            'COMMON.SUCCESS.DELETE'
+        );
     }
 
     publish(id: string) {
-        return this.handleActionWithRefresh(this.publishUseCase.execute(id), 'COMMON.SUCCESS.PUBLISH');
+        return this.handleActionWithRefresh(
+            this.publishUseCase.execute(id),
+            'COMMON.SUCCESS.PUBLISH'
+        );
     }
 
     unpublish(id: string) {
-        return this.handleActionWithRefresh(this.unpublishUseCase.execute(id), 'COMMON.SUCCESS.UNPUBLISH');
+        return this.handleActionWithRefresh(
+            this.unpublishUseCase.execute(id),
+            'COMMON.SUCCESS.UNPUBLISH'
+        );
     }
 
     resetMemory(): void {

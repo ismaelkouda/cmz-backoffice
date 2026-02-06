@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { TasksEntity } from '@presentation/pages/report-requests/domain/entities/tasks/tasks.entity';
 import { TasksTableVM } from '@presentation/pages/report-requests/domain/view-models/tasks-table.vm';
 
 @Injectable({ providedIn: 'root' })
 export class TasksTableMapper {
-    constructor(private translate: TranslateService) { }
+    constructor(private translate: TranslateService) {}
 
     toVM(entity: TasksEntity): TasksTableVM {
         return {

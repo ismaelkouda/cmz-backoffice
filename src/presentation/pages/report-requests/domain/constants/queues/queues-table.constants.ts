@@ -1,4 +1,18 @@
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 2.3);
+    return `${width}rem`;
+}
+
 export const QUEUES_TABLE_CONST = {
+    actions: [
+        {
+            id: 'take',
+            icon: 'pi pi-window-maximize',
+            tooltip: 'REPORTS_REQUESTS.QUEUES.TABLE.TAKE',
+            severity: 'primary',
+        },
+    ],
+
     cols: [
         {
             field: '__index',
@@ -10,41 +24,41 @@ export const QUEUES_TABLE_CONST = {
             field: 'uniqId',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.UNIQ_ID',
             class: 'text-center',
-            width: '8rem',
+            width: '7rem',
         },
         {
             field: 'reportType',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.REPORT_TYPE',
-            width: '11rem',
+            width: '8rem',
         },
         {
             field: 'operators',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.OPERATORS',
-            width: '12rem',
+            width: '7rem',
         },
         {
             field: 'source',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.SOURCE',
-            width: '12rem',
+            width: '7rem',
         },
         {
             field: 'reportedAt',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.CREATED_AT',
             class: 'text-center',
-            width: '8rem',
+            width: '6rem',
         },
         {
             field: '__action',
             header: 'REPORTS_REQUESTS.QUEUES.TABLE.ACTION',
             class: 'text-center',
-            width: '1rem',
+            width: calculateActionColumnWidth(1),
         },
     ],
     globalFilterFields: [
         'uniqId',
-        'reportTypeLabel',
-        'operatorsLabels',
-        'sourceLabel',
+        'reportType',
+        'operators',
+        'source',
         'reportedAt',
     ],
 };

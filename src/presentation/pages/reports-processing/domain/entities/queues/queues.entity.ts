@@ -19,7 +19,7 @@ export class QueuesEntity implements Queues {
         public readonly source: ReportSource,
         public readonly initiatorPhoneNumber: string,
         public readonly reportedAt: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<Queues>): QueuesEntity {
         return new QueuesEntity(

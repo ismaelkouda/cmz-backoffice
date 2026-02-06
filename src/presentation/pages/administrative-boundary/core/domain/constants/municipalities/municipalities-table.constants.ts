@@ -9,12 +9,17 @@ export const MUNICIPALITIES_TABLE_CONST = {
         {
             field: 'code',
             header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TABLE.CODE',
-            width: '6rem',
+            width: '5rem',
         },
         {
             field: 'name',
             header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TABLE.NAME',
-            width: '17rem',
+            width: '10rem',
+        },
+        {
+            field: 'department',
+            header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TABLE.DEPARTMENT',
+            width: '10rem',
         },
         {
             field: 'region',
@@ -22,16 +27,11 @@ export const MUNICIPALITIES_TABLE_CONST = {
             width: '12rem',
         },
         {
-            field: 'department',
-            header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TABLE.DEPARTMENT',
-            width: '12rem',
-        },
-        {
             field: 'populationSize',
             header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TABLE.POPULATION_SIZE',
             class: 'text-center',
-            width: '2rem',
-            type: 'number'
+            width: '7rem',
+            type: 'number',
         },
         /*  {
              field: 'description',

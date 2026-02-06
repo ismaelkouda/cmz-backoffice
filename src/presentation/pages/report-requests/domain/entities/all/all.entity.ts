@@ -7,6 +7,8 @@ export enum ReportStatus {
     APPROVED = 'REPORTS_REQUESTS.ALL.STATUS.APPROVED',
     REJECTED = 'REPORTS_REQUESTS.ALL.STATUS.REJECTED',
     ABANDONED = 'REPORTS_REQUESTS.ALL.STATUS.ABANDONED',
+    IN_PROGRESS = 'REPORTS_REQUESTS.ALL.STATUS.IN_PROGRESS',
+    TERMINATED = 'REPORTS_REQUESTS.ALL.STATUS.TERMINATED',
     UNKNOWN = 'REPORTS_REQUESTS.ALL.STATUS.UNKNOWN',
 }
 
@@ -29,7 +31,7 @@ export class AllEntity implements All {
         public readonly initiatorPhoneNumber: string,
         public readonly status: ReportStatus,
         public readonly reportedAt: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<All>): AllEntity {
         return new AllEntity(

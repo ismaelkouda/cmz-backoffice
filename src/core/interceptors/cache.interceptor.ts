@@ -1,7 +1,9 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ConfigurationService } from '@core/services/configuration.service';
 import { of, shareReplay, tap } from 'rxjs';
+
+import { ConfigurationService } from '@core/services/configuration.service';
+
 import {
     isInternalUrl,
     isStaticAssetRequest,
@@ -18,9 +20,15 @@ const inFlight = new Map<string, any>();
 export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     const config = inject(ConfigurationService);
 
-    if (req.method !== 'GET') return next(req);
-    if (isStaticAssetRequest(req.url)) return next(req);
-    if (!isInternalUrl(req.url, config)) return next(req);
+    if (req.method !== 'GET') {
+        return next(req);
+    }
+    if (isStaticAssetRequest(req.url)) {
+        return next(req);
+    }
+    if (!isInternalUrl(req.url, config)) {
+        return next(req);
+    }
 
     if (
         req.url.includes('/auth/') ||
@@ -40,7 +48,9 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     }
 
     const existing$ = inFlight.get(key);
-    if (existing$) return existing$;
+    if (existing$) {
+        return existing$;
+    }
 
     const shared$ = next(req).pipe(
         tap((event) => {

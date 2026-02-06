@@ -16,13 +16,6 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { PRIVACY_POLICY_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-import { PrivacyPolicyFacade } from '@presentation/pages/content-management/core/application/services/privacy-policy.facade';
-import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-privacy-policy-by-id.entity';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
-import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -37,6 +30,15 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
+
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
+import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
+
+import { PRIVACY_POLICY_ROUTE } from '@presentation/pages/content-management/content-management.routes';
+import { PrivacyPolicyFacade } from '@presentation/pages/content-management/core/application/services/privacy-policy.facade';
+import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-privacy-policy-by-id.entity';
 
 @Component({
     selector: 'app-form-privacy-policy',
@@ -186,7 +188,7 @@ export class FormPrivacyPolicyComponent implements OnInit {
     }
 
     private getFieldLabel(fieldName: string): string {
-        const labels: { [key: string]: string } = {
+        const labels: Record<string, string> = {
             content: this.translate.instant(
                 'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.DESCRIPTION'
             ),

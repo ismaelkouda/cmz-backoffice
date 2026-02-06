@@ -6,6 +6,7 @@ import {
     OnDestroy,
     OnInit,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
     AbstractControl,
     FormControl,
@@ -15,12 +16,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { LOGIN } from '@pages/authentication/authentication.routes';
-import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
-import { ResetPasswordFormInterface } from '@pages/password-reset/data/interfaces/reset-password-form.interface';
-import { AUTH } from '@presentation/app.routes';
-import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { PasswordModule } from 'primeng/password';
 import { Subject } from 'rxjs';
 import {
@@ -29,6 +24,15 @@ import {
     map,
     takeUntil,
 } from 'rxjs/operators';
+
+import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
+import { AppCustomizationService } from '@shared/services/app-customization.service';
+
+import { AUTH } from '@presentation/app.routes';
+
+import { LOGIN } from '@pages/authentication/authentication.routes';
+import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
+import { ResetPasswordFormInterface } from '@pages/password-reset/data/interfaces/reset-password-form.interface';
 
 @Component({
     selector: 'app-reset-password',
@@ -61,8 +65,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     private destroy$ = new Subject<void>();
     public readonly config = inject(AppCustomizationService).config;
-    public readonly isResetPasswordLoading$ =
-        this.passwordResetFacade.isResetPasswordLoading$;
+    readonly isResetPasswordLoading = toSignal(
+        this.passwordResetFacade.isResetPasswordLoading$,
+        {
+            initialValue: false,
+        }
+    );
 
     constructor(
         private readonly passwordResetFacade: PasswordResetFacade,

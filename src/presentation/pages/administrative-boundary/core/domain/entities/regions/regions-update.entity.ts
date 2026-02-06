@@ -4,7 +4,7 @@ export class RegionsUpdateEntity {
         public readonly code: string,
         public readonly name: string,
         public readonly description: string
-    ) { }
+    ) {}
 
     public clone(updates: Partial<RegionsUpdateEntity>): RegionsUpdateEntity {
         return new RegionsUpdateEntity(
