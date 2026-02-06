@@ -16,7 +16,7 @@ export function participantsCreateMapper(
         params.email = entity.email;
     }
     if (entity.phone) {
-        params.phone = entity.phone;
+        params.phone_number = entity.phone;
     }
     if (entity.role) {
         params.role = entity.role;

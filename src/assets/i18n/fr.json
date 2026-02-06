@@ -675,6 +675,7 @@
                 "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
                 "POPULATION_SIZE": "# Population",
                 "CREATED_AT": "Créé le",
+                "UPDATED_AT":"Modifié le",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -828,6 +829,7 @@
         "PUBLISHED" : "Publié",
         "UNPUBLISH": "Dépublier",
         "UNPUBLISHED": "Non Publié",
+        "AFFECTED": "Affecté",
         "DISABLE": "Désactiver",
         "DEACTIVATED": "Désactivé",
         "INVALID_DATE_RANGE": "Plage de date invalide",
@@ -838,13 +840,19 @@
         "RESEARCH": "Rechercher",
         "LIST_OF": "Liste des",
         "UPDATED_AT": "Mises à jour au",
+        "SUPERVISOR": "Superviseur",
+        "LEADER": "Chef d'équipe",
+        "AGENT": "Gestionnaire",
         "SUCCESS": {
             "CREATE": "Création reussie",
             "UPDATE": "Mise à jour reussie",
             "DELETE": "Suppression reussie",
             "ENABLE": "Activation reussie",
             "DISABLE": "Désactivation reussie",
-            "READ": "Lecture reussie"
+            "READ": "Lecture reussie",
+            "REASSIGN": "Réassignation reussie",
+            "ASSIGN": "Assignation reussie",
+            "REMOVE": "Retrait reussi"
         },
         "ERROR": {
             "GENERIC": "Une erreur est survenue"
@@ -1102,6 +1110,7 @@
                 "APPROVED": "Approuvé",
                 "REJECTED": "Rejeté",
                 "ABANDONED": "Abandonné",
+                "IN_PROGRESS": "En cours",
                 "TERMINATED": "Terminé",
                 "UNKNOWN": "Inconnu"
             },
@@ -2449,7 +2458,8 @@
                     "EXPAND_ALL": "Dérouler tout",
                     "COLLAPSE_ALL": "Fermer tout",
                     "SELECTED_COUNT": "Nombre de permissions accordées",
-                    "NO_PERMISSIONS_AVAILABLE": "Permission non disponible"
+                    "NO_PERMISSIONS_AVAILABLE": "Permission non disponible",
+                    "TREE_PLACEHOLDER": "Rechercher..."
                 },
                 "VALIDATION": {
                     "MIN_LENGTH": "Minimum caractères requis",
@@ -2578,12 +2588,12 @@
         "ROUTE": "organization",
         "PARTICIPANTS": {
             "BREADCRUMB": {
-                "LABEL": "Intervenants",
+                "LABEL": "Membres",
                 "ROUTE": "participant"
             },
             "TABS": {
                 "PARTICIPANTS": {
-                    "LABEL": "Intervenants",
+                    "LABEL": "Membres",
                     "ROUTE": "participant"
                 },
                 "HISTORY": {
@@ -2591,8 +2601,16 @@
                     "ROUTE": "history"
                 }
             },
-            "TITLE": "Intervenants",
+            "TITLE": "Membres",
             "ROUTE": "participant",
+            "FILTER": {
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Nom et prénoms",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "ROLES": "Rôles",
+                "TEAMS": "Équipes"
+            },
             "TABLE": {
                 "MATRICULE": "Matricule",
                 "LAST_NAME": "Nom",
@@ -2604,14 +2622,8 @@
                 "STATE": "État",
                 "STATUS": "Statut",
                 "CREATED_AT": "Créé le",
+                "UPDATED_AT":"Modifié le",
                 "ACTION": "Action"
-            },
-            "FILTER": {
-                "PROFIL": "Profil",
-                "STATE": "État",
-                "MATRICULE": "Matricule",
-                "SEARCH": "Recherche",
-                "SEARCH_PLACEHOLDER": "Nom et prénoms"
             },
             "FORM": {
                 "CREATE_TITLE": "Ajouter un intervenant",
@@ -2644,6 +2656,18 @@
                     "MATRICULE_PLACEHOLDER": "Ex: 123456",
                     "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de membre",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce membre ?",
+                "TITLE_CREATE": "Création de membre",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce membre ?",
+                "TITLE_DELETE": "Suppression de membre",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet membre ?",
+                "TITLE_ENABLE": "Activation de membre",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet membre ?",
+                "TITLE_DISABLE": "Désactivation de membre",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce membre ?"
             },
             "BUTTONS": {
                 "ADD": "Ajouter"
@@ -2734,14 +2758,44 @@
             "FORM": {
                 "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
                 "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
-                "FIELDSET_GENERAL_INFO": {
-                    "TITLE": "Informations Générales",
-                    "CODE": "Code",
-                    "CODE_PLACEHOLDER": "Ex: TE001",
-                    "NAME": "Nom de l'équipe",
-                    "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
-                    "DESCRIPTION": "Description",
-                    "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
+                "TABS": {
+                    "GENERAL_INFO": {
+                        "TITLE": "Informations Générales",
+                        "FIELDSET_GENERAL_INFO": {
+                            "TITLE": "Informations Générales",
+                            "CODE": "Code",
+                            "CODE_PLACEHOLDER": "Ex: TE001",
+                            "NAME": "Nom de l'équipe",
+                            "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
+                            "DESCRIPTION": "Description",
+                            "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
+                        }
+                    },
+                    "PERMISSIONS": {
+                        "TITLE": "Permissions",
+                        "FIELDSET_REPORT_TYPES": {
+                            "TITLE": "Types de signalements",
+                            "ABI": "Absence d'Internet",
+                            "ZOB": "Zone Blanche",
+                            "CPS": "Couverture Partielle Signal",
+                            "CPO": "Couverture Partielle Operateur"
+                        },
+                        "FIELDSET_OPERATORS": {
+                            "TITLE": "Opérateurs",
+                            "MTN": "MTN",
+                            "ORANGE": "Orange",
+                            "MOOV": "Moov"
+                        },
+                        "FIELDSET_AREA_EXPERTISE": {
+                            "TITLE": "zone de compétences",
+                            "EXPAND_ALL": "Dérouler tout",
+                            "COLLAPSE_ALL": "Fermer tout",
+                            "SELECTED_COUNT": "Nombre de permissions accordées",
+                            "NO_PERMISSIONS_AVAILABLE": "Permission non disponible",
+                            "PERMISSIONS_REQUIRED": "Permissions requises",
+                            "TREE_PLACEHOLDER": "Rechercher..."
+                        }
+                    }
                 },
                 "VALIDATION": {
                     "MIN_LENGTH": "Minimum caractères requis",
@@ -2826,6 +2880,8 @@
                 "MODAL": {
                     "REASSIGN_TITLE": "Réaffectation des intervenants",
                     "REASSIGN_LABEL": "Équipe",
+                    "ASSIGN_TITLE": "Affectation des intervenants",
+                    "ASSIGN_LABEL": "Intervenant",
                     "NEW_PROFILE": "Nouveau profil",
                     "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
                     "REASSIGN_MESSAGE": "{{count}} intervenant(s) seront réaffectés"

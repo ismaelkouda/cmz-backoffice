@@ -8,7 +8,7 @@ export function teamsParticipantsFilterMapper(
         {} as TeamsParticipantsFilterApiDto;
 
     if (vo.uniqId) {
-        params.id = vo.uniqId;
+        params.uniq_id = vo.uniqId;
     }
 
     if (vo.search) {

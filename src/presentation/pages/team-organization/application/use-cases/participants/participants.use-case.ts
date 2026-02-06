@@ -49,8 +49,9 @@ export class ParticipantsUseCase {
         return this.repository.update(entity);
     }
 
-    delete(code: string): Observable<SimpleResponseDto<void>> {
-        return this.repository.delete(code);
+    delete(id: string): Observable<SimpleResponseDto<void>> {
+        console.log('id2', id);
+        return this.repository.delete(id);
     }
 
     enable(id: string): Observable<SimpleResponseDto<void>> {

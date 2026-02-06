@@ -233,9 +233,7 @@
                                                                 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.FORM.FIELDSET_PERMISSIONS.SELECTED_COUNT'
                                                                     | translate
                                                             }}:
-                                                            {{
-                                                                getSelectedPermissionsCount()
-                                                            }}
+                                                            {{ selectedNodes?.length }}
                                                         </span>
                                                     </div>
 
@@ -246,30 +244,16 @@
                                                             permissionTree()
                                                                 .length > 0
                                                         ) {
-                                                            <p-tree
-                                                                [value]="
-                                                                    permissionTree()
-                                                                "
-                                                                selectionMode="checkbox"
-                                                                (onNodeSelect)="
-                                                                    onSelectionChange(
-                                                                        $event
-                                                                    )
-                                                                "
-                                                                (onNodeExpand)="
-                                                                    onNodeExpand(
-                                                                        $event
-                                                                    )
-                                                                "
-                                                                (onNodeCollapse)="
-                                                                    onNodeCollapse(
-                                                                        $event
-                                                                    )
-                                                                "
-                                                                class="w-full"
-                                                                [filter]="false"
-                                                                scrollHeight="400px"
-                                                            >
+                                                            <p-tree [value]="permissionTree()"
+                                                            selectionMode="checkbox"
+                                                            [(selection)]="selectedNodes"
+                                                            (onNodeSelect)="onTreeInteractions()"
+                                                            (onNodeUnselect)="onTreeInteractions()"
+                                                            class="w-full"
+                                                            [filter]="true"
+                                                            [filterPlaceholder]="'SETTINGS_SECURITY.PROFILES_HABILITATIONS.FORM.FIELDSET_PERMISSIONS.TREE_PLACEHOLDER' | translate"
+                                                            scrollHeight="400px"
+                                                        >
                                                                 <ng-template
                                                                     pTemplate="default"
                                                                     let-node

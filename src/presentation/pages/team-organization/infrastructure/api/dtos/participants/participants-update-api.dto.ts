@@ -3,6 +3,6 @@ export interface ParticipantsUpdateApiDto {
     first_name: string;
     last_name: string;
     email: string;
-    phone: string;
+    phone_number: string;
     role: string;
 }

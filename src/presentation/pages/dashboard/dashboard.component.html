@@ -1,8 +1,5 @@
 <div class="dashboard-container">
     <div class="dashboard-header">
-        <!-- <div class="header-left">
-            
-        </div> -->
         <div class="title-section">
             <h1 class="dashboard-title">
                 {{ 'DASHBOARD.TITLE' | translate }}
@@ -137,38 +134,5 @@
                 </div>
             </div>
         </div>
-
-        <!-- <div
-            class="statistics-section"
-            *ngIf="performanceStatistics.length > 0"
-        >
-            <div class="section-header">
-                <div class="section-badge">
-                    {{ 'DASHBOARD.SECTIONS.PERFORMANCE.TITLE' | translate }}
-                </div>
-                <div class="section-indicator"></div>
-            </div>
-            <div class="statistics-grid">
-                <div
-                    *ngFor="let stat of performanceStatistics"
-                    class="stat-card card-{{ stat.color }}"
-                    [class.clickable]="stat.routerFilter"
-                    (click)="navigateToReport(stat)"
-                >
-                    <div class="card-content">
-                        <div class="stat-header">
-                            <div class="stat-value">{{ stat.count }}</div>
-                            <div class="stat-icon-wrapper">
-                                <i class="stat-icon pi {{ stat.icon }}"></i>
-                            </div>
-                        </div>
-                        <div class="stat-label">
-                            {{ stat.label | translate }}
-                        </div>
-                    </div>
-                    <div class="card-decoration"></div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>

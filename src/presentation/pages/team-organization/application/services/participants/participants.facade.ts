@@ -141,20 +141,21 @@ export class ParticipantsFacade extends BaseFacade<
     }
 
     delete(id: string): Observable<any> {
+        console.log('id', id);
         return this.handleActionWithRefresh(
             this.useCase.delete(id),
             'COMMON.SUCCESS.DELETE'
         );
     }
 
-    enable(id: string) {
+    enable(id: string): Observable<any> {
         return this.handleActionWithRefresh(
             this.useCase.enable(id),
             'COMMON.SUCCESS.UPDATE'
         );
     }
 
-    disable(id: string) {
+    disable(id: string): Observable<any> {
         return this.handleActionWithRefresh(
             this.useCase.disable(id),
             'COMMON.SUCCESS.UPDATE'

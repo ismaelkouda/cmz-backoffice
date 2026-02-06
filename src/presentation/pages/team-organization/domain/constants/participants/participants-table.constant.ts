@@ -6,11 +6,11 @@ export const PARTICIPANTS_TABLE_CONSTANT = {
             class: 'text-center',
             width: '2rem',
         },
-        {
-            field: 'matricule',
-            header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.MATRICULE',
-            width: '10rem',
-        },
+        // {
+        //     field: 'matricule',
+        //     header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.MATRICULE',
+        //     width: '10rem',
+        // },
         {
             field: 'lastName',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.LAST_NAME',
@@ -19,7 +19,7 @@ export const PARTICIPANTS_TABLE_CONSTANT = {
         {
             field: 'firstName',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.FIRST_NAME',
-            width: '15rem',
+            width: '12rem',
         },
         {
             field: 'email',
@@ -29,7 +29,8 @@ export const PARTICIPANTS_TABLE_CONSTANT = {
         {
             field: 'phone',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.PHONE',
-            width: '8rem',
+            class: 'text-center',
+            width: '7rem',
         },
         {
             field: 'role',
@@ -52,17 +53,17 @@ export const PARTICIPANTS_TABLE_CONSTANT = {
             field: 'createdAt',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.CREATED_AT',
             class: 'text-center',
-            width: '8rem',
+            width: '7rem',
         },
         {
             field: '__actionDropdown',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.ACTION',
             class: 'text-center',
-            width: '4rem',
+            width: '5rem',
         },
     ],
     globalFilterFields: [
-        'matricule',
+        // 'matricule',
         'lastName',
         'firstName',
         'email',

@@ -21,12 +21,19 @@
                             >
                             </app-page-title>
                         </div>
-                        <p-button
-                            [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="onCancel()"
-                            styleClass="p-button-danger"
-                        >
-                        </p-button>
+                        <div class="d-flex align-items-center gap-2">
+                            <p-button
+                                label="{{ 'COMMON.SAVE' | translate }}"
+                                (onClick)="onSubmit()"
+                                [disabled]="form.invalid || loading()"
+                                [loading]="loading()"
+                            />
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="onCancel()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
                     </header>
 
                     <div class="row">
@@ -38,201 +45,549 @@
                                         [formGroup]="form"
                                         (ngSubmit)="onSubmit()"
                                     >
-                                        <fieldset class="fieldset">
-                                            <legend>
-                                                <b>{{
-                                                    'TEAM_ORGANIZATION.TEAMS.FORM.FIELDSET_GENERAL_INFO.TITLE'
-                                                        | translate
-                                                }}</b>
-                                            </legend>
-                                            <div class="row g-3">
-                                                <div class="col-md-3">
-                                                    <label
-                                                        for="code"
-                                                        class="form-label fw-bold"
-                                                        >{{
-                                                            'TEAM_ORGANIZATION.TEAMS.FORM.FIELDSET_GENERAL_INFO.CODE'
+                                        <p-tabs value="0" class="fade-in mt-0">
+                                            <p-tablist>
+                                                @for (
+                                                    tab of tabs;
+                                                    track tab.value
+                                                ) {
+                                                    <p-tab [value]="tab.value">
+                                                        <i
+                                                            [class]="tab.icon"
+                                                        ></i>
+                                                        <span>{{
+                                                            tab.label
                                                                 | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
+                                                        }}</span>
+                                                    </p-tab>
+                                                }
+                                            </p-tablist>
+                                            <p-tabpanels>
+                                                <p-tabpanel value="0">
+                                                    <fieldset
+                                                        class="fieldset fade-in mt-3"
                                                     >
-                                                    <input
-                                                        class="form-input"
-                                                        id="code"
-                                                        formControlName="code"
-                                                        [placeholder]="
-                                                            'TEAM_ORGANIZATION.TEAMS.FORM.FIELDSET_GENERAL_INFO.CODE_PLACEHOLDER'
-                                                                | translate
-                                                        "
-                                                        [attr.maxlength]="
-                                                            VALIDATION.CODE.MAX
-                                                        "
-                                                    />
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-1"
-                                                    >
-                                                        @if (
-                                                            form.get('code')
-                                                                ?.invalid &&
-                                                            form.get('code')
-                                                                ?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
+                                                        <legend>
+                                                            <b>{{
+                                                                'TEAM_ORGANIZATION.TEAMS.FORM.TABS.GENERAL_INFO.FIELDSET_GENERAL_INFO.TITLE'
+                                                                    | translate
+                                                            }}</b>
+                                                        </legend>
+                                                        <div class="row g-3">
+                                                            <div
+                                                                class="col-md-3"
                                                             >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'code'
-                                                                    )
-                                                                }}
-                                                            </small>
-                                                        }
-                                                        <small
-                                                            class="text-muted"
-                                                        >
-                                                            {{
-                                                                form.get('code')
-                                                                    ?.value?.length
-                                                            }}
-                                                            /
-                                                            {{
-                                                                VALIDATION.CODE.MAX
-                                                            }}
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label
-                                                        for="name"
-                                                        class="form-label fw-bold"
-                                                        >{{
-                                                            'TEAM_ORGANIZATION.TEAMS.FORM.FIELDSET_GENERAL_INFO.NAME'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
-                                                    >
-                                                    <input
-                                                        class="form-input"
-                                                        id="name"
-                                                        formControlName="name"
-                                                        [placeholder]="
-                                                            'TEAM_ORGANIZATION.TEAMS.FORM.FIELDSET_GENERAL_INFO.NAME_PLACEHOLDER'
-                                                                | translate
-                                                        "
-                                                        [attr.maxlength]="
-                                                            VALIDATION.NAME.MAX
-                                                        "
-                                                    />
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-1"
-                                                    >
-                                                        @if (
-                                                            form.get('name')
-                                                                ?.invalid &&
-                                                            form.get('name')
-                                                                ?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'name'
-                                                                    )
-                                                                }}
-                                                            </small>
-                                                        }
-                                                        <small
-                                                            class="text-muted ms-auto"
-                                                        >
-                                                            {{
-                                                                (
-                                                                    form.get(
-                                                                        'name'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
-                                                            }}/{{
-                                                                VALIDATION.NAME
-                                                                    .MAX
-                                                            }}
-                                                        </small>
-                                                    </div>
-                                                </div>
+                                                                <label
+                                                                    for="code"
+                                                                    class="form-label fw-bold"
+                                                                    >{{
+                                                                        'TEAM_ORGANIZATION.TEAMS.FORM.TABS.GENERAL_INFO.FIELDSET_GENERAL_INFO.CODE'
+                                                                            | translate
+                                                                    }}
+                                                                    <span
+                                                                        class="text-danger"
+                                                                        >*</span
+                                                                    ></label
+                                                                >
+                                                                <input
+                                                                    class="form-input"
+                                                                    id="code"
+                                                                    formControlName="code"
+                                                                    [placeholder]="
+                                                                        'TEAM_ORGANIZATION.TEAMS.FORM.TABS.GENERAL_INFO.FIELDSET_GENERAL_INFO.CODE_PLACEHOLDER'
+                                                                            | translate
+                                                                    "
+                                                                    [attr.maxlength]="
+                                                                        VALIDATION
+                                                                            .CODE
+                                                                            .MAX
+                                                                    "
+                                                                />
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mt-1"
+                                                                >
+                                                                    @if (
+                                                                        form.get(
+                                                                            'code'
+                                                                        )
+                                                                            ?.invalid &&
+                                                                        form.get(
+                                                                            'code'
+                                                                        )
+                                                                            ?.touched
+                                                                    ) {
+                                                                        <small
+                                                                            class="text-danger"
+                                                                        >
+                                                                            {{
+                                                                                getErrorMessage(
+                                                                                    'code'
+                                                                                )
+                                                                            }}
+                                                                        </small>
+                                                                    }
+                                                                    <small
+                                                                        class="text-muted"
+                                                                    >
+                                                                        {{
+                                                                            form.get(
+                                                                                'code'
+                                                                            )
+                                                                                ?.value
+                                                                                ?.length
+                                                                        }}
+                                                                        /
+                                                                        {{
+                                                                            VALIDATION
+                                                                                .CODE
+                                                                                .MAX
+                                                                        }}
+                                                                    </small>
+                                                                </div>
+                                                            </div>
 
-                                                <div class="col-md-5">
-                                                    <label
-                                                        for="description"
-                                                        class="form-label fw-bold"
-                                                        >{{
-                                                            'TEAM_ORGANIZATION.TEAMS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
-                                                    >
-                                                    <input
-                                                        class="form-input"
-                                                        id="description"
-                                                        formControlName="description"
-                                                        [placeholder]="
-                                                            'TEAM_ORGANIZATION.TEAMS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION_PLACEHOLDER'
-                                                                | translate
-                                                        "
-                                                        [attr.maxlength]="
-                                                            VALIDATION
-                                                                .DESCRIPTION.MAX
-                                                        "
-                                                    />
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-1"
-                                                    >
-                                                        @if (
-                                                            form.get(
-                                                                'description'
-                                                            )?.invalid &&
-                                                            form.get(
-                                                                'description'
-                                                            )?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
+                                                            <div
+                                                                class="col-md-4"
                                                             >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'description'
-                                                                    )
-                                                                }}
-                                                            </small>
-                                                        }
-                                                        <small
-                                                            class="text-muted ms-auto"
-                                                        >
-                                                            {{
-                                                                (
-                                                                    form.get(
-                                                                        'description'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
-                                                            }}/{{
-                                                                VALIDATION
-                                                                    .DESCRIPTION
-                                                                    .MAX
-                                                            }}
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </fieldset>
+                                                                <label
+                                                                    for="name"
+                                                                    class="form-label fw-bold"
+                                                                    >{{
+                                                                        'TEAM_ORGANIZATION.TEAMS.FORM.TABS.GENERAL_INFO.FIELDSET_GENERAL_INFO.NAME'
+                                                                            | translate
+                                                                    }}
+                                                                    <span
+                                                                        class="text-danger"
+                                                                        >*</span
+                                                                    ></label
+                                                                >
+                                                                <input
+                                                                    class="form-input"
+                                                                    id="name"
+                                                                    formControlName="name"
+                                                                    [placeholder]="
+                                                                        'TEAM_ORGANIZATION.TEAMS.FORM.TABS.GENERAL_INFO.FIELDSET_GENERAL_INFO.NAME_PLACEHOLDER'
+                                                                            | translate
+                                                                    "
+                                                                    [attr.maxlength]="
+                                                                        VALIDATION
+                                                                            .NAME
+                                                                            .MAX
+                                                                    "
+                                                                />
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mt-1"
+                                                                >
+                                                                    @if (
+                                                                        form.get(
+                                                                            'name'
+                                                                        )
+                                                                            ?.invalid &&
+                                                                        form.get(
+                                                                            'name'
+                                                                        )
+                                                                            ?.touched
+                                                                    ) {
+                                                                        <small
+                                                                            class="text-danger"
+                                                                        >
+                                                                            {{
+                                                                                getErrorMessage(
+                                                                                    'name'
+                                                                                )
+                                                                            }}
+                                                                        </small>
+                                                                    }
+                                                                    <small
+                                                                        class="text-muted ms-auto"
+                                                                    >
+                                                                        {{
+                                                                            (
+                                                                                form.get(
+                                                                                    'name'
+                                                                                )
+                                                                                    ?.value ||
+                                                                                ''
+                                                                            )
+                                                                                .length
+                                                                        }}/{{
+                                                                            VALIDATION
+                                                                                .NAME
+                                                                                .MAX
+                                                                        }}
+                                                                    </small>
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="col-md-5"
+                                                            >
+                                                                <label
+                                                                    for="description"
+                                                                    class="form-label fw-bold"
+                                                                    >{{
+                                                                        'TEAM_ORGANIZATION.TEAMS.FORM.TABS.GENERAL_INFO.FIELDSET_GENERAL_INFO.DESCRIPTION'
+                                                                            | translate
+                                                                    }}
+                                                                    <span
+                                                                        class="text-danger"
+                                                                        >*</span
+                                                                    ></label
+                                                                >
+                                                                <input
+                                                                    class="form-input"
+                                                                    id="description"
+                                                                    formControlName="description"
+                                                                    [placeholder]="
+                                                                        'TEAM_ORGANIZATION.TEAMS.FORM.TABS.GENERAL_INFO.FIELDSET_GENERAL_INFO.DESCRIPTION_PLACEHOLDER'
+                                                                            | translate
+                                                                    "
+                                                                    [attr.maxlength]="
+                                                                        VALIDATION
+                                                                            .DESCRIPTION
+                                                                            .MAX
+                                                                    "
+                                                                />
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mt-1"
+                                                                >
+                                                                    @if (
+                                                                        form.get(
+                                                                            'description'
+                                                                        )
+                                                                            ?.invalid &&
+                                                                        form.get(
+                                                                            'description'
+                                                                        )
+                                                                            ?.touched
+                                                                    ) {
+                                                                        <small
+                                                                            class="text-danger"
+                                                                        >
+                                                                            {{
+                                                                                getErrorMessage(
+                                                                                    'description'
+                                                                                )
+                                                                            }}
+                                                                        </small>
+                                                                    }
+                                                                    <small
+                                                                        class="text-muted ms-auto"
+                                                                    >
+                                                                        {{
+                                                                            (
+                                                                                form.get(
+                                                                                    'description'
+                                                                                )
+                                                                                    ?.value ||
+                                                                                ''
+                                                                            )
+                                                                                .length
+                                                                        }}/{{
+                                                                            VALIDATION
+                                                                                .DESCRIPTION
+                                                                                .MAX
+                                                                        }}
+                                                                    </small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </p-tabpanel>
+                                                <p-tabpanel value="1">
+                                                    <fieldset
+                                                        class="fieldset fade-in mt-3"
+                                                    >
+                                                        <legend>
+                                                            <b>{{
+                                                                'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_REPORT_TYPES.TITLE'
+                                                                    | translate
+                                                            }}</b>
+                                                        </legend>
+                                                        <div class="row g-3">
+                                                            @for (
+                                                                option of reportTypeOptions();
+                                                                track option.value
+                                                            ) {
+                                                                <div
+                                                                    class="col-md-3"
+                                                                >
+                                                                    <div
+                                                                        class="d-flex justify-content-around align-items-center gap-2"
+                                                                    >
+                                                                        <p-checkbox
+                                                                            [inputId]="
+                                                                                'reportType_' +
+                                                                                option.value
+                                                                            "
+                                                                            [value]="
+                                                                                option.value
+                                                                            "
+                                                                            formControlName="reportTypes"
+                                                                        />
+                                                                        <label
+                                                                            [for]="
+                                                                                'reportType_' +
+                                                                                option.value
+                                                                            "
+                                                                            class="ml-2 mb-0"
+                                                                        >
+                                                                            {{
+                                                                                option.label
+                                                                                    | translate
+                                                                            }}
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            @if (
+                                                                form.controls
+                                                                    .reportTypes
+                                                                    .invalid &&
+                                                                form.controls
+                                                                    .reportTypes
+                                                                    .touched
+                                                            ) {
+                                                                <div
+                                                                    class="mt-2"
+                                                                >
+                                                                    <small
+                                                                        class="text-danger"
+                                                                    >
+                                                                        {{
+                                                                            'COMMON.VALIDATION.REQUIRED'
+                                                                                | translate
+                                                                        }}
+                                                                    </small>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </fieldset>
+
+                                                    <fieldset
+                                                        class="fieldset fade-in mt-3"
+                                                    >
+                                                        <legend>
+                                                            <b>{{
+                                                                'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_OPERATORS.TITLE'
+                                                                    | translate
+                                                            }}</b>
+                                                        </legend>
+                                                        <div class="row g-3">
+                                                            @for (
+                                                                option of operatorOptions();
+                                                                track option.value
+                                                            ) {
+                                                                <div
+                                                                    class="col-md-3"
+                                                                >
+                                                                    <div
+                                                                        class="d-flex align-items-center gap-2"
+                                                                    >
+                                                                        <p-checkbox
+                                                                            [value]="
+                                                                                option.value
+                                                                            "
+                                                                            formControlName="operators"
+                                                                            [inputId]="
+                                                                                'operator_' +
+                                                                                option.value
+                                                                            "
+                                                                        />
+                                                                        <label
+                                                                            [for]="
+                                                                                'operator_' +
+                                                                                option.value
+                                                                            "
+                                                                            class="ml-2 mb-0"
+                                                                        >
+                                                                            {{
+                                                                                option.label
+                                                                                    | translate
+                                                                            }}
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            @if (
+                                                                form.controls
+                                                                    .operators
+                                                                    .invalid &&
+                                                                form.controls
+                                                                    .operators
+                                                                    .touched
+                                                            ) {
+                                                                <div
+                                                                    class="mt-2"
+                                                                >
+                                                                    <small
+                                                                        class="text-danger"
+                                                                    >
+                                                                        {{
+                                                                            'COMMON.VALIDATION.REQUIRED'
+                                                                                | translate
+                                                                        }}
+                                                                    </small>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </fieldset>
+
+                                                    <fieldset
+                                                        class="fieldset fade-in mt-3"
+                                                    >
+                                                        <legend>
+                                                            <b>{{
+                                                                'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.TITLE'
+                                                                    | translate
+                                                            }}</b>
+                                                        </legend>
+                                                        <div class="row g-3">
+                                                            <div class="col-12">
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mb-3"
+                                                                >
+                                                                    <div
+                                                                        class="tree-controls"
+                                                                    >
+                                                                        <p-button
+                                                                            [label]="
+                                                                                'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.EXPAND_ALL'
+                                                                                    | translate
+                                                                            "
+                                                                            icon="pi pi-plus"
+                                                                            [outlined]="
+                                                                                true
+                                                                            "
+                                                                            size="small"
+                                                                            (onClick)="
+                                                                                onExpandAll()
+                                                                            "
+                                                                        >
+                                                                        </p-button>
+
+                                                                        <p-button
+                                                                            [label]="
+                                                                                'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.COLLAPSE_ALL'
+                                                                                    | translate
+                                                                            "
+                                                                            icon="pi pi-minus"
+                                                                            [outlined]="
+                                                                                true
+                                                                            "
+                                                                            severity="secondary"
+                                                                            size="small"
+                                                                            class="ms-2"
+                                                                            (onClick)="
+                                                                                onCollapseAll()
+                                                                            "
+                                                                        >
+                                                                        </p-button>
+                                                                    </div>
+
+                                                                    <span
+                                                                        class="selected-count badge bg-primary"
+                                                                    >
+                                                                        {{
+                                                                            'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.SELECTED_COUNT'
+                                                                                | translate
+                                                                        }}:
+                                                                        {{ leafCount() }}
+                                                                    </span>
+                                                                </div>
+
+                                                                <div
+                                                                    class="tree-container border rounded p-3"
+                                                                >
+                                                                    @if (permissionTree().length > 0) {
+                                                                        <p-tree [value]="permissionTree()"
+                                                                            selectionMode="checkbox"
+                                                                            [(selection)]="selectedNodes"
+                                                                            (onNodeSelect)="onTreeInteractions()"
+                                                                            (onNodeUnselect)="onTreeInteractions()"
+                                                                            class="w-full"
+                                                                            [filter]="true"
+                                                                            [filterPlaceholder]="'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.TREE_PLACEHOLDER' | translate"
+                                                                            scrollHeight="400px"
+                                                                        >
+                                                                            <ng-template pTemplate="default" let-node>
+                                                                                <div
+                                                                                    class="d-flex align-items-center justify-content-between w-100"
+                                                                                >
+                                                                                    <div
+                                                                                        class="node-info"
+                                                                                    >
+                                                                                        <span
+                                                                                            class="fw-medium"
+                                                                                            >{{
+                                                                                                node.label
+                                                                                            }}</span
+                                                                                        >
+                                                                                        @if (
+                                                                                            node
+                                                                                                .data
+                                                                                                ?.description
+                                                                                        ) {
+                                                                                            <small
+                                                                                                class="text-muted d-block"
+                                                                                                >{{
+                                                                                                    node
+                                                                                                        .data
+                                                                                                        .description
+                                                                                                }}</small
+                                                                                            >
+                                                                                        }
+                                                                                    </div>
+                                                                                </div>
+                                                                            </ng-template>
+                                                                        </p-tree>
+                                                                    } @else {
+                                                                        <div
+                                                                            class="empty-state text-center py-5"
+                                                                        >
+                                                                            <i
+                                                                                class="pi pi-inbox text-4xl text-muted mb-3"
+                                                                            ></i>
+                                                                            <p
+                                                                                class="text-muted"
+                                                                            >
+                                                                                {{
+                                                                                    'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.NO_PERMISSIONS_AVAILABLE'
+                                                                                        | translate
+                                                                                }}
+                                                                            </p>
+                                                                        </div>
+                                                                    }
+                                                                </div>
+
+                                                                @if (
+                                                                    form
+                                                                        .controls
+                                                                        .permissions
+                                                                        .invalid &&
+                                                                    form
+                                                                        .controls
+                                                                        .permissions
+                                                                        .touched
+                                                                ) {
+                                                                    <small
+                                                                        class="text-danger d-block mt-2"
+                                                                    >
+                                                                        <i
+                                                                            class="pi pi-exclamation-triangle me-1"
+                                                                        ></i>
+                                                                        {{
+                                                                            'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.PERMISSIONS_REQUIRED'
+                                                                                | translate
+                                                                        }}
+                                                                    </small>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </p-tabpanel>
+                                            </p-tabpanels>
+                                        </p-tabs>
 
                                         <div
                                             class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"

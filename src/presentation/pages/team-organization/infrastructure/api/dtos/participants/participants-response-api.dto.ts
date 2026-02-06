@@ -1,3 +1,4 @@
+import { ActionDropdownDto } from '@shared/data/dtos/action-dropdown.dto';
 import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface ParticipantsItemApiDto {
@@ -7,7 +8,7 @@ export interface ParticipantsItemApiDto {
     email: string;
     phone: string;
     role: string;
-    is_active: boolean;
+    status: ActionDropdownDto;
     created_at: string;
     updated_at: string;
 }

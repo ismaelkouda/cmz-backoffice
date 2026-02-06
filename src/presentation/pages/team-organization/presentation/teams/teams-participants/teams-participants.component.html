@@ -33,25 +33,6 @@
                     </header>
 
                     <div class="fade-in teams-participants-content">
-                        <!-- <div class="report-subtitle">
-                            <div class="subtitle-item">
-                                <span class="subtitle-label"
-                                    >'TEAM_ORGANIZATION.TEAMS_PARTICIPANTS.NAME' | translate:</span
-                                >
-                                <p-tag
-                                    [value]="departmentName()"
-                                    [styleClass]="
-                                        'department-name-tag ' +departmentName()"
-                                    [rounded]="true"
-                                ></p-tag>
-                            </div>
-
-                            <div class="subtitle-item">
-                                <span class="subtitle-label">'COMMON.CREATED_AT' | translate:</span>
-                                <span class="subtitle-value">{{departmentCreatedAt()}}</span>
-                            </div>
-                        </div> -->
-
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
@@ -75,7 +56,7 @@
                                 dataKey="uniqId"
                                 [headerButtons]="headerButtons()"
                                 selectionMode="multiple"
-                                [selection]="selectedParticipants()"
+                                [selection]="assignedParticipants()"
                                 (selectionChange)="onSelectionChange($event)"
                                 (headerButtonClicked)="
                                     onHeaderButtonClicked($event)
@@ -94,76 +75,135 @@
     </section>
 </main>
 
-<ng-template #reassignModal let-modal>
+<p-dialog
+    [visible]="displayReassignModal()"
+    (visibleChange)="displayReassignModal.set($event)"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{
+        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.REASSIGN_TITLE' | translate
+    }}"
+>
     <form [formGroup]="reassignForm">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                {{
-                    'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.REASSIGN_TITLE'
-                        | translate
-                }}
-            </h4>
-            <button
-                type="button"
-                class="btn-close"
-                aria-label="Close"
-                (click)="closeReassignModal()"
-            ></button>
-        </div>
-        <div class="modal-body" novalidate>
-            <div class="form-group mb-3">
-                <label for="team" class="form-label">
-                    <b
-                        >{{
-                            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.REASSIGN_LABEL'
-                                | translate
-                        }}
-                        <span class="text-danger">*</span></b
-                    >
-                </label>
-                <p-select
-                    id="team"
-                    formControlName="team"
-                    [options]="teams()"
-                    optionLabel="label"
-                    optionValue="value"
-                    appendTo="body"
-                    [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                    [style]="{ width: '100%' }"
-                    [class.ng-invalid]="
-                        reassignForm.get('team')?.invalid &&
-                        reassignForm.get('team')?.touched
-                    "
-                ></p-select>
-                @if (
+        <div class="form-group my-1">
+            <label for="team">
+                <b>
+                    {{
+                        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.REASSIGN_LABEL'
+                            | translate
+                    }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-select
+                formControlName="team"
+                [options]="teams()"
+                optionLabel="label"
+                optionValue="value"
+                [loading]="loadingTeams()"
+                [filter]="true"
+                filterBy="label"
+                appendTo="body"
+                [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                styleClass="w-100"
+                [class.ng-invalid]="
                     reassignForm.get('team')?.invalid &&
                     reassignForm.get('team')?.touched
-                ) {
-                    <small class="text-danger">
-                        {{
-                            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.REASSIGN_MODAL.PROFILE_REQUIRED'
-                                | translate
-                        }}
-                    </small>
-                }
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-danger"
-                (click)="closeReassignModal()"
-            >
-                {{ 'COMMON.CANCEL' | translate }}
-            </button>
-            <button
-                type="button"
-                class="btn btn-primary"
-                (click)="onSubmitReassign()"
-                [disabled]="reassignForm.invalid"
-            >
-                {{ 'COMMON.SAVE' | translate }}
-            </button>
+                "
+            ></p-select>
         </div>
     </form>
-</ng-template>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeReassignModal()"
+        ></p-button>
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            [icon]="
+                facade.actionState() === 'loading'
+                    ? 'pi pi-spin pi-spinner'
+                    : 'pi pi-check'
+            "
+            (onClick)="onSubmitReassign()"
+            [disabled]="
+                reassignForm.invalid ||
+                !assignedParticipants().length ||
+                !teams().length ||
+                loadingTeams() ||
+                facade.actionState() === 'loading'
+            "
+        ></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog
+    [visible]="displayAssignModal()"
+    (visibleChange)="displayAssignModal.set($event)"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{
+        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.ASSIGN_TITLE' | translate
+    }}"
+>
+    <form [formGroup]="assignForm">
+        <div class="form-group my-1">
+            <label for="team">
+                <b>
+                    {{
+                        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.ASSIGN_LABEL'
+                            | translate
+                    }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-multiselect
+                formControlName="participants"
+                [options]="participants()"
+                optionLabel="label"
+                optionValue="value"
+                [filter]="true"
+                filterBy="label"
+                [showToggleAll]="false"
+                [showClear]="true"
+                placeholder="{{ 'COMMON.SELECT_PLACEHOLDER' | translate }}"
+                appendTo="body"
+                styleClass="w-100"
+                [class.ng-invalid]="
+                    assignForm.get('participants')?.invalid &&
+                    assignForm.get('participants')?.touched
+                "
+            />
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeAssignModal()"
+        ></p-button>
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            [icon]="
+                facade.actionState() === 'loading'
+                    ? 'pi pi-spin pi-spinner'
+                    : 'pi pi-check'
+            "
+            (onClick)="onSubmitAssign()"
+            [disabled]="
+                assignForm.invalid ||
+                !paramsUniqId().length ||
+                !participants().length ||
+                loadingParticipants() ||
+                facade.actionState() === 'loading'
+            "
+        ></p-button>
+    </ng-template>
+</p-dialog>

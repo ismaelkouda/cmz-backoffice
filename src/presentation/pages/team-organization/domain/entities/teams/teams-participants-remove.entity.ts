@@ -6,16 +6,11 @@ export class TeamsParticipantsRemoveEntity {
         public readonly participants: string[]
     ) {}
 
-    static toEntity(
-        vo: TeamsParticipantsRemoveVo
-    ): TeamsParticipantsRemoveEntity {
+    static fromVo(vo: TeamsParticipantsRemoveVo) {
         return new TeamsParticipantsRemoveEntity(vo.uniqId, vo.participants);
     }
 
-    describe(): string {
-        return JSON.stringify({
-            uniqId: this.uniqId,
-            participants: this.participants,
-        });
+    hasParticipant(id: string): boolean {
+        return this.participants.includes(id);
     }
 }

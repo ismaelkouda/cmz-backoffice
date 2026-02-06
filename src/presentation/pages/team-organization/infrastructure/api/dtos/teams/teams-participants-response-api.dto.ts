@@ -1,7 +1,7 @@
 import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface TeamsParticipantsItemApiDto {
-    uniq_id: string;
+    id: string;
     matricule: string;
     email: string;
     phone: string;

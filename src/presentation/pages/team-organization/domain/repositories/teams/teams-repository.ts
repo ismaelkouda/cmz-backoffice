@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
@@ -9,10 +10,9 @@ import { TeamsCreateEntity } from '@presentation/pages/team-organization/domain/
 import { TeamsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-filter.entity';
 import { TeamsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-update.entity';
 import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
-import { Injectable } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export abstract class TeamsRepository {
     abstract readAll(

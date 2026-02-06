@@ -14,8 +14,8 @@ export class TeamsSelectMapper extends ArrayResponseMapper<
     private readonly entityCache = new Map<string, TeamsSelectEntity>();
 
     protected mapItemFromDto(dto: TeamsSelectItemApiDto): TeamsSelectEntity {
-        MapperUtils.validateDto(dto, { required: ['id'] });
-        const cacheKey = `dto:${dto.id}`;
+        MapperUtils.validateDto(dto, { required: ['uniq_id'] });
+        const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
 
         const entity = cached

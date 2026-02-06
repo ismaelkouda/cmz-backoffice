@@ -14,6 +14,15 @@ export function TeamsCreateMapper(vo: TeamsCreateEntity): TeamsCreateApiDto {
     if (vo.description) {
         params['description'] = vo.description;
     }
+    if (vo.operators) {
+        params['operators'] = vo.operators;
+    }
+    if (vo.reportTypes) {
+        params['report_types'] = vo.reportTypes;
+    }
+    if (vo.permissions) {
+        params['permissions'] = vo.permissions;
+    }
 
     return params;
 }

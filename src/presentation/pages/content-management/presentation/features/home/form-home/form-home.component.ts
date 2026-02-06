@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     DestroyRef,
@@ -69,6 +70,7 @@ import { FormValidators } from '@presentation/pages/content-management/core/doma
         TooltipModule,
     ],
     providers: [MessageService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormHomeComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
@@ -445,6 +447,7 @@ export class FormHomeComponent implements OnInit {
         } */
 
         const formData = this.prepareSubmitData();
+        console.log('formData', formData);
 
         const submitObservable =
             this.isEditMode && this.currentId
@@ -528,8 +531,9 @@ export class FormHomeComponent implements OnInit {
         if (values.endDate) {
             formData.append('end_date', (values.endDate as Date).toISOString());
         }
-
-        if (values.type === TypeMediaDto.IMAGE && this.uploadedFile) {
+        console.log('TypeMediaDto.IMAGE', TypeMediaDto.IMAGE);
+        console.log('this.uploadedFile', this.uploadedFile);
+        if (this.uploadedFile) {
             formData.append('image_file', this.uploadedFile);
         }
 

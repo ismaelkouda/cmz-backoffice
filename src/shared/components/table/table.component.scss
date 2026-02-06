@@ -185,3 +185,12 @@
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
+
+.p-inputnumber {
+    width: 50px !important;
+
+    .p-inputnumber-input {
+        width: 100%;
+        text-align: center;
+    }
+}

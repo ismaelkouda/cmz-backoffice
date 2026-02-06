@@ -195,6 +195,7 @@ export class TableLegalNoticeComponent implements OnDestroy {
             [ActionDropdown.UNPUBLISHED]: 'danger',
             [ActionDropdown.ACTIVE]: 'success',
             [ActionDropdown.INACTIVE]: 'danger',
+            [ActionDropdown.AFFECTED]: 'success',
         };
         return map[status];
     }

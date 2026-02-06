@@ -8,7 +8,12 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+    NavigationEnd,
+    Router,
+    RouterLinkActive,
+    RouterOutlet,
+} from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TabsModule } from 'primeng/tabs';
 import { filter } from 'rxjs';
@@ -28,7 +33,7 @@ import { USERS_TABS } from '@presentation/pages/settings-security/core/domain/co
         TabsModule,
         TranslateModule,
         RouterOutlet,
-        RouterLinkActive
+        RouterLinkActive,
     ],
     templateUrl: './users-page.component.html',
     styleUrls: ['./users-page.component.scss'],

@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
@@ -9,7 +10,6 @@ import { UsersCreateEntity } from '@presentation/pages/settings-security/core/do
 import { UsersFilterEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-filter.entity';
 import { UsersUpdateEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-update.entity';
 import { UsersEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users.entity';
-import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root',

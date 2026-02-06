@@ -20,7 +20,7 @@ export class TranslationManagerService {
     private debugTranslationLoading(): void {
         console.log('🔍 Debug translation configuration:');
         console.log('- Default language:', this.translate.defaultLang);
-        console.log('- Current language:', this.translate.currentLang);
+        console.log('- Current language:', this.translate.getCurrentLang());
         console.log('- Supported languages:', this.translate.getLangs());
     }
 

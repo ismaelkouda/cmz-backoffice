@@ -6,10 +6,14 @@ export class TeamsParticipantsReassignVo {
 
     static create(props: { uniqId: string; participants: string[] }) {
         const uniqId = props?.uniqId?.trim();
-        const participants = props?.participants?.map(p => p.trim()) ?? [];
+        const participants = props?.participants?.map((p) => p.trim()) ?? [];
 
-        if (!uniqId) throw new Error('uniqId is required');
-        if (!participants.length) throw new Error('participants required');
+        if (!uniqId) {
+            throw new Error('uniqId is required');
+        }
+        if (!participants.length) {
+            throw new Error('participants required');
+        }
 
         return new TeamsParticipantsReassignVo(uniqId, participants);
     }

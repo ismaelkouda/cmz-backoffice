@@ -3,13 +3,13 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
+    DestroyRef,
     effect,
     inject,
-    OnInit,
+    signal,
     Signal,
-    untracked,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
     FormControl,
@@ -32,19 +32,16 @@ import { map } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { FilterOption } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 
 import { ParticipantsFindoneFacade } from '@presentation/pages/team-organization/application/services/participants/participants-findone.facade';
 import { ParticipantsFacade } from '@presentation/pages/team-organization/application/services/participants/participants.facade';
-import { RolesSelectFacade } from '@presentation/pages/team-organization/application/services/participants/roles-select.facade';
 import { ParticipantsFormControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-form.control';
-import { ParticipantsFindOneEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-findone.entity';
-import { RolesSelectEntity } from '@presentation/pages/team-organization/domain/entities/participants/roles-select.entity';
 import { FormValidators } from '@presentation/pages/team-organization/domain/validators/form-validators';
-
-import { ParticipantsFormHelperService } from './participants-form-helper.service';
-import { ParticipantsFormValidationService } from './participants-form-validation.service';
+import { ParticipantsFormHelperService } from '@presentation/pages/team-organization/presentation/participants/participants-form/participants-form-helper.service';
+import { ParticipantsFormValidationService } from '@presentation/pages/team-organization/presentation/participants/participants-form/participants-form-validation.service';
 
 @Component({
     selector: 'app-participants-form',
@@ -70,27 +67,59 @@ import { ParticipantsFormValidationService } from './participants-form-validatio
         MessageService,
         ParticipantsFormValidationService,
         ParticipantsFormHelperService,
-        RolesSelectFacade,
-        ParticipantsFindoneFacade,
-        ParticipantsFacade,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ParticipantsFormComponent implements OnInit {
-    private readonly route = inject(ActivatedRoute);
+export class ParticipantsFormComponent {
+    private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
-    private readonly participantsFacade = inject(ParticipantsFacade);
-    private readonly rolesFacade = inject(RolesSelectFacade);
-    private readonly findOneFacade = inject(ParticipantsFindoneFacade);
+    private readonly submitFacade = inject(ParticipantsFacade);
+    private readonly facade = inject(ParticipantsFindoneFacade);
     private readonly translate = inject(TranslateService);
-    private readonly messageService = inject(MessageService);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly validationService = inject(
         ParticipantsFormValidationService
     );
     private readonly helperService = inject(ParticipantsFormHelperService);
-
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
+    );
     readonly VALIDATION = FormValidators;
+    readonly items = toSignal(this.facade.item$, { initialValue: null });
+    readonly loading = toSignal(this.facade.isLoading$, {
+        initialValue: false,
+    });
+    private readonly paramsUniqId: Signal<string> = toSignal(
+        this.activatedRoute.queryParams.pipe(
+            map(
+                (params: Record<string, unknown>) =>
+                    (params['uniqId'] as string) || ''
+            )
+        ),
+        { initialValue: '' }
+    );
+    readonly isEditMode = computed(() => !!this.paramsUniqId());
 
+    readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return [
+            {
+                label: this.t('COMMON.SUPERVISOR'),
+                value: 'supervisor',
+                translationKey: 'COMMON.SUPERVISOR',
+            },
+            {
+                label: this.t('COMMON.LEADER'),
+                value: 'leader',
+                translationKey: 'COMMON.LEADER',
+            },
+            {
+                label: this.t('COMMON.AGENT'),
+                value: 'agent',
+                translationKey: 'COMMON.AGENT',
+            },
+        ];
+    });
     readonly form: FormGroup<ParticipantsFormControl> =
         this.fb.nonNullable.group<ParticipantsFormControl>({
             firstName: new FormControl('', {
@@ -133,68 +162,38 @@ export class ParticipantsFormComponent implements OnInit {
             }),
         });
 
-    readonly roles = toSignal(this.rolesFacade.items$, {
-        initialValue: [] as RolesSelectEntity[],
-    });
-
-    readonly currentParticipant = toSignal(this.findOneFacade.item$, {
-        initialValue: null as unknown as ParticipantsFindOneEntity,
-    });
-
-    private readonly paramsUniqId: Signal<string> = toSignal(
-        this.route.queryParams.pipe(
-            map(
-                (params: Record<string, unknown>) =>
-                    (params['uniqId'] as string) || ''
-            )
-        ),
-        { initialValue: '' }
-    );
-
-    readonly isEditMode = computed(() => !!this.paramsUniqId());
-
-    private readonly handleRouteParamsChange = effect(
+    private readonly patchFormFromItem = effect(
         () => {
-            const uniqId = this.paramsUniqId();
-            if (uniqId) {
-                this.findOneFacade.reset();
-                this.findOneFacade.read({ uniqId: uniqId }, true);
-            } else {
-                this.findOneFacade.reset();
-                this.form.reset();
+            const item = this.items();
+            if (item && Object.keys(item).length > 0) {
+                this.form.patchValue(
+                    {
+                        lastName: item.lastName,
+                        firstName: item.firstName,
+                        email: item.email,
+                        phone: item.phone,
+                        role: item.role,
+                    },
+                    { emitEvent: false }
+                );
             }
         },
         { allowSignalWrites: true }
     );
 
-    private readonly patchFormFromParticipant = effect(
+    private readonly handleRouteParamsChange = effect(
         () => {
-            const participant = this.currentParticipant();
-            untracked(() => {
-                if (participant && Object.keys(participant).length > 0) {
-                    this.form.patchValue(
-                        {
-                            firstName: participant.firstName,
-                            lastName: participant.lastName,
-                            email: participant.email,
-                            phone: participant.phone,
-                            role: participant.role,
-                        },
-                        { emitEvent: false }
-                    );
-                }
-            });
+            const uniqId = this.paramsUniqId();
+            if (uniqId) {
+                this.facade.reset();
+                this.facade.read({ uniqId: uniqId }, true);
+            } else {
+                this.facade.reset();
+                this.form.reset();
+            }
         },
         { allowSignalWrites: true }
     );
-
-    ngOnInit(): void {
-        this.rolesFacade.readAll();
-        const uniqId = this.paramsUniqId();
-        if (uniqId) {
-            this.findOneFacade.read({ uniqId: uniqId }, true);
-        }
-    }
 
     getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
@@ -202,6 +201,23 @@ export class ParticipantsFormComponent implements OnInit {
             fieldName,
             control?.errors || null
         );
+    }
+
+    private showValidationErrors(): void {
+        const errors: string[] = [];
+        const controlNames = [
+            'firstName',
+            'lastName',
+            'email',
+            'phone',
+            'role',
+        ] as const;
+
+        controlNames.forEach((name) => {
+            if (this.form.controls[name].invalid) {
+                errors.push(this.getErrorMessage(name));
+            }
+        });
     }
 
     onSubmit(): void {
@@ -230,53 +246,37 @@ export class ParticipantsFormComponent implements OnInit {
         });
     }
 
-    onCancel(): void {
-        this.helperService.navigateToParticipantsList();
-    }
-
-    private showValidationErrors(): void {
-        const errors: string[] = [];
-        const controlNames = [
-            'firstName',
-            'lastName',
-            'email',
-            'phone',
-            'role',
-        ] as const;
-
-        controlNames.forEach((name) => {
-            if (this.form.controls[name].invalid) {
-                errors.push(this.getErrorMessage(name));
-            }
-        });
-
-        this.validationService.showValidationErrors(
-            this.messageService,
-            errors
-        );
-    }
-
     private submitFormData(): void {
         const formData = this.form.getRawValue();
-        const participantId = this.paramsUniqId();
-        const operation =
-            this.isEditMode() && participantId ? 'UPDATE' : 'CREATE';
-        const submit =
-            operation === 'UPDATE'
-                ? this.participantsFacade.update({
-                      uniqId: participantId,
-                      ...formData,
-                  })
-                : this.participantsFacade.create(formData);
+        const uniqId = this.paramsUniqId();
 
-        submit.subscribe({
-            next: () => this.helperService.navigateToParticipantsList(),
-            error: (error: Error) =>
-                this.helperService.displaySubmitError(
-                    this.messageService,
-                    operation,
-                    error
-                ),
-        });
+        if (this.isEditMode() && uniqId) {
+            this.submitFacade
+                .update({ uniqId, ...formData })
+                .pipe(takeUntilDestroyed(this.destroyRef))
+                .subscribe({
+                    next: () => {
+                        this.onCancel();
+                        this.submitFacade.refreshWithLastFilterAndPage();
+                    },
+                });
+        } else {
+            this.submitFacade
+                .create(formData)
+                .pipe(takeUntilDestroyed(this.destroyRef))
+                .subscribe({
+                    next: () => {
+                        this.onCancel();
+                    },
+                });
+        }
+    }
+
+    private t(key: string, params?: object): string {
+        return this.translate.instant(key, params);
+    }
+
+    onCancel(): void {
+        this.helperService.navigateToParticipantsList();
     }
 }

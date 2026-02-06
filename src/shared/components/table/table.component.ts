@@ -3,16 +3,19 @@ import {
     ChangeDetectionStrategy,
     Component,
     EventEmitter,
-    Output,
+    effect,
     inject,
     input,
     output,
+    signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -50,23 +53,29 @@ import { ReportStatus } from '@presentation/pages/report-requests/domain/entitie
         TagModule,
         HomeActionDropdownComponent,
         SeparatorThousandsPipe,
+        InputNumberModule,
+        CheckboxModule,
     ],
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent {
+    public selectedItems: any[] = [];
+    public readonly numberToCheck = signal<number>(0);
+    private readonly clipboardService = inject(ClipboardService);
+    private readonly toastService = inject(ToastrService);
+    private readonly translate = inject(TranslateService);
     public readonly loading = input<boolean>(false);
     public readonly items = input<any[]>([]);
     public readonly pagination = input<Paginate<any> | null>(null);
     public readonly config = input.required<TableConfig>();
     public readonly hiddenButtonOther = input<boolean>(true);
     public readonly dataKey = input<string>('id');
-
     public readonly headerButtons = input<TableHeaderButton[]>([]);
-    public readonly selectionMode = input<'single' | 'multiple' | null>(
-        'single'
-    );
+    public readonly selectionMode = input<
+        'single' | 'multiple' | 'saisie' | null
+    >('single');
     public readonly selection = input<any | any[] | null>(null);
 
     public readonly refreshRequested = output<undefined>();
@@ -76,23 +85,28 @@ export class TableComponent {
         item: any;
         ref: CrudFormType;
     }>();
-    public readonly enableRequested = output<{ item: any; ref: CrudFormType }>();
+    public readonly enableRequested = output<{
+        item: any;
+        ref: CrudFormType;
+    }>();
     public readonly disableRequested = output<{
         item: any;
         ref: CrudFormType;
     }>();
+    public readonly selectionChange = output<any[]>();
     public readonly viewRequested = output<{ item: any; ref: CrudFormType }>();
     public readonly badgeClicked = output<{ item: any; col: any }>();
     public readonly actionClicked = output<any>();
-
     public readonly headerButtonClicked = output<string>();
-    public readonly selectionChange = output<any | any[]>();
+    public readonly export = new EventEmitter<void>();
 
-    @Output() export = new EventEmitter<void>();
-
-    private readonly clipboardService = inject(ClipboardService);
-    private readonly toastService = inject(ToastrService);
-    private readonly translate = inject(TranslateService);
+    constructor() {
+        effect(() => {
+            if (this.numberToCheck() > 0) {
+                this.onNumberInputChange(this.numberToCheck());
+            }
+        });
+    }
 
     public onRefresh(): void {
         this.refreshRequested.emit(undefined);
@@ -130,6 +144,25 @@ export class TableComponent {
         this.actionClicked.emit({ item, actionId });
     }
 
+    public onNumberInputChange(count: number) {
+        const items = this.items();
+
+        if (!items?.length) {
+            return;
+        }
+
+        const safeCount = Math.min(count ?? 0, items.length);
+
+        this.selectedItems = items.slice(0, safeCount);
+
+        this.selectionChange.emit(this.selectedItems);
+    }
+
+    public onTableSelectionChange(selection: any[]): void {
+        this.selectedItems = selection ?? [];
+        this.selectionChange.emit(this.selectedItems);
+    }
+
     public onExportExcel(): void {
         this.export.emit();
     }
@@ -138,22 +171,18 @@ export class TableComponent {
         this.headerButtonClicked.emit(actionId);
     }
 
-    public onSelectionChange(value: any | any[]): void {
-        this.selectionChange.emit(value);
-    }
-
-    public trackByColField(_: number, col: any): string {
+    trackByColField(_: number, col: any): string {
         return col.field;
     }
 
-    public getItemStatus(item: any): ActionDropdown {
+    getItemStatus(item: any): ActionDropdown {
         return (
             (item.status as ActionDropdown) ||
             ('NONE' as unknown as ActionDropdown)
         );
     }
 
-    public formatDate(value: string): string {
+    formatDate(value: string): string {
         if (!value) {
             return '-';
         }
@@ -171,14 +200,14 @@ export class TableComponent {
         }
     }
 
-    public copyToClipboard(data: string): void {
+    copyToClipboard(data: string): void {
         this.clipboardService.copyFromContent(data);
         this.toastService.success(
             this.translate.instant('COPIED_TO_THE_CLIPBOARD')
         );
     }
 
-    public getOperatorColor(operator: string): string {
+    getOperatorColor(operator: string): string {
         const normalized = operator?.toLowerCase().trim() ?? '';
         const colorMap: Record<string, string> = {
             orange: 'rgb(241, 110, 0)',
@@ -188,36 +217,37 @@ export class TableComponent {
         return colorMap[normalized] ?? `rgba(var(--theme-default-rgb), 0.8)`;
     }
 
-    public getOperatorTagStyle(operator: string): Record<string, string> {
+    getOperatorTagStyle(operator: string): Record<string, string> {
         const backgroundColor = this.getOperatorColor(operator);
         const textColor =
             operator?.toLowerCase() === 'mtn' ? '#212121' : '#ffffff';
         return { backgroundColor, color: textColor };
     }
 
-    public numberSeverity(value: number) {
+    numberSeverity(value: number): string {
         if (value === 0) {
             return 'danger';
-        } else if (value > 0 && value < 999999) {
-            return 'warn';
-        } else {
-            return 'success';
         }
+        if (value > 0 && value < 999999) {
+            return 'warn';
+        }
+        return 'success';
     }
 
     public getStatusSeverity(status: string): StatusTagSeverity {
-
-        console.log('status', status);
         const severityMap: Record<string, StatusTagSeverity> = {
             [ReportStatus.ABANDONED]: 'warning',
             [ReportStatus.APPROVED]: 'success',
             [ReportStatus.REJECTED]: 'danger',
             [ReportStatus.CONFIRMED]: 'contrast',
+            [ReportStatus.IN_PROGRESS]: 'warn',
+            [ReportStatus.TERMINATED]: 'info',
             [ReportStatus.UNKNOWN]: 'dark',
             [ActionDropdown.ACTIVE]: 'success',
             [ActionDropdown.INACTIVE]: 'danger',
             [ActionDropdown.PUBLISHED]: 'success',
             [ActionDropdown.UNPUBLISHED]: 'danger',
+            [ActionDropdown.AFFECTED]: 'success',
         };
         return severityMap[status] ?? 'secondary';
     }
@@ -230,4 +260,5 @@ type StatusTagSeverity =
     | 'danger'
     | 'secondary'
     | 'contrast'
-    | 'dark';
+    | 'dark'
+    | 'warn';

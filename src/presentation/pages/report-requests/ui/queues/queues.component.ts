@@ -263,8 +263,7 @@ export class QueuesComponent implements OnInit {
         item: QueuesEntity;
         actionId?: string;
     }): void {
-        const { item, actionId } = event;
-        console.log('Action clicked:', actionId, 'on item:', item);
+        const { item } = event;
         this.selectedReportId = item.uniqId;
         this.reportTreatmentVisible = true;
     }

@@ -17,8 +17,7 @@ export class ParticipantsFindonApi {
     read(
         filter?: ParticipantsFindOneFilterApiDto
     ): Observable<ParticipantsFindOneResponseApiDto> {
-        const params = filter?.id ? `/${filter.id}` : '';
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${params}`;
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${filter?.id}`;
         return this.http.get<ParticipantsFindOneResponseApiDto>(url);
     }
 }

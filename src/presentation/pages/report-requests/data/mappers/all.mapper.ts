@@ -30,6 +30,8 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemDto> {
             [ReportStatusDto.APPROVED]: ReportStatus.APPROVED,
             [ReportStatusDto.REJECTED]: ReportStatus.REJECTED,
             [ReportStatusDto.ABANDONED]: ReportStatus.ABANDONED,
+            [ReportStatusDto['in-progress']]: ReportStatus.IN_PROGRESS,
+            [ReportStatusDto.TERMINATED]: ReportStatus.TERMINATED,
             [ReportStatusDto.UNKNOWN]: ReportStatus.UNKNOWN,
         };
 

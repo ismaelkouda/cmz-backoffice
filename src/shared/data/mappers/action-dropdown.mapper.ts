@@ -8,15 +8,13 @@ import { ActionDropdownDto } from '../dtos/action-dropdown.dto';
 })
 export class ActionDropdownMapper {
     mapFromDto(dtoValue: ActionDropdownDto): ActionDropdown {
-        if (dtoValue === null || dtoValue === undefined) {
-            return ActionDropdown.ACTIVE;
-        }
         const methodMap: Record<ActionDropdownDto, ActionDropdown> = {
             [ActionDropdownDto.ACTIVE]: ActionDropdown.ACTIVE,
             [ActionDropdownDto.INACTIVE]: ActionDropdown.INACTIVE,
             [ActionDropdownDto.PUBLISHED]: ActionDropdown.PUBLISHED,
             [ActionDropdownDto.UNPUBLISHED]: ActionDropdown.UNPUBLISHED,
+            [ActionDropdownDto.AFFECTED]: ActionDropdown.AFFECTED,
         };
-        return methodMap[dtoValue] || ActionDropdown.ACTIVE;
+        return methodMap[dtoValue] || ActionDropdown.INACTIVE;
     }
 }

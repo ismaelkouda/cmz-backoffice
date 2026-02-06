@@ -18,7 +18,7 @@ import { TeamsMapper } from '@presentation/pages/team-organization/infrastructur
 import { TeamsApi } from '@presentation/pages/team-organization/infrastructure/data/sources/teams/teams.api';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TeamsRepositoryImpl implements TeamsRepository {
     private readonly api = inject(TeamsApi);

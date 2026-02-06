@@ -14,7 +14,7 @@ export class TeamsParticipantsEntity {
 
     static fromDto(dto: TeamsParticipantsItemApiDto): TeamsParticipantsEntity {
         return new TeamsParticipantsEntity(
-            dto.uniq_id,
+            dto.id,
             dto.matricule,
             dto.first_name,
             dto.last_name,
@@ -26,7 +26,7 @@ export class TeamsParticipantsEntity {
     }
 
     public with(dto: TeamsParticipantsItemApiDto): TeamsParticipantsEntity {
-        if (this.uniqId === dto.uniq_id) {
+        if (this.uniqId === dto.id) {
             return this;
         }
         return TeamsParticipantsEntity.fromDto(dto);

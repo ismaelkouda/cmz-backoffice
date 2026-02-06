@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     EventEmitter,
     Input,
@@ -44,6 +45,7 @@ import { HomeFilterPayloadEntity } from '@presentation/pages/content-management/
         MultiSelectModule,
         InputTextModule,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterHomeComponent implements OnInit, OnDestroy {
     private readonly fb = inject(FormBuilder);

@@ -45,6 +45,7 @@ export class ParticipantsRepositoryImpl implements ParticipantsRepository {
     }
 
     delete(code: string): Observable<SimpleResponseDto<void>> {
+        console.log('id3', code);
         return this.api.delete(code);
     }
 

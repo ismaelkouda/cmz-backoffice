@@ -5,7 +5,10 @@ export class TeamsUpdateEntity {
         public readonly uniqId: string,
         public readonly code: string,
         public readonly name: string,
-        public readonly description: string
+        public readonly description: string,
+        public readonly operators: string[],
+        public readonly reportTypes: string[],
+        public readonly permissions: any[]
     ) {}
 
     static fromVo(vo: TeamsUpdateVo): TeamsUpdateEntity {
@@ -13,7 +16,10 @@ export class TeamsUpdateEntity {
             vo.uniqId,
             vo.code,
             vo.name,
-            vo.description
+            vo.description,
+            vo.operators,
+            vo.reportTypes,
+            vo.permissions
         );
     }
 }

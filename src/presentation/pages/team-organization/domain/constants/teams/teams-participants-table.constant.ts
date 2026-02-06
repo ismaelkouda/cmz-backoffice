@@ -1,14 +1,20 @@
 export const TEAMS_PARTICIPANTS_TABLE_CONSTANT = {
     cols: [
         {
-            field: 'firstName',
-            header: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.FIRST_NAME',
-            width: '10rem',
+            field: '__index',
+            header: 'COMMON.INDEX',
+            class: 'text-center',
+            width: '2rem',
         },
         {
             field: 'lastName',
             header: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.LAST_NAME',
             width: '15rem',
+        },
+        {
+            field: 'firstName',
+            header: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.FIRST_NAME',
+            width: '10rem',
         },
         {
             field: 'phone',
@@ -26,9 +32,9 @@ export const TEAMS_PARTICIPANTS_TABLE_CONSTANT = {
             field: '__selection',
             header: 'COMMON.SELECTION',
             class: 'text-center',
-            width: '5rem',
+            width: '3rem',
             type: 'selection',
         },
     ],
-    globalFilterFields: ['firstName', 'lastName', 'phone', 'email'],
+    globalFilterFields: ['lastName', 'firstName', 'phone', 'email'],
 };

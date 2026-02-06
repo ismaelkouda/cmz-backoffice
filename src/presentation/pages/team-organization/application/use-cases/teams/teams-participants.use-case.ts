@@ -6,18 +6,20 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
 
+import { TeamsParticipantsAssignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-assign.command';
+import { TeamsParticipantsReassignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-reassign.command';
 import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-filter.dto';
-import { TeamsParticipantsReassignDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-reassign.dto';
 import { TeamsParticipantsRemoveDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-remove.dto';
+import { TeamsParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
 import { TeamsParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
 import { TeamsParticipantsReassignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-reassign.entity';
 import { TeamsParticipantsRemoveEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-remove.entity';
 import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { TeamsParticipantsRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-participants-repository';
+import { TeamsParticipantsAssignVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-assign.vo';
 import { TeamsParticipantsFilterVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-filter.vo';
 import { TeamsParticipantsReassignVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-reassign.vo';
 import { TeamsParticipantsRemoveVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-remove.vo';
-import { TeamsParticipantsReassignCommand } from '../../commands/teams/teams-participants-reassign.command';
 
 export class TeamsParticipantsUseCase {
     private readonly repository = inject(TeamsParticipantsRepository);
@@ -39,11 +41,20 @@ export class TeamsParticipantsUseCase {
         return this.repository.reassign(entity);
     }
 
+    assign(
+        command: TeamsParticipantsAssignCommand
+    ): Observable<SimpleResponseDto<void>> {
+        console.log('command', command);
+        const vo = TeamsParticipantsAssignVo.create(command);
+        const entity = TeamsParticipantsAssignEntity.fromVo(vo);
+        return this.repository.assign(entity);
+    }
+
     remove(
         dto: TeamsParticipantsRemoveDto
     ): Observable<SimpleResponseDto<void>> {
-        const vo = TeamsParticipantsRemoveVo.fromDto(dto);
-        const entity = TeamsParticipantsRemoveEntity.toEntity(vo);
+        const vo = TeamsParticipantsRemoveVo.create(dto);
+        const entity = TeamsParticipantsRemoveEntity.fromVo(vo);
         return this.repository.remove(entity);
     }
 }

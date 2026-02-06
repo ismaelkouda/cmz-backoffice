@@ -190,6 +190,8 @@ export class TableAllComponent implements OnDestroy {
             [ReportStatus.APPROVED]: 'success',
             [ReportStatus.REJECTED]: 'danger',
             [ReportStatus.CONFIRMED]: 'contrast',
+            [ReportStatus.IN_PROGRESS]: 'Warn',
+            [ReportStatus.TERMINATED]: 'info',
             [ReportStatus.UNKNOWN]: 'dark',
         };
         return severityMap[status] ?? 'secondary';
@@ -220,7 +222,8 @@ type StatusTagSeverity =
     | 'danger'
     | 'secondary'
     | 'contrast'
-    | 'dark';
+    | 'dark'
+    | 'Warn';
 type OperatorTagSeverity =
     | 'rgb(241, 110, 0)'
     | 'rgb(255, 203, 5)'

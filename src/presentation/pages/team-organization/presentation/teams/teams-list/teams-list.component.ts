@@ -62,7 +62,9 @@ export class TeamsListComponent {
     private readonly toastr = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    private readonly currentLang = signal<string>(this.translate.currentLang);
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
+    );
     private readonly destroy$ = new Subject<void>();
     readonly tableConfig = TEAMS_TABLE_CONSTANT;
     readonly items = toSignal(this.facade.items$, { initialValue: [] });
@@ -194,8 +196,11 @@ export class TeamsListComponent {
         this.facade.changePage(page + 1);
     }
 
-    public onNavigateToForm(event: { item?: TeamsEntity; ref: CrudFormType }) {
-        const queryParams: any = event.item
+    public onNavigateToForm(event: {
+        item?: TeamsEntity;
+        ref: CrudFormType;
+    }): void {
+        const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
         this.router.navigate([TEAMS_FORM], {
@@ -216,15 +221,12 @@ export class TeamsListComponent {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((res) => {
             if (res.isConfirmed) {
-                this.facade
-                    .delete(item.uniqId)
-                    .subscribe(() =>
-                        this.facade.refreshWithLastFilterAndPage()
-                    );
+                this.facade.delete(item.uniqId);
+                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }
-    
+
     public onEnableClicked(item: TeamsEntity): void {
         if (!item.uniqId) {
             return;
@@ -238,17 +240,13 @@ export class TeamsListComponent {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade
-                    .enable(item.uniqId)
-                    .subscribe(() =>
-                        this.facade.refreshWithLastFilterAndPage()
-                    );
+                this.facade.enable(item.uniqId);
+                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }
 
     public onDisableClicked(item: TeamsEntity): void {
-        console.log(item);
         if (!item.uniqId) {
             return;
         }
@@ -261,11 +259,8 @@ export class TeamsListComponent {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade
-                    .disable(item.uniqId)
-                    .subscribe(() =>
-                        this.facade.refreshWithLastFilterAndPage()
-                    );
+                this.facade.disable(item.uniqId);
+                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }
@@ -273,7 +268,7 @@ export class TeamsListComponent {
     public onBadgeClicked(event: {
         item: TeamsEntity;
         col: HTMLTableCellElement;
-    }) {
+    }): void {
         this.router.navigate([TEAMS_USERS_ROUTE], {
             relativeTo: this.activatedRoute,
             queryParams: { uniqId: event.item.uniqId, name: event.item.name },
@@ -294,7 +289,7 @@ export class TeamsListComponent {
         );
     }
 
-    private t(key: string) {
+    private t(key: string): string {
         return this.translate.instant(key);
     }
 

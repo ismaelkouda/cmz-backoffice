@@ -1,4 +1,16 @@
 <div class="fade-in participants-content">
+    <app-filter
+        class="filter-component"
+        [isLoading]="loading()"
+        [formGroup]="form"
+        [fields]="filterFields()"
+        (filter)="onFilterClicked($event)"
+        [filterState]="facade.currentFilter$"
+        [limit]="5"
+    ></app-filter>
+
+    <hr class="teams-divider" />
+
     <section class="table-section">
         <app-table
             class="table-component"

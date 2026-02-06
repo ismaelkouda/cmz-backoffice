@@ -3,4 +3,7 @@ export interface TeamsUpdateApiDto {
     code: string;
     name: string;
     description: string;
+    operators: string[];
+    report_types: string[];
+    permissions: any[];
 }

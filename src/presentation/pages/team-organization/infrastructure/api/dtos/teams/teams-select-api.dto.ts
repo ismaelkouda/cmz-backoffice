@@ -1,7 +1,7 @@
 import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 export interface TeamsSelectItemApiDto {
-    id: string;
+    uniq_id: string;
     name: string;
     code: string;
 }

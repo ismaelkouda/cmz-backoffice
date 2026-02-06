@@ -366,7 +366,7 @@
                                                         class="form-label fw-bold"
                                                     >
                                                         {{
-                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.PROFILE'
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
                                                                 | translate
                                                         }}
                                                         <span
@@ -378,10 +378,10 @@
                                                     <p-select
                                                         id="role"
                                                         class="form-p-select"
-                                                        [options]="roles()"
+                                                        [options]="rolesOptions()"
                                                         formControlName="role"
-                                                        optionLabel="name"
-                                                        optionValue="code"
+                                                        optionLabel="label"
+                                                        optionValue="value"
                                                         filter="true"
                                                         filterBy="name"
                                                         styleClass="w-100"
@@ -390,7 +390,7 @@
                                                                 | translate
                                                         "
                                                         [attr.aria-label]="
-                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.PROFILE'
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
                                                                 | translate
                                                         "
                                                         [attr.aria-invalid]="

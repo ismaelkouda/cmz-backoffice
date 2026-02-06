@@ -6,11 +6,13 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dtos/simple-response.dto';
 
+import { TeamsParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
 import { TeamsParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
 import { TeamsParticipantsReassignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-reassign.entity';
 import { TeamsParticipantsRemoveEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-remove.entity';
 import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { TeamsParticipantsRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-participants-repository';
+import { teamsParticipantsAssignMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-assign.mapper';
 import { teamsParticipantsFilterMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-filter.mapper';
 import { teamsParticipantsReassignMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-reassign.mapper';
 import { teamsParticipantsRemoveMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-remove.mapper';
@@ -39,6 +41,13 @@ export class TeamsParticipantsRepositoryImpl
     ): Observable<SimpleResponseDto<void>> {
         const dtoApi = teamsParticipantsReassignMapper(dto);
         return this.api.reassign(dtoApi);
+    }
+
+    assign(
+        dto: TeamsParticipantsAssignEntity
+    ): Observable<SimpleResponseDto<void>> {
+        const dtoApi = teamsParticipantsAssignMapper(dto);
+        return this.api.assign(dtoApi);
     }
 
     remove(

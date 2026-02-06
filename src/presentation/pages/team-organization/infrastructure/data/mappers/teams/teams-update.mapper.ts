@@ -18,6 +18,15 @@ export function teamsUpdateMapper(
     if (entity.description) {
         params['description'] = entity.description;
     }
+    if (entity.operators) {
+        params['operators'] = entity.operators;
+    }
+    if (entity.reportTypes) {
+        params['report_types'] = entity.reportTypes;
+    }
+    if (entity.permissions) {
+        params['permissions'] = entity.permissions;
+    }
 
     return params;
 }

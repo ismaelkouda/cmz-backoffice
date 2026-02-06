@@ -11,7 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
     NavigationEnd,
     Router,
-    RouterModule,
+    RouterLinkActive,
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -32,8 +32,8 @@ import { TEAMS_TABS } from '@presentation/pages/team-organization/domain/constan
         PageTitleComponent,
         TabsModule,
         TranslateModule,
-        RouterModule,
         RouterOutlet,
+        RouterLinkActive,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './teams-page.component.html',
@@ -61,7 +61,6 @@ export class TeamsPageComponent implements OnInit {
 
     private updateActiveTab(): void {
         const urlTree = this.router.parseUrl(this.router.url);
-        console.log("urlTree", urlTree);
         const path =
             urlTree.root.children['primary']?.segments
                 .map((s) => s.path)
@@ -80,7 +79,7 @@ export class TeamsPageComponent implements OnInit {
             }
             return true;
         });
-        console.log("matchingTab", path);
+
         if (!matchingTab && path.endsWith('history')) {
             const historyTab = this.tabs.find((t) =>
                 t.route.endsWith('history')

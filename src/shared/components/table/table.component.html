@@ -1,6 +1,8 @@
 <p-table
     #dt
     [value]="items()"
+    [(selection)]="selectedItems"
+    (selectionChange)="onTableSelectionChange($event)"
     [rowHover]="true"
     [rows]="pagination()?.per_page || 10"
     [globalFilterFields]="config().globalFilterFields"
@@ -12,10 +14,8 @@
     [columns]="config().cols"
     styleClass="p-datatable-gridlines"
     [reorderableColumns]="true"
-    [selectionMode]="selectionMode()"
-    [selection]="selection()"
-    (selectionChange)="onSelectionChange($event)"
     [dataKey]="dataKey()"
+    selectionMode="multiple"
 >
     <ng-template pTemplate="caption">
         <div class="container-table-header">
@@ -24,8 +24,7 @@
                 [perPage]="pagination()?.per_page"
                 [page]="pagination()?.current_page"
                 [totalPage]="pagination()?.last_page"
-            >
-            </app-table-title>
+            />
             <div
                 class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
             >
@@ -38,20 +37,23 @@
                     [disabledButtonRefresh]="loading()"
                     [hiddenButtonOther]="hiddenButtonOther()"
                     [customButtons]="headerButtons()"
-                >
-                </app-table-button-header>
+                />
                 <app-search-table [dt]="dt" />
+                <!-- <p-inputNumber
+                        [value]="selectedItems.length || 0"
+                        [showButtons]="false"
+                        [min]="0"
+                        [max]="items().length"
+                        inputMode="numeric"
+                        (onInput)="onNumberInputChange($event.value)"
+                        [disabled]="items().length === 0 || loading()"
+                    /> -->
             </div>
         </div>
     </ng-template>
 
     <ng-template pTemplate="header" let-columns>
         <tr>
-            @if (selectionMode() === 'multiple') {
-                <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-            }
             @for (col of columns; track trackByColField($index, col)) {
                 <th
                     [class]="col.class"
@@ -61,17 +63,13 @@
                     @if (
                         col.field !== '__action' &&
                         col.field !== '__reorder' &&
-                        col.field !== '__index'
+                        col.field !== '__index' &&
+                        col.field !== '__selection'
                     ) {
                         {{ col.header | translate }}
-                        <p-sortIcon
-                            [field]="col.field"
-                            *ngIf="
-                                col.field !== '__action' &&
-                                col.field !== '__reorder' &&
-                                col.field !== '__actionDropdown'
-                            "
-                        ></p-sortIcon>
+                        <p-sortIcon [field]="col.field" />
+                    } @else if (col.field === '__selection') {
+                        <p-tableHeaderCheckbox />
                     } @else {
                         {{ col.header | translate }}
                     }
@@ -92,14 +90,11 @@
             [pReorderableRow]="rowIndex"
             [pSelectableRow]="rowData"
         >
-            @if (selectionMode() === 'multiple') {
-                <td>
-                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-                </td>
-            }
             @for (col of columns; track trackByColField($index, col)) {
                 <td [class]="col.class">
-                    @if (col.type === 'badge-button') {
+                    @if (col.field === '__selection') {
+                        <p-tableCheckbox [value]="rowData" />
+                    } @else if (col.type === 'badge-button') {
                         <div class="flex justify-content-center">
                             <p-button
                                 [badge]="rowData[col.field] || '0'"
@@ -110,12 +105,13 @@
                             />
                         </div>
                     } @else if (col.type === 'number') {
-                        <p-badge
+                        <b>{{rowData[col.field] | separatorThousandsPipe}}</b>
+                        <!-- <p-badge
                             [value]="
                                 rowData[col.field] | separatorThousandsPipe
                             "
                             [severity]="numberSeverity(rowData[col.field])"
-                        />
+                        /> -->
                     } @else {
                         @switch (col.field) {
                             @case ('__reorder') {
@@ -306,7 +302,7 @@
                     {{ 'COMMON.NO_DATA' | translate }}
                 } @else {
                     <p-progressSpinner
-                        [style]="{ width: '30px', height: '50px' }"
+                        [style]="{ width: '30px', height: '30px' }"
                         strokeWidth="8"
                         fill="#EEEEEE"
                         animationDuration=".5s"

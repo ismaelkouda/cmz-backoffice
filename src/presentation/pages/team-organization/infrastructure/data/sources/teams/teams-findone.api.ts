@@ -14,7 +14,9 @@ export class TeamsFindOneApi {
         @Inject(TEAM_ORGANIZATION_BASE_URL) private readonly baseUrl: string
     ) {}
 
-    readAll(filter: TeamsFindOneFilterApiDto): Observable<TeamsFindOneResponseApiDto> {
+    readAll(
+        filter: TeamsFindOneFilterApiDto
+    ): Observable<TeamsFindOneResponseApiDto> {
         const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${filter.id}`;
         return this.http.get<TeamsFindOneResponseApiDto>(url);
     }

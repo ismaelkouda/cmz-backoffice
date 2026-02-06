@@ -1,5 +1,5 @@
-import { FormControl } from '@angular/forms';
+// import { FormControl } from '@angular/forms';
 
-export interface TeamsFreeParticipantsAssignControl {
-    participants: FormControl<string[] | undefined>;
-}
+// export interface TeamsFreeParticipantsAssignControl {
+//     participants: FormControl<string[] | undefined>;
+// }

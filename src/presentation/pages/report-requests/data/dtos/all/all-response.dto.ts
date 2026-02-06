@@ -8,6 +8,8 @@ export enum ReportStatusDto {
     APPROVED = 'approved',
     REJECTED = 'rejected',
     ABANDONED = 'abandoned',
+    'in-progress' = 'in-progress',
+    TERMINATED = 'terminated',
     UNKNOWN = 'unknown',
 }
 

@@ -84,7 +84,7 @@ export class ProfilsHabilitationsUsersComponent {
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly modalService = inject(NgbModal);
-    private readonly currentLang = signal<string>(this.translate.currentLang);
+    private readonly currentLang = signal<string>(this.translate.getCurrentLang());
     private readonly destroy$ = new Subject<void>();
     public readonly tableConfig = PROFILES_HABILITATIONS_USERS_TABLE_CONSTANT;
 

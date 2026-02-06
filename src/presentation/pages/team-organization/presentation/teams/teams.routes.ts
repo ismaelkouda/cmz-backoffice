@@ -5,6 +5,7 @@ import { HistoryComponent } from '@shared/components/history/history.component';
 import { TeamsFormComponent } from '@presentation/pages/team-organization/presentation/teams/teams-form/teams-form.component';
 import { TeamsListComponent } from '@presentation/pages/team-organization/presentation/teams/teams-list/teams-list.component';
 import { TeamsPageComponent } from '@presentation/pages/team-organization/presentation/teams/teams-page/teams-page.component';
+
 import { TeamsParticipantsComponent } from './teams-participants/teams-participants.component';
 
 export const TEAMS_LIST = 'list';
@@ -30,7 +31,7 @@ export const TEAMS_ROUTES: Routes = [
                 path: TEAMS_HISTORY,
                 component: HistoryComponent,
                 data: { breadcrumb: { hide: true } },
-            }
+            },
         ],
     },
     {

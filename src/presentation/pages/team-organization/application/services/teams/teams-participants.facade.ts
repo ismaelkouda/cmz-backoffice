@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { finalize, Observable } from 'rxjs';
 
 import { BaseFacade } from '@shared/application/base/base-facade';
 import {
@@ -9,14 +9,15 @@ import {
 import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
+import { TeamsParticipantsAssignBus } from '@presentation/pages/team-organization/application/bus/teams/teams-participants-assign.bus';
+import { TeamsParticipantsReassignBus } from '@presentation/pages/team-organization/application/bus/teams/teams-participants-reassign.bus';
+import { TeamsParticipantsRemoveBus } from '@presentation/pages/team-organization/application/bus/teams/teams-participants-remove.bus';
+import { TeamsParticipantsAssignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-assign.command';
+import { TeamsParticipantsReassignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-reassign.command';
+import { TeamsParticipantsRemoveCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-remove.command';
 import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-filter.dto';
-import { TeamsParticipantsReassignDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-reassign.dto';
-import { TeamsParticipantsRemoveDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-remove.dto';
 import { TeamsParticipantsUseCase } from '@presentation/pages/team-organization/application/use-cases/teams/teams-participants.use-case';
 import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TeamsParticipantsReassignCommand } from '../../commands/teams/teams-participants-reassign.command';
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -27,8 +28,20 @@ export class TeamsParticipantsFacade extends BaseFacade<
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly useCase = inject(TeamsParticipantsUseCase);
+    private readonly teamsParticipantsReassignBus = inject(
+        TeamsParticipantsReassignBus
+    );
+    private readonly teamsParticipantsAssignBus = inject(
+        TeamsParticipantsAssignBus
+    );
+    private readonly teamsParticipantsRemoveBus = inject(
+        TeamsParticipantsRemoveBus
+    );
 
-    readonly item$ = this.items$;
+    private readonly _actionState = signal<
+        'idle' | 'loading' | 'success' | 'error'
+    >('idle');
+    readonly actionState = this._actionState.asReadonly();
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
@@ -118,18 +131,72 @@ export class TeamsParticipantsFacade extends BaseFacade<
         };
     }
 
-    reassign(command: TeamsParticipantsReassignCommand): Observable<SimpleResponseDto<void>> {
-        return this.handleActionWithRefresh(
-            this.useCase.reassign(command),
-            'COMMON.SUCCESS.UPDATE'
+    reassign(uniqId: string, participants: TeamsParticipantsEntity[]) {
+        this._actionState.set('loading');
+        const command = new TeamsParticipantsReassignCommand(
+            uniqId,
+            participants.map((p) => p.uniqId)
         );
+        return this.handleActionWithRefresh(
+            this.teamsParticipantsReassignBus.dispatch(command),
+            'COMMON.SUCCESS.REASSIGN'
+        )
+            .pipe(
+                finalize(() => {
+                    if (this._actionState() === 'loading') {
+                        this._actionState.set('idle');
+                    }
+                })
+            )
+            .subscribe({
+                next: () => this._actionState.set('success'),
+                error: () => this._actionState.set('error'),
+            });
     }
-    
 
-    remove(dto: TeamsParticipantsRemoveDto) {
-        return this.handleActionWithRefresh(
-            this.useCase.remove(dto),
-            'COMMON.SUCCESS.UPDATE'
+    assign(uniqId: string, ...participants: string[]) {
+        this._actionState.set('loading');
+        const command = new TeamsParticipantsAssignCommand(
+            uniqId,
+            participants
         );
+        return this.handleActionWithRefresh(
+            this.teamsParticipantsAssignBus.dispatch(command),
+            'COMMON.SUCCESS.ASSIGN'
+        )
+            .pipe(
+                finalize(() => {
+                    if (this._actionState() === 'loading') {
+                        this._actionState.set('idle');
+                    }
+                })
+            )
+            .subscribe({
+                next: () => this._actionState.set('success'),
+                error: () => this._actionState.set('error'),
+            });
+    }
+
+    remove(uniqId: string, participants: TeamsParticipantsEntity[]) {
+        this._actionState.set('loading');
+        const command = new TeamsParticipantsRemoveCommand(
+            uniqId,
+            participants.map((p) => p.uniqId)
+        );
+        return this.handleActionWithRefresh(
+            this.teamsParticipantsRemoveBus.dispatch(command),
+            'COMMON.SUCCESS.REMOVE'
+        )
+            .pipe(
+                finalize(() => {
+                    if (this._actionState() === 'loading') {
+                        this._actionState.set('idle');
+                    }
+                })
+            )
+            .subscribe({
+                next: () => this._actionState.set('success'),
+                error: () => this._actionState.set('error'),
+            });
     }
 }

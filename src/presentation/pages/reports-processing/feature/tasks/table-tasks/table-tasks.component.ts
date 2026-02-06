@@ -156,6 +156,7 @@ export class TableTasksComponent implements OnInit, OnDestroy {
     }
 
     handleSelectCount(value: number | null): void {
+        console.log(value);
         if (!value || value <= 0) {
             this.selectionService.clearSelection('input');
         } else {
@@ -168,6 +169,7 @@ export class TableTasksComponent implements OnInit, OnDestroy {
     }
 
     isItemSelected(item: TasksEntity): boolean {
+        console.log('item: TasksEntity', item);
         return this.selectionService.isItemSelected(item);
     }
 

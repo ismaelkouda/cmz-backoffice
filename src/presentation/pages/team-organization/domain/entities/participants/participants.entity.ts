@@ -1,34 +1,53 @@
-import { ParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-response-api.dto';
+export interface ParticipantsProps {
+    uniqId: string;
+    lastName: string;
+    firstName: string;
+    email: string;
+    phone: string;
+    role: string;
+    status: string;
+    updatedAt: string;
+}
 
 export class ParticipantsEntity {
-    constructor(
-        public readonly uniqId: string,
-        public firstName: string,
-        public lastName: string,
-        public email: string,
-        public phone: string,
-        public role: string,
-        public isActive: boolean,
-        public createdAt: string
-    ) {}
+    constructor(private readonly props: ParticipantsProps) {}
 
-    static fromDto(dto: ParticipantsItemApiDto): ParticipantsEntity {
-        return new ParticipantsEntity(
-            dto.id,
-            dto.first_name,
-            dto.last_name,
-            dto.email,
-            dto.phone,
-            dto.role,
-            dto.is_active,
-            dto.created_at
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
     }
 
-    public with(dto: ParticipantsItemApiDto): ParticipantsEntity {
-        if (this.createdAt === dto.created_at) {
+    get lastName(): string {
+        return this.props.lastName;
+    }
+
+    get firstName(): string {
+        return this.props.firstName;
+    }
+
+    get email(): string {
+        return this.props.email;
+    }
+
+    get phone(): string {
+        return this.props.phone;
+    }
+
+    get role(): string {
+        return this.props.role;
+    }
+
+    get status(): string {
+        return this.props.status;
+    }
+
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
+    public with(props: ParticipantsProps): ParticipantsEntity {
+        if (this.updatedAt === props.updatedAt) {
             return this;
         }
-        return ParticipantsEntity.fromDto(dto);
+        return new ParticipantsEntity(props);
     }
 }

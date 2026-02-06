@@ -50,7 +50,9 @@ export class ParticipantsApi {
     }
 
     delete(id: string): Observable<SimpleResponseDto<void>> {
+        console.log('id4', id);
         const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${id}/delete`;
+        console.log('url', url);
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 

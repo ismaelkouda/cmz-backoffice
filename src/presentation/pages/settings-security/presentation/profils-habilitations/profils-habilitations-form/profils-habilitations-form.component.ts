@@ -9,7 +9,6 @@ import {
     Signal,
     WritableSignal,
     DestroyRef,
-    OnInit,
 } from '@angular/core';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -36,20 +35,16 @@ import SweetAlert from 'sweetalert2';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { TreeNodeInterface } from '@shared/interfaces/tree-node.interface';
 import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
+import { PermissionTreeService } from '@shared/services/permission-tree-node.service';
 
 import { ProfilsHabilitationsFindOneFacade } from '@presentation/pages/settings-security/core/application/services/profils-habilitations/profils-habilitations-findone.facade';
 import { ProfilsHabilitationsFacade } from '@presentation/pages/settings-security/core/application/services/profils-habilitations/profils-habilitations.facade';
 import { ProfilsHabilitationsFormControls } from '@presentation/pages/settings-security/core/domain/controls/profils-habilitations/profils-habilitations-form.control';
-import { ProfilsHabilitationsTreeNodeInterface } from '@presentation/pages/settings-security/core/domain/interfaces/profils-habilitations/profils-habilitations-tree-node.interface';
-import { PermissionTreeService } from '@presentation/pages/settings-security/core/domain/services/profils-habilitations/permission-tree-node.service';
 import { FormValidators } from '@presentation/pages/settings-security/core/domain/validators/form-validators';
 import { ProfilsHabilitationsFormValidationService } from '@presentation/pages/settings-security/presentation/profils-habilitations/profils-habilitations-form/profils-habilitations-form-validation.service';
 import { PROFILES_HABILITATIONS_ROUTE } from '@presentation/pages/settings-security/settings-security.routes';
-
-interface TreeNodeEvent {
-    node: ProfilsHabilitationsTreeNodeInterface;
-}
 
 @Component({
     selector: 'app-profils-habilitations-form',
@@ -78,7 +73,7 @@ interface TreeNodeEvent {
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfilsHabilitationsFormComponent implements OnInit {
+export class ProfilsHabilitationsFormComponent {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly fb = inject(FormBuilder);
@@ -105,9 +100,7 @@ export class ProfilsHabilitationsFormComponent implements OnInit {
         { initialValue: '' }
     );
     readonly isEditMode = computed(() => !!this.paramsUniqId());
-    readonly permissionTree: WritableSignal<
-        ProfilsHabilitationsTreeNodeInterface[]
-    > = signal([]);
+    readonly permissionTree: WritableSignal<TreeNodeInterface[]> = signal([]);
 
     private readonly updatePermissionTree = effect(
         () => {
@@ -119,7 +112,7 @@ export class ProfilsHabilitationsFormComponent implements OnInit {
         },
         { allowSignalWrites: true }
     );
-    readonly selectedKeys: WritableSignal<Record<string, boolean>> = signal({});
+    public selectedNodes: TreeNodeInterface[] = [];
     readonly form: FormGroup<ProfilsHabilitationsFormControls> =
         this.fb.nonNullable.group<ProfilsHabilitationsFormControls>({
             name: new FormControl('', {
@@ -167,21 +160,31 @@ export class ProfilsHabilitationsFormComponent implements OnInit {
 
     private readonly initializeFormFromProfile = effect(
         () => {
-            const profileHabilitation = this.items();
             const treeNodes = this.permissionTree();
-
-            if (profileHabilitation && treeNodes.length > 0) {
-                const selectionKeys =
-                    this.treeService.initializeSelectionKeys(treeNodes);
-                this.selectedKeys.set(selectionKeys);
-
-                // this.treeService.updateNodesExpanded(treeNodes, selectionKeys);
-            } else if (!profileHabilitation) {
-                this.selectedKeys.set({});
+            if (treeNodes.length > 0) {
+                const checkedNodes = this.collectCheckedNodes(treeNodes);
+                this.selectedNodes = [...checkedNodes];
+            } else {
+                this.selectedNodes = [];
             }
         },
         { allowSignalWrites: true }
     );
+
+    private collectCheckedNodes(
+        nodes: TreeNodeInterface[]
+    ): TreeNodeInterface[] {
+        const result: TreeNodeInterface[] = [];
+        for (const node of nodes) {
+            if (node.checked) {
+                result.push(node);
+            }
+            if (node.children?.length) {
+                result.push(...this.collectCheckedNodes(node.children));
+            }
+        }
+        return result;
+    }
 
     private readonly handleRouteParamsChange = effect(
         () => {
@@ -197,12 +200,6 @@ export class ProfilsHabilitationsFormComponent implements OnInit {
         { allowSignalWrites: true }
     );
 
-    ngOnInit(): void {
-        const uniqId = this.paramsUniqId();
-        console.log('uniqId', this.paramsUniqId());
-        this.facade.read({ uniqId }, true);
-    }
-
     onExpandAll(): void {
         const treeNodes = this.permissionTree();
         const expandedNodes = this.treeService.expandAll(treeNodes);
@@ -215,39 +212,21 @@ export class ProfilsHabilitationsFormComponent implements OnInit {
         this.permissionTree.set(collapsedNodes);
     }
 
-    onNodeExpand(event: TreeNodeEvent): void {
-        console.debug(`Node expanded: ${event.node.label} (${event.node.key})`);
-    }
-
-    onNodeCollapse(event: TreeNodeEvent): void {
-        console.debug(
-            `Node collapsed: ${event.node.label} (${event.node.key})`
+    onTreeInteractions(): void {
+        const selectedPermissions = this.treeService.collectLeafKeysFromNodes(
+            this.selectedNodes
         );
-    }
-
-    onSelectionChange(keys: any): void {
-        console.log('onSelectionChange', keys.node);
-        this.selectedKeys.set(keys);
-        const selectedPermissions =
-            this.treeService.collectLeafKeysFromSelection(
-                this.permissionTree(),
-                keys.node
-            );
-        console.log('selectedPermissions', selectedPermissions);
         this.form.controls.permissions.setValue(selectedPermissions);
     }
 
-    getSelectedPermissionsCount(): number {
-        const selected = this.treeService.convertSelectionKeysToArray(
-            this.selectedKeys()
-        );
-        return selected.length;
-    }
+    // getSelectedPermissionsCount(): number {
+    //     const selected = this.treeService.convertSelectionKeysToArray(
+    //         this.selectedKeys()
+    //     );
+    //     return selected.length;
+    // }
 
-    trackByKey(
-        _index: number,
-        node: ProfilsHabilitationsTreeNodeInterface
-    ): string {
+    trackByKey(_index: number, node: TreeNodeInterface): string {
         return node.key;
     }
 

@@ -97,20 +97,20 @@ export const content: Routes = [
                 (m) => m.routes
             ),
     },
-    {
-        path: COMMUNICATION_ROUTE,
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/communication/communication.routes'
-            ).then((m) => m.routes),
-        data: {
-            module: 'COMMUNICATION',
-            subModule: [
-                'COMMUNICATION.MESSAGES.LABEL',
-                'COMMUNICATION.NOTIFICATIONS.LABEL',
-            ],
-        },
-    },
+    // {
+    //     path: COMMUNICATION_ROUTE,
+    //     loadChildren: () =>
+    //         import(
+    //             '../../presentation/pages/communication/communication.routes'
+    //         ).then((m) => m.routes),
+    //     data: {
+    //         module: 'COMMUNICATION',
+    //         subModule: [
+    //             'COMMUNICATION.MESSAGES.LABEL',
+    //             'COMMUNICATION.NOTIFICATIONS.LABEL',
+    //         ],
+    //     },
+    // },
     {
         path: CONTENT_MANAGEMENT_ROUTE,
         loadChildren: () =>

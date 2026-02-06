@@ -23,8 +23,6 @@ export class ProfilsHabilitationsFindOneMapper extends SimpleResponseMapper<
     protected mapItemFromDto(
         dto: ProfilsHabilitationsFindOneItemApiDto
     ): ProfilsHabilitationsFindOneEntity {
-        console.log('dto mapItemFromDto', dto.permissions);
-
         MapperUtils.validateDto(dto, { required: ['permissions'] });
 
         const cacheKey =
