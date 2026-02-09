@@ -492,25 +492,48 @@
                                                                             'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.SELECTED_COUNT'
                                                                                 | translate
                                                                         }}:
-                                                                        {{ leafCount() }}
+                                                                        {{
+                                                                            leafCount()
+                                                                        }}
                                                                     </span>
                                                                 </div>
 
                                                                 <div
                                                                     class="tree-container border rounded p-3"
                                                                 >
-                                                                    @if (permissionTree().length > 0) {
-                                                                        <p-tree [value]="permissionTree()"
+                                                                    @if (
+                                                                        permissionTree()
+                                                                            .length >
+                                                                        0
+                                                                    ) {
+                                                                        <p-tree
+                                                                            [value]="
+                                                                                permissionTree()
+                                                                            "
                                                                             selectionMode="checkbox"
-                                                                            [(selection)]="selectedNodes"
-                                                                            (onNodeSelect)="onTreeInteractions()"
-                                                                            (onNodeUnselect)="onTreeInteractions()"
+                                                                            [(selection)]="
+                                                                                selectedNodes
+                                                                            "
+                                                                            (onNodeSelect)="
+                                                                                onTreeInteractions()
+                                                                            "
+                                                                            (onNodeUnselect)="
+                                                                                onTreeInteractions()
+                                                                            "
                                                                             class="w-full"
-                                                                            [filter]="true"
-                                                                            [filterPlaceholder]="'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.TREE_PLACEHOLDER' | translate"
+                                                                            [filter]="
+                                                                                true
+                                                                            "
+                                                                            [filterPlaceholder]="
+                                                                                'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_AREA_EXPERTISE.TREE_PLACEHOLDER'
+                                                                                    | translate
+                                                                            "
                                                                             scrollHeight="400px"
                                                                         >
-                                                                            <ng-template pTemplate="default" let-node>
+                                                                            <ng-template
+                                                                                pTemplate="default"
+                                                                                let-node
+                                                                            >
                                                                                 <div
                                                                                     class="d-flex align-items-center justify-content-between w-100"
                                                                                 >

@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
 
 import {
@@ -19,6 +20,7 @@ export class ParticipantsMapper extends PaginatedMapper<
 > {
     private readonly actionDropdownMapper: ActionDropdownMapper =
         inject(ActionDropdownMapper);
+    private readonly rolesMapper: RolesMapper = inject(RolesMapper);
     private readonly entityCache = new Map<string, ParticipantsEntity>();
 
     protected mapItemFromDto(dto: ParticipantsItemApiDto): ParticipantsEntity {
@@ -29,7 +31,8 @@ export class ParticipantsMapper extends PaginatedMapper<
             firstName: dto.first_name,
             email: dto.email,
             phone: dto.phone,
-            role: dto.role,
+            role: this.rolesMapper.mapFromDto(dto.role),
+            roleStyle: this.rolesMapper.mapFromStyle(dto.role),
             status: this.actionDropdownMapper.mapFromDto(dto.status),
             updatedAt: dto.updated_at,
         };

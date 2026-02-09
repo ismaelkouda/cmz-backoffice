@@ -34,14 +34,11 @@ export const PARTICIPANTS_TABLE_CONSTANT = {
         },
         {
             field: 'role',
+            style: 'roleStyle',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.ROLE',
-            width: '7rem',
-        },
-        {
-            field: 'state',
-            header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.STATE',
             class: 'text-center',
             width: '7rem',
+            type: 'badge',
         },
         {
             field: 'status',
@@ -69,7 +66,6 @@ export const PARTICIPANTS_TABLE_CONSTANT = {
         'email',
         'phone',
         'role',
-        'state',
         'status',
         'createdAt',
     ],

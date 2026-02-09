@@ -28,3 +28,13 @@ export interface FilterOption {
     label: string;
     value: string | number | boolean;
 }
+
+export function enumToFilterOptions<T extends Record<string, string>>(
+    e: T,
+    translate: (key: string) => string
+) {
+    return Object.entries(e).map(([key, translationKey]) => ({
+        label: translate(translationKey),
+        value: key.toLowerCase(),
+    }));
+}

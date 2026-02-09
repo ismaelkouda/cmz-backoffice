@@ -165,7 +165,8 @@ $dark-gray: var(--color-gray);
 }
 
 .form-p-select,
-.p-inputtext {
+.p-inputtext,
+.form-input {
     padding: 7px;
     border: 2px solid $light-gray;
     border-radius: 12px;
@@ -200,7 +201,7 @@ $dark-gray: var(--color-gray);
         }
     }
 
-    &--valid {
+    &.ng-valid.ng-touched {
         border-color: var(--color-success, #28a745);
         background-color: color-mix(
             in srgb,

@@ -436,7 +436,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             confirmButtonText: this.translate.instant(
                 this.getSweetAlertConfirm()
             ),
-            cancelButtonText: this.translate.instant('CANCEL'),
+            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
         }).then((result) => {
             if (
                 result.isConfirmed &&

@@ -81,12 +81,9 @@ export class AccessLogsListComponent implements OnInit {
     constructor() {
         this.setPageTitle();
 
-        effect(
-            () => {
-                this.facade.readAll();
-            },
-            { allowSignalWrites: true }
-        );
+        effect(() => {
+            this.facade.readAll();
+        });
     }
 
     ngOnInit(): void {

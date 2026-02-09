@@ -23,7 +23,7 @@
                         </div>
                         <p-button
                             [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="onCancel()"
+                            (onClick)="navigateToBack()"
                             styleClass="p-button-danger"
                             [attr.aria-label]="'COMMON.CLOSE' | translate"
                         >
@@ -378,7 +378,9 @@
                                                     <p-select
                                                         id="role"
                                                         class="form-p-select"
-                                                        [options]="rolesOptions()"
+                                                        [options]="
+                                                            rolesOptions()
+                                                        "
                                                         formControlName="role"
                                                         optionLabel="label"
                                                         optionValue="value"
@@ -428,7 +430,7 @@
                                                     'COMMON.CANCEL' | translate
                                                 }}"
                                                 styleClass="p-button-text p-button-secondary"
-                                                (click)="onCancel()"
+                                                (click)="navigateToBack()"
                                                 [attr.aria-label]="
                                                     'COMMON.CANCEL' | translate
                                                 "

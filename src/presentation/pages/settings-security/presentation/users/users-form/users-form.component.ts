@@ -174,8 +174,7 @@ export class UsersFormComponent implements OnInit {
                 this.findOneFacade.reset();
                 this.form.reset();
             }
-        },
-        { allowSignalWrites: true }
+        } 
     );
 
     private readonly patchFormFromUser = effect(
@@ -196,8 +195,7 @@ export class UsersFormComponent implements OnInit {
                     );
                 }
             });
-        },
-        { allowSignalWrites: true }
+        } 
     );
 
     ngOnInit(): void {

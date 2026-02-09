@@ -7,5 +7,7 @@ import { ParticipantsSelectEntity } from '@presentation/pages/team-organization/
     providedIn: 'root',
 })
 export abstract class ParticipantsSelectRepository {
-    abstract readAll(): Observable<ParticipantsSelectEntity[]>;
+    abstract readAll(
+        filter: string | null
+    ): Observable<ParticipantsSelectEntity[]>;
 }

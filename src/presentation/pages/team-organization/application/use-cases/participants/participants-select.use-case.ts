@@ -10,7 +10,7 @@ import { ParticipantsSelectRepository } from '@presentation/pages/team-organizat
 export class ParticipantsSelectUseCase {
     private readonly repository = inject(ParticipantsSelectRepository);
 
-    readAll(): Observable<ParticipantsSelectEntity[]> {
-        return this.repository.readAll();
+    readAll(filter: string | null): Observable<ParticipantsSelectEntity[]> {
+        return this.repository.readAll(filter);
     }
 }

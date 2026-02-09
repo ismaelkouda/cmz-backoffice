@@ -3,12 +3,14 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
+    DestroyRef,
     effect,
     inject,
     signal,
     Signal,
+    OnInit,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
     FormControl,
@@ -20,12 +22,13 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
@@ -36,6 +39,7 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { Roles } from '@shared/domain/enums/roles.enum';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 
@@ -70,7 +74,7 @@ import { TeamsParticipantsFormHelperService } from '@presentation/pages/team-org
     providers: [TeamsParticipantsFormHelperService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TeamsParticipantsComponent {
+export class TeamsParticipantsComponent implements OnInit {
     private readonly title = inject(Title);
     public readonly facade = inject(TeamsParticipantsFacade);
     public readonly teamsSelectFacade = inject(TeamsSelectFacade);
@@ -78,7 +82,8 @@ export class TeamsParticipantsComponent {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
-    private readonly toastr = inject(ToastrService);
+    private readonly toast = inject(ToastrService);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly helperService = inject(TeamsParticipantsFormHelperService);
@@ -87,9 +92,7 @@ export class TeamsParticipantsComponent {
     );
     public readonly tableConfig = TEAMS_PARTICIPANTS_TABLE_CONSTANT;
 
-    readonly selectionInputValue = signal<number | null>(null);
-
-    readonly curentTeamsParticipants = toSignal(this.facade.items$, {
+    readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
     readonly loading = toSignal(this.facade.isLoading$, {
@@ -155,12 +158,6 @@ export class TeamsParticipantsComponent {
         if (!this.openReassignRequested()) {
             return;
         }
-
-        const teams = this.teams();
-        if (!teams.length) {
-            return;
-        }
-
         this.reassignForm.reset();
         this.displayReassignModal.set(true);
         this.openReassignRequested.set(false);
@@ -170,12 +167,6 @@ export class TeamsParticipantsComponent {
         if (!this.openAssignRequested()) {
             return;
         }
-
-        const participants = this.participants();
-        if (!participants.length) {
-            return;
-        }
-
         this.assignForm.reset();
         this.displayAssignModal.set(true);
         this.openAssignRequested.set(false);
@@ -201,38 +192,49 @@ export class TeamsParticipantsComponent {
         participants: [null, [Validators.required]],
     });
 
-    public readonly assignedParticipants = signal<TeamsParticipantsEntity[]>(
-        []
-    );
+    public readonly participantsSelectedInTable = signal<
+        TeamsParticipantsEntity[]
+    >([]);
 
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
-            label: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.BUTTONS.ASSIGN',
+            label: 'COMMON.ASSIGN',
             actionId: 'assign',
+            type: 'splitbutton',
             class: 'btn-primary',
             icon: 'pi pi-user-plus',
-            translateKey:
-                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.BUTTONS.ASSIGN',
+            translateKey: 'COMMON.ASSIGN',
+            items: this.buildAssignMenuItems(),
         },
         {
-            label: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.BUTTONS.REASSIGN',
+            label: 'COMMON.REASSIGN',
             actionId: 'reassign',
             class: 'btn-warning',
             icon: 'pi pi-user-edit',
-            translateKey:
-                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.BUTTONS.REASSIGN',
-            disabled: this.assignedParticipants().length === 0,
+            translateKey: 'COMMON.REASSIGN',
+            disabled: this.participantsSelectedInTable().length === 0,
         },
         {
-            label: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.BUTTONS.REMOVE',
+            label: 'COMMON.REMOVE',
             actionId: 'remove',
             class: 'btn-danger',
             icon: 'pi pi-trash',
-            translateKey:
-                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.BUTTONS.REMOVE',
-            disabled: this.assignedParticipants().length === 0,
+            translateKey: 'COMMON.REMOVE',
+            disabled: this.participantsSelectedInTable().length === 0,
         },
     ]);
+
+    private buildAssignMenuItems(): MenuItem[] {
+        return Object.entries(Roles).map(([key, translationKey]) => ({
+            label: this.t(translationKey),
+            command: () => this.onAssignRoleSelected(key.toLowerCase()),
+        }));
+    }
+
+    private onAssignRoleSelected(role: string): void {
+        this.openAssignRequested.set(true);
+        this.participantsSelectFacade.readAll(role);
+    }
 
     private readonly paramsUniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
@@ -300,7 +302,7 @@ export class TeamsParticipantsComponent {
         ];
     });
 
-    public formFilter: FormGroup<TeamsParticipantsFilterControl> =
+    public form: FormGroup<TeamsParticipantsFilterControl> =
         this.fb.group<TeamsParticipantsFilterControl>({
             search: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
@@ -313,17 +315,22 @@ export class TeamsParticipantsComponent {
             }),
         });
 
-    private readonly initEffect = effect(() => {
-        const uniqId = this.paramsUniqId();
-
-        this.facade.reset();
-
-        if (uniqId) {
-            this.facade.readAll({ uniqId });
-        } else {
-            this.formFilter.reset();
-        }
-    });
+    ngOnInit(): void {
+        this.activatedRoute.queryParams
+            .pipe(
+                map((p) => (p['uniqId'] as string) || ''),
+                tap((uniqId) => {
+                    this.facade.reset();
+                    if (uniqId) {
+                        this.facade.readAll({ uniqId }, '1', true);
+                    } else {
+                        this.form.reset();
+                    }
+                }),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe();
+    }
 
     public onFilter(filterValue: any): void {
         if (!this.paramsUniqId()) {
@@ -343,9 +350,9 @@ export class TeamsParticipantsComponent {
     }
 
     public onRefresh(): void {
-        this.formFilter.reset();
+        this.form.reset();
         this.facade.refresh();
-        this.assignedParticipants.set([]);
+        this.participantsSelectedInTable.set([]);
         this.assignForm.reset();
         this.reassignForm.reset();
     }
@@ -355,9 +362,9 @@ export class TeamsParticipantsComponent {
     }
 
     public onExportExcel(): void {
-        const items = this.curentTeamsParticipants();
+        const items = this.items();
         if (!items.length) {
-            this.toastr.error(this.t('EXPORT.NO_DATA'));
+            this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
 
@@ -369,9 +376,6 @@ export class TeamsParticipantsComponent {
     }
 
     public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === 'assign') {
-            this.openAssignModal();
-        }
         if (actionId === 'reassign') {
             this.openReassignModal();
         } else if (actionId === 'remove') {
@@ -383,17 +387,12 @@ export class TeamsParticipantsComponent {
         selection: TeamsParticipantsEntity | TeamsParticipantsEntity[]
     ): void {
         const participants = Array.isArray(selection) ? selection : [selection];
-        this.assignedParticipants.set(participants.filter((u) => !!u));
+        this.participantsSelectedInTable.set(participants.filter((u) => !!u));
     }
 
     private openReassignModal(): void {
         this.openReassignRequested.set(true);
         this.teamsSelectFacade.readAll();
-    }
-
-    private openAssignModal(): void {
-        this.openAssignRequested.set(true);
-        this.participantsSelectFacade.readAll();
     }
 
     public closeReassignModal(): void {
@@ -410,7 +409,8 @@ export class TeamsParticipantsComponent {
         if (this.reassignForm.invalid || !this.paramsUniqId()) {
             return;
         }
-        this.facade.reassign(this.paramsUniqId(), this.assignedParticipants());
+        const { team } = this.reassignForm.getRawValue();
+        this.facade.reassign(team, this.participantsSelectedInTable());
     }
 
     public onSubmitAssign(): void {
@@ -422,7 +422,10 @@ export class TeamsParticipantsComponent {
     }
 
     private onRemoveParticipants(): void {
-        if (!this.paramsUniqId() || this.assignedParticipants().length === 0) {
+        if (
+            !this.paramsUniqId() ||
+            this.participantsSelectedInTable().length === 0
+        ) {
             return;
         }
 
@@ -440,7 +443,7 @@ export class TeamsParticipantsComponent {
             if (result.isConfirmed) {
                 this.facade.remove(
                     this.paramsUniqId(),
-                    this.assignedParticipants()
+                    this.participantsSelectedInTable()
                 );
             }
         });
@@ -454,8 +457,8 @@ export class TeamsParticipantsComponent {
         return (
             name
                 .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/(^-|-$)/g, '') || 'cmz'
+                .replaceAll(/[^a-z0-9]+/g, '-')
+                .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
     }
 

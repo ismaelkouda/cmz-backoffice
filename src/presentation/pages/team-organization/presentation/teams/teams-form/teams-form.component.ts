@@ -5,12 +5,11 @@ import {
     computed,
     inject,
     Signal,
-    DestroyRef,
     effect,
     signal,
     WritableSignal,
 } from '@angular/core';
-import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
     FormControl,
@@ -85,7 +84,6 @@ export class TeamsFormComponent {
     private readonly facade = inject(TeamsFindOneFacade);
     private readonly permissionsFacade = inject(TeamsPermissionsFacade);
     private readonly translate = inject(TranslateService);
-    private readonly destroyRef = inject(DestroyRef);
     private readonly validationService = inject(TeamsFormValidationService);
     public readonly treeService = inject(PermissionTreeService);
     private readonly helperService = inject(TeamsFormHelperService);
@@ -113,23 +111,18 @@ export class TeamsFormComponent {
     readonly permissionTree: WritableSignal<TreeNodeInterface[]> = signal([]);
     readonly leafCount: WritableSignal<number> = signal(0);
 
-    private readonly updatePermissionTree = effect(
-        () => {
-            const item = this.items();
-            const permissions = this.permissions();
-            const tree = this.paramsUniqId()
-                ? item?.permissions
-                    ? this.treeService.transformPermissionsToTree(
-                          item.permissions
-                      )
-                    : []
-                : this.treeService.transformPermissionsToTree(
-                      permissions?.props?.permissions ?? []
-                  );
-            this.permissionTree.set(tree);
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly updatePermissionTree = effect(() => {
+        const item = this.items();
+        const permissions = this.permissions();
+        const tree = this.paramsUniqId()
+            ? item?.permissions
+                ? this.treeService.transformPermissionsToTree(item.permissions)
+                : []
+            : this.treeService.transformPermissionsToTree(
+                  permissions?.props?.permissions ?? []
+              );
+        this.permissionTree.set(tree);
+    });
     public selectedNodes: TreeNodeInterface[] = [];
 
     readonly reportTypeOptions = signal([
@@ -209,37 +202,31 @@ export class TeamsFormComponent {
             }),
         });
 
-    private readonly patchFormFromItem = effect(
-        () => {
-            const item = this.items();
-            if (item && Object.keys(item).length > 0) {
-                this.form.patchValue(
-                    {
-                        code: item.code,
-                        name: item.name,
-                        description: item.description,
-                        reportTypes: item.reportTypes || [],
-                        operators: item.operators || [],
-                    },
-                    { emitEvent: false }
-                );
-            }
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly patchFormFromItem = effect(() => {
+        const item = this.items();
+        if (item && Object.keys(item).length > 0) {
+            this.form.patchValue(
+                {
+                    code: item.code,
+                    name: item.name,
+                    description: item.description,
+                    reportTypes: item.reportTypes || [],
+                    operators: item.operators || [],
+                },
+                { emitEvent: false }
+            );
+        }
+    });
 
-    private readonly initializeFormFromProfile = effect(
-        () => {
-            const treeNodes = this.permissionTree();
-            if (treeNodes.length > 0) {
-                const checkedNodes = this.collectCheckedNodes(treeNodes);
-                this.selectedNodes = [...checkedNodes];
-            } else {
-                this.selectedNodes = [];
-            }
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly initializeFormFromProfile = effect(() => {
+        const treeNodes = this.permissionTree();
+        if (treeNodes.length > 0) {
+            const checkedNodes = this.collectCheckedNodes(treeNodes);
+            this.selectedNodes = [...checkedNodes];
+        } else {
+            this.selectedNodes = [];
+        }
+    });
 
     private collectCheckedNodes(
         nodes: TreeNodeInterface[]
@@ -256,21 +243,18 @@ export class TeamsFormComponent {
         return result;
     }
 
-    private readonly handleRouteParamsChange = effect(
-        () => {
-            const uniqId = this.paramsUniqId();
-            if (uniqId) {
-                this.facade.reset();
-                this.permissionsFacade.reset();
-                this.facade.read({ uniqId }, true);
-            } else {
-                this.facade.reset();
-                this.form.reset();
-                this.permissionsFacade.readAll();
-            }
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly handleRouteParamsChange = effect(() => {
+        const uniqId = this.paramsUniqId();
+        if (uniqId) {
+            this.facade.reset();
+            this.permissionsFacade.reset();
+            this.facade.read({ uniqId }, true);
+        } else {
+            this.facade.reset();
+            this.form.reset();
+            this.permissionsFacade.readAll();
+        }
+    });
 
     onExpandAll(): void {
         const treeNodes = this.permissionTree();
@@ -304,18 +288,15 @@ export class TeamsFormComponent {
 
     private showValidationErrors(): void {
         const errors: string[] = [];
-
         if (this.form.controls.name.invalid) {
             errors.push(this.getErrorMessage('name'));
         }
-
         if (this.form.controls.description.invalid) {
             errors.push(this.getErrorMessage('description'));
         }
-
         if (this.form.controls.permissions.invalid) {
             errors.push(
-                this.translate.instant(
+                this.t(
                     'TEAM_ORGANIZATION.TEAMS.FORM.VALIDATION.PERMISSIONS_REQUIRED'
                 )
             );
@@ -336,42 +317,32 @@ export class TeamsFormComponent {
 
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant(title),
-            text: this.translate.instant(message),
+            title: this.t(title),
+            text: this.t(message),
             backdrop: false,
-            confirmButtonText: this.translate.instant('COMMON.CONFIRM'),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.submitFormData();
+                this.submitForm();
             }
         });
     }
 
-    private submitFormData(): void {
-        const formData = this.form.getRawValue();
-        const uniqId = this.paramsUniqId();
-
-        if (this.isEditMode() && uniqId) {
-            this.submitFacade
-                .update({ uniqId, ...formData })
-                .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe({
-                    next: () => {
-                        this.onCancel();
-                        this.submitFacade.refreshWithLastFilterAndPage();
-                    },
-                });
+    private submitForm(): void {
+        const participant = this.form.getRawValue();
+        if (this.isEditMode()) {
+            this.submitFacade.update({
+                uniqId: this.paramsUniqId(),
+                ...participant,
+            });
         } else {
-            this.submitFacade
-                .create(formData)
-                .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe({
-                    next: () => {
-                        this.onCancel();
-                    },
-                });
+            this.submitFacade.create(participant);
         }
+    }
+
+    private t(key: string, params?: object): string {
+        return this.translate.instant(key, params);
     }
 
     onCancel(): void {

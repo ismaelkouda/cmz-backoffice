@@ -5,5 +5,5 @@ export interface TeamsUpdateDto {
     description: string;
     reportTypes: string[];
     operators: string[];
-    permissions: any[];
+    permissions: string[];
 }

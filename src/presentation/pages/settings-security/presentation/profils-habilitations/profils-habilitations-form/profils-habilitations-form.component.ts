@@ -102,16 +102,13 @@ export class ProfilsHabilitationsFormComponent {
     readonly isEditMode = computed(() => !!this.paramsUniqId());
     readonly permissionTree: WritableSignal<TreeNodeInterface[]> = signal([]);
 
-    private readonly updatePermissionTree = effect(
-        () => {
-            const item = this.items();
-            const tree = item?.permissions
-                ? this.treeService.transformPermissionsToTree(item.permissions)
-                : [];
-            this.permissionTree.set(tree);
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly updatePermissionTree = effect(() => {
+        const item = this.items();
+        const tree = item?.permissions
+            ? this.treeService.transformPermissionsToTree(item.permissions)
+            : [];
+        this.permissionTree.set(tree);
+    });
     public selectedNodes: TreeNodeInterface[] = [];
     readonly form: FormGroup<ProfilsHabilitationsFormControls> =
         this.fb.nonNullable.group<ProfilsHabilitationsFormControls>({
@@ -139,37 +136,31 @@ export class ProfilsHabilitationsFormComponent {
             }),
         });
 
-    private readonly patchFormFromProfile = effect(
-        () => {
-            const profileHabilitation = this.items();
-            if (
-                profileHabilitation &&
-                Object.keys(profileHabilitation).length > 0
-            ) {
-                this.form.patchValue(
-                    {
-                        name: profileHabilitation.name,
-                        description: profileHabilitation.description,
-                    },
-                    { emitEvent: false }
-                );
-            }
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly patchFormFromProfile = effect(() => {
+        const profileHabilitation = this.items();
+        if (
+            profileHabilitation &&
+            Object.keys(profileHabilitation).length > 0
+        ) {
+            this.form.patchValue(
+                {
+                    name: profileHabilitation.name,
+                    description: profileHabilitation.description,
+                },
+                { emitEvent: false }
+            );
+        }
+    });
 
-    private readonly initializeFormFromProfile = effect(
-        () => {
-            const treeNodes = this.permissionTree();
-            if (treeNodes.length > 0) {
-                const checkedNodes = this.collectCheckedNodes(treeNodes);
-                this.selectedNodes = [...checkedNodes];
-            } else {
-                this.selectedNodes = [];
-            }
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly initializeFormFromProfile = effect(() => {
+        const treeNodes = this.permissionTree();
+        if (treeNodes.length > 0) {
+            const checkedNodes = this.collectCheckedNodes(treeNodes);
+            this.selectedNodes = [...checkedNodes];
+        } else {
+            this.selectedNodes = [];
+        }
+    });
 
     private collectCheckedNodes(
         nodes: TreeNodeInterface[]
@@ -186,19 +177,16 @@ export class ProfilsHabilitationsFormComponent {
         return result;
     }
 
-    private readonly handleRouteParamsChange = effect(
-        () => {
-            const uniqId = this.paramsUniqId();
-            if (uniqId) {
-                this.facade.reset();
-                this.facade.read({ uniqId }, true);
-            } else {
-                this.facade.reset();
-                this.form.reset();
-            }
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly handleRouteParamsChange = effect(() => {
+        const uniqId = this.paramsUniqId();
+        if (uniqId) {
+            this.facade.reset();
+            this.facade.read({ uniqId }, true);
+        } else {
+            this.facade.reset();
+            this.form.reset();
+        }
+    });
 
     onExpandAll(): void {
         const treeNodes = this.permissionTree();

@@ -51,6 +51,7 @@ export class TeamsApi {
     }
 
     disable(id: string): Observable<SimpleResponseDto<void>> {
+        console.log('id', id);
         const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${id}/disable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
