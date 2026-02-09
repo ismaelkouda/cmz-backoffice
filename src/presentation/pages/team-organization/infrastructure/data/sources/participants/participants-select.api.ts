@@ -13,8 +13,11 @@ export class ParticipantsSelectApi {
         @Inject(TEAM_ORGANIZATION_BASE_URL) private readonly baseUrl: string
     ) {}
 
-    readAll(): Observable<ParticipantsSelectResponseApiDto> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/free-members`;
+    readAll(
+        filter: string | null
+    ): Observable<ParticipantsSelectResponseApiDto> {
+        const param = filter ? `/${filter}` : '';
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}${param}/free-members`;
         return this.http.get<ParticipantsSelectResponseApiDto>(url);
     }
 }

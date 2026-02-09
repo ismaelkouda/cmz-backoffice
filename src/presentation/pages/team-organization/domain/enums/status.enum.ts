@@ -1,0 +1,6 @@
+export enum Status {
+    ACTIVE = 'COMMON.ACTIVE',
+    INACTIVE = 'COMMON.INACTIVE',
+    BLOCKED = 'COMMON.BLOCKED',
+    PENDING = 'COMMON.PENDING',
+}

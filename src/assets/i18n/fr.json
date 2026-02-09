@@ -838,6 +838,9 @@
         "REFRESH": "Rafraîchir",
         "EXPORT": "Exporter",
         "RESEARCH": "Rechercher",
+        "ASSIGN": "Affecter",
+        "REASSIGN": "Réaffecter",
+        "REMOVE": "Retirer",
         "LIST_OF": "Liste des",
         "UPDATED_AT": "Mises à jour au",
         "SUPERVISOR": "Superviseur",
@@ -2732,8 +2735,8 @@
                 "SEARCH_PLACEHOLDER": "Rechercher",
                 "STATUS": "Status",
                 "STATUS_PLACEHOLDER": "Status",
-                "PARTICIPANT": "Participant",
-                "PARTICIPANT_PLACEHOLDER": "Trouver un participant"
+                "PARTICIPANT": "Membre",
+                "PARTICIPANT_PLACEHOLDER": "Trouver un membre"
             },
             "TABLE": {
                 "CODE": "Code",
@@ -2821,10 +2824,10 @@
             },
             "PARTICIPANTS": {
                 "BREADCRUMB": {
-                    "LABEL": "Participants",
+                    "LABEL": "Membres",
                     "ROUTE": "participant"
                 },
-                "TITLE": "Participants de l'équipe",
+                "TITLE": "Membres de l'équipe",
                 "LABEL": "participants",
                 "ROUTE": "team-users",
                 "FILTER": {
@@ -2836,12 +2839,6 @@
                     "PHONE_PLACEHOLDER": "Téléphone"
                 },
                 "TABLE": {
-                    "BUTTONS": {
-                        "ADD": "Ajouter",
-                        "ASSIGN": "Affecter",
-                        "REASSIGN": "Réaffecter",
-                        "REMOVE": "Retirer"
-                    },
                     "CODE": "Code",
                     "FIRST_NAME": "Prénom",
                     "LAST_NAME": "Nom",
@@ -3205,8 +3202,8 @@
     },
     "TEAM_ORGANIZATION_EXTRA": {
         "PARTICIPANT": {
-            "LABEL": "Participants",
-            "TITLE": "Participants - CMZ gestion des participants",
+            "LABEL": "Membres",
+            "TITLE": "Membres",
             "FILTER": {
                 "ROLE": "Rôle",
                 "MATRICULE": "Matricule",
@@ -3271,7 +3268,7 @@
                 "REASSIGN_SUCCESS": "Réaffectation réalisée avec succès",
                 "RETIRE_SUCCESS": "Retrait réalisé avec succès",
                 "ERROR": {
-                    "LOAD_PARTICIPANTS": "Erreur lors du chargement des participants",
+                    "LOAD_PARTICIPANTS": "Erreur lors du chargement des membres",
                     "LOAD_TENANTS": "Erreur lors du chargement des tenants"
                 }
             },
@@ -3280,7 +3277,7 @@
                 "CODE": "Code",
                 "NAME": "Nom",
                 "TENANTS": "# Clients affectés",
-                "PARTICIPANTS": "# Participants affectés",
+                "PARTICIPANTS": "# Membres affectés",
                 "STATUS": "Statut",
                 "ACTION": "Action"
             },
@@ -3291,7 +3288,7 @@
                 "DISABLE": "Désactiver",
                 "DELETE": "Supprimer",
                 "MANAGE_TENANTS": "Gérer les clients affectés",
-                "MANAGE_PARTICIPANTS": "Gérer les participants affectés"
+                "MANAGE_PARTICIPANTS": "Gérer les membres affectés"
             },
             "LABELS": {
                 "STATUS": {

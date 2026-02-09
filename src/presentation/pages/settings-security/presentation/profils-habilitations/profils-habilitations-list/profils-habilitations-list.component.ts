@@ -62,7 +62,9 @@ export class ProfilsHabilitationsListComponent {
     private readonly toastr = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    private readonly currentLang = signal<string>(this.translate.getCurrentLang());
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
+    );
     private readonly destroy$ = new Subject<void>();
     readonly tableConfig = PROFILES_HABILITATIONS_TABLE_CONSTANT;
     readonly items = toSignal(this.facade.items$, { initialValue: [] });

@@ -5,18 +5,10 @@ $light-gray: var(--color-gray-light);
 $medium-gray: var(--color-gray);
 $dark-gray: var(--color-gray);
 
-.form-teams-container {
-    //padding: 1.5rem;
-}
-
 .form-teams-card {
     border-radius: 1rem;
     box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
     border: none;
-}
-
-.form-teams-card-body {
-    //padding: 2rem;
 }
 
 .form-teams-header {
@@ -62,8 +54,6 @@ $dark-gray: var(--color-gray);
     flex-direction: column;
     gap: 1rem;
 }
-
-// Styles for radio options removed
 
 .form {
     .fieldset {
@@ -155,14 +145,6 @@ $dark-gray: var(--color-gray);
             border-color: #80bdff;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
-    }
-
-    input::file-selector-button {
-        background-color: #f0f0f0;
-        border: 1px solid #ced4da;
-        color: #569c5a;
-        border-radius: 0.5rem;
-        cursor: pointer;
     }
 }
 
@@ -288,7 +270,6 @@ p-fileupload {
     }
 }
 
-// form-teams.component.scss
 .form-teams-container {
     padding: 1rem;
 }
@@ -307,7 +288,6 @@ p-fileupload {
     color: #495057;
 }
 
-// Styles pour les boutons d'action média
 .media-actions-container {
     display: flex;
     align-items: center;
@@ -324,13 +304,11 @@ p-fileupload {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-// États de suppression
 .media-removed {
     opacity: 0.5;
     text-decoration: line-through;
 }
 
-// Animation de fade
 .fade-in {
     animation: fadeIn 0.3s ease-in;
 }
@@ -344,7 +322,6 @@ p-fileupload {
     }
 }
 
-// Responsive
 @media (max-width: 768px) {
     .media-actions-container {
         flex-direction: column;

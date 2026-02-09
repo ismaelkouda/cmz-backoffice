@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 import { BaseFacade } from '@shared/application/base/base-facade';
 import {
@@ -9,6 +9,10 @@ import {
 import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
+import { TeamsCreateBus } from '@presentation/pages/team-organization/application/bus/teams/teams-create.bus';
+import { TeamsUpdateBus } from '@presentation/pages/team-organization/application/bus/teams/teams-update.bus';
+import { TeamsCreateCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-create.command';
+import { TeamsUpdateCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-update.command';
 import { TeamsCreateDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-create.dto';
 import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-filter.dto';
 import { TeamsUpdateDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-update.dto';
@@ -21,8 +25,17 @@ import { TeamsEntity } from '@presentation/pages/team-organization/domain/entiti
 export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly useCase = inject(TeamsUseCase);
+    private readonly teamsCreateBus = inject(TeamsCreateBus);
+    private readonly teamsUpdateBus = inject(TeamsUpdateBus);
 
-    readonly profilsHabilitations$ = this.items$;
+    private readonly _actionState = signal<'idle' | 'loading'>('idle');
+    readonly actionState = this._actionState.asReadonly();
+
+    private readonly _actionSuccess = signal(0);
+    readonly actionSuccess = this._actionSuccess.asReadonly();
+
+    private readonly _actionError = signal<unknown | null>(null);
+    readonly actionError = this._actionError.asReadonly();
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
@@ -125,18 +138,63 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         };
     }
 
-    create(dto: TeamsCreateDto) {
-        return this.handleActionWithRefresh(
-            this.useCase.create(dto),
-            'COMMON.SUCCESS.CREATE'
+    create(team: TeamsCreateDto): void {
+        this._actionState.set('loading');
+
+        const command = new TeamsCreateCommand(
+            team.code,
+            team.name,
+            team.description,
+            team.reportTypes,
+            team.operators,
+            team.permissions
         );
+
+        this.handleActionWithRefresh(
+            this.teamsCreateBus.dispatch(command),
+            'COMMON.SUCCESS.CREATE'
+        )
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
+            .subscribe();
     }
 
-    update(payload: TeamsUpdateDto) {
-        return this.handleActionWithRefresh(
-            this.useCase.update(payload),
-            'COMMON.SUCCESS.UPDATE'
+    update(team: TeamsUpdateDto): void {
+        this._actionState.set('loading');
+
+        const command = new TeamsUpdateCommand(
+            team.uniqId,
+            team.code,
+            team.name,
+            team.description,
+            team.reportTypes,
+            team.operators,
+            team.permissions
         );
+
+        this.handleActionWithRefresh(
+            this.teamsUpdateBus.dispatch(command),
+            'COMMON.SUCCESS.UPDATE'
+        )
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
+            .subscribe();
     }
 
     enable(id: string) {

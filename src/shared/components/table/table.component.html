@@ -39,15 +39,6 @@
                     [customButtons]="headerButtons()"
                 />
                 <app-search-table [dt]="dt" />
-                <!-- <p-inputNumber
-                        [value]="selectedItems.length || 0"
-                        [showButtons]="false"
-                        [min]="0"
-                        [max]="items().length"
-                        inputMode="numeric"
-                        (onInput)="onNumberInputChange($event.value)"
-                        [disabled]="items().length === 0 || loading()"
-                    /> -->
             </div>
         </div>
     </ng-template>
@@ -104,14 +95,15 @@
                                 [label]="'COMMON.VISUALISE' | translate"
                             />
                         </div>
+                    } @else if (col.type === 'badge') {
+                        <div class="flex justify-content-center">
+                            <p-badge
+                                [value]="rowData[col.field] | translate"
+                                [severity]="rowData[col.style]"
+                            />
+                        </div>
                     } @else if (col.type === 'number') {
-                        <b>{{rowData[col.field] | separatorThousandsPipe}}</b>
-                        <!-- <p-badge
-                            [value]="
-                                rowData[col.field] | separatorThousandsPipe
-                            "
-                            [severity]="numberSeverity(rowData[col.field])"
-                        /> -->
+                        <b>{{ rowData[col.field] | separatorThousandsPipe }}</b>
                     } @else {
                         @switch (col.field) {
                             @case ('__reorder') {

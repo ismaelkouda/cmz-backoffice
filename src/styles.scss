@@ -159,6 +159,9 @@ label {
 .pi-plus {
     font-size: 1.7rem !important;
 }
+.pi-minus {
+    font-size: 1.7rem !important;
+}
 
 .copyable {
     cursor: pointer;
@@ -718,7 +721,6 @@ select:focus,
     transition: all 0.2s ease;
 }
 
-.p-select,
 .p-select-label.p-placeholder {
     color: #dee2e6 !important;
 }

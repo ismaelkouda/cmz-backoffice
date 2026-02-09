@@ -12,7 +12,7 @@ import { ParticipantsSelectEntity } from '@presentation/pages/team-organization/
 })
 export class ParticipantsSelectFacade extends ArrayBaseFacade<
     ParticipantsSelectEntity,
-    void
+    string
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly useCase = inject(ParticipantsSelectUseCase);
@@ -23,7 +23,8 @@ export class ParticipantsSelectFacade extends ArrayBaseFacade<
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    readAll(forceRefresh = false): void {
+    readAll(filter: string, forceRefresh = false): void {
+        console.log('key');
         const hasData = this.itemsSubject.getValue().length > 0;
         if (
             !shouldFetch(
@@ -37,7 +38,7 @@ export class ParticipantsSelectFacade extends ArrayBaseFacade<
         }
 
         this.fetchWithFilter(
-            null,
+            filter,
             this.useCase.readAll.bind(this.useCase),
             this.uiFeedbackService
         );

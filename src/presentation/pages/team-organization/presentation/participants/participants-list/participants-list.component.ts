@@ -5,6 +5,8 @@ import {
     computed,
     effect,
     inject,
+    OnDestroy,
+    OnInit,
     signal,
     Signal,
 } from '@angular/core';
@@ -19,12 +21,14 @@ import SweetAlert from 'sweetalert2';
 
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
+    enumToFilterOptions,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { Roles } from '@shared/domain/enums/roles.enum';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
@@ -35,6 +39,7 @@ import { TeamsSelectFacade } from '@presentation/pages/team-organization/applica
 import { PARTICIPANTS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/participants/participants-table.constant';
 import { ParticipantsFilterControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-filter.control';
 import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
+import { Status } from '@presentation/pages/team-organization/domain/enums/status.enum';
 import { PARTICIPANTS_FORM } from '@presentation/pages/team-organization/presentation/participants/participants.routes';
 
 @Component({
@@ -51,7 +56,7 @@ import { PARTICIPANTS_FORM } from '@presentation/pages/team-organization/present
     templateUrl: './participants-list.component.html',
     styleUrls: ['./participants-list.component.scss'],
 })
-export class ParticipantsListComponent {
+export class ParticipantsListComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     public readonly facade = inject(ParticipantsFacade);
     public readonly teamsFacade = inject(TeamsSelectFacade);
@@ -84,43 +89,11 @@ export class ParticipantsListComponent {
     );
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return [
-            {
-                label: this.t('COMMON.ACTIVATED'),
-                value: true,
-                translationKey: 'COMMON.ACTIVATED',
-            },
-            {
-                label: this.t('COMMON.DEACTIVATED'),
-                value: false,
-                translationKey: 'COMMON.DEACTIVATED',
-            },
-            {
-                label: this.t('COMMON.AFFECTED'),
-                value: false,
-                translationKey: 'COMMON.AFFECTED',
-            },
-        ];
+        return enumToFilterOptions(Status, this.t.bind(this));
     });
     readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return [
-            {
-                label: this.t('COMMON.SUPERVISOR'),
-                value: 'supervisor',
-                translationKey: 'COMMON.SUPERVISOR',
-            },
-            {
-                label: this.t('COMMON.LEADER'),
-                value: 'leader',
-                translationKey: 'COMMON.LEADER',
-            },
-            {
-                label: this.t('COMMON.AGENT'),
-                value: 'agent',
-                translationKey: 'COMMON.AGENT',
-            },
-        ];
+        return enumToFilterOptions(Roles, this.t.bind(this));
     });
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();

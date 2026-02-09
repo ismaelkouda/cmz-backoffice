@@ -1,32 +1,42 @@
-import { ParticipantsFindOneItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-findone-response-api.dto';
-
+export interface ParticipantsFindOneProps {
+    uniqId: string;
+    lastName: string;
+    firstName: string;
+    email: string;
+    phone: string;
+    role: string;
+}
 export class ParticipantsFindOneEntity {
-    constructor(
-        public readonly uniqId: string,
-        public readonly firstName: string,
-        public readonly lastName: string,
-        public readonly email: string,
-        public readonly phone: string,
-        public readonly role: string
-    ) {}
+    constructor(private readonly props: ParticipantsFindOneProps) {}
 
-    static fromDto(
-        dto: ParticipantsFindOneItemApiDto
-    ): ParticipantsFindOneEntity {
-        return new ParticipantsFindOneEntity(
-            dto.id,
-            dto.first_name,
-            dto.last_name,
-            dto.email,
-            dto.phone,
-            dto.role.name
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
     }
 
-    public with(dto: ParticipantsFindOneItemApiDto): ParticipantsFindOneEntity {
-        if (this.uniqId === dto.id) {
+    get lastName(): string {
+        return this.props.lastName;
+    }
+
+    get firstName(): string {
+        return this.props.firstName;
+    }
+
+    get email(): string {
+        return this.props.email;
+    }
+
+    get phone(): string {
+        return this.props.phone;
+    }
+
+    get role(): string {
+        return this.props.role;
+    }
+
+    public with(props: ParticipantsFindOneProps): ParticipantsFindOneEntity {
+        if (this.uniqId === props.uniqId) {
             return this;
         }
-        return ParticipantsFindOneEntity.fromDto(dto);
+        return new ParticipantsFindOneEntity(props);
     }
 }

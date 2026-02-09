@@ -15,7 +15,6 @@ import { ToastrService } from 'ngx-toastr';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import { InputNumberModule } from 'primeng/inputnumber';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -53,7 +52,6 @@ import { ReportStatus } from '@presentation/pages/report-requests/domain/entitie
         TagModule,
         HomeActionDropdownComponent,
         SeparatorThousandsPipe,
-        InputNumberModule,
         CheckboxModule,
     ],
     templateUrl: './table.component.html',

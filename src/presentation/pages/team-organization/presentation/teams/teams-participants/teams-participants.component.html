@@ -36,7 +36,7 @@
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
-                            [formGroup]="formFilter"
+                            [formGroup]="form"
                             [fields]="filterFields()"
                             (filter)="onFilter($event)"
                             [filterState]="facade.currentFilter$"
@@ -49,14 +49,14 @@
                             <app-table
                                 class="table-component"
                                 [loading]="loading()"
-                                [items]="curentTeamsParticipants()"
+                                [items]="items()"
                                 [pagination]="pagination()"
                                 [config]="tableConfig"
                                 (refreshRequested)="onRefresh()"
                                 dataKey="uniqId"
                                 [headerButtons]="headerButtons()"
                                 selectionMode="multiple"
-                                [selection]="assignedParticipants()"
+                                [selection]="participantsSelectedInTable()"
                                 (selectionChange)="onSelectionChange($event)"
                                 (headerButtonClicked)="
                                     onHeaderButtonClicked($event)
@@ -132,7 +132,7 @@
             (onClick)="onSubmitReassign()"
             [disabled]="
                 reassignForm.invalid ||
-                !assignedParticipants().length ||
+                !participantsSelectedInTable().length ||
                 !teams().length ||
                 loadingTeams() ||
                 facade.actionState() === 'loading'

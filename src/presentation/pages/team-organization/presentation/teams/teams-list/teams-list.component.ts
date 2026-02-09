@@ -5,6 +5,8 @@ import {
     computed,
     effect,
     inject,
+    OnDestroy,
+    OnInit,
     signal,
     Signal,
 } from '@angular/core';
@@ -24,6 +26,7 @@ import {
 } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
@@ -52,14 +55,14 @@ import {
     styleUrls: ['./teams-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TeamsListComponent {
+export class TeamsListComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     public readonly facade = inject(TeamsFacade);
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
-    private readonly toastr = inject(ToastrService);
+    private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly currentLang = signal<string>(
@@ -77,6 +80,16 @@ export class TeamsListComponent {
     readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.config.app.name
     );
+
+    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.CREATE',
+            actionId: CrudFormType.CREATE,
+            class: 'btn-primary',
+            icon: 'pi pi-plus',
+            translateKey: 'COMMON.CREATE',
+        },
+    ]);
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return [
@@ -196,6 +209,15 @@ export class TeamsListComponent {
         this.facade.changePage(page + 1);
     }
 
+    public onHeaderButtonClicked(actionId: string): void {
+        if (actionId === 'create') {
+            this.onNavigateToForm({
+                item: undefined,
+                ref: CrudFormType.CREATE,
+            });
+        }
+    }
+
     public onNavigateToForm(event: {
         item?: TeamsEntity;
         ref: CrudFormType;
@@ -240,7 +262,7 @@ export class TeamsListComponent {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.enable(item.uniqId);
+                this.facade.enable(item.uniqId).subscribe();
                 this.facade.refreshWithLastFilterAndPage();
             }
         });
@@ -259,7 +281,7 @@ export class TeamsListComponent {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.disable(item.uniqId);
+                this.facade.disable(item.uniqId).subscribe();
                 this.facade.refreshWithLastFilterAndPage();
             }
         });
@@ -278,7 +300,7 @@ export class TeamsListComponent {
     public onExportExcel(): void {
         const items = this.items();
         if (!items.length) {
-            this.toastr.error(this.t('EXPORT.NO_DATA'));
+            this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
 

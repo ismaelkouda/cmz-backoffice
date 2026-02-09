@@ -6,7 +6,7 @@ import {
     DestroyRef,
     effect,
     inject,
-    signal,
+    OnInit,
     Signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -28,13 +28,18 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { FilterOption } from '@shared/components/filter/filter.types';
+import {
+    enumToFilterOptions,
+    FilterOption,
+} from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { Roles } from '@shared/domain/enums/roles.enum';
+import { formatPhoneForMask } from '@shared/functions/format-phone-for-mask.function';
 
 import { ParticipantsFindoneFacade } from '@presentation/pages/team-organization/application/services/participants/participants-findone.facade';
 import { ParticipantsFacade } from '@presentation/pages/team-organization/application/services/participants/participants.facade';
@@ -70,9 +75,10 @@ import { ParticipantsFormValidationService } from '@presentation/pages/team-orga
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ParticipantsFormComponent {
+export class ParticipantsFormComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
+    private itemPatched = false;
     private readonly submitFacade = inject(ParticipantsFacade);
     private readonly facade = inject(ParticipantsFindoneFacade);
     private readonly translate = inject(TranslateService);
@@ -81,45 +87,46 @@ export class ParticipantsFormComponent {
         ParticipantsFormValidationService
     );
     private readonly helperService = inject(ParticipantsFormHelperService);
-    private readonly currentLang = signal<string>(
-        this.translate.getCurrentLang()
-    );
+
     readonly VALIDATION = FormValidators;
+
     readonly items = toSignal(this.facade.item$, { initialValue: null });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    private readonly paramsUniqId: Signal<string> = toSignal(
+    private readonly paramsUniqId = toSignal(
         this.activatedRoute.queryParams.pipe(
-            map(
-                (params: Record<string, unknown>) =>
-                    (params['uniqId'] as string) || ''
-            )
+            map((p) => (p['uniqId'] as string) || '')
         ),
         { initialValue: '' }
     );
+    private lastSuccess = this.submitFacade.actionSuccess();
+
     readonly isEditMode = computed(() => !!this.paramsUniqId());
 
     readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return [
-            {
-                label: this.t('COMMON.SUPERVISOR'),
-                value: 'supervisor',
-                translationKey: 'COMMON.SUPERVISOR',
-            },
-            {
-                label: this.t('COMMON.LEADER'),
-                value: 'leader',
-                translationKey: 'COMMON.LEADER',
-            },
-            {
-                label: this.t('COMMON.AGENT'),
-                value: 'agent',
-                translationKey: 'COMMON.AGENT',
-            },
-        ];
+        return enumToFilterOptions(Roles, this.t.bind(this));
     });
+
+    private readonly formStateEffect = effect(() => {
+        const state = this.submitFacade.actionState();
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
+        }
+    });
+
+    private readonly successEffect = effect(() => {
+        const current = this.submitFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
+
+        this.lastSuccess = current;
+        this.navigateToBack();
+    });
+
     readonly form: FormGroup<ParticipantsFormControl> =
         this.fb.nonNullable.group<ParticipantsFormControl>({
             firstName: new FormControl('', {
@@ -162,38 +169,39 @@ export class ParticipantsFormComponent {
             }),
         });
 
-    private readonly patchFormFromItem = effect(
-        () => {
-            const item = this.items();
-            if (item && Object.keys(item).length > 0) {
-                this.form.patchValue(
-                    {
-                        lastName: item.lastName,
-                        firstName: item.firstName,
-                        email: item.email,
-                        phone: item.phone,
-                        role: item.role,
-                    },
-                    { emitEvent: false }
-                );
-            }
-        },
-        { allowSignalWrites: true }
-    );
+    private readonly patchFormFromItem = effect(() => {
+        const item = this.items();
+        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
+            this.form.patchValue(
+                {
+                    lastName: item.lastName,
+                    firstName: item.firstName,
+                    email: item.email,
+                    phone: formatPhoneForMask(item.phone),
+                    role: item.role,
+                },
+                { emitEvent: false }
+            );
+            this.itemPatched = true;
+        }
+    });
 
-    private readonly handleRouteParamsChange = effect(
-        () => {
-            const uniqId = this.paramsUniqId();
-            if (uniqId) {
-                this.facade.reset();
-                this.facade.read({ uniqId: uniqId }, true);
-            } else {
-                this.facade.reset();
-                this.form.reset();
-            }
-        },
-        { allowSignalWrites: true }
-    );
+    ngOnInit(): void {
+        this.activatedRoute.queryParams
+            .pipe(
+                map((p) => (p['uniqId'] as string) || ''),
+                tap((uniqId) => {
+                    this.facade.reset();
+                    if (uniqId) {
+                        this.facade.read({ uniqId }, true);
+                    } else {
+                        this.form.reset();
+                    }
+                }),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe();
+    }
 
     getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
@@ -204,7 +212,6 @@ export class ParticipantsFormComponent {
     }
 
     private showValidationErrors(): void {
-        const errors: string[] = [];
         const controlNames = [
             'firstName',
             'lastName',
@@ -213,11 +220,17 @@ export class ParticipantsFormComponent {
             'role',
         ] as const;
 
-        controlNames.forEach((name) => {
-            if (this.form.controls[name].invalid) {
-                errors.push(this.getErrorMessage(name));
-            }
-        });
+        const errors = controlNames
+            .filter((name) => this.form.controls[name].invalid)
+            .map((name) => this.getErrorMessage(name));
+
+        if (errors.length) {
+            SweetAlert.fire({
+                icon: 'error',
+                title: this.translate.instant('COMMON.ERRORS.FORM_INVALID'),
+                html: `<ul style="text-align:left">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>`,
+            });
+        }
     }
 
     onSubmit(): void {
@@ -241,34 +254,21 @@ export class ParticipantsFormComponent {
             cancelButtonText: this.translate.instant('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.submitFormData();
+                this.submitForm();
             }
         });
     }
 
-    private submitFormData(): void {
-        const formData = this.form.getRawValue();
-        const uniqId = this.paramsUniqId();
+    private submitForm(): void {
+        const participant = this.form.getRawValue();
 
-        if (this.isEditMode() && uniqId) {
-            this.submitFacade
-                .update({ uniqId, ...formData })
-                .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe({
-                    next: () => {
-                        this.onCancel();
-                        this.submitFacade.refreshWithLastFilterAndPage();
-                    },
-                });
+        if (this.isEditMode()) {
+            this.submitFacade.update({
+                uniqId: this.paramsUniqId(),
+                ...participant,
+            });
         } else {
-            this.submitFacade
-                .create(formData)
-                .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe({
-                    next: () => {
-                        this.onCancel();
-                    },
-                });
+            this.submitFacade.create(participant);
         }
     }
 
@@ -276,7 +276,7 @@ export class ParticipantsFormComponent {
         return this.translate.instant(key, params);
     }
 
-    onCancel(): void {
+    navigateToBack(): void {
         this.helperService.navigateToParticipantsList();
     }
 }

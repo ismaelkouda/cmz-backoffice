@@ -4,5 +4,5 @@ export interface TeamsCreateDto {
     description: string;
     reportTypes: string[];
     operators: string[];
-    permissions: any[];
+    permissions: string[];
 }

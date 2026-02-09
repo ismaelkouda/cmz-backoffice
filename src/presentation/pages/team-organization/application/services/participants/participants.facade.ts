@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 import { BaseFacade } from '@shared/application/base/base-facade';
 import {
@@ -9,6 +9,10 @@ import {
 import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
+import { ParticipantsCreateBus } from '@presentation/pages/team-organization/application/bus/participants/participants-create.bus';
+import { ParticipantsUpdateBus } from '@presentation/pages/team-organization/application/bus/participants/participants-update.bus';
+import { ParticipantsCreateCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-create.command';
+import { ParticipantsUpdateCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-update.command';
 import { ParticipantsCreateDto } from '@presentation/pages/team-organization/application/dtos/participants/participants-create.dto';
 import { ParticipantsFilterDto } from '@presentation/pages/team-organization/application/dtos/participants/participants-filter.dto';
 import { ParticipantsUpdateDto } from '@presentation/pages/team-organization/application/dtos/participants/participants-update.dto';
@@ -24,6 +28,17 @@ export class ParticipantsFacade extends BaseFacade<
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly useCase = inject(ParticipantsUseCase);
+    private readonly participantsCreateBus = inject(ParticipantsCreateBus);
+    private readonly participantsUpdateBus = inject(ParticipantsUpdateBus);
+
+    private readonly _actionState = signal<'idle' | 'loading'>('idle');
+    readonly actionState = this._actionState.asReadonly();
+
+    private readonly _actionSuccess = signal(0);
+    readonly actionSuccess = this._actionSuccess.asReadonly();
+
+    private readonly _actionError = signal<unknown | null>(null);
+    readonly actionError = this._actionError.asReadonly();
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
@@ -126,22 +141,62 @@ export class ParticipantsFacade extends BaseFacade<
         };
     }
 
-    create(user: ParticipantsCreateDto): Observable<any> {
-        return this.handleActionWithRefresh(
-            this.useCase.create(user),
-            'COMMON.SUCCESS.CREATE'
+    create(participant: ParticipantsCreateDto): void {
+        this._actionState.set('loading');
+
+        const command = new ParticipantsCreateCommand(
+            participant.firstName,
+            participant.lastName,
+            participant.email,
+            participant.phone,
+            participant.role
         );
+
+        this.handleActionWithRefresh(
+            this.participantsCreateBus.dispatch(command),
+            'COMMON.SUCCESS.CREATE'
+        )
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
+            .subscribe();
     }
 
-    update(user: ParticipantsUpdateDto): Observable<any> {
-        return this.handleActionWithRefresh(
-            this.useCase.update(user),
-            'COMMON.SUCCESS.UPDATE'
+    update(participant: ParticipantsUpdateDto): void {
+        this._actionState.set('loading');
+        const command = new ParticipantsUpdateCommand(
+            participant.uniqId,
+            participant.firstName,
+            participant.lastName,
+            participant.email,
+            participant.phone,
+            participant.role
         );
+        this.handleActionWithRefresh(
+            this.participantsUpdateBus.dispatch(command),
+            'COMMON.SUCCESS.UPDATE'
+        )
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
+            .subscribe();
     }
 
     delete(id: string): Observable<any> {
-        console.log('id', id);
         return this.handleActionWithRefresh(
             this.useCase.delete(id),
             'COMMON.SUCCESS.DELETE'
