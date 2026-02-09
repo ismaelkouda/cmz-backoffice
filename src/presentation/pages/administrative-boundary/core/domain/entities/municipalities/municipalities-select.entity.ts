@@ -9,13 +9,13 @@ export class MunicipalitiesSelectEntity {
     static fromDto(
         dto: MunicipalitiesSelectItemApiDto
     ): MunicipalitiesSelectEntity {
-        return new MunicipalitiesSelectEntity(dto.name, dto.code);
+        return new MunicipalitiesSelectEntity(dto.name, dto.id);
     }
 
     public with(
         dto: MunicipalitiesSelectItemApiDto
     ): MunicipalitiesSelectEntity {
-        if (this.name === dto.name && this.code === dto.code) {
+        if (this.name === dto.name && this.code === dto.id) {
             return this;
         }
         return MunicipalitiesSelectEntity.fromDto(dto);

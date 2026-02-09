@@ -52,10 +52,10 @@ export class DepartmentsByRegionIdFacade extends BaseFacade<
     }
 
     refresh(): void {
-        const regionCode = this.filterSubject.getValue()?.regionCode ?? '';
+        const  regionId = this.filterSubject.getValue()?. regionId ?? '';
         const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
         this.fetchWithFilterAndPage(
-            { regionCode },
+            {  regionId },
             firstPage,
             this.fetchUseCase.readAll.bind(this.fetchUseCase),
             this.uiFeedbackService

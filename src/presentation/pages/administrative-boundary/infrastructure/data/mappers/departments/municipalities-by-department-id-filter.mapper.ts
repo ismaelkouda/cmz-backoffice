@@ -8,7 +8,7 @@ export class MunicipalitiesByDepartmentIdFilterMapper {
         const params: MunicipalitiesByDepartmentIdFilterApiDto =
             {} as MunicipalitiesByDepartmentIdFilterApiDto;
 
-        params.department_code = filter.departmentCode;
+        params.department_code = filter.departmentId;
         if (filter.startDate) {
             params['start_date'] = filter.startDate;
         }

@@ -1,6 +1,6 @@
 export class MunicipalitiesByDepartmentIdFilterEntity {
     constructor(
-        public readonly departmentCode: string,
+        public readonly departmentId: string,
         public readonly search: string,
         public readonly isActive: boolean,
         public readonly startDate: string,
@@ -11,7 +11,7 @@ export class MunicipalitiesByDepartmentIdFilterEntity {
         updates: Partial<MunicipalitiesByDepartmentIdFilterEntity>
     ): MunicipalitiesByDepartmentIdFilterEntity {
         return new MunicipalitiesByDepartmentIdFilterEntity(
-            updates.departmentCode ?? this.departmentCode,
+            updates.departmentId ?? this.departmentId,
             updates.search ?? this.search,
             updates.isActive ?? this.isActive,
             updates.startDate ?? this.startDate,

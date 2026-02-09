@@ -47,7 +47,6 @@ export interface TableHeaderButton {
             @if (!hiddenButtonOther()) {
                 <button
                     type="button"
-                    [class.p-disabled]="disabledButtonOther()"
                     [styleClass]="otherButtonStyleClass"
                     class="btn btn-primary"
                     [attr.aria-label]="
@@ -57,8 +56,8 @@ export interface TableHeaderButton {
                     "
                     (click)="onOther()"
                 >
-                    @if (labelOther) {
-                        <span>{{ labelOther | translate }}</span>
+                    @if (labelOther()) {
+                        <span>{{ labelOther() | translate }}</span>
                     } @else {
                         <span>{{ 'COMMON.CREATE' | translate }}</span>
                     }

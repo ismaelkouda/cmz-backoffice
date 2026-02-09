@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, Signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    effect,
+    inject,
+    Signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -42,6 +48,7 @@ import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-
         ButtonModule,
         TagModule,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DepartmentsByRegionIdComponent {
     private readonly route = inject(ActivatedRoute);
@@ -74,7 +81,7 @@ export class DepartmentsByRegionIdComponent {
 
     public formFilter: FormGroup<DepartmentsByRegionIdFilterControl> =
         this.fb.group<DepartmentsByRegionIdFilterControl>({
-            regionCode: new FormControl<string | null>(this.paramsCode()),
+            regionId: new FormControl<string | null>(this.paramsCode()),
             search: new FormControl<string | null>(null),
             municipalityCode: new FormControl<string | null>(null),
             isActive: new FormControl<boolean | null>(null),
@@ -124,10 +131,10 @@ export class DepartmentsByRegionIdComponent {
             )
         );
         effect(() => {
-            const regionCode = this.paramsCode();
-            if (regionCode) {
+            const regionId = this.paramsCode();
+            if (regionId) {
                 this.facade.reset();
-                this.facade.execute({ regionCode });
+                this.facade.execute({ regionId });
             } else {
                 this.facade.reset();
                 this.formFilter.reset();
@@ -136,7 +143,7 @@ export class DepartmentsByRegionIdComponent {
         effect(() => {
             if (this.filterData()) {
                 this.formFilter.patchValue({
-                    regionCode: this.paramsCode(),
+                    regionId: this.paramsCode(),
                     search: this.filterData()?.search,
                     municipalityCode: this.filterData()?.municipalityCode,
                     isActive: this.filterData()?.isActive,
@@ -163,7 +170,7 @@ export class DepartmentsByRegionIdComponent {
         }
         const filter = {
             ...filterValue,
-            regionCode: this.paramsCode(),
+            regionId: this.paramsCode(),
             municipalityCode: filterValue.municipalityCode,
             startDate: startDate?.format('YYYY-MM-DD'),
             endDate: endDate?.format('YYYY-MM-DD'),

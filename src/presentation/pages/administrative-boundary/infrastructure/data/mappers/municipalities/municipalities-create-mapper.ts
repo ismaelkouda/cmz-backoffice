@@ -12,8 +12,8 @@ export function municipalitiesCreateMapper(
     if (create.name) {
         params['name'] = create.name;
     }
-    if (create.departmentCode) {
-        params['department_code'] = create.departmentCode;
+    if (create.departmentId) {
+        params['department_code'] = create.departmentId;
     }
     if (create.description) {
         params['description'] = create.description;

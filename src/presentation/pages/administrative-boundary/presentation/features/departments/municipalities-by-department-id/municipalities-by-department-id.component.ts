@@ -82,7 +82,7 @@ export class MunicipalitiesByDepartmentIdComponent {
 
     public formFilter: FormGroup<MunicipalitiesByDepartmentIdFilterControl> =
         this.fb.group<MunicipalitiesByDepartmentIdFilterControl>({
-            departmentCode: new FormControl(this.paramsCode()),
+            departmentId: new FormControl(this.paramsCode()),
             search: new FormControl(''),
             isActive: new FormControl(null),
             startDate: new FormControl(null),
@@ -116,10 +116,10 @@ export class MunicipalitiesByDepartmentIdComponent {
             'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_BY_DEPARTMENT_ID.TITLE'
         );
         effect(() => {
-            const departmentCode = this.paramsCode();
-            if (departmentCode) {
+            const departmentId = this.paramsCode();
+            if (departmentId) {
                 this.facade.reset();
-                this.facade.execute({ departmentCode });
+                this.facade.execute({ departmentId });
             } else {
                 this.facade.reset();
                 this.formFilter.reset();
@@ -129,7 +129,7 @@ export class MunicipalitiesByDepartmentIdComponent {
         effect(() => {
             if (this.currentFilter()) {
                 this.formFilter.patchValue({
-                    departmentCode: this.paramsCode(),
+                    departmentId: this.paramsCode(),
                     search: this.currentFilter()?.search,
                     isActive: this.currentFilter()?.isActive,
                     startDate: this.currentFilter()?.startDate,
@@ -155,7 +155,7 @@ export class MunicipalitiesByDepartmentIdComponent {
         }
         const filter = {
             ...filterValue,
-            departmentCode: this.paramsCode(),
+            departmentId: this.paramsCode(),
             startDate: startDate?.format('YYYY-MM-DD'),
             endDate: endDate?.format('YYYY-MM-DD'),
         };

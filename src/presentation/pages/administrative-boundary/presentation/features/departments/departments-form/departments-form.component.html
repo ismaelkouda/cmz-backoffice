@@ -172,7 +172,7 @@
 
                                                 <div class="col-md-4">
                                                     <label
-                                                        for="regionCode"
+                                                        for=" regionId"
                                                         class="form-label fw-bold"
                                                     >
                                                         {{
@@ -187,7 +187,7 @@
                                                     <p-select
                                                         class="form-p-select"
                                                         [options]="regions()"
-                                                        formControlName="regionCode"
+                                                        formControlName=" regionId"
                                                         optionLabel="name"
                                                         optionValue="code"
                                                         filter="true"
@@ -200,9 +200,9 @@
                                                     >
                                                     </p-select>
                                                     @if (
-                                                        form.get('regionCode')
+                                                        form.get(' regionId')
                                                             ?.invalid &&
-                                                        form.get('regionCode')
+                                                        form.get(' regionId')
                                                             ?.touched
                                                     ) {
                                                         <small

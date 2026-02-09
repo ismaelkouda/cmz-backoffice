@@ -172,7 +172,7 @@
 
                                                 <div class="col-md-4">
                                                     <label
-                                                        for="departmentCode"
+                                                        for="departmentId"
                                                         class="form-label fw-bold"
                                                     >
                                                         {{
@@ -189,7 +189,7 @@
                                                         [options]="
                                                             departments()
                                                         "
-                                                        formControlName="departmentCode"
+                                                        formControlName="departmentId"
                                                         optionLabel="name"
                                                         optionValue="code"
                                                         filter="true"
@@ -203,10 +203,10 @@
                                                     </p-select>
                                                     @if (
                                                         form.get(
-                                                            'departmentCode'
+                                                            'departmentId'
                                                         )?.invalid &&
                                                         form.get(
-                                                            'departmentCode'
+                                                            'departmentId'
                                                         )?.touched
                                                     ) {
                                                         <small

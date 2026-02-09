@@ -3,7 +3,7 @@ import { DepartmentsFilterDto } from '@presentation/pages/administrative-boundar
 export class DepartmentsFilter {
     private constructor(
         readonly search?: string,
-        readonly regionCode?: string,
+        readonly  regionId?: string,
         readonly municipalityCode?: string,
         readonly isActive?: boolean,
         readonly startDate?: string,
@@ -20,7 +20,7 @@ export class DepartmentsFilter {
         }
         return new DepartmentsFilter(
             data?.search,
-            data?.regionCode,
+            data?. regionId,
             data?.municipalityCode,
             data?.isActive,
             data?.startDate,

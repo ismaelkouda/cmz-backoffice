@@ -25,6 +25,7 @@ import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
@@ -72,8 +73,8 @@ export class MunicipalitiesListComponent implements OnInit {
     public formFilter: FormGroup<MunicipalitiesFilterControl> =
         this.fb.group<MunicipalitiesFilterControl>({
             search: new FormControl<string | null>(null),
-            regionCode: new FormControl<string | null>(null),
-            departmentCode: new FormControl<string | null>(null),
+            regionId: new FormControl<string | null>(null),
+            departmentId: new FormControl<string | null>(null),
             isActive: new FormControl<boolean | null>(null),
             startDate: new FormControl<string | null>(null),
             endDate: new FormControl<string | null>(null),
@@ -81,18 +82,18 @@ export class MunicipalitiesListComponent implements OnInit {
 
     readonly regions = toSignal(this.regionFacade.items$, { initialValue: [] });
     private readonly selectedRegionCode = toSignal(
-        this.formFilter.controls.regionCode.valueChanges,
+        this.formFilter.controls.regionId.valueChanges,
         { initialValue: null }
     );
 
     readonly filteredDepartments = computed(() => {
-        const regionCode = this.selectedRegionCode();
-        console.log(regionCode);
-        if (!regionCode) {
+        const regionId = this.selectedRegionCode();
+        console.log(regionId);
+        if (!regionId) {
             return [];
         }
 
-        const region = this.regions().find((r) => r.code === regionCode);
+        const region = this.regions().find((r) => r.code === regionId);
         return region?.departments || [];
     });
 
@@ -121,7 +122,7 @@ export class MunicipalitiesListComponent implements OnInit {
         },
         {
             type: 'select',
-            name: 'regionCode',
+            name: ' regionId',
             label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.REGION',
             placeholder: 'COMMON.SELECT_PLACEHOLDER',
             options: this.regions(),
@@ -132,7 +133,7 @@ export class MunicipalitiesListComponent implements OnInit {
         },
         {
             type: 'select',
-            name: 'departmentCode',
+            name: 'departmentId',
             label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DEPARTMENT',
             placeholder: this.selectedRegionCode()
                 ? 'COMMON.SELECT_PLACEHOLDER'
@@ -162,6 +163,16 @@ export class MunicipalitiesListComponent implements OnInit {
     ]);
     public statusOptions: { label: string; value: boolean }[] = [];
 
+    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.CREATE',
+            actionId: CrudFormType.CREATE,
+            class: 'btn-primary',
+            icon: 'pi pi-plus',
+            translateKey: 'COMMON.CREATE',
+        },
+    ]);
+
     constructor() {
         this.title.setTitle(
             this.translate.instant(
@@ -176,15 +187,15 @@ export class MunicipalitiesListComponent implements OnInit {
 
         effect(() => {
             const filter = this.filterData();
-            const regionCode = this.selectedRegionCode();
-            console.log('regionCode', regionCode);
+            const regionId = this.selectedRegionCode();
+            console.log(' regionId', regionId);
 
             untracked(() => {
                 if (filter) {
                     this.formFilter.patchValue(
                         {
                             search: filter.search,
-                            departmentCode: filter.departmentCode,
+                            departmentId: filter.departmentId,
                             isActive: filter.isActive,
                             startDate: filter.startDate,
                             endDate: filter.endDate,
@@ -193,15 +204,15 @@ export class MunicipalitiesListComponent implements OnInit {
                     );
                 }
 
-                const deptControl = this.formFilter.controls.departmentCode;
-                if (!regionCode) {
+                const deptControl = this.formFilter.controls.departmentId;
+                if (!regionId) {
                     deptControl.disable({ emitEvent: false });
                     deptControl.setValue(null, { emitEvent: false });
                 } else {
                     deptControl.enable({ emitEvent: false });
                 }
 
-                if (regionCode && deptControl.value) {
+                if (regionId && deptControl.value) {
                     const isValid = this.filteredDepartments().some(
                         (d) => d.code === deptControl.value
                     );
@@ -240,8 +251,8 @@ export class MunicipalitiesListComponent implements OnInit {
         }
         const filter = {
             search: formValue.search,
-            regionCode: formValue.regionCode,
-            departmentCode: formValue.departmentCode,
+            regionId: formValue.regionId,
+            departmentId: formValue.departmentId,
             isActive: formValue.isActive,
             startDate: startDate?.format('YYYY-MM-DD'),
             endDate: endDate?.format('YYYY-MM-DD'),
@@ -257,12 +268,25 @@ export class MunicipalitiesListComponent implements OnInit {
         this.facade.refresh();
     }
 
-    public onCreateClicked({ ref }: { ref: CrudFormType }): void {
+    public onHeaderButtonClicked(actionId: string): void {
+        if (actionId === CrudFormType.CREATE) {
+            this.onNavigateToForm({
+                item: undefined,
+                ref: CrudFormType.CREATE,
+            });
+        }
+    }
+
+    public onNavigateToForm(event: {
+        item?: MunicipalitiesEntity;
+        ref: CrudFormType;
+    }): void {
+        const queryParams = event.item
+            ? { uniqId: event.item.uniqId, ref: event.ref }
+            : { ref: event.ref };
         this.router.navigate([MUNICIPALITIES_FORM], {
             relativeTo: this.activatedRoute,
-            queryParams: {
-                ref: ref,
-            },
+            queryParams,
         });
     }
 
@@ -276,14 +300,14 @@ export class MunicipalitiesListComponent implements OnInit {
         this.router.navigate([MUNICIPALITIES_FORM], {
             relativeTo: this.activatedRoute,
             queryParams: {
-                code: item.code,
+                code: item.uniqId,
                 ref: ref,
             },
         });
     }
 
     public onDeleteClicked(item: MunicipalitiesEntity): void {
-        if (!item.code) {
+        if (!item.uniqId) {
             return;
         }
         SweetAlert.fire({
@@ -298,7 +322,7 @@ export class MunicipalitiesListComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 this.facade
-                    .delete(item.code)
+                    .delete(item.uniqId)
                     .subscribe(() =>
                         this.facade.refreshWithLastFilterAndPage()
                     );

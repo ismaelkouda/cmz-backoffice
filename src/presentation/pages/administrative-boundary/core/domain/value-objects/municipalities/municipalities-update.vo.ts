@@ -5,7 +5,7 @@ export class MunicipalitiesUpdate {
         readonly id: string,
         readonly code?: string,
         readonly name?: string,
-        readonly departmentCode?: string,
+        readonly departmentId?: string,
         readonly description?: string
     ) {}
 
@@ -16,7 +16,7 @@ export class MunicipalitiesUpdate {
             data.id,
             data.code,
             data.name,
-            data.departmentCode,
+            data.departmentId,
             data.description
         );
     }

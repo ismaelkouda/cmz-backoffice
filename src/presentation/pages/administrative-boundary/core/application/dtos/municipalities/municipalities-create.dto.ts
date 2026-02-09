@@ -1,6 +1,6 @@
 export interface MunicipalitiesCreateDto {
     code: string;
     name: string;
-    departmentCode: string;
+    departmentId: string;
     description: string;
 }

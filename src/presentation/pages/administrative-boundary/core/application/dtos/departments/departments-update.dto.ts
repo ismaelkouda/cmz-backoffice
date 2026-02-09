@@ -2,6 +2,6 @@ export interface DepartmentsUpdateDto {
     id: string;
     code: string;
     name: string;
-    regionCode: string;
+     regionId: string;
     description: string;
 }

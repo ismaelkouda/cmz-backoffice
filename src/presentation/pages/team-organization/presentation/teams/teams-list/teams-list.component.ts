@@ -210,7 +210,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     }
 
     public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === 'create') {
+        if (actionId === CrudFormType.CREATE) {
             this.onNavigateToForm({
                 item: undefined,
                 ref: CrudFormType.CREATE,

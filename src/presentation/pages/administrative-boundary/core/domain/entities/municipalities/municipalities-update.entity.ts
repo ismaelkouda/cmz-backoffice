@@ -3,7 +3,7 @@ export class MunicipalitiesUpdateEntity {
         public readonly id: string,
         public readonly code: string,
         public readonly name: string,
-        public readonly departmentCode: string,
+        public readonly departmentId: string,
         public readonly description: string
     ) {}
 
@@ -14,7 +14,7 @@ export class MunicipalitiesUpdateEntity {
             updates.id ?? this.id,
             updates.code ?? this.code,
             updates.name ?? this.name,
-            updates.departmentCode ?? this.departmentCode,
+            updates.departmentId ?? this.departmentId,
             updates.description ?? this.description
         );
     }
