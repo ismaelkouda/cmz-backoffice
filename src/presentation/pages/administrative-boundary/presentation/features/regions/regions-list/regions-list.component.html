@@ -18,12 +18,14 @@
             [items]="regions()"
             [pagination]="pagination()"
             [config]="tableConfig"
+            [headerButtons]="headerButtons()"
+            (headerButtonClicked)="
+                onHeaderButtonClicked($event)
+            "
             (refreshRequested)="refresh()"
-            (createRequested)="onCreateClicked($event)"
             (editRequested)="onEditClicked($event)"
             (deleteRequested)="onDeleteClicked($event)"
             (badgeClicked)="onBadgeClick($event)"
-            [hiddenButtonOther]="false"
             dataKey="uniqId"
         ></app-table>
 

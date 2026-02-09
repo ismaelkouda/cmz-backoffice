@@ -103,7 +103,7 @@ export class DepartmentsFormComponent {
                     Validators.pattern(FormValidators.NAME.PATTERN),
                 ],
             }),
-            regionCode: new FormControl('', {
+            regionId: new FormControl('', {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
@@ -137,7 +137,7 @@ export class DepartmentsFormComponent {
                 this.form.patchValue({
                     code: department.code,
                     name: department.name,
-                    regionCode: department.region,
+                    regionId: department.region,
                     description: department.description,
                 });
             }
@@ -217,8 +217,8 @@ export class DepartmentsFormComponent {
         if (this.form.controls.code.invalid) {
             errors.push(this.getErrorMessage('code'));
         }
-        if (this.form.controls.regionCode.invalid) {
-            errors.push(this.getErrorMessage('regionCode'));
+        if (this.form.controls.regionId.invalid) {
+            errors.push(this.getErrorMessage(' regionId'));
         }
         if (this.form.controls.name.invalid) {
             errors.push(this.getErrorMessage('name'));

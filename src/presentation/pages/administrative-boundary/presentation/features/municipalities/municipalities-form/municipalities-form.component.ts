@@ -103,7 +103,7 @@ export class MunicipalitiesFormComponent {
                     Validators.pattern(FormValidators.NAME.PATTERN),
                 ],
             }),
-            departmentCode: new FormControl('', {
+            departmentId: new FormControl('', {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
@@ -137,7 +137,7 @@ export class MunicipalitiesFormComponent {
                 this.form.patchValue({
                     code: municipality.code,
                     name: municipality.name,
-                    departmentCode: municipality.department,
+                    departmentId: municipality.department,
                     description: municipality.description,
                 });
             }
@@ -217,8 +217,8 @@ export class MunicipalitiesFormComponent {
         if (this.form.controls.code.invalid) {
             errors.push(this.getErrorMessage('code'));
         }
-        if (this.form.controls.departmentCode.invalid) {
-            errors.push(this.getErrorMessage('departmentCode'));
+        if (this.form.controls.departmentId.invalid) {
+            errors.push(this.getErrorMessage('departmentId'));
         }
         if (this.form.controls.name.invalid) {
             errors.push(this.getErrorMessage('name'));

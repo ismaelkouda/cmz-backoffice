@@ -227,7 +227,7 @@ export class ParticipantsFormComponent implements OnInit {
         if (errors.length) {
             SweetAlert.fire({
                 icon: 'error',
-                title: this.translate.instant('COMMON.ERRORS.FORM_INVALID'),
+                title: this.t('COMMON.ERRORS.FORM_INVALID'),
                 html: `<ul style="text-align:left">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>`,
             });
         }
@@ -247,11 +247,11 @@ export class ParticipantsFormComponent implements OnInit {
 
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant(title),
-            text: this.translate.instant(message),
+            title: this.t(title),
+            text: this.t(message),
             backdrop: false,
-            confirmButtonText: this.translate.instant('COMMON.CONFIRM'),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
                 this.submitForm();

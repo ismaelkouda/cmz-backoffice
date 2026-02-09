@@ -3,7 +3,7 @@ export class DepartmentsUpdateEntity {
         public readonly id: string,
         public readonly code: string,
         public readonly name: string,
-        public readonly regionCode: string,
+        public readonly regionId: string,
         public readonly description: string
     ) {}
 
@@ -14,7 +14,7 @@ export class DepartmentsUpdateEntity {
             updates.id ?? this.id,
             updates.code ?? this.code,
             updates.name ?? this.name,
-            updates.regionCode ?? this.regionCode,
+            updates.regionId ?? this.regionId,
             updates.description ?? this.description
         );
     }

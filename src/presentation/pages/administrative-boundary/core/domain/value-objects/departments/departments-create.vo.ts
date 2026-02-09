@@ -4,7 +4,7 @@ export class DepartmentsCreate {
     private constructor(
         readonly code: string,
         readonly name: string,
-        readonly regionCode: string,
+        readonly  regionId: string,
         readonly description: string
     ) {}
 
@@ -14,7 +14,7 @@ export class DepartmentsCreate {
         return new DepartmentsCreate(
             data.code,
             data.name,
-            data.regionCode,
+            data. regionId,
             data.description
         );
     }

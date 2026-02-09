@@ -3,8 +3,8 @@ import { MunicipalitiesFilterDto } from '../../../application/dtos/municipalitie
 export class MunicipalitiesFilter {
     private constructor(
         readonly search?: string,
-        readonly regionCode?: string,
-        readonly departmentCode?: string,
+        readonly  regionId?: string,
+        readonly departmentId?: string,
         readonly isActive?: boolean,
         readonly startDate?: string,
         readonly endDate?: string
@@ -20,8 +20,8 @@ export class MunicipalitiesFilter {
         }
         return new MunicipalitiesFilter(
             data?.search,
-            data?.regionCode,
-            data?.departmentCode,
+            data?. regionId,
+            data?.departmentId,
             data?.isActive,
             data?.startDate,
             data?.endDate

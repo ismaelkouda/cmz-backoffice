@@ -1,8 +1,8 @@
 export class MunicipalitiesFilterEntity {
     constructor(
         public readonly search: string,
-        public readonly regionCode: string,
-        public readonly departmentCode: string,
+        public readonly regionId: string,
+        public readonly departmentId: string,
         public readonly isActive: boolean,
         public readonly startDate: string,
         public readonly endDate: string
@@ -13,8 +13,8 @@ export class MunicipalitiesFilterEntity {
     ): MunicipalitiesFilterEntity {
         return new MunicipalitiesFilterEntity(
             updates.search ?? this.search,
-            updates.regionCode ?? this.regionCode,
-            updates.departmentCode ?? this.departmentCode,
+            updates.regionId ?? this.regionId,
+            updates.departmentId ?? this.departmentId,
             updates.isActive ?? this.isActive,
             updates.startDate ?? this.startDate,
             updates.endDate ?? this.endDate

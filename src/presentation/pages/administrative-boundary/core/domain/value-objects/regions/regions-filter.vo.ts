@@ -3,7 +3,7 @@ import { RegionsFilterDto } from '../../../application/dtos/regions/regions-filt
 export class RegionsFilter {
     private constructor(
         readonly search?: string,
-        readonly departmentCode?: string,
+        readonly departmentId?: string,
         readonly municipalityCode?: string,
         readonly isActive?: boolean,
         readonly startDate?: string,
@@ -20,7 +20,7 @@ export class RegionsFilter {
         }
         return new RegionsFilter(
             data?.search,
-            data?.departmentCode,
+            data?.departmentId,
             data?.municipalityCode,
             data?.isActive,
             data?.startDate,

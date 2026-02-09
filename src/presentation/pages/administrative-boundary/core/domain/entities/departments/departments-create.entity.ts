@@ -2,7 +2,7 @@ export class DepartmentsCreateEntity {
     constructor(
         public readonly code: string,
         public readonly name: string,
-        public readonly regionCode: string,
+        public readonly regionId: string,
         public readonly description: string
     ) {}
 
@@ -12,7 +12,7 @@ export class DepartmentsCreateEntity {
         return new DepartmentsCreateEntity(
             updates.code ?? this.code,
             updates.name ?? this.name,
-            updates.regionCode ?? this.regionCode,
+            updates.regionId ?? this.regionId,
             updates.description ?? this.description
         );
     }

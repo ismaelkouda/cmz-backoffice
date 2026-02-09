@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TabsModule } from 'primeng/tabs';
@@ -24,6 +24,7 @@ import { REGIONS_TABS } from '@presentation/pages/administrative-boundary/core/d
     ],
     templateUrl: './regions-page.component.html',
     styleUrls: ['./regions-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegionsPageComponent {
     public readonly tabs = REGIONS_TABS;

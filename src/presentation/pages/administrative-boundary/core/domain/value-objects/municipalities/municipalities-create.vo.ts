@@ -4,7 +4,7 @@ export class MunicipalitiesCreate {
     private constructor(
         readonly code: string,
         readonly name: string,
-        readonly departmentCode: string,
+        readonly departmentId: string,
         readonly description: string
     ) {}
 
@@ -14,7 +14,7 @@ export class MunicipalitiesCreate {
         return new MunicipalitiesCreate(
             data.code,
             data.name,
-            data.departmentCode,
+            data.departmentId,
             data.description
         );
     }

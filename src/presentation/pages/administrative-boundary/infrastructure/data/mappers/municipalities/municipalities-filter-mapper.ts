@@ -15,11 +15,11 @@ export function municipalitiesFilterMapper(
     if (filter.search) {
         params['search'] = filter.search;
     }
-    if (filter.regionCode) {
-        params['region_code'] = filter.regionCode;
+    if (filter. regionId) {
+        params['region_code'] = filter. regionId;
     }
-    if (filter.departmentCode) {
-        params['department_code'] = filter.departmentCode;
+    if (filter.departmentId) {
+        params['department_code'] = filter.departmentId;
     }
     if (filter.isActive !== undefined && filter.isActive !== null) {
         params['is_active'] = filter.isActive;

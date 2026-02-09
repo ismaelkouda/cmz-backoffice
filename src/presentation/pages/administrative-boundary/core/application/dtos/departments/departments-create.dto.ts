@@ -1,6 +1,6 @@
 export interface DepartmentsCreateDto {
     code: string;
     name: string;
-    regionCode: string;
+     regionId: string;
     description: string;
 }

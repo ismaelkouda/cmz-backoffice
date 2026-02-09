@@ -1,5 +1,5 @@
 export interface MunicipalitiesByDepartmentIdFilterDto {
-    departmentCode: string;
+    departmentId: string;
     search?: string;
     isActive?: boolean;
     startDate?: string;

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, effect, inject } from '@angular/core';
+import { Component, OnInit, computed, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
@@ -17,6 +17,7 @@ import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
@@ -75,6 +76,16 @@ export class RegionsListComponent implements OnInit {
     public filterFields: FilterField[] = [];
     public statusOptions: { label: string; value: boolean }[] = [];
 
+    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.CREATE',
+            actionId: CrudFormType.CREATE,
+            class: 'btn-primary',
+            icon: 'pi pi-plus',
+            translateKey: 'COMMON.CREATE',
+        },
+    ]);
+
     constructor() {
         this.title.setTitle(
             this.translate.instant('ADMINISTRATIVE_BOUNDARY.REGIONS.TITLE')
@@ -105,7 +116,7 @@ export class RegionsListComponent implements OnInit {
         if (!this.formFilter) {
             this.formFilter = this.fb.group<RegionsFilterControl>({
                 search: new FormControl<string | null>(null),
-                departmentCode: new FormControl<string | null>(null),
+                departmentId: new FormControl<string | null>(null),
                 municipalityCode: new FormControl<string | null>(null),
                 isActive: new FormControl<boolean | null>(null),
                 startDate: new FormControl<string | null>(null),
@@ -179,12 +190,25 @@ export class RegionsListComponent implements OnInit {
         this.facade.refresh();
     }
 
-    public onCreateClicked({ ref }: { ref: CrudFormType }): void {
+    public onHeaderButtonClicked(actionId: string): void {
+        if (actionId === CrudFormType.CREATE) {
+            this.onNavigateToForm({
+                item: undefined,
+                ref: CrudFormType.CREATE,
+            });
+        }
+    }
+
+    public onNavigateToForm(event: {
+        item?: RegionsEntity;
+        ref: CrudFormType;
+    }): void {
+        const queryParams = event.item
+            ? { uniqId: event.item.uniqId, ref: event.ref }
+            : { ref: event.ref };
         this.router.navigate([REGIONS_FORM], {
             relativeTo: this.activatedRoute,
-            queryParams: {
-                ref: ref,
-            },
+            queryParams,
         });
     }
 
@@ -198,7 +222,7 @@ export class RegionsListComponent implements OnInit {
         this.router.navigate([REGIONS_FORM], {
             relativeTo: this.activatedRoute,
             queryParams: {
-                code: item.code,
+                code: item.uniqId,
                 ref: ref,
             },
         });
@@ -212,7 +236,7 @@ export class RegionsListComponent implements OnInit {
     }
 
     public onDeleteClicked(item: RegionsEntity): void {
-        if (this.regions().length < 1 && !item.code) {
+        if (this.regions().length < 1 && !item.uniqId) {
             return;
         }
         SweetAlert.fire({
@@ -227,7 +251,7 @@ export class RegionsListComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 this.facade
-                    .delete(item.code)
+                    .delete(item.uniqId)
                     .subscribe(() =>
                         this.facade.refreshWithLastFilterAndPage()
                     );
@@ -242,7 +266,7 @@ export class RegionsListComponent implements OnInit {
         this.router.navigate([DEPARTMENTS_BY_REGION_ID_ROUTE], {
             relativeTo: this.activatedRoute,
             queryParams: {
-                code: event.item.code,
+                code: event.item.uniqId,
                 name: event.item.name,
             },
         });
