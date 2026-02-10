@@ -1,0 +1,4 @@
+export enum TEAMS_STATUS {
+    ACTIVE = 'COMMON.ACTIVE',
+    INACTIVE = 'COMMON.INACTIVE',
+}

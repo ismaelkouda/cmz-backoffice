@@ -30,7 +30,7 @@
                             />
                             <p-button
                                 label="{{ 'COMMON.CLOSE' | translate }}"
-                                (onClick)="onCancel()"
+                                (onClick)="navigateToBack()"
                                 styleClass="p-button-danger"
                             />
                         </div>
@@ -620,7 +620,7 @@
                                                     'COMMON.CANCEL' | translate
                                                 }}"
                                                 styleClass="p-button-text p-button-secondary"
-                                                (click)="onCancel()"
+                                                (click)="navigateToBack()"
                                             >
                                             </p-button>
 

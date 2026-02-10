@@ -13,7 +13,6 @@ export class ActionDropdownMapper {
             [ActionDropdownDto.INACTIVE]: ActionDropdown.INACTIVE,
             [ActionDropdownDto.PUBLISHED]: ActionDropdown.PUBLISHED,
             [ActionDropdownDto.UNPUBLISHED]: ActionDropdown.UNPUBLISHED,
-            [ActionDropdownDto.AFFECTED]: ActionDropdown.AFFECTED,
         };
         return methodMap[dtoValue] || ActionDropdown.INACTIVE;
     }

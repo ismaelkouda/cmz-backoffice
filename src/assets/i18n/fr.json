@@ -829,7 +829,9 @@
         "PUBLISHED" : "Publié",
         "UNPUBLISH": "Dépublier",
         "UNPUBLISHED": "Non Publié",
+        "BLOCKED": "Bloquée",
         "AFFECTED": "Affecté",
+        "PENDING": "En attente",
         "DISABLE": "Désactiver",
         "DEACTIVATED": "Désactivé",
         "INVALID_DATE_RANGE": "Plage de date invalide",
@@ -861,7 +863,13 @@
             "GENERIC": "Une erreur est survenue"
         },
         "VALIDATION": {
-            "REQUIRED": "Champ obligatoire"
+            "REQUIRED": "Champ obligatoire",
+            "INVALID_FORMAT": "Format invalide",
+            "MIN_LENGTH": "Minimum caractères requis",
+            "MAX_LENGTH": "Maximum caractères autorisés",
+            "MIN_VALUE": "Valeur minimale",
+            "MAX_VALUE": "Valeur maximale",
+            "INVALID_INPUT": "Valeur invalide"
         }
     },
     "PAGINATION": {

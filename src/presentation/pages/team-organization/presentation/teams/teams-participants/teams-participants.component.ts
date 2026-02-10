@@ -205,6 +205,7 @@ export class TeamsParticipantsComponent implements OnInit {
             icon: 'pi pi-user-plus',
             translateKey: 'COMMON.ASSIGN',
             items: this.buildAssignMenuItems(),
+            disabled: this.participantsSelectedInTable().length >= 1,
         },
         {
             label: 'COMMON.REASSIGN',

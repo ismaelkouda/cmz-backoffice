@@ -27,6 +27,7 @@ import {
 } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
 import { Roles } from '@shared/domain/enums/roles.enum';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
@@ -39,7 +40,7 @@ import { TeamsSelectFacade } from '@presentation/pages/team-organization/applica
 import { PARTICIPANTS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/participants/participants-table.constant';
 import { ParticipantsFilterControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-filter.control';
 import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
-import { Status } from '@presentation/pages/team-organization/domain/enums/status.enum';
+import { PARTICIPANTS_STATUS } from '@presentation/pages/team-organization/domain/enums/participants/participants-status.enum';
 import { PARTICIPANTS_FORM } from '@presentation/pages/team-organization/presentation/participants/participants.routes';
 
 @Component({
@@ -65,9 +66,12 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
-    private readonly toastr = inject(ToastrService);
+    private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
+    readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.config.app.name
+    );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
@@ -81,20 +85,23 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
-    );
-    private readonly tableExportExcelFileService = inject(
-        TableExportExcelFileService
-    );
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(Status, this.t.bind(this));
+        return enumToFilterOptions(PARTICIPANTS_STATUS, this.t.bind(this));
     });
     readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptions(Roles, this.t.bind(this));
     });
+    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.CREATE',
+            actionId: CrudFormType.CREATE,
+            class: 'btn-primary',
+            icon: 'pi pi-plus',
+            translateKey: 'COMMON.CREATE',
+        },
+    ]);
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const statusOpts = this.statusOptions();
@@ -221,6 +228,15 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
         this.facade.changePage(event + 1);
     }
 
+    public onHeaderButtonClicked(actionId: string): void {
+        if (actionId === CrudFormType.CREATE) {
+            this.onNavigateToForm({
+                item: undefined,
+                ref: CrudFormType.CREATE,
+            });
+        }
+    }
+
     public onNavigateToForm(event: {
         item?: ParticipantsEntity;
         ref: CrudFormType;
@@ -235,7 +251,6 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
     }
 
     public onDeleteClicked(item: ParticipantsEntity): void {
-        console.log('item', item);
         if (!item.uniqId) {
             return;
         }
@@ -299,7 +314,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
     public onExportExcel(): void {
         const items = this.items();
         if (!items.length) {
-            this.toastr.error(this.t('EXPORT.NO_DATA'));
+            this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
 

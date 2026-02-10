@@ -3,5 +3,4 @@ export enum ActionDropdownDto {
     INACTIVE = 'inactive',
     PUBLISHED = 'published',
     UNPUBLISHED = 'unpublished',
-    AFFECTED = 'affected',
 }

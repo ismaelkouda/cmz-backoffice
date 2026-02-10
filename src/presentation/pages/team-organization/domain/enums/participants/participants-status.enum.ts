@@ -1,4 +1,4 @@
-export enum Status {
+export enum PARTICIPANTS_STATUS {
     ACTIVE = 'COMMON.ACTIVE',
     INACTIVE = 'COMMON.INACTIVE',
     BLOCKED = 'COMMON.BLOCKED',

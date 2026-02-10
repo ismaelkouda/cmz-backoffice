@@ -186,7 +186,6 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
             [ReportType.ZOB]: 'card-warning',
             [ReportType.CPO]: 'card-info',
             [ReportType.CPS]: 'card-success',
-            [ReportType.UNKNOWN]: 'card-primary',
         };
         return colorMap[reportType] || 'card-primary';
     }
@@ -197,7 +196,6 @@ export class ActionsTreatmentComponent implements OnInit, OnDestroy {
             [ReportType.ZOB]: 'REPORT_TYPE.ZOB',
             [ReportType.CPO]: 'REPORT_TYPE.CPO',
             [ReportType.CPS]: 'REPORT_TYPE.CPS',
-            [ReportType.UNKNOWN]: 'REPORT_TYPE.OTHER',
         };
         return labelMap[reportType] || 'REPORT_TYPE.OTHER';
     }

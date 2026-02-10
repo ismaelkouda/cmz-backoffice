@@ -30,30 +30,26 @@ export class ParticipantsFormValidationService {
         if (errors['minlength']) {
             const error = errors['minlength'] as { requiredLength: number };
             return `${this.translate.instant(
-                'TEAM_ORGANIZATION.PARTICIPANTS.FORM.VALIDATION.MIN_LENGTH'
+                'COMMON.VALIDATION.MIN_LENGTH'
             )}: ${error.requiredLength}`;
         }
 
         if (errors['maxlength']) {
             const error = errors['maxlength'] as { requiredLength: number };
             return `${this.translate.instant(
-                'TEAM_ORGANIZATION.PARTICIPANTS.FORM.VALIDATION.MAX_LENGTH'
+                'COMMON.VALIDATION.MAX_LENGTH'
             )}: ${error.requiredLength}`;
         }
 
         if (errors['pattern']) {
-            return this.translate.instant(
-                'TEAM_ORGANIZATION.PARTICIPANTS.FORM.VALIDATION.INVALID_FORMAT'
-            );
+            return this.translate.instant('COMMON.VALIDATION.INVALID_FORMAT');
         }
 
         if (errors['required']) {
             return this.translate.instant('COMMON.VALIDATION.REQUIRED');
         }
 
-        return this.translate.instant(
-            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.VALIDATION.INVALID_INPUT'
-        );
+        return this.translate.instant('COMMON.VALIDATION.INVALID_INPUT');
     }
 
     /**

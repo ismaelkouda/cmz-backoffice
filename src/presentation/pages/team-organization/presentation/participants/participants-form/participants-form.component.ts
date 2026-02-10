@@ -78,7 +78,6 @@ import { ParticipantsFormValidationService } from '@presentation/pages/team-orga
 export class ParticipantsFormComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
-    private itemPatched = false;
     private readonly submitFacade = inject(ParticipantsFacade);
     private readonly facade = inject(ParticipantsFindoneFacade);
     private readonly translate = inject(TranslateService);
@@ -87,9 +86,9 @@ export class ParticipantsFormComponent implements OnInit {
         ParticipantsFormValidationService
     );
     private readonly helperService = inject(ParticipantsFormHelperService);
-
     readonly VALIDATION = FormValidators;
-
+    private lastSuccess = this.submitFacade.actionSuccess();
+    private itemPatched = false;
     readonly items = toSignal(this.facade.item$, { initialValue: null });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
@@ -100,14 +99,7 @@ export class ParticipantsFormComponent implements OnInit {
         ),
         { initialValue: '' }
     );
-    private lastSuccess = this.submitFacade.actionSuccess();
-
     readonly isEditMode = computed(() => !!this.paramsUniqId());
-
-    readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
-        return enumToFilterOptions(Roles, this.t.bind(this));
-    });
-
     private readonly formStateEffect = effect(() => {
         const state = this.submitFacade.actionState();
         if (state === 'loading') {
@@ -125,6 +117,10 @@ export class ParticipantsFormComponent implements OnInit {
 
         this.lastSuccess = current;
         this.navigateToBack();
+    });
+
+    readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
+        return enumToFilterOptions(Roles, this.t.bind(this));
     });
 
     readonly form: FormGroup<ParticipantsFormControl> =
