@@ -85,6 +85,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
+
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptions(PARTICIPANTS_STATUS, this.t.bind(this));

@@ -18,7 +18,7 @@
                         </app-page-title>
                     </header>
 
-                    <div class="fade-in tasks-content">
+                    <div class="tasks-content" [class.fade-in]="hasAnimated()">
                         <app-filter
                             class="filter-component"
                             [isLoading]="isLoading()"

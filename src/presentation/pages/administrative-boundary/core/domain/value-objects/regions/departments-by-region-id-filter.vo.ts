@@ -2,7 +2,7 @@ import { DepartmentsByRegionIdFilterApiDto } from '@presentation/pages/administr
 
 export class DepartmentsByRegionIdFilter {
     private constructor(
-        readonly  regionId: string,
+        readonly regionId: string,
         readonly municipalityCode?: string,
         readonly search?: string,
         readonly isActive?: boolean,
@@ -12,7 +12,7 @@ export class DepartmentsByRegionIdFilter {
 
     static create(data: any = {} as any): DepartmentsByRegionIdFilter {
         return new DepartmentsByRegionIdFilter(
-            data. regionId,
+            data.regionId,
             data.municipalityCode,
             data.search,
             data.isActive,
@@ -25,7 +25,7 @@ export class DepartmentsByRegionIdFilter {
         const params: DepartmentsByRegionIdFilterApiDto =
             {} as DepartmentsByRegionIdFilterApiDto;
 
-        params.region_code = this. regionId;
+        params.region_code = this.regionId;
         if (this.search) {
             params.search = this.search;
         }

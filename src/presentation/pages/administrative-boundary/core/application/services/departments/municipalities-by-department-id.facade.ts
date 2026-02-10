@@ -52,8 +52,7 @@ export class MunicipalitiesByDepartmentIdFacade extends BaseFacade<
     }
 
     refresh(): void {
-        const departmentId =
-            this.filterSubject.getValue()?.departmentId ?? '';
+        const departmentId = this.filterSubject.getValue()?.departmentId ?? '';
         const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
         this.fetchWithFilterAndPage(
             { departmentId },

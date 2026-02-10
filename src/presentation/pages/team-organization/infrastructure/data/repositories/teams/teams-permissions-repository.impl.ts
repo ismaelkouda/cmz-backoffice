@@ -7,9 +7,7 @@ import { TeamsPermissionsMapper } from '@presentation/pages/team-organization/in
 import { TeamsPermissionsApi } from '@presentation/pages/team-organization/infrastructure/data/sources/teams/teams-permissions.api';
 
 @Injectable({ providedIn: 'root' })
-export class TeamsPermissionsRepositoryImpl
-    implements TeamsPermissionsRepository
-{
+export class TeamsPermissionsRepositoryImpl implements TeamsPermissionsRepository {
     private readonly api = inject(TeamsPermissionsApi);
     private readonly mapper = inject(TeamsPermissionsMapper);
 

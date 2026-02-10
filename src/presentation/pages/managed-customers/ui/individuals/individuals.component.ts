@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
-import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from 'shared/components/page-title/page-title.component';
-import { PaginationComponent } from 'shared/components/pagination/pagination.component';
-import { TYPE_CUSTOMERS_ENUM } from 'shared/enum/type-customers.enum';
 
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { TYPE_CUSTOMERS_ENUM } from '@shared/enum/type-customers.enum';
 
 import { IndividualsFilterInterface } from '../../data-access/individuals/interfaces/individuals-filter.interface';
 import { IndividualsInterface } from '../../data-access/individuals/interfaces/individuals.interface';

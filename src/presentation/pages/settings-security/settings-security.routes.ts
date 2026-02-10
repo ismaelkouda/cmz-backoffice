@@ -20,9 +20,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import(
-                                './presentation/access-logs/access-logs.routes'
-                            ).then((m) => m.ACCESS_LOGS_ROUTES),
+                            import('./presentation/access-logs/access-logs.routes').then(
+                                (m) => m.ACCESS_LOGS_ROUTES
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {
@@ -43,9 +43,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import(
-                                './presentation/profils-habilitations/profils-habilitations.routes'
-                            ).then((m) => m.PROFILES_HABILITATIONS_ROUTES),
+                            import('./presentation/profils-habilitations/profils-habilitations.routes').then(
+                                (m) => m.PROFILES_HABILITATIONS_ROUTES
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {

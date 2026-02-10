@@ -20,9 +20,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import(
-                                './presentation/features/departments/departments.routes'
-                            ).then((m) => m.DEPARTMENTS_ROUTES),
+                            import('./presentation/features/departments/departments.routes').then(
+                                (m) => m.DEPARTMENTS_ROUTES
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {
@@ -43,9 +43,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import(
-                                './presentation/features/municipalities/municipalities.routes'
-                            ).then((m) => m.MUNICIPALITIES_ROUTES),
+                            import('./presentation/features/municipalities/municipalities.routes').then(
+                                (m) => m.MUNICIPALITIES_ROUTES
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {
@@ -66,9 +66,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import(
-                                './presentation/features/regions/regions.routes'
-                            ).then((m) => m.REGIONS_ROUTES),
+                            import('./presentation/features/regions/regions.routes').then(
+                                (m) => m.REGIONS_ROUTES
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {

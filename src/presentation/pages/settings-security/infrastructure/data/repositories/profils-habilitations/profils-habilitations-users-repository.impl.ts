@@ -18,9 +18,7 @@ import { ProfilsHabilitationsUsersMapper } from '@presentation/pages/settings-se
 import { ProfilsHabilitationsUsersApi } from '@presentation/pages/settings-security/infrastructure/data/sources/profils-habilitations/profils-habilitations-users.api';
 
 @Injectable({ providedIn: 'root' })
-export class ProfilsHabilitationsUsersRepositoryImpl
-    implements ProfilsHabilitationsUsersRepository
-{
+export class ProfilsHabilitationsUsersRepositoryImpl implements ProfilsHabilitationsUsersRepository {
     private readonly api = inject(ProfilsHabilitationsUsersApi);
     private readonly mapper = inject(ProfilsHabilitationsUsersMapper);
 

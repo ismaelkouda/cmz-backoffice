@@ -18,7 +18,7 @@
                         </app-page-title>
                     </header>
 
-                    <div class="fade-in queues-content">
+                    <div class="queues-content" [class.fade-in]="hasAnimated()">
                         <app-filter
                             class="filter-component"
                             [isLoading]="isLoading()"
@@ -35,7 +35,7 @@
                             <app-table
                                 class="table-component"
                                 [loading]="isLoading()"
-                                [items]="queuesItems()"
+                                [items]="items()"
                                 [config]="tableConfig"
                                 [pagination]="pagination()"
                                 (refreshRequested)="refreshQueues()"

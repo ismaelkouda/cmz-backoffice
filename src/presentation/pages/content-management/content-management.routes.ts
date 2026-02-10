@@ -98,9 +98,9 @@ export const routes: Routes = [
             {
                 path: '',
                 loadChildren: () =>
-                    import(
-                        './presentation/features/privacy-policy/privacy-policy.routes'
-                    ).then((m) => m.PRIVACY_POLICY_ROUTES),
+                    import('./presentation/features/privacy-policy/privacy-policy.routes').then(
+                        (m) => m.PRIVACY_POLICY_ROUTES
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -118,9 +118,9 @@ export const routes: Routes = [
             {
                 path: '',
                 loadChildren: () =>
-                    import(
-                        './presentation/features/terms-use/terms-use.routes'
-                    ).then((m) => m.TERMS_USE_ROUTES),
+                    import('./presentation/features/terms-use/terms-use.routes').then(
+                        (m) => m.TERMS_USE_ROUTES
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -138,9 +138,9 @@ export const routes: Routes = [
             {
                 path: '',
                 loadChildren: () =>
-                    import(
-                        './presentation/features/legal-notice/legal-notice.routes'
-                    ).then((m) => m.LEGAL_NOTICE_ROUTES),
+                    import('./presentation/features/legal-notice/legal-notice.routes').then(
+                        (m) => m.LEGAL_NOTICE_ROUTES
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],

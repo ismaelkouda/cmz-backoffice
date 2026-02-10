@@ -202,12 +202,10 @@
                                                     >
                                                     </p-select>
                                                     @if (
-                                                        form.get(
-                                                            'departmentId'
-                                                        )?.invalid &&
-                                                        form.get(
-                                                            'departmentId'
-                                                        )?.touched
+                                                        form.get('departmentId')
+                                                            ?.invalid &&
+                                                        form.get('departmentId')
+                                                            ?.touched
                                                     ) {
                                                         <small
                                                             class="text-danger d-block mt-1"

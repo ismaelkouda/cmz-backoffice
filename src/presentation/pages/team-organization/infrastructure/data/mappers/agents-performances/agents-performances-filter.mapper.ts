@@ -10,6 +10,12 @@ export function AgentsPerformancesFilterMapper(
     if (vo.search) {
         params.search = vo.search;
     }
+    if (vo.member) {
+        params.member = vo.member;
+    }
+    if (vo.search) {
+        params.search = vo.search;
+    }
     if (vo.period?.start) {
         params.start_date = vo.period.start;
     }

@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnInit,
+    computed,
     inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -56,6 +57,7 @@ import { ManagementComponent } from '@presentation/pages/reports-processing/ui/m
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksComponent implements OnInit {
+    readonly hasAnimated = computed(() => this.tasksItems().length === 0);
     private readonly title = inject(Title);
     public readonly facade = inject(TasksFacade);
     private readonly fb = inject(FormBuilder);

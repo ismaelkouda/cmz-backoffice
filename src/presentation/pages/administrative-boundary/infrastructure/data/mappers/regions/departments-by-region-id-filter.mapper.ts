@@ -8,7 +8,7 @@ export class DepartmentsByRegionIdFilterMapper {
         const params: DepartmentsByRegionIdFilterApiDto =
             {} as DepartmentsByRegionIdFilterApiDto;
 
-        params.region_code = filter. regionId;
+        params.region_code = filter.regionId;
         if (filter.startDate) {
             params['start_date'] = filter.startDate;
         }

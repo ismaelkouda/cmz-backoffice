@@ -164,39 +164,35 @@ export class UsersFormComponent implements OnInit {
 
     readonly isEditMode = computed(() => !!this.paramsUniqId());
 
-    private readonly handleRouteParamsChange = effect(
-        () => {
-            const uniqId = this.paramsUniqId();
-            if (uniqId) {
-                this.findOneFacade.reset();
-                this.findOneFacade.read({ uniqId: uniqId }, true);
-            } else {
-                this.findOneFacade.reset();
-                this.form.reset();
-            }
-        } 
-    );
+    private readonly handleRouteParamsChange = effect(() => {
+        const uniqId = this.paramsUniqId();
+        if (uniqId) {
+            this.findOneFacade.reset();
+            this.findOneFacade.read({ uniqId: uniqId }, true);
+        } else {
+            this.findOneFacade.reset();
+            this.form.reset();
+        }
+    });
 
-    private readonly patchFormFromUser = effect(
-        () => {
-            const user = this.currentUser();
-            untracked(() => {
-                if (user && Object.keys(user).length > 0) {
-                    this.form.patchValue(
-                        {
-                            firstName: user.firstName,
-                            lastName: user.lastName,
-                            email: user.email,
-                            phone: user.phone,
-                            profile: user.profile,
-                            responsibility: user.responsibility,
-                        },
-                        { emitEvent: false }
-                    );
-                }
-            });
-        } 
-    );
+    private readonly patchFormFromUser = effect(() => {
+        const user = this.currentUser();
+        untracked(() => {
+            if (user && Object.keys(user).length > 0) {
+                this.form.patchValue(
+                    {
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        phone: user.phone,
+                        profile: user.profile,
+                        responsibility: user.responsibility,
+                    },
+                    { emitEvent: false }
+                );
+            }
+        });
+    });
 
     ngOnInit(): void {
         this.profilesFacade.readAll();

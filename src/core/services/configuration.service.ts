@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { AppConfig, BuildInfo } from 'environments/config.types';
+import { AppConfig, BuildInfo } from '@environments/config.types';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +9,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class ConfigurationService {
     private readonly config: AppConfig;
     private readonly buildInfo: BuildInfo;
-    private configSubject = new BehaviorSubject<AppConfig | null>(null);
+    private readonly configSubject = new BehaviorSubject<AppConfig | null>(
+        null
+    );
     private readonly platformId = inject(PLATFORM_ID);
 
     constructor() {
@@ -45,7 +47,6 @@ export class ConfigurationService {
 
     private getWindowConfig(): any {
         try {
-            // Essayer multiple méthodes d'accès
             if (typeof window !== 'undefined' && (window as any).__env) {
                 return (window as any).__env;
             }
@@ -72,7 +73,6 @@ export class ConfigurationService {
         const nodeEnv =
             (process.env['NODE_ENV'] as 'dev' | 'test' | 'prod') || 'dev';
 
-        // Import dynamique pour éviter les références circulaires
         const configs = {
             dev: {
                 authenticationUrl:

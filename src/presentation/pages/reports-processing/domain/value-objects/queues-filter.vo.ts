@@ -1,64 +1,53 @@
-import { QueuesFilterPayloadEntity } from '../entities/queues/queues-filter-payload.entity';
+import { DatePeriod } from '@shared/core/domain/value-object/date-period.vo';
 
-export class QueuesFilter {
-    private constructor(
-        private readonly initiatorPhoneNumber?: string,
-        private readonly source?: string,
-        private readonly startDate?: string,
-        private readonly endDate?: string,
-        private readonly uniqId?: string,
-        private readonly reportType?: string,
-        private readonly operators?: string[]
-    ) {}
+import { QueuesFilterDto } from '../../application/dto/queues-filter.dto';
 
-    static create(data: QueuesFilterPayloadEntity): QueuesFilter {
-        const operatorArray = this.normalizeOperator(data.operators);
+export class QueuesFilterVo {
+    public readonly initiatorPhoneNumber?: string;
+    public readonly uniqId?: string;
+    public readonly reportType?: string;
+    public readonly operators?: string[];
+    public readonly source?: string;
+    public readonly period?: DatePeriod;
 
-        return new QueuesFilter(
-            data.initiator_phone_number,
-            data.source,
-            data.start_date,
-            data.end_date,
-            data.uniq_id,
-            data.report_type,
-            operatorArray
-        );
+    private constructor(props: {
+        initiatorPhoneNumber?: string;
+        uniqId?: string;
+        reportType?: string;
+        operators?: string[];
+        source?: string;
+        period?: DatePeriod;
+    }) {
+        this.initiatorPhoneNumber = props.initiatorPhoneNumber;
+        this.uniqId = props.uniqId;
+        this.reportType = props.reportType;
+        this.operators = props.operators;
+        this.operators = props.operators;
+        this.source = props.source;
+        this.period = props.period;
     }
 
-    private static normalizeOperator(
-        operator: string | string[] | undefined
-    ): string[] {
-        if (Array.isArray(operator)) {
-            return operator;
-        }
-        return operator ? [operator] : [];
-    }
+    static fromDto(dto: QueuesFilterDto | null): QueuesFilterVo {
+        const initiatorPhoneNumber =
+            dto?.initiatorPhoneNumber?.trim() || undefined;
+        const uniqId = dto?.uniqId?.trim() || undefined;
+        const reportType = dto?.reportType?.trim() || undefined;
+        const operators = dto?.operators;
+        const source = dto?.source?.trim() || undefined;
 
-    toDto(): Record<string, string | string[]> {
-        const params: Record<string, string | string[]> = {};
+        let period: DatePeriod | undefined;
 
-        if (this.initiatorPhoneNumber) {
-            params['initiator_phone_number'] = this.initiatorPhoneNumber;
-        }
-        if (this.uniqId) {
-            params['uniq_id'] = this.uniqId;
-        }
-        if (this.startDate) {
-            params['start_date'] = this.startDate;
-        }
-        if (this.endDate) {
-            params['end_date'] = this.endDate;
-        }
-        if (this.reportType) {
-            params['report_type'] = this.reportType;
-        }
-        if (this.source) {
-            params['source'] = this.source;
-        }
-        if (this.operators && this.operators.length > 0) {
-            params['operators'] = this.operators;
+        if (dto?.startDate || dto?.endDate) {
+            period = DatePeriod.create(dto.startDate, dto.endDate);
         }
 
-        return params;
+        return new QueuesFilterVo({
+            initiatorPhoneNumber,
+            uniqId,
+            reportType,
+            operators,
+            source,
+            period,
+        });
     }
 }

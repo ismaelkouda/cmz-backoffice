@@ -10,9 +10,7 @@ import { MunicipalitiesByDepartmentIdMapper } from '@presentation/pages/administ
 import { MunicipalitiesByDepartmentIdApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/departments/municipalities-by-department-id.api';
 
 @Injectable({ providedIn: 'root' })
-export class MunicipalitiesByDepartmentIdRepositoryImpl
-    implements MunicipalitiesByDepartmentIdRepository
-{
+export class MunicipalitiesByDepartmentIdRepositoryImpl implements MunicipalitiesByDepartmentIdRepository {
     private readonly api = inject(MunicipalitiesByDepartmentIdApi);
     private readonly mapper = inject(MunicipalitiesByDepartmentIdMapper);
 

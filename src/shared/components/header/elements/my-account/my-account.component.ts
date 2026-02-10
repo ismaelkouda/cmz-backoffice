@@ -140,7 +140,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         }).then((result) => {
             if (result.isConfirmed) {
                 this.myAccountFacade.logout();
-                this.encodingDataService.clearData();
+                this.encodingDataService.clearEncryptedData();
                 this.closeDropdown();
                 globalThis.window.location.reload();
             }

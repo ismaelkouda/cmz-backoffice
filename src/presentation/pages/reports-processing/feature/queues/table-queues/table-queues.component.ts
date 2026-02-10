@@ -73,10 +73,10 @@ export class TableQueuesComponent implements OnInit, OnDestroy {
     readonly isLoading = signal<boolean>(false);
     readonly hasData = signal<boolean>(false);
 
-    get selectedCount() {
+    get selectedCount(): number {
         return this.selectionService.selectedCount();
     }
-    get hasSelection() {
+    get hasSelection(): boolean {
         return this.selectionService.hasSelection();
     }
 

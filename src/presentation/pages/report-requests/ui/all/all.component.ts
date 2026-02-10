@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnInit,
+    computed,
     inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -56,6 +57,7 @@ import { AllFilterPayloadEntity } from '../../domain/entities/all/all-filter-pay
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AllComponent implements OnInit {
+    readonly hasAnimated = computed(() => this.allItems().length === 0);
     private readonly title = inject(Title);
     public readonly facade = inject(AllFacade);
     private readonly fb = inject(FormBuilder);

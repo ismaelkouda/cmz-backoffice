@@ -1,11 +1,11 @@
 import { FormControl } from '@angular/forms';
 
 export interface QueuesFilterFormControlEntity {
-    uniq_id: FormControl<string>;
-    initiator_phone_number: FormControl<string>;
-    start_date: FormControl<string>;
-    end_date: FormControl<string>;
-    report_type: FormControl<string>;
+    uniqId: FormControl<string>;
+    initiatorPhoneNumber: FormControl<string>;
+    startDate: FormControl<string>;
+    endDate: FormControl<string>;
+    reportType: FormControl<string>;
     operators: FormControl<string[]>;
     source: FormControl<string>;
 }

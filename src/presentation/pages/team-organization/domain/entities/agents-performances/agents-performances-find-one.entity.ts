@@ -1,6 +1,6 @@
 import { AGENTS_PERFORMANCES_STATUS } from '@presentation/pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
 
-export interface AgentsPerformancesProps {
+export interface AgentsPerformancesFindOneProps {
     uniqId: string;
     name: string;
     goalsSize: string;
@@ -9,8 +9,8 @@ export interface AgentsPerformancesProps {
     status: AGENTS_PERFORMANCES_STATUS;
     createdAt: string;
 }
-export class AgentsPerformancesEntity {
-    constructor(private readonly props: AgentsPerformancesProps) {}
+export class AgentsPerformancesFindOneEntity {
+    constructor(private readonly props: AgentsPerformancesFindOneProps) {}
 
     get uniqId(): string {
         return this.props.uniqId;
@@ -34,10 +34,12 @@ export class AgentsPerformancesEntity {
         return this.props.name;
     }
 
-    public with(props: AgentsPerformancesProps): AgentsPerformancesEntity {
+    public with(
+        props: AgentsPerformancesFindOneProps
+    ): AgentsPerformancesFindOneEntity {
         if (this.uniqId === props.uniqId) {
             return this;
         }
-        return new AgentsPerformancesEntity(props);
+        return new AgentsPerformancesFindOneEntity(props);
     }
 }

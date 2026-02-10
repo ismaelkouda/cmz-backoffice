@@ -1,10 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { EnvService } from '@shared/services/env.service';
+import { buildHttpParams } from '@shared/utils/utils/build-http-params.utils';
 
-import { QueuesRequestDto } from '../dtos/queues/queues-request.dto';
+import { QueuesFilterApiDto } from '../dtos/queues/queues-filter-api.dto';
 import { QueuesResponseDto } from '../dtos/queues/queues-response.dto';
 import { QUEUES_ENDPOINTS } from '../endpoint/queues-endpoints';
 
@@ -19,25 +20,13 @@ export class QueuesApi {
         private readonly envService: EnvService
     ) {}
 
-    fetchQueues(
-        payload: QueuesRequestDto,
+    execute(
+        filter: QueuesFilterApiDto,
         page: string
     ): Observable<QueuesResponseDto> {
         const url = `${this.baseUrl}${QUEUES_ENDPOINTS.QUEUES.replace('{page}', page)}`;
 
-        const paramsObject = Object.entries(payload ?? {}).reduce<
-            Record<string, string>
-        >((acc, [key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                acc[key] = String(value);
-            }
-            return acc;
-        }, {});
-
-        const params =
-            Object.keys(paramsObject).length > 0
-                ? new HttpParams({ fromObject: paramsObject })
-                : undefined;
+        const params = buildHttpParams(filter);
 
         return this.http.get<QueuesResponseDto>(url, { params });
     }

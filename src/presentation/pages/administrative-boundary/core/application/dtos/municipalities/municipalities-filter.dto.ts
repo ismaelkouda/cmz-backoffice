@@ -1,6 +1,6 @@
 export interface MunicipalitiesFilterDto {
     search?: string;
-     regionId?: string;
+    regionId?: string;
     departmentId?: string;
     isActive?: boolean;
     startDate?: string;

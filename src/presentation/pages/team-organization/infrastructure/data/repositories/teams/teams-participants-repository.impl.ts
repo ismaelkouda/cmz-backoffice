@@ -20,9 +20,7 @@ import { TeamsParticipantsMapper } from '@presentation/pages/team-organization/i
 import { TeamsParticipantsApi } from '@presentation/pages/team-organization/infrastructure/data/sources/teams/teams-participants.api';
 
 @Injectable({ providedIn: 'root' })
-export class TeamsParticipantsRepositoryImpl
-    implements TeamsParticipantsRepository
-{
+export class TeamsParticipantsRepositoryImpl implements TeamsParticipantsRepository {
     private readonly api = inject(TeamsParticipantsApi);
     private readonly mapper = inject(TeamsParticipantsMapper);
 

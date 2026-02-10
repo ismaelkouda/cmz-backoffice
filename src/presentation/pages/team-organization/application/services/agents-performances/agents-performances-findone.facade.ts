@@ -1,17 +1,18 @@
 import { inject, Injectable } from '@angular/core';
 
+import { BaseFacade } from '@shared/application/base/base-facade';
 import { shouldFetch } from '@shared/application/base/facade.utils';
-import { ObjectBaseFacade } from '@shared/application/base/object-base-facade';
 import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
 import { AgentsPerformancesFindOneFilterDto } from '@presentation/pages/team-organization/application/dtos/agents-performances/agents-performances-findone-filter.dto';
-import { AgentsPerformancesFindOneUseCase } from '@presentation/pages/team-organization/application/use-cases/agents-performances/agents-performances-findone.use-case';
-import { AgentsPerformancesFindOneEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-findone.entity';
+import { AgentsPerformancesFindOneUseCase } from '@presentation/pages/team-organization/application/use-cases/agents-performances/agents-performances-find-one.use-case';
+import { AgentsPerformancesFindOneEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
 
 @Injectable({
     providedIn: 'root',
 })
-export class AgentsPerformancesFindOneFacade extends ObjectBaseFacade<
+export class AgentsPerformancesFindOneFacade extends BaseFacade<
     AgentsPerformancesFindOneEntity,
     AgentsPerformancesFindOneFilterDto
 > {
@@ -26,9 +27,10 @@ export class AgentsPerformancesFindOneFacade extends ObjectBaseFacade<
 
     read(
         filter: AgentsPerformancesFindOneFilterDto,
+        page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false
     ): void {
-        const hasData = this.itemsSubject.getValue() !== null;
+        const hasData = this.itemsSubject.getValue().length > 0;
         if (
             !shouldFetch(
                 forceRefresh,
@@ -39,13 +41,72 @@ export class AgentsPerformancesFindOneFacade extends ObjectBaseFacade<
         ) {
             return;
         }
-        this.fetchWithFilter(
+
+        this.fetchWithFilterAndPage(
             filter,
-            this.useCase.read.bind(this.useCase),
+            page,
+            this.useCase.execute.bind(this.useCase),
             this.uiFeedbackService
         );
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
+    }
+
+    refresh(): void {
+        this.filterSubject.next(null);
+        const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
+        this.pageSubject.next(firstPage);
+        this.fetchWithFilterAndPage(
+            null,
+            firstPage,
+            this.useCase.execute.bind(this.useCase),
+            this.uiFeedbackService
+        );
+        this.lastFetchTimestamp = Date.now();
+    }
+
+    changePage(pageNumber: number): void {
+        const currentFilter = this.filterSubject.getValue();
+        if (!currentFilter) {
+            return;
+        }
+        this.fetchWithFilterAndPage(
+            currentFilter,
+            String(pageNumber),
+            this.useCase.execute.bind(this.useCase),
+            this.uiFeedbackService
+        );
+        this.lastFetchTimestamp = Date.now();
+    }
+
+    refreshWithLastFilterAndPage(): void {
+        const currentFilter = this.filterSubject.getValue();
+        const currentPage = this.pageSubject.getValue();
+        this.fetchWithFilterAndPage(
+            currentFilter,
+            currentPage,
+            this.useCase.execute.bind(this.useCase),
+            this.uiFeedbackService
+        );
+        this.lastFetchTimestamp = Date.now();
+    }
+
+    resetMemory(): void {
+        this.hasInitialized = false;
+        this.lastFetchTimestamp = 0;
+        this.reset();
+    }
+
+    getMemoryStatus(): {
+        hasInitialized: boolean;
+        lastFetch: number;
+        hasData: boolean;
+    } {
+        return {
+            hasInitialized: this.hasInitialized,
+            lastFetch: this.lastFetchTimestamp,
+            hasData: this.itemsSubject.getValue() !== null,
+        };
     }
 }

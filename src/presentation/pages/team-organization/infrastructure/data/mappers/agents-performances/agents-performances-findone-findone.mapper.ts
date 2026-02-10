@@ -3,10 +3,7 @@
 // import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 // import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
 
-// import { AgentsPerformancesFindOneEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-findone.entity';
-// import {
-//     AgentsPerformancesFindOneItemApiDto,
-// } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/agents-performances-findone-response-api.dto';
+// import { AgentsPerformancesFindOneEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
 
 // @Injectable({ providedIn: 'root' })
 // export class AgentsPerformancesFindOneMapper extends SimpleResponseMapper<

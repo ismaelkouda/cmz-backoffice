@@ -20,9 +20,7 @@ import { ProfilsHabilitationsApi } from '@presentation/pages/settings-security/i
 @Injectable({
     providedIn: 'root',
 })
-export class ProfilsHabilitationsRepositoryImpl
-    implements ProfilsHabilitationsRepository
-{
+export class ProfilsHabilitationsRepositoryImpl implements ProfilsHabilitationsRepository {
     private readonly api = inject(ProfilsHabilitationsApi);
     private readonly mapper = inject(ProfilsHabilitationsMapper);
 

@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnInit,
+    computed,
     inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -56,6 +57,7 @@ import { QUEUES_TABLE_CONST } from '../../domain/constants/queues/queues-table.c
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueuesComponent implements OnInit {
+    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly title = inject(Title);
     public readonly facade = inject(QueuesFacade);
     private readonly fb = inject(FormBuilder);
@@ -69,7 +71,7 @@ export class QueuesComponent implements OnInit {
 
     public readonly tableConfig = QUEUES_TABLE_CONST;
 
-    readonly queuesItems = toSignal(this.facade.queues$, {
+    readonly items = toSignal(this.facade.queues$, {
         initialValue: [],
     });
     readonly isLoading = toSignal(this.facade.isLoading$, {
@@ -278,7 +280,7 @@ export class QueuesComponent implements OnInit {
     }
 
     public onExportExcel(): void {
-        const queues = this.queuesItems();
+        const queues = this.items();
         if (queues && queues.length > 0) {
             const fileName = `${this.exportFilePrefix}-queues`;
             this.exportService.exportAsExcelFile(
