@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { SlideEntity } from '../entities/slide.entity';
 import { SlideFilter } from '../value-objects/slide-filter.vo';

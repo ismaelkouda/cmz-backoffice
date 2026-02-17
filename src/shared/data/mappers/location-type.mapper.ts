@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { LocationTypeDto } from '@shared/data/dto/location-type.dto';
 import { LocationType } from '@shared/domain/enums/location-type.enum';
-
-import { LocationTypeDto } from '../dtos/location-type.dto';
 
 @Injectable({
     providedIn: 'root',

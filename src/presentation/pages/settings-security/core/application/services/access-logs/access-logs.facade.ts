@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 
-import { BaseFacade } from '@shared/application/base/base-facade';
-import { shouldFetch } from '@shared/application/base/facade.utils';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { BaseFacade } from '@shared/application/services/base-facade';
+import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { AccessLogsFilterDto } from '@presentation/pages/settings-security/core/application/dtos/access-logs/access-logs-filter.dtos';
+import { AccessLogsFilterDto } from '@presentation/pages/settings-security/core/application/dto/access-logs/access-logs-filter.dtos';
+import { AccessLogsQuery } from '@presentation/pages/settings-security/core/application/queries/access-logs/access-logs.query';
+import { AccessLogsBus } from '@presentation/pages/settings-security/core/application/queries-bus/access-logs/access-logs.bus';
 import { AccessLogsUseCase } from '@presentation/pages/settings-security/core/application/use-cases/access-logs/access-logs.use-case';
 import { AccessLogsEntity } from '@presentation/pages/settings-security/core/domain/entities/access-logs/access-logs.entity';
 
@@ -18,6 +20,7 @@ export class AccessLogsFacade extends BaseFacade<
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly useCase = inject(AccessLogsUseCase);
+    private readonly filterBus = inject(AccessLogsBus);
 
     readonly accessLogs$ = this.items$;
 
@@ -42,10 +45,17 @@ export class AccessLogsFacade extends BaseFacade<
             return;
         }
 
+        const command = new AccessLogsQuery(
+            filter?.search,
+            filter?.action,
+            filter?.startDate,
+            filter?.endDate
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
             filter,
             page,
-            this.useCase.execute.bind(this.useCase),
+            fetch$,
             this.uiFeedbackService
         );
 
@@ -55,38 +65,55 @@ export class AccessLogsFacade extends BaseFacade<
 
     refresh(): void {
         this.filterSubject.next(null);
-        const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
-        this.pageSubject.next(firstPage);
-        this.fetchWithFilterAndPage(
-            null,
-            firstPage,
-            this.useCase.execute.bind(this.useCase),
-            this.uiFeedbackService
+        this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new AccessLogsQuery(
+            filter?.search,
+            filter?.action,
+            filter?.startDate,
+            filter?.endDate
         );
+        const fetch$ = this.filterBus.dispatch(command, page);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
 
-    changePage(pageNumber: number): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
+    changePage(page: string): void {
+        const filter = this.filterSubject.getValue();
+        if (!filter) {
             return;
         }
+        const command = new AccessLogsQuery(
+            filter?.search,
+            filter?.action,
+            filter?.startDate,
+            filter?.endDate
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            currentFilter,
-            String(pageNumber),
-            this.useCase.execute.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
     }
 
     refreshWithLastFilterAndPage(): void {
-        const currentFilter = this.filterSubject.getValue();
-        const currentPage = this.pageSubject.getValue();
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new AccessLogsQuery(
+            filter?.search,
+            filter?.action,
+            filter?.startDate,
+            filter?.endDate
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            currentFilter,
-            currentPage,
-            this.useCase.execute.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();

@@ -6,7 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
 import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';

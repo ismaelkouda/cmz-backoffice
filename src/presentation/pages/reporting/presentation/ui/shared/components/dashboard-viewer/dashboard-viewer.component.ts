@@ -19,7 +19,7 @@ import { Subject, takeUntil, timer } from 'rxjs';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SafeUrlPipe } from '@shared/utils/safe-url.pipe';
+import { SafeUrlPipe } from '@shared/domain/pipes/safe-url.pipe';
 
 type ConnectionStatus = 'connected' | 'loading' | 'error';
 

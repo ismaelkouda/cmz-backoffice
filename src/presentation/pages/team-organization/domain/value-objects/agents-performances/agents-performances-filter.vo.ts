@@ -1,6 +1,6 @@
-import { DatePeriod } from '@shared/core/domain/value-object/date-period.vo';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
-import { AgentsPerformancesFilterDto } from '@presentation/pages/team-organization/application/dtos/agents-performances/agents-performances-filter.dto';
+import { AgentsPerformancesFilterDto } from '@presentation/pages/team-organization/application/dto/agents-performances/agents-performances-filter.dto';
 
 export class AgentsPerformancesFilterVo {
     public readonly search?: string;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { TeamsParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-response-api.dto';

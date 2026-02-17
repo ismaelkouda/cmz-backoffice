@@ -4,9 +4,12 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { ParticipantsCreateEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-create.entity';
+import { ParticipantsDeleteEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-delete.entity';
+import { ParticipantsDisableEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-disable.entity';
+import { ParticipantsEnableEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-enable.entity';
 import { ParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-filter.entity';
 import { ParticipantsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-update.entity';
 import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
@@ -16,16 +19,22 @@ import { ParticipantsEntity } from '@presentation/pages/team-organization/domain
 })
 export abstract class ParticipantsRepository {
     abstract readAll(
-        filter: ParticipantsFilterEntity | null,
+        entity: ParticipantsFilterEntity | null,
         page: string
     ): Observable<Paginate<ParticipantsEntity>>;
     abstract create(
-        payload: ParticipantsCreateEntity
+        entity: ParticipantsCreateEntity
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        payload: ParticipantsUpdateEntity
+        entity: ParticipantsUpdateEntity
     ): Observable<SimpleResponseDto<void>>;
-    abstract delete(uniqId: string): Observable<SimpleResponseDto<void>>;
-    abstract enable(uniqId: string): Observable<SimpleResponseDto<void>>;
-    abstract disable(uniqId: string): Observable<SimpleResponseDto<void>>;
+    abstract delete(
+        entity: ParticipantsDeleteEntity
+    ): Observable<SimpleResponseDto<void>>;
+    abstract enable(
+        entity: ParticipantsEnableEntity
+    ): Observable<SimpleResponseDto<void>>;
+    abstract disable(
+        entity: ParticipantsDisableEntity
+    ): Observable<SimpleResponseDto<void>>;
 }

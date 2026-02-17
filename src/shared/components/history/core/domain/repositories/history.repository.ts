@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { HistoryFilterEntity } from '@shared/components/history/core/domain/entities/history-filter.entity';
 import { HistoryEntity } from '@shared/components/history/core/domain/entities/history.entity';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 
 @Injectable({
     providedIn: 'root',

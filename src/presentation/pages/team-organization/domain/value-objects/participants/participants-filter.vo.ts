@@ -1,11 +1,11 @@
-import { ParticipantsFilterDto } from '@presentation/pages/team-organization/application/dtos/participants/participants-filter.dto';
+import { ParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/participants/participants-filter.dto';
 
 export class ParticipantsFilterVo {
     public readonly search?: string;
     public readonly role?: string;
-    public readonly isActive?: boolean;
+    public readonly isActive?: string;
 
-    constructor(props: { search?: string; role?: string; isActive?: boolean }) {
+    constructor(props: { search?: string; role?: string; isActive?: string }) {
         this.search = props.search;
         this.role = props.role;
         this.isActive = props.isActive;

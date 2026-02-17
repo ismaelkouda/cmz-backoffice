@@ -10,7 +10,7 @@ export interface TeamsProps {
     updatedAt: string;
 }
 
-export class TeamsEntity {
+export class TeamsEntity implements TeamsProps {
     constructor(private readonly props: TeamsProps) {}
 
     get uniqId(): string {

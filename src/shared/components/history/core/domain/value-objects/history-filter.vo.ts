@@ -1,5 +1,5 @@
 import { HistoryFilterDto } from '@shared/components/history/core/application/dtos/history-filter.dto';
-import { DatePeriod } from '@shared/core/domain/value-object/date-period.vo';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class HistoryFilterVo {
     public readonly search?: string;

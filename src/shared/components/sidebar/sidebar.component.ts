@@ -17,15 +17,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
-import {
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
+import { LayoutService } from '@shared/domain/services/layout.service';
+import { NavService } from '@shared/domain/services/nav.service';
+import { TabService } from '@shared/domain/services/tab.service';
+/* import {
     MenuItem,
     MenuItemChildren,
-} from '@shared/interfaces/menu-item.interface';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { EncodingDataService } from '@shared/services/encoding-data.service';
-import { LayoutService } from '@shared/services/layout.service';
-import { NavService } from '@shared/services/nav.service';
-import { TabService } from '@shared/services/tab.service';
+} from '@shared/interfaces/menu-item.interface'; */
 
 @Component({
     selector: 'app-sidebar',
@@ -38,9 +38,8 @@ import { TabService } from '@shared/services/tab.service';
 export class SidebarComponent implements OnInit, OnDestroy {
     public readonly config = inject(AppCustomizationService).config;
     public LOGO_ANSUT = LOGO_ANSUT;
-    public menuItems: MenuItem[] = [];
+    public menuItems: any[] = [];
 
-    // For Horizontal Menu
     public margin = 0;
     public width = window.innerWidth;
     public leftArrowNone = true;
@@ -57,8 +56,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.menuItems =
-            (this.encodingService.getData('menu') as MenuItem[]) || [];
+        this.menuItems = (this.encodingService.getData('menu') as any[]) || [];
 
         this.sub = this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
@@ -80,7 +78,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     // Active Nave state
-    setNavActive(itemSelected: MenuItem | MenuItemChildren): void {
+    setNavActive(itemSelected: any): void {
         for (const menuItem of this.menuItems) {
             if (menuItem !== itemSelected) {
                 menuItem.active = false;
@@ -88,7 +86,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             if (
                 (menuItem.children &&
                     menuItem.children.some(
-                        (item) => item.code === itemSelected.code
+                        (item: any) => item.code === itemSelected.code
                     )) ||
                 (menuItem.path && menuItem.path === itemSelected.path)
             ) {
@@ -107,7 +105,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.navServices.collapseSidebar = !this.navServices.collapseSidebar;
     }
 
-    toggletNavActive(item: MenuItem): void {
+    toggletNavActive(item: any): void {
         if (!item.active) {
             for (const menuItem of this.menuItems) {
                 menuItem.active = false;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { RolesDto } from '@shared/data/dtos/roles.dto';
+import { RolesDto } from '@shared/data/dto/roles.dto';
 import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
 
 @Injectable({

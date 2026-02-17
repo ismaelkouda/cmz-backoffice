@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { DepartmentsEntity } from '../../entities/departments/departments.entity';
 import { DepartmentsCreate } from '../../value-objects/departments/departments-create.vo';

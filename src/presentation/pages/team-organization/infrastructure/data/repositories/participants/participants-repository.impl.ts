@@ -4,14 +4,20 @@ import { map, Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
+import { ParticipantsCreateEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-create.entity';
+import { ParticipantsDeleteEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-delete.entity';
+import { ParticipantsDisableEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-disable.entity';
+import { ParticipantsEnableEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-enable.entity';
 import { ParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-filter.entity';
+import { ParticipantsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-update.entity';
 import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
 import { ParticipantsRepository } from '@presentation/pages/team-organization/domain/repositories/participants/participants-repository';
-import { ParticipantsCreateVo } from '@presentation/pages/team-organization/domain/value-objects/participants/participants-create.vo';
-import { ParticipantsUpdateVo } from '@presentation/pages/team-organization/domain/value-objects/participants/participants-update.vo';
 import { participantsCreateMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-create.mapper';
+import { participantsDeleteMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-delete.mapper';
+import { participantsDisableMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-disable.mapper';
+import { participantsEnableMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-enable.mapper';
 import { participantsFilterMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-filter.mapper';
 import { participantsUpdateMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-update.mapper';
 import { ParticipantsMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants.mapper';
@@ -28,32 +34,38 @@ export class ParticipantsRepositoryImpl implements ParticipantsRepository {
         filter: ParticipantsFilterEntity,
         page: string
     ): Observable<Paginate<ParticipantsEntity>> {
-        const paramsDto = participantsFilterMapper(filter);
         return this.api
-            .readAll(paramsDto, page)
+            .readAll(participantsFilterMapper(filter), page)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(payload: ParticipantsCreateVo): Observable<SimpleResponseDto<void>> {
-        const paramsDto = participantsCreateMapper(payload);
-        return this.api.create(paramsDto);
+    create(
+        payload: ParticipantsCreateEntity
+    ): Observable<SimpleResponseDto<void>> {
+        return this.api.create(participantsCreateMapper(payload));
     }
 
-    update(payload: ParticipantsUpdateVo): Observable<SimpleResponseDto<void>> {
-        const paramsDto = participantsUpdateMapper(payload);
-        return this.api.update(paramsDto);
+    update(
+        payload: ParticipantsUpdateEntity
+    ): Observable<SimpleResponseDto<void>> {
+        return this.api.update(participantsUpdateMapper(payload));
     }
 
-    delete(code: string): Observable<SimpleResponseDto<void>> {
-        console.log('id3', code);
-        return this.api.delete(code);
+    delete(
+        entity: ParticipantsDeleteEntity
+    ): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(participantsDeleteMapper(entity));
     }
 
-    enable(code: string): Observable<SimpleResponseDto<void>> {
-        return this.api.enable(code);
+    enable(
+        entity: ParticipantsEnableEntity
+    ): Observable<SimpleResponseDto<void>> {
+        return this.api.enable(participantsEnableMapper(entity));
     }
 
-    disable(code: string): Observable<SimpleResponseDto<void>> {
-        return this.api.disable(code);
+    disable(
+        entity: ParticipantsDisableEntity
+    ): Observable<SimpleResponseDto<void>> {
+        return this.api.disable(participantsDisableMapper(entity));
     }
 }

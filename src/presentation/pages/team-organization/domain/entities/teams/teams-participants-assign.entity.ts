@@ -6,7 +6,9 @@ export class TeamsParticipantsAssignEntity {
         public readonly participants: string[]
     ) {}
 
-    static fromVo(vo: TeamsParticipantsAssignVo) {
+    static fromVo(
+        vo: TeamsParticipantsAssignVo
+    ): TeamsParticipantsAssignEntity {
         return new TeamsParticipantsAssignEntity(vo.uniqId, vo.participants);
     }
 

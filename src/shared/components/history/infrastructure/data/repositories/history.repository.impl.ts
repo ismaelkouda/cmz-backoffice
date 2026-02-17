@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 
 import { HistoryFilterEntity } from '../../../core/domain/entities/history-filter.entity';
 import { HistoryEntity } from '../../../core/domain/entities/history.entity';

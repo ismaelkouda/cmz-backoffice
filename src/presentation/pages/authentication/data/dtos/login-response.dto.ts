@@ -1,7 +1,7 @@
 import {
     AuthToken,
     CurrentUser,
-} from '../../../../../shared/interfaces/current-user.interface';
+} from '../../../../../shared/domain/interfaces/current-user.interface';
 
 interface LoginDataDto {
     readonly token: AuthToken;

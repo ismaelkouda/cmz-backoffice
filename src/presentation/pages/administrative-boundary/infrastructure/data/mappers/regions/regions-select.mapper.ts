@@ -1,5 +1,5 @@
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { RegionsSelectEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/regions/regions-select.entity';
 import { RegionsSelectItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-select-response-api.dto';

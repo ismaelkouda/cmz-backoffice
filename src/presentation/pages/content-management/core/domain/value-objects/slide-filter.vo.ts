@@ -1,4 +1,4 @@
-import { MediaStatusDto } from '@shared/data/dtos/media-status.dto';
+import { MediaStatusDto } from '@shared/data/dto/media-status.dto';
 
 import { SlideRequestDto } from '@presentation/pages/content-management/core/application/dtos/slide/slide-request.dto';
 

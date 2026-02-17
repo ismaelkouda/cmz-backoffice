@@ -5,7 +5,7 @@ import { Observable, map } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
 import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';

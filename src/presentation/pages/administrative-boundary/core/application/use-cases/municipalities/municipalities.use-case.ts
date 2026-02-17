@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/municipalities/municipalities.entity';
 import { MunicipalitiesRepository } from '@presentation/pages/administrative-boundary/core/domain/repositories/municipalities/municipalities-repository';

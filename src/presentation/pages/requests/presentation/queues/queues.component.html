@@ -1,0 +1,66 @@
+<main class="container-fluid queues-container" role="main">
+    <section class="row queues-row">
+        <article class="col-sm-12 queues-article">
+            <app-breadcrumb />
+
+            <section class="card queues-card">
+                <div class="card-body queues-card-body">
+                    <header class="queues-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'REQUESTS.QUEUES.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="queues-content" [class.fade-in]="hasAnimated()">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="loading()"
+                            [formGroup]="form"
+                            [fields]="filterFields()"
+                            (filter)="onFilterClicked($event)"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="4"
+                        ></app-filter>
+
+                        <hr class="queues-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                dataKey="uniqId"
+                                [config]="tableConfig"
+                                [loading]="loading()"
+                                [items]="items()"
+                                [pagination]="pagination()"
+                                (refreshRequested)="onRefreshClicked()"
+                                (actionClicked)="onActionClicked($event)"
+                                (export)="onExportClicked()"
+                            ></app-table>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+
+    @if (reportTreatmentVisible) {
+        <app-management-dialog
+            [(visible)]="reportTreatmentVisible"
+            [reportId]="selectedReportId"
+            (queues)="onReportTreatmentQueues()"
+        ></app-management-dialog>
+    }
+</main>

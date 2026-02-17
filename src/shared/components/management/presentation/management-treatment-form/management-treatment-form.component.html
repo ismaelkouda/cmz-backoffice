@@ -1,0 +1,319 @@
+<div
+    class="treatment-form-container"
+    [class.treatment-form-expanded]="expanded()"
+    [class.treatment-form-collapsed]="!expanded()"
+>
+    <div
+        class="treatment-form-header"
+        (click)="treatmentToggle.emit()"
+        (keypress)="treatmentToggle.emit()"
+        tabindex="0"
+        role="button"
+        [attr.aria-expanded]="expanded()"
+    >
+        <div class="treatment-form-toggle">
+            <i
+                class="pi"
+                [class.pi-chevron-up]="expanded()"
+                [class.pi-chevron-down]="!expanded()"
+                [attr.aria-label]="
+                    expanded() ? 'Collapse form' : 'Expand form'
+                "
+            >
+            </i>
+            <span class="toggle-label">{{
+                'MANAGEMENT.TREATMENT.TAKE_ACTION.TITLE' | translate
+            }}</span>
+        </div>
+    </div>
+
+    @if (expanded()) {
+        <div class="treatment-form-content">
+            <div class="treatment-form-body">
+                <div class="action-section">
+                    <form
+                        [formGroup]="form()"
+                        class="decision-form-row"
+                    >
+                        <div class="row">
+                            @if (showApprovalSection()) {
+                                <div class="col-md-4">
+                                    <label
+                                        class="decision-label"
+                                        id="decision-label"
+                                    >
+                                        {{
+                                            'MANAGEMENT.TREATMENT.TAKE_ACTION.DECISION'
+                                                | translate
+                                        }}
+                                    </label>
+                                    <div class="col-md-12">
+                                        <div
+                                            class="container-radio-option col-md-12"
+                                        >
+                                            <div
+                                                class="radio-option col-md"
+                                                role="radiogroup"
+                                                aria-labelledby="decision-label"
+                                            >
+                                                <div
+                                                    class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
+                                                    (click)="
+                                                        onDecisionChange(
+                                                            'accepted'
+                                                        )
+                                                    "
+                                                    (keypress)="
+                                                        onDecisionChange(
+                                                            'accepted'
+                                                        )
+                                                    "
+                                                    [class.selected]="
+                                                        isDecision(
+                                                            'accepted'
+                                                        )
+                                                    "
+                                                    tabindex="0"
+                                                    role="radio"
+                                                    [attr.aria-checked]="
+                                                        isDecision(
+                                                            'accepted'
+                                                        )
+                                                    "
+                                                    [attr.aria-label]="
+                                                        'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.APPROVE.LABEL'
+                                                            | translate
+                                                    "
+                                                >
+                                                    <div
+                                                        class="radio-indicator"
+                                                    >
+                                                        <div
+                                                            class="radio-dot"
+                                                            [class.checked]="
+                                                                isDecision(
+                                                                    'accepted'
+                                                                )
+                                                            "
+                                                        ></div>
+                                                    </div>
+                                                    <div
+                                                        class="radio-content"
+                                                    >
+                                                        <div
+                                                            class="radio-text"
+                                                        >
+                                                            <div
+                                                                class="radio-title"
+                                                            >
+                                                                {{
+                                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.APPROVE.LABEL'
+                                                                        | translate
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
+                                                    (click)="
+                                                        onDecisionChange(
+                                                            'rejected'
+                                                        )
+                                                    "
+                                                    (keypress)="
+                                                        onDecisionChange(
+                                                            'rejected'
+                                                        )
+                                                    "
+                                                    [class.selected]="
+                                                        isDecision(
+                                                            'rejected'
+                                                        )
+                                                    "
+                                                    tabindex="0"
+                                                    role="radio"
+                                                    [attr.aria-checked]="
+                                                        isDecision(
+                                                            'rejected'
+                                                        )
+                                                    "
+                                                    [attr.aria-label]="
+                                                        'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.REJECT.LABEL'
+                                                            | translate
+                                                    "
+                                                >
+                                                    <div
+                                                        class="radio-indicator"
+                                                    >
+                                                        <div
+                                                            class="radio-dot"
+                                                            [class.checked]="
+                                                                isDecision(
+                                                                    'rejected'
+                                                                )
+                                                            "
+                                                        ></div>
+                                                    </div>
+                                                    <div
+                                                        class="radio-content"
+                                                    >
+                                                        <div
+                                                            class="radio-text"
+                                                        >
+                                                            <div
+                                                                class="radio-title"
+                                                            >
+                                                                {{
+                                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.REJECT.LABEL'
+                                                                        | translate
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if (shouldShowReasonField()) {
+                                    <div class="col-md-4">
+                                        <label
+                                            class="decision-label"
+                                            for="reason"
+                                        >
+                                            {{
+                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
+                                                    | translate
+                                            }}
+                                        </label>
+                                        <p-select
+                                            id="reason"
+                                            class="form-p-select"
+                                            formControlName="reason"
+                                            [options]="motifOptions()"
+                                            optionLabel="label"
+                                            optionValue="code"
+                                            [placeholder]="
+                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
+                                                    | translate
+                                            "
+                                            [showClear]="true"
+                                            styleClass="w-100"
+                                            appendTo="body"
+                                            [ngClass]="{
+                                                'ng-invalid ng-dirty':
+                                                    isFieldInvalid(
+                                                        'reason'
+                                                    ),
+                                            }"
+                                        />
+                                        @if (isFieldInvalid('reason')) {
+                                            <div
+                                                class="validation-error"
+                                                role="alert"
+                                            >
+                                                {{
+                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.VALIDATION.MOTIF_REQUIRED'
+                                                        | translate
+                                                }}
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            }
+
+                            <div
+                                class="col-md"
+                                [class.col-md-12]="
+                                    !showApprovalSection()
+                                "
+                                [class.col-md-4]="
+                                    showApprovalSection() &&
+                                    shouldShowReasonField()
+                                "
+                                [class.col-md-8]="
+                                    showApprovalSection() &&
+                                    !shouldShowReasonField()
+                                "
+                            >
+                                <label
+                                    class="comment-label"
+                                    for="comment"
+                                >
+                                    {{
+                                        'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
+                                            | translate
+                                    }}
+                                </label>
+                                <textarea
+                                    id="comment"
+                                    pTextarea
+                                    class="comment-textarea w-100"
+                                    formControlName="comment"
+                                    [placeholder]="
+                                        'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT_PLACEHOLDER'
+                                            | translate
+                                    "
+                                    [rows]="3"
+                                    [ngClass]="{
+                                        'ng-invalid ng-dirty':
+                                            isFieldInvalid('comment'),
+                                    }"
+                                ></textarea>
+                                @if (isFieldInvalid('comment')) {
+                                    <div
+                                        class="validation-error"
+                                        role="alert"
+                                    >
+                                        {{
+                                            getCommentValidationMessage()
+                                                | translate
+                                        }}
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-action-buttons">
+                            <button
+                                class="treatment-btn treatment-btn-secondary"
+                                type="button"
+                                (click)="cancelForm.emit()"
+                                [disabled]="submitting()"
+                            >
+                                <i class="pi pi-times"></i>
+                                {{
+                                    'MANAGEMENT.FOOTER.ACTIONS.CANCEL'
+                                        | translate
+                                }}
+                            </button>
+
+                            <button
+                                class="treatment-btn treatment-btn-primary"
+                                type="button"
+                                (click)="submitForm.emit()"
+                                [disabled]="
+                                    submitting() || isFormInvalid()
+                                "
+                            >
+                                @if (!submitting()) {
+                                    <i class="pi pi-check"></i>
+                                } @else {
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                }
+                                {{ submitLabel() | translate }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>

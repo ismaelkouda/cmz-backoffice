@@ -19,7 +19,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
@@ -38,10 +38,11 @@ import { PageTitleComponent } from '@shared/components/page-title/page-title.com
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Roles } from '@shared/domain/enums/roles.enum';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
+import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
 
 import { ParticipantsSelectFacade } from '@presentation/pages/team-organization/application/services/participants/participants-select.facade';
 import { TeamsParticipantsFacade } from '@presentation/pages/team-organization/application/services/teams/teams-participants.facade';
@@ -49,7 +50,7 @@ import { TeamsSelectFacade } from '@presentation/pages/team-organization/applica
 import { TEAMS_PARTICIPANTS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/teams/teams-participants-table.constant';
 import { TeamsParticipantsFilterControl } from '@presentation/pages/team-organization/domain/controls/teams/teams-participants-filter.control';
 import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
-import { TeamsParticipantsFormHelperService } from '@presentation/pages/team-organization/presentation/teams/teams-participants/teams-participants-helper.service';
+import { TEAMS_ROUTE } from '@presentation/pages/team-organization/team-organization.routes';
 
 @Component({
     selector: 'app-teams-participants',
@@ -71,7 +72,6 @@ import { TeamsParticipantsFormHelperService } from '@presentation/pages/team-org
         DialogModule,
         MultiSelectModule,
     ],
-    providers: [TeamsParticipantsFormHelperService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamsParticipantsComponent implements OnInit {
@@ -79,6 +79,7 @@ export class TeamsParticipantsComponent implements OnInit {
     public readonly facade = inject(TeamsParticipantsFacade);
     public readonly teamsSelectFacade = inject(TeamsSelectFacade);
     public readonly participantsSelectFacade = inject(ParticipantsSelectFacade);
+    private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
@@ -86,11 +87,11 @@ export class TeamsParticipantsComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    private readonly helperService = inject(TeamsParticipantsFormHelperService);
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
     public readonly tableConfig = TEAMS_PARTICIPANTS_TABLE_CONSTANT;
+    private lastSuccess = this.facade.actionSuccess();
 
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -127,28 +128,37 @@ export class TeamsParticipantsComponent implements OnInit {
     public readonly displayAssignModal = signal<boolean>(false);
     private readonly openAssignRequested = signal(false);
 
+    private readonly uniqId: Signal<string> = toSignal(
+        this.activatedRoute.queryParams.pipe(
+            map((params: Params) => params['uniqId'])
+        ),
+        { initialValue: '' }
+    );
+
+    public readonly paramsName: Signal<string> = toSignal(
+        this.activatedRoute.queryParams.pipe(
+            map((params: Params) => params['name'])
+        ),
+        { initialValue: '' }
+    );
+
     private readonly formStateEffect = effect(() => {
         const state = this.facade.actionState();
-
-        switch (state) {
-            case 'loading':
-                this.reassignForm.disable({ emitEvent: false });
-                this.assignForm.disable({ emitEvent: false });
-                break;
-
-            case 'error':
-            case 'idle':
-                this.reassignForm.enable({ emitEvent: false });
-                this.assignForm.enable({ emitEvent: false });
-                break;
-
-            case 'success':
-                this.reassignForm.enable({ emitEvent: false });
-                this.assignForm.enable({ emitEvent: false });
-                this.closeReassignModal();
-                this.closeAssignModal();
-                break;
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
         }
+    });
+
+    private readonly successEffect = effect(() => {
+        const current = this.facade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
+
+        this.lastSuccess = current;
+        this.navigateToBack();
     });
 
     private readonly reassignModalEffect = effect(() => {
@@ -201,7 +211,6 @@ export class TeamsParticipantsComponent implements OnInit {
             class: 'btn-primary',
             icon: 'pi pi-user-plus',
             translateKey: 'COMMON.ASSIGN',
-            items: this.buildAssignMenuItems(),
             disabled: this.participantsSelectedInTable().length >= 1,
         },
         {
@@ -233,20 +242,6 @@ export class TeamsParticipantsComponent implements OnInit {
         this.openAssignRequested.set(true);
         this.participantsSelectFacade.readAll(role);
     }
-
-    private readonly paramsUniqId: Signal<string> = toSignal(
-        this.activatedRoute.queryParams.pipe(
-            map((params: Params) => params['uniqId'])
-        ),
-        { initialValue: '' }
-    );
-
-    public readonly paramsName: Signal<string> = toSignal(
-        this.activatedRoute.queryParams.pipe(
-            map((params: Params) => params['name'])
-        ),
-        { initialValue: '' }
-    );
 
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
@@ -331,19 +326,19 @@ export class TeamsParticipantsComponent implements OnInit {
     }
 
     public onFilter(filterValue: any): void {
-        if (!this.paramsUniqId()) {
+        if (!this.uniqId()) {
             return;
         }
         const filter = {
             ...filterValue,
-            uniqId: this.paramsUniqId(),
+            uniqId: this.uniqId(),
         };
         this.facade.readAll(filter, '1', true);
     }
 
     public onPageChange(event: number): void {
-        if (this.paramsUniqId()) {
-            this.facade.changePage(event + 1);
+        if (this.uniqId()) {
+            this.facade.changePage(JSON.stringify(event + 1));
         }
     }
 
@@ -353,10 +348,6 @@ export class TeamsParticipantsComponent implements OnInit {
         this.participantsSelectedInTable.set([]);
         this.assignForm.reset();
         this.reassignForm.reset();
-    }
-
-    public onPageChanged(page: number): void {
-        this.facade.changePage(page + 1);
     }
 
     public onExportExcel(): void {
@@ -404,50 +395,58 @@ export class TeamsParticipantsComponent implements OnInit {
     }
 
     public onSubmitReassign(): void {
-        if (this.reassignForm.invalid || !this.paramsUniqId()) {
+        if (this.reassignForm.invalid || !this.uniqId()) {
             return;
         }
-        const { team } = this.reassignForm.getRawValue();
-        this.facade.reassign(team, this.participantsSelectedInTable());
+        this.facade.reassign({
+            uniqId: this.reassignForm.getRawValue(),
+            participants: this.participantsSelectedInTable().map(
+                (p) => p.uniqId
+            ),
+        });
     }
 
     public onSubmitAssign(): void {
-        if (this.assignForm.invalid || !this.paramsUniqId()) {
+        if (this.assignForm.invalid || !this.uniqId()) {
             return;
         }
-        const { participants } = this.assignForm.getRawValue();
-        this.facade.assign(this.paramsUniqId(), ...participants);
+        this.facade.assign({
+            uniqId: this.assignForm.getRawValue(),
+            participants: this.participantsSelectedInTable().map(
+                (p) => p.uniqId
+            ),
+        });
     }
 
     private onRemoveParticipants(): void {
-        if (
-            !this.paramsUniqId() ||
-            this.participantsSelectedInTable().length === 0
-        ) {
+        if (!this.uniqId() || this.participantsSelectedInTable().length === 0) {
             return;
         }
 
-        const title = this.helperService.getSweetAlertTitle();
-        const message = this.helperService.getSweetAlertMessage();
-
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t(title),
-            text: this.t(message),
+            title: this.t(
+                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.TITLE_REMOVE'
+            ),
+            text: this.t(
+                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.MESSAGE_REMOVE'
+            ),
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.remove(
-                    this.paramsUniqId(),
-                    this.participantsSelectedInTable()
-                );
+                this.facade.remove({
+                    uniqId: this.uniqId(),
+                    participants: this.participantsSelectedInTable().map(
+                        (p) => p.uniqId
+                    ),
+                });
             }
         });
     }
 
-    private t(key: string, params?: object) {
+    private t(key: string, params?: object): string {
         return this.translate.instant(key, params);
     }
 
@@ -464,7 +463,7 @@ export class TeamsParticipantsComponent implements OnInit {
         return this.currentLang();
     }
 
-    onCancel(): void {
-        this.helperService.navigateToTeamsList();
+    navigateToBack(): void {
+        this.router.navigate([TEAM_ORGANIZATION_ROUTE + '/' + TEAMS_ROUTE]);
     }
 }

@@ -1,0 +1,55 @@
+import { Routes } from '@angular/router';
+
+import { HistoryComponent } from '@shared/components/history/history.component';
+
+import { ProfilesPermissionsListComponent } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-list/profiles-permissions-list.component';
+import { ProfilesPermissionsPageComponent } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-page/profiles-permissions-page.component';
+
+import { ProfilesPermissionsFormComponent } from './profiles-permissions-form/profiles-permissions-form.component';
+
+export const PROFILES_PERMISSIONS_LIST = 'list';
+export const PROFILES_PERMISSIONS_FORM = 'form';
+export const PROFILES_PERMISSIONS_HISTORY = 'history';
+export const PROFILES_PERMISSIONS_USERS_ROUTE = 'profiles-permissions-users';
+
+export const PROFILES_PERMISSIONS_ROUTES: Routes = [
+    {
+        path: '',
+        component: ProfilesPermissionsPageComponent,
+        data: {
+            icon: 'CONTENT_MANAGEMENT.PROFILES_PERMISSIONS.TITLE',
+            breadcrumb: 'CONTENT_MANAGEMENT.PROFILES_PERMISSIONS.TITLE',
+        },
+        children: [
+            {
+                path: '',
+                redirectTo: PROFILES_PERMISSIONS_LIST,
+                pathMatch: 'full',
+            },
+            {
+                path: PROFILES_PERMISSIONS_LIST,
+                component: ProfilesPermissionsListComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: PROFILES_PERMISSIONS_HISTORY,
+                component: HistoryComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+        ],
+    },
+    {
+        path: `${PROFILES_PERMISSIONS_FORM}`,
+        data: {
+            icon: 'CONTENT_MANAGEMENT.PROFILES_PERMISSIONS.TITLE',
+            breadcrumb: 'CONTENT_MANAGEMENT.PROFILES_PERMISSIONS.TITLE',
+        },
+        children: [
+            {
+                path: '',
+                component: ProfilesPermissionsFormComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+        ],
+    },
+];

@@ -40,13 +40,13 @@ import {
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
-import { TreeNodeInterface } from '@shared/interfaces/tree-node.interface';
-import { PermissionTreeService } from '@shared/services/permission-tree-node.service';
+import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
+import { PermissionTreeService } from '@shared/domain/services/permission-tree-node.service';
 
-import { TeamsFindOneFacade } from '@presentation/pages/team-organization/application/services/teams/teams-findone.facade';
+import { TeamsFindOneFacade } from '@presentation/pages/team-organization/application/services/teams/teams-find-one.facade';
 import { TeamsPermissionsFacade } from '@presentation/pages/team-organization/application/services/teams/teams-permissions.facade';
 import { TeamsFacade } from '@presentation/pages/team-organization/application/services/teams/teams.facade';
 import { TEAMS_FORM_TABS } from '@presentation/pages/team-organization/domain/constants/teams/teams-form-tabs.constant';
@@ -99,7 +99,7 @@ export class TeamsFormComponent implements OnInit {
     readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();
     private itemPatched = false;
-    readonly items = toSignal(this.facade.item$, { initialValue: null });
+    readonly items = toSignal(this.facade.items$, { initialValue: null });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });

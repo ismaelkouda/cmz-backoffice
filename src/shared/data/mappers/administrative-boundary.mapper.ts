@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { AdministrativeBoundaryDto } from '@shared/data/dtos/administrative-boundary.dto';
+import { AdministrativeBoundaryDto } from '@shared/data/dto/administrative-boundary.dto';
 import { AdministrativeBoundaryEntity } from '@shared/domain/entities/administrative-boundary.entity';
 
 @Injectable({

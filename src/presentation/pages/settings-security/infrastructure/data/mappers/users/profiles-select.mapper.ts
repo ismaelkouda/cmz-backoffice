@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { ProfilesSelectEntity } from '@presentation/pages/settings-security/core/domain/entities/users/profiles-select.entity';
-import { ProfilesSelectItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dtos/users/profiles-select-api.dto';
+import { ProfilesSelectItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/profiles-select-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesSelectMapper extends ArrayResponseMapper<

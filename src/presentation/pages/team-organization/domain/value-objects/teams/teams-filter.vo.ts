@@ -1,14 +1,14 @@
-import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-filter.dto';
+import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-filter.dto';
 
 export class TeamsFilterVo {
     public readonly search?: string;
     public readonly member?: string;
-    public readonly isActive?: boolean;
+    public readonly isActive?: string;
 
     constructor(props: {
         search?: string;
         member?: string;
-        isActive?: boolean;
+        isActive?: string;
     }) {
         this.search = props.search;
         this.member = props.member;

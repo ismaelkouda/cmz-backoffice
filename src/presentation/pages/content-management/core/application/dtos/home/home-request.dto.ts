@@ -1,4 +1,4 @@
-import { MediaStatusDto } from '@shared/data/dtos/media-status.dto';
+import { MediaStatusDto } from '@shared/data/dto/media-status.dto';
 import { Plateform } from '@shared/domain/enums/plateform.enum';
 
 export interface HomeRequestDto {

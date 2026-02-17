@@ -1,5 +1,5 @@
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { RegionsFindoneEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/regions/regions-findone.entity';
 

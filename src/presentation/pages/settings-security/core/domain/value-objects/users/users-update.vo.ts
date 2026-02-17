@@ -1,4 +1,4 @@
-import { UsersUpdateDto } from '@presentation/pages/settings-security/core/application/dtos/users/users-update.dto';
+import { UsersUpdateDto } from '@presentation/pages/settings-security/core/application/dto/users/users-update.dto';
 
 export class UsersUpdateVo {
     public readonly uniqId: string;

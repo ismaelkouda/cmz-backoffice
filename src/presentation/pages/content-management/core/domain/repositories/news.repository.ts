@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { CategoryEntity } from '../entities/category.entity';
 import { GetNewsByIdEntity } from '../entities/get-news-by-id.entity';

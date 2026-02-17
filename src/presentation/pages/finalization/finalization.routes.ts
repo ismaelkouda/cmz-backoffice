@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { AllComponent } from './ui/all/all.component';
-import { QueuesComponent } from './ui/queues/queues.component';
-import { TasksComponent } from './ui/tasks/tasks.component';
-import { TreatmentComponent } from './ui/treatment/treatment.component';
+import { AllComponent } from './presentation/all/all.component';
+import { QueuesComponent } from './presentation/queues/queues.component';
+import { TasksComponent } from './presentation/tasks/tasks.component';
 
 export const TREATMENT_ROUTE = 'processing';
 export const QUEUES_ROUTE = 'queues';
@@ -85,33 +84,5 @@ export const routes: Routes = [
                 redirectTo: '',
             },
         ],
-    },
-    {
-        path: TREATMENT_ROUTE,
-        data: {
-            breadcrumb: {
-                label: 'FINALIZATION.TREATMENT.BREADCRUMB.LABEL',
-                icon: 'FINALIZATION.TREATMENT.BREADCRUMB.ICON',
-            },
-        },
-        children: [
-            {
-                path: '',
-                component: TreatmentComponent,
-                data: {
-                    title: 'FINALIZATION.TREATMENT.TITLE',
-                    module: 'FINALIZATION.LABEL',
-                    subModule: 'FINALIZATION.TREATMENT.LABEL',
-                },
-            },
-            {
-                path: '**',
-                redirectTo: '',
-            },
-        ],
-        // canActivate: [PagesGuard],
-        // data: {
-        //     allowedPaths: [`/${TREATMENT_ROUTE}`],
-        // },
     },
 ];

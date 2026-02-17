@@ -13,7 +13,7 @@ export class TeamsPermissionsApi {
         @Inject(TEAM_ORGANIZATION_BASE_URL) private readonly baseUrl: string
     ) {}
 
-    readAll(): Observable<TeamsPermissionsResponseApiDto> {
+    execute(): Observable<TeamsPermissionsResponseApiDto> {
         const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/get-permissions-model`;
         return this.http.get<TeamsPermissionsResponseApiDto>(url);
     }

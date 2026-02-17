@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { SlideRequestDto } from '../../../core/application/dtos/slide/slide-request.dto';
 import {
@@ -16,12 +16,9 @@ import { SLIDE_ENDPOINTS } from '../endpoints/slide-endpoints';
     providedIn: 'root',
 })
 export class SlideApi {
+    private readonly envService = inject(EnvService);
+    private readonly http = inject(HttpClient);
     private readonly baseUrl = this.envService.settingUrl;
-
-    constructor(
-        private readonly http: HttpClient,
-        private readonly envService: EnvService
-    ) {}
 
     fetchSlides(
         payload: SlideRequestDto,

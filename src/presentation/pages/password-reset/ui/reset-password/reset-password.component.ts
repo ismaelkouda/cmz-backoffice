@@ -3,8 +3,8 @@ import {
     ChangeDetectionStrategy,
     Component,
     inject,
-    OnDestroy,
     OnInit,
+    Signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -14,19 +14,13 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { PasswordModule } from 'primeng/password';
-import { Subject } from 'rxjs';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    map,
-    takeUntil,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 
 import { AUTH } from '@presentation/app.routes';
 
@@ -47,10 +41,20 @@ import { ResetPasswordFormInterface } from '@pages/password-reset/data/interface
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ResetPasswordComponent implements OnInit, OnDestroy {
+export class ResetPasswordComponent implements OnInit {
+    private readonly passwordResetFacade = inject(PasswordResetFacade);
+    private readonly router = inject(Router);
+    private readonly route = inject(ActivatedRoute);
     public readonly LOGO_ANSUT = LOGO_ANSUT;
-    private token?: string;
-    private email?: string;
+    private readonly token: Signal<string> = toSignal(
+        this.route.queryParams.pipe(map((params: Params) => params['token'])),
+        { initialValue: '' }
+    );
+
+    public readonly email: Signal<string> = toSignal(
+        this.route.queryParams.pipe(map((params: Params) => params['email'])),
+        { initialValue: '' }
+    );
 
     public resetPasswordForm = new FormGroup<ResetPasswordFormInterface>({
         password: new FormControl('', {
@@ -63,7 +67,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         }),
     });
 
-    private destroy$ = new Subject<void>();
     public readonly config = inject(AppCustomizationService).config;
     readonly isResetPasswordLoading = toSignal(
         this.passwordResetFacade.isResetPasswordLoading$,
@@ -72,30 +75,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         }
     );
 
-    constructor(
-        private readonly passwordResetFacade: PasswordResetFacade,
-        private readonly router: Router,
-        private readonly route: ActivatedRoute
-    ) {}
-
     ngOnInit(): void {
-        this.route.queryParams
-            .pipe(
-                takeUntil(this.destroy$),
-                map((params) => {
-                    this.token = params['token'];
-                    this.email = params['email'];
-                })
-            )
-            .subscribe();
-
         this.setupFormValidation();
         this.setupPasswordMatchValidator();
-    }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
     }
 
     get password(): AbstractControl<string> | null {
@@ -155,8 +137,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                     (prev, curr) =>
                         prev.password === curr.password &&
                         prev.confirm_password === curr.confirm_password
-                ),
-                takeUntil(this.destroy$)
+                )
             )
             .subscribe(() => {
                 this.updatePasswordMatchValidator();
@@ -194,10 +175,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             .resetPassword({
                 password: formValue.password,
                 confirmPassword: formValue.confirm_password,
-                token: this.token,
-                email: this.email,
+                token: this.token(),
+                email: this.email(),
             })
-            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.redirectToLogin();

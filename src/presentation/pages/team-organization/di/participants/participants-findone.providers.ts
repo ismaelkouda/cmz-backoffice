@@ -1,17 +1,17 @@
 import { Provider } from '@angular/core';
 
-import { ParticipantsFindonUseCase } from '@presentation/pages/team-organization/application/use-cases/participants/participants-findone.use-case';
-import { ParticipantsFindonRepository } from '@presentation/pages/team-organization/domain/repositories/participants/participants-findone-repository';
-import { ParticipantsFindonMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-findone.mapper';
-import { ParticipantsFindonRepositoryImpl } from '@presentation/pages/team-organization/infrastructure/data/repositories/participants/participants-findone-repository.impl';
-import { ParticipantsFindonApi } from '@presentation/pages/team-organization/infrastructure/data/sources/participants/participants-findone.api';
+import { ParticipantsFindOneUseCase } from '@presentation/pages/team-organization/application/use-cases/participants/participants-find-one.use-case';
+import { ParticipantsFindOneRepository } from '@presentation/pages/team-organization/domain/repositories/participants/participants-find-one-repository';
+import { ParticipantsFindOneMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-find-one.mapper';
+import { ParticipantsFindOneRepositoryImpl } from '@presentation/pages/team-organization/infrastructure/data/repositories/participants/participants-find-one-repository.impl';
+import { ParticipantsFindOneApi } from '@presentation/pages/team-organization/infrastructure/data/sources/participants/participants-find-one.api';
 
 export const participantsFindoneProviders: Provider[] = [
-    ParticipantsFindonApi,
-    ParticipantsFindonMapper,
-    ParticipantsFindonUseCase,
+    ParticipantsFindOneApi,
+    ParticipantsFindOneMapper,
+    ParticipantsFindOneUseCase,
     {
-        provide: ParticipantsFindonRepository,
-        useClass: ParticipantsFindonRepositoryImpl,
+        provide: ParticipantsFindOneRepository,
+        useClass: ParticipantsFindOneRepositoryImpl,
     },
 ];

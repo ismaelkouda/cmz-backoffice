@@ -23,13 +23,13 @@ import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import {
     TableConfig,
     TableExportExcelFileService,
-} from '@shared/services/table-export-excel-file.service';
+} from '@shared/domain/services/table-export-excel-file.service';
 
 import { HOME_TABLE_CONST } from '@presentation/pages/content-management/core/domain/constants/home/home-table.constants';
 import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';

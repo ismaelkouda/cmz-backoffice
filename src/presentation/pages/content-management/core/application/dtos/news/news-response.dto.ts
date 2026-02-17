@@ -1,5 +1,5 @@
-import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
+import { TypeMediaDto } from '@shared/data/dto/type-media.dto';
 
 export interface NewsItemDto {
     id: string;

@@ -1,11 +1,11 @@
-// import { Provider } from '@angular/core';
+import { Provider } from '@angular/core';
 
-// import { AgentsPerformancesFindOneRepository } from '@presentation/pages/team-organization/domain/repositories/agents-performances/agents-performances-find-one-repository';
-// import { AgentsPerformancesFindOneRepositoryImpl } from '@presentation/pages/team-organization/infrastructure/data/repositories/agents-performances/agents-performances-findone-repository.impl';
+import { AgentsPerformancesFindOneRepository } from '../../domain/repositories/agents-performances/agents-performances-find-one.repository';
+import { AgentsPerformancesFindOneRepositoryImpl } from '../../infrastructure/data/repositories/agents-performances/agents-performances-find-one-repository.impl';
 
-// export const teamsFindOneProviders: Provider[] = [
-//     {
-//         provide: AgentsPerformancesFindOneRepository,
-//         useClass: AgentsPerformancesFindOneRepositoryImpl,
-//     },
-// ];
+export const teamsFindOneProviders: Provider[] = [
+    {
+        provide: AgentsPerformancesFindOneRepository,
+        useClass: AgentsPerformancesFindOneRepositoryImpl,
+    },
+];

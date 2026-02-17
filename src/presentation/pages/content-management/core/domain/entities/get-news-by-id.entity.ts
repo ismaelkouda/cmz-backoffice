@@ -1,4 +1,4 @@
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { TypeMediaDto } from '@shared/data/dto/type-media.dto';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
 export class GetNewsByIdEntity {

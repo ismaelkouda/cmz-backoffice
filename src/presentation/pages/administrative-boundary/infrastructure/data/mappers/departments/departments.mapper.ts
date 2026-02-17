@@ -1,5 +1,5 @@
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/departments/departments.entity';
 import { DepartmentsItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-response-api.dto';

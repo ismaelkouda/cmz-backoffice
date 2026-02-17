@@ -1,4 +1,4 @@
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { DepartmentsSelectItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-select-response-api.dto';
 

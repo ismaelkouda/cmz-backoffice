@@ -6,7 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
 import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';

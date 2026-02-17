@@ -28,10 +28,10 @@ import {
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 
 import { TeamsFacade } from '@presentation/pages/team-organization/application/services/teams/teams.facade';
 import { TEAMS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/teams/teams-table.constant';
@@ -151,7 +151,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         member: new FormControl<string | undefined>(undefined, {
             nonNullable: true,
         }),
-        isActive: new FormControl<boolean | undefined>(undefined, {
+        isActive: new FormControl<string | undefined>(undefined, {
             nonNullable: true,
         }),
     });
@@ -196,7 +196,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     }
 
     public onPageChangeClicked(page: number): void {
-        this.facade.changePage(page + 1);
+        this.facade.changePage(JSON.stringify(page + 1));
     }
 
     public onHeaderButtonClicked(actionId: string): void {
@@ -233,7 +233,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((res) => {
             if (res.isConfirmed) {
-                this.facade.delete(item.uniqId);
+                this.facade.delete({ uniqId: item.uniqId });
                 this.facade.refreshWithLastFilterAndPage();
             }
         });
@@ -252,7 +252,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.enable(item.uniqId).subscribe();
+                this.facade.enable({ uniqId: item.uniqId });
                 this.facade.refreshWithLastFilterAndPage();
             }
         });
@@ -271,7 +271,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.disable(item.uniqId).subscribe();
+                this.facade.disable({ uniqId: item.uniqId });
                 this.facade.refreshWithLastFilterAndPage();
             }
         });

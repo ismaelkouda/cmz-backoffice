@@ -7,5 +7,5 @@ import { TeamsPermissionsEntity } from '@presentation/pages/team-organization/do
     providedIn: 'root',
 })
 export abstract class TeamsPermissionsRepository {
-    abstract readAll(): Observable<TeamsPermissionsEntity>;
+    abstract execute(): Observable<TeamsPermissionsEntity>;
 }

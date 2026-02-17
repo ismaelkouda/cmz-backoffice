@@ -1,7 +1,7 @@
-import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
-import { ReportTypeDto } from '@shared/data/dtos/report-type.dto';
-import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
+import { ReportSourceDto } from '@shared/data/dto/report-source.dto';
+import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
+import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
+import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 
 export interface TasksItemDto {
     uniq_id: string;

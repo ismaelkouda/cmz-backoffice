@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { RegionsRepository } from '@presentation/pages/administrative-boundary/core/domain/repositories/regions/regions-repository';
 import { RegionsCreate } from '@presentation/pages/administrative-boundary/core/domain/value-objects/regions/regions-create.vo';

@@ -1,7 +1,7 @@
 import { Provider } from '@angular/core';
 import { inject } from '@angular/core';
 
-import { EnvService } from '@shared/services/env.service';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { HistoryRepository } from '../core/domain/repositories/history.repository';
 import { HISTORY_BASE_URL } from '../infrastructure/api/history.base-url';

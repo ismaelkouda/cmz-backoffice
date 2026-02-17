@@ -1,0 +1,169 @@
+<div class="tab-panel photos-panel">
+    <div class="information-content">
+        <div class="data-card location-card">
+            <div class="card-body">
+                <div class="data-grid">
+                    <!-- Double colonne pour les photos -->
+                    <div class="data-row double">
+                        <!-- Photo du point d'observation -->
+                        <div class="data-field">
+                            <div class="photo-header">
+                                <div class="field-label">
+                                    <i
+                                        class="pi pi-eye"
+                                        aria-hidden="true"
+                                    ></i>
+                                    {{
+                                        'MANAGEMENT.FORM.PICTURES.OBSERVATION_POINT'
+                                            | translate
+                                    }}
+                                </div>
+                            </div>
+
+                            <div
+                                class="field-value photo-container d-flex justify-content-center"
+                            >
+                                @if (placePhoto(); as photoUrl) {
+                                    <app-image-zoom
+                                        [src]="photoUrl"
+                                        [alt]="
+                                            'MANAGEMENT.FORM.PICTURES.OBSERVATION_POINT'
+                                                | translate
+                                        "
+                                        (error)="onImageError('place')"
+                                    />
+                                } @else {
+                                    <div
+                                        class="no-image-placeholder"
+                                        role="status"
+                                    >
+                                        <i
+                                            class="pi pi-image"
+                                            aria-hidden="true"
+                                        ></i>
+                                        <h2
+                                            class="card-title text-danger"
+                                        >
+                                            {{
+                                                'MANAGEMENT.FORM.PICTURES.NO_DATA'
+                                                    | translate
+                                            }}
+                                        </h2>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Photo de la voie d'accès -->
+                        <div class="data-field">
+                            <div class="photo-header">
+                                <div class="field-label">
+                                    <i
+                                        class="pi pi-eye"
+                                        aria-hidden="true"
+                                    ></i>
+                                    {{
+                                        'MANAGEMENT.FORM.PICTURES.ACCESS_ROAD'
+                                            | translate
+                                    }}
+                                </div>
+                            </div>
+
+                            <div
+                                class="field-value photo-container d-flex justify-content-center"
+                            >
+                                @if (accessPhoto(); as photoUrl) {
+                                    <app-image-zoom
+                                        [src]="photoUrl"
+                                        [alt]="
+                                            'MANAGEMENT.FORM.PICTURES.ACCESS_ROAD'
+                                                | translate
+                                        "
+                                        (error)="onImageError('access')"
+                                    />
+                                } @else {
+                                    <div
+                                        class="no-image-placeholder"
+                                        role="status"
+                                    >
+                                        <i
+                                            class="pi pi-image"
+                                            aria-hidden="true"
+                                        ></i>
+                                        <h2
+                                            class="card-title text-danger"
+                                        >
+                                            {{
+                                                'MANAGEMENT.FORM.PICTURES.NO_DATA'
+                                                    | translate
+                                            }}
+                                        </h2>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description des photos -->
+                    <div class="data-row full">
+                        <div class="data-field">
+                            <div class="field-label">
+                                <i
+                                    class="pi pi-comment"
+                                    aria-hidden="true"
+                                ></i>
+                                {{
+                                    'MANAGEMENT.FORM.PICTURES_INFO.TITLE'
+                                        | translate
+                                }}
+                            </div>
+                            <div class="field-value description">
+                                <div class="description-content">
+                                    @if (
+                                        placeDescription();
+                                        as description
+                                    ) {
+                                        {{ description }}
+                                    } @else {
+                                        <span class="text-muted">
+                                            {{
+                                                'MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION'
+                                                    | translate
+                                            }}
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statut des photos (optionnel) -->
+                    @if (photosStatus(); as status) {
+                        <div class="data-row full">
+                            <div class="data-field">
+                                <div class="field-label">
+                                    <i
+                                        class="pi pi-info-circle"
+                                        aria-hidden="true"
+                                    ></i>
+                                    {{
+                                        'MANAGEMENT.FORM.PICTURES.STATUS'
+                                            | translate
+                                    }}
+                                </div>
+                                <div class="field-value">
+                                    <span
+                                        class="status-badge"
+                                        [class]="status.class"
+                                    >
+                                        {{ status.label | translate }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { HomeEntity } from '../../domain/entities/home.entity';
 import { HomeRepository } from '../../domain/repositories/home.repository';

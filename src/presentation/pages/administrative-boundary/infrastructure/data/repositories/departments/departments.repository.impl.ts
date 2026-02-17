@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { DepartmentsCreate } from '@presentation/pages/administrative-boundary/core/domain/value-objects/departments/departments-create.vo';
 import { DepartmentsFilter } from '@presentation/pages/administrative-boundary/core/domain/value-objects/departments/departments-filter.vo';

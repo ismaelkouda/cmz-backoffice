@@ -1,4 +1,4 @@
-import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface TeamsItemApiDto {
     uniq_id: string;

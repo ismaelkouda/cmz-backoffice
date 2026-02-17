@@ -1,22 +1,32 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
-import { BaseFacade } from '@shared/application/base/base-facade';
+import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
     shouldFetch,
-} from '@shared/application/base/facade.utils';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+} from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { ParticipantsCreateBus } from '@presentation/pages/team-organization/application/bus/participants/participants-create.bus';
-import { ParticipantsUpdateBus } from '@presentation/pages/team-organization/application/bus/participants/participants-update.bus';
 import { ParticipantsCreateCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-create.command';
+import { ParticipantsDeleteCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-delete.command';
+import { ParticipantsDisableCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-disable.command';
+import { ParticipantsEnableCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-enable.command';
 import { ParticipantsUpdateCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-update.command';
-import { ParticipantsCreateDto } from '@presentation/pages/team-organization/application/dtos/participants/participants-create.dto';
-import { ParticipantsFilterDto } from '@presentation/pages/team-organization/application/dtos/participants/participants-filter.dto';
-import { ParticipantsUpdateDto } from '@presentation/pages/team-organization/application/dtos/participants/participants-update.dto';
-import { ParticipantsUseCase } from '@presentation/pages/team-organization/application/use-cases/participants/participants.use-case';
+import { ParticipantsCreateBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-create.bus';
+import { ParticipantsDeleteBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-delete.bus';
+import { ParticipantsDisableBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-disable.bus';
+import { ParticipantsEnableBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-enable.bus';
+import { ParticipantsUpdateBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-update.bus';
+import { ParticipantsCreateDto } from '@presentation/pages/team-organization/application/dto/participants/participants-create.dto';
+import { ParticipantsDeleteDto } from '@presentation/pages/team-organization/application/dto/participants/participants-delete.dto';
+import { ParticipantsDisableDto } from '@presentation/pages/team-organization/application/dto/participants/participants-disable.dto';
+import { ParticipantsEnableDto } from '@presentation/pages/team-organization/application/dto/participants/participants-enable.dto';
+import { ParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/participants/participants-filter.dto';
+import { ParticipantsUpdateDto } from '@presentation/pages/team-organization/application/dto/participants/participants-update.dto';
+import { ParticipantsQuery } from '@presentation/pages/team-organization/application/queries/participants/participants.query';
+import { ParticipantsBus } from '@presentation/pages/team-organization/application/queries-bus/participants/participants.bus';
 import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
 
 @Injectable({
@@ -27,9 +37,12 @@ export class ParticipantsFacade extends BaseFacade<
     ParticipantsFilterDto
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
-    private readonly useCase = inject(ParticipantsUseCase);
-    private readonly participantsCreateBus = inject(ParticipantsCreateBus);
-    private readonly participantsUpdateBus = inject(ParticipantsUpdateBus);
+    private readonly filterBus = inject(ParticipantsBus);
+    private readonly createBus = inject(ParticipantsCreateBus);
+    private readonly updateBus = inject(ParticipantsUpdateBus);
+    private readonly enableBus = inject(ParticipantsEnableBus);
+    private readonly disableBus = inject(ParticipantsDisableBus);
+    private readonly deleteBus = inject(ParticipantsDeleteBus);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
     readonly actionState = this._actionState.asReadonly();
@@ -57,7 +70,7 @@ export class ParticipantsFacade extends BaseFacade<
     }
 
     readAll(
-        filter: ParticipantsFilterDto | null = {},
+        filter: ParticipantsFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false
     ): void {
@@ -73,10 +86,16 @@ export class ParticipantsFacade extends BaseFacade<
             return;
         }
 
+        const command = new ParticipantsQuery(
+            filter?.search,
+            filter?.role,
+            filter?.isActive
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
             filter,
             page,
-            this.useCase.readAll.bind(this.useCase),
+            fetch$,
             this.uiFeedbackService
         );
 
@@ -84,40 +103,54 @@ export class ParticipantsFacade extends BaseFacade<
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
-        const currentFilter = this.filterSubject.getValue();
-        const currentPage = this.pageSubject.getValue();
-        this.fetchWithFilterAndPage(
-            currentFilter,
-            currentPage,
-            this.useCase.readAll.bind(this.useCase),
-            this.uiFeedbackService
-        );
-        this.lastFetchTimestamp = Date.now();
-    }
-
     refresh(): void {
         this.filterSubject.next(null);
-        const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
-        this.pageSubject.next(firstPage);
+        this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new ParticipantsQuery(
+            filter?.search,
+            filter?.role,
+            filter?.isActive
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.lastFetchTimestamp = Date.now();
+    }
+
+    changePage(page: string): void {
+        const filter = this.filterSubject.getValue();
+        if (!filter) {
+            return;
+        }
+        const command = new ParticipantsQuery(
+            filter?.search,
+            filter?.role,
+            filter?.isActive
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            null,
-            firstPage,
-            this.useCase.readAll.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
     }
 
-    changePage(pageNumber: number): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
-            return;
-        }
+    refreshWithLastFilterAndPage(): void {
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new ParticipantsQuery(
+            filter?.search,
+            filter?.role,
+            filter?.isActive
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            currentFilter,
-            String(pageNumber),
-            this.useCase.readAll.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
@@ -153,7 +186,7 @@ export class ParticipantsFacade extends BaseFacade<
         );
 
         this.handleActionWithRefresh(
-            this.participantsCreateBus.dispatch(command),
+            this.createBus.dispatch(command),
             'COMMON.SUCCESS.CREATE'
         )
             .pipe(
@@ -180,7 +213,7 @@ export class ParticipantsFacade extends BaseFacade<
             participant.role
         );
         this.handleActionWithRefresh(
-            this.participantsUpdateBus.dispatch(command),
+            this.updateBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
         )
             .pipe(
@@ -196,24 +229,27 @@ export class ParticipantsFacade extends BaseFacade<
             .subscribe();
     }
 
-    delete(id: string): Observable<any> {
-        return this.handleActionWithRefresh(
-            this.useCase.delete(id),
+    enable(team: ParticipantsEnableDto): void {
+        const command = new ParticipantsEnableCommand(team.uniqId);
+        this.handleActionWithRefresh(
+            this.enableBus.dispatch(command),
+            'COMMON.SUCCESS.UPDATE'
+        );
+    }
+
+    disable(team: ParticipantsDisableDto): void {
+        const command = new ParticipantsDisableCommand(team.uniqId);
+        this.handleActionWithRefresh(
+            this.disableBus.dispatch(command),
+            'COMMON.SUCCESS.UPDATE'
+        );
+    }
+
+    delete(team: ParticipantsDeleteDto): void {
+        const command = new ParticipantsDeleteCommand(team.uniqId);
+        this.handleActionWithRefresh(
+            this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
-        );
-    }
-
-    enable(id: string): Observable<any> {
-        return this.handleActionWithRefresh(
-            this.useCase.enable(id),
-            'COMMON.SUCCESS.UPDATE'
-        );
-    }
-
-    disable(id: string): Observable<any> {
-        return this.handleActionWithRefresh(
-            this.useCase.disable(id),
-            'COMMON.SUCCESS.UPDATE'
         );
     }
 }

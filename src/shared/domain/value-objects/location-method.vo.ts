@@ -3,9 +3,9 @@ import { LocationMethod } from '@shared/domain/enums/location-method.enum';
 export class LocationMethodVO {
     private constructor(private readonly value: LocationMethod) {}
 
-    static auto = new LocationMethodVO(LocationMethod.AUTO);
-    static manual = new LocationMethodVO(LocationMethod.MANUAL);
-    static unknown = new LocationMethodVO(LocationMethod.UNKNOWN);
+    static readonly auto = new LocationMethodVO(LocationMethod.AUTO);
+    static readonly manual = new LocationMethodVO(LocationMethod.MANUAL);
+    static readonly unknown = new LocationMethodVO(LocationMethod.UNKNOWN);
 
     static fromEnum(method: LocationMethod): LocationMethodVO {
         switch (method) {

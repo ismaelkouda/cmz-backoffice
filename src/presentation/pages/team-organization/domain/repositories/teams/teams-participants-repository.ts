@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { TeamsParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
 import { TeamsParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-filter.entity';

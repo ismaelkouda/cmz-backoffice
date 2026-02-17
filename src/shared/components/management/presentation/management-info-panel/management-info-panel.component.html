@@ -1,0 +1,489 @@
+<div class="tab-panel information-panel">
+    @if (loading()) {
+        <div class="skeleton-cards">
+            <div
+                class="data-card skeleton-card"
+            >
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <p-skeleton
+                            shape="circle"
+                            size="32px"
+                        ></p-skeleton>
+                        <p-skeleton
+                            width="200px"
+                            height="24px"
+                        ></p-skeleton>
+                    </div>
+                    <div class="card-badges">
+                        <p-skeleton
+                            width="120px"
+                            height="28px"
+                            borderRadius="20px"
+                        ></p-skeleton>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="data-grid">
+                        <div class="data-row triple">
+                            <div
+                                *ngFor="
+                                    let field of [
+                                        1, 2, 3,
+                                    ]
+                                "
+                                class="data-field"
+                            >
+                                <p-skeleton
+                                    width="120px"
+                                    height="18px"
+                                    styleClass="mb-2"
+                                ></p-skeleton>
+                                <p-skeleton
+                                    width="100%"
+                                    height="44px"
+                                    borderRadius="8px"
+                                ></p-skeleton>
+                            </div>
+                        </div>
+
+                        <div class="data-row double">
+                            <div
+                                *ngFor="
+                                    let field of [1, 2]
+                                "
+                                class="data-field"
+                            >
+                                <p-skeleton
+                                    width="100px"
+                                    height="18px"
+                                    styleClass="mb-2"
+                                ></p-skeleton>
+                                <p-skeleton
+                                    width="140px"
+                                    height="32px"
+                                    borderRadius="20px"
+                                ></p-skeleton>
+                            </div>
+                        </div>
+
+                        <div class="data-row full">
+                            <div class="data-field">
+                                <p-skeleton
+                                    width="150px"
+                                    height="18px"
+                                    styleClass="mb-2"
+                                ></p-skeleton>
+                                <p-skeleton
+                                    width="100%"
+                                    height="80px"
+                                    borderRadius="8px"
+                                ></p-skeleton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="data-card location-card skeleton-card"
+            >
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <p-skeleton
+                            shape="circle"
+                            size="32px"
+                        ></p-skeleton>
+                        <p-skeleton
+                            width="180px"
+                            height="24px"
+                        ></p-skeleton>
+                    </div>
+                    <div class="card-actions">
+                        <p-skeleton
+                            width="100px"
+                            height="36px"
+                            borderRadius="6px"
+                            styleClass="mr-2"
+                        ></p-skeleton>
+                        <p-skeleton
+                            width="40px"
+                            height="36px"
+                            borderRadius="6px"
+                        ></p-skeleton>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="data-grid">
+                        <div class="data-row double">
+                            <div
+                                *ngFor="
+                                    let coord of [1, 2]
+                                "
+                                class="data-field coordinate"
+                            >
+                                <p-skeleton
+                                    width="100px"
+                                    height="18px"
+                                    styleClass="mb-2"
+                                ></p-skeleton>
+                                <p-skeleton
+                                    width="100%"
+                                    height="44px"
+                                    borderRadius="8px"
+                                ></p-skeleton>
+                            </div>
+                        </div>
+
+                        <div class="data-row full">
+                            <div class="data-field">
+                                <p-skeleton
+                                    width="160px"
+                                    height="18px"
+                                    styleClass="mb-2"
+                                ></p-skeleton>
+                                <p-skeleton
+                                    width="100%"
+                                    height="60px"
+                                    borderRadius="8px"
+                                ></p-skeleton>
+                            </div>
+                        </div>
+
+                        <div class="data-row full">
+                            <div
+                                class="map-preview-section"
+                            >
+                                <div
+                                    class="preview-header"
+                                >
+                                    <p-skeleton
+                                        width="140px"
+                                        height="20px"
+                                    ></p-skeleton>
+                                </div>
+                                <div
+                                    class="map-preview skeleton-map"
+                                >
+                                    <p-skeleton
+                                        width="100%"
+                                        height="100%"
+                                        borderRadius="8px"
+                                    ></p-skeleton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="information-content">
+            <div class="data-card location-card">
+                <div class="card-body">
+                    <div class="data-grid">
+                        <div class="data-row quadruple">
+                            <div class="data-field">
+                                <label class="field-label">{{
+                                    'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL'
+                                        | translate
+                                }}</label>
+                                <div class="field-value">
+                                    {{
+                                        item()?.source ||
+                                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate)
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="data-field">
+                                <label class="field-label">{{
+                                    'MANAGEMENT.FORM.REPORT_INFO.GEOLOCATION_SYSTEM'
+                                        | translate
+                                }}</label>
+                                <div class="field-value">
+                                    {{
+                                        item()?.location?.type ||
+                                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate)
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="data-field coordinate">
+                                <label class="field-label">
+                                    {{
+                                        'MANAGEMENT.FORM.LOCATION_INFO.COORDINATES'
+                                            | translate
+                                    }}
+                                    <i
+                                        class="pi pi-copy"
+                                        (click)="onCopyCoordinates()"
+                                        (keypress)="onCopyCoordinates()"
+                                        pTooltip="{{
+                                            'COMMON.COPY' | translate
+                                        }}"
+                                        tabindex="0"
+                                        role="button"
+                                    >
+                                    </i>
+                                </label>
+                                <div
+                                    class="field-value coordinate-value"
+                                    (click)="onCopyCoordinates()"
+                                    (keypress)="onCopyCoordinates()"
+                                    tabindex="0"
+                                    role="button"
+                                >
+                                    <i class="pi pi-map-marker"></i>
+                                    {{
+                                        coordinates() ||
+                                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate)
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="data-field">
+                                <label class="field-label">{{
+                                    'MANAGEMENT.FORM.LOCATION_INFO.LOCATION_METHOD'
+                                        | translate
+                                }}</label>
+                                <div class="field-value">
+                                    {{
+                                        item()?.location?.method ||
+                                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate)
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="data-row triple">
+                            <div class="data-field">
+                                <label class="field-label">{{
+                                    'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME'
+                                        | translate
+                                }}</label>
+                                <div class="field-value">
+                                    {{
+                                        item()?.location?.name ||
+                                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate)
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="data-field">
+                                <label class="field-label">{{
+                                    'MANAGEMENT.FORM.REPORT_INFO.TYPE'
+                                        | translate
+                                }}</label>
+                                <div class="field-value">
+                                    {{
+                                        item()?.reportType ||
+                                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate)
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="data-field">
+                                <label class="field-label">{{
+                                    'MANAGEMENT.FORM.REPORT_INFO.OPERATORS'
+                                        | translate
+                                }}</label>
+                                <div class="field-value operator-padding">
+                                    @for (
+                                        operator of item()?.operators || [];
+                                        track operator
+                                    ) {
+                                        <p-tag
+                                            [value]="operator | translate"
+                                            [ngStyle]="
+                                                getOperatorTagStyle(
+                                                    operator
+                                                )
+                                            "
+                                            styleClass="operator-tag"
+                                        />
+                                    } @empty {
+                                        <span>{{
+                                            'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate
+                                        }}</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="data-row triple">
+                            <div class="data-field">
+                                <label class="field-label">{{
+                                    'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_ENTRY'
+                                        | translate
+                                }}</label>
+                                <div class="field-value">
+                                    {{
+                                        item()?.reportedAt ||
+                                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate)
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="data-field">
+                                <label class="field-label">{{
+                                    'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_RECEIPT'
+                                        | translate
+                                }}</label>
+                                <div class="field-value">
+                                    {{
+                                        item()?.createdAt ||
+                                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate)
+                                    }}
+                                </div>
+                            </div>
+
+                            @if (
+                                item()?.inProcessing ||
+                                item()?.inFinalization
+                            ) {
+                                <div class="data-field">
+                                    <label class="field-label">{{
+                                        'MANAGEMENT.FORM.REPORT_INFO.NUMBER_OF_ACTIONS'
+                                            | translate
+                                    }}</label>
+                                    <div class="field-value">
+                                        {{
+                                            item()
+                                                ?.reportProcessingsCount ??
+                                                '0'
+                                        }}
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="data-row full">
+                            <div class="data-field">
+                                <label class="field-label">
+                                    <i class="pi pi-file-edit"></i>
+                                    {{
+                                        'MANAGEMENT.FORM.REPORT_INFO.DESCRIPTION'
+                                            | translate
+                                    }}
+                                </label>
+                                <div class="field-value description">
+                                    <div class="description-content">
+                                        {{
+                                            item()?.description ||
+                                                ('MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION'
+                                                    | translate)
+                                        }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (showCommentSections()) {
+                            @if (
+                                !item()?.statusPending &&
+                                !item()?.statusInProgress
+                            ) {
+                                <div class="data-row full">
+                                    <div class="data-field">
+                                        <label class="field-label">
+                                            <i class="pi pi-file-edit"></i>
+                                            {{
+                                                'MANAGEMENT.FORM.REPORT_INFO.COMMENT_APPROVER'
+                                                    | translate
+                                            }}
+                                        </label>
+                                        <div
+                                            class="field-value description"
+                                        >
+                                            <div
+                                                class="description-content"
+                                            >
+                                                {{
+                                                    item()?.treater
+                                                        ?.approvedComment ||
+                                                        ('MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_APPROVER'
+                                                            | translate)
+                                                }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (item()?.statusFinalization) {
+                                <div class="data-row full">
+                                    <div class="data-field">
+                                        <label class="field-label">
+                                            <i class="pi pi-file-edit"></i>
+                                            {{
+                                                'MANAGEMENT.FORM.REPORT_INFO.COMMENT_TREATMENT'
+                                                    | translate
+                                            }}
+                                        </label>
+                                        <div
+                                            class="field-value description"
+                                        >
+                                            <div
+                                                class="description-content"
+                                            >
+                                                {{
+                                                    item()?.treater
+                                                        ?.processedComment ||
+                                                        ('MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_APPROVER'
+                                                            | translate)
+                                                }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (
+                                item()?.statusFinalization &&
+                                item()?.stateCompleted
+                            ) {
+                                <div class="data-row full">
+                                    <div class="data-field">
+                                        <label class="field-label">
+                                            <i class="pi pi-file-edit"></i>
+                                            {{
+                                                'MANAGEMENT.FORM.REPORT_INFO.COMMENT_FINALIZATION'
+                                                    | translate
+                                            }}
+                                        </label>
+                                        <div
+                                            class="field-value description"
+                                        >
+                                            <div
+                                                class="description-content"
+                                            >
+                                                {{
+                                                    item()?.treater
+                                                        ?.finalizedComment ||
+                                                        ('MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_FINALIZATION'
+                                                            | translate)
+                                                }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

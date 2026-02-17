@@ -1,4 +1,4 @@
 export type EndPointType =
     | 'requests'
-    | 'reports-processing'
+    | 'processing'
     | 'reports-finalization';

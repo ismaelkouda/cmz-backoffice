@@ -10,7 +10,7 @@ import { TeamsPermissionsRepository } from '@presentation/pages/team-organizatio
 export class TeamsPermissionsUseCase {
     private readonly repository = inject(TeamsPermissionsRepository);
 
-    readAll(): Observable<TeamsPermissionsEntity> {
-        return this.repository.readAll();
+    execute(): Observable<TeamsPermissionsEntity> {
+        return this.repository.execute();
     }
 }

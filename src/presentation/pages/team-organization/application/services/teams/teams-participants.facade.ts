@@ -1,22 +1,26 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { finalize, Observable } from 'rxjs';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
-import { BaseFacade } from '@shared/application/base/base-facade';
+import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
     shouldFetch,
-} from '@shared/application/base/facade.utils';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+} from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { TeamsParticipantsAssignBus } from '@presentation/pages/team-organization/application/bus/teams/teams-participants-assign.bus';
-import { TeamsParticipantsReassignBus } from '@presentation/pages/team-organization/application/bus/teams/teams-participants-reassign.bus';
-import { TeamsParticipantsRemoveBus } from '@presentation/pages/team-organization/application/bus/teams/teams-participants-remove.bus';
 import { TeamsParticipantsAssignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-assign.command';
 import { TeamsParticipantsReassignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-reassign.command';
 import { TeamsParticipantsRemoveCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-remove.command';
-import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-filter.dto';
-import { TeamsParticipantsUseCase } from '@presentation/pages/team-organization/application/use-cases/teams/teams-participants.use-case';
+import { TeamsParticipantsAssignBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-participants-assign.bus';
+import { TeamsParticipantsReassignBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-participants-reassign.bus';
+import { TeamsParticipantsRemoveBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-participants-remove.bus';
+import { TeamsParticipantsAssignDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-assign.dto';
+import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-filter.dto';
+import { TeamsParticipantsReassignDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-reassign.dto';
+import { TeamsParticipantsRemoveDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-remove.dto';
+import { TeamsParticipantsQuery } from '@presentation/pages/team-organization/application/queries/teams/teams-participants.query';
+import { TeamsParticipantsBus } from '@presentation/pages/team-organization/application/queries-bus/teams/teams-participants.bus';
 import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
 
 @Injectable({
@@ -27,21 +31,19 @@ export class TeamsParticipantsFacade extends BaseFacade<
     TeamsParticipantsFilterDto
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
-    private readonly useCase = inject(TeamsParticipantsUseCase);
-    private readonly teamsParticipantsReassignBus = inject(
-        TeamsParticipantsReassignBus
-    );
-    private readonly teamsParticipantsAssignBus = inject(
-        TeamsParticipantsAssignBus
-    );
-    private readonly teamsParticipantsRemoveBus = inject(
-        TeamsParticipantsRemoveBus
-    );
+    private readonly filterBus = inject(TeamsParticipantsBus);
+    private readonly reassignBus = inject(TeamsParticipantsReassignBus);
+    private readonly assignBus = inject(TeamsParticipantsAssignBus);
+    private readonly removeBus = inject(TeamsParticipantsRemoveBus);
 
-    private readonly _actionState = signal<
-        'idle' | 'loading' | 'success' | 'error'
-    >('idle');
+    private readonly _actionState = signal<'idle' | 'loading'>('idle');
     readonly actionState = this._actionState.asReadonly();
+
+    private readonly _actionSuccess = signal(0);
+    readonly actionSuccess = this._actionSuccess.asReadonly();
+
+    private readonly _actionError = signal<unknown | null>(null);
+    readonly actionError = this._actionError.asReadonly();
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
@@ -76,10 +78,18 @@ export class TeamsParticipantsFacade extends BaseFacade<
             return;
         }
 
+        const command = new TeamsParticipantsQuery(
+            filter.uniqId,
+            filter?.search,
+            filter?.participantEmail,
+            filter?.phone
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
+
         this.fetchWithFilterAndPage(
             filter,
             page,
-            this.useCase.readAll.bind(this.useCase),
+            fetch$,
             this.uiFeedbackService
         );
 
@@ -88,26 +98,37 @@ export class TeamsParticipantsFacade extends BaseFacade<
     }
 
     refresh(): void {
-        const uniqId = this.filterSubject.getValue()?.uniqId ?? '';
-        const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
-        this.fetchWithFilterAndPage(
-            { uniqId },
-            firstPage,
-            this.useCase.readAll.bind(this.useCase),
-            this.uiFeedbackService
+        this.filterSubject.next(null);
+        this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new TeamsParticipantsQuery(
+            filter?.uniqId ?? '',
+            filter?.search,
+            filter?.participantEmail,
+            filter?.phone
         );
+        const fetch$ = this.filterBus.dispatch(command, page);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
 
-    changePage(pageNumber: number): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
+    changePage(page: string): void {
+        const filter = this.filterSubject.getValue();
+        if (!filter) {
             return;
         }
+        const command = new TeamsParticipantsQuery(
+            filter?.uniqId ?? '',
+            filter?.search,
+            filter?.participantEmail,
+            filter?.phone
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            currentFilter,
-            String(pageNumber),
-            this.useCase.readAll.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
@@ -131,72 +152,72 @@ export class TeamsParticipantsFacade extends BaseFacade<
         };
     }
 
-    reassign(uniqId: string, participants: TeamsParticipantsEntity[]) {
+    reassign(dto: TeamsParticipantsReassignDto): void {
         this._actionState.set('loading');
         const command = new TeamsParticipantsReassignCommand(
-            uniqId,
-            participants.map((p) => p.uniqId)
+            dto.uniqId,
+            dto.participants.map((p) => p)
         );
-        return this.handleActionWithRefresh(
-            this.teamsParticipantsReassignBus.dispatch(command),
+        this.handleActionWithRefresh(
+            this.reassignBus.dispatch(command),
             'COMMON.SUCCESS.REASSIGN'
         )
             .pipe(
-                finalize(() => {
-                    if (this._actionState() === 'loading') {
-                        this._actionState.set('idle');
-                    }
-                })
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
             )
-            .subscribe({
-                next: () => this._actionState.set('success'),
-                error: () => this._actionState.set('error'),
-            });
+            .subscribe();
     }
 
-    assign(uniqId: string, ...participants: string[]) {
+    assign(dto: TeamsParticipantsAssignDto): void {
         this._actionState.set('loading');
         const command = new TeamsParticipantsAssignCommand(
-            uniqId,
-            participants
+            dto.uniqId,
+            dto.participants.map((p) => p)
         );
-        return this.handleActionWithRefresh(
-            this.teamsParticipantsAssignBus.dispatch(command),
+        this.handleActionWithRefresh(
+            this.assignBus.dispatch(command),
             'COMMON.SUCCESS.ASSIGN'
         )
             .pipe(
-                finalize(() => {
-                    if (this._actionState() === 'loading') {
-                        this._actionState.set('idle');
-                    }
-                })
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
             )
-            .subscribe({
-                next: () => this._actionState.set('success'),
-                error: () => this._actionState.set('error'),
-            });
+            .subscribe();
     }
 
-    remove(uniqId: string, participants: TeamsParticipantsEntity[]) {
+    remove(dto: TeamsParticipantsRemoveDto): void {
         this._actionState.set('loading');
         const command = new TeamsParticipantsRemoveCommand(
-            uniqId,
-            participants.map((p) => p.uniqId)
+            dto.uniqId,
+            dto.participants
         );
-        return this.handleActionWithRefresh(
-            this.teamsParticipantsRemoveBus.dispatch(command),
+        this.handleActionWithRefresh(
+            this.removeBus.dispatch(command),
             'COMMON.SUCCESS.REMOVE'
         )
             .pipe(
-                finalize(() => {
-                    if (this._actionState() === 'loading') {
-                        this._actionState.set('idle');
-                    }
-                })
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
             )
-            .subscribe({
-                next: () => this._actionState.set('success'),
-                error: () => this._actionState.set('error'),
-            });
+            .subscribe();
     }
 }

@@ -1,6 +1,6 @@
 import { inject, Provider } from '@angular/core';
 
-import { EnvService } from '@shared/services/env.service';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '../infrastructure/api/administrative-boundary.config';
 

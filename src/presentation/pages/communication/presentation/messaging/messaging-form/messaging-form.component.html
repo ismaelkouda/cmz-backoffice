@@ -1,0 +1,461 @@
+<main class="container-fluid form-messaging-container" role="main">
+    <section class="row form-messaging-row">
+        <article class="col-sm-12 form-messaging">
+            <app-breadcrumb />
+
+            <section class="card form-messaging-card">
+                <div class="card-body form-messaging-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="
+                                    isEditMode()
+                                        ? ('COMMUNICATION.MESSAGING.FORM.TITLE_FORM_EDIT'
+                                          | translate)
+                                        : ('COMMUNICATION.MESSAGING.FORM.TITLE_FORM_ADD'
+                                          | translate)
+                                "
+                            >
+                            </app-page-title>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="navigateToBack()"
+                            styleClass="p-button-danger"
+                            [attr.aria-label]="'COMMON.CLOSE' | translate"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                        [attr.aria-label]="
+                                            'COMMUNICATION.MESSAGING.FORM.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="lastName"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.LAST_NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="lastName"
+                                                        type="text"
+                                                        formControlName="lastName"
+                                                        [placeholder]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.LAST_NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.LAST_NAME
+                                                                .MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.LAST_NAME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('lastName')
+                                                                ?.invalid &&
+                                                            form.get('lastName')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('lastName')
+                                                                ?.invalid &&
+                                                            form.get('lastName')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'lastName'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'lastName'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION
+                                                                    .LAST_NAME
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="firstName"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.FIRST_NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="firstName"
+                                                        type="text"
+                                                        formControlName="firstName"
+                                                        [placeholder]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.FIRST_NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION
+                                                                .FIRST_NAME.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.FIRST_NAME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get(
+                                                                'firstName'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'firstName'
+                                                            )?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get(
+                                                                'firstName'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'firstName'
+                                                            )?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'firstName'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'firstName'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION
+                                                                    .FIRST_NAME
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="email"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.EMAIL'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="email"
+                                                        type="email"
+                                                        formControlName="email"
+                                                        [placeholder]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.EMAIL_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.EMAIL.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.EMAIL'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('email')
+                                                                ?.invalid &&
+                                                            form.get('email')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('email')
+                                                                ?.invalid &&
+                                                            form.get('email')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'email'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'email'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION.EMAIL
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="phone"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.PHONE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-inputMask
+                                                        id="phone"
+                                                        formControlName="phone"
+                                                        mask="99-99-99-99-99"
+                                                        [attr.maxlength]="
+                                                            VALIDATION.PHONE.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.PHONE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('phone')
+                                                                ?.invalid &&
+                                                            form.get('phone')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('phone')
+                                                                ?.invalid &&
+                                                            form.get('phone')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'phone'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'phone'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION.PHONE
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="role"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.ROLE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <p-select
+                                                        id="role"
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            rolesOptions()
+                                                        "
+                                                        formControlName="role"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        filter="true"
+                                                        filterBy="name"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.ROLE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('role')
+                                                                ?.invalid &&
+                                                            form.get('role')
+                                                                ?.touched
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('role')
+                                                            ?.invalid &&
+                                                        form.get('role')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            role="alert"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.CANCEL' | translate
+                                                }}"
+                                                styleClass="p-button-text p-button-secondary"
+                                                (click)="navigateToBack()"
+                                                [attr.aria-label]="
+                                                    'COMMON.CANCEL' | translate
+                                                "
+                                            >
+                                            </p-button>
+
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.SAVE' | translate
+                                                }}"
+                                                type="submit"
+                                                [disabled]="form.invalid"
+                                                [attr.aria-label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
+                                            >
+                                            </p-button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

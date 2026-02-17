@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { StorePathsService } from '@shared/services/store-paths.service';
+import { StorePathsService } from '@shared/domain/services/store-paths.service';
 
 @Injectable({
     providedIn: 'root',

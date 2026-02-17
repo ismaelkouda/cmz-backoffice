@@ -4,7 +4,7 @@ export class ParticipantsFilterEntity {
     constructor(
         public readonly search?: string,
         public readonly role?: string,
-        public readonly isActive?: boolean
+        public readonly isActive?: string
     ) {}
 
     static fromVo(vo: ParticipantsFilterVo): ParticipantsFilterEntity {

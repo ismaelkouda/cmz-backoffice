@@ -6,13 +6,13 @@ import { HistoryFilterEntity } from '@shared/components/history/core/domain/enti
 import { HistoryEntity } from '@shared/components/history/core/domain/entities/history.entity';
 import { HistoryRepository } from '@shared/components/history/core/domain/repositories/history.repository';
 import { HistoryFilterVo } from '@shared/components/history/core/domain/value-objects/history-filter.vo';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryUseCase {
     private readonly repository = inject(HistoryRepository);
 
-    readAll(
+    execute(
         filterDto: HistoryFilterDto | null,
         page: string
     ): Observable<Paginate<HistoryEntity>> {

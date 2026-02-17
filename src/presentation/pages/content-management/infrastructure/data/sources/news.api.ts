@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { CategoryItemDto } from '@presentation/pages/content-management/core/application/dtos/news/category-response.dto';
 import { GetNewsByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/news/get-news-by-id-response.dto';
@@ -18,12 +18,9 @@ import { NEWS_ENDPOINTS } from '@presentation/pages/content-management/infrastru
     providedIn: 'root',
 })
 export class NewsApi {
+    private readonly envService = inject(EnvService);
+    private readonly http = inject(HttpClient);
     private readonly baseUrl = this.envService.settingUrl;
-
-    constructor(
-        private readonly http: HttpClient,
-        private readonly envService: EnvService
-    ) {}
 
     getNewsById(id: string): Observable<GetNewsByIdResponseDto> {
         const url = `${this.baseUrl}${NEWS_ENDPOINTS.GET_BY_ID.replace('{id}', id)}`;

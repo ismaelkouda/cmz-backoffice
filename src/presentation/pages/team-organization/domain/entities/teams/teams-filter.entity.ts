@@ -4,7 +4,7 @@ export class TeamsFilterEntity {
     constructor(
         public readonly search?: string,
         public readonly member?: string,
-        public readonly isActive?: boolean
+        public readonly isActive?: string
     ) {}
 
     static fromVo(vo: TeamsFilterVo): TeamsFilterEntity {

@@ -19,7 +19,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 
 import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
 import { ForgotPasswordFormInterface } from '@pages/password-reset/data/interfaces/forgot-password-form.interface';
@@ -33,6 +33,8 @@ import { ForgotPasswordFormInterface } from '@pages/password-reset/data/interfac
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordComponent implements OnDestroy {
+    private readonly passwordResetFacade = inject(PasswordResetFacade);
+    private readonly location = inject(Location);
     public readonly AUTH_LOGO = AUTH_LOGO;
     public isEmailSent = false;
 
@@ -43,7 +45,7 @@ export class ForgotPasswordComponent implements OnDestroy {
         }),
     });
 
-    private destroy$ = new Subject<void>();
+    private readonly destroy$ = new Subject<void>();
     public readonly config = inject(AppCustomizationService).config;
     readonly isForgotPasswordLoading = toSignal(
         this.passwordResetFacade.isForgotPasswordLoading$,
@@ -51,10 +53,6 @@ export class ForgotPasswordComponent implements OnDestroy {
             initialValue: false,
         }
     );
-    constructor(
-        private readonly passwordResetFacade: PasswordResetFacade,
-        private readonly location: Location
-    ) {}
 
     ngOnDestroy(): void {
         this.destroy$.next();

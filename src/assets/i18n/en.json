@@ -937,7 +937,7 @@
         "MTN": "MTN",
         "MOOV": "Moov"
     },
-    "REPORTS_REQUESTS": {
+    "REQUESTS": {
         "BREADCRUMB": {
             "LABEL": "Request Qualifications",
             "ROUTE": "requests",
@@ -1189,10 +1189,10 @@
             }
         }
     },
-    "REPORTS_PROCESSING": {
+    "PROCESSING": {
         "BREADCRUMB": {
             "LABEL": "Report Processing",
-            "ROUTE": "reports-processing",
+            "ROUTE": "processing",
             "ICON": "pi pi-check-square"
         },
         "STATUS": {
@@ -1201,7 +1201,7 @@
             "EVALUATION": "Evaluation"
         },
         "LABEL": "Report Processing",
-        "ROUTE": "reports-processing",
+        "ROUTE": "processing",
         "QUEUES": {
             "TITLE": "Reports Pending Assignment",
             "LABEL": "Queue",
@@ -2873,7 +2873,7 @@
             "FORGOT_PASSWORD": "Forgot Password",
             "FEATURES": {
                 "SECURE_ACCESS": "Secure Access",
-                "TREATMENT_AND_MONITORING_OF_REPORTS_PROCESSING": "Report Processing Monitoring and Treatment",
+                "TREATMENT_AND_MONITORING_OF_PROCESSING": "Report Processing Monitoring and Treatment",
                 "REAL_TIME_DASHBOARD": "Real-time Dashboard",
                 "TEAM_MANAGEMENT": "Team Management",
                 "EXTRACTION_OF_DATA": "Data Extraction",
@@ -2968,53 +2968,53 @@
         "SECTIONS": {
             "OVERVIEW": {
                 "TITLE": "Overview",
-                "PENDING_REPORTS_PROCESSING": {
+                "PENDING_PROCESSING": {
                     "LABEL": "Pending",
                     "SUBTITLE": "Reports in queue"
                 },
-                "IN_TREATMENT_REPORTS_PROCESSING": {
+                "IN_TREATMENT_PROCESSING": {
                     "LABEL": "In Treatment",
                     "SUBTITLE": "Reports under treatment"
                 },
-                "QUEUED_REPORTS_PROCESSING": {
+                "QUEUED_PROCESSING": {
                     "LABEL": "Closed",
                     "SUBTITLE": "Closed reports"
                 }
             },
             "STATUS": {
                 "TITLE": "By Status",
-                "APPROVED_REPORTS_PROCESSING": {
+                "APPROVED_PROCESSING": {
                     "LABEL": "Approved",
                     "SUBTITLE": "Approved reports"
                 },
-                "REJECTED_REPORTS_PROCESSING": {
+                "REJECTED_PROCESSING": {
                     "LABEL": "Rejected",
                     "SUBTITLE": "Rejected reports"
                 },
-                "FINALIZED_REPORTS_PROCESSING": {
+                "FINALIZED_PROCESSING": {
                     "LABEL": "Finalized",
                     "SUBTITLE": "Finalized reports"
                 }
             },
             "TYPE": {
                 "TITLE": "Report Type",
-                "TOTAL_REPORTS_PROCESSING": {
+                "TOTAL_PROCESSING": {
                     "LABEL": "Total Reports",
                     "SUBTITLE": "All reports combined"
                 },
-                "PARTIAL_OPERATOR_REPORTS_PROCESSING": {
+                "PARTIAL_OPERATOR_PROCESSING": {
                     "LABEL": "Partial Operator Coverage",
                     "SUBTITLE": "Partial operator coverage reports"
                 },
-                "WHITE_ZONE_REPORTS_PROCESSING": {
+                "WHITE_ZONE_PROCESSING": {
                     "LABEL": "White Zone",
                     "SUBTITLE": "White zone reports"
                 },
-                "PARTIAL_SIGNAL_REPORTS_PROCESSING": {
+                "PARTIAL_SIGNAL_PROCESSING": {
                     "LABEL": "Partial Signal Coverage",
                     "SUBTITLE": "Partial signal coverage reports"
                 },
-                "NO_INTERNET_REPORTS_PROCESSING": {
+                "NO_INTERNET_PROCESSING": {
                     "LABEL": "No Internet",
                     "SUBTITLE": "No internet reports"
                 }

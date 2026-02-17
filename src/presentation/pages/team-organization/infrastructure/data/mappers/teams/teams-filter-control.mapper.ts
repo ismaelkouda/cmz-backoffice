@@ -1,4 +1,4 @@
-import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-filter.dto';
+import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-filter.dto';
 import { TeamsFilterControl } from '@presentation/pages/team-organization/domain/controls/teams/teams-filter.control';
 
 export function toFilterDto(control: TeamsFilterControl): TeamsFilterDto {

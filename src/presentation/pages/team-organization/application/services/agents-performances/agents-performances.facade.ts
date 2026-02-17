@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 
-import { BaseFacade } from '@shared/application/base/base-facade';
-import { shouldFetch } from '@shared/application/base/facade.utils';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { BaseFacade } from '@shared/application/services/base-facade';
+import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { AgentsPerformancesFilterDto } from '@presentation/pages/team-organization/application/dtos/agents-performances/agents-performances-filter.dto';
-import { AgentsPerformancesUseCase } from '@presentation/pages/team-organization/application/use-cases/agents-performances/agents-performances.use-case';
+import { AgentsPerformancesFilterDto } from '@presentation/pages/team-organization/application/dto/agents-performances/agents-performances-filter.dto';
+import { AgentsPerformancesQuery } from '@presentation/pages/team-organization/application/queries/agents-performances/agents-performances.query';
+import { AgentsPerformancesBus } from '@presentation/pages/team-organization/application/queries-bus/agents-performances/agents-performances.bus';
 import { AgentsPerformancesEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
 
 @Injectable({
@@ -17,9 +18,7 @@ export class AgentsPerformancesFacade extends BaseFacade<
     AgentsPerformancesFilterDto
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
-    private readonly useCase = inject(AgentsPerformancesUseCase);
-
-    readonly accessLogs$ = this.items$;
+    private readonly filterBus = inject(AgentsPerformancesBus);
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
@@ -42,10 +41,18 @@ export class AgentsPerformancesFacade extends BaseFacade<
             return;
         }
 
+        const command = new AgentsPerformancesQuery(
+            filter?.search,
+            filter?.member,
+            filter?.isAchieved,
+            filter?.startDate,
+            filter?.endDate
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
             filter,
             page,
-            this.useCase.execute.bind(this.useCase),
+            fetch$,
             this.uiFeedbackService
         );
 
@@ -55,38 +62,58 @@ export class AgentsPerformancesFacade extends BaseFacade<
 
     refresh(): void {
         this.filterSubject.next(null);
-        const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
-        this.pageSubject.next(firstPage);
-        this.fetchWithFilterAndPage(
-            null,
-            firstPage,
-            this.useCase.execute.bind(this.useCase),
-            this.uiFeedbackService
+        this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new AgentsPerformancesQuery(
+            filter?.search,
+            filter?.member,
+            filter?.isAchieved,
+            filter?.startDate,
+            filter?.endDate
         );
+        const fetch$ = this.filterBus.dispatch(command, page);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
 
-    changePage(pageNumber: number): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
+    changePage(page: string): void {
+        const filter = this.filterSubject.getValue();
+        if (!filter) {
             return;
         }
+        const command = new AgentsPerformancesQuery(
+            filter?.search,
+            filter?.member,
+            filter?.isAchieved,
+            filter?.startDate,
+            filter?.endDate
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            currentFilter,
-            String(pageNumber),
-            this.useCase.execute.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
     }
 
     refreshWithLastFilterAndPage(): void {
-        const currentFilter = this.filterSubject.getValue();
-        const currentPage = this.pageSubject.getValue();
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new AgentsPerformancesQuery(
+            filter?.search,
+            filter?.member,
+            filter?.isAchieved,
+            filter?.startDate,
+            filter?.endDate
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            currentFilter,
-            currentPage,
-            this.useCase.execute.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();

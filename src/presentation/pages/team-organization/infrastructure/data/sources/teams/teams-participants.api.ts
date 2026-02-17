@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { buildHttpPayload } from '@shared/utils/utils/build-http-payload.util';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 
 import { TeamsParticipantsAssignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-assign-api.dto';
 import { TeamsParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-filter-api.dto';

@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 
-import { ActionDropdownDto } from '@shared/data/dtos/action-dropdown.dto';
+import { ActionDropdownDto } from '@shared/data/dto/action-dropdown.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import {
     TeamsEntity,

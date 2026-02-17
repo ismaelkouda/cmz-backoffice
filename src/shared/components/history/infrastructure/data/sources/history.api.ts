@@ -6,7 +6,7 @@ import { HistoryFilterApiDto } from '@shared/components/history/infrastructure/a
 import { HistoryResponseApiDto } from '@shared/components/history/infrastructure/api/dtos/history-response.api.dto';
 import { HISTORY_ENDPOINTS } from '@shared/components/history/infrastructure/api/dtos/history.endpoints';
 import { HISTORY_BASE_URL } from '@shared/components/history/infrastructure/api/history.base-url';
-import { buildHttpParams } from '@shared/utils/utils/build-http-params.utils';
+import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryApi {

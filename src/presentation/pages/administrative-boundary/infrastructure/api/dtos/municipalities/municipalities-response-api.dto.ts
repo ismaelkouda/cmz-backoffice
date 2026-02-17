@@ -1,5 +1,5 @@
-import { AdministrativeBoundaryDto } from '@shared/data/dtos/administrative-boundary.dto';
-import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { AdministrativeBoundaryDto } from '@shared/data/dto/administrative-boundary.dto';
+import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface MunicipalitiesItemApiDto {
     id: string;

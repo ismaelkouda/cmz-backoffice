@@ -19,9 +19,9 @@ import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 
 import { HistoryFilterDto } from './core/application/dtos/history-filter.dto';
 import { HistoryFacade } from './core/application/services/history.facade';

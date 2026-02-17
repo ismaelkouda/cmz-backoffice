@@ -1,5 +1,5 @@
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { TypeMediaDto } from '@shared/data/dto/type-media.dto';
 
 import { CategoryItemDto, SubCategoryItemDto } from './category-response.dto';
 

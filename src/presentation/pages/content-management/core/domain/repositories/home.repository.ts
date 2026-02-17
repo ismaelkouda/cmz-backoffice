@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 import { HomeFilter } from '@presentation/pages/content-management/core/domain/value-objects/home-filter.vo';

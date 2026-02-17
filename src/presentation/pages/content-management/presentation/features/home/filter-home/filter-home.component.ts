@@ -1,197 +1,197 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-    inject,
-    signal,
-} from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-} from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import moment from 'moment';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectModule } from 'primeng/select';
-import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
+// import {
+//     ChangeDetectionStrategy,
+//     Component,
+//     EventEmitter,
+//     Input,
+//     OnDestroy,
+//     OnInit,
+//     Output,
+//     inject,
+//     signal,
+// } from '@angular/core';
+// import {
+//     FormBuilder,
+//     FormControl,
+//     FormGroup,
+//     ReactiveFormsModule,
+// } from '@angular/forms';
+// import { TranslateModule, TranslateService } from '@ngx-translate/core';
+// import moment from 'moment';
+// import { ToastrService } from 'ngx-toastr';
+// import { ButtonModule } from 'primeng/button';
+// import { DatePickerModule } from 'primeng/datepicker';
+// import { InputTextModule } from 'primeng/inputtext';
+// import { MultiSelectModule } from 'primeng/multiselect';
+// import { SelectModule } from 'primeng/select';
+// import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 
-import { Plateform } from '@shared/domain/enums/plateform.enum';
+// import { Plateform } from '@shared/domain/enums/plateform.enum';
 
-import { HomeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/home/home-filter-form-control.entity';
-import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
-import { HomeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/home/home-filter-payload.entity';
+// import { HomeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/home/home-filter-form-control.entity';
+// import { HomeFacade } from '@presentation/pages/content-management/core/application/services/home.facade';
+// import { HomeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/home/home-filter-payload.entity';
 
-@Component({
-    selector: 'app-filter-home',
-    standalone: true,
-    templateUrl: './filter-home.component.html',
-    styleUrls: ['./filter-home.component.scss'],
-    imports: [
-        ReactiveFormsModule,
-        TranslateModule,
-        SelectModule,
-        DatePickerModule,
-        ButtonModule,
-        MultiSelectModule,
-        InputTextModule,
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class FilterHomeComponent implements OnInit, OnDestroy {
-    private readonly fb = inject(FormBuilder);
-    private readonly translate = inject(TranslateService);
-    private readonly homeFacade = inject(HomeFacade);
-    private readonly toastService = inject(ToastrService);
-    readonly isLoading = signal<boolean>(false);
-    @Output() filter = new EventEmitter<HomeFilterPayloadEntity>();
+// @Component({
+//     selector: 'app-filter-home',
+//     standalone: true,
+//     templateUrl: './filter-home.component.html',
+//     styleUrls: ['./filter-home.component.scss'],
+//     imports: [
+//         ReactiveFormsModule,
+//         TranslateModule,
+//         SelectModule,
+//         DatePickerModule,
+//         ButtonModule,
+//         MultiSelectModule,
+//         InputTextModule,
+//     ],
+//     changeDetection: ChangeDetectionStrategy.OnPush,
+// })
+// export class FilterHomeComponent implements OnInit, OnDestroy {
+//     private readonly fb = inject(FormBuilder);
+//     private readonly translate = inject(TranslateService);
+//     private readonly homeFacade = inject(HomeFacade);
+//     private readonly toastService = inject(ToastrService);
+//     readonly isLoading = signal<boolean>(false);
+//     @Output() filter = new EventEmitter<HomeFilterPayloadEntity>();
 
-    @Input()
-    set loading(value: boolean) {
-        this.isLoading.set(value);
-    }
+//     @Input()
+//     set loading(value: boolean) {
+//         this.isLoading.set(value);
+//     }
 
-    public formFilter!: FormGroup<HomeFilterFormControlDto>;
-    private readonly destroy$ = new Subject<void>();
+//     public formFilter!: FormGroup<HomeFilterFormControlDto>;
+//     private readonly destroy$ = new Subject<void>();
 
-    public statusOptions: any[] = [];
-    public plateformOptions: any[] = [];
+//     public statusOptions: any[] = [];
+//     public plateformOptions: any[] = [];
 
-    ngOnInit(): void {
-        this.initOptions();
-        this.initFormFilter();
-    }
+//     ngOnInit(): void {
+//         this.initOptions();
+//         this.initFormFilter();
+//     }
 
-    private initOptions(): void {
-        this.statusOptions = [
-            { label: this.translate.instant('COMMON.ACTIVATED'), value: true },
-            {
-                label: this.translate.instant('COMMON.DEACTIVATED'),
-                value: false,
-            },
-        ];
+//     private initOptions(): void {
+//         this.statusOptions = [
+//             { label: this.translate.instant('COMMON.ACTIVATED'), value: true },
+//             {
+//                 label: this.translate.instant('COMMON.DEACTIVATED'),
+//                 value: false,
+//             },
+//         ];
 
-        this.plateformOptions = Object.values(Plateform).map((type) => ({
-            label: this.translate.instant(`${type}`),
-            value: this.translate.instant(`${type}`).toLowerCase(),
-        }));
-    }
+//         this.plateformOptions = Object.values(Plateform).map((type) => ({
+//             label: this.translate.instant(`${type}`),
+//             value: this.translate.instant(`${type}`).toLowerCase(),
+//         }));
+//     }
 
-    private initFormFilter(): void {
-        if (!this.formFilter) {
-            this.formFilter = this.fb.group<HomeFilterFormControlDto>({
-                startDate: new FormControl<string>('', { nonNullable: true }),
-                endDate: new FormControl<string>('', { nonNullable: true }),
-                platforms: new FormControl<Plateform[] | null>(null, {
-                    nonNullable: true,
-                }),
-                search: new FormControl<string>('', { nonNullable: true }),
-                status: new FormControl<boolean | null>(null, {
-                    nonNullable: false,
-                }),
-            });
-        }
+//     private initFormFilter(): void {
+//         if (!this.formFilter) {
+//             this.formFilter = this.fb.group<HomeFilterFormControlDto>({
+//                 startDate: new FormControl<string>('', { nonNullable: true }),
+//                 endDate: new FormControl<string>('', { nonNullable: true }),
+//                 platforms: new FormControl<Plateform[] | null>(null, {
+//                     nonNullable: true,
+//                 }),
+//                 search: new FormControl<string>('', { nonNullable: true }),
+//                 status: new FormControl<boolean | null>(null, {
+//                     nonNullable: false,
+//                 }),
+//             });
+//         }
 
-        this.homeFacade.currentFilter$
-            .pipe(
-                distinctUntilChanged((prev, curr) => {
-                    if (prev === curr) {
-                        return true;
-                    }
-                    if (!prev && !curr) {
-                        return true;
-                    }
-                    if (!prev || !curr) {
-                        return false;
-                    }
+//         this.homeFacade.currentFilter$
+//             .pipe(
+//                 distinctUntilChanged((prev, curr) => {
+//                     if (prev === curr) {
+//                         return true;
+//                     }
+//                     if (!prev && !curr) {
+//                         return true;
+//                     }
+//                     if (!prev || !curr) {
+//                         return false;
+//                     }
 
-                    const prevDto = prev.toDto();
-                    const currDto = curr.toDto();
-                    const prevKeys = Object.keys(prevDto).sort();
-                    const currKeys = Object.keys(currDto).sort();
+//                     const prevDto = prev.toDto();
+//                     const currDto = curr.toDto();
+//                     const prevKeys = Object.keys(prevDto).sort();
+//                     const currKeys = Object.keys(currDto).sort();
 
-                    if (prevKeys.length !== currKeys.length) {
-                        return false;
-                    }
-                    return prevKeys.every(
-                        (key) => prevDto[key] === currDto[key]
-                    );
-                }),
-                takeUntil(this.destroy$)
-            )
-            .subscribe((filterValue) => {
-                if (!this.formFilter) {
-                    return;
-                }
+//                     if (prevKeys.length !== currKeys.length) {
+//                         return false;
+//                     }
+//                     return prevKeys.every(
+//                         (key) => prevDto[key] === currDto[key]
+//                     );
+//                 }),
+//                 takeUntil(this.destroy$)
+//             )
+//             .subscribe((filterValue) => {
+//                 if (!this.formFilter) {
+//                     return;
+//                 }
 
-                const dto =
-                    typeof filterValue?.toDto === 'function'
-                        ? filterValue.toDto()
-                        : {};
-                this.formFilter.patchValue(
-                    {
-                        startDate: (dto['start_date'] as string) ?? '',
-                        endDate: (dto['end_date'] as string) ?? '',
-                        platforms: (dto['platforms'] as Plateform[]) ?? [],
-                        search: (dto['search'] as string) ?? '',
-                        status: (dto['status'] as boolean) ?? '',
-                    },
-                    { emitEvent: false }
-                );
-            });
-    }
+//                 const dto =
+//                     typeof filterValue?.toDto === 'function'
+//                         ? filterValue.toDto()
+//                         : {};
+//                 this.formFilter.patchValue(
+//                     {
+//                         startDate: (dto['start_date'] as string) ?? '',
+//                         endDate: (dto['end_date'] as string) ?? '',
+//                         platforms: (dto['platforms'] as Plateform[]) ?? [],
+//                         search: (dto['search'] as string) ?? '',
+//                         status: (dto['status'] as boolean) ?? '',
+//                     },
+//                     { emitEvent: false }
+//                 );
+//             });
+//     }
 
-    public onSubmitFilterForm(): void {
-        const startDateControl = this.formFilter.get('startDate');
-        const endDateControl = this.formFilter.get('endDate');
+//     public onSubmitFilterForm(): void {
+//         const startDateControl = this.formFilter.get('startDate');
+//         const endDateControl = this.formFilter.get('endDate');
 
-        const startDateValue = startDateControl?.value ?? '';
-        const endDateValue = endDateControl?.value ?? '';
+//         const startDateValue = startDateControl?.value ?? '';
+//         const endDateValue = endDateControl?.value ?? '';
 
-        const startDate = moment(startDateValue, moment.ISO_8601, true);
-        const endDate = moment(endDateValue, moment.ISO_8601, true);
+//         const startDate = moment(startDateValue, moment.ISO_8601, true);
+//         const endDate = moment(endDateValue, moment.ISO_8601, true);
 
-        if (startDate.isValid() && endDate.isValid()) {
-            if (startDate.isAfter(endDate)) {
-                const invalidDateRange = this.translate.instant(
-                    'COMMON.INVALID_DATE_RANGE'
-                );
-                this.toastService.error(invalidDateRange);
-                return;
-            }
-        }
+//         if (startDate.isValid() && endDate.isValid()) {
+//             if (startDate.isAfter(endDate)) {
+//                 const invalidDateRange = this.translate.instant(
+//                     'COMMON.INVALID_DATE_RANGE'
+//                 );
+//                 this.toastService.error(invalidDateRange);
+//                 return;
+//             }
+//         }
 
-        const filterData: HomeFilterPayloadEntity = {
-            startDate: startDate.isValid()
-                ? startDate.format('YYYY-MM-DD')
-                : '',
-            endDate: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
-            platforms: this.formFilter.get('platforms')?.value ?? [],
-            search: this.formFilter.get('search')?.value ?? '',
-            status: this.formFilter.get('status')?.value ?? null,
-        };
+//         const filterData: HomeFilterPayloadEntity = {
+//             startDate: startDate.isValid()
+//                 ? startDate.format('YYYY-MM-DD')
+//                 : '',
+//             endDate: endDate.isValid() ? endDate.format('YYYY-MM-DD') : '',
+//             platforms: this.formFilter.get('platforms')?.value ?? [],
+//             search: this.formFilter.get('search')?.value ?? '',
+//             status: this.formFilter.get('status')?.value ?? null,
+//         };
 
-        if (this.formFilter.valid) {
-            this.filter.emit(filterData);
-        } else {
-            const translatedMessage = this.translate.instant(
-                'COMMON.FORM_INVALID'
-            );
-            this.toastService.error(translatedMessage);
-        }
-    }
+//         if (this.formFilter.valid) {
+//             this.filter.emit(filterData);
+//         } else {
+//             const translatedMessage = this.translate.instant(
+//                 'COMMON.FORM_INVALID'
+//             );
+//             this.toastService.error(translatedMessage);
+//         }
+//     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-}
+//     ngOnDestroy(): void {
+//         this.destroy$.next();
+//         this.destroy$.complete();
+//     }
+// }

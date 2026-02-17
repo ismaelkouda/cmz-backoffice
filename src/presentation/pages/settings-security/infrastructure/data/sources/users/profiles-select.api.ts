@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { SETTINGS_SECURITY_BASE_URL } from '@presentation/pages/settings-security/infrastructure/api/settings-security.base-url';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@presentation/pages/settings-security/infrastructure/api/settings-security.endpoints';
 
-import { ProfilesSelectResponseApiDto } from '../../../api/dtos/users/profiles-select-api.dto';
+import { ProfilesSelectResponseApiDto } from '../../../api/dto/users/profiles-select-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesSelectApi {

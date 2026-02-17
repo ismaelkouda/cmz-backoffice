@@ -1,22 +1,32 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
-import { BaseFacade } from '@shared/application/base/base-facade';
+import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
     shouldFetch,
-} from '@shared/application/base/facade.utils';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+} from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { TeamsCreateBus } from '@presentation/pages/team-organization/application/bus/teams/teams-create.bus';
-import { TeamsUpdateBus } from '@presentation/pages/team-organization/application/bus/teams/teams-update.bus';
 import { TeamsCreateCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-create.command';
+import { TeamsDeleteCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-delete.command';
+import { TeamsDisableCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-disable.command';
+import { TeamsEnableCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-enable.command';
 import { TeamsUpdateCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-update.command';
-import { TeamsCreateDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-create.dto';
-import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-filter.dto';
-import { TeamsUpdateDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-update.dto';
-import { TeamsUseCase } from '@presentation/pages/team-organization/application/use-cases/teams/teams.use-case';
+import { TeamsCreateBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-create.bus';
+import { TeamsDeleteBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-delete.bus';
+import { TeamsDisableBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-disable.bus';
+import { TeamsEnableBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-enable.bus';
+import { TeamsUpdateBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-update.bus';
+import { TeamsCreateDto } from '@presentation/pages/team-organization/application/dto/teams/teams-create.dto';
+import { TeamsDeleteDto } from '@presentation/pages/team-organization/application/dto/teams/teams-delete.dto';
+import { TeamsDisableDto } from '@presentation/pages/team-organization/application/dto/teams/teams-disable.dto';
+import { TeamsEnableDto } from '@presentation/pages/team-organization/application/dto/teams/teams-enable.dto';
+import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-filter.dto';
+import { TeamsUpdateDto } from '@presentation/pages/team-organization/application/dto/teams/teams-update.dto';
+import { TeamsQuery } from '@presentation/pages/team-organization/application/queries/teams/teams.query';
+import { TeamsBus } from '@presentation/pages/team-organization/application/queries-bus/teams/teams.bus';
 import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
 
 @Injectable({
@@ -24,9 +34,12 @@ import { TeamsEntity } from '@presentation/pages/team-organization/domain/entiti
 })
 export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
     private readonly uiFeedbackService = inject(UiFeedbackService);
-    private readonly useCase = inject(TeamsUseCase);
-    private readonly teamsCreateBus = inject(TeamsCreateBus);
-    private readonly teamsUpdateBus = inject(TeamsUpdateBus);
+    private readonly filterBus = inject(TeamsBus);
+    private readonly createBus = inject(TeamsCreateBus);
+    private readonly updateBus = inject(TeamsUpdateBus);
+    private readonly enableBus = inject(TeamsEnableBus);
+    private readonly disableBus = inject(TeamsDisableBus);
+    private readonly deleteBus = inject(TeamsDeleteBus);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
     readonly actionState = this._actionState.asReadonly();
@@ -54,7 +67,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
     }
 
     readAll(
-        filter: TeamsFilterDto | null = {},
+        filter: TeamsFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false
     ): void {
@@ -70,10 +83,16 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
             return;
         }
 
+        const command = new TeamsQuery(
+            filter?.search,
+            filter?.member,
+            filter?.isActive
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
             filter,
             page,
-            this.useCase.readAll.bind(this.useCase),
+            fetch$,
             this.uiFeedbackService
         );
 
@@ -83,38 +102,52 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
 
     refresh(): void {
         this.filterSubject.next(null);
-        const firstPage = PAGINATION_CONST.DEFAULT_PAGE;
-        this.pageSubject.next(firstPage);
-        this.fetchWithFilterAndPage(
-            null,
-            firstPage,
-            this.useCase.readAll.bind(this.useCase),
-            this.uiFeedbackService
+        this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new TeamsQuery(
+            filter?.search,
+            filter?.member,
+            filter?.isActive
         );
+        const fetch$ = this.filterBus.dispatch(command, page);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
 
-    changePage(pageNumber: number): void {
-        const currentFilter = this.filterSubject.getValue();
-        if (!currentFilter) {
+    changePage(page: string): void {
+        const filter = this.filterSubject.getValue();
+        if (!filter) {
             return;
         }
+        const command = new TeamsQuery(
+            filter?.search,
+            filter?.member,
+            filter?.isActive
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            currentFilter,
-            String(pageNumber),
-            this.useCase.readAll.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
     }
 
     refreshWithLastFilterAndPage(): void {
-        const currentFilter = this.filterSubject.getValue();
-        const currentPage = this.pageSubject.getValue();
+        const filter = this.filterSubject.getValue();
+        const page = this.pageSubject.getValue();
+        const command = new TeamsQuery(
+            filter?.search,
+            filter?.member,
+            filter?.isActive
+        );
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
-            currentFilter,
-            currentPage,
-            this.useCase.readAll.bind(this.useCase),
+            filter,
+            page,
+            fetch$,
             this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
@@ -151,7 +184,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         );
 
         this.handleActionWithRefresh(
-            this.teamsCreateBus.dispatch(command),
+            this.createBus.dispatch(command),
             'COMMON.SUCCESS.CREATE'
         )
             .pipe(
@@ -181,7 +214,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         );
 
         this.handleActionWithRefresh(
-            this.teamsUpdateBus.dispatch(command),
+            this.updateBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
         )
             .pipe(
@@ -197,23 +230,26 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
             .subscribe();
     }
 
-    enable(id: string) {
-        return this.handleActionWithRefresh(
-            this.useCase.enable(id),
+    enable(team: TeamsEnableDto): void {
+        const command = new TeamsEnableCommand(team.uniqId);
+        this.handleActionWithRefresh(
+            this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
         );
     }
 
-    disable(id: string) {
-        return this.handleActionWithRefresh(
-            this.useCase.disable(id),
+    disable(team: TeamsDisableDto): void {
+        const command = new TeamsDisableCommand(team.uniqId);
+        this.handleActionWithRefresh(
+            this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
         );
     }
 
-    delete(id: string) {
-        return this.handleActionWithRefresh(
-            this.useCase.delete(id),
+    delete(team: TeamsDeleteDto): void {
+        const command = new TeamsDeleteCommand(team.uniqId);
+        this.handleActionWithRefresh(
+            this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
         );
     }

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const PROFILES_HABILITATIONS_ROUTE = 'profile-and-permissions';
+export const PROFILES_PERMISSIONS_ROUTE = 'profile-and-permissions';
 export const ACCESS_LOGS_ROUTE = 'auth-logs';
 export const USERS_ROUTE = 'users';
 
@@ -32,19 +32,19 @@ export const routes: Routes = [
                 ],
             },
             {
-                path: PROFILES_HABILITATIONS_ROUTE,
+                path: PROFILES_PERMISSIONS_ROUTE,
                 data: {
                     breadcrumb: {
-                        label: 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.BREADCRUMB.LABEL',
-                        icon: 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.BREADCRUMB.ICON',
+                        label: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.BREADCRUMB.LABEL',
+                        icon: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.BREADCRUMB.ICON',
                     },
                 },
                 children: [
                     {
                         path: '',
                         loadChildren: () =>
-                            import('./presentation/profils-habilitations/profils-habilitations.routes').then(
-                                (m) => m.PROFILES_HABILITATIONS_ROUTES
+                            import('./presentation/profiles-permissions/profiles-permissions.routes').then(
+                                (m) => m.PROFILES_PERMISSIONS_ROUTES
                             ),
                         data: { breadcrumb: { hide: true } },
                     },

@@ -2,10 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { buildHttpParams } from '@shared/utils/utils/build-http-params.utils';
-import { buildHttpPayload } from '@shared/utils/utils/build-http-payload.util';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
+import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 
+import { ParticipantsDeleteApiDto } from '@presentation/pages/team-organization/infrastructure//api/dtos/participants/participants-delete-api.dto';
+import { ParticipantsDisableApiDto } from '@presentation/pages/team-organization/infrastructure//api/dtos/participants/participants-disable-api.dto';
+import { ParticipantsEnableApiDto } from '@presentation/pages/team-organization/infrastructure//api/dtos/participants/participants-enable-api.dto';
 import { ParticipantsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-create-api.dto';
 import { ParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-filter-api.dto';
 import { ParticipantsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-response-api.dto';
@@ -49,20 +52,25 @@ export class ParticipantsApi {
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
-    delete(id: string): Observable<SimpleResponseDto<void>> {
-        console.log('id4', id);
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${id}/delete`;
+    delete(
+        apiDto: ParticipantsDeleteApiDto
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto}/delete`;
         console.log('url', url);
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 
-    enable(id: string): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${id}/enable`;
+    enable(
+        apiDto: ParticipantsEnableApiDto
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto}/enable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
-    disable(id: string): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${id}/disable`;
+    disable(
+        apiDto: ParticipantsDisableApiDto
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto}/disable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 }

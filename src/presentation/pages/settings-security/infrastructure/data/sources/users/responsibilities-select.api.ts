@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { SETTINGS_SECURITY_BASE_URL } from '@presentation/pages/settings-security/infrastructure/api/settings-security.base-url';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@presentation/pages/settings-security/infrastructure/api/settings-security.endpoints';
 
-import { ResponsibilitiesSelectResponseApiDto } from '../../../api/dtos/users/responsibilities-select-api.dto';
+import { ResponsibilitiesSelectResponseApiDto } from '../../../api/dto/users/responsibilities-select-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ResponsibilitiesSelectApi {
