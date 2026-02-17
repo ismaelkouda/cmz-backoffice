@@ -1,6 +1,6 @@
-import { ActionDropdownDto } from '@shared/data/dtos/action-dropdown.dto';
-import { RolesDto } from '@shared/data/dtos/roles.dto';
-import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { ActionDropdownDto } from '@shared/data/dto/action-dropdown.dto';
+import { RolesDto } from '@shared/data/dto/roles.dto';
+import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface ParticipantsItemApiDto {
     id: string;

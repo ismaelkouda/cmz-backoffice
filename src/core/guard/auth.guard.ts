@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
-import { TokenInterface } from '@shared/interfaces/token.interface';
-import { EncodingDataService } from '@shared/services/encoding-data.service';
+import { TokenInterface } from '@shared/domain/interfaces/token.interface';
+import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
     console.log('AuthGuard invoked for route:', state.url);

@@ -3,7 +3,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from '@presentation/app.config';
 
 import { AppComponent } from './presentation/app.component';
-import { DEFAULT_CUSTOMIZATION } from './shared/services/app-customization.config';
+import { DEFAULT_CUSTOMIZATION } from './shared/domain/services/app-customization.config';
 
 const PERFORMANCE_CONFIG = {
     bootstrapStartMark: DEFAULT_CUSTOMIZATION.performance.bootstrapStartMark,

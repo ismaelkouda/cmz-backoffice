@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { GetLegalNoticeByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/get-legal-notice-by-id-response.dto';
 import { LegalNoticeRequestDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/legal-notice-request.dto';
@@ -14,12 +14,9 @@ import { LEGAL_NOTICE_ENDPOINTS } from '@presentation/pages/content-management/i
     providedIn: 'root',
 })
 export class LegalNoticeApi {
+    private readonly envService = inject(EnvService);
+    private readonly http = inject(HttpClient);
     private readonly baseUrl = this.envService.settingUrl;
-
-    constructor(
-        private readonly http: HttpClient,
-        private readonly envService: EnvService
-    ) {}
 
     fetchLegalNotice(
         payload: LegalNoticeRequestDto,

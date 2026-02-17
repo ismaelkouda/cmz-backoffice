@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 
 import { LanguagesComponent } from './elements/languages/languages.component';
 import { MyAccountComponent } from './elements/my-account/my-account.component';

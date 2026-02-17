@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ActorDto } from '@shared/data/dtos/actor.dto';
+import { ActorDto } from '@shared/data/dto/actor.dto';
 import { ActorEntity } from '@shared/domain/entities/actor.entity';
 @Injectable({
     providedIn: 'root',

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 
 import { PrivacyPolicyEntity } from '../../../domain/entities/privacy-policy.entity';
 import { PrivacyPolicyRepository } from '../../../domain/repositories/privacy-policy.repository';

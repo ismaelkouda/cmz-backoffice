@@ -5,7 +5,7 @@ export class UsersFilterEntity {
         public readonly search?: string,
         public readonly profile?: string,
         public readonly responsibility?: string,
-        public readonly isActive?: boolean
+        public readonly isActive?: string
     ) {}
 
     static fromVo(vo: UsersFilterVo): UsersFilterEntity {

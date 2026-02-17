@@ -1,0 +1,5 @@
+export interface DetailsRejectApiDto {
+    uniq_id: string;
+    comment: string;
+    reason: string;
+}

@@ -1,0 +1,12 @@
+export interface MessagingUpdateApiDto {
+    id: string;
+    type: string;
+    target_type: string;
+    region: string;
+    department: string;
+    municipality: string;
+    channels: string[];
+    subject: string;
+    content: string;
+    message: string;
+}

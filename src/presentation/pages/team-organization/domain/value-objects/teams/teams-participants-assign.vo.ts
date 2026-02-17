@@ -4,8 +4,10 @@ export class TeamsParticipantsAssignVo {
         public readonly participants: string[]
     ) {}
 
-    static create(props: { uniqId: string; participants: string[] }) {
-        console.log('props', props);
+    static create(props: {
+        uniqId: string;
+        participants: string[];
+    }): TeamsParticipantsAssignVo {
         const uniqId = props?.uniqId?.trim();
         const participants = props?.participants?.map((p) => p.trim()) ?? [];
 

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { DepartmentsCreateDto } from '@presentation/pages/administrative-boundary/core/application/dtos/departments/departments-create.dto';
 import { DepartmentsFilterDto } from '@presentation/pages/administrative-boundary/core/application/dtos/departments/departments-filter.dto';

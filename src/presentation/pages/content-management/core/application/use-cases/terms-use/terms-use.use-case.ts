@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 
 import { TermsUseEntity } from '../../../domain/entities/terms-use.entity';
 import { TermsUseRepository } from '../../../domain/repositories/terms-use.repository';

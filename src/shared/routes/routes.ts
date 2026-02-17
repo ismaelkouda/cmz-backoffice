@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 export const SEARCH = 'search';
 
 export const DASHBOARD = 'dashboard';
-export const REPORTS_PROCESSING_ROUTE = 'reports-processing';
+export const PROCESSING_ROUTE = 'reports-processing';
 export const REPORT_FINALIZATION_ROUTE = 'reports-finalization';
 export const REPORTING_ROUTE = 'reporting';
-export const REPORT_REQUESTS_ROUTE = 'requests';
+export const REQUESTS_ROUTE = 'requests';
 export const CUSTOMERS_MANAGED = 'managed-customers';
 export const REQUESTS_SERVICE = 'requests-services';
 export const SUPERVISORY_REPOSITORY = 'sla-reference';
@@ -46,28 +46,28 @@ export const content: Routes = [
             ),
     },
     {
-        path: REPORT_REQUESTS_ROUTE,
+        path: REQUESTS_ROUTE,
         data: {
             breadcrumb: {
-                label: 'REPORTS_REQUESTS.BREADCRUMB.LABEL',
-                icon: 'REPORTS_REQUESTS.BREADCRUMB.ICON',
+                label: 'REQUESTS.BREADCRUMB.LABEL',
+                icon: 'REQUESTS.BREADCRUMB.ICON',
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/report-requests/report-requests.routes').then(
+            import('../../presentation/pages/requests/requests.routes').then(
                 (m) => m.routes
             ),
     },
     {
-        path: REPORTS_PROCESSING_ROUTE,
+        path: PROCESSING_ROUTE,
         data: {
             breadcrumb: {
-                label: 'REPORTS_PROCESSING.BREADCRUMB.LABEL',
-                icon: 'REPORTS_PROCESSING.BREADCRUMB.ICON',
+                label: 'PROCESSING.BREADCRUMB.LABEL',
+                icon: 'PROCESSING.BREADCRUMB.ICON',
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/reports-processing/reports-processing.routes').then(
+            import('../../presentation/pages/processing/processing.routes').then(
                 (m) => m.routes
             ),
     },
@@ -111,32 +111,32 @@ export const content: Routes = [
     //         ],
     //     },
     // },
-    {
-        path: CONTENT_MANAGEMENT_ROUTE,
-        loadChildren: () =>
-            import('../../presentation/pages/content-management/content-management.routes').then(
-                (m) => m.routes
-            ),
-        data: {
-            breadcrumb: {
-                label: 'CONTENT_MANAGEMENT.LABEL',
-                icon: 'pi-folder',
-            },
-        },
-    },
-    {
-        path: ADMINISTRATIVE_BOUNDARY_ROUTE,
-        loadChildren: () =>
-            import('../../presentation/pages/administrative-boundary/administrative-boundary.route').then(
-                (m) => m.routes
-            ),
-        data: {
-            breadcrumb: {
-                label: 'ADMINISTRATIVE_BOUNDARY.LABEL',
-                icon: 'pi-sitemap',
-            },
-        },
-    },
+    // {
+    //     path: CONTENT_MANAGEMENT_ROUTE,
+    //     loadChildren: () =>
+    //         import('../../presentation/pages/content-management/content-management.routes').then(
+    //             (m) => m.routes
+    //         ),
+    //     data: {
+    //         breadcrumb: {
+    //             label: 'CONTENT_MANAGEMENT.LABEL',
+    //             icon: 'pi-folder',
+    //         },
+    //     },
+    // },
+    // {
+    //     path: ADMINISTRATIVE_BOUNDARY_ROUTE,
+    //     loadChildren: () =>
+    //         import('../../presentation/pages/administrative-boundary/administrative-boundary.route').then(
+    //             (m) => m.routes
+    //         ),
+    //     data: {
+    //         breadcrumb: {
+    //             label: 'ADMINISTRATIVE_BOUNDARY.LABEL',
+    //             icon: 'pi-sitemap',
+    //         },
+    //     },
+    // },
     {
         path: SETTINGS_SECURITY_ROUTE,
         loadChildren: () =>

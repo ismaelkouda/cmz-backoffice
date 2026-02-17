@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { GetTermsUseByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/get-terms-use-by-id-response.dto';
 import { TermsUseRequestDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/terms-use-request.dto';
@@ -14,12 +14,9 @@ import { TERMS_USE_ENDPOINTS } from '@presentation/pages/content-management/infr
     providedIn: 'root',
 })
 export class TermsUseApi {
+    private readonly envService = inject(EnvService);
+    private readonly http = inject(HttpClient);
     private readonly baseUrl = this.envService.settingUrl;
-
-    constructor(
-        private readonly http: HttpClient,
-        private readonly envService: EnvService
-    ) {}
 
     fetchTermsUse(
         payload: TermsUseRequestDto,

@@ -1,5 +1,5 @@
 import { UsersCreateEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-create.entity';
-import { UsersCreateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dtos/users/users-create-api.dto';
+import { UsersCreateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-create-api.dto';
 
 export function usersCreateMapper(
     entity: UsersCreateEntity

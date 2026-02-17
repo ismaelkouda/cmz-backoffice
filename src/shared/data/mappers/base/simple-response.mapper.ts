@@ -1,4 +1,4 @@
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { ApiError } from '@shared/domain/errors/api.error';
 
 export abstract class SimpleResponseMapper<TEntity, TItemDto> {

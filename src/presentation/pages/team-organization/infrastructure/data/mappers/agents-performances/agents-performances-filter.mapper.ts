@@ -2,25 +2,25 @@ import { AgentsPerformancesFilterEntity } from '@presentation/pages/team-organiz
 import { AgentsPerformancesFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/agents-performances/agents-performances-filter-api.dto';
 
 export function AgentsPerformancesFilterMapper(
-    vo: AgentsPerformancesFilterEntity
+    entity: AgentsPerformancesFilterEntity
 ): AgentsPerformancesFilterApiDto {
     const params: AgentsPerformancesFilterApiDto =
         {} as AgentsPerformancesFilterApiDto;
 
-    if (vo.search) {
-        params.search = vo.search;
+    if (entity.search) {
+        params.search = entity.search;
     }
-    if (vo.member) {
-        params.member = vo.member;
+    if (entity.member) {
+        params.member = entity.member;
     }
-    if (vo.search) {
-        params.search = vo.search;
+    if (entity.search) {
+        params.search = entity.search;
     }
-    if (vo.period?.start) {
-        params.start_date = vo.period.start;
+    if (entity.period?.start) {
+        params.start_date = entity.period.start;
     }
-    if (vo.period?.end) {
-        params.end_date = vo.period.end;
+    if (entity.period?.end) {
+        params.end_date = entity.period.end;
     }
 
     return params;

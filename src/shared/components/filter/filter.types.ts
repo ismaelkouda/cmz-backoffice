@@ -31,10 +31,17 @@ export interface FilterOption {
 
 export function enumToFilterOptions<T extends Record<string, string>>(
     e: T,
-    translate: (key: string) => string
-) {
+    translate: (key: string) => string,
+    transformKey: 'toLowerCase' | 'toUpperCase' = 'toLowerCase'
+): {
+    label: string;
+    value: string;
+}[] {
     return Object.entries(e).map(([key, translationKey]) => ({
         label: translate(translationKey),
-        value: key.toLowerCase(),
+        value:
+            transformKey === 'toLowerCase'
+                ? key.toLowerCase()
+                : key.toUpperCase(),
     }));
 }

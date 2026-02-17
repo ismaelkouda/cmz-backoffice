@@ -27,10 +27,10 @@ import {
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 
 import { AccessLogsFacade } from '@presentation/pages/settings-security/core/application/services/access-logs/access-logs.facade';
 import { ACCESS_LOGS_TABLE_CONSTANT } from '@presentation/pages/settings-security/core/domain/constants/access-logs/access-logs-table.constant';
@@ -202,7 +202,7 @@ export class AccessLogsListComponent implements OnInit {
     }
 
     public onPageChange(event: number): void {
-        this.facade.changePage(event + 1);
+        this.facade.changePage(JSON.stringify(event + 1));
     }
 
     public refresh(): void {

@@ -1,4 +1,4 @@
-import { TeamsFreeParticipantsAssignDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-free-participants-assign.dto';
+import { TeamsFreeParticipantsAssignDto } from '@presentation/pages/team-organization/application/dto/teams/teams-free-participants-assign.dto';
 
 export class TeamsFreeParticipantsAssignVo {
     public readonly uniqId: string;

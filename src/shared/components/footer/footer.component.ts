@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { AppCustomizationService } from '@shared/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 
 import { ConfigurationService } from '@core/services/configuration.service';
 

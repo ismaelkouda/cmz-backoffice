@@ -1,4 +1,4 @@
-import { UsersCreateDto } from '@presentation/pages/settings-security/core/application/dtos/users/users-create.dto';
+import { UsersCreateDto } from '@presentation/pages/settings-security/core/application/dto/users/users-create.dto';
 
 export class UsersCreateVo {
     public readonly firstName: string;

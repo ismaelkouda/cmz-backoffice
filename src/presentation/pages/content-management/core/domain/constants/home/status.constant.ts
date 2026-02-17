@@ -1,22 +1,22 @@
 export const STATUS_CONST = [
     {
         value: 'approved',
-        label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.APPROVED',
+        label: 'REQUESTS.ALL.OPTIONS.STATUS.APPROVED',
     },
     {
         value: 'received',
-        label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.RECEIVED',
+        label: 'REQUESTS.ALL.OPTIONS.STATUS.RECEIVED',
     },
     {
         value: 'rejected',
-        label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.REJECTED',
+        label: 'REQUESTS.ALL.OPTIONS.STATUS.REJECTED',
     },
     {
         value: 'confirmed',
-        label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.CONFIRMED',
+        label: 'REQUESTS.ALL.OPTIONS.STATUS.CONFIRMED',
     },
     {
         value: 'abandoned',
-        label: 'REPORTS_REQUESTS.ALL.OPTIONS.STATUS.ABANDONED',
+        label: 'REQUESTS.ALL.OPTIONS.STATUS.ABANDONED',
     },
 ] as const;

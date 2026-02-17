@@ -5,7 +5,7 @@ import { Observable, map } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
 import { HomeRepository } from '@presentation/pages/content-management/core/domain/repositories/home.repository';

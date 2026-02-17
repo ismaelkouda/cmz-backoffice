@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 import { LogoutEntity } from '../../domain/entities/logout.entity';
 

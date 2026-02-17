@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { SimpleBaseFacade } from '@shared/application/base/simple-base-facade';
+import { SimpleBaseFacade } from '@shared/application/services/simple-base-facade';
 
 import { RequestEntity } from '../../domain/entities/requests/request.entity';
 import { FetchRequestsUseCase } from '../use-cases/requests/fetch-requests.use-case';

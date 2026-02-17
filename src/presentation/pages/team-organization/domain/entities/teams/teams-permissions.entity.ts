@@ -1,7 +1,7 @@
-import { TeamsTreeNodeEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-tree-node.entity';
+import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
 
 export interface TeamsPermissionsProps {
-    permissions: TeamsTreeNodeEntity[];
+    permissions: TreeNodeEntity[];
 }
 
 export class TeamsPermissionsEntity {

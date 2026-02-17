@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { EncodingDataService } from '../../services/encoding-data.service';
-import { TabService } from '../../services/tab.service';
+import { EncodingDataService } from '../../domain/services/encoding-data.service';
+import { TabService } from '../../domain/services/tab.service';
 
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 

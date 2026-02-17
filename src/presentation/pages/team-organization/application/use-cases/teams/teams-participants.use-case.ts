@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { TeamsParticipantsAssignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-assign.command';
 import { TeamsParticipantsReassignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-reassign.command';
-import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-filter.dto';
-import { TeamsParticipantsRemoveDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-remove.dto';
+import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-filter.dto';
+import { TeamsParticipantsRemoveDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-remove.dto';
 import { TeamsParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
 import { TeamsParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
 import { TeamsParticipantsReassignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-reassign.entity';
@@ -24,7 +24,7 @@ import { TeamsParticipantsRemoveVo } from '@presentation/pages/team-organization
 export class TeamsParticipantsUseCase {
     private readonly repository = inject(TeamsParticipantsRepository);
 
-    readAll(
+    execute(
         filterDto: TeamsParticipantsFilterDto | null,
         page: string
     ): Observable<Paginate<TeamsParticipantsEntity>> {

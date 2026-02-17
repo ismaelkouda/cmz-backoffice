@@ -13,7 +13,7 @@ export function participantsFilterMapper(
         params.role = entity.role;
     }
     if (entity.isActive !== undefined) {
-        params.is_active = entity.isActive;
+        params.is_active = !!entity.isActive;
     }
 
     return params;

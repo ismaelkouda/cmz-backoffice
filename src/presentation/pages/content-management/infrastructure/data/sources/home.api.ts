@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { HomeRequestDto } from '@presentation/pages/content-management/core/application/dtos/home/home-request.dto';
 import {
@@ -16,12 +16,9 @@ import { HOME_ENDPOINTS } from '@presentation/pages/content-management/infrastru
     providedIn: 'root',
 })
 export class HomeApi {
+    private readonly envService = inject(EnvService);
+    private readonly http = inject(HttpClient);
     private readonly baseUrl = this.envService.settingUrl;
-
-    constructor(
-        private readonly http: HttpClient,
-        private readonly envService: EnvService
-    ) {}
 
     fetchHome(
         payload: HomeRequestDto,

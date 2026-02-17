@@ -1,4 +1,4 @@
-import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dtos/teams/teams-participants-filter.dto';
+import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-filter.dto';
 
 export class TeamsParticipantsFilterVo {
     public readonly uniqId: string;

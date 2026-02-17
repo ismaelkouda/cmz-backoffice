@@ -1,7 +1,7 @@
-import { HistoryFindOneEntity } from '@shared/components/history/core/domain/entities/history-findone.entity';
+import { HistoryFindOneEntity } from '@shared/components/history/core/domain/entities/history-find-one.entity';
 import { HistoryFindOneItemApiDto } from '@shared/components/history/infrastructure/api/dtos/history-findone-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 export class HistoryFindonMapper extends SimpleResponseMapper<
     HistoryFindOneEntity,

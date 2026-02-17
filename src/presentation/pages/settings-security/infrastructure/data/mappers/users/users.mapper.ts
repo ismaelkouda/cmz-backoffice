@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { UsersEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users.entity';
-import { UsersItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dtos/users/users-response-api.dto';
+import { UsersItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

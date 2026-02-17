@@ -1,0 +1,10 @@
+import { UsersDisableEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-disable.entity';
+import { UsersDisableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-disable-api.dto';
+
+export function usersDisableMapper(vo: UsersDisableEntity): UsersDisableApiDto {
+    const prams = {} as UsersDisableApiDto;
+    if (vo.uniqId) {
+        prams.uniq_id = vo.uniqId;
+    }
+    return prams;
+}

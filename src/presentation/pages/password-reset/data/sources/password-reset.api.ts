@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { EnvService } from '@shared/services/env.service';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { PasswordResetEndpoint } from '../constants/password-reset-endpoints.constant';
 import { ForgotPasswordRequestDto } from '../dtos/forgot-password-request.dto';
@@ -11,12 +11,9 @@ import { ResetPasswordRequestDto } from '../dtos/reset-password-request.dto';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetApi {
+    private readonly envService = inject(EnvService);
+    private readonly http = inject(HttpClient);
     private readonly baseUrl = this.envService.authenticationUrl;
-
-    constructor(
-        private readonly http: HttpClient,
-        private readonly envService: EnvService
-    ) {}
 
     forgotPassword(
         payload: ForgotPasswordRequestDto

@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { SlideEntity } from '../../../core/domain/entities/slide.entity';
 import { SlideRepository } from '../../../core/domain/repositories/slide.repository';

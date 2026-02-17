@@ -33,15 +33,15 @@ import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 
 import { ProfilesSelectFacade } from '@presentation/pages/settings-security/core/application/services/users/profiles-select.facade';
 import { ResponsibilitiesSelectFacade } from '@presentation/pages/settings-security/core/application/services/users/responsibilities-select.facade';
-import { UsersFindoneFacade } from '@presentation/pages/settings-security/core/application/services/users/users-findone.facade';
+import { UsersFindOneFacade } from '@presentation/pages/settings-security/core/application/services/users/users-findone.facade';
 import { UsersFacade } from '@presentation/pages/settings-security/core/application/services/users/users.facade';
 import { UsersFormControl } from '@presentation/pages/settings-security/core/domain/controls/users/users-form.control';
 import { ProfilesSelectEntity } from '@presentation/pages/settings-security/core/domain/entities/users/profiles-select.entity';
-import { UsersFindOneEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-findone.entity';
+import { UsersFindOneEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-find-one.entity';
 import { FormValidators } from '@presentation/pages/settings-security/core/domain/validators/form-validators';
 
 import { UsersFormHelperService } from './users-form-helper.service';
@@ -73,7 +73,7 @@ import { UsersFormValidationService } from './users-form-validation.service';
         UsersFormHelperService,
         ProfilesSelectFacade,
         ResponsibilitiesSelectFacade,
-        UsersFindoneFacade,
+        UsersFindOneFacade,
         UsersFacade,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -86,7 +86,7 @@ export class UsersFormComponent implements OnInit {
     private readonly responsibilitiesFacade = inject(
         ResponsibilitiesSelectFacade
     );
-    private readonly findOneFacade = inject(UsersFindoneFacade);
+    private readonly findOneFacade = inject(UsersFindOneFacade);
     private readonly translate = inject(TranslateService);
     private readonly messageService = inject(MessageService);
     private readonly validationService = inject(UsersFormValidationService);
@@ -268,19 +268,13 @@ export class UsersFormComponent implements OnInit {
         const formData = this.form.getRawValue();
         const userId = this.paramsUniqId();
         const operation = this.isEditMode() && userId ? 'UPDATE' : 'CREATE';
-        const submit =
-            operation === 'UPDATE'
-                ? this.usersFacade.update({ uniqId: userId, ...formData })
-                : this.usersFacade.create(formData);
 
-        submit.subscribe({
-            next: () => this.helperService.navigateToUsersList(),
-            error: (error: Error) =>
-                this.helperService.displaySubmitError(
-                    this.messageService,
-                    operation,
-                    error
-                ),
-        });
+        if (operation === 'UPDATE') {
+            this.usersFacade.update({ uniqId: userId, ...formData });
+        } else {
+            this.usersFacade.create(formData);
+        }
+
+        this.helperService.navigateToUsersList();
     }
 }

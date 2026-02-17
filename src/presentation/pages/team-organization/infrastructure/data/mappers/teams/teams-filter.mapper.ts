@@ -1,17 +1,19 @@
 import { TeamsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-filter.entity';
 import { TeamsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-filter-api.dto';
 
-export function teamsFilterMapper(vo: TeamsFilterEntity): TeamsFilterApiDto {
+export function teamsFilterMapper(
+    entity: TeamsFilterEntity
+): TeamsFilterApiDto {
     const params: TeamsFilterApiDto = {} as TeamsFilterApiDto;
 
-    if (vo.search) {
-        params.search = vo.search;
+    if (entity.search) {
+        params.search = entity.search;
     }
-    if (vo.member) {
-        params.member = vo.member;
+    if (entity.member) {
+        params.member = entity.member;
     }
-    if (vo.isActive !== undefined) {
-        params.is_active = vo.isActive;
+    if (entity.isActive !== undefined) {
+        params.is_active = !!entity.isActive;
     }
 
     return params;

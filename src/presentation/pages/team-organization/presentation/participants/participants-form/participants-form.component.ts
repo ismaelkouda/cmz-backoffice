@@ -37,11 +37,11 @@ import {
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Roles } from '@shared/domain/enums/roles.enum';
-import { formatPhoneForMask } from '@shared/functions/format-phone-for-mask.function';
+import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
 
-import { ParticipantsFindoneFacade } from '@presentation/pages/team-organization/application/services/participants/participants-findone.facade';
+import { ParticipantsFindOneFacade } from '@presentation/pages/team-organization/application/services/participants/participants-find-one.facade';
 import { ParticipantsFacade } from '@presentation/pages/team-organization/application/services/participants/participants.facade';
 import { ParticipantsFormControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-form.control';
 import { FormValidators } from '@presentation/pages/team-organization/domain/validators/form-validators';
@@ -79,7 +79,7 @@ export class ParticipantsFormComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
     private readonly submitFacade = inject(ParticipantsFacade);
-    private readonly facade = inject(ParticipantsFindoneFacade);
+    private readonly facade = inject(ParticipantsFindOneFacade);
     private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly validationService = inject(

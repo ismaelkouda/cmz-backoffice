@@ -32,9 +32,9 @@ import {
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 
 import { AgentsPerformancesFacade } from '@presentation/pages/team-organization/application/services/agents-performances/agents-performances.facade';
 import { AGENTS_PERFORMANCES_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/agents-performances/agents-performances-table.constant';
@@ -223,7 +223,7 @@ export class AgentsPerformancesListComponent implements OnInit, OnDestroy {
     }
 
     public onPageChangeClicked(page: number): void {
-        this.facade.changePage(page + 1);
+        this.facade.changePage(JSON.stringify(page + 1));
     }
 
     public onNavigateToForm(event: {

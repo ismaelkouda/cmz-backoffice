@@ -1,4 +1,4 @@
-import { DatePeriod } from '@shared/core/domain/value-object/date-period.vo';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 import { HistoryFilterVo } from '../value-objects/history-filter.vo';
 

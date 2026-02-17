@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
+import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
 @Injectable({

@@ -1,4 +1,4 @@
-import { ProfilesSelectItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dtos/users/profiles-select-api.dto';
+import { ProfilesSelectItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/profiles-select-api.dto';
 
 export class ProfilesSelectEntity {
     constructor(

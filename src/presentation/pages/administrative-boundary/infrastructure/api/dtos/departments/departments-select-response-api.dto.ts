@@ -1,4 +1,4 @@
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 import { MunicipalitiesSelectItemApiDto } from '../municipalities/municipalities-select-response-api.dto';
 

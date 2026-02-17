@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ReportMediaDto } from '@shared/data/dtos/report-media.dto';
+import { ReportMediaDto } from '@shared/data/dto/report-media.dto';
 import { ReportMediaEntity } from '@shared/domain/entities/report-media.entity';
 @Injectable({
     providedIn: 'root',

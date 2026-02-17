@@ -1,0 +1,19 @@
+import { ProfilesPermissionsUsersRemoveEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-users-remove.entity';
+import { ProfilesPermissionsUsersRemoveApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-remove-api.dto';
+
+export function profilesPermissionsUsersRemoveMapper(
+    vo: ProfilesPermissionsUsersRemoveEntity
+): ProfilesPermissionsUsersRemoveApiDto {
+    const params: ProfilesPermissionsUsersRemoveApiDto =
+        {} as ProfilesPermissionsUsersRemoveApiDto;
+
+    if (vo.uniqId) {
+        params.profile_user_id = vo.uniqId;
+    }
+
+    if (vo.users) {
+        params.users = vo.users;
+    }
+
+    return params;
+}

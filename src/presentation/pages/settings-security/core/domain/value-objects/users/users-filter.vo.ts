@@ -1,16 +1,16 @@
-import { UsersFilterDto } from '@presentation/pages/settings-security/core/application/dtos/users/users-filter.dto';
+import { UsersFilterDto } from '@presentation/pages/settings-security/core/application/dto/users/users-filter.dto';
 
 export class UsersFilterVo {
     public readonly search?: string;
     public readonly profile?: string;
     public readonly responsibility?: string;
-    public readonly isActive?: boolean;
+    public readonly isActive?: string;
 
     constructor(props: {
         search?: string;
         profile?: string;
         responsibility?: string;
-        isActive?: boolean;
+        isActive?: string;
     }) {
         this.search = props.search;
         this.profile = props.profile;

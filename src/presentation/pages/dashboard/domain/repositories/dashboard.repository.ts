@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
 
-import { DashboardStatistics } from '@pages/dashboard/domain/entities/dashboard-statistics.entity';
-import { DashboardPeriodFilter } from '@pages/dashboard/domain/value-objects/dashboard-period-filter.vo';
+import { DashboardFilterEntity } from '@presentation/pages/dashboard/domain/entities/dashboard-filter.entity';
+import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
 
 export abstract class DashboardRepository {
-    abstract loadStatistics(
-        filter: DashboardPeriodFilter
-    ): Observable<DashboardStatistics>;
+    abstract execute(
+        filter: DashboardFilterEntity
+    ): Observable<DashboardEntity>;
 }

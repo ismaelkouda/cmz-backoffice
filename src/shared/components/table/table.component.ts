@@ -26,14 +26,15 @@ import {
     TableHeaderButton,
 } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
+import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
+import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
+import { TableConfig } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-import { SeparatorThousandsPipe } from '@shared/pipes/separator-thousands.pipe';
-import { TableConfig } from '@shared/services/table-export-excel-file.service';
 
 import { HomeActionDropdownComponent } from '@presentation/pages/content-management/presentation/features/home/table-home/home-action-dropdown/home-action-dropdown.component';
-import { ReportStatus } from '@presentation/pages/report-requests/domain/entities/all/all.entity';
+import { DetailsStatus as RequestsStatus } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
 
 @Component({
     selector: 'app-table',
@@ -142,7 +143,7 @@ export class TableComponent {
         this.actionClicked.emit({ item, actionId });
     }
 
-    public onNumberInputChange(count: number) {
+    public onNumberInputChange(count: number): void {
         const items = this.items();
 
         if (!items?.length) {
@@ -205,21 +206,8 @@ export class TableComponent {
         );
     }
 
-    getOperatorColor(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const colorMap: Record<string, string> = {
-            orange: 'rgb(241, 110, 0)',
-            mtn: 'rgb(255, 203, 5)',
-            moov: 'rgb(0, 91, 164)',
-        };
-        return colorMap[normalized] ?? `rgba(var(--theme-default-rgb), 0.8)`;
-    }
-
     getOperatorTagStyle(operator: string): Record<string, string> {
-        const backgroundColor = this.getOperatorColor(operator);
-        const textColor =
-            operator?.toLowerCase() === 'mtn' ? '#212121' : '#ffffff';
-        return { backgroundColor, color: textColor };
+        return operatorsTagStyle(operator);
     }
 
     numberSeverity(value: number): string {
@@ -234,13 +222,12 @@ export class TableComponent {
 
     public getStatusSeverity(status: string): StatusTagSeverity {
         const severityMap: Record<string, StatusTagSeverity> = {
-            [ReportStatus.ABANDONED]: 'warning',
-            [ReportStatus.APPROVED]: 'success',
-            [ReportStatus.REJECTED]: 'danger',
-            [ReportStatus.CONFIRMED]: 'contrast',
-            [ReportStatus.IN_PROGRESS]: 'warn',
-            [ReportStatus.TERMINATED]: 'info',
-            [ReportStatus.UNKNOWN]: 'dark',
+            [RequestsStatus.ABANDONED]: 'warning',
+            [RequestsStatus.APPROVED]: 'success',
+            [RequestsStatus.REJECTED]: 'danger',
+            [RequestsStatus.CONFIRMED]: 'contrast',
+            [RequestsStatus.IN_PROGRESS]: 'warn',
+            [RequestsStatus.TERMINATED]: 'info',
             [ActionDropdown.ACTIVE]: 'success',
             [ActionDropdown.INACTIVE]: 'danger',
             [ActionDropdown.PUBLISHED]: 'success',

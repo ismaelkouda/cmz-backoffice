@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { EnvService } from '@shared/services/env.service';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { EnvService } from '@shared/domain/services/env.service';
 
 import { GetPrivacyPolicyByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/privacy-policy/get-privacy-policy-by-id-response.dto';
 import { PrivacyPolicyRequestDto } from '@presentation/pages/content-management/core/application/dtos/privacy-policy/privacy-policy-request.dto';
@@ -14,12 +14,9 @@ import { PRIVACY_POLICY_ENDPOINTS } from '@presentation/pages/content-management
     providedIn: 'root',
 })
 export class PrivacyPolicyApi {
+    private readonly envService = inject(EnvService);
+    private readonly http = inject(HttpClient);
     private readonly baseUrl = this.envService.settingUrl;
-
-    constructor(
-        private readonly http: HttpClient,
-        private readonly envService: EnvService
-    ) {}
 
     fetchPrivacyPolicy(
         filter: PrivacyPolicyRequestDto,

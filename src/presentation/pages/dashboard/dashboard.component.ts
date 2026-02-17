@@ -17,10 +17,10 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SkeletonModule } from 'primeng/skeleton';
 
-import { separatorThousands } from '../../../shared/functions/separator-thousands';
+import { separatorThousands } from '@shared/domain/functions/separator-thousands';
 
-import { DashboardFacade } from './application/dashboard.facade';
-import { DashboardStatistics } from './domain/entities/dashboard-statistics.entity';
+import { DashboardFacade } from '@presentation/pages/dashboard/application/services/dashboard.facade';
+import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
 
 interface StatisticCard {
     key: string;
@@ -83,8 +83,8 @@ export class DashboardComponent implements OnInit {
 
     constructor() {
         effect(() => {
-            const period = Number(this.selectedPeriod());
-            this.facade.loadStatistics(period);
+            const period = this.selectedPeriod();
+            this.facade.read({ period }, true);
         });
 
         effect(() => {
@@ -104,14 +104,14 @@ export class DashboardComponent implements OnInit {
     }
 
     refreshData(): void {
-        this.facade.loadStatistics(Number(this.selectedPeriod()));
+        this.facade.read({ period: this.selectedPeriod() }, true);
     }
 
     public navigateToReport(stat: StatisticCard): void {
         stat.routerFilter?.();
     }
 
-    private generateStatistics(data: DashboardStatistics): void {
+    private generateStatistics(data: DashboardEntity): void {
         if (!data) {
             return;
         }
@@ -119,45 +119,44 @@ export class DashboardComponent implements OnInit {
             {
                 key: 'totalReports',
                 count: separatorThousands(data.totalReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORTS_PROCESSING.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.TOTAL_REPORTS_PROCESSING.SUBTITLE',
+                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_PROCESSING.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TYPE.TOTAL_PROCESSING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-chart-bar',
             },
             {
                 key: 'whiteZoneReports',
                 count: separatorThousands(data.whiteZoneReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORTS_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_REPORTS_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_PROCESSING.SUBTITLE',
                 color: 'error',
                 icon: 'pi-map-marker',
             },
             {
                 key: 'partialOperatorReports',
                 count: separatorThousands(data.partialOperatorReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORTS_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_REPORTS_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_PROCESSING.SUBTITLE',
                 color: 'warning',
                 icon: 'pi-building',
             },
             {
                 key: 'partialSignalReports',
                 count: separatorThousands(data.partialSignalReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORTS_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_REPORTS_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.SUBTITLE',
                 color: 'warning',
                 icon: 'pi-chart-line',
             },
             {
                 key: 'noInternetReports',
                 count: separatorThousands(data.noInternetReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORTS_PROCESSING.LABEL',
+                label: 'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_PROCESSING.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_REPORTS_PROCESSING.SUBTITLE',
+                    'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_PROCESSING.SUBTITLE',
                 color: 'info',
                 icon: 'pi-ban',
             },

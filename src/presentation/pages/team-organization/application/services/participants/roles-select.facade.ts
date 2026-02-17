@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 
-import { ArrayBaseFacade } from '@shared/application/base/array-base-facade';
-import { shouldFetch } from '@shared/application/base/facade.utils';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
+import { shouldFetch } from '@shared/application/services/facade.utils';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 import { RolesSelectUseCase } from '@presentation/pages/team-organization/application/use-cases/participants/roles-select.use-case';
 import { RolesSelectEntity } from '@presentation/pages/team-organization/domain/entities/participants/roles-select.entity';

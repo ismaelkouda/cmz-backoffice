@@ -1,22 +1,23 @@
 import { inject, Injectable } from '@angular/core';
 
-import { shouldFetch } from '@shared/application/base/facade.utils';
-import { ObjectBaseFacade } from '@shared/application/base/object-base-facade';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { shouldFetch } from '@shared/application/services/facade.utils';
+import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { UsersFindOneFilterDto } from '@presentation/pages/settings-security/core/application/dtos/users/users-findone-filter.dto';
-import { UsersFindonUseCase } from '@presentation/pages/settings-security/core/application/use-cases/users/users-findone.use-case';
-import { UsersFindOneEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-findone.entity';
+import { UsersFindOneFilterDto } from '@presentation/pages/settings-security/core/application/dto/users/users-find-one-filter.dto';
+import { UsersFindOneQuery } from '@presentation/pages/settings-security/core/application/queries/users/users-find-one.query';
+import { UsersFindOneBus } from '@presentation/pages/settings-security/core/application/queries-bus/users/users-find-one.bus';
+import { UsersFindOneEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-find-one.entity';
 
 @Injectable({
     providedIn: 'root',
 })
-export class UsersFindoneFacade extends ObjectBaseFacade<
+export class UsersFindOneFacade extends ObjectBaseFacade<
     UsersFindOneEntity,
     UsersFindOneFilterDto
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
-    private readonly useCase = inject(UsersFindonUseCase);
+    private readonly bus = inject(UsersFindOneBus);
 
     readonly item$ = this.items$;
 
@@ -36,12 +37,9 @@ export class UsersFindoneFacade extends ObjectBaseFacade<
         ) {
             return;
         }
-
-        this.fetchWithFilter(
-            filter,
-            this.useCase.read.bind(this.useCase),
-            this.uiFeedbackService
-        );
+        const command = new UsersFindOneQuery(filter.uniqId);
+        const fetch$ = this.bus.dispatch(command);
+        this.fetchWithFilter(filter, fetch$, this.uiFeedbackService);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();

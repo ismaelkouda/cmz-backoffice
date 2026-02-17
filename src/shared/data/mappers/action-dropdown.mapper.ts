@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
-import { ActionDropdownDto } from '../dtos/action-dropdown.dto';
+import { ActionDropdownDto } from '../dto/action-dropdown.dto';
 @Injectable({
     providedIn: 'root',
 })

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { EncodingDataService } from '../../../shared/services/encoding-data.service';
 import { LOGO_ANSUT } from '../../constants/logoAnsut.constant';
+import { EncodingDataService } from '../../domain/services/encoding-data.service';
 
 @Component({
     selector: 'app-loader',

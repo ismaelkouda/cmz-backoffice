@@ -1,5 +1,5 @@
 import { UsersFilterEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-filter.entity';
-import { UsersFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dtos/users/users-filter-api.dto';
+import { UsersFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-filter-api.dto';
 
 export function usersFilterMapper(
     entity: UsersFilterEntity
@@ -16,7 +16,7 @@ export function usersFilterMapper(
         params.responsibility = entity.responsibility;
     }
     if (entity.isActive !== undefined) {
-        params.is_active = entity.isActive;
+        params.is_active = !!entity.isActive;
     }
 
     return params;

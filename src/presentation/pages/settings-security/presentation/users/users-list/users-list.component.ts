@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
+    OnDestroy,
     OnInit,
     inject,
 } from '@angular/core';
@@ -16,11 +17,11 @@ import SweetAlert from 'sweetalert2';
 
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 
 import { UsersFacade } from '@presentation/pages/settings-security/core/application/services/users/users.facade';
 import { USERS_TABLE_CONSTANT } from '@presentation/pages/settings-security/core/domain/constants/users/users-table.constant';
@@ -40,13 +41,13 @@ import { USERS_FORM } from '@presentation/pages/settings-security/presentation/u
     templateUrl: './users-list.component.html',
     styleUrls: ['./users-list.component.scss'],
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     private readonly router = inject(Router);
     public readonly facade = inject(UsersFacade);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
-    private readonly toastr = inject(ToastrService);
+    private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     public readonly tableConfig = USERS_TABLE_CONSTANT;
@@ -88,7 +89,7 @@ export class UsersListComponent implements OnInit {
     }
 
     public onPageChangeClicked(event: number): void {
-        this.facade.changePage(event + 1);
+        this.facade.changePage(JSON.stringify(event + 1));
     }
 
     public onRefreshClicked(): void {
@@ -104,8 +105,11 @@ export class UsersListComponent implements OnInit {
         });
     }
 
-    public onNavigateToForm(event: { item?: UsersEntity; ref: CrudFormType }) {
-        const queryParams: any = event.item
+    public onNavigateToForm(event: {
+        item?: UsersEntity;
+        ref: CrudFormType;
+    }): void {
+        const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
         this.router.navigate([USERS_FORM], {
@@ -127,11 +131,8 @@ export class UsersListComponent implements OnInit {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade
-                    .delete(item.uniqId)
-                    .subscribe(() =>
-                        this.facade.refreshWithLastFilterAndPage()
-                    );
+                this.facade.delete({ uniqId: item.uniqId });
+                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }
@@ -149,11 +150,8 @@ export class UsersListComponent implements OnInit {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade
-                    .enable(item.uniqId)
-                    .subscribe(() =>
-                        this.facade.refreshWithLastFilterAndPage()
-                    );
+                this.facade.enable({ uniqId: item.uniqId });
+                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }
@@ -171,11 +169,8 @@ export class UsersListComponent implements OnInit {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade
-                    .disable(item.uniqId)
-                    .subscribe(() =>
-                        this.facade.refreshWithLastFilterAndPage()
-                    );
+                this.facade.disable({ uniqId: item.uniqId });
+                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }
@@ -183,7 +178,7 @@ export class UsersListComponent implements OnInit {
     public onExportExcel(): void {
         const items = this.items();
         if (!items.length) {
-            this.toastr.error(this.t('EXPORT.NO_DATA'));
+            this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
 
@@ -194,7 +189,7 @@ export class UsersListComponent implements OnInit {
         );
     }
 
-    private t(key: string) {
+    private t(key: string): string {
         return this.translate.instant(key);
     }
 

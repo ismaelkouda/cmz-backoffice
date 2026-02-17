@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HistoryEntity } from '@shared/components/history/core/domain/entities/history.entity';
 import { HistoryItemApiDto } from '@shared/components/history/infrastructure/api/dtos/history-response.api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryMapper extends PaginatedMapper<

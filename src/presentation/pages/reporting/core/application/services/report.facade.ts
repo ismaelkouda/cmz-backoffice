@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { SimpleBaseFacade } from '@shared/application/base/simple-base-facade';
+import { SimpleBaseFacade } from '@shared/application/services/simple-base-facade';
 
 import { ReportEntity } from '../../domain/entities/report/report.entity';
 import { FetchReportUseCase } from '../use-cases/report/fetch-report.use-case';

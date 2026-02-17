@@ -4,9 +4,12 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { UsersCreateEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-create.entity';
+import { UsersDeleteEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-delete.entity';
+import { UsersDisableEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-disable.entity';
+import { UsersEnableEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-enable.entity';
 import { UsersFilterEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-filter.entity';
 import { UsersUpdateEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-update.entity';
 import { UsersEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users.entity';
@@ -16,16 +19,22 @@ import { UsersEntity } from '@presentation/pages/settings-security/core/domain/e
 })
 export abstract class UsersRepository {
     abstract readAll(
-        filter: UsersFilterEntity | null,
+        entity: UsersFilterEntity | null,
         page: string
     ): Observable<Paginate<UsersEntity>>;
     abstract create(
-        payload: UsersCreateEntity
+        entity: UsersCreateEntity
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        payload: UsersUpdateEntity
+        entity: UsersUpdateEntity
     ): Observable<SimpleResponseDto<void>>;
-    abstract delete(uniqId: string): Observable<SimpleResponseDto<void>>;
-    abstract enable(uniqId: string): Observable<SimpleResponseDto<void>>;
-    abstract disable(uniqId: string): Observable<SimpleResponseDto<void>>;
+    abstract delete(
+        entity: UsersDeleteEntity
+    ): Observable<SimpleResponseDto<void>>;
+    abstract enable(
+        entity: UsersEnableEntity
+    ): Observable<SimpleResponseDto<void>>;
+    abstract disable(
+        entity: UsersDisableEntity
+    ): Observable<SimpleResponseDto<void>>;
 }

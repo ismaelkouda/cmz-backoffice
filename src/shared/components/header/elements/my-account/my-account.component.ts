@@ -24,10 +24,10 @@ import { PasswordModule } from 'primeng/password';
 import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 
-import { CurrentUser } from '../../../../interfaces/current-user.interface';
-import { EncodingDataService } from '../../../../services/encoding-data.service';
+import { CurrentUser } from '../../../../domain/interfaces/current-user.interface';
+import { EncodingDataService } from '../../../../domain/services/encoding-data.service';
 
 import { MyAccountFacade } from './application/my-account.facade';
 import { ChangePasswordRequestDto } from './data/dtos/change-password-request.dto';

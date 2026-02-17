@@ -2,17 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { buildHttpParams } from '@shared/utils/utils/build-http-params.utils';
-import { buildHttpPayload } from '@shared/utils/utils/build-http-payload.util';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
+import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 
-import { UsersFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dtos/users/users-filter-api.dto';
-import { UsersResponseApiDto } from '@presentation/pages/settings-security/infrastructure/api/dtos/users/users-response-api.dto';
+import { UsersCreateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-create-api.dto';
+import { UsersDeleteApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-delete-api.dto';
+import { UsersDisableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-disable-api.dto';
+import { UsersEnableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-enable-api.dto';
+import { UsersFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-filter-api.dto';
+import { UsersResponseApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-response-api.dto';
+import { UsersUpdateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-update-api.dto';
 import { SETTINGS_SECURITY_BASE_URL } from '@presentation/pages/settings-security/infrastructure/api/settings-security.base-url';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@presentation/pages/settings-security/infrastructure/api/settings-security.endpoints';
-
-import { UsersCreateApiDto } from '../../../api/dtos/users/users-create-api.dto';
-import { UsersUpdateApiDto } from '../../../api/dtos/users/users-update-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UsersApi {
@@ -46,18 +48,18 @@ export class UsersApi {
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
-    delete(id: string): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/${id}/delete`;
+    delete(apiDto: UsersDeleteApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/${apiDto.uniq_id}/delete`;
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 
-    enable(id: string): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/${id}/enable`;
+    enable(apiDto: UsersEnableApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/${apiDto.uniq_id}/enable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
-    disable(id: string): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/${id}/disable`;
+    disable(apiDto: UsersDisableApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/${apiDto.uniq_id}/disable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 }

@@ -40,6 +40,20 @@ import { provideMyAccount } from '@shared/components/header/elements/my-account/
 /* import { CoreModule } from '../core/core.module'; */
 import { historyProviders } from '@shared/components/history/di/history.providers';
 
+import { provideAdministrativeBoundary } from '@presentation/pages/administrative-boundary/di/administrative-boundary.providers';
+import { provideAuthentication } from '@presentation/pages/authentication/di/authentication.providers';
+import { provideHome } from '@presentation/pages/content-management/di/home.providers';
+import { provideLegalNotice } from '@presentation/pages/content-management/di/legal-notice.providers';
+import { provideNews } from '@presentation/pages/content-management/di/news.providers';
+import { providePrivacyPolicy } from '@presentation/pages/content-management/di/privacy-policy.providers';
+import { provideSlide } from '@presentation/pages/content-management/di/slide.providers';
+import { provideTermsUse } from '@presentation/pages/content-management/di/terms-use.providers';
+import { provideDashboard } from '@presentation/pages/dashboard/di/dashboard.providers';
+import { providePasswordReset } from '@presentation/pages/password-reset/di/password-reset.providers';
+import { provideReporting } from '@presentation/pages/reporting/di/reporting.providers';
+import { provideSettingsSecurity } from '@presentation/pages/settings-security/di/settings-security.providers';
+import { provideTeamOrganization } from '@presentation/pages/team-organization/di/team-organisation.providers';
+
 import { apiInterceptor } from '../core/interceptors/api.interceptor';
 import { authInterceptor } from '../core/interceptors/auth.interceptor';
 import { cacheInterceptor } from '../core/interceptors/cache.interceptor';
@@ -49,37 +63,13 @@ import { ConfigurationService } from '../core/services/configuration.service';
 import { TranslationManagerService } from '../core/services/translation-manager.service';
 
 import { routes } from './app.routes';
-import { provideAdministrativeBoundary } from './pages/administrative-boundary/di/administrative-boundary.providers';
-import { provideAuthentication } from './pages/authentication/di/authentication.providers';
-import { provideNotifications } from './pages/communication/di/notifications.providers';
-import { provideHome } from './pages/content-management/di/home.providers';
-import { provideLegalNotice } from './pages/content-management/di/legal-notice.providers';
-import { provideNews } from './pages/content-management/di/news.providers';
-import { providePrivacyPolicy } from './pages/content-management/di/privacy-policy.providers';
-import { provideSlide } from './pages/content-management/di/slide.providers';
-import { provideTermsUse } from './pages/content-management/di/terms-use.providers';
-import { provideDashboard } from './pages/dashboard/di/dashboard.providers';
-import { provideAll as finalizationAll } from './pages/finalization/di/all.providers';
-import { provideQueues as finalizationQueues } from './pages/finalization/di/queues.providers';
-import { provideTasks as finalizationTasks } from './pages/finalization/di/tasks.providers';
-import { providePasswordReset } from './pages/password-reset/di/password-reset.providers';
-import { provideAll as requestsAll } from './pages/report-requests/di/all.providers';
-import { provideQueues as requestsQueues } from './pages/report-requests/di/queues.providers';
-import { provideTasks as requestsTasks } from './pages/report-requests/di/tasks.providers';
-import { provideReporting } from './pages/reporting/di/reporting.providers';
-import { provideActions } from './pages/reports-processing/di/actions.providers';
-import { provideAll as processingAll } from './pages/reports-processing/di/all.providers';
-import { provideDetails } from './pages/reports-processing/di/details.providers';
-import { provideManagement } from './pages/reports-processing/di/management.providers';
-import { provideQueues as processingQueues } from './pages/reports-processing/di/queues.providers';
-import { provideTasks as processingTasks } from './pages/reports-processing/di/tasks.providers';
-import { provideTreatment } from './pages/reports-processing/di/treatment.providers';
-import { provideSettingsSecurity } from './pages/settings-security/di/settings-security.providers';
-import { provideTeamOrganization } from './pages/team-organization/di/team-organisation.providers';
-/* import { provideProfileHabilitation } from './pages/settings-security/di/profile-habilitation.providers'; */
-/* import { provideUser } from './pages/settings-security/di/user.providers';
-import { provideParticipant } from './pages/team-organization/di/participant.providers';
-import { provideTeam } from './pages/team-organization/di/team.providers'; */
+import { provideFinalization } from './pages/finalization/di/finalization.providers';
+import { provideProcessing } from './pages/processing/di/processing.providers';
+import { provideRequests } from './pages/requests/di/requests.providers';
+/* import { provideProfileHabilitation } from '@presentation/pages/settings-security/di/profile-habilitation.providers'; */
+/* import { provideUser } from '@presentation/pages/settings-security/di/user.providers';
+import { provideParticipant } from '@presentation/pages/team-organization/di/participant.providers';
+import { provideTeam } from '@presentation/pages/team-organization/di/team.providers'; */
 
 const frenchLocale = {
     firstDayOfWeek: 1,
@@ -277,28 +267,11 @@ export const appConfig: ApplicationConfig = {
         ...provideMyAccount(),
         ...providePasswordReset(),
 
-        ...requestsQueues(),
-        ...processingQueues(),
-        ...finalizationQueues(),
-
-        ...requestsTasks(),
-        ...processingTasks(),
-        ...finalizationTasks(),
-
-        ...requestsAll(),
-        ...processingAll(),
-        ...finalizationAll(),
+        ...provideRequests(),
+        ...provideProcessing(),
+        ...provideFinalization(),
 
         ...provideReporting(),
-
-        ...provideActions(),
-
-        ...provideNotifications(),
-
-        ...provideDetails(),
-        ...provideTreatment(),
-        ...processingTasks(),
-        ...provideManagement(),
 
         ...provideTeamOrganization(),
 

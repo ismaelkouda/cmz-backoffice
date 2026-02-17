@@ -2,10 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { RolesSelectResponseApiDto } from '@presentation/pages/team-organization/infrastructure//api/dtos/participants/roles-select-api.dto';
 import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
-
-import { RolesSelectResponseApiDto } from '../../../api/dtos/participants/roles-select-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class RolesSelectApi {

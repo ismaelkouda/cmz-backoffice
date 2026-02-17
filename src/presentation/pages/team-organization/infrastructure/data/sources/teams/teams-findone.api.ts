@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { TeamsFindOneFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-findone-filter-api.dto';
-import { TeamsFindOneResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-findone-response-api.dto';
+import { TeamsFindOneFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-find-one-filter-api.dto';
+import { TeamsFindOneResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-find-one-response-api.dto';
 import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
 

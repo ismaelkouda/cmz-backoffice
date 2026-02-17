@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 
-import { shouldFetch } from '@shared/application/base/facade.utils';
-import { ObjectBaseFacade } from '@shared/application/base/object-base-facade';
-import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
+import { shouldFetch } from '@shared/application/services/facade.utils';
+import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { TeamsPermissionsUseCase } from '@presentation/pages/team-organization/application/use-cases/teams/teams-permissions.use-case';
+import { TeamsPermissionsBus } from '@presentation/pages/team-organization/application/queries-bus/teams/teams-permissions.bus';
 import { TeamsPermissionsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-permissions.entity';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class TeamsPermissionsFacade extends ObjectBaseFacade<
     null
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
-    private readonly useCase = inject(TeamsPermissionsUseCase);
+    private readonly bus = inject(TeamsPermissionsBus);
 
     readonly items = this.items$;
 
@@ -35,12 +35,8 @@ export class TeamsPermissionsFacade extends ObjectBaseFacade<
         ) {
             return;
         }
-
-        this.fetchWithFilter(
-            null,
-            this.useCase.readAll.bind(this.useCase),
-            this.uiFeedbackService
-        );
+        const fetch$ = this.bus.dispatch();
+        this.fetchWithFilter(null, fetch$, this.uiFeedbackService);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();

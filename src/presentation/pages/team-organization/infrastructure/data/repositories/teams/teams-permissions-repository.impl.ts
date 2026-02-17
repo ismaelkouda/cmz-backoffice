@@ -11,9 +11,9 @@ export class TeamsPermissionsRepositoryImpl implements TeamsPermissionsRepositor
     private readonly api = inject(TeamsPermissionsApi);
     private readonly mapper = inject(TeamsPermissionsMapper);
 
-    readAll(): Observable<TeamsPermissionsEntity> {
+    execute(): Observable<TeamsPermissionsEntity> {
         return this.api
-            .readAll()
+            .execute()
             .pipe(map((dto) => this.mapper.mapFromDto(dto)));
     }
 }

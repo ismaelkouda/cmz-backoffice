@@ -26,7 +26,7 @@
                         </div>
                         <p-button
                             [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="onCancel()"
+                            (onClick)="navigateToBack()"
                             styleClass="p-button-danger"
                         >
                         </p-button>
@@ -166,6 +166,7 @@
             <p-multiselect
                 formControlName="participants"
                 [options]="participants()"
+                [loading]="loadingParticipants()"
                 optionLabel="label"
                 optionValue="value"
                 [filter]="true"
@@ -199,7 +200,7 @@
             (onClick)="onSubmitAssign()"
             [disabled]="
                 assignForm.invalid ||
-                !paramsUniqId().length ||
+                !uniqId().length ||
                 !participants().length ||
                 loadingParticipants() ||
                 facade.actionState() === 'loading'

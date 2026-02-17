@@ -1,6 +1,6 @@
-import { ReportSourceDto } from '@shared/data/dtos/report-source.dto';
-import { PaginatedResponseDto } from '@shared/data/dtos/simple-response.dto';
-import { TypeMediaDto } from '@shared/data/dtos/type-media.dto';
+import { ReportSourceDto } from '@shared/data/dto/report-source.dto';
+import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
+import { TypeMediaDto } from '@shared/data/dto/type-media.dto';
 
 export interface HomeItemDto {
     id: string;

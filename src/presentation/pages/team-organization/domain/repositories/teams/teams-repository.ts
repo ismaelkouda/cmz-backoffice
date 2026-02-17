@@ -4,9 +4,12 @@ import { Observable } from 'rxjs';
 import {
     Paginate,
     SimpleResponseDto,
-} from '@shared/data/dtos/simple-response.dto';
+} from '@shared/data/dto/simple-response.dto';
 
 import { TeamsCreateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-create.entity';
+import { TeamsDeleteEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-delete.entity';
+import { TeamsDisableEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-disable.entity';
+import { TeamsEnableEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-enable.entity';
 import { TeamsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-filter.entity';
 import { TeamsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-update.entity';
 import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
@@ -16,16 +19,22 @@ import { TeamsEntity } from '@presentation/pages/team-organization/domain/entiti
 })
 export abstract class TeamsRepository {
     abstract readAll(
-        filter: TeamsFilterEntity | null,
+        entity: TeamsFilterEntity | null,
         page: string
     ): Observable<Paginate<TeamsEntity>>;
     abstract create(
-        payload: TeamsCreateEntity
+        entity: TeamsCreateEntity
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        payload: TeamsUpdateEntity
+        entity: TeamsUpdateEntity
     ): Observable<SimpleResponseDto<void>>;
-    abstract delete(code: string): Observable<SimpleResponseDto<void>>;
-    abstract enable(code: string): Observable<SimpleResponseDto<void>>;
-    abstract disable(code: string): Observable<SimpleResponseDto<void>>;
+    abstract delete(
+        entity: TeamsDeleteEntity
+    ): Observable<SimpleResponseDto<void>>;
+    abstract enable(
+        entity: TeamsEnableEntity
+    ): Observable<SimpleResponseDto<void>>;
+    abstract disable(
+        entity: TeamsDisableEntity
+    ): Observable<SimpleResponseDto<void>>;
 }

@@ -28,11 +28,11 @@ import {
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Roles } from '@shared/domain/enums/roles.enum';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 
 import { ParticipantsFacade } from '@presentation/pages/team-organization/application/services/participants/participants.facade';
 import { RolesSelectFacade } from '@presentation/pages/team-organization/application/services/participants/roles-select.facade';
@@ -226,7 +226,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
     }
 
     public onPageChangeClicked(event: number): void {
-        this.facade.changePage(event + 1);
+        this.facade.changePage(JSON.stringify(event + 1));
     }
 
     public onHeaderButtonClicked(actionId: string): void {
@@ -265,7 +265,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.delete(item.uniqId).subscribe();
+                this.facade.delete({ uniqId: item.uniqId });
                 this.facade.refreshWithLastFilterAndPage();
             }
         });
@@ -286,7 +286,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.enable(item.uniqId).subscribe();
+                this.facade.enable({ uniqId: item.uniqId });
                 this.facade.refreshWithLastFilterAndPage();
             }
         });
@@ -306,7 +306,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.disable(item.uniqId).subscribe();
+                this.facade.disable({ uniqId: item.uniqId });
                 this.facade.refreshWithLastFilterAndPage();
             }
         });

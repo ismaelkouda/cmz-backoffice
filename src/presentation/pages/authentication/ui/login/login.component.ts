@@ -23,10 +23,10 @@ import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
 import {
     AuthToken,
     CurrentUser,
-} from '@shared/interfaces/current-user.interface';
+} from '@shared/domain/interfaces/current-user.interface';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { DASHBOARD } from '@shared/routes/routes';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { EncodingDataService } from '@shared/services/encoding-data.service';
 
 import { REINITIALIZATION } from '@presentation/app.routes';
 
