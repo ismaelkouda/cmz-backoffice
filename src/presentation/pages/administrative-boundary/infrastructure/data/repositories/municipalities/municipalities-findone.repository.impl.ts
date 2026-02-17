@@ -9,9 +9,7 @@ import { MunicipalitiesFindoneMapper } from '../../mappers/municipalities/munici
 import { MunicipalitiesFindoneApi } from '../../sources/municipalities/municipalities-findone.api';
 
 @Injectable({ providedIn: 'root' })
-export class MunicipalitiesFindoneRepositoryImpl
-    implements MunicipalitiesFindoneRepository
-{
+export class MunicipalitiesFindoneRepositoryImpl implements MunicipalitiesFindoneRepository {
     constructor(
         private readonly api: MunicipalitiesFindoneApi,
         private readonly mapper: MunicipalitiesFindoneMapper

@@ -19,9 +19,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadComponent: () =>
-                            import(
-                                './presentation/features/report/pages/report-page/report-page.component'
-                            ).then((m) => m.ReportPageComponent),
+                            import('./presentation/features/report/pages/report-page/report-page.component').then(
+                                (m) => m.ReportPageComponent
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {
@@ -42,9 +42,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadComponent: () =>
-                            import(
-                                './presentation/features/requests/pages/requests-page/requests-page.component'
-                            ).then((m) => m.RequestsPageComponent),
+                            import('./presentation/features/requests/pages/requests-page/requests-page.component').then(
+                                (m) => m.RequestsPageComponent
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {

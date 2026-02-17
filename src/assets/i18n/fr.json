@@ -829,15 +829,22 @@
         "PUBLISHED" : "Publié",
         "UNPUBLISH": "Dépublier",
         "UNPUBLISHED": "Non Publié",
+        "BLOCKED": "Bloquée",
         "AFFECTED": "Affecté",
+        "PENDING": "En attente",
         "DISABLE": "Désactiver",
         "DEACTIVATED": "Désactivé",
         "INVALID_DATE_RANGE": "Plage de date invalide",
         "FORM_INVALID": "Formulaire invalide",
+        "START_DATE":"Date de début",
+        "END_DATE":"Date de fin",
         "DATE_PLACEHOLDER": "AAAA-MM-JJ",
+        "PHONE_PLACEHOLDER": "07-07-07-07-07",
+        "REPORT_UNIQ_ID_PLACEHOLDER": "CPS698A0D502F590",
         "REFRESH": "Rafraîchir",
         "EXPORT": "Exporter",
         "RESEARCH": "Rechercher",
+        "TAKE": "Prendre en masse",
         "ASSIGN": "Affecter",
         "REASSIGN": "Réaffecter",
         "REMOVE": "Retirer",
@@ -861,7 +868,13 @@
             "GENERIC": "Une erreur est survenue"
         },
         "VALIDATION": {
-            "REQUIRED": "Champ obligatoire"
+            "REQUIRED": "Champ obligatoire",
+            "INVALID_FORMAT": "Format invalide",
+            "MIN_LENGTH": "Minimum caractères requis",
+            "MAX_LENGTH": "Maximum caractères autorisés",
+            "MIN_VALUE": "Valeur minimale",
+            "MAX_VALUE": "Valeur maximale",
+            "INVALID_INPUT": "Valeur invalide"
         }
     },
     "PAGINATION": {
@@ -1270,6 +1283,11 @@
                     "IN_PROGRESS": "En cours",
                     "COMPLETED": "Terminé"
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE_TAKE": "Prendre en charge les signalements",
+                "MESSAGE_TAKE": "Êtes-vous sûr de vouloir prendre en charge les signalements",
+                "BUTTONS": "Prendre en charge"
             }
         },
         "TASKS": {
@@ -1516,66 +1534,66 @@
                 "PLACEHOLDER": "Contenu de la finalisation à venir..."
             },
             "SWEET_ALERT_PARAMS": {
-            "CONFIRM": {
-                "WAITING": {
-                "TITLE": "Prendre en charge le signalement"
+                "CONFIRM": {
+                    "WAITING": {
+                    "TITLE": "Prendre en charge le signalement"
+                    },
+                    "REJECT": {
+                    "TITLE": "Rejeter le signalement"
+                    },
+                    "APPROVAL": {
+                    "TITLE": "Approuver le signalement"
+                    },
+                    "TREATMENT": {
+                    "TITLE": "Traiter le signalement"
+                    },
+                    "FINALIZE": {
+                    "TITLE": "Finaliser le signalement"
+                    },
+                    "EVALUATE": {
+                    "TITLE": "Evaluer le signalement"
+                    }
                 },
-                "REJECT": {
-                "TITLE": "Rejeter le signalement"
+                "MESSAGES": {
+                    "WAITING": {
+                    "TITLE": "Êtes-vous sûr de vouloir prendre en charge le signalement"
+                    },
+                    "REJECT": {
+                    "TITLE": "Êtes-vous sûr de vouloir rejeté le signalement"
+                    },
+                    "APPROVAL": {
+                    "TITLE": "Êtes-vous sûr de vouloir approuver le signalement"
+                    },
+                    "TREATMENT": {
+                    "TITLE": "Êtes-vous sûr de vouloir traiter le signalement"
+                    },
+                    "FINALIZE": {
+                    "TITLE": "Êtes-vous sûr de vouloir finaliser le signalement"
+                    },
+                    "EVALUATE": {
+                    "TITLE": "Êtes-vous sûr de vouloir évaluer le signalement"
+                    }
                 },
-                "APPROVAL": {
-                "TITLE": "Approuver le signalement"
-                },
-                "TREATMENT": {
-                "TITLE": "Traiter le signalement"
-                },
-                "FINALIZE": {
-                "TITLE": "Finaliser le signalement"
-                },
-                "EVALUATE": {
-                "TITLE": "Evaluer le signalement"
+                "BUTTONS": {
+                    "WAITING": {
+                    "TITLE": "Prendre en charge"
+                    },
+                    "REJECT": {
+                    "TITLE": "Rejeter"
+                    },
+                    "APPROVAL": {
+                    "TITLE": "Approuver"
+                    },
+                    "TREATMENT": {
+                    "TITLE": "Traiter"
+                    },
+                    "FINALIZE": {
+                    "TITLE": "Finaliser"
+                    },
+                    "EVALUATE": {
+                    "TITLE": "Evaluer"
+                    }
                 }
-            },
-            "MESSAGES": {
-                "WAITING": {
-                "TITLE": "Êtes-vous sûr de vouloir prendre en charge le signalement"
-                },
-                "REJECT": {
-                "TITLE": "Êtes-vous sûr de vouloir rejeté le signalement"
-                },
-                "APPROVAL": {
-                "TITLE": "Êtes-vous sûr de vouloir approuver le signalement"
-                },
-                "TREATMENT": {
-                "TITLE": "Êtes-vous sûr de vouloir traiter le signalement"
-                },
-                "FINALIZE": {
-                "TITLE": "Êtes-vous sûr de vouloir finaliser le signalement"
-                },
-                "EVALUATE": {
-                "TITLE": "Êtes-vous sûr de vouloir évaluer le signalement"
-                }
-            },
-            "BUTTONS": {
-                "WAITING": {
-                "TITLE": "Prendre en charge"
-                },
-                "REJECT": {
-                "TITLE": "Rejeter"
-                },
-                "APPROVAL": {
-                "TITLE": "Approuver"
-                },
-                "TREATMENT": {
-                "TITLE": "Traiter"
-                },
-                "FINALIZE": {
-                "TITLE": "Finaliser"
-                },
-                "EVALUATE": {
-                "TITLE": "Evaluer"
-                }
-            }
             }
         }
     },

@@ -5,8 +5,8 @@ export const full: Routes = [
     {
         path: AUTH,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/authentication/authentication.routes'
-            ).then((m) => m.routes),
+            import('../../presentation/pages/authentication/authentication.routes').then(
+                (m) => m.routes
+            ),
     },
 ];

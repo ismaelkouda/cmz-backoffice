@@ -2,29 +2,37 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
+    computed,
     effect,
     inject,
+    OnDestroy,
     OnInit,
+    Signal,
+    signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+    LangChangeEvent,
+    TranslateModule,
+    TranslateService,
+} from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
-import { FilterField } from '@shared/components/filter/filter.types';
+import {
+    enumToFilterOptions,
+    FilterField,
+    FilterOption,
+} from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
-import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
+import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { AppCustomizationService } from '@shared/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/services/table-export-excel-file.service';
 
@@ -32,6 +40,8 @@ import { AgentsPerformancesFacade } from '@presentation/pages/team-organization/
 import { AGENTS_PERFORMANCES_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/agents-performances/agents-performances-table.constant';
 import { AgentsPerformancesFilterControl } from '@presentation/pages/team-organization/domain/controls/agents-performances/agents-performances-filter.control';
 import { AgentsPerformancesEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
+import { AGENTS_PERFORMANCES_STATUS } from '@presentation/pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
+import { AGENTS_PERFORMANCES_FORM } from '@presentation/pages/team-organization/presentation/agents-performances/agents-performances.routes';
 
 @Component({
     selector: 'app-agents-performances',
@@ -50,68 +60,91 @@ import { AgentsPerformancesEntity } from '@presentation/pages/team-organization/
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AgentsPerformancesListComponent implements OnInit {
+export class AgentsPerformancesListComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     public readonly facade = inject(AgentsPerformancesFacade);
-    private readonly translate = inject(TranslateService);
-    private readonly toastr = inject(ToastrService);
+    private readonly router = inject(Router);
+    private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
-    private readonly tableExportExcelFileService = inject(
-        TableExportExcelFileService
+    private readonly translate = inject(TranslateService);
+    private readonly toast = inject(ToastrService);
+    private readonly exportService = inject(TableExportExcelFileService);
+    private readonly appConfig = inject(AppCustomizationService);
+    readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.config.app.name
     );
-    private readonly appCustomizationService = inject(AppCustomizationService);
-    private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.config.app.name
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
     );
+    private readonly destroy$ = new Subject<void>();
     public readonly tableConfig = AGENTS_PERFORMANCES_TABLE_CONSTANT;
-    readonly isLoading = toSignal(this.facade.isLoading$, {
+    readonly items = toSignal(this.facade.items$, { initialValue: [] });
+    readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    readonly items = toSignal(this.facade.items$, { initialValue: [] });
     readonly pagination = toSignal(this.facade.pagination$, {
-        initialValue: {} as Paginate<AgentsPerformancesEntity>,
+        initialValue: null,
     });
-    public formFilter!: FormGroup<AgentsPerformancesFilterControl>;
-
-    constructor() {
-        this.setPageTitle();
-
-        effect(
-            () => {
-                this.facade.readAll();
-            },
-            { allowSignalWrites: true }
+    readonly statusOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptions(
+            AGENTS_PERFORMANCES_STATUS,
+            this.t.bind(this)
         );
-    }
+    });
 
-    ngOnInit(): void {
-        this.initFilter();
-    }
+    readonly filterFields: Signal<FilterField[]> = computed(() => {
+        this.currentLang();
+        const statusOpts = this.statusOptions();
 
-    private setPageTitle(): void {
-        this.title.setTitle(
-            this.translate.instant(
-                'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TITLE'
-            )
-        );
-    }
-
-    private initFilter(): void {
-        this.formFilter = this.fb.group<AgentsPerformancesFilterControl>({
-            search: new FormControl<string | null>(null),
-            startDate: new FormControl<string | null>(null),
-            endDate: new FormControl<string | null>(null),
-        });
-    }
-
-    public filterFields(): FilterField[] {
         return [
             {
                 type: 'text',
                 name: 'search',
-                label: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.SEARCH',
-                placeholder:
-                    'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.SEARCH_PLACEHOLDER',
+                label: this.t(
+                    'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.SEARCH'
+                ),
+                placeholder: this.t(
+                    'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.SEARCH_PLACEHOLDER'
+                ),
+                icon: 'pi pi-search',
+                translationKeys: {
+                    label: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.SEARCH',
+                    placeholder:
+                        'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.SEARCH_PLACEHOLDER',
+                },
+            },
+            {
+                type: 'select',
+                name: 'isActive',
+                label: this.t(
+                    'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.STATUS'
+                ),
+                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+                options: statusOpts,
+                optionLabel: 'label',
+                optionValue: 'value',
+                showClear: true,
+                icon: 'pi pi-filter',
+                translationKeys: {
+                    label: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.STATUS',
+                },
+            },
+            {
+                type: 'text',
+                name: 'member',
+                label: this.t(
+                    'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.PARTICIPANT'
+                ),
+                placeholder: this.t(
+                    'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.PARTICIPANT_PLACEHOLDER'
+                ),
+                icon: 'pi pi-user',
+                translationKeys: {
+                    label: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.PARTICIPANT',
+                    placeholder:
+                        'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.PARTICIPANT_PLACEHOLDER',
+                },
             },
             {
                 type: 'date',
@@ -128,61 +161,110 @@ export class AgentsPerformancesListComponent implements OnInit {
                     'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.DATE.PLACEHOLDER',
             },
         ];
+    });
+    readonly form = this.fb.group<AgentsPerformancesFilterControl>({
+        search: new FormControl<string | undefined>(undefined, {
+            nonNullable: true,
+        }),
+        member: new FormControl<string | undefined>(undefined, {
+            nonNullable: true,
+        }),
+        isActive: new FormControl<boolean | undefined>(undefined, {
+            nonNullable: true,
+        }),
+        startDate: new FormControl<string | undefined>(undefined, {
+            nonNullable: true,
+        }),
+        endDate: new FormControl<string | undefined>(undefined, {
+            nonNullable: true,
+        }),
+    });
+
+    constructor() {
+        this.facade.readAll();
+        this.translate.onLangChange
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((event: LangChangeEvent) => {
+                this.currentLang.set(event.lang);
+            });
+
+        effect(() => {
+            this.filterFields();
+            this.statusOptions();
+        });
     }
 
-    public filter(formValue: any): void {
-        const { startDate, endDate, isValidRange } = parseAndValidateDateRange(
-            formValue.startDate,
-            formValue.endDate
+    ngOnInit(): void {
+        this.title.setTitle(
+            this.t('TEAM_ORGANIZATION.AGENTS_PERFORMANCES.PAGE_TITLE')
         );
 
-        if (!isValidRange) {
-            this.toastr.error(
-                this.translate.instant('COMMON.INVALID_DATE_RANGE')
-            );
-            return;
-        }
-
-        const filter = {
-            search: formValue.search,
-            startDate: startDate?.format('YYYY-MM-DD'),
-            endDate: endDate?.format('YYYY-MM-DD'),
-        };
-
-        this.facade.readAll(filter, '1', true);
+        this.translate.onLangChange
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => {
+                this.title.setTitle(
+                    this.t('TEAM_ORGANIZATION.AGENTS_PERFORMANCES.PAGE_TITLE')
+                );
+            });
     }
 
-    public onPageChange(event: number): void {
-        this.facade.changePage(event + 1);
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
-    public refresh(): void {
-        this.formFilter.reset();
+    public onFilterClicked(filterValues: any): void {
+        this.facade.readAll(filterValues, '1', true);
+    }
+
+    public onRefreshClicked(): void {
+        this.form.reset();
         this.facade.refresh();
     }
 
-    public onExportExcel(): void {
-        const agentsPerformances = this.items();
+    public onPageChangeClicked(page: number): void {
+        this.facade.changePage(page + 1);
+    }
 
-        if (!agentsPerformances || agentsPerformances.length === 0) {
-            this.toastr.error(this.translate.instant('EXPORT.NO_DATA'));
+    public onNavigateToForm(event: {
+        item: AgentsPerformancesEntity;
+        ref: CrudFormType;
+    }): void {
+        const queryParams = { uniqId: event.item.uniqId, ref: event.ref };
+        this.router.navigate([AGENTS_PERFORMANCES_FORM], {
+            relativeTo: this.activatedRoute,
+            queryParams,
+        });
+    }
+
+    public onExportExcel(): void {
+        const items = this.items();
+        if (!items.length) {
+            this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
 
-        const fileName = `${this.exportFilePrefix}-agents-performances`;
-        this.tableExportExcelFileService.exportAsExcelFile(
-            agentsPerformances,
+        this.exportService.exportAsExcelFile(
+            items,
             this.tableConfig,
-            fileName
+            `${this.exportFilePrefix}-agents-performances`
         );
     }
 
-    private normalizeExportPrefix(appName: string): string {
+    private t(key: string): string {
+        return this.translate.instant(key);
+    }
+
+    private normalizeExportPrefix(name: string): string {
         return (
-            appName
+            name
                 .toLowerCase()
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
+    }
+
+    public getCurrentLanguage(): string {
+        return this.currentLang();
     }
 }

@@ -72,8 +72,13 @@ export class EncodingDataService {
         localStorage.removeItem(key);
     }
 
-    public clearData(): void {
-        localStorage.clear();
+    public clearEncryptedData(): void {
+        Object.keys(localStorage).forEach((key) => {
+            const value = localStorage.getItem(key);
+            if (value?.startsWith(this.ENCRYPTION_PREFIX)) {
+                localStorage.removeItem(key);
+            }
+        });
     }
 
     /**

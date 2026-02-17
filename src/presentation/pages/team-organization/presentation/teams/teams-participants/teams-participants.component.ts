@@ -101,9 +101,6 @@ export class TeamsParticipantsComponent implements OnInit {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    readonly currentFilter = toSignal(this.facade.currentFilter$, {
-        initialValue: null,
-    });
     readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.config.app.name
     );
@@ -205,6 +202,7 @@ export class TeamsParticipantsComponent implements OnInit {
             icon: 'pi pi-user-plus',
             translateKey: 'COMMON.ASSIGN',
             items: this.buildAssignMenuItems(),
+            disabled: this.participantsSelectedInTable().length >= 1,
         },
         {
             label: 'COMMON.REASSIGN',
@@ -434,11 +432,11 @@ export class TeamsParticipantsComponent implements OnInit {
 
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant(title),
-            text: this.translate.instant(message),
+            title: this.t(title),
+            text: this.t(message),
             backdrop: false,
-            confirmButtonText: this.translate.instant('COMMON.CONFIRM'),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
                 this.facade.remove(

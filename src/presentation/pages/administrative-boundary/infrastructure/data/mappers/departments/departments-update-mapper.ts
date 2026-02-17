@@ -13,8 +13,8 @@ export function departmentsUpdateMapper(
     if (update.name) {
         params['name'] = update.name;
     }
-    if (update. regionId) {
-        params['region_code'] = update. regionId;
+    if (update.regionId) {
+        params['region_code'] = update.regionId;
     }
     if (update.description) {
         params['description'] = update.description;

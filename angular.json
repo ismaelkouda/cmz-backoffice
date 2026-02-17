@@ -211,7 +211,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["src/env.js"]
           }
         },
         "e2e": {

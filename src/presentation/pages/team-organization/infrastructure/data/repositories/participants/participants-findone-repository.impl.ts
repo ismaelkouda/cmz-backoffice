@@ -9,9 +9,7 @@ import { ParticipantsFindonMapper } from '@presentation/pages/team-organization/
 import { ParticipantsFindonApi } from '@presentation/pages/team-organization/infrastructure/data/sources/participants/participants-findone.api';
 
 @Injectable({ providedIn: 'root' })
-export class ParticipantsFindonRepositoryImpl
-    implements ParticipantsFindonRepository
-{
+export class ParticipantsFindonRepositoryImpl implements ParticipantsFindonRepository {
     private readonly api = inject(ParticipantsFindonApi);
     private readonly mapper = inject(ParticipantsFindonMapper);
 

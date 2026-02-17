@@ -106,7 +106,6 @@ export default tseslint.config(
             
 
 
-      /* ========== NAMING ========== */
       'unicorn/filename-case': 'off',
 
             '@angular-eslint/directive-selector': [

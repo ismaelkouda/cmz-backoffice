@@ -7,9 +7,7 @@ import { DepartmentsSelectMapper } from '@presentation/pages/administrative-boun
 import { DepartmentsSelectApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/departments/departments-select.api';
 
 @Injectable({ providedIn: 'root' })
-export class DepartmentsSelectRepositoryImpl
-    implements DepartmentsSelectRepository
-{
+export class DepartmentsSelectRepositoryImpl implements DepartmentsSelectRepository {
     private readonly api = inject(DepartmentsSelectApi);
     private readonly mapper = inject(DepartmentsSelectMapper);
 

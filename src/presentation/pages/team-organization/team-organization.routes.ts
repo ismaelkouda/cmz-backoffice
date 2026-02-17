@@ -20,9 +20,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import(
-                                './presentation/participants/participants.routes'
-                            ).then((m) => m.PARTICIPANTS_ROUTES),
+                            import('./presentation/participants/participants.routes').then(
+                                (m) => m.PARTICIPANTS_ROUTES
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {
@@ -66,9 +66,9 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import(
-                                './presentation/agents-performances/agents-performances.routes'
-                            ).then((m) => m.AGENTS_PERFORMANCES_ROUTES),
+                            import('./presentation/agents-performances/agents-performances.routes').then(
+                                (m) => m.AGENTS_PERFORMANCES_ROUTES
+                            ),
                         data: { breadcrumb: { hide: true } },
                     },
                     {

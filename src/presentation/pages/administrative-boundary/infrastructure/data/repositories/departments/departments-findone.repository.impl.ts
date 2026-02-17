@@ -9,9 +9,7 @@ import { DepartmentsFindoneMapper } from '../../mappers/departments/departments-
 import { DepartmentsFindoneApi } from '../../sources/departments/departments-findone.api';
 
 @Injectable({ providedIn: 'root' })
-export class DepartmentsFindoneRepositoryImpl
-    implements DepartmentsFindoneRepository
-{
+export class DepartmentsFindoneRepositoryImpl implements DepartmentsFindoneRepository {
     private readonly api = inject(DepartmentsFindoneApi);
     private readonly mapper = inject(DepartmentsFindoneMapper);
 

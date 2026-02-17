@@ -4,10 +4,19 @@ import { AgentsPerformancesFilterDto } from '@presentation/pages/team-organizati
 
 export class AgentsPerformancesFilterVo {
     public readonly search?: string;
+    public readonly member?: string;
+    public readonly isAchieved?: string;
     public readonly period?: DatePeriod;
 
-    private constructor(props: { search?: string; period?: DatePeriod }) {
+    private constructor(props: {
+        search?: string;
+        member?: string;
+        isAchieved?: string;
+        period?: DatePeriod;
+    }) {
         this.search = props.search;
+        this.member = props.member;
+        this.isAchieved = props.isAchieved;
         this.period = props.period;
     }
 
@@ -15,6 +24,8 @@ export class AgentsPerformancesFilterVo {
         dto: AgentsPerformancesFilterDto | null
     ): AgentsPerformancesFilterVo {
         const search = dto?.search?.trim() || undefined;
+        const member = dto?.member?.trim() || undefined;
+        const isAchieved = dto?.isAchieved?.trim() || undefined;
 
         let period: DatePeriod | undefined;
 
@@ -22,6 +33,11 @@ export class AgentsPerformancesFilterVo {
             period = DatePeriod.create(dto.startDate, dto.endDate);
         }
 
-        return new AgentsPerformancesFilterVo({ search, period });
+        return new AgentsPerformancesFilterVo({
+            search,
+            member,
+            isAchieved,
+            period,
+        });
     }
 }

@@ -18,13 +18,14 @@
             [items]="items()"
             [pagination]="pagination()"
             [config]="tableConfig"
+            [headerButtons]="headerButtons()"
+            (headerButtonClicked)="onHeaderButtonClicked($event)"
             (refreshRequested)="onRefreshClicked()"
-            (createRequested)="onNavigateToForm($event)"
+            (createRequested)="onHeaderButtonClicked($event)"
             (editRequested)="onNavigateToForm($event)"
             (deleteRequested)="onDeleteClicked($event)"
             (enableRequested)="onEnableClicked($event)"
             (disableRequested)="onDisableClicked($event)"
-            [hiddenButtonOther]="false"
             dataKey="uniqId"
         ></app-table>
 

@@ -3,5 +3,4 @@ export enum ReportTypeDto {
     ZOB = 'zob',
     CPS = 'cps',
     CPO = 'cpo',
-    UNKNOWN = 'unknown',
 }

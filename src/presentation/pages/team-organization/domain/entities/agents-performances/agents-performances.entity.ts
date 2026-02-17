@@ -1,34 +1,43 @@
-import { AgentsPerformancesItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/agents-performances/agents-performances-response-api.dto';
+import { AGENTS_PERFORMANCES_STATUS } from '@presentation/pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
 
+export interface AgentsPerformancesProps {
+    uniqId: string;
+    name: string;
+    goalsSize: string;
+    achievementsSize: string;
+    percentages: string;
+    status: AGENTS_PERFORMANCES_STATUS;
+    createdAt: string;
+}
 export class AgentsPerformancesEntity {
-    constructor(
-        public readonly uniqId: string,
-        public name: string,
-        public goalsSize: string,
-        public achievementsSize: string,
-        public percentages: string,
-        public isActive: boolean,
-        public createdAt: string
-    ) {}
+    constructor(private readonly props: AgentsPerformancesProps) {}
 
-    static fromDto(
-        dto: AgentsPerformancesItemApiDto
-    ): AgentsPerformancesEntity {
-        return new AgentsPerformancesEntity(
-            dto.id,
-            dto.name,
-            dto.goals_size,
-            dto.achievements_size,
-            dto.percentages,
-            dto.is_active,
-            dto.created_at
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+    get name(): string {
+        return this.props.name;
+    }
+    get goalsSize(): string {
+        return this.props.goalsSize;
+    }
+    get achievementsSize(): string {
+        return this.props.achievementsSize;
+    }
+    get percentages(): string {
+        return this.props.percentages;
+    }
+    get status(): string {
+        return this.props.status;
+    }
+    get createdAt(): string {
+        return this.props.name;
     }
 
-    public with(dto: AgentsPerformancesItemApiDto): AgentsPerformancesEntity {
-        if (this.createdAt === dto.created_at) {
+    public with(props: AgentsPerformancesProps): AgentsPerformancesEntity {
+        if (this.uniqId === props.uniqId) {
             return this;
         }
-        return AgentsPerformancesEntity.fromDto(dto);
+        return new AgentsPerformancesEntity(props);
     }
 }

@@ -8,10 +8,11 @@ import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
 import { QueuesEntity } from '@presentation/pages/reports-processing/domain/entities/queues/queues.entity';
 import { FetchQueuesUseCase } from '@presentation/pages/reports-processing/domain/use-cases/queues.use-case';
-import { QueuesFilter } from '@presentation/pages/reports-processing/domain/value-objects/queues-filter.vo';
+
+import { QueuesFilterDto } from './dto/queues-filter.dto';
 
 @Injectable({ providedIn: 'root' })
-export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
+export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly fetchUseCase = inject(FetchQueuesUseCase);
 
@@ -21,8 +22,8 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilter> {
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    fetchQueues(
-        filter: QueuesFilter,
+    execute(
+        filter: QueuesFilterDto | null = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false
     ): void {

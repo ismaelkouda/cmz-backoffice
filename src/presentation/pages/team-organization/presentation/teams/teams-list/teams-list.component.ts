@@ -21,6 +21,7 @@ import SweetAlert from 'sweetalert2';
 
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
+    enumToFilterOptions,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
@@ -36,6 +37,7 @@ import { TeamsFacade } from '@presentation/pages/team-organization/application/s
 import { TEAMS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/teams/teams-table.constant';
 import { TeamsFilterControl } from '@presentation/pages/team-organization/domain/controls/teams/teams-filter.control';
 import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
+import { TEAMS_STATUS } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
 import {
     TEAMS_FORM,
     TEAMS_USERS_ROUTE,
@@ -65,6 +67,9 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
+    readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.config.app.name
+    );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
@@ -77,10 +82,10 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
-    );
-
+    readonly statusOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptions(TEAMS_STATUS, this.t.bind(this));
+    });
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
             label: 'COMMON.CREATE',
@@ -90,21 +95,6 @@ export class TeamsListComponent implements OnInit, OnDestroy {
             translateKey: 'COMMON.CREATE',
         },
     ]);
-    readonly statusOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return [
-            {
-                label: this.t('COMMON.ACTIVATED'),
-                value: true,
-                translationKey: 'COMMON.ACTIVATED',
-            },
-            {
-                label: this.t('COMMON.DEACTIVATED'),
-                value: false,
-                translationKey: 'COMMON.DEACTIVATED',
-            },
-        ];
-    });
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const statusOpts = this.statusOptions();
@@ -319,8 +309,8 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         return (
             name
                 .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/(^-|-$)/g, '') || 'cmz'
+                .replaceAll(/[^a-z0-9]+/g, '-')
+                .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
     }
 

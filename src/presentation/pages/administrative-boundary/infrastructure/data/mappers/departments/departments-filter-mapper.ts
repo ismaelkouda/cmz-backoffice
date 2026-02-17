@@ -15,8 +15,8 @@ export function departmentsFilterMapper(
     if (filter.search) {
         params['search'] = filter.search;
     }
-    if (filter. regionId) {
-        params['region_code'] = filter. regionId;
+    if (filter.regionId) {
+        params['region_code'] = filter.regionId;
     }
     if (filter.municipalityCode) {
         params['municipality_code'] = filter.municipalityCode;

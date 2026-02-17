@@ -8,8 +8,10 @@ import {
     effect,
     signal,
     WritableSignal,
+    OnInit,
+    DestroyRef,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
     FormControl,
@@ -29,12 +31,18 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import {
+    enumToFilterOptions,
+    FilterOption,
+} from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/swalWithBootstrapButtonsParams.constant';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TreeNodeInterface } from '@shared/interfaces/tree-node.interface';
 import { PermissionTreeService } from '@shared/services/permission-tree-node.service';
 
@@ -76,7 +84,7 @@ import { TeamsFormValidationService } from '@presentation/pages/team-organizatio
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TeamsFormComponent {
+export class TeamsFormComponent implements OnInit {
     public readonly tabs = TEAMS_FORM_TABS;
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
@@ -84,30 +92,49 @@ export class TeamsFormComponent {
     private readonly facade = inject(TeamsFindOneFacade);
     private readonly permissionsFacade = inject(TeamsPermissionsFacade);
     private readonly translate = inject(TranslateService);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly validationService = inject(TeamsFormValidationService);
     public readonly treeService = inject(PermissionTreeService);
     private readonly helperService = inject(TeamsFormHelperService);
     readonly VALIDATION = FormValidators;
+    private lastSuccess = this.submitFacade.actionSuccess();
+    private itemPatched = false;
     readonly items = toSignal(this.facade.item$, { initialValue: null });
-    readonly permissions = toSignal(this.permissionsFacade.items$, {
-        initialValue: null,
-    });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    readonly loadingPermissions = toSignal(this.permissionsFacade.isLoading$, {
-        initialValue: false,
-    });
-    private readonly paramsUniqId: Signal<string> = toSignal(
+    private readonly paramsUniqId = toSignal(
         this.activatedRoute.queryParams.pipe(
-            map(
-                (params: Record<string, unknown>) =>
-                    (params['uniqId'] as string) || ''
-            )
+            map((p) => (p['uniqId'] as string) || '')
         ),
         { initialValue: '' }
     );
     readonly isEditMode = computed(() => !!this.paramsUniqId());
+    private readonly formStateEffect = effect(() => {
+        const state = this.submitFacade.actionState();
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
+        }
+    });
+
+    private readonly successEffect = effect(() => {
+        const current = this.submitFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
+
+        this.lastSuccess = current;
+        this.navigateToBack();
+    });
+
+    readonly permissions = toSignal(this.permissionsFacade.items$, {
+        initialValue: null,
+    });
+    readonly loadingPermissions = toSignal(this.permissionsFacade.isLoading$, {
+        initialValue: false,
+    });
     readonly permissionTree: WritableSignal<TreeNodeInterface[]> = signal([]);
     readonly leafCount: WritableSignal<number> = signal(0);
 
@@ -125,39 +152,13 @@ export class TeamsFormComponent {
     });
     public selectedNodes: TreeNodeInterface[] = [];
 
-    readonly reportTypeOptions = signal([
-        {
-            label: 'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_REPORT_TYPES.ZOB',
-            value: 'zob',
-        },
-        {
-            label: 'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_REPORT_TYPES.ABI',
-            value: 'abi',
-        },
-        {
-            label: 'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_REPORT_TYPES.CPS',
-            value: 'cps',
-        },
-        {
-            label: 'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_REPORT_TYPES.CPO',
-            value: 'cpo',
-        },
-    ]);
+    readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
+        return enumToFilterOptions(ReportType, this.t.bind(this));
+    });
 
-    readonly operatorOptions = signal([
-        {
-            label: 'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_OPERATORS.MTN',
-            value: 'mtn',
-        },
-        {
-            label: 'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_OPERATORS.ORANGE',
-            value: 'orange',
-        },
-        {
-            label: 'TEAM_ORGANIZATION.TEAMS.FORM.TABS.PERMISSIONS.FIELDSET_OPERATORS.MOOV',
-            value: 'moov',
-        },
-    ]);
+    readonly operatorOptions: Signal<FilterOption[]> = computed(() => {
+        return enumToFilterOptions(TelecomOperator, this.t.bind(this));
+    });
 
     readonly form: FormGroup<TeamsFormControls> =
         this.fb.nonNullable.group<TeamsFormControls>({
@@ -204,7 +205,7 @@ export class TeamsFormComponent {
 
     private readonly patchFormFromItem = effect(() => {
         const item = this.items();
-        if (item && Object.keys(item).length > 0) {
+        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
             this.form.patchValue(
                 {
                     code: item.code,
@@ -215,6 +216,7 @@ export class TeamsFormComponent {
                 },
                 { emitEvent: false }
             );
+            this.itemPatched = true;
         }
     });
 
@@ -243,18 +245,25 @@ export class TeamsFormComponent {
         return result;
     }
 
-    private readonly handleRouteParamsChange = effect(() => {
-        const uniqId = this.paramsUniqId();
-        if (uniqId) {
-            this.facade.reset();
-            this.permissionsFacade.reset();
-            this.facade.read({ uniqId }, true);
-        } else {
-            this.facade.reset();
-            this.form.reset();
-            this.permissionsFacade.readAll();
-        }
-    });
+    ngOnInit(): void {
+        this.activatedRoute.queryParams
+            .pipe(
+                map((p) => (p['uniqId'] as string) || ''),
+                tap((uniqId) => {
+                    if (uniqId) {
+                        this.facade.reset();
+                        this.permissionsFacade.reset();
+                        this.facade.read({ uniqId }, true);
+                    } else {
+                        this.facade.reset();
+                        this.form.reset();
+                        this.permissionsFacade.readAll();
+                    }
+                }),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe();
+    }
 
     onExpandAll(): void {
         const treeNodes = this.permissionTree();
@@ -287,19 +296,24 @@ export class TeamsFormComponent {
     }
 
     private showValidationErrors(): void {
-        const errors: string[] = [];
-        if (this.form.controls.name.invalid) {
-            errors.push(this.getErrorMessage('name'));
-        }
-        if (this.form.controls.description.invalid) {
-            errors.push(this.getErrorMessage('description'));
-        }
-        if (this.form.controls.permissions.invalid) {
-            errors.push(
-                this.t(
-                    'TEAM_ORGANIZATION.TEAMS.FORM.VALIDATION.PERMISSIONS_REQUIRED'
-                )
-            );
+        const controlNames = [
+            'code',
+            'name',
+            'description',
+            'reportTypes',
+            'operators',
+        ] as const;
+
+        const errors = controlNames
+            .filter((name) => this.form.controls[name].invalid)
+            .map((name) => this.getErrorMessage(name));
+
+        if (errors.length) {
+            SweetAlert.fire({
+                icon: 'error',
+                title: this.t('COMMON.ERRORS.FORM_INVALID'),
+                html: `<ul style="text-align:left">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>`,
+            });
         }
     }
 
@@ -345,7 +359,7 @@ export class TeamsFormComponent {
         return this.translate.instant(key, params);
     }
 
-    onCancel(): void {
+    navigateToBack(): void {
         this.helperService.navigateToTeamsList();
     }
 }

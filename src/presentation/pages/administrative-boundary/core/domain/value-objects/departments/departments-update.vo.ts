@@ -5,7 +5,7 @@ export class DepartmentsUpdate {
         readonly id: string,
         readonly code: string,
         readonly name: string,
-        readonly  regionId: string,
+        readonly regionId: string,
         readonly description: string
     ) {}
 
@@ -16,7 +16,7 @@ export class DepartmentsUpdate {
             data.id,
             data.code,
             data.name,
-            data. regionId,
+            data.regionId,
             data.description
         );
     }

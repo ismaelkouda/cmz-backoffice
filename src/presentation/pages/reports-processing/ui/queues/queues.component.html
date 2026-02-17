@@ -18,36 +18,43 @@
                         </app-page-title>
                     </header>
 
-                    <div class="fade-in queues-content">
-                        <app-filter-queues
+                    <div class="queues-content" [class.fade-in]="hasAnimated()">
+                        <app-filter
                             class="filter-component"
-                            (filter)="filter($event)"
-                            [loading]="loading$ | async"
-                        >
-                        </app-filter-queues>
+                            [isLoading]="loading()"
+                            [formGroup]="form"
+                            [fields]="filterFields()"
+                            (filter)="onFilterClicked($event)"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="4"
+                        ></app-filter>
+
 
                         <hr class="queues-divider" />
 
-                        <section
-                            class="table-section"
-                            [aria-label]="
-                                'REPORTS_PROCESSING.QUEUES.TITLE' | translate
-                            "
-                        >
-                            <app-table-queues
+                        <section class="table-section">
+
+                            <app-table
                                 class="table-component"
-                                [loading]="loading$ | async"
-                                [pagination$]="pagination$"
-                                [queues$]="queues$"
-                                (treatmentRequested)="onQueuesAction($event)"
-                                (takeRequested)="onQueuesTake($event)"
-                                (refreshRequested)="refreshQueues()"
-                            >
-                            </app-table-queues>
+                                [loading]="loading()"
+                                [items]="items()"
+                                [pagination]="pagination()"
+                                [config]="tableConfig"
+                                (refreshRequested)="onRefresh()"
+                                dataKey="uniqId"
+                                [headerButtons]="headerButtons()"
+                                selectionMode="multiple"
+                                [selection]="selectedInTable()"
+                                (actionClicked)="onActionClicked($event)"
+                                (selectionChange)="onSelectionChange($event)"
+                                (headerButtonClicked)="
+                                    onHeaderButtonClicked($event)
+                                "
+                            ></app-table>
 
                             <app-pagination
                                 class="pagination-component"
-                                [pagination]="pagination$ | async"
+                                [pagination]="pagination()"
                                 (pageChange)="onPageChange($event)"
                             ></app-pagination>
                         </section>

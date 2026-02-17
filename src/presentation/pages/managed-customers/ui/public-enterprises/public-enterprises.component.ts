@@ -3,8 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
-import { BreadcrumbComponent } from 'shared/components/breadcrumb/breadcrumb.component';
 
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { Paginate } from '@shared/data/dtos/simple-response.dto';
 
 import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';

@@ -9,9 +9,7 @@ import { ProfilsHabilitationsFindOneMapper } from '@presentation/pages/settings-
 import { ProfilsHabilitationsFindOneApi } from '@presentation/pages/settings-security/infrastructure/data/sources/profils-habilitations/profils-habilitations-findone.api';
 
 @Injectable({ providedIn: 'root' })
-export class ProfilsHabilitationsFindOneRepositoryImpl
-    implements ProfilsHabilitationsFindOneRepository
-{
+export class ProfilsHabilitationsFindOneRepositoryImpl implements ProfilsHabilitationsFindOneRepository {
     private readonly api = inject(ProfilsHabilitationsFindOneApi);
     private readonly mapper = inject(ProfilsHabilitationsFindOneMapper);
 

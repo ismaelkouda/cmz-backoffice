@@ -68,7 +68,7 @@ function safeHandle401(
 
         encodingDataService.removeKeysWithPrefix('token_data');
         encodingDataService.removeKeysWithPrefix('user_data');
-        encodingDataService.clearData();
+        encodingDataService.clearEncryptedData();
         localStorage.clear();
         sessionStorage.clear();
         globalThis.location.href = '/auth/login';

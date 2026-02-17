@@ -41,9 +41,9 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import(
-                '../../presentation/pages/team-organization/team-organization.routes'
-            ).then((m) => m.routes),
+            import('../../presentation/pages/team-organization/team-organization.routes').then(
+                (m) => m.routes
+            ),
     },
     {
         path: REPORT_REQUESTS_ROUTE,
@@ -54,9 +54,9 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import(
-                '../../presentation/pages/report-requests/report-requests.routes'
-            ).then((m) => m.routes),
+            import('../../presentation/pages/report-requests/report-requests.routes').then(
+                (m) => m.routes
+            ),
     },
     {
         path: REPORTS_PROCESSING_ROUTE,
@@ -67,9 +67,9 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import(
-                '../../presentation/pages/reports-processing/reports-processing.routes'
-            ).then((m) => m.routes),
+            import('../../presentation/pages/reports-processing/reports-processing.routes').then(
+                (m) => m.routes
+            ),
     },
     {
         path: REPORT_FINALIZATION_ROUTE,
@@ -80,9 +80,9 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import(
-                '../../presentation/pages/finalization/finalization.routes'
-            ).then((m) => m.routes),
+            import('../../presentation/pages/finalization/finalization.routes').then(
+                (m) => m.routes
+            ),
     },
     {
         path: REPORTING_ROUTE,
@@ -114,9 +114,9 @@ export const content: Routes = [
     {
         path: CONTENT_MANAGEMENT_ROUTE,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/content-management/content-management.routes'
-            ).then((m) => m.routes),
+            import('../../presentation/pages/content-management/content-management.routes').then(
+                (m) => m.routes
+            ),
         data: {
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.LABEL',
@@ -127,9 +127,9 @@ export const content: Routes = [
     {
         path: ADMINISTRATIVE_BOUNDARY_ROUTE,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/administrative-boundary/administrative-boundary.route'
-            ).then((m) => m.routes),
+            import('../../presentation/pages/administrative-boundary/administrative-boundary.route').then(
+                (m) => m.routes
+            ),
         data: {
             breadcrumb: {
                 label: 'ADMINISTRATIVE_BOUNDARY.LABEL',
@@ -140,9 +140,9 @@ export const content: Routes = [
     {
         path: SETTINGS_SECURITY_ROUTE,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/settings-security/settings-security.routes'
-            ).then((m) => m.routes),
+            import('../../presentation/pages/settings-security/settings-security.routes').then(
+                (m) => m.routes
+            ),
         data: {
             breadcrumb: {
                 label: 'SETTINGS_SECURITY.LABEL',

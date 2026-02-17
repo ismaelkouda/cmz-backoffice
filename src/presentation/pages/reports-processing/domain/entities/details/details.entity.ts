@@ -70,7 +70,7 @@ export interface TreaterInfo {
 }
 
 export interface AdministrativeDivision {
-     regionId: number;
+    regionId: number;
     departmentId: number;
     municipalityCode: number;
     region: AdministrativeBoundaryDto;

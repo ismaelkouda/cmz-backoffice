@@ -11,9 +11,7 @@ import { AgentsPerformancesMapper } from '@presentation/pages/team-organization/
 import { AgentsPerformancesApi } from '@presentation/pages/team-organization/infrastructure/data/sources/agents-participants/agents-performances.api';
 
 @Injectable({ providedIn: 'root' })
-export class AgentsPerformancesRepositoryImpl
-    implements AgentsPerformancesRepository
-{
+export class AgentsPerformancesRepositoryImpl implements AgentsPerformancesRepository {
     private readonly api = inject(AgentsPerformancesApi);
     private readonly mapper = inject(AgentsPerformancesMapper);
 

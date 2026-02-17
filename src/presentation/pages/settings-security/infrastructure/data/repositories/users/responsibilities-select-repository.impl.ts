@@ -7,9 +7,7 @@ import { ResponsibilitiesSelectMapper } from '@presentation/pages/settings-secur
 import { ResponsibilitiesSelectApi } from '@presentation/pages/settings-security/infrastructure/data/sources/users/responsibilities-select.api';
 
 @Injectable({ providedIn: 'root' })
-export class ResponsibilitiesSelectRepositoryImpl
-    implements ResponsibilitiesSelectRepository
-{
+export class ResponsibilitiesSelectRepositoryImpl implements ResponsibilitiesSelectRepository {
     private readonly api = inject(ResponsibilitiesSelectApi);
     private readonly mapper = inject(ResponsibilitiesSelectMapper);
 

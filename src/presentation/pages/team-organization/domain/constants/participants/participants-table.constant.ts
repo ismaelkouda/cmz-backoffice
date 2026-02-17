@@ -47,8 +47,8 @@ export const PARTICIPANTS_TABLE_CONSTANT = {
             width: '7rem',
         },
         {
-            field: 'createdAt',
-            header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.CREATED_AT',
+            field: 'updatedAt',
+            header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.UPDATED_AT',
             class: 'text-center',
             width: '7rem',
         },

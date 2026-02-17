@@ -7,9 +7,7 @@ import { ParticipantsSelectMapper } from '@presentation/pages/team-organization/
 import { ParticipantsSelectApi } from '@presentation/pages/team-organization/infrastructure/data/sources/participants/participants-select.api';
 
 @Injectable({ providedIn: 'root' })
-export class ParticipantsSelectRepositoryImpl
-    implements ParticipantsSelectRepository
-{
+export class ParticipantsSelectRepositoryImpl implements ParticipantsSelectRepository {
     private readonly api = inject(ParticipantsSelectApi);
     private readonly mapper = inject(ParticipantsSelectMapper);
 

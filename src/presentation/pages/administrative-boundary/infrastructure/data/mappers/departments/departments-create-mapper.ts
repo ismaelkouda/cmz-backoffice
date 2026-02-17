@@ -12,8 +12,8 @@ export function departmentsCreateMapper(
     if (create.name) {
         params['name'] = create.name;
     }
-    if (create. regionId) {
-        params['region_code'] = create. regionId;
+    if (create.regionId) {
+        params['region_code'] = create.regionId;
     }
     if (create.description) {
         params['description'] = create.description;

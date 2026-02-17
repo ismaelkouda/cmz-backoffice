@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "paths": {
-      "@app/*": ["app/*"],
-      "@shared/*": ["shared/*"],
-      "@presentation/*": ["presentation/*"],
-      "@core/*": ["core/*"],
-      "@pages/*": ["presentation/pages/*"]
-    },
     "outDir": "./out-tsc/app",
+    "rootDir": "./src",
+    "types": ["node"],
+    "paths": {
+    "@app/*": ["./src/app/*"],
+    "@core/*": ["./src/core/*"],
+    "@environments/*": ["./src/environments/*"],
+    "@shared/*": ["./src/shared/*"],
+      "@presentation/*": ["./src/presentation/*"],
+      "@pages/*": ["./src/presentation/pages/*"]
+    },
     "allowJs": true,
     "target": "ES2022",
     "module": "ES2022",
