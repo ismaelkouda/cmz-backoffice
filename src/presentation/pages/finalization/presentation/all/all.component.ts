@@ -192,13 +192,13 @@ export class AllComponent implements OnInit {
         uniqId: new FormControl<string>('', {
             nonNullable: true,
         }),
-        reportType: new FormControl<string>('', {
+        reportType: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         operators: new FormControl<string[]>([], {
             nonNullable: true,
         }),
-        source: new FormControl<string>('', {
+        source: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         startDate: new FormControl<string>('', {

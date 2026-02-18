@@ -1,5 +1,6 @@
 export interface MessagingUpdateDto {
     uniqId: string;
+    reportId: string;
     type: string;
     targetType: string;
     region: string;

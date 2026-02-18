@@ -40,8 +40,10 @@ import { provideMyAccount } from '@shared/components/header/elements/my-account/
 /* import { CoreModule } from '../core/core.module'; */
 import { historyProviders } from '@shared/components/history/di/history.providers';
 
+import { routes } from '@presentation/app.routes';
 import { provideAdministrativeBoundary } from '@presentation/pages/administrative-boundary/di/administrative-boundary.providers';
 import { provideAuthentication } from '@presentation/pages/authentication/di/authentication.providers';
+import { provideCommunication } from '@presentation/pages/communication/di/communication.providers';
 import { provideHome } from '@presentation/pages/content-management/di/home.providers';
 import { provideLegalNotice } from '@presentation/pages/content-management/di/legal-notice.providers';
 import { provideNews } from '@presentation/pages/content-management/di/news.providers';
@@ -49,23 +51,22 @@ import { providePrivacyPolicy } from '@presentation/pages/content-management/di/
 import { provideSlide } from '@presentation/pages/content-management/di/slide.providers';
 import { provideTermsUse } from '@presentation/pages/content-management/di/terms-use.providers';
 import { provideDashboard } from '@presentation/pages/dashboard/di/dashboard.providers';
+import { provideFinalization } from '@presentation/pages/finalization/di/finalization.providers';
 import { providePasswordReset } from '@presentation/pages/password-reset/di/password-reset.providers';
+import { provideProcessing } from '@presentation/pages/processing/di/processing.providers';
 import { provideReporting } from '@presentation/pages/reporting/di/reporting.providers';
+import { provideRequests } from '@presentation/pages/requests/di/requests.providers';
 import { provideSettingsSecurity } from '@presentation/pages/settings-security/di/settings-security.providers';
 import { provideTeamOrganization } from '@presentation/pages/team-organization/di/team-organisation.providers';
 
-import { apiInterceptor } from '../core/interceptors/api.interceptor';
-import { authInterceptor } from '../core/interceptors/auth.interceptor';
-import { cacheInterceptor } from '../core/interceptors/cache.interceptor';
-import { errorHandlerInterceptor } from '../core/interceptors/error-handler.interceptor';
-import { loggingInterceptor } from '../core/interceptors/logging.interceptor';
-import { ConfigurationService } from '../core/services/configuration.service';
-import { TranslationManagerService } from '../core/services/translation-manager.service';
+import { apiInterceptor } from '@core/interceptors/api.interceptor';
+import { authInterceptor } from '@core/interceptors/auth.interceptor';
+import { cacheInterceptor } from '@core/interceptors/cache.interceptor';
+import { errorHandlerInterceptor } from '@core/interceptors/error-handler.interceptor';
+import { loggingInterceptor } from '@core/interceptors/logging.interceptor';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { TranslationManagerService } from '@core/services/translation-manager.service';
 
-import { routes } from './app.routes';
-import { provideFinalization } from './pages/finalization/di/finalization.providers';
-import { provideProcessing } from './pages/processing/di/processing.providers';
-import { provideRequests } from './pages/requests/di/requests.providers';
 /* import { provideProfileHabilitation } from '@presentation/pages/settings-security/di/profile-habilitation.providers'; */
 /* import { provideUser } from '@presentation/pages/settings-security/di/user.providers';
 import { provideParticipant } from '@presentation/pages/team-organization/di/participant.providers';
@@ -272,6 +273,8 @@ export const appConfig: ApplicationConfig = {
         ...provideFinalization(),
 
         ...provideReporting(),
+
+        ...provideCommunication(),
 
         ...provideTeamOrganization(),
 

@@ -32,7 +32,6 @@ import { ManagementDialogComponent } from '@shared/components/management/present
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
@@ -107,15 +106,6 @@ export class QueuesComponent implements OnInit {
         this.currentLang();
         return enumToFilterOptions(ReportType, this.t.bind(this));
     });
-    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.TAKE',
-            actionId: CrudFormType.TAKE,
-            class: 'btn-primary',
-            icon: 'pi pi-plus',
-            translateKey: 'COMMON.TAKE',
-        },
-    ]);
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const telecomOperatorsOpts = this.telecomOperatorsOptions();
@@ -208,13 +198,13 @@ export class QueuesComponent implements OnInit {
         uniqId: new FormControl<string>('', {
             nonNullable: true,
         }),
-        reportType: new FormControl<string>('', {
+        reportType: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         operators: new FormControl<string[]>([], {
             nonNullable: true,
         }),
-        source: new FormControl<string>('', {
+        source: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         startDate: new FormControl<string>('', {

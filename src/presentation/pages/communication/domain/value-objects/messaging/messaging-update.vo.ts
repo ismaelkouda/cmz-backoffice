@@ -2,6 +2,7 @@ import { MessagingUpdateDto } from '@presentation/pages/communication/applicatio
 
 export class MessagingUpdateVo {
     public readonly uniqId: string;
+    public readonly reportId: string;
     public readonly type: string;
     public readonly targetType: string;
     public readonly region: string;
@@ -14,6 +15,7 @@ export class MessagingUpdateVo {
 
     constructor(props: {
         uniqId: string;
+        reportId: string;
         type: string;
         targetType: string;
         region: string;
@@ -25,6 +27,7 @@ export class MessagingUpdateVo {
         message: string;
     }) {
         this.uniqId = props.uniqId;
+        this.reportId = props.reportId;
         this.type = props.type;
         this.targetType = props.targetType;
         this.region = props.region;
@@ -39,6 +42,7 @@ export class MessagingUpdateVo {
     static fromDto(dto: MessagingUpdateDto): MessagingUpdateVo {
         return new MessagingUpdateVo({
             uniqId: dto.uniqId,
+            reportId: dto.reportId,
             type: dto.type,
             targetType: dto.targetType,
             region: dto.region,

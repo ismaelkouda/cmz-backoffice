@@ -45,3 +45,12 @@ export function enumToFilterOptions<T extends Record<string, string>>(
                 : key.toUpperCase(),
     }));
 }
+
+export function getEnumKeyByValue<T extends object>(
+    enumObj: T,
+    value: string
+): keyof T | undefined {
+    return Object.keys(enumObj).find(
+        (key) => enumObj[key as keyof T] === value
+    ) as keyof T | undefined;
+}

@@ -4,5 +4,4 @@ export enum ReportSource {
     USSD = 'COMMON.USSD',
     SMS = 'COMMON.SMS',
     IVR = 'COMMON.IVR',
-    UNKNOWN = 'COMMON.UNKNOWN',
 }

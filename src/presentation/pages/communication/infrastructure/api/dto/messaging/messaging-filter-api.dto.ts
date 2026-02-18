@@ -1,4 +1,5 @@
 export interface MessagingFilterApiDto {
+    report_id: string;
     search?: string;
     target_type?: string;
     region?: string;

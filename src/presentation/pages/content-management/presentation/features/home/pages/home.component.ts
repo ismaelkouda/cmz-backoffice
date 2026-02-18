@@ -41,7 +41,6 @@
 //         PageTitleComponent,
 //         PaginationComponent,
 //         TranslateModule,
-//         AsyncPipe,
 //     ],
 //     changeDetection: ChangeDetectionStrategy.OnPush,
 // })

@@ -7,20 +7,16 @@ import {
     effect,
     inject,
     OnInit,
-    Signal,
+    signal,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { EditorModule } from 'primeng/editor';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -28,21 +24,22 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { map, tap } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import {
     enumToFilterOptions,
-    FilterOption,
+    getEnumKeyByValue,
 } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { Roles } from '@shared/domain/enums/roles.enum';
 
-import { MessagingFindOneFacade } from '@presentation/pages/communication/application/services/messaging/messaging-find-one.facade';
 import { MessagingFacade } from '@presentation/pages/communication/application/services/messaging/messaging.facade';
-import { MessagingFormControl } from '@presentation/pages/communication/domain/controls/messaging/messaging-form.control';
+import { MessagingFormStore } from '@presentation/pages/communication/application/stores/messaging/messaging-form.store';
+import { Channels } from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { Target } from '@presentation/pages/communication/domain/enums/messaging/messaging-target.enum';
+import { Type } from '@presentation/pages/communication/domain/enums/messaging/messaging-type.enum';
 import { FormValidators } from '@presentation/pages/communication/domain/validators/form-validators';
 import { MessagingFormHelperService } from '@presentation/pages/communication/presentation/messaging/messaging-form/messaging-form-helper.service';
 import { MessagingFormValidationService } from '@presentation/pages/communication/presentation/messaging/messaging-form/messaging-form-validation.service';
@@ -55,9 +52,9 @@ import { MessagingFormValidationService } from '@presentation/pages/communicatio
     imports: [
         CommonModule,
         TranslateModule,
+        ReactiveFormsModule,
         BreadcrumbComponent,
         PageTitleComponent,
-        ReactiveFormsModule,
         InputTextModule,
         InputMaskModule,
         TextareaModule,
@@ -65,38 +62,53 @@ import { MessagingFormValidationService } from '@presentation/pages/communicatio
         ButtonModule,
         TagModule,
         ToastModule,
+        CheckboxModule,
         TooltipModule,
+        EditorModule,
     ],
     providers: [
         MessageService,
         MessagingFormValidationService,
         MessagingFormHelperService,
+        MessagingFormStore,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessagingFormComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly fb = inject(FormBuilder);
-    private readonly submitFacade = inject(MessagingFacade);
-    private readonly facade = inject(MessagingFindOneFacade);
-    private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly translate = inject(TranslateService);
+    private readonly submitFacade = inject(MessagingFacade);
     private readonly validationService = inject(MessagingFormValidationService);
     private readonly helperService = inject(MessagingFormHelperService);
-    readonly VALIDATION = FormValidators;
-    private lastSuccess = this.submitFacade.actionSuccess();
-    private itemPatched = false;
-    readonly items = toSignal(this.facade.item$, { initialValue: null });
-    readonly loading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
-    private readonly paramsUniqId = toSignal(
-        this.activatedRoute.queryParams.pipe(
-            map((p) => (p['uniqId'] as string) || '')
-        ),
-        { initialValue: '' }
+
+    readonly store = inject(MessagingFormStore);
+
+    readonly form = this.store.form;
+    readonly isEditMode = this.store.isEditMode;
+    readonly loading = this.store.loading;
+    readonly regions = this.store.regions;
+    readonly departments = this.store.departments;
+    readonly municipalities = this.store.municipalities;
+
+    readonly typeOptions = computed(() =>
+        enumToFilterOptions(Type, (key: string) => this.t(key))
     );
-    readonly isEditMode = computed(() => !!this.paramsUniqId());
+
+    readonly targetOptions = computed(() =>
+        enumToFilterOptions(Target, (key: string) => this.t(key))
+    );
+
+    readonly channelsOptions = computed(() =>
+        enumToFilterOptions(Channels, (key: string) => this.t(key))
+    );
+
+    readonly VALIDATION = FormValidators;
+    readonly TargetEnum = Target;
+
+    private readonly submitSuccess = signal(false);
+    private lastSubmitSuccess = this.submitFacade.actionSuccess();
+
     private readonly formStateEffect = effect(() => {
         const state = this.submitFacade.actionState();
         if (state === 'loading') {
@@ -106,113 +118,20 @@ export class MessagingFormComponent implements OnInit {
         }
     });
 
-    private readonly successEffect = effect(() => {
+    private readonly submitSuccessEffect = effect(() => {
         const current = this.submitFacade.actionSuccess();
-        if (current === this.lastSuccess) {
-            return;
-        }
-
-        this.lastSuccess = current;
-        this.navigateToBack();
-    });
-
-    readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
-        return enumToFilterOptions(Roles, this.t.bind(this));
-    });
-
-    readonly form: FormGroup<MessagingFormControl> =
-        this.fb.nonNullable.group<MessagingFormControl>({
-            type: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.FIRST_NAME.MIN),
-                    Validators.maxLength(FormValidators.FIRST_NAME.MAX),
-                    Validators.pattern(FormValidators.FIRST_NAME.PATTERN),
-                ],
-            }),
-            targetType: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-            region: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-            department: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-            municipality: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-            channels: new FormControl([], {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-            subject: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.LAST_NAME.MIN),
-                    Validators.maxLength(FormValidators.LAST_NAME.MAX),
-                    Validators.pattern(FormValidators.LAST_NAME.PATTERN),
-                ],
-            }),
-            content: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.LAST_NAME.MIN),
-                    Validators.maxLength(FormValidators.LAST_NAME.MAX),
-                    Validators.pattern(FormValidators.LAST_NAME.PATTERN),
-                ],
-            }),
-            message: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.LAST_NAME.MIN),
-                    Validators.maxLength(FormValidators.LAST_NAME.MAX),
-                    Validators.pattern(FormValidators.LAST_NAME.PATTERN),
-                ],
-            }),
-        });
-
-    private readonly patchFormFromItem = effect(() => {
-        const item = this.items();
-        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
-            this.form.patchValue(
-                {
-                    type: item.type,
-                    targetType: item.targetType,
-                    region: item.region,
-                    department: item.department,
-                    municipality: item.municipality,
-                    channels: item.channels,
-                    subject: item.subject,
-                    content: item.content,
-                    message: item.message,
-                },
-                { emitEvent: false }
-            );
-            this.itemPatched = true;
+        if (current !== this.lastSubmitSuccess && !this.submitSuccess()) {
+            this.lastSubmitSuccess = current;
+            this.submitSuccess.set(true);
+            this.navigateToBack();
         }
     });
 
     ngOnInit(): void {
         this.activatedRoute.queryParams
             .pipe(
-                map((p) => (p['uniqId'] as string) || ''),
-                tap((uniqId) => {
-                    this.facade.reset();
-                    if (uniqId) {
-                        this.facade.read({ uniqId }, true);
-                    } else {
-                        this.form.reset();
-                    }
-                }),
+                map((params) => (params['uniqId'] as string) || null),
+                tap((uniqId) => this.store.setEditMode(uniqId)),
                 takeUntilDestroyed(this.destroyRef)
             )
             .subscribe();
@@ -226,30 +145,20 @@ export class MessagingFormComponent implements OnInit {
         );
     }
 
-    private showValidationErrors(): void {
-        const controlNames = [
-            'type',
-            'targetType',
-            'region',
-            'municipality',
-            'department',
-            'channels',
-            'subject',
-            'content',
-            'message',
-        ] as const;
+    isFieldInvalid(fieldName: string): boolean {
+        const control = this.form.get(fieldName);
+        return !!(control?.invalid && control?.touched);
+    }
 
-        const errors = controlNames
-            .filter((name) => this.form.controls[name].invalid)
-            .map((name) => this.getErrorMessage(name));
+    shouldShowField(fieldName: 'reportId' | 'region'): boolean {
+        console.log('fieldName', fieldName);
+        const targetType = this.form.controls.targetType.value;
 
-        if (errors.length) {
-            SweetAlert.fire({
-                icon: 'error',
-                title: this.t('COMMON.ERRORS.FORM_INVALID'),
-                html: `<ul style="text-align:left">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>`,
-            });
+        if (fieldName === 'reportId') {
+            return targetType === getEnumKeyByValue(Target, Target.report);
         }
+
+        return targetType === getEnumKeyByValue(Target, Target.area);
     }
 
     onSubmit(): void {
@@ -279,15 +188,65 @@ export class MessagingFormComponent implements OnInit {
     }
 
     private submitForm(): void {
-        const participant = this.form.getRawValue();
+        const formValue = this.form.getRawValue();
+        this.submitSuccess.set(false);
 
         if (this.isEditMode()) {
-            this.submitFacade.update({
-                uniqId: this.paramsUniqId(),
-                ...participant,
-            });
+            this.activatedRoute.queryParams
+                .pipe(
+                    map((params) => params['uniqId'] as string),
+                    tap((uniqId) => {
+                        this.submitFacade.update({
+                            uniqId,
+                            ...formValue,
+                        });
+                    }),
+                    takeUntilDestroyed(this.destroyRef)
+                )
+                .subscribe();
         } else {
-            this.submitFacade.create(participant);
+            this.submitFacade.create(formValue);
+        }
+    }
+
+    private showValidationErrors(): void {
+        const fieldLabels: Record<string, string> = {
+            type: 'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TYPE',
+            reportId:
+                'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.REPORT_ID',
+            targetType:
+                'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TARGET',
+            region: 'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.REGION',
+            department:
+                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.DEPARTMENT',
+            municipality:
+                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.MUNICIPALITY',
+            channels: 'COMMUNICATION.MESSAGING.FORM.FIELDSET_CHANNELS.TITLE',
+            subject:
+                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADDITIONAL_INFO.SUBJECT',
+            content:
+                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADDITIONAL_INFO.CONTENT',
+            message:
+                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADDITIONAL_INFO.MESSAGE',
+        };
+
+        const errors = Object.keys(this.form.controls)
+            .filter(
+                (key) =>
+                    this.form.get(key)?.invalid &&
+                    this.shouldShowField(key as any)
+            )
+            .map(
+                (key) =>
+                    `${this.t(fieldLabels[key])} : ${this.getErrorMessage(key)}`
+            );
+
+        if (errors.length) {
+            SweetAlert.fire({
+                icon: 'error',
+                title: this.t('COMMON.ERRORS.FORM_INVALID'),
+                html: `<ul style="text-align:left">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>`,
+            });
         }
     }
 

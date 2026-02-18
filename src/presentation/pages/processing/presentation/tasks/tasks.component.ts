@@ -192,7 +192,7 @@ export class TasksComponent implements OnInit {
         uniqId: new FormControl<string>('', {
             nonNullable: true,
         }),
-        reportType: new FormControl<string>('', {
+        reportType: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         operators: new FormControl<string[]>([], {

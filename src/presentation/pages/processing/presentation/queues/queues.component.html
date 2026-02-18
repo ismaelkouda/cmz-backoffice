@@ -40,15 +40,8 @@
                                 [items]="items()"
                                 [pagination]="pagination()"
                                 (refreshRequested)="onRefreshClicked()"
-                                [headerButtons]="headerButtons()"
-                                selectionMode="multiple"
-                                [selection]="selectedInTable()"
-                                (actionClicked)="onActionClicked($event)"
-                                (selectionChange)="onSelectionChange($event)"
-                                (headerButtonClicked)="
-                                    onHeaderButtonClicked($event)
-                                "
                                 (export)="onExportClicked()"
+                                (actionClicked)="onActionClicked($event)"
                             ></app-table>
 
                             <app-pagination

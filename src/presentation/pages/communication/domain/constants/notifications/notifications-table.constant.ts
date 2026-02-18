@@ -8,31 +8,20 @@ export const NOTIFICATIONS_TABLE = {
         },
         {
             field: 'name',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.NAME',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.REFERENCE',
             width: '10rem',
         },
         {
             field: 'goalsSize',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.GOALS_SIZE',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.TYPE',
             width: '18rem',
             type: 'number',
         },
         {
             field: 'achievementsSize',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.ACHIEVEMENTS_SIZE',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.DESCRIPTION',
             width: '18rem',
             type: 'number',
-        },
-        {
-            field: 'percentages',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.PERCENTAGES',
-            width: '18rem',
-        },
-        {
-            field: 'status',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.STATUS',
-            class: 'text-center',
-            width: '5rem',
         },
         {
             field: 'createdAt',

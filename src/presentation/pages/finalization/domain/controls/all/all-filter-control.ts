@@ -5,7 +5,7 @@ export interface AllFilterControl {
     initiatorPhoneNumber: FormControl<string>;
     startDate: FormControl<string>;
     endDate: FormControl<string>;
-    reportType: FormControl<string>;
+    reportType: FormControl<string | null>;
     operators: FormControl<string[]>;
-    source: FormControl<string>;
+    source: FormControl<string | null>;
 }

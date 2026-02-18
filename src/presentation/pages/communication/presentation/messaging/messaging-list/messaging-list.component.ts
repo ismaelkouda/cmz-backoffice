@@ -131,6 +131,9 @@ export class MessagingListComponent implements OnInit, OnDestroy {
         search: new FormControl<string | undefined>(undefined, {
             nonNullable: true,
         }),
+        reportId: new FormControl<string | undefined>(undefined, {
+            nonNullable: true,
+        }),
         targetType: new FormControl<string | undefined>(undefined, {
             nonNullable: true,
         }),

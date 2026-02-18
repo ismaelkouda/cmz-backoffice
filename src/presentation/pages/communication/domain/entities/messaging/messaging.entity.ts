@@ -1,5 +1,6 @@
 export interface MessagingProps {
     uniqId: string;
+    reportId: string;
     type: string;
     targetType: string;
     region: string;
@@ -17,6 +18,10 @@ export class MessagingEntity {
 
     get uniqId(): string {
         return this.props.uniqId;
+    }
+
+    get reportId(): string {
+        return this.props.reportId;
     }
 
     get type(): string {

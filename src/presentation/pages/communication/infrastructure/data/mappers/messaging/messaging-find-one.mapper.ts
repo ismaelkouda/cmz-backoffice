@@ -23,6 +23,7 @@ export class MessagingFindOneMapper extends SimpleResponseMapper<
 
         const props: MessagingFindOneProps = {
             uniqId: dto.id,
+            reportId: dto.report_id,
             type: dto.type,
             targetType: dto.target_type,
             region: dto.region,

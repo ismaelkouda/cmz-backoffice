@@ -10,7 +10,7 @@ import { provideTasks } from '@presentation/pages/processing/di/tasks/tasks.prov
 import { PROCESSING_BASE_URL } from '@presentation/pages/processing/infrastructure/api/processing.base-url';
 
 const getApiBaseUrl = () => {
-    const baseUrl = inject(EnvService).authenticationUrl;
+    const baseUrl = inject(EnvService).reportUrl;
 
     if (!baseUrl) {
         console.warn(

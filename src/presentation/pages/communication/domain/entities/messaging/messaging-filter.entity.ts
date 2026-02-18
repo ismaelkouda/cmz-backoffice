@@ -4,6 +4,7 @@ import { MessagingFilterVo } from '@presentation/pages/communication/domain/valu
 
 export class MessagingFilterEntity {
     constructor(
+        public readonly reportId?: string,
         public readonly search?: string,
         public readonly targetType?: string,
         public readonly region?: string,
@@ -15,6 +16,7 @@ export class MessagingFilterEntity {
 
     static fromVo(vo: MessagingFilterVo): MessagingFilterEntity {
         return new MessagingFilterEntity(
+            vo.reportId,
             vo.search,
             vo.targetType,
             vo.region,

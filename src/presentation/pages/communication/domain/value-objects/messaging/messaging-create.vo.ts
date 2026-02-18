@@ -1,6 +1,7 @@
 import { MessagingCreateDto } from '@presentation/pages/communication/application/dto/messaging/messaging-create.dto';
 
 export class MessagingCreateVo {
+    public readonly reportId: string;
     public readonly type: string;
     public readonly targetType: string;
     public readonly region: string;
@@ -12,6 +13,7 @@ export class MessagingCreateVo {
     public readonly message: string;
 
     constructor(props: {
+        reportId: string;
         type: string;
         targetType: string;
         region: string;
@@ -22,6 +24,7 @@ export class MessagingCreateVo {
         content: string;
         message: string;
     }) {
+        this.reportId = props.reportId;
         this.type = props.type;
         this.targetType = props.targetType;
         this.region = props.region;
@@ -35,6 +38,7 @@ export class MessagingCreateVo {
 
     static fromDto(dto: MessagingCreateDto): MessagingCreateVo {
         return new MessagingCreateVo({
+            reportId: dto.reportId,
             type: dto.type,
             targetType: dto.targetType,
             region: dto.region,

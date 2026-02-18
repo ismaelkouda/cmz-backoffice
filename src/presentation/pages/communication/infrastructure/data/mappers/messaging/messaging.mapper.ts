@@ -27,6 +27,7 @@ export class MessagingMapper extends PaginatedMapper<
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: MessagingProps = {
             uniqId: dto.id,
+            reportId: dto.report_id,
             type: dto.type,
             targetType: dto.target_type,
             region: dto.region,

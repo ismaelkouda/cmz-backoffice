@@ -1,6 +1,7 @@
 export class MessagingUpdateCommand {
     constructor(
         public readonly uniqId: string,
+        public readonly reportId: string,
         public readonly type: string,
         public readonly targetType: string,
         public readonly region: string,

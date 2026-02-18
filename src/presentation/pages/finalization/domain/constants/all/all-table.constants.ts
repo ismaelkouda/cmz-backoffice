@@ -1,4 +1,17 @@
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 2.3);
+    return `${width}rem`;
+}
+
 export const ALL_TABLE_CONST = {
+    actions: [
+        {
+            id: 'management-dialog',
+            icon: 'pi pi-window-maximize',
+            tooltip: 'FINALIZATION.ALL.TABLE.TAKE',
+            severity: 'primary',
+        },
+    ],
     cols: [
         {
             field: '__index',
@@ -28,12 +41,6 @@ export const ALL_TABLE_CONST = {
             width: '12rem',
         },
         {
-            field: 'state',
-            header: 'FINALIZATION.ALL.TABLE.STATE',
-            class: 'text-center',
-            width: '4rem',
-        },
-        {
             field: 'reportedAt',
             header: 'FINALIZATION.ALL.TABLE.REPORTED_AT',
             class: 'text-center',
@@ -43,15 +50,14 @@ export const ALL_TABLE_CONST = {
             field: '__action',
             header: 'FINALIZATION.ALL.TABLE.ACTION',
             class: 'text-center',
-            width: '2rem',
+            width: calculateActionColumnWidth(1),
         },
     ],
     globalFilterFields: [
         'uniqId',
-        'reportTypeLabel',
-        'operatorsLabels',
-        'sourceLabel',
-        'state',
+        'reportType',
+        'operators',
+        'source',
         'reportedAt',
     ],
 };

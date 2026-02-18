@@ -37,11 +37,12 @@ import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 
-import { DetailsFacade } from '@presentation/pages/requests/application/services/details/details.facade';
 import { QueuesFacade } from '@presentation/pages/requests/application/services/queues/queues.facade';
-import { QUEUES_TABLE_CONST } from '@presentation/pages/requests/domain/constants/queues/queues-table.constant';
+import { QUEUES_TABLE } from '@presentation/pages/requests/domain/constants/queues/queues-table.constant';
 import { QueuesFilterControl } from '@presentation/pages/requests/domain/controls/queues/queues-filter-control';
 import { QueuesEntity } from '@presentation/pages/requests/domain/entities/queues/queues.entity';
+
+import { QueuesTableVm } from '../../domain/view-models/queues/queues-table.vm';
 
 @Component({
     selector: 'app-queues',
@@ -64,8 +65,8 @@ export class QueuesComponent implements OnInit {
     readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
+    private readonly queuesTableVm = inject(QueuesTableVm);
     public readonly facade = inject(QueuesFacade);
-    private readonly takeFacade = inject(DetailsFacade);
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
@@ -79,7 +80,7 @@ export class QueuesComponent implements OnInit {
     );
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-    public readonly tableConfig = QUEUES_TABLE_CONST;
+    public readonly tableConfig = QUEUES_TABLE;
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
@@ -193,13 +194,13 @@ export class QueuesComponent implements OnInit {
         uniqId: new FormControl<string>('', {
             nonNullable: true,
         }),
-        reportType: new FormControl<string>('', {
+        reportType: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         operators: new FormControl<string[]>([], {
             nonNullable: true,
         }),
-        source: new FormControl<string>('', {
+        source: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         startDate: new FormControl<string>('', {

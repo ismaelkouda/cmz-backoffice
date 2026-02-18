@@ -1,6 +1,6 @@
 export const FINALIZATION_ENDPOINTS = {
-    QUEUES: 'finalization/queues',
-    TASKS: 'finalization/tasks',
-    ALL: 'finalization/all',
+    QUEUES: 'finalizations/queues',
+    TASKS: 'finalizations/task-baskets',
+    ALL: 'finalizations',
     DETAILS_REPORTS: '{id}',
 } as const;

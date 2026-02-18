@@ -15,6 +15,7 @@ export class MessagingUpdateHandler {
     ): Observable<SimpleResponseDto<void>> {
         return this.useCase.update({
             uniqId: command.uniqId,
+            reportId: command.reportId,
             type: command.type,
             targetType: command.targetType,
             region: command.region,

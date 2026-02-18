@@ -38,7 +38,7 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 
 import { TasksFacade } from '@presentation/pages/requests/application/services/tasks/tasks.facade';
-import { TASKS_TABLE_CONST } from '@presentation/pages/requests/domain/constants/tasks/tasks-table.constants';
+import { TASKS_TABLE } from '@presentation/pages/requests/domain/constants/tasks/tasks-table.constants';
 import { TasksFilterControl } from '@presentation/pages/requests/domain/controls/tasks/tasks-filter-control';
 import { TasksEntity } from '@presentation/pages/requests/domain/entities/tasks/tasks.entity';
 
@@ -78,7 +78,7 @@ export class TasksComponent implements OnInit {
     );
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-    public readonly tableConfig = TASKS_TABLE_CONST;
+    public readonly tableConfig = TASKS_TABLE;
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
@@ -192,13 +192,13 @@ export class TasksComponent implements OnInit {
         uniqId: new FormControl<string>('', {
             nonNullable: true,
         }),
-        reportType: new FormControl<string>('', {
+        reportType: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         operators: new FormControl<string[]>([], {
             nonNullable: true,
         }),
-        source: new FormControl<string>('', {
+        source: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         startDate: new FormControl<string>('', {

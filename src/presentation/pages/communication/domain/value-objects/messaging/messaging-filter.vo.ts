@@ -3,6 +3,7 @@ import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 import { MessagingFilterDto } from '@presentation/pages/communication/application/dto/messaging/messaging-filter.dto';
 
 export class MessagingFilterVo {
+    public readonly reportId?: string;
     public readonly search?: string;
     public readonly targetType?: string;
     public readonly region?: string;
@@ -12,6 +13,7 @@ export class MessagingFilterVo {
     public readonly period?: DatePeriod;
 
     constructor(props: {
+        reportId?: string;
         search?: string;
         targetType?: string;
         region?: string;
@@ -20,6 +22,7 @@ export class MessagingFilterVo {
         channels?: string[];
         period?: DatePeriod;
     }) {
+        this.reportId = props.reportId;
         this.search = props.search;
         this.targetType = props.targetType;
         this.region = props.region;
@@ -39,6 +42,7 @@ export class MessagingFilterVo {
         }
 
         return new MessagingFilterVo({
+            reportId: dto?.reportId?.trim() || undefined,
             search: dto?.search?.trim() || undefined,
             targetType: dto?.targetType,
             region: dto?.region,

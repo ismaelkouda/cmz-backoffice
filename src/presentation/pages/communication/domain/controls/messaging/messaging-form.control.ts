@@ -1,6 +1,7 @@
 import { FormControl } from '@angular/forms';
 
 export interface MessagingFormControl {
+    reportId: FormControl<string>;
     type: FormControl<string>;
     targetType: FormControl<string>;
     region: FormControl<string>;

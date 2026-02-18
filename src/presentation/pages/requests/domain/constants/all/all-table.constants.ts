@@ -35,7 +35,7 @@ export const ALL_TABLE_CONST = {
         },
         {
             field: 'reportedAt',
-            header: 'REQUESTS.ALL.TABLE.REPORTED_AT',
+            header: 'REQUESTS.ALL.TABLE.CREATED_AT',
             class: 'text-center',
             width: '8rem',
         },

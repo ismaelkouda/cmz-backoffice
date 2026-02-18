@@ -17,6 +17,7 @@ export class MessagingHandler {
     ): Observable<Paginate<MessagingEntity>> {
         return this.useCase.execute(
             {
+                reportId: command.reportId,
                 search: command.search,
                 targetType: command.targetType,
                 region: command.region,

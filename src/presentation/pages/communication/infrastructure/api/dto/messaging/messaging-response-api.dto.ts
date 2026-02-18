@@ -2,6 +2,7 @@ import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface MessagingItemApiDto {
     id: string;
+    report_id: string;
     type: string;
     target_type: string;
     region: string;

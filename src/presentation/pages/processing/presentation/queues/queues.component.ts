@@ -19,7 +19,6 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
@@ -32,16 +31,12 @@ import { ManagementDialogComponent } from '@shared/components/management/present
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 
-import { DetailsFacade } from '@presentation/pages/processing/application/services/details/details.facade';
 import { QueuesFacade } from '@presentation/pages/processing/application/services/queues/queues.facade';
 import { QUEUES_TABLE_CONST } from '@presentation/pages/processing/domain/constants/queues/queues-table.constant';
 import { QueuesFilterControl } from '@presentation/pages/processing/domain/controls/queues/queues-filter-control';
@@ -69,7 +64,6 @@ export class QueuesComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
     public readonly facade = inject(QueuesFacade);
-    private readonly takeFacade = inject(DetailsFacade);
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
@@ -78,13 +72,11 @@ export class QueuesComponent implements OnInit {
     readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.config.app.name
     );
-    private lastSuccess = this.takeFacade.actionSuccess();
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-    public readonly selectedInTable = signal<QueuesEntity[]>([]);
     public readonly tableConfig = QUEUES_TABLE_CONST;
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -107,15 +99,6 @@ export class QueuesComponent implements OnInit {
         this.currentLang();
         return enumToFilterOptions(ReportType, this.t.bind(this));
     });
-    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.TAKE',
-            actionId: CrudFormType.TAKE,
-            class: 'btn-primary',
-            icon: 'pi pi-plus',
-            translateKey: 'COMMON.TAKE',
-        },
-    ]);
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const telecomOperatorsOpts = this.telecomOperatorsOptions();
@@ -208,13 +191,13 @@ export class QueuesComponent implements OnInit {
         uniqId: new FormControl<string>('', {
             nonNullable: true,
         }),
-        reportType: new FormControl<string>('', {
+        reportType: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         operators: new FormControl<string[]>([], {
             nonNullable: true,
         }),
-        source: new FormControl<string>('', {
+        source: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         startDate: new FormControl<string>('', {
@@ -223,24 +206,6 @@ export class QueuesComponent implements OnInit {
         endDate: new FormControl<string>('', {
             nonNullable: true,
         }),
-    });
-
-    private readonly formStateEffect = effect(() => {
-        const state = this.takeFacade.actionState();
-        if (state === 'loading') {
-            this.form.disable({ emitEvent: false });
-        } else {
-            this.form.enable({ emitEvent: false });
-        }
-    });
-
-    private readonly successEffect = effect(() => {
-        const current = this.takeFacade.actionSuccess();
-        if (current === this.lastSuccess) {
-            return;
-        }
-
-        this.lastSuccess = current;
     });
 
     constructor() {
@@ -282,46 +247,6 @@ export class QueuesComponent implements OnInit {
         this.facade.changePage(JSON.stringify(event + 1));
     }
 
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.TAKE) {
-            SweetAlert.fire({
-                ...SWEET_ALERT_PARAMS,
-                title: this.t(
-                    'PROCESSING.QUEUES.SWEET_ALERT.TITLE_TAKE'
-                ),
-                text: this.t(
-                    'PROCESSING.QUEUES.SWEET_ALERT.TITLE_MESSAGE'
-                ),
-                backdrop: false,
-                confirmButtonText: this.t('COMMON.CONFIRM'),
-                cancelButtonText: this.t('COMMON.CANCEL'),
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    this.takeFacade.take({
-                        uniqId: JSON.stringify(
-                            this.selectedInTable().map((p) => p.uniqId)
-                        ),
-                    });
-                    this.facade.refreshWithLastFilterAndPage();
-                }
-            });
-        }
-    }
-
-    public onActionClicked(event: {
-        item: QueuesEntity;
-        actionId?: string;
-    }): void {
-        const { item } = event;
-        this.selectedReportId = item.uniqId;
-        this.reportTreatmentVisible = true;
-    }
-
-    public onSelectionChange(selection: QueuesEntity | QueuesEntity[]): void {
-        const queues = Array.isArray(selection) ? selection : [selection];
-        this.selectedInTable.set(queues.filter((u) => !!u));
-    }
-
     private t(key: string): string {
         return this.translate.instant(key);
     }
@@ -347,5 +272,14 @@ export class QueuesComponent implements OnInit {
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
+    }
+
+    public onActionClicked(event: {
+        item: QueuesEntity;
+        actionId?: string;
+    }): void {
+        const { item } = event;
+        this.selectedReportId = item.uniqId;
+        this.reportTreatmentVisible = true;
     }
 }
