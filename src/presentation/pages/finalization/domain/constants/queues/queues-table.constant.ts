@@ -1,11 +1,23 @@
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 2.3);
+    return `${width}rem`;
+}
+
 export const QUEUES_TABLE_CONST = {
+    actions: [
+        {
+            id: 'management-dialog',
+            icon: 'pi pi-window-maximize',
+            tooltip: 'FINALIZATION.QUEUES.TABLE.TAKE',
+            severity: 'primary',
+        },
+    ],
     cols: [
         {
-            field: '__selection',
-            header: 'COMMON.SELECTION',
+            field: '__index',
+            header: 'COMMON.INDEX',
             class: 'text-center',
             width: '2rem',
-            type: 'selection',
         },
         {
             field: 'uniqId',
@@ -38,7 +50,7 @@ export const QUEUES_TABLE_CONST = {
             field: '__action',
             header: 'FINALIZATION.QUEUES.TABLE.ACTION',
             class: 'text-center',
-            width: '2rem',
+            width: calculateActionColumnWidth(1),
         },
     ],
     globalFilterFields: [

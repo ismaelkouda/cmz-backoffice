@@ -1,6 +1,7 @@
 export class MessagingQuery {
     constructor(
         public readonly search?: string,
+        public readonly reportId?: string,
         public readonly targetType?: string,
         public readonly region?: string,
         public readonly department?: string,

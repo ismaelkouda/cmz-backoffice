@@ -1,4 +1,5 @@
 export interface MessagingCreateDto {
+    reportId: string;
     type: string;
     targetType: string;
     region: string;

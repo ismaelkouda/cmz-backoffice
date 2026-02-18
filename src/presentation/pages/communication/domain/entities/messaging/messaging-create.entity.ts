@@ -2,6 +2,7 @@ import { MessagingCreateVo } from '@presentation/pages/communication/domain/valu
 
 export class MessagingCreateEntity {
     constructor(
+        public readonly reportId: string,
         public readonly type: string,
         public readonly targetType: string,
         public readonly region: string,
@@ -15,6 +16,7 @@ export class MessagingCreateEntity {
 
     static fromVo(vo: MessagingCreateVo): MessagingCreateEntity {
         return new MessagingCreateEntity(
+            vo.reportId,
             vo.type,
             vo.targetType,
             vo.region,

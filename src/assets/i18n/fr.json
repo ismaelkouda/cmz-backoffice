@@ -1090,6 +1090,7 @@
         "CREATE": "Créer",
         "CLOSE": "Fermer",
         "VISUALISE": "Visualiser",
+        "FINALIZE": "Finaliser",
         "FILTER_RESULT": "Resultat du filtre",
         "RESTORE": "Restaurer",
         "EDIT": "Modifier",
@@ -1718,150 +1719,6 @@
                     "QUEUED": "Fermée"
                 }
             }
-        },
-        "TREATMENT": {
-            "TITLE": "signalements en cours de traitement",
-            "LABEL": "Traitement",
-            "ROUTE": "progress",
-            "TABLE": {
-                "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
-                "OPERATORS": "Opérateurs",
-                "STATE": "État",
-                "SEE_MORE": "Voir plus",
-                "TREAT": "Traiter",
-                "JOURNAL": "Journal",
-                "ACTION": "Action"
-            },
-            "FILTER": {
-                "INITIATOR": "Initiateur",
-                "REPORT_TYPE": "Type de signalement",
-                "STATE": "État",
-                "OPERATORS": "Opérateur"
-            },
-            "OPTIONS": {
-                "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
-                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
-                    "WHITE_ZONE": "Zone Blanche",
-                    "NO_INTERNET": "Absence d'Internet"
-                },
-                "STATE": {
-                    "TERMINATED": "Terminé",
-                    "IN_PROGRESS": "En cours",
-                    "REJECTED": "Rejeté"
-                },
-                "OPERATORS": {
-                    "ORANGE": "Orange",
-                    "MTN": "MTN",
-                    "MOOV": "Moov"
-                }
-            }
-        },
-        "FINALIZE": {
-            "TITLE": "signalements en attente de finalisation",
-            "LABEL": "Finalisation",
-            "ROUTE": "finalize",
-            "TABLE": {
-                "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
-                "OPERATORS": "Opérateurs",
-                "STATE": "État",
-                "SEE_MORE": "Voir plus",
-                "FINALIZE": "Finaliser",
-                "ACTION": "Action"
-            },
-            "FILTER": {
-                "INITIATOR": "Initiateur",
-                "REPORT_TYPE": "Type de signalement",
-                "STATE": "État",
-                "OPERATORS": "Opérateur"
-            },
-            "OPTIONS": {
-                "REPORT_TYPE": {
-                    "WHITE_ZONE": "Zone Blanche"
-                },
-                "STATE": {
-                    "FINALIZED": "Finalisé",
-                    "PENDING": "En attente",
-                    "REJECTED": "Rejeté"
-                },
-                "OPERATORS": {
-                    "ORANGE": "Orange",
-                    "MTN": "MTN",
-                    "MOOV": "Moov"
-                }
-            },
-            "REPORT_FINALIZE": {
-                "TITLE": "Finalisation du signalement",
-                "LABEL": "Finalisation du signalement",
-                "REPORT_ID": "Identifiant du signalement",
-                "PLACEHOLDER": "Contenu de la finalisation à venir..."
-            },
-            "SWEET_ALERT_PARAMS": {
-                "CONFIRM": {
-                    "WAITING": {
-                    "TITLE": "Prendre en charge le signalement"
-                    },
-                    "REJECT": {
-                    "TITLE": "Rejeter le signalement"
-                    },
-                    "APPROVAL": {
-                    "TITLE": "Approuver le signalement"
-                    },
-                    "TREATMENT": {
-                    "TITLE": "Traiter le signalement"
-                    },
-                    "FINALIZE": {
-                    "TITLE": "Finaliser le signalement"
-                    },
-                    "EVALUATE": {
-                    "TITLE": "Evaluer le signalement"
-                    }
-                },
-                "MESSAGES": {
-                    "WAITING": {
-                    "TITLE": "Êtes-vous sûr de vouloir prendre en charge le signalement"
-                    },
-                    "REJECT": {
-                    "TITLE": "Êtes-vous sûr de vouloir rejeté le signalement"
-                    },
-                    "APPROVAL": {
-                    "TITLE": "Êtes-vous sûr de vouloir approuver le signalement"
-                    },
-                    "TREATMENT": {
-                    "TITLE": "Êtes-vous sûr de vouloir traiter le signalement"
-                    },
-                    "FINALIZE": {
-                    "TITLE": "Êtes-vous sûr de vouloir finaliser le signalement"
-                    },
-                    "EVALUATE": {
-                    "TITLE": "Êtes-vous sûr de vouloir évaluer le signalement"
-                    }
-                },
-                "BUTTONS": {
-                    "WAITING": {
-                    "TITLE": "Prendre en charge"
-                    },
-                    "REJECT": {
-                    "TITLE": "Rejeter"
-                    },
-                    "APPROVAL": {
-                    "TITLE": "Approuver"
-                    },
-                    "TREATMENT": {
-                    "TITLE": "Traiter"
-                    },
-                    "FINALIZE": {
-                    "TITLE": "Finaliser"
-                    },
-                    "EVALUATE": {
-                    "TITLE": "Evaluer"
-                    }
-                }
-            }
         }
     },
     "FINALIZATION": {
@@ -1887,6 +1744,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
+                "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
@@ -1955,6 +1813,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
+                "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
@@ -2036,6 +1895,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
+                "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
@@ -2205,7 +2065,10 @@
             "ROUTE": "notification",
             "FILTER": {
                 "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "TYPE_SEARCH": "Saisir une notification",
                 "TYPE": "Type Notification",
+                "TYPE_PLACEHOLDER": "Saisie une notification",
                 "DATE": {
                     "FROM": "Date début",
                     "TO": "Date fin"
@@ -2229,11 +2092,22 @@
                 "LABEL": "Messagerie",
                 "ROUTE": "messaging"
             },
+            "TABS": {
+                "MESSAGING": {
+                    "LABEL": "Messagerie",
+                    "ROUTE": "messaging"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
             "TITLE": "Messagerie",
             "LABEL": "Messagerie",
             "ROUTE": "messaging",
             "FILTER": {
                 "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Rechercher",
                 "TARGET": "Cible",
                 "REGION": "Région",
                 "DEPARTMENT": "département",
@@ -2247,15 +2121,53 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "SUBJECT": "Sujet",
-                "TYPE": "Contenu",
+                "CONTENT": "Contenu",
                 "MESSAGE": "Message",
                 "SEE_MORE": "Voir plus",
                 "ACTION": "Action"
             },
-            "ENUM": {
+            "ENUMS": {
                 "TARGET": {
                     "REPORT": "Signalement",
                     "AREA": "Zone"
+                },
+                "TYPE": {
+                    "AWARENESS": "Sensibilisation"
+                },
+                "CHANNELS": {
+                    "PUSH": "Push",
+                    "EMAIL": "Email",
+                    "SMS": "SMS"
+                }
+            },
+            "FORM": {
+                "TITLE_FORM_ADD": "Formulaire D'envoie de message",
+                "TITLE_FORM_EDIT": "Formulaire de modification D'envoie de message",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "TYPE": "Type de message", 
+                    "TARGET": "Cible",
+                    "REPORT_ID": "ID Signalement",
+                    "REPORT_ID_PLACEHOLDER": "Saisir l'identifiant du signalement"
+                },
+                "FIELDSET_ADMINISTRATIVE_BOUNDARY": {
+                    "TITLE": "Limite administrative",
+                    "REGION": "Région",
+                    "DEPARTMENT": "Département",
+                    "MUNICIPALITY": "Municipalité"
+                },
+                "FIELDSET_CHANNELS": {
+                    "TITLE": "Cannaux",
+                    "PUSH": "Push",
+                    "EMAIL": "Email",
+                    "SMS": "SMS"
+                },
+                "FIELDSET_ADDITIONAL_INFO": {
+                    "TITLE": "Information complementaire",
+                    "SUBJECT": "Sujet",
+                    "SUBJECT_PLACEHOLDER": "Saisir le sujet",
+                    "CONTENT": "Contenu",
+                    "MESSAGE": "Message"
                 }
             },
             "SWEET_ALERT": {
@@ -2278,21 +2190,6 @@
                 "EDIT": "Modifier",
                 "DELETE": "Supprimer",
                 "DISABLE": "Désactiver"
-            },
-            "CONFIRM": {
-                "DELETE_TITLE": "Supprimer l'intervenant",
-                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'intervenant {{name}} ? Cette action est irréversible.",
-                "DISABLE_TITLE": "Désactiver l'intervenant",
-                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver l'intervenant {{name}} ?"
-            },
-            "MESSAGES": {
-                "SUCCESS": {
-                    "CREATED": "Intervenant créé avec succès",
-                    "UPDATED": "Intervenant modifié avec succès",
-                    "DELETED": "Intervenant supprimé avec succès",
-                    "ENABLED": "Intervenant activé avec succès",
-                    "DISABLED": "Intervenant désactivé avec succès"
-                }
             }
         }
     },

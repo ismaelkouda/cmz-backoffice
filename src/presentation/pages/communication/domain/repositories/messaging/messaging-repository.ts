@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
@@ -14,9 +13,6 @@ import { MessagingFilterEntity } from '@presentation/pages/communication/domain/
 import { MessagingUpdateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-update.entity';
 import { MessagingEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
 
-@Injectable({
-    providedIn: 'root',
-})
 export abstract class MessagingRepository {
     abstract readAll(
         entity: MessagingFilterEntity | null,

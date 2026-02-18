@@ -7,8 +7,7 @@ import {
     NotificationsFindOneEntity,
     NotificationsFindOneProps,
 } from '@presentation/pages/communication/domain/entities/notifications/notifications-find-one.entity';
-
-import { NotificationsFindOneItemApiDto } from '../../../api/dto/notifications/notifications-find-one-response-api.dto';
+import { NotificationsFindOneItemApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsFindOneMapper extends PaginatedMapper<

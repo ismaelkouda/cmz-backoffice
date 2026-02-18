@@ -1,5 +1,6 @@
 export interface MessagingUpdateApiDto {
     id: string;
+    report_id: string;
     type: string;
     target_type: string;
     region: string;

@@ -14,6 +14,7 @@ export class MessagingCreateHandler {
         command: MessagingCreateCommand
     ): Observable<SimpleResponseDto<void>> {
         return this.useCase.create({
+            reportId: command.reportId,
             type: command.type,
             targetType: command.targetType,
             region: command.region,

@@ -6,6 +6,9 @@ export function messagingUpdateMapper(
 ): MessagingUpdateApiDto {
     const params: MessagingUpdateApiDto = {} as MessagingUpdateApiDto;
 
+    if (entity.reportId) {
+        params.report_id = entity.reportId;
+    }
     if (entity.uniqId) {
         params.id = entity.uniqId;
     }

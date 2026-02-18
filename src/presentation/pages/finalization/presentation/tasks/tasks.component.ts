@@ -19,6 +19,7 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
@@ -31,12 +32,16 @@ import { ManagementDialogComponent } from '@shared/components/management/present
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
+import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 
+import { DetailsFacade } from '@presentation/pages/finalization/application/services/details/details.facade';
 import { TasksFacade } from '@presentation/pages/finalization/application/services/tasks/tasks.facade';
 import { TASKS_TABLE_CONST } from '@presentation/pages/finalization/domain/constants/tasks/tasks-table.constants';
 import { TasksFilterControl } from '@presentation/pages/finalization/domain/controls/tasks/tasks-filter-control';
@@ -65,6 +70,7 @@ export class TasksComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
     public readonly facade = inject(TasksFacade);
+    public readonly finalizeFacade = inject(DetailsFacade);
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
@@ -78,6 +84,8 @@ export class TasksComponent implements OnInit {
     );
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
+    public readonly selectedInTable = signal<TasksEntity[]>([]);
+    private lastSuccess = this.finalizeFacade.actionSuccess();
     public readonly tableConfig = TASKS_TABLE_CONST;
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -192,13 +200,13 @@ export class TasksComponent implements OnInit {
         uniqId: new FormControl<string>('', {
             nonNullable: true,
         }),
-        reportType: new FormControl<string>('', {
+        reportType: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         operators: new FormControl<string[]>([], {
             nonNullable: true,
         }),
-        source: new FormControl<string>('', {
+        source: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
         startDate: new FormControl<string>('', {
@@ -208,6 +216,35 @@ export class TasksComponent implements OnInit {
             nonNullable: true,
         }),
     });
+
+    private readonly formStateEffect = effect(() => {
+        const state = this.finalizeFacade.actionState();
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
+        }
+    });
+
+    private readonly successEffect = effect(() => {
+        const current = this.finalizeFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
+
+        this.lastSuccess = current;
+    });
+
+    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.FINALIZE',
+            actionId: 'finalize',
+            class: 'btn-primary',
+            icon: 'pi pi-check-circle',
+            translateKey: 'COMMON.FINALIZE',
+            disabled: !this.selectedInTable().length,
+        },
+    ]);
 
     constructor() {
         this.facade.read();
@@ -242,19 +279,11 @@ export class TasksComponent implements OnInit {
     public onRefreshClicked(): void {
         this.form.reset();
         this.facade.refresh();
+        this.selectedInTable.set([]);
     }
 
     public onPageChange(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
-    }
-
-    public onActionClicked(event: {
-        item: TasksEntity;
-        actionId?: string;
-    }): void {
-        const { item } = event;
-        this.selectedReportId = item.uniqId;
-        this.reportTreatmentVisible = true;
     }
 
     private t(key: string): string {
@@ -282,5 +311,41 @@ export class TasksComponent implements OnInit {
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
+    }
+
+    public onActionClicked(event: {
+        item: TasksEntity;
+        actionId?: string;
+    }): void {
+        const { item } = event;
+        this.selectedReportId = item.uniqId;
+        this.reportTreatmentVisible = true;
+    }
+
+    public onHeaderButtonClicked(actionId: string): void {
+        if (actionId === CrudFormType.TAKE) {
+            SweetAlert.fire({
+                ...SWEET_ALERT_PARAMS,
+                title: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_TAKE'),
+                text: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_MESSAGE'),
+                backdrop: false,
+                confirmButtonText: this.t('COMMON.CONFIRM'),
+                cancelButtonText: this.t('COMMON.CANCEL'),
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    this.finalizeFacade.take({
+                        uniqId: JSON.stringify(
+                            this.selectedInTable().map((p) => p.uniqId)
+                        ),
+                    });
+                    this.facade.refreshWithLastFilterAndPage();
+                }
+            });
+        }
+    }
+
+    public onSelectionChange(selection: TasksEntity | TasksEntity[]): void {
+        const tasks = Array.isArray(selection) ? selection : [selection];
+        this.selectedInTable.set(tasks.filter((u) => !!u));
     }
 }

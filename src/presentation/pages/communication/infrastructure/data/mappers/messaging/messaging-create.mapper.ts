@@ -9,6 +9,9 @@ export function messagingCreateMapper(
     if (entity.type) {
         params.type = entity.type;
     }
+    if (entity.reportId) {
+        params.reportId = entity.reportId;
+    }
     if (entity.targetType) {
         params.target_type = entity.targetType;
     }

@@ -13,12 +13,11 @@ export class ReportSourceMapper {
         [ReportSourceDto.USSD, ReportSource.USSD],
         [ReportSourceDto.SMS, ReportSource.SMS],
         [ReportSourceDto.IVR, ReportSource.IVR],
-        [ReportSourceDto.UNKNOWN, ReportSource.UNKNOWN],
     ]);
     mapToEnum(dtoValue: ReportSourceDto): ReportSource {
         if (dtoValue === null || dtoValue === undefined) {
-            return ReportSource.UNKNOWN;
+            return ReportSource.APP;
         }
-        return ReportSourceMapper.MAP.get(dtoValue) || ReportSource.UNKNOWN;
+        return ReportSourceMapper.MAP.get(dtoValue) || ReportSource.APP;
     }
 }

@@ -20,7 +20,10 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { separatorThousands } from '@shared/domain/functions/separator-thousands';
 
 import { DashboardFacade } from '@presentation/pages/dashboard/application/services/dashboard.facade';
+import { period } from '@presentation/pages/dashboard/domain/constants/period.const';
 import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
+import { Period } from '@presentation/pages/dashboard/domain/type/period.type';
+import { DashboardSkeletonComponent } from '@presentation/pages/dashboard/presentation/dashboard-skeleton/dashboard-skeleton.component';
 
 interface StatisticCard {
     key: string;
@@ -35,13 +38,12 @@ interface StatisticCard {
         isPositive: boolean;
     };
 }
-type PeriodOption = '7' | '30' | '60' | '90';
 
 @Component({
-    selector: 'app-dashboard',
+    selector: 'app-dashboard-page',
     standalone: true,
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss'],
+    templateUrl: './dashboard-page.component.html',
+    styleUrls: ['./dashboard-page.component.scss'],
     imports: [
         CommonModule,
         FormsModule,
@@ -49,33 +51,26 @@ type PeriodOption = '7' | '30' | '60' | '90';
         ButtonModule,
         ProgressSpinnerModule,
         SelectButtonModule,
+        DashboardSkeletonComponent,
         SkeletonModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardPageComponent implements OnInit {
     private readonly title = inject(Title);
     private readonly router = inject(Router);
     private readonly facade = inject(DashboardFacade);
     private readonly translate = inject(TranslateService);
 
-    readonly isLoading = toSignal(this.facade.isLoading$, {
+    public periodOpts = period;
+    readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    public items$ = this.facade.items$;
-    public error: string | null = null;
-
-    public readonly selectedPeriod = signal<PeriodOption>('7');
-    readonly dashboardData = toSignal(this.facade.items$, {
+    readonly items = toSignal(this.facade.items$, {
         initialValue: null,
     });
-
-    public periodOptions = [
-        { label: '7', value: '7' },
-        { label: '30', value: '30' },
-        { label: '60', value: '60' },
-        { label: '90', value: '90' },
-    ];
+    public readonly selectedPeriod = signal<Period>('7');
+    public error: string | null = null;
 
     public typeStatistics: StatisticCard[] = [];
     public taskStatusStatistics: StatisticCard[] = [];
@@ -88,7 +83,7 @@ export class DashboardComponent implements OnInit {
         });
 
         effect(() => {
-            const data = this.dashboardData();
+            const data = this.items();
             if (data) {
                 this.generateStatistics(data);
             }
@@ -99,7 +94,7 @@ export class DashboardComponent implements OnInit {
         this.title.setTitle(this.translate.instant('DASHBOARD.TITLE'));
     }
 
-    onPeriodChange(period: PeriodOption): void {
+    onPeriodChange(period: Period): void {
         this.selectedPeriod.set(period);
     }
 

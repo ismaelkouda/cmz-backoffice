@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
@@ -7,6 +9,9 @@ import {
 } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
 import { NotificationsItemApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-response-api.dto';
 
+@Injectable({
+    providedIn: 'root',
+})
 export class NotificationsMapper extends PaginatedMapper<
     NotificationsEntity,
     NotificationsItemApiDto

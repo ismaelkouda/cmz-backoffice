@@ -33,6 +33,7 @@
 
                         <section class="table-section">
                             <app-table
+                                selectionMode="multiple"
                                 class="table-component"
                                 dataKey="uniqId"
                                 [config]="tableConfig"
@@ -40,8 +41,14 @@
                                 [items]="items()"
                                 [pagination]="pagination()"
                                 (refreshRequested)="onRefreshClicked()"
-                                (actionClicked)="onActionClicked($event)"
                                 (export)="onExportClicked()"
+                                (actionClicked)="onActionClicked($event)"
+                                (headerButtonClicked)="
+                                    onHeaderButtonClicked($event)
+                                "
+                                [headerButtons]="headerButtons()"
+                                (selectionChange)="onSelectionChange($event)"
+                                [selection]="selectedInTable()"
                             >
                             </app-table>
 

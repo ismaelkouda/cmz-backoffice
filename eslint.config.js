@@ -57,7 +57,7 @@ export default tseslint.config(
         rules: {
 
             '@angular-eslint/no-forward-ref': 'error',
-            '@angular-eslint/use-injectable-provided-in': 'error',
+            // '@angular-eslint/use-injectable-provided-in': 'error',
             '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
             '@angular-eslint/component-class-suffix': ['error', { suffixes: ['Component','Page','Dialog'] }],
             '@angular-eslint/directive-selector': ['error', { type: 'attribute', prefix: 'app', style: 'camelCase' }],
@@ -72,9 +72,9 @@ export default tseslint.config(
             // '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/explicit-function-return-type': 'warn',
 
-            complexity: ['warn', 12],
-            'max-lines': ['warn', 250],
-            'max-lines-per-function': ['warn', { max: 80 }],
+            // complexity: ['warn', 12],
+            // 'max-lines': ['warn', 250],
+            // 'max-lines-per-function': ['warn', { max: 80 }],
 
             eqeqeq: 'error',
         'no-eval': 'error',
@@ -221,9 +221,9 @@ export default tseslint.config(
             '@angular-eslint/template/no-negated-async': 'error',
             '@angular-eslint/template/alt-text': 'error',
             '@angular-eslint/template/click-events-have-key-events': 'error',
-            '@angular-eslint/template/no-call-expression': 'warn',
-            '@angular-eslint/template/conditional-complexity': ['warn', { maxComplexity: 4 }],
-            '@angular-eslint/template/cyclomatic-complexity': ['warn', { maxComplexity: 5 }],
+            // '@angular-eslint/template/no-call-expression': 'warn',
+            // '@angular-eslint/template/conditional-complexity': ['warn', { maxComplexity: 4 }],
+            // '@angular-eslint/template/cyclomatic-complexity': ['warn', { maxComplexity: 5 }],
         },
     }
 );

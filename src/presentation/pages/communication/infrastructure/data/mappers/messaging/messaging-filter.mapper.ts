@@ -6,6 +6,9 @@ export function messagingFilterMapper(
 ): MessagingFilterApiDto {
     const params: MessagingFilterApiDto = {} as MessagingFilterApiDto;
 
+    if (entity.reportId) {
+        params.report_id = entity.reportId;
+    }
     if (entity.search) {
         params.search = entity.search;
     }
@@ -31,9 +34,6 @@ export function messagingFilterMapper(
     }
     if (entity.municipality) {
         params.municipality = entity.municipality;
-    }
-    if (entity.channels) {
-        params.channels = entity.channels;
     }
     if (entity.period?.start) {
         params.start_date = entity.period.start;

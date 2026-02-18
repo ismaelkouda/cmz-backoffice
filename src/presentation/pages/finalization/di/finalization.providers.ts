@@ -9,7 +9,7 @@ import { provideTasks } from '@presentation/pages/finalization/di/tasks/tasks.pr
 import { FINALIZATION_BASE_URL } from '@presentation/pages/finalization/infrastructure/api/finalization.base-url';
 
 const getApiBaseUrl = () => {
-    const baseUrl = inject(EnvService).authenticationUrl;
+    const baseUrl = inject(EnvService).reportUrl;
 
     if (!baseUrl) {
         console.warn(

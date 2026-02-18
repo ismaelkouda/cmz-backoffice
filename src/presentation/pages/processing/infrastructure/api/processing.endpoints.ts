@@ -1,7 +1,7 @@
 export const PROCESSING_ENDPOINTS = {
-    QUEUES: 'processing/queues',
-    TASKS: 'processing/tasks',
-    ALL: 'processing/all',
+    QUEUES: 'queues',
+    TASKS: 'taken',
+    ALL: 'processing',
     PROCESSING: 'processing-actions',
     DETAILS_REPORTS: '{id}',
 } as const;

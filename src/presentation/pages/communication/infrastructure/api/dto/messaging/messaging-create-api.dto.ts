@@ -1,4 +1,5 @@
 export interface MessagingCreateApiDto {
+    reportId: string;
     type: string;
     target_type: string;
     region: string;

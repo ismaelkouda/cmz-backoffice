@@ -113,16 +113,14 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
             {
                 type: 'date',
                 name: 'startDate',
-                label: 'COMMUNICATION.NOTIFICATIONS.FILTER.DATE.FROM',
-                placeholder:
-                    'COMMUNICATION.NOTIFICATIONS.FILTER.DATE.PLACEHOLDER',
+                label: 'COMMON.START_DATE',
+                placeholder: 'COMMON.DATE_PLACEHOLDER',
             },
             {
                 type: 'date',
                 name: 'endDate',
-                label: 'COMMUNICATION.NOTIFICATIONS.FILTER.DATE.TO',
-                placeholder:
-                    'COMMUNICATION.NOTIFICATIONS.FILTER.DATE.PLACEHOLDER',
+                label: 'COMMON.END_DATE',
+                placeholder: 'COMMON.DATE_PLACEHOLDER',
             },
         ];
     });
@@ -141,7 +139,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         }),
     });
     constructor() {
-        this.facade.readAll();
+        this.facade.read();
         this.translate.onLangChange
             .pipe(takeUntil(this.destroy$))
             .subscribe((event: LangChangeEvent) => {
@@ -171,7 +169,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     }
 
     public onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1', true);
+        this.facade.read(filterValues, '1', true);
     }
 
     public onRefreshClicked(): void {

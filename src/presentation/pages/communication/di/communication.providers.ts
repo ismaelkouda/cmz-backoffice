@@ -20,7 +20,7 @@ const getApiBaseUrl = () => {
     return baseUrl;
 };
 
-export const provideTeamOrganization = (): Provider[] => [
+export const provideCommunication = (): Provider[] => [
     {
         provide: COMMUNICATION_BASE_URL,
         useFactory: getApiBaseUrl,

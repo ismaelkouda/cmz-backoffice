@@ -88,6 +88,7 @@ export class MessagingFacade extends BaseFacade<
 
         const command = new MessagingQuery(
             filter?.search,
+            filter?.reportId,
             filter?.targetType,
             filter?.region,
             filter?.department,
@@ -115,6 +116,7 @@ export class MessagingFacade extends BaseFacade<
         const page = this.pageSubject.getValue();
         const command = new MessagingQuery(
             filter?.search,
+            filter?.reportId,
             filter?.targetType,
             filter?.region,
             filter?.department,
@@ -134,6 +136,7 @@ export class MessagingFacade extends BaseFacade<
             return;
         }
         const command = new MessagingQuery(
+            filter?.reportId,
             filter?.search,
             filter?.targetType,
             filter?.region,
@@ -157,6 +160,7 @@ export class MessagingFacade extends BaseFacade<
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new MessagingQuery(
+            filter?.reportId,
             filter?.search,
             filter?.targetType,
             filter?.region,
@@ -198,6 +202,7 @@ export class MessagingFacade extends BaseFacade<
         this._actionState.set('loading');
 
         const command = new MessagingCreateCommand(
+            messaging.reportId,
             messaging.type,
             messaging.targetType,
             messaging.region,
@@ -230,6 +235,7 @@ export class MessagingFacade extends BaseFacade<
         this._actionState.set('loading');
         const command = new MessagingUpdateCommand(
             messaging.uniqId,
+            messaging.reportId,
             messaging.type,
             messaging.targetType,
             messaging.region,
