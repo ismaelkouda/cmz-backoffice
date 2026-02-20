@@ -9,7 +9,6 @@ export class MessagingUpdateCommand {
         public readonly municipality: string,
         public readonly channels: string[],
         public readonly subject: string,
-        public readonly content: string,
-        public readonly message: string
+        public readonly content: string
     ) {}
 }

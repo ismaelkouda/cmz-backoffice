@@ -4,8 +4,13 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, startWith } from 'rxjs/operators';
 
 import { EndPointType } from '@shared/domain/types/end-point.types';
+import {
+    PROCESSING_ROUTE,
+    REPORT_FINALIZATION_ROUTE,
+    REQUESTS_ROUTE,
+} from '@shared/routes/routes';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class RouteContextService {
     private readonly router = inject(Router);
     constructor() {
@@ -31,27 +36,31 @@ export class RouteContextService {
     );
 
     readonly isRequestsModule = computed(
-        () => this.currentEndPointType() === 'requests'
+        () => this.currentEndPointType() === REQUESTS_ROUTE
     );
     readonly isReportsProcessingModule = computed(
-        () => this.currentEndPointType() === 'processing'
+        () => this.currentEndPointType() === PROCESSING_ROUTE
     );
     readonly isReportsFinalizationModule = computed(
-        () => this.currentEndPointType() === 'reports-finalization'
+        () => this.currentEndPointType() === REPORT_FINALIZATION_ROUTE
     );
 
     private _extractEndPointType(url: string): EndPointType {
         const normalizedUrl = url.toLowerCase();
+        console.log('normalizedUrl: ', normalizedUrl);
 
         const routeMappings = [
-            { pattern: '/requests', value: 'requests' as EndPointType },
             {
-                pattern: '/processing',
-                value: 'processing' as EndPointType,
+                pattern: `/${REQUESTS_ROUTE}`,
+                value: REQUESTS_ROUTE as EndPointType,
             },
             {
-                pattern: '/reports-finalization',
-                value: 'reports-finalization' as EndPointType,
+                pattern: `/${PROCESSING_ROUTE}`,
+                value: PROCESSING_ROUTE as EndPointType,
+            },
+            {
+                pattern: `/${REPORT_FINALIZATION_ROUTE}`,
+                value: REPORT_FINALIZATION_ROUTE as EndPointType,
             },
         ];
 
@@ -61,17 +70,6 @@ export class RouteContextService {
             }
         }
 
-        return 'requests';
-    }
-
-    debugCurrentRoute(): void {
-        console.log('🐛 Debug Route:');
-        console.log(' - URL actuelle:', this.router.url);
-        console.log(' - EndPointType:', this.currentEndPointType());
-        console.log(' - Is Requests:', this.isRequestsModule());
-        console.log(
-            ' - Is Reports Processing:',
-            this.isReportsProcessingModule()
-        );
+        return REQUESTS_ROUTE;
     }
 }

@@ -766,7 +766,7 @@ import { TranslateService } from '@ngx-translate/core';
         }
 
         public copyToClipboard(data: string): void {
-            const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
+            const translatedMessage = this.translate.instant('COMMON.COPIED_TO_CLIPBOARD');
             this.toastService.success(translatedMessage);
             this.clipboardService.copyFromContent(data);
         }
@@ -1322,7 +1322,7 @@ if (-not (Test-Path $featurePath)) {
         }
 
         public copyToClipboard(data: string): void {
-            const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
+            const translatedMessage = this.translate.instant('COMMON.COPIED_TO_CLIPBOARD');
             this.toastService.success(translatedMessage);
             this.clipboardService.copyFromContent(data);
         }

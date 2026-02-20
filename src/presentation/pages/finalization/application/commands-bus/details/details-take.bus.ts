@@ -8,11 +8,11 @@ import { DetailsTakeHandler } from '@presentation/pages/finalization/application
 
 @Injectable({ providedIn: 'root' })
 export class DetailsTakeBus {
-    constructor(private readonly createHandler: DetailsTakeHandler) {}
+    constructor(private readonly takeHandler: DetailsTakeHandler) {}
 
     dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
         if (command instanceof DetailsTakeCommand) {
-            return this.createHandler.execute(command);
+            return this.takeHandler.execute(command);
         }
 
         throw new Error('No handler found for command');

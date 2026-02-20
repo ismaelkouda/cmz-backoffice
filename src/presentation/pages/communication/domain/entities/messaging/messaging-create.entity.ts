@@ -10,8 +10,7 @@ export class MessagingCreateEntity {
         public readonly municipality: string,
         public readonly channels: string[],
         public readonly subject: string,
-        public readonly content: string,
-        public readonly message: string
+        public readonly content: string
     ) {}
 
     static fromVo(vo: MessagingCreateVo): MessagingCreateEntity {
@@ -24,8 +23,7 @@ export class MessagingCreateEntity {
             vo.municipality,
             vo.channels,
             vo.subject,
-            vo.content,
-            vo.message
+            vo.content
         );
     }
 }

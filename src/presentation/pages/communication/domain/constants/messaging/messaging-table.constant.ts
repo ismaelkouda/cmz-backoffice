@@ -7,19 +7,19 @@ export const MESSAGING_TABLE = {
             width: '2rem',
         },
         {
-            field: 'lastName',
+            field: 'type',
+            header: 'COMMUNICATION.MESSAGING.TABLE.TYPE',
+            width: '10rem',
+        },
+        {
+            field: 'subject',
             header: 'COMMUNICATION.MESSAGING.TABLE.SUBJECT',
             width: '10rem',
         },
         {
-            field: 'firstName',
+            field: 'content',
             header: 'COMMUNICATION.MESSAGING.TABLE.CONTENT',
             width: '12rem',
-        },
-        {
-            field: 'email',
-            header: 'COMMUNICATION.MESSAGING.TABLE.MESSAGE',
-            width: '10rem',
         },
         {
             field: 'ceratedAt',

@@ -1,8 +1,6 @@
-export enum DetailsState {
+export enum State {
     PENDING = 'pending',
-    APPROVED = 'approved',
-    REJECTED = 'rejected',
     IN_PROGRESS = 'in-progress',
-    COMPLETED = 'completed',
     TERMINATED = 'terminated',
+    COMPLETED = 'completed',
 }

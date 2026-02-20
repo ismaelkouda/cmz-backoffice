@@ -226,8 +226,6 @@ export class MessagingFormComponent implements OnInit {
                 'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADDITIONAL_INFO.SUBJECT',
             content:
                 'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADDITIONAL_INFO.CONTENT',
-            message:
-                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADDITIONAL_INFO.MESSAGE',
         };
 
         const errors = Object.keys(this.form.controls)

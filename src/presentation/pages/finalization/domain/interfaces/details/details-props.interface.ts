@@ -7,12 +7,13 @@ import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
-import { DetailsFinalizationState } from '@presentation/pages/finalization/domain/enums/details/details-finalization-state/details-finalization-state.enum';
-import { DetailsState } from '@presentation/pages/finalization/domain/enums/details/details-state/details-state.enum';
+import { FinalizationState } from '@presentation/pages/finalization/domain/enums/details/details-finalization-state/details-finalization-state.enum';
+import { State } from '@presentation/pages/finalization/domain/enums/details/details-state/details-state.enum';
 import { DetailsStatus } from '@presentation/pages/finalization/domain/enums/details/details-status/details-status.enum';
 import { DetailsTreaterInfo } from '@presentation/pages/finalization/domain/types/details/details-treater-info.type';
 
 export interface DetailsProps {
+    type: string;
     uniqId: string;
     reportUniqId: string;
     initiatorPhone: string;
@@ -31,8 +32,8 @@ export interface DetailsProps {
     media: ReportMediaEntity | null;
     treater: DetailsTreaterInfo;
     status: DetailsStatus;
-    finalizationState: DetailsFinalizationState | null;
-    state: DetailsState;
+    finalizationState: FinalizationState;
+    state: State;
     region: AdministrativeBoundaryEntity | null;
     department: AdministrativeBoundaryEntity | null;
     municipality: AdministrativeBoundaryEntity | null;

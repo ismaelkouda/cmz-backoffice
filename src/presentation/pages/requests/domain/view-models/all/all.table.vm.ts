@@ -15,7 +15,7 @@ export class AllTableVm {
             reportType: entity.reportType,
             reportTypeLabel: this.translate.instant(entity.reportType),
             source: entity.source,
-            state: entity.state,
+            status: entity.status,
             sourceLabel: this.translate.instant(entity.source),
             operators: entity.operators,
             operatorsLabels: entity.operators.map((op) =>

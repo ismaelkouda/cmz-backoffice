@@ -18,21 +18,17 @@ import { TooltipModule } from 'primeng/tooltip';
     styleUrls: ['./management-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SimpleManagementSidebarComponent {
+export class ManagementSidebarComponent {
     public readonly item = input.required<any>();
     public readonly uniqId = input.required<string>();
+    public readonly loading = input.required<boolean>();
     public readonly submitting = input<boolean>(false);
 
     public readonly submitAction = output();
     public readonly copyItem = output<string>();
 
     protected readonly showTakeButton = computed((): boolean => {
-        return !!(
-            this.item()?.canBeTaken ||
-            this.item()?.canBeApproved ||
-            this.item()?.canBeTreated ||
-            this.item()?.canBeFinalized
-        );
+        return !!this.item()?.canBeTaken;
     });
 
     protected readonly getActionLabel = computed((): string => {

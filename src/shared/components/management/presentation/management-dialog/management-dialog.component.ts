@@ -12,14 +12,7 @@ import {
     signal,
     Signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import {
-    FormBuilder,
-    FormControl,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
@@ -30,7 +23,6 @@ import { SelectModule } from 'primeng/select';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 import {
@@ -41,15 +33,23 @@ import { TABS } from '@shared/components/management/domain/constants/management-
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { Motifs } from '@shared/components/management/domain/enums/management-motif.enum';
 import { RouteContextService } from '@shared/components/management/domain/services/management-route-context.service';
+import {
+    ManagementContext,
+    ManagementStateService,
+} from '@shared/components/management/domain/services/management-state.service';
+import { ManagementValidationService } from '@shared/components/management/domain/services/management-validation.service';
+import { ManagementHeaderComponent } from '@shared/components/management/presentation/management-header/management-header.component';
 import { ManagementInfoPanelComponent } from '@shared/components/management/presentation/management-info-panel/management-info-panel.component';
 import { ManagementMapComponent } from '@shared/components/management/presentation/management-map/management-map.component';
+import { ManagementPhotosPanelComponent } from '@shared/components/management/presentation/management-photos-panel.component.html/management-photos-panel.component';
+import { ManagementSidebarComponent } from '@shared/components/management/presentation/management-sidebar/management-sidebar.component';
 import { ManagementTreatmentFormComponent } from '@shared/components/management/presentation/management-treatment-form/management-treatment-form.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 
-import { DetailsFacade as FinalizationFacade } from '@presentation/pages/finalization/application/services/details/details.facade';
-import { DetailsFacade as ProcessingFacade } from '@presentation/pages/processing/application/services/details/details.facade';
-import { DetailsFacade as RequestsFacade } from '@presentation/pages/requests/application/services/details/details.facade';
+import { DetailsEntity as FinalizationEntity } from '@presentation/pages/finalization/domain/entities/details/details.entity';
+import { DetailsEntity as ProcessingEntity } from '@presentation/pages/processing/domain/entities/details/details.entity';
+import { DetailsEntity as RequestsEntity } from '@presentation/pages/requests/domain/entities/details/details.entity';
 
 @Component({
     selector: 'app-management-dialog',
@@ -66,21 +66,27 @@ import { DetailsFacade as RequestsFacade } from '@presentation/pages/requests/ap
         TooltipModule,
         SelectModule,
         ReactiveFormsModule,
+        ManagementHeaderComponent,
+        ManagementSidebarComponent,
+        ManagementPhotosPanelComponent,
         ManagementMapComponent,
         ManagementInfoPanelComponent,
         ManagementTreatmentFormComponent,
         TagModule,
     ],
-    providers: [MessageService, RouteContextService],
+    providers: [
+        MessageService,
+        RouteContextService,
+        ManagementValidationService,
+        ManagementStateService,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementDialogComponent implements OnInit, OnDestroy {
     private readonly toastService = inject(ToastrService);
     private readonly translate = inject(TranslateService);
-    private readonly route = inject(ActivatedRoute);
-    private readonly requestsFacade = inject(RequestsFacade);
-    private readonly processingFacade = inject(ProcessingFacade);
-    private readonly finalizationFacade = inject(FinalizationFacade);
+    private readonly validationService = inject(ManagementValidationService);
+    private readonly stateService = inject(ManagementStateService);
     private readonly fb = inject(FormBuilder);
     private readonly routeContextService = inject(RouteContextService);
     private readonly clipboardService = inject(ClipboardService);
@@ -92,38 +98,23 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     public selectedTabIndex = 0;
     public isTreatmentFormExpanded = true;
     public readonly TABS = TABS;
-    private lastRequestsSuccess = this.requestsFacade.actionSuccess();
-    private lastProcessingSuccess = this.processingFacade.actionSuccess();
-    private lastFinalizationSuccess = this.finalizationFacade.actionSuccess();
-
-    public readonly itemsRequests = toSignal(this.requestsFacade.items$, {
-        initialValue: null,
-    });
-    readonly loadingReports = toSignal(this.requestsFacade.isLoading$, {
-        initialValue: false,
-    });
-
-    public readonly itemsProcessing = toSignal(this.processingFacade.items$, {
-        initialValue: null,
-    });
-    readonly loadingProcessing = toSignal(this.processingFacade.isLoading$, {
-        initialValue: false,
-    });
-
-    public readonly itemsFinalization = toSignal(
-        this.finalizationFacade.items$,
-        {
-            initialValue: null,
+    private readonly context = computed<ManagementContext>(() => {
+        if (this.routeContextService.isRequestsModule()) {
+            return 'requests';
         }
-    );
-    readonly loadingFinalization = toSignal(
-        this.finalizationFacade.isLoading$,
-        {
-            initialValue: false,
+        if (this.routeContextService.isReportsProcessingModule()) {
+            return 'processing';
         }
-    );
+        if (this.routeContextService.isReportsFinalizationModule()) {
+            return 'finalization';
+        }
+        return null;
+    });
+    public readonly items = this.stateService.items;
+    public readonly loading = this.stateService.loading;
+    public readonly actionState = this.stateService.actionState;
+    public readonly submitting = computed(() => this.actionState());
 
-    private readonly destroy$ = new Subject<void>();
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
@@ -145,121 +136,39 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         }),
     });
 
-    private readonly patchRequestsForm = effect(() => {
-        const item = this.itemsRequests();
-        if (item && Object.keys(item).length > 0) {
-            const decisionControl = this.form.get('decision');
-            const reasonControl = this.form.get('reason');
-            const commentControl = this.form.get('comment');
-            if (item.canBeApproved) {
-                decisionControl?.setValidators([Validators.required]);
-                decisionControl?.valueChanges
-                    .pipe(takeUntil(this.destroy$))
-                    .subscribe((decision) => {
-                        if (decision === 'rejected') {
-                            reasonControl?.setValidators([Validators.required]);
-                            commentControl?.setValidators([
-                                Validators.required,
-                            ]);
-                        } else {
-                            reasonControl?.clearValidators();
-                            commentControl?.clearValidators();
-                        }
-                        reasonControl?.updateValueAndValidity();
-                        commentControl?.updateValueAndValidity();
-                    });
-            }
+    private readonly validationEffect = effect(() => {
+        const items = this.items();
+        const context = this.context();
+        if (items && context) {
+            this.validationService.configureFormValidators(
+                this.form,
+                context,
+                items
+            );
         }
     });
 
-    private readonly patchProcessingFrom = effect(() => {
-        const item = this.itemsProcessing();
-        if (item && Object.keys(item).length > 0) {
-            const commentControl = this.form.get('comment');
-            if (item.canBeTreated) {
-                commentControl?.setValidators([Validators.required]);
-            }
-        }
-    });
-
-    private readonly patchFinalizationForm = effect(() => {
-        const item = this.itemsFinalization();
-        if (item && Object.keys(item).length > 0) {
-            const commentControl = this.form.get('comment');
-            if (item.canBeFinalized) {
-                commentControl?.setValidators([Validators.required]);
-            }
-        }
-    });
-
-    private readonly stateRequestsFormEffect = effect(() => {
-        const state = this.requestsFacade.actionState();
-        if (state === 'loading') {
+    private readonly loadingEffect = effect(() => {
+        if (this.submitting()) {
             this.form.disable({ emitEvent: false });
         } else {
             this.form.enable({ emitEvent: false });
         }
     });
 
-    private readonly stateRequestsFormSuccessEffect = effect(() => {
-        const current = this.requestsFacade.actionSuccess();
-        if (current === this.lastRequestsSuccess) {
-            return;
+    private readonly successEffect = effect(() => {
+        const success = this.stateService.actionSuccess();
+        if (success) {
+            this.onCloseDialog();
         }
-        this.lastRequestsSuccess = current;
-        this.onCloseDialog();
-    });
-
-    private readonly stateProcessingFormEffect = effect(() => {
-        const state = this.processingFacade.actionState();
-        if (state === 'loading') {
-            this.form.disable({ emitEvent: false });
-        } else {
-            this.form.enable({ emitEvent: false });
-        }
-    });
-
-    private readonly stateProcessingFormSuccessEffect = effect(() => {
-        const current = this.processingFacade.actionSuccess();
-        if (current === this.lastProcessingSuccess) {
-            return;
-        }
-        this.lastProcessingSuccess = current;
-        this.onCloseDialog();
-    });
-
-    private readonly stateFinalizationFormEffect = effect(() => {
-        const state = this.finalizationFacade.actionState();
-        if (state === 'loading') {
-            this.form.disable({ emitEvent: false });
-        } else {
-            this.form.enable({ emitEvent: false });
-        }
-    });
-
-    private readonly stateFinalizationFormSuccessEffect = effect(() => {
-        const current = this.finalizationFacade.actionSuccess();
-        if (current === this.lastFinalizationSuccess) {
-            return;
-        }
-        this.lastFinalizationSuccess = current;
-        this.onCloseDialog();
     });
 
     ngOnInit(): void {
-        const dto = { uniqId: this.uniqId() };
-        if (this.routeContextService.isRequestsModule()) {
-            this.requestsFacade.read(dto);
-        } else if (this.routeContextService.isReportsProcessingModule()) {
-            this.processingFacade.read(dto);
-        } else if (this.routeContextService.isReportsFinalizationModule()) {
-            this.finalizationFacade.read(dto);
-        }
+        this.stateService.initialize(this.context(), this.uniqId());
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this.stateService.reset();
     }
 
     public toggleTreatmentForm(): void {
@@ -290,21 +199,84 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     }
 
     public onValidReportTreatment(): void {
-        if (!this.uniqId()) {
+        const items = this.items();
+        const context = this.context();
+
+        if (!this.uniqId() || !items || !context) {
             return;
         }
-        if (
-            !this.itemsRequests()?.canBeTaken ||
-            !this.itemsProcessing()?.canBeTaken ||
-            !this.itemsFinalization()?.canBeTaken
-        ) {
-            if (this.form.invalid) {
-                this.markFormAsTouched();
-                return;
-            }
+
+        // if (this.validationService.isTakeAction(items)) {
+        //     this.executeAction('take', {});
+        //     return;
+        // }
+
+        // if (
+        //     !this.validationService.isFormValidForContext(
+        //         this.form,
+        //         context,
+        //         items
+        //     )
+        // ) {
+        //     this.markFormAsTouched();
+        //     return;
+        // }
+
+        if (!this.validateForm()) {
+            return;
         }
 
-        const { title, message } = this.getSweetAlertLabels();
+        this.showConfirmationDialog();
+    }
+
+    private validateForm(): boolean {
+        this.form.updateValueAndValidity({ emitEvent: false });
+
+        if (this.form.invalid) {
+            this.markFormAsTouched();
+            return false;
+        }
+
+        return true;
+    }
+
+    public setDecision(decision: string): void {
+        this.form.patchValue({ decision });
+        if (decision === 'accepted') {
+            this.form.patchValue({ reason: '' });
+        }
+        this.form.get('decision')?.markAsTouched();
+    }
+
+    public selectTab(index: number): void {
+        this.selectedTabIndex = index;
+    }
+
+    public onCloseDialog(): void {
+        SweetAlert.close();
+        this.visibleChange.emit(false);
+        this.closed.emit();
+        this.stateService.reset();
+    }
+
+    public getOperatorTagStyle(operator: string): Record<string, string> {
+        return operatorsTagStyle(operator);
+    }
+
+    public trackByTab(_: number, tab: { value: string }): string {
+        return tab.value;
+    }
+
+    private markFormAsTouched(): void {
+        Object.values(this.form.controls).forEach((control) =>
+            control.markAsTouched()
+        );
+    }
+
+    private showConfirmationDialog(): void {
+        const items = this.items();
+        console.log('items: ', items);
+        const { title, message } = this.getSweetAlertLabels(items);
 
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
@@ -314,77 +286,47 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
-            if (result.isConfirmed && this.form.valid && this.uniqId()) {
-                this.executeManagementAction();
+            if (result.isConfirmed && this.form.valid) {
+                this.executeAction(this.getActionType(), this.form.value);
             }
         });
     }
 
-    private executeManagementAction(): void {
-        // const actionMap: Record<DetailsPermissions, () => void> = {
-        //     take: () => {
-        //         if (this.routeContextService.isRequestsModule()) {
-        //             this.reportFacade.take({
-        //                 uniqId: this.uniqId(),
-        //             });
-        //         } else if (
-        //             this.routeContextService.isReportsProcessingModule()
-        //         ) {
-        //         } else if (
-        //             this.routeContextService.isReportsFinalizationModule()
-        //         ) {
-        //         }
-        //     },
-        //     approve: () => {
-        //         const decision = this.form.get('decision')?.value;
-        //         if (decision === 'rejected') {
-        //             this.reportFacade.approve();
-        //         } else {
-        //             this.reportFacade.reject();
-        //         }
-        //     },
-        //     treat: () =>
-        //         this.reportFacade.treat({
-        //             uniqId: this.uniqId(),
-        //             comment: this.form.value.comment ?? '',
-        //         }),
-        //     finalize: () => this.managementFacade.finalize(),
-        //     see: () => of(),
-        // };
-        // actionMap[this.items()?.permissions ?? 'see'];
-    }
-
-    public setDecision(decision: string): void {
-        this.form.patchValue({
-            decision: decision,
-        });
-        if (decision === 'accepted') {
-            this.form.patchValue({
-                reason: '',
-            });
+    private getActionType(): string {
+        const items = this.items();
+        console.log('items: ', items);
+        if (items?.canBeTaken) {
+            return 'take';
         }
-        this.form.get('decision')?.markAsTouched();
-    }
-
-    private markFormAsTouched(): void {
-        for (const control of Object.values(this.form.controls)) {
-            control.markAsTouched();
+        if ((items as RequestsEntity).canBeApproved) {
+            return this.form.get('decision')?.value === 'rejected'
+                ? 'reject'
+                : 'approve';
         }
+        if ((items as ProcessingEntity).canBeTreated) {
+            return 'treat';
+        }
+        if ((items as FinalizationEntity).canBeFinalized) {
+            return 'finalize';
+        }
+        return 'see';
     }
 
-    private getSweetAlertLabels(): { title: string; message: string } {
-        if (
-            this.itemsRequests()?.canBeTaken ||
-            this.itemsProcessing()?.canBeTaken ||
-            this.itemsFinalization()?.canBeTaken
-        ) {
+    private executeAction(action: string, payload: any): void {
+        console.log('payload: ', payload);
+        console.log('action: ', action);
+        this.stateService.executeAction(action, payload);
+    }
+
+    private getSweetAlertLabels(item: any): { title: string; message: string } {
+        if (item?.canBeTaken) {
             return {
                 title: 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.WAITING.TITLE',
                 message: 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.WAITING.TITLE',
             };
-        } else if (this.itemsRequests()?.canBeApproved) {
+        } else if (item?.canBeApproved) {
             const decision = this.form.get('decision')?.value;
-            if (decision === 'reject') {
+            if (decision === 'rejected') {
                 return {
                     title: 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.REJECT.TITLE',
                     message:
@@ -397,42 +339,23 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
                         'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.APPROVAL.TITLE',
                 };
             }
-        } else if (this.itemsProcessing()?.canBeTreated) {
+        } else if (item?.canBeTreated) {
             return {
                 title: 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.TREATMENT.TITLE',
                 message:
                     'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.TREATMENT.TITLE',
             };
-        } else if (this.itemsFinalization()?.canBeFinalized) {
+        } else if (item?.canBeFinalized) {
             return {
                 title: 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.FINALIZE.TITLE',
                 message:
                     'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.FINALIZE.TITLE',
             };
-        } else {
-            return { title: '', message: '' };
         }
-    }
-
-    trackByTab(_: number, tab: string): string {
-        return tab;
-    }
-
-    public selectTab(index: number): void {
-        this.selectedTabIndex = index;
-    }
-
-    getOperatorTagStyle(operator: string): Record<string, string> {
-        return operatorsTagStyle(operator);
+        return { title: '', message: '' };
     }
 
     private t(key: string, params?: object): string {
         return this.translate.instant(key, params);
-    }
-
-    public onCloseDialog(): void {
-        SweetAlert.close();
-        this.visibleChange.emit(false);
-        this.closed.emit();
     }
 }

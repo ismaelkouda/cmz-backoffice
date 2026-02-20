@@ -1,5 +1,5 @@
-import { HistoryFilterEntity } from '@shared/components/history/core/domain/entities/history-filter.entity';
-import { HistoryFilterApiDto } from '@shared/components/history/infrastructure/api/dtos/history-filter-api.dto';
+import { HistoryFilterEntity } from '@shared/components/history/domain/entities/history-filter.entity';
+import { HistoryFilterApiDto } from '@shared/components/history/infrastructure/api/dto/history-filter-api.dto';
 
 export function HistoryFilterMapper(
     vo: HistoryFilterEntity

@@ -11,7 +11,6 @@ export interface MessagingFindOneItemApiDto {
     channels: string[];
     subject: string;
     content: string;
-    message: string;
     created_at: string;
 }
 

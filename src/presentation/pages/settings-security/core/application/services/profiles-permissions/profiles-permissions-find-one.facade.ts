@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 
-import { shouldFetch } from '@shared/application/services/facade.utils';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
@@ -17,33 +16,14 @@ export class ProfilesPermissionsFindOneFacade extends ObjectBaseFacade<
     ProfilesPermissionsFindOneEntity,
     ProfilesPermissionsFindOneFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(ProfilesPermissionsFindOneBus);
 
-    private hasInitialized = false;
-    private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    read(
-        filter: ProfilesPermissionsFindOneFilterDto,
-        forceRefresh = false
-    ): void {
-        const hasData = this.itemsSubject.getValue() !== null;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
+    read(filter: ProfilesPermissionsFindOneFilterDto, force = false): void {
         const command = new ProfilesPermissionsFindOneQuery(filter.uniqId);
         const fetch$ = this.bus.dispatch(command);
-        this.fetchWithFilter(filter, fetch$, this.uiFeedbackService);
-
-        this.hasInitialized = true;
-        this.lastFetchTimestamp = Date.now();
+        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
     }
 }

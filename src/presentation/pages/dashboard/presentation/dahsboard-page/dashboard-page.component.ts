@@ -7,7 +7,6 @@ import {
     inject,
     signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -63,12 +62,8 @@ export class DashboardPageComponent implements OnInit {
     private readonly translate = inject(TranslateService);
 
     public periodOpts = period;
-    readonly loading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
-    readonly items = toSignal(this.facade.items$, {
-        initialValue: null,
-    });
+    readonly loading = this.facade.loading;
+    readonly items = this.facade.items;
     public readonly selectedPeriod = signal<Period>('7');
     public error: string | null = null;
 

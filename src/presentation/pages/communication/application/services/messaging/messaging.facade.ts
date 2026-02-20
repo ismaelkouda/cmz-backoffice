@@ -210,8 +210,7 @@ export class MessagingFacade extends BaseFacade<
             messaging.municipality,
             messaging.channels,
             messaging.subject,
-            messaging.content,
-            messaging.message
+            messaging.content
         );
 
         this.handleActionWithRefresh(
@@ -243,8 +242,7 @@ export class MessagingFacade extends BaseFacade<
             messaging.municipality,
             messaging.channels,
             messaging.subject,
-            messaging.content,
-            messaging.message
+            messaging.content
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

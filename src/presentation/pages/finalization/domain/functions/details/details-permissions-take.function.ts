@@ -1,6 +1,6 @@
-import { DetailsFinalizationState } from '@presentation/pages/finalization/domain/enums/details/details-finalization-state/details-finalization-state.enum';
+import { FinalizationState } from '@presentation/pages/finalization/domain/enums/details/details-finalization-state/details-finalization-state.enum';
 import { DetailsProps } from '@presentation/pages/finalization/domain/interfaces/details/details-props.interface';
 
 export function detailsPermissionsTake(props: DetailsProps): boolean {
-    return props.finalizationState === DetailsFinalizationState.PENDING;
+    return props.finalizationState === FinalizationState.PENDING;
 }

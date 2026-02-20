@@ -2,8 +2,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { UiFeedbackService } from '../../domain/services/ui-feedback.service';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 export interface FetchOptions<TEntity, TFilter> {
     itemsSubject: BehaviorSubject<TEntity[]>;
@@ -81,9 +80,12 @@ export function handleObservableWithFeedback<T>(
             if (successKey) {
                 uiFeedback.success(successKey);
             }
+            console.log('00000', refresh);
             if (refresh) {
+                console.log('1111', refresh);
                 refresh();
             }
+            console.log('2222', refresh);
         }),
         catchError((error) => {
             uiFeedback.errorFromApi(error);

@@ -89,10 +89,8 @@ export class ParticipantsFormComponent implements OnInit {
     readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();
     private itemPatched = false;
-    readonly items = toSignal(this.facade.item$, { initialValue: null });
-    readonly loading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
+    readonly items = this.facade.items;
+    readonly loading = this.facade.loading;
     private readonly paramsUniqId = toSignal(
         this.activatedRoute.queryParams.pipe(
             map((p) => (p['uniqId'] as string) || '')

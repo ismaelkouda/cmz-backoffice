@@ -9,5 +9,4 @@ export interface MessagingUpdateDto {
     channels: string[];
     subject: string;
     content: string;
-    message: string;
 }

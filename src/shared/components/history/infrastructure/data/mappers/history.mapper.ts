@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { HistoryEntity } from '@shared/components/history/core/domain/entities/history.entity';
-import { HistoryItemApiDto } from '@shared/components/history/infrastructure/api/dtos/history-response.api.dto';
+import { HistoryEntity } from '@shared/components/history/domain/entities/history.entity';
+import { HistoryItemApiDto } from '@shared/components/history/infrastructure/api/dto/history-response.api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

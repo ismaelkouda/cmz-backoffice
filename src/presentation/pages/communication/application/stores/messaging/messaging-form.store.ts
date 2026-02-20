@@ -13,7 +13,7 @@ import {
     FormControl,
     Validators,
 } from '@angular/forms';
-import { filter, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 
@@ -30,9 +30,7 @@ export class MessagingFormStore {
     private readonly facade = inject(MessagingFindOneFacade);
     private readonly regionsFacade = inject(RegionsSelectFacade);
 
-    private readonly item = toSignal(this.facade.item$.pipe(filter(Boolean)), {
-        initialValue: null,
-    });
+    private readonly item = this.facade.items;
     private readonly itemPatched = signal(false);
     private readonly selectedRegionCode = signal<string | null>(null);
     private readonly selectedDepartmentCode = signal<string | null>(null);
@@ -70,9 +68,7 @@ export class MessagingFormStore {
     });
 
     readonly isEditMode = signal(false);
-    readonly loading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
+    readonly loading = this.facade.loading;
     readonly isReportMode = computed(() => {
         const targetType = this.currentTargetType();
         return targetType === getEnumKeyByValue(Target, Target.report);
@@ -119,14 +115,6 @@ export class MessagingFormStore {
                     Validators.minLength(FormValidators.CONTENT.MIN),
                     Validators.maxLength(FormValidators.CONTENT.MAX),
                     Validators.pattern(FormValidators.CONTENT.PATTERN),
-                ],
-            }),
-            message: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.MESSAGE.MIN),
-                    Validators.maxLength(FormValidators.MESSAGE.MAX),
                 ],
             }),
         });
@@ -297,7 +285,6 @@ export class MessagingFormStore {
                         channels: item.channels,
                         subject: item.subject,
                         content: item.content,
-                        message: item.message,
                     },
                     { emitEvent: false }
                 );

@@ -22,7 +22,7 @@ import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.
 })
 export class ManagementInfoPanelComponent {
     public readonly item = input.required<any>();
-    public readonly loading = input<boolean>(false);
+    public readonly loading = input.required<boolean>();
     public readonly showCommentSections = input<boolean>(true);
 
     public readonly copy = output<string>();

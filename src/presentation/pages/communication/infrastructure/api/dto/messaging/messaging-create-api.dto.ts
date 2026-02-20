@@ -1,5 +1,5 @@
 export interface MessagingCreateApiDto {
-    reportId: string;
+    report_uniq_id: string;
     type: string;
     target_type: string;
     region: string;
@@ -8,5 +8,4 @@ export interface MessagingCreateApiDto {
     channels: string[];
     subject: string;
     content: string;
-    message: string;
 }

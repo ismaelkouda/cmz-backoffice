@@ -11,12 +11,12 @@ export const TASKS_TABLE_CONST = {
             tooltip: 'FINALIZATION.QUEUES.TABLE.TAKE',
             severity: 'primary',
         },
-        {
+        /* {
             id: 'finalize',
             icon: 'pi pi-check-circle',
             tooltip: 'FINALIZATION.QUEUES.TABLE.FINALIZE',
             severity: 'info',
-        },
+        }, */
     ],
     cols: [
         {

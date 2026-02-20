@@ -1,18 +1,8 @@
-import { Injectable } from '@angular/core';
-import {
-    BehaviorSubject,
-    catchError,
-    debounceTime,
-    distinctUntilChanged,
-    finalize,
-    Observable,
-    tap,
-    throwError,
-} from 'rxjs';
+import { computed, Injectable, signal } from '@angular/core';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
-import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { ResourceState } from '@shared/domain/interfaces/resource-state.type';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-import { EndPointType } from '@shared/domain/types/end-point.types';
 
 Injectable({ providedIn: 'root' });
 
@@ -20,108 +10,150 @@ export interface Filter {
     toDto(): Record<string, string | string[]>;
 }
 export class ObjectBaseFacade<TEntity, TFilter> {
-    protected readonly itemsSubject = new BehaviorSubject<TEntity>(
-        {} as TEntity
-    );
-    protected readonly isLoadingSubject = new BehaviorSubject<boolean>(false);
-    protected readonly filterSubject = new BehaviorSubject<TFilter | null>(
-        null
-    );
+    protected readonly _state = signal<ResourceState<TEntity>>({
+        data: null,
+        loading: false,
+        error: null,
+        lastFetch: 0,
+    });
 
-    readonly items$: Observable<TEntity> = this.itemsSubject.asObservable();
-    readonly isLoading$: Observable<boolean> =
-        this.isLoadingSubject.asObservable();
-    readonly currentFilter$: Observable<TFilter | null> = this.filterSubject
-        .asObservable()
-        .pipe(
-            distinctUntilChanged((prev, curr) => {
-                if (prev === curr) {
-                    return true;
-                }
-                if (!prev && !curr) {
-                    return true;
-                }
-                if (!prev || !curr) {
-                    return false;
-                }
+    readonly state = this._state.asReadonly();
 
-                const prevDto: Record<string, string | string[]> = prev;
-                const currDto: Record<string, string | string[]> = curr;
+    readonly items = computed(() => this._state().data);
+    readonly loading = computed(() => this._state().loading);
+    readonly error = computed(() => this._state().error);
 
-                const prevKeys = Object.keys(prevDto).sort();
-                const currKeys = Object.keys(currDto).sort();
+    protected readonly _filter = signal<TFilter | null>(null);
 
-                if (prevKeys.length !== currKeys.length) {
-                    return false;
-                }
-
-                return prevKeys.every((key) => prevDto[key] === currDto[key]);
-            })
-        );
-
-    protected fetchWithFilter(
-        filter: Exclude<TFilter, void>,
+    protected fetch(
+        filter: TFilter,
         fetch$: Observable<TEntity>,
-        uiFeedback?: UiFeedbackService,
-        endPointType?: EndPointType
+        ui?: UiFeedbackService,
+        staleTime = 0,
+        force = false
     ): void {
-        if (this.isLoadingSubject.getValue()) {
+        const current = this._state();
+
+        if (!force && !this.shouldFetch(current, staleTime)) {
             return;
         }
-        console.log('endPointType', endPointType);
 
-        const prevFilter = this.filterSubject.getValue();
-        if (!prevFilter || this.hasFilterChanged(prevFilter, filter)) {
-            this.filterSubject.next(filter);
+        if (current.loading) {
+            return;
         }
 
-        this.isLoadingSubject.next(true);
+        // const prev = this.normalize(this._filter());
+        // const curr = this.normalize(filter);
+
+        /* const prevEmpty = this.isEmpty(prev); */
+        // const currEmpty = this.isEmpty(curr);
+
+        // if (!currEmpty) {
+        //     const same = this.isSameFilter(prev, curr);
+
+        //     if (same) {
+        //         console.log('⛔ Skip fetch: same filter');
+        //         return;
+        //     }
+        // }
+
+        this._filter.set(filter);
+
+        this._state.update((s) => ({
+            ...s,
+            loading: true,
+            error: null,
+        }));
 
         fetch$
             .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                tap((response) => {
-                    this.itemsSubject.next(response);
+                tap((data) => {
+                    this._state.set({
+                        data,
+                        loading: false,
+                        error: null,
+                        lastFetch: Date.now(),
+                    });
                 }),
                 catchError((err) => {
-                    uiFeedback?.errorFromApi(err);
+                    this._state.update((s) => ({
+                        ...s,
+                        loading: false,
+                        error: err,
+                    }));
+
+                    ui?.errorFromApi(err);
+
                     return throwError(() => err);
                 }),
-                finalize(() => this.isLoadingSubject.next(false))
+                finalize(() => {
+                    this._state.update((s) => ({
+                        ...s,
+                        loading: false,
+                    }));
+                })
             )
             .subscribe();
     }
 
-    private hasFilterChanged(prevFilter: TFilter, newFilter: TFilter): boolean {
-        const prevDto = (prevFilter as any).toDto?.() ?? {};
-        const newDto = (newFilter as any).toDto?.() ?? {};
-
-        const prevKeys = Object.keys(prevDto).sort();
-        const newKeys = Object.keys(newDto).sort();
-
-        if (prevKeys.length !== newKeys.length) {
-            return true;
-        }
-
-        return !prevKeys.every((key) => prevDto[key] === newDto[key]);
-    }
-
     protected shouldFetch(
-        forceRefresh: boolean,
-        hasData: boolean,
-        lastFetch: number,
+        state: ResourceState<TEntity>,
         staleTime: number
     ): boolean {
-        if (forceRefresh) {
-            return true;
-        }
-        const isStale = Date.now() - lastFetch > staleTime;
-        return !hasData || isStale;
+        const isStale = Date.now() - state.lastFetch > staleTime;
+        return !state.data || isStale;
     }
 
     reset(): void {
-        this.itemsSubject.next({} as TEntity);
-        this.isLoadingSubject.next(false);
-        this.filterSubject.next(null);
+        this._state.set({
+            data: null,
+            loading: false,
+            error: null,
+            lastFetch: 0,
+        });
+
+        this._filter.set(null);
+    }
+
+    private normalize(filter: TFilter | null): Record<string, any> {
+        if (!filter) {
+            return {};
+        }
+
+        if (typeof (filter as any).toDto === 'function') {
+            return (filter as any).toDto();
+        }
+
+        return filter as any;
+    }
+
+    private isEmpty(filter: Record<string, any>): boolean {
+        return Object.keys(filter).length === 0;
+    }
+
+    private isSameFilter(
+        a: Record<string, any>,
+        b: Record<string, any>
+    ): boolean {
+        const aKeys = Object.keys(a).sort();
+        const bKeys = Object.keys(b).sort();
+
+        if (aKeys.length !== bKeys.length) {
+            return false;
+        }
+
+        return aKeys.every((key) => {
+            const valA = a[key];
+            const valB = b[key];
+
+            if (Array.isArray(valA) && Array.isArray(valB)) {
+                if (valA.length !== valB.length) {
+                    return false;
+                }
+                return valA.every((v, i) => v === valB[i]);
+            }
+
+            return valA === valB;
+        });
     }
 }

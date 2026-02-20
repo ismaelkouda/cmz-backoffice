@@ -1,24 +1,21 @@
 <div
     class="treatment-form-container"
-    [class.treatment-form-expanded]="expanded()"
-    [class.treatment-form-collapsed]="!expanded()"
+    [class.treatment-form-expanded]="expandedState()"
+    [class.treatment-form-collapsed]="!expandedState()"
 >
     <div
         class="treatment-form-header"
-        (click)="treatmentToggle.emit()"
-        (keypress)="treatmentToggle.emit()"
+        (click)="toggle()"
         tabindex="0"
         role="button"
-        [attr.aria-expanded]="expanded()"
+        [attr.aria-expanded]="expandedState()"
     >
         <div class="treatment-form-toggle">
             <i
                 class="pi"
-                [class.pi-chevron-up]="expanded()"
-                [class.pi-chevron-down]="!expanded()"
-                [attr.aria-label]="
-                    expanded() ? 'Collapse form' : 'Expand form'
-                "
+                [class.pi-chevron-up]="expandedState()"
+                [class.pi-chevron-down]="!expandedState()"
+                [attr.aria-label]="expandedState() ? 'Collapse form' : 'Expand form'"
             >
             </i>
             <span class="toggle-label">{{
@@ -27,14 +24,11 @@
         </div>
     </div>
 
-    @if (expanded()) {
+    @if (expandedState()) {
         <div class="treatment-form-content">
             <div class="treatment-form-body">
                 <div class="action-section">
-                    <form
-                        [formGroup]="form()"
-                        class="decision-form-row"
-                    >
+                    <form [formGroup]="form()" class="decision-form-row">
                         <div class="row">
                             @if (showApprovalSection()) {
                                 <div class="col-md-4">
@@ -69,16 +63,12 @@
                                                         )
                                                     "
                                                     [class.selected]="
-                                                        isDecision(
-                                                            'accepted'
-                                                        )
+                                                        isDecision('accepted')
                                                     "
                                                     tabindex="0"
                                                     role="radio"
                                                     [attr.aria-checked]="
-                                                        isDecision(
-                                                            'accepted'
-                                                        )
+                                                        isDecision('accepted')
                                                     "
                                                     [attr.aria-label]="
                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.APPROVE.LABEL'
@@ -97,12 +87,8 @@
                                                             "
                                                         ></div>
                                                     </div>
-                                                    <div
-                                                        class="radio-content"
-                                                    >
-                                                        <div
-                                                            class="radio-text"
-                                                        >
+                                                    <div class="radio-content">
+                                                        <div class="radio-text">
                                                             <div
                                                                 class="radio-title"
                                                             >
@@ -128,16 +114,12 @@
                                                         )
                                                     "
                                                     [class.selected]="
-                                                        isDecision(
-                                                            'rejected'
-                                                        )
+                                                        isDecision('rejected')
                                                     "
                                                     tabindex="0"
                                                     role="radio"
                                                     [attr.aria-checked]="
-                                                        isDecision(
-                                                            'rejected'
-                                                        )
+                                                        isDecision('rejected')
                                                     "
                                                     [attr.aria-label]="
                                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.OPTIONS.REJECT.LABEL'
@@ -156,12 +138,8 @@
                                                             "
                                                         ></div>
                                                     </div>
-                                                    <div
-                                                        class="radio-content"
-                                                    >
-                                                        <div
-                                                            class="radio-text"
-                                                        >
+                                                    <div class="radio-content">
+                                                        <div class="radio-text">
                                                             <div
                                                                 class="radio-title"
                                                             >
@@ -178,8 +156,8 @@
                                     </div>
                                 </div>
 
-                                @if (shouldShowReasonField()) {
-                                    <div class="col-md-4">
+                                <!-- @if (shouldShowReasonField()) { -->
+                                    <div class="col-md-3">
                                         <label
                                             class="decision-label"
                                             for="reason"
@@ -195,7 +173,7 @@
                                             formControlName="reason"
                                             [options]="motifOptions()"
                                             optionLabel="label"
-                                            optionValue="code"
+                                            optionValue="value"
                                             [placeholder]="
                                                 'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
                                                     | translate
@@ -205,9 +183,7 @@
                                             appendTo="body"
                                             [ngClass]="{
                                                 'ng-invalid ng-dirty':
-                                                    isFieldInvalid(
-                                                        'reason'
-                                                    ),
+                                                    isFieldInvalid('reason'),
                                             }"
                                         />
                                         @if (isFieldInvalid('reason')) {
@@ -222,27 +198,22 @@
                                             </div>
                                         }
                                     </div>
-                                }
+                                <!-- } -->
                             }
 
                             <div
                                 class="col-md"
-                                [class.col-md-12]="
-                                    !showApprovalSection()
-                                "
-                                [class.col-md-4]="
+                                [class.col-md-12]="!showApprovalSection()"
+                                [class.col-md-5]="
                                     showApprovalSection() &&
                                     shouldShowReasonField()
                                 "
-                                [class.col-md-8]="
+                                [class.col-md-5]="
                                     showApprovalSection() &&
                                     !shouldShowReasonField()
                                 "
                             >
-                                <label
-                                    class="comment-label"
-                                    for="comment"
-                                >
+                                <label class="comment-label" for="comment">
                                     {{
                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
                                             | translate
@@ -257,17 +228,14 @@
                                         'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT_PLACEHOLDER'
                                             | translate
                                     "
-                                    [rows]="3"
+                                    [rows]="2"
                                     [ngClass]="{
                                         'ng-invalid ng-dirty':
                                             isFieldInvalid('comment'),
                                     }"
                                 ></textarea>
                                 @if (isFieldInvalid('comment')) {
-                                    <div
-                                        class="validation-error"
-                                        role="alert"
-                                    >
+                                    <div class="validation-error" role="alert">
                                         {{
                                             getCommentValidationMessage()
                                                 | translate
@@ -295,9 +263,7 @@
                                 class="treatment-btn treatment-btn-primary"
                                 type="button"
                                 (click)="submitForm.emit()"
-                                [disabled]="
-                                    submitting() || isFormInvalid()
-                                "
+                                [disabled]="submitting() || form()?.invalid"
                             >
                                 @if (!submitting()) {
                                     <i class="pi pi-check"></i>
@@ -311,6 +277,7 @@
                                 {{ submitLabel() | translate }}
                             </button>
                         </div>
+                        
                     </form>
                 </div>
             </div>

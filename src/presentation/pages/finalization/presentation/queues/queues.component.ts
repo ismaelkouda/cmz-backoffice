@@ -216,8 +216,7 @@ export class QueuesComponent implements OnInit {
     });
 
     private readonly formStateEffect = effect(() => {
-        const state = this.takeFacade.actionState();
-        if (state === 'loading') {
+        if (this.takeFacade.actionLoading()) {
             this.form.disable({ emitEvent: false });
         } else {
             this.form.enable({ emitEvent: false });

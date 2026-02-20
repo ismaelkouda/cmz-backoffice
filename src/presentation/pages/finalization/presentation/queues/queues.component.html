@@ -65,7 +65,7 @@
     @if (reportTreatmentVisible) {
         <app-management-dialog
             [(visible)]="reportTreatmentVisible"
-            [reportId]="selectedReportId"
+            [uniqId]="selectedReportId"
             (queues)="onReportTreatmentQueues()"
         ></app-management-dialog>
     }

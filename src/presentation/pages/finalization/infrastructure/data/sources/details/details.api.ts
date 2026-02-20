@@ -20,12 +20,12 @@ export class DetailsApi {
     ) {}
 
     execute(apiDto: DetailsFilterApiDto): Observable<DetailsResponseApiDto> {
-        const url = `${this.baseUrl}${FINALIZATION_ENDPOINTS.DETAILS_REPORTS}/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${apiDto.uniq_id}`;
         return this.http.get<DetailsResponseApiDto>(url);
     }
 
     take(apiDto: DetailsTakeApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${FINALIZATION_ENDPOINTS.DETAILS_REPORTS}/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${FINALIZATION_ENDPOINTS.DETAILS_REPORTS}/${apiDto.uniq_id}/take`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
@@ -33,7 +33,7 @@ export class DetailsApi {
     finalize(
         apiDto: DetailsFinalizeApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${FINALIZATION_ENDPOINTS.DETAILS_REPORTS}/finalize/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${FINALIZATION_ENDPOINTS.DETAILS_REPORTS}/${apiDto.uniq_id}/finalize`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }

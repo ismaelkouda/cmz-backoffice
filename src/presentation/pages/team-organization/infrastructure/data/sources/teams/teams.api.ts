@@ -48,18 +48,18 @@ export class TeamsApi {
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
-    enable(uniq_id: TeamsEnableApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${uniq_id}/enable`;
+    enable(apiDto: TeamsEnableApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${apiDto.uniq_id}/enable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
-    disable(uniq_id: TeamsDisableApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${uniq_id}/disable`;
+    disable(apiDto: TeamsDisableApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${apiDto.uniq_id}/disable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
-    delete(uniq_id: TeamsDeleteApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${uniq_id}/delete`;
+    delete(apiDto: TeamsDeleteApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${apiDto.uniq_id}/delete`;
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 }

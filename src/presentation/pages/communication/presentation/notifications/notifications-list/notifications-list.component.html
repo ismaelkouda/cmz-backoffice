@@ -37,9 +37,13 @@
                                 [items]="items()"
                                 [pagination]="pagination()"
                                 [config]="tableConfig"
-                                (headerButtonClicked)="onHeaderButtonClicked($event)"
+                                (headerButtonClicked)="
+                                    onHeaderButtonClicked($event)
+                                "
                                 (refreshRequested)="onRefreshClicked()"
-                                (createRequested)="onHeaderButtonClicked($event)"
+                                (createRequested)="
+                                    onHeaderButtonClicked($event)
+                                "
                                 (editRequested)="onNavigateToForm($event)"
                                 (deleteRequested)="onDeleteClicked($event)"
                                 dataKey="uniqId"

@@ -1,3 +1,4 @@
+import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 import { AllFilterDto } from '@presentation/pages/finalization/application/dto/all/all-filter.dto';
@@ -30,7 +31,9 @@ export class AllFilterVo {
     }
 
     static fromDto(dto: AllFilterDto | null): AllFilterVo {
-        const initiatorPhoneNumber = dto?.initiatorPhoneNumber?.trim();
+        const initiatorPhoneNumber = normalizePhoneNumber(
+            dto?.initiatorPhoneNumber?.trim()
+        );
         const uniqId = dto?.uniqId;
         const reportType = dto?.reportType;
         const operators = dto?.operators;

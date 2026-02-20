@@ -11,8 +11,7 @@ export class MessagingUpdateEntity {
         public readonly municipality: string,
         public readonly channels: string[],
         public readonly subject: string,
-        public readonly content: string,
-        public readonly message: string
+        public readonly content: string
     ) {}
     static fromVo(vo: MessagingUpdateVo): MessagingUpdateEntity {
         return new MessagingUpdateEntity(
@@ -25,8 +24,7 @@ export class MessagingUpdateEntity {
             vo.municipality,
             vo.channels,
             vo.subject,
-            vo.content,
-            vo.message
+            vo.content
         );
     }
 }

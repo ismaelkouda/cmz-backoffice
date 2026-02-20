@@ -121,6 +121,7 @@ export class MessagingListComponent implements OnInit, OnDestroy {
                 optionValue: 'value',
                 showClear: true,
                 icon: 'pi pi-filter',
+                filter: false,
                 translationKeys: {
                     label: 'COMMUNICATION.MESSAGING.FILTER.TARGET',
                 },

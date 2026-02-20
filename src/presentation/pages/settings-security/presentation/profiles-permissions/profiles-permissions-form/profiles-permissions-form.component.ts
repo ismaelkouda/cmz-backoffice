@@ -86,10 +86,8 @@ export class ProfilesPermissionsFormComponent {
         ProfilesPermissionsFormValidationService
     );
     readonly VALIDATION = FormValidators;
-    readonly items = toSignal(this.facade.items$, { initialValue: null });
-    readonly loading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
+    readonly items = this.facade.items;
+    readonly loading = this.facade.loading;
     private readonly paramsUniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
             map(

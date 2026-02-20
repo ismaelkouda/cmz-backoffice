@@ -235,7 +235,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(team: TeamsDisableDto): void {
@@ -243,7 +243,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(team: TeamsDeleteDto): void {
@@ -251,6 +251,6 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
-        );
+        ).subscribe();
     }
 }

@@ -10,7 +10,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
 import { DetailsQualificationState } from '@presentation/pages/requests/domain/enums/details/details-qualification-state/details-qualification-state.enum';
-import { DetailsStatus } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
+import { Status } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
 import { detailsLabelButtonSubmit } from '@presentation/pages/requests/domain/functions/details/details-label-button-submit.function';
 import { detailsPermissionsApprove } from '@presentation/pages/requests/domain/functions/details/details-permissions-approve.function';
 import { detailsPermissionsManage } from '@presentation/pages/requests/domain/functions/details/details-permissions-manage.function';
@@ -22,6 +22,10 @@ import { DetailsTreaterInfo } from '@presentation/pages/requests/domain/types/de
 
 export class DetailsEntity {
     constructor(private readonly props: DetailsProps) {}
+
+    get type(): string {
+        return this.props.type;
+    }
 
     get uniqId(): string {
         return this.props.uniqId;
@@ -91,7 +95,7 @@ export class DetailsEntity {
         return this.props.treater;
     }
 
-    get status(): DetailsStatus {
+    get status(): Status {
         return this.props.status;
     }
 
@@ -160,19 +164,23 @@ export class DetailsEntity {
     }
 
     public get canBeApproved(): boolean {
+        console.log(
+            'detailsPermissionsApprove(this.props): ',
+            detailsPermissionsApprove(this.props)
+        );
         return detailsPermissionsApprove(this.props);
     }
 
     public get statusPending(): boolean {
-        return this.status === DetailsStatus.PENDING;
+        return this.status === Status.PENDING;
     }
 
     public get statusInProgress(): boolean {
-        return this.status === DetailsStatus['IN_PROGRESS'];
+        return this.status === Status['IN_PROGRESS'];
     }
 
     private get statusApproved(): boolean {
-        return this.status === DetailsStatus.APPROVED;
+        return this.status === Status.APPROVED;
     }
 
     public get updateWorkflowTimestamps(): ManagementTimestamp[] {

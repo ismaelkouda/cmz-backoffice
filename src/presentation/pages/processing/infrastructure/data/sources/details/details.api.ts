@@ -10,7 +10,6 @@ import { DetailsResponseApiDto } from '@presentation/pages/processing/infrastruc
 import { DetailsTakeApiDto } from '@presentation/pages/processing/infrastructure/api/dto/details/details-take-api.dto';
 import { DetailsTreatApiDto } from '@presentation/pages/processing/infrastructure/api/dto/details/details-treat-api.dto';
 import { PROCESSING_BASE_URL } from '@presentation/pages/processing/infrastructure/api/processing.base-url';
-import { PROCESSING_ENDPOINTS } from '@presentation/pages/processing/infrastructure/api/processing.endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsApi {
@@ -20,18 +19,18 @@ export class DetailsApi {
     ) {}
 
     execute(apiDto: DetailsFilterApiDto): Observable<DetailsResponseApiDto> {
-        const url = `${this.baseUrl}${PROCESSING_ENDPOINTS.DETAILS_REPORTS}/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${apiDto.uniq_id}`;
         return this.http.get<DetailsResponseApiDto>(url);
     }
 
     take(apiDto: DetailsTakeApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${PROCESSING_ENDPOINTS.DETAILS_REPORTS}/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${apiDto.uniq_id}/take`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
     treat(apiDto: DetailsTreatApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${PROCESSING_ENDPOINTS.DETAILS_REPORTS}/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${apiDto.uniq_id}/process`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }

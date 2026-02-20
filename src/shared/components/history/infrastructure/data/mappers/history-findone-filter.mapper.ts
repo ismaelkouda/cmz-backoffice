@@ -1,5 +1,5 @@
-import { HistoryFindOneFilterEntity } from '@shared/components/history/core/domain/entities/history-find-one-filter.entity';
-import { HistoryFindOneFilterApiDto } from '@shared/components/history/infrastructure/api/dtos/history-findone-filter-api.dto';
+import { HistoryFindOneFilterEntity } from '@shared/components/history/domain/entities/history-find-one-filter.entity';
+import { HistoryFindOneFilterApiDto } from '@shared/components/history/infrastructure/api/dto/history-findone-filter-api.dto';
 
 export function historyFindOneFilterMapper(
     entity: HistoryFindOneFilterEntity

@@ -55,7 +55,7 @@ export class ParticipantsApi {
     delete(
         apiDto: ParticipantsDeleteApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto}/delete`;
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto.uniq_id}/delete`;
         console.log('url', url);
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
@@ -63,14 +63,14 @@ export class ParticipantsApi {
     enable(
         apiDto: ParticipantsEnableApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto}/enable`;
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto.uniq_id}/enable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
     disable(
         apiDto: ParticipantsDisableApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto}/disable`;
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.PARTICIPANTS}/${apiDto.uniq_id}/disable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 }

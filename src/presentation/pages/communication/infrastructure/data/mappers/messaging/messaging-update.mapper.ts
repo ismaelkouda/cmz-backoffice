@@ -7,7 +7,7 @@ export function messagingUpdateMapper(
     const params: MessagingUpdateApiDto = {} as MessagingUpdateApiDto;
 
     if (entity.reportId) {
-        params.report_id = entity.reportId;
+        params.report_uniq_id = entity.reportId;
     }
     if (entity.uniqId) {
         params.id = entity.uniqId;
@@ -35,9 +35,6 @@ export function messagingUpdateMapper(
     }
     if (entity.content) {
         params.content = entity.content;
-    }
-    if (entity.message) {
-        params.message = entity.message;
     }
 
     return params;

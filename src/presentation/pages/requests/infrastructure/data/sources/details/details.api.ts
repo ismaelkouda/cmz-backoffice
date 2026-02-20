@@ -26,19 +26,19 @@ export class DetailsApi {
     }
 
     take(apiDto: DetailsTakeApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/take/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/${apiDto.uniq_id}/take`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
     approve(apiDto: DetailsApproveApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/approve/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/${apiDto.uniq_id}/approve`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
     reject(apiDto: DetailsRejectApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/reject/${apiDto.uniq_id}`;
+        const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/${apiDto.uniq_id}/reject`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }

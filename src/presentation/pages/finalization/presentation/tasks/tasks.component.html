@@ -67,7 +67,7 @@
     @if (reportTreatmentVisible) {
         <app-management-dialog
             [(visible)]="reportTreatmentVisible"
-            [reportId]="selectedReportId"
+            [uniqId]="selectedReportId"
             (tasks)="onReportTreatmentTasks()"
         ></app-management-dialog>
     }

@@ -19,6 +19,7 @@ import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.com
 })
 export class ManagementPhotosPanelComponent {
     public readonly item = input.required<any>();
+    public readonly loading = input.required<boolean>();
 
     protected readonly placePhoto = computed((): string | null => {
         return this.item()?.placePhoto ?? null;

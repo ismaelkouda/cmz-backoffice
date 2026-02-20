@@ -6,8 +6,10 @@ import {
     computed,
     effect,
     ChangeDetectionStrategy,
+    signal,
+    Input,
 } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
@@ -27,28 +29,56 @@ import { ManagementFormControl } from '../../domain/controls/management-form-con
         TextareaModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './management-treatment-form.component.scss',
+    templateUrl: './management-treatment-form.component.html',
     styleUrls: ['./management-treatment-form.component.scss'],
 })
 export class ManagementTreatmentFormComponent {
     public readonly form = input.required<FormGroup<ManagementFormControl>>();
-    public readonly expanded = input<boolean>(true);
     public readonly submitting = input<boolean>(false);
     public readonly submitLabel = input.required<string>();
     public readonly showApprovalSection = input<boolean>(false);
     public readonly motifOptions = input<FilterOption[]>([]);
 
-    public readonly treatmentToggle = output();
     public readonly cancelForm = output();
     public readonly submitForm = output();
     public readonly decisionChange = output<string>();
 
-    protected readonly shouldShowReasonField = computed((): boolean => {
-        return this.isDecision('rejected');
-    });
+    private readonly _expanded = signal<boolean>(true);
 
-    protected readonly isFormInvalid = computed((): boolean => {
-        return this.form()?.invalid ?? true;
+    @Input()
+    set expanded(value: boolean) {
+        this._expanded.set(value);
+    }
+
+    readonly expandedState = computed(() => this._expanded());
+
+    protected toggle(): void {
+        this._expanded.update((v) => !v);
+    }
+
+    private readonly decision = signal<string>('');
+    protected readonly shouldShowReasonField = computed(
+        () => this.decision() === 'rejected'
+    );
+    private readonly decisionSyncEffect = effect((onCleanup) => {
+        const form = this.form();
+
+        if (!form) {
+            return;
+        }
+
+        const control = form.get('decision');
+        if (!control) {
+            return;
+        }
+
+        this.decision.set(control.value);
+
+        const sub = control.valueChanges.subscribe((value) => {
+            this.decision.set(value);
+        });
+
+        onCleanup(() => sub.unsubscribe());
     });
 
     protected readonly formErrors = computed((): Record<string, string[]> => {
@@ -105,19 +135,33 @@ export class ManagementTreatmentFormComponent {
         return 'Champ invalide';
     }
 
-    constructor() {
-        effect(() => {
-            const form = this.form();
-            const decision = form.get('decision')?.value;
+    private readonly reasonStateEffect = effect(() => {
+        const form = this.form();
+        const decision = this.decision();
 
-            // Si on passe de rejected à autre chose, on peut notifier ou faire des actions
-            if (decision !== 'rejected') {
-                // Optionnel : Logique supplémentaire quand on quitte le mode rejet
-            }
-        });
-    }
+        if (!form) {
+            return;
+        }
+
+        const reasonControl = form.get('reason');
+        if (!reasonControl) {
+            return;
+        }
+
+        if (decision === 'accepted') {
+            reasonControl.setValue(null, { emitEvent: false });
+            reasonControl.clearValidators();
+            reasonControl.disable({ emitEvent: false });
+        } else if (decision === 'rejected') {
+            reasonControl.enable({ emitEvent: false });
+            reasonControl.setValidators([Validators.required]);
+        }
+
+        reasonControl.updateValueAndValidity({ emitEvent: false });
+    });
 
     protected isDecision(value: 'accepted' | 'rejected'): boolean {
+        console.log('value: ', value);
         return this.form()?.get('decision')?.value === value;
     }
 
@@ -128,13 +172,7 @@ export class ManagementTreatmentFormComponent {
 
     protected onDecisionChange(decision: 'accepted' | 'rejected'): void {
         const form = this.form();
-
         form.patchValue({ decision });
-
-        if (decision === 'accepted') {
-            form.patchValue({ reason: '' });
-        }
-
         form.get('decision')?.markAsTouched();
         this.decisionChange.emit(decision);
     }

@@ -1,3 +1,4 @@
+import { Status } from '@presentation/pages/requests/domain/enums/all-status.enum.ts/all-status.enum';
 export interface AllTable {
     uniqId: string;
     initiatorPhoneNumber: string;
@@ -11,7 +12,7 @@ export interface AllTable {
     operators: string[];
     operatorsLabels: string[];
 
-    state: string;
+    status: Status;
 
     reportedAt: string;
 }

@@ -8,10 +8,11 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
 import { DetailsQualificationState } from '@presentation/pages/requests/domain/enums/details/details-qualification-state/details-qualification-state.enum';
-import { DetailsStatus } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
+import { Status } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
 import { DetailsTreaterInfo } from '@presentation/pages/requests/domain/types/details/details-treater-info.type';
 
 export interface DetailsProps {
+    type: string;
     uniqId: string;
     reportUniqId: string;
     initiatorPhone: string;
@@ -29,7 +30,7 @@ export interface DetailsProps {
     description: string;
     media: ReportMediaEntity | null;
     treater: DetailsTreaterInfo;
-    status: DetailsStatus;
+    status: Status;
     qualificationState: DetailsQualificationState | null;
     region: AdministrativeBoundaryEntity | null;
     department: AdministrativeBoundaryEntity | null;

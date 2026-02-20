@@ -4,9 +4,9 @@ import { ManagementTimestampKey } from '@shared/components/management/domain/typ
 
 import { DetailsStatus as finalizationStatus } from '@presentation/pages/finalization/domain/enums/details/details-status/details-status.enum';
 import { DetailsProps as finalizationProps } from '@presentation/pages/finalization/domain/interfaces/details/details-props.interface';
-import { DetailsStatus as requestsStatus } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
-import { DetailsProps as requestsProps } from '@presentation/pages/requests/domain/interfaces/details/details-props.interface';
 import { DetailsProps as processingProps } from '@presentation/pages/processing/domain/interfaces/details/details-props.interface';
+import { Status } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
+import { DetailsProps as requestsProps } from '@presentation/pages/requests/domain/interfaces/details/details-props.interface';
 
 export function managementWorkflowTimestamps(
     props: processingProps | requestsProps | finalizationProps
@@ -21,10 +21,10 @@ export function managementWorkflowTimestamps(
 
         if (step.key === 'approvedAt' && step.key1) {
             switch (props.status) {
-                case requestsStatus.APPROVED:
+                case Status.APPROVED:
                     timestamp = treater[step.key];
                     break;
-                case requestsStatus.REJECTED:
+                case Status.REJECTED:
                     timestamp = treater[step.key1];
                     break;
                 default: {
@@ -42,10 +42,10 @@ export function managementWorkflowTimestamps(
             }
         } else if (step.key === 'confirmedAt' && step.key1 && step.key2) {
             switch (props.status) {
-                case requestsStatus.CONFIRMED:
+                case Status.CONFIRMED:
                     timestamp = treater[step.key];
                     break;
-                case requestsStatus.ABANDONED:
+                case Status.ABANDONED:
                     timestamp = treater[step.key1];
                     break;
                 case finalizationStatus.FINALIZATION:

@@ -10,7 +10,7 @@ export function messagingCreateMapper(
         params.type = entity.type;
     }
     if (entity.reportId) {
-        params.reportId = entity.reportId;
+        params.report_uniq_id = entity.reportId;
     }
     if (entity.targetType) {
         params.target_type = entity.targetType;
@@ -32,9 +32,6 @@ export function messagingCreateMapper(
     }
     if (entity.content) {
         params.content = entity.content;
-    }
-    if (entity.message) {
-        params.message = entity.message;
     }
 
     return params;

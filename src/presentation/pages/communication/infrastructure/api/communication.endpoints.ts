@@ -1,4 +1,4 @@
 export const COMMUNICATION_ENDPOINTS = {
-    NOTIFICATIONS: 'communication/notifications',
+    NOTIFICATIONS: 'notifications',
     MESSAGING: 'communication/message-diffusions',
 } as const;

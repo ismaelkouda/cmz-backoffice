@@ -1135,7 +1135,12 @@
             "READ": "Lecture reussie",
             "REASSIGN": "Réassignation reussie",
             "ASSIGN": "Assignation reussie",
-            "REMOVE": "Retrait reussi"
+            "REMOVE": "Retrait reussi",
+            "TAKE": "Prise en charge reussie",
+            "APPROVE": "Approbation reussie",
+            "REJECT": "Rejecter avec succès",
+            "TREAT": "Traiter avec succès",
+            "FINALIZE": "Finaliser avec succès"
         },
         "ERROR": {
             "GENERIC": "Une erreur est survenue"
@@ -1431,13 +1436,6 @@
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Couverture partielle opérateur",
                     "PARIAL_SIGNAL": "Couverture Partielle Signal"
-                },
-                "STATUS": {
-                    "APPROVED": "Approuvé",
-                    "RECEIVED": "Reçu",
-                    "REJECTED": "Rejeté",
-                    "ABANDONED": "Abandonné",
-                    "CONFIRMED": "Confirmé"
                 },
                 "OPERATORS": {
                     "ORANGE": "Orange",
@@ -2120,9 +2118,9 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
+                "TYPE": "Type de message",
                 "SUBJECT": "Sujet",
                 "CONTENT": "Contenu",
-                "MESSAGE": "Message",
                 "SEE_MORE": "Voir plus",
                 "ACTION": "Action"
             },
@@ -2235,6 +2233,11 @@
                 "EVALUATION": "Évalué à"
             },
             "SIDEBAR": {
+                "ACTIONS": {
+                    "TAKE":"Prise en charge",
+                    "APPROVE": "Approuver",
+                    "TREAT": "Traiter"
+                },
                 "INITIATOR": {
                     "TITLE": "Informations du demandeur",
                     "LAST_NAME": "Nom",
@@ -2273,7 +2276,7 @@
             "TABS": {
                 "CATEGORIES": {
                     "INFORMATION": "Informations",
-                    "PHOTOS": "Photos",
+                    "IMAGES": "Photos",
                     "GEOGRAPHIC_VIEW": "Vue géographique",
                     "TREATMENT_LOGS": "Journal de traitement"
                 },
@@ -2618,13 +2621,13 @@
                 "NOT_ASSIGNED": "Non assigné"
             }
         },
-        "PROFILES_HABILITATIONS": {
+        "PROFILES_PERMISSIONS": {
             "BREADCRUMB": {
                 "LABEL": "Profils et Habilitations",
                 "ROUTE": "profils et habilitations"
             },
             "TABS": {
-                "PROFILES_HABILITATIONS": {
+                "PROFILES_PERMISSIONS": {
                     "LABEL": "Profils et Habilitations",
                     "ROUTE": "profils et habilitations"
                 },

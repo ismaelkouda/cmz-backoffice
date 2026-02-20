@@ -128,7 +128,7 @@ export class TableNewsComponent implements OnDestroy {
     public copyToClipboard(data: string): void {
         this.clipboardService.copyFromContent(data);
         this.toastService.success(
-            this.translate.instant('COPIED_TO_THE_CLIPBOARD')
+            this.translate.instant('COMMON.COPIED_TO_CLIPBOARD')
         );
     }
 

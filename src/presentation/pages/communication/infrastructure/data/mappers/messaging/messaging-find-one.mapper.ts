@@ -32,7 +32,6 @@ export class MessagingFindOneMapper extends SimpleResponseMapper<
             channels: dto.channels,
             subject: dto.subject,
             content: dto.content,
-            message: dto.message,
             createdAt: dto.created_at,
         };
 

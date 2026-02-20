@@ -10,5 +10,4 @@ export interface MessagingFormControl {
     channels: FormControl<string[]>;
     subject: FormControl<string>;
     content: FormControl<string>;
-    message: FormControl<string>;
 }

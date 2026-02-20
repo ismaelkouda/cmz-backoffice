@@ -14,9 +14,9 @@ import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { DetailsEntity } from '@presentation/pages/requests/domain/entities/details/details.entity';
 import { DetailsQualificationState } from '@presentation/pages/requests/domain/enums/details/details-qualification-state/details-qualification-state.enum';
-import { DetailsStatus } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
 import { DetailsProps } from '@presentation/pages/requests/domain/interfaces/details/details-props.interface';
 import { DetailsItemApiDto } from '@presentation/pages/requests/infrastructure/api/dto/details/details-response-api.dto';
+import { StatusMapper } from '@presentation/pages/requests/infrastructure/data/mappers/details/details-status.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsMapper extends SimpleResponseMapper<
@@ -36,16 +36,7 @@ export class DetailsMapper extends SimpleResponseMapper<
         AdministrativeBoundaryMapper
     );
     private readonly timestampsMapper = inject(TimestampsMapper);
-
-    private static readonly STATUS_MAP = MapperUtils.createEnumMap({
-        pending: DetailsStatus.PENDING,
-        approved: DetailsStatus.APPROVED,
-        rejected: DetailsStatus.REJECTED,
-        abandoned: DetailsStatus.ABANDONED,
-        confirmed: DetailsStatus.CONFIRMED,
-        terminated: DetailsStatus.TERMINATED,
-        'in-progress': DetailsStatus.IN_PROGRESS,
-    });
+    private readonly statusMapper = inject(StatusMapper);
 
     private static readonly QUALIFICATION_STATE_MAP = MapperUtils.createEnumMap(
         {
@@ -54,9 +45,13 @@ export class DetailsMapper extends SimpleResponseMapper<
     );
 
     protected mapItemFromDto(dto: DetailsItemApiDto): DetailsEntity {
-        MapperUtils.validateDto(dto, { required: ['id'] });
+        console.log('props.uniqId: ', dto.uniq_id);
+        console.log('props.createdAt: ', dto.created_at);
+        console.log('props.operators: ', dto.operators);
+        MapperUtils.validateDto(dto, { required: ['uniq_id'] });
 
         const props: DetailsProps = {
+            type: 'requests',
             uniqId: dto.uniq_id,
             reportUniqId: dto.request_report_uniq_id,
             initiatorPhone: dto.initiator_phone_number,
@@ -92,9 +87,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             description: dto.description,
             media: this.reportMediaMapper.mapToEntity(dto),
             treater: this.treaterInfoMapper.mapToEntity(dto),
-            status:
-                DetailsMapper.STATUS_MAP.get(dto.status) ??
-                DetailsStatus.PENDING,
+            status: this.statusMapper.mapApiToStatus(dto.status),
             qualificationState: dto.qualification_state
                 ? (DetailsMapper.QUALIFICATION_STATE_MAP.get(
                       dto.qualification_state
@@ -119,7 +112,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             confirmCount: dto.confirm_count,
         };
 
-        const cacheKey = `dto:${dto.id}`;
+        const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
 
         const entity = cached ? cached.with(props) : new DetailsEntity(props);
