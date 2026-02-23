@@ -151,7 +151,6 @@ export class MessagingFormComponent implements OnInit {
     }
 
     shouldShowField(fieldName: 'reportId' | 'region'): boolean {
-        console.log('fieldName', fieldName);
         const targetType = this.form.controls.targetType.value;
 
         if (fieldName === 'reportId') {

@@ -37,7 +37,7 @@ import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ParticipantsFacade } from '@presentation/pages/team-organization/application/services/participants/participants.facade';
 import { RolesSelectFacade } from '@presentation/pages/team-organization/application/services/participants/roles-select.facade';
 import { TeamsSelectFacade } from '@presentation/pages/team-organization/application/services/teams/teams-select.facade';
-import { PARTICIPANTS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/participants/participants-table.constant';
+import { PARTICIPANTS } from '@presentation/pages/team-organization/domain/constants/participants/participants-table.constant';
 import { ParticipantsFilterControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-filter.control';
 import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
 import { PARTICIPANTS_STATUS } from '@presentation/pages/team-organization/domain/enums/participants/participants-status.enum';
@@ -76,7 +76,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
         this.translate.getCurrentLang()
     );
     private readonly destroy$ = new Subject<void>();
-    public readonly tableConfig = PARTICIPANTS_TABLE_CONSTANT;
+    public readonly tableConfig = PARTICIPANTS;
     readonly items = toSignal(this.facade.items$, { initialValue: [] });
     readonly teams = toSignal(this.teamsFacade.items$, { initialValue: [] });
     readonly loading = toSignal(this.facade.isLoading$, {

@@ -1,4 +1,4 @@
-export const TEAMS_FREE_PARTICIPANTS_TABLE_CONSTANT = {
+export const TEAMS_FREE_PARTICIPANTS = {
     cols: [
         {
             field: '__index',

@@ -3,11 +3,8 @@ import { Injectable } from '@angular/core';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
 
-import {
-    TeamsPermissionsEntity,
-    TeamsPermissionsProps,
-} from '@presentation/pages/team-organization/domain/entities/teams/teams-permissions.entity';
-import { TeamsPermissionsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-permissions-api.dto';
+import { TeamsPermissionsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-permissions.entity';
+import { TeamsPermissionsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-permissions-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsPermissionsMapper extends SimpleResponseMapper<
@@ -22,7 +19,7 @@ export class TeamsPermissionsMapper extends SimpleResponseMapper<
         // MapperUtils.validateDto(dto, { required: ['data'] });
         const permissions = dto.map((p) => this.mapPermissionNode(p));
 
-        const props: TeamsPermissionsProps = { permissions };
+        const props = { permissions };
 
         const cacheKey = this.buildPermissionsCacheKey(dto);
 

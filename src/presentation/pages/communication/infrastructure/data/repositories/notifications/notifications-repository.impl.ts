@@ -1,7 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
-import { Paginate } from '@shared/data/dto/simple-response.dto';
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dto/simple-response.dto';
 
 import { NotificationsFilterEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-filter.entity';
 import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
@@ -15,7 +18,7 @@ export class NotificationsRepositoryImpl implements NotificationsRepository {
     private readonly api = inject(NotificationsApi);
     private readonly mapper = inject(NotificationsMapper);
 
-    readAll(
+    execute(
         filter: NotificationsFilterEntity,
         page: string
     ): Observable<Paginate<NotificationsEntity>> {
@@ -23,5 +26,9 @@ export class NotificationsRepositoryImpl implements NotificationsRepository {
         return this.api
             .execute(paramsDto, page)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
+    }
+
+    readAll(): Observable<SimpleResponseDto<void>> {
+        return this.api.readAll();
     }
 }

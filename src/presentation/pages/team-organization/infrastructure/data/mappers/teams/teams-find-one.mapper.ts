@@ -8,7 +8,7 @@ import { TeamsFindOneEntity } from '@presentation/pages/team-organization/domain
 import {
     PermissionApiDto,
     TeamsFindOneItemApiDto,
-} from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-find-one-response-api.dto';
+} from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsFindOneMapper extends SimpleResponseMapper<

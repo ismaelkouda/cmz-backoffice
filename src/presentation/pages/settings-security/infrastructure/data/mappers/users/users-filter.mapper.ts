@@ -1,4 +1,4 @@
-import { UsersFilterEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-filter.entity';
+import { UsersFilterEntity } from '@presentation/pages/settings-security/domain/entities/users/users-filter.entity';
 import { UsersFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-filter-api.dto';
 
 export function usersFilterMapper(

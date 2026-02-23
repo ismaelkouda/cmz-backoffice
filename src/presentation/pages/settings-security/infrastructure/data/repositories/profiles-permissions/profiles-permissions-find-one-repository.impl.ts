@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
-import { ProfilesPermissionsFindOneFilterEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-find-one-filter.entity';
-import { ProfilesPermissionsFindOneEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
-import { ProfilesPermissionsFindOneRepository } from '@presentation/pages/settings-security/core/domain/repositories/profiles-permissions/profiles-permissions-find-one-repository';
+import { ProfilesPermissionsFindOneFilterEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one-filter.entity';
+import { ProfilesPermissionsFindOneEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
+import { ProfilesPermissionsFindOneRepository } from '@presentation/pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-find-one-repository';
 import { profilesPermissionsFindOneFilterMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-find-one-filter.mapper';
 import { ProfilesPermissionsFindOneMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-find-one.mapper';
 import { ProfilesPermissionsFindOneApi } from '@presentation/pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-find-one.api';

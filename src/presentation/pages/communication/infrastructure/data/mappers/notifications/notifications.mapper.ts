@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
@@ -8,6 +8,7 @@ import {
     NotificationsProps,
 } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
 import { NotificationsItemApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-response-api.dto';
+import { StatusMapper } from '@presentation/pages/communication/infrastructure/data/mappers/notifications/notifications-status.mapper';
 
 @Injectable({
     providedIn: 'root',
@@ -16,6 +17,7 @@ export class NotificationsMapper extends PaginatedMapper<
     NotificationsEntity,
     NotificationsItemApiDto
 > {
+    private readonly statusMapper = inject(StatusMapper);
     private readonly entityCache = new Map<string, NotificationsEntity>();
 
     protected mapItemFromDto(
@@ -26,9 +28,11 @@ export class NotificationsMapper extends PaginatedMapper<
         const props: NotificationsProps = {
             uniqId: dto.id,
             reference: dto.reference,
+            title: dto.title,
             type: dto.type,
-            description: dto.description,
-            createdAt: dto.created_at,
+            message: dto.message,
+            status: this.statusMapper.mapApiToStatus(dto.status),
+            sendAt: dto.sent_at,
         };
 
         const cacheKey = `dto:${props.uniqId}`;

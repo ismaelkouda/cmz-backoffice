@@ -24,9 +24,9 @@ export class MessagingMapper extends PaginatedMapper<
     private readonly entityCache = new Map<string, MessagingEntity>();
 
     protected mapItemFromDto(dto: MessagingItemApiDto): MessagingEntity {
-        MapperUtils.validateDto(dto, { required: ['id'] });
+        MapperUtils.validateDto(dto, { required: ['uniq_id'] });
         const props: MessagingProps = {
-            uniqId: dto.id,
+            uniqId: dto.uniq_id,
             reportId: dto.report_id,
             type: dto.type,
             targetType: dto.target_type,
@@ -39,7 +39,7 @@ export class MessagingMapper extends PaginatedMapper<
             createdAt: dto.created_at,
         };
 
-        const cacheKey = `dto:${dto.id}`;
+        const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
 
         const entity = cached ? cached.with(props) : new MessagingEntity(props);

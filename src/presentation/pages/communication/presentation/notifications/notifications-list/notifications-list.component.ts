@@ -28,13 +28,14 @@ import { FilterField } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 
 import { NotificationsFacade } from '@presentation/pages/communication/application/services/notifications/notifications.facade';
-import { NOTIFICATIONS_TABLE } from '@presentation/pages/communication/domain/constants/notifications/notifications-table.constant';
+import { NOTIFICATIONS } from '@presentation/pages/communication/domain/constants/notifications/notifications-table.constant';
 import { NotificationsFilterControl } from '@presentation/pages/communication/domain/controls/notifications/notifications-filter.control';
 import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
 
@@ -70,7 +71,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         this.translate.getCurrentLang()
     );
     private readonly destroy$ = new Subject<void>();
-    public readonly tableConfig = NOTIFICATIONS_TABLE;
+    public readonly tableConfig = NOTIFICATIONS;
     readonly items = toSignal(this.facade.items$, { initialValue: [] });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
@@ -78,6 +79,16 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
+    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.READ_ALL',
+            actionId: CrudFormType.READ_ALL,
+            class: 'btn-primary',
+            icon: 'pi pi-check-square',
+            translateKey: 'COMMON.READ_ALL',
+            disabled: this.items().length === 0,
+        },
+    ]);
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
 
@@ -139,7 +150,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         }),
     });
     constructor() {
-        this.facade.read();
+        this.facade.execute();
         this.translate.onLangChange
             .pipe(takeUntil(this.destroy$))
             .subscribe((event: LangChangeEvent) => {
@@ -169,7 +180,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     }
 
     public onFilterClicked(filterValues: any): void {
-        this.facade.read(filterValues, '1', true);
+        this.facade.execute(filterValues, '1', true);
     }
 
     public onRefreshClicked(): void {
@@ -182,11 +193,8 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     }
 
     public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.CREATE) {
-            this.onNavigateToForm({
-                item: undefined,
-                ref: CrudFormType.CREATE,
-            });
+        if (actionId === CrudFormType.READ_ALL) {
+            this.onReadAllClicked();
         }
     }
 
@@ -198,10 +206,30 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         // const queryParams = event.item
         //     ? { uniqId: event.item.uniqId, ref: event.ref }
         //     : { ref: event.ref };
-        // this.router.navigate([MESSAGING_FORM], {
+        // this.router.navigate([NOTIFICATIONS_FORM], {
         //     relativeTo: this.activatedRoute,
         //     queryParams,
         // });
+    }
+
+    public onReadAllClicked(): void {
+        if (this.items().length === 0) {
+            return;
+        }
+        SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: this.t(
+                'COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.TITLE_READ_ALL'
+            ),
+            text: `${this.t('COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.MESSAGE_READ_ALL')}`,
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.facade.readAll();
+                this.facade.refreshWithLastFilterAndPage();
+            }
+        });
     }
 
     public onDeleteClicked(item: NotificationsEntity): void {
@@ -210,8 +238,10 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE_DELETE'),
-            text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE_DELETE')}`,
+            title: this.t(
+                'COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.TITLE_DELETE'
+            ),
+            text: `${this.t('COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.MESSAGE_DELETE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {

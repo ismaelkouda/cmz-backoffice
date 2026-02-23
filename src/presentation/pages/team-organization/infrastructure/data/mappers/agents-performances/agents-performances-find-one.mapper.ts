@@ -8,7 +8,7 @@ import {
     AgentsPerformancesFindOneProps,
 } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
 
-import { AgentsPerformancesFindOneItemApiDto } from '../../../api/dtos/agents-performances/agents-performances-find-one-response-api.dto';
+import { AgentsPerformancesFindOneItemApiDto } from '../../../api/dto/agents-performances/agents-performances-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class AgentsPerformancesFindOneMapper extends PaginatedMapper<

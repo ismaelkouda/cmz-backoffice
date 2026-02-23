@@ -19,12 +19,12 @@ export class MessagingFindOneMapper extends SimpleResponseMapper<
     protected mapItemFromDto(
         dto: MessagingFindOneItemApiDto
     ): MessagingFindOneEntity {
-        MapperUtils.validateDto(dto, { required: ['id'] });
+        MapperUtils.validateDto(dto, { required: ['uniq_id'] });
 
         const props: MessagingFindOneProps = {
-            uniqId: dto.id,
-            reportId: dto.report_id,
-            type: dto.type,
+            uniqId: dto.uniq_id,
+            reportId: dto.report_uniq_id,
+            type: dto.type.toLowerCase(),
             targetType: dto.target_type,
             region: dto.region,
             department: dto.department,
@@ -35,7 +35,7 @@ export class MessagingFindOneMapper extends SimpleResponseMapper<
             createdAt: dto.created_at,
         };
 
-        const cacheKey = `dto:${dto.id}`;
+        const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
 
         const entity = cached

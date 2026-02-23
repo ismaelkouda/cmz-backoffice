@@ -3,8 +3,8 @@ import { DashboardProps } from '@presentation/pages/dashboard/domain/interfaces/
 export class DashboardEntity {
     constructor(private readonly props: DashboardProps) {}
 
-    get totalReports(): number {
-        return this.props.totalReports ?? 0;
+    get totalReports(): string {
+        return this.props.totalReports;
     }
 
     get partialOperatorReports(): number {

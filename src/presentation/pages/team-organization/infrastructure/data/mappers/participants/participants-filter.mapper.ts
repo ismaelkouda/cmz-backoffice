@@ -1,5 +1,5 @@
 import { ParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-filter.entity';
-import { ParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-filter-api.dto';
+import { ParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-filter-api.dto';
 
 export function participantsFilterMapper(
     entity: ParticipantsFilterEntity

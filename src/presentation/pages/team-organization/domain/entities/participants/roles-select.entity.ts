@@ -1,4 +1,4 @@
-import { RolesSelectItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/roles-select-api.dto';
+import { RolesSelectItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/roles-select-api.dto';
 
 export class RolesSelectEntity {
     constructor(

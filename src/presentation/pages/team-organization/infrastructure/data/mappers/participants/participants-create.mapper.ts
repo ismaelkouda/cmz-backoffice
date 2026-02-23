@@ -1,5 +1,5 @@
 import { ParticipantsCreateEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-create.entity';
-import { ParticipantsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-create-api.dto';
+import { ParticipantsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-create-api.dto';
 
 export function participantsCreateMapper(
     entity: ParticipantsCreateEntity

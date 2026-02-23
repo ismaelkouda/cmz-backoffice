@@ -6,9 +6,9 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { ProfilesPermissionsFreeUsersAssignEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-free-users-assign.entity';
-import { ProfilesPermissionsFreeUsersEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-free-users.entity';
-import { ProfilesPermissionsFreeUsersRepository } from '@presentation/pages/settings-security/core/domain/repositories/profiles-permissions/profiles-permissions-free-users-repository';
+import { ProfilesPermissionsFreeUsersAssignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-free-users-assign.entity';
+import { ProfilesPermissionsFreeUsersEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-free-users.entity';
+import { ProfilesPermissionsFreeUsersRepository } from '@presentation/pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-free-users-repository';
 import { profilesPermissionsFreeUsersAssignMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-free-users-assign.mapper';
 import { ProfilesPermissionsFreeUsersMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-free-users.mapper';
 import { ProfilesPermissionsFreeUsersApi } from '@presentation/pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-free-users.api';

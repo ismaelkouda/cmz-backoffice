@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { separatorThousands } from '@shared/domain/functions/separator-thousands';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
@@ -19,7 +20,7 @@ export class DashboardMapper extends SimpleResponseMapper<
         // MapperUtils.validateDto(dto, { required: ['uniq_id'] });
 
         const props: DashboardProps = {
-            totalReports: dto.total_reports,
+            totalReports: separatorThousands(dto.total_reports),
             partialOperatorReports: dto.total_cpo_reports,
             pendingReports: dto.pendingReports,
             approvedReports: dto.approvedReports,

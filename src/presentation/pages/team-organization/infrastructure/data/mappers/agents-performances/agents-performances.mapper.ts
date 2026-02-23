@@ -6,7 +6,7 @@ import {
     AgentsPerformancesProps,
 } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
 import { AGENTS_PERFORMANCES_STATUS } from '@presentation/pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
-import { AgentsPerformancesItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/agents-performances/agents-performances-response-api.dto';
+import { AgentsPerformancesItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-response-api.dto';
 
 export class AgentsPerformancesMapper extends PaginatedMapper<
     AgentsPerformancesEntity,

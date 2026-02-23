@@ -5,6 +5,7 @@ import { EnvService } from '@shared/domain/services/env.service';
 import { accessLogsProviders } from '@presentation/pages/settings-security/di/access-logs/access-logs.providers';
 import { profilesPermissionsFindOneProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-find-one.providers';
 import { profilesPermissionsFreeUsersProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-free-users.providers';
+import { profilesPermissionsPermissionsProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-permissions.providers';
 import { profilesPermissionsUsersProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-users.providers';
 import { profilesPermissionsProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions.providers';
 import { profilesSelectProviders } from '@presentation/pages/settings-security/di/users/profiles-select.providers';
@@ -41,4 +42,5 @@ export const provideSettingsSecurity = (): Provider[] => [
     ...profilesPermissionsUsersProviders,
     ...profilesPermissionsFindOneProviders,
     ...profilesPermissionsFreeUsersProviders,
+    ...profilesPermissionsPermissionsProviders,
 ];

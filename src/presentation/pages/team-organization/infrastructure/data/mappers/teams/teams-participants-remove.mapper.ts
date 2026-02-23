@@ -1,5 +1,5 @@
 import { TeamsParticipantsRemoveEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-remove.entity';
-import { TeamsParticipantsRemoveApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-remove-api.dto';
+import { TeamsParticipantsRemoveApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-remove-api.dto';
 
 export function teamsParticipantsRemoveMapper(
     vo: TeamsParticipantsRemoveEntity

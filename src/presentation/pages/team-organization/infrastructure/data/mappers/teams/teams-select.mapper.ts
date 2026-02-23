@@ -4,7 +4,7 @@ import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.ma
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { TeamsSelectEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-select.entity';
-import { TeamsSelectItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-select-api.dto';
+import { TeamsSelectItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-select-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsSelectMapper extends ArrayResponseMapper<

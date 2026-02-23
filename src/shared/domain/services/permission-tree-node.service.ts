@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class PermissionTreeService {
     transformPermissionsToTree(permissions: any[]): TreeNodeInterface[] {
         return permissions.map((p) => this.mapEntityToTreeNode(p));

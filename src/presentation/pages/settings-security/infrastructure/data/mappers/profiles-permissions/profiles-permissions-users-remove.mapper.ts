@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUsersRemoveEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-users-remove.entity';
+import { ProfilesPermissionsUsersRemoveEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-remove.entity';
 import { ProfilesPermissionsUsersRemoveApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-remove-api.dto';
 
 export function profilesPermissionsUsersRemoveMapper(

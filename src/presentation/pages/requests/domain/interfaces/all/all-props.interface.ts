@@ -2,7 +2,7 @@ import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
-import { Status } from '@presentation/pages/requests/domain/enums/all-status.enum.ts/all-status.enum';
+import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
 
 export interface AllProps {
     uniqId: string;

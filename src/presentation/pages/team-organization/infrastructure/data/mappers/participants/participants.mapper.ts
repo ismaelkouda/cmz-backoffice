@@ -9,7 +9,7 @@ import {
     ParticipantsEntity,
     ParticipantsProps,
 } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
-import { ParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-response-api.dto';
+import { ParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

@@ -1,10 +1,15 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { BaseFacade } from '@shared/application/services/base-facade';
-import { shouldFetch } from '@shared/application/services/facade.utils';
+import {
+    handleObservableWithFeedback,
+    shouldFetch,
+} from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
+import { NotificationsReadAllBus } from '@presentation/pages/communication/application/commands-bus/notifications/notifications-read-all.bus';
 import { NotificationsFilterDto } from '@presentation/pages/communication/application/dto/notifications/notifications-filter.dto';
 import { NotificationsQuery } from '@presentation/pages/communication/application/queries/notifications/notifications.query';
 import { NotificationsBus } from '@presentation/pages/communication/application/queries-bus/notifications/notifications.bus';
@@ -19,12 +24,34 @@ export class NotificationsFacade extends BaseFacade<
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly filterBus = inject(NotificationsBus);
+    private readonly readAllBus = inject(NotificationsReadAllBus);
+
+    private readonly _actionState = signal<'idle' | 'loading'>('idle');
+    readonly actionState = this._actionState.asReadonly();
+
+    private readonly _actionSuccess = signal(0);
+    readonly actionSuccess = this._actionSuccess.asReadonly();
+
+    private readonly _actionError = signal<unknown | null>(null);
+    readonly actionError = this._actionError.asReadonly();
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    read(
+    private handleActionWithRefresh<T>(
+        observable: Observable<T>,
+        successKey: string
+    ): Observable<T> {
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedbackService,
+            successKey,
+            () => this.refresh()
+        );
+    }
+
+    execute(
         filter: NotificationsFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false
@@ -131,5 +158,12 @@ export class NotificationsFacade extends BaseFacade<
             lastFetch: this.lastFetchTimestamp,
             hasData: this.itemsSubject.getValue() !== null,
         };
+    }
+
+    readAll(): void {
+        this.handleActionWithRefresh(
+            this.readAllBus.dispatch(),
+            'COMMON.SUCCESS.UPDATE'
+        ).subscribe();
     }
 }

@@ -37,7 +37,7 @@ import { TeamsFacade } from '@presentation/pages/team-organization/application/s
 import { TEAMS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/teams/teams-table.constant';
 import { TeamsFilterControl } from '@presentation/pages/team-organization/domain/controls/teams/teams-filter.control';
 import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
-import { TEAMS_STATUS } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
+import { Status } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
 import {
     TEAMS_FORM,
     TEAMS_USERS_ROUTE,
@@ -84,7 +84,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     });
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(TEAMS_STATUS, this.t.bind(this));
+        return enumToFilterOptions(Status, this.t.bind(this));
     });
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {

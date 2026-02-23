@@ -6,14 +6,14 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { UsersCreateEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-create.entity';
-import { UsersDeleteEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-delete.entity';
-import { UsersDisableEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-disable.entity';
-import { UsersEnableEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-enable.entity';
-import { UsersFilterEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-filter.entity';
-import { UsersUpdateEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-update.entity';
-import { UsersEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users.entity';
-import { UsersRepository } from '@presentation/pages/settings-security/core/domain/repositories/users/users-repository';
+import { UsersCreateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-create.entity';
+import { UsersDeleteEntity } from '@presentation/pages/settings-security/domain/entities/users/users-delete.entity';
+import { UsersDisableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-disable.entity';
+import { UsersEnableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-enable.entity';
+import { UsersFilterEntity } from '@presentation/pages/settings-security/domain/entities/users/users-filter.entity';
+import { UsersUpdateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-update.entity';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
+import { UsersRepository } from '@presentation/pages/settings-security/domain/repositories/users/users-repository';
 import { usersCreateMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-create.mapper';
 import { usersDeleteMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-delete.mapper';
 import { usersDisableMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-disable.mapper';

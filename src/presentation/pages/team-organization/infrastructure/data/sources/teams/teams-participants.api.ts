@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 
-import { TeamsParticipantsAssignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-assign-api.dto';
-import { TeamsParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-filter-api.dto';
-import { TeamsParticipantsReassignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-reassign-api.dto';
-import { TeamsParticipantsRemoveApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-remove-api.dto';
-import { TeamsParticipantsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-response-api.dto';
+import { TeamsParticipantsAssignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-assign-api.dto';
+import { TeamsParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-filter-api.dto';
+import { TeamsParticipantsReassignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-reassign-api.dto';
+import { TeamsParticipantsRemoveApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-remove-api.dto';
+import { TeamsParticipantsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-response-api.dto';
 import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
 

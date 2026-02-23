@@ -1,4 +1,4 @@
-import { UsersDeleteEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-delete.entity';
+import { UsersDeleteEntity } from '@presentation/pages/settings-security/domain/entities/users/users-delete.entity';
 import { UsersDeleteApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-delete-api.dto';
 
 export function usersDeleteMapper(vo: UsersDeleteEntity): UsersDeleteApiDto {

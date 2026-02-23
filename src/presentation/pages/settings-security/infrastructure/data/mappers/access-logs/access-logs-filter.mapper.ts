@@ -1,4 +1,4 @@
-import { AccessLogsFilterEntity } from '@presentation/pages/settings-security/core/domain/entities/access-logs/access-logs-filter.entity';
+import { AccessLogsFilterEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs-filter.entity';
 import { AccessLogsFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/access-logs/access-logs-filter-api.dto';
 
 export function AccessLogsFilterMapper(

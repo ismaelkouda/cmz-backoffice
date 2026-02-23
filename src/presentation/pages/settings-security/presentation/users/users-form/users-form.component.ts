@@ -35,13 +35,13 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 
-import { ProfilesSelectFacade } from '@presentation/pages/settings-security/core/application/services/users/profiles-select.facade';
-import { ResponsibilitiesSelectFacade } from '@presentation/pages/settings-security/core/application/services/users/responsibilities-select.facade';
-import { UsersFindOneFacade } from '@presentation/pages/settings-security/core/application/services/users/users-findone.facade';
-import { UsersFacade } from '@presentation/pages/settings-security/core/application/services/users/users.facade';
-import { UsersFormControl } from '@presentation/pages/settings-security/core/domain/controls/users/users-form.control';
-import { ProfilesSelectEntity } from '@presentation/pages/settings-security/core/domain/entities/users/profiles-select.entity';
-import { FormValidators } from '@presentation/pages/settings-security/core/domain/validators/form-validators';
+import { ProfilesSelectFacade } from '@presentation/pages/settings-security/application/services/users/profiles-select.facade';
+import { ResponsibilitiesSelectFacade } from '@presentation/pages/settings-security/application/services/users/responsibilities-select.facade';
+import { UsersFindOneFacade } from '@presentation/pages/settings-security/application/services/users/users-findone.facade';
+import { UsersFacade } from '@presentation/pages/settings-security/application/services/users/users.facade';
+import { UsersFormControl } from '@presentation/pages/settings-security/domain/controls/users/users-form.control';
+import { ProfilesSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/profiles-select.entity';
+import { FormValidators } from '@presentation/pages/settings-security/domain/validators/form-validators';
 
 import { UsersFormHelperService } from './users-form-helper.service';
 import { UsersFormValidationService } from './users-form-validation.service';

@@ -1089,7 +1089,7 @@
         "CHOOSE": "Choisir",
         "CREATE": "Créer",
         "CLOSE": "Fermer",
-        "VISUALISE": "Visualiser",
+        "VISUALIZE": "Visualiser",
         "FINALIZE": "Finaliser",
         "FILTER_RESULT": "Resultat du filtre",
         "RESTORE": "Restaurer",
@@ -1118,6 +1118,9 @@
         "EXPORT": "Exporter",
         "RESEARCH": "Rechercher",
         "TAKE": "Prendre en masse",
+        "READ": "Lu",
+        "UNREAD": "Non Lu",
+        "READ_ALL": "Lire tout",
         "ASSIGN": "Affecter",
         "REASSIGN": "Réaffecter",
         "REMOVE": "Retirer",
@@ -2073,13 +2076,20 @@
                 }
             },
             "TABLE": {
-                "CREATED_AT": "Créé le",
                 "REFERENCE": "Reference",
+                "TITLE": "Titre",
                 "TYPE": "Type Notification",
-                "DESCRIPTION": "Description",
+                "MESSAGE": "Message",
+                "STATUS":"Statut",
+                "SEND_AT": "Envoyer Le",
                 "SEE_MORE": "Voir plus",
                 "READ": "Lire",
                 "ACTION": "Action"
+            },
+
+            "SWEET_ALERT": {
+                "TITLE_READ_ALL": "Lire toute les notifications",
+                "MESSAGE_READ_ALL": "Voulez-vous vraiment lire toutes les notifications ?"
             },
             "BUTTONS": {
                 "DELETE": "Supprimer"
@@ -2119,6 +2129,8 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "TYPE": "Type de message",
+                "TARGET_TYPE": "Cible",
+                "CHANNELS": "Cannaux",
                 "SUBJECT": "Sujet",
                 "CONTENT": "Contenu",
                 "SEE_MORE": "Voir plus",
@@ -2140,7 +2152,7 @@
             },
             "FORM": {
                 "TITLE_FORM_ADD": "Formulaire D'envoie de message",
-                "TITLE_FORM_EDIT": "Formulaire de modification D'envoie de message",
+                "TITLE_FORM_EDIT": "Details du message",
                 "FIELDSET_GENERAL_INFO": {
                     "TITLE": "Informations Générales",
                     "TYPE": "Type de message", 

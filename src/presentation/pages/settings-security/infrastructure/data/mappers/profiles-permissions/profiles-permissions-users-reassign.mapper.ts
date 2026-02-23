@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUsersReassignEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-users-reassign.entity';
+import { ProfilesPermissionsUsersReassignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-reassign.entity';
 import { ProfilesPermissionsUsersReassignApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-reassign-api.dto';
 
 export function profilesPermissionsUsersReassignMapper(

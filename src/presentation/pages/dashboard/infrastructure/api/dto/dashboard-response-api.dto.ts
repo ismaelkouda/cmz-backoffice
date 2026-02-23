@@ -2,7 +2,7 @@ import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface DashboardItemApiDto {
     readonly uniq_id: string;
-    readonly total_reports?: number;
+    readonly total_reports: number;
     readonly total_cpo_reports?: number;
     readonly pendingReports?: number;
     readonly approvedReports?: number;

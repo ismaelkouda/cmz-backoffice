@@ -51,9 +51,9 @@ import { TeamsPermissionsFacade } from '@presentation/pages/team-organization/ap
 import { TeamsFacade } from '@presentation/pages/team-organization/application/services/teams/teams.facade';
 import { TEAMS_FORM_TABS } from '@presentation/pages/team-organization/domain/constants/teams/teams-form-tabs.constant';
 import { TeamsFormControls } from '@presentation/pages/team-organization/domain/controls/teams/teams-form.control';
+import { TeamsFormHelperService } from '@presentation/pages/team-organization/domain/services/teams/teams-form-helper.service';
+import { TeamsFormValidationService } from '@presentation/pages/team-organization/domain/services/teams/teams-form-validation.service';
 import { FormValidators } from '@presentation/pages/team-organization/domain/validators/form-validators';
-import { TeamsFormHelperService } from '@presentation/pages/team-organization/presentation/teams/teams-form/teams-form-helper.service';
-import { TeamsFormValidationService } from '@presentation/pages/team-organization/presentation/teams/teams-form/teams-form-validation.service';
 
 @Component({
     selector: 'app-teams-form',
@@ -116,7 +116,6 @@ export class TeamsFormComponent implements OnInit {
             this.form.enable({ emitEvent: false });
         }
     });
-
     private readonly successEffect = effect(() => {
         const current = this.submitFacade.actionSuccess();
         if (current === this.lastSuccess) {

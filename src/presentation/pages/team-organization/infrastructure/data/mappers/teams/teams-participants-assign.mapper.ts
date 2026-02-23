@@ -1,5 +1,5 @@
 import { TeamsParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
-import { TeamsParticipantsAssignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-assign-api.dto';
+import { TeamsParticipantsAssignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-assign-api.dto';
 
 export function teamsParticipantsAssignMapper(
     vo: TeamsParticipantsAssignEntity

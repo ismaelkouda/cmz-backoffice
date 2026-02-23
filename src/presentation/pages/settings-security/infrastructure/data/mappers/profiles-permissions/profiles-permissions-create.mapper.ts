@@ -1,4 +1,4 @@
-import { ProfilesPermissionsCreateEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-create.entity';
+import { ProfilesPermissionsCreateEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-create.entity';
 import { ProfilesPermissionsCreateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-create-api.dto';
 
 export function profilesPermissionsCreateMapper(

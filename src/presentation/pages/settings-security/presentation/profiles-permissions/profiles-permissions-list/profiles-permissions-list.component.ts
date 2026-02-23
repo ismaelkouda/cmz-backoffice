@@ -21,20 +21,23 @@ import SweetAlert from 'sweetalert2';
 
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
+    enumToFilterOptions,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 
-import { ProfilesPermissionsFacade } from '@presentation/pages/settings-security/core/application/services/profiles-permissions/profiles-permissions.facade';
-import { PROFILES_PERMISSIONS_TABLE_CONSTANT } from '@presentation/pages/settings-security/core/domain/constants/profiles-permissions/profiles-permissions-table.constant';
-import { ProfilesPermissionsFilterControl } from '@presentation/pages/settings-security/core/domain/controls/profiles-permissions/profiles-permissions-filter.control';
-import { ProfilesPermissionsEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions.entity';
+import { ProfilesPermissionsFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
+import { PROFILES_PERMISSIONS_TABLE_CONSTANT } from '@presentation/pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-table.constant';
+import { ProfilesPermissionsFilterControl } from '@presentation/pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-filter.control';
+import { ProfilesPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
+import { Status } from '@presentation/pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
 import {
     PROFILES_PERMISSIONS_FORM,
     PROFILES_PERMISSIONS_USERS_ROUTE,
@@ -64,6 +67,9 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
     private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
+    readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.config.app.name
+    );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
@@ -76,24 +82,19 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
-    );
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return [
-            {
-                label: this.t('COMMON.ACTIVATED'),
-                value: true,
-                translationKey: 'COMMON.ACTIVATED',
-            },
-            {
-                label: this.t('COMMON.DEACTIVATED'),
-                value: false,
-                translationKey: 'COMMON.DEACTIVATED',
-            },
-        ];
+        return enumToFilterOptions(Status, this.t.bind(this));
     });
+    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.CREATE',
+            actionId: CrudFormType.CREATE,
+            class: 'btn-primary',
+            icon: 'pi pi-plus',
+            translateKey: 'COMMON.CREATE',
+        },
+    ]);
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const statusOpts = this.statusOptions();
@@ -121,6 +122,7 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
                 label: this.t(
                     'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FILTER.STATUS'
                 ),
+                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: statusOpts,
                 optionLabel: 'label',
                 optionValue: 'value',
@@ -205,12 +207,21 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
         this.facade.changePage(JSON.stringify(page + 1));
     }
 
+    public onHeaderButtonClicked(actionId: string): void {
+        if (actionId === CrudFormType.CREATE) {
+            this.onNavigateToForm({
+                item: undefined,
+                ref: CrudFormType.CREATE,
+            });
+        }
+    }
+
     public onNavigateToForm(event: {
         item?: ProfilesPermissionsEntity;
         ref: CrudFormType;
     }): void {
         const queryParams = event.item
-            ? { code: event.item.uniqId, ref: event.ref }
+            ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
         this.router.navigate([PROFILES_PERMISSIONS_FORM], {
             relativeTo: this.activatedRoute,
@@ -240,13 +251,55 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
         });
     }
 
+    public onEnableClicked(item: ProfilesPermissionsEntity): void {
+        if (!item.uniqId) {
+            return;
+        }
+        SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_ENABLE'
+            ),
+            text: `${this.t('SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE_ENABLE')}`,
+            backdrop: false,
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.facade.enable({ uniqId: item.uniqId });
+                this.facade.refreshWithLastFilterAndPage();
+            }
+        });
+    }
+
+    public onDisableClicked(item: ProfilesPermissionsEntity): void {
+        if (!item.uniqId) {
+            return;
+        }
+        SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_DISABLE'
+            ),
+            text: `${this.t('SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE_DISABLE')}`,
+            backdrop: false,
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.facade.disable({ uniqId: item.uniqId });
+                this.facade.refreshWithLastFilterAndPage();
+            }
+        });
+    }
+
     public onBadgeClicked(event: {
         item: ProfilesPermissionsEntity;
         col: HTMLTableCellElement;
     }): void {
         this.router.navigate([PROFILES_PERMISSIONS_USERS_ROUTE], {
             relativeTo: this.activatedRoute,
-            queryParams: { code: event.item.uniqId, name: event.item.name },
+            queryParams: { uniqId: event.item.uniqId, name: event.item.name },
         });
     }
 

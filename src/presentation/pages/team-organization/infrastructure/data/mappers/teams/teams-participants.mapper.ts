@@ -4,7 +4,7 @@ import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.ma
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
-import { TeamsParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-response-api.dto';
+import { TeamsParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
