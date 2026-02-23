@@ -10,9 +10,7 @@
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'REQUESTS.ALL.TITLE'
-                                    | translate
-                                    | lowercase
+                                'REQUESTS.ALL.TITLE' | translate | lowercase
                             "
                         >
                         </app-page-title>
@@ -60,7 +58,7 @@
     @if (reportTreatmentVisible) {
         <app-management-dialog
             [(visible)]="reportTreatmentVisible"
-            [reportId]="selectedReportId"
+            [uniqId]="selectedReportId"
             (closed)="onReportTreatmentClosed()"
         ></app-management-dialog>
     }

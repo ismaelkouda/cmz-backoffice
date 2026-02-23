@@ -35,86 +35,210 @@
                                         class="form row g-3"
                                         [formGroup]="form"
                                         (ngSubmit)="onSubmit()"
-                                        [attr.aria-label]="'COMMUNICATION.MESSAGING.FORM.TITLE' | translate"
+                                        [attr.aria-label]="
+                                            'COMMUNICATION.MESSAGING.FORM.TITLE'
+                                                | translate
+                                        "
                                     >
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{ 'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TITLE' | translate }}</b>
+                                                <b>{{
+                                                    'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TITLE'
+                                                        | translate
+                                                }}</b>
                                             </legend>
                                             <div class="row g-3">
                                                 <div class="col-md-4">
-                                                    <label for="type" class="form-label fw-bold">
-                                                        {{ 'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TYPE' | translate }}
-                                                        <span class="text-danger" aria-label="required">*</span>
+                                                    <label
+                                                        for="type"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TYPE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <p-select
                                                         id="type"
                                                         class="form-p-select"
-                                                        [options]="typeOptions()"
+                                                        [options]="
+                                                            typeOptions()
+                                                        "
                                                         formControlName="type"
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         filter="true"
                                                         styleClass="w-100"
-                                                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                        [attr.aria-label]="'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TYPE_MESSAGE' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('type')"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TYPE_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'type'
+                                                            )
+                                                        "
                                                     />
-                                                    @if (isFieldInvalid('type')) {
-                                                        <small class="text-danger d-block mt-1" role="alert">
-                                                            {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                                                    @if (
+                                                        isFieldInvalid('type')
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            role="alert"
+                                                        >
+                                                            {{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}
                                                         </small>
                                                     }
                                                 </div>
 
                                                 <div class="col-md-4">
-                                                    <label for="targetType" class="form-label fw-bold">
-                                                        {{ 'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TARGET' | translate }}
-                                                        <span class="text-danger" aria-label="required">*</span>
+                                                    <label
+                                                        for="targetType"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TARGET'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <p-select
                                                         id="targetType"
                                                         class="form-p-select"
-                                                        [options]="targetOptions()"
+                                                        [options]="
+                                                            targetOptions()
+                                                        "
                                                         formControlName="targetType"
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         styleClass="w-100"
-                                                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                        [attr.aria-label]="'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TARGET' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('targetType')"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TARGET'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'targetType'
+                                                            )
+                                                        "
                                                     />
-                                                    @if (isFieldInvalid('targetType')) {
-                                                        <small class="text-danger d-block mt-1" role="alert">
-                                                            {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                                                    @if (
+                                                        isFieldInvalid(
+                                                            'targetType'
+                                                        )
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            role="alert"
+                                                        >
+                                                            {{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}
                                                         </small>
                                                     }
                                                 </div>
 
-                                                @if (shouldShowField('reportId')) {
-                                                    <div class="fade-in col-md-4">
-                                                        <label for="reportId" class="form-label fw-bold">
-                                                            {{ 'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.REPORT_ID' | translate }}
-                                                            <span class="text-danger" aria-label="required">*</span>
+                                                @if (
+                                                    shouldShowField('reportId')
+                                                ) {
+                                                    <div
+                                                        class="fade-in col-md-4"
+                                                    >
+                                                        <label
+                                                            for="reportId"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.REPORT_ID'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                aria-label="required"
+                                                                >*</span
+                                                            >
                                                         </label>
                                                         <input
                                                             class="form-input"
                                                             id="reportId"
                                                             type="text"
                                                             formControlName="reportId"
-                                                            [placeholder]="'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.REPORT_ID_PLACEHOLDER' | translate"
-                                                            [attr.maxlength]="VALIDATION.REPORT_ID.MAX"
-                                                            [attr.aria-label]="'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.REPORT_ID' | translate"
-                                                            [attr.aria-invalid]="isFieldInvalid('reportId')"
+                                                            [placeholder]="
+                                                                'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.REPORT_ID_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [attr.maxlength]="
+                                                                VALIDATION
+                                                                    .REPORT_ID
+                                                                    .MAX
+                                                            "
+                                                            [attr.aria-label]="
+                                                                'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.REPORT_ID'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                isFieldInvalid(
+                                                                    'reportId'
+                                                                )
+                                                            "
                                                         />
-                                                        <div class="d-flex justify-content-between mt-1">
-                                                            @if (isFieldInvalid('reportId')) {
-                                                                <small class="text-danger" role="alert">
-                                                                    {{ getErrorMessage('reportId') }}
+                                                        <div
+                                                            class="d-flex justify-content-between mt-1"
+                                                        >
+                                                            @if (
+                                                                isFieldInvalid(
+                                                                    'reportId'
+                                                                )
+                                                            ) {
+                                                                <small
+                                                                    class="text-danger"
+                                                                    role="alert"
+                                                                >
+                                                                    {{
+                                                                        getErrorMessage(
+                                                                            'reportId'
+                                                                        )
+                                                                    }}
                                                                 </small>
                                                             }
-                                                            <small class="text-muted ms-auto" aria-live="polite">
-                                                                {{ (form.get('reportId')?.value || '').length }}/{{ VALIDATION.REPORT_ID.MAX }}
+                                                            <small
+                                                                class="text-muted ms-auto"
+                                                                aria-live="polite"
+                                                            >
+                                                                {{
+                                                                    (
+                                                                        form.get(
+                                                                            'reportId'
+                                                                        )
+                                                                            ?.value ||
+                                                                        ''
+                                                                    ).length
+                                                                }}/{{
+                                                                    VALIDATION
+                                                                        .REPORT_ID
+                                                                        .MAX
+                                                                }}
                                                             </small>
                                                         </div>
                                                     </div>
@@ -125,75 +249,159 @@
                                         @if (shouldShowField('region')) {
                                             <fieldset class="fade-in fieldset">
                                                 <legend>
-                                                    <b>{{ 'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.TITLE' | translate }}</b>
+                                                    <b>{{
+                                                        'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.TITLE'
+                                                            | translate
+                                                    }}</b>
                                                 </legend>
                                                 <div class="row g-3">
                                                     <div class="col-md-4">
-                                                        <label for="region" class="form-label fw-bold">
-                                                            {{ 'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.REGION' | translate }}
-                                                            <span class="text-danger">*</span>
+                                                        <label
+                                                            for="region"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.REGION'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
                                                         </label>
                                                         <p-select
                                                             class="form-p-select"
-                                                            [options]="regions()"
+                                                            [options]="
+                                                                regions()
+                                                            "
                                                             formControlName="region"
                                                             optionLabel="name"
                                                             optionValue="code"
                                                             filter="true"
                                                             styleClass="w-100"
-                                                            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                            [attr.aria-invalid]="isFieldInvalid('region')"
+                                                            [placeholder]="
+                                                                'COMMON.SELECT_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                isFieldInvalid(
+                                                                    'region'
+                                                                )
+                                                            "
                                                         />
-                                                        @if (isFieldInvalid('region')) {
-                                                            <small class="text-danger d-block mt-1">
-                                                                {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'region'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    'COMMON.VALIDATION.REQUIRED'
+                                                                        | translate
+                                                                }}
                                                             </small>
                                                         }
                                                     </div>
 
                                                     <div class="col-md-4">
-                                                        <label for="department" class="form-label fw-bold">
-                                                            {{ 'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.DEPARTMENT' | translate }}
-                                                            <span class="text-danger">*</span>
+                                                        <label
+                                                            for="department"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.DEPARTMENT'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
                                                         </label>
                                                         <p-select
                                                             class="form-p-select"
-                                                            [options]="departments()"
+                                                            [options]="
+                                                                departments()
+                                                            "
                                                             formControlName="department"
                                                             optionLabel="name"
                                                             optionValue="code"
                                                             filter="true"
                                                             styleClass="w-100"
-                                                            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                            [attr.aria-invalid]="isFieldInvalid('department')"
+                                                            [placeholder]="
+                                                                'COMMON.SELECT_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                isFieldInvalid(
+                                                                    'department'
+                                                                )
+                                                            "
                                                         />
-                                                        @if (isFieldInvalid('department')) {
-                                                            <small class="text-danger d-block mt-1">
-                                                                {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'department'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    'COMMON.VALIDATION.REQUIRED'
+                                                                        | translate
+                                                                }}
                                                             </small>
                                                         }
                                                     </div>
 
                                                     <!-- Municipality Select -->
                                                     <div class="col-md-4">
-                                                        <label for="municipality" class="form-label fw-bold">
-                                                            {{ 'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.MUNICIPALITY' | translate }}
-                                                            <span class="text-danger">*</span>
+                                                        <label
+                                                            for="municipality"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.MUNICIPALITY'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
                                                         </label>
                                                         <p-select
                                                             class="form-p-select"
-                                                            [options]="municipalities()"
+                                                            [options]="
+                                                                municipalities()
+                                                            "
                                                             formControlName="municipality"
                                                             optionLabel="name"
                                                             optionValue="code"
                                                             filter="true"
                                                             styleClass="w-100"
-                                                            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                            [attr.aria-invalid]="isFieldInvalid('municipality')"
+                                                            [placeholder]="
+                                                                'COMMON.SELECT_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                isFieldInvalid(
+                                                                    'municipality'
+                                                                )
+                                                            "
                                                         />
-                                                        @if (isFieldInvalid('municipality')) {
-                                                            <small class="text-danger d-block mt-1">
-                                                                {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'municipality'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    'COMMON.VALIDATION.REQUIRED'
+                                                                        | translate
+                                                                }}
                                                             </small>
                                                         }
                                                     </div>
@@ -213,9 +421,7 @@
                                                     option of channelsOptions();
                                                     track option.value
                                                 ) {
-                                                    <div
-                                                        class="col-md-3"
-                                                    >
+                                                    <div class="col-md-3">
                                                         <div
                                                             class="d-flex align-items-center gap-2"
                                                         >
@@ -245,16 +451,12 @@
                                                     </div>
                                                 }
                                                 @if (
-                                                    form.controls
-                                                        .channels
+                                                    form.controls.channels
                                                         .invalid &&
-                                                    form.controls
-                                                        .channels
+                                                    form.controls.channels
                                                         .touched
                                                 ) {
-                                                    <div
-                                                        class="mt-2"
-                                                    >
+                                                    <div class="mt-2">
                                                         <small
                                                             class="text-danger"
                                                         >
@@ -298,7 +500,8 @@
                                                                 | translate
                                                         "
                                                         [attr.maxlength]="
-                                                            VALIDATION.SUBJECT.MAX
+                                                            VALIDATION.SUBJECT
+                                                                .MAX
                                                         "
                                                     />
                                                     <div
@@ -331,8 +534,8 @@
                                                                     ''
                                                                 ).length
                                                             }}/{{
-                                                                VALIDATION.SUBJECT
-                                                                    .MAX
+                                                                VALIDATION
+                                                                    .SUBJECT.MAX
                                                             }}
                                                         </small>
                                                     </div>
@@ -399,62 +602,31 @@
                                                         </small>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-12">
-                                                    <label
-                                                        for="message"
-                                                        class="form-label fw-bold"
-                                                        >{{
-                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADDITIONAL_INFO.MESSAGE'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
-                                                    >
-                                                    <p-editor
-                                                        formControlName="message"
-                                                        [style]="{
-                                                            height: '200px',
-                                                        }"
-                                                    ></p-editor>
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-2"
-                                                    >
-                                                        @if (
-                                                            form.get('message')
-                                                                ?.invalid &&
-                                                            form.get('message')
-                                                                ?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'message'
-                                                                    )
-                                                                }}
-                                                            </small>
-                                                        }
-                                                    </div>
-                                                </div>
                                             </div>
                                         </fieldset>
-                                        
-                                        <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
+
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
                                             <p-button
-                                                [label]="'COMMON.CANCEL' | translate"
+                                                [label]="
+                                                    'COMMON.CANCEL' | translate
+                                                "
                                                 styleClass="p-button-text p-button-secondary"
                                                 (click)="navigateToBack()"
-                                                [attr.aria-label]="'COMMON.CANCEL' | translate"
+                                                [attr.aria-label]="
+                                                    'COMMON.CANCEL' | translate
+                                                "
                                             />
                                             <p-button
-                                                [label]="'COMMON.SAVE' | translate"
+                                                [label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
                                                 type="submit"
                                                 [disabled]="form.invalid"
-                                                [attr.aria-label]="'COMMON.SAVE' | translate"
+                                                [attr.aria-label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
                                             />
                                         </div>
                                     </form>

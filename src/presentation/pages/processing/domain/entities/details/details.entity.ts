@@ -9,8 +9,8 @@ import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
-import { DetailsProcessingState } from '@presentation/pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
-import { DetailsState } from '@presentation/pages/processing/domain/enums/details/details-state/details-state.enum';
+import { ProcessingState } from '@presentation/pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
+import { State } from '@presentation/pages/processing/domain/enums/details/details-state/details-state.enum';
 import { DetailsStatus } from '@presentation/pages/processing/domain/enums/details/details-status/details-status.enum';
 import { detailsLabelButtonSubmit } from '@presentation/pages/processing/domain/functions/details/details-label-button-submit.function';
 import { detailsPermissionsManage } from '@presentation/pages/processing/domain/functions/details/details-permissions-manage.function';
@@ -23,6 +23,10 @@ import { DetailsTreaterInfo } from '@presentation/pages/processing/domain/types/
 
 export class DetailsEntity {
     constructor(private readonly props: DetailsProps) {}
+
+    get type(): string {
+        return this.props.type;
+    }
 
     get uniqId(): string {
         return this.props.uniqId;
@@ -96,11 +100,11 @@ export class DetailsEntity {
         return this.props.status;
     }
 
-    get processingState(): DetailsProcessingState | null {
+    get processingState(): ProcessingState | null {
         return this.props.processingState;
     }
 
-    get state(): DetailsState {
+    get state(): State {
         return this.props.state;
     }
 
@@ -177,31 +181,31 @@ export class DetailsEntity {
     }
 
     private get progressingStateInProgress(): boolean {
-        return this.processingState === DetailsProcessingState.IN_PROGRESS;
+        return this.processingState === ProcessingState.IN_PROGRESS;
     }
 
     public get statePending(): boolean {
-        return this.state === DetailsState.PENDING;
+        return this.state === State.PENDING;
     }
 
     private get stateInProgress(): boolean {
-        return this.state === DetailsState.IN_PROGRESS;
+        return this.state === State.IN_PROGRESS;
     }
 
     public get stateCompleted(): boolean {
-        return this.state === DetailsState.COMPLETED;
+        return this.state === State.COMPLETED;
     }
 
     private get submissionStatePending(): boolean {
-        return this.state === DetailsState.PENDING;
+        return this.state === State.PENDING;
     }
 
     private get submissionStateInProgress(): boolean {
-        return this.state === DetailsState.IN_PROGRESS;
+        return this.state === State.IN_PROGRESS;
     }
 
     private get progressingStatePending(): boolean {
-        return this.processingState === DetailsProcessingState.PENDING;
+        return this.processingState === ProcessingState.PENDING;
     }
 
     public get updateWorkflowTimestamps(): ManagementTimestamp[] {

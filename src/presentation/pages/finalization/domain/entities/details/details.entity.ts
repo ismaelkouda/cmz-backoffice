@@ -9,7 +9,7 @@ import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
-import { DetailsState } from '@presentation/pages/finalization/domain/enums/details/details-state/details-state.enum';
+import { State } from '@presentation/pages/finalization/domain/enums/details/details-state/details-state.enum';
 import { DetailsStatus } from '@presentation/pages/finalization/domain/enums/details/details-status/details-status.enum';
 import { detailsLabelButtonSubmit } from '@presentation/pages/finalization/domain/functions/details/details-label-button-submit.function';
 import { detailsPermissionsFinalize } from '@presentation/pages/finalization/domain/functions/details/details-permissions-finalize.function';
@@ -22,6 +22,10 @@ import { DetailsTreaterInfo } from '@presentation/pages/finalization/domain/type
 
 export class DetailsEntity {
     constructor(private readonly props: DetailsProps) {}
+
+    get type(): string {
+        return this.props.type;
+    }
 
     get uniqId(): string {
         return this.props.uniqId;
@@ -95,7 +99,7 @@ export class DetailsEntity {
         return this.props.status;
     }
 
-    get state(): DetailsState {
+    get state(): State {
         return this.props.state;
     }
 
@@ -164,23 +168,23 @@ export class DetailsEntity {
     }
 
     public get statePending(): boolean {
-        return this.state === DetailsState.PENDING;
+        return this.state === State.PENDING;
     }
 
     private get stateInProgress(): boolean {
-        return this.state === DetailsState.IN_PROGRESS;
+        return this.state === State.IN_PROGRESS;
     }
 
     public get stateCompleted(): boolean {
-        return this.state === DetailsState.COMPLETED;
+        return this.state === State.COMPLETED;
     }
 
     private get submissionStatePending(): boolean {
-        return this.state === DetailsState.PENDING;
+        return this.state === State.PENDING;
     }
 
     private get submissionStateInProgress(): boolean {
-        return this.state === DetailsState.IN_PROGRESS;
+        return this.state === State.IN_PROGRESS;
     }
 
     public get updateWorkflowTimestamps(): ManagementTimestamp[] {

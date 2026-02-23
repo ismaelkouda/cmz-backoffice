@@ -1,4 +1,3 @@
-
 <div class="dashboard-container">
     <div class="dashboard-header">
         <div class="title-section">
@@ -33,8 +32,7 @@
             <div class="date-info">
                 {{ 'DASHBOARD.UPDATED_DATE' | translate }}:
                 {{
-                    items()?.lastRefreshAt ||
-                        ('DASHBOARD.NO_DATE' | translate)
+                    items()?.lastRefreshAt || ('DASHBOARD.NO_DATE' | translate)
                 }}
             </div>
             <button
@@ -99,7 +97,10 @@
                 </div>
             </div>
 
-            <div class="statistics-section" *ngIf="taskStatusStatistics.length > 0">
+            <div
+                class="statistics-section"
+                *ngIf="taskStatusStatistics.length > 0"
+            >
                 <div class="section-header">
                     <div class="section-badge">
                         {{ 'DASHBOARD.SECTIONS.TASK_STATUS.TITLE' | translate }}
@@ -135,5 +136,3 @@
         </div>
     }
 </div>
-
-

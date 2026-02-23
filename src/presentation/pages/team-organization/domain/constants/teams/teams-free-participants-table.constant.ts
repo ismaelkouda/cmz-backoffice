@@ -8,24 +8,24 @@ export const TEAMS_FREE_PARTICIPANTS_TABLE_CONSTANT = {
         },
         {
             field: 'firstName',
-            header: 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.USERS.TABLE.FIRST_NAME',
+            header: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.TABLE.FIRST_NAME',
             width: '10rem',
         },
         {
             field: 'lastName',
-            header: 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.USERS.TABLE.LAST_NAME',
+            header: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.TABLE.LAST_NAME',
             width: '20rem',
         },
         {
             field: 'phone',
-            header: 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.USERS.TABLE.PHONE',
+            header: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.TABLE.PHONE',
             class: 'text-center',
             width: '2rem',
             type: 'badge-button',
         },
         {
             field: 'email',
-            header: 'SETTINGS_SECURITY.PROFILES_HABILITATIONS.USERS.TABLE.EMAIL',
+            header: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.TABLE.EMAIL',
             class: 'text-center',
             width: '3rem',
         },

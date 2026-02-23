@@ -13,11 +13,11 @@ import { TreaterInfoMapper } from '@shared/data/mappers/treater-info.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { DetailsEntity } from '@presentation/pages/processing/domain/entities/details/details.entity';
-import { DetailsProcessingState } from '@presentation/pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
-import { DetailsState } from '@presentation/pages/processing/domain/enums/details/details-state/details-state.enum';
 import { DetailsStatus } from '@presentation/pages/processing/domain/enums/details/details-status/details-status.enum';
 import { DetailsProps } from '@presentation/pages/processing/domain/interfaces/details/details-props.interface';
 import { DetailsItemApiDto } from '@presentation/pages/processing/infrastructure/api/dto/details/details-response-api.dto';
+import { ProcessingStateMapper } from '@presentation/pages/processing/infrastructure/data/mappers/details/details-processing-state.mapper';
+import { StateMapper } from '@presentation/pages/processing/infrastructure/data/mappers/details/details-state.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsMapper extends SimpleResponseMapper<
@@ -37,6 +37,8 @@ export class DetailsMapper extends SimpleResponseMapper<
         AdministrativeBoundaryMapper
     );
     private readonly timestampsMapper = inject(TimestampsMapper);
+    private readonly stateMapper = inject(StateMapper);
+    private readonly processingStateMapper = inject(ProcessingStateMapper);
 
     private static readonly STATUS_MAP = MapperUtils.createEnumMap({
         pending: DetailsStatus.PENDING,
@@ -44,24 +46,11 @@ export class DetailsMapper extends SimpleResponseMapper<
         'in-progress': DetailsStatus.IN_PROGRESS,
     });
 
-    private static readonly STATE_MAP = MapperUtils.createEnumMap({
-        pending: DetailsState.PENDING,
-        approved: DetailsState.APPROVED,
-        rejected: DetailsState.REJECTED,
-        'in-progress': DetailsState.IN_PROGRESS,
-        completed: DetailsState.COMPLETED,
-        terminated: DetailsState.TERMINATED,
-    });
-
-    private static readonly PROCESSING_STATE_MAP = MapperUtils.createEnumMap({
-        pending: DetailsProcessingState.PENDING,
-        'in-progress': DetailsProcessingState.IN_PROGRESS,
-    });
-
     protected mapItemFromDto(dto: DetailsItemApiDto): DetailsEntity {
-        MapperUtils.validateDto(dto, { required: ['id'] });
+        MapperUtils.validateDto(dto, { required: ['uniq_id'] });
 
         const props: DetailsProps = {
+            type: 'processing',
             uniqId: dto.uniq_id,
             reportUniqId: dto.request_report_uniq_id,
             initiatorPhone: dto.initiator_phone_number,
@@ -100,13 +89,10 @@ export class DetailsMapper extends SimpleResponseMapper<
             status:
                 DetailsMapper.STATUS_MAP.get(dto.status) ??
                 DetailsStatus.PENDING,
-            processingState: dto.processing_state
-                ? (DetailsMapper.PROCESSING_STATE_MAP.get(
-                      dto.processing_state
-                  ) ?? null)
-                : null,
-            state:
-                DetailsMapper.STATE_MAP.get(dto.state) ?? DetailsState.PENDING,
+            processingState: this.processingStateMapper.mapApiToProcessingState(
+                dto.processing_state
+            ),
+            state: this.stateMapper.mapApiToState(dto.state),
 
             region: this.utils.memoized(dto.region, (r) =>
                 this.administrativeBoundaryMapper.mapToEntity(r)
@@ -126,7 +112,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             confirmCount: dto.confirm_count,
         };
 
-        const cacheKey = `dto:${dto.id}`;
+        const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
 
         const entity = cached ? cached.with(props) : new DetailsEntity(props);

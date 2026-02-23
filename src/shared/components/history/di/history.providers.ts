@@ -1,11 +1,10 @@
 import { Provider } from '@angular/core';
 import { inject } from '@angular/core';
 
+import { HistoryRepository } from '@shared/components/history/domain/repositories/history.repository';
+import { HISTORY_BASE_URL } from '@shared/components/history/infrastructure/api/history.base-url';
+import { HistoryRepositoryImpl } from '@shared/components/history/infrastructure/data/repositories/history.repository.impl';
 import { EnvService } from '@shared/domain/services/env.service';
-
-import { HistoryRepository } from '../core/domain/repositories/history.repository';
-import { HISTORY_BASE_URL } from '../infrastructure/api/history.base-url';
-import { HistoryRepositoryImpl } from '../infrastructure/data/repositories/history.repository.impl';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).authenticationUrl;

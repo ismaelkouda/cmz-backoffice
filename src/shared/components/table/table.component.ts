@@ -34,7 +34,7 @@ import { TableConfig } from '@shared/domain/services/table-export-excel-file.ser
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 
 import { HomeActionDropdownComponent } from '@presentation/pages/content-management/presentation/features/home/table-home/home-action-dropdown/home-action-dropdown.component';
-import { DetailsStatus as RequestsStatus } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
+import { Status as RequestsStatus } from '@presentation/pages/requests/domain/enums/all-status.enum.ts/all-status.enum';
 
 @Component({
     selector: 'app-table',
@@ -202,7 +202,7 @@ export class TableComponent {
     copyToClipboard(data: string): void {
         this.clipboardService.copyFromContent(data);
         this.toastService.success(
-            this.translate.instant('COPIED_TO_THE_CLIPBOARD')
+            this.translate.instant('COMMON.COPIED_TO_CLIPBOARD')
         );
     }
 

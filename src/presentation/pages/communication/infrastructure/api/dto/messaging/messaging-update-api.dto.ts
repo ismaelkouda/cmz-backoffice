@@ -1,6 +1,6 @@
 export interface MessagingUpdateApiDto {
     id: string;
-    report_id: string;
+    report_uniq_id: string;
     type: string;
     target_type: string;
     region: string;
@@ -9,5 +9,4 @@ export interface MessagingUpdateApiDto {
     channels: string[];
     subject: string;
     content: string;
-    message: string;
 }

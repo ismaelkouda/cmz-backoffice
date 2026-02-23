@@ -28,8 +28,8 @@ export const ALL_TABLE_CONST = {
             width: '12rem',
         },
         {
-            field: 'state',
-            header: 'REQUESTS.ALL.TABLE.STATE',
+            field: 'status',
+            header: 'REQUESTS.ALL.TABLE.STATUS',
             class: 'text-center',
             width: '4rem',
         },

@@ -250,6 +250,6 @@ export class ParticipantsFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
-        );
+        ).subscribe();
     }
 }

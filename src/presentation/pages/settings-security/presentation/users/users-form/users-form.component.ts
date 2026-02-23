@@ -41,7 +41,6 @@ import { UsersFindOneFacade } from '@presentation/pages/settings-security/core/a
 import { UsersFacade } from '@presentation/pages/settings-security/core/application/services/users/users.facade';
 import { UsersFormControl } from '@presentation/pages/settings-security/core/domain/controls/users/users-form.control';
 import { ProfilesSelectEntity } from '@presentation/pages/settings-security/core/domain/entities/users/profiles-select.entity';
-import { UsersFindOneEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-find-one.entity';
 import { FormValidators } from '@presentation/pages/settings-security/core/domain/validators/form-validators';
 
 import { UsersFormHelperService } from './users-form-helper.service';
@@ -148,9 +147,7 @@ export class UsersFormComponent implements OnInit {
         initialValue: [] as ProfilesSelectEntity[],
     });
 
-    readonly currentUser = toSignal(this.findOneFacade.item$, {
-        initialValue: null as unknown as UsersFindOneEntity,
-    });
+    readonly currentUser = this.findOneFacade.items;
 
     private readonly paramsUniqId: Signal<string> = toSignal(
         this.route.queryParams.pipe(

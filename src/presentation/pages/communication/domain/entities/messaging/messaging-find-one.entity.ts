@@ -9,7 +9,6 @@ export interface MessagingFindOneProps {
     channels: string[];
     subject: string;
     content: string;
-    message: string;
     createdAt: string;
 }
 
@@ -54,10 +53,6 @@ export class MessagingFindOneEntity {
 
     get content(): string {
         return this.props.content;
-    }
-
-    get message(): string {
-        return this.props.message;
     }
 
     get createdAt(): string {

@@ -211,6 +211,7 @@ export class TeamsParticipantsComponent implements OnInit {
             class: 'btn-primary',
             icon: 'pi pi-user-plus',
             translateKey: 'COMMON.ASSIGN',
+            items: this.buildAssignMenuItems(),
             disabled: this.participantsSelectedInTable().length >= 1,
         },
         {

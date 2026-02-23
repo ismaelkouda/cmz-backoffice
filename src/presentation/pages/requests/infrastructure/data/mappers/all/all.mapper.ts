@@ -6,12 +6,10 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    AllEntity,
-    ReportState,
-    AllProps,
-} from '@presentation/pages/requests/domain/entities/all/all.entity';
+import { AllEntity } from '@presentation/pages/requests/domain/entities/all/all.entity';
+import { AllProps } from '@presentation/pages/requests/domain/interfaces/all/all-props.interface';
 import { AllItemApiDto } from '@presentation/pages/requests/infrastructure/api/dto/all/all-response-api.dto';
+import { StatusMapper } from '@presentation/pages/requests/infrastructure/data/mappers/all/all-status.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {
@@ -20,10 +18,7 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
     private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
     private readonly reportSourceMapper = inject(ReportSourceMapper);
-
-    private static readonly STATE_MAP = MapperUtils.createEnumMap({
-        [ReportState.TERMINATED]: ReportState.TERMINATED,
-    });
+    private readonly statusMapper = inject(StatusMapper);
 
     protected override mapItemFromDto(dto: AllItemApiDto): AllEntity {
         MapperUtils.validateDto(dto, {
@@ -38,7 +33,7 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {
             ),
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
-            state: ReportState.TERMINATED,
+            status: this.statusMapper.mapApiToStatus(dto.status),
             reportedAt: dto.reported_at,
         };
 

@@ -7,14 +7,7 @@ import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 
-export type ReportStatusDto =
-    | 'confirmed'
-    | 'approved'
-    | 'rejected'
-    | 'abandoned'
-    | 'pending'
-    | 'terminated'
-    | 'in-progress';
+import { ApiStatus } from '@presentation/pages/requests/infrastructure/enums/details/details-status-api.enum';
 
 export type ReportStateDto =
     | 'pending'
@@ -31,7 +24,6 @@ export type ProcessingStateDto = 'pending' | 'in-progress';
 export type FinalizationStateDto = 'pending' | 'in-progress';
 
 export interface DetailsItemApiDto {
-    id: string;
     uniq_id: string;
     request_report_uniq_id: string;
     source: ReportSourceDto;
@@ -56,7 +48,7 @@ export interface DetailsItemApiDto {
     abandoned_at: string | null;
     acknowledged_at: string | null;
     reason: string | null;
-    status: ReportStatusDto;
+    status: ApiStatus;
     qualification_state: QualificationStateDto | null;
     processing_state: ProcessingStateDto | null;
     finalization_state: FinalizationStateDto | null;

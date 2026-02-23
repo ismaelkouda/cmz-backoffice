@@ -129,7 +129,6 @@ export default tseslint.config(
             '@typescript-eslint/no-explicit-any': 'warn',
 
             '@angular-eslint/no-forward-ref': 'error',
-            '@angular-eslint/use-injectable-provided-in': 'error',
 
             '@angular-eslint/component-class-suffix': [
                 'error',

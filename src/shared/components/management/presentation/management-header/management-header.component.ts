@@ -21,7 +21,7 @@ import { TooltipModule } from 'primeng/tooltip';
 export class ManagementHeaderComponent {
     public readonly item = input.required<any>();
     public readonly uniqId = input.required<string>();
-    public readonly loading = input<boolean>(false);
+    public readonly loading = input.required<boolean>();
 
     public readonly copyItem = output<string>();
 

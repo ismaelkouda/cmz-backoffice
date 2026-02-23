@@ -1,10 +1,10 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs/operators';
+import { Injectable, inject, signal, computed, Signal } from '@angular/core';
 
 import { DetailsFacade as FinalizationFacade } from '@presentation/pages/finalization/application/services/details/details.facade';
-import { DetailsFacade as RequestsFacade } from '@presentation/pages/requests/application/services/details/details.facade';
 import { DetailsFacade as ProcessingFacade } from '@presentation/pages/processing/application/services/details/details.facade';
+import { DetailsFacade as RequestsFacade } from '@presentation/pages/requests/application/services/details/details.facade';
+
+import { Actions } from '../types/management-actions.type';
 
 export type ManagementContext =
     | 'requests'
@@ -12,7 +12,7 @@ export type ManagementContext =
     | 'finalization'
     | null;
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ManagementStateService {
     private readonly requestsFacade = inject(RequestsFacade);
     private readonly processingFacade = inject(ProcessingFacade);
@@ -21,45 +21,28 @@ export class ManagementStateService {
     private readonly context = signal<ManagementContext>(null);
     private readonly uniqId = signal<string>('');
 
-    // Pour les items, nous devons les convertir en signaux à partir des observables
-    readonly requestsItems = toSignal(
-        this.requestsFacade.items$.pipe(filter(Boolean)),
-        { initialValue: null }
-    );
+    readonly requestsItems = this.requestsFacade.items;
 
-    readonly requestsLoading = toSignal(this.requestsFacade.isLoading$, {
-        initialValue: false,
-    });
+    readonly requestsLoading = this.requestsFacade.loading;
 
-    readonly processingItems = toSignal(
-        this.processingFacade.items$.pipe(filter(Boolean)),
-        { initialValue: null }
-    );
+    readonly processingItems = this.processingFacade.items;
 
-    readonly processingLoading = toSignal(this.processingFacade.isLoading$, {
-        initialValue: false,
-    });
+    readonly processingLoading = this.processingFacade.loading;
 
-    readonly finalizationItems = toSignal(
-        this.finalizationFacade.items$.pipe(filter(Boolean)),
-        { initialValue: null }
-    );
+    readonly finalizationItems = this.finalizationFacade.items;
 
-    readonly finalizationLoading = toSignal(
-        this.finalizationFacade.isLoading$,
-        { initialValue: false }
-    );
+    readonly finalizationLoading = this.finalizationFacade.loading;
 
-    readonly requestsActionState = this.requestsFacade.actionState;
+    readonly requestsActionState = this.requestsFacade.actionLoading;
     readonly requestsActionSuccess = this.requestsFacade.actionSuccess;
 
-    readonly processingActionState = this.processingFacade.actionState;
+    readonly processingActionState = this.processingFacade.actionLoading;
     readonly processingActionSuccess = this.processingFacade.actionSuccess;
 
-    readonly finalizationActionState = this.finalizationFacade.actionState;
+    readonly finalizationActionState = this.finalizationFacade.actionLoading;
     readonly finalizationActionSuccess = this.finalizationFacade.actionSuccess;
 
-    readonly items = computed(() => {
+    readonly items: Signal<Actions> = computed(() => {
         const ctx = this.context();
         switch (ctx) {
             case 'requests':
@@ -89,6 +72,7 @@ export class ManagementStateService {
 
     readonly actionState = computed(() => {
         const ctx = this.context();
+        console.log('ctx: ', ctx);
         switch (ctx) {
             case 'requests':
                 return this.requestsActionState();
@@ -141,13 +125,13 @@ export class ManagementStateService {
 
         switch (context) {
             case 'requests':
-                this.requestsFacade.read(dto);
+                this.requestsFacade.read(dto, true);
                 break;
             case 'processing':
-                this.processingFacade.read(dto);
+                this.processingFacade.read(dto, true);
                 break;
             case 'finalization':
-                this.finalizationFacade.read(dto);
+                this.finalizationFacade.read(dto, true);
                 break;
         }
     }
@@ -168,12 +152,15 @@ export class ManagementStateService {
                 this.executeProcessingAction(action, { ...payload, uniqId });
                 break;
             case 'finalization':
+                console.log('ctx executeFinalizationAction: ', ctx);
                 this.executeFinalizationAction(action, { ...payload, uniqId });
                 break;
         }
     }
 
     private executeRequestsAction(action: string, payload: any): void {
+        console.log('action: ', action);
+        console.log('payload: ', payload);
         switch (action) {
             case 'take':
                 this.requestsFacade.take(payload);
@@ -199,6 +186,7 @@ export class ManagementStateService {
     }
 
     private executeFinalizationAction(action: string, payload: any): void {
+        console.log('action executeFinalizationAction: ', action);
         switch (action) {
             case 'take':
                 this.finalizationFacade.take(payload);
@@ -235,10 +223,5 @@ export class ManagementStateService {
     reset(): void {
         this.context.set(null);
         this.uniqId.set('');
-
-        // Optionnel : réinitialiser les facades si nécessaire
-        // this.requestsFacade.resetMemory();
-        // this.processingFacade.resetMemory();
-        // this.finalizationFacade.resetMemory();
     }
 }

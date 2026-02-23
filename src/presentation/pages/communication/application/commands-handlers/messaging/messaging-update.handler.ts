@@ -24,7 +24,6 @@ export class MessagingUpdateHandler {
             channels: command.channels,
             subject: command.subject,
             content: command.content,
-            message: command.message,
         });
     }
 }

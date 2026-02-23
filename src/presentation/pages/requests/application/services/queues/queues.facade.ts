@@ -102,6 +102,10 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
 
     refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
+        console.log(
+            'this.filterSubject.getValue(): ',
+            this.filterSubject.getValue()
+        );
         const page = this.pageSubject.getValue();
         const command = new QueuesQuery(
             filter?.initiatorPhoneNumber,

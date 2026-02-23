@@ -1,17 +1,16 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 import { DetailsApproveCommand } from '@presentation/pages/requests/application/commands/details/details-approve.command';
 import { DetailsRejectCommand } from '@presentation/pages/requests/application/commands/details/details-reject.command';
+import { DetailsTakeCommand } from '@presentation/pages/requests/application/commands/details/details-take.command';
 import { DetailsApproveBus } from '@presentation/pages/requests/application/commands-bus/details/details-approve.bus';
 import { DetailsRejectBus } from '@presentation/pages/requests/application/commands-bus/details/details-reject.bus';
+import { DetailsTakeBus } from '@presentation/pages/requests/application/commands-bus/details/details-take.bus';
 import { DetailsApproveDto } from '@presentation/pages/requests/application/dto/details/details-approve.dto';
 import { DetailsFilterDto } from '@presentation/pages/requests/application/dto/details/details-filter.dto';
 import { DetailsRejectDto } from '@presentation/pages/requests/application/dto/details/details-reject.dto';
@@ -27,18 +26,18 @@ import { DetailsEntity } from '@presentation/pages/requests/domain/entities/deta
 })
 export class DetailsFacade extends ObjectBaseFacade<
     DetailsEntity,
-    DetailsFilterDto
+    DetailsFilterDto | null
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly ui = inject(UiFeedbackService);
     private readonly queuesFacade = inject(QueuesFacade);
     private readonly tasksFacade = inject(TasksFacade);
     private readonly bus = inject(DetailsBus);
     private readonly approveBus = inject(DetailsApproveBus);
-    private readonly takeBus = inject(DetailsApproveBus);
+    private readonly takeBus = inject(DetailsTakeBus);
     private readonly rejectBus = inject(DetailsRejectBus);
 
-    private readonly _actionState = signal<'idle' | 'loading'>('idle');
-    readonly actionState = this._actionState.asReadonly();
+    private readonly _actionLoading = signal(false);
+    readonly actionLoading = this._actionLoading.asReadonly();
 
     private readonly _actionSuccess = signal(0);
     readonly actionSuccess = this._actionSuccess.asReadonly();
@@ -46,8 +45,6 @@ export class DetailsFacade extends ObjectBaseFacade<
     private readonly _actionError = signal<unknown | null>(null);
     readonly actionError = this._actionError.asReadonly();
 
-    private hasInitialized = false;
-    private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
@@ -57,60 +54,29 @@ export class DetailsFacade extends ObjectBaseFacade<
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.ui,
             successKey,
             refresh
         );
     }
 
-    read(filter: DetailsFilterDto, forceRefresh = false): void {
-        const hasData = this.itemsSubject.getValue() !== null;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
+    read(filter: DetailsFilterDto, force = false): void {
         const command = new DetailsQuery(filter.uniqId);
         const fetch$ = this.bus.dispatch(command);
-        this.fetchWithFilter(filter, fetch$, this.uiFeedbackService);
-
-        this.hasInitialized = true;
-        this.lastFetchTimestamp = Date.now();
-    }
-
-    resetMemory(): void {
-        this.hasInitialized = false;
-        this.lastFetchTimestamp = 0;
-        this.reset();
-    }
-
-    getMemoryStatus(): {
-        hasInitialized: boolean;
-        lastFetch: number;
-        hasData: boolean;
-    } {
-        return {
-            hasInitialized: this.hasInitialized,
-            lastFetch: this.lastFetchTimestamp,
-            hasData: this.itemsSubject.getValue() !== null,
-        };
+        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
     }
 
     take(item: DetailsTakeDto): void {
-        this._actionState.set('loading');
+        this._actionLoading.set(true);
 
-        const command = new DetailsQuery(item.uniqId);
+        const command = new DetailsTakeCommand(item.uniqId);
 
         this.handleActionWithRefresh(
             this.takeBus.dispatch(command),
-            'COMMON.SUCCESS.CREATE',
-            this.queuesFacade.refreshWithLastFilterAndPage
+            'COMMON.SUCCESS.TAKE',
+            () => this.queuesFacade.refreshWithLastFilterAndPage()
         )
+
             .pipe(
                 tap(() => {
                     this._actionSuccess.update((v) => v + 1);
@@ -119,20 +85,20 @@ export class DetailsFacade extends ObjectBaseFacade<
                     this._actionError.set(err);
                     return throwError(() => err);
                 }),
-                finalize(() => this._actionState.set('idle'))
+                finalize(() => this._actionLoading.set(false))
             )
             .subscribe();
     }
 
     approve(team: DetailsApproveDto): void {
-        this._actionState.set('loading');
+        this._actionLoading.set(true);
 
         const command = new DetailsApproveCommand(team.uniqId, team.comment);
 
         this.handleActionWithRefresh(
             this.approveBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE',
-            this.tasksFacade.refreshWithLastFilterAndPage
+            'COMMON.SUCCESS.APPROVE',
+            () => this.tasksFacade.refreshWithLastFilterAndPage()
         )
             .pipe(
                 tap(() => {
@@ -142,13 +108,13 @@ export class DetailsFacade extends ObjectBaseFacade<
                     this._actionError.set(err);
                     return throwError(() => err);
                 }),
-                finalize(() => this._actionState.set('idle'))
+                finalize(() => this._actionLoading.set(false))
             )
             .subscribe();
     }
 
     reject(team: DetailsRejectDto): void {
-        this._actionState.set('loading');
+        this._actionLoading.set(true);
 
         const command = new DetailsRejectCommand(
             team.uniqId,
@@ -158,8 +124,8 @@ export class DetailsFacade extends ObjectBaseFacade<
 
         this.handleActionWithRefresh(
             this.rejectBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE',
-            this.tasksFacade.refreshWithLastFilterAndPage
+            'COMMON.SUCCESS.REJECT',
+            () => this.tasksFacade.refreshWithLastFilterAndPage()
         )
             .pipe(
                 tap(() => {
@@ -169,7 +135,7 @@ export class DetailsFacade extends ObjectBaseFacade<
                     this._actionError.set(err);
                     return throwError(() => err);
                 }),
-                finalize(() => this._actionState.set('idle'))
+                finalize(() => this._actionLoading.set(false))
             )
             .subscribe();
     }

@@ -8,5 +8,4 @@ export interface MessagingCreateDto {
     channels: string[];
     subject: string;
     content: string;
-    message: string;
 }

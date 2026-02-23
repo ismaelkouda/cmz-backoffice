@@ -1,6 +1,6 @@
-import { DetailsProcessingState } from '@presentation/pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
+import { ProcessingState } from '@presentation/pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
 import { DetailsProps } from '@presentation/pages/processing/domain/interfaces/details/details-props.interface';
 
 export function detailsPermissionsTake(props: DetailsProps): boolean {
-    return props.processingState === DetailsProcessingState.PENDING;
+    return props.processingState === ProcessingState.PENDING;
 }

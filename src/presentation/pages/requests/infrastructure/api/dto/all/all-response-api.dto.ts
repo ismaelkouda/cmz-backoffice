@@ -3,9 +3,7 @@ import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 
-export enum ReportStateDto {
-    TERMINATED = 'terminated',
-}
+import { ApiStatus } from '@presentation/pages/requests/infrastructure/enums/all/all-status-api.enum';
 
 export interface AllItemApiDto {
     uniq_id: string;
@@ -13,6 +11,7 @@ export interface AllItemApiDto {
     operators: TelecomOperatorDto[];
     source: ReportSourceDto;
     initiator_phone_number: string;
+    status: ApiStatus;
     reported_at: string;
 }
 

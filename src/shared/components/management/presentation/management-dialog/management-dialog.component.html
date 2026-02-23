@@ -12,560 +12,118 @@
     styleClass="report-treatment-dialog"
 >
     <ng-template #header>
-         <app-simple-management-header
+        <app-management-header
             [item]="items()"
             [uniqId]="uniqId()"
             [loading]="loading()"
-            (copy)="copyToClipboard($event)"
+            (copyItem)="copyToClipboard($event)"
         />
     </ng-template>
 
-    <div *ngIf="itemsProcessing() as items">
-        @if (loading()) {
-            <div class="main-container command-layout loading-state">
-                <div class="sidebar">
-                    <div class="sidebar-button-container">
-                        <p-skeleton
-                            width="100%"
-                            height="48px"
-                            borderRadius="8px"
-                        ></p-skeleton>
-                    </div>
+    <div class="main-container command-layout">
+        @if (items()?.uniqId) {
+            <app-management-sidebar
+                [item]="items()"
+                [loading]="loading()"
+                [uniqId]="uniqId()"
+                [submitting]="submitting()"
+                (submitAction)="onValidReportTreatment()"
+                (copyItem)="copyToClipboard($event)"
+            />
 
-                    <div class="sidebar-section-container">
-                        <div class="sidebar-section">
-                            <div class="sidebar-header">
-                                <p-skeleton
-                                    width="120px"
-                                    height="20px"
-                                ></p-skeleton>
-                            </div>
-                            <div class="sidebar-content">
-                                <div class="skeleton-field-group">
-                                    <p-skeleton
-                                        width="100%"
-                                        height="16px"
-                                        styleClass="mb-2"
-                                    ></p-skeleton>
-                                    <p-skeleton
-                                        width="80%"
-                                        height="16px"
-                                        styleClass="mb-2"
-                                    ></p-skeleton>
-                                    <p-skeleton
-                                        width="90%"
-                                        height="16px"
-                                    ></p-skeleton>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-section">
-                            <div class="sidebar-header">
-                                <p-skeleton
-                                    width="120px"
-                                    height="20px"
-                                ></p-skeleton>
-                            </div>
-                            <div class="sidebar-content">
-                                <div class="skeleton-field-group">
-                                    <p-skeleton
-                                        width="100%"
-                                        height="16px"
-                                        styleClass="mb-2"
-                                    ></p-skeleton>
-                                    <p-skeleton
-                                        width="75%"
-                                        height="16px"
-                                        styleClass="mb-2"
-                                    ></p-skeleton>
-                                    <p-skeleton
-                                        width="85%"
-                                        height="16px"
-                                    ></p-skeleton>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-section">
-                            <div class="sidebar-header">
-                                <p-skeleton
-                                    width="100px"
-                                    height="20px"
-                                ></p-skeleton>
-                            </div>
-                            <div class="sidebar-content">
-                                <p-skeleton
-                                    width="100%"
-                                    height="60px"
-                                    borderRadius="8px"
-                                ></p-skeleton>
-                            </div>
-                        </div>
-                    </div>
+            <main class="content-main">
+                <div class="step-bar">
+                    <span
+                        *ngFor="
+                            let step of items().updateWorkflowTimestamps;
+                            let i = index
+                        "
+                        class="step-item"
+                    >
+                        <span class="step-label">{{
+                            step.label | translate
+                        }}</span>
+                        <span class="step-timestamp">
+                            [{{
+                                step.timestamp
+                                    ? (step.timestamp
+                                      | date: 'yyyy-MM-dd HH:mm:ss')
+                                    : '---:---'
+                            }}]
+                        </span>
+                    </span>
                 </div>
 
-                <main class="content-main">
-                    <div class="step-bar skeleton-step-bar">
-                        <div class="skeleton-steps">
-                            <p-skeleton
-                                *ngFor="let step of [1, 2, 3, 4, 5]"
-                                width="180px"
-                                height="20px"
-                                styleClass="step-skeleton"
-                            >
-                            </p-skeleton>
-                        </div>
-                    </div>
-
-                    <nav class="content-tabs">
-                        <div class="tabs-container">
-                            <div
-                                *ngFor="let tab of [1, 2, 3]"
-                                class="content-tab skeleton-tab"
+                <nav class="content-tabs">
+                    <div class="tabs-container">
+                        @for (
+                            tab of TABS;
+                            track trackByTab($index, tab.value)
+                        ) {
+                            <button
+                                (click)="selectTab($index)"
+                                [class.active]="selectedTabIndex === $index"
+                                class="content-tab"
                             >
                                 <div class="tab-visual">
-                                    <p-skeleton
-                                        shape="circle"
-                                        size="24px"
-                                    ></p-skeleton>
+                                    <i [class]="tab.icon"></i>
                                 </div>
-                                <span class="tab-label">
-                                    <p-skeleton
-                                        width="80px"
-                                        height="16px"
-                                    ></p-skeleton>
-                                </span>
-                            </div>
-                        </div>
-                    </nav>
-
-                    <div class="tab-content-area">
-
-                        <ng-container *ngIf="selectedTabIndex === 1">
-                            <div class="tab-panel photos-panel skeleton-panel">
-                                <div class="skeleton-photos-grid">
-                                    <div
-                                        *ngFor="let photo of [1, 2]"
-                                        class="skeleton-photo-card"
-                                    >
-                                        <p-skeleton
-                                            width="100%"
-                                            height="200px"
-                                            borderRadius="12px"
-                                        ></p-skeleton>
-                                        <div class="photo-meta">
-                                            <p-skeleton
-                                                width="80%"
-                                                height="16px"
-                                                styleClass="mb-1"
-                                            ></p-skeleton>
-                                            <p-skeleton
-                                                width="60%"
-                                                height="14px"
-                                            ></p-skeleton>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container>
-
-                        <ng-container *ngIf="selectedTabIndex === 2">
-                            <div
-                                class="tab-panel geographic-panel skeleton-panel"
-                            >
-                                <div class="skeleton-map-container">
-                                    <p-skeleton
-                                        width="100%"
-                                        height="400px"
-                                        borderRadius="12px"
-                                    ></p-skeleton>
-                                    <div class="map-controls-skeleton">
-                                        <p-skeleton
-                                            width="120px"
-                                            height="32px"
-                                            borderRadius="6px"
-                                            styleClass="mr-2"
-                                        ></p-skeleton>
-                                        <p-skeleton
-                                            width="120px"
-                                            height="32px"
-                                            borderRadius="6px"
-                                        ></p-skeleton>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="treatment-form-skeleton">
-                        <div
-                            class="treatment-form-header skeleton-treatment-header"
-                        >
-                            <p-skeleton
-                                width="200px"
-                                height="20px"
-                            ></p-skeleton>
-                            <p-skeleton
-                                width="100px"
-                                height="24px"
-                                borderRadius="12px"
-                            ></p-skeleton>
-                        </div>
-                        <div
-                            class="treatment-form-content skeleton-treatment-content"
-                        >
-                            <div class="action-card">
-                                <div class="action-header">
-                                    <p-skeleton
-                                        width="180px"
-                                        height="22px"
-                                    ></p-skeleton>
-                                </div>
-                                <div class="action-content">
-                                    <!-- Options de décision -->
-                                    <div class="decision-options-skeleton">
-                                        <p-skeleton
-                                            width="120px"
-                                            height="18px"
-                                            styleClass="mb-2"
-                                        ></p-skeleton>
-                                        <div class="radio-options-skeleton">
-                                            <p-skeleton
-                                                *ngFor="let option of [1, 2]"
-                                                width="140px"
-                                                height="60px"
-                                                borderRadius="8px"
-                                                styleClass="mr-3"
-                                            >
-                                            </p-skeleton>
-                                        </div>
-                                    </div>
-
-                                    <!-- Champs de formulaire -->
-                                    <div class="form-fields-skeleton">
-                                        <p-skeleton
-                                            width="100px"
-                                            height="18px"
-                                            styleClass="mb-2"
-                                        ></p-skeleton>
-                                        <p-skeleton
-                                            width="100%"
-                                            height="36px"
-                                            borderRadius="6px"
-                                            styleClass="mb-3"
-                                        ></p-skeleton>
-
-                                        <p-skeleton
-                                            width="120px"
-                                            height="18px"
-                                            styleClass="mb-2"
-                                        ></p-skeleton>
-                                        <p-skeleton
-                                            width="100%"
-                                            height="80px"
-                                            borderRadius="6px"
-                                        ></p-skeleton>
-                                    </div>
-
-                                    <!-- Boutons d'action -->
-                                    <div class="action-buttons-skeleton">
-                                        <p-skeleton
-                                            width="120px"
-                                            height="40px"
-                                            borderRadius="6px"
-                                            styleClass="mr-2"
-                                        ></p-skeleton>
-                                        <p-skeleton
-                                            width="120px"
-                                            height="40px"
-                                            borderRadius="6px"
-                                        ></p-skeleton>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        } @else {
-            <div class="main-container command-layout">
-                @if (items.uniqId) {
-                    <div class="sidebar">
-                        @if (items.canBeTaken) {
-                            <app-management-sidebar
-                                [item]="items()"
-                                [uniqId]="uniqId()"
-                                [submitting]="submitting()"
-                                (onAction)="onValidReportTreatment()"
-                                (onCopy)="copyToClipboard($event)"
-                                />
-                        }
-
-                        <div class="sidebar-section-container">
-                            @if (items.treater?.createdAt) {
-                                <div class="sidebar-section">
-                                    <div class="sidebar-header">
-                                        {{
-                                            'MANAGEMENT.SIDEBAR.INITIATOR.TITLE'
-                                                | translate
-                                        }}
-                                    </div>
-                                    <div class="sidebar-content">
-                                        <p *ngIf="uniqId()">
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.INITIATOR.LAST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.initiator?.lastName }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.INITIATOR.FIRST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.initiator?.firstName }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.INITIATOR.PHONE'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.initiator?.phone }}
-                                        </p>
-                                    </div>
-                                </div>
-                            }
-                            @if (items.treater?.approvedAt) {
-                                <div class="sidebar-section">
-                                    <div class="sidebar-header">
-                                        {{
-                                            'MANAGEMENT.SIDEBAR.APPROVER.TITLE'
-                                                | translate
-                                        }}
-                                    </div>
-                                    <div class="sidebar-content">
-                                        <p *ngIf="uniqId()">
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.APPROVER.LAST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.approvedBy?.lastName }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.APPROVER.FIRST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.approvedBy?.firstName }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.APPROVER.PHONE'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.approvedBy?.phone }}
-                                        </p>
-                                    </div>
-                                </div>
-                            }
-                            @if (items.treater?.rejectedAt) {
-                                <div class="sidebar-section">
-                                    <div class="sidebar-header">
-                                        {{
-                                            'MANAGEMENT.SIDEBAR.REFUSER.TITLE'
-                                                | translate
-                                        }}
-                                    </div>
-                                    <div class="sidebar-content">
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.REFUSER.LAST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.rejectedBy?.lastName }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.REFUSER.FIRST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.rejectedBy?.firstName }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.REFUSER.PHONE'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.rejectedBy?.phone }}
-                                        </p>
-                                    </div>
-                                </div>
-                            }
-                            @if (items.treater?.processedAt) {
-                                <div class="sidebar-section">
-                                    <div class="sidebar-header">
-                                        {{
-                                            'MANAGEMENT.SIDEBAR.PROCESSED.TITLE'
-                                                | translate
-                                        }}
-                                    </div>
-                                    <div class="sidebar-content">
-                                        <p *ngIf="uniqId()">
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.PROCESSED.LAST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.processedBy?.lastName }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.PROCESSED.FIRST_NAME'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.processedBy?.firstName }}
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >{{
-                                                    'MANAGEMENT.SIDEBAR.PROCESSED.PHONE'
-                                                        | translate
-                                                }}:</strong
-                                            >
-                                            {{ items.processedBy?.phone }}
-                                        </p>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-
-                    <main class="content-main">
-                        <div class="step-bar">
-                            <span
-                                *ngFor="
-                                    let step of items.updateWorkflowTimestamps;
-                                    let i = index
-                                "
-                                class="step-item"
-                            >
-                                <span class="step-label">{{
-                                    step.label | translate
+                                <span class="tab-label">{{
+                                    tab.label | translate
                                 }}</span>
-                                <span class="step-timestamp">
-                                    [{{
-                                        step.timestamp
-                                            ? (step.timestamp
-                                              | date: 'yyyy-MM-dd HH:mm:ss')
-                                            : '---:---'
-                                    }}]
-                                </span>
-                            </span>
-                        </div>
-
-                        <nav class="content-tabs">
-                            <div class="tabs-container">
-                                @for (
-                                    tab of TABS;
-                                    track trackByTab($index, tab.value)
-                                ) {
-                                    <button
-                                        (click)="selectTab($index)"
-                                        [class.active]="
-                                            selectedTabIndex === $index
-                                        "
-                                        class="content-tab"
-                                    >
-                                        <div class="tab-visual">
-                                            <i [class]="tab.icon"></i>
-                                        </div>
-                                        <span class="tab-label">{{
-                                            tab.label | translate
-                                        }}</span>
-                                        <div class="tab-indicator"></div>
-                                    </button>
-                                }
-                            </div>
-                        </nav>
-
-                        <div class="tab-content-area">
-                            @if (selectedTabIndex === 0) {
-                                <app-management-info-panel
-                                    [item]="items()"
-                                    [loading]="loading()"
-                                    [showCommentSections]="true"
-                                    (copy)="copyToClipboard($event)"
-                                    />
-                            }
-
-                            @if (selectedTabIndex === 1) {
-                                <app-management-photos-panel
-                                    [item]="items()"
-                                />
-                            }
-
-                            @if (selectedTabIndex === 2) {
-                                <app-management-map
-                                    [latitude]="
-                                        items.location.coordinates.latitude
-                                    "
-                                    [longitude]="
-                                        items.location.coordinates.longitude
-                                    "
-                                    [zoom]="16"
-                                    [markerTitle]="'Incident Prioritaire'"
-                                    [markerDescription]="'Localisation exacte nécessitant une intervention urgente'"
-                                    [markerType]="'warning'"
-                                    [enableAnimations]="true"
-                                    [showPerformance]="true"
-                                >
-                                </app-management-map>
-                            }
-                        </div>
-
-                        @if (
-                            items?.canBeApproved ||
-                            items?.canBeTreated ||
-                            items?.canBeFinalized
-                        ) {
-                            <app-management-treatment-form
-                                [form]="form"
-                                [expanded]="isTreatmentFormExpanded"
-                                [submitting]="submitting()"
-                                [submitLabel]="items()?.labelButtonSubmit ?? ''"
-                                [showApprovalSection]="items()?.canBeApproved ?? false"
-                                [motifOptions]="motifOptions()"
-                                (onToggle)="toggleTreatmentForm()"
-                                (onCancel)="closeTreatmentForm()"
-                                (onSubmit)="onValidReportTreatment()"
-                                (decisionChange)="setDecision($event)"
-                                />
+                                <div class="tab-indicator"></div>
+                            </button>
                         }
-                    </main>
+                    </div>
+                </nav>
+
+                <div class="tab-content-area">
+                    @if (selectedTabIndex === 0) {
+                        <app-management-info-panel
+                            [item]="items()"
+                            [loading]="loading()"
+                            [showCommentSections]="true"
+                            (copy)="copyToClipboard($event)"
+                        />
+                    }
+
+                    @if (selectedTabIndex === 1) {
+                        <app-management-photos-panel [item]="items()" [loading]="loading()" />
+                    }
+
+                    @if (selectedTabIndex === 2) {
+                        <app-management-map
+                            [latitude]="items().location.coordinates.latitude"
+                            [longitude]="items().location.coordinates.longitude"
+                            [zoom]="16"
+                            [markerTitle]="'Incident Prioritaire'"
+                            [markerDescription]="'Localisation exacte nécessitant une intervention urgente'"
+                            [markerType]="'warning'"
+                            [enableAnimations]="true"
+                            [showPerformance]="true"
+                        >
+                        </app-management-map>
+                    }
+                </div>
+
+                @if (
+                    items()?.canBeApproved ||
+                    items()?.canBeTreated ||
+                    items()?.canBeFinalized
+                ) {
+                    <app-management-treatment-form
+                        [form]="form"
+                        [expanded]="isTreatmentFormExpanded"
+                        [submitting]="submitting()"
+                        [submitLabel]="items()?.labelButtonSubmit ?? ''"
+                        [showApprovalSection]="items()?.canBeApproved ?? false"
+                        [motifOptions]="motifOptions()"
+                        (cancelForm)="closeTreatmentForm()"
+                        (submitForm)="onValidReportTreatment()"
+                        (decisionChange)="setDecision($event)"
+                    />
                 }
-            </div>
+            </main>
         }
     </div>
 </p-dialog>

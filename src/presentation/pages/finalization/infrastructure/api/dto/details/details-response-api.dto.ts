@@ -7,6 +7,8 @@ import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 
+import { ApiFinalizationState } from '@presentation/pages/finalization/infrastructure/enums/details/details-finalization-state-api.enum';
+import { ApiState } from '@presentation/pages/finalization/infrastructure/enums/details/details-state-api.enum';
 export type ReportStatusDto = 'finalization';
 
 export type ReportStateDto = 'pending' | 'in-progress' | 'completed';
@@ -40,8 +42,8 @@ export interface DetailsItemApiDto {
     acknowledged_at: string | null;
     reason: string | null;
     status: ReportStatusDto;
-    finalization_state: FinalizationStateDto | null;
-    state: ReportStateDto;
+    finalization_state: ApiFinalizationState;
+    state: ApiState;
     deny_count: number;
     confirm_count: number;
     acknowledged_comment: string | null;

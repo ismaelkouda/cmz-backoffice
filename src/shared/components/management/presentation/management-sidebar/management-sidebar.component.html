@@ -1,232 +1,272 @@
 <div class="sidebar">
-    @if (showTakeButton()) {
-        <div class="sidebar-button-container">
-            <button
-                class="treatment-btn treatment-btn-primary"
-                type="button"
-                (click)="submitAction.emit()"
-                [disabled]="submitting()"
-                [class.loading]="submitting()"
-            >
-                @if (!submitting()) {
-                    <i class="pi pi-check"></i>
-                }
-                {{ getActionLabel() | translate }}
-            </button>
+    @if (loading()) {
+        <div class="sidebar-section-container">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <p-skeleton width="120px" height="20px"></p-skeleton>
+                </div>
+                <div class="sidebar-content">
+                    <div class="skeleton-field-group">
+                        <p-skeleton
+                            width="100%"
+                            height="16px"
+                            styleClass="mb-2"
+                        ></p-skeleton>
+                        <p-skeleton
+                            width="80%"
+                            height="16px"
+                            styleClass="mb-2"
+                        ></p-skeleton>
+                        <p-skeleton width="90%" height="16px"></p-skeleton>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <p-skeleton width="120px" height="20px"></p-skeleton>
+                </div>
+                <div class="sidebar-content">
+                    <div class="skeleton-field-group">
+                        <p-skeleton
+                            width="100%"
+                            height="16px"
+                            styleClass="mb-2"
+                        ></p-skeleton>
+                        <p-skeleton
+                            width="75%"
+                            height="16px"
+                            styleClass="mb-2"
+                        ></p-skeleton>
+                        <p-skeleton width="85%" height="16px"></p-skeleton>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <p-skeleton width="100px" height="20px"></p-skeleton>
+                </div>
+                <div class="sidebar-content">
+                    <p-skeleton
+                        width="100%"
+                        height="60px"
+                        borderRadius="8px"
+                    ></p-skeleton>
+                </div>
+            </div>
+        </div>
+    } @else {
+        @if (showTakeButton()) {
+            <div class="sidebar-button-container">
+                <button
+                    class="treatment-btn treatment-btn-primary"
+                    type="button"
+                    (click)="submitAction.emit()"
+                    [disabled]="submitting()"
+                    [class.loading]="submitting()"
+                >
+                    @if (!submitting()) {
+                        <i class="pi pi-check"></i>
+                    }
+                    {{ getActionLabel() | translate }}
+                </button>
+            </div>
+        }
+
+        <div class="sidebar-section-container">
+            @if (showInitiatorSection()) {
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        {{ 'MANAGEMENT.SIDEBAR.INITIATOR.TITLE' | translate }}
+                    </div>
+                    <div class="sidebar-content">
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.INITIATOR.LAST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ initiatorLastName() }}
+                        </p>
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.INITIATOR.FIRST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ initiatorFirstName() }}
+                        </p>
+                        @if (initiatorPhone()) {
+                            <p class="phone-number">
+                                <strong
+                                    >{{
+                                        'MANAGEMENT.SIDEBAR.INITIATOR.PHONE'
+                                            | translate
+                                    }}:</strong
+                                >
+                                {{ initiatorPhone() }}
+                                <i
+                                    class="pi pi-copy copy-icon"
+                                    (click)="copyItem.emit(initiatorPhone()!)"
+                                    (keypress)="
+                                        copyItem.emit(initiatorPhone()!)
+                                    "
+                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                    tabindex="0"
+                                    role="button"
+                                >
+                                </i>
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Section Approbateur -->
+            @if (showApproverSection()) {
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        {{ 'MANAGEMENT.SIDEBAR.APPROVER.TITLE' | translate }}
+                    </div>
+                    <div class="sidebar-content">
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.APPROVER.LAST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ approverLastName() }}
+                        </p>
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.APPROVER.FIRST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ approverFirstName() }}
+                        </p>
+                        @if (approverPhone()) {
+                            <p class="phone-number">
+                                <strong
+                                    >{{
+                                        'MANAGEMENT.SIDEBAR.APPROVER.PHONE'
+                                            | translate
+                                    }}:</strong
+                                >
+                                {{ approverPhone() }}
+                                <i
+                                    class="pi pi-copy copy-icon"
+                                    (click)="copyItem.emit(approverPhone()!)"
+                                    (keypress)="copyItem.emit(approverPhone()!)"
+                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                >
+                                </i>
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Section Rejecteur -->
+            @if (showRejecterSection()) {
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        {{ 'MANAGEMENT.SIDEBAR.REFUSER.TITLE' | translate }}
+                    </div>
+                    <div class="sidebar-content">
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.REFUSER.LAST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ rejecterLastName() }}
+                        </p>
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.REFUSER.FIRST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ rejecterFirstName() }}
+                        </p>
+                        @if (rejecterPhone()) {
+                            <p class="phone-number">
+                                <strong
+                                    >{{
+                                        'MANAGEMENT.SIDEBAR.REFUSER.PHONE'
+                                            | translate
+                                    }}:</strong
+                                >
+                                {{ rejecterPhone() }}
+                                <i
+                                    class="pi pi-copy copy-icon"
+                                    (click)="copyItem.emit(rejecterPhone()!)"
+                                    (keypress)="copyItem.emit(rejecterPhone()!)"
+                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                >
+                                </i>
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Section Traitement -->
+            @if (showProcessorSection()) {
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        {{ 'MANAGEMENT.SIDEBAR.PROCESSED.TITLE' | translate }}
+                    </div>
+                    <div class="sidebar-content">
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.PROCESSED.LAST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ processorLastName() }}
+                        </p>
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.PROCESSED.FIRST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ processorFirstName() }}
+                        </p>
+                        @if (processorPhone()) {
+                            <p class="phone-number">
+                                <strong
+                                    >{{
+                                        'MANAGEMENT.SIDEBAR.PROCESSED.PHONE'
+                                            | translate
+                                    }}:</strong
+                                >
+                                {{ processorPhone() }}
+                                <i
+                                    class="pi pi-copy copy-icon"
+                                    (click)="copyItem.emit(processorPhone()!)"
+                                    (keypress)="
+                                        copyItem.emit(processorPhone()!)
+                                    "
+                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                >
+                                </i>
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     }
-
-    <div class="sidebar-section-container">
-        <!-- Section Initiateur -->
-        @if (showInitiatorSection()) {
-            <div class="sidebar-section">
-                <div class="sidebar-header">
-                    {{
-                        'MANAGEMENT.SIDEBAR.INITIATOR.TITLE' | translate
-                    }}
-                </div>
-                <div class="sidebar-content">
-                    <p>
-                        <strong
-                            >{{
-                                'MANAGEMENT.SIDEBAR.INITIATOR.LAST_NAME'
-                                    | translate
-                            }}:</strong
-                        >
-                        {{ initiatorLastName() }}
-                    </p>
-                    <p>
-                        <strong
-                            >{{
-                                'MANAGEMENT.SIDEBAR.INITIATOR.FIRST_NAME'
-                                    | translate
-                            }}:</strong
-                        >
-                        {{ initiatorFirstName() }}
-                    </p>
-                    @if (initiatorPhone()) {
-                        <p class="phone-number">
-                            <strong
-                                >{{
-                                    'MANAGEMENT.SIDEBAR.INITIATOR.PHONE'
-                                        | translate
-                                }}:</strong
-                            >
-                            {{ initiatorPhone() }}
-                            <i
-                                class="pi pi-copy copy-icon"
-                                (click)="copyItem.emit(initiatorPhone()!)"
-                                (keypress)="
-                                    copyItem.emit(initiatorPhone()!)
-                                "
-                                pTooltip="{{
-                                    'COMMON.COPY' | translate
-                                }}"
-                                tabindex="0"
-                                role="button"
-                            >
-                            </i>
-                        </p>
-                    }
-                </div>
-            </div>
-        }
-
-        <!-- Section Approbateur -->
-        @if (showApproverSection()) {
-            <div class="sidebar-section">
-                <div class="sidebar-header">
-                    {{
-                        'MANAGEMENT.SIDEBAR.APPROVER.TITLE' | translate
-                    }}
-                </div>
-                <div class="sidebar-content">
-                    <p>
-                        <strong
-                            >{{
-                                'MANAGEMENT.SIDEBAR.APPROVER.LAST_NAME'
-                                    | translate
-                            }}:</strong
-                        >
-                        {{ approverLastName() }}
-                    </p>
-                    <p>
-                        <strong
-                            >{{
-                                'MANAGEMENT.SIDEBAR.APPROVER.FIRST_NAME'
-                                    | translate
-                            }}:</strong
-                        >
-                        {{ approverFirstName() }}
-                    </p>
-                    @if (approverPhone()) {
-                        <p class="phone-number">
-                            <strong
-                                >{{
-                                    'MANAGEMENT.SIDEBAR.APPROVER.PHONE'
-                                        | translate
-                                }}:</strong
-                            >
-                            {{ approverPhone() }}
-                            <i
-                                class="pi pi-copy copy-icon"
-                                (click)="copyItem.emit(approverPhone()!)"
-                                (keypress)="
-                                    copyItem.emit(approverPhone()!)
-                                "
-                                pTooltip="{{
-                                    'COMMON.COPY' | translate
-                                }}"
-                            >
-                            </i>
-                        </p>
-                    }
-                </div>
-            </div>
-        }
-
-        <!-- Section Rejecteur -->
-        @if (showRejecterSection()) {
-            <div class="sidebar-section">
-                <div class="sidebar-header">
-                    {{ 'MANAGEMENT.SIDEBAR.REFUSER.TITLE' | translate }}
-                </div>
-                <div class="sidebar-content">
-                    <p>
-                        <strong
-                            >{{
-                                'MANAGEMENT.SIDEBAR.REFUSER.LAST_NAME'
-                                    | translate
-                            }}:</strong
-                        >
-                        {{ rejecterLastName() }}
-                    </p>
-                    <p>
-                        <strong
-                            >{{
-                                'MANAGEMENT.SIDEBAR.REFUSER.FIRST_NAME'
-                                    | translate
-                            }}:</strong
-                        >
-                        {{ rejecterFirstName() }}
-                    </p>
-                    @if (rejecterPhone()) {
-                        <p class="phone-number">
-                            <strong
-                                >{{
-                                    'MANAGEMENT.SIDEBAR.REFUSER.PHONE'
-                                        | translate
-                                }}:</strong
-                            >
-                            {{ rejecterPhone() }}
-                            <i
-                                class="pi pi-copy copy-icon"
-                                (click)="copyItem.emit(rejecterPhone()!)"
-                                (keypress)="
-                                    copyItem.emit(rejecterPhone()!)
-                                "
-                                pTooltip="{{
-                                    'COMMON.COPY' | translate
-                                }}"
-                            >
-                            </i>
-                        </p>
-                    }
-                </div>
-            </div>
-        }
-
-        <!-- Section Traitement -->
-        @if (showProcessorSection()) {
-            <div class="sidebar-section">
-                <div class="sidebar-header">
-                    {{
-                        'MANAGEMENT.SIDEBAR.PROCESSED.TITLE' | translate
-                    }}
-                </div>
-                <div class="sidebar-content">
-                    <p>
-                        <strong
-                            >{{
-                                'MANAGEMENT.SIDEBAR.PROCESSED.LAST_NAME'
-                                    | translate
-                            }}:</strong
-                        >
-                        {{ processorLastName() }}
-                    </p>
-                    <p>
-                        <strong
-                            >{{
-                                'MANAGEMENT.SIDEBAR.PROCESSED.FIRST_NAME'
-                                    | translate
-                            }}:</strong
-                        >
-                        {{ processorFirstName() }}
-                    </p>
-                    @if (processorPhone()) {
-                        <p class="phone-number">
-                            <strong
-                                >{{
-                                    'MANAGEMENT.SIDEBAR.PROCESSED.PHONE'
-                                        | translate
-                                }}:</strong
-                            >
-                            {{ processorPhone() }}
-                            <i
-                                class="pi pi-copy copy-icon"
-                                (click)="copyItem.emit(processorPhone()!)"
-                                (keypress)="
-                                    copyItem.emit(processorPhone()!)
-                                "
-                                pTooltip="{{
-                                    'COMMON.COPY' | translate
-                                }}"
-                            >
-                            </i>
-                        </p>
-                    }
-                </div>
-            </div>
-        }
-    </div>
 </div>

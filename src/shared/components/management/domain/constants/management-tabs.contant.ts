@@ -7,7 +7,7 @@ export const TABS = [
     {
         value: 'images',
         label: 'MANAGEMENT.TABS.CATEGORIES.IMAGES',
-        icon: 'pi pi-history',
+        icon: 'pi pi-images',
     },
     {
         value: 'geographic-view',

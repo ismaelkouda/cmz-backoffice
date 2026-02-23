@@ -99,10 +99,8 @@ export class TeamsFormComponent implements OnInit {
     readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();
     private itemPatched = false;
-    readonly items = toSignal(this.facade.items$, { initialValue: null });
-    readonly loading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
+    readonly items = this.facade.items;
+    readonly loading = this.facade.loading;
     private readonly paramsUniqId = toSignal(
         this.activatedRoute.queryParams.pipe(
             map((p) => (p['uniqId'] as string) || '')
@@ -129,12 +127,8 @@ export class TeamsFormComponent implements OnInit {
         this.navigateToBack();
     });
 
-    readonly permissions = toSignal(this.permissionsFacade.items$, {
-        initialValue: null,
-    });
-    readonly loadingPermissions = toSignal(this.permissionsFacade.isLoading$, {
-        initialValue: false,
-    });
+    readonly permissions = this.permissionsFacade.items;
+    readonly loadingPermissions = this.permissionsFacade.loading;
     readonly permissionTree: WritableSignal<TreeNodeInterface[]> = signal([]);
     readonly leafCount: WritableSignal<number> = signal(0);
 

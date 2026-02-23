@@ -218,8 +218,7 @@ export class TasksComponent implements OnInit {
     });
 
     private readonly formStateEffect = effect(() => {
-        const state = this.finalizeFacade.actionState();
-        if (state === 'loading') {
+        if (this.finalizeFacade.actionLoading()) {
             this.form.disable({ emitEvent: false });
         } else {
             this.form.enable({ emitEvent: false });

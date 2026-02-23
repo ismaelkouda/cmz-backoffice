@@ -23,7 +23,6 @@ export class MessagingCreateHandler {
             channels: command.channels,
             subject: command.subject,
             content: command.content,
-            message: command.message,
         });
     }
 }

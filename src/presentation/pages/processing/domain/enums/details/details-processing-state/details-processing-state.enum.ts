@@ -1,5 +1,5 @@
-export enum DetailsProcessingState {
+export enum ProcessingState {
     PENDING = 'pending',
     IN_PROGRESS = 'in-progress',
-    COMPLETED = 'completed',
+    TERMINATED = 'terminated',
 }

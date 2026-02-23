@@ -6,8 +6,8 @@
     color: #000 !important;
 }
 
-.p-breadcrumb {
-    background-color: transparent;
+:host ::ng-deep .p-breadcrumb {
+    background: transparent !important;
 }
 
 .icon-gray {

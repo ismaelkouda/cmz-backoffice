@@ -10,7 +10,6 @@ export class MessagingCreateVo {
     public readonly channels: string[];
     public readonly subject: string;
     public readonly content: string;
-    public readonly message: string;
 
     constructor(props: {
         reportId: string;
@@ -22,7 +21,6 @@ export class MessagingCreateVo {
         channels: string[];
         subject: string;
         content: string;
-        message: string;
     }) {
         this.reportId = props.reportId;
         this.type = props.type;
@@ -33,7 +31,6 @@ export class MessagingCreateVo {
         this.channels = props.channels;
         this.subject = props.subject;
         this.content = props.content;
-        this.message = props.message;
     }
 
     static fromDto(dto: MessagingCreateDto): MessagingCreateVo {
@@ -47,7 +44,6 @@ export class MessagingCreateVo {
             channels: dto.channels,
             subject: dto.subject,
             content: dto.content,
-            message: dto.message,
         });
     }
 }
