@@ -33,8 +33,10 @@ import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands
 import { TableConfig } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 
+import { Status as NotificationsStatus } from '@presentation/pages/communication/domain/enums/notifications/notifications-status.enum';
 import { HomeActionDropdownComponent } from '@presentation/pages/content-management/presentation/features/home/table-home/home-action-dropdown/home-action-dropdown.component';
-import { Status as RequestsStatus } from '@presentation/pages/requests/domain/enums/all-status.enum.ts/all-status.enum';
+import { Status as RequestsStatus } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
+import { Status as TeamsStatus } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
 
 @Component({
     selector: 'app-table',
@@ -233,6 +235,10 @@ export class TableComponent {
             [ActionDropdown.PUBLISHED]: 'success',
             [ActionDropdown.UNPUBLISHED]: 'danger',
             [ActionDropdown.AFFECTED]: 'success',
+            [NotificationsStatus.READ]: 'info',
+            [NotificationsStatus.UNREAD]: 'contrast',
+            [TeamsStatus.ACTIVE]: 'success',
+            [TeamsStatus.INACTIVE]: 'danger',
         };
         return severityMap[status] ?? 'secondary';
     }

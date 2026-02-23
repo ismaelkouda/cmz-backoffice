@@ -1,4 +1,4 @@
-import { UsersDisableEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-disable.entity';
+import { UsersDisableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-disable.entity';
 import { UsersDisableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-disable-api.dto';
 
 export function usersDisableMapper(vo: UsersDisableEntity): UsersDisableApiDto {

@@ -1,8 +1,8 @@
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface MessagingFindOneItemApiDto {
-    id: string;
-    report_id: string;
+    uniq_id: string;
+    report_uniq_id: string;
     type: string;
     target_type: string;
     region: string;

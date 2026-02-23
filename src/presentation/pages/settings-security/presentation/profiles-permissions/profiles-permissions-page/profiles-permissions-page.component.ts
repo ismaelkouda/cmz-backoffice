@@ -21,7 +21,7 @@ import { filter } from 'rxjs';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 
-import { PROFILES_PERMISSIONS_TABS } from '@presentation/pages/settings-security/core/domain/constants/profiles-permissions/profiles-permissions-tabs.constants';
+import { PROFILES_PERMISSIONS_TABS } from '@presentation/pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-tabs.constants';
 
 @Component({
     selector: 'app-profiles-permissions-page',

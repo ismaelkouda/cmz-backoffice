@@ -6,13 +6,13 @@ import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 
-import { ParticipantsDeleteApiDto } from '@presentation/pages/team-organization/infrastructure//api/dtos/participants/participants-delete-api.dto';
-import { ParticipantsDisableApiDto } from '@presentation/pages/team-organization/infrastructure//api/dtos/participants/participants-disable-api.dto';
-import { ParticipantsEnableApiDto } from '@presentation/pages/team-organization/infrastructure//api/dtos/participants/participants-enable-api.dto';
-import { ParticipantsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-create-api.dto';
-import { ParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-filter-api.dto';
-import { ParticipantsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-response-api.dto';
-import { ParticipantsUpdateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-update-api.dto';
+import { ParticipantsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-create-api.dto';
+import { ParticipantsDeleteApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-delete-api.dto';
+import { ParticipantsDisableApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-disable-api.dto';
+import { ParticipantsEnableApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-enable-api.dto';
+import { ParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-filter-api.dto';
+import { ParticipantsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-response-api.dto';
+import { ParticipantsUpdateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-update-api.dto';
 import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
 

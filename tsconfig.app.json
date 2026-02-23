@@ -33,5 +33,5 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/presentation/pages/requests/domain/enums/all"]
 }

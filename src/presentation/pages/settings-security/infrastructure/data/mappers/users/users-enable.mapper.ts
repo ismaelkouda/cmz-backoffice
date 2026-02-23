@@ -1,4 +1,4 @@
-import { UsersEnableEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-enable.entity';
+import { UsersEnableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-enable.entity';
 import { UsersEnableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-enable-api.dto';
 
 export function usersEnableMapper(vo: UsersEnableEntity): UsersEnableApiDto {

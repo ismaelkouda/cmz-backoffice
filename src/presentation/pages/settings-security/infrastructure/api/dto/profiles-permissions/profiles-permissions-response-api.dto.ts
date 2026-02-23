@@ -5,9 +5,10 @@ export interface ProfilesPermissionsItemApiDto {
     name: string;
     slug: string;
     description: string;
-    users_count: string;
-    is_active: boolean;
+    total_users: string;
+    status: boolean;
     created_at: string;
+    updated_at: string;
 }
 
 export type ProfilesPermissionsResponseApiDto =

@@ -605,30 +605,36 @@
                                             </div>
                                         </fieldset>
 
-                                        <div
-                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
-                                        >
-                                            <p-button
-                                                [label]="
-                                                    'COMMON.CANCEL' | translate
-                                                "
-                                                styleClass="p-button-text p-button-secondary"
-                                                (click)="navigateToBack()"
-                                                [attr.aria-label]="
-                                                    'COMMON.CANCEL' | translate
-                                                "
-                                            />
-                                            <p-button
-                                                [label]="
-                                                    'COMMON.SAVE' | translate
-                                                "
-                                                type="submit"
-                                                [disabled]="form.invalid"
-                                                [attr.aria-label]="
-                                                    'COMMON.SAVE' | translate
-                                                "
-                                            />
-                                        </div>
+                                        @if (!isEditMode()) {
+                                            <div
+                                                class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                            >
+                                                <p-button
+                                                    [label]="
+                                                        'COMMON.CANCEL'
+                                                            | translate
+                                                    "
+                                                    styleClass="p-button-text p-button-secondary"
+                                                    (click)="navigateToBack()"
+                                                    [attr.aria-label]="
+                                                        'COMMON.CANCEL'
+                                                            | translate
+                                                    "
+                                                />
+                                                <p-button
+                                                    [label]="
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    "
+                                                    type="submit"
+                                                    [disabled]="form.invalid"
+                                                    [attr.aria-label]="
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    "
+                                                />
+                                            </div>
+                                        }
                                     </form>
                                 </div>
                             </div>

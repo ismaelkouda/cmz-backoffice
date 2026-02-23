@@ -1,4 +1,4 @@
-import { TeamsParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-response-api.dto';
+import { TeamsParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-response-api.dto';
 
 export class TeamsParticipantsEntity {
     constructor(

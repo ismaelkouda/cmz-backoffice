@@ -6,13 +6,13 @@ import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 
-import { TeamsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-create-api.dto';
-import { TeamsDeleteApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-delete-api.dto';
-import { TeamsDisableApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-disable-api.dto';
-import { TeamsEnableApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-enable-api.dto';
-import { TeamsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-filter-api.dto';
-import { TeamsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-response-api.dto';
-import { TeamsUpdateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-update-api.dto';
+import { TeamsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-create-api.dto';
+import { TeamsDeleteApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-delete-api.dto';
+import { TeamsDisableApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-disable-api.dto';
+import { TeamsEnableApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-enable-api.dto';
+import { TeamsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-filter-api.dto';
+import { TeamsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-response-api.dto';
+import { TeamsUpdateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-update-api.dto';
 import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
 

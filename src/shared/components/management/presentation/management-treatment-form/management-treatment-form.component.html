@@ -15,7 +15,9 @@
                 class="pi"
                 [class.pi-chevron-up]="expandedState()"
                 [class.pi-chevron-down]="!expandedState()"
-                [attr.aria-label]="expandedState() ? 'Collapse form' : 'Expand form'"
+                [attr.aria-label]="
+                    expandedState() ? 'Collapse form' : 'Expand form'
+                "
             >
             </i>
             <span class="toggle-label">{{
@@ -157,47 +159,44 @@
                                 </div>
 
                                 <!-- @if (shouldShowReasonField()) { -->
-                                    <div class="col-md-3">
-                                        <label
-                                            class="decision-label"
-                                            for="reason"
+                                <div class="col-md-3">
+                                    <label class="decision-label" for="reason">
+                                        {{
+                                            'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
+                                                | translate
+                                        }}
+                                    </label>
+                                    <p-select
+                                        id="reason"
+                                        class="form-p-select"
+                                        formControlName="reason"
+                                        [options]="motifOptions()"
+                                        optionLabel="label"
+                                        optionValue="value"
+                                        [placeholder]="
+                                            'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
+                                                | translate
+                                        "
+                                        [showClear]="true"
+                                        styleClass="w-100"
+                                        appendTo="body"
+                                        [ngClass]="{
+                                            'ng-invalid ng-dirty':
+                                                isFieldInvalid('reason'),
+                                        }"
+                                    />
+                                    @if (isFieldInvalid('reason')) {
+                                        <div
+                                            class="validation-error"
+                                            role="alert"
                                         >
                                             {{
-                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
+                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.VALIDATION.MOTIF_REQUIRED'
                                                     | translate
                                             }}
-                                        </label>
-                                        <p-select
-                                            id="reason"
-                                            class="form-p-select"
-                                            formControlName="reason"
-                                            [options]="motifOptions()"
-                                            optionLabel="label"
-                                            optionValue="value"
-                                            [placeholder]="
-                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
-                                                    | translate
-                                            "
-                                            [showClear]="true"
-                                            styleClass="w-100"
-                                            appendTo="body"
-                                            [ngClass]="{
-                                                'ng-invalid ng-dirty':
-                                                    isFieldInvalid('reason'),
-                                            }"
-                                        />
-                                        @if (isFieldInvalid('reason')) {
-                                            <div
-                                                class="validation-error"
-                                                role="alert"
-                                            >
-                                                {{
-                                                    'MANAGEMENT.TREATMENT.TAKE_ACTION.VALIDATION.MOTIF_REQUIRED'
-                                                        | translate
-                                                }}
-                                            </div>
-                                        }
-                                    </div>
+                                        </div>
+                                    }
+                                </div>
                                 <!-- } -->
                             }
 
@@ -277,7 +276,6 @@
                                 {{ submitLabel() | translate }}
                             </button>
                         </div>
-                        
                     </form>
                 </div>
             </div>

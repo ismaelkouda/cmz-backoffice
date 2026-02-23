@@ -16,13 +16,13 @@ export function messagingCreateMapper(
         params.target_type = entity.targetType;
     }
     if (entity.region) {
-        params.region = entity.region;
+        params.region_id = entity.region;
     }
     if (entity.department) {
-        params.department = entity.department;
+        params.department_id = entity.department;
     }
     if (entity.municipality) {
-        params.municipality = entity.municipality;
+        params.municipality_id = entity.municipality;
     }
     if (entity.channels) {
         params.channels = entity.channels;

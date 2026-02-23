@@ -21,12 +21,19 @@
                             >
                             </app-page-title>
                         </div>
-                        <p-button
-                            [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="onCancel()"
-                            styleClass="p-button-danger"
-                        >
-                        </p-button>
+                        <div class="d-flex align-items-center gap-2">
+                            <p-button
+                                label="{{ 'COMMON.SAVE' | translate }}"
+                                (onClick)="onSubmit()"
+                                [disabled]="form.invalid || loading()"
+                                [loading]="loading()"
+                            />
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="navigateToBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
                     </header>
 
                     <div class="row">
@@ -352,7 +359,7 @@
                                                     'COMMON.CANCEL' | translate
                                                 }}"
                                                 styleClass="p-button-text p-button-secondary"
-                                                (click)="onCancel()"
+                                                (click)="navigateToBack()"
                                             >
                                             </p-button>
 

@@ -47,7 +47,7 @@ import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
 import { ParticipantsSelectFacade } from '@presentation/pages/team-organization/application/services/participants/participants-select.facade';
 import { TeamsParticipantsFacade } from '@presentation/pages/team-organization/application/services/teams/teams-participants.facade';
 import { TeamsSelectFacade } from '@presentation/pages/team-organization/application/services/teams/teams-select.facade';
-import { TEAMS_PARTICIPANTS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/teams/teams-participants-table.constant';
+import { TEAMS_PARTICIPANTS } from '@presentation/pages/team-organization/domain/constants/teams/teams-participants-table.constant';
 import { TeamsParticipantsFilterControl } from '@presentation/pages/team-organization/domain/controls/teams/teams-participants-filter.control';
 import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { TEAMS_ROUTE } from '@presentation/pages/team-organization/team-organization.routes';
@@ -90,7 +90,7 @@ export class TeamsParticipantsComponent implements OnInit {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-    public readonly tableConfig = TEAMS_PARTICIPANTS_TABLE_CONSTANT;
+    public readonly tableConfig = TEAMS_PARTICIPANTS;
     private lastSuccess = this.facade.actionSuccess();
 
     readonly items = toSignal(this.facade.items$, {

@@ -1,4 +1,4 @@
-import { ProfilesPermissionsEnableEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
+import { ProfilesPermissionsEnableEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
 import { ProfilesPermissionsEnableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-enable-api.dto';
 
 export function profilesPermissionsEnableMapper(

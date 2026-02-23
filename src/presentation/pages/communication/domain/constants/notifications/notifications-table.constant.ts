@@ -1,4 +1,4 @@
-export const NOTIFICATIONS_TABLE = {
+export const NOTIFICATIONS = {
     cols: [
         {
             field: '__index',
@@ -7,35 +7,32 @@ export const NOTIFICATIONS_TABLE = {
             width: '2rem',
         },
         {
-            field: 'name',
+            field: 'reference',
             header: 'COMMUNICATION.NOTIFICATIONS.TABLE.REFERENCE',
-            width: '10rem',
+            width: '8rem',
         },
         {
-            field: 'goalsSize',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.TYPE',
+            field: 'title',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.TITLE',
             width: '18rem',
-            type: 'number',
         },
         {
-            field: 'achievementsSize',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.DESCRIPTION',
-            width: '18rem',
-            type: 'number',
+            field: 'message',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.MESSAGE',
+            width: '20rem',
         },
         {
-            field: 'createdAt',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.CREATED_AT',
+            field: 'status',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.STATUS',
             class: 'text-center',
-            width: '9rem',
+            width: '5rem',
+        },
+        {
+            field: 'sendAt',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.SEND_AT',
+            class: 'text-center',
+            width: '8rem',
         },
     ],
-    globalFilterFields: [
-        'name',
-        'goalsSize',
-        'achievementsSize',
-        'percentages',
-        'status',
-        'createdAt',
-    ],
+    globalFilterFields: ['reference', 'title', 'message', 'sendAt'],
 };

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Status } from '@presentation/pages/requests/domain/enums/all-status.enum.ts/all-status.enum';
+import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
 import { ApiStatus } from '@presentation/pages/requests/infrastructure/enums/all/all-status-api.enum';
 
 @Injectable({ providedIn: 'root' })

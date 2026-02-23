@@ -7,7 +7,7 @@ import {
     ParticipantsFindOneEntity,
     ParticipantsFindOneProps,
 } from '@presentation/pages/team-organization/domain/entities/participants/participants-find-one.entity';
-import { ParticipantsFindOneItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-find-one-response-api.dto';
+import { ParticipantsFindOneItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsFindOneMapper extends SimpleResponseMapper<

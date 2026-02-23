@@ -9,8 +9,9 @@ import {
     Signal,
     WritableSignal,
     DestroyRef,
+    OnInit,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
     FormControl,
@@ -29,7 +30,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
@@ -37,14 +38,14 @@ import { PageTitleComponent } from '@shared/components/page-title/page-title.com
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
 import { PermissionTreeService } from '@shared/domain/services/permission-tree-node.service';
-import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
 
-import { ProfilesPermissionsFindOneFacade } from '@presentation/pages/settings-security/core/application/services/profiles-permissions/profiles-permissions-find-one.facade';
-import { ProfilesPermissionsFacade } from '@presentation/pages/settings-security/core/application/services/profiles-permissions/profiles-permissions.facade';
-import { ProfilesPermissionsFormControls } from '@presentation/pages/settings-security/core/domain/controls/profiles-permissions/profiles-permissions-form.control';
-import { FormValidators } from '@presentation/pages/settings-security/core/domain/validators/form-validators';
-import { ProfilesPermissionsFormValidationService } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-form/profiles-permissions-form-validation.service';
-import { PROFILES_PERMISSIONS_ROUTE } from '@presentation/pages/settings-security/settings-security.routes';
+import { ProfilesPermissionsFindOneFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions-find-one.facade';
+import { ProfilesPermissionsPermissionsFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions-permissions.facade';
+import { ProfilesPermissionsFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
+import { ProfilesPermissionsFormControls } from '@presentation/pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-form.control';
+import { ProfilesPermissionsFormHelperService } from '@presentation/pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-helper.service';
+import { ProfilesPermissionsFormValidationService } from '@presentation/pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-validation.service';
+import { FormValidators } from '@presentation/pages/settings-security/domain/validators/form-validators';
 
 @Component({
     selector: 'app-profiles-permissions-form',
@@ -70,22 +71,31 @@ import { PROFILES_PERMISSIONS_ROUTE } from '@presentation/pages/settings-securit
         MessageService,
         PermissionTreeService,
         ProfilesPermissionsFormValidationService,
+        ProfilesPermissionsFormHelperService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfilesPermissionsFormComponent {
+export class ProfilesPermissionsFormComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly fb = inject(FormBuilder);
     private readonly submitFacade = inject(ProfilesPermissionsFacade);
     private readonly facade = inject(ProfilesPermissionsFindOneFacade);
+    private readonly permissionsFacade = inject(
+        ProfilesPermissionsPermissionsFacade
+    );
     private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly treeService = inject(PermissionTreeService);
     private readonly validationService = inject(
         ProfilesPermissionsFormValidationService
     );
+    private readonly treeService = inject(PermissionTreeService);
+    private readonly helperService = inject(
+        ProfilesPermissionsFormHelperService
+    );
     readonly VALIDATION = FormValidators;
+    private lastSuccess = this.submitFacade.actionSuccess();
+    private itemPatched = false;
     readonly items = this.facade.items;
     readonly loading = this.facade.loading;
     private readonly paramsUniqId: Signal<string> = toSignal(
@@ -98,15 +108,43 @@ export class ProfilesPermissionsFormComponent {
         { initialValue: '' }
     );
     readonly isEditMode = computed(() => !!this.paramsUniqId());
+    private readonly formStateEffect = effect(() => {
+        const state = this.submitFacade.actionState();
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
+        }
+    });
+    private readonly successEffect = effect(() => {
+        const current = this.submitFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
+
+        this.lastSuccess = current;
+        this.navigateToBack();
+    });
+
+    readonly permissions = this.permissionsFacade.items;
+    readonly loadingPermissions = this.permissionsFacade.loading;
     readonly permissionTree: WritableSignal<TreeNodeInterface[]> = signal([]);
+    readonly leafCount: WritableSignal<number> = signal(0);
+
     private readonly updatePermissionTree = effect(() => {
         const item = this.items();
-        const tree = item?.permissions
-            ? this.treeService.transformPermissionsToTree(item.permissions)
-            : [];
+        const permissions = this.permissions();
+        const tree = this.paramsUniqId()
+            ? item?.permissions
+                ? this.treeService.transformPermissionsToTree(item.permissions)
+                : []
+            : this.treeService.transformPermissionsToTree(
+                  permissions?.props?.permissions ?? []
+              );
         this.permissionTree.set(tree);
     });
     public selectedNodes: TreeNodeInterface[] = [];
+
     readonly form: FormGroup<ProfilesPermissionsFormControls> =
         this.fb.nonNullable.group<ProfilesPermissionsFormControls>({
             name: new FormControl('', {
@@ -133,19 +171,17 @@ export class ProfilesPermissionsFormComponent {
             }),
         });
 
-    private readonly patchFormFromProfile = effect(() => {
-        const profileHabilitation = this.items();
-        if (
-            profileHabilitation &&
-            Object.keys(profileHabilitation).length > 0
-        ) {
+    private readonly patchFormFromItem = effect(() => {
+        const item = this.items();
+        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
             this.form.patchValue(
                 {
-                    name: profileHabilitation.name,
-                    description: profileHabilitation.description,
+                    name: item.name,
+                    description: item.description,
                 },
                 { emitEvent: false }
             );
+            this.itemPatched = true;
         }
     });
 
@@ -174,16 +210,25 @@ export class ProfilesPermissionsFormComponent {
         return result;
     }
 
-    private readonly handleRouteParamsChange = effect(() => {
-        const uniqId = this.paramsUniqId();
-        if (uniqId) {
-            this.facade.reset();
-            this.facade.read({ uniqId }, true);
-        } else {
-            this.facade.reset();
-            this.form.reset();
-        }
-    });
+    ngOnInit(): void {
+        this.activatedRoute.queryParams
+            .pipe(
+                map((p) => (p['uniqId'] as string) || ''),
+                tap((uniqId) => {
+                    if (uniqId) {
+                        this.facade.reset();
+                        this.permissionsFacade.reset();
+                        this.facade.read({ uniqId }, true);
+                    } else {
+                        this.facade.reset();
+                        this.form.reset();
+                        this.permissionsFacade.readAll();
+                    }
+                }),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe();
+    }
 
     onExpandAll(): void {
         const treeNodes = this.permissionTree();
@@ -197,24 +242,6 @@ export class ProfilesPermissionsFormComponent {
         this.permissionTree.set(collapsedNodes);
     }
 
-    onTreeInteractions(): void {
-        const selectedPermissions = this.treeService.collectLeafKeysFromNodes(
-            this.selectedNodes
-        );
-        this.form.controls.permissions.setValue(selectedPermissions);
-    }
-
-    // getSelectedPermissionsCount(): number {
-    //     const selected = this.treeService.convertSelectionKeysToArray(
-    //         this.selectedKeys()
-    //     );
-    //     return selected.length;
-    // }
-
-    trackByKey(_index: number, node: TreeNodeInterface): string {
-        return node.key;
-    }
-
     getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
         return this.validationService.getErrorMessage(
@@ -224,22 +251,18 @@ export class ProfilesPermissionsFormComponent {
     }
 
     private showValidationErrors(): void {
-        const errors: string[] = [];
+        const controlNames = ['name', 'description'] as const;
 
-        if (this.form.controls.name.invalid) {
-            errors.push(this.getErrorMessage('name'));
-        }
+        const errors = controlNames
+            .filter((name) => this.form.controls[name].invalid)
+            .map((name) => this.getErrorMessage(name));
 
-        if (this.form.controls.description.invalid) {
-            errors.push(this.getErrorMessage('description'));
-        }
-
-        if (this.form.controls.permissions.invalid) {
-            errors.push(
-                this.translate.instant(
-                    'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.VALIDATION.PERMISSIONS_REQUIRED'
-                )
-            );
+        if (errors.length) {
+            SweetAlert.fire({
+                icon: 'error',
+                title: this.t('COMMON.ERRORS.FORM_INVALID'),
+                html: `<ul style="text-align:left">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>`,
+            });
         }
     }
 
@@ -250,51 +273,42 @@ export class ProfilesPermissionsFormComponent {
             return;
         }
 
-        const title = this.getSweetAlertTitle();
-        const message = this.getSweetAlertMessage();
+        const title = this.helperService.getSweetAlertTitle(this.isEditMode());
+        const message = this.helperService.getSweetAlertMessage(
+            this.isEditMode()
+        );
 
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant(title),
-            text: this.translate.instant(message),
+            title: this.t(title),
+            text: this.t(message),
             backdrop: false,
-            confirmButtonText: this.translate.instant('COMMON.CONFIRM'),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.submitFormData();
+                this.submitForm();
             }
         });
     }
 
-    private submitFormData(): void {
-        const formData = this.form.getRawValue();
-        const uniqId = this.paramsUniqId();
-
-        if (this.isEditMode() && uniqId) {
-            this.submitFacade.update({ uniqId, ...formData });
-            this.submitFacade.refreshWithLastFilterAndPage();
+    private submitForm(): void {
+        const participant = this.form.getRawValue();
+        if (this.isEditMode()) {
+            this.submitFacade.update({
+                uniqId: this.paramsUniqId(),
+                ...participant,
+            });
         } else {
-            this.submitFacade.create(formData);
-            this.submitFacade.refreshWithLastFilterAndPage();
+            this.submitFacade.create(participant);
         }
     }
 
-    private getSweetAlertTitle(): string {
-        return this.isEditMode()
-            ? 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_UPDATE'
-            : 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_CREATE';
+    private t(key: string, params?: object): string {
+        return this.translate.instant(key, params);
     }
 
-    private getSweetAlertMessage(): string {
-        return this.isEditMode()
-            ? 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE_UPDATE'
-            : 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE_CREATE';
-    }
-
-    onCancel(): void {
-        this.router.navigate([
-            `${SETTINGS_SECURITY_ROUTE}/${PROFILES_PERMISSIONS_ROUTE}`,
-        ]);
+    navigateToBack(): void {
+        this.helperService.navigateToProfilesPermissionsList();
     }
 }

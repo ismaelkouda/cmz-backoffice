@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { ResponsibilitiesSelectEntity } from '@presentation/pages/settings-security/core/domain/entities/users/responsibilities-select.entity';
+import { ResponsibilitiesSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/responsibilities-select.entity';
 import { ResponsibilitiesSelectItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/responsibilities-select-api.dto';
 
 @Injectable({ providedIn: 'root' })

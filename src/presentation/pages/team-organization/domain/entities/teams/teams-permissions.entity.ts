@@ -1,13 +1,9 @@
-import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
-
-export interface TeamsPermissionsProps {
-    permissions: TreeNodeEntity[];
-}
+import { PermissionsProps } from '@shared/domain/interfaces/permissions-props.interface';
 
 export class TeamsPermissionsEntity {
-    constructor(public readonly props: TeamsPermissionsProps) {}
+    constructor(public readonly props: PermissionsProps) {}
 
-    public with(props: TeamsPermissionsProps): TeamsPermissionsEntity {
+    public with(props: PermissionsProps): TeamsPermissionsEntity {
         if (this.props.permissions === props.permissions) {
             return this;
         }

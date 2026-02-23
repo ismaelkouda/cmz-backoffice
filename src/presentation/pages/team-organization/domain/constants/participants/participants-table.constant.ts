@@ -1,4 +1,4 @@
-export const PARTICIPANTS_TABLE_CONSTANT = {
+export const PARTICIPANTS = {
     cols: [
         {
             field: '__index',

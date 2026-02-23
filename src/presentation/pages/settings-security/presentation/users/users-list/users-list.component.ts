@@ -23,9 +23,9 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 
-import { UsersFacade } from '@presentation/pages/settings-security/core/application/services/users/users.facade';
-import { USERS_TABLE_CONSTANT } from '@presentation/pages/settings-security/core/domain/constants/users/users-table.constant';
-import { UsersEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users.entity';
+import { UsersFacade } from '@presentation/pages/settings-security/application/services/users/users.facade';
+import { USERS_TABLE_CONSTANT } from '@presentation/pages/settings-security/domain/constants/users/users-table.constant';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
 import { USERS_FORM } from '@presentation/pages/settings-security/presentation/users/users.routes';
 
 @Component({

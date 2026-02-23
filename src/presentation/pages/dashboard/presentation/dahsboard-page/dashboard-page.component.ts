@@ -73,11 +73,6 @@ export class DashboardPageComponent implements OnInit {
 
     constructor() {
         effect(() => {
-            const period = this.selectedPeriod();
-            this.facade.read({ period }, true);
-        });
-
-        effect(() => {
             const data = this.items();
             if (data) {
                 this.generateStatistics(data);
@@ -87,10 +82,12 @@ export class DashboardPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.title.setTitle(this.translate.instant('DASHBOARD.TITLE'));
+        this.facade.read({ period: this.selectedPeriod() });
     }
 
     onPeriodChange(period: Period): void {
         this.selectedPeriod.set(period);
+        this.facade.read({ period: this.selectedPeriod() }, true);
     }
 
     refreshData(): void {

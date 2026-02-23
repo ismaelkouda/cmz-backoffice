@@ -47,6 +47,7 @@
         <tr>
             @for (col of columns; track trackByColField($index, col)) {
                 <th
+                    [id]="col.field"
                     [class]="col.class"
                     [style.width]="col.width"
                     [pSortableColumn]="col.field"
@@ -90,9 +91,10 @@
                             <p-button
                                 [badge]="rowData[col.field] || '0'"
                                 (onClick)="onBadgeClick(rowData, col)"
+                                [disabled]="loading() || !rowData[col.field]"
                                 severity="contrast"
                                 size="small"
-                                [label]="'COMMON.VISUALISE' | translate"
+                                [label]="'COMMON.VISUALIZE' | translate"
                             />
                         </div>
                     } @else if (col.type === 'badge') {

@@ -4,7 +4,7 @@ import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.ma
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { RolesSelectEntity } from '@presentation/pages/team-organization/domain/entities/participants/roles-select.entity';
-import { RolesSelectItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/roles-select-api.dto';
+import { RolesSelectItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/roles-select-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class RolesSelectMapper extends ArrayResponseMapper<

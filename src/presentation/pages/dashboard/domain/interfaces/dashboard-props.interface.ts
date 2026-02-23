@@ -1,5 +1,5 @@
 export interface DashboardProps {
-    readonly totalReports?: number;
+    readonly totalReports: string;
     readonly partialOperatorReports?: number;
     readonly pendingReports?: number;
     readonly approvedReports?: number;

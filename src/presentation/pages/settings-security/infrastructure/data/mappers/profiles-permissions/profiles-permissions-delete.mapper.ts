@@ -1,4 +1,4 @@
-import { ProfilesPermissionsDeleteEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-delete.entity';
+import { ProfilesPermissionsDeleteEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-delete.entity';
 import { ProfilesPermissionsDeleteApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-delete-api.dto';
 
 export function profilesPermissionsDeleteMapper(

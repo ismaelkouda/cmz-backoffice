@@ -1,16 +1,7 @@
-import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
+import { Status } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
+import { TeamsProps } from '@presentation/pages/team-organization/domain/interfaces/teams/teams-props.interface';
 
-export interface TeamsProps {
-    uniqId: string;
-    code: string;
-    name: string;
-    description: string;
-    status: ActionDropdown;
-    membersCount: string;
-    updatedAt: string;
-}
-
-export class TeamsEntity implements TeamsProps {
+export class TeamsEntity {
     constructor(private readonly props: TeamsProps) {}
 
     get uniqId(): string {
@@ -25,7 +16,7 @@ export class TeamsEntity implements TeamsProps {
     get description(): string {
         return this.props.description;
     }
-    get status(): ActionDropdown {
+    get status(): Status {
         return this.props.status;
     }
     get membersCount(): string {

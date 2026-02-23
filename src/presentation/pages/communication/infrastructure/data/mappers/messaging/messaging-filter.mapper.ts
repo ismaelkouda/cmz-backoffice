@@ -18,7 +18,6 @@ export function messagingFilterMapper(
     if (entity.region) {
         params.region = entity.region;
     }
-
     if (entity.department) {
         params.department = entity.department;
     }
@@ -28,7 +27,6 @@ export function messagingFilterMapper(
     if (entity.channels) {
         params.channels = entity.channels;
     }
-
     if (entity.department) {
         params.department = entity.department;
     }

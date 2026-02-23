@@ -1,5 +1,5 @@
 import { TeamsDeleteEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-delete.entity';
-import { TeamsDeleteApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-delete-api.dto';
+import { TeamsDeleteApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-delete-api.dto';
 
 export function teamsDeleteMapper(vo: TeamsDeleteEntity): TeamsDeleteApiDto {
     const prams = {} as TeamsDeleteApiDto;

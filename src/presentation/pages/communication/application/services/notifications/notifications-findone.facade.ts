@@ -24,7 +24,7 @@ export class NotificationsFindOneFacade extends BaseFacade<
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    read(
+    execute(
         filter: NotificationsFindOneFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false

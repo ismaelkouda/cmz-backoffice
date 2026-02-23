@@ -1,5 +1,5 @@
 import { TeamsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-filter.entity';
-import { TeamsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-filter-api.dto';
+import { TeamsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-filter-api.dto';
 
 export function teamsFilterMapper(
     entity: TeamsFilterEntity

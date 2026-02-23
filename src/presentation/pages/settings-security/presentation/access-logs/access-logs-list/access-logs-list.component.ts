@@ -32,10 +32,10 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 
-import { AccessLogsFacade } from '@presentation/pages/settings-security/core/application/services/access-logs/access-logs.facade';
-import { ACCESS_LOGS_TABLE_CONSTANT } from '@presentation/pages/settings-security/core/domain/constants/access-logs/access-logs-table.constant';
-import { AccessLogsFilterControl } from '@presentation/pages/settings-security/core/domain/controls/access-logs/access-logs-filter.control';
-import { AccessLogsEntity } from '@presentation/pages/settings-security/core/domain/entities/access-logs/access-logs.entity';
+import { AccessLogsFacade } from '@presentation/pages/settings-security/application/services/access-logs/access-logs.facade';
+import { ACCESS_LOGS_TABLE_CONSTANT } from '@presentation/pages/settings-security/domain/constants/access-logs/access-logs-table.constant';
+import { AccessLogsFilterControl } from '@presentation/pages/settings-security/domain/controls/access-logs/access-logs-filter.control';
+import { AccessLogsEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs.entity';
 
 @Component({
     selector: 'app-access-logs',

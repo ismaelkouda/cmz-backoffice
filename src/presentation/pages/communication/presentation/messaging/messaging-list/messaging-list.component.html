@@ -21,11 +21,7 @@
             [headerButtons]="headerButtons()"
             (headerButtonClicked)="onHeaderButtonClicked($event)"
             (refreshRequested)="onRefreshClicked()"
-            (createRequested)="onHeaderButtonClicked($event)"
-            (editRequested)="onNavigateToForm($event)"
-            (deleteRequested)="onDeleteClicked($event)"
-            (enableRequested)="onEnableClicked($event)"
-            (disableRequested)="onDisableClicked($event)"
+            (actionClicked)="onNavigateToForm($event)"
             dataKey="uniqId"
         ></app-table>
 

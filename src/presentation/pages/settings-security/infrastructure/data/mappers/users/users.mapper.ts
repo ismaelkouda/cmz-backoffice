@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { UsersEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users.entity';
+import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
 import { UsersItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-response-api.dto';
 
 @Injectable({

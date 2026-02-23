@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { ProfilesPermissionsFindOneEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
-import { ProfilesPermissionsTreeNodeEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-tree-node.entity';
+import { ProfilesPermissionsFindOneEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
+import { ProfilesPermissionsTreeNodeEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-tree-node.entity';
 import {
     PermissionApiDto,
     ProfilesPermissionsFindOneItemApiDto,

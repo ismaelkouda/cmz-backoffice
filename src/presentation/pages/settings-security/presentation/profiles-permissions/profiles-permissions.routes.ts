@@ -17,17 +17,12 @@ export const PROFILES_PERMISSIONS_ROUTES: Routes = [
         path: '',
         component: ProfilesPermissionsPageComponent,
         data: {
-            icon: 'CONTENT_MANAGEMENT.PROFILES_PERMISSIONS.TITLE',
-            breadcrumb: 'CONTENT_MANAGEMENT.PROFILES_PERMISSIONS.TITLE',
+            icon: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TITLE',
+            breadcrumb: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TITLE',
         },
         children: [
             {
                 path: '',
-                redirectTo: PROFILES_PERMISSIONS_LIST,
-                pathMatch: 'full',
-            },
-            {
-                path: PROFILES_PERMISSIONS_LIST,
                 component: ProfilesPermissionsListComponent,
                 data: { breadcrumb: { hide: true } },
             },
@@ -41,8 +36,8 @@ export const PROFILES_PERMISSIONS_ROUTES: Routes = [
     {
         path: `${PROFILES_PERMISSIONS_FORM}`,
         data: {
-            icon: 'CONTENT_MANAGEMENT.PROFILES_PERMISSIONS.TITLE',
-            breadcrumb: 'CONTENT_MANAGEMENT.PROFILES_PERMISSIONS.TITLE',
+            icon: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TITLE',
+            breadcrumb: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TITLE',
         },
         children: [
             {

@@ -10,7 +10,7 @@
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'SETTINGS_SECURITY.ACCESS_LOGS.TITLE'
+                                'COMMUNICATION.NOTIFICATIONS.TITLE'
                                     | translate
                                     | lowercase
                             "
@@ -37,14 +37,11 @@
                                 [items]="items()"
                                 [pagination]="pagination()"
                                 [config]="tableConfig"
+                                [headerButtons]="headerButtons()"
                                 (headerButtonClicked)="
                                     onHeaderButtonClicked($event)
                                 "
                                 (refreshRequested)="onRefreshClicked()"
-                                (createRequested)="
-                                    onHeaderButtonClicked($event)
-                                "
-                                (editRequested)="onNavigateToForm($event)"
                                 (deleteRequested)="onDeleteClicked($event)"
                                 dataKey="uniqId"
                             ></app-table>

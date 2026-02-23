@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { UsersFindOneEntity } from '@presentation/pages/settings-security/core/domain/entities/users/users-find-one.entity';
+import { UsersFindOneEntity } from '@presentation/pages/settings-security/domain/entities/users/users-find-one.entity';
 import { UsersFindOneItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-findone-response-api.dto';
 
 @Injectable({ providedIn: 'root' })

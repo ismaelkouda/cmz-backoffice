@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 
-import { AgentsPerformancesFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/agents-performances/agents-performances-filter-api.dto';
-import { AgentsPerformancesResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/agents-performances/agents-performances-response-api.dto';
+import { AgentsPerformancesFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-filter-api.dto';
+import { AgentsPerformancesResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-response-api.dto';
 import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
 

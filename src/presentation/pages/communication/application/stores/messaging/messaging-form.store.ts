@@ -126,8 +126,10 @@ export class MessagingFormStore {
                 takeUntilDestroyed(this.destroyRef),
                 tap((targetType) => {
                     this.currentTargetType.set(targetType);
-
-                    this.updateValidatorsForTargetType(targetType);
+                    // A supprimer dans le cas d'editions
+                    if (!this.isEditMode()) {
+                        this.updateValidatorsForTargetType(targetType);
+                    }
 
                     this.clearFieldsForTargetType(targetType);
                 })
@@ -289,21 +291,25 @@ export class MessagingFormStore {
                     { emitEvent: false }
                 );
 
-                this.updateValidatorsForTargetType(item.targetType);
+                // A supprimer dans le cas d'editions
+                this.form.disable();
+
+                // this.updateValidatorsForTargetType(item.targetType);
 
                 this.itemPatched.set(true);
             }
         });
     }
 
-    setEditMode(uniqId: string | null): void {
+    public setEditMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);
         if (uniqId) {
-            this.facade.read({ uniqId }, true);
+            this.facade.read({ uniqId });
         } else {
             this.form.reset();
             this.itemPatched.set(false);
             this.regionsFacade.readAll();
+            this.facade.reset();
         }
     }
 }

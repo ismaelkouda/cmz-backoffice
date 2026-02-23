@@ -1,5 +1,5 @@
 import { ParticipantsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-update.entity';
-import { ParticipantsUpdateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/participants/participants-update-api.dto';
+import { ParticipantsUpdateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-update-api.dto';
 
 export function participantsUpdateMapper(
     entity: ParticipantsUpdateEntity

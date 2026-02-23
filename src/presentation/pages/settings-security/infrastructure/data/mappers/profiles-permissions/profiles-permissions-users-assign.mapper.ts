@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUsersAssignEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-users-assign.entity';
+import { ProfilesPermissionsUsersAssignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-assign.entity';
 import { ProfilesPermissionsUsersAssignApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-assign-api.dto';
 
 export function profilesPermissionsUsersAssignMapper(

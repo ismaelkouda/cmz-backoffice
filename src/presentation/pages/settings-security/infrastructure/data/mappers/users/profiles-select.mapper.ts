@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { ProfilesSelectEntity } from '@presentation/pages/settings-security/core/domain/entities/users/profiles-select.entity';
+import { ProfilesSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/profiles-select.entity';
 import { ProfilesSelectItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/profiles-select-api.dto';
 
 @Injectable({ providedIn: 'root' })

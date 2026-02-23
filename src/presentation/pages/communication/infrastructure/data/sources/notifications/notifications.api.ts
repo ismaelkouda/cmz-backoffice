@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 
 import { COMMUNICATION_BASE_URL } from '@presentation/pages/communication/infrastructure/api/communication.base-url';
@@ -25,5 +26,10 @@ export class NotificationsApi {
         const params = buildHttpParams(filter);
 
         return this.http.get<NotificationsResponseApiDto>(url, { params });
+    }
+
+    readAll(): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.NOTIFICATIONS}/read-all`;
+        return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 }

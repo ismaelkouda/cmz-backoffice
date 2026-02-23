@@ -1,6 +1,6 @@
 import { AgentsPerformancesFindOneFilterEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
 
-import { AgentsPerformancesFindOneFilterApiDto } from '../../../api/dtos/agents-performances/agents-performances-find-one-filter-api.dto';
+import { AgentsPerformancesFindOneFilterApiDto } from '../../../api/dto/agents-performances/agents-performances-find-one-filter-api.dto';
 
 export function agentsPerformancesFindOneFilterMapper(
     entity: AgentsPerformancesFindOneFilterEntity

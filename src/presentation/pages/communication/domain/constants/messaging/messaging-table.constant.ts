@@ -1,4 +1,17 @@
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 2.3);
+    return `${width}rem`;
+}
+
 export const MESSAGING_TABLE = {
+    actions: [
+        {
+            id: 'management-dialog',
+            icon: 'pi pi-window-maximize',
+            tooltip: 'PROCESSING.ALL.TABLE.TAKE',
+            severity: 'primary',
+        },
+    ],
     cols: [
         {
             field: '__index',
@@ -9,7 +22,17 @@ export const MESSAGING_TABLE = {
         {
             field: 'type',
             header: 'COMMUNICATION.MESSAGING.TABLE.TYPE',
-            width: '10rem',
+            width: '7rem',
+        },
+        {
+            field: 'targetType',
+            header: 'COMMUNICATION.MESSAGING.TABLE.TARGET_TYPE',
+            width: '7rem',
+        },
+        {
+            field: 'channels',
+            header: 'COMMUNICATION.MESSAGING.TABLE.CHANNELS',
+            width: '7rem',
         },
         {
             field: 'subject',
@@ -19,13 +42,19 @@ export const MESSAGING_TABLE = {
         {
             field: 'content',
             header: 'COMMUNICATION.MESSAGING.TABLE.CONTENT',
-            width: '12rem',
+            width: '13rem',
         },
         {
-            field: 'ceratedAt',
+            field: 'createdAt',
             header: 'COMMUNICATION.MESSAGING.TABLE.CREATED_AT',
             class: 'text-center',
             width: '7rem',
+        },
+        {
+            field: '__action',
+            header: 'PROCESSING.ALL.TABLE.ACTION',
+            class: 'text-center',
+            width: calculateActionColumnWidth(1),
         },
     ],
     globalFilterFields: ['subject', 'content', 'message', 'createdAt'],
