@@ -30,7 +30,8 @@ export class ObjectBaseFacade<TEntity, TFilter> {
         fetch$: Observable<TEntity>,
         ui?: UiFeedbackService,
         staleTime = 0,
-        force = false
+        force = false,
+        skipSameFilter = false
     ): void {
         const current = this._state();
 
@@ -42,18 +43,19 @@ export class ObjectBaseFacade<TEntity, TFilter> {
             return;
         }
 
-        const prev = this.normalize(this._filter());
-        const curr = this.normalize(filter);
+        if (!skipSameFilter) {
+            const prev = this.normalize(this._filter());
+            const curr = this.normalize(filter);
 
-        /* const prevEmpty = this.isEmpty(prev); */
-        const currEmpty = this.isEmpty(curr);
+            /* const prevEmpty = this.isEmpty(prev); */
+            const currEmpty = this.isEmpty(curr);
 
-        if (!currEmpty) {
-            const same = this.isSameFilter(prev, curr);
+            if (!currEmpty) {
+                const same = this.isSameFilter(prev, curr);
 
-            if (same) {
-                console.log('⛔ Skip fetch: same filter');
-                return;
+                if (same) {
+                    return;
+                }
             }
         }
 
@@ -82,7 +84,7 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                         error: err,
                     }));
 
-                    ui?.errorFromApi(err);
+                    ui?.notifyError(err);
 
                     return throwError(() => err);
                 }),

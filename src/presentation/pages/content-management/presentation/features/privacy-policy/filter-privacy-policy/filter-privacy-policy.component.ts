@@ -27,7 +27,7 @@
 
 // import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 
-// import { PrivacyPolicyFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/privacy-policy/privacy-policy-filter-form-control.entity';
+// import { PrivacyPolicyFilterFormControlDto } from '@presentation/pages/content-management/core/application/dto/privacy-policy/privacy-policy-filter-form-control.entity';
 // import { PrivacyPolicyFacade } from '@presentation/pages/content-management/core/application/services/privacy-policy.facade';
 // import { PrivacyPolicyFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/privacy-policy/privacy-policy-filter-payload.entity';
 

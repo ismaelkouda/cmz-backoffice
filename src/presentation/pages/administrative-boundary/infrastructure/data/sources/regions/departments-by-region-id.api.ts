@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { DepartmentsByRegionIdFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/departments-by-region-id-filter-api.dto';
-import { DepartmentsByRegionIdResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/departments-by-region-id-response-api.dto';
+import { DepartmentsByRegionIdFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-filter-api.dto';
+import { DepartmentsByRegionIdResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsByRegionIdApi {

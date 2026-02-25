@@ -8,10 +8,10 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
-import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
-import { TermsUseRepository } from '@presentation/pages/content-management/core/domain/repositories/terms-use.repository';
-import { TermsUseFilter } from '@presentation/pages/content-management/core/domain/value-objects/terms-use-filter.vo';
+import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/domain/entities/get-terms-use-by-id.entity';
+import { TermsUseEntity } from '@presentation/pages/content-management/domain/entities/terms-use.entity';
+import { TermsUseRepository } from '@presentation/pages/content-management/domain/repositories/terms-use.repository';
+import { TermsUseFilter } from '@presentation/pages/content-management/domain/value-objects/terms-use-filter.vo';
 import { TermsUseMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/terms-use.mapper';
 import { TermsUseApi } from '@presentation/pages/content-management/infrastructure/data/sources/terms-use.api';
 

@@ -25,6 +25,7 @@ import SweetAlert from 'sweetalert2';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
+import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
@@ -50,6 +51,7 @@ import { NotificationsEntity } from '@presentation/pages/communication/domain/en
         ReactiveFormsModule,
         BreadcrumbComponent,
         PageTitleComponent,
+        ManagementDialogComponent,
         FilterComponent,
         TableComponent,
         PaginationComponent,
@@ -57,6 +59,7 @@ import { NotificationsEntity } from '@presentation/pages/communication/domain/en
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsListComponent implements OnInit, OnDestroy {
+    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly title = inject(Title);
     public readonly facade = inject(NotificationsFacade);
     private readonly fb = inject(FormBuilder);
@@ -72,6 +75,8 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     );
     private readonly destroy$ = new Subject<void>();
     public readonly tableConfig = NOTIFICATIONS;
+    public reportTreatmentVisible = false;
+    public selectedReportId: string | null = null;
     readonly items = toSignal(this.facade.items$, { initialValue: [] });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
@@ -252,7 +257,16 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         });
     }
 
-    public onExportExcel(): void {
+    public onActionClicked(event: {
+        item: NotificationsEntity;
+        actionId?: string;
+    }): void {
+        const { item } = event;
+        this.selectedReportId = item.reportUniqId;
+        this.reportTreatmentVisible = true;
+    }
+
+    public onExportClicked(): void {
         const items = this.items();
         if (!items.length) {
             this.toast.error(this.t('EXPORT.NO_DATA'));

@@ -17,7 +17,7 @@ import { tap } from 'rxjs/operators';
 
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 
-import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/core/application/services/regions/regions-select.facade';
+import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
 import { MessagingFindOneFacade } from '@presentation/pages/communication/application/services/messaging/messaging-find-one.facade';
 import { MessagingFormControl } from '@presentation/pages/communication/domain/controls/messaging/messaging-form.control';
 import { Target } from '@presentation/pages/communication/domain/enums/messaging/messaging-target.enum';

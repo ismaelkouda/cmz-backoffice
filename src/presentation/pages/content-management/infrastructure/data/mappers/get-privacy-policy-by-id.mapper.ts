@@ -5,8 +5,8 @@ import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.
 import {
     GetPrivacyPolicyByIdItemDto,
     GetPrivacyPolicyByIdResponseDto,
-} from '@presentation/pages/content-management/core/application/dtos/privacy-policy/get-privacy-policy-by-id-response.dto';
-import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-privacy-policy-by-id.entity';
+} from '@presentation/pages/content-management/application/dto/privacy-policy/get-privacy-policy-by-id-response.dto';
+import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/domain/entities/get-privacy-policy-by-id.entity';
 
 @Injectable({
     providedIn: 'root',

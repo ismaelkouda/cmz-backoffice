@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { TeamsFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-findone-filter.dto';
+import { TeamsFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-find-one-filter.dto';
 import { TeamsFindOneFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-find-one-filter.entity';
 import { TeamsFindOneEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-find-one.entity';
 import { TeamsFindOneRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-find-one-repository';

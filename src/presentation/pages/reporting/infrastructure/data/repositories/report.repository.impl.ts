@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
-import { ReportEntity } from '../../../core/domain/entities/report/report.entity';
-import { ReportRepository } from '../../../core/domain/repositories/report-repository.interface';
+import { ReportEntity } from '../../../domain/entities/report/report.entity';
+import { ReportRepository } from '../../../domain/repositories/report-repository.interface';
 import { ReportMapper } from '../mappers/report.mapper';
 import { ReportApi } from '../sources/report.api';
 

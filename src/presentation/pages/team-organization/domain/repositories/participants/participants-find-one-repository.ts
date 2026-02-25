@@ -8,7 +8,7 @@ import { ParticipantsFindOneEntity } from '@presentation/pages/team-organization
     providedIn: 'root',
 })
 export abstract class ParticipantsFindOneRepository {
-    abstract read(
+    abstract execute(
         filter: ParticipantsFindOneFilterEntity
     ): Observable<ParticipantsFindOneEntity>;
 }

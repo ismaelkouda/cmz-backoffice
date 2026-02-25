@@ -4,7 +4,7 @@ import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { UsersFindOneEntity } from '@presentation/pages/settings-security/domain/entities/users/users-find-one.entity';
-import { UsersFindOneItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-findone-response-api.dto';
+import { UsersFindOneItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UsersFindOneMapper extends SimpleResponseMapper<

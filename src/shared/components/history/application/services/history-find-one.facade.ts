@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { HistoryFindOneFilterBus } from '@shared/components/history/application/bus/history-find-one-filter.bus';
 import { HistoryFindOneFilterCommand } from '@shared/components/history/application/commands/history-find-one-filter.command';
-import { HistoryFindOneFilterDto } from '@shared/components/history/application/dto/history-findone-filter.dto';
+import { HistoryFindOneFilterDto } from '@shared/components/history/application/dto/history-find-one-filter.dto';
 import { HistoryFindOneEntity } from '@shared/components/history/domain/entities/history-find-one.entity';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 

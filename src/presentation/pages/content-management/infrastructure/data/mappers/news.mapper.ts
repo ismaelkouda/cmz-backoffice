@@ -4,8 +4,8 @@ import { ActionDropdownDto } from '@shared/data/dto/action-dropdown.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 
-import { NewsItemDto } from '@presentation/pages/content-management/core/application/dtos/news/news-response.dto';
-import { NewsEntity } from '@presentation/pages/content-management/core/domain/entities/news.entity';
+import { NewsItemDto } from '@presentation/pages/content-management/application/dto/news/news-response.dto';
+import { NewsEntity } from '@presentation/pages/content-management/domain/entities/news.entity';
 
 @Injectable({ providedIn: 'root' })
 export class NewsMapper extends PaginatedMapper<NewsEntity, NewsItemDto> {

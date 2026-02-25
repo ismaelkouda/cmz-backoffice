@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { RequestFilter } from '@presentation/pages/reporting/core/domain/value-objects/requests/request-filter.vo';
+import { RequestFilter } from '@presentation/pages/reporting/domain/value-objects/requests/request-filter.vo';
 
-import { RequestResponseDto } from '../../api/dtos/requests/request-response.dto';
+import { RequestResponseDto } from '../../api/dto/requests/request-response.dto';
 import { REPORTING_API_BASE_URL } from '../../api/reporting.config';
 import { REPORTING_ENDPOINTS } from '../../api/reporting.endpoints';
 

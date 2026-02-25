@@ -18,6 +18,6 @@ export class ParticipantsFindOneUseCase {
     ): Observable<ParticipantsFindOneEntity> {
         const vo = ParticipantsFindOneFilterVo.fromDto(filterDto);
         const filter = ParticipantsFindOneFilterEntity.fromVo(vo);
-        return this.repository.read(filter);
+        return this.repository.execute(filter);
     }
 }

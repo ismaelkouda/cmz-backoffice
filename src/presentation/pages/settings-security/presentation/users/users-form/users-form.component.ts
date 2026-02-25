@@ -37,7 +37,7 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 
 import { ProfilesSelectFacade } from '@presentation/pages/settings-security/application/services/users/profiles-select.facade';
 import { ResponsibilitiesSelectFacade } from '@presentation/pages/settings-security/application/services/users/responsibilities-select.facade';
-import { UsersFindOneFacade } from '@presentation/pages/settings-security/application/services/users/users-findone.facade';
+import { UsersFindOneFacade } from '@presentation/pages/settings-security/application/services/users/users-find-one.facade';
 import { UsersFacade } from '@presentation/pages/settings-security/application/services/users/users.facade';
 import { UsersFormControl } from '@presentation/pages/settings-security/domain/controls/users/users-form.control';
 import { ProfilesSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/profiles-select.entity';

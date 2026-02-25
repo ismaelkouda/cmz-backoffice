@@ -41,6 +41,7 @@ import { AllFacade } from '@presentation/pages/requests/application/services/all
 import { ALL_TABLE_CONST } from '@presentation/pages/requests/domain/constants/all/all-table.constants';
 import { AllFilterControl } from '@presentation/pages/requests/domain/controls/all/all-filter-control';
 import { AllEntity } from '@presentation/pages/requests/domain/entities/all/all.entity';
+import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
 
 @Component({
     selector: 'app-all',
@@ -100,6 +101,10 @@ export class AllComponent implements OnInit {
         this.currentLang();
         return enumToFilterOptions(ReportType, this.t.bind(this));
     });
+    readonly statusOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptions(Status, this.t.bind(this));
+    });
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const telecomOperatorsOpts = this.telecomOperatorsOptions();
@@ -142,6 +147,7 @@ export class AllComponent implements OnInit {
                 translationKeys: {
                     label: 'REQUESTS.ALL.FILTER.REPORT_TYPE',
                 },
+                class: 'p-long',
             },
             {
                 type: 'multi-select',
@@ -151,11 +157,14 @@ export class AllComponent implements OnInit {
                 options: telecomOperatorsOpts,
                 optionLabel: 'label',
                 optionValue: 'value',
+                filter: false,
+                showToggleAll: false,
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
                     label: 'REQUESTS.ALL.FILTER.OPERATORS',
                 },
+                class: 'p-medium',
             },
             {
                 type: 'select',
@@ -169,6 +178,22 @@ export class AllComponent implements OnInit {
                 icon: 'pi pi-filter',
                 translationKeys: {
                     label: 'REQUESTS.ALL.FILTER.SOURCE',
+                },
+            },
+            {
+                type: 'select',
+                name: 'status',
+                label: this.t('REQUESTS.ALL.FILTER.STATUS'),
+                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+                options: this.statusOptions(),
+                optionLabel: 'label',
+                optionValue: 'value',
+                filter: false,
+                showToggleAll: false,
+                showClear: true,
+                icon: 'pi pi-filter',
+                translationKeys: {
+                    label: 'REQUESTS.ALL.FILTER.STATUS',
                 },
             },
             {
@@ -201,6 +226,9 @@ export class AllComponent implements OnInit {
         source: new FormControl<string | null>(null, {
             nonNullable: true,
         }),
+        status: new FormControl<string | null>(null, {
+            nonNullable: true,
+        }),
         startDate: new FormControl<string>('', {
             nonNullable: true,
         }),
@@ -222,6 +250,7 @@ export class AllComponent implements OnInit {
             this.telecomOperatorsOptions();
             this.reportSourceOptions();
             this.reportTypeOptions();
+            this.statusOptions();
         });
     }
 

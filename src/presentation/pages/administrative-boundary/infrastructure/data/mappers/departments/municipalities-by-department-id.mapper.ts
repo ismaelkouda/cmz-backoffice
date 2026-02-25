@@ -1,10 +1,12 @@
+import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { MunicipalitiesByDepartmentIdEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/departments/municipalities-by-department-id.entity';
+import { MunicipalitiesByDepartmentIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
+import { MunicipalitiesByDepartmentIdItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/municipalities-by-department-id-response-api.dto';
 
-import { MunicipalitiesByDepartmentIdItemApiDto } from '../../../api/dtos/departments/municipalities-by-department-id-response-api.dto';
-
+@Injectable({ providedIn: 'root' })
 export class MunicipalitiesByDepartmentIdMapper extends PaginatedMapper<
     MunicipalitiesByDepartmentIdEntity,
     MunicipalitiesByDepartmentIdItemApiDto

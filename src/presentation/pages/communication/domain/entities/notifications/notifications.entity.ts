@@ -7,6 +7,7 @@ export interface NotificationsProps {
     type: string;
     message: string;
     status: Status;
+    reportUniqId: string;
     sendAt: string;
 }
 export class NotificationsEntity {
@@ -30,6 +31,10 @@ export class NotificationsEntity {
     get status(): string {
         return this.props.status;
     }
+    get reportUniqId(): string {
+        return this.props.reportUniqId;
+    }
+
     get sendAt(): string {
         return this.props.sendAt;
     }

@@ -4,8 +4,8 @@ import { ActionDropdownDto } from '@shared/data/dto/action-dropdown.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 
-import { TermsUseItemDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/terms-use-response.dto';
-import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
+import { TermsUseItemDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-response.dto';
+import { TermsUseEntity } from '@presentation/pages/content-management/domain/entities/terms-use.entity';
 
 @Injectable({
     providedIn: 'root',

@@ -5,6 +5,7 @@ export const DASHBOARD = 'dashboard';
 export const PROCESSING_ROUTE = 'reports-processing';
 export const REPORT_FINALIZATION_ROUTE = 'reports-finalization';
 export const REPORTING_ROUTE = 'reporting';
+export const MONITORING_ROUTE = 'monitoring';
 export const REQUESTS_ROUTE = 'requests';
 export const CUSTOMERS_MANAGED = 'managed-customers';
 export const REQUESTS_SERVICE = 'requests-services';
@@ -123,19 +124,19 @@ export const content: Routes = [
     //         },
     //     },
     // },
-    // {
-    //     path: ADMINISTRATIVE_BOUNDARY_ROUTE,
-    //     loadChildren: () =>
-    //         import('../../presentation/pages/administrative-boundary/administrative-boundary.route').then(
-    //             (m) => m.routes
-    //         ),
-    //     data: {
-    //         breadcrumb: {
-    //             label: 'ADMINISTRATIVE_BOUNDARY.LABEL',
-    //             icon: 'pi-sitemap',
-    //         },
-    //     },
-    // },
+    {
+        path: ADMINISTRATIVE_BOUNDARY_ROUTE,
+        loadChildren: () =>
+            import('../../presentation/pages/administrative-boundary/administrative-boundary.routes').then(
+                (m) => m.routes
+            ),
+        data: {
+            breadcrumb: {
+                label: 'ADMINISTRATIVE_BOUNDARY.LABEL',
+                icon: 'pi-sitemap',
+            },
+        },
+    },
     {
         path: SETTINGS_SECURITY_ROUTE,
         loadChildren: () =>
@@ -149,45 +150,19 @@ export const content: Routes = [
             },
         },
     },
-    /*     {
-        path: CUSTOMERS_MANAGED,
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/managed-customers/managed-customers.module'
-            ).then((m) => m.ManagedCustomersModule),
+    {
+        path: MONITORING_ROUTE,
         data: {
-            module: 'CUSTOMERS_MANAGED',
-            subModule: [
-                'COMMERCIAL_ENTERPRISE',
-                'PUBLIC_ENTERPRISES',
-                'ASSOCIATION_ENTERPRISES',
-                'INDIVIDUALS',
-                'CUSTOMERS',
-            ],
+            breadcrumb: {
+                label: 'MONITORING.BREADCRUMB.LABEL',
+                icon: 'MONITORING.BREADCRUMB.ICON',
+            },
         },
-    }, */
-    /*     {
-        path: SUPERVISORY_REPOSITORY,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/supervisory-repository/supervisory-repository.module'
-            ).then((m) => m.SupervisoryRepositoryModule),
-        data: {
-            module: 'SUPERVISORY_REPOSITORY',
-            subModule: ['SLA_AGREEMENTS', 'SLA_MANAGEMENT_CONTRACT'],
-        },
-    }, */
-    /*     {
-        path: REQUESTS_SERVICE,
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/requests-service/requests-service-routing.module'
-            ).then((m) => m.routes),
-        data: {
-            module: 'REQUESTS_SERVICE',
-            subModule: ['CUSTOMERS_ACTIVATE'],
-        },
-    }, */
+            import('../../presentation/pages/monitoring/monitoring.routes').then(
+                (m) => m.routes
+            ),
+    },
     {
         path: '',
         redirectTo: DASHBOARD,

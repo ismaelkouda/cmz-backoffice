@@ -3,8 +3,8 @@ import { Observable, map } from 'rxjs';
 
 import { LogoutEntity } from '../../domain/entities/logout.entity';
 import { MyAccountRepository } from '../../domain/repositories/my-account.repository';
-import { ChangePasswordRequestDto } from '../dtos/change-password-request.dto';
-import { UpdateProfileRequestDto } from '../dtos/update-profile-request.dto';
+import { ChangePasswordRequestDto } from '../dto/change-password-request.dto';
+import { UpdateProfileRequestDto } from '../dto/update-profile-request.dto';
 import { MyAccountMapper } from '../mappers/my-account.mapper';
 import { MyAccountApi } from '../sources/my-account.api';
 

@@ -1,4 +1,4 @@
-<div class="fade-in messaging-content">
+<div class="messaging-content" [class.fade-in]="hasAnimated()">
     <app-filter
         class="filter-component"
         [isLoading]="loading()"

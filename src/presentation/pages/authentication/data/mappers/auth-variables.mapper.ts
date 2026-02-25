@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { VariablesResponseDto } from '@pages/authentication/data/dtos/variables-response.dto';
+import { VariablesResponseDto } from '@pages/authentication/data/dto/variables-response.dto';
 import { AuthVariables } from '@pages/authentication/domain/entities/auth-variables.entity';
 @Injectable({ providedIn: 'root' })
 export class AuthVariablesMapper {

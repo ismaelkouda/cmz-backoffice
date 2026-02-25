@@ -20,9 +20,20 @@ export class DashboardFacade extends ObjectBaseFacade<
 
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    read(filter: DashboardFilterDto, force = false): void {
+    read(
+        filter: DashboardFilterDto,
+        force = false,
+        skipSameFilter = false
+    ): void {
         const command = new DashboardQuery(filter.period);
         const fetch$ = this.bus.dispatch(command);
-        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
+        this.fetch(
+            filter,
+            fetch$,
+            this.ui,
+            this.STALE_TIME,
+            force,
+            skipSameFilter
+        );
     }
 }

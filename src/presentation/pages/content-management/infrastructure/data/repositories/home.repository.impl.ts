@@ -7,9 +7,9 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { HomeEntity } from '@presentation/pages/content-management/core/domain/entities/home.entity';
-import { HomeRepository } from '@presentation/pages/content-management/core/domain/repositories/home.repository';
-import { HomeFilter } from '@presentation/pages/content-management/core/domain/value-objects/home-filter.vo';
+import { HomeEntity } from '@presentation/pages/content-management/domain/entities/home.entity';
+import { HomeRepository } from '@presentation/pages/content-management/domain/repositories/home.repository';
+import { HomeFilter } from '@presentation/pages/content-management/domain/value-objects/home-filter.vo';
 import { HomeMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/home.mapper';
 import { HomeApi } from '@presentation/pages/content-management/infrastructure/data/sources/home.api';
 

@@ -6,8 +6,8 @@ import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { EnvService } from '@shared/domain/services/env.service';
 
 import { MY_ACCOUNT_ENDPOINTS } from '../constants/my-account-endpoints.constant';
-import { ChangePasswordRequestDto } from '../dtos/change-password-request.dto';
-import { UpdateProfileRequestDto } from '../dtos/update-profile-request.dto';
+import { ChangePasswordRequestDto } from '../dto/change-password-request.dto';
+import { UpdateProfileRequestDto } from '../dto/update-profile-request.dto';
 
 @Injectable({ providedIn: 'root' })
 export class MyAccountApi {

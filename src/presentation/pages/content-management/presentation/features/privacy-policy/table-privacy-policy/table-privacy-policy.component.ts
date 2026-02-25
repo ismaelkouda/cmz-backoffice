@@ -31,8 +31,8 @@ import {
     TableExportExcelFileService,
 } from '@shared/domain/services/table-export-excel-file.service';
 
-import { PRIVACY_POLICY_TABLE_CONST } from '@presentation/pages/content-management/core/domain/constants/privacy-policy/privacy-policy-table.constants';
-import { PrivacyPolicyEntity } from '@presentation/pages/content-management/core/domain/entities/privacy-policy.entity';
+import { PRIVACY_POLICY_TABLE_CONST } from '@presentation/pages/content-management/domain/constants/privacy-policy/privacy-policy-table.constants';
+import { PrivacyPolicyEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy.entity';
 
 import { HomeActionDropdownComponent } from '../../home/table-home/home-action-dropdown/home-action-dropdown.component';
 

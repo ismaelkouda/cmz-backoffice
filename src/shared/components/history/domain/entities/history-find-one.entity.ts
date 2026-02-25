@@ -1,4 +1,4 @@
-import { HistoryFindOneItemApiDto } from '@shared/components/history/infrastructure/api/dto/history-findone-response-api.dto';
+import { HistoryFindOneItemApiDto } from '@shared/components/history/infrastructure/api/dto/history-find-one-response-api.dto';
 
 export class HistoryFindOneEntity {
     constructor(

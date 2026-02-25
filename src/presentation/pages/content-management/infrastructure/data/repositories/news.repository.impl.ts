@@ -7,11 +7,11 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
-import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
-import { NewsEntity } from '@presentation/pages/content-management/core/domain/entities/news.entity';
-import { NewsRepository } from '@presentation/pages/content-management/core/domain/repositories/news.repository';
-import { NewsFilter } from '@presentation/pages/content-management/core/domain/value-objects/news-filter.vo';
+import { CategoryEntity } from '@presentation/pages/content-management/domain/entities/category.entity';
+import { GetNewsByIdEntity } from '@presentation/pages/content-management/domain/entities/get-news-by-id.entity';
+import { NewsEntity } from '@presentation/pages/content-management/domain/entities/news.entity';
+import { NewsRepository } from '@presentation/pages/content-management/domain/repositories/news.repository';
+import { NewsFilter } from '@presentation/pages/content-management/domain/value-objects/news-filter.vo';
 import { NewsMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news.mapper';
 import { NewsApi } from '@presentation/pages/content-management/infrastructure/data/sources/news.api';
 

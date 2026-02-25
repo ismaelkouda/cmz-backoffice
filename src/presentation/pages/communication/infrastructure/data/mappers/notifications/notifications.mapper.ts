@@ -32,6 +32,7 @@ export class NotificationsMapper extends PaginatedMapper<
             type: dto.type,
             message: dto.message,
             status: this.statusMapper.mapApiToStatus(dto.status),
+            reportUniqId: dto.report_uniq_id,
             sendAt: dto.sent_at,
         };
 

@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { EnvService } from '@shared/domain/services/env.service';
 
-import { HomeRequestDto } from '@presentation/pages/content-management/core/application/dtos/home/home-request.dto';
+import { HomeRequestDto } from '@presentation/pages/content-management/application/dto/home/home-request.dto';
 import {
     HomeItemDto,
     HomeResponseDto,
-} from '@presentation/pages/content-management/core/application/dtos/home/home-response.dto';
+} from '@presentation/pages/content-management/application/dto/home/home-response.dto';
 import { HOME_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/home-endpoints';
 
 @Injectable({

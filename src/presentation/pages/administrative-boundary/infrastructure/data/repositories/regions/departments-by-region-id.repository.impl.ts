@@ -3,9 +3,10 @@ import { Observable, map } from 'rxjs';
 
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 
-import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/regions/departments-by-region-id.entity';
-import { DepartmentsByRegionIdRepository } from '@presentation/pages/administrative-boundary/core/domain/repositories/regions/departments-by-region-id-repository';
-import { DepartmentsByRegionIdFilter } from '@presentation/pages/administrative-boundary/core/domain/value-objects/regions/departments-by-region-id-filter.vo';
+import { DepartmentsByRegionIdFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id-filter.entity';
+import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
+import { DepartmentsByRegionIdRepository } from '@presentation/pages/administrative-boundary/domain/repositories/regions/departments-by-region-id-repository';
+import { DepartmentsByRegionIdFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/departments-by-region-id-filter.mapper';
 import { DepartmentsByRegionIdMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/departments-by-region-id.mapper';
 import { DepartmentsByRegionIdApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/regions/departments-by-region-id.api';
 
@@ -14,12 +15,13 @@ export class DepartmentsByRegionIdRepositoryImpl implements DepartmentsByRegionI
     private readonly api = inject(DepartmentsByRegionIdApi);
     private readonly mapper = inject(DepartmentsByRegionIdMapper);
 
-    readAll(
-        filter: DepartmentsByRegionIdFilter | null,
+    execute(
+        filter: DepartmentsByRegionIdFilterEntity,
         page: string
     ): Observable<Paginate<DepartmentsByRegionIdEntity>> {
+        const paramsDto = DepartmentsByRegionIdFilterMapper(filter);
         return this.api
-            .readAll(filter?.toDto() ?? { region_code: '' }, page)
+            .readAll(paramsDto, page)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

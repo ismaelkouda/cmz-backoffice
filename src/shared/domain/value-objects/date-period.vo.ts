@@ -1,22 +1,33 @@
+import {
+    InvalidDateRangeError,
+    InvalidEndDateError,
+    InvalidStartDateError,
+} from '@shared/domain/errors/date-period.error';
 export class DatePeriod {
-    public readonly start: Date;
-    public readonly end: Date;
+    public readonly start?: Date;
+    public readonly end?: Date;
 
-    private constructor(start: Date, end: Date) {
+    private constructor(start?: Date, end?: Date) {
         this.start = start;
         this.end = end;
     }
 
-    static create(startDate?: string, endDate?: string): DatePeriod {
-        const now = new Date();
+    static create(start?: string, end?: string): DatePeriod {
+        const startDate = start ? new Date(start) : undefined;
+        const endDate = end ? new Date(end) : undefined;
 
-        const start = startDate ? new Date(startDate) : now;
-        const end = endDate ? new Date(endDate) : now;
-
-        if (start > end) {
-            throw new Error('INVALID_DATE_RANGE');
+        if (startDate && Number.isNaN(startDate.getTime())) {
+            throw new InvalidStartDateError();
         }
 
-        return new DatePeriod(start, end);
+        if (endDate && isNaN(endDate.getTime())) {
+            throw new InvalidEndDateError();
+        }
+
+        if (startDate && endDate && startDate > endDate) {
+            throw new InvalidDateRangeError();
+        }
+
+        return new DatePeriod(startDate, endDate);
     }
 }

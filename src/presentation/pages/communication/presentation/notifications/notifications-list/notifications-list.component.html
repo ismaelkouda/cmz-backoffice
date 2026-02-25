@@ -17,7 +17,7 @@
                         ></app-page-title>
                     </header>
 
-                    <div class="fade-in notifications-content">
+                    <div class="notifications-content" [class.fade-in]="hasAnimated()">
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
@@ -42,7 +42,8 @@
                                     onHeaderButtonClicked($event)
                                 "
                                 (refreshRequested)="onRefreshClicked()"
-                                (deleteRequested)="onDeleteClicked($event)"
+                                (actionClicked)="onActionClicked($event)"
+                                (export)="onExportClicked()"
                                 dataKey="uniqId"
                             ></app-table>
 
@@ -57,4 +58,12 @@
             </section>
         </article>
     </section>
+
+    @if (reportTreatmentVisible) {
+        <app-management-dialog
+            [(visible)]="reportTreatmentVisible"
+            [uniqId]="selectedReportId"
+            (queues)="onReportTreatmentQueues()"
+        ></app-management-dialog>
+    }
 </main>

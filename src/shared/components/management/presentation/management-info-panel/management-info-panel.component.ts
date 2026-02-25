@@ -7,6 +7,7 @@ import {
     output,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 
@@ -15,7 +16,13 @@ import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.
 @Component({
     selector: 'app-management-info-panel',
     standalone: true,
-    imports: [CommonModule, TranslateModule, TagModule, TooltipModule],
+    imports: [
+        CommonModule,
+        SkeletonModule,
+        TranslateModule,
+        TagModule,
+        TooltipModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './management-info-panel.component.html',
     styleUrls: ['./management-info-panel.component.scss'],

@@ -1,4 +1,17 @@
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 2.3);
+    return `${width}rem`;
+}
+
 export const NOTIFICATIONS = {
+    actions: [
+        {
+            id: 'management-dialog',
+            icon: 'pi pi-window-maximize',
+            tooltip: 'COMMUNICATION.NOTIFICATIONS.TABLE.READ',
+            severity: 'primary',
+        },
+    ],
     cols: [
         {
             field: '__index',
@@ -33,6 +46,12 @@ export const NOTIFICATIONS = {
             class: 'text-center',
             width: '8rem',
         },
+        {
+            field: '__action',
+            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.ACTION',
+            class: 'text-center',
+            width: calculateActionColumnWidth(1),
+        },
     ],
-    globalFilterFields: ['reference', 'title', 'message', 'sendAt'],
+    globalFilterFields: ['reference', 'title', 'message', 'status', 'sendAt'],
 };

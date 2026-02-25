@@ -19,7 +19,7 @@ export class AllHandler {
                 reportType: query.reportType,
                 operators: query.operators,
                 source: query.source,
-                state: query.state,
+                status: query.status,
                 startDate: query.startDate,
                 endDate: query.endDate,
             },

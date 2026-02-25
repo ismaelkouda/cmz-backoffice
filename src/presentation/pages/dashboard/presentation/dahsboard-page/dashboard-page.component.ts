@@ -91,7 +91,7 @@ export class DashboardPageComponent implements OnInit {
     }
 
     refreshData(): void {
-        this.facade.read({ period: this.selectedPeriod() }, true);
+        this.facade.read({ period: this.selectedPeriod() }, true, true);
     }
 
     public navigateToReport(stat: StatisticCard): void {

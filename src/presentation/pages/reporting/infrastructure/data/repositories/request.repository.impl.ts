@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
-import { RequestEntity } from '../../../core/domain/entities/requests/request.entity';
-import { RequestRepository } from '../../../core/domain/repositories/request-repository.interface';
+import { RequestEntity } from '../../../domain/entities/requests/request.entity';
+import { RequestRepository } from '../../../domain/repositories/request-repository.interface';
 import { RequestMapper } from '../mappers/request.mapper';
 import { RequestApi } from '../sources/request.api';
 

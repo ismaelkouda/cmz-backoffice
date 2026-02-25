@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 
-import { LoginResponseDto } from '@pages/authentication/data/dtos/login-response.dto';
-import { VariablesResponseDto } from '@pages/authentication/data/dtos/variables-response.dto';
+import { LoginResponseDto } from '@pages/authentication/data/dto/login-response.dto';
+import { VariablesResponseDto } from '@pages/authentication/data/dto/variables-response.dto';
 import { AuthSessionMapper } from '@pages/authentication/data/mappers/auth-session.mapper';
 import { AuthVariablesMapper } from '@pages/authentication/data/mappers/auth-variables.mapper';
 import { AuthenticationApi } from '@pages/authentication/data/sources/authentication.api';

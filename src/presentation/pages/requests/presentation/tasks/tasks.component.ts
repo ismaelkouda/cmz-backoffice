@@ -142,6 +142,7 @@ export class TasksComponent implements OnInit {
                 translationKeys: {
                     label: 'REQUESTS.TASKS.FILTER.REPORT_TYPE',
                 },
+                class: 'p-long',
             },
             {
                 type: 'multi-select',
@@ -151,11 +152,14 @@ export class TasksComponent implements OnInit {
                 options: telecomOperatorsOpts,
                 optionLabel: 'label',
                 optionValue: 'value',
+                filter: false,
+                showToggleAll: false,
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
                     label: 'REQUESTS.TASKS.FILTER.OPERATORS',
                 },
+                class: 'p-medium',
             },
             {
                 type: 'select',

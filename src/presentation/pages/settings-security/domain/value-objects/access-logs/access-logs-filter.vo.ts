@@ -1,6 +1,6 @@
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
-import { AccessLogsFilterDto } from '@presentation/pages/settings-security/application/dto/access-logs/access-logs-filter.dtos';
+import { AccessLogsFilterDto } from '@presentation/pages/settings-security/application/dto/access-logs/access-logs-filter.dto';
 
 export class AccessLogsFilterVo {
     public readonly search?: string;

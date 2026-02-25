@@ -1,4 +1,4 @@
-import { TeamsFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-findone-filter.dto';
+import { TeamsFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-find-one-filter.dto';
 
 export class TeamsFindOneFilterVo {
     public readonly uniqId?: string;

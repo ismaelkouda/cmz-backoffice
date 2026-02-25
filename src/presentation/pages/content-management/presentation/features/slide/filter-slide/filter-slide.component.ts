@@ -26,7 +26,7 @@
 
 // import { Plateform } from '@shared/domain/enums/plateform.enum';
 
-// import { SlideFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/slide/slide-filter-form-control.entity';
+// import { SlideFilterFormControlDto } from '@presentation/pages/content-management/core/application/dto/slide/slide-filter-form-control.entity';
 // import { SlideFacade } from '@presentation/pages/content-management/core/application/services/slide.facade';
 // import { SlideFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/slide/slide-filter-payload.entity';
 

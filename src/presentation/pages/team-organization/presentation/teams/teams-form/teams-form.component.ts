@@ -44,6 +44,7 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
+import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { PermissionTreeService } from '@shared/domain/services/permission-tree-node.service';
 
 import { TeamsFindOneFacade } from '@presentation/pages/team-organization/application/services/teams/teams-find-one.facade';
@@ -52,7 +53,6 @@ import { TeamsFacade } from '@presentation/pages/team-organization/application/s
 import { TEAMS_FORM_TABS } from '@presentation/pages/team-organization/domain/constants/teams/teams-form-tabs.constant';
 import { TeamsFormControls } from '@presentation/pages/team-organization/domain/controls/teams/teams-form.control';
 import { TeamsFormHelperService } from '@presentation/pages/team-organization/domain/services/teams/teams-form-helper.service';
-import { TeamsFormValidationService } from '@presentation/pages/team-organization/domain/services/teams/teams-form-validation.service';
 import { FormValidators } from '@presentation/pages/team-organization/domain/validators/form-validators';
 
 @Component({
@@ -80,7 +80,7 @@ import { FormValidators } from '@presentation/pages/team-organization/domain/val
     providers: [
         TeamsFormHelperService,
         PermissionTreeService,
-        TeamsFormValidationService,
+        FormValidationService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -93,7 +93,7 @@ export class TeamsFormComponent implements OnInit {
     private readonly permissionsFacade = inject(TeamsPermissionsFacade);
     private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly validationService = inject(TeamsFormValidationService);
+    private readonly validationService = inject(FormValidationService);
     public readonly treeService = inject(PermissionTreeService);
     private readonly helperService = inject(TeamsFormHelperService);
     readonly VALIDATION = FormValidators;

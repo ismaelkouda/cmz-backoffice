@@ -1,30 +1,29 @@
-import { DepartmentsByRegionIdFilter } from '@presentation/pages/administrative-boundary/core/domain/value-objects/regions/departments-by-region-id-filter.vo';
-import { DepartmentsByRegionIdFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/departments-by-region-id-filter-api.dto';
+import { DepartmentsByRegionIdFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id-filter.entity';
+import { DepartmentsByRegionIdFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-filter-api.dto';
 
-export class DepartmentsByRegionIdFilterMapper {
-    public toApi(
-        filter: DepartmentsByRegionIdFilter
-    ): DepartmentsByRegionIdFilterApiDto {
-        const params: DepartmentsByRegionIdFilterApiDto =
-            {} as DepartmentsByRegionIdFilterApiDto;
+export function DepartmentsByRegionIdFilterMapper(
+    filter: DepartmentsByRegionIdFilterEntity
+): DepartmentsByRegionIdFilterApiDto {
+    const params: DepartmentsByRegionIdFilterApiDto =
+        {} as DepartmentsByRegionIdFilterApiDto;
 
-        params.region_code = filter.regionId;
-        if (filter.startDate) {
-            params['start_date'] = filter.startDate;
-        }
-        if (filter.endDate) {
-            params['end_date'] = filter.endDate;
-        }
-        if (filter.search) {
-            params['search'] = filter.search;
-        }
-        if (filter.municipalityCode) {
-            params['municipality_code'] = filter.municipalityCode;
-        }
-        if (filter.isActive !== undefined && filter.isActive !== null) {
-            params['is_active'] = filter.isActive;
-        }
-
-        return params;
+    params.id = filter.uniqId;
+    if (filter.search) {
+        params['search'] = filter.search;
     }
+    if (filter.region) {
+        params['region_code'] = filter.region;
+    }
+    if (filter.municipality) {
+        params['municipality_code'] = filter.municipality;
+    }
+
+    if (filter.period?.start) {
+        params['start_date'] = filter.period.start;
+    }
+    if (filter.period?.end) {
+        params['end_date'] = filter.period.end;
+    }
+
+    return params;
 }

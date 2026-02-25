@@ -7,7 +7,6 @@ import { ApiStatus } from '@presentation/pages/requests/infrastructure/enums/all
 export class StatusMapper {
     private readonly statusMapping = {
         toApi: {
-            [Status.PENDING]: ApiStatus.PENDING,
             [Status.APPROVED]: ApiStatus.APPROVED,
             [Status.REJECTED]: ApiStatus.REJECTED,
             [Status.ABANDONED]: ApiStatus.ABANDONED,
@@ -16,7 +15,6 @@ export class StatusMapper {
             [Status.CONFIRMED]: ApiStatus.CONFIRMED,
         },
         fromApi: {
-            [ApiStatus.PENDING]: Status.PENDING,
             [ApiStatus.APPROVED]: Status.APPROVED,
             [ApiStatus.REJECTED]: Status.REJECTED,
             [ApiStatus.ABANDONED]: Status.ABANDONED,

@@ -142,6 +142,7 @@ export class TasksComponent implements OnInit {
                 translationKeys: {
                     label: 'PROCESSING.TASKS.FILTER.REPORT_TYPE',
                 },
+                class: 'p-long',
             },
             {
                 type: 'multi-select',
@@ -156,6 +157,7 @@ export class TasksComponent implements OnInit {
                 translationKeys: {
                     label: 'PROCESSING.TASKS.FILTER.OPERATORS',
                 },
+                class: 'p-medium',
             },
             {
                 type: 'select',

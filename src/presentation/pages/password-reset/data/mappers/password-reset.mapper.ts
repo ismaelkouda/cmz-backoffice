@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PasswordResetResponse } from '../../domain/entities/password-reset-response.entity';
-import { PasswordResetResponseDto } from '../dtos/password-reset-response.dto';
+import { PasswordResetResponseDto } from '../dto/password-reset-response.dto';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetMapper {

@@ -1,9 +1,12 @@
+import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/departments/departments.entity';
-import { DepartmentsItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-response-api.dto';
+import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { DepartmentsItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-response-api.dto';
 
+@Injectable({ providedIn: 'root' })
 export class DepartmentsMapper extends PaginatedMapper<
     DepartmentsEntity,
     DepartmentsItemApiDto

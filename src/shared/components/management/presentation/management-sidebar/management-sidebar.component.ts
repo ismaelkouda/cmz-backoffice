@@ -8,12 +8,19 @@ import {
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
     selector: 'app-management-sidebar',
     standalone: true,
-    imports: [CommonModule, TranslateModule, ButtonModule, TooltipModule],
+    imports: [
+        CommonModule,
+        SkeletonModule,
+        TranslateModule,
+        ButtonModule,
+        TooltipModule,
+    ],
     templateUrl: './management-sidebar.component.html',
     styleUrls: ['./management-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

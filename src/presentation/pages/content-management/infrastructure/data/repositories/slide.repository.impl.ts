@@ -6,9 +6,9 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { SlideEntity } from '../../../core/domain/entities/slide.entity';
-import { SlideRepository } from '../../../core/domain/repositories/slide.repository';
-import { SlideFilter } from '../../../core/domain/value-objects/slide-filter.vo';
+import { SlideEntity } from '../../../domain/entities/slide.entity';
+import { SlideRepository } from '../../../domain/repositories/slide.repository';
+import { SlideFilter } from '../../../domain/value-objects/slide-filter.vo';
 import { SlideMapper } from '../mappers/slide.mapper';
 import { SlideApi } from '../sources/slide.api';
 

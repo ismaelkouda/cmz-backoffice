@@ -114,7 +114,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         const osmLayer = new TileLayer({
             source: new OSM({
                 attributions: [
-                    '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributeurs',
+                    '© <a href="https://www.imako.digital" target="_blank">IMAKO</a>',
                 ],
             }),
         });

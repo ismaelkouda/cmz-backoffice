@@ -7,8 +7,8 @@ import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.
 import {
     GetNewsByIdItemDto,
     GetNewsByIdResponseDto,
-} from '@presentation/pages/content-management/core/application/dtos/news/get-news-by-id-response.dto';
-import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
+} from '@presentation/pages/content-management/application/dto/news/get-news-by-id-response.dto';
+import { GetNewsByIdEntity } from '@presentation/pages/content-management/domain/entities/get-news-by-id.entity';
 
 @Injectable({
     providedIn: 'root',

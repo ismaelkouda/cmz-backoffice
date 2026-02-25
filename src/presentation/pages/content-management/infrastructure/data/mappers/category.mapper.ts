@@ -5,9 +5,9 @@ import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.ma
 import {
     CategoryItemDto,
     SubCategoryItemDto,
-} from '@presentation/pages/content-management/core/application/dtos/news/category-response.dto';
-import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
-import { SubCategoryEntity } from '@presentation/pages/content-management/core/domain/entities/sub-category.entity';
+} from '@presentation/pages/content-management/application/dto/news/category-response.dto';
+import { CategoryEntity } from '@presentation/pages/content-management/domain/entities/category.entity';
+import { SubCategoryEntity } from '@presentation/pages/content-management/domain/entities/sub-category.entity';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryMapper extends ArrayResponseMapper<

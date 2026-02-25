@@ -2,30 +2,24 @@ import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-nu
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 import { AllFilterDto } from '@presentation/pages/requests/application/dto/all/all-filter.dto';
+import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
+import { AllFilterProps } from '@presentation/pages/requests/domain/interfaces/all/all-filter-props.interface';
 
 export class AllFilterVo {
     public readonly initiatorPhoneNumber?: string;
     public readonly uniqId?: string;
     public readonly reportType?: string;
     public readonly operators?: string[];
-    public readonly state?: string;
+    public readonly status?: Status;
     public readonly source?: string;
     public readonly period?: DatePeriod;
 
-    private constructor(props: {
-        initiatorPhoneNumber?: string;
-        uniqId?: string;
-        reportType?: string;
-        operators?: string[];
-        state?: string;
-        source?: string;
-        period?: DatePeriod;
-    }) {
+    private constructor(props: AllFilterProps) {
         this.initiatorPhoneNumber = props.initiatorPhoneNumber;
         this.uniqId = props.uniqId;
         this.reportType = props.reportType;
         this.operators = props.operators;
-        this.state = props.state;
+        this.status = props.status;
         this.source = props.source;
         this.period = props.period;
     }
@@ -37,7 +31,7 @@ export class AllFilterVo {
         const uniqId = dto?.uniqId;
         const reportType = dto?.reportType;
         const operators = dto?.operators;
-        const state = dto?.state;
+        const status = dto?.status;
         const source = dto?.source;
 
         let period: DatePeriod | undefined;
@@ -51,7 +45,7 @@ export class AllFilterVo {
             uniqId,
             reportType,
             operators,
-            state,
+            status,
             source,
             period,
         });
