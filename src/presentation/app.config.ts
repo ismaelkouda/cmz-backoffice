@@ -44,12 +44,7 @@ import { routes } from '@presentation/app.routes';
 import { provideAdministrativeBoundary } from '@presentation/pages/administrative-boundary/di/administrative-boundary.providers';
 import { provideAuthentication } from '@presentation/pages/authentication/di/authentication.providers';
 import { provideCommunication } from '@presentation/pages/communication/di/communication.providers';
-import { provideHome } from '@presentation/pages/content-management/di/home.providers';
-import { provideLegalNotice } from '@presentation/pages/content-management/di/legal-notice.providers';
-import { provideNews } from '@presentation/pages/content-management/di/news.providers';
-import { providePrivacyPolicy } from '@presentation/pages/content-management/di/privacy-policy.providers';
-import { provideSlide } from '@presentation/pages/content-management/di/slide.providers';
-import { provideTermsUse } from '@presentation/pages/content-management/di/terms-use.providers';
+import { provideContentManagement } from '@presentation/pages/content-management/di/content-management.providers';
 import { provideDashboard } from '@presentation/pages/dashboard/di/dashboard.providers';
 import { provideFinalization } from '@presentation/pages/finalization/di/finalization.providers';
 import { providePasswordReset } from '@presentation/pages/password-reset/di/password-reset.providers';
@@ -278,16 +273,11 @@ export const appConfig: ApplicationConfig = {
 
         ...provideTeamOrganization(),
 
+        ...provideContentManagement(),
+
         ...provideAdministrativeBoundary(),
 
         ...provideSettingsSecurity(),
-
-        ...provideHome(),
-        ...provideSlide(),
-        ...provideNews(),
-        ...providePrivacyPolicy(),
-        ...provideLegalNotice(),
-        ...provideTermsUse(),
 
         ...historyProviders(),
 

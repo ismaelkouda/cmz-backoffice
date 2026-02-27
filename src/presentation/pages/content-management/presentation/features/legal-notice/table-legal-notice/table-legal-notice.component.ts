@@ -32,7 +32,7 @@ import {
 } from '@shared/domain/services/table-export-excel-file.service';
 
 import { LEGAL_NOTICE_TABLE_CONST } from '@presentation/pages/content-management/domain/constants/legal-notice/legal-notice-table.constants';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/domain/entities/legal-notice.entity';
+import { LegalNoticeEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 
 import { HomeActionDropdownComponent } from '../../home/table-home/home-action-dropdown/home-action-dropdown.component';
 

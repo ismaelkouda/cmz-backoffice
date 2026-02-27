@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -9,4 +9,12 @@ import { TranslateModule } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CommonModule, TranslateModule],
 })
-export class NotificationsModalComponent {}
+export class NotificationsModalComponent implements OnInit {
+    constructor() {
+        console.log('NotificationsModalComponent');
+    }
+
+    ngOnInit(): void {
+        console.log('NotificationsModalComponent ngOnInit');
+    }
+}

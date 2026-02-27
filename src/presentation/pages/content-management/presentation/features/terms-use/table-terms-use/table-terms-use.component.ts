@@ -32,7 +32,7 @@ import {
 } from '@shared/domain/services/table-export-excel-file.service';
 
 import { TERMS_USE_TABLE_CONST } from '@presentation/pages/content-management/domain/constants/terms-use/terms-use-table.constants';
-import { TermsUseEntity } from '@presentation/pages/content-management/domain/entities/terms-use.entity';
+import { TermsUseEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use.entity';
 
 import { HomeActionDropdownComponent } from '../../home/table-home/home-action-dropdown/home-action-dropdown.component';
 

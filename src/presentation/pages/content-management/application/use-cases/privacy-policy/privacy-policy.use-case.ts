@@ -1,22 +1,76 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Paginate } from '@shared/data/dto/simple-response.dto';
+import {
+    Paginate,
+    SimpleResponseDto,
+} from '@shared/data/dto/simple-response.dto';
 
-import { PrivacyPolicyEntity } from '../../../domain/entities/privacy-policy.entity';
-import { PrivacyPolicyRepository } from '../../../domain/repositories/privacy-policy.repository';
-import { PrivacyPolicyFilter } from '../../../domain/value-objects/privacy-policy-filter.vo';
+import { PrivacyPolicyCreateDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-create.dto';
+import { PrivacyPolicyDeleteDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
+import { PrivacyPolicyFilterDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-filter.dto';
+import { PrivacyPolicyPublishDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-publish.dto';
+import { PrivacyPolicyUnpublishDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-unpublish.dto';
+import { PrivacyPolicyUpdateDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-update.dto';
+import { PrivacyPolicyCreateEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-create.entity';
+import { PrivacyPolicyDeleteEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-delete.entity';
+import { PrivacyPolicyFilterEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-filter.entity';
+import { PrivacyPolicyPublishEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-publish.entity';
+import { PrivacyPolicyUnpublishEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-unpublish.entity';
+import { PrivacyPolicyUpdateEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-update.entity';
+import { PrivacyPolicyEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
+import { PrivacyPolicyRepository } from '@presentation/pages/content-management/domain/repositories/privacy-policy/privacy-policy-repository';
+import { PrivacyPolicyCreateVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-create.vo';
+import { PrivacyPolicyDeleteVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-delete.vo';
+import { PrivacyPolicyFilterVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-filter.vo';
+import { PrivacyPolicyPublishVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-publish.vo';
+import { PrivacyPolicyUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-unpublish.vo';
+import { PrivacyPolicyUpdateVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-update.vo';
 
 @Injectable({
     providedIn: 'root',
 })
-export class FetchPrivacyPolicyUseCase {
-    private readonly privacyPolicyRepository = inject(PrivacyPolicyRepository);
+export class PrivacyPolicyUseCase {
+    private readonly repository = inject(PrivacyPolicyRepository);
 
     execute(
-        filter: PrivacyPolicyFilter | null,
+        dto: PrivacyPolicyFilterDto | null,
         page: string
     ): Observable<Paginate<PrivacyPolicyEntity>> {
-        return this.privacyPolicyRepository.fetchPrivacyPolicy(filter, page);
+        const vo = PrivacyPolicyFilterVo.fromDto(dto);
+        const entity = PrivacyPolicyFilterEntity.fromVo(vo);
+        return this.repository.readAll(entity, page);
+    }
+
+    create(dto: PrivacyPolicyCreateDto): Observable<SimpleResponseDto<void>> {
+        const vo = PrivacyPolicyCreateVo.fromDto(dto);
+        const entity = PrivacyPolicyCreateEntity.fromVo(vo);
+        return this.repository.create(entity);
+    }
+
+    update(dto: PrivacyPolicyUpdateDto): Observable<SimpleResponseDto<void>> {
+        const vo = PrivacyPolicyUpdateVo.fromDto(dto);
+        const entity = PrivacyPolicyUpdateEntity.fromVo(vo);
+        return this.repository.update(entity);
+    }
+
+    publish(dto: PrivacyPolicyPublishDto): Observable<SimpleResponseDto<void>> {
+        const vo = PrivacyPolicyPublishVo.fromDto(dto);
+        const entity = PrivacyPolicyPublishEntity.fromVo(vo);
+        return this.repository.publish(entity);
+    }
+
+    unpublish(
+        dto: PrivacyPolicyUnpublishDto
+    ): Observable<SimpleResponseDto<void>> {
+        const vo = PrivacyPolicyUnpublishVo.fromDto(dto);
+        const entity = PrivacyPolicyUnpublishEntity.fromVo(vo);
+        return this.repository.unpublish(entity);
+    }
+
+    delete(dto: PrivacyPolicyDeleteDto): Observable<SimpleResponseDto<void>> {
+        const vo = PrivacyPolicyDeleteVo.fromDto(dto);
+        const entity = PrivacyPolicyDeleteEntity.fromVo(vo);
+        return this.repository.delete(entity);
     }
 }

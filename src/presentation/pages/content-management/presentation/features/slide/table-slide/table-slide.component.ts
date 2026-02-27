@@ -32,7 +32,7 @@ import {
 } from '@shared/domain/services/table-export-excel-file.service';
 
 import { SLIDE_TABLE_CONST } from '@presentation/pages/content-management/domain/constants/slide/slide-table.constants';
-import { SlideEntity } from '@presentation/pages/content-management/domain/entities/slide.entity';
+import { SlideEntity } from '@presentation/pages/content-management/domain/entities/slide/slide.entity';
 
 import { HomeActionDropdownComponent } from '../../home/table-home/home-action-dropdown/home-action-dropdown.component';
 

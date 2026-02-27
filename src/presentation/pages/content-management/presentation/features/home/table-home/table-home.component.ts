@@ -31,8 +31,8 @@ import {
     TableExportExcelFileService,
 } from '@shared/domain/services/table-export-excel-file.service';
 
-import { HOME_TABLE_CONST } from '@presentation/pages/content-management/domain/constants/home/home-table.constants';
-import { HomeEntity } from '@presentation/pages/content-management/domain/entities/home.entity';
+import { HOME_TABLE } from '@presentation/pages/content-management/domain/constants/home/home-table.constants';
+import { HomeEntity } from '@presentation/pages/content-management/domain/entities/home/home.entity';
 
 import { HomeActionDropdownComponent } from './home-action-dropdown/home-action-dropdown.component';
 
@@ -100,7 +100,7 @@ export class TableHomeComponent implements OnDestroy {
         this.appCustomizationService.config.app.name
     );
 
-    readonly tableConfig: TableConfig = HOME_TABLE_CONST;
+    readonly tableConfig: TableConfig = HOME_TABLE;
 
     ngOnDestroy(): void {
         this.destroy$.next();

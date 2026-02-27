@@ -1,0 +1,11 @@
+import { Status } from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
+
+export interface Props {
+    uniqId: string;
+    code: string;
+    name: string;
+    description: string;
+    status: Status;
+    membersCount: string;
+    updatedAt: string;
+}
