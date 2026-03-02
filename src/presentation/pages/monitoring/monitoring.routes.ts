@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 export const NODE_ROUTE = 'node';
 export const SERVICES_ROUTE = 'services';
+export const RESOURCES_ROUTE = 'resources-states';
 
 export const routes: Routes = [
     {
@@ -44,6 +45,29 @@ export const routes: Routes = [
                         loadComponent: () =>
                             import('./presentation/features/services/pages/services-page/services-page.component').then(
                                 (m) => m.ServicesPageComponent
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: RESOURCES_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'MONITORING.RESOURCES.BREADCRUMB.LABEL',
+                        icon: 'MONITORING.RESOURCES.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./presentation/features/resources/pages/resources-page/resources-page.component').then(
+                                (m) => m.ResourcesPageComponent
                             ),
                         data: { breadcrumb: { hide: true } },
                     },

@@ -8,9 +8,9 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { DashboardViewerComponent } from '@presentation/pages/reporting/presentation/ui/shared/components/dashboard-viewer/dashboard-viewer.component';
+import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
 
-import { ServicesFacade } from '../../../../../application/services/services.facade';
+import { ServicesFacade } from '@presentation/pages/monitoring/application/services/services.facade';
 
 @Component({
     selector: 'app-services-page',

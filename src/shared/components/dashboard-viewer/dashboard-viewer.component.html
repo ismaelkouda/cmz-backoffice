@@ -1,13 +1,16 @@
-<main class="reporting-container" role="main">
-    <section class="reporting-header-section">
-        <article class="reporting-content">
+<main class="dashboard-container" role="main">
+    <section class="dashboard-header-section">
+        <article class="dashboard-content">
             <app-breadcrumb />
 
+            <h2>dzvereferrerefer</h2>
+            <h1>{{grafanaLink()}}</h1>
+
             <section
-                class="reporting-card"
+                class="dashboard-card"
                 [class.fullscreen-mode]="isFullscreen()"
             >
-                <header class="reporting-card-header">
+                <header class="dashboard-card-header">
                     <div class="header-content">
                         <div class="title-section">
                             <app-page-title
@@ -39,8 +42,8 @@
                                 (click)="toggleFullscreen()"
                                 pTooltip="{{
                                     isFullscreen()
-                                        ? 'MONITORING.DASHBOARD.ACTIONS.EXIT_FULLSCREEN'
-                                        : ('MONITORING.DASHBOARD.ACTIONS.ENTER_FULLSCREEN'
+                                        ? 'COMMON.EXIT_FULLSCREEN'
+                                        : ('COMMON.ENTER_FULLSCREEN'
                                           | translate)
                                 }}"
                                 tooltipPosition="bottom"
@@ -51,7 +54,7 @@
                                     class="close-fullscreen-btn"
                                     (click)="toggleFullscreen()"
                                     pTooltip="{{
-                                        'MONITORING.DASHBOARD.ACTIONS.EXIT_FULLSCREEN'
+                                        'COMMON.EXIT_FULLSCREEN'
                                             | translate
                                     }}"
                                     tooltipPosition="bottom"
@@ -63,7 +66,7 @@
                     </div>
                 </header>
 
-                <div class="reporting-card-body">
+                <div class="dashboard-card-body">
                     @if (isLoading()) {
                         <div class="loading-state">
                             <p-progressSpinner
@@ -71,7 +74,7 @@
                                 animationDuration=".5s"
                             >
                             </p-progressSpinner>
-                            <h3>{{ 'DASHBOARD.LOADING' | translate }}</h3>
+                            <h3>{{ 'COMMON.LOADING_GRAFANA_DASHBOARD' | translate }}</h3>
                             <p>{{ loadingDescription() | translate }}</p>
                         </div>
                     }
@@ -81,13 +84,13 @@
                             <div class="error-icon">
                                 <i class="pi pi-exclamation-triangle"></i>
                             </div>
-                            <h3>{{ 'DASHBOARD.ERROR.TITLE' | translate }}</h3>
+                            <h3>{{ 'COMMON.ERROR_GRAFANA_DASHBOARD' | translate }}</h3>
                             <p>{{ errorDescription() | translate }}</p>
                             <button
                                 pButton
                                 icon="pi pi-refresh"
                                 label="{{
-                                    'MONITORING.DASHBOARD.ACTIONS.RETRY'
+                                    'COMMON.RETRY'
                                         | translate
                                 }}"
                                 (click)="handleRefreshDashboard()"
@@ -109,7 +112,7 @@
                                 frameborder="0"
                                 allowfullscreen
                                 class="grafana-iframe"
-                                title="Dashboard Grafana - Tableau de bord analytique"
+                                title="{{ titleKey() | translate }}"
                             >
                             </iframe>
                         </div>

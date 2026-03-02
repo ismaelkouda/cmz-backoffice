@@ -11,7 +11,7 @@
                                 class="page-title-component"
                                 [displayDate]="false"
                                 [title]="
-                                    'ACTIONS.TITLE' | translate | lowercase
+                                    'PROCESSING.TASKS.ACTIONS.TITLE' | translate | lowercase
                                 "
                             >
                             </app-page-title>
@@ -88,7 +88,7 @@
 
                         <section
                             class="actions-table-section"
-                            [aria-label]="'ACTIONS.TITLE' | translate"
+                            [aria-label]="'PROCESSING.TASKS.ACTIONS.TITLE' | translate"
                         >
                             <app-table
                                 class="table-component"
@@ -129,15 +129,15 @@
     [style]="{ width: '45rem' }"
     [resizable]="false"
     header="{{
-        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.REASSIGN_TITLE' | translate
+        'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE' | translate
     }}"
 >
     <form [formGroup]="form">
-        <div class="row g-3">
+        <div class="row pt-3">
             <div class="col-md-6 form-group">
                 <label for="team">
                     <b
-                        >{{ 'ACTIONS.FIELDS.DATE' | translate }}
+                        >{{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE' | translate }}
                         <span class="text-danger">*</span>
                     </b>
                 </label>
@@ -152,8 +152,10 @@
             </div>
             <div class="col-md-6 form-group">
                 <label for="action-type">
-                    {{ 'ACTIONS.FIELDS.TYPE' | translate }}
-                    <span class="required">*</span>
+                    <b>
+                        {{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE' | translate }}
+                        <span class="text-danger">*</span>
+                    </b>
                 </label>
                 <p-select
                     id="action-type"
@@ -161,16 +163,16 @@
                     [options]="actionsTypesOptions()"
                     optionLabel="label"
                     optionValue="value"
-                    placeholder="{{ 'ACTIONS.PLACEHOLDERS.TYPE' | translate }}"
+                    placeholder="{{ 'COMMON.SELECT_PLACEHOLDER' | translate }}"
                     class="form-control"
                 ></p-select>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group pt-3">
             <label for="action-description">
-                {{ 'ACTIONS.FIELDS.DESCRIPTION' | translate }}
-                <span class="required">*</span>
+                {{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION' | translate }}
+                <span class="text-danger">*</span>
             </label>
             <textarea
                 id="action-description"
@@ -179,16 +181,16 @@
                 rows="4"
                 maxlength="255"
                 placeholder="{{
-                    'ACTIONS.PLACEHOLDERS.DESCRIPTION' | translate
+                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION_PLACEHOLDER' | translate
                 }}"
                 class="form-control"
             ></textarea>
         </div>
 
-        <div class="form-group toggle-group">
+        <div class="form-group pt-3 toggle-group">
             <div class="toggle-container">
                 <label for="action-notify" class="toggle-label">
-                    {{ 'ACTIONS.FIELDS.NOTIFY_USERS' }}
+                    {{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS' | translate }}
                 </label>
                 <p-toggleswitch
                     id="action-notify"

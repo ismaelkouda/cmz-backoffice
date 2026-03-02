@@ -47,6 +47,7 @@ import { provideCommunication } from '@presentation/pages/communication/di/commu
 import { provideContentManagement } from '@presentation/pages/content-management/di/content-management.providers';
 import { provideDashboard } from '@presentation/pages/dashboard/di/dashboard.providers';
 import { provideFinalization } from '@presentation/pages/finalization/di/finalization.providers';
+import { provideMonitoring } from '@presentation/pages/monitoring/di/monitoring.providers';
 import { providePasswordReset } from '@presentation/pages/password-reset/di/password-reset.providers';
 import { provideProcessing } from '@presentation/pages/processing/di/processing.providers';
 import { provideReporting } from '@presentation/pages/reporting/di/reporting.providers';
@@ -268,6 +269,8 @@ export const appConfig: ApplicationConfig = {
         ...provideFinalization(),
 
         ...provideReporting(),
+
+        ...provideMonitoring(),
 
         ...provideCommunication(),
 

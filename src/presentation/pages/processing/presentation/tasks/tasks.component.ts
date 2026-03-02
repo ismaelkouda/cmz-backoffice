@@ -13,6 +13,7 @@ import {
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
     LangChangeEvent,
     TranslateModule,
@@ -41,6 +42,7 @@ import { TasksFacade } from '@presentation/pages/processing/application/services
 import { TASKS_TABLE_CONST } from '@presentation/pages/processing/domain/constants/tasks/tasks-table.constants';
 import { TasksFilterControl } from '@presentation/pages/processing/domain/controls/tasks/tasks-filter-control';
 import { TasksEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks.entity';
+import { ACTIONS_ROUTE } from '@presentation/pages/processing/processing.routes';
 
 @Component({
     selector: 'app-tasks',
@@ -63,6 +65,8 @@ import { TasksEntity } from '@presentation/pages/processing/domain/entities/task
 export class TasksComponent implements OnInit {
     readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private readonly title = inject(Title);
     public readonly facade = inject(TasksFacade);
     private readonly fb = inject(FormBuilder);
@@ -254,6 +258,16 @@ export class TasksComponent implements OnInit {
         item: TasksEntity;
         actionId?: string;
     }): void {
+        if (event.actionId === 'actions') {
+            this.router.navigate([ACTIONS_ROUTE], {
+                relativeTo: this.activatedRoute,
+                queryParams: {
+                    uniqId: event.item.uniqId,
+                    typeReport: event.item.reportType,
+                },
+            });
+            return;
+        }
         const { item } = event;
         this.selectedReportId = item.uniqId;
         this.reportTreatmentVisible = true;

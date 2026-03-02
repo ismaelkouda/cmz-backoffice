@@ -1,9 +1,5 @@
 // import { Routes } from '@angular/router';
 
-// import { FormHomeComponent } from './presentation/features/home/form-home/form-home.component';
-// import { HomeComponent } from './presentation/features/home/pages/home.component';
-// import { ViewHomeComponent } from './presentation/features/home/pages/view-home/view-home.component';
-
 // export const HOME_ROUTE = 'home-blocks';
 // export const NEWS_ROUTE = 'infos-and-news';
 // export const SLIDE_ROUTE = 'sliders';

@@ -41,17 +41,13 @@ type ConnectionStatus = 'connected' | 'loading' | 'error';
 })
 export class DashboardViewerComponent implements OnInit, OnDestroy {
     public readonly grafanaLink = input.required<string>();
-    public readonly titleKey = input<string>('MONITORING.NODE.TITLE');
-    public readonly moduleKey = input<string>('MONITORING.LABEL');
-    public readonly subModuleKey = input<string>('MONITORING.NODE.LABEL');
-    public readonly loadingDescription = input<string>(
-        'MONITORING.NODE.LOADING_DESCRIPTION'
-    );
-    public readonly errorDescription = input<string>(
-        'MONITORING.NODE.ERROR_DESCRIPTION'
-    );
+    public readonly titleKey = input.required<string>();
+    public readonly moduleKey = input.required<string>();
+    public readonly subModuleKey = input.required<string>();
+    public readonly loadingDescription = input.required<string>();
+    public readonly errorDescription = input.required<string>();
     public readonly refresh = output<undefined>();
-    public readonly isLoading = input<boolean>();
+    public readonly isLoading = input.required<boolean>();
 
     private readonly title = inject(Title);
     private readonly translate = inject(TranslateService);

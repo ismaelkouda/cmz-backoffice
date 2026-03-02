@@ -250,21 +250,6 @@
                                                 [class]="action.class"
                                             ></button>
                                         }
-                                    } @else {
-                                        <button
-                                            type="button"
-                                            pButton
-                                            icon="pi pi-window-maximize"
-                                            (click)="onActionClick(rowData)"
-                                            pTooltip="{{
-                                                'REQUESTS.QUEUES.TABLE.TAKE'
-                                                    | translate
-                                            }} {{ rowData.uniqId }}"
-                                            tooltipPosition="bottom"
-                                            [disabled]="loading()"
-                                            size="small"
-                                            class="action-btn"
-                                        ></button>
                                     }
                                 </div>
                             }
