@@ -42,7 +42,7 @@
     "test:full": "npm run format:check && npm run lint:all && npm run test:types && npm run test:coverage && npm run security:audit",
     "security:audit": "npm audit",
     "security:fix": "npm audit fix",
-    "deps:check-dependencies-deprecated": "pnpm why -g",
+    "deps:check-dependencies-deprecated": "bun why -g",
     "deps:update-dependencies": "pnpm npm-check-updates",
     "deps:update-dependencies-major": "npx npm-check-updates -u",
     "clean": "rimraf dist .angular node_modules/.cache",
