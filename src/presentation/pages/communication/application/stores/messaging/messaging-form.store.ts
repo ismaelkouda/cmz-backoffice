@@ -31,7 +31,7 @@ export class MessagingFormStore {
     private readonly regionsFacade = inject(RegionsSelectFacade);
 
     private readonly item = this.facade.items;
-    private itemPatched = false;
+    private lastPatchedId: string | null = null;
     private readonly selectedRegionCode = signal<string | null>(null);
     private readonly selectedDepartmentCode = signal<string | null>(null);
     private readonly currentTargetType = signal<string | null>(null);
@@ -76,7 +76,7 @@ export class MessagingFormStore {
 
     private readonly setupItemPatch = effect(() => {
         const item = this.item();
-        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
+        if (item && item.uniqId !== this.lastPatchedId) {
             this.form.patchValue(
                 {
                     reportId: item.reportId || '',
@@ -91,10 +91,7 @@ export class MessagingFormStore {
                 },
                 { emitEvent: false }
             );
-
-            // this.updateValidatorsForTargetType(item.targetType);
-
-            this.itemPatched = true;
+            this.lastPatchedId = item.uniqId;
         }
     });
 
