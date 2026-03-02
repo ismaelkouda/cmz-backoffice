@@ -12,7 +12,7 @@ export function teamsParticipantsRemoveMapper(
     }
 
     if (vo.participants) {
-        params.participants = vo.participants;
+        params.member_ids = vo.participants;
     }
 
     return params;
