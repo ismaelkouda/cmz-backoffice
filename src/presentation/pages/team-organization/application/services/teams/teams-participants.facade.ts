@@ -57,7 +57,13 @@ export class TeamsParticipantsFacade extends BaseFacade<
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => {
+                console.log(
+                    'this.filterSubject.getValue()?.uniqId: ',
+                    this.filterSubject.getValue()?.uniqId
+                );
+                this.refresh();
+            }
         );
     }
 
@@ -98,7 +104,6 @@ export class TeamsParticipantsFacade extends BaseFacade<
     }
 
     refresh(): void {
-        this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
@@ -109,7 +114,12 @@ export class TeamsParticipantsFacade extends BaseFacade<
             filter?.phone
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            filter,
+            page,
+            fetch$,
+            this.uiFeedbackService
+        );
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -153,10 +163,11 @@ export class TeamsParticipantsFacade extends BaseFacade<
     }
 
     reassign(dto: TeamsParticipantsReassignDto): void {
+        console.log('dto: ', dto);
         this._actionState.set('loading');
         const command = new TeamsParticipantsReassignCommand(
             dto.uniqId,
-            dto.participants.map((p) => p)
+            dto.participants
         );
         this.handleActionWithRefresh(
             this.reassignBus.dispatch(command),
@@ -179,7 +190,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
         this._actionState.set('loading');
         const command = new TeamsParticipantsAssignCommand(
             dto.uniqId,
-            dto.participants.map((p) => p)
+            dto.participants
         );
         this.handleActionWithRefresh(
             this.assignBus.dispatch(command),
