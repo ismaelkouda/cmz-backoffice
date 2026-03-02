@@ -8,8 +8,9 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
+
 import { ReportFacade } from '../../../../../application/services/report.facade';
-import { DashboardViewerComponent } from '../../../../ui/shared/components/dashboard-viewer/dashboard-viewer.component';
 
 @Component({
     selector: 'app-report-page',
@@ -45,7 +46,7 @@ export class ReportPageComponent implements OnInit {
         this.facade.fetchReport();
     }
 
-    refreshDashboard() {
+    refreshDashboard(): void {
         this.facade.refresh();
     }
 }

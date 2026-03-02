@@ -242,6 +242,16 @@ export class ProfilesPermissionsFormComponent implements OnInit {
         this.permissionTree.set(collapsedNodes);
     }
 
+    onTreeInteractions(): void {
+        const selectedPermissions = this.treeService.collectLeafKeysFromNodes(
+            this.selectedNodes
+        );
+        this.form.controls.permissions.setValue(selectedPermissions);
+        this.leafCount.set(
+            this.treeService.countLeafNodes(this.selectedNodes).size
+        );
+    }
+
     getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
         return this.validationService.getErrorMessage(

@@ -8,6 +8,7 @@ import { TasksComponent } from '@presentation/pages/processing/presentation/task
 export const TREATMENT_ROUTE = 'processing';
 export const QUEUES_ROUTE = 'queues';
 export const TASKS_ROUTE = 'tasks';
+export const ACTIONS_ROUTE = 'actions';
 export const ALL_ROUTE = 'all';
 export const FINALIZE_ROUTE = 'finalization';
 export const REPORT_TREATMENT_ROUTE = 'treatment';
@@ -57,7 +58,7 @@ export const routes: Routes = [
                 data: { breadcrumb: { hide: true } },
             },
             {
-                path: ':taskId',
+                path: ACTIONS_ROUTE,
                 component: ActionsTreatmentComponent,
                 data: { breadcrumb: { hide: true } },
             },

@@ -85,7 +85,6 @@ function displayBootstrapError(error: Error): void {
         })
         .join(' ');
 
-    // Contenu HTML (sera remplacé par i18n dans le composant)
     errorElement.innerHTML = `
         <strong>APP.BOOTSTRAP.ERROR_TITLE</strong>
         <p>APP.BOOTSTRAP.ERROR_MESSAGE</p>
@@ -97,15 +96,12 @@ function displayBootstrapError(error: Error): void {
 
 function bootstrapApp(): void {
     try {
-        // Configurer les gestionnaires d'erreurs globaux
         setupGlobalErrorHandlers();
 
-        // Marquer le début du bootstrap pour mesurer les performances
         if (typeof performance !== 'undefined') {
             performance.mark(PERFORMANCE_CONFIG.bootstrapStartMark);
         }
 
-        // Bootstrap l'application
         bootstrapApplication(AppComponent, appConfig)
             .then(() => {
                 measureBootstrapPerformance();

@@ -8,7 +8,7 @@ export const TASKS_ACTIONS_TABLE = {
         },
         {
             field: 'date',
-            header: 'PROCESSING.TASKS.ACTIONS.TABLE.DATE',
+            header: 'PROCESSING.TASKS.ACTIONS.TABLE.DATE_ACTION',
             width: '12rem',
             class: 'text-center',
         },
@@ -38,7 +38,7 @@ export const TASKS_ACTIONS_TABLE = {
         },
         {
             field: '__action',
-            header: 'ACTIONS.TABLE.ACTION',
+            header: 'PROCESSING.TASKS.ACTIONS.TABLE.ACTION',
             width: '6rem',
             class: 'text-center',
         },

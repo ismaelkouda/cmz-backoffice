@@ -1,4 +1,5 @@
 export const MONITORING_ENDPOINTS = {
-    NODE: 'nodes',
-    SERVICES: 'services',
+    NODE: 'variables',
+    SERVICES: 'variables',
+    VARIABLES: 'variables',
 } as const;

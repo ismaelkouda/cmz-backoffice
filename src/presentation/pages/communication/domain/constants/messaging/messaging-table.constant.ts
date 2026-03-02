@@ -8,7 +8,7 @@ export const MESSAGING_TABLE = {
         {
             id: 'management-dialog',
             icon: 'pi pi-window-maximize',
-            tooltip: 'PROCESSING.ALL.TABLE.TAKE',
+            tooltip: 'COMMUNICATION.MESSAGING.TABLE.SEE_MORE',
             severity: 'primary',
         },
     ],
@@ -39,11 +39,11 @@ export const MESSAGING_TABLE = {
             header: 'COMMUNICATION.MESSAGING.TABLE.SUBJECT',
             width: '10rem',
         },
-        {
-            field: 'content',
-            header: 'COMMUNICATION.MESSAGING.TABLE.CONTENT',
-            width: '13rem',
-        },
+        // {
+        //     field: 'content',
+        //     header: 'COMMUNICATION.MESSAGING.TABLE.CONTENT',
+        //     width: '13rem',
+        // },
         {
             field: 'createdAt',
             header: 'COMMUNICATION.MESSAGING.TABLE.CREATED_AT',
@@ -52,10 +52,17 @@ export const MESSAGING_TABLE = {
         },
         {
             field: '__action',
-            header: 'PROCESSING.ALL.TABLE.ACTION',
+            header: 'COMMUNICATION.MESSAGING.TABLE.ACTION',
             class: 'text-center',
             width: calculateActionColumnWidth(1),
         },
     ],
-    globalFilterFields: ['subject', 'content', 'message', 'createdAt'],
+    globalFilterFields: [
+        'type',
+        'targetType',
+        'message',
+        'channels',
+        'subject',
+        'createdAt',
+    ],
 };

@@ -1,6 +1,4 @@
-// dashboard-viewer.component.scss
 :root {
-    // Palette de couleurs premium
     --primary-50: #f0f9ff;
     --primary-100: #e0f2fe;
     --primary-500: #0ea5e9;
@@ -27,7 +25,6 @@
     --gray-800: #1f2937;
     --gray-900: #111827;
 
-    // Élévations
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md:
         0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -36,19 +33,17 @@
     --shadow-xl:
         0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
-    // Bordures
     --radius-sm: 6px;
     --radius-md: 8px;
     --radius-lg: 12px;
     --radius-xl: 16px;
 
-    // Transitions
     --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.reporting-container {
+.dashboard-container {
     min-height: 100vh;
     background: linear-gradient(
         135deg,
@@ -63,7 +58,7 @@
     }
 }
 
-.reporting-card {
+.dashboard-card {
     background: white;
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
@@ -89,7 +84,7 @@
     }
 }
 
-.reporting-card-header {
+.dashboard-card-header {
     background: white;
     border-bottom: 1px solid var(--gray-200);
     padding: 1.5rem 2rem;
@@ -249,14 +244,13 @@
                     transform: none;
                 }
 
-                // Animation spéciale pour le bouton refresh
                 &.p-button-outlined:first-child {
                     &:hover {
                         background: var(--primary-50);
                         color: var(--primary-600);
                     }
 
-                    // Effet de rotation au clic
+
                     &:active i {
                         animation: spin 0.6s ease-in-out;
                     }
@@ -266,13 +260,12 @@
     }
 }
 
-.reporting-card-body {
+.dashboard-card-body {
     padding: 0;
     position: relative;
     min-height: 600px;
 }
 
-// États de chargement premium
 .loading-state {
     display: flex;
     flex-direction: column;
@@ -320,7 +313,6 @@
     }
 }
 
-// État d'erreur élégant
 .error-state {
     display: flex;
     flex-direction: column;
@@ -366,7 +358,6 @@
     }
 }
 
-// Container Grafana premium
 .grafana-container {
     position: relative;
     width: 100%;
@@ -450,7 +441,6 @@
     background: white;
 }
 
-// Animations
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -525,9 +515,8 @@
     }
 }
 
-// Responsive Design
 @media (max-width: 768px) {
-    .reporting-card-header {
+    .dashboard-card-header {
         padding: 1.25rem 1.5rem;
 
         .header-content {
@@ -560,7 +549,7 @@
 }
 
 @media (max-width: 576px) {
-    .reporting-card-header {
+    .dashboard-card-header {
         padding: 1rem 1.25rem;
 
         .header-content {

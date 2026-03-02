@@ -112,29 +112,29 @@ export class QueuesComponent implements OnInit {
             {
                 type: 'text',
                 name: 'initiatorPhoneNumber',
-                label: this.t('PROCESSING.QUEUES.FILTER.INITIATOR'),
+                label: this.t('REQUESTS.QUEUES.FILTER.INITIATOR'),
                 placeholder: this.t('COMMON.PHONE_PLACEHOLDER'),
                 icon: 'pi pi-phone',
                 translationKeys: {
-                    label: 'PROCESSING.QUEUES.FILTER.INITIATOR',
+                    label: 'REQUESTS.QUEUES.FILTER.INITIATOR',
                     placeholder: 'COMMON.PHONE_PLACEHOLDER',
                 },
             },
             {
                 type: 'text',
                 name: 'uniqId',
-                label: this.t('PROCESSING.QUEUES.FILTER.UNIQ_ID'),
+                label: this.t('REQUESTS.QUEUES.FILTER.UNIQ_ID'),
                 placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
                 icon: 'pi pi-id-card',
                 translationKeys: {
-                    label: 'PROCESSING.QUEUES.FILTER.UNIQ_ID',
+                    label: 'REQUESTS.QUEUES.FILTER.UNIQ_ID',
                     placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
                 },
             },
             {
                 type: 'select',
                 name: 'reportType',
-                label: this.t('PROCESSING.QUEUES.FILTER.REPORT_TYPE'),
+                label: this.t('REQUESTS.QUEUES.FILTER.REPORT_TYPE'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: reportTypeOpts,
                 optionLabel: 'label',
@@ -142,14 +142,14 @@ export class QueuesComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'PROCESSING.QUEUES.FILTER.REPORT_TYPE',
+                    label: 'REQUESTS.QUEUES.FILTER.REPORT_TYPE',
                 },
                 class: 'p-long',
             },
             {
                 type: 'multi-select',
                 name: 'operators',
-                label: this.t('PROCESSING.QUEUES.FILTER.OPERATORS'),
+                label: this.t('REQUESTS.QUEUES.FILTER.OPERATORS'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: telecomOperatorsOpts,
                 optionLabel: 'label',
@@ -159,14 +159,14 @@ export class QueuesComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'PROCESSING.QUEUES.FILTER.OPERATORS',
+                    label: 'REQUESTS.QUEUES.FILTER.OPERATORS',
                 },
                 class: 'p-medium',
             },
             {
                 type: 'select',
                 name: 'source',
-                label: this.t('PROCESSING.QUEUES.FILTER.SOURCE'),
+                label: this.t('REQUESTS.QUEUES.FILTER.SOURCE'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: reportSourceOpts,
                 optionLabel: 'label',
@@ -174,7 +174,7 @@ export class QueuesComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'PROCESSING.QUEUES.FILTER.SOURCE',
+                    label: 'REQUESTS.QUEUES.FILTER.SOURCE',
                 },
             },
             {
@@ -232,12 +232,12 @@ export class QueuesComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.title.setTitle(this.t('PROCESSING.QUEUES.TITLE'));
+        this.title.setTitle(this.t('REQUESTS.QUEUES.TITLE'));
 
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
-                this.title.setTitle(this.t('PROCESSING.QUEUES.TITLE'));
+                this.title.setTitle(this.t('REQUESTS.QUEUES.TITLE'));
             });
     }
 

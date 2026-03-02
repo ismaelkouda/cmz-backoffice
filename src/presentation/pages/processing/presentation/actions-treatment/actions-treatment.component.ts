@@ -11,7 +11,12 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Event, Params, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -39,6 +44,7 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { Track } from '@shared/domain/functions/track.function';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { PROCESSING_ROUTE } from '@shared/routes/routes';
@@ -165,12 +171,15 @@ export class ActionsTreatmentComponent implements OnInit {
     readonly form = this.fb.group<TasksActionsFormControl>({
         date: new FormControl<string>('', {
             nonNullable: true,
+            validators: [Validators.required],
         }),
         type: new FormControl<string>('', {
             nonNullable: true,
+            validators: [Validators.required],
         }),
         description: new FormControl<string>('', {
             nonNullable: true,
+            validators: [Validators.required],
         }),
         shouldNotifyUser: new FormControl<boolean>(false, {
             nonNullable: true,
@@ -219,6 +228,7 @@ export class ActionsTreatmentComponent implements OnInit {
         }
     }
 
+    @Track('actions-treatment', 'refresh')
     public onRefreshClicked(): void {
         this.form.reset();
         this.facade.refresh();
@@ -254,13 +264,27 @@ export class ActionsTreatmentComponent implements OnInit {
         this.form.reset();
     }
 
-    public onSubmitForm(): void {
+    public onSubmit(): void {
         if (this.form.invalid || !this.uniqId()) {
             return;
         }
-        this.facade.create({
-            reportUniqId: this.uniqId(),
-            ...this.form.getRawValue(),
+        SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: this.t(
+                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_CREATE'
+            ),
+            text: this.t(
+                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_CREATE'
+            ),
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
+        }).then((res) => {
+            if (res.isConfirmed) {
+                this.facade.create({
+                    reportUniqId: this.uniqId(),
+                    ...this.form.getRawValue(),
+                });
+            }
         });
     }
 
@@ -285,10 +309,10 @@ export class ActionsTreatmentComponent implements OnInit {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(
-                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.TITLE_REMOVE'
+                'PROCESSING.TEAMS.PARTICIPANTS.SWEET_ALERT.TITLE_REMOVE'
             ),
             text: this.t(
-                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.MESSAGE_REMOVE'
+                'PROCESSING.TEAMS.PARTICIPANTS.SWEET_ALERT.MESSAGE_REMOVE'
             ),
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),

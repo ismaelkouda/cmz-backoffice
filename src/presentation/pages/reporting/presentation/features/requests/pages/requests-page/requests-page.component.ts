@@ -8,7 +8,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { DashboardViewerComponent } from '@presentation/pages/reporting/presentation/ui/shared/components/dashboard-viewer/dashboard-viewer.component';
+import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
 
 import { RequestFacade } from '../../../../../application/services/request.facade';
 
