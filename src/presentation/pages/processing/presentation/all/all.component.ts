@@ -38,7 +38,7 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 
 import { AllFacade } from '@presentation/pages/processing/application/services/all/all.facade';
-import { ALL_TABLE_CONST } from '@presentation/pages/processing/domain/constants/all/all-table.constants';
+import { ALL_TABLE } from '@presentation/pages/processing/domain/constants/all/all-table.constants';
 import { AllFilterControl } from '@presentation/pages/processing/domain/controls/all/all-filter-control';
 import { AllEntity } from '@presentation/pages/processing/domain/entities/all/all.entity';
 
@@ -78,7 +78,7 @@ export class AllComponent implements OnInit {
     );
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-    public readonly tableConfig = ALL_TABLE_CONST;
+    public readonly tableConfig = ALL_TABLE;
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });

@@ -5,8 +5,8 @@ export interface ProfilesPermissionsItemApiDto {
     name: string;
     slug: string;
     description: string;
-    total_users: string;
-    status: boolean;
+    users_count: string;
+    is_active: boolean;
     created_at: string;
     updated_at: string;
 }

@@ -5,7 +5,7 @@ export interface ProfilesPermissionsProps {
     name: string;
     slug: string;
     description: string;
-    totalUsers: string;
+    usersCount: string;
     status: Status;
     createdAt: string;
     updatedAt: string;

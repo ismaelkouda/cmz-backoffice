@@ -8,7 +8,7 @@ export const QUEUES_TABLE_CONST = {
         {
             id: 'management-dialog',
             icon: 'pi pi-window-maximize',
-            tooltip: 'REQUESTS.QUEUES.TABLE.SEE_MORE',
+            tooltip: 'PROCESSING.QUEUES.TABLE.TAKE',
             severity: 'primary',
         },
     ],

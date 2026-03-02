@@ -11,7 +11,7 @@ import { TeamsParticipantsComponent } from './teams-participants/teams-participa
 export const TEAMS_LIST = 'list';
 export const TEAMS_FORM = 'form';
 export const TEAMS_HISTORY = 'history';
-export const TEAMS_USERS_ROUTE = 'teams-users';
+export const TEAMS_USERS = 'teams-users';
 
 export const TEAMS_ROUTES: Routes = [
     {
@@ -49,7 +49,7 @@ export const TEAMS_ROUTES: Routes = [
         ],
     },
     {
-        path: `${TEAMS_USERS_ROUTE}`,
+        path: `${TEAMS_USERS}`,
         data: {
             icon: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TITLE',
             breadcrumb: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TITLE',
