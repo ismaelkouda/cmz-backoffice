@@ -50,7 +50,7 @@ export class TeamsParticipantsApi {
     remove(
         dto: TeamsParticipantsRemoveApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${dto.uniq_id}/remove`;
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${dto.uniq_id}/remove-members`;
         const payload = buildHttpPayload(dto, ['uniq_id']);
         return this.http.put<SimpleResponseDto<void>>(url, payload);
     }

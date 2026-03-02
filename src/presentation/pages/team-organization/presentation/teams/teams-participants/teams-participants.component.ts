@@ -382,7 +382,7 @@ export class TeamsParticipantsComponent implements OnInit {
 
     private openReassignModal(): void {
         this.openReassignRequested.set(true);
-        this.teamsSelectFacade.readAll();
+        this.teamsSelectFacade.readAll(true);
     }
 
     public closeReassignModal(): void {

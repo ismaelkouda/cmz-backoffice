@@ -91,7 +91,7 @@
                             <p-button
                                 [badge]="rowData[col.field] || '0'"
                                 (onClick)="onBadgeClick(rowData, col)"
-                                [disabled]="loading() || !rowData[col.field]"
+                                [disabled]="loading()"
                                 severity="contrast"
                                 size="small"
                                 [label]="'COMMON.VISUALIZE' | translate"
