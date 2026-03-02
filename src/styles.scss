@@ -213,30 +213,30 @@ label {
     font-size: 19.5px;
     overflow: visible !important;
 }
-input[type='text']:disabled,
-input[type='email']:disabled,
-input[type='number']:disabled,
-textarea:disabled {
-    background: #fafafa !important;
-    opacity: 1 !important;
-    color: #000 !important;
-    font-weight: 800;
-    font-size: 19.5px;
-    border: 2px solid #ccc !important;
-    overflow: visible !important;
-}
-p-dropdown .p-disabled,
-p-password .p-disabled {
-    background: #fafafa !important;
-    opacity: 1 !important;
-    color: #000 !important;
-    font-weight: 800;
-    font-size: 19.5px;
-    border: 2px solid #ccc !important;
-    .p-dropdown-trigger {
-        opacity: 0 !important;
-    }
-}
+// input[type='text']:disabled,
+// input[type='email']:disabled,
+// input[type='number']:disabled,
+// textarea:disabled {
+//     background: #fafafa !important;
+//     opacity: 1 !important;
+//     color: #000 !important;
+//     font-weight: 800;
+//     font-size: 19.5px;
+//     border: 2px solid #ccc !important;
+//     overflow: visible !important;
+// }
+// p-dropdown .p-disabled,
+// p-password .p-disabled {
+//     background: #fafafa !important;
+//     opacity: 1 !important;
+//     color: #000 !important;
+//     font-weight: 800;
+//     font-size: 19.5px;
+//     border: 2px solid #ccc !important;
+//     .p-dropdown-trigger {
+//         opacity: 0 !important;
+//     }
+// }
 
 :host ::ng-deep .spinner .p-progress-spinner-circle {
     animation: geek 5s ease-in-out infinite;
@@ -755,32 +755,32 @@ button:focus,
     box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.15) !important;
 }
 
-input[type='text']:disabled,
-input[type='email']:disabled,
-input[type='number']:disabled,
-textarea:disabled {
-    background: #fafafa !important;
-    opacity: 1 !important;
-    color: #000 !important;
-    font-weight: 800;
-    font-size: 15px;
-    border: 2px solid #ccc !important;
-    overflow: visible !important;
-}
+// input[type='text']:disabled,
+// input[type='email']:disabled,
+// input[type='number']:disabled,
+// textarea:disabled {
+//     background: #fafafa !important;
+//     opacity: 1 !important;
+//     color: #000 !important;
+//     font-weight: 800;
+//     font-size: 15px;
+//     border: 2px solid #ccc !important;
+//     overflow: visible !important;
+// }
 
-p-dropdown .p-disabled,
-p-select .p-disabled,
-p-password .p-disabled {
-    background: #fafafa !important;
-    opacity: 1 !important;
-    color: #000 !important;
-    font-weight: 800;
-    font-size: 19.5px;
-    border: 2px solid #ccc !important;
-    .p-dropdown-trigger {
-        opacity: 0 !important;
-    }
-}
+// p-dropdown .p-disabled,
+// p-select .p-disabled,
+// p-password .p-disabled {
+//     background: #fafafa !important;
+//     opacity: 1 !important;
+//     color: #000 !important;
+//     font-weight: 800;
+//     font-size: 19.5px;
+//     border: 2px solid #ccc !important;
+//     .p-dropdown-trigger {
+//         opacity: 0 !important;
+//     }
+// }
 
 .modern-swal-container {
     /* backdrop-filter: blur(20px); */

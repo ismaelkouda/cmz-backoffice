@@ -12,7 +12,7 @@
                                 [displayDate]="false"
                                 [displayList]="false"
                                 [title]="
-                                    (isEditMode()
+                                    (isDetailsMode()
                                         ? 'COMMUNICATION.MESSAGING.FORM.TITLE_FORM_EDIT'
                                         : 'COMMUNICATION.MESSAGING.FORM.TITLE_FORM_ADD'
                                     ) | translate
@@ -484,6 +484,7 @@
                                                     >
                                                     <input
                                                         class="form-input"
+                                                        pInputText
                                                         id="subject"
                                                         formControlName="subject"
                                                         [placeholder]="
@@ -596,7 +597,7 @@
                                             </div>
                                         </fieldset>
 
-                                        @if (!isEditMode()) {
+                                        @if (!isDetailsMode()) {
                                             <div
                                                 class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
                                             >
