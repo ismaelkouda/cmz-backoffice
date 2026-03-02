@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
@@ -21,6 +21,9 @@ import { TeamsParticipantsFilterVo } from '@presentation/pages/team-organization
 import { TeamsParticipantsReassignVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-reassign.vo';
 import { TeamsParticipantsRemoveVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-remove.vo';
 
+@Injectable({
+    providedIn: 'root',
+})
 export class TeamsParticipantsUseCase {
     private readonly repository = inject(TeamsParticipantsRepository);
 

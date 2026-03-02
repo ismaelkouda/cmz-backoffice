@@ -8,13 +8,13 @@ export const TASKS_TABLE_CONST = {
         {
             id: 'management-dialog',
             icon: 'pi pi-window-maximize',
-            tooltip: 'PROCESSING.QUEUES.TABLE.SEE_MORE',
+            tooltip: 'PROCESSING.TASKS.TABLE.TREAT',
             severity: 'primary',
         },
         {
             id: 'actions',
             icon: 'pi pi-check-circle',
-            tooltip: 'PROCESSING.QUEUES.TABLE.TREAT',
+            tooltip: 'PROCESSING.TASKS.TABLE.ADD_ACTION',
             severity: 'info',
         },
     ],

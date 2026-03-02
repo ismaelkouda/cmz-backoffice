@@ -8,7 +8,7 @@ export const TASKS_TABLE = {
         {
             id: 'management-dialog',
             icon: 'pi pi-window-maximize',
-            tooltip: 'REQUESTS.QUEUES.TABLE.TAKE',
+            tooltip: 'REQUESTS.TASKS.TABLE.QUALIFY',
             severity: 'primary',
         },
     ],

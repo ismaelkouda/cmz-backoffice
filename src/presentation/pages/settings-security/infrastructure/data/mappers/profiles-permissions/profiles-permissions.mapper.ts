@@ -27,8 +27,8 @@ export class ProfilesPermissionsMapper extends PaginatedMapper<
             name: dto.name,
             slug: dto.slug,
             description: dto.description,
-            totalUsers: dto.total_users,
-            status: this.statusMapper.mapApiToStatus(dto.status),
+            usersCount: dto.users_count,
+            status: this.statusMapper.mapApiToStatus(dto.is_active),
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };

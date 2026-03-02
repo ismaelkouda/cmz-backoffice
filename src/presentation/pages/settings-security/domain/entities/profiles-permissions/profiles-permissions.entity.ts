@@ -16,8 +16,8 @@ export class ProfilesPermissionsEntity {
     get description(): string {
         return this.props.description;
     }
-    get totalUsers(): string {
-        return this.props.totalUsers;
+    get usersCount(): string {
+        return this.props.usersCount;
     }
     get status(): Status {
         return this.props.status;

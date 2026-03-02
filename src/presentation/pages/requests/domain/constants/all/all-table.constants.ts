@@ -1,4 +1,17 @@
-export const ALL_TABLE_CONST = {
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 2.3);
+    return `${width}rem`;
+}
+
+export const ALL_TABLE = {
+    actions: [
+        {
+            id: 'management-dialog',
+            icon: 'pi pi-window-maximize',
+            tooltip: 'REQUESTS.ALL.TABLE.SEE_MORE',
+            severity: 'primary',
+        },
+    ],
     cols: [
         {
             field: '__index',
@@ -43,7 +56,7 @@ export const ALL_TABLE_CONST = {
             field: '__action',
             header: 'REQUESTS.ALL.TABLE.ACTION',
             class: 'text-center',
-            width: '2rem',
+            width: calculateActionColumnWidth(1),
         },
     ],
     globalFilterFields: [

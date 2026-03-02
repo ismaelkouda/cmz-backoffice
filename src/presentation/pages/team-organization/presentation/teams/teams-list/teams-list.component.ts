@@ -40,7 +40,7 @@ import { TeamsEntity } from '@presentation/pages/team-organization/domain/entiti
 import { Status } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
 import {
     TEAMS_FORM,
-    TEAMS_USERS_ROUTE,
+    TEAMS_USERS,
 } from '@presentation/pages/team-organization/presentation/teams/teams.routes';
 
 @Component({
@@ -208,6 +208,16 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         }
     }
 
+    public onBadgeClicked(event: {
+        item: TeamsEntity;
+        col: HTMLTableCellElement;
+    }): void {
+        this.router.navigate([TEAMS_USERS], {
+            relativeTo: this.activatedRoute,
+            queryParams: { uniqId: event.item.uniqId, name: event.item.name },
+        });
+    }
+
     public onNavigateToForm(event: {
         item?: TeamsEntity;
         ref: CrudFormType;
@@ -274,16 +284,6 @@ export class TeamsListComponent implements OnInit, OnDestroy {
                 this.facade.disable({ uniqId: item.uniqId });
                 this.facade.refreshWithLastFilterAndPage();
             }
-        });
-    }
-
-    public onBadgeClicked(event: {
-        item: TeamsEntity;
-        col: HTMLTableCellElement;
-    }): void {
-        this.router.navigate([TEAMS_USERS_ROUTE], {
-            relativeTo: this.activatedRoute,
-            queryParams: { uniqId: event.item.uniqId, name: event.item.name },
         });
     }
 

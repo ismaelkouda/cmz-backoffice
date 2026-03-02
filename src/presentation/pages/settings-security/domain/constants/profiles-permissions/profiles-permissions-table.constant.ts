@@ -17,7 +17,7 @@ export const PROFILES_PERMISSIONS_TABLE_CONSTANT = {
             width: '15rem',
         },
         {
-            field: 'totalUsers',
+            field: 'usersCount',
             header: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TABLE.USERS_COUNT',
             class: 'text-center',
             width: '7rem',
@@ -45,7 +45,7 @@ export const PROFILES_PERMISSIONS_TABLE_CONSTANT = {
     globalFilterFields: [
         'name',
         'description',
-        'totalUsers',
+        'usersCount',
         'status',
         'createdAt',
     ],

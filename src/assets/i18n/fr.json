@@ -1331,9 +1331,7 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
-                "SEE_MORE": "Voir plus",
                 "QUALIFY": "Qualifier",
-                "TAKE": "Prendre",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -1424,7 +1422,6 @@
                 "STEP": "Étape",
                 "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
-                "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -1513,7 +1510,6 @@
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATUS": "Statut",
-                "SEE_MORE": "Voir plus",
                 "TAKE": "Prendre",
                 "ACTION": "Action"
             },
@@ -1583,11 +1579,11 @@
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
                 "TREAT": "Traiter",
+                "ADD_ACTION": "Ajouter une Action",
                 "ACTION": "Action",
                 "PROCESSING_NEWSPAPERS": "Journal de traitements",
                 "STEP": "Étape",
-                "STATUS": "Statut",
-                "SEE_MORE": "Voir plus"
+                "STATUS": "Statut"
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
@@ -1710,7 +1706,6 @@
                 "STEP": "Étape",
                 "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
-                "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -1801,7 +1796,6 @@
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
-                "SEE_MORE": "Voir plus",
                 "TAKE": "Prendre",
                 "ACTION": "Action"
             },
@@ -1870,11 +1864,9 @@
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
-                "TREAT": "Traiter",
                 "STEP": "Étape",
                 "STATUS": "Statut",
-                "SEE_MORE": "Voir plus",
-                "QUALIFY": "Qualifier",
+                "FINALIZE": "Finaliser",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -1955,7 +1947,6 @@
                 "STEP": "Étape",
                 "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
-                "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
             "FILTER": {

@@ -3,12 +3,12 @@ export function calculateActionColumnWidth(actionCount: number): string {
     return `${width}rem`;
 }
 
-export const ALL_TABLE_CONST = {
+export const ALL_TABLE = {
     actions: [
         {
             id: 'management-dialog',
             icon: 'pi pi-window-maximize',
-            tooltip: 'PROCESSING.ALL.TABLE.TAKE',
+            tooltip: 'PROCESSING.ALL.TABLE.SEE_MORE',
             severity: 'primary',
         },
     ],
