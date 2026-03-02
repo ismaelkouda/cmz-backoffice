@@ -1,4 +1,4 @@
-export const HOME_TABLE_CONST = {
+export const HOME_TABLE = {
     cols: [
         {
             field: '__index',

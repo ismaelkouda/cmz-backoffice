@@ -4,8 +4,8 @@ import { ArrayBaseFacade } from '@shared/application/services/array-base-facade'
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { RegionsSelectEntity } from '../../../domain/entities/regions/regions-select.entity';
-import { RegionsSelectUseCase } from '../../use-cases/regions/regions-select.use-case';
+import { RegionsSelectUseCase } from '@presentation/pages/administrative-boundary/application/use-cases/regions/regions-select.use-case';
+import { RegionsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-select.entity';
 
 @Injectable({
     providedIn: 'root',

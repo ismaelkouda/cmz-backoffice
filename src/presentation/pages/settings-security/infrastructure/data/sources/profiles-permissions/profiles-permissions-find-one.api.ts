@@ -15,10 +15,9 @@ export class ProfilesPermissionsFindOneApi {
     ) {}
 
     readAll(
-        filter?: ProfilesPermissionsFindOneFilterApiDto
+        dto?: ProfilesPermissionsFindOneFilterApiDto
     ): Observable<ProfilesPermissionsFindOneResponseApiDto> {
-        const prams = filter?.id ? `/${filter.id}` : '';
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/get-permissions-model${prams}`;
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/get-permissions-model/${dto?.id}`;
         return this.http.get<ProfilesPermissionsFindOneResponseApiDto>(url);
     }
 }

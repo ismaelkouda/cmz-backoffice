@@ -32,7 +32,7 @@ import {
 } from '@shared/domain/services/table-export-excel-file.service';
 
 import { NEWS_TABLE_CONST } from '@presentation/pages/content-management/domain/constants/news/news-table.constants';
-import { NewsEntity } from '@presentation/pages/content-management/domain/entities/news.entity';
+import { NewsEntity } from '@presentation/pages/content-management/domain/entities/news/news.entity';
 
 import { HomeActionDropdownComponent } from '../../home/table-home/home-action-dropdown/home-action-dropdown.component';
 

@@ -1,0 +1,22 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+
+import { PrivacyPolicyUnpublishCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-unpublish.command';
+import { PrivacyPolicyUnpublishHandler } from '@presentation/pages/content-management/application/commands-handlers/privacy-policy/privacy-policy-unpublish.handler';
+
+@Injectable({ providedIn: 'root' })
+export class PrivacyPolicyUnpublishBus {
+    constructor(
+        private readonly filterHandler: PrivacyPolicyUnpublishHandler
+    ) {}
+
+    dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
+        if (command instanceof PrivacyPolicyUnpublishCommand) {
+            return this.filterHandler.execute(command);
+        }
+
+        throw new Error('No handler found for command');
+    }
+}

@@ -22,7 +22,7 @@
     }
 };
             window.__env.buildInfo = {
-                timestamp: '2026-02-23T17:59:11.217Z',
+                timestamp: '2026-02-27T12:56:17.643Z',
                 environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'

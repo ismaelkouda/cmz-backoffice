@@ -17,7 +17,10 @@
                         ></app-page-title>
                     </header>
 
-                    <div class="notifications-content" [class.fade-in]="hasAnimated()">
+                    <div
+                        class="notifications-content"
+                        [class.fade-in]="hasAnimated()"
+                    >
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
