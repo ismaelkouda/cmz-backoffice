@@ -56,8 +56,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "bun run quality:quick",
-      "pre-push": "bun run quality:full"
+      "pre-commit": "pnpm run quality:quick",
+      "pre-push": "pnpm run quality:full"
     }
   },
   "private": true,
