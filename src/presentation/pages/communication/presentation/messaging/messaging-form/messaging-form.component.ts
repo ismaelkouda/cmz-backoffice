@@ -85,7 +85,7 @@ export class MessagingFormComponent implements OnInit {
     readonly store = inject(MessagingFormStore);
 
     readonly form = this.store.form;
-    readonly isEditMode = this.store.isEditMode;
+    readonly isDetailsMode = this.store.isDetailsMode;
     readonly loading = this.store.loading;
     readonly regions = this.store.regions;
     readonly departments = this.store.departments;
@@ -111,7 +111,9 @@ export class MessagingFormComponent implements OnInit {
 
     private readonly formStateEffect = effect(() => {
         const state = this.submitFacade.actionState();
-        if (state === 'loading') {
+        const isDetails = this.isDetailsMode();
+
+        if (state === 'loading' || isDetails) {
             this.form.disable({ emitEvent: false });
         } else {
             this.form.enable({ emitEvent: false });
@@ -131,7 +133,7 @@ export class MessagingFormComponent implements OnInit {
         this.activatedRoute.queryParams
             .pipe(
                 map((params) => (params['uniqId'] as string) || null),
-                tap((uniqId) => this.store.setEditMode(uniqId)),
+                tap((uniqId) => this.store.setDetailsMode(uniqId)),
                 takeUntilDestroyed(this.destroyRef)
             )
             .subscribe();
@@ -167,9 +169,11 @@ export class MessagingFormComponent implements OnInit {
             return;
         }
 
-        const title = this.helperService.getSweetAlertTitle(this.isEditMode());
+        const title = this.helperService.getSweetAlertTitle(
+            this.isDetailsMode()
+        );
         const message = this.helperService.getSweetAlertMessage(
-            this.isEditMode()
+            this.isDetailsMode()
         );
 
         SweetAlert.fire({
@@ -190,7 +194,7 @@ export class MessagingFormComponent implements OnInit {
         const formValue = this.form.getRawValue();
         this.submitSuccess.set(false);
 
-        if (this.isEditMode()) {
+        if (this.isDetailsMode()) {
             this.activatedRoute.queryParams
                 .pipe(
                     map((params) => params['uniqId'] as string),

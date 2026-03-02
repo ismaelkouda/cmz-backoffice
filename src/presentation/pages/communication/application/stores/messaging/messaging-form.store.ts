@@ -31,7 +31,7 @@ export class MessagingFormStore {
     private readonly regionsFacade = inject(RegionsSelectFacade);
 
     private readonly item = this.facade.items;
-    private readonly itemPatched = signal(false);
+    private itemPatched = false;
     private readonly selectedRegionCode = signal<string | null>(null);
     private readonly selectedDepartmentCode = signal<string | null>(null);
     private readonly currentTargetType = signal<string | null>(null);
@@ -67,16 +67,39 @@ export class MessagingFormStore {
         );
     });
 
-    readonly isEditMode = signal(false);
+    readonly isDetailsMode = signal(false);
     readonly loading = this.facade.loading;
     readonly isReportMode = computed(() => {
         const targetType = this.currentTargetType();
         return targetType === getEnumKeyByValue(Target, Target.report);
     });
 
+    private readonly setupItemPatch = effect(() => {
+        const item = this.item();
+        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
+            this.form.patchValue(
+                {
+                    reportId: item.reportId || '',
+                    type: item.type,
+                    targetType: item.targetType,
+                    region: item.region || '',
+                    department: item.department || '',
+                    municipality: item.municipality || '',
+                    channels: item.channels,
+                    subject: item.subject,
+                    content: item.content,
+                },
+                { emitEvent: false }
+            );
+
+            // this.updateValidatorsForTargetType(item.targetType);
+
+            this.itemPatched = true;
+        }
+    });
+
     constructor() {
         this.setupFormSubscriptions();
-        this.setupItemPatch();
     }
 
     private createForm(): FormGroup<MessagingFormControl> {
@@ -126,8 +149,7 @@ export class MessagingFormStore {
                 takeUntilDestroyed(this.destroyRef),
                 tap((targetType) => {
                     this.currentTargetType.set(targetType);
-                    // A supprimer dans le cas d'editions
-                    if (!this.isEditMode()) {
+                    if (!this.isDetailsMode()) {
                         this.updateValidatorsForTargetType(targetType);
                     }
 
@@ -148,7 +170,7 @@ export class MessagingFormStore {
                         emitEvent: false,
                     });
                     this.selectedDepartmentCode.set(null);
-                    /* this.updateDependentValidators(); */
+                    this.updateDependentValidators();
                 })
             )
             .subscribe();
@@ -163,7 +185,7 @@ export class MessagingFormStore {
                         emitEvent: false,
                     });
 
-                    /* this.updateDependentValidators(); */
+                    this.updateDependentValidators();
                 })
             )
             .subscribe();
@@ -190,7 +212,7 @@ export class MessagingFormStore {
                         this.selectedDepartmentCode.set(null);
                     }
 
-                    /* this.updateValidatorsForTargetType(targetType); */
+                    this.updateValidatorsForTargetType(targetType);
                 })
             )
             .subscribe();
@@ -272,42 +294,12 @@ export class MessagingFormStore {
         }
     }
 
-    private setupItemPatch(): void {
-        effect(() => {
-            const item = this.item();
-            if (item && !this.itemPatched()) {
-                this.form.patchValue(
-                    {
-                        reportId: item.reportId || '',
-                        type: item.type,
-                        targetType: item.targetType,
-                        region: item.region || '',
-                        department: item.department || '',
-                        municipality: item.municipality || '',
-                        channels: item.channels,
-                        subject: item.subject,
-                        content: item.content,
-                    },
-                    { emitEvent: false }
-                );
-
-                // A supprimer dans le cas d'editions
-                this.form.disable();
-
-                // this.updateValidatorsForTargetType(item.targetType);
-
-                this.itemPatched.set(true);
-            }
-        });
-    }
-
-    public setEditMode(uniqId: string | null): void {
-        this.isEditMode.set(!!uniqId);
+    public setDetailsMode(uniqId: string | null): void {
+        this.isDetailsMode.set(!!uniqId);
         if (uniqId) {
-            this.facade.read({ uniqId });
+            this.facade.read({ uniqId }, true);
         } else {
             this.form.reset();
-            this.itemPatched.set(false);
             this.regionsFacade.readAll();
             this.facade.reset();
         }

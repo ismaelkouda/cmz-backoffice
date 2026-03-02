@@ -18,6 +18,7 @@ export class MessagingFindOneUseCase {
     ): Observable<MessagingFindOneEntity> {
         const vo = MessagingFindOneFilterVo.fromDto(filterDto);
         const filter = MessagingFindOneFilterEntity.fromVo(vo);
+        console.log('filter: ', filter);
         return this.repository.read(filter);
     }
 }
