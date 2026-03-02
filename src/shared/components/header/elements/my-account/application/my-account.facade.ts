@@ -13,8 +13,8 @@ import {
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ApiError } from '@shared/domain/errors/api.error';
 
-import { ChangePasswordRequestDto } from '../data/dtos/change-password-request.dto';
-import { UpdateProfileRequestDto } from '../data/dtos/update-profile-request.dto';
+import { ChangePasswordRequestDto } from '../data/dto/change-password-request.dto';
+import { UpdateProfileRequestDto } from '../data/dto/update-profile-request.dto';
 import { LogoutEntity } from '../domain/entities/logout.entity';
 import { MyAccountUseCase } from '../domain/use-cases/my-account.use-case';
 

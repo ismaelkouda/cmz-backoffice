@@ -40,13 +40,13 @@ import { PageTitleComponent } from '@shared/components/page-title/page-title.com
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Roles } from '@shared/domain/enums/roles.enum';
 import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
+import { FormValidationService } from '@shared/domain/services/form-validation.service';
 
 import { ParticipantsFindOneFacade } from '@presentation/pages/team-organization/application/services/participants/participants-find-one.facade';
 import { ParticipantsFacade } from '@presentation/pages/team-organization/application/services/participants/participants.facade';
 import { ParticipantsFormControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-form.control';
+import { ParticipantsFormHelperService } from '@presentation/pages/team-organization/domain/services/participants/participants-form-helper.service';
 import { FormValidators } from '@presentation/pages/team-organization/domain/validators/form-validators';
-import { ParticipantsFormHelperService } from '@presentation/pages/team-organization/presentation/participants/participants-form/participants-form-helper.service';
-import { ParticipantsFormValidationService } from '@presentation/pages/team-organization/presentation/participants/participants-form/participants-form-validation.service';
 
 @Component({
     selector: 'app-participants-form',
@@ -70,7 +70,7 @@ import { ParticipantsFormValidationService } from '@presentation/pages/team-orga
     ],
     providers: [
         MessageService,
-        ParticipantsFormValidationService,
+        FormValidationService,
         ParticipantsFormHelperService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -82,9 +82,7 @@ export class ParticipantsFormComponent implements OnInit {
     private readonly facade = inject(ParticipantsFindOneFacade);
     private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly validationService = inject(
-        ParticipantsFormValidationService
-    );
+    private readonly validationService = inject(FormValidationService);
     private readonly helperService = inject(ParticipantsFormHelperService);
     readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();

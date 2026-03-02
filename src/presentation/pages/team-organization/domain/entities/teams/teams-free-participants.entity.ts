@@ -1,4 +1,4 @@
-// import { TeamsFreeParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-free-participants-response-api.dto';
+// import { TeamsFreeParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-free-participants-response-api.dto';
 
 // export class TeamsFreeParticipantsEntity {
 //     constructor(

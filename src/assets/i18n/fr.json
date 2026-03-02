@@ -1085,6 +1085,8 @@
         "UPLOAD": "Télécharger",
         "PREVIEW": "Aperçu",
         "NO_DATA": "Aucune donnée disponible",
+        "SELECT_EMPTY_FILTER_MESSAGE": "Aucun résultat trouvé",
+        "SELECT_EMPTY_MESSAGE": "Aucune donnée disponible",
         "UNKNOWN": "Inconnu",
         "CHOOSE": "Choisir",
         "CREATE": "Créer",
@@ -1426,7 +1428,7 @@
                 "REPORT_TYPE": "Type de signalement",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source",
-                "STATE": "Statut",
+                "STATUS": "Statut",
                 "DATE": {
                     "FROM": "Date début",
                     "TO": "Date fin"

@@ -1,4 +1,4 @@
-import { HistoryFindOneFilterVo } from '@shared/components/history/domain/value-objects/history-findone-filter.vo';
+import { HistoryFindOneFilterVo } from '@shared/components/history/domain/value-objects/history-find-one-filter.vo';
 
 export class HistoryFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

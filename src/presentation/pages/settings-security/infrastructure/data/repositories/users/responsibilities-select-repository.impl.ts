@@ -14,6 +14,6 @@ export class ResponsibilitiesSelectRepositoryImpl implements ResponsibilitiesSel
     readAll(): Observable<ResponsibilitiesSelectEntity[]> {
         return this.api
             .readAll()
-            .pipe(map((dtos) => this.mapper.mapFromDto(dtos)));
+            .pipe(map((dto) => this.mapper.mapFromDto(dto)));
     }
 }

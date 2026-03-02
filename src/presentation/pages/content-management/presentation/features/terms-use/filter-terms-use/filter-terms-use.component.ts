@@ -27,7 +27,7 @@
 
 // import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 
-// import { TermsUseFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/terms-use-filter-form-control.entity';
+// import { TermsUseFilterFormControlDto } from '@presentation/pages/content-management/core/application/dto/terms-use/terms-use-filter-form-control.entity';
 // import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
 // import { TermsUseFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use/terms-use-filter-payload.entity';
 

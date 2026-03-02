@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { DepartmentsSelectResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-select-response-api.dto';
+import { DepartmentsSelectResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-select-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

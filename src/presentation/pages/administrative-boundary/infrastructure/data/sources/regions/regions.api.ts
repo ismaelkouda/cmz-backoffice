@@ -6,11 +6,11 @@ import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { RegionsFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-filter-api.dto';
-import { RegionsResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-response-api.dto';
-
-import { RegionsCreateApiDto } from '../../../api/dtos/regions/regions-create-api.dto';
-import { RegionsUpdateApiDto } from '../../../api/dtos/regions/regions-update-api.dto';
+import { RegionsCreateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-create-api.dto';
+import { RegionsDeleteApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-delete-api.dto';
+import { RegionsFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-filter-api.dto';
+import { RegionsResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-response-api.dto';
+import { RegionsUpdateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-update-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -50,19 +50,19 @@ export class RegionsApi {
         return params;
     }
 
-    create(payload: RegionsCreateApiDto): Observable<SimpleResponseDto<void>> {
+    create(dto: RegionsCreateApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.REGIONS}/store`;
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<SimpleResponseDto<void>>(url, dto);
     }
 
-    update(payload: RegionsUpdateApiDto): Observable<SimpleResponseDto<void>> {
-        const { id, ...rest } = payload;
+    update(dto: RegionsUpdateApiDto): Observable<SimpleResponseDto<void>> {
+        const { id, ...rest } = dto;
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.REGIONS}/${id}/update`;
         return this.http.post<SimpleResponseDto<void>>(url, rest);
     }
 
-    delete(id: string): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.REGIONS}/${id}/delete`;
+    delete(dto: RegionsDeleteApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.REGIONS}/${dto.uniq_id}/delete`;
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 }

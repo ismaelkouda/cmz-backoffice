@@ -88,7 +88,7 @@ export function handleObservableWithFeedback<T>(
             console.log('2222', refresh);
         }),
         catchError((error) => {
-            uiFeedback.errorFromApi(error);
+            uiFeedback.notifyError(error);
             return throwError(() => error);
         })
     );

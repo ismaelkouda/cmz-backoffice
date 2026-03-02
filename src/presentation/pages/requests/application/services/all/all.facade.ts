@@ -42,7 +42,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter?.reportType,
             filter?.operators,
             filter?.source,
-            filter?.state,
+            filter?.status,
             filter?.startDate,
             filter?.endDate
         );
@@ -69,7 +69,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter?.reportType,
             filter?.operators,
             filter?.source,
-            filter?.state,
+            filter?.status,
             filter?.startDate,
             filter?.endDate
         );
@@ -89,7 +89,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter?.reportType,
             filter?.operators,
             filter?.source,
-            filter?.state,
+            filter?.status,
             filter?.startDate,
             filter?.endDate
         );
@@ -112,7 +112,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter?.reportType,
             filter?.operators,
             filter?.source,
-            filter?.state,
+            filter?.status,
             filter?.startDate,
             filter?.endDate
         );

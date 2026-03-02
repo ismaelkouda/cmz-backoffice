@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 
@@ -19,8 +19,10 @@ export class QueuesUseCase {
         filterDto: QueuesFilterDto | null,
         page: string
     ): Observable<Paginate<QueuesEntity>> {
-        const vo = QueuesFilterVo.fromDto(filterDto);
-        const entity = QueuesFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return defer(() => {
+            const vo = QueuesFilterVo.fromDto(filterDto);
+            const entity = QueuesFilterEntity.fromVo(vo);
+            return this.repository.execute(entity, page);
+        });
     }
 }

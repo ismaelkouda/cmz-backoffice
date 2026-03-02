@@ -3,11 +3,11 @@ import { inject, Provider } from '@angular/core';
 import { EnvService } from '@shared/domain/services/env.service';
 
 import { agentsPerformancesProviders } from '@presentation/pages/team-organization/di/agents-performances/agents-performances.providers';
-import { participantsFindoneProviders } from '@presentation/pages/team-organization/di/participants/participants-findone.providers';
+import { participantsFindOneProviders } from '@presentation/pages/team-organization/di/participants/participants-find-one.providers';
 import { participantsSelectProviders } from '@presentation/pages/team-organization/di/participants/participants-select.providers';
 import { participantsProviders } from '@presentation/pages/team-organization/di/participants/participants.providers';
 import { rolesSelectProviders } from '@presentation/pages/team-organization/di/participants/roles-select.providers';
-import { teamsFindOneProviders } from '@presentation/pages/team-organization/di/teams/teams-findone.providers';
+import { teamsFindOneProviders } from '@presentation/pages/team-organization/di/teams/teams-find-one.providers';
 // import { teamsFreeParticipantsProviders } from '@presentation/pages/team-organization/di/teams/teams-free-participants.providers';
 import { teamsParticipantsProviders } from '@presentation/pages/team-organization/di/teams/teams-participants.providers';
 import { teamsPermissionsProviders } from '@presentation/pages/team-organization/di/teams/teams-permissions.providers';
@@ -35,7 +35,7 @@ export const provideTeamOrganization = (): Provider[] => [
     ...agentsPerformancesProviders,
 
     ...participantsProviders,
-    ...participantsFindoneProviders,
+    ...participantsFindOneProviders,
     ...rolesSelectProviders,
     ...participantsSelectProviders,
 

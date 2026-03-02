@@ -6,7 +6,7 @@ import { TeamsFindOneEntity } from '@presentation/pages/team-organization/domain
 import { TeamsFindOneRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-find-one-repository';
 import { teamsFindOneFilterMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-find-one-filter.mapper';
 import { TeamsFindOneMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-find-one.mapper';
-import { TeamsFindOneApi } from '@presentation/pages/team-organization/infrastructure/data/sources/teams/teams-findone.api';
+import { TeamsFindOneApi } from '@presentation/pages/team-organization/infrastructure/data/sources/teams/teams-find-one.api';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsFindOneRepositoryImpl implements TeamsFindOneRepository {

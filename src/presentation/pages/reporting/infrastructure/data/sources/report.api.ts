@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ReportResponseDto } from '../../api/dtos/report/report-response.dto';
+import { ReportResponseDto } from '../../api/dto/report/report-response.dto';
 import { REPORTING_API_BASE_URL } from '../../api/reporting.config';
 import { REPORTING_ENDPOINTS } from '../../api/reporting.endpoints';
 

@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { EnvService } from '@shared/domain/services/env.service';
 
-import { GetTermsUseByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/get-terms-use-by-id-response.dto';
-import { TermsUseRequestDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/terms-use-request.dto';
-import { TermsUseResponseDto } from '@presentation/pages/content-management/core/application/dtos/terms-use/terms-use-response.dto';
+import { GetTermsUseByIdResponseDto } from '@presentation/pages/content-management/application/dto/terms-use/get-terms-use-by-id-response.dto';
+import { TermsUseRequestDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-request.dto';
+import { TermsUseResponseDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-response.dto';
 import { TERMS_USE_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/terms-use-endpoints';
 
 @Injectable({

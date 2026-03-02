@@ -4,8 +4,8 @@ import { ActionDropdownDto } from '@shared/data/dto/action-dropdown.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 
-import { SlideItemDto } from '@presentation/pages/content-management/core/application/dtos/slide/slide-response.dto';
-import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
+import { SlideItemDto } from '@presentation/pages/content-management/application/dto/slide/slide-response.dto';
+import { SlideEntity } from '@presentation/pages/content-management/domain/entities/slide.entity';
 
 @Injectable({ providedIn: 'root' })
 export class SlideMapper extends PaginatedMapper<SlideEntity, SlideItemDto> {

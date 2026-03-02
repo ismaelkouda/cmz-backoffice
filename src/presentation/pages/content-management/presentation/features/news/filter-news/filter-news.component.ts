@@ -26,7 +26,7 @@
 
 // import { Plateform } from '@shared/domain/enums/plateform.enum';
 
-// import { NewsFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/news/news-filter-form-control.entity';
+// import { NewsFilterFormControlDto } from '@presentation/pages/content-management/core/application/dto/news/news-filter-form-control.entity';
 // import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
 // import { NewsFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/news/news-filter-payload.entity';
 

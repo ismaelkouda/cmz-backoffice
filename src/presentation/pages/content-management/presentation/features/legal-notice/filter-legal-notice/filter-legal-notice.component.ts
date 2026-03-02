@@ -27,7 +27,7 @@
 
 // import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 
-// import { LegalNoticeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/legal-notice-filter-form-control.entity';
+// import { LegalNoticeFilterFormControlDto } from '@presentation/pages/content-management/core/application/dto/legal-notice/legal-notice-filter-form-control.entity';
 // import { LegalNoticeFacade } from '@presentation/pages/content-management/core/application/services/legal-notice.facade';
 // import { LegalNoticeFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice/legal-notice-filter-payload.entity';
 

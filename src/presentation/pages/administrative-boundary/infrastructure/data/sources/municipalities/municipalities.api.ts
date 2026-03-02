@@ -6,11 +6,12 @@ import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { MunicipalitiesFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/municipalities/municipalities-filter-api.dto';
-import { MunicipalitiesResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/municipalities/municipalities-response-api.dto';
+import { MunicipalitiesFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-filter-api.dto';
+import { MunicipalitiesResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-response-api.dto';
 
-import { MunicipalitiesCreateApiDto } from '../../../api/dtos/municipalities/municipalities-create-api.dto';
-import { MunicipalitiesUpdateApiDto } from '../../../api/dtos/municipalities/municipalities-update-api.dto';
+import { MunicipalitiesCreateApiDto } from '../../../api/dto/municipalities/municipalities-create-api.dto';
+import { MunicipalitiesDeleteApiDto } from '../../../api/dto/municipalities/municipalities-delete-api.dto';
+import { MunicipalitiesUpdateApiDto } from '../../../api/dto/municipalities/municipalities-update-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -67,8 +68,10 @@ export class MunicipalitiesApi {
         return this.http.post<SimpleResponseDto<void>>(url, rest);
     }
 
-    delete(id: string): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.MUNICIPALITIES}/${id}/delete`;
+    delete(
+        dto: MunicipalitiesDeleteApiDto
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.MUNICIPALITIES}/${dto.uniq_id}/delete`;
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 }

@@ -6,7 +6,7 @@ import { PasswordResetResponse } from '../../domain/entities/password-reset-resp
 import { PasswordResetRepository } from '../../domain/repositories/password-reset.repository';
 import { ForgotPasswordRequest } from '../../domain/value-objects/forgot-password-request.vo';
 import { ResetPasswordRequest } from '../../domain/value-objects/reset-password-request.vo';
-import { PasswordResetResponseDto } from '../dtos/password-reset-response.dto';
+import { PasswordResetResponseDto } from '../dto/password-reset-response.dto';
 import { PasswordResetMapper } from '../mappers/password-reset.mapper';
 import { PasswordResetApi } from '../sources/password-reset.api';
 

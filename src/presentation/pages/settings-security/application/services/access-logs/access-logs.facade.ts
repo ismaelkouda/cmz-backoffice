@@ -5,7 +5,7 @@ import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { AccessLogsFilterDto } from '@presentation/pages/settings-security/application/dto/access-logs/access-logs-filter.dtos';
+import { AccessLogsFilterDto } from '@presentation/pages/settings-security/application/dto/access-logs/access-logs-filter.dto';
 import { AccessLogsQuery } from '@presentation/pages/settings-security/application/queries/access-logs/access-logs.query';
 import { AccessLogsBus } from '@presentation/pages/settings-security/application/queries-bus/access-logs/access-logs.bus';
 import { AccessLogsUseCase } from '@presentation/pages/settings-security/application/use-cases/access-logs/access-logs.use-case';

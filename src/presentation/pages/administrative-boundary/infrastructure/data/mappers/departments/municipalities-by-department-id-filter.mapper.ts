@@ -1,27 +1,29 @@
-import { MunicipalitiesByDepartmentIdFilter } from '@presentation/pages/administrative-boundary/core/domain/value-objects/departments/municipalities-by-department-id-filter.vo';
-import { MunicipalitiesByDepartmentIdFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/municipalities-by-department-id-filter-api.dto';
+import { MunicipalitiesByDepartmentIdFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id-filter.entity';
+import { MunicipalitiesByDepartmentIdFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/municipalities-by-department-id-filter-api.dto';
 
-export class MunicipalitiesByDepartmentIdFilterMapper {
-    public toApi(
-        filter: MunicipalitiesByDepartmentIdFilter
-    ): MunicipalitiesByDepartmentIdFilterApiDto {
-        const params: MunicipalitiesByDepartmentIdFilterApiDto =
-            {} as MunicipalitiesByDepartmentIdFilterApiDto;
+export function municipalitiesByDepartmentIdFilterMapper(
+    filter: MunicipalitiesByDepartmentIdFilterEntity
+): MunicipalitiesByDepartmentIdFilterApiDto {
+    const params: MunicipalitiesByDepartmentIdFilterApiDto =
+        {} as MunicipalitiesByDepartmentIdFilterApiDto;
 
-        params.department_code = filter.departmentId;
-        if (filter.startDate) {
-            params['start_date'] = filter.startDate;
-        }
-        if (filter.endDate) {
-            params['end_date'] = filter.endDate;
-        }
-        if (filter.search) {
-            params['search'] = filter.search;
-        }
-        if (filter.isActive !== undefined && filter.isActive !== null) {
-            params['is_active'] = filter.isActive;
-        }
-
-        return params;
+    params.id = filter.uniqId;
+    if (filter.search) {
+        params['search'] = filter.search;
     }
+    if (filter.region) {
+        params['region_code'] = filter.region;
+    }
+    if (filter.department) {
+        params['department_code'] = filter.department;
+    }
+
+    if (filter.period?.start) {
+        params['start_date'] = filter.period.start;
+    }
+    if (filter.period?.end) {
+        params['end_date'] = filter.period.end;
+    }
+
+    return params;
 }

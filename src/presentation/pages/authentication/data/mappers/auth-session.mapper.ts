@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { LoginResponseDto } from '@pages/authentication/data/dtos/login-response.dto';
+import { LoginResponseDto } from '@pages/authentication/data/dto/login-response.dto';
 import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
 @Injectable({ providedIn: 'root' })
 export class AuthSessionMapper {

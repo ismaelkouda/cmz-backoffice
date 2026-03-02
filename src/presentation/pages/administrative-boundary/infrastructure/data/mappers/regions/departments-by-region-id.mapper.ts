@@ -1,14 +1,17 @@
+import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/regions/departments-by-region-id.entity';
+import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
+import { DepartmentsByRegionIdItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-response-api.dto';
 
-import { DepartmentsByRegionIdItemApiDto } from '../../../api/dtos/regions/departments-by-region-id-response-api.dto';
-
+@Injectable({ providedIn: 'root' })
 export class DepartmentsByRegionIdMapper extends PaginatedMapper<
     DepartmentsByRegionIdEntity,
     DepartmentsByRegionIdItemApiDto
 > {
+    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<
         string,
         DepartmentsByRegionIdEntity
@@ -23,10 +26,10 @@ export class DepartmentsByRegionIdMapper extends PaginatedMapper<
 
         const cacheKey = `dto:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
+
         const entity = cached
             ? cached.with(dto)
             : DepartmentsByRegionIdEntity.fromDto(dto);
-
         this.entityCache.set(cacheKey, entity);
         return entity;
     }

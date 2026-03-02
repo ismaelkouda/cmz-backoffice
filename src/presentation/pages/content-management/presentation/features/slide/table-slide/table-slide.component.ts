@@ -31,8 +31,8 @@ import {
     TableExportExcelFileService,
 } from '@shared/domain/services/table-export-excel-file.service';
 
-import { SLIDE_TABLE_CONST } from '@presentation/pages/content-management/core/domain/constants/slide/slide-table.constants';
-import { SlideEntity } from '@presentation/pages/content-management/core/domain/entities/slide.entity';
+import { SLIDE_TABLE_CONST } from '@presentation/pages/content-management/domain/constants/slide/slide-table.constants';
+import { SlideEntity } from '@presentation/pages/content-management/domain/entities/slide.entity';
 
 import { HomeActionDropdownComponent } from '../../home/table-home/home-action-dropdown/home-action-dropdown.component';
 

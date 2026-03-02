@@ -1,5 +1,4 @@
 export enum ApiStatus {
-    PENDING = 'pending',
     APPROVED = 'approved',
     REJECTED = 'rejected',
     ABANDONED = 'abandoned',

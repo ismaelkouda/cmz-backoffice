@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import {
@@ -6,46 +6,52 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/municipalities/municipalities.entity';
-import { MunicipalitiesRepository } from '@presentation/pages/administrative-boundary/core/domain/repositories/municipalities/municipalities-repository';
-import { MunicipalitiesCreate } from '@presentation/pages/administrative-boundary/core/domain/value-objects/municipalities/municipalities-create.vo';
-import { MunicipalitiesFilter } from '@presentation/pages/administrative-boundary/core/domain/value-objects/municipalities/municipalities-filter.vo';
-import { MunicipalitiesUpdate } from '@presentation/pages/administrative-boundary/core/domain/value-objects/municipalities/municipalities-update.vo';
+import { MunicipalitiesCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
+import { MunicipalitiesDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
+import { MunicipalitiesFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
+import { MunicipalitiesUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
+import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { MunicipalitiesRepository } from '@presentation/pages/administrative-boundary/domain/repositories/municipalities/municipalities-repository';
+import { municipalitiesCreateMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-create.mapper';
+import { municipalitiesDeleteMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-delete.mapper';
+import { municipalitiesFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-filter.mapper';
+import { municipalitiesUpdateMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-update.mapper';
+import { MunicipalitiesMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities.mapper';
 import { MunicipalitiesApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/municipalities/municipalities.api';
-
-import { municipalitiesCreateMapper } from '../../mappers/municipalities/municipalities-create-mapper';
-import { municipalitiesFilterMapper } from '../../mappers/municipalities/municipalities-filter-mapper';
-import { municipalitiesUpdateMapper } from '../../mappers/municipalities/municipalities-update-mapper';
-import { MunicipalitiesMapper } from '../../mappers/municipalities/municipalities.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesRepositoryImpl implements MunicipalitiesRepository {
-    constructor(
-        private readonly api: MunicipalitiesApi,
-        private readonly mapper: MunicipalitiesMapper
-    ) {}
+    private readonly api = inject(MunicipalitiesApi);
+    private readonly mapper = inject(MunicipalitiesMapper);
 
-    readAll(
-        filter: MunicipalitiesFilter,
+    execute(
+        entity: MunicipalitiesFilterEntity,
         page: string
     ): Observable<Paginate<MunicipalitiesEntity>> {
-        const params = municipalitiesFilterMapper(filter);
+        const paramsDto = municipalitiesFilterMapper(entity);
         return this.api
-            .readAll(params, page)
+            .readAll(paramsDto, page)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(payload: MunicipalitiesCreate): Observable<SimpleResponseDto<void>> {
-        const params = municipalitiesCreateMapper(payload);
-        return this.api.create(params);
+    create(
+        entity: MunicipalitiesCreateEntity
+    ): Observable<SimpleResponseDto<void>> {
+        const paramsDto = municipalitiesCreateMapper(entity);
+        return this.api.create(paramsDto);
     }
 
-    update(payload: MunicipalitiesUpdate): Observable<SimpleResponseDto<void>> {
-        const params = municipalitiesUpdateMapper(payload);
-        return this.api.update(params);
+    update(
+        entity: MunicipalitiesUpdateEntity
+    ): Observable<SimpleResponseDto<void>> {
+        const paramsDto = municipalitiesUpdateMapper(entity);
+        return this.api.update(paramsDto);
     }
 
-    delete(code: string): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(code);
+    delete(
+        entity: MunicipalitiesDeleteEntity
+    ): Observable<SimpleResponseDto<void>> {
+        const paramsDto = municipalitiesDeleteMapper(entity);
+        return this.api.delete(paramsDto);
     }
 }

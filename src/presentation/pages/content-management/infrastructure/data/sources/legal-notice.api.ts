@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { EnvService } from '@shared/domain/services/env.service';
 
-import { GetLegalNoticeByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/get-legal-notice-by-id-response.dto';
-import { LegalNoticeRequestDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/legal-notice-request.dto';
-import { LegalNoticeResponseDto } from '@presentation/pages/content-management/core/application/dtos/legal-notice/legal-notice-response.dto';
+import { GetLegalNoticeByIdResponseDto } from '@presentation/pages/content-management/application/dto/legal-notice/get-legal-notice-by-id-response.dto';
+import { LegalNoticeRequestDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-request.dto';
+import { LegalNoticeResponseDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-response.dto';
 import { LEGAL_NOTICE_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/legal-notice-endpoints';
 
 @Injectable({

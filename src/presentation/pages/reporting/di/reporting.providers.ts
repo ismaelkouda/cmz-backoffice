@@ -2,8 +2,8 @@ import { inject, Provider } from '@angular/core';
 
 import { EnvService } from '@shared/domain/services/env.service';
 
-import { ReportRepository } from '../core/domain/repositories/report-repository.interface';
-import { RequestRepository } from '../core/domain/repositories/request-repository.interface';
+import { ReportRepository } from '../domain/repositories/report-repository.interface';
+import { RequestRepository } from '../domain/repositories/request-repository.interface';
 import { REPORTING_API_BASE_URL } from '../infrastructure/api/reporting.config';
 import { ReportMapper } from '../infrastructure/data/mappers/report.mapper';
 import { RequestMapper } from '../infrastructure/data/mappers/request.mapper';

@@ -1,0 +1,121 @@
+<main class="reporting-container" role="main">
+    <section class="reporting-header-section">
+        <article class="reporting-content">
+            <app-breadcrumb />
+
+            <section
+                class="reporting-card"
+                [class.fullscreen-mode]="isFullscreen()"
+            >
+                <header class="reporting-card-header">
+                    <div class="header-content">
+                        <div class="title-section">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleKey() | translate"
+                            >
+                            </app-page-title>
+                        </div>
+
+                        <div class="header-actions">
+                            <button
+                                pButton
+                                icon="pi pi-refresh"
+                                class="p-button-outlined p-button-secondary action-btn"
+                                (click)="handleRefreshDashboard()"
+                                pTooltip="{{ 'REFRESH' | translate }}"
+                                tooltipPosition="bottom"
+                            ></button>
+                            <button
+                                pButton
+                                [icon]="
+                                    isFullscreen()
+                                        ? 'pi pi-compress'
+                                        : 'pi pi-expand'
+                                "
+                                class="p-button-outlined p-button-secondary action-btn"
+                                (click)="toggleFullscreen()"
+                                pTooltip="{{
+                                    isFullscreen()
+                                        ? 'MONITORING.DASHBOARD.ACTIONS.EXIT_FULLSCREEN'
+                                        : ('MONITORING.DASHBOARD.ACTIONS.ENTER_FULLSCREEN'
+                                          | translate)
+                                }}"
+                                tooltipPosition="bottom"
+                            ></button>
+
+                            @if (isFullscreen()) {
+                                <button
+                                    class="close-fullscreen-btn"
+                                    (click)="toggleFullscreen()"
+                                    pTooltip="{{
+                                        'MONITORING.DASHBOARD.ACTIONS.EXIT_FULLSCREEN'
+                                            | translate
+                                    }}"
+                                    tooltipPosition="bottom"
+                                >
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </header>
+
+                <div class="reporting-card-body">
+                    @if (isLoading()) {
+                        <div class="loading-state">
+                            <p-progressSpinner
+                                strokeWidth="4"
+                                animationDuration=".5s"
+                            >
+                            </p-progressSpinner>
+                            <h3>{{ 'DASHBOARD.LOADING' | translate }}</h3>
+                            <p>{{ loadingDescription() | translate }}</p>
+                        </div>
+                    }
+
+                    <!-- @if (connectionStatus() === 'error') {
+                        <div class="error-state">
+                            <div class="error-icon">
+                                <i class="pi pi-exclamation-triangle"></i>
+                            </div>
+                            <h3>{{ 'DASHBOARD.ERROR.TITLE' | translate }}</h3>
+                            <p>{{ errorDescription() | translate }}</p>
+                            <button
+                                pButton
+                                icon="pi pi-refresh"
+                                label="{{
+                                    'MONITORING.DASHBOARD.ACTIONS.RETRY'
+                                        | translate
+                                }}"
+                                (click)="handleRefreshDashboard()"
+                                class="p-button-primary"
+                            ></button>
+                        </div>
+                    } -->
+
+                    @else {
+                        <div
+                            class="grafana-container"
+                            [class.fullscreen]="isFullscreen()"
+                        >
+                            <iframe
+                                #grafanaIframe
+                                [src]="grafanaLink() | safeUrl"
+                                (load)="onIframeLoad()"
+                                (error)="onIframeError()"
+                                frameborder="0"
+                                allowfullscreen
+                                class="grafana-iframe"
+                                title="Dashboard Grafana - Tableau de bord analytique"
+                            >
+                            </iframe>
+                        </div>
+                    }
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

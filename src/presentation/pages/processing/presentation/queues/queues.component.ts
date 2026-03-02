@@ -141,6 +141,7 @@ export class QueuesComponent implements OnInit {
                 translationKeys: {
                     label: 'PROCESSING.QUEUES.FILTER.REPORT_TYPE',
                 },
+                class: 'p-long',
             },
             {
                 type: 'multi-select',
@@ -155,6 +156,7 @@ export class QueuesComponent implements OnInit {
                 translationKeys: {
                     label: 'PROCESSING.QUEUES.FILTER.OPERATORS',
                 },
+                class: 'p-medium',
             },
             {
                 type: 'select',

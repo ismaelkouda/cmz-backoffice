@@ -2,11 +2,11 @@
 // import { Inject, Injectable } from '@angular/core';
 // import { Observable } from 'rxjs';
 
-// import { SimpleResponseDto } from '@shared/data/dtos/simple-response.dto';
+// import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 // import { buildHttpPayload } from '@shared/utils/utils/build-http-payload.util';
 
-// import { TeamsFreeParticipantsAssignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-participants-assign-api.dto';
-// import { TeamsFreeParticipantsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dtos/teams/teams-free-participants-response-api.dto';
+// import { TeamsFreeParticipantsAssignApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-assign-api.dto';
+// import { TeamsFreeParticipantsResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-free-participants-response-api.dto';
 // import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
 // import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
 

@@ -20,28 +20,4 @@ export class AccessLogsFilterEntity {
     isRestrictedByPeriod(): boolean {
         return !!this.period;
     }
-
-    isToday(): boolean {
-        if (!this.period) {
-            return false;
-        }
-        const today = new Date();
-        return (
-            this.period.start.toDateString() === today.toDateString() &&
-            this.period.end.toDateString() === today.toDateString()
-        );
-    }
-
-    describe(): string {
-        return JSON.stringify({
-            search: this.search,
-            action: this.action,
-            period: this.period
-                ? {
-                      start: this.period.start.toISOString(),
-                      end: this.period.end.toISOString(),
-                  }
-                : null,
-        });
-    }
 }

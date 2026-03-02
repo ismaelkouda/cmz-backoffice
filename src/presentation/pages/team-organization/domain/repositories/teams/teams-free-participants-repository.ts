@@ -4,7 +4,7 @@
 // import {
 //     Paginate,
 //     SimpleResponseDto,
-// } from '@shared/data/dtos/simple-response.dto';
+// } from '@shared/data/dto/simple-response.dto';
 
 // import { TeamsFreeParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-free-participants-assign.entity';
 // import { TeamsFreeParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-free-participants.entity';

@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { EnvService } from '@shared/domain/services/env.service';
 
-import { SlideRequestDto } from '../../../core/application/dtos/slide/slide-request.dto';
+import { SlideRequestDto } from '../../../application/dto/slide/slide-request.dto';
 import {
     SlideItemDto,
     SlideResponseDto,
-} from '../../../core/application/dtos/slide/slide-response.dto';
+} from '../../../application/dto/slide/slide-response.dto';
 import { SLIDE_ENDPOINTS } from '../endpoints/slide-endpoints';
 
 @Injectable({

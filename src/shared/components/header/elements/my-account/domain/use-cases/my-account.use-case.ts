@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ChangePasswordRequestDto } from '../../data/dtos/change-password-request.dto';
-import { UpdateProfileRequestDto } from '../../data/dtos/update-profile-request.dto';
+import { ChangePasswordRequestDto } from '../../data/dto/change-password-request.dto';
+import { UpdateProfileRequestDto } from '../../data/dto/update-profile-request.dto';
 import { LogoutEntity } from '../entities/logout.entity';
 import { MyAccountRepository } from '../repositories/my-account.repository';
 

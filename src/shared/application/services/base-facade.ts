@@ -72,16 +72,11 @@ export abstract class BaseFacade<TEntity, TFilter> {
         fetch$: Observable<Paginate<TEntity>>,
         uiFeedback?: UiFeedbackService
     ): void {
-        console.log(
-            'this.filterSubject.getValue(): ',
-            this.filterSubject.getValue()
-        );
         if (this.isLoadingSubject.getValue()) {
             return;
         }
 
         const prevFilter = this.filterSubject.getValue();
-        console.log('prevFilter: ', prevFilter);
         if (!prevFilter || this.hasFilterChanged(prevFilter, filter)) {
             this.filterSubject.next(filter);
         }
@@ -96,7 +91,7 @@ export abstract class BaseFacade<TEntity, TFilter> {
                     this.paginationSubject.next(response);
                 }),
                 catchError((err) => {
-                    uiFeedback?.errorFromApi(err);
+                    uiFeedback?.notifyError(err);
                     return throwError(() => err);
                 }),
                 finalize(() => this.isLoadingSubject.next(false))

@@ -13,7 +13,7 @@ export class ParticipantsFindOneRepositoryImpl implements ParticipantsFindOneRep
     private readonly api = inject(ParticipantsFindOneApi);
     private readonly mapper = inject(ParticipantsFindOneMapper);
 
-    read(
+    execute(
         filter: ParticipantsFindOneFilterEntity
     ): Observable<ParticipantsFindOneEntity> {
         const paramsDto = participantsFindOneFilterMapper(filter);

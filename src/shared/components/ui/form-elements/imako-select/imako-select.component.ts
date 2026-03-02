@@ -33,6 +33,7 @@ export class ImakoSelectComponent implements ControlValueAccessor {
     public readonly label = input<string>('');
     public readonly placeholder = input<string>('');
     public readonly options = input<any[]>([]);
+    public readonly loading = input<boolean>(false);
     public readonly optionLabel = input<string>('label');
     public readonly optionValue = input<string>('value');
     public readonly showClear = input<boolean>(false);

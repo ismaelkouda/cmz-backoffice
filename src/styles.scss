@@ -721,7 +721,8 @@ select:focus,
     transition: all 0.2s ease;
 }
 
-.p-select-label.p-placeholder {
+.p-select-label.p-placeholder,
+.p-multiselect-label.p-placeholder {
     color: #dee2e6 !important;
 }
 

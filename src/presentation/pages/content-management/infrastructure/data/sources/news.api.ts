@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { EnvService } from '@shared/domain/services/env.service';
 
-import { CategoryItemDto } from '@presentation/pages/content-management/core/application/dtos/news/category-response.dto';
-import { GetNewsByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/news/get-news-by-id-response.dto';
-import { NewsRequestDto } from '@presentation/pages/content-management/core/application/dtos/news/news-request.dto';
+import { CategoryItemDto } from '@presentation/pages/content-management/application/dto/news/category-response.dto';
+import { GetNewsByIdResponseDto } from '@presentation/pages/content-management/application/dto/news/get-news-by-id-response.dto';
+import { NewsRequestDto } from '@presentation/pages/content-management/application/dto/news/news-request.dto';
 import {
     NewsItemDto,
     NewsResponseDto,
-} from '@presentation/pages/content-management/core/application/dtos/news/news-response.dto';
+} from '@presentation/pages/content-management/application/dto/news/news-response.dto';
 import { NEWS_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/news-endpoints';
 
 @Injectable({

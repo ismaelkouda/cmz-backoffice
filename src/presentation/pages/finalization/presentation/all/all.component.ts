@@ -142,6 +142,7 @@ export class AllComponent implements OnInit {
                 translationKeys: {
                     label: 'FINALIZATION.ALL.FILTER.REPORT_TYPE',
                 },
+                class: 'p-long',
             },
             {
                 type: 'multi-select',
@@ -156,6 +157,7 @@ export class AllComponent implements OnInit {
                 translationKeys: {
                     label: 'FINALIZATION.ALL.FILTER.OPERATORS',
                 },
+                class: 'p-medium',
             },
             {
                 type: 'select',

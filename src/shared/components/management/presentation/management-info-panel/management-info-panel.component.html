@@ -1,22 +1,189 @@
 @if (loading()) {
     <div class="tab-panel photos-panel skeleton-panel">
-        <div class="skeleton-photos-grid">
-            <div *ngFor="let photo of [1, 2]" class="skeleton-photo-card">
-                <p-skeleton
-                    width="100%"
-                    height="200px"
-                    borderRadius="12px"
-                ></p-skeleton>
-                <div class="photo-meta">
-                    <p-skeleton
-                        width="80%"
-                        height="16px"
-                        styleClass="mb-1"
-                    ></p-skeleton>
-                    <p-skeleton width="60%" height="14px"></p-skeleton>
+        <div class="tab-panel information-panel">
+            <div class="skeleton-cards">
+                <div
+                    class="data-card report-info-card skeleton-card"
+                >
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <p-skeleton
+                                shape="circle"
+                                size="32px"
+                            ></p-skeleton>
+                            <p-skeleton
+                                width="200px"
+                                height="24px"
+                            ></p-skeleton>
+                        </div>
+                        <div class="card-badges">
+                            <p-skeleton
+                                width="120px"
+                                height="28px"
+                                borderRadius="20px"
+                            ></p-skeleton>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="data-grid">
+                            <div class="data-row triple">
+                                <div
+                                    *ngFor="
+                                        let field of [
+                                            1, 2, 3,
+                                        ]
+                                    "
+                                    class="data-field"
+                                >
+                                    <p-skeleton
+                                        width="120px"
+                                        height="18px"
+                                        styleClass="mb-2"
+                                    ></p-skeleton>
+                                    <p-skeleton
+                                        width="100%"
+                                        height="44px"
+                                        borderRadius="8px"
+                                    ></p-skeleton>
+                                </div>
+                            </div>
+
+                            <!-- Ligne double -->
+                            <div class="data-row double">
+                                <div
+                                    *ngFor="
+                                        let field of [1, 2]
+                                    "
+                                    class="data-field"
+                                >
+                                    <p-skeleton
+                                        width="100px"
+                                        height="18px"
+                                        styleClass="mb-2"
+                                    ></p-skeleton>
+                                    <p-skeleton
+                                        width="140px"
+                                        height="32px"
+                                        borderRadius="20px"
+                                    ></p-skeleton>
+                                </div>
+                            </div>
+
+                            <div class="data-row full">
+                                <div class="data-field">
+                                    <p-skeleton
+                                        width="150px"
+                                        height="18px"
+                                        styleClass="mb-2"
+                                    ></p-skeleton>
+                                    <p-skeleton
+                                        width="100%"
+                                        height="80px"
+                                        borderRadius="8px"
+                                    ></p-skeleton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="data-card location-card skeleton-card"
+                >
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <p-skeleton
+                                shape="circle"
+                                size="32px"
+                            ></p-skeleton>
+                            <p-skeleton
+                                width="180px"
+                                height="24px"
+                            ></p-skeleton>
+                        </div>
+                        <div class="card-actions">
+                            <p-skeleton
+                                width="100px"
+                                height="36px"
+                                borderRadius="6px"
+                                styleClass="mr-2"
+                            ></p-skeleton>
+                            <p-skeleton
+                                width="40px"
+                                height="36px"
+                                borderRadius="6px"
+                            ></p-skeleton>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="data-grid">
+                            <div class="data-row double">
+                                <div
+                                    *ngFor="
+                                        let coord of [1, 2]
+                                    "
+                                    class="data-field coordinate"
+                                >
+                                    <p-skeleton
+                                        width="100px"
+                                        height="18px"
+                                        styleClass="mb-2"
+                                    ></p-skeleton>
+                                    <p-skeleton
+                                        width="100%"
+                                        height="44px"
+                                        borderRadius="8px"
+                                    ></p-skeleton>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="data-row full">
+                                <div class="data-field">
+                                    <p-skeleton
+                                        width="160px"
+                                        height="18px"
+                                        styleClass="mb-2"
+                                    ></p-skeleton>
+                                    <p-skeleton
+                                        width="100%"
+                                        height="60px"
+                                        borderRadius="8px"
+                                    ></p-skeleton>
+                                </div>
+                            </div>
+
+                            <div class="data-row full">
+                                <div
+                                    class="map-preview-section"
+                                >
+                                    <div
+                                        class="preview-header"
+                                    >
+                                        <p-skeleton
+                                            width="140px"
+                                            height="20px"
+                                        ></p-skeleton>
+                                    </div>
+                                    <div
+                                        class="map-preview skeleton-map"
+                                    >
+                                        <p-skeleton
+                                            width="100%"
+                                            height="100%"
+                                            borderRadius="8px"
+                                        ></p-skeleton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 } @else {
     <div class="tab-panel information-panel">

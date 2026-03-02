@@ -8,10 +8,10 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-privacy-policy-by-id.entity';
-import { PrivacyPolicyEntity } from '@presentation/pages/content-management/core/domain/entities/privacy-policy.entity';
-import { PrivacyPolicyRepository } from '@presentation/pages/content-management/core/domain/repositories/privacy-policy.repository';
-import { PrivacyPolicyFilter } from '@presentation/pages/content-management/core/domain/value-objects/privacy-policy-filter.vo';
+import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/domain/entities/get-privacy-policy-by-id.entity';
+import { PrivacyPolicyEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy.entity';
+import { PrivacyPolicyRepository } from '@presentation/pages/content-management/domain/repositories/privacy-policy.repository';
+import { PrivacyPolicyFilter } from '@presentation/pages/content-management/domain/value-objects/privacy-policy-filter.vo';
 
 import { GetPrivacyPolicyByIdMapper } from '../mappers/get-privacy-policy-by-id.mapper';
 import { PrivacyPolicyMapper } from '../mappers/privacy-policy.mapper';

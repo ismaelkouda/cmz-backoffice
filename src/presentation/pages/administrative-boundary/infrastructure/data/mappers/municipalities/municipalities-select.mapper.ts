@@ -1,10 +1,12 @@
+import { Injectable } from '@angular/core';
+
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { MunicipalitiesSelectEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/municipalities/municipalities-select.entity';
+import { MunicipalitiesSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-select.entity';
+import { MunicipalitiesSelectItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-select-response-api.dto';
 
-import { MunicipalitiesSelectItemApiDto } from '../../../api/dtos/municipalities/municipalities-select-response-api.dto';
-
+@Injectable({ providedIn: 'root' })
 export class MunicipalitiesSelectMapper extends ArrayResponseMapper<
     MunicipalitiesSelectEntity,
     MunicipalitiesSelectItemApiDto

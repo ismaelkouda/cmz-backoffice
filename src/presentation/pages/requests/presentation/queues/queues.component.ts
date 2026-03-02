@@ -144,6 +144,7 @@ export class QueuesComponent implements OnInit {
                 translationKeys: {
                     label: 'PROCESSING.QUEUES.FILTER.REPORT_TYPE',
                 },
+                class: 'p-long',
             },
             {
                 type: 'multi-select',
@@ -153,11 +154,14 @@ export class QueuesComponent implements OnInit {
                 options: telecomOperatorsOpts,
                 optionLabel: 'label',
                 optionValue: 'value',
+                filter: false,
+                showToggleAll: false,
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
                     label: 'PROCESSING.QUEUES.FILTER.OPERATORS',
                 },
+                class: 'p-medium',
             },
             {
                 type: 'select',
@@ -254,7 +258,6 @@ export class QueuesComponent implements OnInit {
         item: QueuesEntity;
         actionId?: string;
     }): void {
-        console.log('action');
         const { item } = event;
         this.selectedReportId = item.uniqId;
         this.reportTreatmentVisible = true;

@@ -11,20 +11,13 @@ export class TelecomOperatorMapper {
         [TelecomOperatorDto.MTN, TelecomOperator.MTN],
         [TelecomOperatorDto.ORANGE, TelecomOperator.ORANGE],
         [TelecomOperatorDto.MOOV, TelecomOperator.MOOV],
-        [TelecomOperatorDto.UNKNOWN, TelecomOperator.UNKNOWN],
     ]);
 
-    mapToEnum(dto: TelecomOperatorDto | null | undefined): TelecomOperator {
-        return (
-            TelecomOperatorMapper.MAP.get(dto ?? TelecomOperatorDto.UNKNOWN) ??
-            TelecomOperator.UNKNOWN
-        );
+    mapToEnum(dto: TelecomOperatorDto): TelecomOperator {
+        return TelecomOperatorMapper.MAP.get(dto) as TelecomOperator;
     }
 
     mapStringToEnum(dtoValue: TelecomOperatorDto[]): TelecomOperator[] {
-        if (dtoValue === null || dtoValue === undefined) {
-            return [TelecomOperator.UNKNOWN];
-        }
         if (!Array.isArray(dtoValue)) {
             dtoValue = JSON.parse(dtoValue);
         }
@@ -32,10 +25,7 @@ export class TelecomOperatorMapper {
             [TelecomOperatorDto.MTN]: TelecomOperator.MTN,
             [TelecomOperatorDto.ORANGE]: TelecomOperator.ORANGE,
             [TelecomOperatorDto.MOOV]: TelecomOperator.MOOV,
-            [TelecomOperatorDto.UNKNOWN]: TelecomOperator.UNKNOWN,
         };
-        return dtoValue.map(
-            (operator) => methodMap[operator] || TelecomOperator.UNKNOWN
-        );
+        return dtoValue.map((operator) => methodMap[operator]);
     }
 }

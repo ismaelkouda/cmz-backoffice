@@ -75,7 +75,7 @@ export abstract class ArrayBaseFacade<TEntity, TFilter> {
                     this.itemsSubject.next(response);
                 }),
                 catchError((err) => {
-                    uiFeedback?.errorFromApi(err);
+                    uiFeedback?.notifyError(err);
                     return throwError(() => err);
                 }),
                 finalize(() => this.isLoadingSubject.next(false))

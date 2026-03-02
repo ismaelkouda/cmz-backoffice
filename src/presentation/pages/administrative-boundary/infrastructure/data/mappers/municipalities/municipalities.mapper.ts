@@ -1,15 +1,16 @@
+import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/municipalities/municipalities.entity';
+import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { MunicipalitiesItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-response-api.dto';
 
-import { MunicipalitiesItemApiDto } from '../../../api/dtos/municipalities/municipalities-response-api.dto';
-
+@Injectable({ providedIn: 'root' })
 export class MunicipalitiesMapper extends PaginatedMapper<
     MunicipalitiesEntity,
     MunicipalitiesItemApiDto
 > {
-    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, MunicipalitiesEntity>();
 
     protected override mapItemFromDto(

@@ -6,6 +6,7 @@ export interface AllFilterControl {
     startDate: FormControl<string>;
     endDate: FormControl<string>;
     reportType: FormControl<string | null>;
+    status: FormControl<string | null>;
     operators: FormControl<string[]>;
     source: FormControl<string | null>;
 }

@@ -1,7 +1,7 @@
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 
-import { ReportEntity } from '../../../core/domain/entities/report/report.entity';
-import { ReportItemDto } from '../../api/dtos/report/report-response.dto';
+import { ReportEntity } from '../../../domain/entities/report/report.entity';
+import { ReportItemDto } from '../../api/dto/report/report-response.dto';
 
 export class ReportMapper extends SimpleResponseMapper<
     ReportEntity,

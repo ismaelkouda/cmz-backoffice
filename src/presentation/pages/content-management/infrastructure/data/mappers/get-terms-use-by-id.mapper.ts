@@ -5,8 +5,8 @@ import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.
 import {
     GetTermsUseByIdItemDto,
     GetTermsUseByIdResponseDto,
-} from '@presentation/pages/content-management/core/application/dtos/terms-use/get-terms-use-by-id-response.dto';
-import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
+} from '@presentation/pages/content-management/application/dto/terms-use/get-terms-use-by-id-response.dto';
+import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/domain/entities/get-terms-use-by-id.entity';
 
 @Injectable({
     providedIn: 'root',

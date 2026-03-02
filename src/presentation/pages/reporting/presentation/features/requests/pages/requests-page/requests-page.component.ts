@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { DashboardViewerComponent } from '@presentation/pages/reporting/presentation/ui/shared/components/dashboard-viewer/dashboard-viewer.component';
 
-import { RequestFacade } from '../../../../../core/application/services/request.facade';
+import { RequestFacade } from '../../../../../application/services/request.facade';
 
 @Component({
     selector: 'app-requests-page',

@@ -30,8 +30,8 @@ import { CurrentUser } from '../../../../domain/interfaces/current-user.interfac
 import { EncodingDataService } from '../../../../domain/services/encoding-data.service';
 
 import { MyAccountFacade } from './application/my-account.facade';
-import { ChangePasswordRequestDto } from './data/dtos/change-password-request.dto';
-import { UpdateProfileRequestDto } from './data/dtos/update-profile-request.dto';
+import { ChangePasswordRequestDto } from './data/dto/change-password-request.dto';
+import { UpdateProfileRequestDto } from './data/dto/update-profile-request.dto';
 
 @Component({
     selector: 'app-my-account',

@@ -8,10 +8,10 @@ import {
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 
-import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';
-import { LegalNoticeRepository } from '@presentation/pages/content-management/core/domain/repositories/legal-notice.repository';
-import { LegalNoticeFilter } from '@presentation/pages/content-management/core/domain/value-objects/legal-notice-filter.vo';
+import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/domain/entities/get-legal-notice-by-id.entity';
+import { LegalNoticeEntity } from '@presentation/pages/content-management/domain/entities/legal-notice.entity';
+import { LegalNoticeRepository } from '@presentation/pages/content-management/domain/repositories/legal-notice.repository';
+import { LegalNoticeFilter } from '@presentation/pages/content-management/domain/value-objects/legal-notice-filter.vo';
 
 import { GetLegalNoticeByIdMapper } from '../mappers/get-legal-notice-by-id.mapper';
 import { LegalNoticeMapper } from '../mappers/legal-notice.mapper';

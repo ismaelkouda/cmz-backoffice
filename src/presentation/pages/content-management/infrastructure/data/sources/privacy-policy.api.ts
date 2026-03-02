@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { EnvService } from '@shared/domain/services/env.service';
 
-import { GetPrivacyPolicyByIdResponseDto } from '@presentation/pages/content-management/core/application/dtos/privacy-policy/get-privacy-policy-by-id-response.dto';
-import { PrivacyPolicyRequestDto } from '@presentation/pages/content-management/core/application/dtos/privacy-policy/privacy-policy-request.dto';
-import { PrivacyPolicyResponseDto } from '@presentation/pages/content-management/core/application/dtos/privacy-policy/privacy-policy-response.dto';
+import { GetPrivacyPolicyByIdResponseDto } from '@presentation/pages/content-management/application/dto/privacy-policy/get-privacy-policy-by-id-response.dto';
+import { PrivacyPolicyRequestDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-request.dto';
+import { PrivacyPolicyResponseDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-response.dto';
 import { PRIVACY_POLICY_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/data/endpoints/privacy-policy-endpoints';
 
 @Injectable({

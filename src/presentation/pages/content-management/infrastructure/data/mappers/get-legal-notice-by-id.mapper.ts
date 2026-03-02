@@ -5,8 +5,8 @@ import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.
 import {
     GetLegalNoticeByIdItemDto,
     GetLegalNoticeByIdResponseDto,
-} from '@presentation/pages/content-management/core/application/dtos/legal-notice/get-legal-notice-by-id-response.dto';
-import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
+} from '@presentation/pages/content-management/application/dto/legal-notice/get-legal-notice-by-id-response.dto';
+import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/domain/entities/get-legal-notice-by-id.entity';
 
 @Injectable({
     providedIn: 'root',
