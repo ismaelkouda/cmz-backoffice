@@ -156,9 +156,9 @@ export class TeamsParticipantsComponent implements OnInit {
         if (current === this.lastSuccess) {
             return;
         }
-
+        this.closeAssignModal();
+        this.closeReassignModal();
         this.lastSuccess = current;
-        this.navigateToBack();
     });
 
     private readonly reassignModalEffect = effect(() => {
@@ -400,7 +400,7 @@ export class TeamsParticipantsComponent implements OnInit {
             return;
         }
         this.facade.reassign({
-            uniqId: this.reassignForm.getRawValue(),
+            uniqId: this.reassignForm.get('team')?.value,
             participants: this.participantsSelectedInTable().map(
                 (p) => p.uniqId
             ),
@@ -412,10 +412,8 @@ export class TeamsParticipantsComponent implements OnInit {
             return;
         }
         this.facade.assign({
-            uniqId: this.assignForm.getRawValue(),
-            participants: this.participantsSelectedInTable().map(
-                (p) => p.uniqId
-            ),
+            uniqId: this.uniqId(),
+            ...this.assignForm.getRawValue(),
         });
     }
 
