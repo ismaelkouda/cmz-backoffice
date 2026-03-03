@@ -9,24 +9,24 @@ export const AGENTS_PERFORMANCES_TABLE_CONSTANT = {
         {
             field: 'name',
             header: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.NAME',
-            width: '10rem',
+            width: '18rem',
         },
         {
             field: 'goalsSize',
             header: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.GOALS_SIZE',
-            width: '18rem',
+            width: '10rem',
             type: 'number',
         },
         {
             field: 'achievementsSize',
             header: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.ACHIEVEMENTS_SIZE',
-            width: '18rem',
+            width: '10rem',
             type: 'number',
         },
         {
             field: 'percentages',
             header: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.PERCENTAGES',
-            width: '18rem',
+            width: '10rem',
         },
         {
             field: 'status',

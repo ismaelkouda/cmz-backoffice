@@ -25,7 +25,7 @@ export function teamsUpdateMapper(
         params['report_types'] = entity.reportTypes;
     }
     if (entity.permissions) {
-        params['permissions'] = entity.permissions;
+        params['permissions'] = entity.permissions.map(Number);
     }
 
     return params;

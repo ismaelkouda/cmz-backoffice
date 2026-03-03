@@ -1,27 +1,29 @@
 import { TeamsCreateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-create.entity';
 import { TeamsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-create-api.dto';
 
-export function TeamsCreateMapper(vo: TeamsCreateEntity): TeamsCreateApiDto {
+export function TeamsCreateMapper(
+    entity: TeamsCreateEntity
+): TeamsCreateApiDto {
     const params: TeamsCreateApiDto = {} as TeamsCreateApiDto;
 
-    if (vo.code) {
-        params['code'] = vo.code;
+    if (entity.code) {
+        params['code'] = entity.code;
     }
 
-    if (vo.name) {
-        params['name'] = vo.name;
+    if (entity.name) {
+        params['name'] = entity.name;
     }
-    if (vo.description) {
-        params['description'] = vo.description;
+    if (entity.description) {
+        params['description'] = entity.description;
     }
-    if (vo.operators) {
-        params['operators'] = vo.operators;
+    if (entity.operators) {
+        params['operators'] = entity.operators;
     }
-    if (vo.reportTypes) {
-        params['report_types'] = vo.reportTypes;
+    if (entity.reportTypes) {
+        params['report_types'] = entity.reportTypes;
     }
-    if (vo.permissions) {
-        params['permissions'] = vo.permissions;
+    if (entity.permissions) {
+        params['permissions'] = entity.permissions.map(Number);
     }
 
     return params;

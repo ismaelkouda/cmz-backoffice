@@ -26,14 +26,15 @@ export class MessagingFindOneMapper extends SimpleResponseMapper<
             reportId: dto.report_uniq_id,
             type: dto.type.toLowerCase(),
             targetType: dto.target_type,
-            region: dto.region,
-            department: dto.department,
-            municipality: dto.municipality,
+            region: dto.region?.id,
+            department: dto.department?.id,
+            municipality: dto.municipality?.id,
             channels: dto.channels,
             subject: dto.subject,
             content: dto.content,
             createdAt: dto.created_at,
         };
+        console.log('props: ', props);
 
         const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);

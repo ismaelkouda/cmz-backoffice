@@ -265,48 +265,12 @@ export class TeamsParticipantsComponent implements OnInit {
                         'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.SEARCH_PLACEHOLDER',
                 },
             },
-            {
-                type: 'text',
-                name: 'participantEmail',
-                label: this.t(
-                    'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.EMAIL'
-                ),
-                placeholder: this.t(
-                    'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.EMAIL_PLACEHOLDER'
-                ),
-                translationKeys: {
-                    label: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.EMAIL',
-                    placeholder:
-                        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.EMAIL_PLACEHOLDER',
-                },
-            },
-            {
-                type: 'text',
-                name: 'phone',
-                label: this.t(
-                    'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.PHONE'
-                ),
-                placeholder: this.t(
-                    'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.PHONE_PLACEHOLDER'
-                ),
-                translationKeys: {
-                    label: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.PHONE',
-                    placeholder:
-                        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.FILTER.PHONE_PLACEHOLDER',
-                },
-            },
         ];
     });
 
     public form: FormGroup<TeamsParticipantsFilterControl> =
         this.fb.group<TeamsParticipantsFilterControl>({
             search: new FormControl<string | undefined>(undefined, {
-                nonNullable: true,
-            }),
-            participantEmail: new FormControl<string | undefined>(undefined, {
-                nonNullable: true,
-            }),
-            phone: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
         });

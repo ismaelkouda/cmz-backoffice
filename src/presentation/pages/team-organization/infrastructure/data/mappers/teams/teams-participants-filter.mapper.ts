@@ -14,12 +14,6 @@ export function teamsParticipantsFilterMapper(
     if (vo.search) {
         params.search = vo.search;
     }
-    if (vo.participantEmail) {
-        params.user_email = vo.participantEmail;
-    }
-    if (vo.phone) {
-        params.phone = vo.phone;
-    }
 
     return params;
 }

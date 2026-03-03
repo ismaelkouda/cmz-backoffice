@@ -213,6 +213,15 @@ label {
     font-size: 19.5px;
     overflow: visible !important;
 }
+:host ::ng-deep input[type='text']:disabled,
+:host ::ng-deep input[type='email']:disabled,
+:host ::ng-deep input[type='number']:disabled,
+:host ::ng-deep textarea:disabled,
+:host ::ng-deep .p-select.p-disabled,
+:host ::ng-deep .p-password .p-disabled {
+    font-weight: bold;
+}
+
 // input[type='text']:disabled,
 // input[type='email']:disabled,
 // input[type='number']:disabled,

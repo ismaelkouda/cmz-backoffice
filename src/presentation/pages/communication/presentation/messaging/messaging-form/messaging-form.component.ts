@@ -43,6 +43,7 @@ import { Type } from '@presentation/pages/communication/domain/enums/messaging/m
 import { FormValidators } from '@presentation/pages/communication/domain/validators/form-validators';
 import { MessagingFormHelperService } from '@presentation/pages/communication/presentation/messaging/messaging-form/messaging-form-helper.service';
 import { MessagingFormValidationService } from '@presentation/pages/communication/presentation/messaging/messaging-form/messaging-form-validation.service';
+import { MessagingFormSkeletonComponent } from '@presentation/pages/communication/presentation/messaging/messaging-form-skeleton/messaging-form-skeleton.component';
 
 @Component({
     selector: 'app-messaging-form',
@@ -55,6 +56,7 @@ import { MessagingFormValidationService } from '@presentation/pages/communicatio
         ReactiveFormsModule,
         BreadcrumbComponent,
         PageTitleComponent,
+        MessagingFormSkeletonComponent,
         InputTextModule,
         InputMaskModule,
         TextareaModule,

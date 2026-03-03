@@ -86,9 +86,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
 
         const command = new TeamsParticipantsQuery(
             filter.uniqId,
-            filter?.search,
-            filter?.participantEmail,
-            filter?.phone
+            filter?.search
         );
         const fetch$ = this.filterBus.dispatch(command, page);
 
@@ -109,9 +107,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
         const page = this.pageSubject.getValue();
         const command = new TeamsParticipantsQuery(
             filter?.uniqId ?? '',
-            filter?.search,
-            filter?.participantEmail,
-            filter?.phone
+            filter?.search
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
@@ -130,9 +126,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
         }
         const command = new TeamsParticipantsQuery(
             filter?.uniqId ?? '',
-            filter?.search,
-            filter?.participantEmail,
-            filter?.phone
+            filter?.search
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
