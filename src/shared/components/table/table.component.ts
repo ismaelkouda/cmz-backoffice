@@ -110,6 +110,7 @@ export class TableComponent {
     }
 
     public onRefresh(): void {
+        this.selectedItems = [];
         this.refreshRequested.emit(undefined);
     }
 

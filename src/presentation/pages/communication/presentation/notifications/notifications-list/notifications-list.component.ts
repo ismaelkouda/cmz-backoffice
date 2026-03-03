@@ -262,7 +262,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         actionId?: string;
     }): void {
         const { item } = event;
-        this.selectedReportId = item.reportUniqId;
+        this.selectedReportId = item.reference;
         this.reportTreatmentVisible = true;
     }
 

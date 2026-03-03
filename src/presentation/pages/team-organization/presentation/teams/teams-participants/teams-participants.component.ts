@@ -90,6 +90,7 @@ export class TeamsParticipantsComponent implements OnInit {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
+
     public readonly tableConfig = TEAMS_PARTICIPANTS;
     private lastSuccess = this.facade.actionSuccess();
 
@@ -123,10 +124,10 @@ export class TeamsParticipantsComponent implements OnInit {
     );
 
     public readonly displayReassignModal = signal<boolean>(false);
-    private readonly openReassignRequested = signal(false);
+    private readonly openReassignRequested = signal<boolean>(false);
 
     public readonly displayAssignModal = signal<boolean>(false);
-    private readonly openAssignRequested = signal(false);
+    private readonly openAssignRequested = signal<boolean>(false);
 
     private readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
@@ -158,6 +159,7 @@ export class TeamsParticipantsComponent implements OnInit {
         }
         this.closeAssignModal();
         this.closeReassignModal();
+        this.participantsSelectedInTable.set([]);
         this.lastSuccess = current;
     });
 
@@ -241,7 +243,7 @@ export class TeamsParticipantsComponent implements OnInit {
 
     private onAssignRoleSelected(role: string): void {
         this.openAssignRequested.set(true);
-        this.participantsSelectFacade.readAll(role);
+        this.participantsSelectFacade.readAll(role, true);
     }
 
     readonly filterFields: Signal<FilterField[]> = computed(() => {

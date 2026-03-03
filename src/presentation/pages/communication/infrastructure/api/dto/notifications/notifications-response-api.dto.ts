@@ -9,7 +9,7 @@ export interface NotificationsItemApiDto {
     type: string;
     message: string;
     status: ApiStatus;
-    report_uniq_id: string;
+    model_id: string;
     sent_at: string;
 }
 
