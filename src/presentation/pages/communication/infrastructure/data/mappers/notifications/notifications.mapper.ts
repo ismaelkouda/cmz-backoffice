@@ -27,12 +27,11 @@ export class NotificationsMapper extends PaginatedMapper<
 
         const props: NotificationsProps = {
             uniqId: dto.id,
-            reference: dto.reference,
+            reference: dto.model_id,
             title: dto.title,
             type: dto.type,
             message: dto.message,
             status: this.statusMapper.mapApiToStatus(dto.status),
-            reportUniqId: dto.report_uniq_id,
             sendAt: dto.sent_at,
         };
 

@@ -19,11 +19,11 @@ export const NOTIFICATIONS = {
             class: 'text-center',
             width: '2rem',
         },
-        {
-            field: 'reference',
-            header: 'COMMUNICATION.NOTIFICATIONS.TABLE.REFERENCE',
-            width: '8rem',
-        },
+        // {
+        //     field: 'reference',
+        //     header: 'COMMUNICATION.NOTIFICATIONS.TABLE.REFERENCE',
+        //     width: '8rem',
+        // },
         {
             field: 'title',
             header: 'COMMUNICATION.NOTIFICATIONS.TABLE.TITLE',
@@ -53,5 +53,5 @@ export const NOTIFICATIONS = {
             width: calculateActionColumnWidth(1),
         },
     ],
-    globalFilterFields: ['reference', 'title', 'message', 'status', 'sendAt'],
+    globalFilterFields: ['title', 'message', 'status', 'sendAt'],
 };

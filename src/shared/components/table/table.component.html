@@ -82,7 +82,7 @@
             [pReorderableRow]="rowIndex"
             [pSelectableRow]="rowData"
         >
-            @for (col of columns; track trackByColField($index, col)) {
+            @for (col of columns; track trackByColField($index, col.field)) {
                 <td [class]="col.class">
                     @if (col.field === '__selection') {
                         <p-tableCheckbox [value]="rowData" />
