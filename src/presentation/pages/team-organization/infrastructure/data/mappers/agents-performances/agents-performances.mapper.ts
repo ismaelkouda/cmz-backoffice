@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
@@ -8,6 +10,7 @@ import {
 import { AGENTS_PERFORMANCES_STATUS } from '@presentation/pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
 import { AgentsPerformancesItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-response-api.dto';
 
+@Injectable({ providedIn: 'root' })
 export class AgentsPerformancesMapper extends PaginatedMapper<
     AgentsPerformancesEntity,
     AgentsPerformancesItemApiDto

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
-export const NODE_ROUTE = 'node';
-export const SERVICES_ROUTE = 'services';
+export const NODE_ROUTE = 'processing-status';
+export const SERVICES_ROUTE = 'services-states';
 export const RESOURCES_ROUTE = 'resources-states';
 
 export const routes: Routes = [

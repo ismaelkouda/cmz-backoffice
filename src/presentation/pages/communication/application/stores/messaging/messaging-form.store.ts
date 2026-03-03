@@ -6,14 +6,13 @@ import {
     effect,
     DestroyRef,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
     FormGroup,
     FormBuilder,
     FormControl,
     Validators,
 } from '@angular/forms';
-import { tap } from 'rxjs/operators';
 
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 
@@ -31,12 +30,20 @@ export class MessagingFormStore {
     private readonly regionsFacade = inject(RegionsSelectFacade);
 
     private readonly item = this.facade.items;
-    private lastPatchedId: string | null = null;
-    private readonly selectedRegionCode = signal<string | null>(null);
-    private readonly selectedDepartmentCode = signal<string | null>(null);
-    private readonly currentTargetType = signal<string | null>(null);
+    private readonly isPatching = signal(false);
+
+    readonly selectedRegionCode = computed(() => this.formValue().region);
+
+    readonly selectedDepartmentCode = computed(
+        () => this.formValue().department
+    );
+    readonly currentTargetType = computed(() => this.formValue().targetType);
 
     readonly form = this.createForm();
+
+    readonly formValue = toSignal(this.form.valueChanges, {
+        initialValue: this.form.getRawValue(),
+    });
 
     readonly regions = toSignal(this.regionsFacade.items$, {
         initialValue: [],
@@ -47,9 +54,9 @@ export class MessagingFormStore {
         if (!regionCode) {
             return [];
         }
-
-        const region = this.regions().find((r) => r.code === regionCode);
-        return region?.departments || [];
+        return (
+            this.regions().find((r) => r.code === regionCode)?.departments || []
+        );
     });
 
     readonly municipalities = computed(() => {
@@ -57,7 +64,6 @@ export class MessagingFormStore {
         if (!departmentCode) {
             return [];
         }
-
         const region = this.regions().find((r) =>
             r.departments?.some((d) => d.code === departmentCode)
         );
@@ -67,37 +73,104 @@ export class MessagingFormStore {
         );
     });
 
-    readonly isDetailsMode = signal(false);
-    readonly loading = this.facade.loading;
+    private readonly regionEffect = effect(() => {
+        const region = this.selectedRegionCode();
+        if (this.isPatching()) {
+            return;
+        }
+        if (!region) {
+            return;
+        }
+        if (this.form.controls.department.value) {
+            return;
+        }
+        this.form.patchValue(
+            {
+                department: '',
+                municipality: '',
+            },
+            { emitEvent: false }
+        );
+
+        this.updateDependentValidators();
+    });
+
+    private readonly departmentEffect = effect(() => {
+        const department = this.selectedDepartmentCode();
+        if (this.isPatching()) {
+            return;
+        }
+        if (!department) {
+            return;
+        }
+        if (this.form.controls.municipality.value) {
+            return;
+        }
+        this.form.patchValue(
+            {
+                municipality: '',
+            },
+            { emitEvent: false }
+        );
+        this.updateDependentValidators();
+    });
+
+    private readonly targetTypeEffect = effect(() => {
+        const targetType = this.currentTargetType();
+        if (this.isPatching()) {
+            return;
+        }
+        if (!targetType) {
+            return;
+        }
+        const isReport =
+            targetType === getEnumKeyByValue(Target, Target.report);
+        if (isReport) {
+            this.form.patchValue(
+                {
+                    region: '',
+                    department: '',
+                    municipality: '',
+                },
+                { emitEvent: false }
+            );
+        } else {
+            this.form.patchValue(
+                {
+                    reportId: '',
+                },
+                { emitEvent: false }
+            );
+        }
+        this.updateValidatorsForTargetType(targetType);
+    });
+
     readonly isReportMode = computed(() => {
         const targetType = this.currentTargetType();
         return targetType === getEnumKeyByValue(Target, Target.report);
     });
 
+    readonly isDetailsMode = signal(false);
+    readonly loading = this.facade.loading;
+
     private readonly setupItemPatch = effect(() => {
         const item = this.item();
-        if (item && item.uniqId !== this.lastPatchedId) {
-            this.form.patchValue(
-                {
-                    reportId: item.reportId || '',
-                    type: item.type,
-                    targetType: item.targetType,
-                    region: item.region || '',
-                    department: item.department || '',
-                    municipality: item.municipality || '',
-                    channels: item.channels,
-                    subject: item.subject,
-                    content: item.content,
-                },
-                { emitEvent: false }
-            );
-            this.lastPatchedId = item.uniqId;
+        this.isPatching.set(true);
+        if (item) {
+            this.form.patchValue({
+                reportId: item.reportId || '',
+                type: item.type,
+                targetType: item.targetType,
+                region: item.region,
+                department: item.department,
+                municipality: item.municipality,
+                channels: item.channels,
+                subject: item.subject,
+                content: item.content,
+            });
+            this.isPatching.set(false);
         }
     });
-
-    constructor() {
-        this.setupFormSubscriptions();
-    }
 
     private createForm(): FormGroup<MessagingFormControl> {
         return this.fb.nonNullable.group<MessagingFormControl>({
@@ -140,81 +213,6 @@ export class MessagingFormStore {
         });
     }
 
-    private setupFormSubscriptions(): void {
-        this.form.controls.targetType.valueChanges
-            .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                tap((targetType) => {
-                    this.currentTargetType.set(targetType);
-                    if (!this.isDetailsMode()) {
-                        this.updateValidatorsForTargetType(targetType);
-                    }
-
-                    this.clearFieldsForTargetType(targetType);
-                })
-            )
-            .subscribe();
-
-        this.form.controls.region.valueChanges
-            .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                tap((code) => {
-                    this.selectedRegionCode.set(code);
-                    this.form.controls.department.setValue('', {
-                        emitEvent: false,
-                    });
-                    this.form.controls.municipality.setValue('', {
-                        emitEvent: false,
-                    });
-                    this.selectedDepartmentCode.set(null);
-                    this.updateDependentValidators();
-                })
-            )
-            .subscribe();
-
-        this.form.controls.department.valueChanges
-            .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                tap((code) => {
-                    this.selectedDepartmentCode.set(code);
-
-                    this.form.controls.municipality.setValue('', {
-                        emitEvent: false,
-                    });
-
-                    this.updateDependentValidators();
-                })
-            )
-            .subscribe();
-
-        this.form.controls.targetType.valueChanges
-            .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                tap((targetType) => {
-                    this.currentTargetType.set(targetType);
-
-                    if (
-                        targetType === getEnumKeyByValue(Target, Target.report)
-                    ) {
-                        this.form.controls.region.setValue('', {
-                            emitEvent: false,
-                        });
-                        this.form.controls.department.setValue('', {
-                            emitEvent: false,
-                        });
-                        this.form.controls.municipality.setValue('', {
-                            emitEvent: false,
-                        });
-                        this.selectedRegionCode.set(null);
-                        this.selectedDepartmentCode.set(null);
-                    }
-
-                    this.updateValidatorsForTargetType(targetType);
-                })
-            )
-            .subscribe();
-    }
-
     private updateValidatorsForTargetType(targetType: string | null): void {
         const isReport =
             targetType === getEnumKeyByValue(Target, Target.report);
@@ -227,28 +225,8 @@ export class MessagingFormStore {
                 Validators.maxLength(FormValidators.REPORT_ID.MAX),
                 Validators.pattern(FormValidators.REPORT_ID.PATTERN),
             ]);
-            reportIdControl.enable({ emitEvent: false });
-        } else {
-            reportIdControl.clearValidators();
-            reportIdControl.disable({ emitEvent: false });
         }
         reportIdControl.updateValueAndValidity({ emitEvent: false });
-
-        const controls = [this.form.controls.region];
-
-        if (!isReport) {
-            controls.forEach((control) => {
-                control.setValidators([Validators.required]);
-                control.enable({ emitEvent: false });
-                control.updateValueAndValidity({ emitEvent: false });
-            });
-        } else {
-            controls.forEach((control) => {
-                control.clearValidators();
-                control.disable({ emitEvent: false });
-                control.updateValueAndValidity({ emitEvent: false });
-            });
-        }
     }
 
     private updateDependentValidators(): void {
@@ -256,10 +234,8 @@ export class MessagingFormStore {
         if (isReport) {
             return;
         }
-
         const regionValue = this.form.controls.region.value;
         const departmentControl = this.form.controls.department;
-
         if (regionValue) {
             departmentControl.setValidators([Validators.required]);
         } else {
@@ -297,8 +273,8 @@ export class MessagingFormStore {
             this.facade.read({ uniqId }, true);
         } else {
             this.form.reset();
-            this.regionsFacade.readAll();
             this.facade.reset();
         }
+        this.regionsFacade.readAll(true);
     }
 }

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const PARTICIPANTS_ROUTE = 'participant';
 export const TEAMS_ROUTE = 'team';
-export const AGENTS_PERFORMANCES_ROUTE = 'agents-performances';
+export const AGENTS_PERFORMANCES_ROUTE = 'agent-performances';
 
 export const routes: Routes = [
     {

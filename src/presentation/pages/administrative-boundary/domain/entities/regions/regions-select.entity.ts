@@ -13,7 +13,7 @@ export class RegionsSelectEntity {
     static fromDto(dto: RegionsSelectItemApiDto): RegionsSelectEntity {
         return new RegionsSelectEntity(
             dto.name,
-            dto.code,
+            dto.id,
             dto.departments.map(DepartmentsSelectEntity.fromDto)
         );
     }
@@ -29,12 +29,12 @@ export class RegionsSelectEntity {
 
         if (
             this.name === dto.name &&
-            this.code === dto.code &&
+            this.code === dto.id &&
             departments === this.departments
         ) {
             return this;
         }
 
-        return new RegionsSelectEntity(dto.name, dto.code, departments);
+        return new RegionsSelectEntity(dto.name, dto.id, departments);
     }
 }

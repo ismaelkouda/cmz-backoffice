@@ -3160,6 +3160,47 @@
                     "REASSIGN_MESSAGE": "{{count}} intervenant(s) seront réaffectés"
                 }
             }
+        },
+        "AGENTS_PERFORMANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Performances des agents",
+                "ROUTE": "agent-performances"
+            },
+            "TABS": {
+                "AGENTS_PERFORMANCES": {
+                    "LABEL": "Performances des agents",
+                    "ROUTE": "agent-performances"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Performances des agents",
+            "LABEL": "Performances des agents",
+            "ROUTE": "agent-performances",
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "PARTICIPANT": "Membre",
+                "PARTICIPANT_PLACEHOLDER": "Trouver un membre",
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "TABLE": {
+                "NAME": "Nom complet de l'agent",
+                "GOALS_SIZE": "# Objectifs",
+                "ACHIEVEMENTS_SIZE": "# Réalisations",
+                "PERCENTAGES": "Pourcentages",
+                "STATUS": "Status",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            }
         }
     },
     "REPORTING": {

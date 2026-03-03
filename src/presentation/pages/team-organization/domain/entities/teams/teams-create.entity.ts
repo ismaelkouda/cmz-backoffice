@@ -7,7 +7,7 @@ export class TeamsCreateEntity {
         public readonly description: string,
         public readonly operators: string[],
         public readonly reportTypes: string[],
-        public readonly permissions: any[]
+        public readonly permissions: string[]
     ) {}
 
     static fromVo(vo: TeamsCreateVo): TeamsCreateEntity {

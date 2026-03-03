@@ -2,19 +2,19 @@ import { ProfilesPermissionsCreateEntity } from '@presentation/pages/settings-se
 import { ProfilesPermissionsCreateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-create-api.dto';
 
 export function profilesPermissionsCreateMapper(
-    vo: ProfilesPermissionsCreateEntity
+    entity: ProfilesPermissionsCreateEntity
 ): ProfilesPermissionsCreateApiDto {
     const params: ProfilesPermissionsCreateApiDto =
         {} as ProfilesPermissionsCreateApiDto;
 
-    if (vo.name) {
-        params['name'] = vo.name;
+    if (entity.name) {
+        params['name'] = entity.name;
     }
-    if (vo.description) {
-        params['description'] = vo.description;
+    if (entity.description) {
+        params['description'] = entity.description;
     }
-    if (vo.permissions && vo.permissions.length > 0) {
-        params['permissions'] = vo.permissions;
+    if (entity.permissions) {
+        params['permissions'] = entity.permissions.map(Number);
     }
 
     return params;

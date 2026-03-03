@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Paginate } from '@shared/data/dto/simple-response.dto';
@@ -9,6 +9,7 @@ import { AgentsPerformancesEntity } from '@presentation/pages/team-organization/
 import { AgentsPerformancesRepository } from '@presentation/pages/team-organization/domain/repositories/agents-performances/agents-performances.repository';
 import { AgentsPerformancesFilterVo } from '@presentation/pages/team-organization/domain/value-objects/agents-performances/agents-performances-filter.vo';
 
+@Injectable({ providedIn: 'root' })
 export class AgentsPerformancesUseCase {
     private readonly repository = inject(AgentsPerformancesRepository);
 

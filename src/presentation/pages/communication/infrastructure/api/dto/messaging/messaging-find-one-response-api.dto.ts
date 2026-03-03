@@ -1,3 +1,4 @@
+import { AdministrativeBoundaryDto } from '@shared/data/dto/administrative-boundary.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface MessagingFindOneItemApiDto {
@@ -5,9 +6,9 @@ export interface MessagingFindOneItemApiDto {
     report_uniq_id: string;
     type: string;
     target_type: string;
-    region: string;
-    department: string;
-    municipality: string;
+    region: AdministrativeBoundaryDto;
+    department: AdministrativeBoundaryDto;
+    municipality: AdministrativeBoundaryDto;
     channels: string[];
     subject: string;
     content: string;

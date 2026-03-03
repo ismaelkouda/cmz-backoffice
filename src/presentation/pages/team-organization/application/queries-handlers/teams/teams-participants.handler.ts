@@ -19,8 +19,6 @@ export class TeamsParticipantsHandler {
             {
                 uniqId: command.uniqId,
                 search: command.search,
-                participantEmail: command.participantEmail,
-                phone: command.phone,
             },
             page
         );
