@@ -51,8 +51,7 @@
                                     class="close-fullscreen-btn"
                                     (click)="toggleFullscreen()"
                                     pTooltip="{{
-                                        'COMMON.EXIT_FULLSCREEN'
-                                            | translate
+                                        'COMMON.EXIT_FULLSCREEN' | translate
                                     }}"
                                     tooltipPosition="bottom"
                                 >
@@ -71,7 +70,12 @@
                                 animationDuration=".5s"
                             >
                             </p-progressSpinner>
-                            <h3>{{ 'COMMON.LOADING_GRAFANA_DASHBOARD' | translate }}</h3>
+                            <h3>
+                                {{
+                                    'COMMON.LOADING_GRAFANA_DASHBOARD'
+                                        | translate
+                                }}
+                            </h3>
                             <p>{{ loadingDescription() | translate }}</p>
                         </div>
                     }

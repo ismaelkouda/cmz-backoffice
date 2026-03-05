@@ -40,7 +40,7 @@ import { ProfilesPermissionsEntity } from '@presentation/pages/settings-security
 import { Status } from '@presentation/pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
 import {
     PROFILES_PERMISSIONS_FORM,
-    PROFILES_PERMISSIONS_USERS_ROUTE,
+    PROFILES_PERMISSIONS_USERS,
 } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions.routes';
 
 @Component({
@@ -297,7 +297,7 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
         item: ProfilesPermissionsEntity;
         col: HTMLTableCellElement;
     }): void {
-        this.router.navigate([PROFILES_PERMISSIONS_USERS_ROUTE], {
+        this.router.navigate([PROFILES_PERMISSIONS_USERS], {
             relativeTo: this.activatedRoute,
             queryParams: { uniqId: event.item.uniqId, name: event.item.name },
         });

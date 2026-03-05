@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2026-02-27T12:56:17.625Z
+// Generated at: 2026-03-03T23:36:44.486Z
 
 export interface AppConfig {
     authenticationUrl: string;

@@ -248,7 +248,7 @@ export class RegionsListComponent implements OnInit {
         this.router.navigate([REGIONS_FORM], {
             relativeTo: this.activatedRoute,
             queryParams: {
-                code: item.uniqId,
+                uniqId: item.uniqId,
                 ref: ref,
             },
         });
@@ -286,7 +286,7 @@ export class RegionsListComponent implements OnInit {
         this.router.navigate([DEPARTMENTS_BY_REGION_ID_ROUTE], {
             relativeTo: this.activatedRoute,
             queryParams: {
-                code: event.item.uniqId,
+                uniqId: event.item.uniqId,
                 name: event.item.name,
             },
         });

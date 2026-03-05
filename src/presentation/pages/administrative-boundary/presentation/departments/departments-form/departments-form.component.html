@@ -187,7 +187,7 @@
                                                     <p-select
                                                         class="form-p-select"
                                                         [options]="regions()"
-                                                        formControlName=" region"
+                                                        formControlName="region"
                                                         optionLabel="name"
                                                         optionValue="code"
                                                         filter="true"
@@ -317,3 +317,5 @@
         </article>
     </section>
 </main>
+
+<h1>{{ regions() | json }}</h1>

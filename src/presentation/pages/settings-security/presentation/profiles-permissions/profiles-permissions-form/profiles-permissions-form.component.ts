@@ -46,6 +46,7 @@ import { ProfilesPermissionsFormControls } from '@presentation/pages/settings-se
 import { ProfilesPermissionsFormHelperService } from '@presentation/pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-helper.service';
 import { ProfilesPermissionsFormValidationService } from '@presentation/pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-validation.service';
 import { FormValidators } from '@presentation/pages/settings-security/domain/validators/form-validators';
+import { ProfilesPermissionsFormSkeletonComponent } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-form-skeleton/profiles-permissions-form-skeleton.component';
 
 @Component({
     selector: 'app-profiles-permissions-form',
@@ -57,6 +58,7 @@ import { FormValidators } from '@presentation/pages/settings-security/domain/val
         TranslateModule,
         BreadcrumbComponent,
         PageTitleComponent,
+        ProfilesPermissionsFormSkeletonComponent,
         ReactiveFormsModule,
         InputTextModule,
         TextareaModule,

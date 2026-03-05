@@ -1,4 +1,4 @@
-<main class="container-fluid profiles-permissions-users-container" role="main">
+<main class="container-fluid profiles-permissions-users-container" team="main">
     <section class="row profiles-permissions-users-row">
         <article class="col-sm-12 profiles-permissions-users-article">
             <app-breadcrumb />
@@ -11,7 +11,7 @@
                                 class="page-title-component"
                                 [displayDate]="false"
                                 [title]="
-                                    'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.TITLE'
+                                    'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.TITLE'
                                         | translate
                                         | lowercase
                                 "
@@ -33,25 +33,6 @@
                     </header>
 
                     <div class="fade-in profiles-permissions-users-content">
-                        <!-- <div class="report-subtitle">
-                            <div class="subtitle-item">
-                                <span class="subtitle-label"
-                                    >'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.NAME' | translate:</span
-                                >
-                                <p-tag
-                                    [value]="departmentName()"
-                                    [styleClass]="
-                                        'department-name-tag ' +departmentName()"
-                                    [rounded]="true"
-                                ></p-tag>
-                            </div>
-
-                            <div class="subtitle-item">
-                                <span class="subtitle-label">'COMMON.CREATED_AT' | translate:</span>
-                                <span class="subtitle-value">{{departmentCreatedAt()}}</span>
-                            </div>
-                        </div> -->
-
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
@@ -68,7 +49,7 @@
                             <app-table
                                 class="table-component"
                                 [loading]="loading()"
-                                [items]="item()"
+                                [items]="items()"
                                 [pagination]="pagination()"
                                 [config]="tableConfig"
                                 (refreshRequested)="onRefresh()"
@@ -94,83 +75,6 @@
     </section>
 </main>
 
-<ng-template #reassignModal let-modal>
-    <form [formGroup]="reassignForm">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                {{
-                    'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.REASSIGN_MODAL.TITLE'
-                        | translate
-                }}
-            </h4>
-            <button
-                type="button"
-                class="btn-close"
-                aria-label="Close"
-                (click)="closeReassignModal()"
-            ></button>
-        </div>
-        <div class="modal-body" novalidate>
-            <div class="form-group mb-3">
-                <label for="profile" class="form-label">
-                    <b
-                        >{{
-                            'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.REASSIGN_MODAL.PROFILE_LABEL'
-                                | translate
-                        }}
-                        <span class="text-danger">*</span></b
-                    >
-                </label>
-                <p-select
-                    id="profile"
-                    formControlName="profile"
-                    [options]="profiles()"
-                    optionLabel="label"
-                    optionValue="value"
-                    appendTo="body"
-                    [placeholder]="
-                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.REASSIGN_MODAL.PROFILE_PLACEHOLDER'
-                            | translate
-                    "
-                    [style]="{ width: '100%' }"
-                    [class.ng-invalid]="
-                        reassignForm.get('profile')?.invalid &&
-                        reassignForm.get('profile')?.touched
-                    "
-                ></p-select>
-                @if (
-                    reassignForm.get('profile')?.invalid &&
-                    reassignForm.get('profile')?.touched
-                ) {
-                    <small class="text-danger">
-                        {{
-                            'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.REASSIGN_MODAL.PROFILE_REQUIRED'
-                                | translate
-                        }}
-                    </small>
-                }
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button
-                type="button"
-                class="btn btn-secondary"
-                (click)="closeReassignModal()"
-            >
-                {{ 'COMMON.CANCEL' | translate }}
-            </button>
-            <button
-                type="button"
-                class="btn btn-primary"
-                (click)="onSubmitReassign()"
-                [disabled]="reassignForm.invalid"
-            >
-                {{ 'COMMON.VALIDATE' | translate }}
-            </button>
-        </div>
-    </form>
-</ng-template>
-
 <p-dialog
     [visible]="displayReassignModal()"
     (visibleChange)="displayReassignModal.set($event)"
@@ -179,7 +83,7 @@
     [draggable]="false"
     [resizable]="false"
     header="{{
-        'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.REASSIGN_MODAL.TITLE'
+        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.MODAL.REASSIGN_TITLE'
             | translate
     }}"
 >
@@ -188,26 +92,26 @@
             <label for="team">
                 <b>
                     {{
-                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.REASSIGN_MODAL.PROFILE_LABEL'
+                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.MODAL.REASSIGN_LABEL'
                             | translate
                     }}
                     <span class="text-danger">*</span>
                 </b>
             </label>
             <p-select
-                formControlName="profile"
+                formControlName="team"
                 [options]="profiles()"
                 optionLabel="label"
                 optionValue="value"
-                [loading]="loadingProfiles()"
+                [loading]="loadingTeams()"
                 [filter]="true"
                 filterBy="label"
                 appendTo="body"
                 [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
                 styleClass="w-100"
                 [class.ng-invalid]="
-                    reassignForm.get('profile')?.invalid &&
-                    reassignForm.get('profile')?.touched
+                    reassignForm.get('team')?.invalid &&
+                    reassignForm.get('team')?.touched
                 "
             ></p-select>
         </div>
@@ -231,7 +135,7 @@
                 reassignForm.invalid ||
                 !usersSelectedInTable().length ||
                 !profiles().length ||
-                loadingProfiles() ||
+                loadingTeams() ||
                 facade.actionState() === 'loading'
             "
         ></p-button>
@@ -246,7 +150,7 @@
     [draggable]="false"
     [resizable]="false"
     header="{{
-        'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.ASSIGN_MODAL.TITLE'
+        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.MODAL.ASSIGN_TITLE'
             | translate
     }}"
 >
@@ -255,7 +159,7 @@
             <label for="team">
                 <b>
                     {{
-                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS_USERS.ASSIGN_MODAL.PROFILE_LABEL'
+                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.MODAL.ASSIGN_LABEL'
                             | translate
                     }}
                     <span class="text-danger">*</span>
@@ -298,7 +202,7 @@
             (onClick)="onSubmitAssign()"
             [disabled]="
                 assignForm.invalid ||
-                !paramsUniqId().length ||
+                !uniqId().length ||
                 !users().length ||
                 loadingUsers() ||
                 facade.actionState() === 'loading'

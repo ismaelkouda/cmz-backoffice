@@ -1,0 +1,89 @@
+.fieldset {
+    margin-bottom: 1.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+legend {
+    width: auto;
+    padding: 0 0.5rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+.actions-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.page-title-component {
+    flex: 1;
+}
+
+.tree-container {
+    background-color: #ffffff;
+    min-height: 400px;
+}
+
+.permission-tree-skeleton {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.tree-node {
+    transition: all 0.2s ease;
+}
+
+.tree-children {
+    border-left-color: #e9ecef !important;
+}
+
+.permission-tree-skeleton::-webkit-scrollbar {
+    width: 4px;
+}
+
+.permission-tree-skeleton::-webkit-scrollbar-thumb {
+    background-color: #ced4da;
+    border-radius: 4px;
+}
+
+.permission-tree-skeleton::-webkit-scrollbar-track {
+    background-color: #f8f9fa;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+::ng-deep .p-skeleton {
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .tree-controls {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .actions-form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .ms-auto {
+        margin-left: 0 !important;
+    }
+}

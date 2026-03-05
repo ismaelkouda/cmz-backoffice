@@ -17,29 +17,23 @@ import { ServicesFacade } from '@presentation/pages/monitoring/application/servi
     standalone: true,
     imports: [CommonModule, TranslateModule, DashboardViewerComponent],
     template: `
-        @if (services(); as data) {
-            <app-dashboard-viewer
-                [grafanaLink]="data.grafanaLink"
-                [titleKey]="'MONITORING.SERVICES.TITLE'"
-                [moduleKey]="'MONITORING.LABEL'"
-                [subModuleKey]="'MONITORING.SERVICES.LABEL'"
-                [loadingDescription]="'MONITORING.SERVICES.LOADING_DESCRIPTION'"
-                [errorDescription]="'MONITORING.SERVICES.ERROR_DESCRIPTION'"
-                (refresh)="refreshDashboard()"
-                [isLoading]="isLoading() ?? false"
-            >
-            </app-dashboard-viewer>
-        } @else {
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
-            </div>
-        }
+        <app-dashboard-viewer
+            [grafanaLink]="data()?.grafanaLink"
+            [titleKey]="'MONITORING.SERVICES.TITLE'"
+            [moduleKey]="'MONITORING.LABEL'"
+            [subModuleKey]="'MONITORING.SERVICES.LABEL'"
+            [loadingDescription]="'MONITORING.SERVICES.LOADING_DESCRIPTION'"
+            [errorDescription]="'MONITORING.SERVICES.ERROR_DESCRIPTION'"
+            (refresh)="refreshDashboard()"
+            [isLoading]="isLoading() ?? false"
+        >
+        </app-dashboard-viewer>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServicesPageComponent implements OnInit {
     private readonly facade = inject(ServicesFacade);
-    readonly services = toSignal(this.facade.items$);
+    readonly data = toSignal(this.facade.items$);
     readonly isLoading = toSignal(this.facade.isLoading$);
 
     ngOnInit(): void {

@@ -8,17 +8,7 @@ export function profilesPermissionsUsersFilterMapper(
         {} as ProfilesPermissionsUsersFilterApiDto;
 
     if (vo.uniqId) {
-        params.id = vo.uniqId;
-    }
-
-    if (vo.search) {
-        params.search = vo.search;
-    }
-    if (vo.userEmail) {
-        params.user_email = vo.userEmail;
-    }
-    if (vo.phone) {
-        params.phone = vo.phone;
+        params.uniq_id = vo.uniqId;
     }
 
     return params;

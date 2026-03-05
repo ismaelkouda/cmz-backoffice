@@ -8,7 +8,6 @@ export class ServicesMapper extends SimpleResponseMapper<
     ServicesItemDto
 > {
     protected override mapItemFromDto(dto: ServicesItemDto): ServicesEntity {
-        console.log('dto', dto);
-        return new ServicesEntity(dto.servicesMonitoringLink);
+        return new ServicesEntity(dto.useOfServersResourcesLink);
     }
 }

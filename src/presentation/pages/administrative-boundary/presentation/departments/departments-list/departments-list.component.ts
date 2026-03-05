@@ -244,7 +244,7 @@ export class DepartmentsListComponent implements OnInit {
         this.router.navigate([DEPARTMENTS_FORM], {
             relativeTo: this.activatedRoute,
             queryParams: {
-                code: item.uniqId,
+                uniqId: item.uniqId,
                 ref: ref,
             },
         });
@@ -283,7 +283,7 @@ export class DepartmentsListComponent implements OnInit {
         this.router.navigate([MUNICIPALITIES_BY_DEPARTMENT_ID_ROUTE], {
             relativeTo: this.activatedRoute,
             queryParams: {
-                code: event.item.uniqId,
+                uniqId: event.item.uniqId,
                 name: event.item.name,
             },
         });

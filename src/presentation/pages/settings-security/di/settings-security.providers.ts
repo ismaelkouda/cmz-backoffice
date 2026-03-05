@@ -6,11 +6,12 @@ import { accessLogsProviders } from '@presentation/pages/settings-security/di/ac
 import { profilesPermissionsFindOneProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-find-one.providers';
 import { profilesPermissionsFreeUsersProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-free-users.providers';
 import { profilesPermissionsPermissionsProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-permissions.providers';
+import { profilesPermissionsSelectProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-select.providers';
 import { profilesPermissionsUsersProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions-users.providers';
 import { profilesPermissionsProviders } from '@presentation/pages/settings-security/di/profiles-permissions/profiles-permissions.providers';
-import { profilesSelectProviders } from '@presentation/pages/settings-security/di/users/profiles-select.providers';
 import { responsibilitiesSelectProviders } from '@presentation/pages/settings-security/di/users/responsibilities-select.providers';
 import { usersFindOneProviders } from '@presentation/pages/settings-security/di/users/users-find-one.providers';
+import { usersSelectProviders } from '@presentation/pages/settings-security/di/users/users-select.providers';
 import { usersProviders } from '@presentation/pages/settings-security/di/users/users.providers';
 import { SETTINGS_SECURITY_BASE_URL } from '@presentation/pages/settings-security/infrastructure/api/settings-security.base-url';
 
@@ -35,7 +36,7 @@ export const provideSettingsSecurity = (): Provider[] => [
 
     ...usersProviders,
     ...usersFindOneProviders,
-    ...profilesSelectProviders,
+    ...usersSelectProviders,
     ...responsibilitiesSelectProviders,
 
     ...profilesPermissionsProviders,
@@ -43,4 +44,5 @@ export const provideSettingsSecurity = (): Provider[] => [
     ...profilesPermissionsFindOneProviders,
     ...profilesPermissionsFreeUsersProviders,
     ...profilesPermissionsPermissionsProviders,
+    ...profilesPermissionsSelectProviders,
 ];

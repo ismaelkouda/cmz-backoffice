@@ -35,12 +35,12 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 
-import { ProfilesSelectFacade } from '@presentation/pages/settings-security/application/services/users/profiles-select.facade';
+import { ProfilesPermissionsSelectFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions-select.facade';
 import { ResponsibilitiesSelectFacade } from '@presentation/pages/settings-security/application/services/users/responsibilities-select.facade';
 import { UsersFindOneFacade } from '@presentation/pages/settings-security/application/services/users/users-find-one.facade';
 import { UsersFacade } from '@presentation/pages/settings-security/application/services/users/users.facade';
 import { UsersFormControl } from '@presentation/pages/settings-security/domain/controls/users/users-form.control';
-import { ProfilesSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/profiles-select.entity';
+import { ProfilesPermissionsSelectEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
 import { FormValidators } from '@presentation/pages/settings-security/domain/validators/form-validators';
 
 import { UsersFormHelperService } from './users-form-helper.service';
@@ -70,7 +70,7 @@ import { UsersFormValidationService } from './users-form-validation.service';
         MessageService,
         UsersFormValidationService,
         UsersFormHelperService,
-        ProfilesSelectFacade,
+        ProfilesPermissionsSelectFacade,
         ResponsibilitiesSelectFacade,
         UsersFindOneFacade,
         UsersFacade,
@@ -81,7 +81,7 @@ export class UsersFormComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
     private readonly usersFacade = inject(UsersFacade);
-    private readonly profilesFacade = inject(ProfilesSelectFacade);
+    private readonly profilesFacade = inject(ProfilesPermissionsSelectFacade);
     private readonly responsibilitiesFacade = inject(
         ResponsibilitiesSelectFacade
     );
@@ -140,11 +140,11 @@ export class UsersFormComponent implements OnInit {
         });
 
     readonly profiles = toSignal(this.profilesFacade.items$, {
-        initialValue: [] as ProfilesSelectEntity[],
+        initialValue: [] as ProfilesPermissionsSelectEntity[],
     });
 
     readonly responsibilities = toSignal(this.responsibilitiesFacade.items$, {
-        initialValue: [] as ProfilesSelectEntity[],
+        initialValue: [] as ProfilesPermissionsSelectEntity[],
     });
 
     readonly currentUser = this.findOneFacade.items;

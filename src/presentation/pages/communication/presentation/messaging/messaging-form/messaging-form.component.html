@@ -92,7 +92,9 @@
                                                             "
                                                         />
                                                         @if (
-                                                            isFieldInvalid('type')
+                                                            isFieldInvalid(
+                                                                'type'
+                                                            )
                                                         ) {
                                                             <small
                                                                 class="text-danger d-block mt-1"
@@ -163,7 +165,9 @@
                                                     </div>
 
                                                     @if (
-                                                        shouldShowField('reportId')
+                                                        shouldShowField(
+                                                            'reportId'
+                                                        )
                                                     ) {
                                                         <div
                                                             class="fade-in col-md-4"
@@ -237,7 +241,8 @@
                                                                             )
                                                                                 ?.value ||
                                                                             ''
-                                                                        ).length
+                                                                        )
+                                                                            .length
                                                                     }}/{{
                                                                         VALIDATION
                                                                             .REPORT_ID
@@ -251,7 +256,9 @@
                                             </fieldset>
 
                                             @if (shouldShowField('region')) {
-                                                <fieldset class="fade-in fieldset">
+                                                <fieldset
+                                                    class="fade-in fieldset"
+                                                >
                                                     <legend>
                                                         <b>{{
                                                             'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.TITLE'
@@ -496,18 +503,20 @@
                                                                     | translate
                                                             "
                                                             [attr.maxlength]="
-                                                                VALIDATION.SUBJECT
-                                                                    .MAX
+                                                                VALIDATION
+                                                                    .SUBJECT.MAX
                                                             "
                                                         />
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mt-1"
                                                         >
                                                             @if (
-                                                                form.get('subject')
-                                                                    ?.invalid &&
-                                                                form.get('subject')
-                                                                    ?.touched
+                                                                form.get(
+                                                                    'subject'
+                                                                )?.invalid &&
+                                                                form.get(
+                                                                    'subject'
+                                                                )?.touched
                                                             ) {
                                                                 <small
                                                                     class="text-danger"
@@ -526,12 +535,14 @@
                                                                     (
                                                                         form.get(
                                                                             'subject'
-                                                                        )?.value ||
+                                                                        )
+                                                                            ?.value ||
                                                                         ''
                                                                     ).length
                                                                 }}/{{
                                                                     VALIDATION
-                                                                        .SUBJECT.MAX
+                                                                        .SUBJECT
+                                                                        .MAX
                                                                 }}
                                                             </small>
                                                         </div>
@@ -558,18 +569,20 @@
                                                             formControlName="content"
                                                             class="w-100"
                                                             [attr.maxlength]="
-                                                                VALIDATION.CONTENT
-                                                                    .MAX
+                                                                VALIDATION
+                                                                    .CONTENT.MAX
                                                             "
                                                         ></textarea>
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mt-1"
                                                         >
                                                             @if (
-                                                                form.get('content')
-                                                                    ?.invalid &&
-                                                                form.get('content')
-                                                                    ?.touched
+                                                                form.get(
+                                                                    'content'
+                                                                )?.invalid &&
+                                                                form.get(
+                                                                    'content'
+                                                                )?.touched
                                                             ) {
                                                                 <small
                                                                     class="text-danger"
@@ -588,12 +601,14 @@
                                                                     (
                                                                         form.get(
                                                                             'content'
-                                                                        )?.value ||
+                                                                        )
+                                                                            ?.value ||
                                                                         ''
                                                                     ).length
                                                                 }}/{{
                                                                     VALIDATION
-                                                                        .CONTENT.MAX
+                                                                        .CONTENT
+                                                                        .MAX
                                                                 }}
                                                             </small>
                                                         </div>
@@ -611,7 +626,9 @@
                                                                 | translate
                                                         "
                                                         styleClass="p-button-text p-button-secondary"
-                                                        (click)="navigateToBack()"
+                                                        (click)="
+                                                            navigateToBack()
+                                                        "
                                                         [attr.aria-label]="
                                                             'COMMON.CANCEL'
                                                                 | translate
@@ -623,7 +640,9 @@
                                                                 | translate
                                                         "
                                                         type="submit"
-                                                        [disabled]="form.invalid"
+                                                        [disabled]="
+                                                            form.invalid
+                                                        "
                                                         [attr.aria-label]="
                                                             'COMMON.SAVE'
                                                                 | translate

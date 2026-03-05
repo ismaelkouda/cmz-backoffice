@@ -24,7 +24,7 @@ export class DepartmentsFindOneEntity {
             dto.name,
             dto.code,
             dto.description,
-            dto.region.code,
+            dto.region.id,
             dto.population_size,
             dto.municipalities_count,
             dto.is_active,

@@ -22,39 +22,38 @@ export class ProfilesPermissionsUsersApi {
     ) {}
 
     readAll(
-        filter: ProfilesPermissionsUsersFilterApiDto,
+        dto: ProfilesPermissionsUsersFilterApiDto,
         page: string
     ): Observable<ProfilesPermissionsUsersResponseApiDto> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}?page=${page}`;
-
-        const params = buildHttpParams(filter);
-
+        const { uniq_id, ...filterParams } = dto;
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/${uniq_id}/users?page=${page}`;
+        const params = buildHttpParams(filterParams, { skipEmptyString: true });
         return this.http.get<ProfilesPermissionsUsersResponseApiDto>(url, {
             params,
         });
     }
 
-    reassign(
-        dto: ProfilesPermissionsUsersReassignApiDto
-    ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/reassign`;
-        const payload = buildHttpPayload(dto, []);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
-    }
-
     assign(
         dto: ProfilesPermissionsUsersAssignApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/assign`;
-        const payload = buildHttpPayload(dto, []);
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/${dto.uniq_id}/assign`;
+        const payload = buildHttpPayload(dto, ['uniq_id']);
+        return this.http.post<SimpleResponseDto<void>>(url, payload);
+    }
+
+    reassign(
+        dto: ProfilesPermissionsUsersReassignApiDto
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/${dto.uniq_id}/reassign`;
+        const payload = buildHttpPayload(dto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
     remove(
         dto: ProfilesPermissionsUsersRemoveApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/remove`;
-        const payload = buildHttpPayload(dto, ['profile_user_id']);
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/${dto.uniq_id}/remove`;
+        const payload = buildHttpPayload(dto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 }

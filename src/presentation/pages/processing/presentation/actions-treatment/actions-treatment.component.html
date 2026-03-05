@@ -11,7 +11,9 @@
                                 class="page-title-component"
                                 [displayDate]="false"
                                 [title]="
-                                    'PROCESSING.TASKS.ACTIONS.TITLE' | translate | lowercase
+                                    'PROCESSING.TASKS.ACTIONS.TITLE'
+                                        | translate
+                                        | lowercase
                                 "
                             >
                             </app-page-title>
@@ -88,7 +90,9 @@
 
                         <section
                             class="actions-table-section"
-                            [aria-label]="'PROCESSING.TASKS.ACTIONS.TITLE' | translate"
+                            [aria-label]="
+                                'PROCESSING.TASKS.ACTIONS.TITLE' | translate
+                            "
                         >
                             <app-table
                                 class="table-component"
@@ -127,16 +131,17 @@
     [dismissableMask]="true"
     [style]="{ width: '45rem' }"
     [resizable]="false"
-    header="{{
-        'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE' | translate
-    }}"
+    header="{{ 'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE' | translate }}"
 >
     <form [formGroup]="form">
         <div class="row pt-3">
             <div class="col-md-6 form-group">
                 <label for="team">
                     <b
-                        >{{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE' | translate }}
+                        >{{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE'
+                                | translate
+                        }}
                         <span class="text-danger">*</span>
                     </b>
                 </label>
@@ -146,7 +151,7 @@
                     [readonlyInput]="true"
                     dateFormat="yy-mm-dd"
                     pInputMask="99-99-9999"
-                    [showTime]="true" 
+                    [showTime]="true"
                     [hourFormat]="24"
                     appendTo="body"
                     class="form-control"
@@ -155,7 +160,10 @@
             <div class="col-md-6 form-group">
                 <label for="action-type">
                     <b>
-                        {{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE' | translate }}
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE'
+                                | translate
+                        }}
                         <span class="text-danger">*</span>
                     </b>
                 </label>
@@ -173,7 +181,10 @@
 
         <div class="form-group pt-3">
             <label for="action-description">
-                {{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION' | translate }}
+                {{
+                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION'
+                        | translate
+                }}
                 <span class="text-danger">*</span>
             </label>
             <textarea
@@ -183,7 +194,8 @@
                 rows="5"
                 maxlength="255"
                 placeholder="{{
-                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION_PLACEHOLDER' | translate
+                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION_PLACEHOLDER'
+                        | translate
                 }}"
                 class="form-control"
             ></textarea>
@@ -192,7 +204,10 @@
         <div class="form-group pt-3 toggle-group">
             <div class="toggle-container">
                 <label for="action-notify" class="toggle-label">
-                    {{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS' | translate }}
+                    {{
+                        'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
+                            | translate
+                    }}
                 </label>
                 <p-toggleswitch
                     id="action-notify"
