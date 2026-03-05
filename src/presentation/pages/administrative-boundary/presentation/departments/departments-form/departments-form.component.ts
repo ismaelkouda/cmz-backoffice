@@ -80,6 +80,9 @@ export class DepartmentsFormComponent implements OnInit {
     readonly regions = toSignal(this.regionsFacade.items$, {
         initialValue: [],
     });
+    readonly loadingRegions = toSignal(this.regionsFacade.isLoading$, {
+        initialValue: false,
+    });
     readonly items = this.facade.items;
     readonly loading = this.facade.loading;
     private readonly paramsUniqId = toSignal(

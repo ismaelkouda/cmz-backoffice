@@ -90,6 +90,7 @@ export class MessagingFormComponent implements OnInit {
     readonly isDetailsMode = this.store.isDetailsMode;
     readonly loading = this.store.loading;
     readonly regions = this.store.regions;
+    readonly loadingRegions = this.store.loadingRegions;
     readonly departments = this.store.departments;
     readonly municipalities = this.store.municipalities;
 

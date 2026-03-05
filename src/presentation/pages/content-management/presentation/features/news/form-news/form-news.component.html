@@ -72,6 +72,8 @@
                                                             optionLabel="label"
                                                             optionValue="value"
                                                             styleClass="w-100"
+        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
                                                         ></p-select>
                                                     </div>
 
@@ -330,6 +332,8 @@
                                                                 'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY_PLACEHOLDER'
                                                                     | translate
                                                             "
+        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
                                                         >
                                                         </p-select>
                                                         @if (
@@ -374,6 +378,8 @@
                                                                 'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY_PLACEHOLDER'
                                                                     | translate
                                                             "
+        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
                                                         >
                                                         </p-select>
                                                         @if (

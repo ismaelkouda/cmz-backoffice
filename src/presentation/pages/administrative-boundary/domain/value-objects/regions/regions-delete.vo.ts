@@ -9,7 +9,7 @@ export class RegionsDeleteVo {
 
     static fromDto(dto: RegionsDeleteDto): RegionsDeleteVo {
         return new RegionsDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

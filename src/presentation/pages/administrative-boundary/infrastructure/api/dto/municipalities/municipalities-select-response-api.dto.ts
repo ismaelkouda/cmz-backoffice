@@ -4,6 +4,7 @@ export interface MunicipalitiesSelectItemApiDto {
     id: string;
     name: string;
     code: string;
+    updated_at: string;
 }
 
 export type MunicipalitiesSelectResponseApiDto = SimpleResponseDto<

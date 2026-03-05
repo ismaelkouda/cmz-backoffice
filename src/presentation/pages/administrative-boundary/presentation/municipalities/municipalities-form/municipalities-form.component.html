@@ -189,9 +189,10 @@
                                                         [options]="
                                                             departments()
                                                         "
+                                                        [loading]="loadingDepartments()"
                                                         formControlName="departmentId"
                                                         optionLabel="name"
-                                                        optionValue="code"
+                                                        optionValue="value"
                                                         filter="true"
                                                         filterBy="name"
                                                         styleClass="w-100"
@@ -199,6 +200,8 @@
                                                             'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.FIELDSET_GENERAL_INFO.DEPARTMENT_PLACEHOLDER'
                                                                 | translate
                                                         "
+        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
                                                     >
                                                     </p-select>
                                                     @if (

@@ -80,6 +80,9 @@ export class MunicipalitiesFormComponent implements OnInit {
     readonly departments = toSignal(this.departmentsFacade.items$, {
         initialValue: [],
     });
+    readonly loadingDepartments = toSignal(this.departmentsFacade.isLoading$, {
+        initialValue: false,
+    });
     readonly items = this.facade.items;
     readonly loading = this.facade.loading;
     private readonly paramsUniqId = toSignal(

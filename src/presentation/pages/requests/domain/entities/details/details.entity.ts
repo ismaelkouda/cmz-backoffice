@@ -164,10 +164,6 @@ export class DetailsEntity {
     }
 
     public get canBeApproved(): boolean {
-        console.log(
-            'detailsPermissionsApprove(this.props): ',
-            detailsPermissionsApprove(this.props)
-        );
         return detailsPermissionsApprove(this.props);
     }
 

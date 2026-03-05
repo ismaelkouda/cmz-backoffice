@@ -1,41 +1,53 @@
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { DepartmentsSelectItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-select-response-api.dto';
-
-import { MunicipalitiesSelectEntity } from '../municipalities/municipalities-select.entity';
+import { DepartmentsSelectProps } from '@shared/domain/interfaces/departments-select.props.interface';
+import { MunicipalitiesSelectProps } from '@shared/domain/interfaces/municipalities-select.props.interface';
 
 export class DepartmentsSelectEntity {
-    constructor(
-        public readonly name: string,
-        public readonly code: string,
-        public readonly municipalities: readonly MunicipalitiesSelectEntity[]
-    ) {}
+    constructor(private readonly props: DepartmentsSelectProps) {}
 
-    static fromDto(dto: DepartmentsSelectItemApiDto): DepartmentsSelectEntity {
-        return new DepartmentsSelectEntity(
-            dto.name,
-            dto.id,
-            dto.municipalities.map(MunicipalitiesSelectEntity.fromDto)
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
     }
 
-    public with(dto: DepartmentsSelectItemApiDto): DepartmentsSelectEntity {
-        const municipalities = MapperUtils.mergeImmutable(
-            this.municipalities,
-            dto.municipalities,
-            (d) => d.code,
-            (entity, dto) => entity.with(dto),
-            MunicipalitiesSelectEntity.fromDto
-        );
+    get name(): string {
+        return this.props.name;
+    }
 
-        if (
-            this.name === dto.name &&
-            this.code === dto.id &&
-            municipalities === this.municipalities
-        ) {
+    get value(): string {
+        return this.props.value;
+    }
+
+    get municipalities(): readonly MunicipalitiesSelectProps[] {
+        return this.props.municipalities;
+    }
+
+    with(props: DepartmentsSelectProps): DepartmentsSelectEntity {
+        if (this.hasSameProps(props)) {
             return this;
         }
 
-        return new DepartmentsSelectEntity(dto.name, dto.id, municipalities);
+        return new DepartmentsSelectEntity(props);
+    }
+
+    private hasSameProps(props: DepartmentsSelectProps): boolean {
+        if (
+            this.uniqId !== props.uniqId ||
+            this.name !== props.name ||
+            this.value !== props.value
+        ) {
+            return false;
+        }
+
+        if (this.municipalities.length !== props.municipalities.length) {
+            return false;
+        }
+
+        return this.municipalities.every((municipality, index) => {
+            const otherMunicipality = props.municipalities[index];
+            return (
+                municipality.uniqId === otherMunicipality.uniqId &&
+                municipality.value === otherMunicipality.value &&
+                municipality.name === otherMunicipality.name
+            );
+        });
     }
 }

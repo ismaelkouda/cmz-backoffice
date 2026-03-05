@@ -146,10 +146,7 @@
     background-color: #e9ecef;
 }
 
-.truncated-text {
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
+.truncated-text div {
     text-overflow: ellipsis;
     white-space: nowrap;
     cursor: help;

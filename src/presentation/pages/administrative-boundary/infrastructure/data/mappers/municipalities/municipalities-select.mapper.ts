@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
+import { MunicipalitiesSelectProps } from '@shared/domain/interfaces/municipalities-select.props.interface';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { MunicipalitiesSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-select.entity';
@@ -19,14 +20,22 @@ export class MunicipalitiesSelectMapper extends ArrayResponseMapper<
     protected override mapItemFromDto(
         dto: MunicipalitiesSelectItemApiDto
     ): MunicipalitiesSelectEntity {
-        MapperUtils.validateDto(dto, { required: ['id'] });
+        MapperUtils.validateDto(dto, {
+            required: ['id', 'name', 'code'],
+        });
 
-        const cacheKey = `dto:${dto.id}`;
+        const cacheKey = `municipality:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
 
+        const props: MunicipalitiesSelectProps = {
+            uniqId: dto.id,
+            value: dto.id,
+            name: dto.name,
+        };
+
         const entity = cached
-            ? cached.with(dto)
-            : MunicipalitiesSelectEntity.fromDto(dto);
+            ? cached.with(props)
+            : new MunicipalitiesSelectEntity(props);
 
         this.entityCache.set(cacheKey, entity);
         return entity;

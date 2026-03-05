@@ -142,10 +142,19 @@ export class UsersFormComponent implements OnInit {
     readonly profiles = toSignal(this.profilesFacade.items$, {
         initialValue: [] as ProfilesPermissionsSelectEntity[],
     });
+    readonly loadingProfiles = toSignal(this.profilesFacade.isLoading$, {
+        initialValue: false,
+    });
 
     readonly responsibilities = toSignal(this.responsibilitiesFacade.items$, {
         initialValue: [] as ProfilesPermissionsSelectEntity[],
     });
+    readonly loadingResponsibilities = toSignal(
+        this.responsibilitiesFacade.isLoading$,
+        {
+            initialValue: false,
+        }
+    );
 
     readonly currentUser = this.findOneFacade.items;
 
