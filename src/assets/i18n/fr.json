@@ -2750,77 +2750,74 @@
                     "REQUIRED": "Ce champ est obligatoire"
                 }
             },
-            "BUTTONS": {
-                "ADD": "Ajouter",
-                "ASSIGN": "Affecter",
-                "REASSIGN": "Réaffecter",
-                "RETIRE": "Remover"
-            },
-            "ACTIONS": {
-                "VIEW": "Voir plus",
-                "EDIT": "Modifier",
-                "DELETE": "Supprimer",
-                "ENABLE": "Activer",
-                "DISABLE": "Désactiver"
-            },
-            "CONFIRM": {
-                "DELETE_TITLE": "Supprimer le profil",
-                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer le profil {{name}} ? Cette action est irréversible.",
-                "DISABLE_TITLE": "Désactiver le profil",
-                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver le profil {{name}} ?",
-                "RETIRE_TITLE": "Supprimer les utilisateurs",
-                "RETIRE_MESSAGE": "Êtes-vous sûr de vouloir remover {{count}} utilisateur(s) de ce profil ?",
-                "ASSIGN_TITLE": "Affecter les utilisateurs",
-                "ASSIGN_MESSAGE": "Êtes-vous sûr de vouloir affecter {{count}} utilisateur(s) à ce profil ?"
-            },
-            "MESSAGES": {
-                "SUCCESS": {
-                    "CREATED": "Profil créé avec succès",
-                    "UPDATED": "Profil modifié avec succès",
-                    "DELETED": "Profil supprimé avec succès",
-                    "ENABLED": "Profil activé avec succès",
-                    "DISABLED": "Profil désactivé avec succès",
-                    "REASSIGNED": "Utilisateurs réaffectés avec succès",
-                    "RETIRED": "Utilisateurs retirés avec succès",
-                    "AFFECTED": "Utilisateurs affectés avec succès"
-                },
-                "NO_SELECTION": "Veuillez sélectionner au moins un utilisateur"
-            },
-            "MODAL": {
-                "REASSIGN_TITLE": "Réaffecter les utilisateurs",
-                "NEW_PROFILE": "Nouveau profil",
-                "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
-                "REASSIGN_MESSAGE": "{{count}} utilisateur(s) seront réaffectés"
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de profil",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet profil ?",
+                "TITLE_CREATE": "Création de profil",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cet profil ?",
+                "TITLE_DELETE": "Suppression de profil",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet profil ?",
+                "TITLE_ENABLE": "Activation de profil",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet profil ?",
+                "TITLE_DISABLE": "Désactivation de profil",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cet profil ?"
             },
             "USERS": {
+                "BREADCRUMB": {
+                    "LABEL": "Utilisateurs",
+                    "ROUTE": "users"
+                },
                 "TITLE": "Utilisateurs du profil",
-                "LABEL": "Utilisateurs"
-            },
-            "ASSIGN": {
-                "TITLE": "Affecter des utilisateurs au profil",
-                "LABEL": "Affecter des utilisateurs",
-                "ASSIGN_CONFIRMATION": "Voulez-vous assigner ce profil à ces utilisateurs ?",
-                "UNASSIGN_CONFIRMATION": "Voulez-vous déassigner ce profil à ces utilisateurs ?",
-                "ASSIGN_CONFIRMATION_TITLE": "Assignation de profil",
-                "UNASSIGN_CONFIRMATION_TITLE": "Désassignation de profil",
-                "ASSIGN_CONFIRMATION_MESSAGE": "Cette action est irréversible.",
-                "UNASSIGN_CONFIRMATION_MESSAGE": "Cette action est irréversible.",
-                "ASSIGN_CONFIRMATION_BUTTON": "Assigner",
-                "UNASSIGN_CONFIRMATION_BUTTON": "Déassigner",
-                "ASSIGN_CONFIRMATION_BUTTON_CANCEL": "Annuler",
-                "UNASSIGN_CONFIRMATION_BUTTON_CANCEL": "Annuler",
-                "ASSIGN_CONFIRMATION_BUTTON_ASSIGN": "Assigner"
-            },
-            "OPTIONS": {
-                "PROFILE": {
-                    "ADMIN": "Administrateur",
-                    "USER": "Utilisateur"
-                }
-            },
-            "LABELS": {
-                "STATUS": {
-                    "ACTIVE": "Actif",
-                    "INACTIVE": "Inactif"
+                "LABEL": "Utilisateurs",
+                "ROUTE": "profile-and-permissions",
+                "FILTER": {
+                    "SEARCH": "Rechercher",
+                    "SEARCH_PLACEHOLDER": "Rechercher"
+                },
+                "TABLE": {
+                    "CODE": "Code",
+                    "FIRST_NAME": "Prénom",
+                    "LAST_NAME": "Nom",
+                    "PHONE": "Téléphone",
+                    "EMAIL": "Email"
+                },
+                "FORM": {
+                    "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
+                    "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
+                    "FIELDSET_GENERAL_INFO": {
+                        "TITLE": "Informations Générales",
+                        "CODE": "Code",
+                        "CODE_PLACEHOLDER": "Ex: TE001",
+                        "NAME": "Nom de l'équipe",
+                        "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
+                        "DESCRIPTION": "Description",
+                        "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
+                    },
+                    "VALIDATION": {
+                        "MIN_LENGTH": "Minimum caractères requis",
+                        "MAX_LENGTH": "Maximum caractères autorisés",
+                        "MIN_VALUE": "Valeur minimale",
+                        "MAX_VALUE": "Valeur maximale",
+                        "INVALID_FORMAT": "Format invalide",
+                        "INVALID_INPUT": "Valeur invalide",
+                        "REQUIRED": "Ce champ est obligatoire"
+                    }
+                },
+                "SWEET_ALERT": {
+                    "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?",
+                    "TITLE_REASSIGN": "Réaffectation d'intervenant(s)",
+                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} intervenant(s) de cette équipe ?",
+                    "TITLE_REMOVE": "Retrait d'intervenant(s)",
+                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} intervenant(s) de cette équipe ?"
+                },
+                "MODAL": {
+                    "REASSIGN_TITLE": "Réaffectation des intervenants",
+                    "REASSIGN_LABEL": "Équipe",
+                    "ASSIGN_TITLE": "Affectation des intervenants",
+                    "ASSIGN_LABEL": "Intervenant",
+                    "NEW_PROFILE": "Nouveau profil",
+                    "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
+                    "REASSIGN_MESSAGE": "{{count}} intervenant(s) seront réaffectés"
                 }
             }
         },
@@ -3108,11 +3105,7 @@
                 "ROUTE": "team-users",
                 "FILTER": {
                     "SEARCH": "Rechercher",
-                    "SEARCH_PLACEHOLDER": "Rechercher",
-                    "EMAIL": "Email",
-                    "EMAIL_PLACEHOLDER": "Email",
-                    "PHONE": "Téléphone",
-                    "PHONE_PLACEHOLDER": "Téléphone"
+                    "SEARCH_PLACEHOLDER": "Rechercher"
                 },
                 "TABLE": {
                     "CODE": "Code",
@@ -3249,15 +3242,25 @@
             "LOADING_DESCRIPTION": "Suivi des ressources en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des états des ressources. Veuillez recharger la page ou contacter le support."
         },
-        "REPORT": {
+        "SERVICES": {
             "BREADCRUMB": {
-                "LABEL": "Suivi des signalements",
-                "ROUTE": "reports"
+                "LABEL": "Etat des services",
+                "ROUTE": "services-states"
             },
-            "TITLE": "Tableau de bord analytique des signalements",
-            "LABEL": "Signalement",
-            "LOADING_DESCRIPTION": "Suivi des signalements en cours...",
-            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements. Veuillez recharger la page ou contacter le support."
+            "TITLE": "Tableau de bord analytique des états des services",
+            "LABEL": "Performances des noeuds",
+            "LOADING_DESCRIPTION": "Suivi des services en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des états des ressources. Veuillez recharger la page ou contacter le support."
+        },
+        "NODE": {
+            "BREADCRUMB": {
+                "LABEL": "Performances des noeuds",
+                "ROUTE": "processing-status"
+            },
+            "TITLE": "Tableau de bord analytique - Performances des noeuds",
+            "LABEL": "Performances des noeuds",
+            "LOADING_DESCRIPTION": "Suivi des performances en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Performances des noeuds. Veuillez recharger la page ou contacter le support."
         }
     }
 }

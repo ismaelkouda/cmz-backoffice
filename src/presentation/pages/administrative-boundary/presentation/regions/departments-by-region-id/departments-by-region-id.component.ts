@@ -5,6 +5,7 @@ import {
     DestroyRef,
     effect,
     inject,
+    OnInit,
     Signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -51,7 +52,7 @@ import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DepartmentsByRegionIdComponent {
+export class DepartmentsByRegionIdComponent implements OnInit {
     private readonly title = inject(Title);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);

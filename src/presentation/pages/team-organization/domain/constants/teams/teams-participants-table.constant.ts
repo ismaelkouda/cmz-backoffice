@@ -9,12 +9,12 @@ export const TEAMS_PARTICIPANTS = {
         {
             field: 'lastName',
             header: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.LAST_NAME',
-            width: '15rem',
+            width: '10rem',
         },
         {
             field: 'firstName',
             header: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.FIRST_NAME',
-            width: '10rem',
+            width: '15rem',
         },
         {
             field: 'phone',

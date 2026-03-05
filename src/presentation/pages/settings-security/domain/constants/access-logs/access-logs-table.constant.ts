@@ -9,7 +9,7 @@ export const ACCESS_LOGS_TABLE_CONSTANT = {
         {
             field: 'action',
             header: 'SETTINGS_SECURITY.ACCESS_LOGS.TABLE.ACTION',
-            width: '10rem',
+            width: '6rem',
         },
         {
             field: 'source',
@@ -19,6 +19,7 @@ export const ACCESS_LOGS_TABLE_CONSTANT = {
         {
             field: 'usedAgent',
             header: 'SETTINGS_SECURITY.ACCESS_LOGS.TABLE.USED_AGENT',
+            type: 'tooltip',
             width: '18rem',
         },
         {

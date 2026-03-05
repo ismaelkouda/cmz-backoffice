@@ -8,7 +8,7 @@ export function profilesPermissionsUsersReassignMapper(
         {} as ProfilesPermissionsUsersReassignApiDto;
 
     if (vo.uniqId) {
-        params.profile_user_id = vo.uniqId;
+        params.uniq_id = vo.uniqId;
     }
 
     if (vo.users) {

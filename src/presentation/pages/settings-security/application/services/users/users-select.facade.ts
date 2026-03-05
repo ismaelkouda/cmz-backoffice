@@ -4,18 +4,18 @@ import { ArrayBaseFacade } from '@shared/application/services/array-base-facade'
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-import { ProfilesSelectUseCase } from '@presentation/pages/settings-security/application/use-cases/users/profiles-select.use-case';
-import { ProfilesSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/profiles-select.entity';
+import { UsersSelectUseCase } from '@presentation/pages/settings-security/application/use-cases/users/users-select.use-case';
+import { UsersSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/users-select.entity';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ProfilesSelectFacade extends ArrayBaseFacade<
-    ProfilesSelectEntity,
+export class UsersSelectFacade extends ArrayBaseFacade<
+    UsersSelectEntity,
     void
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
-    private readonly useCase = inject(ProfilesSelectUseCase);
+    private readonly useCase = inject(UsersSelectUseCase);
 
     readonly items = this.items$;
 

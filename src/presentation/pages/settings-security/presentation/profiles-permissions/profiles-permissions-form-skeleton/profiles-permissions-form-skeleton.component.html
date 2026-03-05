@@ -1,0 +1,281 @@
+<main
+    class="container-fluid form-profiles-permissions-container"
+    role="status"
+    aria-label="Chargement du formulaire"
+>
+    <section class="row form-profiles-permissions-row">
+        <article class="col-sm-12 form-profiles-permissions">
+            <section class="card form-profiles-permissions-card">
+                <div class="card-body form-profiles-permissions-card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form class="form row g-3">
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <p-skeleton
+                                                    width="200px"
+                                                    height="20px"
+                                                    borderRadius="4px"
+                                                />
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-5">
+                                                    <div class="mb-2">
+                                                        <p-skeleton
+                                                            width="80px"
+                                                            height="20px"
+                                                            borderRadius="4px"
+                                                        />
+                                                    </div>
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-end mt-1"
+                                                    >
+                                                        <p-skeleton
+                                                            width="40px"
+                                                            height="16px"
+                                                            borderRadius="4px"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-7">
+                                                    <div class="mb-2">
+                                                        <p-skeleton
+                                                            width="100px"
+                                                            height="20px"
+                                                            borderRadius="4px"
+                                                        />
+                                                    </div>
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-end mt-1"
+                                                    >
+                                                        <p-skeleton
+                                                            width="40px"
+                                                            height="16px"
+                                                            borderRadius="4px"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <!-- Fieldset 2: Arbre des permissions -->
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <p-skeleton
+                                                    width="180px"
+                                                    height="20px"
+                                                    borderRadius="4px"
+                                                />
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-12">
+                                                    <!-- Contrôles de l'arbre (Expand/Collapse) -->
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mb-3"
+                                                    >
+                                                        <div
+                                                            class="tree-controls d-flex gap-2"
+                                                        >
+                                                            <p-skeleton
+                                                                width="100px"
+                                                                height="32px"
+                                                                borderRadius="4px"
+                                                            />
+                                                            <p-skeleton
+                                                                width="100px"
+                                                                height="32px"
+                                                                borderRadius="4px"
+                                                            />
+                                                        </div>
+                                                        <p-skeleton
+                                                            width="120px"
+                                                            height="24px"
+                                                            borderRadius="16px"
+                                                        />
+                                                    </div>
+
+                                                    <!-- Container de l'arbre -->
+                                                    <div
+                                                        class="tree-container border rounded p-3"
+                                                    >
+                                                        <!-- Barre de recherche skeleton -->
+                                                        <div class="mb-3">
+                                                            <p-skeleton
+                                                                width="100%"
+                                                                height="35px"
+                                                                borderRadius="4px"
+                                                            />
+                                                        </div>
+
+                                                        <!-- Arbre de permissions simulé -->
+                                                        <div
+                                                            class="permission-tree-skeleton"
+                                                        >
+                                                            @for (
+                                                                item of [
+                                                                    1, 2, 3, 4,
+                                                                ];
+                                                                track item
+                                                            ) {
+                                                                <div
+                                                                    class="tree-node mb-2"
+                                                                >
+                                                                    <div
+                                                                        class="d-flex align-items-center gap-2 p-2"
+                                                                    >
+                                                                        <!-- Checkbox skeleton -->
+                                                                        <p-skeleton
+                                                                            width="20px"
+                                                                            height="20px"
+                                                                            borderRadius="4px"
+                                                                        />
+
+                                                                        <!-- Chevron/Expand icon skeleton -->
+                                                                        <p-skeleton
+                                                                            width="16px"
+                                                                            height="16px"
+                                                                            borderRadius="4px"
+                                                                        />
+
+                                                                        <!-- Node content -->
+                                                                        <div
+                                                                            class="flex-grow-1"
+                                                                        >
+                                                                            <div
+                                                                                class="d-flex align-items-center justify-content-between w-100"
+                                                                            >
+                                                                                <div
+                                                                                    class="node-info w-100"
+                                                                                >
+                                                                                    <!-- Node label -->
+                                                                                    <p-skeleton
+                                                                                        width="150px"
+                                                                                        height="18px"
+                                                                                        borderRadius="4px"
+                                                                                        class="mb-1"
+                                                                                    />
+
+                                                                                    <!-- Node description (optionnel) -->
+                                                                                    @if (
+                                                                                        item %
+                                                                                            2 ===
+                                                                                        0
+                                                                                    ) {
+                                                                                        <p-skeleton
+                                                                                            width="200px"
+                                                                                            height="14px"
+                                                                                            borderRadius="4px"
+                                                                                        />
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Sous-niveaux de l'arbre -->
+                                                                    @if (
+                                                                        item <=
+                                                                        2
+                                                                    ) {
+                                                                        <div
+                                                                            class="tree-children ms-4 ps-2 border-start"
+                                                                        >
+                                                                            @for (
+                                                                                subItem of [
+                                                                                    1,
+                                                                                    2,
+                                                                                ];
+                                                                                track subItem
+                                                                            ) {
+                                                                                <div
+                                                                                    class="d-flex align-items-center gap-2 p-2"
+                                                                                >
+                                                                                    <p-skeleton
+                                                                                        width="20px"
+                                                                                        height="20px"
+                                                                                        borderRadius="4px"
+                                                                                    />
+                                                                                    <p-skeleton
+                                                                                        width="16px"
+                                                                                        height="16px"
+                                                                                        borderRadius="4px"
+                                                                                    />
+                                                                                    <div
+                                                                                        class="flex-grow-1"
+                                                                                    >
+                                                                                        <p-skeleton
+                                                                                            width="120px"
+                                                                                            height="16px"
+                                                                                            borderRadius="4px"
+                                                                                        />
+                                                                                    </div>
+                                                                                </div>
+                                                                            }
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                            }
+                                                        </div>
+
+                                                        <!-- Indication de scroll -->
+                                                        <div
+                                                            class="text-center mt-2"
+                                                        >
+                                                            <p-skeleton
+                                                                width="100%"
+                                                                height="30px"
+                                                                borderRadius="4px"
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Message d'erreur skeleton (optionnel) -->
+                                                    <div class="mt-2">
+                                                        <p-skeleton
+                                                            width="250px"
+                                                            height="20px"
+                                                            borderRadius="4px"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <!-- Boutons d'action du formulaire -->
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-skeleton
+                                                width="80px"
+                                                height="38px"
+                                                borderRadius="4px"
+                                            />
+                                            <p-skeleton
+                                                width="80px"
+                                                height="38px"
+                                                borderRadius="4px"
+                                            />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

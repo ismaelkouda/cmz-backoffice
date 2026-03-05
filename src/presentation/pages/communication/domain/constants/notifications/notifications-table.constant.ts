@@ -32,6 +32,7 @@ export const NOTIFICATIONS = {
         {
             field: 'message',
             header: 'COMMUNICATION.NOTIFICATIONS.TABLE.MESSAGE',
+            type: 'tooltip',
             width: '20rem',
         },
         {

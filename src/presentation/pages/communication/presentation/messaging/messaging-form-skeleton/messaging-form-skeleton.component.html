@@ -1,0 +1,266 @@
+<main
+    class="container-fluid form-messaging-container"
+    role="status"
+    aria-label="Chargement du formulaire"
+>
+    <section class="row form-messaging-row">
+        <article class="col-sm-12 form-messaging">
+            <!-- Breadcrumb skeleton -->
+            <div class="mb-3">
+                <p-skeleton width="200px" height="24px" />
+            </div>
+
+            <section class="card form-messaging-card">
+                <div class="card-body form-messaging-card-body">
+                    <!-- Header with title and close button -->
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center w-100">
+                            <div class="page-title-component">
+                                <p-skeleton width="250px" height="32px" />
+                            </div>
+                            <div class="ms-auto">
+                                <p-skeleton
+                                    width="80px"
+                                    height="38px"
+                                    borderRadius="4px"
+                                />
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form class="form row g-3">
+                                        <!-- Fieldset 1: General Info -->
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <p-skeleton
+                                                    width="180px"
+                                                    height="20px"
+                                                />
+                                            </legend>
+                                            <div class="row g-3">
+                                                <!-- Type field -->
+                                                <div class="col-md-4">
+                                                    <p-skeleton
+                                                        width="100px"
+                                                        height="20px"
+                                                        class="mb-2"
+                                                    />
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                </div>
+
+                                                <!-- Target field -->
+                                                <div class="col-md-4">
+                                                    <p-skeleton
+                                                        width="100px"
+                                                        height="20px"
+                                                        class="mb-2"
+                                                    />
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                </div>
+
+                                                <!-- Report ID field (visible by default in skeleton) -->
+                                                <div class="col-md-4">
+                                                    <p-skeleton
+                                                        width="120px"
+                                                        height="20px"
+                                                        class="mb-2"
+                                                    />
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        <p-skeleton
+                                                            width="60px"
+                                                            height="16px"
+                                                        />
+                                                        <p-skeleton
+                                                            width="40px"
+                                                            height="16px"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <!-- Fieldset 2: Administrative Boundary (visible by default in skeleton) -->
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <p-skeleton
+                                                    width="200px"
+                                                    height="20px"
+                                                />
+                                            </legend>
+                                            <div class="row g-3">
+                                                <!-- Region field -->
+                                                <div class="col-md-4">
+                                                    <p-skeleton
+                                                        width="80px"
+                                                        height="20px"
+                                                        class="mb-2"
+                                                    />
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                </div>
+
+                                                <!-- Department field -->
+                                                <div class="col-md-4">
+                                                    <p-skeleton
+                                                        width="100px"
+                                                        height="20px"
+                                                        class="mb-2"
+                                                    />
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                </div>
+
+                                                <!-- Municipality field -->
+                                                <div class="col-md-4">
+                                                    <p-skeleton
+                                                        width="110px"
+                                                        height="20px"
+                                                        class="mb-2"
+                                                    />
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <!-- Fieldset 3: Channels -->
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <p-skeleton
+                                                    width="150px"
+                                                    height="20px"
+                                                />
+                                            </legend>
+                                            <div class="row g-3">
+                                                <!-- Channel checkboxes skeleton -->
+                                                @for (
+                                                    item of [1, 2, 3, 4];
+                                                    track item
+                                                ) {
+                                                    <div class="col-md-3">
+                                                        <div
+                                                            class="d-flex align-items-center gap-2"
+                                                        >
+                                                            <p-skeleton
+                                                                width="20px"
+                                                                height="20px"
+                                                                borderRadius="4px"
+                                                            />
+                                                            <p-skeleton
+                                                                width="80px"
+                                                                height="20px"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </fieldset>
+
+                                        <!-- Fieldset 4: Additional Info -->
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <p-skeleton
+                                                    width="160px"
+                                                    height="20px"
+                                                />
+                                            </legend>
+                                            <div class="row g-3">
+                                                <!-- Subject field -->
+                                                <div class="col-md-12">
+                                                    <p-skeleton
+                                                        width="80px"
+                                                        height="20px"
+                                                        class="mb-2"
+                                                    />
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="42px"
+                                                        borderRadius="4px"
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-end mt-1"
+                                                    >
+                                                        <p-skeleton
+                                                            width="40px"
+                                                            height="16px"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Content field -->
+                                                <div class="col-md-12">
+                                                    <p-skeleton
+                                                        width="80px"
+                                                        height="20px"
+                                                        class="mb-2"
+                                                    />
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="100px"
+                                                        borderRadius="4px"
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-end mt-1"
+                                                    >
+                                                        <p-skeleton
+                                                            width="40px"
+                                                            height="16px"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <!-- Form actions skeleton (visible in create mode) -->
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-skeleton
+                                                width="80px"
+                                                height="38px"
+                                                borderRadius="4px"
+                                            />
+                                            <p-skeleton
+                                                width="80px"
+                                                height="38px"
+                                                borderRadius="4px"
+                                            />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
