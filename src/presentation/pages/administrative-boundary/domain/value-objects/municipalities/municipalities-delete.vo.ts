@@ -9,7 +9,7 @@ export class MunicipalitiesDeleteVo {
 
     static fromDto(dto: MunicipalitiesDeleteDto): MunicipalitiesDeleteVo {
         return new MunicipalitiesDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

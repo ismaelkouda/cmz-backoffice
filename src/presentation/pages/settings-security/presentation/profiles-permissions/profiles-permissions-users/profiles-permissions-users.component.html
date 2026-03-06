@@ -103,12 +103,14 @@
                 [options]="profiles()"
                 optionLabel="label"
                 optionValue="value"
-                [loading]="loadingTeams()"
+                [loading]="loadingProfiles()"
                 [filter]="true"
                 filterBy="label"
                 appendTo="body"
                 [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
                 styleClass="w-100"
+                [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
                 [class.ng-invalid]="
                     reassignForm.get('team')?.invalid &&
                     reassignForm.get('team')?.touched
@@ -135,7 +137,7 @@
                 reassignForm.invalid ||
                 !usersSelectedInTable().length ||
                 !profiles().length ||
-                loadingTeams() ||
+                loadingProfiles() ||
                 facade.actionState() === 'loading'
             "
         ></p-button>

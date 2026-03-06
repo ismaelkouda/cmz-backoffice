@@ -1,40 +1,73 @@
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { DepartmentsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-select.entity';
-import { RegionsSelectItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-select-response-api.dto';
-
+import { DepartmentsSelectProps } from '@shared/domain/interfaces/departments-select.props.interface';
+import { RegionsSelectProps } from '@shared/domain/interfaces/regions-select.props.interface';
 export class RegionsSelectEntity {
-    constructor(
-        public readonly name: string,
-        public readonly code: string,
-        public readonly departments: readonly DepartmentsSelectEntity[]
-    ) {}
+    constructor(private readonly props: RegionsSelectProps) {}
 
-    static fromDto(dto: RegionsSelectItemApiDto): RegionsSelectEntity {
-        return new RegionsSelectEntity(
-            dto.name,
-            dto.id,
-            dto.departments.map(DepartmentsSelectEntity.fromDto)
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
     }
 
-    public with(dto: RegionsSelectItemApiDto): RegionsSelectEntity {
-        const departments = MapperUtils.mergeImmutable(
-            this.departments,
-            dto.departments,
-            (d) => d.code,
-            (entity, dto) => entity.with(dto),
-            DepartmentsSelectEntity.fromDto
-        );
+    get name(): string {
+        return this.props.name;
+    }
 
-        if (
-            this.name === dto.name &&
-            this.code === dto.id &&
-            departments === this.departments
-        ) {
+    get value(): string {
+        return this.props.value;
+    }
+
+    get departments(): readonly DepartmentsSelectProps[] {
+        return this.props.departments;
+    }
+
+    with(props: RegionsSelectProps): RegionsSelectEntity {
+        if (this.hasSameProps(props)) {
             return this;
         }
 
-        return new RegionsSelectEntity(dto.name, dto.id, departments);
+        return new RegionsSelectEntity(props);
+    }
+
+    private hasSameProps(props: RegionsSelectProps): boolean {
+        if (
+            this.uniqId !== props.uniqId ||
+            this.name !== props.name ||
+            this.value !== props.value
+        ) {
+            return false;
+        }
+
+        if (this.departments.length !== props.departments.length) {
+            return false;
+        }
+
+        return this.departments.every((department, index) => {
+            const otherDepartment = props.departments[index];
+
+            if (
+                department.uniqId !== otherDepartment.uniqId ||
+                department.name !== otherDepartment.name ||
+                department.value !== otherDepartment.value
+            ) {
+                return false;
+            }
+
+            if (
+                department.municipalities.length !==
+                otherDepartment.municipalities.length
+            ) {
+                return false;
+            }
+
+            return department.municipalities.every((municipality, mIndex) => {
+                const otherMunicipality =
+                    otherDepartment.municipalities[mIndex];
+
+                return (
+                    municipality.uniqId === otherMunicipality.uniqId &&
+                    municipality.name === otherMunicipality.name &&
+                    municipality.value === otherMunicipality.value
+                );
+            });
+        });
     }
 }

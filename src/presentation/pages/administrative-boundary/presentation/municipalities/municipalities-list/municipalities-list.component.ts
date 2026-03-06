@@ -127,7 +127,7 @@ export class MunicipalitiesListComponent {
         }
 
         const region: RegionsSelectEntity | undefined = this.regions().find(
-            (r) => r.code === item
+            (r) => r.value === item
         );
         return region?.departments || [];
     });

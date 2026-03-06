@@ -80,12 +80,9 @@ export function handleObservableWithFeedback<T>(
             if (successKey) {
                 uiFeedback.success(successKey);
             }
-            console.log('00000', refresh);
             if (refresh) {
-                console.log('1111', refresh);
                 refresh();
             }
-            console.log('2222', refresh);
         }),
         catchError((error) => {
             uiFeedback.notifyError(error);

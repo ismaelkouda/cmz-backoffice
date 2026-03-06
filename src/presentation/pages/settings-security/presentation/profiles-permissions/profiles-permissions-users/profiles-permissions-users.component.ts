@@ -22,7 +22,6 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -39,7 +38,6 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { Roles } from '@shared/domain/enums/roles.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
@@ -112,7 +110,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
     readonly profiles = toSignal(this.profilesPermissionsSelectFacade.items$, {
         initialValue: [],
     });
-    readonly loadingTeams = toSignal(
+    readonly loadingProfiles = toSignal(
         this.profilesPermissionsSelectFacade.isLoading$,
         {
             initialValue: false,
@@ -211,11 +209,9 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
         {
             label: 'COMMON.ASSIGN',
             actionId: 'assign',
-            type: 'splitbutton',
             class: 'btn-primary',
             icon: 'pi pi-user-plus',
             translateKey: 'COMMON.ASSIGN',
-            items: this.buildAssignMenuItems(),
             disabled: this.usersSelectedInTable().length >= 1,
         },
         {
@@ -235,19 +231,6 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
             disabled: this.usersSelectedInTable().length === 0,
         },
     ]);
-
-    private buildAssignMenuItems(): MenuItem[] {
-        return Object.entries(Roles).map(([key, translationKey]) => ({
-            label: this.t(translationKey),
-            command: () => this.onAssignRoleSelected(key.toLowerCase()),
-        }));
-    }
-
-    private onAssignRoleSelected(role: string): void {
-        console.log('role: ', role);
-        this.openAssignRequested.set(true);
-        this.usersSelectFacade.readAll(true);
-    }
 
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
@@ -337,6 +320,8 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
     public onHeaderButtonClicked(actionId: string): void {
         if (actionId === 'reassign') {
             this.openReassignModal();
+        } else if (actionId === 'assign') {
+            this.openAssignModal();
         } else if (actionId === 'remove') {
             this.onRemoveUsers();
         }
@@ -359,6 +344,11 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
     public closeReassignModal(): void {
         this.displayReassignModal.set(false);
         this.reassignForm.reset();
+    }
+
+    private openAssignModal(): void {
+        this.openAssignRequested.set(true);
+        this.usersSelectFacade.readAll(true);
     }
 
     public closeAssignModal(): void {

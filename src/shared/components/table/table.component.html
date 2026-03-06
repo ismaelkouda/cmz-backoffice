@@ -45,7 +45,7 @@
 
     <ng-template pTemplate="header" let-columns>
         <tr>
-            @for (col of columns; track trackByColField($index, col.field)) {
+            @for (col of columns; track col) {
                 <th
                     [id]="col.field"
                     [class]="col.class"
@@ -107,7 +107,7 @@
                     } @else if (col.type === 'number') {
                         <b>{{ rowData[col.field] | separatorThousandsPipe }}</b>
                     } @else if (col.type === 'tooltip') {
-                        <div [pTooltip]="rowData[col.field]"
+                        <div [class]="col.class" [pTooltip]="rowData[col.field]"
                                     tooltipPosition="bottom">{{ rowData[col.field] }}</div>
                     } @else {
                         @switch (col.field) {

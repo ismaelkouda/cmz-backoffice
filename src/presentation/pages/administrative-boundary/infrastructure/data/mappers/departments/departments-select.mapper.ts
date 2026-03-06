@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
+import { DepartmentsSelectProps } from '@shared/domain/interfaces/departments-select.props.interface';
+import { MunicipalitiesSelectProps } from '@shared/domain/interfaces/municipalities-select.props.interface';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { DepartmentsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-select.entity';
@@ -16,14 +18,39 @@ export class DepartmentsSelectMapper extends ArrayResponseMapper<
     protected override mapItemFromDto(
         dto: DepartmentsSelectItemApiDto
     ): DepartmentsSelectEntity {
-        MapperUtils.validateDto(dto, { required: ['id'] });
+        MapperUtils.validateDto(dto, {
+            required: ['id', 'name', 'code', 'municipalities'],
+        });
 
-        const cacheKey = `dto:${dto.id}`;
+        const cacheKey = `department:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
 
+        const municipalities = dto.municipalities.map(
+            (m): MunicipalitiesSelectProps => ({
+                uniqId: m.id,
+                name: m.name,
+                value: m.id,
+            })
+        );
+
+        const props: DepartmentsSelectProps = {
+            uniqId: dto.id,
+            value: dto.id,
+            name: dto.name,
+            municipalities: cached
+                ? MapperUtils.mergeImmutable(
+                      cached.municipalities,
+                      municipalities,
+                      (m) => m.uniqId,
+                      (entity, dto) => dto,
+                      (dto) => dto
+                  )
+                : municipalities,
+        };
+
         const entity = cached
-            ? cached.with(dto)
-            : DepartmentsSelectEntity.fromDto(dto);
+            ? cached.with(props)
+            : new DepartmentsSelectEntity(props);
 
         this.entityCache.set(cacheKey, entity);
         return entity;

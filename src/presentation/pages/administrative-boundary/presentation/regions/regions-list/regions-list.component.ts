@@ -38,8 +38,6 @@ import { TableExportExcelFileService } from '@shared/domain/services/table-expor
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 
-import { DepartmentsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/departments/departments-select.facade';
-import { MunicipalitiesSelectFacade } from '@presentation/pages/administrative-boundary/application/services/municipalities/municipalities-select.facade';
 import { RegionsFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions.facade';
 import { FILTER_KEYS } from '@presentation/pages/administrative-boundary/domain/constants/regions/regions-filter-keys.constants';
 import { REGIONS_TABLE } from '@presentation/pages/administrative-boundary/domain/constants/regions/regions-table.constants';
@@ -69,10 +67,6 @@ export class RegionsListComponent implements OnInit {
     private readonly title = inject(Title);
     private readonly router = inject(Router);
     public readonly facade = inject(RegionsFacade);
-    public readonly departmentsSelectFacade = inject(DepartmentsSelectFacade);
-    public readonly municipalitiesSelectFacade = inject(
-        MunicipalitiesSelectFacade
-    );
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
@@ -83,12 +77,6 @@ export class RegionsListComponent implements OnInit {
     );
     private readonly appCustomizationService = inject(AppCustomizationService);
     public readonly tableConfig = REGIONS_TABLE;
-    readonly departments = toSignal(this.departmentsSelectFacade.items$, {
-        initialValue: [],
-    });
-    readonly municipalities = toSignal(this.municipalitiesSelectFacade.items$, {
-        initialValue: [],
-    });
     readonly items = toSignal(this.facade.items$, { initialValue: [] });
     readonly isLoading = toSignal(this.facade.isLoading$, {
         initialValue: false,
@@ -166,8 +154,6 @@ export class RegionsListComponent implements OnInit {
             });
         effect(() => {
             this.facade.readAll();
-            this.departmentsSelectFacade.readAll();
-            this.municipalitiesSelectFacade.readAll();
         });
     }
 
@@ -259,6 +245,7 @@ export class RegionsListComponent implements OnInit {
     }
 
     public onDeleteClicked(item: RegionsEntity): void {
+        console.log('item: ', item);
         if (this.items().length < 1 && !item.uniqId) {
             return;
         }

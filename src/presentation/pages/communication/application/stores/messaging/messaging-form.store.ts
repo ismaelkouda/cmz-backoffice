@@ -55,7 +55,8 @@ export class MessagingFormStore {
             return [];
         }
         return (
-            this.regions().find((r) => r.code === regionCode)?.departments || []
+            this.regions().find((r) => r.value === regionCode)?.departments ||
+            []
         );
     });
 
@@ -65,10 +66,10 @@ export class MessagingFormStore {
             return [];
         }
         const region = this.regions().find((r) =>
-            r.departments?.some((d) => d.code === departmentCode)
+            r.departments?.some((d) => d.value === departmentCode)
         );
         return (
-            region?.departments?.find((d) => d.code === departmentCode)
+            region?.departments?.find((d) => d.value === departmentCode)
                 ?.municipalities || []
         );
     });
@@ -152,6 +153,9 @@ export class MessagingFormStore {
 
     readonly isDetailsMode = signal(false);
     readonly loading = this.facade.loading;
+    readonly loadingRegions = toSignal(this.regionsFacade.isLoading$, {
+        initialValue: false,
+    });
 
     private readonly setupItemPatch = effect(() => {
         const item = this.item();

@@ -173,8 +173,11 @@ export class TableComponent {
         this.headerButtonClicked.emit(actionId);
     }
 
-    trackByColField(_: number, col: any): string {
-        return col.field;
+    trackByColField(index: number, field: any): string {
+        if (!field) {
+            return `col-${index}`;
+        }
+        return field;
     }
 
     getItemStatus(item: any): ActionDropdown {

@@ -1,23 +1,33 @@
-import { MunicipalitiesSelectItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-select-response-api.dto';
+import { MunicipalitiesSelectProps } from '@shared/domain/interfaces/municipalities-select.props.interface';
 
 export class MunicipalitiesSelectEntity {
-    constructor(
-        public readonly name: string,
-        public readonly code: string
-    ) {}
+    constructor(private readonly props: MunicipalitiesSelectProps) {}
 
-    static fromDto(
-        dto: MunicipalitiesSelectItemApiDto
-    ): MunicipalitiesSelectEntity {
-        return new MunicipalitiesSelectEntity(dto.name, dto.id);
+    get uniqId(): string {
+        return this.props.uniqId;
     }
 
-    public with(
-        dto: MunicipalitiesSelectItemApiDto
-    ): MunicipalitiesSelectEntity {
-        if (this.name === dto.name && this.code === dto.id) {
+    get name(): string {
+        return this.props.name;
+    }
+
+    get value(): string {
+        return this.props.value;
+    }
+
+    with(props: MunicipalitiesSelectProps): MunicipalitiesSelectEntity {
+        if (this.hasSameProps(props)) {
             return this;
         }
-        return MunicipalitiesSelectEntity.fromDto(dto);
+
+        return new MunicipalitiesSelectEntity(props);
+    }
+
+    private hasSameProps(props: MunicipalitiesSelectProps): boolean {
+        return (
+            this.uniqId !== props.uniqId ||
+            this.name !== props.name ||
+            this.value !== props.value
+        );
     }
 }

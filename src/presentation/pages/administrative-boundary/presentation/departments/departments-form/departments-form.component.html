@@ -187,9 +187,10 @@
                                                     <p-select
                                                         class="form-p-select"
                                                         [options]="regions()"
+                                                        [loading]="loadingRegions()"
                                                         formControlName="region"
                                                         optionLabel="name"
-                                                        optionValue="code"
+                                                        optionValue="value"
                                                         filter="true"
                                                         filterBy="name"
                                                         styleClass="w-100"
@@ -197,6 +198,8 @@
                                                             'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.FIELDSET_GENERAL_INFO.REGION_PLACEHOLDER'
                                                                 | translate
                                                         "
+        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
                                                     >
                                                     </p-select>
                                                     @if (
@@ -317,5 +320,3 @@
         </article>
     </section>
 </main>
-
-<h1>{{ regions() | json }}</h1>
