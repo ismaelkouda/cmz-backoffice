@@ -22,7 +22,7 @@ export class TeamsMapper extends PaginatedMapper<TeamsEntity, TeamsItemApiDto> {
             code: dto.code,
             name: dto.name,
             description: dto.description,
-            status: this.statusMapper.mapApiToStatus(dto.is_active),
+            status: this.statusMapper.mapFromDto(dto.is_active),
             membersCount: dto.members_count,
             updatedAt: dto.updated_at,
         };

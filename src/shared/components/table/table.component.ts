@@ -20,6 +20,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 
+import { ActionDropdownComponent } from '@shared/components/action-dropdown/action-dropdown.component';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import {
     TableButtonHeaderComponent,
@@ -32,11 +33,6 @@ import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.
 import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
 import { TableConfig } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { Status as NotificationsStatus } from '@presentation/pages/communication/domain/enums/notifications/notifications-status.enum';
-import { HomeActionDropdownComponent } from '@presentation/pages/content-management/presentation/features/home/table-home/home-action-dropdown/home-action-dropdown.component';
-import { Status as RequestsStatus } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
-import { Status as TeamsStatus } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
 
 @Component({
     selector: 'app-table',
@@ -53,7 +49,7 @@ import { Status as TeamsStatus } from '@presentation/pages/team-organization/dom
         ProgressSpinnerModule,
         TooltipModule,
         TagModule,
-        HomeActionDropdownComponent,
+        ActionDropdownComponent,
         SeparatorThousandsPipe,
         CheckboxModule,
     ],
@@ -72,7 +68,7 @@ export class TableComponent {
     public readonly pagination = input<Paginate<any> | null>(null);
     public readonly config = input.required<TableConfig>();
     public readonly hiddenButtonOther = input<boolean>(true);
-    public readonly dataKey = input<string>('id');
+    public readonly dataKey = input<string>('uniqId');
     public readonly headerButtons = input<TableHeaderButton[]>([]);
     public readonly selectionMode = input<
         'single' | 'multiple' | 'saisie' | null
@@ -173,9 +169,9 @@ export class TableComponent {
         this.headerButtonClicked.emit(actionId);
     }
 
-    trackByColField(index: number, field: any): string {
+    trackByColField(index: number, field: any, row: any): string {
         if (!field) {
-            return `col-${index}`;
+            return row.uniqId;
         }
         return field;
     }
@@ -215,45 +211,4 @@ export class TableComponent {
     getOperatorTagStyle(operator: string): Record<string, string> {
         return operatorsTagStyle(operator);
     }
-
-    numberSeverity(value: number): string {
-        if (value === 0) {
-            return 'danger';
-        }
-        if (value > 0 && value < 999999) {
-            return 'warn';
-        }
-        return 'success';
-    }
-
-    public getStatusSeverity(status: string): StatusTagSeverity {
-        const severityMap: Record<string, StatusTagSeverity> = {
-            [RequestsStatus.ABANDONED]: 'warning',
-            [RequestsStatus.APPROVED]: 'success',
-            [RequestsStatus.REJECTED]: 'danger',
-            [RequestsStatus.CONFIRMED]: 'contrast',
-            [RequestsStatus.IN_PROGRESS]: 'warn',
-            [RequestsStatus.TERMINATED]: 'info',
-            [ActionDropdown.ACTIVE]: 'success',
-            [ActionDropdown.INACTIVE]: 'danger',
-            [ActionDropdown.PUBLISHED]: 'success',
-            [ActionDropdown.UNPUBLISHED]: 'danger',
-            [ActionDropdown.AFFECTED]: 'success',
-            [NotificationsStatus.READ]: 'info',
-            [NotificationsStatus.UNREAD]: 'contrast',
-            [TeamsStatus.ACTIVE]: 'success',
-            [TeamsStatus.INACTIVE]: 'danger',
-        };
-        return severityMap[status] ?? 'secondary';
-    }
 }
-
-type StatusTagSeverity =
-    | 'success'
-    | 'info'
-    | 'warning'
-    | 'danger'
-    | 'secondary'
-    | 'contrast'
-    | 'dark'
-    | 'warn';

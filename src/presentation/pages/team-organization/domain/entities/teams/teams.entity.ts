@@ -1,4 +1,7 @@
-import { Status } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
+import {
+    Status,
+    StatusStyle,
+} from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
 import { TeamsProps } from '@presentation/pages/team-organization/domain/interfaces/teams/teams-props.interface';
 
 export class TeamsEntity {
@@ -18,6 +21,13 @@ export class TeamsEntity {
     }
     get status(): Status {
         return this.props.status;
+    }
+    statusStyle(status: Status): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.ACTIVE]: StatusStyle.ACTIVE,
+            [Status.INACTIVE]: StatusStyle.INACTIVE,
+        };
+        return methodMap[status];
     }
     get membersCount(): string {
         return this.props.membersCount;

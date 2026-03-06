@@ -2,7 +2,8 @@ import { FormControl } from '@angular/forms';
 
 export interface HomeFilterControl {
     search: FormControl<string | undefined>;
-    isActive: FormControl<boolean | undefined>;
-    role: FormControl<string | undefined>;
-    team: FormControl<string | undefined>;
+    platforms: FormControl<string[] | undefined>;
+    status: FormControl<string | undefined>;
+    startDate: FormControl<string | undefined>;
+    endDate: FormControl<string | undefined>;
 }

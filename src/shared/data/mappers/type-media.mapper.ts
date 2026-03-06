@@ -7,27 +7,18 @@ import { TypeMedia } from '@shared/domain/enums/type-media.enum';
     providedIn: 'root',
 })
 export class TypeMediaMapper {
-    mapToEnum(dtoValue: TypeMediaDto): TypeMedia {
-        if (dtoValue === null || dtoValue === undefined) {
-            return TypeMedia.UNKNOWN;
-        }
+    mapFromDto(dto: TypeMediaDto): TypeMedia {
         const methodMap: Record<TypeMediaDto, TypeMedia> = {
             [TypeMediaDto.IMAGE]: TypeMedia.IMAGE,
             [TypeMediaDto.VIDEO]: TypeMedia.VIDEO,
-            [TypeMediaDto.UNKNOWN]: TypeMedia.UNKNOWN,
         };
-        return methodMap[dtoValue] || TypeMedia.UNKNOWN;
+        return methodMap[dto];
     }
-
-    mapToDto(enumValue: TypeMedia): TypeMediaDto {
-        if (enumValue === null || enumValue === undefined) {
-            return TypeMediaDto.UNKNOWN;
-        }
-        const mapping: Record<TypeMedia, TypeMediaDto> = {
+    mapToDto(value: TypeMedia): TypeMediaDto {
+        const methodMap: Record<TypeMedia, TypeMediaDto> = {
             [TypeMedia.IMAGE]: TypeMediaDto.IMAGE,
             [TypeMedia.VIDEO]: TypeMediaDto.VIDEO,
-            [TypeMedia.UNKNOWN]: TypeMediaDto.UNKNOWN,
         };
-        return mapping[enumValue] || TypeMediaDto.UNKNOWN;
+        return methodMap[value];
     }
 }

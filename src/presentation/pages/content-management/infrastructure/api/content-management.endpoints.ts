@@ -1,5 +1,5 @@
 export const CONTENT_MANAGEMENT_ENDPOINTS = {
-    HOME: 'content-management/home',
+    HOME: 'cms/home-block-infos',
     SLIDE: 'content-management/slide',
     NEWS: 'content-management/news',
     LEGAL_NOTICE: 'content-management/legal-notice',

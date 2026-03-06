@@ -19,6 +19,7 @@ export class ObjectBaseFacade<TEntity, TFilter> {
 
     readonly state = this._state.asReadonly();
 
+    readonly filter = computed(() => this._filter());
     readonly items = computed(() => this._state().data);
     readonly loading = computed(() => this._state().loading);
     readonly error = computed(() => this._state().error);
@@ -42,10 +43,8 @@ export class ObjectBaseFacade<TEntity, TFilter> {
         if (current.loading) {
             return;
         }
-        console.log('000000!skipSameFilter: ', !skipSameFilter);
 
         if (!skipSameFilter) {
-            console.log('111111!skipSameFilter: ', !skipSameFilter);
             const prev = this.normalize(this._filter());
             const curr = this.normalize(filter);
 
@@ -60,7 +59,6 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                 }
             }
         }
-        console.log('222222!skipSameFilter: ', !skipSameFilter);
 
         this._filter.set(filter);
 

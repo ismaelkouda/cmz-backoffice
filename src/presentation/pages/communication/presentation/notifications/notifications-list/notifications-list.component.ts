@@ -59,7 +59,6 @@ import { NotificationsEntity } from '@presentation/pages/communication/domain/en
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsListComponent implements OnInit, OnDestroy {
-    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly title = inject(Title);
     public readonly facade = inject(NotificationsFacade);
     private readonly fb = inject(FormBuilder);

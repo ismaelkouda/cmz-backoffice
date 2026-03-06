@@ -62,7 +62,6 @@ import { QueuesTableVm } from '../../domain/view-models/queues/queues-table.vm';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueuesComponent implements OnInit {
-    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
     private readonly queuesTableVm = inject(QueuesTableVm);

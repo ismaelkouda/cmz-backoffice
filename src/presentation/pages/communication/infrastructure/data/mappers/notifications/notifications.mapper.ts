@@ -3,10 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    NotificationsEntity,
-    NotificationsProps,
-} from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
+import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
+import { NotificationsProps } from '@presentation/pages/communication/domain/interfaces/notifications/notifications-props.interface';
 import { NotificationsItemApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-response-api.dto';
 import { StatusMapper } from '@presentation/pages/communication/infrastructure/data/mappers/notifications/notifications-status.mapper';
 
@@ -31,7 +29,7 @@ export class NotificationsMapper extends PaginatedMapper<
             title: dto.title,
             type: dto.type,
             message: dto.message,
-            status: this.statusMapper.mapApiToStatus(dto.status),
+            status: this.statusMapper.mapFromDto(dto.status),
             sendAt: dto.sent_at,
         };
 

@@ -16,7 +16,7 @@
                         </app-page-title>
                     </header>
 
-                    <div class="all-content" [class.fade-in]="hasAnimated()">
+                    <div class="all-content">
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
@@ -27,7 +27,7 @@
                             [limit]="4"
                         ></app-filter>
 
-                        <hr class="tasks-divider" />
+                        <hr class="all-divider" />
 
                         <section class="table-section">
                             <app-table

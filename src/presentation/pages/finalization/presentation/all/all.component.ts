@@ -61,7 +61,6 @@ import { AllEntity } from '@presentation/pages/finalization/domain/entities/all/
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AllComponent implements OnInit {
-    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
     public readonly facade = inject(AllFacade);

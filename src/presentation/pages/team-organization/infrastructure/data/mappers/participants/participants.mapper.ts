@@ -1,15 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 
-import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    ParticipantsEntity,
-    ParticipantsProps,
-} from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
+import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
+import { ParticipantsProps } from '@presentation/pages/team-organization/domain/interfaces/participants/participants-props.entity';
 import { ParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-response-api.dto';
+import { StatusMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-status.mapper';
 
 @Injectable({
     providedIn: 'root',
@@ -18,10 +16,9 @@ export class ParticipantsMapper extends PaginatedMapper<
     ParticipantsEntity,
     ParticipantsItemApiDto
 > {
-    private readonly actionDropdownMapper: ActionDropdownMapper =
-        inject(ActionDropdownMapper);
     private readonly rolesMapper: RolesMapper = inject(RolesMapper);
     private readonly entityCache = new Map<string, ParticipantsEntity>();
+    private readonly statusMapper = inject(StatusMapper);
 
     protected mapItemFromDto(dto: ParticipantsItemApiDto): ParticipantsEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
@@ -32,8 +29,7 @@ export class ParticipantsMapper extends PaginatedMapper<
             email: dto.email,
             phone: dto.phone,
             role: this.rolesMapper.mapFromDto(dto.role),
-            roleStyle: this.rolesMapper.mapFromStyle(dto.role),
-            status: this.actionDropdownMapper.mapFromDto(dto.status),
+            status: this.statusMapper.mapFromDto(dto.status),
             updatedAt: dto.updated_at,
         };
 

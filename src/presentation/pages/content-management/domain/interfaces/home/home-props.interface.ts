@@ -1,11 +1,15 @@
+import { Platform } from '@shared/domain/enums/platform.enum';
+
 import { Status } from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
 
-export interface Props {
+export interface HomeProps {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+    title: string;
+    resume: string;
+    image: string;
+    order: number;
+    platforms: Platform[];
     status: Status;
-    membersCount: string;
+    createdAt: string;
     updatedAt: string;
 }

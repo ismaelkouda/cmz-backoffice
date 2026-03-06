@@ -1,21 +1,11 @@
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
-import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import {
+    TelecomOperator,
+    TelecomOperatorStyle,
+} from '@shared/domain/enums/telecom-operator.enum';
 
-export enum ReportState {
-    TERMINATED = 'PROCESSING.ALL.STATE.TERMINATED',
-}
-
-export interface AllProps {
-    uniqId: string;
-    reportType: ReportType;
-    operators: TelecomOperator[];
-    source: ReportSource;
-    initiatorPhoneNumber: string;
-    state: string;
-    reportedAt: string;
-}
-
+import { AllProps } from '@presentation/pages/finalization/domain/interfaces/all/all-props.interface';
 export class AllEntity implements AllProps {
     constructor(private readonly props: AllProps) {}
 
@@ -31,16 +21,21 @@ export class AllEntity implements AllProps {
         return this.props.operators;
     }
 
+    operatorsStyle(operator: TelecomOperator): TelecomOperatorStyle {
+        const methodMap: Record<TelecomOperator, TelecomOperatorStyle> = {
+            [TelecomOperator.MTN]: TelecomOperatorStyle.MTN,
+            [TelecomOperator.ORANGE]: TelecomOperatorStyle.ORANGE,
+            [TelecomOperator.MOOV]: TelecomOperatorStyle.MOOV,
+        };
+        return methodMap[operator];
+    }
+
     get source(): ReportSource {
         return this.props.source;
     }
 
     get initiatorPhoneNumber(): string {
         return this.props.initiatorPhoneNumber;
-    }
-
-    get state(): string {
-        return this.props.state;
     }
 
     get reportedAt(): string {

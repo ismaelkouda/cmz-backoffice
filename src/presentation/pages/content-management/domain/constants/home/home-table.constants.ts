@@ -29,7 +29,7 @@ export const HOME_TABLE = {
             width: '5rem',
         },
         {
-            field: '__action',
+            field: '__actionDropdown',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.ACTION',
             class: 'text-center',
             width: '4rem',

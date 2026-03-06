@@ -60,7 +60,6 @@ import { QueuesEntity } from '@presentation/pages/processing/domain/entities/que
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueuesComponent implements OnInit {
-    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
     public readonly facade = inject(QueuesFacade);

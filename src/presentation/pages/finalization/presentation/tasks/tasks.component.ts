@@ -66,7 +66,6 @@ import { TasksEntity } from '@presentation/pages/finalization/domain/entities/ta
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksComponent implements OnInit {
-    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
     public readonly facade = inject(TasksFacade);

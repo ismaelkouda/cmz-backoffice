@@ -1,6 +1,7 @@
-import { ActionDropdownDto } from '@shared/data/dto/action-dropdown.dto';
 import { RolesDto } from '@shared/data/dto/roles.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
+
+import { StatusDto } from './participants-status-api.dto';
 
 export interface ParticipantsItemApiDto {
     id: string;
@@ -9,7 +10,7 @@ export interface ParticipantsItemApiDto {
     email: string;
     phone: string;
     role: RolesDto;
-    status: ActionDropdownDto;
+    status: StatusDto;
     created_at: string;
     updated_at: string;
 }

@@ -111,19 +111,19 @@ export const content: Routes = [
                 (m) => m.routes
             ),
     },
-    // {
-    //     path: CONTENT_MANAGEMENT_ROUTE,
-    //     loadChildren: () =>
-    //         import('../../presentation/pages/content-management/content-management.routes').then(
-    //             (m) => m.routes
-    //         ),
-    //     data: {
-    //         breadcrumb: {
-    //             label: 'CONTENT_MANAGEMENT.LABEL',
-    //             icon: 'pi-folder',
-    //         },
-    //     },
-    // },
+    {
+        path: CONTENT_MANAGEMENT_ROUTE,
+        loadChildren: () =>
+            import('../../presentation/pages/content-management/content-management.routes').then(
+                (m) => m.routes
+            ),
+        data: {
+            breadcrumb: {
+                label: 'CONTENT_MANAGEMENT.LABEL',
+                icon: 'pi-folder',
+            },
+        },
+    },
     {
         path: ADMINISTRATIVE_BOUNDARY_ROUTE,
         loadChildren: () =>

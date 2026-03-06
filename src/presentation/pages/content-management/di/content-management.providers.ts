@@ -18,7 +18,7 @@ import { termsUseProviders } from '@presentation/pages/content-management/di/ter
 import { CONTENT_MANAGEMENT_BASE_URL } from '@presentation/pages/content-management/infrastructure/api/content-management.base-url';
 
 const getApiBaseUrl = () => {
-    const baseUrl = inject(EnvService).authenticationUrl;
+    const baseUrl = inject(EnvService).settingUrl;
 
     if (!baseUrl) {
         console.warn(

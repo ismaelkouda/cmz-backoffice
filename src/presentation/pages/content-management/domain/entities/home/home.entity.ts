@@ -1,14 +1,10 @@
-export interface HomeProps {
-    uniqId: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    role: string;
-    roleStyle: string;
-    status: string;
-    updatedAt: string;
-}
+import { Platform, PlatformStyle } from '@shared/domain/enums/platform.enum';
+
+import {
+    Status,
+    StatusStyle,
+} from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
+import { HomeProps } from '@presentation/pages/content-management/domain/interfaces/home/home-props.interface';
 
 export class HomeEntity {
     constructor(private readonly props: HomeProps) {}
@@ -16,43 +12,57 @@ export class HomeEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-
-    get lastName(): string {
-        return this.props.lastName;
+    get platforms(): Platform[] {
+        return this.props.platforms;
     }
-
-    get firstName(): string {
-        return this.props.firstName;
+    platformsStyle(platform: Platform): PlatformStyle {
+        const methodMap: Record<Platform, PlatformStyle> = {
+            [Platform.MOBILE]: PlatformStyle.MOBILE,
+            [Platform.WEB]: PlatformStyle.WEB,
+            [Platform.PWA]: PlatformStyle.PWA,
+        };
+        return methodMap[platform];
     }
-
-    get email(): string {
-        return this.props.email;
+    get title(): string {
+        return this.props.title;
     }
-
-    get phone(): string {
-        return this.props.phone;
+    get resume(): string {
+        return this.props.resume;
     }
-
-    get role(): string {
-        return this.props.role;
+    get image(): string {
+        return this.props.image;
     }
-
-    get roleStyle(): string {
-        return this.props.roleStyle;
+    get order(): number {
+        return this.props.order;
     }
-
-    get status(): string {
+    get status(): Status {
         return this.props.status;
     }
-
+    statusStyle(status: Status): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.ACTIVE]: StatusStyle.ACTIVE,
+            [Status.INACTIVE]: StatusStyle.INACTIVE,
+        };
+        return methodMap[status];
+    }
+    get createdAt(): string {
+        return this.props.createdAt;
+    }
     get updatedAt(): string {
         return this.props.updatedAt;
     }
 
     public with(props: HomeProps): HomeEntity {
-        if (this.updatedAt === props.updatedAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new HomeEntity(props);
+    }
+
+    toJSON(): HomeProps {
+        return { ...this.props };
     }
 }

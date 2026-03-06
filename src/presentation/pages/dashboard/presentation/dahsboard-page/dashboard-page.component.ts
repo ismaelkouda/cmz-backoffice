@@ -61,11 +61,13 @@ export class DashboardPageComponent implements OnInit {
     private readonly facade = inject(DashboardFacade);
     private readonly translate = inject(TranslateService);
 
+    private readonly _selectedPeriod = signal<Period>('7' as Period);
+    readonly selectedPeriod = this._selectedPeriod.asReadonly();
+
     public periodOpts = period;
     readonly loading = this.facade.loading;
     readonly items = this.facade.items;
-    public readonly selectedPeriod = signal<Period>('7');
-    public error: string | null = null;
+    readonly error = this.facade.error;
 
     public typeStatistics: StatisticCard[] = [];
     public taskStatusStatistics: StatisticCard[] = [];
@@ -78,20 +80,36 @@ export class DashboardPageComponent implements OnInit {
                 this.generateStatistics(data);
             }
         });
+
+        effect(() => {
+            const facadeFilter = this.facade.filter();
+            if (
+                facadeFilter?.period &&
+                facadeFilter.period !== this._selectedPeriod()
+            ) {
+                this._selectedPeriod.set(facadeFilter.period as Period);
+            }
+        });
     }
 
     ngOnInit(): void {
         this.title.setTitle(this.translate.instant('DASHBOARD.TITLE'));
-        this.facade.read({ period: this.selectedPeriod() });
+        const initialPeriod = (this.facade.filter()?.period ?? '7') as Period;
+        this._selectedPeriod.set(initialPeriod);
+        this.facade.read({ period: initialPeriod });
     }
 
     onPeriodChange(period: Period): void {
-        this.selectedPeriod.set(period);
+        if (!period || period === this._selectedPeriod()) {
+            return;
+        }
+        this._selectedPeriod.set(period);
         this.facade.read({ period: this.selectedPeriod() }, true);
     }
 
     refreshData(): void {
-        this.facade.read({ period: this.selectedPeriod() }, true, true);
+        const currentPeriod = this._selectedPeriod();
+        this.facade.read({ period: currentPeriod }, true, true);
     }
 
     public navigateToReport(stat: StatisticCard): void {

@@ -1,4 +1,7 @@
-import { Status } from '@presentation/pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
+import {
+    Status,
+    StatusStyle,
+} from '@presentation/pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
 import { ProfilesPermissionsProps } from '@presentation/pages/settings-security/domain/interfaces/profiles-permissions/profiles-permissions-props.interface';
 
 export class ProfilesPermissionsEntity {
@@ -21,6 +24,13 @@ export class ProfilesPermissionsEntity {
     }
     get status(): Status {
         return this.props.status;
+    }
+    statusStyle(status: Status): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.ACTIVE]: StatusStyle.ACTIVE,
+            [Status.INACTIVE]: StatusStyle.INACTIVE,
+        };
+        return methodMap[status];
     }
     get createdAt(): string {
         return this.props.createdAt;

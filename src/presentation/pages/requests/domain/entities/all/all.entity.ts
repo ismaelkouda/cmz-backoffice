@@ -1,8 +1,14 @@
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
-import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import {
+    TelecomOperator,
+    TelecomOperatorStyle,
+} from '@shared/domain/enums/telecom-operator.enum';
 
-import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
+import {
+    Status,
+    StatusStyle,
+} from '@presentation/pages/requests/domain/enums/all/all-status.enum';
 import { AllProps } from '@presentation/pages/requests/domain/interfaces/all/all-props.interface';
 
 export class AllEntity implements AllProps {
@@ -20,6 +26,15 @@ export class AllEntity implements AllProps {
         return this.props.operators;
     }
 
+    operatorsStyle(operator: TelecomOperator): TelecomOperatorStyle {
+        const methodMap: Record<TelecomOperator, TelecomOperatorStyle> = {
+            [TelecomOperator.MTN]: TelecomOperatorStyle.MTN,
+            [TelecomOperator.ORANGE]: TelecomOperatorStyle.ORANGE,
+            [TelecomOperator.MOOV]: TelecomOperatorStyle.MOOV,
+        };
+        return methodMap[operator];
+    }
+
     get source(): ReportSource {
         return this.props.source;
     }
@@ -30,6 +45,17 @@ export class AllEntity implements AllProps {
 
     get status(): Status {
         return this.props.status;
+    }
+    statusStyle(status: Status): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.ABANDONED]: StatusStyle.ABANDONED,
+            [Status.APPROVED]: StatusStyle.APPROVED,
+            [Status.CONFIRMED]: StatusStyle.CONFIRMED,
+            [Status.IN_PROGRESS]: StatusStyle.IN_PROGRESS,
+            [Status.REJECTED]: StatusStyle.REJECTED,
+            [Status.TERMINATED]: StatusStyle.TERMINATED,
+        };
+        return methodMap[status];
     }
 
     get reportedAt(): string {

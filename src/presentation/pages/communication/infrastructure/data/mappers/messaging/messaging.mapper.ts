@@ -1,15 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 
-import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    MessagingEntity,
-    MessagingProps,
-} from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
+import { MessagingEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
+import { MessagingProps } from '@presentation/pages/communication/domain/interfaces/messaging/messaging-props.interface';
 import { MessagingItemApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-response-api.dto';
+import { ChannelsMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging-channels.mapper';
 
 @Injectable({
     providedIn: 'root',
@@ -18,10 +15,9 @@ export class MessagingMapper extends PaginatedMapper<
     MessagingEntity,
     MessagingItemApiDto
 > {
-    private readonly actionDropdownMapper: ActionDropdownMapper =
-        inject(ActionDropdownMapper);
-    private readonly rolesMapper: RolesMapper = inject(RolesMapper);
     private readonly entityCache = new Map<string, MessagingEntity>();
+    private readonly channelsMapper = inject(ChannelsMapper);
+    private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(dto: MessagingItemApiDto): MessagingEntity {
         MapperUtils.validateDto(dto, { required: ['uniq_id'] });
@@ -33,7 +29,11 @@ export class MessagingMapper extends PaginatedMapper<
             region: dto.region,
             department: dto.department,
             municipality: dto.municipality,
-            channels: dto.channels,
+            channels: this.utils.memoizedList(
+                dto?.channels,
+                (p) => this.channelsMapper.mapFromDto(p),
+                (p) => `channel${p}`
+            ),
             subject: dto.subject,
             content: dto.content,
             createdAt: dto.created_at,

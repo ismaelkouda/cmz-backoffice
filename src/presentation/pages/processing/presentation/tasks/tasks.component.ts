@@ -63,7 +63,6 @@ import { ACTIONS_ROUTE } from '@presentation/pages/processing/processing.routes'
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksComponent implements OnInit {
-    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly destroyRef = inject(DestroyRef);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly router = inject(Router);

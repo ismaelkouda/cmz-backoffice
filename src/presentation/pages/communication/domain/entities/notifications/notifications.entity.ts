@@ -1,14 +1,9 @@
-import { Status } from '@presentation/pages/communication/domain/enums/notifications/notifications-status.enum';
+import {
+    Status,
+    StatusStyle,
+} from '@presentation/pages/communication/domain/enums/notifications/notifications-status.enum';
+import { NotificationsProps } from '@presentation/pages/communication/domain/interfaces/notifications/notifications-props.interface';
 
-export interface NotificationsProps {
-    uniqId: string;
-    reference: string;
-    title: string;
-    type: string;
-    message: string;
-    status: Status;
-    sendAt: string;
-}
 export class NotificationsEntity {
     constructor(private readonly props: NotificationsProps) {}
 
@@ -33,6 +28,13 @@ export class NotificationsEntity {
 
     get sendAt(): string {
         return this.props.sendAt;
+    }
+    statusStyle(status: Status): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.READ]: StatusStyle.READ,
+            [Status.UNREAD]: StatusStyle.UNREAD,
+        };
+        return methodMap[status];
     }
 
     public with(props: NotificationsProps): NotificationsEntity {

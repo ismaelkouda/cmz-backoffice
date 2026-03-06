@@ -29,9 +29,12 @@
         "GPS": "GPS",
         "WHAT3WORDS": "What3Words",
         "WEB": "Web",
+        "WEB_STYLE": "info",
         "APP": "Appli Mobile",
         "MOBILE": "Mobile",
+        "MOBILE_STYLE": "contrast",
         "PWA": "PWA",
+        "PWA_STYLE": "success",
         "USSD": "USSD",
         "SMS": "SMS",
         "IVR": "IVR",
@@ -45,7 +48,9 @@
         "IMAGE": "Image",
         "VIDEO": "Vidéo",
         "ACTIVE": "Actif",
+        "ACTIVE_STYLE": "success",
         "INACTIVE": "Inactif",
+        "INACTIVE_STYLE": "danger",
         "FILTER": "Filtrer",
         "UPLOAD": "Télécharger",
         "PREVIEW": "Aperçu",
@@ -421,7 +426,7 @@
                 },
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
-                "PLATFORM": "Plateforme",
+                "PLATFORMS": "Plateforme",
                 "PLATFORM_PLACEHOLDER": "Plateforme",
                 "TYPE": "Type de contenu",
                 "TYPE_PLACEHOLDER": "Type de contenu",
@@ -490,6 +495,18 @@
                     "FILE_TOO_LARGE": "Fichier trop volumineux. Max. {maxSize}MB",
                     "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour du bloc d'accueil",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce bloc d'accueil ?",
+                "TITLE_CREATE": "Création de bloc d'accueil",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce bloc d'accueil ?",
+                "TITLE_DELETE": "Suppression de bloc d'accueil",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer ce bloc d'accueil ?",
+                "TITLE_ENABLE": "Activation de bloc d'accueil",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer ce bloc d'accueil ?",
+                "TITLE_DISABLE": "Désactivation de bloc d'accueil",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce bloc d'accueil ?"
             }
         },
         "STATIC_CONTENT": {
@@ -2187,8 +2204,11 @@
                 },
                 "CHANNELS": {
                     "PUSH": "Push",
+                    "PUSH_STYLE": "info",
                     "EMAIL": "Email",
-                    "SMS": "SMS"
+                    "EMAIL_STYLE": "contrast",
+                    "SMS": "SMS",
+                    "SMS_STYLE": "success"
                 }
             },
             "FORM": {
@@ -2370,7 +2390,7 @@
                     },
                     "VALIDATION": {
                     "MOTIF_REQUIRED": "Le motif est réquis",
-                    "COMMENT_REQUIRED": "Un commentaire est requis pour le rejet"
+                    "COMMENT_REQUIRED": "Un commentaire est requis"
                     }
                 }
             },
@@ -2781,43 +2801,20 @@
                     "PHONE": "Téléphone",
                     "EMAIL": "Email"
                 },
-                "FORM": {
-                    "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
-                    "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
-                    "FIELDSET_GENERAL_INFO": {
-                        "TITLE": "Informations Générales",
-                        "CODE": "Code",
-                        "CODE_PLACEHOLDER": "Ex: TE001",
-                        "NAME": "Nom de l'équipe",
-                        "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
-                        "DESCRIPTION": "Description",
-                        "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
-                    },
-                    "VALIDATION": {
-                        "MIN_LENGTH": "Minimum caractères requis",
-                        "MAX_LENGTH": "Maximum caractères autorisés",
-                        "MIN_VALUE": "Valeur minimale",
-                        "MAX_VALUE": "Valeur maximale",
-                        "INVALID_FORMAT": "Format invalide",
-                        "INVALID_INPUT": "Valeur invalide",
-                        "REQUIRED": "Ce champ est obligatoire"
-                    }
-                },
                 "SWEET_ALERT": {
-                    "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?",
-                    "TITLE_REASSIGN": "Réaffectation d'intervenant(s)",
-                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} intervenant(s) de cette équipe ?",
-                    "TITLE_REMOVE": "Retrait d'intervenant(s)",
-                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} intervenant(s) de cette équipe ?"
+                    "TITLE_REASSIGN": "Réaffectation d'utilisateurs(s)",
+                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} utilisateurs(s) de cet profil ?",
+                    "TITLE_REMOVE": "Retrait d'utilisateurs(s)",
+                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} utilisateurs(s) de cet profil ?"
                 },
                 "MODAL": {
-                    "REASSIGN_TITLE": "Réaffectation des intervenants",
-                    "REASSIGN_LABEL": "Équipe",
-                    "ASSIGN_TITLE": "Affectation des intervenants",
-                    "ASSIGN_LABEL": "Intervenant",
+                    "REASSIGN_TITLE": "Réaffectation des profils",
+                    "REASSIGN_LABEL": "Profils",
+                    "ASSIGN_TITLE": "Affectation des utilisateurs",
+                    "ASSIGN_LABEL": "Utilisateurs",
                     "NEW_PROFILE": "Nouveau profil",
                     "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
-                    "REASSIGN_MESSAGE": "{{count}} intervenant(s) seront réaffectés"
+                    "REASSIGN_MESSAGE": "{{count}} utilisateur(s) seront réaffectés"
                 }
             }
         },

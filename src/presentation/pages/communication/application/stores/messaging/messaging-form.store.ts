@@ -1,11 +1,4 @@
-import {
-    Injectable,
-    inject,
-    signal,
-    computed,
-    effect,
-    DestroyRef,
-} from '@angular/core';
+import { Injectable, inject, signal, computed, effect } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
     FormGroup,
@@ -24,7 +17,6 @@ import { FormValidators } from '@presentation/pages/communication/domain/validat
 
 @Injectable()
 export class MessagingFormStore {
-    private readonly destroyRef = inject(DestroyRef);
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(MessagingFindOneFacade);
     private readonly regionsFacade = inject(RegionsSelectFacade);
