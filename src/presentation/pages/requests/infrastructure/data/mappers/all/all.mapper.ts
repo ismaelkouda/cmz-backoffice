@@ -13,6 +13,7 @@ import { StatusMapper } from '@presentation/pages/requests/infrastructure/data/m
 
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {
+    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, AllEntity>();
 
     private readonly reportTypeMapper = inject(ReportTypeMapper);
@@ -28,8 +29,10 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {
         const props: AllProps = {
             uniqId: dto.uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
-            operators: this.telecomOperatorMapper.mapStringToEnum(
-                dto.operators
+            operators: this.utils.memoizedList(
+                dto?.operators,
+                (p) => this.telecomOperatorMapper.mapFromDto(p),
+                (p) => `operator${p}`
             ),
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,

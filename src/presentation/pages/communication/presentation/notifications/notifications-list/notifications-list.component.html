@@ -17,10 +17,7 @@
                         ></app-page-title>
                     </header>
 
-                    <div
-                        class="notifications-content"
-                        [class.fade-in]="hasAnimated()"
-                    >
+                    <div class="notifications-content">
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
@@ -31,11 +28,12 @@
                             [limit]="5"
                         ></app-filter>
 
-                        <hr class="teams-divider" />
+                        <hr class="notifications-divider" />
 
                         <section class="table-section">
                             <app-table
                                 class="table-component"
+                                dataKey="uniqId"
                                 [loading]="loading()"
                                 [items]="items()"
                                 [pagination]="pagination()"
@@ -47,7 +45,6 @@
                                 (refreshRequested)="onRefreshClicked()"
                                 (actionClicked)="onActionClicked($event)"
                                 (export)="onExportClicked()"
-                                dataKey="uniqId"
                             ></app-table>
 
                             <app-pagination

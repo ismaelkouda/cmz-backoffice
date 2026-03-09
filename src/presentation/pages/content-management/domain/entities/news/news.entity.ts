@@ -5,7 +5,6 @@ export interface NewsProps {
     email: string;
     phone: string;
     role: string;
-    roleStyle: string;
     status: string;
     updatedAt: string;
 }
@@ -35,10 +34,6 @@ export class NewsEntity {
 
     get role(): string {
         return this.props.role;
-    }
-
-    get roleStyle(): string {
-        return this.props.roleStyle;
     }
 
     get status(): string {

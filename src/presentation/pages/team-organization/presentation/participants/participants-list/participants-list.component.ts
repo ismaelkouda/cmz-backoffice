@@ -40,7 +40,7 @@ import { TeamsSelectFacade } from '@presentation/pages/team-organization/applica
 import { PARTICIPANTS } from '@presentation/pages/team-organization/domain/constants/participants/participants-table.constant';
 import { ParticipantsFilterControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-filter.control';
 import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
-import { PARTICIPANTS_STATUS } from '@presentation/pages/team-organization/domain/enums/participants/participants-status.enum';
+import { Status } from '@presentation/pages/team-organization/domain/enums/participants/participants-status.enum';
 import { PARTICIPANTS_FORM } from '@presentation/pages/team-organization/presentation/participants/participants.routes';
 
 @Component({
@@ -88,7 +88,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
 
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(PARTICIPANTS_STATUS, this.t.bind(this));
+        return enumToFilterOptions(Status, this.t.bind(this));
     });
     readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();

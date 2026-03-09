@@ -5,7 +5,7 @@ export enum Roles {
 }
 
 export enum RolesStyle {
-    SUPERVISOR = 'info',
-    LEADER = 'success',
-    AGENT = 'dark',
+    SUPERVISOR = 'COMMON.SUPERVISOR_STYLE',
+    LEADER = 'COMMON.LEADER_STYLE',
+    AGENT = 'COMMON.AGENT_STYLE',
 }

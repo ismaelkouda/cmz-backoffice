@@ -1,15 +1,11 @@
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
-import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import {
+    TelecomOperator,
+    TelecomOperatorStyle,
+} from '@shared/domain/enums/telecom-operator.enum';
 
-export interface QueuesProps {
-    uniqId: string;
-    reportType: ReportType;
-    operators: TelecomOperator[];
-    source: ReportSource;
-    initiatorPhoneNumber: string;
-    reportedAt: string;
-}
+import { QueuesProps } from '@presentation/pages/requests/domain/interfaces/queues/queues-props.interface';
 
 export class QueuesEntity implements QueuesProps {
     constructor(private readonly props: QueuesProps) {}
@@ -24,6 +20,15 @@ export class QueuesEntity implements QueuesProps {
 
     get operators(): TelecomOperator[] {
         return this.props.operators;
+    }
+
+    operatorsStyle(operator: TelecomOperator): TelecomOperatorStyle {
+        const methodMap: Record<TelecomOperator, TelecomOperatorStyle> = {
+            [TelecomOperator.MTN]: TelecomOperatorStyle.MTN,
+            [TelecomOperator.ORANGE]: TelecomOperatorStyle.ORANGE,
+            [TelecomOperator.MOOV]: TelecomOperatorStyle.MOOV,
+        };
+        return methodMap[operator];
     }
 
     get source(): ReportSource {

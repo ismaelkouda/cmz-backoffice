@@ -4,18 +4,14 @@ import { Status } from '@presentation/pages/team-organization/domain/enums/teams
 
 @Injectable({ providedIn: 'root' })
 export class StatusMapper {
-    private readonly statusMapping = {
-        toApi: {
+    mapFromDto(dto: boolean): Status {
+        return dto ? Status.ACTIVE : Status.INACTIVE;
+    }
+    mapToDto(value: Status): boolean {
+        const methodMap: Record<Status, boolean> = {
             [Status.ACTIVE]: true,
             [Status.INACTIVE]: false,
-        },
-    };
-
-    mapStatusToApi(status: Status): boolean {
-        return this.statusMapping.toApi[status];
-    }
-
-    mapApiToStatus(apiStatus: boolean): Status {
-        return apiStatus ? Status.ACTIVE : Status.INACTIVE;
+        };
+        return methodMap[value];
     }
 }

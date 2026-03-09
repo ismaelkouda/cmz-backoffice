@@ -14,7 +14,7 @@ export class UsersSelectApi {
     ) {}
 
     readAll(): Observable<UsersSelectResponseApiDto> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/profiles`;
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/free-users`;
         return this.http.get<UsersSelectResponseApiDto>(url);
     }
 }

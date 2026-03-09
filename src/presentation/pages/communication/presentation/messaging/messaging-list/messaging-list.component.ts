@@ -55,7 +55,6 @@ import { MESSAGING_FORM } from '@presentation/pages/communication/presentation/m
     styleUrls: ['./messaging-list.component.scss'],
 })
 export class MessagingListComponent implements OnInit, OnDestroy {
-    readonly hasAnimated = computed(() => this.items().length === 0);
     private readonly title = inject(Title);
     public readonly facade = inject(MessagingFacade);
     private readonly router = inject(Router);

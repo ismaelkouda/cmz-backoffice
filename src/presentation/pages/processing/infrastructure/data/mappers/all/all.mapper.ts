@@ -6,24 +6,18 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    AllEntity,
-    ReportState,
-    AllProps,
-} from '@presentation/pages/processing/domain/entities/all/all.entity';
+import { AllEntity } from '@presentation/pages/processing/domain/entities/all/all.entity';
+import { AllProps } from '@presentation/pages/processing/domain/interfaces/all/all-props.interface';
 import { AllItemApiDto } from '@presentation/pages/processing/infrastructure/api/dto/all/all-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {
+    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, AllEntity>();
 
     private readonly reportTypeMapper = inject(ReportTypeMapper);
     private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
     private readonly reportSourceMapper = inject(ReportSourceMapper);
-
-    private static readonly STATE_MAP = MapperUtils.createEnumMap({
-        [ReportState.TERMINATED]: ReportState.TERMINATED,
-    });
 
     protected override mapItemFromDto(dto: AllItemApiDto): AllEntity {
         MapperUtils.validateDto(dto, {
@@ -33,12 +27,13 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {
         const props: AllProps = {
             uniqId: dto.uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
-            operators: this.telecomOperatorMapper.mapStringToEnum(
-                dto.operators
+            operators: this.utils.memoizedList(
+                dto?.operators,
+                (p) => this.telecomOperatorMapper.mapFromDto(p),
+                (p) => `operator${p}`
             ),
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
-            state: ReportState.TERMINATED,
             reportedAt: dto.reported_at,
         };
 

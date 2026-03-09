@@ -17,15 +17,12 @@ export class TelecomOperatorMapper {
         return TelecomOperatorMapper.MAP.get(dto) as TelecomOperator;
     }
 
-    mapStringToEnum(dtoValue: TelecomOperatorDto[]): TelecomOperator[] {
-        if (!Array.isArray(dtoValue)) {
-            dtoValue = JSON.parse(dtoValue);
-        }
+    mapFromDto(dto: TelecomOperatorDto): TelecomOperator {
         const methodMap: Record<TelecomOperatorDto, TelecomOperator> = {
             [TelecomOperatorDto.MTN]: TelecomOperator.MTN,
             [TelecomOperatorDto.ORANGE]: TelecomOperator.ORANGE,
             [TelecomOperatorDto.MOOV]: TelecomOperator.MOOV,
         };
-        return dtoValue.map((operator) => methodMap[operator]);
+        return methodMap[dto];
     }
 }

@@ -1,16 +1,8 @@
-export interface MessagingProps {
-    uniqId: string;
-    reportId: string;
-    type: string;
-    targetType: string;
-    region: string;
-    department: string;
-    municipality: string;
-    channels: string[];
-    subject: string;
-    content: string;
-    createdAt: string;
-}
+import {
+    Channels,
+    ChannelsStyle,
+} from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MessagingProps } from '@presentation/pages/communication/domain/interfaces/messaging/messaging-props.interface';
 
 export class MessagingEntity {
     constructor(private readonly props: MessagingProps) {}
@@ -43,8 +35,16 @@ export class MessagingEntity {
         return this.props.municipality;
     }
 
-    get channels(): string[] {
+    get channels(): Channels[] {
         return this.props.channels;
+    }
+    channelsStyle(channels: Channels): ChannelsStyle {
+        const methodMap: Record<Channels, ChannelsStyle> = {
+            [Channels.PUSH]: ChannelsStyle.PUSH,
+            [Channels.MAIL]: ChannelsStyle.MAIL,
+            [Channels.SMS]: ChannelsStyle.SMS,
+        };
+        return methodMap[channels];
     }
 
     get subject(): string {

@@ -1,14 +1,10 @@
-export interface ParticipantsProps {
-    uniqId: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    role: string;
-    roleStyle: string;
-    status: string;
-    updatedAt: string;
-}
+import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
+
+import {
+    Status,
+    StatusStyle,
+} from '@presentation/pages/team-organization/domain/enums/participants/participants-status.enum';
+import { ParticipantsProps } from '@presentation/pages/team-organization/domain/interfaces/participants/participants-props.entity';
 
 export class ParticipantsEntity {
     constructor(private readonly props: ParticipantsProps) {}
@@ -33,16 +29,29 @@ export class ParticipantsEntity {
         return this.props.phone;
     }
 
-    get role(): string {
+    get role(): Roles {
         return this.props.role;
     }
-
-    get roleStyle(): string {
-        return this.props.roleStyle;
+    roleStyle(role: Roles): RolesStyle {
+        const methodMap: Record<Roles, RolesStyle> = {
+            [Roles.SUPERVISOR]: RolesStyle.SUPERVISOR,
+            [Roles.LEADER]: RolesStyle.LEADER,
+            [Roles.AGENT]: RolesStyle.AGENT,
+        };
+        return methodMap[role];
     }
 
-    get status(): string {
+    get status(): Status {
         return this.props.status;
+    }
+    statusStyle(status: Status): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.ACTIVE]: StatusStyle.ACTIVE,
+            [Status.INACTIVE]: StatusStyle.INACTIVE,
+            [Status.BLOCKED]: StatusStyle.BLOCKED,
+            [Status.PENDING]: StatusStyle.PENDING,
+        };
+        return methodMap[status];
     }
 
     get updatedAt(): string {

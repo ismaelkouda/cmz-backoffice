@@ -1,29 +1,27 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
+import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 
-import { PARTICIPANTS_ROUTE } from '@presentation/pages/team-organization/team-organization.routes';
+import { HOME_ROUTE } from '@presentation/pages/content-management/content-management.routes';
 
 @Injectable()
 export class HomeFormHelperService {
     private readonly router = inject(Router);
 
     navigateToHomeList(): void {
-        this.router.navigate([
-            TEAM_ORGANIZATION_ROUTE + '/' + PARTICIPANTS_ROUTE,
-        ]);
+        this.router.navigate([CONTENT_MANAGEMENT_ROUTE + '/' + HOME_ROUTE]);
     }
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE_UPDATE'
-            : 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE_CREATE';
+            ? 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE_UPDATE'
+            : 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE_CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE_UPDATE'
-            : 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE_CREATE';
+            ? 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE_UPDATE'
+            : 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE_CREATE';
     }
 }

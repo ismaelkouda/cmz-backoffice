@@ -6,14 +6,13 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    TasksEntity,
-    TasksProps,
-} from '@presentation/pages/requests/domain/entities/tasks/tasks.entity';
+import { TasksEntity } from '@presentation/pages/requests/domain/entities/tasks/tasks.entity';
+import { TasksProps } from '@presentation/pages/requests/domain/interfaces/tasks/tasks-props.interface';
 import { TasksItemApiDto } from '@presentation/pages/requests/infrastructure/api/dto/tasks/tasks-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class TasksMapper extends PaginatedMapper<TasksEntity, TasksItemApiDto> {
+    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, TasksEntity>();
 
     private readonly reportTypeMapper = inject(ReportTypeMapper);
@@ -28,8 +27,10 @@ export class TasksMapper extends PaginatedMapper<TasksEntity, TasksItemApiDto> {
         const props: TasksProps = {
             uniqId: dto.uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
-            operators: this.telecomOperatorMapper.mapStringToEnum(
-                dto.operators
+            operators: this.utils.memoizedList(
+                dto?.operators,
+                (p) => this.telecomOperatorMapper.mapFromDto(p),
+                (p) => `operator${p}`
             ),
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,

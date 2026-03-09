@@ -19,7 +19,7 @@
 
             <p-selectButton
                 [options]="periodOpts"
-                [(ngModel)]="selectedPeriod"
+                [ngModel]="selectedPeriod()"
                 (onChange)="onPeriodChange($event.value)"
                 [disabled]="loading()"
                 optionLabel="label"
@@ -47,92 +47,91 @@
         </div>
     </div>
 
-    <div *ngIf="error" class="error-message">
-        <i class="pi pi-exclamation-triangle"></i>
-        <span>{{ error }}</span>
-    </div>
+    @if (error(); as errorMsg) {
+        <div class="error-message">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>{{ errorMsg }}</span>
+        </div>
+    }
 
-    <div
-        *ngIf="!loading() && !error && typeStatistics.length === 0"
-        class="no-data-container"
-    >
-        <i class="pi pi-info-circle"></i>
-        <p>{{ 'DASHBOARD.NO_DATA' | translate }}</p>
-    </div>
     @if (loading()) {
         <app-dashboard-skeleton></app-dashboard-skeleton>
     } @else {
         <div class="dashboard-content">
-            <div class="statistics-section" *ngIf="typeStatistics.length > 0">
-                <div class="section-header">
-                    <div class="section-badge">
-                        {{ 'DASHBOARD.SECTIONS.TYPE.TITLE' | translate }}
+            @if (typeStatistics.length > 0) {
+                <div class="statistics-section">
+                    <div class="section-header">
+                        <div class="section-badge">
+                            {{ 'DASHBOARD.SECTIONS.TYPE.TITLE' | translate }}
+                        </div>
                     </div>
-                    <div class="section-indicator"></div>
-                </div>
-                <div class="statistics-grid">
-                    <div
-                        *ngFor="let stat of typeStatistics"
-                        class="stat-card card-{{ stat.color }}"
-                        [class.clickable]="stat.routerFilter"
-                        (click)="navigateToReport(stat)"
-                        (keypress)="navigateToReport(stat)"
-                    >
-                        <div class="card-content">
-                            <div class="stat-header">
-                                <div class="stat-value">{{ stat.count }}</div>
-                                <div class="stat-icon-wrapper">
-                                    <i class="stat-icon pi {{ stat.icon }}"></i>
+                    <div class="statistics-grid">
+                        @for (stat of typeStatistics; track stat.label) {
+                            <div 
+                                class="stat-card card-{{ stat.color }}"
+                                [class.clickable]="stat.routerFilter"
+                                (click)="navigateToReport(stat)"
+                                (keyup.enter)="navigateToReport(stat)"
+                                role="button"
+                                tabindex="0"
+                            >
+                                <div class="card-content">
+                                    <div class="stat-header">
+                                        <div class="stat-value">{{ stat.count }}</div>
+                                        <div class="stat-icon-wrapper">
+                                            <i class="stat-icon pi {{ stat.icon }}"></i>
+                                        </div>
+                                    </div>
+                                    <div class="stat-label">
+                                        {{ stat.label | translate }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="stat-label">
-                                {{ stat.label | translate }}
-                            </div>
-                            <!-- <div class="stat-subtitle">
-                                {{ stat.subtitle | translate }}
-                            </div> -->
-                        </div>
-                        <div class="card-decoration"></div>
+                        }
                     </div>
                 </div>
-            </div>
+            }
 
-            <div
-                class="statistics-section"
-                *ngIf="taskStatusStatistics.length > 0"
-            >
-                <div class="section-header">
-                    <div class="section-badge">
-                        {{ 'DASHBOARD.SECTIONS.TASK_STATUS.TITLE' | translate }}
+            @if (taskStatusStatistics.length > 0) {
+                <div class="statistics-section">
+                    <div class="section-header">
+                        <div class="section-badge">
+                            {{ 'DASHBOARD.SECTIONS.TASK_STATUS.TITLE' | translate }}
+                        </div>
                     </div>
-                    <div class="section-indicator"></div>
-                </div>
-                <div class="statistics-grid">
-                    <div
-                        *ngFor="let stat of taskStatusStatistics"
-                        class="stat-card card-{{ stat.color }}"
-                        [class.clickable]="stat.routerFilter"
-                        (click)="navigateToReport(stat)"
-                        (keypress)="navigateToReport(stat)"
-                    >
-                        <div class="card-content">
-                            <div class="stat-header">
-                                <div class="stat-value">{{ stat.count }}</div>
-                                <div class="stat-icon-wrapper">
-                                    <i class="stat-icon pi {{ stat.icon }}"></i>
+                    <div class="statistics-grid">
+                        @for (stat of taskStatusStatistics; track stat.label) {
+                            <div 
+                                class="stat-card card-{{ stat.color }}"
+                                [class.clickable]="stat.routerFilter"
+                                (click)="navigateToReport(stat)"
+                                (keyup.enter)="navigateToReport(stat)"
+                                role="button"
+                                tabindex="0"
+                            >
+                                <div class="card-content">
+                                    <div class="stat-header">
+                                        <div class="stat-value">{{ stat.count }}</div>
+                                        <div class="stat-icon-wrapper">
+                                            <i class="stat-icon pi {{ stat.icon }}"></i>
+                                        </div>
+                                    </div>
+                                    <div class="stat-label">
+                                        {{ stat.label | translate }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="stat-label">
-                                {{ stat.label | translate }}
-                            </div>
-                            <!-- <div class="stat-subtitle">
-                                {{ stat.subtitle | translate }}
-                            </div> -->
-                        </div>
-                        <div class="card-decoration"></div>
+                        }
                     </div>
                 </div>
-            </div>
+            }
+
+            @if (typeStatistics.length === 0 && taskStatusStatistics.length === 0) {
+                <div class="no-data-container">
+                    <i class="pi pi-info-circle"></i>
+                    <p>{{ 'DASHBOARD.NO_DATA' | translate }}</p>
+                </div>
+            }
         </div>
     }
 </div>

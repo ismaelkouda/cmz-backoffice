@@ -16,11 +16,11 @@ export class StatusMapper {
         },
     };
 
-    mapStatusToApi(status: Status): ApiStatus {
+    mapToDto(status: Status): ApiStatus {
         return this.statusMapping.toApi[status];
     }
 
-    mapApiToStatus(apiStatus: ApiStatus): Status {
-        return this.statusMapping.fromApi[apiStatus];
+    mapFromDto(dto: ApiStatus): Status {
+        return this.statusMapping.fromApi[dto];
     }
 }

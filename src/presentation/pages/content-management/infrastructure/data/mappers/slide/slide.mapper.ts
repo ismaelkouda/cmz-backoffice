@@ -29,7 +29,6 @@ export class SlideMapper extends PaginatedMapper<SlideEntity, SlideItemApiDto> {
             email: dto.email,
             phone: dto.phone,
             role: this.rolesMapper.mapFromDto(dto.role),
-            roleStyle: this.rolesMapper.mapFromStyle(dto.role),
             status: this.actionDropdownMapper.mapFromDto(dto.status),
             updatedAt: dto.updated_at,
         };

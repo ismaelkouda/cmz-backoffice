@@ -6,10 +6,8 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    QueuesEntity,
-    QueuesProps,
-} from '@presentation/pages/requests/domain/entities/queues/queues.entity';
+import { QueuesEntity } from '@presentation/pages/requests/domain/entities/queues/queues.entity';
+import { QueuesProps } from '@presentation/pages/requests/domain/interfaces/queues/queues-props.interface';
 import { QueuesItemApiDto } from '@presentation/pages/requests/infrastructure/api/dto/queues/queues-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
@@ -17,6 +15,7 @@ export class QueuesMapper extends PaginatedMapper<
     QueuesEntity,
     QueuesItemApiDto
 > {
+    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, QueuesEntity>();
 
     private readonly reportTypeMapper = inject(ReportTypeMapper);
@@ -31,8 +30,10 @@ export class QueuesMapper extends PaginatedMapper<
         const props: QueuesProps = {
             uniqId: dto.uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
-            operators: this.telecomOperatorMapper.mapStringToEnum(
-                dto.operators
+            operators: this.utils.memoizedList(
+                dto?.operators,
+                (p) => this.telecomOperatorMapper.mapFromDto(p),
+                (p) => `operator${p}`
             ),
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,

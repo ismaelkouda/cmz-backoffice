@@ -44,25 +44,6 @@ export interface TableHeaderButton {
     ],
     template: `
         <div class="table-button-header">
-            @if (!hiddenButtonOther()) {
-                <button
-                    type="button"
-                    [styleClass]="otherButtonStyleClass"
-                    class="btn btn-primary"
-                    [attr.aria-label]="
-                        showLabels
-                            ? null
-                            : labelOther() || ('COMMON.CREATE' | translate)
-                    "
-                    (click)="onOther()"
-                >
-                    @if (labelOther()) {
-                        <span>{{ labelOther() | translate }}</span>
-                    } @else {
-                        <span>{{ 'COMMON.CREATE' | translate }}</span>
-                    }
-                </button>
-            }
             @for (btn of customButtons(); track btn.actionId) {
                 @if (btn.items?.length) {
                     <p-menu
@@ -182,7 +163,6 @@ export class TableButtonHeaderComponent implements OnInit {
 
     ngOnInit(): void {
         this.updateLabelVisibility();
-        console.log('customButtons', this.customButtons());
     }
 
     onRefresh(): void {

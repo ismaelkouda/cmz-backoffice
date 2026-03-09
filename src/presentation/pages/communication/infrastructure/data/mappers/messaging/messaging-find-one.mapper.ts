@@ -34,7 +34,6 @@ export class MessagingFindOneMapper extends SimpleResponseMapper<
             content: dto.content,
             createdAt: dto.created_at,
         };
-        console.log('props: ', props);
 
         const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);

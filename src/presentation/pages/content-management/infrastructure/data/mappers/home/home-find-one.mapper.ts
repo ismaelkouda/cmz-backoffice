@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    HomeFindOneEntity,
-    HomeFindOneProps,
-} from '@presentation/pages/content-management/domain/entities/home/home-find-one.entity';
+import { HomeFindOneEntity } from '@presentation/pages/content-management/domain/entities/home/home-find-one.entity';
+import { HomeFindOneProps } from '@presentation/pages/content-management/domain/interfaces/home/home-find-one-props.interface';
 import { HomeFindOneItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-find-one-response-api.dto';
+import { StatusMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/home/home-status.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class HomeFindOneMapper extends SimpleResponseMapper<
@@ -15,17 +15,33 @@ export class HomeFindOneMapper extends SimpleResponseMapper<
     HomeFindOneItemApiDto
 > {
     private readonly entityCache = new Map<string, HomeFindOneEntity>();
+    private readonly platformMapper = inject(PlatformMapper);
+    private readonly statusMapper = inject(StatusMapper);
+    private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(dto: HomeFindOneItemApiDto): HomeFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
 
         const props: HomeFindOneProps = {
             uniqId: dto.id,
-            lastName: dto.last_name,
-            firstName: dto.first_name,
-            email: dto.email,
-            phone: dto.phone,
-            role: dto.role,
+            platforms: this.utils.memoizedList(
+                dto.platforms,
+                (p) => this.platformMapper.mapFromDto(p),
+                (p) => `platform:${p}`
+            ),
+            title: dto.title,
+            resume: dto.resume,
+            content: dto.content,
+            image: dto.image_url,
+            timeDurationInSeconds: dto.time_duration_in_seconds,
+            order: dto.order,
+            buttonLabel: dto.button_label,
+            buttonUrl: dto.button_url,
+            status: this.statusMapper.mapFromDto(dto.is_active),
+            startDate: dto.start_date,
+            endDate: dto.end_date,
+            createdAt: dto.created_at,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${dto.id}`;

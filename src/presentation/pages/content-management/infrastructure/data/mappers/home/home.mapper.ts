@@ -1,36 +1,38 @@
 import { inject, Injectable } from '@angular/core';
 
-import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { RolesMapper } from '@shared/data/mappers/roles.mapper';
+import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
-import {
-    HomeEntity,
-    HomeProps,
-} from '@presentation/pages/content-management/domain/entities/home/home.entity';
+import { HomeEntity } from '@presentation/pages/content-management/domain/entities/home/home.entity';
+import { HomeProps } from '@presentation/pages/content-management/domain/interfaces/home/home-props.interface';
 import { HomeItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-response-api.dto';
+import { StatusMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/home/home-status.mapper';
 
 @Injectable({
     providedIn: 'root',
 })
 export class HomeMapper extends PaginatedMapper<HomeEntity, HomeItemApiDto> {
-    private readonly actionDropdownMapper: ActionDropdownMapper =
-        inject(ActionDropdownMapper);
-    private readonly rolesMapper: RolesMapper = inject(RolesMapper);
     private readonly entityCache = new Map<string, HomeEntity>();
+    private readonly platformMapper = inject(PlatformMapper);
+    private readonly statusMapper = inject(StatusMapper);
+    private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(dto: HomeItemApiDto): HomeEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: HomeProps = {
             uniqId: dto.id,
-            lastName: dto.last_name,
-            firstName: dto.first_name,
-            email: dto.email,
-            phone: dto.phone,
-            role: this.rolesMapper.mapFromDto(dto.role),
-            roleStyle: this.rolesMapper.mapFromStyle(dto.role),
-            status: this.actionDropdownMapper.mapFromDto(dto.status),
+            platforms: this.utils.memoizedList(
+                dto?.platforms,
+                (p) => this.platformMapper.mapFromDto(p),
+                (p) => `platforms${p}`
+            ),
+            title: dto.title,
+            resume: dto.resume,
+            image: dto.image_url,
+            order: dto.order,
+            status: this.statusMapper.mapFromDto(dto.is_active),
+            createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };
 

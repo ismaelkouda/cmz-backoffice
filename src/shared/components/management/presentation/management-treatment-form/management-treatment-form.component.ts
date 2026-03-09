@@ -15,8 +15,7 @@ import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 
 import { FilterOption } from '@shared/components/filter/filter.types';
-
-import { ManagementFormControl } from '../../domain/controls/management-form-control';
+import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 
 @Component({
     selector: 'app-management-treatment-form',
@@ -161,7 +160,6 @@ export class ManagementTreatmentFormComponent {
     });
 
     protected isDecision(value: 'accepted' | 'rejected'): boolean {
-        console.log('value: ', value);
         return this.form()?.get('decision')?.value === value;
     }
 
