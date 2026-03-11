@@ -1,4 +1,4 @@
-import { NewsFilterVo } from '@presentation/pages/content-management/domain/value-objects/news/news-filter.vo';
+import { NewsFilterVo } from '@pages/content-management/domain/value-objects/news/news-filter.vo';
 
 export class NewsFilterEntity {
     constructor(

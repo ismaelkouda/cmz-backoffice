@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUsersFilterDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-filter.dto';
+import { ProfilesPermissionsUsersFilterDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-filter.dto';
 
 export class ProfilesPermissionsUsersFilterVo {
     public readonly uniqId: string;

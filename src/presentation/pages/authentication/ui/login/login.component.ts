@@ -15,10 +15,11 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { PasswordModule } from 'primeng/password';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
+import { AuthenticationFacade } from '@pages/authentication/application/authentication.facade';
+import { LoginFormInterface } from '@pages/authentication/data/interfaces/login-form.interface';
+import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
+import { FORGOT_PASSWORD } from '@pages/password-reset/password-reset.routes';
+import { REINITIALIZATION } from '@presentation/app.routes';
 import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
 import {
     AuthToken,
@@ -27,13 +28,9 @@ import {
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { DASHBOARD } from '@shared/routes/routes';
-
-import { REINITIALIZATION } from '@presentation/app.routes';
-
-import { AuthenticationFacade } from '@pages/authentication/application/authentication.facade';
-import { LoginFormInterface } from '@pages/authentication/data/interfaces/login-form.interface';
-import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
-import { FORGOT_PASSWORD } from '@pages/password-reset/password-reset.routes';
+import { PasswordModule } from 'primeng/password';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-login',

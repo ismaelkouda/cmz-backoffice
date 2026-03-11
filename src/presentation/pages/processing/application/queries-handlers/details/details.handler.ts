@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { DetailsQuery } from '@pages/processing/application/queries/details/details.query';
+import { DetailsUseCase } from '@pages/processing/application/use-cases/details/details.use-case';
+import { DetailsEntity } from '@pages/processing/domain/entities/details/details.entity';
 import { Observable } from 'rxjs';
-
-import { DetailsQuery } from '@presentation/pages/processing/application/queries/details/details.query';
-import { DetailsUseCase } from '@presentation/pages/processing/application/use-cases/details/details.use-case';
-import { DetailsEntity } from '@presentation/pages/processing/domain/entities/details/details.entity';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsHandler {

@@ -1,12 +1,10 @@
 import { inject, Provider } from '@angular/core';
-
+import { messagingFindOneProviders } from '@pages/communication/di/messaging/messaging-find-one.providers';
+import { messagingProviders } from '@pages/communication/di/messaging/messaging.providers';
+import { notificationsFindOneProviders } from '@pages/communication/di/notifications/notifications-find-one.providers';
+import { notificationsProviders } from '@pages/communication/di/notifications/notifications.providers';
+import { COMMUNICATION_BASE_URL } from '@pages/communication/infrastructure/api/communication.base-url';
 import { EnvService } from '@shared/domain/services/env.service';
-
-import { messagingFindOneProviders } from '@presentation/pages/communication/di/messaging/messaging-find-one.providers';
-import { messagingProviders } from '@presentation/pages/communication/di/messaging/messaging.providers';
-import { notificationsFindOneProviders } from '@presentation/pages/communication/di/notifications/notifications-find-one.providers';
-import { notificationsProviders } from '@presentation/pages/communication/di/notifications/notifications.providers';
-import { COMMUNICATION_BASE_URL } from '@presentation/pages/communication/infrastructure/api/communication.base-url';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).authenticationUrl;

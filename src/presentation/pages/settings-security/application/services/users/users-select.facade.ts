@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-
+import { UsersSelectUseCase } from '@pages/settings-security/application/use-cases/users/users-select.use-case';
+import { UsersSelectEntity } from '@pages/settings-security/domain/entities/users/users-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { UsersSelectUseCase } from '@presentation/pages/settings-security/application/use-cases/users/users-select.use-case';
-import { UsersSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/users-select.entity';
 
 @Injectable({
     providedIn: 'root',

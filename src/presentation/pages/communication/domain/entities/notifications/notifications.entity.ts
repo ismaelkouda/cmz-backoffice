@@ -1,8 +1,8 @@
 import {
     Status,
     StatusStyle,
-} from '@presentation/pages/communication/domain/enums/notifications/notifications-status.enum';
-import { NotificationsProps } from '@presentation/pages/communication/domain/interfaces/notifications/notifications-props.interface';
+} from '@pages/communication/domain/enums/notifications/notifications-status.enum';
+import { NotificationsProps } from '@pages/communication/domain/interfaces/notifications/notifications-props.interface';
 
 export class NotificationsEntity {
     constructor(private readonly props: NotificationsProps) {}

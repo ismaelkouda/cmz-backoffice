@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-
+import { DashboardEntity } from '@pages/dashboard/domain/entities/dashboard.entity';
+import { DashboardProps } from '@pages/dashboard/domain/interfaces/dashboard-props.interface';
+import { DashboardItemApiDto } from '@pages/dashboard/infrastructure/api/dto/dashboard-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { separatorThousands } from '@shared/domain/functions/separator-thousands';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
-import { DashboardProps } from '@presentation/pages/dashboard/domain/interfaces/dashboard-props.interface';
-import { DashboardItemApiDto } from '@presentation/pages/dashboard/infrastructure/api/dto/dashboard-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardMapper extends SimpleResponseMapper<

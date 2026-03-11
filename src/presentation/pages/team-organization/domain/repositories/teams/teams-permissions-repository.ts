@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
+import { TeamsPermissionsEntity } from '@pages/team-organization/domain/entities/teams/teams-permissions.entity';
 import { Observable } from 'rxjs';
-
-import { TeamsPermissionsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-permissions.entity';
 
 @Injectable({
     providedIn: 'root',

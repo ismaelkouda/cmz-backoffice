@@ -1,5 +1,5 @@
-import { LegalNoticeUnpublishEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
-import { LegalNoticeUnpublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-unpublish-api.dto';
+import { LegalNoticeUnpublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
+import { LegalNoticeUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-unpublish-api.dto';
 
 export function legalNoticeUnpublishMapper(
     vo: LegalNoticeUnpublishEntity

@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { ProfilesPermissionsSelectResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-select-api.dto';
+import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
+import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { Observable } from 'rxjs';
-
-import { ProfilesPermissionsSelectResponseApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-select-api.dto';
-import { SETTINGS_SECURITY_BASE_URL } from '@presentation/pages/settings-security/infrastructure/api/settings-security.base-url';
-import { SETTINGS_SECURITY_ENDPOINTS } from '@presentation/pages/settings-security/infrastructure/api/settings-security.endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsSelectApi {
@@ -14,7 +13,7 @@ export class ProfilesPermissionsSelectApi {
     ) {}
 
     readAll(): Observable<ProfilesPermissionsSelectResponseApiDto> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/profiles`;
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/select-field`;
         return this.http.get<ProfilesPermissionsSelectResponseApiDto>(url);
     }
 }

@@ -1,4 +1,4 @@
-import { RegionsItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-response-api.dto';
+import { RegionsItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-response-api.dto';
 
 export class RegionsEntity {
     constructor(

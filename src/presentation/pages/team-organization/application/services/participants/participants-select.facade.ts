@@ -1,12 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-
+import { ParticipantsSelectUseCase } from '@pages/team-organization/application/use-cases/participants/participants-select.use-case';
+import { ParticipantsSelectEntity } from '@pages/team-organization/domain/entities/participants/participants-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
-// import { ParticipantsSelectDto } from '@presentation/pages/team-organization/application/dto/participants/participants-select.dto';
-import { ParticipantsSelectUseCase } from '@presentation/pages/team-organization/application/use-cases/participants/participants-select.use-case';
-import { ParticipantsSelectEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-select.entity';
+// import { ParticipantsSelectDto } from '@pages/team-organization/application/dto/participants/participants-select.dto';
 
 @Injectable({
     providedIn: 'root',

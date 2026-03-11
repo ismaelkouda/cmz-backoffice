@@ -1,5 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { DetailsEntity } from '@pages/processing/domain/entities/details/details.entity';
+import { DetailsStatus } from '@pages/processing/domain/enums/details/details-status/details-status.enum';
+import { DetailsProps } from '@pages/processing/domain/interfaces/details/details-props.interface';
+import { DetailsItemApiDto } from '@pages/processing/infrastructure/api/dto/details/details-response-api.dto';
+import { ProcessingStateMapper } from '@pages/processing/infrastructure/data/mappers/details/details-processing-state.mapper';
+import { StateMapper } from '@pages/processing/infrastructure/data/mappers/details/details-state.mapper';
 import { ActorMapper } from '@shared/data/mappers/actor.mapper';
 import { AdministrativeBoundaryMapper } from '@shared/data/mappers/administrative-boundary.mapper';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
@@ -11,13 +16,6 @@ import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.map
 import { TimestampsMapper } from '@shared/data/mappers/timestamps.mapper';
 import { TreaterInfoMapper } from '@shared/data/mappers/treater-info.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { DetailsEntity } from '@presentation/pages/processing/domain/entities/details/details.entity';
-import { DetailsStatus } from '@presentation/pages/processing/domain/enums/details/details-status/details-status.enum';
-import { DetailsProps } from '@presentation/pages/processing/domain/interfaces/details/details-props.interface';
-import { DetailsItemApiDto } from '@presentation/pages/processing/infrastructure/api/dto/details/details-response-api.dto';
-import { ProcessingStateMapper } from '@presentation/pages/processing/infrastructure/data/mappers/details/details-processing-state.mapper';
-import { StateMapper } from '@presentation/pages/processing/infrastructure/data/mappers/details/details-state.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsMapper extends SimpleResponseMapper<

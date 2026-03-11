@@ -1,4 +1,4 @@
-import { NewsFindOneFilterDto } from '@presentation/pages/content-management/application/dto/news/news-find-one-filter.dto';
+import { NewsFindOneFilterDto } from '@pages/content-management/application/dto/news/news-find-one-filter.dto';
 
 export class NewsFindOneFilterVo {
     public readonly uniqId: string;

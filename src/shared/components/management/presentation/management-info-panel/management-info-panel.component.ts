@@ -7,11 +7,10 @@ import {
     output,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-
-import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 
 @Component({
     selector: 'app-management-info-panel',

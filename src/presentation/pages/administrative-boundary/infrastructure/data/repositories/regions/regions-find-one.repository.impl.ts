@@ -1,12 +1,11 @@
 import { Injectable, inject } from '@angular/core';
+import { RegionsFindOneFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one-filter.entity';
+import { RegionsFindOneEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
+import { RegionsFindOneRepository } from '@pages/administrative-boundary/domain/repositories/regions/regions-find-one-repository';
+import { regionsFindOneFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-find-one-filter.mapper';
+import { RegionsFindOneMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-find-one.mapper';
+import { RegionsFindOneApi } from '@pages/administrative-boundary/infrastructure/data/sources/regions/regions-find-one.api';
 import { Observable, map } from 'rxjs';
-
-import { RegionsFindOneFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-find-one-filter.entity';
-import { RegionsFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
-import { RegionsFindOneRepository } from '@presentation/pages/administrative-boundary/domain/repositories/regions/regions-find-one-repository';
-import { regionsFindOneFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions-find-one-filter.mapper';
-import { RegionsFindOneMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions-find-one.mapper';
-import { RegionsFindOneApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/regions/regions-find-one.api';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsFindOneRepositoryImpl implements RegionsFindOneRepository {

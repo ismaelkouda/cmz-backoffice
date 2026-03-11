@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MessagingCreateCommand } from '@pages/communication/application/commands/messaging/messaging-create.command';
+import { MessagingCreateHandler } from '@pages/communication/application/commands-handlers/messaging/messaging-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { MessagingCreateCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-create.command';
-import { MessagingCreateHandler } from '@presentation/pages/communication/application/commands-handlers/messaging/messaging-create.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingCreateBus {

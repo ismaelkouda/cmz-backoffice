@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-
+import { TasksFilterDto } from '@pages/requests/application/dto/tasks/tasks-filter.dto';
+import { TasksQuery } from '@pages/requests/application/queries/tasks/tasks.query';
+import { TasksBus } from '@pages/requests/application/queries-bus/tasks/tasks.bus';
+import { TasksEntity } from '@pages/requests/domain/entities/tasks/tasks.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { TasksFilterDto } from '@presentation/pages/requests/application/dto/tasks/tasks-filter.dto';
-import { TasksQuery } from '@presentation/pages/requests/application/queries/tasks/tasks.query';
-import { TasksBus } from '@presentation/pages/requests/application/queries-bus/tasks/tasks.bus';
-import { TasksEntity } from '@presentation/pages/requests/domain/entities/tasks/tasks.entity';
 
 @Injectable({ providedIn: 'root' })
 export class TasksFacade extends BaseFacade<TasksEntity, TasksFilterDto> {

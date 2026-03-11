@@ -1,10 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DepartmentsDeleteCommand } from '@pages/administrative-boundary/application/commands/departments/departments-delete.command';
+import { DepartmentsUseCase } from '@pages/administrative-boundary/application/use-cases/departments/departments.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DepartmentsDeleteCommand } from '@presentation/pages/administrative-boundary/application/commands/departments/departments-delete.command';
-import { DepartmentsUseCase } from '@presentation/pages/administrative-boundary/application/use-cases/departments/departments.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsDeleteHandler {

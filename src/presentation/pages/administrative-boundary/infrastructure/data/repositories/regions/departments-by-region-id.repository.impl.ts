@@ -1,14 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
-
+import { DepartmentsByRegionIdFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id-filter.entity';
+import { DepartmentsByRegionIdEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
+import { DepartmentsByRegionIdRepository } from '@pages/administrative-boundary/domain/repositories/regions/departments-by-region-id-repository';
+import { DepartmentsByRegionIdFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/departments-by-region-id-filter.mapper';
+import { DepartmentsByRegionIdMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/departments-by-region-id.mapper';
+import { DepartmentsByRegionIdApi } from '@pages/administrative-boundary/infrastructure/data/sources/regions/departments-by-region-id.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { DepartmentsByRegionIdFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id-filter.entity';
-import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
-import { DepartmentsByRegionIdRepository } from '@presentation/pages/administrative-boundary/domain/repositories/regions/departments-by-region-id-repository';
-import { DepartmentsByRegionIdFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/departments-by-region-id-filter.mapper';
-import { DepartmentsByRegionIdMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/departments-by-region-id.mapper';
-import { DepartmentsByRegionIdApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/regions/departments-by-region-id.api';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsByRegionIdRepositoryImpl implements DepartmentsByRegionIdRepository {

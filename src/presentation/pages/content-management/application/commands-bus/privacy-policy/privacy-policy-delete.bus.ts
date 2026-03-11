@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { PrivacyPolicyDeleteCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-delete.command';
+import { PrivacyPolicyDeleteHandler } from '@pages/content-management/application/commands-handlers/privacy-policy/privacy-policy-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { PrivacyPolicyDeleteCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-delete.command';
-import { PrivacyPolicyDeleteHandler } from '@presentation/pages/content-management/application/commands-handlers/privacy-policy/privacy-policy-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyDeleteBus {

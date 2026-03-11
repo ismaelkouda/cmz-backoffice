@@ -32,32 +32,19 @@
                                 pButton
                                 [icon]="
                                     isFullscreen()
-                                        ? 'pi pi-compress'
-                                        : 'pi pi-expand'
+                                        ? 'pi pi-window-minimize'
+                                        : 'pi pi-window-maximize'
                                 "
                                 class="p-button-outlined p-button-secondary action-btn"
                                 (click)="toggleFullscreen()"
-                                pTooltip="{{
+                                [pTooltip]="
                                     isFullscreen()
                                         ? 'COMMON.EXIT_FULLSCREEN'
                                         : ('COMMON.ENTER_FULLSCREEN'
                                           | translate)
-                                }}"
+                                "
                                 tooltipPosition="bottom"
                             ></button>
-
-                            @if (isFullscreen()) {
-                                <button
-                                    class="close-fullscreen-btn"
-                                    (click)="toggleFullscreen()"
-                                    pTooltip="{{
-                                        'COMMON.EXIT_FULLSCREEN' | translate
-                                    }}"
-                                    tooltipPosition="bottom"
-                                >
-                                    <i class="pi pi-times"></i>
-                                </button>
-                            }
                         </div>
                     </div>
                 </header>

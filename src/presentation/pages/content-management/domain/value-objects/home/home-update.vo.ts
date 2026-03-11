@@ -1,55 +1,51 @@
+import { HomeUpdateDto } from '@pages/content-management/application/dto/home/home-update.dto';
+import { HomeUpdateProps } from '@pages/content-management/domain/interfaces/home/home-update-props.interface';
 import { Platform } from '@shared/domain/enums/platform.enum';
 
-import { HomeUpdateDto } from '@presentation/pages/content-management/application/dto/home/home-update.dto';
-
 export class HomeUpdateVo {
-    public readonly uniqId: string;
-    public readonly image: string;
-    public readonly platforms: Platform[];
-    public readonly startDate: string;
-    public readonly endDate: string;
-    public readonly title: string;
-    public readonly resume: string;
-    public readonly content: string;
-    public readonly buttonLabel?: string;
-    public readonly buttonUrl?: string;
+    constructor(private readonly props: HomeUpdateProps) {}
 
-    constructor(props: {
-        uniqId: string;
-        image: string;
-        platforms: Platform[];
-        startDate: string;
-        endDate: string;
-        title: string;
-        resume: string;
-        content: string;
-        buttonLabel?: string;
-        buttonUrl?: string;
-    }) {
-        this.uniqId = props.uniqId;
-        this.image = props.image;
-        this.platforms = props.platforms;
-        this.startDate = props.startDate;
-        this.endDate = props.endDate;
-        this.title = props.title;
-        this.resume = props.resume;
-        this.content = props.content;
-        this.buttonLabel = props.buttonLabel;
-        this.buttonUrl = props.buttonUrl;
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+
+    get image(): string {
+        return this.props.image;
+    }
+
+    get platforms(): Platform[] {
+        return this.props.platforms;
+    }
+
+    get startDate(): string {
+        return this.props.startDate;
+    }
+
+    get endDate(): string {
+        return this.props.endDate;
+    }
+
+    get title(): string {
+        return this.props.title;
+    }
+
+    get resume(): string {
+        return this.props.resume;
+    }
+
+    get content(): string {
+        return this.props.content;
+    }
+
+    get buttonLabel(): string | undefined {
+        return this.props.buttonLabel;
+    }
+
+    get buttonUrl(): string | undefined {
+        return this.props.buttonUrl;
     }
 
     static fromDto(dto: HomeUpdateDto): HomeUpdateVo {
-        return new HomeUpdateVo({
-            uniqId: dto.uniqId,
-            image: dto.image,
-            platforms: dto.platforms,
-            startDate: dto.startDate,
-            endDate: dto.endDate,
-            title: dto.title,
-            resume: dto.resume,
-            content: dto.content,
-            buttonLabel: dto.buttonLabel,
-            buttonUrl: dto.buttonUrl,
-        });
+        return new HomeUpdateVo(dto);
     }
 }

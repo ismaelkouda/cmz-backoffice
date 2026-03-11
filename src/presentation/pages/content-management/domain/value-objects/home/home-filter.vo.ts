@@ -1,7 +1,6 @@
+import { HomeFilterDto } from '@pages/content-management/application/dto/home/home-filter.dto';
+import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { HomeFilterDto } from '@presentation/pages/content-management/application/dto/home/home-filter.dto';
-import { Status } from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
 
 export class HomeFilterVo {
     public readonly search?: string;

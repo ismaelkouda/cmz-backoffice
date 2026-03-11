@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
+import { TermsUseFindOneFilterDto } from '@pages/content-management/application/dto/terms-use/terms-use-find-one-filter.dto';
+import { TermsUseFindOneFilterEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-find-one-filter.entity';
+import { TermsUseFindOneEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-find-one.entity';
+import { TermsUseFindOneRepository } from '@pages/content-management/domain/repositories/terms-use/terms-use-find-one-repository';
+import { TermsUseFindOneFilterVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-find-one-filter.vo';
 import { Observable } from 'rxjs';
-
-import { TermsUseFindOneFilterDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-find-one-filter.dto';
-import { TermsUseFindOneFilterEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-find-one-filter.entity';
-import { TermsUseFindOneEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-find-one.entity';
-import { TermsUseFindOneRepository } from '@presentation/pages/content-management/domain/repositories/terms-use/terms-use-find-one-repository';
-import { TermsUseFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-find-one-filter.vo';
 
 @Injectable({
     providedIn: 'root',

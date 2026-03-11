@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersUpdateCommand } from '@pages/settings-security/application/commands/users/users-update.command';
+import { UsersUseCase } from '@pages/settings-security/application/use-cases/users/users.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { UsersUpdateCommand } from '@presentation/pages/settings-security/application/commands/users/users-update.command';
-import { UsersUseCase } from '@presentation/pages/settings-security/application/use-cases/users/users.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersUpdateHandler {

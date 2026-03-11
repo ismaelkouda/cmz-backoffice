@@ -1,4 +1,4 @@
-import { UsersFindOneItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-find-one-response-api.dto';
+import { UsersFindOneItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-find-one-response-api.dto';
 
 export class UsersFindOneEntity {
     constructor(

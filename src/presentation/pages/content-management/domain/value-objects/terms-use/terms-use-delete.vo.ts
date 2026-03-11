@@ -1,4 +1,4 @@
-import { TermsUseDeleteDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-delete.dto';
+import { TermsUseDeleteDto } from '@pages/content-management/application/dto/terms-use/terms-use-delete.dto';
 
 export class TermsUseDeleteVo {
     public readonly uniqId: string;

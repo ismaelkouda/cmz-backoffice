@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
 import {
     TermsUseFindOneEntity,
     TermsUseFindOneProps,
-} from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-find-one.entity';
-import { TermsUseFindOneItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-find-one-response-api.dto';
+} from '@pages/content-management/domain/entities/terms-use/terms-use-find-one.entity';
+import { TermsUseFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-find-one-response-api.dto';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUseFindOneMapper extends SimpleResponseMapper<

@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-
+import { DepartmentsSelectEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-select.entity';
+import { DepartmentsSelectItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { DepartmentsSelectProps } from '@shared/domain/interfaces/departments-select.props.interface';
 import { MunicipalitiesSelectProps } from '@shared/domain/interfaces/municipalities-select.props.interface';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { DepartmentsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-select.entity';
-import { DepartmentsSelectItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-select-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsSelectMapper extends ArrayResponseMapper<

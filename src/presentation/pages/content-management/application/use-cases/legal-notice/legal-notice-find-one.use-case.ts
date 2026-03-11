@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
+import { LegalNoticeFindOneFilterDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-find-one-filter.dto';
+import { LegalNoticeFindOneFilterEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-find-one-filter.entity';
+import { LegalNoticeFindOneEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
+import { LegalNoticeFindOneRepository } from '@pages/content-management/domain/repositories/legal-notice/legal-notice-find-one-repository';
+import { LegalNoticeFindOneFilterVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-find-one-filter.vo';
 import { Observable } from 'rxjs';
-
-import { LegalNoticeFindOneFilterDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-find-one-filter.dto';
-import { LegalNoticeFindOneFilterEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-find-one-filter.entity';
-import { LegalNoticeFindOneEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
-import { LegalNoticeFindOneRepository } from '@presentation/pages/content-management/domain/repositories/legal-notice/legal-notice-find-one-repository';
-import { LegalNoticeFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-find-one-filter.vo';
 
 @Injectable({
     providedIn: 'root',

@@ -1,6 +1,5 @@
+import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { Status } from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
 
 export interface HomeFindOneProps {
     uniqId: string;

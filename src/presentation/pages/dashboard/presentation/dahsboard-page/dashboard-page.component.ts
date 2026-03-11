@@ -11,18 +11,16 @@ import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DashboardFacade } from '@pages/dashboard/application/services/dashboard.facade';
+import { period } from '@pages/dashboard/domain/constants/period.const';
+import { DashboardEntity } from '@pages/dashboard/domain/entities/dashboard.entity';
+import { Period } from '@pages/dashboard/domain/type/period.type';
+import { DashboardSkeletonComponent } from '@pages/dashboard/presentation/dashboard-skeleton/dashboard-skeleton.component';
+import { separatorThousands } from '@shared/domain/functions/separator-thousands';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SkeletonModule } from 'primeng/skeleton';
-
-import { separatorThousands } from '@shared/domain/functions/separator-thousands';
-
-import { DashboardFacade } from '@presentation/pages/dashboard/application/services/dashboard.facade';
-import { period } from '@presentation/pages/dashboard/domain/constants/period.const';
-import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
-import { Period } from '@presentation/pages/dashboard/domain/type/period.type';
-import { DashboardSkeletonComponent } from '@presentation/pages/dashboard/presentation/dashboard-skeleton/dashboard-skeleton.component';
 
 interface StatisticCard {
     key: string;

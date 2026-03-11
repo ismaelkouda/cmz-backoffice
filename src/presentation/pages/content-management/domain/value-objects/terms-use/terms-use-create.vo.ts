@@ -1,4 +1,4 @@
-import { TermsUseCreateDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-create.dto';
+import { TermsUseCreateDto } from '@pages/content-management/application/dto/terms-use/terms-use-create.dto';
 
 export class TermsUseCreateVo {
     public readonly version: string;

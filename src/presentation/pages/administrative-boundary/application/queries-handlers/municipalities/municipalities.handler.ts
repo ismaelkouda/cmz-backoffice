@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MunicipalitiesQuery } from '@pages/administrative-boundary/application/queries/municipalities/municipalities.query';
+import { MunicipalitiesUseCase } from '@pages/administrative-boundary/application/use-cases/municipalities/municipalities.use-case';
+import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { MunicipalitiesQuery } from '@presentation/pages/administrative-boundary/application/queries/municipalities/municipalities.query';
-import { MunicipalitiesUseCase } from '@presentation/pages/administrative-boundary/application/use-cases/municipalities/municipalities.use-case';
-import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesHandler {

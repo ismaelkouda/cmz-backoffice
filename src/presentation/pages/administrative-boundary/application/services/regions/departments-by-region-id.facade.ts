@@ -1,14 +1,12 @@
 import { inject, Injectable, signal } from '@angular/core';
-
+import { DepartmentsByRegionIdFilterDto } from '@pages/administrative-boundary/application/dto/regions/departments-by-region-id-filter.dto';
+import { DepartmentsByRegionIdQuery } from '@pages/administrative-boundary/application/queries/regions/departments-by-region-id.query';
+import { DepartmentsByRegionIdBus } from '@pages/administrative-boundary/application/queries-bus/regions/departments-by-region-id.bus';
+import { DepartmentsByRegionIdEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { DepartmentsByRegionIdFilterDto } from '@presentation/pages/administrative-boundary/application/dto/regions/departments-by-region-id-filter.dto';
-import { DepartmentsByRegionIdQuery } from '@presentation/pages/administrative-boundary/application/queries/regions/departments-by-region-id.query';
-import { DepartmentsByRegionIdBus } from '@presentation/pages/administrative-boundary/application/queries-bus/regions/departments-by-region-id.bus';
-import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
 
 @Injectable({
     providedIn: 'root',

@@ -15,10 +15,14 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { ParticipantsFacade } from '@pages/team-organization/application/services/participants/participants.facade';
+import { RolesSelectFacade } from '@pages/team-organization/application/services/participants/roles-select.facade';
+import { TeamsSelectFacade } from '@pages/team-organization/application/services/teams/teams-select.facade';
+import { PARTICIPANTS } from '@pages/team-organization/domain/constants/participants/participants-table.constant';
+import { ParticipantsFilterControl } from '@pages/team-organization/domain/controls/participants/participants-filter.control';
+import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
+import { Status } from '@pages/team-organization/domain/enums/participants/participants-status.enum';
+import { PARTICIPANTS_FORM } from '@pages/team-organization/presentation/participants/participants.routes';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -33,15 +37,9 @@ import { Roles } from '@shared/domain/enums/roles.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { ParticipantsFacade } from '@presentation/pages/team-organization/application/services/participants/participants.facade';
-import { RolesSelectFacade } from '@presentation/pages/team-organization/application/services/participants/roles-select.facade';
-import { TeamsSelectFacade } from '@presentation/pages/team-organization/application/services/teams/teams-select.facade';
-import { PARTICIPANTS } from '@presentation/pages/team-organization/domain/constants/participants/participants-table.constant';
-import { ParticipantsFilterControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-filter.control';
-import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
-import { Status } from '@presentation/pages/team-organization/domain/enums/participants/participants-status.enum';
-import { PARTICIPANTS_FORM } from '@presentation/pages/team-organization/presentation/participants/participants.routes';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-participants-list',

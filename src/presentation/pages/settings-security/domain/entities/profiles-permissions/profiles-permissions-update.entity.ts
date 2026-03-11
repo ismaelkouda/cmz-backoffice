@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUpdateVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-update.vo';
+import { ProfilesPermissionsUpdateVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-update.vo';
 
 export class ProfilesPermissionsUpdateEntity {
     constructor(

@@ -1,7 +1,6 @@
+import { QueuesFilterDto } from '@pages/finalization/application/dto/queues/queues-filter.dto';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { QueuesFilterDto } from '@presentation/pages/finalization/application/dto/queues/queues-filter.dto';
 
 export class QueuesFilterVo {
     public readonly initiatorPhoneNumber?: string;

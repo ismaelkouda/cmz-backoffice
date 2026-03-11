@@ -1,4 +1,4 @@
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/departments/departments-status.enum';
+import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
 
 export interface DepartmentsFilterDto {
     search?: string;

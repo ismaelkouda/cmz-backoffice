@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
+import { RolesSelectEntity } from '@pages/team-organization/domain/entities/participants/roles-select.entity';
+import { RolesSelectRepository } from '@pages/team-organization/domain/repositories/participants/roles-select-repository';
 import { Observable } from 'rxjs';
-
-import { RolesSelectEntity } from '@presentation/pages/team-organization/domain/entities/participants/roles-select.entity';
-import { RolesSelectRepository } from '@presentation/pages/team-organization/domain/repositories/participants/roles-select-repository';
 
 @Injectable({
     providedIn: 'root',

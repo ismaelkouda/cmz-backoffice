@@ -1,5 +1,5 @@
-import { NewsUpdateEntity } from '@presentation/pages/content-management/domain/entities/news/news-update.entity';
-import { NewsUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-update-api.dto';
+import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
+import { NewsUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-update-api.dto';
 
 export function newsUpdateMapper(entity: NewsUpdateEntity): NewsUpdateApiDto {
     const params: NewsUpdateApiDto = {} as NewsUpdateApiDto;

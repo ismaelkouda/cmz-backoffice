@@ -1,14 +1,14 @@
-import { HomeCreateEntity } from '@presentation/pages/content-management/domain/entities/home/home-create.entity';
-import { HomeCreateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-create-api.dto';
+import { inject } from '@angular/core';
+import { HomeCreateEntity } from '@pages/content-management/domain/entities/home/home-create.entity';
+import { HomeCreateApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-create-api.dto';
+import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
 export function homeCreateMapper(entity: HomeCreateEntity): HomeCreateApiDto {
+    const platformMapper = inject(PlatformMapper);
     const params: HomeCreateApiDto = {} as HomeCreateApiDto;
 
     if (entity.image) {
-        params.image = entity.image;
-    }
-    if (entity.platforms) {
-        params.platforms = entity.platforms;
+        params.image_file = entity.image;
     }
     if (entity.startDate) {
         params.start_date = entity.startDate;
@@ -19,8 +19,10 @@ export function homeCreateMapper(entity: HomeCreateEntity): HomeCreateApiDto {
     if (entity.title) {
         params.title = entity.title;
     }
-    if (entity.platforms) {
-        params.platforms = entity.platforms;
+    if (entity.platforms.length > 0) {
+        params.platforms = entity.platforms.map((p) =>
+            platformMapper.mapToDto(p)
+        );
     }
     if (entity.title) {
         params.title = entity.title;

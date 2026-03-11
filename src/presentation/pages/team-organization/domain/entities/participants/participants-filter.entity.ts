@@ -1,4 +1,4 @@
-import { ParticipantsFilterVo } from '@presentation/pages/team-organization/domain/value-objects/participants/participants-filter.vo';
+import { ParticipantsFilterVo } from '@pages/team-organization/domain/value-objects/participants/participants-filter.vo';
 
 export class ParticipantsFilterEntity {
     constructor(

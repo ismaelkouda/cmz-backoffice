@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-
+import { QueuesFilterEntity } from '@pages/finalization/domain/entities/queues/queues-filter.entity';
+import { QueuesEntity } from '@pages/finalization/domain/entities/queues/queues.entity';
+import { QueuesRepository } from '@pages/finalization/domain/repositories/queues/queues.repository';
+import { queuesFilterMapper } from '@pages/finalization/infrastructure/data/mappers/queues/queues-filter.mapper';
+import { QueuesMapper } from '@pages/finalization/infrastructure/data/mappers/queues/queues.mapper';
+import { QueuesApi } from '@pages/finalization/infrastructure/data/sources/queues/queues.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { QueuesFilterEntity } from '@presentation/pages/finalization/domain/entities/queues/queues-filter.entity';
-import { QueuesEntity } from '@presentation/pages/finalization/domain/entities/queues/queues.entity';
-import { QueuesRepository } from '@presentation/pages/finalization/domain/repositories/queues/queues.repository';
-import { queuesFilterMapper } from '@presentation/pages/finalization/infrastructure/data/mappers/queues/queues-filter.mapper';
-import { QueuesMapper } from '@presentation/pages/finalization/infrastructure/data/mappers/queues/queues.mapper';
-import { QueuesApi } from '@presentation/pages/finalization/infrastructure/data/sources/queues/queues.api';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

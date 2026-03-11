@@ -1,4 +1,4 @@
-import { Status } from '@presentation/pages/content-management/domain/enums/privacy-policy/privacy-policy-status.enum';
+import { Status } from '@pages/content-management/domain/enums/privacy-policy/privacy-policy-status.enum';
 
 export class PrivacyPolicyQuery {
     constructor(

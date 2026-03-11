@@ -1,4 +1,4 @@
-import { DetailsTreatVo } from '@presentation/pages/processing/domain/value-objects/details/details-treat.vo';
+import { DetailsTreatVo } from '@pages/processing/domain/value-objects/details/details-treat.vo';
 
 export class DetailsTreatEntity {
     constructor(

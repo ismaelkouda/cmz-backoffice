@@ -1,12 +1,11 @@
 import { inject, Injectable } from '@angular/core';
+import { NewsFindOneFilterEntity } from '@pages/content-management/domain/entities/news/news-find-one-filter.entity';
+import { NewsFindOneEntity } from '@pages/content-management/domain/entities/news/news-find-one.entity';
+import { NewsFindOneRepository } from '@pages/content-management/domain/repositories/news/news-find-one-repository';
+import { newsFindOneFilterMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-find-one-filter.mapper';
+import { NewsFindOneMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-find-one.mapper';
+import { NewsFindOneApi } from '@pages/content-management/infrastructure/data/sources/news/news-find-one.api';
 import { map, Observable } from 'rxjs';
-
-import { NewsFindOneFilterEntity } from '@presentation/pages/content-management/domain/entities/news/news-find-one-filter.entity';
-import { NewsFindOneEntity } from '@presentation/pages/content-management/domain/entities/news/news-find-one.entity';
-import { NewsFindOneRepository } from '@presentation/pages/content-management/domain/repositories/news/news-find-one-repository';
-import { newsFindOneFilterMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news/news-find-one-filter.mapper';
-import { NewsFindOneMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news/news-find-one.mapper';
-import { NewsFindOneApi } from '@presentation/pages/content-management/infrastructure/data/sources/news/news-find-one.api';
 
 @Injectable({ providedIn: 'root' })
 export class NewsFindOneRepositoryImpl implements NewsFindOneRepository {

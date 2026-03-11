@@ -1,7 +1,6 @@
+import { TEAMS_LIST } from '@pages/team-organization/presentation/teams/teams.routes';
+import { TEAMS_ROUTE } from '@pages/team-organization/team-organization.routes';
 import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
-
-import { TEAMS_LIST } from '@presentation/pages/team-organization/presentation/teams/teams.routes';
-import { TEAMS_ROUTE } from '@presentation/pages/team-organization/team-organization.routes';
 
 export const TEAMS_TABS = [
     {

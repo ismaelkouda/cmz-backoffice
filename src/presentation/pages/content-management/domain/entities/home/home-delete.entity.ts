@@ -1,4 +1,4 @@
-import { HomeDeleteVo } from '@presentation/pages/content-management/domain/value-objects/home/home-delete.vo';
+import { HomeDeleteVo } from '@pages/content-management/domain/value-objects/home/home-delete.vo';
 
 export class HomeDeleteEntity {
     constructor(public readonly uniqId: string) {}

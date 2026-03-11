@@ -1,12 +1,11 @@
 import { inject, Injectable } from '@angular/core';
+import { DashboardFilterEntity } from '@pages/dashboard/domain/entities/dashboard-filter.entity';
+import { DashboardEntity } from '@pages/dashboard/domain/entities/dashboard.entity';
+import { DashboardRepository } from '@pages/dashboard/domain/repositories/dashboard.repository';
+import { dashboardFilterMapper } from '@pages/dashboard/infrastructure/data/mappers/dashboard-filter.mapper';
+import { DashboardMapper } from '@pages/dashboard/infrastructure/data/mappers/dashboard.mapper';
+import { DashboardApi } from '@pages/dashboard/infrastructure/data/sources/dashboard.api';
 import { map, Observable } from 'rxjs';
-
-import { DashboardFilterEntity } from '@presentation/pages/dashboard/domain/entities/dashboard-filter.entity';
-import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
-import { DashboardRepository } from '@presentation/pages/dashboard/domain/repositories/dashboard.repository';
-import { dashboardFilterMapper } from '@presentation/pages/dashboard/infrastructure/data/mappers/dashboard-filter.mapper';
-import { DashboardMapper } from '@presentation/pages/dashboard/infrastructure/data/mappers/dashboard.mapper';
-import { DashboardApi } from '@presentation/pages/dashboard/infrastructure/data/sources/dashboard.api';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardRepositoryImpl implements DashboardRepository {

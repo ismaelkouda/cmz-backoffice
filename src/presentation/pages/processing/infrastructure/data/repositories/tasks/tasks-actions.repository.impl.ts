@@ -1,23 +1,21 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-
+import { TasksActionsCreateEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-create.entity';
+import { TasksActionsDeleteEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-delete.entity';
+import { TasksActionsFilterEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-filter.entity';
+import { TasksActionsUpdateEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-update.entity';
+import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
+import { TasksActionsRepository } from '@pages/processing/domain/repositories/tasks/tasks-actions.repository';
+import { tasksActionsCreateMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-actions-create.mapper';
+import { tasksActionsDeleteMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-actions-delete.mapper';
+import { TasksActionsFilterMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-actions-filter.mapper';
+import { tasksActionsUpdateMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-actions-update.mapper';
+import { TasksActionsMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-actions.mapper';
+import { TasksActionsApi } from '@pages/processing/infrastructure/data/sources/tasks/tasks-actions.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { TasksActionsCreateEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks-actions-create.entity';
-import { TasksActionsDeleteEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks-actions-delete.entity';
-import { TasksActionsFilterEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks-actions-filter.entity';
-import { TasksActionsUpdateEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks-actions-update.entity';
-import { TasksActionsEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks-actions.entity';
-import { TasksActionsRepository } from '@presentation/pages/processing/domain/repositories/tasks/tasks-actions.repository';
-import { tasksActionsCreateMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-create.mapper';
-import { tasksActionsDeleteMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-delete.mapper';
-import { TasksActionsFilterMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-filter.mapper';
-import { tasksActionsUpdateMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-update.mapper';
-import { TasksActionsMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions.mapper';
-import { TasksActionsApi } from '@presentation/pages/processing/infrastructure/data/sources/tasks/tasks-actions.api';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksActionsRepositoryImpl extends TasksActionsRepository {

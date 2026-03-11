@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsDeleteCommand } from '@pages/team-organization/application/commands/teams/teams-delete.command';
+import { TeamsDeleteHandler } from '@pages/team-organization/application/commands-handlers/teams/teams-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsDeleteCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-delete.command';
-import { TeamsDeleteHandler } from '@presentation/pages/team-organization/application/commands-handlers/teams/teams-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsDeleteBus {

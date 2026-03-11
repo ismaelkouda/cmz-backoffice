@@ -1,4 +1,4 @@
-import { DepartmentsByRegionIdItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-response-api.dto';
+import { DepartmentsByRegionIdItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-response-api.dto';
 
 export class DepartmentsByRegionIdEntity {
     constructor(

@@ -1,6 +1,5 @@
+import { DepartmentsByRegionIdFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/departments-by-region-id-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { DepartmentsByRegionIdFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/departments-by-region-id-filter.vo';
 
 export class DepartmentsByRegionIdFilterEntity {
     constructor(

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import { HistoryFilterCommand } from '@shared/components/history/application/commands/history-filter.command';
 import { HistoryUseCase } from '@shared/components/history/application/use-cases/history.use-case';
 import { HistoryEntity } from '@shared/components/history/domain/entities/history.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryFilterHandler {

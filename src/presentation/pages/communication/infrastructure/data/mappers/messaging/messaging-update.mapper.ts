@@ -1,5 +1,5 @@
-import { MessagingUpdateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-update.entity';
-import { MessagingUpdateApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-update-api.dto';
+import { MessagingUpdateEntity } from '@pages/communication/domain/entities/messaging/messaging-update.entity';
+import { MessagingUpdateApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-update-api.dto';
 
 export function messagingUpdateMapper(
     entity: MessagingUpdateEntity

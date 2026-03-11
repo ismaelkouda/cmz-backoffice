@@ -1,4 +1,4 @@
-import { MessagingDisableDto } from '@presentation/pages/communication/application/dto/messaging/messaging-disable.dto';
+import { MessagingDisableDto } from '@pages/communication/application/dto/messaging/messaging-disable.dto';
 
 export class MessagingDisableVo {
     public readonly uniqId: string;

@@ -1,4 +1,4 @@
-import { Status } from '@presentation/pages/communication/domain/enums/notifications/notifications-status.enum';
+import { Status } from '@pages/communication/domain/enums/notifications/notifications-status.enum';
 
 export interface NotificationsProps {
     uniqId: string;

@@ -1,4 +1,4 @@
-import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
+import { Status } from '@pages/requests/domain/enums/all/all-status.enum';
 export interface AllTable {
     uniqId: string;
     initiatorPhoneNumber: string;

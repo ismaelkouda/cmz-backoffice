@@ -1,25 +1,23 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MunicipalitiesCreateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-create.dto';
+import { MunicipalitiesDeleteDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
+import { MunicipalitiesFilterDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-filter.dto';
+import { MunicipalitiesUpdateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-update.dto';
+import { MunicipalitiesCreateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
+import { MunicipalitiesDeleteEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
+import { MunicipalitiesFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
+import { MunicipalitiesUpdateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
+import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { MunicipalitiesRepository } from '@pages/administrative-boundary/domain/repositories/municipalities/municipalities-repository';
+import { MunicipalitiesCreateVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-create.vo';
+import { MunicipalitiesDeleteVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-delete.vo';
+import { MunicipalitiesFilterVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-filter.vo';
+import { MunicipalitiesUpdateVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { MunicipalitiesCreateDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-create.dto';
-import { MunicipalitiesDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
-import { MunicipalitiesFilterDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-filter.dto';
-import { MunicipalitiesUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-update.dto';
-import { MunicipalitiesCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
-import { MunicipalitiesDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
-import { MunicipalitiesFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
-import { MunicipalitiesUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
-import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
-import { MunicipalitiesRepository } from '@presentation/pages/administrative-boundary/domain/repositories/municipalities/municipalities-repository';
-import { MunicipalitiesCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-create.vo';
-import { MunicipalitiesDeleteVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-delete.vo';
-import { MunicipalitiesFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-filter.vo';
-import { MunicipalitiesUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

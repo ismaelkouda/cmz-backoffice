@@ -1,4 +1,4 @@
-import { ParticipantsCreateDto } from '@presentation/pages/team-organization/application/dto/participants/participants-create.dto';
+import { ParticipantsCreateDto } from '@pages/team-organization/application/dto/participants/participants-create.dto';
 
 export class ParticipantsCreateVo {
     public readonly firstName: string;

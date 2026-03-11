@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsEnableCommand } from '@pages/team-organization/application/commands/teams/teams-enable.command';
+import { TeamsEnableHandler } from '@pages/team-organization/application/commands-handlers/teams/teams-enable.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsEnableCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-enable.command';
-import { TeamsEnableHandler } from '@presentation/pages/team-organization/application/commands-handlers/teams/teams-enable.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsEnableBus {

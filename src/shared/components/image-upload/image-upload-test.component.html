@@ -1,0 +1,12 @@
+<div class="image-upload">
+  <input
+    type="file"
+    accept="image/*"
+    (change)="onFileSelected($event)"
+    [disabled]="disabled"
+    class="form-control p-inputtext"
+  />
+  <div *ngIf="previewUrl" class="image-preview mt-3">
+    <img [src]="previewUrl" class="img-thumbnail" alt="image preview" />
+  </div>
+</div>

@@ -1,4 +1,4 @@
-export const SLIDE_TABLE_CONST = {
+export const SLIDE_TABLE = {
     cols: [
         {
             field: '__index',
@@ -39,7 +39,7 @@ export const SLIDE_TABLE_CONST = {
             width: '5rem',
         },
         {
-            field: '__action',
+            field: '__actionDropdown',
             header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.ACTION',
             class: 'text-center',
             width: '4rem',

@@ -1,25 +1,23 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { RegionsCreateDto } from '@pages/administrative-boundary/application/dto/regions/regions-create.dto';
+import { RegionsDeleteDto } from '@pages/administrative-boundary/application/dto/regions/regions-delete.dto';
+import { RegionsFilterDto } from '@pages/administrative-boundary/application/dto/regions/regions-filter.dto';
+import { RegionsUpdateDto } from '@pages/administrative-boundary/application/dto/regions/regions-update.dto';
+import { RegionsCreateEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-create.entity';
+import { RegionsDeleteEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-delete.entity';
+import { RegionsFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
+import { RegionsUpdateEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-update.entity';
+import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
+import { RegionsRepository } from '@pages/administrative-boundary/domain/repositories/regions/regions-repository';
+import { RegionsCreateVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-create.vo';
+import { RegionsDeleteVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-delete.vo';
+import { RegionsFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-filter.vo';
+import { RegionsUpdateVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { RegionsCreateDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-create.dto';
-import { RegionsDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-delete.dto';
-import { RegionsFilterDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-filter.dto';
-import { RegionsUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-update.dto';
-import { RegionsCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-create.entity';
-import { RegionsDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-delete.entity';
-import { RegionsFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
-import { RegionsUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-update.entity';
-import { RegionsEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions.entity';
-import { RegionsRepository } from '@presentation/pages/administrative-boundary/domain/repositories/regions/regions-repository';
-import { RegionsCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-create.vo';
-import { RegionsDeleteVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-delete.vo';
-import { RegionsFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-filter.vo';
-import { RegionsUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

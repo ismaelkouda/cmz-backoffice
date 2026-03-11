@@ -1,13 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TasksFilterDto } from '@pages/finalization/application/dto/tasks/tasks-filter.dto';
+import { TasksFilterEntity } from '@pages/finalization/domain/entities/tasks/tasks-filter.entity';
+import { TasksEntity } from '@pages/finalization/domain/entities/tasks/tasks.entity';
+import { TasksRepository } from '@pages/finalization/domain/repositories/tasks/tasks.repository';
+import { TasksFilterVo } from '@pages/finalization/domain/value-objects/tasks/tasks-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { TasksFilterDto } from '@presentation/pages/finalization/application/dto/tasks/tasks-filter.dto';
-import { TasksFilterEntity } from '@presentation/pages/finalization/domain/entities/tasks/tasks-filter.entity';
-import { TasksEntity } from '@presentation/pages/finalization/domain/entities/tasks/tasks.entity';
-import { TasksRepository } from '@presentation/pages/finalization/domain/repositories/tasks/tasks.repository';
-import { TasksFilterVo } from '@presentation/pages/finalization/domain/value-objects/tasks/tasks-filter.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

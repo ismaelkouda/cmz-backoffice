@@ -1,4 +1,4 @@
-import { LegalNoticeDeleteVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-delete.vo';
+import { LegalNoticeDeleteVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-delete.vo';
 
 export class LegalNoticeDeleteEntity {
     constructor(public readonly uniqId: string) {}

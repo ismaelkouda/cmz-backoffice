@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
 import {
     ParticipantsFindOneEntity,
     ParticipantsFindOneProps,
-} from '@presentation/pages/team-organization/domain/entities/participants/participants-find-one.entity';
-import { ParticipantsFindOneItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-find-one-response-api.dto';
+} from '@pages/team-organization/domain/entities/participants/participants-find-one.entity';
+import { ParticipantsFindOneItemApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-find-one-response-api.dto';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsFindOneMapper extends SimpleResponseMapper<

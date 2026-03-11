@@ -19,6 +19,16 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DepartmentsFindOneFacade } from '@pages/administrative-boundary/application/services/departments/departments-find-one.facade';
+import { DepartmentsFacade } from '@pages/administrative-boundary/application/services/departments/departments.facade';
+import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
+import { DepartmentsFormControls } from '@pages/administrative-boundary/domain/controls/departments/departments-form.control';
+import { DepartmentsFormHelperService } from '@pages/administrative-boundary/domain/services/departments/departments-form-helper.service';
+import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -28,18 +38,6 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { FormValidationService } from '@shared/domain/services/form-validation.service';
-
-import { DepartmentsFindOneFacade } from '@presentation/pages/administrative-boundary/application/services/departments/departments-find-one.facade';
-import { DepartmentsFacade } from '@presentation/pages/administrative-boundary/application/services/departments/departments.facade';
-import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
-import { DepartmentsFormControls } from '@presentation/pages/administrative-boundary/domain/controls/departments/departments-form.control';
-import { DepartmentsFormHelperService } from '@presentation/pages/administrative-boundary/domain/services/departments/departments-form-helper.service';
-import { FormValidators } from '@presentation/pages/administrative-boundary/domain/validators/form-validators';
 
 @Component({
     selector: 'app-departments-form',

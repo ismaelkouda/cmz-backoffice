@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DepartmentsUpdateCommand } from '@pages/administrative-boundary/application/commands/departments/departments-update.command';
+import { DepartmentsUpdateHandler } from '@pages/administrative-boundary/application/commands-handlers/departments/departments-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DepartmentsUpdateCommand } from '@presentation/pages/administrative-boundary/application/commands/departments/departments-update.command';
-import { DepartmentsUpdateHandler } from '@presentation/pages/administrative-boundary/application/commands-handlers/departments/departments-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsUpdateBus {

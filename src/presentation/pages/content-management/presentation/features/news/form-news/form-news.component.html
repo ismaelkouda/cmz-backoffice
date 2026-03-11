@@ -72,8 +72,14 @@
                                                             optionLabel="label"
                                                             optionValue="value"
                                                             styleClass="w-100"
-        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                                            [emptyMessage]="
+                                                                'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                    | translate
+                                                            "
+                                                            [emptyFilterMessage]="
+                                                                'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                    | translate
+                                                            "
                                                         ></p-select>
                                                     </div>
 
@@ -91,7 +97,7 @@
                                                                     class="form-label fw-bold"
                                                                 >
                                                                     {{
-                                                                        'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO_URL'
+                                                                        'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO'
                                                                             | translate
                                                                     }}
                                                                     <span
@@ -107,7 +113,7 @@
                                                                     [placeholder]="'https://youtube.com/watch?v=... ou https://vimeo.com/...'"
                                                                     [attr.maxlength]="
                                                                         VALIDATION
-                                                                            .VIDEO_URL
+                                                                            .VIDEO
                                                                             .MAX
                                                                     "
                                                                     [attr.aria-label]="'URL de la vidéo, formats supportés: YouTube, Vimeo, Dailymotion'"
@@ -144,7 +150,7 @@
                                                                             class="pi pi-info-circle"
                                                                         ></i>
                                                                         {{
-                                                                            'CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.VIDEO_URL_HELP'
+                                                                            'CONTENT_MANAGEMENT.NEWS.FORM.VALIDATION.VIDEO_HELP'
                                                                                 | translate
                                                                         }}
                                                                     </small>
@@ -163,7 +169,7 @@
                                                                                 .length
                                                                         }}/{{
                                                                             VALIDATION
-                                                                                .VIDEO_URL
+                                                                                .VIDEO
                                                                                 .MAX
                                                                         }}
                                                                     </small>
@@ -332,8 +338,14 @@
                                                                 'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY_PLACEHOLDER'
                                                                     | translate
                                                             "
-        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                                            [emptyMessage]="
+                                                                'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                    | translate
+                                                            "
+                                                            [emptyFilterMessage]="
+                                                                'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                    | translate
+                                                            "
                                                         >
                                                         </p-select>
                                                         @if (
@@ -378,8 +390,14 @@
                                                                 'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY_PLACEHOLDER'
                                                                     | translate
                                                             "
-        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                                            [emptyMessage]="
+                                                                'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                    | translate
+                                                            "
+                                                            [emptyFilterMessage]="
+                                                                'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                    | translate
+                                                            "
                                                         >
                                                         </p-select>
                                                         @if (

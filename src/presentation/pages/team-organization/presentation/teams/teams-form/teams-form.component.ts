@@ -21,19 +21,13 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
-import { TabsModule } from 'primeng/tabs';
-import { TagModule } from 'primeng/tag';
-import { TextareaModule } from 'primeng/textarea';
-import { ToastModule } from 'primeng/toast';
-import { TooltipModule } from 'primeng/tooltip';
-import { TreeModule } from 'primeng/tree';
-import { map, tap } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { TeamsFindOneFacade } from '@pages/team-organization/application/services/teams/teams-find-one.facade';
+import { TeamsPermissionsFacade } from '@pages/team-organization/application/services/teams/teams-permissions.facade';
+import { TeamsFacade } from '@pages/team-organization/application/services/teams/teams.facade';
+import { TEAMS_FORM_TABS } from '@pages/team-organization/domain/constants/teams/teams-form-tabs.constant';
+import { TeamsFormControls } from '@pages/team-organization/domain/controls/teams/teams-form.control';
+import { TeamsFormHelperService } from '@pages/team-organization/domain/services/teams/teams-form-helper.service';
+import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import {
     enumToFilterOptions,
@@ -46,14 +40,18 @@ import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { PermissionTreeService } from '@shared/domain/services/permission-tree-node.service';
-
-import { TeamsFindOneFacade } from '@presentation/pages/team-organization/application/services/teams/teams-find-one.facade';
-import { TeamsPermissionsFacade } from '@presentation/pages/team-organization/application/services/teams/teams-permissions.facade';
-import { TeamsFacade } from '@presentation/pages/team-organization/application/services/teams/teams.facade';
-import { TEAMS_FORM_TABS } from '@presentation/pages/team-organization/domain/constants/teams/teams-form-tabs.constant';
-import { TeamsFormControls } from '@presentation/pages/team-organization/domain/controls/teams/teams-form.control';
-import { TeamsFormHelperService } from '@presentation/pages/team-organization/domain/services/teams/teams-form-helper.service';
-import { FormValidators } from '@presentation/pages/team-organization/domain/validators/form-validators';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
+import { TabsModule } from 'primeng/tabs';
+import { TagModule } from 'primeng/tag';
+import { TextareaModule } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
+import { TooltipModule } from 'primeng/tooltip';
+import { TreeModule } from 'primeng/tree';
+import { map, tap } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-teams-form',

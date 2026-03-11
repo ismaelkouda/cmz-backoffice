@@ -1,4 +1,4 @@
-import { TasksActionsFilterDto } from '@presentation/pages/processing/application/dto/tasks/tasks-actions-filter.dto';
+import { TasksActionsFilterDto } from '@pages/processing/application/dto/tasks/tasks-actions-filter.dto';
 
 export class TasksActionsFilterVo {
     public readonly uniqId: string;

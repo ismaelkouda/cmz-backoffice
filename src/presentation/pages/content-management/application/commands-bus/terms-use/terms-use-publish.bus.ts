@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TermsUsePublishCommand } from '@pages/content-management/application/commands/terms-use/terms-use-publish.command';
+import { TermsUsePublishHandler } from '@pages/content-management/application/commands-handlers/terms-use/terms-use-publish.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TermsUsePublishCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-publish.command';
-import { TermsUsePublishHandler } from '@presentation/pages/content-management/application/commands-handlers/terms-use/terms-use-publish.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUsePublishBus {

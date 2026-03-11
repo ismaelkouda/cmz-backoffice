@@ -1,5 +1,5 @@
-import { TermsUseFilterEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
-import { TermsUseFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-filter-api.dto';
+import { TermsUseFilterEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
+import { TermsUseFilterApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-filter-api.dto';
 
 export function termsUseFilterMapper(
     entity: TermsUseFilterEntity

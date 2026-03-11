@@ -7,10 +7,8 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { ResourcesFacade } from '@pages/monitoring/application/services/resources.facade';
 import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
-
-import { ResourcesFacade } from '@presentation/pages/monitoring/application/services/resources.facade';
 
 @Component({
     selector: 'app-resources-page',

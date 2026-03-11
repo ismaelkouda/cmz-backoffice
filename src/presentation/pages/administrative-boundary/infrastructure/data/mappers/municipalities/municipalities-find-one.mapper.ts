@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-
+import { MunicipalitiesFindOneEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one.entity';
+import { MunicipalitiesFindOneItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-find-one-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { MunicipalitiesFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one.entity';
-import { MunicipalitiesFindOneItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-find-one-response-api.dto';
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesFindOneMapper extends SimpleResponseMapper<
     MunicipalitiesFindOneEntity,

@@ -1,10 +1,9 @@
-import { Platform, PlatformStyle } from '@shared/domain/enums/platform.enum';
-
 import {
     Status,
     StatusStyle,
-} from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
-import { HomeProps } from '@presentation/pages/content-management/domain/interfaces/home/home-props.interface';
+} from '@pages/content-management/domain/enums/home/home-status.enum';
+import { HomeProps } from '@pages/content-management/domain/interfaces/home/home-props.interface';
+import { Platform, PlatformStyle } from '@shared/domain/enums/platform.enum';
 
 export class HomeEntity {
     constructor(private readonly props: HomeProps) {}

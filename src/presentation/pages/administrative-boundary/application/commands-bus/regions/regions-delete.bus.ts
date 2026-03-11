@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { RegionsDeleteCommand } from '@pages/administrative-boundary/application/commands/regions/regions-delete.command';
+import { RegionsDeleteHandler } from '@pages/administrative-boundary/application/commands-handlers/regions/regions-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { RegionsDeleteCommand } from '@presentation/pages/administrative-boundary/application/commands/regions/regions-delete.command';
-import { RegionsDeleteHandler } from '@presentation/pages/administrative-boundary/application/commands-handlers/regions/regions-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsDeleteBus {

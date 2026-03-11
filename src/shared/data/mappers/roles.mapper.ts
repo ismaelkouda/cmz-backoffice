@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { RolesDto } from '@shared/data/dto/roles.dto';
 import { Roles } from '@shared/domain/enums/roles.enum';
 

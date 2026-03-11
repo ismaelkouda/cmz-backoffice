@@ -1,4 +1,4 @@
-import { HomeFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/home/home-find-one-filter.vo';
+import { HomeFindOneFilterVo } from '@pages/content-management/domain/value-objects/home/home-find-one-filter.vo';
 
 export class HomeFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

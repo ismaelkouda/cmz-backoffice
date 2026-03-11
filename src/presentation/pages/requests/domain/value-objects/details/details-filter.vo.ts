@@ -1,4 +1,4 @@
-import { DetailsFilterDto } from '@presentation/pages/requests/application/dto/details/details-filter.dto';
+import { DetailsFilterDto } from '@pages/requests/application/dto/details/details-filter.dto';
 
 export class DetailsFilterVo {
     public readonly uniqId: string;

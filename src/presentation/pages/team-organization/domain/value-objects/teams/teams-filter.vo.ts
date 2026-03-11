@@ -1,4 +1,4 @@
-import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-filter.dto';
+import { TeamsFilterDto } from '@pages/team-organization/application/dto/teams/teams-filter.dto';
 
 export class TeamsFilterVo {
     public readonly search?: string;

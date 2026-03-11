@@ -38,9 +38,9 @@
 // import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 // import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 
-// import { LEGAL_NOTICE_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-// import { LegalNoticeFacade } from '@presentation/pages/content-management/core/application/services/legal-notice.facade';
-// import { GetLegalNoticeByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
+// import { LEGAL_NOTICE_ROUTE } from '@pages/content-management/content-management.routes';
+// import { LegalNoticeFacade } from '@pages/content-management/core/application/services/legal-notice.facade';
+// import { GetLegalNoticeByIdEntity } from '@pages/content-management/core/domain/entities/get-legal-notice-by-id.entity';
 
 // @Component({
 //     selector: 'app-form-legal-notice',

@@ -1,25 +1,23 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsParticipantsAssignCommand } from '@pages/team-organization/application/commands/teams/teams-participants-assign.command';
+import { TeamsParticipantsReassignCommand } from '@pages/team-organization/application/commands/teams/teams-participants-reassign.command';
+import { TeamsParticipantsFilterDto } from '@pages/team-organization/application/dto/teams/teams-participants-filter.dto';
+import { TeamsParticipantsRemoveDto } from '@pages/team-organization/application/dto/teams/teams-participants-remove.dto';
+import { TeamsParticipantsAssignEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
+import { TeamsParticipantsFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
+import { TeamsParticipantsReassignEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-reassign.entity';
+import { TeamsParticipantsRemoveEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-remove.entity';
+import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
+import { TeamsParticipantsRepository } from '@pages/team-organization/domain/repositories/teams/teams-participants-repository';
+import { TeamsParticipantsAssignVo } from '@pages/team-organization/domain/value-objects/teams/teams-participants-assign.vo';
+import { TeamsParticipantsFilterVo } from '@pages/team-organization/domain/value-objects/teams/teams-participants-filter.vo';
+import { TeamsParticipantsReassignVo } from '@pages/team-organization/domain/value-objects/teams/teams-participants-reassign.vo';
+import { TeamsParticipantsRemoveVo } from '@pages/team-organization/domain/value-objects/teams/teams-participants-remove.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsParticipantsAssignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-assign.command';
-import { TeamsParticipantsReassignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-reassign.command';
-import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-filter.dto';
-import { TeamsParticipantsRemoveDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-remove.dto';
-import { TeamsParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
-import { TeamsParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
-import { TeamsParticipantsReassignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-reassign.entity';
-import { TeamsParticipantsRemoveEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-remove.entity';
-import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
-import { TeamsParticipantsRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-participants-repository';
-import { TeamsParticipantsAssignVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-assign.vo';
-import { TeamsParticipantsFilterVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-filter.vo';
-import { TeamsParticipantsReassignVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-reassign.vo';
-import { TeamsParticipantsRemoveVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-remove.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

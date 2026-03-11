@@ -1,4 +1,4 @@
-import { MunicipalitiesUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-update.vo';
+import { MunicipalitiesUpdateVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-update.vo';
 
 export class MunicipalitiesUpdateEntity {
     constructor(

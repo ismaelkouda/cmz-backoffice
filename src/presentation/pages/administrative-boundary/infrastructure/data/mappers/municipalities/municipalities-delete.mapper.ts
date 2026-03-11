@@ -1,5 +1,5 @@
-import { MunicipalitiesDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
-import { MunicipalitiesDeleteApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-delete-api.dto';
+import { MunicipalitiesDeleteEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
+import { MunicipalitiesDeleteApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-delete-api.dto';
 
 export function municipalitiesDeleteMapper(
     vo: MunicipalitiesDeleteEntity

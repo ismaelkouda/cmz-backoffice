@@ -1,5 +1,5 @@
-import { LegalNoticeDeleteEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
-import { LegalNoticeDeleteApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-delete-api.dto';
+import { LegalNoticeDeleteEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
+import { LegalNoticeDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-delete-api.dto';
 
 export function legalNoticeDeleteMapper(
     vo: LegalNoticeDeleteEntity

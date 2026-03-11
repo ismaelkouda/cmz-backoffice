@@ -1,5 +1,4 @@
 import { FormControl } from '@angular/forms';
-
 import { Platform } from '@shared/domain/enums/platform.enum';
 
 export interface HomeFormControl {

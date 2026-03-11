@@ -1,5 +1,5 @@
-import { TeamsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-update.entity';
-import { TeamsUpdateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-update-api.dto';
+import { TeamsUpdateEntity } from '@pages/team-organization/domain/entities/teams/teams-update.entity';
+import { TeamsUpdateApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-update-api.dto';
 
 export function teamsUpdateMapper(
     entity: TeamsUpdateEntity

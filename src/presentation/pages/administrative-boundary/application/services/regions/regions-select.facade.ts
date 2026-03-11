@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-
+import { RegionsSelectUseCase } from '@pages/administrative-boundary/application/use-cases/regions/regions-select.use-case';
+import { RegionsSelectEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { RegionsSelectUseCase } from '@presentation/pages/administrative-boundary/application/use-cases/regions/regions-select.use-case';
-import { RegionsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-select.entity';
 
 @Injectable({
     providedIn: 'root',

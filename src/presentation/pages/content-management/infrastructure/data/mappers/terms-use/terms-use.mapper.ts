@@ -1,15 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-
+import {
+    TermsUseEntity,
+    TermsUseProps,
+} from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
+import { TermsUseItemApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-response-api.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import {
-    TermsUseEntity,
-    TermsUseProps,
-} from '@presentation/pages/content-management/domain/entities/terms-use/terms-use.entity';
-import { TermsUseItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

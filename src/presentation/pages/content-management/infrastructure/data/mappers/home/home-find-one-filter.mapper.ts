@@ -1,5 +1,5 @@
-import { HomeFindOneFilterEntity } from '@presentation/pages/content-management/domain/entities/home/home-find-one-filter.entity';
-import { HomeFindOneFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-find-one-filter-api.dto';
+import { HomeFindOneFilterEntity } from '@pages/content-management/domain/entities/home/home-find-one-filter.entity';
+import { HomeFindOneFilterApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-find-one-filter-api.dto';
 
 export function homeFindOneFilterMapper(
     entity: HomeFindOneFilterEntity

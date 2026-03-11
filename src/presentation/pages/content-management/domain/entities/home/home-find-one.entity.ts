@@ -1,7 +1,6 @@
+import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
+import { HomeFindOneProps } from '@pages/content-management/domain/interfaces/home/home-find-one-props.interface';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { Status } from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
-import { HomeFindOneProps } from '@presentation/pages/content-management/domain/interfaces/home/home-find-one-props.interface';
 
 export class HomeFindOneEntity {
     constructor(private readonly props: HomeFindOneProps) {}

@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs';
-
+import { TasksFilterEntity } from '@pages/finalization/domain/entities/tasks/tasks-filter.entity';
+import { TasksEntity } from '@pages/finalization/domain/entities/tasks/tasks.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { TasksFilterEntity } from '@presentation/pages/finalization/domain/entities/tasks/tasks-filter.entity';
-import { TasksEntity } from '@presentation/pages/finalization/domain/entities/tasks/tasks.entity';
+import { Observable } from 'rxjs';
 
 export abstract class TasksRepository {
     abstract execute(

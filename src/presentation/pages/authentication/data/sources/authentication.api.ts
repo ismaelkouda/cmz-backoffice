@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { EnvService } from '@shared/domain/services/env.service';
-
 import { AuthenticationEndpoint } from '@pages/authentication/data/constants/authentication-endpoints.constant';
 import { LoginRequestDto } from '@pages/authentication/data/dto/login-request.dto';
 import { LoginResponseDto } from '@pages/authentication/data/dto/login-response.dto';
 import { VariablesResponseDto } from '@pages/authentication/data/dto/variables-response.dto';
+import { EnvService } from '@shared/domain/services/env.service';
+import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationApi {
     private readonly envService = inject(EnvService);

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import { Channels } from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
-import { ChannelsDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-channels.dto';
+import { Channels } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { ChannelsDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-channels.dto';
 
 @Injectable({
     providedIn: 'root',

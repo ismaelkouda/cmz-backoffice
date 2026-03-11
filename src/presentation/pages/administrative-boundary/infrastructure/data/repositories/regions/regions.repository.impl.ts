@@ -1,23 +1,21 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
-
+import { RegionsCreateEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-create.entity';
+import { RegionsDeleteEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-delete.entity';
+import { RegionsFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
+import { RegionsUpdateEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-update.entity';
+import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
+import { RegionsRepository } from '@pages/administrative-boundary/domain/repositories/regions/regions-repository';
+import { regionsCreateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-create.mapper';
+import { regionsDeleteMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-delete.mapper';
+import { regionsFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-filter.mapper';
+import { regionsUpdateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-update.mapper';
+import { RegionsMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions.mapper';
+import { RegionsApi } from '@pages/administrative-boundary/infrastructure/data/sources/regions/regions.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { RegionsCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-create.entity';
-import { RegionsDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-delete.entity';
-import { RegionsFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
-import { RegionsUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-update.entity';
-import { RegionsEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions.entity';
-import { RegionsRepository } from '@presentation/pages/administrative-boundary/domain/repositories/regions/regions-repository';
-import { regionsCreateMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions-create.mapper';
-import { regionsDeleteMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions-delete.mapper';
-import { regionsFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions-filter.mapper';
-import { regionsUpdateMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions-update.mapper';
-import { RegionsMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions.mapper';
-import { RegionsApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/regions/regions.api';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsRepositoryImpl implements RegionsRepository {

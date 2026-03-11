@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-
+import { QueuesEntity } from '@pages/finalization/domain/entities/queues/queues.entity';
+import { QueuesProps } from '@pages/finalization/domain/interfaces/queues/queues-props.interface';
+import { QueuesItemApiDto } from '@pages/finalization/infrastructure/api/dto/queues/queues-response-api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { QueuesEntity } from '@presentation/pages/finalization/domain/entities/queues/queues.entity';
-import { QueuesProps } from '@presentation/pages/finalization/domain/interfaces/queues/queues-props.interface';
-import { QueuesItemApiDto } from '@presentation/pages/finalization/infrastructure/api/dto/queues/queues-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesMapper extends PaginatedMapper<

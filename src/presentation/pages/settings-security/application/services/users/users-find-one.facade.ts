@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { UsersFindOneFilterDto } from '@pages/settings-security/application/dto/users/users-find-one-filter.dto';
+import { UsersFindOneQuery } from '@pages/settings-security/application/queries/users/users-find-one.query';
+import { UsersFindOneBus } from '@pages/settings-security/application/queries-bus/users/users-find-one.bus';
+import { UsersFindOneEntity } from '@pages/settings-security/domain/entities/users/users-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { UsersFindOneFilterDto } from '@presentation/pages/settings-security/application/dto/users/users-find-one-filter.dto';
-import { UsersFindOneQuery } from '@presentation/pages/settings-security/application/queries/users/users-find-one.query';
-import { UsersFindOneBus } from '@presentation/pages/settings-security/application/queries-bus/users/users-find-one.bus';
-import { UsersFindOneEntity } from '@presentation/pages/settings-security/domain/entities/users/users-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

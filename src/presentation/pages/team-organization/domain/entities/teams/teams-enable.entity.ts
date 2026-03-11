@@ -1,4 +1,4 @@
-import { TeamsEnableVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-enable.vo';
+import { TeamsEnableVo } from '@pages/team-organization/domain/value-objects/teams/teams-enable.vo';
 
 export class TeamsEnableEntity {
     constructor(public readonly uniqId: string) {}

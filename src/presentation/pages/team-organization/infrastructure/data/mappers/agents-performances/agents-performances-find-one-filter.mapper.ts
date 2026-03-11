@@ -1,4 +1,4 @@
-import { AgentsPerformancesFindOneFilterEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
+import { AgentsPerformancesFindOneFilterEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
 
 import { AgentsPerformancesFindOneFilterApiDto } from '../../../api/dto/agents-performances/agents-performances-find-one-filter-api.dto';
 

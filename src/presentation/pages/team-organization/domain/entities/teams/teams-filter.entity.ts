@@ -1,4 +1,4 @@
-import { TeamsFilterVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-filter.vo';
+import { TeamsFilterVo } from '@pages/team-organization/domain/value-objects/teams/teams-filter.vo';
 
 export class TeamsFilterEntity {
     constructor(

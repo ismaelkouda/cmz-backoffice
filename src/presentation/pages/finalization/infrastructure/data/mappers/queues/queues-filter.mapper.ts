@@ -1,5 +1,5 @@
-import { QueuesFilterEntity } from '@presentation/pages/finalization/domain/entities/queues/queues-filter.entity';
-import { QueuesFilterApiDto } from '@presentation/pages/finalization/infrastructure/api/dto/queues/queues-filter-api.dto';
+import { QueuesFilterEntity } from '@pages/finalization/domain/entities/queues/queues-filter.entity';
+import { QueuesFilterApiDto } from '@pages/finalization/infrastructure/api/dto/queues/queues-filter-api.dto';
 
 export function queuesFilterMapper(vo: QueuesFilterEntity): QueuesFilterApiDto {
     const params: QueuesFilterApiDto = {} as QueuesFilterApiDto;

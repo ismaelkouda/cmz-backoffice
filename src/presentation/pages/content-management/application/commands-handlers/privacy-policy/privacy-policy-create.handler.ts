@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { PrivacyPolicyCreateCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-create.command';
+import { PrivacyPolicyUseCase } from '@pages/content-management/application/use-cases/privacy-policy/privacy-policy.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { PrivacyPolicyCreateCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-create.command';
-import { PrivacyPolicyUseCase } from '@presentation/pages/content-management/application/use-cases/privacy-policy/privacy-policy.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyCreateHandler {

@@ -20,9 +20,16 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
-
+import { RegionsFacade } from '@pages/administrative-boundary/application/services/regions/regions.facade';
+import { FILTER_KEYS } from '@pages/administrative-boundary/domain/constants/regions/regions-filter-keys.constants';
+import { REGIONS_TABLE } from '@pages/administrative-boundary/domain/constants/regions/regions-table.constants';
+import { RegionsFilterControl } from '@pages/administrative-boundary/domain/controls/regions/regions-filter.control';
+import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
+import { Status } from '@pages/administrative-boundary/domain/enums/regions/regions-status.enum';
+import {
+    DEPARTMENTS_BY_REGION_ID_ROUTE,
+    REGIONS_FORM,
+} from '@pages/administrative-boundary/presentation/regions/regions.routes';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -37,17 +44,8 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
-
-import { RegionsFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions.facade';
-import { FILTER_KEYS } from '@presentation/pages/administrative-boundary/domain/constants/regions/regions-filter-keys.constants';
-import { REGIONS_TABLE } from '@presentation/pages/administrative-boundary/domain/constants/regions/regions-table.constants';
-import { RegionsFilterControl } from '@presentation/pages/administrative-boundary/domain/controls/regions/regions-filter.control';
-import { RegionsEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions.entity';
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/regions/regions-status.enum';
-import {
-    DEPARTMENTS_BY_REGION_ID_ROUTE,
-    REGIONS_FORM,
-} from '@presentation/pages/administrative-boundary/presentation/regions/regions.routes';
+import { ToastrService } from 'ngx-toastr';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-regions-list',

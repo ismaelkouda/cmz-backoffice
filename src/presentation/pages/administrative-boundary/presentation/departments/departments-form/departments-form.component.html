@@ -187,7 +187,9 @@
                                                     <p-select
                                                         class="form-p-select"
                                                         [options]="regions()"
-                                                        [loading]="loadingRegions()"
+                                                        [loading]="
+                                                            loadingRegions()
+                                                        "
                                                         formControlName="region"
                                                         optionLabel="name"
                                                         optionValue="value"
@@ -198,8 +200,14 @@
                                                             'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.FIELDSET_GENERAL_INFO.REGION_PLACEHOLDER'
                                                                 | translate
                                                         "
-        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
                                                     >
                                                     </p-select>
                                                     @if (

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, RouteReuseStrategy } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-
 import { CustomRouteReuseStrategy } from '@shared/domain/utils/custom-route-reuse-strategy';
+import { BehaviorSubject } from 'rxjs';
 
 import { EncodingDataService } from './encoding-data.service';
 

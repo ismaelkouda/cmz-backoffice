@@ -1,4 +1,4 @@
-import { DepartmentsDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-delete.dto';
+import { DepartmentsDeleteDto } from '@pages/administrative-boundary/application/dto/departments/departments-delete.dto';
 
 export class DepartmentsDeleteVo {
     public readonly uniqId: string;

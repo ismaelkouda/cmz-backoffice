@@ -1,11 +1,14 @@
-import { Status } from '@presentation/pages/content-management/domain/enums/slide/slide-status.enum';
+import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
+import { Platform } from '@shared/domain/enums/platform.enum';
 
-export interface Props {
+export interface SlideProps {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+    type: string;
+    title: string;
+    subtitle: string;
+    order: number;
+    platforms: Platform[];
     status: Status;
-    membersCount: string;
+    createdAt: string;
     updatedAt: string;
 }

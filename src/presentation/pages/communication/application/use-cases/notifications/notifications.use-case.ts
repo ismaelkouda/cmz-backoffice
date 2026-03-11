@@ -1,16 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NotificationsFilterDto } from '@pages/communication/application/dto/notifications/notifications-filter.dto';
+import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
+import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
+import { NotificationsRepository } from '@pages/communication/domain/repositories/notifications/notifications.repository';
+import { NotificationsFilterVo } from '@pages/communication/domain/value-objects/notifications/notifications-filter.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { NotificationsFilterDto } from '@presentation/pages/communication/application/dto/notifications/notifications-filter.dto';
-import { NotificationsFilterEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-filter.entity';
-import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
-import { NotificationsRepository } from '@presentation/pages/communication/domain/repositories/notifications/notifications.repository';
-import { NotificationsFilterVo } from '@presentation/pages/communication/domain/value-objects/notifications/notifications-filter.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

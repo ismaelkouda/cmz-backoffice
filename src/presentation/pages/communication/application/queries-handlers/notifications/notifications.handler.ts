@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NotificationsQuery } from '@pages/communication/application/queries/notifications/notifications.query';
+import { NotificationsUseCase } from '@pages/communication/application/use-cases/notifications/notifications.use-case';
+import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { NotificationsQuery } from '@presentation/pages/communication/application/queries/notifications/notifications.query';
-import { NotificationsUseCase } from '@presentation/pages/communication/application/use-cases/notifications/notifications.use-case';
-import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsHandler {

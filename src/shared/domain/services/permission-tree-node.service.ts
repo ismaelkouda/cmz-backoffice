@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
 
 @Injectable()

@@ -4,9 +4,8 @@ import {
     Router,
     RouterStateSnapshot,
 } from '@angular/router';
-import { Observable } from 'rxjs';
-
 import { StorePathsService } from '@shared/domain/services/store-paths.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

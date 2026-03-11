@@ -20,9 +20,15 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
-
+import { MunicipalitiesFacade } from '@pages/administrative-boundary/application/services/municipalities/municipalities.facade';
+import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
+import { FILTER_KEYS } from '@pages/administrative-boundary/domain/constants/municipalities/municipalities-filter-keys.constants';
+import { MUNICIPALITIES_TABLE } from '@pages/administrative-boundary/domain/constants/municipalities/municipalities-table.constants';
+import { MunicipalitiesFilterControl } from '@pages/administrative-boundary/domain/controls/municipalities/municipalities-filter.control';
+import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { RegionsSelectEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-select.entity';
+import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
+import { MUNICIPALITIES_FORM } from '@pages/administrative-boundary/presentation/municipalities/municipalities.routes';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -38,16 +44,8 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
-
-import { MunicipalitiesFacade } from '@presentation/pages/administrative-boundary/application/services/municipalities/municipalities.facade';
-import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
-import { FILTER_KEYS } from '@presentation/pages/administrative-boundary/domain/constants/municipalities/municipalities-filter-keys.constants';
-import { MUNICIPALITIES_TABLE } from '@presentation/pages/administrative-boundary/domain/constants/municipalities/municipalities-table.constants';
-import { MunicipalitiesFilterControl } from '@presentation/pages/administrative-boundary/domain/controls/municipalities/municipalities-filter.control';
-import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
-import { RegionsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-select.entity';
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
-import { MUNICIPALITIES_FORM } from '@presentation/pages/administrative-boundary/presentation/municipalities/municipalities.routes';
+import { ToastrService } from 'ngx-toastr';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-municipalities-list',

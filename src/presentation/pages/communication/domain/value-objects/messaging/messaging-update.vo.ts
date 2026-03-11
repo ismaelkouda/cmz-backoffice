@@ -1,4 +1,4 @@
-import { MessagingUpdateDto } from '@presentation/pages/communication/application/dto/messaging/messaging-update.dto';
+import { MessagingUpdateDto } from '@pages/communication/application/dto/messaging/messaging-update.dto';
 
 export class MessagingUpdateVo {
     public readonly uniqId: string;

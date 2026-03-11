@@ -1,4 +1,4 @@
-import { ParticipantsDeleteDto } from '@presentation/pages/team-organization/application/dto/participants/participants-delete.dto';
+import { ParticipantsDeleteDto } from '@pages/team-organization/application/dto/participants/participants-delete.dto';
 
 export class ParticipantsDeleteVo {
     public readonly uniqId: string;

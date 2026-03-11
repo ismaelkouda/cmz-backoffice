@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { ProfilesPermissionsCreateCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-create.command';
+import { ProfilesPermissionsDeleteCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-delete.command';
+import { ProfilesPermissionsDisableCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-disable.command';
+import { ProfilesPermissionsEnableCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-enable.command';
+import { ProfilesPermissionsUpdateCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-update.command';
+import { ProfilesPermissionsCreateBus } from '@pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-create.bus';
+import { ProfilesPermissionsDeleteBus } from '@pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-delete.bus';
+import { ProfilesPermissionsDisableBus } from '@pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-disable.bus';
+import { ProfilesPermissionsEnableBus } from '@pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-enable.bus';
+import { ProfilesPermissionsUpdateBus } from '@pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-update.bus';
+import { ProfilesPermissionsCreateDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-create.dto';
+import { ProfilesPermissionsDeleteDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
+import { ProfilesPermissionsDisableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-disable.dto';
+import { ProfilesPermissionsEnableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-enable.dto';
+import { ProfilesPermissionsFilterDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-filter.dto';
+import { ProfilesPermissionsUpdateDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-update.dto';
+import { ProfilesPermissionsQuery } from '@pages/settings-security/application/queries/profiles-permissions/profiles-permissions.query';
+import { ProfilesPermissionsBus } from '@pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions.bus';
+import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { ProfilesPermissionsCreateCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-create.command';
-import { ProfilesPermissionsDeleteCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-delete.command';
-import { ProfilesPermissionsDisableCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-disable.command';
-import { ProfilesPermissionsEnableCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-enable.command';
-import { ProfilesPermissionsUpdateCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-update.command';
-import { ProfilesPermissionsCreateBus } from '@presentation/pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-create.bus';
-import { ProfilesPermissionsDeleteBus } from '@presentation/pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-delete.bus';
-import { ProfilesPermissionsDisableBus } from '@presentation/pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-disable.bus';
-import { ProfilesPermissionsEnableBus } from '@presentation/pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-enable.bus';
-import { ProfilesPermissionsUpdateBus } from '@presentation/pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-update.bus';
-import { ProfilesPermissionsCreateDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-create.dto';
-import { ProfilesPermissionsDeleteDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
-import { ProfilesPermissionsDisableDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-disable.dto';
-import { ProfilesPermissionsEnableDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-enable.dto';
-import { ProfilesPermissionsFilterDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-filter.dto';
-import { ProfilesPermissionsUpdateDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-update.dto';
-import { ProfilesPermissionsQuery } from '@presentation/pages/settings-security/application/queries/profiles-permissions/profiles-permissions.query';
-import { ProfilesPermissionsBus } from '@presentation/pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions.bus';
-import { ProfilesPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

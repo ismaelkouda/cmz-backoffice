@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
+import { DepartmentsSelectEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-select.entity';
+import { DepartmentsSelectRepository } from '@pages/administrative-boundary/domain/repositories/departments/departments-select-repository';
+import { DepartmentsSelectMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-select.mapper';
+import { DepartmentsSelectApi } from '@pages/administrative-boundary/infrastructure/data/sources/departments/departments-select.api';
 import { Observable, map } from 'rxjs';
-
-import { DepartmentsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-select.entity';
-import { DepartmentsSelectRepository } from '@presentation/pages/administrative-boundary/domain/repositories/departments/departments-select-repository';
-import { DepartmentsSelectMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments-select.mapper';
-import { DepartmentsSelectApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/departments/departments-select.api';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsSelectRepositoryImpl implements DepartmentsSelectRepository {

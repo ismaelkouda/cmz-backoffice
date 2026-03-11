@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
+import { ParticipantsFindOneFilterDto } from '@pages/team-organization/application/dto/participants/participants-find-one-filter.dto';
+import { ParticipantsFindOneFilterEntity } from '@pages/team-organization/domain/entities/participants/participants-find-one-filter.entity';
+import { ParticipantsFindOneEntity } from '@pages/team-organization/domain/entities/participants/participants-find-one.entity';
+import { ParticipantsFindOneRepository } from '@pages/team-organization/domain/repositories/participants/participants-find-one-repository';
+import { ParticipantsFindOneFilterVo } from '@pages/team-organization/domain/value-objects/participants/participants-find-one-filter.vo';
 import { Observable } from 'rxjs';
-
-import { ParticipantsFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/participants/participants-find-one-filter.dto';
-import { ParticipantsFindOneFilterEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-find-one-filter.entity';
-import { ParticipantsFindOneEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-find-one.entity';
-import { ParticipantsFindOneRepository } from '@presentation/pages/team-organization/domain/repositories/participants/participants-find-one-repository';
-import { ParticipantsFindOneFilterVo } from '@presentation/pages/team-organization/domain/value-objects/participants/participants-find-one-filter.vo';
 
 @Injectable({
     providedIn: 'root',

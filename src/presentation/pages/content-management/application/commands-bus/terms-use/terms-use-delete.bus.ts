@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TermsUseDeleteCommand } from '@pages/content-management/application/commands/terms-use/terms-use-delete.command';
+import { TermsUseDeleteHandler } from '@pages/content-management/application/commands-handlers/terms-use/terms-use-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TermsUseDeleteCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-delete.command';
-import { TermsUseDeleteHandler } from '@presentation/pages/content-management/application/commands-handlers/terms-use/terms-use-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUseDeleteBus {

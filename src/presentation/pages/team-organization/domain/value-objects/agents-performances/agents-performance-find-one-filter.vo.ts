@@ -1,6 +1,5 @@
+import { AgentsPerformancesFindOneFilterDto } from '@pages/team-organization/application/dto/agents-performances/agents-performances-find-one-filter.dto';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { AgentsPerformancesFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/agents-performances/agents-performances-find-one-filter.dto';
 
 export class AgentsPerformancesFindOneFilterVo {
     public readonly uniqId?: string;

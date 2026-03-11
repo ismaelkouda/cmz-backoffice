@@ -1,7 +1,6 @@
+import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
+import { HomeFilterVo } from '@pages/content-management/domain/value-objects/home/home-filter.vo';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { Status } from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
-import { HomeFilterVo } from '@presentation/pages/content-management/domain/value-objects/home/home-filter.vo';
 
 export class HomeFilterEntity {
     constructor(

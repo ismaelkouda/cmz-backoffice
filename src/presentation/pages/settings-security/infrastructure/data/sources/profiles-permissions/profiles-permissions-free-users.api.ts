@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ProfilesPermissionsFreeUsersAssignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-assign-api.dto';
+import { ProfilesPermissionsFreeUsersResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-response-api.dto';
+import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
+import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { ProfilesPermissionsFreeUsersAssignApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-assign-api.dto';
-import { ProfilesPermissionsFreeUsersResponseApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-response-api.dto';
-import { SETTINGS_SECURITY_BASE_URL } from '@presentation/pages/settings-security/infrastructure/api/settings-security.base-url';
-import { SETTINGS_SECURITY_ENDPOINTS } from '@presentation/pages/settings-security/infrastructure/api/settings-security.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsFreeUsersApi {

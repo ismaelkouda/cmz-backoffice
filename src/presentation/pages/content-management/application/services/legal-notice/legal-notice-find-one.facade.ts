@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { LegalNoticeFindOneFilterDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-find-one-filter.dto';
+import { LegalNoticeFindOneQuery } from '@pages/content-management/application/queries/legal-notice/legal-notice-find-one.query';
+import { LegalNoticeFindOneBus } from '@pages/content-management/application/queries-bus/legal-notice/legal-notice-find-one.bus';
+import { LegalNoticeFindOneEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { LegalNoticeFindOneFilterDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-find-one-filter.dto';
-import { LegalNoticeFindOneQuery } from '@presentation/pages/content-management/application/queries/legal-notice/legal-notice-find-one.query';
-import { LegalNoticeFindOneBus } from '@presentation/pages/content-management/application/queries-bus/legal-notice/legal-notice-find-one.bus';
-import { LegalNoticeFindOneEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

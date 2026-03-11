@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { LoginResponseDto } from '@pages/authentication/data/dto/login-response.dto';
 import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
 @Injectable({ providedIn: 'root' })

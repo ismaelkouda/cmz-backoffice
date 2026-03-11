@@ -1,5 +1,5 @@
-import { DepartmentsCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-create.entity';
-import { DepartmentsCreateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-create-api.dto';
+import { DepartmentsCreateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-create.entity';
+import { DepartmentsCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-create-api.dto';
 
 export function departmentsCreateMapper(
     create: DepartmentsCreateEntity

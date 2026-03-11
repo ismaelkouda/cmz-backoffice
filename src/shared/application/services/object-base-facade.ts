@@ -1,8 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
 import { ResourceState } from '@shared/domain/interfaces/resource-state.type';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 Injectable({ providedIn: 'root' });
 
@@ -34,6 +33,7 @@ export class ObjectBaseFacade<TEntity, TFilter> {
         force = false,
         skipSameFilter = false
     ): void {
+        console.log('this._filter()11111: ', this._filter());
         const current = this._state();
 
         if (!force && !this.shouldFetch(current, staleTime)) {
@@ -45,14 +45,19 @@ export class ObjectBaseFacade<TEntity, TFilter> {
         }
 
         if (!skipSameFilter) {
+            console.log('skipSameFilter: ', skipSameFilter);
+            console.log('filter: ', filter);
             const prev = this.normalize(this._filter());
             const curr = this.normalize(filter);
+            console.log('prev: ', prev);
+            console.log('curr: ', curr);
 
             /* const prevEmpty = this.isEmpty(prev); */
             const currEmpty = this.isEmpty(curr);
 
             if (!currEmpty) {
                 const same = this.isSameFilter(prev, curr);
+                console.log('same: ', same);
 
                 if (same) {
                     return;
@@ -97,6 +102,8 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                 })
             )
             .subscribe();
+        console.log('filter2222: ', filter);
+        console.log('this._filter()2222: ', this._filter());
     }
 
     protected shouldFetch(
@@ -131,6 +138,7 @@ export class ObjectBaseFacade<TEntity, TFilter> {
     }
 
     private isEmpty(filter: Record<string, any>): boolean {
+        console.log('filter: ', filter);
         return Object.keys(filter).length === 0;
     }
 
@@ -155,6 +163,8 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                 }
                 return valA.every((v, i) => v === valB[i]);
             }
+            console.log('valB: ', valB);
+            console.log('valA: ', valA);
 
             return valA === valB;
         });

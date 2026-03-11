@@ -1,8 +1,7 @@
 import { Injectable, inject, signal, computed, Signal } from '@angular/core';
-
-import { DetailsFacade as FinalizationFacade } from '@presentation/pages/finalization/application/services/details/details.facade';
-import { DetailsFacade as ProcessingFacade } from '@presentation/pages/processing/application/services/details/details.facade';
-import { DetailsFacade as RequestsFacade } from '@presentation/pages/requests/application/services/details/details.facade';
+import { DetailsFacade as FinalizationFacade } from '@pages/finalization/application/services/details/details.facade';
+import { DetailsFacade as ProcessingFacade } from '@pages/processing/application/services/details/details.facade';
+import { DetailsFacade as RequestsFacade } from '@pages/requests/application/services/details/details.facade';
 
 import { Actions } from '../types/management-actions.type';
 
@@ -22,15 +21,12 @@ export class ManagementStateService {
     private readonly uniqId = signal<string>('');
 
     readonly requestsItems = this.requestsFacade.items;
-
     readonly requestsLoading = this.requestsFacade.loading;
 
     readonly processingItems = this.processingFacade.items;
-
     readonly processingLoading = this.processingFacade.loading;
 
     readonly finalizationItems = this.finalizationFacade.items;
-
     readonly finalizationLoading = this.finalizationFacade.loading;
 
     readonly requestsActionState = this.requestsFacade.actionLoading;
@@ -152,15 +148,12 @@ export class ManagementStateService {
                 this.executeProcessingAction(action, { ...payload, uniqId });
                 break;
             case 'finalization':
-                console.log('ctx executeFinalizationAction: ', ctx);
                 this.executeFinalizationAction(action, { ...payload, uniqId });
                 break;
         }
     }
 
     private executeRequestsAction(action: string, payload: any): void {
-        console.log('action: ', action);
-        console.log('payload: ', payload);
         switch (action) {
             case 'take':
                 this.requestsFacade.take(payload);

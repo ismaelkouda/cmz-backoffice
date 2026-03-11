@@ -1,4 +1,4 @@
-import { TeamsDeleteVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-delete.vo';
+import { TeamsDeleteVo } from '@pages/team-organization/domain/value-objects/teams/teams-delete.vo';
 
 export class TeamsDeleteEntity {
     constructor(public readonly uniqId: string) {}

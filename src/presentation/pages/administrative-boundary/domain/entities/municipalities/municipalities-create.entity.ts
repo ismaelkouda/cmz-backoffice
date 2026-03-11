@@ -1,4 +1,4 @@
-import { MunicipalitiesCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-create.vo';
+import { MunicipalitiesCreateVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-create.vo';
 
 export class MunicipalitiesCreateEntity {
     constructor(

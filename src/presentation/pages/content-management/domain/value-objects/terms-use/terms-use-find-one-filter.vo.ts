@@ -1,4 +1,4 @@
-import { TermsUseFindOneFilterDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-find-one-filter.dto';
+import { TermsUseFindOneFilterDto } from '@pages/content-management/application/dto/terms-use/terms-use-find-one-filter.dto';
 
 export class TermsUseFindOneFilterVo {
     public readonly uniqId: string;

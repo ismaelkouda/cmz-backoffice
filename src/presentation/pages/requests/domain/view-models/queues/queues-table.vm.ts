@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
-import { QueuesEntity } from '@presentation/pages/requests/domain/entities/queues/queues.entity';
-import { QueuesTable } from '@presentation/pages/requests/domain/interfaces/queues/queues-table.interface';
+import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
+import { QueuesTable } from '@pages/requests/domain/interfaces/queues/queues-table.interface';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesTableVm {

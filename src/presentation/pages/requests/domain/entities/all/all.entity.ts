@@ -1,15 +1,14 @@
+import {
+    Status,
+    StatusStyle,
+} from '@pages/requests/domain/enums/all/all-status.enum';
+import { AllProps } from '@pages/requests/domain/interfaces/all/all-props.interface';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import {
     TelecomOperator,
     TelecomOperatorStyle,
 } from '@shared/domain/enums/telecom-operator.enum';
-
-import {
-    Status,
-    StatusStyle,
-} from '@presentation/pages/requests/domain/enums/all/all-status.enum';
-import { AllProps } from '@presentation/pages/requests/domain/interfaces/all/all-props.interface';
 
 export class AllEntity implements AllProps {
     constructor(private readonly props: AllProps) {}

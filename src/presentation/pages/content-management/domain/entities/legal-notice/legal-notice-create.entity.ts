@@ -1,4 +1,4 @@
-import { LegalNoticeCreateVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-create.vo';
+import { LegalNoticeCreateVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-create.vo';
 
 export class LegalNoticeCreateEntity {
     constructor(

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TasksActionsUpdateCommand } from '@pages/processing/application/commands/tasks/tasks-actions-update.command';
+import { TasksUpdateHandler } from '@pages/processing/application/commands-handlers/tasks/tasks-actions-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TasksActionsUpdateCommand } from '@presentation/pages/processing/application/commands/tasks/tasks-actions-update.command';
-import { TasksUpdateHandler } from '@presentation/pages/processing/application/commands-handlers/tasks/tasks-actions-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksActionsUpdateBus {

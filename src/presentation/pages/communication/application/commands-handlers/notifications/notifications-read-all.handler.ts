@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NotificationsUseCase } from '@pages/communication/application/use-cases/notifications/notifications.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { NotificationsUseCase } from '@presentation/pages/communication/application/use-cases/notifications/notifications.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsReadAllHandler {

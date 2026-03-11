@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
+import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
+import { PrivacyPolicyCreateApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-create-api.dto';
+import { PrivacyPolicyDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-delete-api.dto';
+import { PrivacyPolicyFilterApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-filter-api.dto';
+import { PrivacyPolicyPublishApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-publish-api.dto';
+import { PrivacyPolicyResponseApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-response-api.dto';
+import { PrivacyPolicyUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-unpublish-api.dto';
+import { PrivacyPolicyUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { CONTENT_MANAGEMENT_BASE_URL } from '@presentation/pages/content-management/infrastructure/api/content-management.base-url';
-import { CONTENT_MANAGEMENT_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/api/content-management.endpoints';
-import { PrivacyPolicyCreateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-create-api.dto';
-import { PrivacyPolicyDeleteApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-delete-api.dto';
-import { PrivacyPolicyFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-filter-api.dto';
-import { PrivacyPolicyPublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-publish-api.dto';
-import { PrivacyPolicyResponseApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-response-api.dto';
-import { PrivacyPolicyUnpublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-unpublish-api.dto';
-import { PrivacyPolicyUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-update-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyApi {

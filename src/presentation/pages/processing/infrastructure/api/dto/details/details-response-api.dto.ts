@@ -1,3 +1,5 @@
+import { ApiProcessingState } from '@pages/processing/infrastructure/enums/details/details-processing-state-api.enum';
+import { ApiState } from '@pages/processing/infrastructure/enums/details/details-state-api.enum';
 import { ActorDto } from '@shared/data/dto/actor.dto';
 import { AdministrativeBoundaryDto } from '@shared/data/dto/administrative-boundary.dto';
 import { LocationMethodDto } from '@shared/data/dto/location-method.dto';
@@ -6,9 +8,6 @@ import { ReportSourceDto } from '@shared/data/dto/report-source.dto';
 import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
-
-import { ApiProcessingState } from '@presentation/pages/processing/infrastructure/enums/details/details-processing-state-api.enum';
-import { ApiState } from '@presentation/pages/processing/infrastructure/enums/details/details-state-api.enum';
 
 export type ReportStatusDto = 'pending' | 'terminated' | 'in-progress';
 

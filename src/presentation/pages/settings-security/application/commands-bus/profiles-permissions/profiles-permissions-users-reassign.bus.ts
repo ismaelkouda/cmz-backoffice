@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ProfilesPermissionsUsersReassignCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-reassign.command';
+import { ProfilesPermissionsUsersReassignHandler } from '@pages/settings-security/application/commands-handlers/profiles-permissions/profiles-permissions-users-reassign.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsUsersReassignCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-reassign.command';
-import { ProfilesPermissionsUsersReassignHandler } from '@presentation/pages/settings-security/application/commands-handlers/profiles-permissions/profiles-permissions-users-reassign.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsUsersReassignBus {

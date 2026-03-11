@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersDeleteCommand } from '@pages/settings-security/application/commands/users/users-delete.command';
+import { UsersDeleteHandler } from '@pages/settings-security/application/commands-handlers/users/users-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { UsersDeleteCommand } from '@presentation/pages/settings-security/application/commands/users/users-delete.command';
-import { UsersDeleteHandler } from '@presentation/pages/settings-security/application/commands-handlers/users/users-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersDeleteBus {

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { SlideUpdateCommand } from '@pages/content-management/application/commands/slide/slide-update.command';
+import { SlideUseCase } from '@pages/content-management/application/use-cases/slide/slide.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { SlideUpdateCommand } from '@presentation/pages/content-management/application/commands/slide/slide-update.command';
-import { SlideUseCase } from '@presentation/pages/content-management/application/use-cases/slide/slide.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SlideUpdateHandler {
@@ -13,11 +11,18 @@ export class SlideUpdateHandler {
     execute(command: SlideUpdateCommand): Observable<SimpleResponseDto<void>> {
         return this.useCase.update({
             uniqId: command.uniqId,
-            firstName: command.firstName,
-            lastName: command.lastName,
-            email: command.email,
-            phone: command.phone,
-            role: command.role,
+            timeDuration: command.timeDuration,
+            type: command.type,
+            image: command.image,
+            video: command.video,
+            platforms: command.platforms,
+            startDate: command.startDate,
+            endDate: command.endDate,
+            title: command.title,
+            subtitle: command.subtitle,
+            content: command.content,
+            buttonLabel: command.buttonLabel,
+            buttonUrl: command.buttonUrl,
         });
     }
 }

@@ -10,16 +10,6 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ClipboardService } from 'ngx-clipboard';
-import { ToastrService } from 'ngx-toastr';
-import { BadgeModule } from 'primeng/badge';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
-
 import { ActionDropdownComponent } from '@shared/components/action-dropdown/action-dropdown.component';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import {
@@ -29,10 +19,20 @@ import {
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
 import { TableConfig } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
+import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { BadgeModule } from 'primeng/badge';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
     selector: 'app-table',
@@ -183,32 +183,18 @@ export class TableComponent {
         );
     }
 
-    formatDate(value: string): string {
-        if (!value) {
-            return '-';
-        }
-        try {
-            const normalized = value.includes('T')
-                ? value
-                : value.replace(' ', 'T');
-            const withTimezone = normalized.endsWith('Z')
-                ? normalized
-                : `${normalized}Z`;
-            const date = new Date(withTimezone);
-            return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
-        } catch {
-            return value;
-        }
+    public getFormatDate(value: string): string {
+        return formatDate(value);
     }
 
-    copyToClipboard(data: string): void {
+    public copyToClipboard(data: string): void {
         this.clipboardService.copyFromContent(data);
         this.toastService.success(
             this.translate.instant('COMMON.COPIED_TO_CLIPBOARD')
         );
     }
 
-    getOperatorTagStyle(operator: string): Record<string, string> {
+    public getOperatorTagStyle(operator: string): Record<string, string> {
         return operatorsTagStyle(operator);
     }
 }

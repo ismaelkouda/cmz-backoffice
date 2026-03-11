@@ -14,17 +14,9 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ClipboardService } from 'ngx-clipboard';
-import { ToastrService } from 'ngx-toastr';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { SelectModule } from 'primeng/select';
-import { SkeletonModule } from 'primeng/skeleton';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
-import SweetAlert from 'sweetalert2';
-
+import { DetailsEntity as FinalizationEntity } from '@pages/finalization/domain/entities/details/details.entity';
+import { DetailsEntity as ProcessingEntity } from '@pages/processing/domain/entities/details/details.entity';
+import { DetailsEntity as RequestsEntity } from '@pages/requests/domain/entities/details/details.entity';
 import {
     enumToFilterOptions,
     FilterOption,
@@ -46,10 +38,16 @@ import { ManagementSidebarComponent } from '@shared/components/management/presen
 import { ManagementTreatmentFormComponent } from '@shared/components/management/presentation/management-treatment-form/management-treatment-form.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
-
-import { DetailsEntity as FinalizationEntity } from '@presentation/pages/finalization/domain/entities/details/details.entity';
-import { DetailsEntity as ProcessingEntity } from '@presentation/pages/processing/domain/entities/details/details.entity';
-import { DetailsEntity as RequestsEntity } from '@presentation/pages/requests/domain/entities/details/details.entity';
+import { ClipboardService } from 'ngx-clipboard';
+import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { SelectModule } from 'primeng/select';
+import { SkeletonModule } from 'primeng/skeleton';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-management-dialog',
@@ -61,7 +59,6 @@ import { DetailsEntity as RequestsEntity } from '@presentation/pages/requests/do
         TranslateModule,
         ButtonModule,
         DialogModule,
-        TranslateModule,
         SkeletonModule,
         TooltipModule,
         SelectModule,

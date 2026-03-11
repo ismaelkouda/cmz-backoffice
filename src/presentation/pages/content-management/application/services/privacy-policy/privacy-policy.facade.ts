@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { PrivacyPolicyCreateCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-create.command';
+import { PrivacyPolicyDeleteCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-delete.command';
+import { PrivacyPolicyPublishCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-publish.command';
+import { PrivacyPolicyUnpublishCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-unpublish.command';
+import { PrivacyPolicyUpdateCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-update.command';
+import { PrivacyPolicyCreateBus } from '@pages/content-management/application/commands-bus/privacy-policy/privacy-policy-create.bus';
+import { PrivacyPolicyDeleteBus } from '@pages/content-management/application/commands-bus/privacy-policy/privacy-policy-delete.bus';
+import { PrivacyPolicyPublishBus } from '@pages/content-management/application/commands-bus/privacy-policy/privacy-policy-publish.bus';
+import { PrivacyPolicyUnpublishBus } from '@pages/content-management/application/commands-bus/privacy-policy/privacy-policy-unpublish.bus';
+import { PrivacyPolicyUpdateBus } from '@pages/content-management/application/commands-bus/privacy-policy/privacy-policy-update.bus';
+import { PrivacyPolicyCreateDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-create.dto';
+import { PrivacyPolicyDeleteDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
+import { PrivacyPolicyFilterDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-filter.dto';
+import { PrivacyPolicyPublishDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-publish.dto';
+import { PrivacyPolicyUnpublishDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-unpublish.dto';
+import { PrivacyPolicyUpdateDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-update.dto';
+import { PrivacyPolicyQuery } from '@pages/content-management/application/queries/privacy-policy/privacy-policy.query';
+import { PrivacyPolicyBus } from '@pages/content-management/application/queries-bus/privacy-policy/privacy-policy.bus';
+import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { PrivacyPolicyCreateCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-create.command';
-import { PrivacyPolicyDeleteCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-delete.command';
-import { PrivacyPolicyPublishCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-publish.command';
-import { PrivacyPolicyUnpublishCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-unpublish.command';
-import { PrivacyPolicyUpdateCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-update.command';
-import { PrivacyPolicyCreateBus } from '@presentation/pages/content-management/application/commands-bus/privacy-policy/privacy-policy-create.bus';
-import { PrivacyPolicyDeleteBus } from '@presentation/pages/content-management/application/commands-bus/privacy-policy/privacy-policy-delete.bus';
-import { PrivacyPolicyPublishBus } from '@presentation/pages/content-management/application/commands-bus/privacy-policy/privacy-policy-publish.bus';
-import { PrivacyPolicyUnpublishBus } from '@presentation/pages/content-management/application/commands-bus/privacy-policy/privacy-policy-unpublish.bus';
-import { PrivacyPolicyUpdateBus } from '@presentation/pages/content-management/application/commands-bus/privacy-policy/privacy-policy-update.bus';
-import { PrivacyPolicyCreateDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-create.dto';
-import { PrivacyPolicyDeleteDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
-import { PrivacyPolicyFilterDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-filter.dto';
-import { PrivacyPolicyPublishDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-publish.dto';
-import { PrivacyPolicyUnpublishDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-unpublish.dto';
-import { PrivacyPolicyUpdateDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-update.dto';
-import { PrivacyPolicyQuery } from '@presentation/pages/content-management/application/queries/privacy-policy/privacy-policy.query';
-import { PrivacyPolicyBus } from '@presentation/pages/content-management/application/queries-bus/privacy-policy/privacy-policy.bus';
-import { PrivacyPolicyEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

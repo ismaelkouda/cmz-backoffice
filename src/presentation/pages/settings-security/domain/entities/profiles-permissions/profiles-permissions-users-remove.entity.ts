@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUsersRemoveVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-users-remove.vo';
+import { ProfilesPermissionsUsersRemoveVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-users-remove.vo';
 
 export class ProfilesPermissionsUsersRemoveEntity {
     constructor(

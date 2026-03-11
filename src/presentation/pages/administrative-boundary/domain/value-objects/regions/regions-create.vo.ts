@@ -1,4 +1,4 @@
-import { RegionsCreateDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-create.dto';
+import { RegionsCreateDto } from '@pages/administrative-boundary/application/dto/regions/regions-create.dto';
 
 export class RegionsCreateVo {
     public readonly code: string;

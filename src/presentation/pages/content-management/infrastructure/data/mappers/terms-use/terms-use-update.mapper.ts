@@ -1,5 +1,5 @@
-import { TermsUseUpdateEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-update.entity';
-import { TermsUseUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-update-api.dto';
+import { TermsUseUpdateEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-update.entity';
+import { TermsUseUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-update-api.dto';
 
 export function termsUseUpdateMapper(
     entity: TermsUseUpdateEntity

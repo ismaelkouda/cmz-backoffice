@@ -1,4 +1,4 @@
-import { TeamsCreateVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-create.vo';
+import { TeamsCreateVo } from '@pages/team-organization/domain/value-objects/teams/teams-create.vo';
 
 export class TeamsCreateEntity {
     constructor(

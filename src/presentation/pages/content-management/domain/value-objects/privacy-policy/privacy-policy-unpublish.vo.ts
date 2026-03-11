@@ -1,4 +1,4 @@
-import { PrivacyPolicyUnpublishDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-unpublish.dto';
+import { PrivacyPolicyUnpublishDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-unpublish.dto';
 
 export class PrivacyPolicyUnpublishVo {
     public readonly uniqId: string;

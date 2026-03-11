@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-
+import { UsersFindOneEntity } from '@pages/settings-security/domain/entities/users/users-find-one.entity';
+import { UsersFindOneItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-find-one-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { UsersFindOneEntity } from '@presentation/pages/settings-security/domain/entities/users/users-find-one.entity';
-import { UsersFindOneItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class UsersFindOneMapper extends SimpleResponseMapper<

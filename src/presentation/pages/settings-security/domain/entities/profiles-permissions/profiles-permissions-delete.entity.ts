@@ -1,4 +1,4 @@
-import { ProfilesPermissionsDeleteVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-delete.vo';
+import { ProfilesPermissionsDeleteVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-delete.vo';
 
 export class ProfilesPermissionsDeleteEntity {
     constructor(public readonly uniqId: string) {}

@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TasksFilterApiDto } from '@pages/requests/infrastructure/api/dto/tasks/tasks-filter-api.dto';
+import { TasksResponseApiDto } from '@pages/requests/infrastructure/api/dto/tasks/tasks-response-api.dto';
+import { REQUESTS_BASE_URL } from '@pages/requests/infrastructure/api/report-requests.base-url';
+import { REQUESTS_ENDPOINTS } from '@pages/requests/infrastructure/api/report-requests.endpoints';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { TasksFilterApiDto } from '@presentation/pages/requests/infrastructure/api/dto/tasks/tasks-filter-api.dto';
-import { TasksResponseApiDto } from '@presentation/pages/requests/infrastructure/api/dto/tasks/tasks-response-api.dto';
-import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/report-requests.base-url';
-import { REQUESTS_ENDPOINTS } from '@presentation/pages/requests/infrastructure/api/report-requests.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksApi {

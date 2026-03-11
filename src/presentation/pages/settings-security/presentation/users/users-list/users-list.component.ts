@@ -11,10 +11,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { UsersFacade } from '@pages/settings-security/application/services/users/users.facade';
+import { USERS_TABLE_CONSTANT } from '@pages/settings-security/domain/constants/users/users-table.constant';
+import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
+import { USERS_FORM } from '@pages/settings-security/presentation/users/users.routes';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
@@ -22,11 +22,9 @@ import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { UsersFacade } from '@presentation/pages/settings-security/application/services/users/users.facade';
-import { USERS_TABLE_CONSTANT } from '@presentation/pages/settings-security/domain/constants/users/users-table.constant';
-import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
-import { USERS_FORM } from '@presentation/pages/settings-security/presentation/users/users.routes';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-users-list',

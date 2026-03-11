@@ -1,9 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { MESSAGING_ROUTE } from '@pages/communication/communication.routes';
 import { COMMUNICATION_ROUTE } from '@shared/routes/routes';
-
-import { MESSAGING_ROUTE } from '@presentation/pages/communication/communication.routes';
 
 @Injectable({
     providedIn: 'root',

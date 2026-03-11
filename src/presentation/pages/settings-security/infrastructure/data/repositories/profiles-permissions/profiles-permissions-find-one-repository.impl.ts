@@ -1,12 +1,11 @@
 import { inject, Injectable } from '@angular/core';
+import { ProfilesPermissionsFindOneFilterEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one-filter.entity';
+import { ProfilesPermissionsFindOneEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
+import { ProfilesPermissionsFindOneRepository } from '@pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-find-one-repository';
+import { profilesPermissionsFindOneFilterMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-find-one-filter.mapper';
+import { ProfilesPermissionsFindOneMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-find-one.mapper';
+import { ProfilesPermissionsFindOneApi } from '@pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-find-one.api';
 import { map, Observable } from 'rxjs';
-
-import { ProfilesPermissionsFindOneFilterEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one-filter.entity';
-import { ProfilesPermissionsFindOneEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
-import { ProfilesPermissionsFindOneRepository } from '@presentation/pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-find-one-repository';
-import { profilesPermissionsFindOneFilterMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-find-one-filter.mapper';
-import { ProfilesPermissionsFindOneMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-find-one.mapper';
-import { ProfilesPermissionsFindOneApi } from '@presentation/pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-find-one.api';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsFindOneRepositoryImpl implements ProfilesPermissionsFindOneRepository {

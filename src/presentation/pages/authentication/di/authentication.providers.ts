@@ -1,5 +1,4 @@
 import { Provider } from '@angular/core';
-
 import { AuthSessionMapper } from '@pages/authentication/data/mappers/auth-session.mapper';
 import { AuthVariablesMapper } from '@pages/authentication/data/mappers/auth-variables.mapper';
 import { AuthenticationRepositoryImpl } from '@pages/authentication/data/repositories/authentication.repository.impl';

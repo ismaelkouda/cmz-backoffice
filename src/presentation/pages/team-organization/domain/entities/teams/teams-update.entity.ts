@@ -1,4 +1,4 @@
-import { TeamsUpdateVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-update.vo';
+import { TeamsUpdateVo } from '@pages/team-organization/domain/value-objects/teams/teams-update.vo';
 
 export class TeamsUpdateEntity {
     constructor(

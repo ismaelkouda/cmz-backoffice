@@ -19,29 +19,25 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { AgentsPerformancesFacade } from '@pages/team-organization/application/services/agents-performances/agents-performances.facade';
+import { AGENTS_PERFORMANCES_TABLE_CONSTANT } from '@pages/team-organization/domain/constants/agents-performances/agents-performances-table.constant';
+import { AgentsPerformancesFilterControl } from '@pages/team-organization/domain/controls/agents-performances/agents-performances-filter.control';
+import { AgentsPerformancesEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
+import { AGENTS_PERFORMANCES_STATUS } from '@pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
+import { AGENTS_PERFORMANCES_FORM } from '@pages/team-organization/presentation/agents-performances/agents-performances.routes';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { AgentsPerformancesFacade } from '@presentation/pages/team-organization/application/services/agents-performances/agents-performances.facade';
-import { AGENTS_PERFORMANCES_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/agents-performances/agents-performances-table.constant';
-import { AgentsPerformancesFilterControl } from '@presentation/pages/team-organization/domain/controls/agents-performances/agents-performances-filter.control';
-import { AgentsPerformancesEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
-import { AGENTS_PERFORMANCES_STATUS } from '@presentation/pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
-import { AGENTS_PERFORMANCES_FORM } from '@presentation/pages/team-organization/presentation/agents-performances/agents-performances.routes';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-agents-performances',
@@ -52,8 +48,6 @@ import { AGENTS_PERFORMANCES_FORM } from '@presentation/pages/team-organization/
         CommonModule,
         TranslateModule,
         ReactiveFormsModule,
-        BreadcrumbComponent,
-        PageTitleComponent,
         FilterComponent,
         TableComponent,
         PaginationComponent,

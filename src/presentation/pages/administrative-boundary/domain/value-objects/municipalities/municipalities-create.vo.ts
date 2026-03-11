@@ -1,4 +1,4 @@
-import { MunicipalitiesCreateDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-create.dto';
+import { MunicipalitiesCreateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-create.dto';
 
 export class MunicipalitiesCreateVo {
     public readonly code: string;

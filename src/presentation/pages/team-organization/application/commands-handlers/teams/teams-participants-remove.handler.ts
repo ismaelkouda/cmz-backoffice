@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsParticipantsRemoveCommand } from '@pages/team-organization/application/commands/teams/teams-participants-remove.command';
+import { TeamsParticipantsUseCase } from '@pages/team-organization/application/use-cases/teams/teams-participants.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsParticipantsRemoveCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-remove.command';
-import { TeamsParticipantsUseCase } from '@presentation/pages/team-organization/application/use-cases/teams/teams-participants.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsRemoveHandler {

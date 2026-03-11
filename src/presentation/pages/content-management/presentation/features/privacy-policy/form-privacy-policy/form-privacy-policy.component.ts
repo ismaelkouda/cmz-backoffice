@@ -36,9 +36,9 @@
 // import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 // import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 
-// import { PRIVACY_POLICY_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-// import { PrivacyPolicyFacade } from '@presentation/pages/content-management/core/application/services/privacy-policy.facade';
-// import { GetPrivacyPolicyByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-privacy-policy-by-id.entity';
+// import { PRIVACY_POLICY_ROUTE } from '@pages/content-management/content-management.routes';
+// import { PrivacyPolicyFacade } from '@pages/content-management/core/application/services/privacy-policy.facade';
+// import { GetPrivacyPolicyByIdEntity } from '@pages/content-management/core/domain/entities/get-privacy-policy-by-id.entity';
 
 // @Component({
 //     selector: 'app-form-privacy-policy',

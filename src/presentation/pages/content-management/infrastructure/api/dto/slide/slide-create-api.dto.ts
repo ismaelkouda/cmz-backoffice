@@ -1,7 +1,16 @@
+import { PlatformDto } from '@shared/data/dto/platform.dto';
+
 export interface SlideCreateApiDto {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    role: string;
+    time_duration_in_seconds: string;
+    type: string;
+    image_file: string;
+    video_url: string;
+    platforms: PlatformDto[];
+    start_date: string;
+    end_date: string;
+    title: string;
+    subtitle: string;
+    content: string;
+    button_label?: string;
+    button_url?: string;
 }

@@ -1,4 +1,4 @@
-import { LegalNoticePublishDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-publish.dto';
+import { LegalNoticePublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-publish.dto';
 
 export class LegalNoticePublishVo {
     public readonly uniqId: string;

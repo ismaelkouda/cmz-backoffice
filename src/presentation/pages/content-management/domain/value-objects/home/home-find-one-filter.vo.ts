@@ -1,4 +1,4 @@
-import { HomeFindOneFilterDto } from '@presentation/pages/content-management/application/dto/home/home-find-one-filter.dto';
+import { HomeFindOneFilterDto } from '@pages/content-management/application/dto/home/home-find-one-filter.dto';
 
 export class HomeFindOneFilterVo {
     public readonly uniqId: string;

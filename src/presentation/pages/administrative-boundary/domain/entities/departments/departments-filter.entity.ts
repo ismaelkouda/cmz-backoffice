@@ -1,7 +1,6 @@
+import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
+import { DepartmentsFilterVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/departments/departments-status.enum';
-import { DepartmentsFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-filter.vo';
 
 export class DepartmentsFilterEntity {
     constructor(

@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { TermsUseCreateCommand } from '@pages/content-management/application/commands/terms-use/terms-use-create.command';
+import { TermsUseDeleteCommand } from '@pages/content-management/application/commands/terms-use/terms-use-delete.command';
+import { TermsUsePublishCommand } from '@pages/content-management/application/commands/terms-use/terms-use-publish.command';
+import { TermsUseUnpublishCommand } from '@pages/content-management/application/commands/terms-use/terms-use-unpublish.command';
+import { TermsUseUpdateCommand } from '@pages/content-management/application/commands/terms-use/terms-use-update.command';
+import { TermsUseCreateBus } from '@pages/content-management/application/commands-bus/terms-use/terms-use-create.bus';
+import { TermsUseDeleteBus } from '@pages/content-management/application/commands-bus/terms-use/terms-use-delete.bus';
+import { TermsUsePublishBus } from '@pages/content-management/application/commands-bus/terms-use/terms-use-publish.bus';
+import { TermsUseUnpublishBus } from '@pages/content-management/application/commands-bus/terms-use/terms-use-unpublish.bus';
+import { TermsUseUpdateBus } from '@pages/content-management/application/commands-bus/terms-use/terms-use-update.bus';
+import { TermsUseCreateDto } from '@pages/content-management/application/dto/terms-use/terms-use-create.dto';
+import { TermsUseDeleteDto } from '@pages/content-management/application/dto/terms-use/terms-use-delete.dto';
+import { TermsUseFilterDto } from '@pages/content-management/application/dto/terms-use/terms-use-filter.dto';
+import { TermsUsePublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-publish.dto';
+import { TermsUseUnpublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-unpublish.dto';
+import { TermsUseUpdateDto } from '@pages/content-management/application/dto/terms-use/terms-use-update.dto';
+import { TermsUseQuery } from '@pages/content-management/application/queries/terms-use/terms-use.query';
+import { TermsUseBus } from '@pages/content-management/application/queries-bus/terms-use/terms-use.bus';
+import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { TermsUseCreateCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-create.command';
-import { TermsUseDeleteCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-delete.command';
-import { TermsUsePublishCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-publish.command';
-import { TermsUseUnpublishCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-unpublish.command';
-import { TermsUseUpdateCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-update.command';
-import { TermsUseCreateBus } from '@presentation/pages/content-management/application/commands-bus/terms-use/terms-use-create.bus';
-import { TermsUseDeleteBus } from '@presentation/pages/content-management/application/commands-bus/terms-use/terms-use-delete.bus';
-import { TermsUsePublishBus } from '@presentation/pages/content-management/application/commands-bus/terms-use/terms-use-publish.bus';
-import { TermsUseUnpublishBus } from '@presentation/pages/content-management/application/commands-bus/terms-use/terms-use-unpublish.bus';
-import { TermsUseUpdateBus } from '@presentation/pages/content-management/application/commands-bus/terms-use/terms-use-update.bus';
-import { TermsUseCreateDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-create.dto';
-import { TermsUseDeleteDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-delete.dto';
-import { TermsUseFilterDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-filter.dto';
-import { TermsUsePublishDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-publish.dto';
-import { TermsUseUnpublishDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-unpublish.dto';
-import { TermsUseUpdateDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-update.dto';
-import { TermsUseQuery } from '@presentation/pages/content-management/application/queries/terms-use/terms-use.query';
-import { TermsUseBus } from '@presentation/pages/content-management/application/queries-bus/terms-use/terms-use.bus';
-import { TermsUseEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

@@ -1,4 +1,4 @@
-import { SlideFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-find-one-filter.vo';
+import { SlideFindOneFilterVo } from '@pages/content-management/domain/value-objects/slide/slide-find-one-filter.vo';
 
 export class SlideFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

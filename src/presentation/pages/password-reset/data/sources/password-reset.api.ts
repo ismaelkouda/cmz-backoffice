@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import { EnvService } from '@shared/domain/services/env.service';
+import { Observable } from 'rxjs';
 
 import { PasswordResetEndpoint } from '../constants/password-reset-endpoints.constant';
 import { ForgotPasswordRequestDto } from '../dto/forgot-password-request.dto';

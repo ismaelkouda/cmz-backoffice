@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { LegalNoticeQuery } from '@pages/content-management/application/queries/legal-notice/legal-notice.query';
+import { LegalNoticeHandler } from '@pages/content-management/application/queries-handlers/legal-notice/legal-notice.handler';
+import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { LegalNoticeQuery } from '@presentation/pages/content-management/application/queries/legal-notice/legal-notice.query';
-import { LegalNoticeHandler } from '@presentation/pages/content-management/application/queries-handlers/legal-notice/legal-notice.handler';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeBus {

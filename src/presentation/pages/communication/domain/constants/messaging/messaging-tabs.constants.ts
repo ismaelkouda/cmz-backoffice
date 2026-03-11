@@ -1,9 +1,8 @@
-import { COMMUNICATION_ROUTE } from '@shared/routes/routes';
-
 import {
     MESSAGING_HISTORY,
     MESSAGING_LIST,
-} from '@presentation/pages/communication/presentation/messaging/messaging.routes';
+} from '@pages/communication/presentation/messaging/messaging.routes';
+import { COMMUNICATION_ROUTE } from '@shared/routes/routes';
 
 export const MESSAGING_TABS = [
     {

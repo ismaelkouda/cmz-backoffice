@@ -1,19 +1,17 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DetailsFilterDto } from '@pages/finalization/application/dto/details/details-filter.dto';
+import { DetailsFinalizeDto } from '@pages/finalization/application/dto/details/details-finalize.dto';
+import { DetailsTakeDto } from '@pages/finalization/application/dto/details/details-take.dto';
+import { DetailsFilterEntity } from '@pages/finalization/domain/entities/details/details-filter.entity';
+import { DetailsFinalizeEntity } from '@pages/finalization/domain/entities/details/details-finalize.entity';
+import { DetailsTakeEntity } from '@pages/finalization/domain/entities/details/details-take.entity';
+import { DetailsEntity } from '@pages/finalization/domain/entities/details/details.entity';
+import { DetailsRepository } from '@pages/finalization/domain/repositories/details/details-repository';
+import { DetailsFilterVo } from '@pages/finalization/domain/value-objects/details/details-filter.vo';
+import { DetailsFinalizeVo } from '@pages/finalization/domain/value-objects/details/details-finalize.vo';
+import { DetailsTakeVo } from '@pages/finalization/domain/value-objects/details/details-take.vo';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DetailsFilterDto } from '@presentation/pages/finalization/application/dto/details/details-filter.dto';
-import { DetailsFinalizeDto } from '@presentation/pages/finalization/application/dto/details/details-finalize.dto';
-import { DetailsTakeDto } from '@presentation/pages/finalization/application/dto/details/details-take.dto';
-import { DetailsFilterEntity } from '@presentation/pages/finalization/domain/entities/details/details-filter.entity';
-import { DetailsFinalizeEntity } from '@presentation/pages/finalization/domain/entities/details/details-finalize.entity';
-import { DetailsTakeEntity } from '@presentation/pages/finalization/domain/entities/details/details-take.entity';
-import { DetailsEntity } from '@presentation/pages/finalization/domain/entities/details/details.entity';
-import { DetailsRepository } from '@presentation/pages/finalization/domain/repositories/details/details-repository';
-import { DetailsFilterVo } from '@presentation/pages/finalization/domain/value-objects/details/details-filter.vo';
-import { DetailsFinalizeVo } from '@presentation/pages/finalization/domain/value-objects/details/details-finalize.vo';
-import { DetailsTakeVo } from '@presentation/pages/finalization/domain/value-objects/details/details-take.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

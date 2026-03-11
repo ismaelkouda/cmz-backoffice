@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { DashboardFilterDto } from '@pages/dashboard/application/dto/dashboard-filter.dto';
+import { DashboardQuery } from '@pages/dashboard/application/queries/dashboard.query';
+import { DashboardBus } from '@pages/dashboard/application/queries-bus/dashboard.bus';
+import { DashboardEntity } from '@pages/dashboard/domain/entities/dashboard.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { DashboardFilterDto } from '@presentation/pages/dashboard/application/dto/dashboard-filter.dto';
-import { DashboardQuery } from '@presentation/pages/dashboard/application/queries/dashboard.query';
-import { DashboardBus } from '@presentation/pages/dashboard/application/queries-bus/dashboard.bus';
-import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
 
 @Injectable({
     providedIn: 'root',

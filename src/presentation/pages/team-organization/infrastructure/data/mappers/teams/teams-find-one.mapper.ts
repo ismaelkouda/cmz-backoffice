@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { TeamsFindOneEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-find-one.entity';
+import { TeamsFindOneEntity } from '@pages/team-organization/domain/entities/teams/teams-find-one.entity';
 import {
     PermissionApiDto,
     TeamsFindOneItemApiDto,
-} from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-find-one-response-api.dto';
+} from '@pages/team-organization/infrastructure/api/dto/teams/teams-find-one-response-api.dto';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsFindOneMapper extends SimpleResponseMapper<

@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NewsCreateEntity } from '@pages/content-management/domain/entities/news/news-create.entity';
+import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
+import { NewsDisableEntity } from '@pages/content-management/domain/entities/news/news-disable.entity';
+import { NewsEnableEntity } from '@pages/content-management/domain/entities/news/news-enable.entity';
+import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
+import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
+import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { NewsCreateEntity } from '@presentation/pages/content-management/domain/entities/news/news-create.entity';
-import { NewsDeleteEntity } from '@presentation/pages/content-management/domain/entities/news/news-delete.entity';
-import { NewsDisableEntity } from '@presentation/pages/content-management/domain/entities/news/news-disable.entity';
-import { NewsEnableEntity } from '@presentation/pages/content-management/domain/entities/news/news-enable.entity';
-import { NewsFilterEntity } from '@presentation/pages/content-management/domain/entities/news/news-filter.entity';
-import { NewsUpdateEntity } from '@presentation/pages/content-management/domain/entities/news/news-update.entity';
-import { NewsEntity } from '@presentation/pages/content-management/domain/entities/news/news.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

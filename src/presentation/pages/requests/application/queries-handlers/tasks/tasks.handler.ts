@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TasksQuery } from '@pages/requests/application/queries/tasks/tasks.query';
+import { TasksUseCase } from '@pages/requests/application/use-cases/tasks/tasks.use-case';
+import { TasksEntity } from '@pages/requests/domain/entities/tasks/tasks.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { TasksQuery } from '@presentation/pages/requests/application/queries/tasks/tasks.query';
-import { TasksUseCase } from '@presentation/pages/requests/application/use-cases/tasks/tasks.use-case';
-import { TasksEntity } from '@presentation/pages/requests/domain/entities/tasks/tasks.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksHandler {

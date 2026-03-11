@@ -1,4 +1,4 @@
-import { PrivacyPolicyFilterVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-filter.vo';
+import { PrivacyPolicyFilterVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-filter.vo';
 
 export class PrivacyPolicyFilterEntity {
     constructor(

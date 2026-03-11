@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
+import { PrivacyPolicyFindOneFilterDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-find-one-filter.dto';
+import { PrivacyPolicyFindOneFilterEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one-filter.entity';
+import { PrivacyPolicyFindOneEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one.entity';
+import { PrivacyPolicyFindOneRepository } from '@pages/content-management/domain/repositories/privacy-policy/privacy-policy-find-one-repository';
+import { PrivacyPolicyFindOneFilterVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-find-one-filter.vo';
 import { Observable } from 'rxjs';
-
-import { PrivacyPolicyFindOneFilterDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-find-one-filter.dto';
-import { PrivacyPolicyFindOneFilterEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one-filter.entity';
-import { PrivacyPolicyFindOneEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one.entity';
-import { PrivacyPolicyFindOneRepository } from '@presentation/pages/content-management/domain/repositories/privacy-policy/privacy-policy-find-one-repository';
-import { PrivacyPolicyFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-find-one-filter.vo';
 
 @Injectable({
     providedIn: 'root',

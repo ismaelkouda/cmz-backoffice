@@ -1,15 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-
+import {
+    LegalNoticeEntity,
+    LegalNoticeProps,
+} from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
+import { LegalNoticeItemApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-response-api.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import {
-    LegalNoticeEntity,
-    LegalNoticeProps,
-} from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice.entity';
-import { LegalNoticeItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

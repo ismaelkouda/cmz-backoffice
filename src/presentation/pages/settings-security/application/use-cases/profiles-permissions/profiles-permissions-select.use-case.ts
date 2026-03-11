@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
+import { ProfilesPermissionsSelectEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
+import { ProfilesPermissionsSelectRepository } from '@pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-select-repository';
 import { Observable } from 'rxjs';
-
-import { ProfilesPermissionsSelectEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
-import { ProfilesPermissionsSelectRepository } from '@presentation/pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-select-repository';
 
 @Injectable({
     providedIn: 'root',

@@ -1,9 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { PROFILES_PERMISSIONS_ROUTE } from '@pages/settings-security/settings-security.routes';
 import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
-
-import { PROFILES_PERMISSIONS_ROUTE } from '@presentation/pages/settings-security/settings-security.routes';
 
 @Injectable()
 export class ProfilesPermissionsFormHelperService {

@@ -1,4 +1,4 @@
-import { ProfilesPermissionsCreateDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-create.dto';
+import { ProfilesPermissionsCreateDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-create.dto';
 
 export class ProfilesPermissionsCreateVo {
     readonly name: string;

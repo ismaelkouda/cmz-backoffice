@@ -1,7 +1,6 @@
+import { TasksFilterDto } from '@pages/requests/application/dto/tasks/tasks-filter.dto';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { TasksFilterDto } from '@presentation/pages/requests/application/dto/tasks/tasks-filter.dto';
 
 export class TasksFilterVo {
     public readonly initiatorPhoneNumber?: string;

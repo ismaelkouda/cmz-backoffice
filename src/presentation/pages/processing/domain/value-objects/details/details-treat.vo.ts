@@ -1,4 +1,4 @@
-import { DetailsTreatDto } from '@presentation/pages/processing/application/dto/details/details-treat.dto';
+import { DetailsTreatDto } from '@pages/processing/application/dto/details/details-treat.dto';
 
 export class DetailsTreatVo {
     public readonly uniqId: string;

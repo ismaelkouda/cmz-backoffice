@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersCreateApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-create-api.dto';
+import { UsersDeleteApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-delete-api.dto';
+import { UsersDisableApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-disable-api.dto';
+import { UsersEnableApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-enable-api.dto';
+import { UsersFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-filter-api.dto';
+import { UsersResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-response-api.dto';
+import { UsersUpdateApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-update-api.dto';
+import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
+import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { UsersCreateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-create-api.dto';
-import { UsersDeleteApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-delete-api.dto';
-import { UsersDisableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-disable-api.dto';
-import { UsersEnableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-enable-api.dto';
-import { UsersFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-filter-api.dto';
-import { UsersResponseApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-response-api.dto';
-import { UsersUpdateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-update-api.dto';
-import { SETTINGS_SECURITY_BASE_URL } from '@presentation/pages/settings-security/infrastructure/api/settings-security.base-url';
-import { SETTINGS_SECURITY_ENDPOINTS } from '@presentation/pages/settings-security/infrastructure/api/settings-security.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersApi {

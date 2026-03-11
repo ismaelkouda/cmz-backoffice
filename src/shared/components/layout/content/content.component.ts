@@ -11,13 +11,12 @@ import {
     Router,
     RouterOutlet,
 } from '@angular/router';
-import * as feather from 'feather-icons';
-import { filter } from 'rxjs';
-
 import { fadeInAnimation } from '@shared/data/router-animation/router-animation';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { LayoutService } from '@shared/domain/services/layout.service';
 import { NavService } from '@shared/domain/services/nav.service';
+import * as feather from 'feather-icons';
+import { filter } from 'rxjs';
 
 import { FooterComponent } from '../../footer/footer.component';
 import { HeaderComponent } from '../../header/header.component';

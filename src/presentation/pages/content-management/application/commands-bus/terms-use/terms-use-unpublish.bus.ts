@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TermsUseUnpublishCommand } from '@pages/content-management/application/commands/terms-use/terms-use-unpublish.command';
+import { TermsUseUnpublishHandler } from '@pages/content-management/application/commands-handlers/terms-use/terms-use-unpublish.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TermsUseUnpublishCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-unpublish.command';
-import { TermsUseUnpublishHandler } from '@presentation/pages/content-management/application/commands-handlers/terms-use/terms-use-unpublish.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUseUnpublishBus {

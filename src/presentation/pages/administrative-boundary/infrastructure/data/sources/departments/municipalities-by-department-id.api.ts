@@ -1,11 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
+import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
+import { MunicipalitiesByDepartmentIdFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/municipalities-by-department-id-filter-api.dto';
+import { MunicipalitiesByDepartmentIdResponseApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/municipalities-by-department-id-response-api.dto';
 import { Observable } from 'rxjs';
-
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
-import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { MunicipalitiesByDepartmentIdFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/municipalities-by-department-id-filter-api.dto';
-import { MunicipalitiesByDepartmentIdResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/municipalities-by-department-id-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-
+import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
+import { RegionsItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-response-api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { RegionsEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions.entity';
-import { RegionsItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsMapper extends PaginatedMapper<

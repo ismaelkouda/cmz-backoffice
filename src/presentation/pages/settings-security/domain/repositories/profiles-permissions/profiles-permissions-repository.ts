@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ProfilesPermissionsCreateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-create.entity';
+import { ProfilesPermissionsDeleteEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-delete.entity';
+import { ProfilesPermissionsDisableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-disable.entity';
+import { ProfilesPermissionsEnableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
+import { ProfilesPermissionsFilterEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-filter.entity';
+import { ProfilesPermissionsUpdateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
+import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsCreateEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-create.entity';
-import { ProfilesPermissionsDeleteEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-delete.entity';
-import { ProfilesPermissionsDisableEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-disable.entity';
-import { ProfilesPermissionsEnableEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
-import { ProfilesPermissionsFilterEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-filter.entity';
-import { ProfilesPermissionsUpdateEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
-import { ProfilesPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

@@ -95,7 +95,6 @@ label {
 .tag-group {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: center; */
     gap: 0.2rem;
     align-items: center;
     .operator-tag {
@@ -144,14 +143,14 @@ label {
 .p-buttonset.p-button-success > .p-button,
 .p-splitbutton.p-button-success > .p-button {
     color: #ffffff;
-    background: #569c5b !important;
-    border: 1px solid #569c5b !important;
+    background: #4a7c47 !important;
+    border: 1px solid #4a7c47 !important;
 }
 .p-button.p-button-success:enabled:hover,
 .p-buttonset.p-button-success > .p-button:enabled:hover,
 .p-splitbutton.p-button-success > .p-button:enabled:hover {
-    background: #569c5b !important;
-    border: 1px solid #569c5b !important;
+    background: #4a7c47 !important;
+    border: 1px solid #4a7c47 !important;
 }
 
 .pi-filter {
@@ -166,18 +165,14 @@ label {
 
 .copyable {
     cursor: pointer;
-    /* color: var(--theme-default); */
-    /* text-decoration: underline; */
     background: none;
     border: none;
     padding: 0;
     font-size: 16px;
-    /* font: inherit; */
     &:hover {
         background: none;
         border: none;
         padding: 0;
-        /* font: inherit; */
     }
 }
 
@@ -221,31 +216,6 @@ label {
 :host ::ng-deep .p-password .p-disabled {
     font-weight: bold;
 }
-
-// input[type='text']:disabled,
-// input[type='email']:disabled,
-// input[type='number']:disabled,
-// textarea:disabled {
-//     background: #fafafa !important;
-//     opacity: 1 !important;
-//     color: #000 !important;
-//     font-weight: 800;
-//     font-size: 19.5px;
-//     border: 2px solid #ccc !important;
-//     overflow: visible !important;
-// }
-// p-dropdown .p-disabled,
-// p-password .p-disabled {
-//     background: #fafafa !important;
-//     opacity: 1 !important;
-//     color: #000 !important;
-//     font-weight: 800;
-//     font-size: 19.5px;
-//     border: 2px solid #ccc !important;
-//     .p-dropdown-trigger {
-//         opacity: 0 !important;
-//     }
-// }
 
 :host ::ng-deep .spinner .p-progress-spinner-circle {
     animation: geek 5s ease-in-out infinite;
@@ -658,7 +628,7 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     text-align: left;
     padding: 0.5rem 0.2rem;
     font-weight: 700;
-    color: #fff;
+    color: #f0f0f0;
     background: #000000 !important;
     transition: box-shadow 0.2s;
     font-size: 1rem;
@@ -668,7 +638,7 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 .p-datatable .p-datatable-thead > tr > th:hover,
 .p-datatable .p-sortable-column.p-highlight,
 .p-datatable .p-sortable-column .p-sortable-column-icon {
-    color: #fff !important;
+    color: #f0f0f0 !important;
 }
 
 .p-datatable .p-sortable-column .p-sortable-column-icon {
@@ -836,7 +806,7 @@ button:focus,
 }
 
 .modern-swal-title {
-    color: #f8fafc !important;
+    color: #ffffff !important;
     font-family:
         'Inter',
         -apple-system,
@@ -847,7 +817,7 @@ button:focus,
     text-align: center !important;
     margin: 0 !important;
     padding: 0 !important;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -900,7 +870,7 @@ button:focus,
 
 .modern-swal-confirm-btn {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white !important;
+    color: #ffffff !important;
     font-family:
         'Inter',
         -apple-system,
@@ -1032,7 +1002,7 @@ button:focus,
 
 .modern-swal-cancel-btn {
     background: rgba(255, 255, 255, 0.05) !important;
-    color: #94a3b8 !important;
+    color: #475569 !important;
     font-family:
         'Inter',
         -apple-system,

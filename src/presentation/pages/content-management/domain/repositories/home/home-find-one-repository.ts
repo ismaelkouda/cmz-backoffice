@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HomeFindOneFilterEntity } from '@pages/content-management/domain/entities/home/home-find-one-filter.entity';
+import { HomeFindOneEntity } from '@pages/content-management/domain/entities/home/home-find-one.entity';
 import { Observable } from 'rxjs';
-
-import { HomeFindOneFilterEntity } from '@presentation/pages/content-management/domain/entities/home/home-find-one-filter.entity';
-import { HomeFindOneEntity } from '@presentation/pages/content-management/domain/entities/home/home-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

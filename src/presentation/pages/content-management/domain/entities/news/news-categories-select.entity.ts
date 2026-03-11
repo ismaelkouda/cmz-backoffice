@@ -1,6 +1,5 @@
+import { NewsCategoriesSelectItemApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-categories-select-response-api.dto';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { NewsCategoriesSelectItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-categories-select-response-api.dto';
 
 export class NewsCategoriesSelectEntity {
     constructor(

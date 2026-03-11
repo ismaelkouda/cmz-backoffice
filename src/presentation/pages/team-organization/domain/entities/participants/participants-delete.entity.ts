@@ -1,4 +1,4 @@
-import { ParticipantsDeleteVo } from '@presentation/pages/team-organization/domain/value-objects/participants/participants-delete.vo';
+import { ParticipantsDeleteVo } from '@pages/team-organization/domain/value-objects/participants/participants-delete.vo';
 
 export class ParticipantsDeleteEntity {
     constructor(public readonly uniqId: string) {}

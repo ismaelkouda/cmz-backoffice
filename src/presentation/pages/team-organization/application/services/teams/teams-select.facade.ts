@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-
+import { TeamsSelectUseCase } from '@pages/team-organization/application/use-cases/teams/teams-select.use-case';
+import { TeamsSelectEntity } from '@pages/team-organization/domain/entities/teams/teams-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { TeamsSelectUseCase } from '@presentation/pages/team-organization/application/use-cases/teams/teams-select.use-case';
-import { TeamsSelectEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-select.entity';
 
 @Injectable({
     providedIn: 'root',

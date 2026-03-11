@@ -1,4 +1,4 @@
-import { TermsUsePublishDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-publish.dto';
+import { TermsUsePublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-publish.dto';
 
 export class TermsUsePublishVo {
     public readonly uniqId: string;

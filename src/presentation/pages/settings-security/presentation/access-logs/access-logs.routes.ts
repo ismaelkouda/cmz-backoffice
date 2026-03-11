@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-
-import { AccessLogsListComponent } from '@presentation/pages/settings-security/presentation/access-logs/access-logs-list/access-logs-list.component';
+import { AccessLogsListComponent } from '@pages/settings-security/presentation/access-logs/access-logs-list/access-logs-list.component';
 
 export const ACCESS_LOGS_ROUTES: Routes = [
     {

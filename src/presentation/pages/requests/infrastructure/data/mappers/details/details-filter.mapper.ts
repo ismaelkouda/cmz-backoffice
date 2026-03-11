@@ -1,5 +1,5 @@
-import { DetailsFilterEntity } from '@presentation/pages/requests/domain/entities/details/details-filter.entity';
-import { DetailsFilterApiDto } from '@presentation/pages/requests/infrastructure/api/dto/details/details-filter-api.dto';
+import { DetailsFilterEntity } from '@pages/requests/domain/entities/details/details-filter.entity';
+import { DetailsFilterApiDto } from '@pages/requests/infrastructure/api/dto/details/details-filter-api.dto';
 
 export function detailsFilterMapper(
     entity: DetailsFilterEntity

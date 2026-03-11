@@ -1,4 +1,4 @@
-import { TermsUseFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-find-one-filter.vo';
+import { TermsUseFindOneFilterVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-find-one-filter.vo';
 
 export class TermsUseFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

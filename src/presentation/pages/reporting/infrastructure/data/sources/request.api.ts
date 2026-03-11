@@ -1,8 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { RequestFilter } from '@pages/reporting/domain/value-objects/requests/request-filter.vo';
 import { Observable } from 'rxjs';
-
-import { RequestFilter } from '@presentation/pages/reporting/domain/value-objects/requests/request-filter.vo';
 
 import { RequestResponseDto } from '../../api/dto/requests/request-response.dto';
 import { REPORTING_API_BASE_URL } from '../../api/reporting.config';

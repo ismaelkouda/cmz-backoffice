@@ -1,4 +1,4 @@
-import { MunicipalitiesUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-update.dto';
+import { MunicipalitiesUpdateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-update.dto';
 
 export class MunicipalitiesUpdateVo {
     public readonly uniqId: string;

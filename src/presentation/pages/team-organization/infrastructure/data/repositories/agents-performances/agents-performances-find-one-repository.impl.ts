@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { AgentsPerformancesFindOneFilterEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
+import { AgentsPerformancesFindOneEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
+import { AgentsPerformancesFindOneRepository } from '@pages/team-organization/domain/repositories/agents-performances/agents-performances-find-one.repository';
+import { agentsPerformancesFindOneFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/agents-performances/agents-performances-find-one-filter.mapper';
+import { AgentsPerformancesFindOneMapper } from '@pages/team-organization/infrastructure/data/mappers/agents-performances/agents-performances-find-one.mapper';
+import { AgentsPerformancesFindOneApi } from '@pages/team-organization/infrastructure/data/sources/agents-performances/agents-performances-find-one.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AgentsPerformancesFindOneFilterEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
-import { AgentsPerformancesFindOneEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
-import { AgentsPerformancesFindOneRepository } from '@presentation/pages/team-organization/domain/repositories/agents-performances/agents-performances-find-one.repository';
-import { agentsPerformancesFindOneFilterMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/agents-performances/agents-performances-find-one-filter.mapper';
-import { AgentsPerformancesFindOneMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/agents-performances/agents-performances-find-one.mapper';
-import { AgentsPerformancesFindOneApi } from '@presentation/pages/team-organization/infrastructure/data/sources/agents-performances/agents-performances-find-one.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AgentsPerformancesFindOneRepositoryImpl implements AgentsPerformancesFindOneRepository {

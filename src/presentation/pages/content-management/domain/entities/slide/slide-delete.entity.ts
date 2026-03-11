@@ -1,4 +1,4 @@
-import { SlideDeleteVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-delete.vo';
+import { SlideDeleteVo } from '@pages/content-management/domain/value-objects/slide/slide-delete.vo';
 
 export class SlideDeleteEntity {
     constructor(public readonly uniqId: string) {}

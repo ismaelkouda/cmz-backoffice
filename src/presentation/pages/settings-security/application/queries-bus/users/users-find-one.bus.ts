@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { UsersFindOneQuery } from '@pages/settings-security/application/queries/users/users-find-one.query';
+import { UsersFindOneHandler } from '@pages/settings-security/application/queries-handlers/users/users-find-one.handler';
+import { UsersFindOneEntity } from '@pages/settings-security/domain/entities/users/users-find-one.entity';
 import { Observable } from 'rxjs';
-
-import { UsersFindOneQuery } from '@presentation/pages/settings-security/application/queries/users/users-find-one.query';
-import { UsersFindOneHandler } from '@presentation/pages/settings-security/application/queries-handlers/users/users-find-one.handler';
-import { UsersFindOneEntity } from '@presentation/pages/settings-security/domain/entities/users/users-find-one.entity';
 
 @Injectable({ providedIn: 'root' })
 export class UsersFindOneBus {

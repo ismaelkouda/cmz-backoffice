@@ -1,6 +1,6 @@
-import { DepartmentsFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
-import { DepartmentsFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-filter-api.dto';
-import { StatusMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments-status.mapper';
+import { DepartmentsFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
+import { DepartmentsFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-filter-api.dto';
+import { StatusMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-status.mapper';
 
 export function departmentsFilterMapper(
     filter: DepartmentsFilterEntity

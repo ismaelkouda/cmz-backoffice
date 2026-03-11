@@ -1,4 +1,4 @@
-import { MessagingEnableVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-enable.vo';
+import { MessagingEnableVo } from '@pages/communication/domain/value-objects/messaging/messaging-enable.vo';
 
 export class MessagingEnableEntity {
     constructor(public readonly uniqId: string) {}

@@ -1,5 +1,5 @@
-import { PrivacyPolicyPublishEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-publish.entity';
-import { PrivacyPolicyPublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-publish-api.dto';
+import { PrivacyPolicyPublishEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-publish.entity';
+import { PrivacyPolicyPublishApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-publish-api.dto';
 
 export function privacyPolicyPublishMapper(
     vo: PrivacyPolicyPublishEntity

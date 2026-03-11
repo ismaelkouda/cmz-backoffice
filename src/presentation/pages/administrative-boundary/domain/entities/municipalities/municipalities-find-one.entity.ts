@@ -1,4 +1,4 @@
-import { MunicipalitiesFindOneItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-find-one-response-api.dto';
+import { MunicipalitiesFindOneItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-find-one-response-api.dto';
 
 export class MunicipalitiesFindOneEntity {
     constructor(

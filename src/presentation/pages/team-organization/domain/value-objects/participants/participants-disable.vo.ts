@@ -1,4 +1,4 @@
-import { ParticipantsDisableDto } from '@presentation/pages/team-organization/application/dto/participants/participants-disable.dto';
+import { ParticipantsDisableDto } from '@pages/team-organization/application/dto/participants/participants-disable.dto';
 
 export class ParticipantsDisableVo {
     public readonly uniqId: string;

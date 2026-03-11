@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MunicipalitiesCreateCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-create.command';
+import { MunicipalitiesCreateHandler } from '@pages/administrative-boundary/application/commands-handlers/municipalities/municipalities-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { MunicipalitiesCreateCommand } from '@presentation/pages/administrative-boundary/application/commands/municipalities/municipalities-create.command';
-import { MunicipalitiesCreateHandler } from '@presentation/pages/administrative-boundary/application/commands-handlers/municipalities/municipalities-create.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesCreateBus {

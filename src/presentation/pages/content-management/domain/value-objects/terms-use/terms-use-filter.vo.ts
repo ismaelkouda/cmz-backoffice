@@ -1,4 +1,4 @@
-import { TermsUseFilterDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-filter.dto';
+import { TermsUseFilterDto } from '@pages/content-management/application/dto/terms-use/terms-use-filter.dto';
 
 export class TermsUseFilterVo {
     public readonly search?: string;

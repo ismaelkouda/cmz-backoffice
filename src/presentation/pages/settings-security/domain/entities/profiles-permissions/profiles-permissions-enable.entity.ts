@@ -1,4 +1,4 @@
-import { ProfilesPermissionsEnableVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-enable.vo';
+import { ProfilesPermissionsEnableVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-enable.vo';
 
 export class ProfilesPermissionsEnableEntity {
     constructor(public readonly uniqId: string) {}

@@ -1,4 +1,4 @@
-import { HomeDeleteDto } from '@presentation/pages/content-management/application/dto/home/home-delete.dto';
+import { HomeDeleteDto } from '@pages/content-management/application/dto/home/home-delete.dto';
 
 export class HomeDeleteVo {
     public readonly uniqId: string;

@@ -1,4 +1,4 @@
-import { DetailsTakeVo } from '@presentation/pages/processing/domain/value-objects/details/details-take.vo';
+import { DetailsTakeVo } from '@pages/processing/domain/value-objects/details/details-take.vo';
 
 export class DetailsTakeEntity {
     constructor(public readonly uniqId: string) {}

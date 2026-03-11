@@ -1,4 +1,4 @@
-import { NewsCreateDto } from '@presentation/pages/content-management/application/dto/news/news-create.dto';
+import { NewsCreateDto } from '@pages/content-management/application/dto/news/news-create.dto';
 
 export class NewsCreateVo {
     public readonly firstName: string;

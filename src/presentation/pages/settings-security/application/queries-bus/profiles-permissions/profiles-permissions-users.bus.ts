@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ProfilesPermissionsUsersQuery } from '@pages/settings-security/application/queries/profiles-permissions/profiles-permissions-users.query';
+import { ProfilesPermissionsUsersHandler } from '@pages/settings-security/application/queries-handlers/profiles-permissions/profiles-permissions-users.handler';
+import { ProfilesPermissionsUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsUsersQuery } from '@presentation/pages/settings-security/application/queries/profiles-permissions/profiles-permissions-users.query';
-import { ProfilesPermissionsUsersHandler } from '@presentation/pages/settings-security/application/queries-handlers/profiles-permissions/profiles-permissions-users.handler';
-import { ProfilesPermissionsUsersEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsUsersBus {

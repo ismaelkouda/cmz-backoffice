@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MessagingCreateDto } from '@pages/communication/application/dto/messaging/messaging-create.dto';
+import { MessagingDeleteDto } from '@pages/communication/application/dto/messaging/messaging-delete.dto';
+import { MessagingDisableDto } from '@pages/communication/application/dto/messaging/messaging-disable.dto';
+import { MessagingEnableDto } from '@pages/communication/application/dto/messaging/messaging-enable.dto';
+import { MessagingFilterDto } from '@pages/communication/application/dto/messaging/messaging-filter.dto';
+import { MessagingUpdateDto } from '@pages/communication/application/dto/messaging/messaging-update.dto';
+import { MessagingCreateEntity } from '@pages/communication/domain/entities/messaging/messaging-create.entity';
+import { MessagingDeleteEntity } from '@pages/communication/domain/entities/messaging/messaging-delete.entity';
+import { MessagingDisableEntity } from '@pages/communication/domain/entities/messaging/messaging-disable.entity';
+import { MessagingEnableEntity } from '@pages/communication/domain/entities/messaging/messaging-enable.entity';
+import { MessagingFilterEntity } from '@pages/communication/domain/entities/messaging/messaging-filter.entity';
+import { MessagingUpdateEntity } from '@pages/communication/domain/entities/messaging/messaging-update.entity';
+import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
+import { MessagingRepository } from '@pages/communication/domain/repositories/messaging/messaging-repository';
+import { MessagingCreateVo } from '@pages/communication/domain/value-objects/messaging/messaging-create.vo';
+import { MessagingDeleteVo } from '@pages/communication/domain/value-objects/messaging/messaging-delete.vo';
+import { MessagingDisableVo } from '@pages/communication/domain/value-objects/messaging/messaging-disable.vo';
+import { MessagingEnableVo } from '@pages/communication/domain/value-objects/messaging/messaging-enable.vo';
+import { MessagingFilterVo } from '@pages/communication/domain/value-objects/messaging/messaging-filter.vo';
+import { MessagingUpdateVo } from '@pages/communication/domain/value-objects/messaging/messaging-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { MessagingCreateDto } from '@presentation/pages/communication/application/dto/messaging/messaging-create.dto';
-import { MessagingDeleteDto } from '@presentation/pages/communication/application/dto/messaging/messaging-delete.dto';
-import { MessagingDisableDto } from '@presentation/pages/communication/application/dto/messaging/messaging-disable.dto';
-import { MessagingEnableDto } from '@presentation/pages/communication/application/dto/messaging/messaging-enable.dto';
-import { MessagingFilterDto } from '@presentation/pages/communication/application/dto/messaging/messaging-filter.dto';
-import { MessagingUpdateDto } from '@presentation/pages/communication/application/dto/messaging/messaging-update.dto';
-import { MessagingCreateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-create.entity';
-import { MessagingDeleteEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-delete.entity';
-import { MessagingDisableEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-disable.entity';
-import { MessagingEnableEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-enable.entity';
-import { MessagingFilterEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-filter.entity';
-import { MessagingUpdateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-update.entity';
-import { MessagingEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
-import { MessagingRepository } from '@presentation/pages/communication/domain/repositories/messaging/messaging-repository';
-import { MessagingCreateVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-create.vo';
-import { MessagingDeleteVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-delete.vo';
-import { MessagingDisableVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-disable.vo';
-import { MessagingEnableVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-enable.vo';
-import { MessagingFilterVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-filter.vo';
-import { MessagingUpdateVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

@@ -1,4 +1,4 @@
-import { NewsFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/news/news-find-one-filter.vo';
+import { NewsFindOneFilterVo } from '@pages/content-management/domain/value-objects/news/news-find-one-filter.vo';
 
 export class NewsFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

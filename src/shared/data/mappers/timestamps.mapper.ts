@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { TimestampsDto } from '@shared/data/dto/timestamps.dto';
 import { TimestampsEntity } from '@shared/domain/entities/timestamps.entity';
 @Injectable({

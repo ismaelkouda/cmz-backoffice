@@ -1,4 +1,4 @@
-import { NewsDeleteVo } from '@presentation/pages/content-management/domain/value-objects/news/news-delete.vo';
+import { NewsDeleteVo } from '@pages/content-management/domain/value-objects/news/news-delete.vo';
 
 export class NewsDeleteEntity {
     constructor(public readonly uniqId: string) {}

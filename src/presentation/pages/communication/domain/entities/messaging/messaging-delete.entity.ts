@@ -1,4 +1,4 @@
-import { MessagingDeleteVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-delete.vo';
+import { MessagingDeleteVo } from '@pages/communication/domain/value-objects/messaging/messaging-delete.vo';
 
 export class MessagingDeleteEntity {
     constructor(public readonly uniqId: string) {}

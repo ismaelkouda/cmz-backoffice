@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-
-import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
 import {
     AgentsPerformancesFindOneEntity,
     AgentsPerformancesFindOneProps,
-} from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
+} from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
+import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 import { AgentsPerformancesFindOneItemApiDto } from '../../../api/dto/agents-performances/agents-performances-find-one-response-api.dto';
 

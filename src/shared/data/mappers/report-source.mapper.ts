@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { ReportSourceDto } from '@shared/data/dto/report-source.dto';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 

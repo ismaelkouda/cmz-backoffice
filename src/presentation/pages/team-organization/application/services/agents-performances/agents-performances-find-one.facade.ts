@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-
+import { AgentsPerformancesFindOneFilterDto } from '@pages/team-organization/application/dto/agents-performances/agents-performances-find-one-filter.dto';
+import { AgentsPerformancesFindOneQuery } from '@pages/team-organization/application/queries/agents-performances/agents-performances-find-one.query';
+import { AgentsPerformancesFindOneBus } from '@pages/team-organization/application/queries-bus/agents-performances/agents-performances-find-one.bus';
+import { AgentsPerformancesFindOneEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { AgentsPerformancesFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/agents-performances/agents-performances-find-one-filter.dto';
-import { AgentsPerformancesFindOneQuery } from '@presentation/pages/team-organization/application/queries/agents-performances/agents-performances-find-one.query';
-import { AgentsPerformancesFindOneBus } from '@presentation/pages/team-organization/application/queries-bus/agents-performances/agents-performances-find-one.bus';
-import { AgentsPerformancesFindOneEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

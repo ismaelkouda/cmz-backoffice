@@ -1,13 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
+import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
+import { MunicipalitiesFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-filter-api.dto';
+import { MunicipalitiesResponseApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-response-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
-import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { MunicipalitiesFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-filter-api.dto';
-import { MunicipalitiesResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-response-api.dto';
+import { Observable } from 'rxjs';
 
 import { MunicipalitiesCreateApiDto } from '../../../api/dto/municipalities/municipalities-create-api.dto';
 import { MunicipalitiesDeleteApiDto } from '../../../api/dto/municipalities/municipalities-delete-api.dto';

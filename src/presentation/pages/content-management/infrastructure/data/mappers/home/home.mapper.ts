@@ -1,13 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-
+import { HomeEntity } from '@pages/content-management/domain/entities/home/home.entity';
+import { HomeProps } from '@pages/content-management/domain/interfaces/home/home-props.interface';
+import { HomeItemApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-response-api.dto';
+import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-status.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { HomeEntity } from '@presentation/pages/content-management/domain/entities/home/home.entity';
-import { HomeProps } from '@presentation/pages/content-management/domain/interfaces/home/home-props.interface';
-import { HomeItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-response-api.dto';
-import { StatusMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/home/home-status.mapper';
 
 @Injectable({
     providedIn: 'root',

@@ -19,6 +19,16 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DepartmentsSelectFacade } from '@pages/administrative-boundary/application/services/departments/departments-select.facade';
+import { MunicipalitiesFindOneFacade } from '@pages/administrative-boundary/application/services/municipalities/municipalities-find-one.facade';
+import { MunicipalitiesFacade } from '@pages/administrative-boundary/application/services/municipalities/municipalities.facade';
+import { MunicipalitiesFormControl } from '@pages/administrative-boundary/domain/controls/municipalities/municipalities-form.control';
+import { MunicipalitiesFormHelperService } from '@pages/administrative-boundary/domain/services/municipalities/municipalities-form-helper.service';
+import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -28,18 +38,6 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { FormValidationService } from '@shared/domain/services/form-validation.service';
-
-import { DepartmentsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/departments/departments-select.facade';
-import { MunicipalitiesFindOneFacade } from '@presentation/pages/administrative-boundary/application/services/municipalities/municipalities-find-one.facade';
-import { MunicipalitiesFacade } from '@presentation/pages/administrative-boundary/application/services/municipalities/municipalities.facade';
-import { MunicipalitiesFormControl } from '@presentation/pages/administrative-boundary/domain/controls/municipalities/municipalities-form.control';
-import { MunicipalitiesFormHelperService } from '@presentation/pages/administrative-boundary/domain/services/municipalities/municipalities-form-helper.service';
-import { FormValidators } from '@presentation/pages/administrative-boundary/domain/validators/form-validators';
 
 @Component({
     selector: 'app-municipalities-form',

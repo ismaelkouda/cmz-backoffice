@@ -1,12 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-
 import {
     InvalidDateRangeError,
     InvalidEndDateError,
     InvalidStartDateError,
 } from '@shared/domain/errors/date-period.error';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({ providedIn: 'root' })
 export class UiFeedbackService {
@@ -29,7 +28,7 @@ export class UiFeedbackService {
         } else if (error instanceof InvalidEndDateError) {
             this.error('COMMON.INVALID_END_DATE');
         } else {
-            this.error(error.message);
+            this.error(error?.error?.message);
         }
     }
 }

@@ -1,3 +1,4 @@
+import { AllProps } from '@pages/finalization/domain/interfaces/all/all-props.interface';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import {
@@ -5,7 +6,6 @@ import {
     TelecomOperatorStyle,
 } from '@shared/domain/enums/telecom-operator.enum';
 
-import { AllProps } from '@presentation/pages/finalization/domain/interfaces/all/all-props.interface';
 export class AllEntity implements AllProps {
     constructor(private readonly props: AllProps) {}
 

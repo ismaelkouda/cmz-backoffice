@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
-
-import { HomeFormComponent } from '@presentation/pages/content-management/presentation/features/home/home-form/home-form.component';
-import { HomePageComponent } from '@presentation/pages/content-management/presentation/features/home/home-page/home-page.component';
+import { HomeFormComponent } from '@pages/content-management/presentation/features/home/home-form/home-form.component';
+import { HomePageComponent } from '@pages/content-management/presentation/features/home/home-page/home-page.component';
 
 export const HOME_FORM = 'form';
 

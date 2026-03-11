@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 

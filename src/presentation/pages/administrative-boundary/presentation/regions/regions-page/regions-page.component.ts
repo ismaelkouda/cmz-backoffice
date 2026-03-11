@@ -15,13 +15,11 @@ import {
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TabsModule } from 'primeng/tabs';
-import { filter } from 'rxjs';
-
+import { REGIONS_TABS } from '@pages/administrative-boundary/domain/constants/regions/regions-tabs.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-
-import { REGIONS_TABS } from '@presentation/pages/administrative-boundary/domain/constants/regions/regions-tabs.constants';
+import { TabsModule } from 'primeng/tabs';
+import { filter } from 'rxjs';
 
 @Component({
     selector: 'app-regions-page',

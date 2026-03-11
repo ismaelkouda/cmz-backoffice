@@ -1,3 +1,13 @@
+import { DetailsQualificationState } from '@pages/requests/domain/enums/details/details-qualification-state/details-qualification-state.enum';
+import { Status } from '@pages/requests/domain/enums/details/details-status/details-status.enum';
+import { detailsLabelButtonSubmit } from '@pages/requests/domain/functions/details/details-label-button-submit.function';
+import { detailsPermissionsApprove } from '@pages/requests/domain/functions/details/details-permissions-approve.function';
+import { detailsPermissionsManage } from '@pages/requests/domain/functions/details/details-permissions-manage.function';
+import { detailsPermissionsTake } from '@pages/requests/domain/functions/details/details-permissions-take.function';
+import { detailsTitle } from '@pages/requests/domain/functions/details/details-title.function';
+import { DetailsProps } from '@pages/requests/domain/interfaces/details/details-props.interface';
+import { DetailsPermissions } from '@pages/requests/domain/types/details/details-permissions.type';
+import { DetailsTreaterInfo } from '@pages/requests/domain/types/details/details-treater-info.type';
 import { managementWorkflowTimestamps } from '@shared/components/management/domain/functions/management-timestamps.function';
 import { ManagementTimestamp } from '@shared/components/management/domain/interfaces/management-timestamps.interface';
 import { ActorEntity } from '@shared/domain/entities/actor.entity';
@@ -8,17 +18,6 @@ import { TimestampsEntity } from '@shared/domain/entities/timestamps.entity';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
-
-import { DetailsQualificationState } from '@presentation/pages/requests/domain/enums/details/details-qualification-state/details-qualification-state.enum';
-import { Status } from '@presentation/pages/requests/domain/enums/details/details-status/details-status.enum';
-import { detailsLabelButtonSubmit } from '@presentation/pages/requests/domain/functions/details/details-label-button-submit.function';
-import { detailsPermissionsApprove } from '@presentation/pages/requests/domain/functions/details/details-permissions-approve.function';
-import { detailsPermissionsManage } from '@presentation/pages/requests/domain/functions/details/details-permissions-manage.function';
-import { detailsPermissionsTake } from '@presentation/pages/requests/domain/functions/details/details-permissions-take.function';
-import { detailsTitle } from '@presentation/pages/requests/domain/functions/details/details-title.function';
-import { DetailsProps } from '@presentation/pages/requests/domain/interfaces/details/details-props.interface';
-import { DetailsPermissions } from '@presentation/pages/requests/domain/types/details/details-permissions.type';
-import { DetailsTreaterInfo } from '@presentation/pages/requests/domain/types/details/details-treater-info.type';
 
 export class DetailsEntity {
     constructor(private readonly props: DetailsProps) {}

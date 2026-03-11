@@ -1,4 +1,4 @@
-import { DetailsRejectVo } from '@presentation/pages/requests/domain/value-objects/details/details-reject.vo';
+import { DetailsRejectVo } from '@pages/requests/domain/value-objects/details/details-reject.vo';
 
 export class DetailsRejectEntity {
     constructor(

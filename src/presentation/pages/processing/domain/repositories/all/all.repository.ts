@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs';
-
+import { AllFilterEntity } from '@pages/processing/domain/entities/all/all-filter.entity';
+import { AllEntity } from '@pages/processing/domain/entities/all/all.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AllFilterEntity } from '@presentation/pages/processing/domain/entities/all/all-filter.entity';
-import { AllEntity } from '@presentation/pages/processing/domain/entities/all/all.entity';
+import { Observable } from 'rxjs';
 
 export abstract class AllRepository {
     abstract execute(

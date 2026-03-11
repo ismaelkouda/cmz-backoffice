@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { SlideQuery } from '@pages/content-management/application/queries/slide/slide.query';
+import { SlideUseCase } from '@pages/content-management/application/use-cases/slide/slide.use-case';
+import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { SlideQuery } from '@presentation/pages/content-management/application/queries/slide/slide.query';
-import { SlideUseCase } from '@presentation/pages/content-management/application/use-cases/slide/slide.use-case';
-import { SlideEntity } from '@presentation/pages/content-management/domain/entities/slide/slide.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SlideHandler {

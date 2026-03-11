@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { DepartmentsFindOneFilterDto } from '@pages/administrative-boundary/application/dto/departments/departments-find-one-filter.dto';
+import { DepartmentsFindOneQuery } from '@pages/administrative-boundary/application/queries/departments/departments-find-one.query';
+import { DepartmentsFindOneBus } from '@pages/administrative-boundary/application/queries-bus/departments/departments-find-one.bus';
+import { DepartmentsFindOneEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { DepartmentsFindOneFilterDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-find-one-filter.dto';
-import { DepartmentsFindOneQuery } from '@presentation/pages/administrative-boundary/application/queries/departments/departments-find-one.query';
-import { DepartmentsFindOneBus } from '@presentation/pages/administrative-boundary/application/queries-bus/departments/departments-find-one.bus';
-import { DepartmentsFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-find-one.entity';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsFindOneFacade extends ObjectBaseFacade<

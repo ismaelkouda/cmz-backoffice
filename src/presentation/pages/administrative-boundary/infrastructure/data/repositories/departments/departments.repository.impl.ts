@@ -1,23 +1,21 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
-
+import { DepartmentsCreateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-create.entity';
+import { DepartmentsDeleteEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
+import { DepartmentsFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
+import { DepartmentsUpdateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-update.entity';
+import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { DepartmentsRepository } from '@pages/administrative-boundary/domain/repositories/departments/departments-repository';
+import { departmentsCreateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-create.mapper';
+import { departmentsDeleteMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-delete.mapper';
+import { departmentsFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-filter.mapper';
+import { departmentsUpdateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-update.mapper';
+import { DepartmentsMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments.mapper';
+import { DepartmentsApi } from '@pages/administrative-boundary/infrastructure/data/sources/departments/departments.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { DepartmentsCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-create.entity';
-import { DepartmentsDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
-import { DepartmentsFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
-import { DepartmentsUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-update.entity';
-import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments.entity';
-import { DepartmentsRepository } from '@presentation/pages/administrative-boundary/domain/repositories/departments/departments-repository';
-import { departmentsCreateMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments-create.mapper';
-import { departmentsDeleteMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments-delete.mapper';
-import { departmentsFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments-filter.mapper';
-import { departmentsUpdateMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments-update.mapper';
-import { DepartmentsMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments.mapper';
-import { DepartmentsApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/departments/departments.api';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsRepositoryImpl implements DepartmentsRepository {

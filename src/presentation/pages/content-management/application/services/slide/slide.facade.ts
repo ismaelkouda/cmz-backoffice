@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { SlideCreateCommand } from '@pages/content-management/application/commands/slide/slide-create.command';
+import { SlideDeleteCommand } from '@pages/content-management/application/commands/slide/slide-delete.command';
+import { SlideUpdateCommand } from '@pages/content-management/application/commands/slide/slide-update.command';
+import { SlideCreateBus } from '@pages/content-management/application/commands-bus/slide/slide-create.bus';
+import { SlideDeleteBus } from '@pages/content-management/application/commands-bus/slide/slide-delete.bus';
+import { SlideUpdateBus } from '@pages/content-management/application/commands-bus/slide/slide-update.bus';
+import { SlideCreateDto } from '@pages/content-management/application/dto/slide/slide-create.dto';
+import { SlideDeleteDto } from '@pages/content-management/application/dto/slide/slide-delete.dto';
+import { SlideFilterDto } from '@pages/content-management/application/dto/slide/slide-filter.dto';
+import { SlideUpdateDto } from '@pages/content-management/application/dto/slide/slide-update.dto';
+import { SlideQuery } from '@pages/content-management/application/queries/slide/slide.query';
+import { SlideBus } from '@pages/content-management/application/queries-bus/slide/slide.bus';
+import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
+import { SlideDisableCommand } from '@presentation/pages/content-management/application/commands/slide/slide-disable.command';
+import { SlideEnableCommand } from '@presentation/pages/content-management/application/commands/slide/slide-enable.command';
+import { SlideDisableBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-disable.bus';
+import { SlideEnableBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-enable.bus';
+import { SlideDisableDto } from '@presentation/pages/content-management/application/dto/slide/slide-disable.dto';
+import { SlideEnableDto } from '@presentation/pages/content-management/application/dto/slide/slide-enable.dto';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { SlideCreateCommand } from '@presentation/pages/content-management/application/commands/slide/slide-create.command';
-import { SlideDeleteCommand } from '@presentation/pages/content-management/application/commands/slide/slide-delete.command';
-import { SlidePublishCommand } from '@presentation/pages/content-management/application/commands/slide/slide-publish.command';
-import { SlideUnpublishCommand } from '@presentation/pages/content-management/application/commands/slide/slide-unpublish.command';
-import { SlideUpdateCommand } from '@presentation/pages/content-management/application/commands/slide/slide-update.command';
-import { SlideCreateBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-create.bus';
-import { SlideDeleteBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-delete.bus';
-import { SlidePublishBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-publish.bus';
-import { SlideUnpublishBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-unpublish.bus';
-import { SlideUpdateBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-update.bus';
-import { SlideCreateDto } from '@presentation/pages/content-management/application/dto/slide/slide-create.dto';
-import { SlideDeleteDto } from '@presentation/pages/content-management/application/dto/slide/slide-delete.dto';
-import { SlideFilterDto } from '@presentation/pages/content-management/application/dto/slide/slide-filter.dto';
-import { SlidePublishDto } from '@presentation/pages/content-management/application/dto/slide/slide-publish.dto';
-import { SlideUnpublishDto } from '@presentation/pages/content-management/application/dto/slide/slide-unpublish.dto';
-import { SlideUpdateDto } from '@presentation/pages/content-management/application/dto/slide/slide-update.dto';
-import { SlideQuery } from '@presentation/pages/content-management/application/queries/slide/slide.query';
-import { SlideBus } from '@presentation/pages/content-management/application/queries-bus/slide/slide.bus';
-import { SlideEntity } from '@presentation/pages/content-management/domain/entities/slide/slide.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -37,8 +35,8 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
     private readonly filterBus = inject(SlideBus);
     private readonly createBus = inject(SlideCreateBus);
     private readonly updateBus = inject(SlideUpdateBus);
-    private readonly enableBus = inject(SlidePublishBus);
-    private readonly disableBus = inject(SlideUnpublishBus);
+    private readonly enableBus = inject(SlideEnableBus);
+    private readonly disableBus = inject(SlideDisableBus);
     private readonly deleteBus = inject(SlideDeleteBus);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
@@ -179,15 +177,22 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         };
     }
 
-    create(participant: SlideCreateDto): void {
+    create(slide: SlideCreateDto): void {
         this._actionState.set('loading');
 
         const command = new SlideCreateCommand(
-            participant.firstName,
-            participant.lastName,
-            participant.email,
-            participant.phone,
-            participant.role
+            slide.timeDuration,
+            slide.type,
+            slide.image,
+            slide.video,
+            slide.platforms,
+            slide.startDate,
+            slide.endDate,
+            slide.title,
+            slide.subtitle,
+            slide.content,
+            slide.buttonLabel,
+            slide.buttonUrl
         );
 
         this.handleActionWithRefresh(
@@ -207,15 +212,22 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
             .subscribe();
     }
 
-    update(participant: SlideUpdateDto): void {
+    update(slide: SlideUpdateDto): void {
         this._actionState.set('loading');
         const command = new SlideUpdateCommand(
-            participant.uniqId,
-            participant.firstName,
-            participant.lastName,
-            participant.email,
-            participant.phone,
-            participant.role
+            slide.uniqId,
+            slide.timeDuration,
+            slide.type,
+            slide.image,
+            slide.video,
+            slide.platforms,
+            slide.startDate,
+            slide.endDate,
+            slide.title,
+            slide.subtitle,
+            slide.content,
+            slide.buttonLabel,
+            slide.buttonUrl
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
@@ -234,16 +246,16 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
             .subscribe();
     }
 
-    enable(team: SlidePublishDto): void {
-        const command = new SlidePublishCommand(team.uniqId);
+    enable(team: SlideEnableDto): void {
+        const command = new SlideEnableCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
         );
     }
 
-    disable(team: SlideUnpublishDto): void {
-        const command = new SlideUnpublishCommand(team.uniqId);
+    disable(team: SlideDisableDto): void {
+        const command = new SlideDisableCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'

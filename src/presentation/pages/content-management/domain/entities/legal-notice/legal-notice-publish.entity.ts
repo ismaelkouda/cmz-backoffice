@@ -1,4 +1,4 @@
-import { LegalNoticePublishVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-publish.vo';
+import { LegalNoticePublishVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-publish.vo';
 
 export class LegalNoticePublishEntity {
     constructor(public readonly uniqId: string) {}

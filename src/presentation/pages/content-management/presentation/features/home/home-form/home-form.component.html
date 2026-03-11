@@ -89,8 +89,7 @@
                                                             </div>
 
                                                             @if (
-                                                                imagePreview &&
-                                                                !imageRemoved
+                                                                imagePreview()
                                                             ) {
                                                                 <div
                                                                     class="media-preview-container"
@@ -117,7 +116,7 @@
                                                                         >
                                                                             <img
                                                                                 [src]="
-                                                                                    imagePreview
+                                                                                    imagePreview()
                                                                                 "
                                                                                 alt="Mini Preview"
                                                                                 class="img-thumbnail rounded shadow-sm media-thumbnail"

@@ -1,4 +1,4 @@
-import { TermsUseFilterVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-filter.vo';
+import { TermsUseFilterVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-filter.vo';
 
 export class TermsUseFilterEntity {
     constructor(

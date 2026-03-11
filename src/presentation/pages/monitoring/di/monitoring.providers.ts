@@ -1,5 +1,4 @@
 import { inject, Provider } from '@angular/core';
-
 import { EnvService } from '@shared/domain/services/env.service';
 
 import { NodeRepository } from '../domain/repositories/node-repository.interface';

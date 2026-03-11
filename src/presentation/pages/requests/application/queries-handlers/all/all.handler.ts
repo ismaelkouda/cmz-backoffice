@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { AllQuery } from '@pages/requests/application/queries/all/all.query';
+import { AllUseCase } from '@pages/requests/application/use-cases/all/all.use-case';
+import { AllEntity } from '@pages/requests/domain/entities/all/all.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AllQuery } from '@presentation/pages/requests/application/queries/all/all.query';
-import { AllUseCase } from '@presentation/pages/requests/application/use-cases/all/all.use-case';
-import { AllEntity } from '@presentation/pages/requests/domain/entities/all/all.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AllHandler {

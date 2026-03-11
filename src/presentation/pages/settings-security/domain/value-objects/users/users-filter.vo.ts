@@ -1,4 +1,4 @@
-import { UsersFilterDto } from '@presentation/pages/settings-security/application/dto/users/users-filter.dto';
+import { UsersFilterDto } from '@pages/settings-security/application/dto/users/users-filter.dto';
 
 export class UsersFilterVo {
     public readonly search?: string;

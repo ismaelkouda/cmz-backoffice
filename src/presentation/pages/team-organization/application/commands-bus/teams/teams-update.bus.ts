@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsUpdateCommand } from '@pages/team-organization/application/commands/teams/teams-update.command';
+import { TeamsUpdateHandler } from '@pages/team-organization/application/commands-handlers/teams/teams-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsUpdateCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-update.command';
-import { TeamsUpdateHandler } from '@presentation/pages/team-organization/application/commands-handlers/teams/teams-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsUpdateBus {

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const HOME_ROUTE = 'home-blocks';
 // export const NEWS_ROUTE = 'infos-and-news';
-// export const SLIDE_ROUTE = 'sliders';
+export const SLIDE_ROUTE = 'sliders';
 // export const PRIVACY_POLICY_ROUTE = 'privacy-policy';
 // export const LEGAL_NOTICE_ROUTE = 'legal-notices';
 // export const TERMS_USE_ROUTE = 'terms-of-service';
@@ -59,25 +59,34 @@ export const routes: Routes = [
     //     ],
     // },
 
-    // {
-    //     path: SLIDE_ROUTE,
-    //     data: {
-    //         breadcrumb: {
-    //             label: 'CONTENT_MANAGEMENT.SLIDE.BREADCRUMB.LABEL',
-    //             icon: 'CONTENT_MANAGEMENT.SLIDE.BREADCRUMB.ICON',
-    //         },
-    //     },
-    //     children: [
-    //         {
-    //             path: '',
-    //             loadChildren: () =>
-    //                 import('./presentation/features/slide/slide.routes').then(
-    //                     (m) => m.SLIDE_ROUTES
-    //                 ),
-    //             data: { breadcrumb: { hide: true } },
-    //         },
-    //     ],
-    // },
+    {
+        path: SLIDE_ROUTE,
+        children: [
+            {
+                path: '',
+                data: {
+                    breadcrumb: {
+                        label: 'CONTENT_MANAGEMENT.SLIDE.BREADCRUMB.LABEL',
+                        icon: 'CONTENT_MANAGEMENT.SLIDE.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import('./presentation/features/slide/slide.routes').then(
+                                (m) => m.SLIDE_ROUTES
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+        ],
+    },
 
     // {
     //     path: PRIVACY_POLICY_ROUTE,

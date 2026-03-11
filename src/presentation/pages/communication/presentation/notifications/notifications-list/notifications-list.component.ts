@@ -18,10 +18,10 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { NotificationsFacade } from '@pages/communication/application/services/notifications/notifications.facade';
+import { NOTIFICATIONS } from '@pages/communication/domain/constants/notifications/notifications-table.constant';
+import { NotificationsFilterControl } from '@pages/communication/domain/controls/notifications/notifications-filter.control';
+import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
@@ -34,11 +34,9 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { NotificationsFacade } from '@presentation/pages/communication/application/services/notifications/notifications.facade';
-import { NOTIFICATIONS } from '@presentation/pages/communication/domain/constants/notifications/notifications-table.constant';
-import { NotificationsFilterControl } from '@presentation/pages/communication/domain/controls/notifications/notifications-filter.control';
-import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-notifications',

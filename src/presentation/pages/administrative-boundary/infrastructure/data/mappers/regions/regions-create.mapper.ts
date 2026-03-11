@@ -1,5 +1,5 @@
-import { RegionsCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-create.entity';
-import { RegionsCreateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-create-api.dto';
+import { RegionsCreateEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-create.entity';
+import { RegionsCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-create-api.dto';
 
 export function regionsCreateMapper(
     create: RegionsCreateEntity

@@ -23,6 +23,13 @@ import {
     withViewTransitions,
 } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
+import { apiInterceptor } from '@core/interceptors/api.interceptor';
+import { authInterceptor } from '@core/interceptors/auth.interceptor';
+import { cacheInterceptor } from '@core/interceptors/cache.interceptor';
+import { errorHandlerInterceptor } from '@core/interceptors/error-handler.interceptor';
+import { loggingInterceptor } from '@core/interceptors/logging.interceptor';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { TranslationManagerService } from '@core/services/translation-manager.service';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
@@ -31,42 +38,33 @@ import {
     provideTranslateHttpLoader,
     TranslateHttpLoader,
 } from '@ngx-translate/http-loader';
+
+/* import { CoreModule } from '../core/core.module'; */
+
+import { provideAdministrativeBoundary } from '@pages/administrative-boundary/di/administrative-boundary.providers';
+import { provideAuthentication } from '@pages/authentication/di/authentication.providers';
+import { provideCommunication } from '@pages/communication/di/communication.providers';
+import { provideContentManagement } from '@pages/content-management/di/content-management.providers';
+import { provideDashboard } from '@pages/dashboard/di/dashboard.providers';
+import { provideFinalization } from '@pages/finalization/di/finalization.providers';
+import { provideMonitoring } from '@pages/monitoring/di/monitoring.providers';
+import { providePasswordReset } from '@pages/password-reset/di/password-reset.providers';
+import { provideProcessing } from '@pages/processing/di/processing.providers';
+import { provideReporting } from '@pages/reporting/di/reporting.providers';
+import { provideRequests } from '@pages/requests/di/requests.providers';
+import { provideSettingsSecurity } from '@pages/settings-security/di/settings-security.providers';
+import { provideTeamOrganization } from '@pages/team-organization/di/team-organisation.providers';
+import { routes } from '@presentation/app.routes';
 import Aura from '@primeng/themes/aura';
+import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
+import { historyProviders } from '@shared/components/history/di/history.providers';
 import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
 
-import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
-
-/* import { CoreModule } from '../core/core.module'; */
-import { historyProviders } from '@shared/components/history/di/history.providers';
-
-import { routes } from '@presentation/app.routes';
-import { provideAdministrativeBoundary } from '@presentation/pages/administrative-boundary/di/administrative-boundary.providers';
-import { provideAuthentication } from '@presentation/pages/authentication/di/authentication.providers';
-import { provideCommunication } from '@presentation/pages/communication/di/communication.providers';
-import { provideContentManagement } from '@presentation/pages/content-management/di/content-management.providers';
-import { provideDashboard } from '@presentation/pages/dashboard/di/dashboard.providers';
-import { provideFinalization } from '@presentation/pages/finalization/di/finalization.providers';
-import { provideMonitoring } from '@presentation/pages/monitoring/di/monitoring.providers';
-import { providePasswordReset } from '@presentation/pages/password-reset/di/password-reset.providers';
-import { provideProcessing } from '@presentation/pages/processing/di/processing.providers';
-import { provideReporting } from '@presentation/pages/reporting/di/reporting.providers';
-import { provideRequests } from '@presentation/pages/requests/di/requests.providers';
-import { provideSettingsSecurity } from '@presentation/pages/settings-security/di/settings-security.providers';
-import { provideTeamOrganization } from '@presentation/pages/team-organization/di/team-organisation.providers';
-
-import { apiInterceptor } from '@core/interceptors/api.interceptor';
-import { authInterceptor } from '@core/interceptors/auth.interceptor';
-import { cacheInterceptor } from '@core/interceptors/cache.interceptor';
-import { errorHandlerInterceptor } from '@core/interceptors/error-handler.interceptor';
-import { loggingInterceptor } from '@core/interceptors/logging.interceptor';
-import { ConfigurationService } from '@core/services/configuration.service';
-import { TranslationManagerService } from '@core/services/translation-manager.service';
-
-/* import { provideProfileHabilitation } from '@presentation/pages/settings-security/di/profile-habilitation.providers'; */
-/* import { provideUser } from '@presentation/pages/settings-security/di/user.providers';
-import { provideParticipant } from '@presentation/pages/team-organization/di/participant.providers';
-import { provideTeam } from '@presentation/pages/team-organization/di/team.providers'; */
+/* import { provideProfileHabilitation } from '@pages/settings-security/di/profile-habilitation.providers'; */
+/* import { provideUser } from '@pages/settings-security/di/user.providers';
+import { provideParticipant } from '@pages/team-organization/di/participant.providers';
+import { provideTeam } from '@pages/team-organization/di/team.providers'; */
 
 const frenchLocale = {
     firstDayOfWeek: 1,

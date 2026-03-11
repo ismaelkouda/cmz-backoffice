@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { LegalNoticeUpdateCommand } from '@pages/content-management/application/commands/legal-notice/legal-notice-update.command';
+import { LegalNoticeUpdateHandler } from '@pages/content-management/application/commands-handlers/legal-notice/legal-notice-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { LegalNoticeUpdateCommand } from '@presentation/pages/content-management/application/commands/legal-notice/legal-notice-update.command';
-import { LegalNoticeUpdateHandler } from '@presentation/pages/content-management/application/commands-handlers/legal-notice/legal-notice-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeUpdateBus {

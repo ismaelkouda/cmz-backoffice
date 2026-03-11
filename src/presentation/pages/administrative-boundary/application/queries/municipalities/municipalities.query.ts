@@ -1,4 +1,4 @@
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
+import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
 
 export class MunicipalitiesQuery {
     constructor(

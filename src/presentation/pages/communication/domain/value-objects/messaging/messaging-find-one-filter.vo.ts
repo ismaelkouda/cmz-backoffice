@@ -1,4 +1,4 @@
-import { MessagingFindOneFilterDto } from '@presentation/pages/communication/application/dto/messaging/messaging-find-one-filter.dto';
+import { MessagingFindOneFilterDto } from '@pages/communication/application/dto/messaging/messaging-find-one-filter.dto';
 
 export class MessagingFindOneFilterVo {
     public readonly uniqId: string;

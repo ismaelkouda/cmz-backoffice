@@ -1,4 +1,4 @@
-import { DashboardProps } from '@presentation/pages/dashboard/domain/interfaces/dashboard-props.interface';
+import { DashboardProps } from '@pages/dashboard/domain/interfaces/dashboard-props.interface';
 
 export class DashboardEntity {
     constructor(private readonly props: DashboardProps) {}

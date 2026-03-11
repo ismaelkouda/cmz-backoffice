@@ -1,4 +1,4 @@
-import { NewsUpdateVo } from '@presentation/pages/content-management/domain/value-objects/news/news-update.vo';
+import { NewsUpdateVo } from '@pages/content-management/domain/value-objects/news/news-update.vo';
 
 export class NewsUpdateEntity {
     constructor(

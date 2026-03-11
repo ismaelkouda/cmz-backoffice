@@ -1,4 +1,4 @@
-import { NewsCreateVo } from '@presentation/pages/content-management/domain/value-objects/news/news-create.vo';
+import { NewsCreateVo } from '@pages/content-management/domain/value-objects/news/news-create.vo';
 
 export class NewsCreateEntity {
     constructor(

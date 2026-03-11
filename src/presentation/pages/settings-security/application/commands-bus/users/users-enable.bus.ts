@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersEnableCommand } from '@pages/settings-security/application/commands/users/users-enable.command';
+import { UsersEnableHandler } from '@pages/settings-security/application/commands-handlers/users/users-enable.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { UsersEnableCommand } from '@presentation/pages/settings-security/application/commands/users/users-enable.command';
-import { UsersEnableHandler } from '@presentation/pages/settings-security/application/commands-handlers/users/users-enable.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersEnableBus {

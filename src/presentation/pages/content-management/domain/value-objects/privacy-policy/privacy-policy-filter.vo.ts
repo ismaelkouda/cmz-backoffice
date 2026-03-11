@@ -1,4 +1,4 @@
-import { PrivacyPolicyFilterDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-filter.dto';
+import { PrivacyPolicyFilterDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-filter.dto';
 
 export class PrivacyPolicyFilterVo {
     public readonly search?: string;

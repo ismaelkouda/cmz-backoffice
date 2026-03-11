@@ -1,4 +1,4 @@
-import { DepartmentsDeleteVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-delete.vo';
+import { DepartmentsDeleteVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-delete.vo';
 
 export class DepartmentsDeleteEntity {
     constructor(public readonly uniqId: string) {}

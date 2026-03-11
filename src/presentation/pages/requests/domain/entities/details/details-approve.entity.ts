@@ -1,4 +1,4 @@
-import { DetailsApproveVo } from '@presentation/pages/requests/domain/value-objects/details/details-approve.vo';
+import { DetailsApproveVo } from '@pages/requests/domain/value-objects/details/details-approve.vo';
 
 export class DetailsApproveEntity {
     constructor(

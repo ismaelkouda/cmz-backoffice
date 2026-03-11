@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { SlideUpdateCommand } from '@pages/content-management/application/commands/slide/slide-update.command';
+import { SlideUpdateHandler } from '@pages/content-management/application/commands-handlers/slide/slide-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { SlideUpdateCommand } from '@presentation/pages/content-management/application/commands/slide/slide-update.command';
-import { SlideUpdateHandler } from '@presentation/pages/content-management/application/commands-handlers/slide/slide-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SlideUpdateBus {

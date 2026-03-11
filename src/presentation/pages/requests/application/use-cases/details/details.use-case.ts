@@ -1,22 +1,20 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DetailsApproveDto } from '@pages/requests/application/dto/details/details-approve.dto';
+import { DetailsFilterDto } from '@pages/requests/application/dto/details/details-filter.dto';
+import { DetailsRejectDto } from '@pages/requests/application/dto/details/details-reject.dto';
+import { DetailsTakeDto } from '@pages/requests/application/dto/details/details-take.dto';
+import { DetailsApproveEntity } from '@pages/requests/domain/entities/details/details-approve.entity';
+import { DetailsFilterEntity } from '@pages/requests/domain/entities/details/details-filter.entity';
+import { DetailsRejectEntity } from '@pages/requests/domain/entities/details/details-reject.entity';
+import { DetailsTakeEntity } from '@pages/requests/domain/entities/details/details-take.entity';
+import { DetailsEntity } from '@pages/requests/domain/entities/details/details.entity';
+import { DetailsRepository } from '@pages/requests/domain/repositories/details/details-repository';
+import { DetailsApproveVo } from '@pages/requests/domain/value-objects/details/details-approve.vo';
+import { DetailsFilterVo } from '@pages/requests/domain/value-objects/details/details-filter.vo';
+import { DetailsRejectVo } from '@pages/requests/domain/value-objects/details/details-reject.vo';
+import { DetailsTakeVo } from '@pages/requests/domain/value-objects/details/details-take.vo';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DetailsApproveDto } from '@presentation/pages/requests/application/dto/details/details-approve.dto';
-import { DetailsFilterDto } from '@presentation/pages/requests/application/dto/details/details-filter.dto';
-import { DetailsRejectDto } from '@presentation/pages/requests/application/dto/details/details-reject.dto';
-import { DetailsTakeDto } from '@presentation/pages/requests/application/dto/details/details-take.dto';
-import { DetailsApproveEntity } from '@presentation/pages/requests/domain/entities/details/details-approve.entity';
-import { DetailsFilterEntity } from '@presentation/pages/requests/domain/entities/details/details-filter.entity';
-import { DetailsRejectEntity } from '@presentation/pages/requests/domain/entities/details/details-reject.entity';
-import { DetailsTakeEntity } from '@presentation/pages/requests/domain/entities/details/details-take.entity';
-import { DetailsEntity } from '@presentation/pages/requests/domain/entities/details/details.entity';
-import { DetailsRepository } from '@presentation/pages/requests/domain/repositories/details/details-repository';
-import { DetailsApproveVo } from '@presentation/pages/requests/domain/value-objects/details/details-approve.vo';
-import { DetailsFilterVo } from '@presentation/pages/requests/domain/value-objects/details/details-filter.vo';
-import { DetailsRejectVo } from '@presentation/pages/requests/domain/value-objects/details/details-reject.vo';
-import { DetailsTakeVo } from '@presentation/pages/requests/domain/value-objects/details/details-take.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

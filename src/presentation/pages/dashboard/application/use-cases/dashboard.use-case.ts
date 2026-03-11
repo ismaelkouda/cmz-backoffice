@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
+import { DashboardFilterDto } from '@pages/dashboard/application/dto/dashboard-filter.dto';
+import { DashboardFilterEntity } from '@pages/dashboard/domain/entities/dashboard-filter.entity';
+import { DashboardEntity } from '@pages/dashboard/domain/entities/dashboard.entity';
+import { DashboardRepository } from '@pages/dashboard/domain/repositories/dashboard.repository';
+import { DashboardFilterVo } from '@pages/dashboard/domain/value-objects/dashboard-filter.vo';
 import { Observable } from 'rxjs';
-
-import { DashboardFilterDto } from '@presentation/pages/dashboard/application/dto/dashboard-filter.dto';
-import { DashboardFilterEntity } from '@presentation/pages/dashboard/domain/entities/dashboard-filter.entity';
-import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
-import { DashboardRepository } from '@presentation/pages/dashboard/domain/repositories/dashboard.repository';
-import { DashboardFilterVo } from '@presentation/pages/dashboard/domain/value-objects/dashboard-filter.vo';
 
 @Injectable({
     providedIn: 'root',

@@ -1,16 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
+import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
+import { RegionsCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-create-api.dto';
+import { RegionsDeleteApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-delete-api.dto';
+import { RegionsFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-filter-api.dto';
+import { RegionsResponseApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-response-api.dto';
+import { RegionsUpdateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
-import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { RegionsCreateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-create-api.dto';
-import { RegionsDeleteApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-delete-api.dto';
-import { RegionsFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-filter-api.dto';
-import { RegionsResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-response-api.dto';
-import { RegionsUpdateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-update-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

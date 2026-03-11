@@ -16,8 +16,10 @@ import {
 } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-
+import { AccessLogsFacade } from '@pages/settings-security/application/services/access-logs/access-logs.facade';
+import { ACCESS_LOGS_TABLE_CONSTANT } from '@pages/settings-security/domain/constants/access-logs/access-logs-table.constant';
+import { AccessLogsFilterControl } from '@pages/settings-security/domain/controls/access-logs/access-logs-filter.control';
+import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -31,11 +33,7 @@ import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
-
-import { AccessLogsFacade } from '@presentation/pages/settings-security/application/services/access-logs/access-logs.facade';
-import { ACCESS_LOGS_TABLE_CONSTANT } from '@presentation/pages/settings-security/domain/constants/access-logs/access-logs-table.constant';
-import { AccessLogsFilterControl } from '@presentation/pages/settings-security/domain/controls/access-logs/access-logs-filter.control';
-import { AccessLogsEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs.entity';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-access-logs',

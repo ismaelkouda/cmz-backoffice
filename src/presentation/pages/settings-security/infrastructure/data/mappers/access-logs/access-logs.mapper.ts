@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-
+import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
+import { AccessLogsItemApiDto } from '@pages/settings-security/infrastructure/api/dto/access-logs/access-logs-response-api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { AccessLogsEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs.entity';
-import { AccessLogsItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/access-logs/access-logs-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

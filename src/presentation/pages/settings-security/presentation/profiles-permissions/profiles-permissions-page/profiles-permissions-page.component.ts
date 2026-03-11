@@ -15,13 +15,11 @@ import {
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TabsModule } from 'primeng/tabs';
-import { filter } from 'rxjs';
-
+import { PROFILES_PERMISSIONS_TABS } from '@pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-tabs.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-
-import { PROFILES_PERMISSIONS_TABS } from '@presentation/pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-tabs.constants';
+import { TabsModule } from 'primeng/tabs';
+import { filter } from 'rxjs';
 
 @Component({
     selector: 'app-profiles-permissions-page',

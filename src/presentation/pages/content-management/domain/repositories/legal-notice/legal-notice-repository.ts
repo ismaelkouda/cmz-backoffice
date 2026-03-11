@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { LegalNoticeCreateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-create.entity';
+import { LegalNoticeDeleteEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
+import { LegalNoticeFilterEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
+import { LegalNoticePublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-publish.entity';
+import { LegalNoticeUnpublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
+import { LegalNoticeUpdateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-update.entity';
+import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { LegalNoticeCreateEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-create.entity';
-import { LegalNoticeDeleteEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
-import { LegalNoticeFilterEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
-import { LegalNoticePublishEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-publish.entity';
-import { LegalNoticeUnpublishEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
-import { LegalNoticeUpdateEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-update.entity';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

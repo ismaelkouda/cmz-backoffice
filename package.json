@@ -122,6 +122,7 @@
     "ngx-captcha": "^14.0.0",
     "ngx-clipboard": "^16.0.0",
     "ngx-cookie-service": "^20.1.1",
+    "ngx-image-cropper": "^9.1.6",
     "ngx-owl-carousel-o": "^20.0.1",
     "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^19.1.0",

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MessagingDisableCommand } from '@pages/communication/application/commands/messaging/messaging-disable.command';
+import { MessagingDisableHandler } from '@pages/communication/application/commands-handlers/messaging/messaging-disable.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { MessagingDisableCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-disable.command';
-import { MessagingDisableHandler } from '@presentation/pages/communication/application/commands-handlers/messaging/messaging-disable.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingDisableBus {

@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { COMMUNICATION_BASE_URL } from '@pages/communication/infrastructure/api/communication.base-url';
+import { COMMUNICATION_ENDPOINTS } from '@pages/communication/infrastructure/api/communication.endpoints';
+import { NotificationsFilterApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-filter-api.dto';
+import { NotificationsResponseApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-response-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { COMMUNICATION_BASE_URL } from '@presentation/pages/communication/infrastructure/api/communication.base-url';
-import { COMMUNICATION_ENDPOINTS } from '@presentation/pages/communication/infrastructure/api/communication.endpoints';
-import { NotificationsFilterApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-filter-api.dto';
-import { NotificationsResponseApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-response-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsApi {

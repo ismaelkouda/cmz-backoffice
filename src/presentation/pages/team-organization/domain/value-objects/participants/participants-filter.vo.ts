@@ -1,4 +1,4 @@
-import { ParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/participants/participants-filter.dto';
+import { ParticipantsFilterDto } from '@pages/team-organization/application/dto/participants/participants-filter.dto';
 
 export class ParticipantsFilterVo {
     public readonly search?: string;

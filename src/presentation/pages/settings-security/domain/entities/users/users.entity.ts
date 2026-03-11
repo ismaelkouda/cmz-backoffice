@@ -1,4 +1,4 @@
-import { UsersItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-response-api.dto';
+import { UsersItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-response-api.dto';
 
 export class UsersEntity {
     constructor(

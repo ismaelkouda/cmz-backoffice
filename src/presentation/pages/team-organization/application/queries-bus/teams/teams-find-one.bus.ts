@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { TeamsFindOneQuery } from '@pages/team-organization/application/queries/teams/teams-find-one.query';
+import { TeamsFindOneHandler } from '@pages/team-organization/application/queries-handlers/teams/teams-find-one.handler';
+import { TeamsFindOneEntity } from '@pages/team-organization/domain/entities/teams/teams-find-one.entity';
 import { Observable } from 'rxjs';
-
-import { TeamsFindOneQuery } from '@presentation/pages/team-organization/application/queries/teams/teams-find-one.query';
-import { TeamsFindOneHandler } from '@presentation/pages/team-organization/application/queries-handlers/teams/teams-find-one.handler';
-import { TeamsFindOneEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-find-one.entity';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsFindOneBus {

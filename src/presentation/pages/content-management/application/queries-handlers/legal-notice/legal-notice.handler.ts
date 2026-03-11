@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { LegalNoticeQuery } from '@pages/content-management/application/queries/legal-notice/legal-notice.query';
+import { LegalNoticeUseCase } from '@pages/content-management/application/use-cases/legal-notice/legal-notice.use-case';
+import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { LegalNoticeQuery } from '@presentation/pages/content-management/application/queries/legal-notice/legal-notice.query';
-import { LegalNoticeUseCase } from '@presentation/pages/content-management/application/use-cases/legal-notice/legal-notice.use-case';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeHandler {

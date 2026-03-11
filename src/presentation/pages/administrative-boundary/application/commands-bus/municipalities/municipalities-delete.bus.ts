@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MunicipalitiesDeleteCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-delete.command';
+import { MunicipalitiesDeleteHandler } from '@pages/administrative-boundary/application/commands-handlers/municipalities/municipalities-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { MunicipalitiesDeleteCommand } from '@presentation/pages/administrative-boundary/application/commands/municipalities/municipalities-delete.command';
-import { MunicipalitiesDeleteHandler } from '@presentation/pages/administrative-boundary/application/commands-handlers/municipalities/municipalities-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesDeleteBus {

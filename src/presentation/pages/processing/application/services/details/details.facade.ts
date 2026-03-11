@@ -1,22 +1,20 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { DetailsTakeCommand } from '@pages/processing/application/commands/details/details-take.command';
+import { DetailsTreatCommand } from '@pages/processing/application/commands/details/details-treat.command';
+import { DetailsTakeBus } from '@pages/processing/application/commands-bus/details/details-take.bus';
+import { DetailsTreatBus } from '@pages/processing/application/commands-bus/details/details-treat.bus';
+import { DetailsFilterDto } from '@pages/processing/application/dto/details/details-filter.dto';
+import { DetailsTakeDto } from '@pages/processing/application/dto/details/details-take.dto';
+import { DetailsTreatDto } from '@pages/processing/application/dto/details/details-treat.dto';
+import { DetailsQuery } from '@pages/processing/application/queries/details/details.query';
+import { DetailsBus } from '@pages/processing/application/queries-bus/details/details.bus';
+import { QueuesFacade } from '@pages/processing/application/services/queues/queues.facade';
+import { TasksFacade } from '@pages/processing/application/services/tasks/tasks.facade';
+import { DetailsEntity } from '@pages/processing/domain/entities/details/details.entity';
 import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { DetailsTakeCommand } from '@presentation/pages/processing/application/commands/details/details-take.command';
-import { DetailsTreatCommand } from '@presentation/pages/processing/application/commands/details/details-treat.command';
-import { DetailsTakeBus } from '@presentation/pages/processing/application/commands-bus/details/details-take.bus';
-import { DetailsTreatBus } from '@presentation/pages/processing/application/commands-bus/details/details-treat.bus';
-import { DetailsFilterDto } from '@presentation/pages/processing/application/dto/details/details-filter.dto';
-import { DetailsTakeDto } from '@presentation/pages/processing/application/dto/details/details-take.dto';
-import { DetailsTreatDto } from '@presentation/pages/processing/application/dto/details/details-treat.dto';
-import { DetailsQuery } from '@presentation/pages/processing/application/queries/details/details.query';
-import { DetailsBus } from '@presentation/pages/processing/application/queries-bus/details/details.bus';
-import { QueuesFacade } from '@presentation/pages/processing/application/services/queues/queues.facade';
-import { TasksFacade } from '@presentation/pages/processing/application/services/tasks/tasks.facade';
-import { DetailsEntity } from '@presentation/pages/processing/domain/entities/details/details.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

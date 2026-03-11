@@ -1,5 +1,5 @@
-import { RegionsFindOneFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-find-one-filter.entity';
-import { RegionsFindOneFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-find-one-filter-api.dto';
+import { RegionsFindOneFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one-filter.entity';
+import { RegionsFindOneFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-find-one-filter-api.dto';
 
 export function regionsFindOneFilterMapper(
     entity: RegionsFindOneFilterEntity

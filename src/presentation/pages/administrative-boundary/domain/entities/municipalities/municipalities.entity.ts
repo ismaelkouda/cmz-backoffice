@@ -1,4 +1,4 @@
-import { MunicipalitiesItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-response-api.dto';
+import { MunicipalitiesItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-response-api.dto';
 
 export class MunicipalitiesEntity {
     constructor(

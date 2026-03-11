@@ -1,5 +1,5 @@
-import { ProfilesPermissionsUpdateEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
-import { ProfilesPermissionsUpdateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-update-api.dto';
+import { ProfilesPermissionsUpdateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
+import { ProfilesPermissionsUpdateApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-update-api.dto';
 
 export function profilesPermissionsUpdateMapper(
     entity: ProfilesPermissionsUpdateEntity

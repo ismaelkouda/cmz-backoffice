@@ -151,6 +151,7 @@
             ) {
                 <app-management-treatment-form
                     [form]="form"
+                    [loading]="loading()"
                     [expanded]="isTreatmentFormExpanded"
                     [submitting]="submitting()"
                     [submitLabel]="items()?.labelButtonSubmit ?? ''"

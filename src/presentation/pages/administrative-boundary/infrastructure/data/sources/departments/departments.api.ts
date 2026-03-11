@@ -1,17 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
+import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
+import { DepartmentsCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-create-api.dto';
+import { DepartmentsDeleteApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-delete-api.dto';
+import { DepartmentsFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-filter-api.dto';
+import { DepartmentsResponseApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-response-api.dto';
+import { DepartmentsUpdateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
-import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { DepartmentsCreateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-create-api.dto';
-import { DepartmentsDeleteApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-delete-api.dto';
-import { DepartmentsFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-filter-api.dto';
-import { DepartmentsResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-response-api.dto';
-import { DepartmentsUpdateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-update-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

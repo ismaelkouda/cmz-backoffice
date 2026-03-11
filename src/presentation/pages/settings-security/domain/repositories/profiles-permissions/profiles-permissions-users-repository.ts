@@ -1,15 +1,13 @@
-import { Observable } from 'rxjs';
-
+import { ProfilesPermissionsUsersAssignEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-assign.entity';
+import { ProfilesPermissionsUsersFilterEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-filter.entity';
+import { ProfilesPermissionsUsersReassignEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-reassign.entity';
+import { ProfilesPermissionsUsersRemoveEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-remove.entity';
+import { ProfilesPermissionsUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsUsersAssignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-assign.entity';
-import { ProfilesPermissionsUsersFilterEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-filter.entity';
-import { ProfilesPermissionsUsersReassignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-reassign.entity';
-import { ProfilesPermissionsUsersRemoveEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-remove.entity';
-import { ProfilesPermissionsUsersEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
+import { Observable } from 'rxjs';
 
 export abstract class ProfilesPermissionsUsersRepository {
     abstract execute(

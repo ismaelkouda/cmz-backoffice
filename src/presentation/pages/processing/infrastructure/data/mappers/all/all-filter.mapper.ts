@@ -1,5 +1,5 @@
-import { AllFilterEntity } from '@presentation/pages/processing/domain/entities/all/all-filter.entity';
-import { AllFilterApiDto } from '@presentation/pages/processing/infrastructure/api/dto/all/all-filter-api.dto';
+import { AllFilterEntity } from '@pages/processing/domain/entities/all/all-filter.entity';
+import { AllFilterApiDto } from '@pages/processing/infrastructure/api/dto/all/all-filter-api.dto';
 
 export function allFilterMapper(vo: AllFilterEntity): AllFilterApiDto {
     const params: AllFilterApiDto = {} as AllFilterApiDto;

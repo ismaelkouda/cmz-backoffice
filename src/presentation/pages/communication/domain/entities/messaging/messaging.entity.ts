@@ -1,8 +1,8 @@
 import {
     Channels,
     ChannelsStyle,
-} from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
-import { MessagingProps } from '@presentation/pages/communication/domain/interfaces/messaging/messaging-props.interface';
+} from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MessagingProps } from '@pages/communication/domain/interfaces/messaging/messaging-props.interface';
 
 export class MessagingEntity {
     constructor(private readonly props: MessagingProps) {}

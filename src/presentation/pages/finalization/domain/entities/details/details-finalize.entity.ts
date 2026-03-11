@@ -1,4 +1,4 @@
-import { DetailsFinalizeVo } from '@presentation/pages/finalization/domain/value-objects/details/details-finalize.vo';
+import { DetailsFinalizeVo } from '@pages/finalization/domain/value-objects/details/details-finalize.vo';
 
 export class DetailsFinalizeEntity {
     constructor(

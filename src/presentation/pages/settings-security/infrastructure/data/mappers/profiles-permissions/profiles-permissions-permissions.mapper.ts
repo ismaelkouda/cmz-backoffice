@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-
+import { ProfilesPermissionsPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-permissions.entity';
+import { ProfilesPermissionsPermissionsItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-permissions-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
-
-import { ProfilesPermissionsPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-permissions.entity';
-import { ProfilesPermissionsPermissionsItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-permissions-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsPermissionsMapper extends SimpleResponseMapper<

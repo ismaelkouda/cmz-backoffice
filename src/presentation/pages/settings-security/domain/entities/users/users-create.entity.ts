@@ -1,4 +1,4 @@
-import { UsersCreateVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-create.vo';
+import { UsersCreateVo } from '@pages/settings-security/domain/value-objects/users/users-create.vo';
 
 export class UsersCreateEntity {
     constructor(

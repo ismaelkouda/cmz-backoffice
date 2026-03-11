@@ -1,4 +1,4 @@
-import { NewsFilterDto } from '@presentation/pages/content-management/application/dto/news/news-filter.dto';
+import { NewsFilterDto } from '@pages/content-management/application/dto/news/news-filter.dto';
 
 export class NewsFilterVo {
     public readonly search?: string;

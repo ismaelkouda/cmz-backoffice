@@ -1,4 +1,4 @@
-import { MessagingCreateVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-create.vo';
+import { MessagingCreateVo } from '@pages/communication/domain/value-objects/messaging/messaging-create.vo';
 
 export class MessagingCreateEntity {
     constructor(

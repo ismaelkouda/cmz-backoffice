@@ -1,4 +1,4 @@
-import { UsersDeleteDto } from '@presentation/pages/settings-security/application/dto/users/users-delete.dto';
+import { UsersDeleteDto } from '@pages/settings-security/application/dto/users/users-delete.dto';
 
 export class UsersDeleteVo {
     public readonly uniqId: string;

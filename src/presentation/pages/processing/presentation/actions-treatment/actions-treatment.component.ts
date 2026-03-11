@@ -20,6 +20,27 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Event, Params, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TasksActionsFacade } from '@pages/processing/application/services/tasks/tasks-actions.facade';
+import { TASKS_ACTIONS_TABLE } from '@pages/processing/domain/constants/tasks/tasks-actions-table.constant';
+import { TasksActionsFormControl } from '@pages/processing/domain/controls/tasks/tasks-actions-form.control';
+import { TasksActionsTypes } from '@pages/processing/domain/enums/tasks/tasks-actions-types.enum';
+import { TASKS_ROUTE } from '@pages/processing/processing.routes';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import {
+    enumToFilterOptions,
+    FilterOption,
+} from '@shared/components/filter/filter.types';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { formatDate } from '@shared/domain/functions/format-data.function';
+import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
+import { Track } from '@shared/domain/functions/track.function';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
+import { PROCESSING_ROUTE } from '@shared/routes/routes';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -33,27 +54,6 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import {
-    enumToFilterOptions,
-    FilterOption,
-} from '@shared/components/filter/filter.types';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { PaginationComponent } from '@shared/components/pagination/pagination.component';
-import { TableComponent } from '@shared/components/table/table.component';
-import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { Track } from '@shared/domain/functions/track.function';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { PROCESSING_ROUTE } from '@shared/routes/routes';
-
-import { TasksActionsFacade } from '@presentation/pages/processing/application/services/tasks/tasks-actions.facade';
-import { TASKS_ACTIONS_TABLE } from '@presentation/pages/processing/domain/constants/tasks/tasks-actions-table.constant';
-import { TasksActionsFormControl } from '@presentation/pages/processing/domain/controls/tasks/tasks-actions-form.control';
-import { TasksActionsTypes } from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-types.enum';
-import { TASKS_ROUTE } from '@presentation/pages/processing/processing.routes';
 
 @Component({
     selector: 'app-actions-treatment',
@@ -123,9 +123,37 @@ export class ActionsTreatmentComponent implements OnInit {
         { initialValue: '' }
     );
 
-    public readonly paramsTypeReport: Signal<string> = toSignal(
+    public readonly reportType: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
-            map((params: Params) => params['typeReport'])
+            map((params: Params) => params['reportType'])
+        ),
+        { initialValue: '' }
+    );
+
+    public readonly operators: Signal<string> = toSignal(
+        this.activatedRoute.queryParams.pipe(
+            map((params: Params) => params['operators'])
+        ),
+        { initialValue: '' }
+    );
+
+    public readonly createdAt: Signal<string> = toSignal(
+        this.activatedRoute.queryParams.pipe(
+            map((params: Params) => params['createdAt'])
+        ),
+        { initialValue: '' }
+    );
+
+    public readonly source: Signal<string> = toSignal(
+        this.activatedRoute.queryParams.pipe(
+            map((params: Params) => params['source'])
+        ),
+        { initialValue: '' }
+    );
+
+    public readonly initiatorPhone: Signal<string> = toSignal(
+        this.activatedRoute.queryParams.pipe(
+            map((params: Params) => params['initiatorPhone'])
         ),
         { initialValue: '' }
     );
@@ -146,7 +174,8 @@ export class ActionsTreatmentComponent implements OnInit {
         }
 
         this.lastSuccess = current;
-        this.navigateToBack();
+        this.form.reset();
+        this.displayModal.set(false);
     });
 
     private readonly modalEffect = effect(() => {
@@ -220,6 +249,14 @@ export class ActionsTreatmentComponent implements OnInit {
                 takeUntilDestroyed(this.destroyRef)
             )
             .subscribe();
+    }
+
+    public getFormatDate(value: string): string {
+        return formatDate(value);
+    }
+
+    public getOperatorTagStyle(operator: string): Record<string, string> {
+        return operatorsTagStyle(operator);
     }
 
     public onPageChange(event: number): void {

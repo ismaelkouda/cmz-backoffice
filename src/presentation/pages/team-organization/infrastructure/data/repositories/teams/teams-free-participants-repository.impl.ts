@@ -6,12 +6,12 @@
 //     SimpleResponseDto,
 // } from '@shared/data/dto/simple-response.dto';
 
-// import { TeamsFreeParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-free-participants-assign.entity';
-// import { TeamsFreeParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-free-participants.entity';
-// import { TeamsFreeParticipantsRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-free-participants-repository';
-// import { teamsFreeParticipantsAssignMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-assign.mapper';
-// import { TeamsFreeParticipantsMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-free-participants.mapper';
-// import { TeamsFreeParticipantsApi } from '@presentation/pages/team-organization/infrastructure/data/sources/teams/teams-free-participants.api';
+// import { TeamsFreeParticipantsAssignEntity } from '@pages/team-organization/domain/entities/teams/teams-free-participants-assign.entity';
+// import { TeamsFreeParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-free-participants.entity';
+// import { TeamsFreeParticipantsRepository } from '@pages/team-organization/domain/repositories/teams/teams-free-participants-repository';
+// import { teamsFreeParticipantsAssignMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-assign.mapper';
+// import { TeamsFreeParticipantsMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-free-participants.mapper';
+// import { TeamsFreeParticipantsApi } from '@pages/team-organization/infrastructure/data/sources/teams/teams-free-participants.api';
 
 // @Injectable({ providedIn: 'root' })
 // export class TeamsFreeParticipantsRepositoryImpl

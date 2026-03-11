@@ -38,9 +38,9 @@
 // import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
 // import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 
-// import { TERMS_USE_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-// import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
-// import { GetTermsUseByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
+// import { TERMS_USE_ROUTE } from '@pages/content-management/content-management.routes';
+// import { TermsUseFacade } from '@pages/content-management/core/application/services/terms-use.facade';
+// import { GetTermsUseByIdEntity } from '@pages/content-management/core/domain/entities/get-terms-use-by-id.entity';
 
 // @Component({
 //     selector: 'app-form-terms-use',

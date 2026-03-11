@@ -1,17 +1,15 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { ProfilesPermissionsFreeUsersAssignEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-free-users-assign.entity';
+import { ProfilesPermissionsFreeUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-free-users.entity';
+import { ProfilesPermissionsFreeUsersRepository } from '@pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-free-users-repository';
+import { profilesPermissionsFreeUsersAssignMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-free-users-assign.mapper';
+import { ProfilesPermissionsFreeUsersMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-free-users.mapper';
+import { ProfilesPermissionsFreeUsersApi } from '@pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-free-users.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsFreeUsersAssignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-free-users-assign.entity';
-import { ProfilesPermissionsFreeUsersEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-free-users.entity';
-import { ProfilesPermissionsFreeUsersRepository } from '@presentation/pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-free-users-repository';
-import { profilesPermissionsFreeUsersAssignMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-free-users-assign.mapper';
-import { ProfilesPermissionsFreeUsersMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-free-users.mapper';
-import { ProfilesPermissionsFreeUsersApi } from '@presentation/pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-free-users.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsFreeUsersRepositoryImpl implements ProfilesPermissionsFreeUsersRepository {

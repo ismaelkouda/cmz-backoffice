@@ -1,4 +1,4 @@
-import { TeamsUpdateDto } from '@presentation/pages/team-organization/application/dto/teams/teams-update.dto';
+import { TeamsUpdateDto } from '@pages/team-organization/application/dto/teams/teams-update.dto';
 
 export class TeamsUpdateVo {
     readonly uniqId: string;

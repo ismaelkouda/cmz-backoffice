@@ -1,4 +1,4 @@
-import { TasksActionsFilterVo } from '@presentation/pages/processing/domain/value-objects/tasks/tasks-actions-filter.vo';
+import { TasksActionsFilterVo } from '@pages/processing/domain/value-objects/tasks/tasks-actions-filter.vo';
 
 export class TasksActionsFilterEntity {
     constructor(public readonly uniqId: string) {}

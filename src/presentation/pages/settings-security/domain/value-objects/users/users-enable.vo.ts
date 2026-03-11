@@ -1,4 +1,4 @@
-import { UsersEnableDto } from '@presentation/pages/settings-security/application/dto/users/users-enable.dto';
+import { UsersEnableDto } from '@pages/settings-security/application/dto/users/users-enable.dto';
 
 export class UsersEnableVo {
     public readonly uniqId: string;

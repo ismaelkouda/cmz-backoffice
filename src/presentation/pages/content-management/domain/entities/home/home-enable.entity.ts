@@ -1,4 +1,4 @@
-import { HomeEnableVo } from '@presentation/pages/content-management/domain/value-objects/home/home-enable.vo';
+import { HomeEnableVo } from '@pages/content-management/domain/value-objects/home/home-enable.vo';
 
 export class HomeEnableEntity {
     constructor(public readonly uniqId: string) {}

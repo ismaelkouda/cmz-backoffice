@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { HistoryFindOneFilterBus } from '@shared/components/history/application/bus/history-find-one-filter.bus';
 import { HistoryFindOneFilterCommand } from '@shared/components/history/application/commands/history-find-one-filter.command';

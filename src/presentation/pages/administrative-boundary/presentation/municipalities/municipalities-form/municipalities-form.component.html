@@ -189,7 +189,9 @@
                                                         [options]="
                                                             departments()
                                                         "
-                                                        [loading]="loadingDepartments()"
+                                                        [loading]="
+                                                            loadingDepartments()
+                                                        "
                                                         formControlName="departmentId"
                                                         optionLabel="name"
                                                         optionValue="value"
@@ -200,8 +202,14 @@
                                                             'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.FIELDSET_GENERAL_INFO.DEPARTMENT_PLACEHOLDER'
                                                                 | translate
                                                         "
-        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
                                                     >
                                                     </p-select>
                                                     @if (

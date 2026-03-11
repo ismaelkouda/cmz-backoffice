@@ -1,4 +1,4 @@
-import { DetailsTakeDto } from '@presentation/pages/requests/application/dto/details/details-take.dto';
+import { DetailsTakeDto } from '@pages/requests/application/dto/details/details-take.dto';
 
 export class DetailsTakeVo {
     public readonly uniqId: string;

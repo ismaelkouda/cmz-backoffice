@@ -1,5 +1,5 @@
-import { PrivacyPolicyCreateEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-create.entity';
-import { PrivacyPolicyCreateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-create-api.dto';
+import { PrivacyPolicyCreateEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-create.entity';
+import { PrivacyPolicyCreateApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-create-api.dto';
 
 export function privacyPolicyCreateMapper(
     entity: PrivacyPolicyCreateEntity

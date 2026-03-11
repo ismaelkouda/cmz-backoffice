@@ -1,4 +1,4 @@
-import { PrivacyPolicyPublishVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-publish.vo';
+import { PrivacyPolicyPublishVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-publish.vo';
 
 export class PrivacyPolicyPublishEntity {
     constructor(public readonly uniqId: string) {}

@@ -6,14 +6,12 @@ import {
     FormControl,
     Validators,
 } from '@angular/forms';
-
+import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
+import { MessagingFindOneFacade } from '@pages/communication/application/services/messaging/messaging-find-one.facade';
+import { MessagingFormControl } from '@pages/communication/domain/controls/messaging/messaging-form.control';
+import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { FormValidators } from '@pages/communication/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
-
-import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
-import { MessagingFindOneFacade } from '@presentation/pages/communication/application/services/messaging/messaging-find-one.facade';
-import { MessagingFormControl } from '@presentation/pages/communication/domain/controls/messaging/messaging-form.control';
-import { Target } from '@presentation/pages/communication/domain/enums/messaging/messaging-target.enum';
-import { FormValidators } from '@presentation/pages/communication/domain/validators/form-validators';
 
 @Injectable()
 export class MessagingFormStore {

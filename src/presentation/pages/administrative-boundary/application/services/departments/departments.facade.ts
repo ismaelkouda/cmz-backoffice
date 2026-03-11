@@ -1,6 +1,17 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { DepartmentsCreateCommand } from '@pages/administrative-boundary/application/commands/departments/departments-create.command';
+import { DepartmentsDeleteCommand } from '@pages/administrative-boundary/application/commands/departments/departments-delete.command';
+import { DepartmentsUpdateCommand } from '@pages/administrative-boundary/application/commands/departments/departments-update.command';
+import { DepartmentsCreateBus } from '@pages/administrative-boundary/application/commands-bus/departments/departments-create.bus';
+import { DepartmentsDeleteBus } from '@pages/administrative-boundary/application/commands-bus/departments/departments-delete.bus';
+import { DepartmentsUpdateBus } from '@pages/administrative-boundary/application/commands-bus/departments/departments-update.bus';
+import { DepartmentsCreateDto } from '@pages/administrative-boundary/application/dto/departments/departments-create.dto';
+import { DepartmentsDeleteDto } from '@pages/administrative-boundary/application/dto/departments/departments-delete.dto';
+import { DepartmentsFilterDto } from '@pages/administrative-boundary/application/dto/departments/departments-filter.dto';
+import { DepartmentsUpdateDto } from '@pages/administrative-boundary/application/dto/departments/departments-update.dto';
+import { DepartmentsQuery } from '@pages/administrative-boundary/application/queries/departments/departments.query';
+import { DepartmentsBus } from '@pages/administrative-boundary/application/queries-bus/departments/departments.bus';
+import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,20 +19,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { DepartmentsCreateCommand } from '@presentation/pages/administrative-boundary/application/commands/departments/departments-create.command';
-import { DepartmentsDeleteCommand } from '@presentation/pages/administrative-boundary/application/commands/departments/departments-delete.command';
-import { DepartmentsUpdateCommand } from '@presentation/pages/administrative-boundary/application/commands/departments/departments-update.command';
-import { DepartmentsCreateBus } from '@presentation/pages/administrative-boundary/application/commands-bus/departments/departments-create.bus';
-import { DepartmentsDeleteBus } from '@presentation/pages/administrative-boundary/application/commands-bus/departments/departments-delete.bus';
-import { DepartmentsUpdateBus } from '@presentation/pages/administrative-boundary/application/commands-bus/departments/departments-update.bus';
-import { DepartmentsCreateDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-create.dto';
-import { DepartmentsDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-delete.dto';
-import { DepartmentsFilterDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-filter.dto';
-import { DepartmentsUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-update.dto';
-import { DepartmentsQuery } from '@presentation/pages/administrative-boundary/application/queries/departments/departments.query';
-import { DepartmentsBus } from '@presentation/pages/administrative-boundary/application/queries-bus/departments/departments.bus';
-import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

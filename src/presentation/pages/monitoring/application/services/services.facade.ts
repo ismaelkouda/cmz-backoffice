@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-
 import { SimpleBaseFacade } from '@shared/application/services/simple-base-facade';
 
 import { ServicesEntity } from '../../domain/entities/services/services.entity';

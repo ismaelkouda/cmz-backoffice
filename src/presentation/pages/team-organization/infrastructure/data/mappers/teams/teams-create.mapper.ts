@@ -1,5 +1,5 @@
-import { TeamsCreateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-create.entity';
-import { TeamsCreateApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-create-api.dto';
+import { TeamsCreateEntity } from '@pages/team-organization/domain/entities/teams/teams-create.entity';
+import { TeamsCreateApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-create-api.dto';
 
 export function TeamsCreateMapper(
     entity: TeamsCreateEntity

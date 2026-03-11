@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
 import {
     TasksActionsEntity,
     TasksActionsProps,
     TasksActionsType,
-} from '@presentation/pages/processing/domain/entities/tasks/tasks-actions.entity';
-import { TasksActionsItemApiDto } from '@presentation/pages/processing/infrastructure/api/dto/tasks/tasks-actions-response-api.dto';
+} from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
+import { TasksActionsItemApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-response-api.dto';
+import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class TasksActionsMapper extends PaginatedMapper<

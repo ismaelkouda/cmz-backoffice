@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { UsersCreateCommand } from '@pages/settings-security/application/commands/users/users-create.command';
+import { UsersDeleteCommand } from '@pages/settings-security/application/commands/users/users-delete.command';
+import { UsersDisableCommand } from '@pages/settings-security/application/commands/users/users-disable.command';
+import { UsersEnableCommand } from '@pages/settings-security/application/commands/users/users-enable.command';
+import { UsersUpdateCommand } from '@pages/settings-security/application/commands/users/users-update.command';
+import { UsersCreateBus } from '@pages/settings-security/application/commands-bus/users/users-create.bus';
+import { UsersDeleteBus } from '@pages/settings-security/application/commands-bus/users/users-delete.bus';
+import { UsersDisableBus } from '@pages/settings-security/application/commands-bus/users/users-disable.bus';
+import { UsersEnableBus } from '@pages/settings-security/application/commands-bus/users/users-enable.bus';
+import { UsersUpdateBus } from '@pages/settings-security/application/commands-bus/users/users-update.bus';
+import { UsersCreateDto } from '@pages/settings-security/application/dto/users/users-create.dto';
+import { UsersDeleteDto } from '@pages/settings-security/application/dto/users/users-delete.dto';
+import { UsersDisableDto } from '@pages/settings-security/application/dto/users/users-disable.dto';
+import { UsersEnableDto } from '@pages/settings-security/application/dto/users/users-enable.dto';
+import { UsersFilterDto } from '@pages/settings-security/application/dto/users/users-filter.dto';
+import { UsersUpdateDto } from '@pages/settings-security/application/dto/users/users-update.dto';
+import { UsersQuery } from '@pages/settings-security/application/queries/users/users.query';
+import { UsersBus } from '@pages/settings-security/application/queries-bus/users/users.bus';
+import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { UsersCreateCommand } from '@presentation/pages/settings-security/application/commands/users/users-create.command';
-import { UsersDeleteCommand } from '@presentation/pages/settings-security/application/commands/users/users-delete.command';
-import { UsersDisableCommand } from '@presentation/pages/settings-security/application/commands/users/users-disable.command';
-import { UsersEnableCommand } from '@presentation/pages/settings-security/application/commands/users/users-enable.command';
-import { UsersUpdateCommand } from '@presentation/pages/settings-security/application/commands/users/users-update.command';
-import { UsersCreateBus } from '@presentation/pages/settings-security/application/commands-bus/users/users-create.bus';
-import { UsersDeleteBus } from '@presentation/pages/settings-security/application/commands-bus/users/users-delete.bus';
-import { UsersDisableBus } from '@presentation/pages/settings-security/application/commands-bus/users/users-disable.bus';
-import { UsersEnableBus } from '@presentation/pages/settings-security/application/commands-bus/users/users-enable.bus';
-import { UsersUpdateBus } from '@presentation/pages/settings-security/application/commands-bus/users/users-update.bus';
-import { UsersCreateDto } from '@presentation/pages/settings-security/application/dto/users/users-create.dto';
-import { UsersDeleteDto } from '@presentation/pages/settings-security/application/dto/users/users-delete.dto';
-import { UsersDisableDto } from '@presentation/pages/settings-security/application/dto/users/users-disable.dto';
-import { UsersEnableDto } from '@presentation/pages/settings-security/application/dto/users/users-enable.dto';
-import { UsersFilterDto } from '@presentation/pages/settings-security/application/dto/users/users-filter.dto';
-import { UsersUpdateDto } from '@presentation/pages/settings-security/application/dto/users/users-update.dto';
-import { UsersQuery } from '@presentation/pages/settings-security/application/queries/users/users.query';
-import { UsersBus } from '@presentation/pages/settings-security/application/queries-bus/users/users.bus';
-import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

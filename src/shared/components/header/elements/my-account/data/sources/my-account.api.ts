@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { EnvService } from '@shared/domain/services/env.service';
+import { Observable } from 'rxjs';
 
 import { MY_ACCOUNT_ENDPOINTS } from '../constants/my-account-endpoints.constant';
 import { ChangePasswordRequestDto } from '../dto/change-password-request.dto';

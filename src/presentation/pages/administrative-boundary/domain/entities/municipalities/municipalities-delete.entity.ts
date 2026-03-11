@@ -1,4 +1,4 @@
-import { MunicipalitiesDeleteVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-delete.vo';
+import { MunicipalitiesDeleteVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-delete.vo';
 
 export class MunicipalitiesDeleteEntity {
     constructor(public readonly uniqId: string) {}

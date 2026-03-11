@@ -1,4 +1,4 @@
-import { TeamsParticipantsAssignVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-assign.vo';
+import { TeamsParticipantsAssignVo } from '@pages/team-organization/domain/value-objects/teams/teams-participants-assign.vo';
 
 export class TeamsParticipantsAssignEntity {
     constructor(

@@ -1,6 +1,17 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { MunicipalitiesCreateCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-create.command';
+import { MunicipalitiesDeleteCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-delete.command';
+import { MunicipalitiesUpdateCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-update.command';
+import { MunicipalitiesCreateBus } from '@pages/administrative-boundary/application/commands-bus/municipalities/municipalities-create.bus';
+import { MunicipalitiesDeleteBus } from '@pages/administrative-boundary/application/commands-bus/municipalities/municipalities-delete.bus';
+import { MunicipalitiesUpdateBus } from '@pages/administrative-boundary/application/commands-bus/municipalities/municipalities-update.bus';
+import { MunicipalitiesCreateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-create.dto';
+import { MunicipalitiesDeleteDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
+import { MunicipalitiesFilterDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-filter.dto';
+import { MunicipalitiesUpdateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-update.dto';
+import { MunicipalitiesQuery } from '@pages/administrative-boundary/application/queries/municipalities/municipalities.query';
+import { MunicipalitiesBus } from '@pages/administrative-boundary/application/queries-bus/municipalities/municipalities.bus';
+import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,20 +19,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { MunicipalitiesCreateCommand } from '@presentation/pages/administrative-boundary/application/commands/municipalities/municipalities-create.command';
-import { MunicipalitiesDeleteCommand } from '@presentation/pages/administrative-boundary/application/commands/municipalities/municipalities-delete.command';
-import { MunicipalitiesUpdateCommand } from '@presentation/pages/administrative-boundary/application/commands/municipalities/municipalities-update.command';
-import { MunicipalitiesCreateBus } from '@presentation/pages/administrative-boundary/application/commands-bus/municipalities/municipalities-create.bus';
-import { MunicipalitiesDeleteBus } from '@presentation/pages/administrative-boundary/application/commands-bus/municipalities/municipalities-delete.bus';
-import { MunicipalitiesUpdateBus } from '@presentation/pages/administrative-boundary/application/commands-bus/municipalities/municipalities-update.bus';
-import { MunicipalitiesCreateDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-create.dto';
-import { MunicipalitiesDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
-import { MunicipalitiesFilterDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-filter.dto';
-import { MunicipalitiesUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-update.dto';
-import { MunicipalitiesQuery } from '@presentation/pages/administrative-boundary/application/queries/municipalities/municipalities.query';
-import { MunicipalitiesBus } from '@presentation/pages/administrative-boundary/application/queries-bus/municipalities/municipalities.bus';
-import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

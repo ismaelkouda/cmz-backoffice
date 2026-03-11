@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TasksActionsDeleteCommand } from '@pages/processing/application/commands/tasks/tasks-actions-delete.command';
+import { TasksActionsDeleteHandler } from '@pages/processing/application/commands-handlers/tasks/tasks-actions-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TasksActionsDeleteCommand } from '@presentation/pages/processing/application/commands/tasks/tasks-actions-delete.command';
-import { TasksActionsDeleteHandler } from '@presentation/pages/processing/application/commands-handlers/tasks/tasks-actions-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksActionsDeleteBus {

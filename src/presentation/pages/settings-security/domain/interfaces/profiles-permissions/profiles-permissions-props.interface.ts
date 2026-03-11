@@ -1,4 +1,4 @@
-import { Status } from '@presentation/pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
+import { Status } from '@pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
 
 export interface ProfilesPermissionsProps {
     uniqId: string;

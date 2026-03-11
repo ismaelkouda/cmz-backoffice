@@ -1,23 +1,21 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { ProfilesPermissionsUsersAssignEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-assign.entity';
+import { ProfilesPermissionsUsersFilterEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-filter.entity';
+import { ProfilesPermissionsUsersReassignEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-reassign.entity';
+import { ProfilesPermissionsUsersRemoveEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-remove.entity';
+import { ProfilesPermissionsUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
+import { ProfilesPermissionsUsersRepository } from '@pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-users-repository';
+import { profilesPermissionsUsersAssignMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users-assign.mapper';
+import { profilesPermissionsUsersFilterMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users-filter.mapper';
+import { profilesPermissionsUsersReassignMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users-reassign.mapper';
+import { profilesPermissionsUsersRemoveMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users-remove.mapper';
+import { ProfilesPermissionsUsersMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users.mapper';
+import { ProfilesPermissionsUsersApi } from '@pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-users.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsUsersAssignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-assign.entity';
-import { ProfilesPermissionsUsersFilterEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-filter.entity';
-import { ProfilesPermissionsUsersReassignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-reassign.entity';
-import { ProfilesPermissionsUsersRemoveEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-remove.entity';
-import { ProfilesPermissionsUsersEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
-import { ProfilesPermissionsUsersRepository } from '@presentation/pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-users-repository';
-import { profilesPermissionsUsersAssignMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users-assign.mapper';
-import { profilesPermissionsUsersFilterMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users-filter.mapper';
-import { profilesPermissionsUsersReassignMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users-reassign.mapper';
-import { profilesPermissionsUsersRemoveMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users-remove.mapper';
-import { ProfilesPermissionsUsersMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-users.mapper';
-import { ProfilesPermissionsUsersApi } from '@presentation/pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-users.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsUsersRepositoryImpl implements ProfilesPermissionsUsersRepository {

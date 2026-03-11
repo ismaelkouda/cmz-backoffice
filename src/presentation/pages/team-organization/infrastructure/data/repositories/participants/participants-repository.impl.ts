@@ -1,27 +1,25 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { ParticipantsCreateEntity } from '@pages/team-organization/domain/entities/participants/participants-create.entity';
+import { ParticipantsDeleteEntity } from '@pages/team-organization/domain/entities/participants/participants-delete.entity';
+import { ParticipantsDisableEntity } from '@pages/team-organization/domain/entities/participants/participants-disable.entity';
+import { ParticipantsEnableEntity } from '@pages/team-organization/domain/entities/participants/participants-enable.entity';
+import { ParticipantsFilterEntity } from '@pages/team-organization/domain/entities/participants/participants-filter.entity';
+import { ParticipantsUpdateEntity } from '@pages/team-organization/domain/entities/participants/participants-update.entity';
+import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
+import { ParticipantsRepository } from '@pages/team-organization/domain/repositories/participants/participants-repository';
+import { participantsCreateMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-create.mapper';
+import { participantsDeleteMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-delete.mapper';
+import { participantsDisableMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-disable.mapper';
+import { participantsEnableMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-enable.mapper';
+import { participantsFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-filter.mapper';
+import { participantsUpdateMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-update.mapper';
+import { ParticipantsMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants.mapper';
+import { ParticipantsApi } from '@pages/team-organization/infrastructure/data/sources/participants/participants.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { ParticipantsCreateEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-create.entity';
-import { ParticipantsDeleteEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-delete.entity';
-import { ParticipantsDisableEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-disable.entity';
-import { ParticipantsEnableEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-enable.entity';
-import { ParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-filter.entity';
-import { ParticipantsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-update.entity';
-import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
-import { ParticipantsRepository } from '@presentation/pages/team-organization/domain/repositories/participants/participants-repository';
-import { participantsCreateMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-create.mapper';
-import { participantsDeleteMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-delete.mapper';
-import { participantsDisableMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-disable.mapper';
-import { participantsEnableMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-enable.mapper';
-import { participantsFilterMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-filter.mapper';
-import { participantsUpdateMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-update.mapper';
-import { ParticipantsMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants.mapper';
-import { ParticipantsApi } from '@presentation/pages/team-organization/infrastructure/data/sources/participants/participants.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

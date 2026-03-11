@@ -1,6 +1,5 @@
+import { AgentsPerformancesFilterDto } from '@pages/team-organization/application/dto/agents-performances/agents-performances-filter.dto';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { AgentsPerformancesFilterDto } from '@presentation/pages/team-organization/application/dto/agents-performances/agents-performances-filter.dto';
 
 export class AgentsPerformancesFilterVo {
     public readonly search?: string;

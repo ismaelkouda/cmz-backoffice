@@ -1,4 +1,4 @@
-import { DepartmentsUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-update.vo';
+import { DepartmentsUpdateVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-update.vo';
 
 export class DepartmentsUpdateEntity {
     constructor(

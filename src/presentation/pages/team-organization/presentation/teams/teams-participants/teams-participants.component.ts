@@ -21,16 +21,13 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { MenuItem } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectModule } from 'primeng/select';
-import { TagModule } from 'primeng/tag';
-import { map, tap } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { ParticipantsSelectFacade } from '@pages/team-organization/application/services/participants/participants-select.facade';
+import { TeamsParticipantsFacade } from '@pages/team-organization/application/services/teams/teams-participants.facade';
+import { TeamsSelectFacade } from '@pages/team-organization/application/services/teams/teams-select.facade';
+import { TEAMS_PARTICIPANTS } from '@pages/team-organization/domain/constants/teams/teams-participants-table.constant';
+import { TeamsParticipantsFilterControl } from '@pages/team-organization/domain/controls/teams/teams-participants-filter.control';
+import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
+import { TEAMS_ROUTE } from '@pages/team-organization/team-organization.routes';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
@@ -43,14 +40,15 @@ import { Roles } from '@shared/domain/enums/roles.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
-
-import { ParticipantsSelectFacade } from '@presentation/pages/team-organization/application/services/participants/participants-select.facade';
-import { TeamsParticipantsFacade } from '@presentation/pages/team-organization/application/services/teams/teams-participants.facade';
-import { TeamsSelectFacade } from '@presentation/pages/team-organization/application/services/teams/teams-select.facade';
-import { TEAMS_PARTICIPANTS } from '@presentation/pages/team-organization/domain/constants/teams/teams-participants-table.constant';
-import { TeamsParticipantsFilterControl } from '@presentation/pages/team-organization/domain/controls/teams/teams-participants-filter.control';
-import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
-import { TEAMS_ROUTE } from '@presentation/pages/team-organization/team-organization.routes';
+import { ToastrService } from 'ngx-toastr';
+import { MenuItem } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
+import { map, tap } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-teams-participants',
@@ -388,13 +386,19 @@ export class TeamsParticipantsComponent implements OnInit {
             return;
         }
 
+        const title: string = this.t(
+            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.TITLE_REMOVE'
+        );
+        const text: string = this.t(
+            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.MESSAGE_REMOVE'
+        );
+
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t(
-                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.TITLE_REMOVE'
-            ),
-            text: this.t(
-                'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.MESSAGE_REMOVE'
+            title: title,
+            text: text.replaceAll(
+                '{{count}}',
+                this.participantsSelectedInTable().length.toString()
             ),
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),

@@ -1,7 +1,6 @@
 import { Provider } from '@angular/core';
-
-import { ParticipantsSelectRepository } from '@presentation/pages/team-organization/domain/repositories/participants/participants-select-repository';
-import { ParticipantsSelectRepositoryImpl } from '@presentation/pages/team-organization/infrastructure/data/repositories/participants/participants-select-repository.impl';
+import { ParticipantsSelectRepository } from '@pages/team-organization/domain/repositories/participants/participants-select-repository';
+import { ParticipantsSelectRepositoryImpl } from '@pages/team-organization/infrastructure/data/repositories/participants/participants-select-repository.impl';
 
 export const participantsSelectProviders: Provider[] = [
     {

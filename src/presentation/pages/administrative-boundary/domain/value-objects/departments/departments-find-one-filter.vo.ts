@@ -1,4 +1,4 @@
-import { DepartmentsFindOneFilterDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-find-one-filter.dto';
+import { DepartmentsFindOneFilterDto } from '@pages/administrative-boundary/application/dto/departments/departments-find-one-filter.dto';
 
 export class DepartmentsFindOneFilterVo {
     public readonly uniqId: string;

@@ -1,12 +1,10 @@
 import { inject, Provider } from '@angular/core';
-
+import { provideDetails } from '@pages/requests/di//details/details.providers';
+import { provideAll } from '@pages/requests/di/all/all.providers';
+import { provideQueues } from '@pages/requests/di/queues/queues.providers';
+import { provideTasks } from '@pages/requests/di/tasks/tasks.providers';
+import { REQUESTS_BASE_URL } from '@pages/requests/infrastructure/api/report-requests.base-url';
 import { EnvService } from '@shared/domain/services/env.service';
-
-import { provideDetails } from '@presentation/pages/requests/di//details/details.providers';
-import { provideAll } from '@presentation/pages/requests/di/all/all.providers';
-import { provideQueues } from '@presentation/pages/requests/di/queues/queues.providers';
-import { provideTasks } from '@presentation/pages/requests/di/tasks/tasks.providers';
-import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/report-requests.base-url';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).reportUrl;

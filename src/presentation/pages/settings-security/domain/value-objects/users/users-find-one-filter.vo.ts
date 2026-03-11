@@ -1,4 +1,4 @@
-import { UsersFindOneFilterDto } from '@presentation/pages/settings-security/application/dto/users/users-find-one-filter.dto';
+import { UsersFindOneFilterDto } from '@pages/settings-security/application/dto/users/users-find-one-filter.dto';
 
 export class UsersFindOneFilterVo {
     public readonly uniqId: string;

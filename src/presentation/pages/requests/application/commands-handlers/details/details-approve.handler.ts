@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DetailsApproveCommand } from '@pages/requests/application/commands/details/details-approve.command';
+import { DetailsUseCase } from '@pages/requests/application/use-cases/details/details.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DetailsApproveCommand } from '@presentation/pages/requests/application/commands/details/details-approve.command';
-import { DetailsUseCase } from '@presentation/pages/requests/application/use-cases/details/details.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsApproveHandler {

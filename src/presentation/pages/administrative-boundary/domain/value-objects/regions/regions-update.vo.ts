@@ -1,4 +1,4 @@
-import { RegionsUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-update.dto';
+import { RegionsUpdateDto } from '@pages/administrative-boundary/application/dto/regions/regions-update.dto';
 
 export class RegionsUpdateVo {
     public readonly uniqId: string;

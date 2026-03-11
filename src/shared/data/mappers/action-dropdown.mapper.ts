@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
 import { ActionDropdownDto } from '../dto/action-dropdown.dto';

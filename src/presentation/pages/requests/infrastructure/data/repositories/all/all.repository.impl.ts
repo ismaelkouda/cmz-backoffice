@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-
+import { AllFilterEntity } from '@pages/requests/domain/entities/all/all-filter.entity';
+import { AllEntity } from '@pages/requests/domain/entities/all/all.entity';
+import { AllRepository } from '@pages/requests/domain/repositories/all/all.repository';
+import { allFilterMapper } from '@pages/requests/infrastructure/data/mappers/all/all-filter.mapper';
+import { AllMapper } from '@pages/requests/infrastructure/data/mappers/all/all.mapper';
+import { AllApi } from '@pages/requests/infrastructure/data/sources/all/all.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AllFilterEntity } from '@presentation/pages/requests/domain/entities/all/all-filter.entity';
-import { AllEntity } from '@presentation/pages/requests/domain/entities/all/all.entity';
-import { AllRepository } from '@presentation/pages/requests/domain/repositories/all/all.repository';
-import { allFilterMapper } from '@presentation/pages/requests/infrastructure/data/mappers/all/all-filter.mapper';
-import { AllMapper } from '@presentation/pages/requests/infrastructure/data/mappers/all/all.mapper';
-import { AllApi } from '@presentation/pages/requests/infrastructure/data/sources/all/all.api';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

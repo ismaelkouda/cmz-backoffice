@@ -1,7 +1,6 @@
+import { DepartmentsFilterDto } from '@pages/administrative-boundary/application/dto/departments/departments-filter.dto';
+import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { DepartmentsFilterDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-filter.dto';
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/departments/departments-status.enum';
 
 export class DepartmentsFilterVo {
     public readonly search?: string;

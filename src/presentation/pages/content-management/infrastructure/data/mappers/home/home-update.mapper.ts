@@ -1,17 +1,17 @@
-import { HomeUpdateEntity } from '@presentation/pages/content-management/domain/entities/home/home-update.entity';
-import { HomeUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-update-api.dto';
+import { inject } from '@angular/core';
+import { HomeUpdateEntity } from '@pages/content-management/domain/entities/home/home-update.entity';
+import { HomeUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-update-api.dto';
+import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
 export function homeUpdateMapper(entity: HomeUpdateEntity): HomeUpdateApiDto {
+    const platformMapper = inject(PlatformMapper);
     const params: HomeUpdateApiDto = {} as HomeUpdateApiDto;
 
     if (entity.uniqId) {
         params.uniq_id = entity.uniqId;
     }
     if (entity.image) {
-        params.image = entity.image;
-    }
-    if (entity.platforms) {
-        params.platforms = entity.platforms;
+        params.image_file = entity.image;
     }
     if (entity.startDate) {
         params.start_date = entity.startDate;
@@ -22,8 +22,10 @@ export function homeUpdateMapper(entity: HomeUpdateEntity): HomeUpdateApiDto {
     if (entity.title) {
         params.title = entity.title;
     }
-    if (entity.platforms) {
-        params.platforms = entity.platforms;
+    if (entity.platforms.length > 0) {
+        params.platforms = entity.platforms.map((p) =>
+            platformMapper.mapToDto(p)
+        );
     }
     if (entity.title) {
         params.title = entity.title;

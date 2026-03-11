@@ -1,5 +1,5 @@
-import { MessagingCreateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-create.entity';
-import { MessagingCreateApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-create-api.dto';
+import { MessagingCreateEntity } from '@pages/communication/domain/entities/messaging/messaging-create.entity';
+import { MessagingCreateApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-create-api.dto';
 
 export function messagingCreateMapper(
     entity: MessagingCreateEntity

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { SlideCreateCommand } from '@pages/content-management/application/commands/slide/slide-create.command';
+import { SlideCreateHandler } from '@pages/content-management/application/commands-handlers/slide/slide-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { SlideCreateCommand } from '@presentation/pages/content-management/application/commands/slide/slide-create.command';
-import { SlideCreateHandler } from '@presentation/pages/content-management/application/commands-handlers/slide/slide-create.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SlideCreateBus {

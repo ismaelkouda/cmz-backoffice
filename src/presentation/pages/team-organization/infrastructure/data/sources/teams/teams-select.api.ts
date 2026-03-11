@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { TeamsSelectResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-select-api.dto';
+import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { Observable } from 'rxjs';
-
-import { TeamsSelectResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-select-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
-import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsSelectApi {

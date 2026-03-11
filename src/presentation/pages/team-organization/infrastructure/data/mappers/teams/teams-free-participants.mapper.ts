@@ -3,8 +3,8 @@
 // import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 // import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
 
-// import { TeamsFreeParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-free-participants.entity';
-// import { TeamsFreeParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-free-participants-response-api.dto';
+// import { TeamsFreeParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-free-participants.entity';
+// import { TeamsFreeParticipantsItemApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-free-participants-response-api.dto';
 
 // @Injectable({
 //     providedIn: 'root',

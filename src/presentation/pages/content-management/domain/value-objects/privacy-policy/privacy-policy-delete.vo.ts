@@ -1,4 +1,4 @@
-import { PrivacyPolicyDeleteDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
+import { PrivacyPolicyDeleteDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
 
 export class PrivacyPolicyDeleteVo {
     public readonly uniqId: string;

@@ -15,13 +15,11 @@ import {
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TabsModule } from 'primeng/tabs';
-import { filter } from 'rxjs';
-
+import { MESSAGING_TABS } from '@pages/communication/domain/constants/messaging/messaging-tabs.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-
-import { MESSAGING_TABS } from '@presentation/pages/communication/domain/constants/messaging/messaging-tabs.constants';
+import { TabsModule } from 'primeng/tabs';
+import { filter } from 'rxjs';
 
 @Component({
     selector: 'app-messaging-page',

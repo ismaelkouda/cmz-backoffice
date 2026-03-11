@@ -30,61 +30,58 @@
                     </header>
 
                     <div class="fade-in actions-content">
-                        <!-- <div class="report-subtitle">
+                        <div class="report-subtitle">
                             <div class="subtitle-item">
-                                <span class="subtitle-label"
-                                    >Type de signalement:</span
-                                >
+                                <span class="subtitle-label">
+                                    {{'COMMON.REPORT' | translate}} : 
+                                </span>
                                 <p-tag
-                                    [value]="items().reportType | translate"
-                                    [styleClass]="
-                                        'report-type-tag ' +
-                                        getReportTypeColor(
-                                            items().reportType
-                                        )
-                                    "
+                                    [value]="reportType() | translate"
                                     [rounded]="true"
                                 ></p-tag>
                             </div>
 
                             <div class="subtitle-item">
-                                <span class="subtitle-label"
-                                    >Opérateurs:</span
-                                >
+                                <span class="subtitle-label">
+                                    {{'COMMON.OPERATORS' | translate}} : 
+                                </span>
                                 <div class="operators-list">
                                     @for (
-                                        operator of items().operators;
+                                        operator of operators();
                                         track operator
                                     ) {
-                                        <span
-                                            class="operator-badge"
-                                            [style.color]="
-                                                getOperatorColor(operator)
+                                        <p-tag
+                                            [value]="operator | translate"
+                                            [style]="
+                                                getOperatorTagStyle(
+                                                    operator | translate
+                                                )
                                             "
-                                        >
-                                            {{ operator | translate }}
-                                        </span>
+                                            styleClass="operator-tag"
+                                        />
                                     }
                                 </div>
                             </div>
 
                             <div class="subtitle-item">
-                                <span class="subtitle-label">Créé le:</span>
+                                <span class="subtitle-label">
+                                    {{'COMMON.CREATED_AT' | translate}} : 
+                                </span>
                                 <span class="subtitle-value">{{
-                                    formatCreationDate(items().createdAt)
+                                    getFormatDate(createdAt())
                                 }}</span>
                             </div>
 
                             <div class="subtitle-item">
-                                <span class="subtitle-label"
-                                    >Source [Numéro]:</span
-                                >
+                                <span class="subtitle-label">
+                                    {{'COMMON.SOURCE' | translate}} : 
+                                </span>
                                 <span class="subtitle-value"
-                                    >{{ items().source | translate }} [
-                                    {{ items().initiatorPhone }} ]
+                                    >{{ source() | translate }} [
+                                    {{ initiatorPhone() }} ]
                                 </span>
                             </div>
-                        </div> -->
+                        </div>
 
                         <hr class="actions-divider" />
 
@@ -175,8 +172,10 @@
                     optionValue="value"
                     placeholder="{{ 'COMMON.SELECT_PLACEHOLDER' | translate }}"
                     class="form-control"
-        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                    [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                    [emptyFilterMessage]="
+                        'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate
+                    "
                 ></p-select>
             </div>
         </div>

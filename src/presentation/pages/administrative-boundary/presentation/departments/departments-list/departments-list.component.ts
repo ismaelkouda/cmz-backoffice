@@ -20,9 +20,17 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
-
+import { DepartmentsFacade } from '@pages/administrative-boundary/application/services/departments/departments.facade';
+import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
+import { FILTER_KEYS } from '@pages/administrative-boundary/domain/constants/departments/departments-filter-keys.constants';
+import { DEPARTMENTS_TABLE } from '@pages/administrative-boundary/domain/constants/departments/departments-table.constants';
+import { DepartmentsFilterControl } from '@pages/administrative-boundary/domain/controls/departments/departments-filter.control';
+import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
+import {
+    DEPARTMENTS_FORM,
+    MUNICIPALITIES_BY_DEPARTMENT_ID_ROUTE,
+} from '@pages/administrative-boundary/presentation/departments/departments.routes';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -38,18 +46,8 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
-
-import { DepartmentsFacade } from '@presentation/pages/administrative-boundary/application/services/departments/departments.facade';
-import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
-import { FILTER_KEYS } from '@presentation/pages/administrative-boundary/domain/constants/departments/departments-filter-keys.constants';
-import { DEPARTMENTS_TABLE } from '@presentation/pages/administrative-boundary/domain/constants/departments/departments-table.constants';
-import { DepartmentsFilterControl } from '@presentation/pages/administrative-boundary/domain/controls/departments/departments-filter.control';
-import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments.entity';
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/departments/departments-status.enum';
-import {
-    DEPARTMENTS_FORM,
-    MUNICIPALITIES_BY_DEPARTMENT_ID_ROUTE,
-} from '@presentation/pages/administrative-boundary/presentation/departments/departments.routes';
+import { ToastrService } from 'ngx-toastr';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-departments-list',

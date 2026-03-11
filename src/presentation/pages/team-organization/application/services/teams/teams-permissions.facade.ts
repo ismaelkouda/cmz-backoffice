@@ -1,10 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-
+import { TeamsPermissionsBus } from '@pages/team-organization/application/queries-bus/teams/teams-permissions.bus';
+import { TeamsPermissionsEntity } from '@pages/team-organization/domain/entities/teams/teams-permissions.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { TeamsPermissionsBus } from '@presentation/pages/team-organization/application/queries-bus/teams/teams-permissions.bus';
-import { TeamsPermissionsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-permissions.entity';
 
 @Injectable({
     providedIn: 'root',

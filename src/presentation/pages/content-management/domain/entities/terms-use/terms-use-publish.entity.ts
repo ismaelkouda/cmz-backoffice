@@ -1,4 +1,4 @@
-import { TermsUsePublishVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-publish.vo';
+import { TermsUsePublishVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-publish.vo';
 
 export class TermsUsePublishEntity {
     constructor(public readonly uniqId: string) {}

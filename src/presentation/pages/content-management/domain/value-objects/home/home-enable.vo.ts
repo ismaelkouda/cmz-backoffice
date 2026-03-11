@@ -1,4 +1,4 @@
-import { HomeEnableDto } from '@presentation/pages/content-management/application/dto/home/home-enable.dto';
+import { HomeEnableDto } from '@pages/content-management/application/dto/home/home-enable.dto';
 
 export class HomeEnableVo {
     public readonly uniqId: string;

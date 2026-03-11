@@ -6,7 +6,6 @@ import {
     input,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 
 import { LanguagesComponent } from './elements/languages/languages.component';

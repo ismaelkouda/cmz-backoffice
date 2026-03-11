@@ -1,43 +1,36 @@
-// import { Routes } from '@angular/router';
+import { Routes } from '@angular/router';
+import { SlideFormComponent } from '@pages/content-management/presentation/features/slide/slide-form/slide-form.component';
+import { SlidePageComponent } from '@pages/content-management/presentation/features/slide/slide-page/slide-page.component';
 
-// import { FormSlideComponent } from './form-slide/form-slide.component';
-// import { SlideComponent } from './pages/slide.component';
+export const SLIDE_FORM = 'form';
 
-// export const SLIDE_CREATE_ROUTE = 'create';
-// export const SLIDE_EDIT_ROUTE = ':id/edit';
-// export const SLIDE_VIEW_ROUTE = ':id/view';
-
-// export const SLIDE_ROUTES: Routes = [
-//     {
-//         path: '',
-//         component: SlideComponent,
-//         data: {
-//             title: 'CONTENT_MANAGEMENT.SLIDE.TITLE',
-//             breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.TITLE',
-//         },
-//     },
-//     {
-//         path: SLIDE_CREATE_ROUTE,
-//         component: FormSlideComponent,
-//         data: {
-//             title: 'CONTENT_MANAGEMENT.SLIDE.CREATE.TITLE',
-//             breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.CREATE.TITLE',
-//         },
-//     },
-//     {
-//         path: SLIDE_EDIT_ROUTE,
-//         component: FormSlideComponent,
-//         data: {
-//             title: 'CONTENT_MANAGEMENT.SLIDE.EDIT.TITLE',
-//             breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.EDIT.TITLE',
-//         },
-//     },
-//     /* {
-//         path: SLIDE_VIEW_ROUTE,
-//         component: ViewSlideComponent,
-//         data: {
-//             title: 'CONTENT_MANAGEMENT.SLIDE.VIEW.TITLE',
-//             breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.VIEW.TITLE',
-//         },
-//     } */
-// ];
+export const SLIDE_ROUTES: Routes = [
+    {
+        path: '',
+        data: {
+            title: 'CONTENT_MANAGEMENT.SLIDE.TITLE',
+            breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.TITLE',
+        },
+        children: [
+            {
+                path: '',
+                component: SlidePageComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+        ],
+    },
+    {
+        path: `${SLIDE_FORM}`,
+        data: {
+            title: 'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE',
+            breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE',
+        },
+        children: [
+            {
+                path: '',
+                component: SlideFormComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+        ],
+    },
+];

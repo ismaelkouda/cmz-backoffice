@@ -1,4 +1,4 @@
-import { ParticipantsUpdateVo } from '@presentation/pages/team-organization/domain/value-objects/participants/participants-update.vo';
+import { ParticipantsUpdateVo } from '@pages/team-organization/domain/value-objects/participants/participants-update.vo';
 
 export class ParticipantsUpdateEntity {
     constructor(

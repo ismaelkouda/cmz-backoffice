@@ -1,4 +1,4 @@
-import { AccessLogsItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/access-logs/access-logs-response-api.dto';
+import { AccessLogsItemApiDto } from '@pages/settings-security/infrastructure/api/dto/access-logs/access-logs-response-api.dto';
 
 export class AccessLogsEntity {
     constructor(

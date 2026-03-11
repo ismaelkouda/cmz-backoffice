@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { HomeUpdateCommand } from '@pages/content-management/application/commands/home/home-update.command';
+import { HomeUseCase } from '@pages/content-management/application/use-cases/home/home.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { HomeUpdateCommand } from '@presentation/pages/content-management/application/commands/home/home-update.command';
-import { HomeUseCase } from '@presentation/pages/content-management/application/use-cases/home/home.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HomeUpdateHandler {

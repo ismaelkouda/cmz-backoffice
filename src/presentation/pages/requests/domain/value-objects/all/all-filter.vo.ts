@@ -1,9 +1,8 @@
+import { AllFilterDto } from '@pages/requests/application/dto/all/all-filter.dto';
+import { Status } from '@pages/requests/domain/enums/all/all-status.enum';
+import { AllFilterProps } from '@pages/requests/domain/interfaces/all/all-filter-props.interface';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { AllFilterDto } from '@presentation/pages/requests/application/dto/all/all-filter.dto';
-import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
-import { AllFilterProps } from '@presentation/pages/requests/domain/interfaces/all/all-filter-props.interface';
 
 export class AllFilterVo {
     public readonly initiatorPhoneNumber?: string;

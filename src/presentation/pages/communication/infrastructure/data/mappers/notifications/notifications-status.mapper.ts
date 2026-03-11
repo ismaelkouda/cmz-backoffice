@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import { Status } from '@presentation/pages/communication/domain/enums/notifications/notifications-status.enum';
-import { ApiStatus } from '@presentation/pages/communication/infrastructure/enums/notifications/notifications-status-api.enum';
+import { Status } from '@pages/communication/domain/enums/notifications/notifications-status.enum';
+import { ApiStatus } from '@pages/communication/infrastructure/enums/notifications/notifications-status-api.enum';
 
 @Injectable({ providedIn: 'root' })
 export class StatusMapper {

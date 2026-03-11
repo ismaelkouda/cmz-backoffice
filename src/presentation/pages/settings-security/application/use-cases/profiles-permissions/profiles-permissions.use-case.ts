@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ProfilesPermissionsCreateDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-create.dto';
+import { ProfilesPermissionsDeleteDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
+import { ProfilesPermissionsDisableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-disable.dto';
+import { ProfilesPermissionsEnableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-enable.dto';
+import { ProfilesPermissionsFilterDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-filter.dto';
+import { ProfilesPermissionsUpdateDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-update.dto';
+import { ProfilesPermissionsCreateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-create.entity';
+import { ProfilesPermissionsDeleteEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-delete.entity';
+import { ProfilesPermissionsDisableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-disable.entity';
+import { ProfilesPermissionsEnableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
+import { ProfilesPermissionsFilterEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-filter.entity';
+import { ProfilesPermissionsUpdateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
+import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
+import { ProfilesPermissionsRepository } from '@pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-repository';
+import { ProfilesPermissionsCreateVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-create.vo';
+import { ProfilesPermissionsDeleteVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-delete.vo';
+import { ProfilesPermissionsDisableVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-disable.vo';
+import { ProfilesPermissionsEnableVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-enable.vo';
+import { ProfilesPermissionsFilterVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-filter.vo';
+import { ProfilesPermissionsUpdateVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsCreateDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-create.dto';
-import { ProfilesPermissionsDeleteDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
-import { ProfilesPermissionsDisableDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-disable.dto';
-import { ProfilesPermissionsEnableDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-enable.dto';
-import { ProfilesPermissionsFilterDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-filter.dto';
-import { ProfilesPermissionsUpdateDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-update.dto';
-import { ProfilesPermissionsCreateEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-create.entity';
-import { ProfilesPermissionsDeleteEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-delete.entity';
-import { ProfilesPermissionsDisableEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-disable.entity';
-import { ProfilesPermissionsEnableEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
-import { ProfilesPermissionsFilterEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-filter.entity';
-import { ProfilesPermissionsUpdateEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
-import { ProfilesPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
-import { ProfilesPermissionsRepository } from '@presentation/pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-repository';
-import { ProfilesPermissionsCreateVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-create.vo';
-import { ProfilesPermissionsDeleteVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-delete.vo';
-import { ProfilesPermissionsDisableVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-disable.vo';
-import { ProfilesPermissionsEnableVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-enable.vo';
-import { ProfilesPermissionsFilterVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-filter.vo';
-import { ProfilesPermissionsUpdateVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

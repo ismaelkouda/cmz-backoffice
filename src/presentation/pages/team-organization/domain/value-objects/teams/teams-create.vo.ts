@@ -1,4 +1,4 @@
-import { TeamsCreateDto } from '@presentation/pages/team-organization/application/dto/teams/teams-create.dto';
+import { TeamsCreateDto } from '@pages/team-organization/application/dto/teams/teams-create.dto';
 
 export class TeamsCreateVo {
     readonly code: string;

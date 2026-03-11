@@ -1,11 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
-
+import { USERS_ROUTE } from '@pages/settings-security/settings-security.routes';
 import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
-
-import { USERS_ROUTE } from '@presentation/pages/settings-security/settings-security.routes';
+import { MessageService } from 'primeng/api';
 
 /**
  * Helper service for users form component.

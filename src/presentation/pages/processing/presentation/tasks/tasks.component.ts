@@ -19,8 +19,11 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-
+import { TasksFacade } from '@pages/processing/application/services/tasks/tasks.facade';
+import { TASKS_TABLE_CONST } from '@pages/processing/domain/constants/tasks/tasks-table.constants';
+import { TasksFilterControl } from '@pages/processing/domain/controls/tasks/tasks-filter-control';
+import { TasksEntity } from '@pages/processing/domain/entities/tasks/tasks.entity';
+import { ACTIONS_ROUTE } from '@pages/processing/processing.routes';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -37,12 +40,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-
-import { TasksFacade } from '@presentation/pages/processing/application/services/tasks/tasks.facade';
-import { TASKS_TABLE_CONST } from '@presentation/pages/processing/domain/constants/tasks/tasks-table.constants';
-import { TasksFilterControl } from '@presentation/pages/processing/domain/controls/tasks/tasks-filter-control';
-import { TasksEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks.entity';
-import { ACTIONS_ROUTE } from '@presentation/pages/processing/processing.routes';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-tasks',
@@ -232,7 +230,6 @@ export class TasksComponent implements OnInit {
 
     ngOnInit(): void {
         this.title.setTitle(this.t('PROCESSING.TASKS.TITLE'));
-
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
@@ -262,7 +259,11 @@ export class TasksComponent implements OnInit {
                 relativeTo: this.activatedRoute,
                 queryParams: {
                     uniqId: event.item.uniqId,
-                    typeReport: event.item.reportType,
+                    reportType: event.item.reportType,
+                    operators: event.item.operators,
+                    createdAt: event.item.reportedAt,
+                    source: event.item.source,
+                    initiatorPhone: event.item.initiatorPhoneNumber,
                 },
             });
             return;

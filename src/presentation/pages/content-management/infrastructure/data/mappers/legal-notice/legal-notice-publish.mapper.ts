@@ -1,5 +1,5 @@
-import { LegalNoticePublishEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-publish.entity';
-import { LegalNoticePublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-publish-api.dto';
+import { LegalNoticePublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-publish.entity';
+import { LegalNoticePublishApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-publish-api.dto';
 
 export function legalNoticePublishMapper(
     vo: LegalNoticePublishEntity

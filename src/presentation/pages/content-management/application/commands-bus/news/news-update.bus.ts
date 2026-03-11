@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NewsUpdateCommand } from '@pages/content-management/application/commands/news/news-update.command';
+import { NewsUpdateHandler } from '@pages/content-management/application/commands-handlers/news/news-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { NewsUpdateCommand } from '@presentation/pages/content-management/application/commands/news/news-update.command';
-import { NewsUpdateHandler } from '@presentation/pages/content-management/application/commands-handlers/news/news-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NewsUpdateBus {

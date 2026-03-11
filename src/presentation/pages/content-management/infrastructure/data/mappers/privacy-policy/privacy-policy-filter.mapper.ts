@@ -1,5 +1,5 @@
-import { PrivacyPolicyFilterEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-filter.entity';
-import { PrivacyPolicyFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-filter-api.dto';
+import { PrivacyPolicyFilterEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-filter.entity';
+import { PrivacyPolicyFilterApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-filter-api.dto';
 
 export function privacyPolicyFilterMapper(
     entity: PrivacyPolicyFilterEntity

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
+import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
 
 @Injectable({ providedIn: 'root' })
 export class StatusMapper {

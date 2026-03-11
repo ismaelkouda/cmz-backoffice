@@ -1,27 +1,25 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { UsersCreateEntity } from '@pages/settings-security/domain/entities/users/users-create.entity';
+import { UsersDeleteEntity } from '@pages/settings-security/domain/entities/users/users-delete.entity';
+import { UsersDisableEntity } from '@pages/settings-security/domain/entities/users/users-disable.entity';
+import { UsersEnableEntity } from '@pages/settings-security/domain/entities/users/users-enable.entity';
+import { UsersFilterEntity } from '@pages/settings-security/domain/entities/users/users-filter.entity';
+import { UsersUpdateEntity } from '@pages/settings-security/domain/entities/users/users-update.entity';
+import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
+import { UsersRepository } from '@pages/settings-security/domain/repositories/users/users-repository';
+import { usersCreateMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-create.mapper';
+import { usersDeleteMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-delete.mapper';
+import { usersDisableMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-disable.mapper';
+import { usersEnableMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-enable.mapper';
+import { usersFilterMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-filter.mapper';
+import { usersUpdateMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-update.mapper';
+import { UsersMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users.mapper';
+import { UsersApi } from '@pages/settings-security/infrastructure/data/sources/users/users.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { UsersCreateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-create.entity';
-import { UsersDeleteEntity } from '@presentation/pages/settings-security/domain/entities/users/users-delete.entity';
-import { UsersDisableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-disable.entity';
-import { UsersEnableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-enable.entity';
-import { UsersFilterEntity } from '@presentation/pages/settings-security/domain/entities/users/users-filter.entity';
-import { UsersUpdateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-update.entity';
-import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
-import { UsersRepository } from '@presentation/pages/settings-security/domain/repositories/users/users-repository';
-import { usersCreateMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-create.mapper';
-import { usersDeleteMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-delete.mapper';
-import { usersDisableMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-disable.mapper';
-import { usersEnableMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-enable.mapper';
-import { usersFilterMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-filter.mapper';
-import { usersUpdateMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users-update.mapper';
-import { UsersMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/users/users.mapper';
-import { UsersApi } from '@presentation/pages/settings-security/infrastructure/data/sources/users/users.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

@@ -1,5 +1,5 @@
-import { DepartmentsByRegionIdFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id-filter.entity';
-import { DepartmentsByRegionIdFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-filter-api.dto';
+import { DepartmentsByRegionIdFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id-filter.entity';
+import { DepartmentsByRegionIdFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-filter-api.dto';
 
 export function DepartmentsByRegionIdFilterMapper(
     filter: DepartmentsByRegionIdFilterEntity

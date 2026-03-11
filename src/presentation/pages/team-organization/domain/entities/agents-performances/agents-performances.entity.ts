@@ -1,4 +1,4 @@
-import { AGENTS_PERFORMANCES_STATUS } from '@presentation/pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
+import { AGENTS_PERFORMANCES_STATUS } from '@pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
 
 export interface AgentsPerformancesProps {
     uniqId: string;

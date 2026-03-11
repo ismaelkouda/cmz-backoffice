@@ -1,5 +1,5 @@
-import { MunicipalitiesFindOneFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one-filter.entity';
-import { MunicipalitiesFindOneFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-find-one-filter-api.dto';
+import { MunicipalitiesFindOneFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one-filter.entity';
+import { MunicipalitiesFindOneFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-find-one-filter-api.dto';
 
 export function municipalitiesFindOneFilterMapper(
     entity: MunicipalitiesFindOneFilterEntity

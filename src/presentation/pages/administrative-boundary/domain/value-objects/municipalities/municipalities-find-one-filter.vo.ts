@@ -1,4 +1,4 @@
-import { MunicipalitiesFindOneFilterDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-find-one-filter.dto';
+import { MunicipalitiesFindOneFilterDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-find-one-filter.dto';
 
 export class MunicipalitiesFindOneFilterVo {
     public readonly uniqId: string;

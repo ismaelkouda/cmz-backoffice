@@ -1,4 +1,4 @@
-import { TeamsEnableDto } from '@presentation/pages/team-organization/application/dto/teams/teams-enable.dto';
+import { TeamsEnableDto } from '@pages/team-organization/application/dto/teams/teams-enable.dto';
 
 export class TeamsEnableVo {
     public readonly uniqId: string;
