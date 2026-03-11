@@ -673,6 +673,10 @@
                 "END_DATE": "Date fin affichage",
                 "IMAGE": "Ficher Image",
                 "CHOOSE_IMAGE": "Choisir une image",
+                "IMAGE_FORMATS": "Format acceptés",
+                "REMOVE_IMAGE": "Supprimer l'image",
+                "SEE_IMAGE": "Voir l'image",
+                "IMAGE_SIZE": "taille",
                 "CHOOSE_VIDEO": "Choisir une vidéo",
                 "VIDEO_SELECTED": "Vidéo sélectionnée",
                 "IMAGE_PREVIEW": "Aperçu de l'image",
@@ -684,7 +688,6 @@
                 "MEDIA_DISPLAY": "Média & Affichage",
                 "CONFIG": "Configuration & Actions",
                 "TITLE_PLACEHOLDER": "Ex: Nouveau contenu promotionnel",
-                "VIDEO": "Fichier Vidéo",
                 "VALIDATION": {
                     "IMAGE_REQUIRED": "Image est obligatoire",
                     "VIDEO_REQUIRED": "Video est obligatoire",

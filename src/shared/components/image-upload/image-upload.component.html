@@ -37,14 +37,8 @@
       </div>
 
       <div class="upload-texts">
-        <p class="upload-title">
-          {{ 'IMAGE_UPLOAD.DRAG_DROP' | translate }}
-          <span class="upload-browse-link">
-            {{ 'IMAGE_UPLOAD.BROWSE' | translate }}
-          </span>
-        </p>
         <p class="upload-subtitle">
-          {{ 'IMAGE_UPLOAD.ACCEPTED_FORMATS' | translate }}
+          {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_FORMATS' | translate }}
           <span class="format-badges">
             @for (format of formatBadges(); track format.original) {
               <span class="format-badge" [pTooltip]="format.original">
@@ -53,24 +47,9 @@
               </span>
             }
           </span>
-          — {{ 'IMAGE_UPLOAD.MAX_SIZE' | translate }} {{ maxSizeMb() }} Mo
+          — {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_SIZE' | translate }} {{ maxSizeMb() }} Mo
         </p>
       </div>
-
-      @if (platformHints().length) {
-        <div class="platform-hints">
-          @for (hint of platformHints(); track hint.platform) {
-            <div
-              class="platform-hint-badge"
-              [pTooltip]="hint.label"
-              tooltipPosition="top"
-            >
-              <i [class]="hint.icon"></i>
-              <span>{{ hint.platform | titlecase }}</span>
-            </div>
-          }
-        </div>
-      }
     </div>
   }
 
@@ -87,32 +66,36 @@
           <span class="selected-filesize">{{ fileSizeMb() }}</span>
         </div>
       </div>
-      
       <div class="selected-actions">
-        <button
+        <!-- <button
           type="button"
           pButton
           icon="pi pi-sync"
           [label]="'IMAGE_UPLOAD.CHANGE' | translate"
           class="p-button-text p-button-sm"
           (click)="openFilePicker()"
-          [disabled]="!isIdle()"
           [pTooltip]="'IMAGE_UPLOAD.CHANGE_TOOLTIP' | translate"
+        ></button> -->
+        <button
+            type="button"
+            pButton
+            icon="pi pi-eye"
+            [label]="'CONTENT_MANAGEMENT.SLIDE.FORM.SEE_IMAGE' | translate"
+            class="p-button-text p-button-info p-button-sm"
+            (click)="openPreview()"
         ></button>
         <button
           type="button"
           pButton
           icon="pi pi-trash"
-          [label]="'IMAGE_UPLOAD.REMOVE' | translate"
+          [label]="'CONTENT_MANAGEMENT.SLIDE.FORM.REMOVE_IMAGE' | translate"
           class="p-button-text p-button-danger p-button-sm"
           (click)="clearFile($event)"
-          [pTooltip]="'IMAGE_UPLOAD.REMOVE_TOOLTIP' | translate"
         ></button>
       </div>
     </div>
   }
 
-  <!-- État ERREUR -->
   @if (hasError()) {
     <div class="upload-error-state" (click)="$event.stopPropagation()">
       <div class="error-content">

@@ -136,6 +136,15 @@
   }
 }
 
+.media-thumbnail {
+    height: 40px !important;
+    width: 40px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 // ── Hints plateforme ───────────────────────────────
 .platform-hints {
   display: flex;
