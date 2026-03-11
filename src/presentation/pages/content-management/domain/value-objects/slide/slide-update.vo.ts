@@ -9,7 +9,7 @@ export class SlideUpdateVo {
         return this.props.uniqId;
     }
 
-    get timeDuration(): string {
+    get timeDuration(): number {
         return this.props.timeDuration;
     }
 
@@ -17,11 +17,11 @@ export class SlideUpdateVo {
         return this.props.type;
     }
 
-    get image(): string {
+    get image(): File | null {
         return this.props.image;
     }
 
-    get video(): string {
+    get video(): string | null {
         return this.props.video;
     }
 

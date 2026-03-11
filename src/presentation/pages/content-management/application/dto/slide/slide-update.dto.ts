@@ -2,10 +2,10 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 
 export interface SlideUpdateDto {
     uniqId: string;
-    timeDuration: string;
+    timeDuration: number;
     type: string;
-    image: string;
-    video: string;
+    image: File | null;
+    video: string | null;
     platforms: Platform[];
     startDate: string;
     endDate: string;

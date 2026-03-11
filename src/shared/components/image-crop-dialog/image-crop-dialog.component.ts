@@ -20,10 +20,7 @@ import { DividerModule } from 'primeng/divider';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 
-import {
-    PLATFORM_RATIO_LABELS,
-    PLATFORM_ICONS,
-} from '../image-upload/domain/types/image-upload.types';
+import { PLATFORM_RATIO_LABELS } from '../image-upload/domain/types/image-upload.types';
 
 @Component({
     selector: 'app-image-crop-dialog',
@@ -88,14 +85,6 @@ export class ImageCropDialogComponent {
         }
         return `${ratio.toFixed(2)}:1`;
     });
-
-    readonly platformBadges = computed(() =>
-        this.targetPlatforms().map((p) => ({
-            platform: p,
-            icon: PLATFORM_ICONS[p],
-            label: PLATFORM_RATIO_LABELS[p],
-        }))
-    );
 
     readonly canConfirm = computed((): boolean => {
         const isReady = this.cropperReady();

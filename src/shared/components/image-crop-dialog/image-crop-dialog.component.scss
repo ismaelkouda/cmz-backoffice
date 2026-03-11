@@ -1,6 +1,4 @@
-// image-crop-dialog/image-crop-dialog.component.scss
 
-// ── Header ─────────────────────────────────────────
 .crop-dialog-header {
   display: flex;
   align-items: center;
@@ -16,18 +14,11 @@
   gap: 0.6rem;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--p-text-color);
+    color: white;
 
   i { font-size: 1.1rem; color: var(--p-primary-color); }
 }
 
-.crop-platform-badges {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-
-.crop-platform-badge,
 .crop-ratio-badge {
   display: inline-flex;
   align-items: center;
@@ -37,23 +28,13 @@
   font-size: 0.72rem;
   font-weight: 600;
   border: 1px solid;
-}
 
-.crop-platform-badge {
-  background: var(--p-primary-50, #eff3ff);
-  border-color: var(--p-primary-200, #bfcfff);
-  color: var(--p-primary-700, #4338ca);
-  i { font-size: 0.75rem; }
-}
-
-.crop-ratio-badge {
   background: var(--p-surface-100);
   border-color: var(--p-surface-300);
-  color: var(--p-text-color-secondary);
+  color: #1a1a1a;
   i { font-size: 0.75rem; }
 }
 
-// ── Body ───────────────────────────────────────────
 .crop-dialog-body {
   display: flex;
   flex-direction: column;
@@ -65,7 +46,6 @@
   width: 100%;
   min-height: 300px;
   max-height: 480px;
-  background: #1a1a1a;
   border-radius: 8px;
   overflow: hidden;
   display: flex;

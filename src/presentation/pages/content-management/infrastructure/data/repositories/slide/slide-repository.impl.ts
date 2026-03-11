@@ -19,6 +19,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
@@ -27,6 +28,7 @@ import { map, Observable } from 'rxjs';
 export class SlideRepositoryImpl implements SlideRepository {
     private readonly api = inject(SlideApi);
     private readonly mapper = inject(SlideMapper);
+    private readonly platformMapper = inject(PlatformMapper);
 
     readAll(
         filter: SlideFilterEntity,
@@ -38,11 +40,11 @@ export class SlideRepositoryImpl implements SlideRepository {
     }
 
     create(payload: SlideCreateEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.create(slideCreateMapper(payload));
+        return this.api.create(slideCreateMapper(payload, this.platformMapper));
     }
 
     update(payload: SlideUpdateEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.update(slideUpdateMapper(payload));
+        return this.api.update(slideUpdateMapper(payload, this.platformMapper));
     }
 
     delete(entity: SlideDeleteEntity): Observable<SimpleResponseDto<void>> {
