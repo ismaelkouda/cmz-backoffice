@@ -1,4 +1,4 @@
-import { RegionsCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-create.vo';
+import { RegionsCreateVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-create.vo';
 
 export class RegionsCreateEntity {
     constructor(

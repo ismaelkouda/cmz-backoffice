@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ProfilesPermissionsPermissionsHandler } from '@pages/settings-security/application/queries-handlers/profiles-permissions/profiles-permissions-permissions.handler';
+import { ProfilesPermissionsPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-permissions.entity';
 import { Observable } from 'rxjs';
-
-import { ProfilesPermissionsPermissionsHandler } from '@presentation/pages/settings-security/application/queries-handlers/profiles-permissions/profiles-permissions-permissions.handler';
-import { ProfilesPermissionsPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-permissions.entity';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsPermissionsBus {

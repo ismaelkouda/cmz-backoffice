@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { SlideFindOneQuery } from '@pages/content-management/application/queries/slide/slide-find-one.query';
+import { SlideFindOneHandler } from '@pages/content-management/application/queries-handlers/slide/slide-find-one.handler';
+import { SlideFindOneEntity } from '@pages/content-management/domain/entities/slide/slide-find-one.entity';
 import { Observable } from 'rxjs';
-
-import { SlideFindOneQuery } from '@presentation/pages/content-management/application/queries/slide/slide-find-one.query';
-import { SlideFindOneHandler } from '@presentation/pages/content-management/application/queries-handlers/slide/slide-find-one.handler';
-import { SlideFindOneEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-find-one.entity';
 
 @Injectable({ providedIn: 'root' })
 export class SlideFindOneBus {

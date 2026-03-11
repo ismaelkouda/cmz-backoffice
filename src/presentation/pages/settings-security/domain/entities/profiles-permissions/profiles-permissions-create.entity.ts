@@ -1,4 +1,4 @@
-import { ProfilesPermissionsCreateVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-create.vo';
+import { ProfilesPermissionsCreateVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-create.vo';
 
 export class ProfilesPermissionsCreateEntity {
     constructor(

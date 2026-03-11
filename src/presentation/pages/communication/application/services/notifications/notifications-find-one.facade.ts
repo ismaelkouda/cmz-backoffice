@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-
+import { NotificationsFindOneFilterDto } from '@pages/communication/application/dto/notifications/notifications-find-one-filter.dto';
+import { NotificationsFindOneQuery } from '@pages/communication/application/queries/notifications/notifications-find-one.query';
+import { NotificationsFindOneBus } from '@pages/communication/application/queries-bus/notifications/notifications-find-one.bus';
+import { NotificationsFindOneEntity } from '@pages/communication/domain/entities/notifications/notifications-find-one.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { NotificationsFindOneFilterDto } from '@presentation/pages/communication/application/dto/notifications/notifications-find-one-filter.dto';
-import { NotificationsFindOneQuery } from '@presentation/pages/communication/application/queries/notifications/notifications-find-one.query';
-import { NotificationsFindOneBus } from '@presentation/pages/communication/application/queries-bus/notifications/notifications-find-one.bus';
-import { NotificationsFindOneEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

@@ -1,22 +1,20 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { DetailsFinalizeCommand } from '@pages/finalization/application/commands/details/details-finalize.command';
+import { DetailsTakeCommand } from '@pages/finalization/application/commands/details/details-take.command';
+import { DetailsFinalizeBus } from '@pages/finalization/application/commands-bus/details/details-finalize.bus';
+import { DetailsTakeBus } from '@pages/finalization/application/commands-bus/details/details-take.bus';
+import { DetailsFilterDto } from '@pages/finalization/application/dto/details/details-filter.dto';
+import { DetailsFinalizeDto } from '@pages/finalization/application/dto/details/details-finalize.dto';
+import { DetailsTakeDto } from '@pages/finalization/application/dto/details/details-take.dto';
+import { DetailsQuery } from '@pages/finalization/application/queries/details/details.query';
+import { DetailsBus } from '@pages/finalization/application/queries-bus/details/details.bus';
+import { QueuesFacade } from '@pages/finalization/application/services/queues/queues.facade';
+import { TasksFacade } from '@pages/finalization/application/services/tasks/tasks.facade';
+import { DetailsEntity } from '@pages/finalization/domain/entities/details/details.entity';
 import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { DetailsFinalizeCommand } from '@presentation/pages/finalization/application/commands/details/details-finalize.command';
-import { DetailsTakeCommand } from '@presentation/pages/finalization/application/commands/details/details-take.command';
-import { DetailsFinalizeBus } from '@presentation/pages/finalization/application/commands-bus/details/details-finalize.bus';
-import { DetailsTakeBus } from '@presentation/pages/finalization/application/commands-bus/details/details-take.bus';
-import { DetailsFilterDto } from '@presentation/pages/finalization/application/dto/details/details-filter.dto';
-import { DetailsFinalizeDto } from '@presentation/pages/finalization/application/dto/details/details-finalize.dto';
-import { DetailsTakeDto } from '@presentation/pages/finalization/application/dto/details/details-take.dto';
-import { DetailsQuery } from '@presentation/pages/finalization/application/queries/details/details.query';
-import { DetailsBus } from '@presentation/pages/finalization/application/queries-bus/details/details.bus';
-import { QueuesFacade } from '@presentation/pages/finalization/application/services/queues/queues.facade';
-import { TasksFacade } from '@presentation/pages/finalization/application/services/tasks/tasks.facade';
-import { DetailsEntity } from '@presentation/pages/finalization/domain/entities/details/details.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

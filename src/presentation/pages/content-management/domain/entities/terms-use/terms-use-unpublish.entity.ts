@@ -1,4 +1,4 @@
-import { TermsUseUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-unpublish.vo';
+import { TermsUseUnpublishVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-unpublish.vo';
 
 export class TermsUseUnpublishEntity {
     constructor(public readonly uniqId: string) {}

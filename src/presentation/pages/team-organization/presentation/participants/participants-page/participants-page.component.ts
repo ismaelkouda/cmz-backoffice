@@ -15,13 +15,11 @@ import {
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TabsModule } from 'primeng/tabs';
-import { filter } from 'rxjs';
-
+import { PARTICIPANTS_TABS } from '@pages/team-organization/domain/constants/participants/participants-tabs.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-
-import { PARTICIPANTS_TABS } from '@presentation/pages/team-organization/domain/constants/participants/participants-tabs.constants';
+import { TabsModule } from 'primeng/tabs';
+import { filter } from 'rxjs';
 
 @Component({
     selector: 'app-participants-page',

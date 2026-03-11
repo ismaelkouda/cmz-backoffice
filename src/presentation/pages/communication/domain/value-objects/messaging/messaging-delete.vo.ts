@@ -1,4 +1,4 @@
-import { MessagingDeleteDto } from '@presentation/pages/communication/application/dto/messaging/messaging-delete.dto';
+import { MessagingDeleteDto } from '@pages/communication/application/dto/messaging/messaging-delete.dto';
 
 export class MessagingDeleteVo {
     public readonly uniqId: string;

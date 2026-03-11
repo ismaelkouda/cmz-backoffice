@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { AllFilterApiDto } from '@pages/processing/infrastructure/api/dto/all/all-filter-api.dto';
+import { AllResponseApiDto } from '@pages/processing/infrastructure/api/dto/all/all-response-api.dto';
+import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
+import { PROCESSING_ENDPOINTS } from '@pages/processing/infrastructure/api/processing.endpoints';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { AllFilterApiDto } from '@presentation/pages/processing/infrastructure/api/dto/all/all-filter-api.dto';
-import { AllResponseApiDto } from '@presentation/pages/processing/infrastructure/api/dto/all/all-response-api.dto';
-import { PROCESSING_BASE_URL } from '@presentation/pages/processing/infrastructure/api/processing.base-url';
-import { PROCESSING_ENDPOINTS } from '@presentation/pages/processing/infrastructure/api/processing.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AllApi {

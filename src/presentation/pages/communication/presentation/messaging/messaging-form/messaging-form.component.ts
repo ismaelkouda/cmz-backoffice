@@ -13,6 +13,22 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MessagingFacade } from '@pages/communication/application/services/messaging/messaging.facade';
+import { MessagingFormStore } from '@pages/communication/application/stores/messaging/messaging-form.store';
+import { Channels } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { Type } from '@pages/communication/domain/enums/messaging/messaging-type.enum';
+import { FormValidators } from '@pages/communication/domain/validators/form-validators';
+import { MessagingFormHelperService } from '@pages/communication/presentation/messaging/messaging-form/messaging-form-helper.service';
+import { MessagingFormValidationService } from '@pages/communication/presentation/messaging/messaging-form/messaging-form-validation.service';
+import { MessagingFormSkeletonComponent } from '@pages/communication/presentation/messaging/messaging-form-skeleton/messaging-form-skeleton.component';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import {
+    enumToFilterOptions,
+    getEnumKeyByValue,
+} from '@shared/components/filter/filter.types';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -26,24 +42,6 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs/operators';
 import SweetAlert from 'sweetalert2';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import {
-    enumToFilterOptions,
-    getEnumKeyByValue,
-} from '@shared/components/filter/filter.types';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-
-import { MessagingFacade } from '@presentation/pages/communication/application/services/messaging/messaging.facade';
-import { MessagingFormStore } from '@presentation/pages/communication/application/stores/messaging/messaging-form.store';
-import { Channels } from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
-import { Target } from '@presentation/pages/communication/domain/enums/messaging/messaging-target.enum';
-import { Type } from '@presentation/pages/communication/domain/enums/messaging/messaging-type.enum';
-import { FormValidators } from '@presentation/pages/communication/domain/validators/form-validators';
-import { MessagingFormHelperService } from '@presentation/pages/communication/presentation/messaging/messaging-form/messaging-form-helper.service';
-import { MessagingFormValidationService } from '@presentation/pages/communication/presentation/messaging/messaging-form/messaging-form-validation.service';
-import { MessagingFormSkeletonComponent } from '@presentation/pages/communication/presentation/messaging/messaging-form-skeleton/messaging-form-skeleton.component';
 
 @Component({
     selector: 'app-messaging-form',
@@ -107,7 +105,6 @@ export class MessagingFormComponent implements OnInit {
     );
 
     readonly VALIDATION = FormValidators;
-    readonly TargetEnum = Target;
 
     private readonly submitSuccess = signal(false);
     private lastSubmitSuccess = this.submitFacade.actionSuccess();

@@ -1,5 +1,5 @@
-import { UsersFindOneFilterEntity } from '@presentation/pages/settings-security/domain/entities/users/users-find-one-filter.entity';
-import { UsersFindOneFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-find-one-filter-api.dto';
+import { UsersFindOneFilterEntity } from '@pages/settings-security/domain/entities/users/users-find-one-filter.entity';
+import { UsersFindOneFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-find-one-filter-api.dto';
 
 export function usersFindOneFilterMapper(
     entity: UsersFindOneFilterEntity

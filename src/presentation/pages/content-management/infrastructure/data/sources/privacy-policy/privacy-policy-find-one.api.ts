@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
+import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
+import { PrivacyPolicyFindOneFilterApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-find-one-filter-api.dto';
+import { PrivacyPolicyFindOneResponseApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-find-one-response-api.dto';
 import { Observable } from 'rxjs';
-
-import { CONTENT_MANAGEMENT_BASE_URL } from '@presentation/pages/content-management/infrastructure/api/content-management.base-url';
-import { CONTENT_MANAGEMENT_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/api/content-management.endpoints';
-import { PrivacyPolicyFindOneFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-find-one-filter-api.dto';
-import { PrivacyPolicyFindOneResponseApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyFindOneApi {

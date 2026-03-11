@@ -1,5 +1,5 @@
-import { DepartmentsDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
-import { DepartmentsDeleteApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-delete-api.dto';
+import { DepartmentsDeleteEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
+import { DepartmentsDeleteApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-delete-api.dto';
 
 export function departmentsDeleteMapper(
     vo: DepartmentsDeleteEntity

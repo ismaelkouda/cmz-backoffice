@@ -1,8 +1,7 @@
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 export interface FetchOptions<TEntity, TFilter> {
     itemsSubject: BehaviorSubject<TEntity[]>;

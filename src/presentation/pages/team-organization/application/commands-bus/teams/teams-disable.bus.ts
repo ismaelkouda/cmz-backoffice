@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsDisableCommand } from '@pages/team-organization/application/commands/teams/teams-disable.command';
+import { TeamsDisableHandler } from '@pages/team-organization/application/commands-handlers/teams/teams-disable.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsDisableCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-disable.command';
-import { TeamsDisableHandler } from '@presentation/pages/team-organization/application/commands-handlers/teams/teams-disable.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsDisableBus {

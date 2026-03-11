@@ -1,8 +1,7 @@
+import { QueuesProps } from '@pages/processing/domain/interfaces/queues/queues-props.interface';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
-
-import { QueuesProps } from '@presentation/pages/processing/domain/interfaces/queues/queues-props.interface';
 
 export class QueuesEntity implements QueuesProps {
     constructor(private readonly props: QueuesProps) {}

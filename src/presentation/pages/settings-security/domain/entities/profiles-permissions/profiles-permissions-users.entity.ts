@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUsersItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-response-api.dto';
+import { ProfilesPermissionsUsersItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-response-api.dto';
 
 export class ProfilesPermissionsUsersEntity {
     constructor(
@@ -13,7 +13,7 @@ export class ProfilesPermissionsUsersEntity {
         dto: ProfilesPermissionsUsersItemApiDto
     ): ProfilesPermissionsUsersEntity {
         return new ProfilesPermissionsUsersEntity(
-            dto.uniq_id,
+            dto.id,
             dto.email,
             dto.phone,
             dto.first_name,
@@ -24,7 +24,7 @@ export class ProfilesPermissionsUsersEntity {
     public with(
         dto: ProfilesPermissionsUsersItemApiDto
     ): ProfilesPermissionsUsersEntity {
-        if (this.uniqId === dto.uniq_id) {
+        if (this.uniqId === dto.id) {
             return this;
         }
         return ProfilesPermissionsUsersEntity.fromDto(dto);

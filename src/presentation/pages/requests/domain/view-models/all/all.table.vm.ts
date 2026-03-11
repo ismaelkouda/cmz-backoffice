@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
-import { AllEntity } from '@presentation/pages/requests/domain/entities/all/all.entity';
-import { AllTable } from '@presentation/pages/requests/domain/interfaces/all/all-table.interface';
+import { AllEntity } from '@pages/requests/domain/entities/all/all.entity';
+import { AllTable } from '@pages/requests/domain/interfaces/all/all-table.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AllTableVm {

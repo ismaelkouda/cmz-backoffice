@@ -1,4 +1,4 @@
-import { NewsDisableVo } from '@presentation/pages/content-management/domain/value-objects/news/news-disable.vo';
+import { NewsDisableVo } from '@pages/content-management/domain/value-objects/news/news-disable.vo';
 
 export class NewsDisableEntity {
     constructor(public readonly uniqId: string) {}

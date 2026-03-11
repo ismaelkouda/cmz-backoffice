@@ -1,6 +1,5 @@
+import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { Status } from '@presentation/pages/content-management/domain/enums/slide/slide-status.enum';
 
 export class SlideQuery {
     constructor(

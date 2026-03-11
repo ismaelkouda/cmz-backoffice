@@ -1,7 +1,6 @@
 import { Provider } from '@angular/core';
-
-import { TeamsParticipantsRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-participants-repository';
-import { TeamsParticipantsRepositoryImpl } from '@presentation/pages/team-organization/infrastructure/data/repositories/teams/teams-participants-repository.impl';
+import { TeamsParticipantsRepository } from '@pages/team-organization/domain/repositories/teams/teams-participants-repository';
+import { TeamsParticipantsRepositoryImpl } from '@pages/team-organization/infrastructure/data/repositories/teams/teams-participants-repository.impl';
 
 export const teamsParticipantsProviders: Provider[] = [
     {

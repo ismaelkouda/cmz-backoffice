@@ -12,14 +12,13 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SafeUrlPipe } from '@shared/domain/pipes/safe-url.pipe';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 import { Subject, takeUntil, timer } from 'rxjs';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SafeUrlPipe } from '@shared/domain/pipes/safe-url.pipe';
 
 type ConnectionStatus = 'connected' | 'loading' | 'error';
 

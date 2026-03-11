@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { HomeDeleteCommand } from '@pages/content-management/application/commands/home/home-delete.command';
+import { HomeDeleteHandler } from '@pages/content-management/application/commands-handlers/home/home-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { HomeDeleteCommand } from '@presentation/pages/content-management/application/commands/home/home-delete.command';
-import { HomeDeleteHandler } from '@presentation/pages/content-management/application/commands-handlers/home/home-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HomeDeleteBus {

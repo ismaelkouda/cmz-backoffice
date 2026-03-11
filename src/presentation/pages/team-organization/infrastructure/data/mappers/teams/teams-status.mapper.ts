@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-
-import { Status } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
+import { Status } from '@pages/team-organization/domain/enums/teams/teams-status.enum';
 
 @Injectable({ providedIn: 'root' })
 export class StatusMapper {

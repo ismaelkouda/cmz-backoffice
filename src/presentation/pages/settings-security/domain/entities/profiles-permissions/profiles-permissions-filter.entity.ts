@@ -1,4 +1,4 @@
-import { ProfilesPermissionsFilterVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-filter.vo';
+import { ProfilesPermissionsFilterVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-filter.vo';
 
 export class ProfilesPermissionsFilterEntity {
     constructor(

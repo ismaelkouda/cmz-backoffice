@@ -1,4 +1,4 @@
-import { TasksActionsDeleteVo } from '@presentation/pages/processing/domain/value-objects/tasks/tasks-actions-delete.vo';
+import { TasksActionsDeleteVo } from '@pages/processing/domain/value-objects/tasks/tasks-actions-delete.vo';
 
 export class TasksActionsDeleteEntity {
     constructor(public readonly uniqId: string) {}

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersQuery } from '@pages/settings-security/application/queries/users/users.query';
+import { UsersHandler } from '@pages/settings-security/application/queries-handlers/users/users.handler';
+import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { UsersQuery } from '@presentation/pages/settings-security/application/queries/users/users.query';
-import { UsersHandler } from '@presentation/pages/settings-security/application/queries-handlers/users/users.handler';
-import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersBus {

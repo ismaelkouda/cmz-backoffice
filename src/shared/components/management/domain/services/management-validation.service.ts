@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 
 @Injectable({

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import { Status } from '@presentation/pages/team-organization/domain/enums/participants/participants-status.enum';
-import { StatusDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-status-api.dto';
+import { Status } from '@pages/team-organization/domain/enums/participants/participants-status.enum';
+import { StatusDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-status-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class StatusMapper {

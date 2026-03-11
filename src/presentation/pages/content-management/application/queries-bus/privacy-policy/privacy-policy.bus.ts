@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { PrivacyPolicyQuery } from '@pages/content-management/application/queries/privacy-policy/privacy-policy.query';
+import { PrivacyPolicyHandler } from '@pages/content-management/application/queries-handlers/privacy-policy/privacy-policy.handler';
+import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { PrivacyPolicyQuery } from '@presentation/pages/content-management/application/queries/privacy-policy/privacy-policy.query';
-import { PrivacyPolicyHandler } from '@presentation/pages/content-management/application/queries-handlers/privacy-policy/privacy-policy.handler';
-import { PrivacyPolicyEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyBus {

@@ -16,10 +16,10 @@
 // import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 // import { Paginate } from '@shared/data/dto/simple-response.dto';
 
-// import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
-// import { NewsFilterPayloadEntity } from '@presentation/pages/content-management/core/domain/entities/news/news-filter-payload.entity';
-// import { NewsEntity } from '@presentation/pages/content-management/core/domain/entities/news.entity';
-// import { NewsFilter } from '@presentation/pages/content-management/core/domain/value-objects/news-filter.vo';
+// import { NewsFacade } from '@pages/content-management/core/application/services/news.facade';
+// import { NewsFilterPayloadEntity } from '@pages/content-management/core/domain/entities/news/news-filter-payload.entity';
+// import { NewsEntity } from '@pages/content-management/core/domain/entities/news.entity';
+// import { NewsFilter } from '@pages/content-management/core/domain/value-objects/news-filter.vo';
 
 // import { FilterNewsComponent } from '../filter-news/filter-news.component';
 // import {

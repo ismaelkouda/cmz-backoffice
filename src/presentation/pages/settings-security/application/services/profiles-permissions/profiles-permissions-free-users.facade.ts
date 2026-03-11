@@ -9,9 +9,9 @@
 // import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 // import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
-// import { ProfilesPermissionsFreeUsersAssignDto } from '@presentation/pages/settings-security/core/application/dto/profiles-permissions/profiles-permissions-free-users-assign.dto';
-// import { ProfilesPermissionsFreeUsersUseCase } from '@presentation/pages/settings-security/core/application/use-cases/profiles-permissions/profiles-permissions-free-users.use-case';
-// import { ProfilesPermissionsFreeUsersEntity } from '@presentation/pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-free-users.entity';
+// import { ProfilesPermissionsFreeUsersAssignDto } from '@pages/settings-security/core/application/dto/profiles-permissions/profiles-permissions-free-users-assign.dto';
+// import { ProfilesPermissionsFreeUsersUseCase } from '@pages/settings-security/core/application/use-cases/profiles-permissions/profiles-permissions-free-users.use-case';
+// import { ProfilesPermissionsFreeUsersEntity } from '@pages/settings-security/core/domain/entities/profiles-permissions/profiles-permissions-free-users.entity';
 
 // @Injectable({
 //     providedIn: 'root',

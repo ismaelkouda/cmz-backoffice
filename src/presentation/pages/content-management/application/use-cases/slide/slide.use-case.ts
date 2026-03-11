@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { SlideCreateDto } from '@pages/content-management/application/dto/slide/slide-create.dto';
+import { SlideDeleteDto } from '@pages/content-management/application/dto/slide/slide-delete.dto';
+import { SlideDisableDto } from '@pages/content-management/application/dto/slide/slide-disable.dto';
+import { SlideEnableDto } from '@pages/content-management/application/dto/slide/slide-enable.dto';
+import { SlideFilterDto } from '@pages/content-management/application/dto/slide/slide-filter.dto';
+import { SlideUpdateDto } from '@pages/content-management/application/dto/slide/slide-update.dto';
+import { SlideCreateEntity } from '@pages/content-management/domain/entities/slide/slide-create.entity';
+import { SlideDeleteEntity } from '@pages/content-management/domain/entities/slide/slide-delete.entity';
+import { SlideDisableEntity } from '@pages/content-management/domain/entities/slide/slide-disable.entity';
+import { SlideEnableEntity } from '@pages/content-management/domain/entities/slide/slide-enable.entity';
+import { SlideFilterEntity } from '@pages/content-management/domain/entities/slide/slide-filter.entity';
+import { SlideUpdateEntity } from '@pages/content-management/domain/entities/slide/slide-update.entity';
+import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
+import { SlideRepository } from '@pages/content-management/domain/repositories/slide/slide-repository';
+import { SlideCreateVo } from '@pages/content-management/domain/value-objects/slide/slide-create.vo';
+import { SlideDeleteVo } from '@pages/content-management/domain/value-objects/slide/slide-delete.vo';
+import { SlideDisableVo } from '@pages/content-management/domain/value-objects/slide/slide-disable.vo';
+import { SlideEnableVo } from '@pages/content-management/domain/value-objects/slide/slide-enable.vo';
+import { SlideFilterVo } from '@pages/content-management/domain/value-objects/slide/slide-filter.vo';
+import { SlideUpdateVo } from '@pages/content-management/domain/value-objects/slide/slide-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { SlideCreateDto } from '@presentation/pages/content-management/application/dto/slide/slide-create.dto';
-import { SlideDeleteDto } from '@presentation/pages/content-management/application/dto/slide/slide-delete.dto';
-import { SlideFilterDto } from '@presentation/pages/content-management/application/dto/slide/slide-filter.dto';
-import { SlidePublishDto } from '@presentation/pages/content-management/application/dto/slide/slide-publish.dto';
-import { SlideUnpublishDto } from '@presentation/pages/content-management/application/dto/slide/slide-unpublish.dto';
-import { SlideUpdateDto } from '@presentation/pages/content-management/application/dto/slide/slide-update.dto';
-import { SlideCreateEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-create.entity';
-import { SlideDeleteEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-delete.entity';
-import { SlideFilterEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-filter.entity';
-import { SlidePublishEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-publish.entity';
-import { SlideUnpublishEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-unpublish.entity';
-import { SlideUpdateEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-update.entity';
-import { SlideEntity } from '@presentation/pages/content-management/domain/entities/slide/slide.entity';
-import { SlideRepository } from '@presentation/pages/content-management/domain/repositories/slide/slide-repository';
-import { SlideCreateVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-create.vo';
-import { SlideDeleteVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-delete.vo';
-import { SlideFilterVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-filter.vo';
-import { SlidePublishVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-publish.vo';
-import { SlideUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-unpublish.vo';
-import { SlideUpdateVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -54,16 +52,16 @@ export class SlideUseCase {
         return this.repository.update(entity);
     }
 
-    publish(dto: SlidePublishDto): Observable<SimpleResponseDto<void>> {
-        const vo = SlidePublishVo.fromDto(dto);
-        const entity = SlidePublishEntity.fromVo(vo);
-        return this.repository.publish(entity);
+    enable(dto: SlideEnableDto): Observable<SimpleResponseDto<void>> {
+        const vo = SlideEnableVo.fromDto(dto);
+        const entity = SlideEnableEntity.fromVo(vo);
+        return this.repository.enable(entity);
     }
 
-    unpublish(dto: SlideUnpublishDto): Observable<SimpleResponseDto<void>> {
-        const vo = SlideUnpublishVo.fromDto(dto);
-        const entity = SlideUnpublishEntity.fromVo(vo);
-        return this.repository.unpublish(entity);
+    disable(dto: SlideDisableDto): Observable<SimpleResponseDto<void>> {
+        const vo = SlideDisableVo.fromDto(dto);
+        const entity = SlideDisableEntity.fromVo(vo);
+        return this.repository.disable(entity);
     }
 
     delete(dto: SlideDeleteDto): Observable<SimpleResponseDto<void>> {

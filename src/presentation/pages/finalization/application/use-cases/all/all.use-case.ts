@@ -1,13 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { AllFilterDto } from '@pages/finalization/application/dto/all/all-filter.dto';
+import { AllFilterEntity } from '@pages/finalization/domain/entities/all/all-filter.entity';
+import { AllEntity } from '@pages/finalization/domain/entities/all/all.entity';
+import { AllRepository } from '@pages/finalization/domain/repositories/all/all.repository';
+import { AllFilterVo } from '@pages/finalization/domain/value-objects/all/all-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AllFilterDto } from '@presentation/pages/finalization/application/dto/all/all-filter.dto';
-import { AllFilterEntity } from '@presentation/pages/finalization/domain/entities/all/all-filter.entity';
-import { AllEntity } from '@presentation/pages/finalization/domain/entities/all/all.entity';
-import { AllRepository } from '@presentation/pages/finalization/domain/repositories/all/all.repository';
-import { AllFilterVo } from '@presentation/pages/finalization/domain/value-objects/all/all-filter.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

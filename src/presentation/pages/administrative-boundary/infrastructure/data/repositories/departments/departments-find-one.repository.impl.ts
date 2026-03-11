@@ -1,12 +1,11 @@
 import { Injectable, inject } from '@angular/core';
+import { DepartmentsFindOneFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-find-one-filter.entity';
+import { DepartmentsFindOneEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-find-one.entity';
+import { DepartmentsFindOneRepository } from '@pages/administrative-boundary/domain/repositories/departments/departments-find-one-repository';
+import { departmentsFindOneFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-find-one-filter.mapper';
+import { DepartmentsFindOneMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-find-one.mapper';
+import { DepartmentsFindOneApi } from '@pages/administrative-boundary/infrastructure/data/sources/departments/departments-find-one.api';
 import { Observable, map } from 'rxjs';
-
-import { DepartmentsFindOneFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-find-one-filter.entity';
-import { DepartmentsFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-find-one.entity';
-import { DepartmentsFindOneRepository } from '@presentation/pages/administrative-boundary/domain/repositories/departments/departments-find-one-repository';
-import { departmentsFindOneFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments-find-one-filter.mapper';
-import { DepartmentsFindOneMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/departments/departments-find-one.mapper';
-import { DepartmentsFindOneApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/departments/departments-find-one.api';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsFindOneRepositoryImpl implements DepartmentsFindOneRepository {

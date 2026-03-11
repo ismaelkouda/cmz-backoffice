@@ -1,6 +1,17 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { TasksActionsCreateCommand } from '@pages/processing/application/commands/tasks/tasks-actions-create.command';
+import { TasksActionsDeleteCommand } from '@pages/processing/application/commands/tasks/tasks-actions-delete.command';
+import { TasksActionsUpdateCommand } from '@pages/processing/application/commands/tasks/tasks-actions-update.command';
+import { TasksActionsCreateBus } from '@pages/processing/application/commands-bus/tasks/tasks-actions-create.bus';
+import { TasksActionsDeleteBus } from '@pages/processing/application/commands-bus/tasks/tasks-actions-delete.bus';
+import { TasksActionsUpdateBus } from '@pages/processing/application/commands-bus/tasks/tasks-actions-update.bus';
+import { TasksActionsCreateDto } from '@pages/processing/application/dto/tasks/tasks-actions-create.dto';
+import { TasksActionsDeleteDto } from '@pages/processing/application/dto/tasks/tasks-actions-delete.dto';
+import { TasksActionsFilterDto } from '@pages/processing/application/dto/tasks/tasks-actions-filter.dto';
+import { TasksActionsUpdateDto } from '@pages/processing/application/dto/tasks/tasks-actions-update.dto';
+import { TasksActionsQuery } from '@pages/processing/application/queries/tasks/tasks-actions.query';
+import { TasksActionsBus } from '@pages/processing/application/queries-bus/tasks/tasks-actions.bus';
+import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,20 +19,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { TasksActionsCreateCommand } from '@presentation/pages/processing/application/commands/tasks/tasks-actions-create.command';
-import { TasksActionsDeleteCommand } from '@presentation/pages/processing/application/commands/tasks/tasks-actions-delete.command';
-import { TasksActionsUpdateCommand } from '@presentation/pages/processing/application/commands/tasks/tasks-actions-update.command';
-import { TasksActionsCreateBus } from '@presentation/pages/processing/application/commands-bus/tasks/tasks-actions-create.bus';
-import { TasksActionsDeleteBus } from '@presentation/pages/processing/application/commands-bus/tasks/tasks-actions-delete.bus';
-import { TasksActionsUpdateBus } from '@presentation/pages/processing/application/commands-bus/tasks/tasks-actions-update.bus';
-import { TasksActionsCreateDto } from '@presentation/pages/processing/application/dto/tasks/tasks-actions-create.dto';
-import { TasksActionsDeleteDto } from '@presentation/pages/processing/application/dto/tasks/tasks-actions-delete.dto';
-import { TasksActionsFilterDto } from '@presentation/pages/processing/application/dto/tasks/tasks-actions-filter.dto';
-import { TasksActionsUpdateDto } from '@presentation/pages/processing/application/dto/tasks/tasks-actions-update.dto';
-import { TasksActionsQuery } from '@presentation/pages/processing/application/queries/tasks/tasks-actions.query';
-import { TasksActionsBus } from '@presentation/pages/processing/application/queries-bus/tasks/tasks-actions.bus';
-import { TasksActionsEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks-actions.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -92,14 +90,17 @@ export class TasksActionsFacade extends BaseFacade<
     }
 
     refresh(): void {
-        this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
-        const filterData = filter ? filter.uniqId : '';
-        const command = new TasksActionsQuery(filterData);
+        const command = new TasksActionsQuery(filter?.uniqId ?? '');
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            filter,
+            page,
+            fetch$,
+            this.uiFeedbackService
+        );
         this.lastFetchTimestamp = Date.now();
     }
 

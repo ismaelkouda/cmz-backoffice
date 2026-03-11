@@ -1,4 +1,4 @@
-import { TermsUseUpdateDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-update.dto';
+import { TermsUseUpdateDto } from '@pages/content-management/application/dto/terms-use/terms-use-update.dto';
 
 export class TermsUseUpdateVo {
     public readonly uniqId: string;

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsParticipantsQuery } from '@pages/team-organization/application/queries/teams/teams-participants.query';
+import { TeamsParticipantsUseCase } from '@pages/team-organization/application/use-cases/teams/teams-participants.use-case';
+import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsParticipantsQuery } from '@presentation/pages/team-organization/application/queries/teams/teams-participants.query';
-import { TeamsParticipantsUseCase } from '@presentation/pages/team-organization/application/use-cases/teams/teams-participants.use-case';
-import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsHandler {

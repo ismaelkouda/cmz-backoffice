@@ -10,14 +10,13 @@ import {
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { Observable } from 'rxjs';
-
 import { ImakoDateComponent } from '@shared/components/ui/form-elements/imako-date/imako-date.component';
 import { ImakoInputComponent } from '@shared/components/ui/form-elements/imako-input/imako-input.component';
 import { ImakoMultiSelectComponent } from '@shared/components/ui/form-elements/imako-multi-select/imako-multi-select.component';
 import { ImakoSelectComponent } from '@shared/components/ui/form-elements/imako-select/imako-select.component';
+import { ButtonModule } from 'primeng/button';
+import { DatePickerModule } from 'primeng/datepicker';
+import { Observable } from 'rxjs';
 
 import { FilterField } from './filter.types';
 

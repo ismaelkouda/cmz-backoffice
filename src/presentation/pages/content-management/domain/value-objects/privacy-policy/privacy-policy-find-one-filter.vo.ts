@@ -1,4 +1,4 @@
-import { PrivacyPolicyFindOneFilterDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-find-one-filter.dto';
+import { PrivacyPolicyFindOneFilterDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-find-one-filter.dto';
 
 export class PrivacyPolicyFindOneFilterVo {
     public readonly uniqId: string;

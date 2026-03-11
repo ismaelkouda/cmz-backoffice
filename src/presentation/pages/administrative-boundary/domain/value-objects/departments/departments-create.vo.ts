@@ -1,4 +1,4 @@
-import { DepartmentsCreateDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-create.dto';
+import { DepartmentsCreateDto } from '@pages/administrative-boundary/application/dto/departments/departments-create.dto';
 
 export class DepartmentsCreateVo {
     public readonly code: string;

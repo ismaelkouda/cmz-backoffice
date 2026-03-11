@@ -1,6 +1,5 @@
+import { NotificationsFilterDto } from '@pages/communication/application/dto/notifications/notifications-filter.dto';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { NotificationsFilterDto } from '@presentation/pages/communication/application/dto/notifications/notifications-filter.dto';
 
 export class NotificationsFilterVo {
     public readonly search?: string;

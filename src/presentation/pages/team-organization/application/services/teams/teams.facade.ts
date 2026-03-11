@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { TeamsCreateCommand } from '@pages/team-organization/application/commands/teams/teams-create.command';
+import { TeamsDeleteCommand } from '@pages/team-organization/application/commands/teams/teams-delete.command';
+import { TeamsDisableCommand } from '@pages/team-organization/application/commands/teams/teams-disable.command';
+import { TeamsEnableCommand } from '@pages/team-organization/application/commands/teams/teams-enable.command';
+import { TeamsUpdateCommand } from '@pages/team-organization/application/commands/teams/teams-update.command';
+import { TeamsCreateBus } from '@pages/team-organization/application/commands-bus/teams/teams-create.bus';
+import { TeamsDeleteBus } from '@pages/team-organization/application/commands-bus/teams/teams-delete.bus';
+import { TeamsDisableBus } from '@pages/team-organization/application/commands-bus/teams/teams-disable.bus';
+import { TeamsEnableBus } from '@pages/team-organization/application/commands-bus/teams/teams-enable.bus';
+import { TeamsUpdateBus } from '@pages/team-organization/application/commands-bus/teams/teams-update.bus';
+import { TeamsCreateDto } from '@pages/team-organization/application/dto/teams/teams-create.dto';
+import { TeamsDeleteDto } from '@pages/team-organization/application/dto/teams/teams-delete.dto';
+import { TeamsDisableDto } from '@pages/team-organization/application/dto/teams/teams-disable.dto';
+import { TeamsEnableDto } from '@pages/team-organization/application/dto/teams/teams-enable.dto';
+import { TeamsFilterDto } from '@pages/team-organization/application/dto/teams/teams-filter.dto';
+import { TeamsUpdateDto } from '@pages/team-organization/application/dto/teams/teams-update.dto';
+import { TeamsQuery } from '@pages/team-organization/application/queries/teams/teams.query';
+import { TeamsBus } from '@pages/team-organization/application/queries-bus/teams/teams.bus';
+import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { TeamsCreateCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-create.command';
-import { TeamsDeleteCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-delete.command';
-import { TeamsDisableCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-disable.command';
-import { TeamsEnableCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-enable.command';
-import { TeamsUpdateCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-update.command';
-import { TeamsCreateBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-create.bus';
-import { TeamsDeleteBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-delete.bus';
-import { TeamsDisableBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-disable.bus';
-import { TeamsEnableBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-enable.bus';
-import { TeamsUpdateBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-update.bus';
-import { TeamsCreateDto } from '@presentation/pages/team-organization/application/dto/teams/teams-create.dto';
-import { TeamsDeleteDto } from '@presentation/pages/team-organization/application/dto/teams/teams-delete.dto';
-import { TeamsDisableDto } from '@presentation/pages/team-organization/application/dto/teams/teams-disable.dto';
-import { TeamsEnableDto } from '@presentation/pages/team-organization/application/dto/teams/teams-enable.dto';
-import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-filter.dto';
-import { TeamsUpdateDto } from '@presentation/pages/team-organization/application/dto/teams/teams-update.dto';
-import { TeamsQuery } from '@presentation/pages/team-organization/application/queries/teams/teams.query';
-import { TeamsBus } from '@presentation/pages/team-organization/application/queries-bus/teams/teams.bus';
-import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

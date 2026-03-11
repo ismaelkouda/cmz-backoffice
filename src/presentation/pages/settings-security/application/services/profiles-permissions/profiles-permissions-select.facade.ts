@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-
+import { ProfilesPermissionsSelectUseCase } from '@pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions-select.use-case';
+import { ProfilesPermissionsSelectEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { ProfilesPermissionsSelectUseCase } from '@presentation/pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions-select.use-case';
-import { ProfilesPermissionsSelectEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
 
 @Injectable({
     providedIn: 'root',

@@ -1,4 +1,4 @@
-import { PrivacyPolicyFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-find-one-filter.vo';
+import { PrivacyPolicyFindOneFilterVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-find-one-filter.vo';
 
 export class PrivacyPolicyFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

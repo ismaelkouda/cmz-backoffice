@@ -83,7 +83,10 @@
             [pReorderableRow]="rowIndex"
             [pSelectableRow]="rowData"
         >
-            @for (col of columns; track trackByColField($index, col.field, rowData)) {
+            @for (
+                col of columns;
+                track trackByColField($index, col.field, rowData)
+            ) {
                 <td [class]="col.class">
                     @if (col.field === '__selection') {
                         <p-tableCheckbox [value]="rowData" />
@@ -108,8 +111,13 @@
                     } @else if (col.type === 'number') {
                         <b>{{ rowData[col.field] | separatorThousandsPipe }}</b>
                     } @else if (col.type === 'tooltip') {
-                        <div [class]="col.class" [pTooltip]="rowData[col.field]"
-                                    tooltipPosition="bottom">{{ rowData[col.field] }}</div>
+                        <div
+                            [class]="col.class"
+                            [pTooltip]="rowData[col.field]"
+                            tooltipPosition="bottom"
+                        >
+                            {{ rowData[col.field] }}
+                        </div>
                     } @else {
                         @switch (col.field) {
                             @case ('__reorder') {
@@ -127,10 +135,10 @@
                                 }}
                             }
                             @case ('createdAt') {
-                                {{ formatDate(rowData.createdAt) }}
+                                {{ getFormatDate(rowData.createdAt) }}
                             }
                             @case ('updatedAt') {
-                                {{ formatDate(rowData.updatedAt) }}
+                                {{ getFormatDate(rowData.updatedAt) }}
                             }
                             @case ('uniqId') {
                                 <p-tag
@@ -188,7 +196,10 @@
                                     ) {
                                         <p-tag
                                             [value]="platform | translate"
-                                            [severity]="rowData.platformsStyle(platform) | translate"
+                                            [severity]="
+                                                rowData.platformsStyle(platform)
+                                                    | translate
+                                            "
                                         />
                                     }
                                 </div>
@@ -210,7 +221,10 @@
                                     ) {
                                         <p-tag
                                             [value]="channel | translate"
-                                            [severity]="rowData.channelsStyle(channel) | translate"
+                                            [severity]="
+                                                rowData.channelsStyle(channel)
+                                                    | translate
+                                            "
                                         />
                                     }
                                 </div>
@@ -222,13 +236,16 @@
                                 <div class="tag-group status-group">
                                     <p-tag
                                         [value]="rowData.status | translate"
-                                        [severity]="rowData.statusStyle(rowData.status) | translate"
+                                        [severity]="
+                                            rowData.statusStyle(rowData.status)
+                                                | translate
+                                        "
                                     />
                                 </div>
                             }
                             @case ('reportedAt') {
                                 <time [attr.datetime]="rowData.reportedAt">
-                                    {{ formatDate(rowData.reportedAt) }}
+                                    {{ getFormatDate(rowData.reportedAt) }}
                                 </time>
                             }
                             @case ('source') {

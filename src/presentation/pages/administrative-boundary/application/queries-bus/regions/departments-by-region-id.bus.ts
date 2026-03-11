@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DepartmentsByRegionIdQuery } from '@pages/administrative-boundary/application/queries/regions/departments-by-region-id.query';
+import { DepartmentsByRegionIdHandler } from '@pages/administrative-boundary/application/queries-handlers/regions/departments-by-region-id.handler';
+import { DepartmentsByRegionIdEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { DepartmentsByRegionIdQuery } from '@presentation/pages/administrative-boundary/application/queries/regions/departments-by-region-id.query';
-import { DepartmentsByRegionIdHandler } from '@presentation/pages/administrative-boundary/application/queries-handlers/regions/departments-by-region-id.handler';
-import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsByRegionIdBus {

@@ -1,6 +1,5 @@
+import { MunicipalitiesByDepartmentIdFilterDto } from '@pages/administrative-boundary/application/dto/departments/municipalities-by-department-id-filter.dto';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { MunicipalitiesByDepartmentIdFilterDto } from '@presentation/pages/administrative-boundary/application/dto/departments/municipalities-by-department-id-filter.dto';
 
 export class MunicipalitiesByDepartmentIdFilterVo {
     public readonly uniqId: string;

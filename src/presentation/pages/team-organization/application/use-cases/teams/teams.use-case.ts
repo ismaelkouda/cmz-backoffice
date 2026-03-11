@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsCreateDto } from '@pages/team-organization/application/dto/teams/teams-create.dto';
+import { TeamsDeleteDto } from '@pages/team-organization/application/dto/teams/teams-delete.dto';
+import { TeamsDisableDto } from '@pages/team-organization/application/dto/teams/teams-disable.dto';
+import { TeamsEnableDto } from '@pages/team-organization/application/dto/teams/teams-enable.dto';
+import { TeamsFilterDto } from '@pages/team-organization/application/dto/teams/teams-filter.dto';
+import { TeamsUpdateDto } from '@pages/team-organization/application/dto/teams/teams-update.dto';
+import { TeamsCreateEntity } from '@pages/team-organization/domain/entities/teams/teams-create.entity';
+import { TeamsDeleteEntity } from '@pages/team-organization/domain/entities/teams/teams-delete.entity';
+import { TeamsDisableEntity } from '@pages/team-organization/domain/entities/teams/teams-disable.entity';
+import { TeamsEnableEntity } from '@pages/team-organization/domain/entities/teams/teams-enable.entity';
+import { TeamsFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-filter.entity';
+import { TeamsUpdateEntity } from '@pages/team-organization/domain/entities/teams/teams-update.entity';
+import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
+import { TeamsRepository } from '@pages/team-organization/domain/repositories/teams/teams-repository';
+import { TeamsCreateVo } from '@pages/team-organization/domain/value-objects/teams/teams-create.vo';
+import { TeamsDeleteVo } from '@pages/team-organization/domain/value-objects/teams/teams-delete.vo';
+import { TeamsDisableVo } from '@pages/team-organization/domain/value-objects/teams/teams-disable.vo';
+import { TeamsEnableVo } from '@pages/team-organization/domain/value-objects/teams/teams-enable.vo';
+import { TeamsFilterVo } from '@pages/team-organization/domain/value-objects/teams/teams-filter.vo';
+import { TeamsUpdateVo } from '@pages/team-organization/domain/value-objects/teams/teams-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsCreateDto } from '@presentation/pages/team-organization/application/dto/teams/teams-create.dto';
-import { TeamsDeleteDto } from '@presentation/pages/team-organization/application/dto/teams/teams-delete.dto';
-import { TeamsDisableDto } from '@presentation/pages/team-organization/application/dto/teams/teams-disable.dto';
-import { TeamsEnableDto } from '@presentation/pages/team-organization/application/dto/teams/teams-enable.dto';
-import { TeamsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-filter.dto';
-import { TeamsUpdateDto } from '@presentation/pages/team-organization/application/dto/teams/teams-update.dto';
-import { TeamsCreateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-create.entity';
-import { TeamsDeleteEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-delete.entity';
-import { TeamsDisableEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-disable.entity';
-import { TeamsEnableEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-enable.entity';
-import { TeamsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-filter.entity';
-import { TeamsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-update.entity';
-import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
-import { TeamsRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-repository';
-import { TeamsCreateVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-create.vo';
-import { TeamsDeleteVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-delete.vo';
-import { TeamsDisableVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-disable.vo';
-import { TeamsEnableVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-enable.vo';
-import { TeamsFilterVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-filter.vo';
-import { TeamsUpdateVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

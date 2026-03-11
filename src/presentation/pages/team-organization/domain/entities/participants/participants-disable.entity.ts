@@ -1,4 +1,4 @@
-import { ParticipantsDisableVo } from '@presentation/pages/team-organization/domain/value-objects/participants/participants-disable.vo';
+import { ParticipantsDisableVo } from '@pages/team-organization/domain/value-objects/participants/participants-disable.vo';
 
 export class ParticipantsDisableEntity {
     constructor(public readonly uniqId: string) {}

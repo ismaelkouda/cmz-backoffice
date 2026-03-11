@@ -1,6 +1,5 @@
 import { inject } from '@angular/core';
 import { Injectable } from '@angular/core';
-
 import { LocationMethodDto } from '@shared/data/dto/location-method.dto';
 import { LocationTypeDto } from '@shared/data/dto/location-type.dto';
 import { LocationMethodMapper } from '@shared/data/mappers/location-method.mapper';

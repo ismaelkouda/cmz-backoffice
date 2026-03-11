@@ -1,21 +1,19 @@
 import { inject, Provider } from '@angular/core';
-
+import { homeFindOneProviders } from '@pages/content-management/di/home/home-find-one.providers';
+import { homeProviders } from '@pages/content-management/di/home/home.providers';
+import { legalNoticeFindOneProviders } from '@pages/content-management/di/legal-notice/legal-notice-find-one.providers';
+import { legalNoticeProviders } from '@pages/content-management/di/legal-notice/legal-notice.providers';
+import { newsCategoriesSelectProviders } from '@pages/content-management/di/news/news-categories-select.providers';
+import { newsFindOneProviders } from '@pages/content-management/di/news/news-find-one.providers';
+import { newsProviders } from '@pages/content-management/di/news/news.providers';
+import { privacyPolicyFindOneProviders } from '@pages/content-management/di/privacy-policy/privacy-policy-find-one.providers';
+import { privacyPolicyProviders } from '@pages/content-management/di/privacy-policy/privacy-policy.providers';
+import { slideFindOneProviders } from '@pages/content-management/di/slide/slide-find-one.providers';
+import { slideProviders } from '@pages/content-management/di/slide/slide.providers';
+import { termsUseFindOneProviders } from '@pages/content-management/di/terms-use/terms-use-find-one.providers';
+import { termsUseProviders } from '@pages/content-management/di/terms-use/terms-use.providers';
+import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
 import { EnvService } from '@shared/domain/services/env.service';
-
-import { homeFindOneProviders } from '@presentation/pages/content-management/di/home/home-find-one.providers';
-import { homeProviders } from '@presentation/pages/content-management/di/home/home.providers';
-import { legalNoticeFindOneProviders } from '@presentation/pages/content-management/di/legal-notice/legal-notice-find-one.providers';
-import { legalNoticeProviders } from '@presentation/pages/content-management/di/legal-notice/legal-notice.providers';
-import { newsCategoriesSelectProviders } from '@presentation/pages/content-management/di/news/news-categories-select.providers';
-import { newsFindOneProviders } from '@presentation/pages/content-management/di/news/news-find-one.providers';
-import { newsProviders } from '@presentation/pages/content-management/di/news/news.providers';
-import { privacyPolicyFindOneProviders } from '@presentation/pages/content-management/di/privacy-policy/privacy-policy-find-one.providers';
-import { privacyPolicyProviders } from '@presentation/pages/content-management/di/privacy-policy/privacy-policy.providers';
-import { slideFindOneProviders } from '@presentation/pages/content-management/di/slide/slide-find-one.providers';
-import { slideProviders } from '@presentation/pages/content-management/di/slide/slide.providers';
-import { termsUseFindOneProviders } from '@presentation/pages/content-management/di/terms-use/terms-use-find-one.providers';
-import { termsUseProviders } from '@presentation/pages/content-management/di/terms-use/terms-use.providers';
-import { CONTENT_MANAGEMENT_BASE_URL } from '@presentation/pages/content-management/infrastructure/api/content-management.base-url';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).settingUrl;

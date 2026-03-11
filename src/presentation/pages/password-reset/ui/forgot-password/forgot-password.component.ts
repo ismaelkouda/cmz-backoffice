@@ -15,14 +15,12 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
-
 import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
 import { ForgotPasswordFormInterface } from '@pages/password-reset/data/interfaces/forgot-password-form.interface';
+import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-forgot-password',

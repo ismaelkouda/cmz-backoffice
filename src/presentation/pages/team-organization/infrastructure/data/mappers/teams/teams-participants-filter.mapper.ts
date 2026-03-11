@@ -1,5 +1,5 @@
-import { TeamsParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
-import { TeamsParticipantsFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-participants-filter-api.dto';
+import { TeamsParticipantsFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
+import { TeamsParticipantsFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-filter-api.dto';
 
 export function teamsParticipantsFilterMapper(
     vo: TeamsParticipantsFilterEntity

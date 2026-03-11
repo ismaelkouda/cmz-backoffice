@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ProfilesPermissionsDeleteCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-delete.command';
+import { ProfilesPermissionsDeleteHandler } from '@pages/settings-security/application/commands-handlers/profiles-permissions/profiles-permissions-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsDeleteCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-delete.command';
-import { ProfilesPermissionsDeleteHandler } from '@presentation/pages/settings-security/application/commands-handlers/profiles-permissions/profiles-permissions-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsDeleteBus {

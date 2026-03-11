@@ -1,7 +1,6 @@
+import { PROFILES_PERMISSIONS_LIST } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions.routes';
+import { PROFILES_PERMISSIONS_ROUTE } from '@pages/settings-security/settings-security.routes';
 import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
-
-import { PROFILES_PERMISSIONS_LIST } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions.routes';
-import { PROFILES_PERMISSIONS_ROUTE } from '@presentation/pages/settings-security/settings-security.routes';
 
 export const PROFILES_PERMISSIONS_TABS = [
     {

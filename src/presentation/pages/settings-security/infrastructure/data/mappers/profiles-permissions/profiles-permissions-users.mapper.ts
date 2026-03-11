@@ -1,8 +1,7 @@
+import { ProfilesPermissionsUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
+import { ProfilesPermissionsUsersItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-response-api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { ProfilesPermissionsUsersEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
-import { ProfilesPermissionsUsersItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-response-api.dto';
 
 export class ProfilesPermissionsUsersMapper extends PaginatedMapper<
     ProfilesPermissionsUsersEntity,
@@ -16,8 +15,8 @@ export class ProfilesPermissionsUsersMapper extends PaginatedMapper<
     protected mapItemFromDto(
         dto: ProfilesPermissionsUsersItemApiDto
     ): ProfilesPermissionsUsersEntity {
-        MapperUtils.validateDto(dto, { required: ['uniq_id'] });
-        const cacheKey = `dto:${dto.uniq_id}`;
+        MapperUtils.validateDto(dto, { required: ['id'] });
+        const cacheKey = `dto:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
 
         const entity = cached

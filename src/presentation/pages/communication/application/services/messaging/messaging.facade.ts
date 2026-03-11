@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { MessagingCreateCommand } from '@pages/communication/application/commands/messaging/messaging-create.command';
+import { MessagingDeleteCommand } from '@pages/communication/application/commands/messaging/messaging-delete.command';
+import { MessagingDisableCommand } from '@pages/communication/application/commands/messaging/messaging-disable.command';
+import { MessagingEnableCommand } from '@pages/communication/application/commands/messaging/messaging-enable.command';
+import { MessagingUpdateCommand } from '@pages/communication/application/commands/messaging/messaging-update.command';
+import { MessagingCreateBus } from '@pages/communication/application/commands-bus/messaging/messaging-create.bus';
+import { MessagingDeleteBus } from '@pages/communication/application/commands-bus/messaging/messaging-delete.bus';
+import { MessagingDisableBus } from '@pages/communication/application/commands-bus/messaging/messaging-disable.bus';
+import { MessagingEnableBus } from '@pages/communication/application/commands-bus/messaging/messaging-enable.bus';
+import { MessagingUpdateBus } from '@pages/communication/application/commands-bus/messaging/messaging-update.bus';
+import { MessagingCreateDto } from '@pages/communication/application/dto/messaging/messaging-create.dto';
+import { MessagingDeleteDto } from '@pages/communication/application/dto/messaging/messaging-delete.dto';
+import { MessagingDisableDto } from '@pages/communication/application/dto/messaging/messaging-disable.dto';
+import { MessagingEnableDto } from '@pages/communication/application/dto/messaging/messaging-enable.dto';
+import { MessagingFilterDto } from '@pages/communication/application/dto/messaging/messaging-filter.dto';
+import { MessagingUpdateDto } from '@pages/communication/application/dto/messaging/messaging-update.dto';
+import { MessagingQuery } from '@pages/communication/application/queries/messaging/messaging.query';
+import { MessagingBus } from '@pages/communication/application/queries-bus/messaging/messaging.bus';
+import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { MessagingCreateCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-create.command';
-import { MessagingDeleteCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-delete.command';
-import { MessagingDisableCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-disable.command';
-import { MessagingEnableCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-enable.command';
-import { MessagingUpdateCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-update.command';
-import { MessagingCreateBus } from '@presentation/pages/communication/application/commands-bus/messaging/messaging-create.bus';
-import { MessagingDeleteBus } from '@presentation/pages/communication/application/commands-bus/messaging/messaging-delete.bus';
-import { MessagingDisableBus } from '@presentation/pages/communication/application/commands-bus/messaging/messaging-disable.bus';
-import { MessagingEnableBus } from '@presentation/pages/communication/application/commands-bus/messaging/messaging-enable.bus';
-import { MessagingUpdateBus } from '@presentation/pages/communication/application/commands-bus/messaging/messaging-update.bus';
-import { MessagingCreateDto } from '@presentation/pages/communication/application/dto/messaging/messaging-create.dto';
-import { MessagingDeleteDto } from '@presentation/pages/communication/application/dto/messaging/messaging-delete.dto';
-import { MessagingDisableDto } from '@presentation/pages/communication/application/dto/messaging/messaging-disable.dto';
-import { MessagingEnableDto } from '@presentation/pages/communication/application/dto/messaging/messaging-enable.dto';
-import { MessagingFilterDto } from '@presentation/pages/communication/application/dto/messaging/messaging-filter.dto';
-import { MessagingUpdateDto } from '@presentation/pages/communication/application/dto/messaging/messaging-update.dto';
-import { MessagingQuery } from '@presentation/pages/communication/application/queries/messaging/messaging.query';
-import { MessagingBus } from '@presentation/pages/communication/application/queries-bus/messaging/messaging.bus';
-import { MessagingEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

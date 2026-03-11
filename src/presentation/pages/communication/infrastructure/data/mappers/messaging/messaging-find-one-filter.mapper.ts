@@ -1,5 +1,5 @@
-import { MessagingFindOneFilterEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-find-one-filter.entity';
-import { MessagingFindOneFilterApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-find-one-filter-api.dto';
+import { MessagingFindOneFilterEntity } from '@pages/communication/domain/entities/messaging/messaging-find-one-filter.entity';
+import { MessagingFindOneFilterApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-find-one-filter-api.dto';
 
 export function messagingFindOneFilterMapper(
     entity: MessagingFindOneFilterEntity

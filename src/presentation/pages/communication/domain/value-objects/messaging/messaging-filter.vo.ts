@@ -1,6 +1,5 @@
+import { MessagingFilterDto } from '@pages/communication/application/dto/messaging/messaging-filter.dto';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { MessagingFilterDto } from '@presentation/pages/communication/application/dto/messaging/messaging-filter.dto';
 
 export class MessagingFilterVo {
     public readonly reportId?: string;

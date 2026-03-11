@@ -1,13 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-
+import { HomeFindOneEntity } from '@pages/content-management/domain/entities/home/home-find-one.entity';
+import { HomeFindOneProps } from '@pages/content-management/domain/interfaces/home/home-find-one-props.interface';
+import { HomeFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-find-one-response-api.dto';
+import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-status.mapper';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { HomeFindOneEntity } from '@presentation/pages/content-management/domain/entities/home/home-find-one.entity';
-import { HomeFindOneProps } from '@presentation/pages/content-management/domain/interfaces/home/home-find-one-props.interface';
-import { HomeFindOneItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-find-one-response-api.dto';
-import { StatusMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/home/home-status.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class HomeFindOneMapper extends SimpleResponseMapper<

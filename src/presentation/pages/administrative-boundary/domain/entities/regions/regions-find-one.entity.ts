@@ -1,4 +1,4 @@
-import { RegionsFindOneItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-find-one-response-api.dto';
+import { RegionsFindOneItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-find-one-response-api.dto';
 
 export class RegionsFindOneEntity {
     constructor(

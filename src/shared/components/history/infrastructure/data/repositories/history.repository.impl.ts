@@ -1,7 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { HistoryFilterEntity } from '@shared/components/history/domain/entities/history-filter.entity';
 import { HistoryEntity } from '@shared/components/history/domain/entities/history.entity';
 import { HistoryRepository } from '@shared/components/history/domain/repositories/history.repository';
@@ -9,6 +6,8 @@ import { HistoryFilterMapper } from '@shared/components/history/infrastructure/d
 import { HistoryMapper } from '@shared/components/history/infrastructure/data/mappers/history.mapper';
 import { HistoryApi } from '@shared/components/history/infrastructure/data/sources/history.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryRepositoryImpl implements HistoryRepository {

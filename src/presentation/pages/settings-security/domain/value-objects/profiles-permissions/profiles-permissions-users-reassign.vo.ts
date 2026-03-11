@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUsersReassignDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-reassign.dto';
+import { ProfilesPermissionsUsersReassignDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-reassign.dto';
 
 export class ProfilesPermissionsUsersReassignVo {
     public readonly uniqId: string;

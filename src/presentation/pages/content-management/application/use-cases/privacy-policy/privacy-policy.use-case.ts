@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { PrivacyPolicyCreateDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-create.dto';
+import { PrivacyPolicyDeleteDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
+import { PrivacyPolicyFilterDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-filter.dto';
+import { PrivacyPolicyPublishDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-publish.dto';
+import { PrivacyPolicyUnpublishDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-unpublish.dto';
+import { PrivacyPolicyUpdateDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-update.dto';
+import { PrivacyPolicyCreateEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-create.entity';
+import { PrivacyPolicyDeleteEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-delete.entity';
+import { PrivacyPolicyFilterEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-filter.entity';
+import { PrivacyPolicyPublishEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-publish.entity';
+import { PrivacyPolicyUnpublishEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-unpublish.entity';
+import { PrivacyPolicyUpdateEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-update.entity';
+import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
+import { PrivacyPolicyRepository } from '@pages/content-management/domain/repositories/privacy-policy/privacy-policy-repository';
+import { PrivacyPolicyCreateVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-create.vo';
+import { PrivacyPolicyDeleteVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-delete.vo';
+import { PrivacyPolicyFilterVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-filter.vo';
+import { PrivacyPolicyPublishVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-publish.vo';
+import { PrivacyPolicyUnpublishVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-unpublish.vo';
+import { PrivacyPolicyUpdateVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { PrivacyPolicyCreateDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-create.dto';
-import { PrivacyPolicyDeleteDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
-import { PrivacyPolicyFilterDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-filter.dto';
-import { PrivacyPolicyPublishDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-publish.dto';
-import { PrivacyPolicyUnpublishDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-unpublish.dto';
-import { PrivacyPolicyUpdateDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-update.dto';
-import { PrivacyPolicyCreateEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-create.entity';
-import { PrivacyPolicyDeleteEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-delete.entity';
-import { PrivacyPolicyFilterEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-filter.entity';
-import { PrivacyPolicyPublishEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-publish.entity';
-import { PrivacyPolicyUnpublishEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-unpublish.entity';
-import { PrivacyPolicyUpdateEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-update.entity';
-import { PrivacyPolicyEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
-import { PrivacyPolicyRepository } from '@presentation/pages/content-management/domain/repositories/privacy-policy/privacy-policy-repository';
-import { PrivacyPolicyCreateVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-create.vo';
-import { PrivacyPolicyDeleteVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-delete.vo';
-import { PrivacyPolicyFilterVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-filter.vo';
-import { PrivacyPolicyPublishVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-publish.vo';
-import { PrivacyPolicyUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-unpublish.vo';
-import { PrivacyPolicyUpdateVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

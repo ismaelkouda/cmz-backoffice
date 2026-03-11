@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
+import { ParticipantsSelectEntity } from '@pages/team-organization/domain/entities/participants/participants-select.entity';
+import { ParticipantsSelectRepository } from '@pages/team-organization/domain/repositories/participants/participants-select-repository';
+import { ParticipantsSelectMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-select.mapper';
+import { ParticipantsSelectApi } from '@pages/team-organization/infrastructure/data/sources/participants/participants-select.api';
 import { map, Observable } from 'rxjs';
-
-import { ParticipantsSelectEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-select.entity';
-import { ParticipantsSelectRepository } from '@presentation/pages/team-organization/domain/repositories/participants/participants-select-repository';
-import { ParticipantsSelectMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-select.mapper';
-import { ParticipantsSelectApi } from '@presentation/pages/team-organization/infrastructure/data/sources/participants/participants-select.api';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsSelectRepositoryImpl implements ParticipantsSelectRepository {

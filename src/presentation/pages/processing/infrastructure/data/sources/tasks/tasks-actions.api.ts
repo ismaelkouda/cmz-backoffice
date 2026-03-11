@@ -1,18 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TasksActionsCreateApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-create-api.dto';
+import { TasksActionsDeleteApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-delete-api.dto';
+import { TasksActionsFilterApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-filter-api.dto';
+import { TasksActionsResponseApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-response-api.dto';
+import { TasksActionsUpdateApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-update-api.dto';
+import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
+import { PROCESSING_ENDPOINTS } from '@pages/processing/infrastructure/api/processing.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { TasksActionsCreateApiDto } from '@presentation/pages/processing/infrastructure/api/dto/tasks/tasks-actions-create-api.dto';
-import { TasksActionsDeleteApiDto } from '@presentation/pages/processing/infrastructure/api/dto/tasks/tasks-actions-delete-api.dto';
-import { TasksActionsFilterApiDto } from '@presentation/pages/processing/infrastructure/api/dto/tasks/tasks-actions-filter-api.dto';
-import { TasksActionsResponseApiDto } from '@presentation/pages/processing/infrastructure/api/dto/tasks/tasks-actions-response-api.dto';
-import { TasksActionsUpdateApiDto } from '@presentation/pages/processing/infrastructure/api/dto/tasks/tasks-actions-update-api.dto';
-import { PROCESSING_BASE_URL } from '@presentation/pages/processing/infrastructure/api/processing.base-url';
-import { PROCESSING_ENDPOINTS } from '@presentation/pages/processing/infrastructure/api/processing.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksActionsApi {

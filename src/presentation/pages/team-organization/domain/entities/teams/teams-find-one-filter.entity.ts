@@ -1,4 +1,4 @@
-import { TeamsFindOneFilterVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-find-one-filter.vo';
+import { TeamsFindOneFilterVo } from '@pages/team-organization/domain/value-objects/teams/teams-find-one-filter.vo';
 
 export class TeamsFindOneFilterEntity {
     constructor(public readonly uniqId?: string) {}

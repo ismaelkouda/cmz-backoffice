@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-
+import { AllFilterDto } from '@pages/finalization/application/dto/all/all-filter.dto';
+import { AllQuery } from '@pages/finalization/application/queries/all/all.query';
+import { AllBus } from '@pages/finalization/application/queries-bus/all/all.bus';
+import { AllEntity } from '@pages/finalization/domain/entities/all/all.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { AllFilterDto } from '@presentation/pages/finalization/application/dto/all/all-filter.dto';
-import { AllQuery } from '@presentation/pages/finalization/application/queries/all/all.query';
-import { AllBus } from '@presentation/pages/finalization/application/queries-bus/all/all.bus';
-import { AllEntity } from '@presentation/pages/finalization/domain/entities/all/all.entity';
 
 @Injectable({ providedIn: 'root' })
 export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {

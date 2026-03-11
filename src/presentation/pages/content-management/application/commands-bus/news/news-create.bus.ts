@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NewsCreateCommand } from '@pages/content-management/application/commands/news/news-create.command';
+import { NewsCreateHandler } from '@pages/content-management/application/commands-handlers/news/news-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { NewsCreateCommand } from '@presentation/pages/content-management/application/commands/news/news-create.command';
-import { NewsCreateHandler } from '@presentation/pages/content-management/application/commands-handlers/news/news-create.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NewsCreateBus {

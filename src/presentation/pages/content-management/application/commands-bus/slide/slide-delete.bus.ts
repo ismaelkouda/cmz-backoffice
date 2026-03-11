@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { SlideDeleteCommand } from '@pages/content-management/application/commands/slide/slide-delete.command';
+import { SlideDeleteHandler } from '@pages/content-management/application/commands-handlers/slide/slide-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { SlideDeleteCommand } from '@presentation/pages/content-management/application/commands/slide/slide-delete.command';
-import { SlideDeleteHandler } from '@presentation/pages/content-management/application/commands-handlers/slide/slide-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SlideDeleteBus {

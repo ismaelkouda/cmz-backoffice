@@ -1,4 +1,4 @@
-import { RegionsUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-update.vo';
+import { RegionsUpdateVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-update.vo';
 
 export class RegionsUpdateEntity {
     constructor(

@@ -1,4 +1,4 @@
-import { TermsUseUpdateVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-update.vo';
+import { TermsUseUpdateVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-update.vo';
 
 export class TermsUseUpdateEntity {
     constructor(

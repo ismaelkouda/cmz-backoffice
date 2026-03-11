@@ -1,19 +1,17 @@
 import { inject, Provider } from '@angular/core';
-
+import { provideDepartmentsFindOne } from '@pages/administrative-boundary/di/departments/departments-find-one.providers';
+import { departmentsSelectProviders } from '@pages/administrative-boundary/di/departments/departments-select.providers';
+import { provideDepartments } from '@pages/administrative-boundary/di/departments/departments.providers';
+import { municipalitiesByDepartmentIdProviders } from '@pages/administrative-boundary/di/departments/municipalities-by-department-id.providers';
+import { provideMunicipalitiesFindOne } from '@pages/administrative-boundary/di/municipalities/municipalities-find-one.providers';
+import { municipalitiesSelectProviders } from '@pages/administrative-boundary/di/municipalities/municipalities-select.providers';
+import { provideMunicipalities } from '@pages/administrative-boundary/di/municipalities/municipalities.providers';
+import { departmentsByRegionIdProviders } from '@pages/administrative-boundary/di/regions/departments-by-region-id.providers';
+import { provideRegionsFindOne } from '@pages/administrative-boundary/di/regions/regions-find-one.providers';
+import { regionsSelectProviders } from '@pages/administrative-boundary/di/regions/regions-select.providers';
+import { provideRegions } from '@pages/administrative-boundary/di/regions/regions.providers';
+import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { EnvService } from '@shared/domain/services/env.service';
-
-import { provideDepartmentsFindOne } from '@presentation/pages/administrative-boundary/di/departments/departments-find-one.providers';
-import { departmentsSelectProviders } from '@presentation/pages/administrative-boundary/di/departments/departments-select.providers';
-import { provideDepartments } from '@presentation/pages/administrative-boundary/di/departments/departments.providers';
-import { municipalitiesByDepartmentIdProviders } from '@presentation/pages/administrative-boundary/di/departments/municipalities-by-department-id.providers';
-import { provideMunicipalitiesFindOne } from '@presentation/pages/administrative-boundary/di/municipalities/municipalities-find-one.providers';
-import { municipalitiesSelectProviders } from '@presentation/pages/administrative-boundary/di/municipalities/municipalities-select.providers';
-import { provideMunicipalities } from '@presentation/pages/administrative-boundary/di/municipalities/municipalities.providers';
-import { departmentsByRegionIdProviders } from '@presentation/pages/administrative-boundary/di/regions/departments-by-region-id.providers';
-import { provideRegionsFindOne } from '@presentation/pages/administrative-boundary/di/regions/regions-find-one.providers';
-import { regionsSelectProviders } from '@presentation/pages/administrative-boundary/di/regions/regions-select.providers';
-import { provideRegions } from '@presentation/pages/administrative-boundary/di/regions/regions.providers';
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 
 const getApiBaseUrl = (): string => {
     const baseUrl = inject(EnvService).settingUrl;

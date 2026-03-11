@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ParticipantsUpdateCommand } from '@pages/team-organization/application/commands/participants/participants-update.command';
+import { ParticipantsUpdateHandler } from '@pages/team-organization/application/commands-handlers/participants/participants-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { ParticipantsUpdateCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-update.command';
-import { ParticipantsUpdateHandler } from '@presentation/pages/team-organization/application/commands-handlers/participants/participants-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsUpdateBus {

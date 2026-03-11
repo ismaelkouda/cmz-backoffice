@@ -1,5 +1,5 @@
-import { HomeDeleteEntity } from '@presentation/pages/content-management/domain/entities/home/home-delete.entity';
-import { HomeDeleteApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-delete-api.dto';
+import { HomeDeleteEntity } from '@pages/content-management/domain/entities/home/home-delete.entity';
+import { HomeDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-delete-api.dto';
 
 export function homeDeleteMapper(vo: HomeDeleteEntity): HomeDeleteApiDto {
     const prams = {} as HomeDeleteApiDto;

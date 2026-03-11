@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
+import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
+import { TermsUseCreateApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-create-api.dto';
+import { TermsUseDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-delete-api.dto';
+import { TermsUseFilterApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-filter-api.dto';
+import { TermsUsePublishApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-publish-api.dto';
+import { TermsUseResponseApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-response-api.dto';
+import { TermsUseUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-unpublish-api.dto';
+import { TermsUseUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { CONTENT_MANAGEMENT_BASE_URL } from '@presentation/pages/content-management/infrastructure/api/content-management.base-url';
-import { CONTENT_MANAGEMENT_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/api/content-management.endpoints';
-import { TermsUseCreateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-create-api.dto';
-import { TermsUseDeleteApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-delete-api.dto';
-import { TermsUseFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-filter-api.dto';
-import { TermsUsePublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-publish-api.dto';
-import { TermsUseResponseApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-response-api.dto';
-import { TermsUseUnpublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-unpublish-api.dto';
-import { TermsUseUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-update-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUseApi {

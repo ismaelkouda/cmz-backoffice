@@ -1,13 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-
+import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
+import { ParticipantsProps } from '@pages/team-organization/domain/interfaces/participants/participants-props.entity';
+import { ParticipantsItemApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-response-api.dto';
+import { StatusMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-status.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
-import { ParticipantsProps } from '@presentation/pages/team-organization/domain/interfaces/participants/participants-props.entity';
-import { ParticipantsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-response-api.dto';
-import { StatusMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/participants/participants-status.mapper';
 
 @Injectable({
     providedIn: 'root',

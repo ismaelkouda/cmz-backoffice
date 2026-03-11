@@ -1,4 +1,4 @@
-import { UsersDeleteVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-delete.vo';
+import { UsersDeleteVo } from '@pages/settings-security/domain/value-objects/users/users-delete.vo';
 
 export class UsersDeleteEntity {
     constructor(public readonly uniqId: string) {}

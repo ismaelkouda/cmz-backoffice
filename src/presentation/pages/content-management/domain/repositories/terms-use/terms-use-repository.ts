@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TermsUseCreateEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-create.entity';
+import { TermsUseDeleteEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-delete.entity';
+import { TermsUseFilterEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
+import { TermsUsePublishEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-publish.entity';
+import { TermsUseUnpublishEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-unpublish.entity';
+import { TermsUseUpdateEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-update.entity';
+import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { TermsUseCreateEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-create.entity';
-import { TermsUseDeleteEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-delete.entity';
-import { TermsUseFilterEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
-import { TermsUsePublishEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-publish.entity';
-import { TermsUseUnpublishEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-unpublish.entity';
-import { TermsUseUpdateEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-update.entity';
-import { TermsUseEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

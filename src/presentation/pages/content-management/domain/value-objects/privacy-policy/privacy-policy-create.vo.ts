@@ -1,4 +1,4 @@
-import { PrivacyPolicyCreateDto } from '@presentation/pages/content-management/application/dto/privacy-policy/privacy-policy-create.dto';
+import { PrivacyPolicyCreateDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-create.dto';
 
 export class PrivacyPolicyCreateVo {
     public readonly version: string;

@@ -18,8 +18,10 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-
+import { QueuesFacade } from '@pages/processing/application/services/queues/queues.facade';
+import { QUEUES_TABLE_CONST } from '@pages/processing/domain/constants/queues/queues-table.constant';
+import { QueuesFilterControl } from '@pages/processing/domain/controls/queues/queues-filter-control';
+import { QueuesEntity } from '@pages/processing/domain/entities/queues/queues.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -36,11 +38,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-
-import { QueuesFacade } from '@presentation/pages/processing/application/services/queues/queues.facade';
-import { QUEUES_TABLE_CONST } from '@presentation/pages/processing/domain/constants/queues/queues-table.constant';
-import { QueuesFilterControl } from '@presentation/pages/processing/domain/controls/queues/queues-filter-control';
-import { QueuesEntity } from '@presentation/pages/processing/domain/entities/queues/queues.entity';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-queues',

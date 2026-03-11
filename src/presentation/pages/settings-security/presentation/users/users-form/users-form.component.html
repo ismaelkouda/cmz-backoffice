@@ -382,7 +382,9 @@
                                                         formControlName="profile"
                                                         optionLabel="name"
                                                         optionValue="value"
-                                                        [loading]="loadingProfiles()"
+                                                        [loading]="
+                                                            loadingProfiles()
+                                                        "
                                                         filter="true"
                                                         filterBy="name"
                                                         styleClass="w-100"
@@ -390,8 +392,14 @@
                                                             'COMMON.SELECT_PLACEHOLDER'
                                                                 | translate
                                                         "
-        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
                                                         [attr.aria-label]="
                                                             'SETTINGS_SECURITY.USERS.FORM.FIELDSET_GENERAL_INFO.PROFILE'
                                                                 | translate
@@ -445,7 +453,9 @@
                                                         formControlName="responsibility"
                                                         optionLabel="name"
                                                         optionValue="value"
-                                                        [loading]="loadingResponsibilities()"
+                                                        [loading]="
+                                                            loadingResponsibilities()
+                                                        "
                                                         filter="true"
                                                         filterBy="name"
                                                         styleClass="w-100"
@@ -453,8 +463,14 @@
                                                             'COMMON.SELECT_PLACEHOLDER'
                                                                 | translate
                                                         "
-        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
                                                         [attr.aria-label]="
                                                             'SETTINGS_SECURITY.USERS.FORM.FIELDSET_GENERAL_INFO.RESPONSIBILITY'
                                                                 | translate

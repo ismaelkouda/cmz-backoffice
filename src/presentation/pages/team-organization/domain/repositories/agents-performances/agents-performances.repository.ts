@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs';
-
+import { AgentsPerformancesFilterEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-filter.entity';
+import { AgentsPerformancesEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AgentsPerformancesFilterEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-filter.entity';
-import { AgentsPerformancesEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
+import { Observable } from 'rxjs';
 
 export abstract class AgentsPerformancesRepository {
     abstract readAll(

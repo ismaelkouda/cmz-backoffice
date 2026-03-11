@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { MessagingFindOneFilterDto } from '@pages/communication/application/dto/messaging/messaging-find-one-filter.dto';
+import { MessagingFindOneQuery } from '@pages/communication/application/queries/messaging/messaging-find-one.query';
+import { MessagingFindOneBus } from '@pages/communication/application/queries-bus/messaging/messaging-find-one.bus';
+import { MessagingFindOneEntity } from '@pages/communication/domain/entities/messaging/messaging-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { MessagingFindOneFilterDto } from '@presentation/pages/communication/application/dto/messaging/messaging-find-one-filter.dto';
-import { MessagingFindOneQuery } from '@presentation/pages/communication/application/queries/messaging/messaging-find-one.query';
-import { MessagingFindOneBus } from '@presentation/pages/communication/application/queries-bus/messaging/messaging-find-one.bus';
-import { MessagingFindOneEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

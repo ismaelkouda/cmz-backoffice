@@ -1,5 +1,5 @@
-import { PrivacyPolicyUpdateEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-update.entity';
-import { PrivacyPolicyUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-update-api.dto';
+import { PrivacyPolicyUpdateEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-update.entity';
+import { PrivacyPolicyUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-update-api.dto';
 
 export function privacyPolicyUpdateMapper(
     entity: PrivacyPolicyUpdateEntity

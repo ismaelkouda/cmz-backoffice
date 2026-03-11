@@ -1,5 +1,5 @@
-import { AgentsPerformancesFilterEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-filter.entity';
-import { AgentsPerformancesFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-filter-api.dto';
+import { AgentsPerformancesFilterEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-filter.entity';
+import { AgentsPerformancesFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-filter-api.dto';
 
 export function AgentsPerformancesFilterMapper(
     entity: AgentsPerformancesFilterEntity

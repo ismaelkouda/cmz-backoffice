@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DetailsTreatCommand } from '@pages/processing/application/commands/details/details-treat.command';
+import { DetailsTreatHandler } from '@pages/processing/application/commands-handlers/details/details-treat.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DetailsTreatCommand } from '@presentation/pages/processing/application/commands/details/details-treat.command';
-import { DetailsTreatHandler } from '@presentation/pages/processing/application/commands-handlers/details/details-treat.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsTreatBus {

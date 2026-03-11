@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUsersReassignVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-users-reassign.vo';
+import { ProfilesPermissionsUsersReassignVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-users-reassign.vo';
 
 export class ProfilesPermissionsUsersReassignEntity {
     constructor(

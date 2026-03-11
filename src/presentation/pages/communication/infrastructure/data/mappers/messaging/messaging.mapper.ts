@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
+import { MessagingProps } from '@pages/communication/domain/interfaces/messaging/messaging-props.interface';
+import { MessagingItemApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-response-api.dto';
+import { ChannelsMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-channels.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { MessagingEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
-import { MessagingProps } from '@presentation/pages/communication/domain/interfaces/messaging/messaging-props.interface';
-import { MessagingItemApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-response-api.dto';
-import { ChannelsMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging-channels.mapper';
 
 @Injectable({
     providedIn: 'root',

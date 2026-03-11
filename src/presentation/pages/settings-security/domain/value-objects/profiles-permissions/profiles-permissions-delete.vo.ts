@@ -1,4 +1,4 @@
-import { ProfilesPermissionsDeleteDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
+import { ProfilesPermissionsDeleteDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
 
 export class ProfilesPermissionsDeleteVo {
     public readonly uniqId: string;

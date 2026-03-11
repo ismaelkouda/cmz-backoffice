@@ -1,8 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { tap } from 'rxjs';
-
 import { ConfigurationService } from '@core/services/configuration.service';
+import { tap } from 'rxjs';
 
 import {
     isInternalUrl,

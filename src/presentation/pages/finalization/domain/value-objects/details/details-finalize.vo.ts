@@ -1,4 +1,4 @@
-import { DetailsFinalizeDto } from '@presentation/pages/finalization/application/dto/details/details-finalize.dto';
+import { DetailsFinalizeDto } from '@pages/finalization/application/dto/details/details-finalize.dto';
 
 export class DetailsFinalizeVo {
     public readonly uniqId: string;

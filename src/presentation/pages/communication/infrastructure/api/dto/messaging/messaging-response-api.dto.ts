@@ -1,6 +1,5 @@
+import { ChannelsDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-channels.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { ChannelsDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-channels.dto';
 
 export interface MessagingItemApiDto {
     uniq_id: string;

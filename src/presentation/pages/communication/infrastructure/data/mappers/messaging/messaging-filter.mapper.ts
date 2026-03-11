@@ -1,5 +1,5 @@
-import { MessagingFilterEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-filter.entity';
-import { MessagingFilterApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-filter-api.dto';
+import { MessagingFilterEntity } from '@pages/communication/domain/entities/messaging/messaging-filter.entity';
+import { MessagingFilterApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-filter-api.dto';
 
 export function messagingFilterMapper(
     entity: MessagingFilterEntity

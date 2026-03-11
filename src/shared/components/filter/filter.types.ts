@@ -48,9 +48,18 @@ export function enumToFilterOptions<T extends Record<string, string>>(
 
 export function getEnumKeyByValue<T extends object>(
     enumObj: T,
-    value: string
-): keyof T | undefined {
-    return Object.keys(enumObj).find(
-        (key) => enumObj[key as keyof T] === value
-    ) as keyof T | undefined;
+    value: string,
+    transformKey: 'toLowerCase' | 'toUpperCase' = 'toLowerCase'
+): string | undefined {
+    const foundKey = Object.keys(enumObj).find(
+        (key: string) => enumObj[key as keyof T] === value
+    );
+
+    if (foundKey && transformKey) {
+        return transformKey === 'toLowerCase'
+            ? foundKey.toLowerCase()
+            : foundKey.toUpperCase();
+    }
+
+    return foundKey;
 }

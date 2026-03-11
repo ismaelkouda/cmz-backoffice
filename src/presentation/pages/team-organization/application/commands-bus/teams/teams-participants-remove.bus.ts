@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
+import { TeamsParticipantsRemoveCommand } from '@pages/team-organization/application/commands/teams/teams-participants-remove.command';
+import { TeamsParticipantsRemoveHandler } from '@pages/team-organization/application/commands-handlers/teams/teams-participants-remove.handler';
 import { Observable } from 'rxjs';
-
-import { TeamsParticipantsRemoveCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-remove.command';
-import { TeamsParticipantsRemoveHandler } from '@presentation/pages/team-organization/application/commands-handlers/teams/teams-participants-remove.handler';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsRemoveBus {

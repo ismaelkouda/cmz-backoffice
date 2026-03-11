@@ -1,6 +1,5 @@
+import { HomeCreateVo } from '@pages/content-management/domain/value-objects/home/home-create.vo';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { HomeCreateVo } from '@presentation/pages/content-management/domain/value-objects/home/home-create.vo';
 
 export class HomeCreateEntity {
     constructor(

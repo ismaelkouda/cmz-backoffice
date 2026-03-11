@@ -1,7 +1,6 @@
+import { RegionsFilterDto } from '@pages/administrative-boundary/application/dto/regions/regions-filter.dto';
+import { Status } from '@pages/administrative-boundary/domain/enums/regions/regions-status.enum';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { RegionsFilterDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-filter.dto';
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/regions/regions-status.enum';
 
 export class RegionsFilterVo {
     public readonly search?: string;

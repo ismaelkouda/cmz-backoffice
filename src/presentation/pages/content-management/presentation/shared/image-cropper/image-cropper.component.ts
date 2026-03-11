@@ -24,16 +24,15 @@ import 'cropperjs';
 // Stores et types
 
 // PrimeNG
+import { ImageProcessingStore } from '@pages/content-management/domain/stores/image-processing.store';
+import {
+    ProcessingOptions,
+    ProcessingResult,
+} from '@pages/content-management/domain/types/image-processing.types';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-
-import { ImageProcessingStore } from '@presentation/pages/content-management/domain/stores/image-processing.store';
-import {
-    ProcessingOptions,
-    ProcessingResult,
-} from '@presentation/pages/content-management/domain/types/image-processing.types';
 
 // Types pour CropperJS v2
 interface CropperCanvas extends HTMLElement {

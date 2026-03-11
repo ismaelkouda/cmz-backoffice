@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs';
-
+import { AgentsPerformancesFindOneFilterEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
+import { AgentsPerformancesFindOneEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AgentsPerformancesFindOneFilterEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
-import { AgentsPerformancesFindOneEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
+import { Observable } from 'rxjs';
 
 export abstract class AgentsPerformancesFindOneRepository {
     abstract execute(

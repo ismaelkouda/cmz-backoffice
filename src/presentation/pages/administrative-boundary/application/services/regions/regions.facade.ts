@@ -1,6 +1,17 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { RegionsCreateCommand } from '@pages/administrative-boundary/application/commands/regions/regions-create.command';
+import { RegionsDeleteCommand } from '@pages/administrative-boundary/application/commands/regions/regions-delete.command';
+import { RegionsUpdateCommand } from '@pages/administrative-boundary/application/commands/regions/regions-update.command';
+import { RegionsCreateBus } from '@pages/administrative-boundary/application/commands-bus/regions/regions-create.bus';
+import { RegionsDeleteBus } from '@pages/administrative-boundary/application/commands-bus/regions/regions-delete.bus';
+import { RegionsUpdateBus } from '@pages/administrative-boundary/application/commands-bus/regions/regions-update.bus';
+import { RegionsCreateDto } from '@pages/administrative-boundary/application/dto/regions/regions-create.dto';
+import { RegionsDeleteDto } from '@pages/administrative-boundary/application/dto/regions/regions-delete.dto';
+import { RegionsFilterDto } from '@pages/administrative-boundary/application/dto/regions/regions-filter.dto';
+import { RegionsUpdateDto } from '@pages/administrative-boundary/application/dto/regions/regions-update.dto';
+import { RegionsQuery } from '@pages/administrative-boundary/application/queries/regions/regions.query';
+import { RegionsBus } from '@pages/administrative-boundary/application/queries-bus/regions/regions.bus';
+import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,20 +19,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { RegionsCreateCommand } from '@presentation/pages/administrative-boundary/application/commands/regions/regions-create.command';
-import { RegionsDeleteCommand } from '@presentation/pages/administrative-boundary/application/commands/regions/regions-delete.command';
-import { RegionsUpdateCommand } from '@presentation/pages/administrative-boundary/application/commands/regions/regions-update.command';
-import { RegionsCreateBus } from '@presentation/pages/administrative-boundary/application/commands-bus/regions/regions-create.bus';
-import { RegionsDeleteBus } from '@presentation/pages/administrative-boundary/application/commands-bus/regions/regions-delete.bus';
-import { RegionsUpdateBus } from '@presentation/pages/administrative-boundary/application/commands-bus/regions/regions-update.bus';
-import { RegionsCreateDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-create.dto';
-import { RegionsDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-delete.dto';
-import { RegionsFilterDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-filter.dto';
-import { RegionsUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-update.dto';
-import { RegionsQuery } from '@presentation/pages/administrative-boundary/application/queries/regions/regions.query';
-import { RegionsBus } from '@presentation/pages/administrative-boundary/application/queries-bus/regions/regions.bus';
-import { RegionsEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

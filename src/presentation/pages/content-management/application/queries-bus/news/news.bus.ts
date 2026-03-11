@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NewsQuery } from '@pages/content-management/application/queries/news/news.query';
+import { NewsHandler } from '@pages/content-management/application/queries-handlers/news/news.handler';
+import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { NewsQuery } from '@presentation/pages/content-management/application/queries/news/news.query';
-import { NewsHandler } from '@presentation/pages/content-management/application/queries-handlers/news/news.handler';
-import { NewsEntity } from '@presentation/pages/content-management/domain/entities/news/news.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NewsBus {

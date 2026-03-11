@@ -1,5 +1,5 @@
-import { MessagingDeleteEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-delete.entity';
-import { MessagingDeleteApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-delete-api.dto';
+import { MessagingDeleteEntity } from '@pages/communication/domain/entities/messaging/messaging-delete.entity';
+import { MessagingDeleteApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-delete-api.dto';
 
 export function messagingDeleteMapper(
     vo: MessagingDeleteEntity

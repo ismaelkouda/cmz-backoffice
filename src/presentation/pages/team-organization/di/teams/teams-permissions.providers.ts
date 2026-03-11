@@ -1,7 +1,6 @@
 import { Provider } from '@angular/core';
-
-import { TeamsPermissionsRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-permissions-repository';
-import { TeamsPermissionsRepositoryImpl } from '@presentation/pages/team-organization/infrastructure/data/repositories/teams/teams-permissions-repository.impl';
+import { TeamsPermissionsRepository } from '@pages/team-organization/domain/repositories/teams/teams-permissions-repository';
+import { TeamsPermissionsRepositoryImpl } from '@pages/team-organization/infrastructure/data/repositories/teams/teams-permissions-repository.impl';
 
 export const teamsPermissionsProviders: Provider[] = [
     {

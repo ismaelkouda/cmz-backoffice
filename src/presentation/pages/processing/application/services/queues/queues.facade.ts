@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-
+import { QueuesFilterDto } from '@pages/processing/application/dto/queues/queues-filter.dto';
+import { QueuesQuery } from '@pages/processing/application/queries/queues/queues.query';
+import { QueuesBus } from '@pages/processing/application/queries-bus/queues/queues.bus';
+import { QueuesEntity } from '@pages/processing/domain/entities/queues/queues.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { QueuesFilterDto } from '@presentation/pages/processing/application/dto/queues/queues-filter.dto';
-import { QueuesQuery } from '@presentation/pages/processing/application/queries/queues/queues.query';
-import { QueuesBus } from '@presentation/pages/processing/application/queries-bus/queues/queues.bus';
-import { QueuesEntity } from '@presentation/pages/processing/domain/entities/queues/queues.entity';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {

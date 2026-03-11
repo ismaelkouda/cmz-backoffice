@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { LegalNoticeDeleteCommand } from '@pages/content-management/application/commands/legal-notice/legal-notice-delete.command';
+import { LegalNoticeDeleteHandler } from '@pages/content-management/application/commands-handlers/legal-notice/legal-notice-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { LegalNoticeDeleteCommand } from '@presentation/pages/content-management/application/commands/legal-notice/legal-notice-delete.command';
-import { LegalNoticeDeleteHandler } from '@presentation/pages/content-management/application/commands-handlers/legal-notice/legal-notice-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeDeleteBus {

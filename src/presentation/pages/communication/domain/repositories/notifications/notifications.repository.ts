@@ -1,12 +1,10 @@
-import { Observable } from 'rxjs';
-
+import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
+import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { NotificationsFilterEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-filter.entity';
-import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
+import { Observable } from 'rxjs';
 
 export abstract class NotificationsRepository {
     abstract execute(

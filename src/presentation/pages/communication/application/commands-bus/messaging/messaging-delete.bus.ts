@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MessagingDeleteCommand } from '@pages/communication/application/commands/messaging/messaging-delete.command';
+import { MessagingDeleteHandler } from '@pages/communication/application/commands-handlers/messaging/messaging-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { MessagingDeleteCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-delete.command';
-import { MessagingDeleteHandler } from '@presentation/pages/communication/application/commands-handlers/messaging/messaging-delete.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingDeleteBus {

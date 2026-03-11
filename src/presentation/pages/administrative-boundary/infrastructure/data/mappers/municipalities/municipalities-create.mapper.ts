@@ -1,5 +1,5 @@
-import { MunicipalitiesCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
-import { MunicipalitiesCreateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-create-api.dto';
+import { MunicipalitiesCreateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
+import { MunicipalitiesCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-create-api.dto';
 
 export function municipalitiesCreateMapper(
     create: MunicipalitiesCreateEntity

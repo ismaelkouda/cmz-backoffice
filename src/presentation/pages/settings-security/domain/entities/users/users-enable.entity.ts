@@ -1,4 +1,4 @@
-import { UsersEnableVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-enable.vo';
+import { UsersEnableVo } from '@pages/settings-security/domain/value-objects/users/users-enable.vo';
 
 export class UsersEnableEntity {
     constructor(public readonly uniqId: string) {}

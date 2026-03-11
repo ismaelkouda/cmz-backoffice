@@ -18,8 +18,10 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-
+import { TasksFacade } from '@pages/requests/application/services/tasks/tasks.facade';
+import { TASKS_TABLE } from '@pages/requests/domain/constants/tasks/tasks-table.constants';
+import { TasksFilterControl } from '@pages/requests/domain/controls/tasks/tasks-filter-control';
+import { TasksEntity } from '@pages/requests/domain/entities/tasks/tasks.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -36,11 +38,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-
-import { TasksFacade } from '@presentation/pages/requests/application/services/tasks/tasks.facade';
-import { TASKS_TABLE } from '@presentation/pages/requests/domain/constants/tasks/tasks-table.constants';
-import { TasksFilterControl } from '@presentation/pages/requests/domain/controls/tasks/tasks-filter-control';
-import { TasksEntity } from '@presentation/pages/requests/domain/entities/tasks/tasks.entity';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-tasks',

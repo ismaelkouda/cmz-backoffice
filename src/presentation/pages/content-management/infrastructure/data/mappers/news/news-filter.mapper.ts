@@ -1,5 +1,5 @@
-import { NewsFilterEntity } from '@presentation/pages/content-management/domain/entities/news/news-filter.entity';
-import { NewsFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-filter-api.dto';
+import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
+import { NewsFilterApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-filter-api.dto';
 
 export function newsFilterMapper(entity: NewsFilterEntity): NewsFilterApiDto {
     const params: NewsFilterApiDto = {} as NewsFilterApiDto;

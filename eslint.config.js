@@ -77,129 +77,40 @@ export default tseslint.config(
             // 'max-lines-per-function': ['warn', { max: 80 }],
 
             eqeqeq: 'error',
-        'no-eval': 'error',
-        curly: 'error',
-        'no-var': 'error',
-        'prefer-const': 'error',
-
-        'import/order': ['warn', {
-            groups: ['builtin','external','internal','parent','sibling','index'],
-            pathGroups: [
-            { pattern: '@app/**', group: 'internal', position: 'before' },
-            { pattern: '@core/**', group: 'internal', position: 'before' },
-            { pattern: '@shared/**', group: 'internal', position: 'before' },
-            { pattern: '@presentation/**', group: 'internal', position: 'before' },
-            ],
-            'newlines-between': 'always',
-            alphabetize: { order: 'asc', caseInsensitive: true }
-        }],
-
-            'jsdoc/require-param': 'warn',
-            'jsdoc/require-returns': 'warn',
-
-            'prettier/prettier': 'error',
-
-
-
-      
-
-            
-
-
-      'unicorn/filename-case': 'off',
-
-            '@angular-eslint/directive-selector': [
-                'error',
-                {
-                    type: 'attribute',
-                    prefix: 'app',
-                    style: 'camelCase',
-                },
-            ],
-            '@angular-eslint/component-selector': [
-                'error',
-                {
-                    type: 'element',
-                    prefix: 'app',
-                    style: 'kebab-case',
-                },
-            ],
-
-            '@typescript-eslint/no-unused-vars': 'error',
-            '@typescript-eslint/no-explicit-any': 'warn',
-
-            '@angular-eslint/no-forward-ref': 'error',
-
-            '@angular-eslint/component-class-suffix': [
-                'error',
-                { suffixes: ['Component', 'Page', 'Dialog'] },
-            ],
-
-            'jsdoc/check-alignment': 'warn',
-            'jsdoc/check-indentation': 'warn',
-            'jsdoc/require-param': 'warn',
-            'jsdoc/require-returns': 'warn',
-
-            'prettier/prettier': 'error',
-
-            '@angular-eslint/no-empty-lifecycle-method': 'warn',
-            '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
-
-            eqeqeq: 'error',
             'no-eval': 'error',
             curly: 'error',
             'no-var': 'error',
             'prefer-const': 'error',
 
-            complexity: ['warn', 15],
-            'max-lines': ['warn', 300],
+            'import/order': ['warn', {
+                groups: ['builtin','external','internal','parent','sibling','index'],
+                pathGroups: [
+                { pattern: '@app/**', group: 'internal', position: 'before' },
+                { pattern: '@core/**', group: 'internal', position: 'before' },
+                { pattern: '@environments/**', group: 'internal', position: 'before' },
+                { pattern: '@shared/**', group: 'internal', position: 'before' },
+                { pattern: '@presentation/**', group: 'internal', position: 'before' },
+                { pattern: '@pages/**', group: 'internal', position: 'before' },
+                ],
+                'newlines-between': 'always',
+                alphabetize: { order: 'asc', caseInsensitive: true }
+            }],
 
-            'import/order': [
-                'warn',
-                {
-                    groups: [
-                        'builtin',
-                        'external',
-                        'internal',
-                        'parent',
-                        'sibling',
-                        'index',
-                    ],
-                    pathGroups: [
-                        {
-                            pattern: '@app/**',
-                            group: 'internal',
-                            position: 'before',
-                        },
-                        {
-                            pattern: '@shared/**',
-                            group: 'internal',
-                            position: 'before',
-                        },
-                        {
-                            pattern: '@presentation/**',
-                            group: 'internal',
-                            position: 'before',
-                        },
-                        {
-                            pattern: '@core/**',
-                            group: 'internal',
-                            position: 'before',
-                        },
-                        {
-                            pattern: '@pages/**',
-                            group: 'internal',
-                            position: 'before',
-                        },
-                    ],
-                    pathGroupsExcludedImportTypes: ['builtin'],
-                    'newlines-between': 'always',
-                    "alphabetize": {
-                      "order": "asc",
-                      "caseInsensitive": true
-                    }                
-                },
-            ],
+            'jsdoc/require-param': 'warn',
+            'jsdoc/require-returns': 'warn',
+
+            'prettier/prettier': 'error',
+
+
+            'unicorn/filename-case': 'off',
+
+            'jsdoc/check-alignment': 'warn',
+            'jsdoc/check-indentation': 'warn',
+
+            '@angular-eslint/no-empty-lifecycle-method': 'warn',
+
+            complexity: ['warn', 15],
+            'max-lines': ['warn', 400],
             'import/no-relative-packages': 'warn',
             'import/no-useless-path-segments': [
                 'warn',

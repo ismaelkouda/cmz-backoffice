@@ -24,7 +24,7 @@ export const FormValidators = {
         MAX: 30,
         PATTERN: /^[a-zA-Z0-9À-ÿ\s\-!?.,;:'"()&%$€£@#+*/=°§]{1,}$/,
     },
-    TIME_DURATION_IN_SECONDS: {
+    TIME_DURATION: {
         MIN: 1,
         MAX: 10,
         STEP: 1,
@@ -33,7 +33,7 @@ export const FormValidators = {
         MAX: 500,
         PATTERN: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
     },
-    VIDEO_URL: {
+    VIDEO: {
         MAX: 500,
         PATTERNS: {
             YOUTUBE: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
@@ -43,7 +43,7 @@ export const FormValidators = {
         },
     },
 
-    IMAGE_FILE: {
+    IMAGE: {
         MAX_SIZE_MB: 2,
         ALLOWED_TYPES: [
             'image/jpeg',

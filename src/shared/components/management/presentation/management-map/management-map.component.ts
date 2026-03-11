@@ -11,9 +11,8 @@ import {
     PLATFORM_ID,
     signal,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-
 import { OpenLayersLoaderService } from '@shared/domain/services/openlayers-loader.service';
+import { Subject } from 'rxjs';
 
 export interface MapMarker {
     id: string;

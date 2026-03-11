@@ -16,17 +16,14 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { PasswordModule } from 'primeng/password';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-
-import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
-
-import { AUTH } from '@presentation/app.routes';
-
 import { LOGIN } from '@pages/authentication/authentication.routes';
 import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
 import { ResetPasswordFormInterface } from '@pages/password-reset/data/interfaces/reset-password-form.interface';
+import { AUTH } from '@presentation/app.routes';
+import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
+import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { PasswordModule } from 'primeng/password';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-reset-password',

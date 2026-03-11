@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { PrivacyPolicyUnpublishCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-unpublish.command';
+import { PrivacyPolicyUnpublishHandler } from '@pages/content-management/application/commands-handlers/privacy-policy/privacy-policy-unpublish.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { PrivacyPolicyUnpublishCommand } from '@presentation/pages/content-management/application/commands/privacy-policy/privacy-policy-unpublish.command';
-import { PrivacyPolicyUnpublishHandler } from '@presentation/pages/content-management/application/commands-handlers/privacy-policy/privacy-policy-unpublish.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyUnpublishBus {

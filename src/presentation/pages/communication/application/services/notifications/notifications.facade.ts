@@ -1,6 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NotificationsReadAllBus } from '@pages/communication/application/commands-bus/notifications/notifications-read-all.bus';
+import { NotificationsFilterDto } from '@pages/communication/application/dto/notifications/notifications-filter.dto';
+import { NotificationsQuery } from '@pages/communication/application/queries/notifications/notifications.query';
+import { NotificationsBus } from '@pages/communication/application/queries-bus/notifications/notifications.bus';
+import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,12 +11,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { NotificationsReadAllBus } from '@presentation/pages/communication/application/commands-bus/notifications/notifications-read-all.bus';
-import { NotificationsFilterDto } from '@presentation/pages/communication/application/dto/notifications/notifications-filter.dto';
-import { NotificationsQuery } from '@presentation/pages/communication/application/queries/notifications/notifications.query';
-import { NotificationsBus } from '@presentation/pages/communication/application/queries-bus/notifications/notifications.bus';
-import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

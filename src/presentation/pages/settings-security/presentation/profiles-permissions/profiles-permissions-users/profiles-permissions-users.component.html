@@ -32,7 +32,7 @@
                         </p-button>
                     </header>
 
-                    <div class="fade-in profiles-permissions-users-content">
+                    <div class="profiles-permissions-users-content">
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
@@ -110,7 +110,9 @@
                 [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
                 styleClass="w-100"
                 [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                [emptyFilterMessage]="
+                    'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate
+                "
                 [class.ng-invalid]="
                     reassignForm.get('team')?.invalid &&
                     reassignForm.get('team')?.touched

@@ -1,7 +1,6 @@
+import { AGENTS_PERFORMANCES_LIST } from '@pages/team-organization/presentation/agents-performances/agents-performances.routes';
+import { AGENTS_PERFORMANCES_ROUTE } from '@pages/team-organization/team-organization.routes';
 import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
-
-import { AGENTS_PERFORMANCES_LIST } from '@presentation/pages/team-organization/presentation/agents-performances/agents-performances.routes';
-import { AGENTS_PERFORMANCES_ROUTE } from '@presentation/pages/team-organization/team-organization.routes';
 
 export const AGENTS_PERFORMANCES_TABS = [
     {

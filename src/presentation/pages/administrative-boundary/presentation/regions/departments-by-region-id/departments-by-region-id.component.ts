@@ -13,11 +13,11 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
-import { map, tap } from 'rxjs';
-
+import { REGIONS_ROUTE } from '@pages/administrative-boundary/administrative-boundary.routes';
+import { DepartmentsByRegionIdFacade } from '@pages/administrative-boundary/application/services/regions/departments-by-region-id.facade';
+import { DEPARTMENTS_BY_REGION_ID_TABLE } from '@pages/administrative-boundary/domain/constants/regions/departments-by-region-id-table.constants';
+import { DepartmentsByRegionIdFilterControl } from '@pages/administrative-boundary/domain/controls/regions/departments-by-region-id-filter.control';
+import { DepartmentsByRegionIdEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
@@ -27,12 +27,10 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 import { ADMINISTRATIVE_BOUNDARY_ROUTE } from '@shared/routes/routes';
-
-import { REGIONS_ROUTE } from '@presentation/pages/administrative-boundary/administrative-boundary.routes';
-import { DepartmentsByRegionIdFacade } from '@presentation/pages/administrative-boundary/application/services/regions/departments-by-region-id.facade';
-import { DEPARTMENTS_BY_REGION_ID_TABLE } from '@presentation/pages/administrative-boundary/domain/constants/regions/departments-by-region-id-table.constants';
-import { DepartmentsByRegionIdFilterControl } from '@presentation/pages/administrative-boundary/domain/controls/regions/departments-by-region-id-filter.control';
-import { DepartmentsByRegionIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+import { map, tap } from 'rxjs';
 
 @Component({
     selector: 'app-departments-by-region-id',

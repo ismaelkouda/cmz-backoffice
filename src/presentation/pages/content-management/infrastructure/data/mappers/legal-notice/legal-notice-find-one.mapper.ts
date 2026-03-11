@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
 import {
     LegalNoticeFindOneEntity,
     LegalNoticeFindOneProps,
-} from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
-import { LegalNoticeFindOneItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-find-one-response-api.dto';
+} from '@pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
+import { LegalNoticeFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-find-one-response-api.dto';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeFindOneMapper extends SimpleResponseMapper<

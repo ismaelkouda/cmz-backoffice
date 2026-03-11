@@ -1,6 +1,5 @@
+import { DepartmentsByRegionIdFilterDto } from '@pages/administrative-boundary/application/dto/regions/departments-by-region-id-filter.dto';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { DepartmentsByRegionIdFilterDto } from '@presentation/pages/administrative-boundary/application/dto/regions/departments-by-region-id-filter.dto';
 
 export class DepartmentsByRegionIdFilterVo {
     public readonly uniqId: string;

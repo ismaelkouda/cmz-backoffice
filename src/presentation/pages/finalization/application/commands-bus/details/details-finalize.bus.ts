@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DetailsFinalizeCommand } from '@pages/finalization/application/commands/details/details-finalize.command';
+import { DetailsFinalizeHandler } from '@pages/finalization/application/commands-handlers/details/details-finalize.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DetailsFinalizeCommand } from '@presentation/pages/finalization/application/commands/details/details-finalize.command';
-import { DetailsFinalizeHandler } from '@presentation/pages/finalization/application/commands-handlers/details/details-finalize.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsFinalizeBus {

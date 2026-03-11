@@ -1,4 +1,4 @@
-import { ParticipantsUpdateDto } from '@presentation/pages/team-organization/application/dto/participants/participants-update.dto';
+import { ParticipantsUpdateDto } from '@pages/team-organization/application/dto/participants/participants-update.dto';
 
 export class ParticipantsUpdateVo {
     public readonly uniqId: string;

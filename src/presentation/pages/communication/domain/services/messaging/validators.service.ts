@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-
-import { Target } from '@presentation/pages/communication/domain/enums/messaging/messaging-target.enum';
-import { FormValidators } from '@presentation/pages/communication/domain/validators/form-validators';
+import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { FormValidators } from '@pages/communication/domain/validators/form-validators';
 
 @Injectable({ providedIn: 'root' })
 export class ValidatorsService {

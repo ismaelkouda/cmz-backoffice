@@ -1,18 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { DetailsFilterEntity } from '@pages/processing/domain/entities/details/details-filter.entity';
+import { DetailsTakeEntity } from '@pages/processing/domain/entities/details/details-take.entity';
+import { DetailsTreatEntity } from '@pages/processing/domain/entities/details/details-treat.entity';
+import { DetailsEntity } from '@pages/processing/domain/entities/details/details.entity';
+import { DetailsRepository } from '@pages/processing/domain/repositories/details/details-repository';
+import { detailsFilterMapper } from '@pages/processing/infrastructure/data/mappers/details/details-filter.mapper';
+import { detailsTakeMapper } from '@pages/processing/infrastructure/data/mappers/details/details-take.mapper';
+import { detailsTreatMapper } from '@pages/processing/infrastructure/data/mappers/details/details-treat.mapper';
+import { DetailsMapper } from '@pages/processing/infrastructure/data/mappers/details/details.mapper';
+import { DetailsApi } from '@pages/processing/infrastructure/data/sources/details/details.api';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DetailsFilterEntity } from '@presentation/pages/processing/domain/entities/details/details-filter.entity';
-import { DetailsTakeEntity } from '@presentation/pages/processing/domain/entities/details/details-take.entity';
-import { DetailsTreatEntity } from '@presentation/pages/processing/domain/entities/details/details-treat.entity';
-import { DetailsEntity } from '@presentation/pages/processing/domain/entities/details/details.entity';
-import { DetailsRepository } from '@presentation/pages/processing/domain/repositories/details/details-repository';
-import { detailsFilterMapper } from '@presentation/pages/processing/infrastructure/data/mappers/details/details-filter.mapper';
-import { detailsTakeMapper } from '@presentation/pages/processing/infrastructure/data/mappers/details/details-take.mapper';
-import { detailsTreatMapper } from '@presentation/pages/processing/infrastructure/data/mappers/details/details-treat.mapper';
-import { DetailsMapper } from '@presentation/pages/processing/infrastructure/data/mappers/details/details.mapper';
-import { DetailsApi } from '@presentation/pages/processing/infrastructure/data/sources/details/details.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsRepositoryImpl implements DetailsRepository {

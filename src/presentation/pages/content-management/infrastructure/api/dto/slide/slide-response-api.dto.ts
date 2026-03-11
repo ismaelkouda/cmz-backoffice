@@ -1,15 +1,14 @@
-import { ActionDropdownDto } from '@shared/data/dto/action-dropdown.dto';
-import { RolesDto } from '@shared/data/dto/roles.dto';
+import { PlatformDto } from '@shared/data/dto/platform.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface SlideItemApiDto {
     id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-    role: RolesDto;
-    status: ActionDropdownDto;
+    type: string;
+    title: string;
+    subtitle: string;
+    order: number;
+    platforms: PlatformDto[];
+    is_active: boolean;
     created_at: string;
     updated_at: string;
 }

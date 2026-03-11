@@ -15,9 +15,9 @@
 // import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 // import { Paginate } from '@shared/data/dto/simple-response.dto';
 
-// import { PrivacyPolicyFacade } from '@presentation/pages/content-management/core/application/services/privacy-policy.facade';
-// import { PrivacyPolicyEntity } from '@presentation/pages/content-management/core/domain/entities/privacy-policy.entity';
-// import { PrivacyPolicyFilter } from '@presentation/pages/content-management/core/domain/value-objects/privacy-policy-filter.vo';
+// import { PrivacyPolicyFacade } from '@pages/content-management/core/application/services/privacy-policy.facade';
+// import { PrivacyPolicyEntity } from '@pages/content-management/core/domain/entities/privacy-policy.entity';
+// import { PrivacyPolicyFilter } from '@pages/content-management/core/domain/value-objects/privacy-policy-filter.vo';
 
 // import { FilterPrivacyPolicyComponent } from '../filter-privacy-policy/filter-privacy-policy.component';
 // import { CREATE_ROUTE, EDIT_ROUTE, VIEW_ROUTE } from '../privacy-policy.routes';

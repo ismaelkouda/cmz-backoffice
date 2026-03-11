@@ -1,37 +1,63 @@
-import { SlideUpdateDto } from '@presentation/pages/content-management/application/dto/slide/slide-update.dto';
+import { SlideUpdateDto } from '@pages/content-management/application/dto/slide/slide-update.dto';
+import { SlideUpdateProps } from '@pages/content-management/domain/interfaces/slide/slide-update-props.interface';
+import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class SlideUpdateVo {
-    public readonly uniqId: string;
-    public readonly firstName: string;
-    public readonly lastName: string;
-    public readonly email: string;
-    public readonly phone: string;
-    public readonly role: string;
+    constructor(private readonly props: SlideUpdateProps) {}
 
-    constructor(props: {
-        uniqId: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-        role: string;
-    }) {
-        this.uniqId = props.uniqId;
-        this.firstName = props.firstName;
-        this.lastName = props.lastName;
-        this.email = props.email;
-        this.phone = props.phone;
-        this.role = props.role;
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+
+    get timeDuration(): string {
+        return this.props.timeDuration;
+    }
+
+    get type(): string {
+        return this.props.type;
+    }
+
+    get image(): string {
+        return this.props.image;
+    }
+
+    get video(): string {
+        return this.props.video;
+    }
+
+    get platforms(): Platform[] {
+        return this.props.platforms;
+    }
+
+    get startDate(): string {
+        return this.props.startDate;
+    }
+
+    get endDate(): string {
+        return this.props.endDate;
+    }
+
+    get title(): string {
+        return this.props.title;
+    }
+
+    get subtitle(): string {
+        return this.props.subtitle;
+    }
+
+    get content(): string {
+        return this.props.content;
+    }
+
+    get buttonLabel(): string | undefined {
+        return this.props.buttonLabel;
+    }
+
+    get buttonUrl(): string | undefined {
+        return this.props.buttonUrl;
     }
 
     static fromDto(dto: SlideUpdateDto): SlideUpdateVo {
-        return new SlideUpdateVo({
-            uniqId: dto.uniqId,
-            firstName: dto.firstName,
-            lastName: dto.lastName,
-            email: dto.email,
-            phone: dto.phone,
-            role: dto.role,
-        });
+        return new SlideUpdateVo(dto);
     }
 }

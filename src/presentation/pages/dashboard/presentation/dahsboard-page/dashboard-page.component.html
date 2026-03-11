@@ -67,7 +67,7 @@
                     </div>
                     <div class="statistics-grid">
                         @for (stat of typeStatistics; track stat.label) {
-                            <div 
+                            <div
                                 class="stat-card card-{{ stat.color }}"
                                 [class.clickable]="stat.routerFilter"
                                 (click)="navigateToReport(stat)"
@@ -77,9 +77,15 @@
                             >
                                 <div class="card-content">
                                     <div class="stat-header">
-                                        <div class="stat-value">{{ stat.count }}</div>
+                                        <div class="stat-value">
+                                            {{ stat.count }}
+                                        </div>
                                         <div class="stat-icon-wrapper">
-                                            <i class="stat-icon pi {{ stat.icon }}"></i>
+                                            <i
+                                                class="stat-icon pi {{
+                                                    stat.icon
+                                                }}"
+                                            ></i>
                                         </div>
                                     </div>
                                     <div class="stat-label">
@@ -96,12 +102,15 @@
                 <div class="statistics-section">
                     <div class="section-header">
                         <div class="section-badge">
-                            {{ 'DASHBOARD.SECTIONS.TASK_STATUS.TITLE' | translate }}
+                            {{
+                                'DASHBOARD.SECTIONS.TASK_STATUS.TITLE'
+                                    | translate
+                            }}
                         </div>
                     </div>
                     <div class="statistics-grid">
                         @for (stat of taskStatusStatistics; track stat.label) {
-                            <div 
+                            <div
                                 class="stat-card card-{{ stat.color }}"
                                 [class.clickable]="stat.routerFilter"
                                 (click)="navigateToReport(stat)"
@@ -111,9 +120,15 @@
                             >
                                 <div class="card-content">
                                     <div class="stat-header">
-                                        <div class="stat-value">{{ stat.count }}</div>
+                                        <div class="stat-value">
+                                            {{ stat.count }}
+                                        </div>
                                         <div class="stat-icon-wrapper">
-                                            <i class="stat-icon pi {{ stat.icon }}"></i>
+                                            <i
+                                                class="stat-icon pi {{
+                                                    stat.icon
+                                                }}"
+                                            ></i>
                                         </div>
                                     </div>
                                     <div class="stat-label">
@@ -126,7 +141,9 @@
                 </div>
             }
 
-            @if (typeStatistics.length === 0 && taskStatusStatistics.length === 0) {
+            @if (
+                typeStatistics.length === 0 && taskStatusStatistics.length === 0
+            ) {
                 <div class="no-data-container">
                     <i class="pi pi-info-circle"></i>
                     <p>{{ 'DASHBOARD.NO_DATA' | translate }}</p>

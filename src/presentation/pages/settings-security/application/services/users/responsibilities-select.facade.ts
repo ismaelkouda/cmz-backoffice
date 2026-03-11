@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-
+import { ResponsibilitiesSelectUseCase } from '@pages/settings-security/application/use-cases/users/responsibilities-select.use-case';
+import { ResponsibilitiesSelectEntity } from '@pages/settings-security/domain/entities/users/responsibilities-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { ResponsibilitiesSelectUseCase } from '@presentation/pages/settings-security/application/use-cases/users/responsibilities-select.use-case';
-import { ResponsibilitiesSelectEntity } from '@presentation/pages/settings-security/domain/entities/users/responsibilities-select.entity';
 
 @Injectable({
     providedIn: 'root',

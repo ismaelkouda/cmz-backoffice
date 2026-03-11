@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
+import { RegionsSelectEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-select.entity';
+import { RegionsSelectRepository } from '@pages/administrative-boundary/domain/repositories/regions/regions-select-repository';
+import { RegionsSelectMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-select.mapper';
+import { RegionsSelectApi } from '@pages/administrative-boundary/infrastructure/data/sources/regions/regions-select.api';
 import { Observable, map } from 'rxjs';
-
-import { RegionsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-select.entity';
-import { RegionsSelectRepository } from '@presentation/pages/administrative-boundary/domain/repositories/regions/regions-select-repository';
-import { RegionsSelectMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions-select.mapper';
-import { RegionsSelectApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/regions/regions-select.api';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsSelectRepositoryImpl implements RegionsSelectRepository {

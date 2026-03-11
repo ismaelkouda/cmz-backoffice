@@ -1,4 +1,4 @@
-import { PrivacyPolicyDeleteVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-delete.vo';
+import { PrivacyPolicyDeleteVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-delete.vo';
 
 export class PrivacyPolicyDeleteEntity {
     constructor(public readonly uniqId: string) {}

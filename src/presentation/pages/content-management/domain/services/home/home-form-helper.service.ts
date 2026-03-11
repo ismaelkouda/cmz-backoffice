@@ -1,9 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { HOME_ROUTE } from '@pages/content-management/content-management.routes';
 import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
-
-import { HOME_ROUTE } from '@presentation/pages/content-management/content-management.routes';
 
 @Injectable()
 export class HomeFormHelperService {

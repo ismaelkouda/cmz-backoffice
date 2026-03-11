@@ -1,5 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import { ApiError } from '@shared/domain/errors/api.error';
+import { EndPointType } from '@shared/domain/types/end-point.types';
 import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
@@ -11,10 +14,6 @@ import {
     tap,
     throwError,
 } from 'rxjs';
-
-import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
-import { ApiError } from '@shared/domain/errors/api.error';
-import { EndPointType } from '@shared/domain/types/end-point.types';
 
 export interface PaginationFilter {
     toDto(): Record<string, string | string[] | undefined>;

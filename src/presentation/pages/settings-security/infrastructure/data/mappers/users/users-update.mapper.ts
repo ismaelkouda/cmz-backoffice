@@ -1,5 +1,5 @@
-import { UsersUpdateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-update.entity';
-import { UsersUpdateApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/users/users-update-api.dto';
+import { UsersUpdateEntity } from '@pages/settings-security/domain/entities/users/users-update.entity';
+import { UsersUpdateApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-update-api.dto';
 
 export function usersUpdateMapper(
     entity: UsersUpdateEntity

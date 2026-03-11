@@ -1,5 +1,5 @@
-import { ParticipantsDeleteEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-delete.entity';
-import { ParticipantsDeleteApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-delete-api.dto';
+import { ParticipantsDeleteEntity } from '@pages/team-organization/domain/entities/participants/participants-delete.entity';
+import { ParticipantsDeleteApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-delete-api.dto';
 
 export function participantsDeleteMapper(
     vo: ParticipantsDeleteEntity

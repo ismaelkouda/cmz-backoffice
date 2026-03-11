@@ -1,11 +1,9 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { catchError, throwError } from 'rxjs';
-
-import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
-
 import { ConfigurationService } from '@core/services/configuration.service';
+import { TranslateService } from '@ngx-translate/core';
+import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
+import { catchError, throwError } from 'rxjs';
 
 import {
     isInternalUrl,

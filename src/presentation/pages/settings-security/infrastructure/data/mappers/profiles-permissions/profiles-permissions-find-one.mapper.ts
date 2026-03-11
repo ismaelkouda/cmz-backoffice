@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { ProfilesPermissionsFindOneEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
-import { ProfilesPermissionsTreeNodeEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-tree-node.entity';
+import { ProfilesPermissionsFindOneEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
+import { ProfilesPermissionsTreeNodeEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-tree-node.entity';
 import {
     PermissionApiDto,
     ProfilesPermissionsFindOneItemApiDto,
-} from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-find-one-response-api.dto';
+} from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-find-one-response-api.dto';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsFindOneMapper extends SimpleResponseMapper<

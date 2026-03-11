@@ -1,3 +1,5 @@
+import { ApiFinalizationState } from '@pages/finalization/infrastructure/enums/details/details-finalization-state-api.enum';
+import { ApiState } from '@pages/finalization/infrastructure/enums/details/details-state-api.enum';
 import { ActorDto } from '@shared/data/dto/actor.dto';
 import { AdministrativeBoundaryDto } from '@shared/data/dto/administrative-boundary.dto';
 import { LocationMethodDto } from '@shared/data/dto/location-method.dto';
@@ -7,8 +9,6 @@ import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 
-import { ApiFinalizationState } from '@presentation/pages/finalization/infrastructure/enums/details/details-finalization-state-api.enum';
-import { ApiState } from '@presentation/pages/finalization/infrastructure/enums/details/details-state-api.enum';
 export type ReportStatusDto = 'finalization';
 
 export type ReportStateDto = 'pending' | 'in-progress' | 'completed';

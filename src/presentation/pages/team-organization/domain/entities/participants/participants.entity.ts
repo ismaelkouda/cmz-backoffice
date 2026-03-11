@@ -1,10 +1,9 @@
-import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
-
 import {
     Status,
     StatusStyle,
-} from '@presentation/pages/team-organization/domain/enums/participants/participants-status.enum';
-import { ParticipantsProps } from '@presentation/pages/team-organization/domain/interfaces/participants/participants-props.entity';
+} from '@pages/team-organization/domain/enums/participants/participants-status.enum';
+import { ParticipantsProps } from '@pages/team-organization/domain/interfaces/participants/participants-props.entity';
+import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
 
 export class ParticipantsEntity {
     constructor(private readonly props: ParticipantsProps) {}

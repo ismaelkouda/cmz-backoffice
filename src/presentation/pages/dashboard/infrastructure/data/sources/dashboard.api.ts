@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DASHBOARD_BASE_URL } from '@pages/dashboard/infrastructure/api/dashboard.base-url';
+import { DASHBOARD_ENDPOINTS } from '@pages/dashboard/infrastructure/api/dashboard.endpoints';
+import { DashboardFilterApiDto } from '@pages/dashboard/infrastructure/api/dto/dashboard-filter-api.dto';
+import { DashboardResponseApiDto } from '@pages/dashboard/infrastructure/api/dto/dashboard-response-api.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { DASHBOARD_BASE_URL } from '@presentation/pages/dashboard/infrastructure/api/dashboard.base-url';
-import { DASHBOARD_ENDPOINTS } from '@presentation/pages/dashboard/infrastructure/api/dashboard.endpoints';
-import { DashboardFilterApiDto } from '@presentation/pages/dashboard/infrastructure/api/dto/dashboard-filter-api.dto';
-import { DashboardResponseApiDto } from '@presentation/pages/dashboard/infrastructure/api/dto/dashboard-response-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardApi {

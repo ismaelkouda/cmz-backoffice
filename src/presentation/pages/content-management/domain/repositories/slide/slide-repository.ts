@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { SlideCreateEntity } from '@pages/content-management/domain/entities/slide/slide-create.entity';
+import { SlideDeleteEntity } from '@pages/content-management/domain/entities/slide/slide-delete.entity';
+import { SlideDisableEntity } from '@pages/content-management/domain/entities/slide/slide-disable.entity';
+import { SlideEnableEntity } from '@pages/content-management/domain/entities/slide/slide-enable.entity';
+import { SlideFilterEntity } from '@pages/content-management/domain/entities/slide/slide-filter.entity';
+import { SlideUpdateEntity } from '@pages/content-management/domain/entities/slide/slide-update.entity';
+import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { SlideCreateEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-create.entity';
-import { SlideDeleteEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-delete.entity';
-import { SlideFilterEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-filter.entity';
-import { SlidePublishEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-publish.entity';
-import { SlideUnpublishEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-unpublish.entity';
-import { SlideUpdateEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-update.entity';
-import { SlideEntity } from '@presentation/pages/content-management/domain/entities/slide/slide.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -28,11 +26,11 @@ export abstract class SlideRepository {
     abstract update(
         entity: SlideUpdateEntity
     ): Observable<SimpleResponseDto<void>>;
-    abstract unpublish(
-        entity: SlideUnpublishEntity
+    abstract disable(
+        entity: SlideDisableEntity
     ): Observable<SimpleResponseDto<void>>;
-    abstract publish(
-        entity: SlidePublishEntity
+    abstract enable(
+        entity: SlideEnableEntity
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(
         entity: SlideDeleteEntity

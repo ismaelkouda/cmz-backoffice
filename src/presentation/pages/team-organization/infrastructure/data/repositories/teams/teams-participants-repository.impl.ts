@@ -1,23 +1,21 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { TeamsParticipantsAssignEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
+import { TeamsParticipantsFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
+import { TeamsParticipantsReassignEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-reassign.entity';
+import { TeamsParticipantsRemoveEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-remove.entity';
+import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
+import { TeamsParticipantsRepository } from '@pages/team-organization/domain/repositories/teams/teams-participants-repository';
+import { teamsParticipantsAssignMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-assign.mapper';
+import { teamsParticipantsFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-filter.mapper';
+import { teamsParticipantsReassignMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-reassign.mapper';
+import { teamsParticipantsRemoveMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-remove.mapper';
+import { TeamsParticipantsMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants.mapper';
+import { TeamsParticipantsApi } from '@pages/team-organization/infrastructure/data/sources/teams/teams-participants.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsParticipantsAssignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-assign.entity';
-import { TeamsParticipantsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-filter.entity';
-import { TeamsParticipantsReassignEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-reassign.entity';
-import { TeamsParticipantsRemoveEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants-remove.entity';
-import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
-import { TeamsParticipantsRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-participants-repository';
-import { teamsParticipantsAssignMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-assign.mapper';
-import { teamsParticipantsFilterMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-filter.mapper';
-import { teamsParticipantsReassignMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-reassign.mapper';
-import { teamsParticipantsRemoveMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants-remove.mapper';
-import { TeamsParticipantsMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-participants.mapper';
-import { TeamsParticipantsApi } from '@presentation/pages/team-organization/infrastructure/data/sources/teams/teams-participants.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsRepositoryImpl implements TeamsParticipantsRepository {

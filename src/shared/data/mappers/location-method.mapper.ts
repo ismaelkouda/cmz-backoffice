@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { LocationMethodDto } from '@shared/data/dto/location-method.dto';
 import { LocationMethod } from '@shared/domain/enums/location-method.enum';
 

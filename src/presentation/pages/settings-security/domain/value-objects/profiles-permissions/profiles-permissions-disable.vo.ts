@@ -1,4 +1,4 @@
-import { ProfilesPermissionsDisableDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-disable.dto';
+import { ProfilesPermissionsDisableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-disable.dto';
 
 export class ProfilesPermissionsDisableVo {
     public readonly uniqId: string;

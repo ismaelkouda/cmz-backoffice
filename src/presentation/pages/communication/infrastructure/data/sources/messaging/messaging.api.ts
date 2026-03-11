@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MessagingDeleteApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-delete-api.dto';
+import { MessagingDisableApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-disable-api.dto';
+import { MessagingEnableApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-enable-api.dto';
+import { COMMUNICATION_BASE_URL } from '@pages/communication/infrastructure/api/communication.base-url';
+import { COMMUNICATION_ENDPOINTS } from '@pages/communication/infrastructure/api/communication.endpoints';
+import { MessagingCreateApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-create-api.dto';
+import { MessagingFilterApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-filter-api.dto';
+import { MessagingResponseApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-response-api.dto';
+import { MessagingUpdateApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { MessagingDeleteApiDto } from '@presentation/pages/communication/infrastructure//api/dto/messaging/messaging-delete-api.dto';
-import { MessagingDisableApiDto } from '@presentation/pages/communication/infrastructure//api/dto/messaging/messaging-disable-api.dto';
-import { MessagingEnableApiDto } from '@presentation/pages/communication/infrastructure//api/dto/messaging/messaging-enable-api.dto';
-import { COMMUNICATION_BASE_URL } from '@presentation/pages/communication/infrastructure/api/communication.base-url';
-import { COMMUNICATION_ENDPOINTS } from '@presentation/pages/communication/infrastructure/api/communication.endpoints';
-import { MessagingCreateApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-create-api.dto';
-import { MessagingFilterApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-filter-api.dto';
-import { MessagingResponseApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-response-api.dto';
-import { MessagingUpdateApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-update-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingApi {

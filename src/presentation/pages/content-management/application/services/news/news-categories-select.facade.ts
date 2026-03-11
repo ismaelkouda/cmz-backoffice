@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-
+import { NewsCategoriesSelectUseCase } from '@pages/content-management/application/use-cases/news/news-categories-select.use-case';
+import { NewsCategoriesSelectEntity } from '@pages/content-management/domain/entities/news/news-categories-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { NewsCategoriesSelectUseCase } from '@presentation/pages/content-management/application/use-cases/news/news-categories-select.use-case';
-import { NewsCategoriesSelectEntity } from '@presentation/pages/content-management/domain/entities/news/news-categories-select.entity';
 
 @Injectable({
     providedIn: 'root',

@@ -1,8 +1,8 @@
 import {
     Status,
     StatusStyle,
-} from '@presentation/pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
-import { ProfilesPermissionsProps } from '@presentation/pages/settings-security/domain/interfaces/profiles-permissions/profiles-permissions-props.interface';
+} from '@pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
+import { ProfilesPermissionsProps } from '@pages/settings-security/domain/interfaces/profiles-permissions/profiles-permissions-props.interface';
 
 export class ProfilesPermissionsEntity {
     constructor(private readonly props: ProfilesPermissionsProps) {}

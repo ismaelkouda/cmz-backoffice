@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ProfilesPermissionsUpdateCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-update.command';
+import { ProfilesPermissionsUpdateHandler } from '@pages/settings-security/application/commands-handlers/profiles-permissions/profiles-permissions-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { ProfilesPermissionsUpdateCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-update.command';
-import { ProfilesPermissionsUpdateHandler } from '@presentation/pages/settings-security/application/commands-handlers/profiles-permissions/profiles-permissions-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsUpdateBus {

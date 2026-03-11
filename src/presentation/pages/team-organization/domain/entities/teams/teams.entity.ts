@@ -1,8 +1,8 @@
 import {
     Status,
     StatusStyle,
-} from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
-import { TeamsProps } from '@presentation/pages/team-organization/domain/interfaces/teams/teams-props.interface';
+} from '@pages/team-organization/domain/enums/teams/teams-status.enum';
+import { TeamsProps } from '@pages/team-organization/domain/interfaces/teams/teams-props.interface';
 
 export class TeamsEntity {
     constructor(private readonly props: TeamsProps) {}

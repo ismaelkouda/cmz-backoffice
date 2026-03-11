@@ -1,5 +1,5 @@
-import { MessagingEnableEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-enable.entity';
-import { MessagingEnableApiDto } from '@presentation/pages/communication/infrastructure/api/dto/messaging/messaging-enable-api.dto';
+import { MessagingEnableEntity } from '@pages/communication/domain/entities/messaging/messaging-enable.entity';
+import { MessagingEnableApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-enable-api.dto';
 
 export function messagingEnableMapper(
     vo: MessagingEnableEntity

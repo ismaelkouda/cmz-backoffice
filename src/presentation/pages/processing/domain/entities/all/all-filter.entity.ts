@@ -1,6 +1,5 @@
+import { AllFilterVo } from '@pages/processing/domain/value-objects/all/all-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { AllFilterVo } from '@presentation/pages/processing/domain/value-objects/all/all-filter.vo';
 
 export class AllFilterEntity {
     constructor(

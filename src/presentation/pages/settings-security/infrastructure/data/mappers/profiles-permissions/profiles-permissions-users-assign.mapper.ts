@@ -1,18 +1,18 @@
-import { ProfilesPermissionsUsersAssignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-assign.entity';
-import { ProfilesPermissionsUsersAssignApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-assign-api.dto';
+import { ProfilesPermissionsUsersAssignEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users-assign.entity';
+import { ProfilesPermissionsUsersAssignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-assign-api.dto';
 
 export function profilesPermissionsUsersAssignMapper(
-    vo: ProfilesPermissionsUsersAssignEntity
+    entity: ProfilesPermissionsUsersAssignEntity
 ): ProfilesPermissionsUsersAssignApiDto {
     const params: ProfilesPermissionsUsersAssignApiDto =
         {} as ProfilesPermissionsUsersAssignApiDto;
 
-    if (vo.uniqId) {
-        params.uniq_id = vo.uniqId;
+    if (entity.uniqId) {
+        params.uniq_id = entity.uniqId;
     }
 
-    if (vo.users) {
-        params.users = vo.users;
+    if (entity.users) {
+        params.user_ids = entity.users;
     }
 
     return params;

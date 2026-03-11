@@ -1,6 +1,17 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { TeamsParticipantsAssignCommand } from '@pages/team-organization/application/commands/teams/teams-participants-assign.command';
+import { TeamsParticipantsReassignCommand } from '@pages/team-organization/application/commands/teams/teams-participants-reassign.command';
+import { TeamsParticipantsRemoveCommand } from '@pages/team-organization/application/commands/teams/teams-participants-remove.command';
+import { TeamsParticipantsAssignBus } from '@pages/team-organization/application/commands-bus/teams/teams-participants-assign.bus';
+import { TeamsParticipantsReassignBus } from '@pages/team-organization/application/commands-bus/teams/teams-participants-reassign.bus';
+import { TeamsParticipantsRemoveBus } from '@pages/team-organization/application/commands-bus/teams/teams-participants-remove.bus';
+import { TeamsParticipantsAssignDto } from '@pages/team-organization/application/dto/teams/teams-participants-assign.dto';
+import { TeamsParticipantsFilterDto } from '@pages/team-organization/application/dto/teams/teams-participants-filter.dto';
+import { TeamsParticipantsReassignDto } from '@pages/team-organization/application/dto/teams/teams-participants-reassign.dto';
+import { TeamsParticipantsRemoveDto } from '@pages/team-organization/application/dto/teams/teams-participants-remove.dto';
+import { TeamsParticipantsQuery } from '@pages/team-organization/application/queries/teams/teams-participants.query';
+import { TeamsParticipantsBus } from '@pages/team-organization/application/queries-bus/teams/teams-participants.bus';
+import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,20 +19,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { TeamsParticipantsAssignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-assign.command';
-import { TeamsParticipantsReassignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-reassign.command';
-import { TeamsParticipantsRemoveCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-remove.command';
-import { TeamsParticipantsAssignBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-participants-assign.bus';
-import { TeamsParticipantsReassignBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-participants-reassign.bus';
-import { TeamsParticipantsRemoveBus } from '@presentation/pages/team-organization/application/commands-bus/teams/teams-participants-remove.bus';
-import { TeamsParticipantsAssignDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-assign.dto';
-import { TeamsParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-filter.dto';
-import { TeamsParticipantsReassignDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-reassign.dto';
-import { TeamsParticipantsRemoveDto } from '@presentation/pages/team-organization/application/dto/teams/teams-participants-remove.dto';
-import { TeamsParticipantsQuery } from '@presentation/pages/team-organization/application/queries/teams/teams-participants.query';
-import { TeamsParticipantsBus } from '@presentation/pages/team-organization/application/queries-bus/teams/teams-participants.bus';
-import { TeamsParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-participants.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

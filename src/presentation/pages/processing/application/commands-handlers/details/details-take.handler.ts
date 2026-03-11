@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DetailsTakeCommand } from '@pages/processing/application/commands/details/details-take.command';
+import { DetailsUseCase } from '@pages/processing/application/use-cases/details/details.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DetailsTakeCommand } from '@presentation/pages/processing/application/commands/details/details-take.command';
-import { DetailsUseCase } from '@presentation/pages/processing/application/use-cases/details/details.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsTakeHandler {

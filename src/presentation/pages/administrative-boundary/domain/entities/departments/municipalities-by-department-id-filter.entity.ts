@@ -1,6 +1,5 @@
+import { MunicipalitiesByDepartmentIdFilterVo } from '@pages/administrative-boundary/domain/value-objects/departments/municipalities-by-department-id-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { MunicipalitiesByDepartmentIdFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/municipalities-by-department-id-filter.vo';
 
 export class MunicipalitiesByDepartmentIdFilterEntity {
     constructor(

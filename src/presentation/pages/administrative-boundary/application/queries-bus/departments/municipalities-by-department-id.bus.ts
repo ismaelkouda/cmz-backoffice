@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MunicipalitiesByDepartmentIdQuery } from '@pages/administrative-boundary/application/queries/departments/municipalities-by-department-id.query';
+import { MunicipalitiesByDepartmentIdHandler } from '@pages/administrative-boundary/application/queries-handlers/departments/municipalities-by-department-id.handler';
+import { MunicipalitiesByDepartmentIdEntity } from '@pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { MunicipalitiesByDepartmentIdQuery } from '@presentation/pages/administrative-boundary/application/queries/departments/municipalities-by-department-id.query';
-import { MunicipalitiesByDepartmentIdHandler } from '@presentation/pages/administrative-boundary/application/queries-handlers/departments/municipalities-by-department-id.handler';
-import { MunicipalitiesByDepartmentIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesByDepartmentIdBus {

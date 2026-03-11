@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DepartmentsQuery } from '@pages/administrative-boundary/application/queries/departments/departments.query';
+import { DepartmentsHandler } from '@pages/administrative-boundary/application/queries-handlers/departments/departments.handler';
+import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { DepartmentsQuery } from '@presentation/pages/administrative-boundary/application/queries/departments/departments.query';
-import { DepartmentsHandler } from '@presentation/pages/administrative-boundary/application/queries-handlers/departments/departments.handler';
-import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsBus {

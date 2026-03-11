@@ -49,15 +49,15 @@
 // import { TypeMediaDto } from '@shared/data/dto/type-media.dto';
 // import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 
-// import { NEWS_ROUTE } from '@presentation/pages/content-management/content-management.routes';
-// import { NewsFacade } from '@presentation/pages/content-management/core/application/services/news.facade';
-// import { CategoryEntity } from '@presentation/pages/content-management/core/domain/entities/category.entity';
-// import { GetNewsByIdEntity } from '@presentation/pages/content-management/core/domain/entities/get-news-by-id.entity';
-// import { SubCategoryEntity } from '@presentation/pages/content-management/core/domain/entities/sub-category.entity';
-// import { ImageProcessingStore } from '@presentation/pages/content-management/core/domain/stores/image-processing.store';
-// import { ProcessingResult } from '@presentation/pages/content-management/core/domain/types/image-processing.types';
-// import { FormValidators } from '@presentation/pages/content-management/core/domain/validators/form-validators';
-// import { ImageCropperComponent } from '@presentation/pages/content-management/presentation/shared/image-cropper/image-cropper.component';
+// import { NEWS_ROUTE } from '@pages/content-management/content-management.routes';
+// import { NewsFacade } from '@pages/content-management/core/application/services/news.facade';
+// import { CategoryEntity } from '@pages/content-management/core/domain/entities/category.entity';
+// import { GetNewsByIdEntity } from '@pages/content-management/core/domain/entities/get-news-by-id.entity';
+// import { SubCategoryEntity } from '@pages/content-management/core/domain/entities/sub-category.entity';
+// import { ImageProcessingStore } from '@pages/content-management/core/domain/stores/image-processing.store';
+// import { ProcessingResult } from '@pages/content-management/core/domain/types/image-processing.types';
+// import { FormValidators } from '@pages/content-management/core/domain/validators/form-validators';
+// import { ImageCropperComponent } from '@pages/content-management/presentation/shared/image-cropper/image-cropper.component';
 
 // import { HashtagsInputComponent } from '../hashtags-input/hashtags-input.component';
 
@@ -341,7 +341,7 @@
 
 //         if (fieldName === 'videoUrl') {
 //             if (errors['invalidVideoUrl']) {
-//                 return this.translate.instant('VALIDATION.INVALID_VIDEO_URL');
+//                 return this.translate.instant('VALIDATION.INVALID_VIDEO');
 //             }
 //             if (errors['maxlength']) {
 //                 return `${this.translate.instant('VALIDATION.MAX_LENGTH')}: ${errors['maxlength'].requiredLength}`;

@@ -1,4 +1,4 @@
-import { MessagingCreateDto } from '@presentation/pages/communication/application/dto/messaging/messaging-create.dto';
+import { MessagingCreateDto } from '@pages/communication/application/dto/messaging/messaging-create.dto';
 
 export class MessagingCreateVo {
     public readonly reportId: string;

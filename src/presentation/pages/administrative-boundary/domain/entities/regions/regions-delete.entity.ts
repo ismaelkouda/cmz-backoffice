@@ -1,4 +1,4 @@
-import { RegionsDeleteVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-delete.vo';
+import { RegionsDeleteVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-delete.vo';
 
 export class RegionsDeleteEntity {
     constructor(public readonly uniqId: string) {}

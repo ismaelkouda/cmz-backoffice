@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
 import {
     PrivacyPolicyFindOneEntity,
     PrivacyPolicyFindOneProps,
-} from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one.entity';
-import { PrivacyPolicyFindOneItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-find-one-response-api.dto';
+} from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one.entity';
+import { PrivacyPolicyFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-find-one-response-api.dto';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyFindOneMapper extends SimpleResponseMapper<

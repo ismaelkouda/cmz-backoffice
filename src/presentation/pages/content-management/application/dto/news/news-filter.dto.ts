@@ -1,4 +1,4 @@
-import { Status } from '@presentation/pages/content-management/domain/enums/news/news-status.enum';
+import { Status } from '@pages/content-management/domain/enums/news/news-status.enum';
 
 export interface NewsFilterDto {
     search?: string;

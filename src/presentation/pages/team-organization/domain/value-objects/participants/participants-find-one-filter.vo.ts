@@ -1,4 +1,4 @@
-import { ParticipantsFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/participants/participants-find-one-filter.dto';
+import { ParticipantsFindOneFilterDto } from '@pages/team-organization/application/dto/participants/participants-find-one-filter.dto';
 
 export class ParticipantsFindOneFilterVo {
     public readonly uniqId: string;

@@ -1,4 +1,4 @@
-import { ParticipantsFindOneFilterVo } from '@presentation/pages/team-organization/domain/value-objects/participants/participants-find-one-filter.vo';
+import { ParticipantsFindOneFilterVo } from '@pages/team-organization/domain/value-objects/participants/participants-find-one-filter.vo';
 
 export class ParticipantsFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

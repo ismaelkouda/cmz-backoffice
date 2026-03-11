@@ -1,14 +1,13 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, map, startWith } from 'rxjs/operators';
-
 import { EndPointType } from '@shared/domain/types/end-point.types';
 import {
     PROCESSING_ROUTE,
     REPORT_FINALIZATION_ROUTE,
     REQUESTS_ROUTE,
 } from '@shared/routes/routes';
+import { filter, map, startWith } from 'rxjs/operators';
 
 @Injectable()
 export class RouteContextService {

@@ -1,17 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DetailsApproveApiDto } from '@pages/requests/infrastructure/api/dto/details/details-approve-api.dto';
+import { DetailsFilterApiDto } from '@pages/requests/infrastructure/api/dto/details/details-filter-api.dto';
+import { DetailsRejectApiDto } from '@pages/requests/infrastructure/api/dto/details/details-reject-api.dto';
+import { DetailsResponseApiDto } from '@pages/requests/infrastructure/api/dto/details/details-response-api.dto';
+import { DetailsTakeApiDto } from '@pages/requests/infrastructure/api/dto/details/details-take-api.dto';
+import { REQUESTS_BASE_URL } from '@pages/requests/infrastructure/api/report-requests.base-url';
+import { REQUESTS_ENDPOINTS } from '@pages/requests/infrastructure/api/report-requests.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { DetailsApproveApiDto } from '@presentation/pages/requests/infrastructure/api/dto/details/details-approve-api.dto';
-import { DetailsFilterApiDto } from '@presentation/pages/requests/infrastructure/api/dto/details/details-filter-api.dto';
-import { DetailsRejectApiDto } from '@presentation/pages/requests/infrastructure/api/dto/details/details-reject-api.dto';
-import { DetailsResponseApiDto } from '@presentation/pages/requests/infrastructure/api/dto/details/details-response-api.dto';
-import { DetailsTakeApiDto } from '@presentation/pages/requests/infrastructure/api/dto/details/details-take-api.dto';
-import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/report-requests.base-url';
-import { REQUESTS_ENDPOINTS } from '@presentation/pages/requests/infrastructure/api/report-requests.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsApi {

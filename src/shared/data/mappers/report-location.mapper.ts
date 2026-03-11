@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { ReportLocationDto } from '@shared/data/dto/report-location.dto';
 import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
 

@@ -1,6 +1,5 @@
+import { AccessLogsFilterVo } from '@pages/settings-security/domain/value-objects/access-logs/access-logs-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { AccessLogsFilterVo } from '@presentation/pages/settings-security/domain/value-objects/access-logs/access-logs-filter.vo';
 
 export class AccessLogsFilterEntity {
     constructor(

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { CoordinatesEntity } from '@shared/domain/entities/coordinates.entity';
 
 @Injectable({

@@ -1,15 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-
+import {
+    PrivacyPolicyEntity,
+    PrivacyPolicyProps,
+} from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
+import { PrivacyPolicyItemApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-response-api.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import {
-    PrivacyPolicyEntity,
-    PrivacyPolicyProps,
-} from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
-import { PrivacyPolicyItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

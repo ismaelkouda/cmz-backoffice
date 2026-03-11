@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
+import { NewsCategoriesSelectEntity } from '@pages/content-management/domain/entities/news/news-categories-select.entity';
+import { NewsCategoriesSelectRepository } from '@pages/content-management/domain/repositories/news/news-categories-select-repository';
 import { Observable } from 'rxjs';
-
-import { NewsCategoriesSelectEntity } from '@presentation/pages/content-management/domain/entities/news/news-categories-select.entity';
-import { NewsCategoriesSelectRepository } from '@presentation/pages/content-management/domain/repositories/news/news-categories-select-repository';
 
 @Injectable({
     providedIn: 'root',

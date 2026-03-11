@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TermsUseUpdateCommand } from '@pages/content-management/application/commands/terms-use/terms-use-update.command';
+import { TermsUseUseCase } from '@pages/content-management/application/use-cases/terms-use/terms-use.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TermsUseUpdateCommand } from '@presentation/pages/content-management/application/commands/terms-use/terms-use-update.command';
-import { TermsUseUseCase } from '@presentation/pages/content-management/application/use-cases/terms-use/terms-use.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUseUpdateHandler {

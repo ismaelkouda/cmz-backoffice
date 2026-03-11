@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { HomeFindOneFilterDto } from '@pages/content-management/application/dto/home/home-find-one-filter.dto';
+import { HomeFindOneQuery } from '@pages/content-management/application/queries/home/home-find-one.query';
+import { HomeFindOneBus } from '@pages/content-management/application/queries-bus/home/home-find-one.bus';
+import { HomeFindOneEntity } from '@pages/content-management/domain/entities/home/home-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { HomeFindOneFilterDto } from '@presentation/pages/content-management/application/dto/home/home-find-one-filter.dto';
-import { HomeFindOneQuery } from '@presentation/pages/content-management/application/queries/home/home-find-one.query';
-import { HomeFindOneBus } from '@presentation/pages/content-management/application/queries-bus/home/home-find-one.bus';
-import { HomeFindOneEntity } from '@presentation/pages/content-management/domain/entities/home/home-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

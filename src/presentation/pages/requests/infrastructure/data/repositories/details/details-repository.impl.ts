@@ -1,20 +1,18 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { DetailsApproveEntity } from '@pages/requests/domain/entities/details/details-approve.entity';
+import { DetailsFilterEntity } from '@pages/requests/domain/entities/details/details-filter.entity';
+import { DetailsRejectEntity } from '@pages/requests/domain/entities/details/details-reject.entity';
+import { DetailsTakeEntity } from '@pages/requests/domain/entities/details/details-take.entity';
+import { DetailsEntity } from '@pages/requests/domain/entities/details/details.entity';
+import { DetailsRepository } from '@pages/requests/domain/repositories/details/details-repository';
+import { detailsApproveMapper } from '@pages/requests/infrastructure/data/mappers/details/details-approve.mapper';
+import { detailsFilterMapper } from '@pages/requests/infrastructure/data/mappers/details/details-filter.mapper';
+import { detailsRejectMapper } from '@pages/requests/infrastructure/data/mappers/details/details-reject.mapper';
+import { detailsTakeMapper } from '@pages/requests/infrastructure/data/mappers/details/details-take.mapper';
+import { DetailsMapper } from '@pages/requests/infrastructure/data/mappers/details/details.mapper';
+import { DetailsApi } from '@pages/requests/infrastructure/data/sources/details/details.api';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DetailsApproveEntity } from '@presentation/pages/requests/domain/entities/details/details-approve.entity';
-import { DetailsFilterEntity } from '@presentation/pages/requests/domain/entities/details/details-filter.entity';
-import { DetailsRejectEntity } from '@presentation/pages/requests/domain/entities/details/details-reject.entity';
-import { DetailsTakeEntity } from '@presentation/pages/requests/domain/entities/details/details-take.entity';
-import { DetailsEntity } from '@presentation/pages/requests/domain/entities/details/details.entity';
-import { DetailsRepository } from '@presentation/pages/requests/domain/repositories/details/details-repository';
-import { detailsApproveMapper } from '@presentation/pages/requests/infrastructure/data/mappers/details/details-approve.mapper';
-import { detailsFilterMapper } from '@presentation/pages/requests/infrastructure/data/mappers/details/details-filter.mapper';
-import { detailsRejectMapper } from '@presentation/pages/requests/infrastructure/data/mappers/details/details-reject.mapper';
-import { detailsTakeMapper } from '@presentation/pages/requests/infrastructure/data/mappers/details/details-take.mapper';
-import { DetailsMapper } from '@presentation/pages/requests/infrastructure/data/mappers/details/details.mapper';
-import { DetailsApi } from '@presentation/pages/requests/infrastructure/data/sources/details/details.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsRepositoryImpl implements DetailsRepository {

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
+import { TeamsParticipantsReassignCommand } from '@pages/team-organization/application/commands/teams/teams-participants-reassign.command';
+import { TeamsParticipantsReassignHandler } from '@pages/team-organization/application/commands-handlers/teams/teams-participants-reassign.handler';
 import { Observable } from 'rxjs';
-
-import { TeamsParticipantsReassignCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-participants-reassign.command';
-import { TeamsParticipantsReassignHandler } from '@presentation/pages/team-organization/application/commands-handlers/teams/teams-participants-reassign.handler';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsReassignBus {

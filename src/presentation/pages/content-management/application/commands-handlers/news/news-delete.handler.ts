@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NewsDeleteCommand } from '@pages/content-management/application/commands/news/news-delete.command';
+import { NewsUseCase } from '@pages/content-management/application/use-cases/news/news.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { NewsDeleteCommand } from '@presentation/pages/content-management/application/commands/news/news-delete.command';
-import { NewsUseCase } from '@presentation/pages/content-management/application/use-cases/news/news.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NewsDeleteHandler {

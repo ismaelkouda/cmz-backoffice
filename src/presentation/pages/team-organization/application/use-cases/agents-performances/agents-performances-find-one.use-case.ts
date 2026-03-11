@@ -1,13 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { AgentsPerformancesFindOneFilterDto } from '@pages/team-organization/application/dto/agents-performances/agents-performances-find-one-filter.dto';
+import { AgentsPerformancesFindOneFilterEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
+import { AgentsPerformancesFindOneEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
+import { AgentsPerformancesFindOneRepository } from '@pages/team-organization/domain/repositories/agents-performances/agents-performances-find-one.repository';
+import { AgentsPerformancesFindOneFilterVo } from '@pages/team-organization/domain/value-objects/agents-performances/agents-performance-find-one-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AgentsPerformancesFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/agents-performances/agents-performances-find-one-filter.dto';
-import { AgentsPerformancesFindOneFilterEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one-filter.entity';
-import { AgentsPerformancesFindOneEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances-find-one.entity';
-import { AgentsPerformancesFindOneRepository } from '@presentation/pages/team-organization/domain/repositories/agents-performances/agents-performances-find-one.repository';
-import { AgentsPerformancesFindOneFilterVo } from '@presentation/pages/team-organization/domain/value-objects/agents-performances/agents-performance-find-one-filter.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

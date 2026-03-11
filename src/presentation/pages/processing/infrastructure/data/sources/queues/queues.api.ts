@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { QueuesFilterApiDto } from '@pages/processing/infrastructure/api/dto/queues/queues-filter-api.dto';
+import { QueuesResponseApiDto } from '@pages/processing/infrastructure/api/dto/queues/queues-response-api.dto';
+import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
+import { PROCESSING_ENDPOINTS } from '@pages/processing/infrastructure/api/processing.endpoints';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { QueuesFilterApiDto } from '@presentation/pages/processing/infrastructure/api/dto/queues/queues-filter-api.dto';
-import { QueuesResponseApiDto } from '@presentation/pages/processing/infrastructure/api/dto/queues/queues-response-api.dto';
-import { PROCESSING_BASE_URL } from '@presentation/pages/processing/infrastructure/api/processing.base-url';
-import { PROCESSING_ENDPOINTS } from '@presentation/pages/processing/infrastructure/api/processing.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesApi {

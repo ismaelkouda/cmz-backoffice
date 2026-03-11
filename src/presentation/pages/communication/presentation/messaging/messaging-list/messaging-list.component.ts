@@ -15,10 +15,12 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { MessagingFacade } from '@pages/communication/application/services/messaging/messaging.facade';
+import { MESSAGING_TABLE } from '@pages/communication/domain/constants/messaging/messaging-table.constant';
+import { MessagingFilterControl } from '@pages/communication/domain/controls/messaging/messaging-filter.control';
+import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
+import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { MESSAGING_FORM } from '@pages/communication/presentation/messaging/messaging.routes';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -32,13 +34,9 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { MessagingFacade } from '@presentation/pages/communication/application/services/messaging/messaging.facade';
-import { MESSAGING_TABLE } from '@presentation/pages/communication/domain/constants/messaging/messaging-table.constant';
-import { MessagingFilterControl } from '@presentation/pages/communication/domain/controls/messaging/messaging-filter.control';
-import { MessagingEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
-import { Target } from '@presentation/pages/communication/domain/enums/messaging/messaging-target.enum';
-import { MESSAGING_FORM } from '@presentation/pages/communication/presentation/messaging/messaging.routes';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-messaging-list',

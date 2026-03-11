@@ -1,11 +1,8 @@
 import { inject, Provider } from '@angular/core';
-
-import { EnvService } from '@shared/domain/services/env.service';
-
-import { DashboardRepositoryImpl } from '@presentation/pages/dashboard/infrastructure/data/repositories/dashboard-repository.impl';
-
 import { DashboardRepository } from '@pages/dashboard/domain/repositories/dashboard.repository';
 import { DASHBOARD_BASE_URL } from '@pages/dashboard/infrastructure/api/dashboard.base-url';
+import { DashboardRepositoryImpl } from '@pages/dashboard/infrastructure/data/repositories/dashboard-repository.impl';
+import { EnvService } from '@shared/domain/services/env.service';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).reportUrl;

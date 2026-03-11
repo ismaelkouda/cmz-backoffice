@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { ParticipantsQuery } from '@pages/team-organization/application/queries/participants/participants.query';
+import { ParticipantsHandler } from '@pages/team-organization/application/queries-handlers/participants/participants.handler';
+import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { ParticipantsQuery } from '@presentation/pages/team-organization/application/queries/participants/participants.query';
-import { ParticipantsHandler } from '@presentation/pages/team-organization/application/queries-handlers/participants/participants.handler';
-import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsBus {

@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs';
-
+import { QueuesFilterEntity } from '@pages/processing/domain/entities/queues/queues-filter.entity';
+import { QueuesEntity } from '@pages/processing/domain/entities/queues/queues.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { QueuesFilterEntity } from '@presentation/pages/processing/domain/entities/queues/queues-filter.entity';
-import { QueuesEntity } from '@presentation/pages/processing/domain/entities/queues/queues.entity';
+import { Observable } from 'rxjs';
 
 export abstract class QueuesRepository {
     abstract execute(

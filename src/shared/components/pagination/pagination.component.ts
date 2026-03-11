@@ -12,10 +12,9 @@ import {
     signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { PaginatorModule } from 'primeng/paginator';
-
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
     selector: 'app-pagination',

@@ -1,4 +1,4 @@
-import { DetailsApproveDto } from '@presentation/pages/requests/application/dto/details/details-approve.dto';
+import { DetailsApproveDto } from '@pages/requests/application/dto/details/details-approve.dto';
 
 export class DetailsApproveVo {
     public readonly uniqId: string;

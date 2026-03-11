@@ -1,12 +1,11 @@
 import { Injectable, inject } from '@angular/core';
+import { MunicipalitiesFindOneFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one-filter.entity';
+import { MunicipalitiesFindOneEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one.entity';
+import { MunicipalitiesFindOneRepository } from '@pages/administrative-boundary/domain/repositories/municipalities/municipalities-find-one-repository';
+import { municipalitiesFindOneFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-find-one-filter.mapper';
+import { MunicipalitiesFindOneMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-find-one.mapper';
+import { MunicipalitiesFindOneApi } from '@pages/administrative-boundary/infrastructure/data/sources/municipalities/municipalities-find-one.api';
 import { Observable, map } from 'rxjs';
-
-import { MunicipalitiesFindOneFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one-filter.entity';
-import { MunicipalitiesFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one.entity';
-import { MunicipalitiesFindOneRepository } from '@presentation/pages/administrative-boundary/domain/repositories/municipalities/municipalities-find-one-repository';
-import { municipalitiesFindOneFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-find-one-filter.mapper';
-import { MunicipalitiesFindOneMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-find-one.mapper';
-import { MunicipalitiesFindOneApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/municipalities/municipalities-find-one.api';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesFindOneRepositoryImpl implements MunicipalitiesFindOneRepository {

@@ -12,9 +12,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { DialogModule } from 'primeng/dialog';
-
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
 import { HISTORY_TABLE_CONSTANT } from '@shared/components/history/domain/constants/history-table.constant';
@@ -23,6 +20,8 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
+import { ToastrService } from 'ngx-toastr';
+import { DialogModule } from 'primeng/dialog';
 
 import { HistoryFilterDto } from './application/dto/history-filter.dto';
 import { HistoryFacade } from './application/services/history.facade';

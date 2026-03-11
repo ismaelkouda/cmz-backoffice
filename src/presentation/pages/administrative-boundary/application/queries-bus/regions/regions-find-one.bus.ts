@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { RegionsFindOneQuery } from '@pages/administrative-boundary/application/queries/regions/regions-find-one.query';
+import { RegionsFindOneHandler } from '@pages/administrative-boundary/application/queries-handlers/regions/regions-find-one.handler';
+import { RegionsFindOneEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
 import { Observable } from 'rxjs';
-
-import { RegionsFindOneQuery } from '@presentation/pages/administrative-boundary/application/queries/regions/regions-find-one.query';
-import { RegionsFindOneHandler } from '@presentation/pages/administrative-boundary/application/queries-handlers/regions/regions-find-one.handler';
-import { RegionsFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsFindOneBus {

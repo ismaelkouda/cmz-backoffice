@@ -6,7 +6,6 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
 
 @Component({

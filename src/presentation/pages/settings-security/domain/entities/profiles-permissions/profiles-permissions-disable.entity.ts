@@ -1,4 +1,4 @@
-import { ProfilesPermissionsDisableVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-disable.vo';
+import { ProfilesPermissionsDisableVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-disable.vo';
 
 export class ProfilesPermissionsDisableEntity {
     constructor(public readonly uniqId: string) {}

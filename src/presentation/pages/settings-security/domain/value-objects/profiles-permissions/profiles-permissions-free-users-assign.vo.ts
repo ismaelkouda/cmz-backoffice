@@ -1,4 +1,4 @@
-import { ProfilesPermissionsFreeUsersAssignDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-free-users-assign.dto';
+import { ProfilesPermissionsFreeUsersAssignDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-free-users-assign.dto';
 
 export class ProfilesPermissionsFreeUsersAssignVo {
     public readonly uniqId: string;

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersEnableCommand } from '@pages/settings-security/application/commands/users/users-enable.command';
+import { UsersUseCase } from '@pages/settings-security/application/use-cases/users/users.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { UsersEnableCommand } from '@presentation/pages/settings-security/application/commands/users/users-enable.command';
-import { UsersUseCase } from '@presentation/pages/settings-security/application/use-cases/users/users.use-case';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersEnableHandler {

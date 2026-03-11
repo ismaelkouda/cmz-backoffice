@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersQuery } from '@pages/settings-security/application/queries/users/users.query';
+import { UsersUseCase } from '@pages/settings-security/application/use-cases/users/users.use-case';
+import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { UsersQuery } from '@presentation/pages/settings-security/application/queries/users/users.query';
-import { UsersUseCase } from '@presentation/pages/settings-security/application/use-cases/users/users.use-case';
-import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersHandler {

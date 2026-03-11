@@ -18,8 +18,10 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-
+import { AllFacade } from '@pages/finalization/application/services/all/all.facade';
+import { ALL_TABLE_CONST } from '@pages/finalization/domain/constants/all/all-table.constants';
+import { AllFilterControl } from '@pages/finalization/domain/controls/all/all-filter-control';
+import { AllEntity } from '@pages/finalization/domain/entities/all/all.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -36,11 +38,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-
-import { AllFacade } from '@presentation/pages/finalization/application/services/all/all.facade';
-import { ALL_TABLE_CONST } from '@presentation/pages/finalization/domain/constants/all/all-table.constants';
-import { AllFilterControl } from '@presentation/pages/finalization/domain/controls/all/all-filter-control';
-import { AllEntity } from '@presentation/pages/finalization/domain/entities/all/all.entity';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-all',

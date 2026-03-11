@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import { HistoryFindOneFilterApiDto } from '@shared/components/history/infrastructure/api/dto/history-find-one-filter-api.dto';
 import { HistoryFindOneResponseApiDto } from '@shared/components/history/infrastructure/api/dto/history-find-one-response-api.dto';
 import { HISTORY_ENDPOINTS } from '@shared/components/history/infrastructure/api/dto/history.endpoints';
 import { HISTORY_BASE_URL } from '@shared/components/history/infrastructure/api/history.base-url';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryFindOneApi {

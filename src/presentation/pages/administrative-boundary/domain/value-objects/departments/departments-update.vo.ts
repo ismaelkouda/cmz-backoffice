@@ -1,4 +1,4 @@
-import { DepartmentsUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-update.dto';
+import { DepartmentsUpdateDto } from '@pages/administrative-boundary/application/dto/departments/departments-update.dto';
 
 export class DepartmentsUpdateVo {
     public readonly uniqId: string;

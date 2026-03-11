@@ -1,4 +1,4 @@
-// import { TeamsFreeParticipantsAssignVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-free-participants-assign.vo';
+// import { TeamsFreeParticipantsAssignVo } from '@pages/team-organization/domain/value-objects/teams/teams-free-participants-assign.vo';
 
 // export class TeamsFreeParticipantsAssignEntity {
 //     constructor(

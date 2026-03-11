@@ -1,4 +1,4 @@
-import { ProfilesPermissionsFilterDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-filter.dto';
+import { ProfilesPermissionsFilterDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-filter.dto';
 
 export class ProfilesPermissionsFilterVo {
     public readonly search?: string;

@@ -1,4 +1,4 @@
-import { RegionsDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-delete.dto';
+import { RegionsDeleteDto } from '@pages/administrative-boundary/application/dto/regions/regions-delete.dto';
 
 export class RegionsDeleteVo {
     public readonly uniqId: string;

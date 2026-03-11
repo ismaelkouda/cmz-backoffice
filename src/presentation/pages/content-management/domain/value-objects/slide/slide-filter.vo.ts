@@ -1,7 +1,6 @@
+import { SlideFilterDto } from '@pages/content-management/application/dto/slide/slide-filter.dto';
+import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { SlideFilterDto } from '@presentation/pages/content-management/application/dto/slide/slide-filter.dto';
-import { Status } from '@presentation/pages/content-management/domain/enums/slide/slide-status.enum';
 
 export class SlideFilterVo {
     public readonly search?: string;

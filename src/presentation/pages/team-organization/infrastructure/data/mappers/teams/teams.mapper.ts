@@ -1,11 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-
+import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
+import { TeamsItemApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-response-api.dto';
+import { StatusMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-status.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
-import { TeamsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-response-api.dto';
-import { StatusMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-status.mapper';
 
 @Injectable({
     providedIn: 'root',

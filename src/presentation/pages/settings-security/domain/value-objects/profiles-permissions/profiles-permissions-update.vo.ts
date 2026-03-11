@@ -1,4 +1,4 @@
-import { ProfilesPermissionsUpdateDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-update.dto';
+import { ProfilesPermissionsUpdateDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-update.dto';
 
 export class ProfilesPermissionsUpdateVo {
     readonly uniqId: string;

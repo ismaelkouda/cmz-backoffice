@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NewsCreateDto } from '@pages/content-management/application/dto/news/news-create.dto';
+import { NewsDeleteDto } from '@pages/content-management/application/dto/news/news-delete.dto';
+import { NewsDisableDto } from '@pages/content-management/application/dto/news/news-disable.dto';
+import { NewsEnableDto } from '@pages/content-management/application/dto/news/news-enable.dto';
+import { NewsFilterDto } from '@pages/content-management/application/dto/news/news-filter.dto';
+import { NewsUpdateDto } from '@pages/content-management/application/dto/news/news-update.dto';
+import { NewsCreateEntity } from '@pages/content-management/domain/entities/news/news-create.entity';
+import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
+import { NewsDisableEntity } from '@pages/content-management/domain/entities/news/news-disable.entity';
+import { NewsEnableEntity } from '@pages/content-management/domain/entities/news/news-enable.entity';
+import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
+import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
+import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
+import { NewsRepository } from '@pages/content-management/domain/repositories/news/news-repository';
+import { NewsCreateVo } from '@pages/content-management/domain/value-objects/news/news-create.vo';
+import { NewsDeleteVo } from '@pages/content-management/domain/value-objects/news/news-delete.vo';
+import { NewsDisableVo } from '@pages/content-management/domain/value-objects/news/news-disable.vo';
+import { NewsEnableVo } from '@pages/content-management/domain/value-objects/news/news-enable.vo';
+import { NewsFilterVo } from '@pages/content-management/domain/value-objects/news/news-filter.vo';
+import { NewsUpdateVo } from '@pages/content-management/domain/value-objects/news/news-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { NewsCreateDto } from '@presentation/pages/content-management/application/dto/news/news-create.dto';
-import { NewsDeleteDto } from '@presentation/pages/content-management/application/dto/news/news-delete.dto';
-import { NewsDisableDto } from '@presentation/pages/content-management/application/dto/news/news-disable.dto';
-import { NewsEnableDto } from '@presentation/pages/content-management/application/dto/news/news-enable.dto';
-import { NewsFilterDto } from '@presentation/pages/content-management/application/dto/news/news-filter.dto';
-import { NewsUpdateDto } from '@presentation/pages/content-management/application/dto/news/news-update.dto';
-import { NewsCreateEntity } from '@presentation/pages/content-management/domain/entities/news/news-create.entity';
-import { NewsDeleteEntity } from '@presentation/pages/content-management/domain/entities/news/news-delete.entity';
-import { NewsDisableEntity } from '@presentation/pages/content-management/domain/entities/news/news-disable.entity';
-import { NewsEnableEntity } from '@presentation/pages/content-management/domain/entities/news/news-enable.entity';
-import { NewsFilterEntity } from '@presentation/pages/content-management/domain/entities/news/news-filter.entity';
-import { NewsUpdateEntity } from '@presentation/pages/content-management/domain/entities/news/news-update.entity';
-import { NewsEntity } from '@presentation/pages/content-management/domain/entities/news/news.entity';
-import { NewsRepository } from '@presentation/pages/content-management/domain/repositories/news/news-repository';
-import { NewsCreateVo } from '@presentation/pages/content-management/domain/value-objects/news/news-create.vo';
-import { NewsDeleteVo } from '@presentation/pages/content-management/domain/value-objects/news/news-delete.vo';
-import { NewsDisableVo } from '@presentation/pages/content-management/domain/value-objects/news/news-disable.vo';
-import { NewsEnableVo } from '@presentation/pages/content-management/domain/value-objects/news/news-enable.vo';
-import { NewsFilterVo } from '@presentation/pages/content-management/domain/value-objects/news/news-filter.vo';
-import { NewsUpdateVo } from '@presentation/pages/content-management/domain/value-objects/news/news-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

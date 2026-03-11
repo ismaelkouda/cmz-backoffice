@@ -19,6 +19,21 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ParticipantsFindOneFacade } from '@pages/team-organization/application/services/participants/participants-find-one.facade';
+import { ParticipantsFacade } from '@pages/team-organization/application/services/participants/participants.facade';
+import { ParticipantsFormControl } from '@pages/team-organization/domain/controls/participants/participants-form.control';
+import { ParticipantsFormHelperService } from '@pages/team-organization/domain/services/participants/participants-form-helper.service';
+import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import {
+    enumToFilterOptions,
+    FilterOption,
+} from '@shared/components/filter/filter.types';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { Roles } from '@shared/domain/enums/roles.enum';
+import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
+import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -30,23 +45,6 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import {
-    enumToFilterOptions,
-    FilterOption,
-} from '@shared/components/filter/filter.types';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { Roles } from '@shared/domain/enums/roles.enum';
-import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
-import { FormValidationService } from '@shared/domain/services/form-validation.service';
-
-import { ParticipantsFindOneFacade } from '@presentation/pages/team-organization/application/services/participants/participants-find-one.facade';
-import { ParticipantsFacade } from '@presentation/pages/team-organization/application/services/participants/participants.facade';
-import { ParticipantsFormControl } from '@presentation/pages/team-organization/domain/controls/participants/participants-form.control';
-import { ParticipantsFormHelperService } from '@presentation/pages/team-organization/domain/services/participants/participants-form-helper.service';
-import { FormValidators } from '@presentation/pages/team-organization/domain/validators/form-validators';
 
 @Component({
     selector: 'app-participants-form',

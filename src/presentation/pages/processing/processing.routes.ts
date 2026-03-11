@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
-
-import { ActionsTreatmentComponent } from '@presentation/pages/processing/presentation/actions-treatment/actions-treatment.component';
-import { AllComponent } from '@presentation/pages/processing/presentation/all/all.component';
-import { QueuesComponent } from '@presentation/pages/processing/presentation/queues/queues.component';
-import { TasksComponent } from '@presentation/pages/processing/presentation/tasks/tasks.component';
+import { ActionsTreatmentComponent } from '@pages/processing/presentation/actions-treatment/actions-treatment.component';
+import { AllComponent } from '@pages/processing/presentation/all/all.component';
+import { QueuesComponent } from '@pages/processing/presentation/queues/queues.component';
+import { TasksComponent } from '@pages/processing/presentation/tasks/tasks.component';
 
 export const TREATMENT_ROUTE = 'processing';
 export const QUEUES_ROUTE = 'queues';

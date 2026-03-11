@@ -1,5 +1,5 @@
-import { NewsEnableEntity } from '@presentation/pages/content-management/domain/entities/news/news-enable.entity';
-import { NewsEnableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-enable-api.dto';
+import { NewsEnableEntity } from '@pages/content-management/domain/entities/news/news-enable.entity';
+import { NewsEnableApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-enable-api.dto';
 
 export function newsEnableMapper(vo: NewsEnableEntity): NewsEnableApiDto {
     const prams = {} as NewsEnableApiDto;

@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
 import {
     NotificationsFindOneEntity,
     NotificationsFindOneProps,
-} from '@presentation/pages/communication/domain/entities/notifications/notifications-find-one.entity';
-import { NotificationsFindOneItemApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-find-one-response-api.dto';
+} from '@pages/communication/domain/entities/notifications/notifications-find-one.entity';
+import { NotificationsFindOneItemApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-find-one-response-api.dto';
+import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsFindOneMapper extends PaginatedMapper<

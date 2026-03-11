@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { DashboardQuery } from '@pages/dashboard/application/queries/dashboard.query';
+import { DashboardHandler } from '@pages/dashboard/application/queries-handlers/dashboard.handler';
+import { DashboardEntity } from '@pages/dashboard/domain/entities/dashboard.entity';
 import { Observable } from 'rxjs';
-
-import { DashboardQuery } from '@presentation/pages/dashboard/application/queries/dashboard.query';
-import { DashboardHandler } from '@presentation/pages/dashboard/application/queries-handlers/dashboard.handler';
-import { DashboardEntity } from '@presentation/pages/dashboard/domain/entities/dashboard.entity';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardBus {

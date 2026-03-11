@@ -11,11 +11,10 @@ import {
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { SelectModule } from 'primeng/select';
-import { TextareaModule } from 'primeng/textarea';
-
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
+import { SelectModule } from 'primeng/select';
+import { TextareaModule } from 'primeng/textarea';
 
 @Component({
     selector: 'app-management-treatment-form',
@@ -35,6 +34,7 @@ export class ManagementTreatmentFormComponent {
     public readonly form = input.required<FormGroup<ManagementFormControl>>();
     public readonly submitting = input<boolean>(false);
     public readonly submitLabel = input.required<string>();
+    public readonly loading = input.required<boolean>();
     public readonly showApprovalSection = input<boolean>(false);
     public readonly motifOptions = input<FilterOption[]>([]);
 

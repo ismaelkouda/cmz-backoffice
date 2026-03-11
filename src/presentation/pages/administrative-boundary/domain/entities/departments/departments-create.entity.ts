@@ -1,4 +1,4 @@
-import { DepartmentsCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-create.vo';
+import { DepartmentsCreateVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-create.vo';
 
 export class DepartmentsCreateEntity {
     constructor(

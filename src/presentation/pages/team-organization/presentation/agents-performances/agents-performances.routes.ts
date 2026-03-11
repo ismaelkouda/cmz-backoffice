@@ -1,9 +1,7 @@
 import { Routes } from '@angular/router';
-
+import { AgentsPerformancesListComponent } from '@pages/team-organization/presentation/agents-performances/agents-performances-list/agents-performances-list.component';
+import { AgentsPerformancesPageComponent } from '@pages/team-organization/presentation/agents-performances/agents-performances-page/agents-performances-page.component';
 import { HistoryComponent } from '@shared/components/history/history.component';
-
-import { AgentsPerformancesListComponent } from '@presentation/pages/team-organization/presentation/agents-performances/agents-performances-list/agents-performances-list.component';
-import { AgentsPerformancesPageComponent } from '@presentation/pages/team-organization/presentation/agents-performances/agents-performances-page/agents-performances-page.component';
 
 export const AGENTS_PERFORMANCES_LIST = 'page';
 export const AGENTS_PERFORMANCES_FORM = 'form';

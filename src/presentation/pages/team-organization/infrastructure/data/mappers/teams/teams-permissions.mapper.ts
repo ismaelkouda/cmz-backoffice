@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-
+import { TeamsPermissionsEntity } from '@pages/team-organization/domain/entities/teams/teams-permissions.entity';
+import { TeamsPermissionsItemApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-permissions-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
-
-import { TeamsPermissionsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-permissions.entity';
-import { TeamsPermissionsItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-permissions-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsPermissionsMapper extends SimpleResponseMapper<

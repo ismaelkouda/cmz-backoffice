@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import { State } from '@presentation/pages/finalization/domain/enums/details/details-state/details-state.enum';
-import { ApiState } from '@presentation/pages/finalization/infrastructure/enums/details/details-state-api.enum';
+import { State } from '@pages/finalization/domain/enums/details/details-state/details-state.enum';
+import { ApiState } from '@pages/finalization/infrastructure/enums/details/details-state-api.enum';
 
 @Injectable({ providedIn: 'root' })
 export class StateMapper {

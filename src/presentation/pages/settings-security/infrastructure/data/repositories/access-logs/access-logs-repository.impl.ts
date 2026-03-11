@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { AccessLogsFilterEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs-filter.entity';
+import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
+import { AccessLogsRepository } from '@pages/settings-security/domain/repositories/access-logs/access-logs.repository';
+import { AccessLogsFilterMapper } from '@pages/settings-security/infrastructure/data/mappers/access-logs/access-logs-filter.mapper';
+import { AccessLogsMapper } from '@pages/settings-security/infrastructure/data/mappers/access-logs/access-logs.mapper';
+import { AccessLogsApi } from '@pages/settings-security/infrastructure/data/sources/access-logs/access-logs.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AccessLogsFilterEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs-filter.entity';
-import { AccessLogsEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs.entity';
-import { AccessLogsRepository } from '@presentation/pages/settings-security/domain/repositories/access-logs/access-logs.repository';
-import { AccessLogsFilterMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/access-logs/access-logs-filter.mapper';
-import { AccessLogsMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/access-logs/access-logs.mapper';
-import { AccessLogsApi } from '@presentation/pages/settings-security/infrastructure/data/sources/access-logs/access-logs.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AccessLogsRepositoryImpl implements AccessLogsRepository {

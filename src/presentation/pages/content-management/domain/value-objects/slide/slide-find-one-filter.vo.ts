@@ -1,4 +1,4 @@
-import { SlideFindOneFilterDto } from '@presentation/pages/content-management/application/dto/slide/slide-find-one-filter.dto';
+import { SlideFindOneFilterDto } from '@pages/content-management/application/dto/slide/slide-find-one-filter.dto';
 
 export class SlideFindOneFilterVo {
     public readonly uniqId: string;

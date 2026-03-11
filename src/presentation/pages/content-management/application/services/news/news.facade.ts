@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { NewsCreateCommand } from '@pages/content-management/application/commands/news/news-create.command';
+import { NewsDeleteCommand } from '@pages/content-management/application/commands/news/news-delete.command';
+import { NewsDisableCommand } from '@pages/content-management/application/commands/news/news-disable.command';
+import { NewsEnableCommand } from '@pages/content-management/application/commands/news/news-enable.command';
+import { NewsUpdateCommand } from '@pages/content-management/application/commands/news/news-update.command';
+import { NewsCreateBus } from '@pages/content-management/application/commands-bus/news/news-create.bus';
+import { NewsDeleteBus } from '@pages/content-management/application/commands-bus/news/news-delete.bus';
+import { NewsDisableBus } from '@pages/content-management/application/commands-bus/news/news-disable.bus';
+import { NewsEnableBus } from '@pages/content-management/application/commands-bus/news/news-enable.bus';
+import { NewsUpdateBus } from '@pages/content-management/application/commands-bus/news/news-update.bus';
+import { NewsCreateDto } from '@pages/content-management/application/dto/news/news-create.dto';
+import { NewsDeleteDto } from '@pages/content-management/application/dto/news/news-delete.dto';
+import { NewsDisableDto } from '@pages/content-management/application/dto/news/news-disable.dto';
+import { NewsEnableDto } from '@pages/content-management/application/dto/news/news-enable.dto';
+import { NewsFilterDto } from '@pages/content-management/application/dto/news/news-filter.dto';
+import { NewsUpdateDto } from '@pages/content-management/application/dto/news/news-update.dto';
+import { NewsQuery } from '@pages/content-management/application/queries/news/news.query';
+import { NewsBus } from '@pages/content-management/application/queries-bus/news/news.bus';
+import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { NewsCreateCommand } from '@presentation/pages/content-management/application/commands/news/news-create.command';
-import { NewsDeleteCommand } from '@presentation/pages/content-management/application/commands/news/news-delete.command';
-import { NewsDisableCommand } from '@presentation/pages/content-management/application/commands/news/news-disable.command';
-import { NewsEnableCommand } from '@presentation/pages/content-management/application/commands/news/news-enable.command';
-import { NewsUpdateCommand } from '@presentation/pages/content-management/application/commands/news/news-update.command';
-import { NewsCreateBus } from '@presentation/pages/content-management/application/commands-bus/news/news-create.bus';
-import { NewsDeleteBus } from '@presentation/pages/content-management/application/commands-bus/news/news-delete.bus';
-import { NewsDisableBus } from '@presentation/pages/content-management/application/commands-bus/news/news-disable.bus';
-import { NewsEnableBus } from '@presentation/pages/content-management/application/commands-bus/news/news-enable.bus';
-import { NewsUpdateBus } from '@presentation/pages/content-management/application/commands-bus/news/news-update.bus';
-import { NewsCreateDto } from '@presentation/pages/content-management/application/dto/news/news-create.dto';
-import { NewsDeleteDto } from '@presentation/pages/content-management/application/dto/news/news-delete.dto';
-import { NewsDisableDto } from '@presentation/pages/content-management/application/dto/news/news-disable.dto';
-import { NewsEnableDto } from '@presentation/pages/content-management/application/dto/news/news-enable.dto';
-import { NewsFilterDto } from '@presentation/pages/content-management/application/dto/news/news-filter.dto';
-import { NewsUpdateDto } from '@presentation/pages/content-management/application/dto/news/news-update.dto';
-import { NewsQuery } from '@presentation/pages/content-management/application/queries/news/news.query';
-import { NewsBus } from '@presentation/pages/content-management/application/queries-bus/news/news.bus';
-import { NewsEntity } from '@presentation/pages/content-management/domain/entities/news/news.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

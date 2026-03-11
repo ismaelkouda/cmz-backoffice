@@ -1,7 +1,7 @@
-import { detailsPermissionsApprove } from '@presentation/pages/requests/domain/functions/details/details-permissions-approve.function';
-import { detailsPermissionsReject } from '@presentation/pages/requests/domain/functions/details/details-permissions-reject.function';
-import { detailsPermissionsTake } from '@presentation/pages/requests/domain/functions/details/details-permissions-take.function';
-import { DetailsProps } from '@presentation/pages/requests/domain/interfaces/details/details-props.interface';
+import { detailsPermissionsApprove } from '@pages/requests/domain/functions/details/details-permissions-approve.function';
+import { detailsPermissionsReject } from '@pages/requests/domain/functions/details/details-permissions-reject.function';
+import { detailsPermissionsTake } from '@pages/requests/domain/functions/details/details-permissions-take.function';
+import { DetailsProps } from '@pages/requests/domain/interfaces/details/details-props.interface';
 
 export function detailsLabelButtonSubmit(props: DetailsProps): string {
     if (detailsPermissionsTake(props)) {

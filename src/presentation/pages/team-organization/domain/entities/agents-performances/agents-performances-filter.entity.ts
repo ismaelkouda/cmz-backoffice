@@ -1,6 +1,5 @@
+import { AgentsPerformancesFilterVo } from '@pages/team-organization/domain/value-objects/agents-performances/agents-performances-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { AgentsPerformancesFilterVo } from '@presentation/pages/team-organization/domain/value-objects/agents-performances/agents-performances-filter.vo';
 
 export class AgentsPerformancesFilterEntity {
     constructor(

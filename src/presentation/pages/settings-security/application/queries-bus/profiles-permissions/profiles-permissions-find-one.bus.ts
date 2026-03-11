@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { ProfilesPermissionsFindOneQuery } from '@pages/settings-security/application/queries/profiles-permissions/profiles-permissions-find-one.query';
+import { ProfilesPermissionsFindOneHandler } from '@pages/settings-security/application/queries-handlers/profiles-permissions/profiles-permissions-find-one.handler';
+import { ProfilesPermissionsFindOneEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
 import { Observable } from 'rxjs';
-
-import { ProfilesPermissionsFindOneQuery } from '@presentation/pages/settings-security/application/queries/profiles-permissions/profiles-permissions-find-one.query';
-import { ProfilesPermissionsFindOneHandler } from '@presentation/pages/settings-security/application/queries-handlers/profiles-permissions/profiles-permissions-find-one.handler';
-import { ProfilesPermissionsFindOneEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsFindOneBus {

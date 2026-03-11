@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
+import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
+import { NewsCreateApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-create-api.dto';
+import { NewsDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-delete-api.dto';
+import { NewsDisableApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-disable-api.dto';
+import { NewsEnableApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-enable-api.dto';
+import { NewsFilterApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-filter-api.dto';
+import { NewsResponseApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-response-api.dto';
+import { NewsUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { CONTENT_MANAGEMENT_BASE_URL } from '@presentation/pages/content-management/infrastructure/api/content-management.base-url';
-import { CONTENT_MANAGEMENT_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/api/content-management.endpoints';
-import { NewsCreateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-create-api.dto';
-import { NewsDeleteApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-delete-api.dto';
-import { NewsDisableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-disable-api.dto';
-import { NewsEnableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-enable-api.dto';
-import { NewsFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-filter-api.dto';
-import { NewsResponseApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-response-api.dto';
-import { NewsUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-update-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NewsApi {

@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
+import { DepartmentsSelectEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-select.entity';
+import { DepartmentsSelectRepository } from '@pages/administrative-boundary/domain/repositories/departments/departments-select-repository';
 import { Observable } from 'rxjs';
-
-import { DepartmentsSelectEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-select.entity';
-import { DepartmentsSelectRepository } from '@presentation/pages/administrative-boundary/domain/repositories/departments/departments-select-repository';
 
 @Injectable({
     providedIn: 'root',

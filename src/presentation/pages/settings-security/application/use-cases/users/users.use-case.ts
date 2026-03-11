@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersCreateDto } from '@pages/settings-security/application/dto/users/users-create.dto';
+import { UsersDeleteDto } from '@pages/settings-security/application/dto/users/users-delete.dto';
+import { UsersDisableDto } from '@pages/settings-security/application/dto/users/users-disable.dto';
+import { UsersEnableDto } from '@pages/settings-security/application/dto/users/users-enable.dto';
+import { UsersFilterDto } from '@pages/settings-security/application/dto/users/users-filter.dto';
+import { UsersUpdateDto } from '@pages/settings-security/application/dto/users/users-update.dto';
+import { UsersCreateEntity } from '@pages/settings-security/domain/entities/users/users-create.entity';
+import { UsersDeleteEntity } from '@pages/settings-security/domain/entities/users/users-delete.entity';
+import { UsersDisableEntity } from '@pages/settings-security/domain/entities/users/users-disable.entity';
+import { UsersEnableEntity } from '@pages/settings-security/domain/entities/users/users-enable.entity';
+import { UsersFilterEntity } from '@pages/settings-security/domain/entities/users/users-filter.entity';
+import { UsersUpdateEntity } from '@pages/settings-security/domain/entities/users/users-update.entity';
+import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
+import { UsersRepository } from '@pages/settings-security/domain/repositories/users/users-repository';
+import { UsersCreateVo } from '@pages/settings-security/domain/value-objects/users/users-create.vo';
+import { UsersDeleteVo } from '@pages/settings-security/domain/value-objects/users/users-delete.vo';
+import { UsersDisableVo } from '@pages/settings-security/domain/value-objects/users/users-disable.vo';
+import { UsersEnableVo } from '@pages/settings-security/domain/value-objects/users/users-enable.vo';
+import { UsersFilterVo } from '@pages/settings-security/domain/value-objects/users/users-filter.vo';
+import { UsersUpdateVo } from '@pages/settings-security/domain/value-objects/users/users-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { UsersCreateDto } from '@presentation/pages/settings-security/application/dto/users/users-create.dto';
-import { UsersDeleteDto } from '@presentation/pages/settings-security/application/dto/users/users-delete.dto';
-import { UsersDisableDto } from '@presentation/pages/settings-security/application/dto/users/users-disable.dto';
-import { UsersEnableDto } from '@presentation/pages/settings-security/application/dto/users/users-enable.dto';
-import { UsersFilterDto } from '@presentation/pages/settings-security/application/dto/users/users-filter.dto';
-import { UsersUpdateDto } from '@presentation/pages/settings-security/application/dto/users/users-update.dto';
-import { UsersCreateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-create.entity';
-import { UsersDeleteEntity } from '@presentation/pages/settings-security/domain/entities/users/users-delete.entity';
-import { UsersDisableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-disable.entity';
-import { UsersEnableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-enable.entity';
-import { UsersFilterEntity } from '@presentation/pages/settings-security/domain/entities/users/users-filter.entity';
-import { UsersUpdateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-update.entity';
-import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
-import { UsersRepository } from '@presentation/pages/settings-security/domain/repositories/users/users-repository';
-import { UsersCreateVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-create.vo';
-import { UsersDeleteVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-delete.vo';
-import { UsersDisableVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-disable.vo';
-import { UsersEnableVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-enable.vo';
-import { UsersFilterVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-filter.vo';
-import { UsersUpdateVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

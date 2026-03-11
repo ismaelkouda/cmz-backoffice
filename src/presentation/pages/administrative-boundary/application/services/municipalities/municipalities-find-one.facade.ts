@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { MunicipalitiesFindOneFilterDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-find-one-filter.dto';
+import { MunicipalitiesFindOneQuery } from '@pages/administrative-boundary/application/queries/municipalities/municipalities-find-one.query';
+import { MunicipalitiesFindOneBus } from '@pages/administrative-boundary/application/queries-bus/municipalities/municipalities-find-one.bus';
+import { MunicipalitiesFindOneEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { MunicipalitiesFindOneFilterDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-find-one-filter.dto';
-import { MunicipalitiesFindOneQuery } from '@presentation/pages/administrative-boundary/application/queries/municipalities/municipalities-find-one.query';
-import { MunicipalitiesFindOneBus } from '@presentation/pages/administrative-boundary/application/queries-bus/municipalities/municipalities-find-one.bus';
-import { MunicipalitiesFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one.entity';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesFindOneFacade extends ObjectBaseFacade<

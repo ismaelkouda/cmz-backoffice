@@ -1,4 +1,4 @@
-import { UsersFilterVo } from '@presentation/pages/settings-security/domain/value-objects/users/users-filter.vo';
+import { UsersFilterVo } from '@pages/settings-security/domain/value-objects/users/users-filter.vo';
 
 export class UsersFilterEntity {
     constructor(

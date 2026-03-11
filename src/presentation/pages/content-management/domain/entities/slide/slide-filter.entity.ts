@@ -1,7 +1,6 @@
+import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
+import { SlideFilterVo } from '@pages/content-management/domain/value-objects/slide/slide-filter.vo';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { Status } from '@presentation/pages/content-management/domain/enums/slide/slide-status.enum';
-import { SlideFilterVo } from '@presentation/pages/content-management/domain/value-objects/slide/slide-filter.vo';
 
 export class SlideFilterEntity {
     constructor(

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
+import { TeamsSelectEntity } from '@pages/team-organization/domain/entities/teams/teams-select.entity';
 import { Observable } from 'rxjs';
-
-import { TeamsSelectEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-select.entity';
 
 @Injectable({
     providedIn: 'root',

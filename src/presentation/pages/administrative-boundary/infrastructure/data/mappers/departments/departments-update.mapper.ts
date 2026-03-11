@@ -1,5 +1,5 @@
-import { DepartmentsUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-update.entity';
-import { DepartmentsUpdateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-update-api.dto';
+import { DepartmentsUpdateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-update.entity';
+import { DepartmentsUpdateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-update-api.dto';
 
 export function departmentsUpdateMapper(
     update: DepartmentsUpdateEntity

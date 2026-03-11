@@ -1,4 +1,4 @@
-import { NewsDeleteDto } from '@presentation/pages/content-management/application/dto/news/news-delete.dto';
+import { NewsDeleteDto } from '@pages/content-management/application/dto/news/news-delete.dto';
 
 export class NewsDeleteVo {
     public readonly uniqId: string;

@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { LegalNoticeCreateDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-create.dto';
+import { LegalNoticeDeleteDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-delete.dto';
+import { LegalNoticeFilterDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-filter.dto';
+import { LegalNoticePublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-publish.dto';
+import { LegalNoticeUnpublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-unpublish.dto';
+import { LegalNoticeUpdateDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-update.dto';
+import { LegalNoticeCreateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-create.entity';
+import { LegalNoticeDeleteEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
+import { LegalNoticeFilterEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
+import { LegalNoticePublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-publish.entity';
+import { LegalNoticeUnpublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
+import { LegalNoticeUpdateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-update.entity';
+import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
+import { LegalNoticeRepository } from '@pages/content-management/domain/repositories/legal-notice/legal-notice-repository';
+import { LegalNoticeCreateVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-create.vo';
+import { LegalNoticeDeleteVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-delete.vo';
+import { LegalNoticeFilterVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-filter.vo';
+import { LegalNoticePublishVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-publish.vo';
+import { LegalNoticeUnpublishVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-unpublish.vo';
+import { LegalNoticeUpdateVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { LegalNoticeCreateDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-create.dto';
-import { LegalNoticeDeleteDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-delete.dto';
-import { LegalNoticeFilterDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-filter.dto';
-import { LegalNoticePublishDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-publish.dto';
-import { LegalNoticeUnpublishDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-unpublish.dto';
-import { LegalNoticeUpdateDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-update.dto';
-import { LegalNoticeCreateEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-create.entity';
-import { LegalNoticeDeleteEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
-import { LegalNoticeFilterEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
-import { LegalNoticePublishEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-publish.entity';
-import { LegalNoticeUnpublishEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
-import { LegalNoticeUpdateEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-update.entity';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice.entity';
-import { LegalNoticeRepository } from '@presentation/pages/content-management/domain/repositories/legal-notice/legal-notice-repository';
-import { LegalNoticeCreateVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-create.vo';
-import { LegalNoticeDeleteVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-delete.vo';
-import { LegalNoticeFilterVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-filter.vo';
-import { LegalNoticePublishVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-publish.vo';
-import { LegalNoticeUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-unpublish.vo';
-import { LegalNoticeUpdateVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

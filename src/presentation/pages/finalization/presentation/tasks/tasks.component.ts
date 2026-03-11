@@ -18,9 +18,11 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
-
+import { DetailsFacade } from '@pages/finalization/application/services/details/details.facade';
+import { TasksFacade } from '@pages/finalization/application/services/tasks/tasks.facade';
+import { TASKS_TABLE_CONST } from '@pages/finalization/domain/constants/tasks/tasks-table.constants';
+import { TasksFilterControl } from '@pages/finalization/domain/controls/tasks/tasks-filter-control';
+import { TasksEntity } from '@pages/finalization/domain/entities/tasks/tasks.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -40,12 +42,8 @@ import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { DetailsFacade } from '@presentation/pages/finalization/application/services/details/details.facade';
-import { TasksFacade } from '@presentation/pages/finalization/application/services/tasks/tasks.facade';
-import { TASKS_TABLE_CONST } from '@presentation/pages/finalization/domain/constants/tasks/tasks-table.constants';
-import { TasksFilterControl } from '@presentation/pages/finalization/domain/controls/tasks/tasks-filter-control';
-import { TasksEntity } from '@presentation/pages/finalization/domain/entities/tasks/tasks.entity';
+import { ToastrService } from 'ngx-toastr';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-tasks',

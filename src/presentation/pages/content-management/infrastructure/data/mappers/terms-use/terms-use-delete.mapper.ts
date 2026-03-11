@@ -1,5 +1,5 @@
-import { TermsUseDeleteEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-delete.entity';
-import { TermsUseDeleteApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/terms-use/terms-use-delete-api.dto';
+import { TermsUseDeleteEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-delete.entity';
+import { TermsUseDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-delete-api.dto';
 
 export function termsUseDeleteMapper(
     vo: TermsUseDeleteEntity

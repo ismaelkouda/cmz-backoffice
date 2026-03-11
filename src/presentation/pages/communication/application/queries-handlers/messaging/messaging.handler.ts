@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MessagingQuery } from '@pages/communication/application/queries/messaging/messaging.query';
+import { MessagingUseCase } from '@pages/communication/application/use-cases/messaging/messaging.use-case';
+import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { MessagingQuery } from '@presentation/pages/communication/application/queries/messaging/messaging.query';
-import { MessagingUseCase } from '@presentation/pages/communication/application/use-cases/messaging/messaging.use-case';
-import { MessagingEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingHandler {

@@ -1,6 +1,17 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { ProfilesPermissionsUsersAssignCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-assign.command';
+import { ProfilesPermissionsUsersReassignCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-reassign.command';
+import { ProfilesPermissionsUsersRemoveCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-remove.command';
+import { ProfilesPermissionsUsersAssignBus } from '@pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-users-assign.bus';
+import { ProfilesPermissionsUsersReassignBus } from '@pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-users-reassign.bus';
+import { ProfilesPermissionsUsersRemoveBus } from '@pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-users-remove.bus';
+import { ProfilesPermissionsUsersAssignDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-assign.dto';
+import { ProfilesPermissionsUsersFilterDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-filter.dto';
+import { ProfilesPermissionsUsersReassignDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-reassign.dto';
+import { ProfilesPermissionsUsersRemoveDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-remove.dto';
+import { ProfilesPermissionsUsersQuery } from '@pages/settings-security/application/queries/profiles-permissions/profiles-permissions-users.query';
+import { ProfilesPermissionsUsersBus } from '@pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions-users.bus';
+import { ProfilesPermissionsUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,20 +19,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { ProfilesPermissionsUsersAssignCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-assign.command';
-import { ProfilesPermissionsUsersReassignCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-reassign.command';
-import { ProfilesPermissionsUsersRemoveCommand } from '@presentation/pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-remove.command';
-import { ProfilesPermissionsUsersAssignBus } from '@presentation/pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-users-assign.bus';
-import { ProfilesPermissionsUsersReassignBus } from '@presentation/pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-users-reassign.bus';
-import { ProfilesPermissionsUsersRemoveBus } from '@presentation/pages/settings-security/application/commands-bus/profiles-permissions/profiles-permissions-users-remove.bus';
-import { ProfilesPermissionsUsersAssignDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-assign.dto';
-import { ProfilesPermissionsUsersFilterDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-filter.dto';
-import { ProfilesPermissionsUsersReassignDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-reassign.dto';
-import { ProfilesPermissionsUsersRemoveDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-users-remove.dto';
-import { ProfilesPermissionsUsersQuery } from '@presentation/pages/settings-security/application/queries/profiles-permissions/profiles-permissions-users.query';
-import { ProfilesPermissionsUsersBus } from '@presentation/pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions-users.bus';
-import { ProfilesPermissionsUsersEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -98,7 +96,6 @@ export class ProfilesPermissionsUsersFacade extends BaseFacade<
     }
 
     refresh(): void {
-        this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
@@ -109,7 +106,12 @@ export class ProfilesPermissionsUsersFacade extends BaseFacade<
             filter?.phone
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            filter,
+            page,
+            fetch$,
+            this.uiFeedbackService
+        );
         this.lastFetchTimestamp = Date.now();
     }
 

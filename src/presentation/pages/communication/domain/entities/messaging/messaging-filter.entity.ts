@@ -1,6 +1,5 @@
+import { MessagingFilterVo } from '@pages/communication/domain/value-objects/messaging/messaging-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { MessagingFilterVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-filter.vo';
 
 export class MessagingFilterEntity {
     constructor(

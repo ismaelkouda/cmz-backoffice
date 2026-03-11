@@ -1,6 +1,6 @@
+import { Status } from '@pages/requests/domain/enums/all/all-status.enum';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
-import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
 export interface AllFilterProps {
     initiatorPhoneNumber?: string;
     uniqId?: string;

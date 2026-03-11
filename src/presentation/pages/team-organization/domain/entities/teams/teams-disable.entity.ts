@@ -1,4 +1,4 @@
-import { TeamsDisableVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-disable.vo';
+import { TeamsDisableVo } from '@pages/team-organization/domain/value-objects/teams/teams-disable.vo';
 
 export class TeamsDisableEntity {
     constructor(public readonly uniqId: string) {}

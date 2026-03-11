@@ -19,6 +19,15 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { RegionsFindOneFacade } from '@pages/administrative-boundary/application/services/regions/regions-find-one.facade';
+import { RegionsFacade } from '@pages/administrative-boundary/application/services/regions/regions.facade';
+import { RegionsFormControl } from '@pages/administrative-boundary/domain/controls/regions/regions-form.control';
+import { RegionsFormHelperService } from '@pages/administrative-boundary/domain/services/regions/regions-form-helper.service';
+import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
@@ -27,17 +36,6 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { FormValidationService } from '@shared/domain/services/form-validation.service';
-
-import { RegionsFindOneFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-find-one.facade';
-import { RegionsFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions.facade';
-import { RegionsFormControl } from '@presentation/pages/administrative-boundary/domain/controls/regions/regions-form.control';
-import { RegionsFormHelperService } from '@presentation/pages/administrative-boundary/domain/services/regions/regions-form-helper.service';
-import { FormValidators } from '@presentation/pages/administrative-boundary/domain/validators/form-validators';
 
 @Component({
     selector: 'app-regions-form',

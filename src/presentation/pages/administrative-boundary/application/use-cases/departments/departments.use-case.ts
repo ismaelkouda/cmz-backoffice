@@ -1,25 +1,23 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DepartmentsCreateDto } from '@pages/administrative-boundary/application/dto/departments/departments-create.dto';
+import { DepartmentsDeleteDto } from '@pages/administrative-boundary/application/dto/departments/departments-delete.dto';
+import { DepartmentsFilterDto } from '@pages/administrative-boundary/application/dto/departments/departments-filter.dto';
+import { DepartmentsUpdateDto } from '@pages/administrative-boundary/application/dto/departments/departments-update.dto';
+import { DepartmentsCreateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-create.entity';
+import { DepartmentsDeleteEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
+import { DepartmentsFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
+import { DepartmentsUpdateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-update.entity';
+import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { DepartmentsRepository } from '@pages/administrative-boundary/domain/repositories/departments/departments-repository';
+import { DepartmentsCreateVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-create.vo';
+import { DepartmentsDeleteVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-delete.vo';
+import { DepartmentsFilterVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-filter.vo';
+import { DepartmentsUpdateVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { DepartmentsCreateDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-create.dto';
-import { DepartmentsDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-delete.dto';
-import { DepartmentsFilterDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-filter.dto';
-import { DepartmentsUpdateDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-update.dto';
-import { DepartmentsCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-create.entity';
-import { DepartmentsDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
-import { DepartmentsFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
-import { DepartmentsUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-update.entity';
-import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments.entity';
-import { DepartmentsRepository } from '@presentation/pages/administrative-boundary/domain/repositories/departments/departments-repository';
-import { DepartmentsCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-create.vo';
-import { DepartmentsDeleteVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-delete.vo';
-import { DepartmentsFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-filter.vo';
-import { DepartmentsUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

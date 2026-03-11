@@ -1,4 +1,4 @@
-import { TermsUseCreateVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-create.vo';
+import { TermsUseCreateVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-create.vo';
 
 export class TermsUseCreateEntity {
     constructor(

@@ -1,6 +1,5 @@
+import { MUNICIPALITIES_ROUTE } from '@pages/administrative-boundary/administrative-boundary.routes';
 import { ADMINISTRATIVE_BOUNDARY_ROUTE } from '@shared/routes/routes';
-
-import { MUNICIPALITIES_ROUTE } from '@presentation/pages/administrative-boundary/administrative-boundary.routes';
 
 export const MUNICIPALITIES_TABS = [
     {

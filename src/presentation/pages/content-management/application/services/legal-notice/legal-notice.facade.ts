@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { LegalNoticeCreateCommand } from '@pages/content-management/application/commands/legal-notice/legal-notice-create.command';
+import { LegalNoticeDeleteCommand } from '@pages/content-management/application/commands/legal-notice/legal-notice-delete.command';
+import { LegalNoticePublishCommand } from '@pages/content-management/application/commands/legal-notice/legal-notice-publish.command';
+import { LegalNoticeUnpublishCommand } from '@pages/content-management/application/commands/legal-notice/legal-notice-unpublish.command';
+import { LegalNoticeUpdateCommand } from '@pages/content-management/application/commands/legal-notice/legal-notice-update.command';
+import { LegalNoticeCreateBus } from '@pages/content-management/application/commands-bus/legal-notice/legal-notice-create.bus';
+import { LegalNoticeDeleteBus } from '@pages/content-management/application/commands-bus/legal-notice/legal-notice-delete.bus';
+import { LegalNoticePublishBus } from '@pages/content-management/application/commands-bus/legal-notice/legal-notice-publish.bus';
+import { LegalNoticeUnpublishBus } from '@pages/content-management/application/commands-bus/legal-notice/legal-notice-unpublish.bus';
+import { LegalNoticeUpdateBus } from '@pages/content-management/application/commands-bus/legal-notice/legal-notice-update.bus';
+import { LegalNoticeCreateDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-create.dto';
+import { LegalNoticeDeleteDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-delete.dto';
+import { LegalNoticeFilterDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-filter.dto';
+import { LegalNoticePublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-publish.dto';
+import { LegalNoticeUnpublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-unpublish.dto';
+import { LegalNoticeUpdateDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-update.dto';
+import { LegalNoticeQuery } from '@pages/content-management/application/queries/legal-notice/legal-notice.query';
+import { LegalNoticeBus } from '@pages/content-management/application/queries-bus/legal-notice/legal-notice.bus';
+import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { LegalNoticeCreateCommand } from '@presentation/pages/content-management/application/commands/legal-notice/legal-notice-create.command';
-import { LegalNoticeDeleteCommand } from '@presentation/pages/content-management/application/commands/legal-notice/legal-notice-delete.command';
-import { LegalNoticePublishCommand } from '@presentation/pages/content-management/application/commands/legal-notice/legal-notice-publish.command';
-import { LegalNoticeUnpublishCommand } from '@presentation/pages/content-management/application/commands/legal-notice/legal-notice-unpublish.command';
-import { LegalNoticeUpdateCommand } from '@presentation/pages/content-management/application/commands/legal-notice/legal-notice-update.command';
-import { LegalNoticeCreateBus } from '@presentation/pages/content-management/application/commands-bus/legal-notice/legal-notice-create.bus';
-import { LegalNoticeDeleteBus } from '@presentation/pages/content-management/application/commands-bus/legal-notice/legal-notice-delete.bus';
-import { LegalNoticePublishBus } from '@presentation/pages/content-management/application/commands-bus/legal-notice/legal-notice-publish.bus';
-import { LegalNoticeUnpublishBus } from '@presentation/pages/content-management/application/commands-bus/legal-notice/legal-notice-unpublish.bus';
-import { LegalNoticeUpdateBus } from '@presentation/pages/content-management/application/commands-bus/legal-notice/legal-notice-update.bus';
-import { LegalNoticeCreateDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-create.dto';
-import { LegalNoticeDeleteDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-delete.dto';
-import { LegalNoticeFilterDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-filter.dto';
-import { LegalNoticePublishDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-publish.dto';
-import { LegalNoticeUnpublishDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-unpublish.dto';
-import { LegalNoticeUpdateDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-update.dto';
-import { LegalNoticeQuery } from '@presentation/pages/content-management/application/queries/legal-notice/legal-notice.query';
-import { LegalNoticeBus } from '@presentation/pages/content-management/application/queries-bus/legal-notice/legal-notice.bus';
-import { LegalNoticeEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

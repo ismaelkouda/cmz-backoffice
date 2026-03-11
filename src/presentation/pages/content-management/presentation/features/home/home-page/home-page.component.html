@@ -38,9 +38,13 @@
                                 [pagination]="pagination()"
                                 [config]="tableConfig"
                                 [headerButtons]="headerButtons()"
-                                (headerButtonClicked)="onHeaderButtonClicked($event)"
+                                (headerButtonClicked)="
+                                    onHeaderButtonClicked($event)
+                                "
                                 (refreshRequested)="onRefreshClicked()"
-                                (createRequested)="onHeaderButtonClicked($event)"
+                                (createRequested)="
+                                    onHeaderButtonClicked($event)
+                                "
                                 (editRequested)="onNavigateToForm($event)"
                                 (deleteRequested)="onDeleteClicked($event)"
                                 (enableRequested)="onEnableClicked($event)"

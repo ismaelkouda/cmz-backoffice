@@ -1,4 +1,4 @@
-import { NewsDisableDto } from '@presentation/pages/content-management/application/dto/news/news-disable.dto';
+import { NewsDisableDto } from '@pages/content-management/application/dto/news/news-disable.dto';
 
 export class NewsDisableVo {
     public readonly uniqId: string;

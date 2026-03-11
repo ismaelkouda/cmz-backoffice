@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { QueuesQuery } from '@pages/finalization/application/queries/queues/queues.query';
+import { QueuesUseCase } from '@pages/finalization/application/use-cases/queues/queues.use-case';
+import { QueuesEntity } from '@pages/finalization/domain/entities/queues/queues.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { QueuesQuery } from '@presentation/pages/finalization/application/queries/queues/queues.query';
-import { QueuesUseCase } from '@presentation/pages/finalization/application/use-cases/queues/queues.use-case';
-import { QueuesEntity } from '@presentation/pages/finalization/domain/entities/queues/queues.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesHandler {

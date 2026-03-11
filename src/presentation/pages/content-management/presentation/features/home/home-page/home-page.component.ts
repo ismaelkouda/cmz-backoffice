@@ -19,9 +19,13 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
-
+import { HomeFacade } from '@pages/content-management/application/services/home/home.facade';
+import { FILTER_KEYS } from '@pages/content-management/domain/constants/home/home-filter-keys.constants';
+import { HOME_TABLE } from '@pages/content-management/domain/constants/home/home-table.constants';
+import { HomeFilterControl } from '@pages/content-management/domain/controls/home/home-filter.control';
+import { HomeEntity } from '@pages/content-management/domain/entities/home/home.entity';
+import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
+import { HOME_FORM } from '@pages/content-management/presentation/features/home/home.routes';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -38,14 +42,8 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { HomeFacade } from '@presentation/pages/content-management/application/services/home/home.facade';
-import { FILTER_KEYS } from '@presentation/pages/content-management/domain/constants/home/home-filter-keys.constants';
-import { HOME_TABLE } from '@presentation/pages/content-management/domain/constants/home/home-table.constants';
-import { HomeFilterControl } from '@presentation/pages/content-management/domain/controls/home/home-filter.control';
-import { HomeEntity } from '@presentation/pages/content-management/domain/entities/home/home.entity';
-import { Status } from '@presentation/pages/content-management/domain/enums/home/home-status.enum';
-import { HOME_FORM } from '@presentation/pages/content-management/presentation/features/home/home.routes';
+import { ToastrService } from 'ngx-toastr';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-home',

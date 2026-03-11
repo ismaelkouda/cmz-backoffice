@@ -1,10 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-
+import { ProfilesPermissionsPermissionsBus } from '@pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions-permissions.bus';
+import { ProfilesPermissionsPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-permissions.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { ProfilesPermissionsPermissionsBus } from '@presentation/pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions-permissions.bus';
-import { ProfilesPermissionsPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-permissions.entity';
 
 @Injectable({
     providedIn: 'root',

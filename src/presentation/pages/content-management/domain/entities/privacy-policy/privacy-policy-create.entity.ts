@@ -1,4 +1,4 @@
-import { PrivacyPolicyCreateVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-create.vo';
+import { PrivacyPolicyCreateVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-create.vo';
 
 export class PrivacyPolicyCreateEntity {
     constructor(

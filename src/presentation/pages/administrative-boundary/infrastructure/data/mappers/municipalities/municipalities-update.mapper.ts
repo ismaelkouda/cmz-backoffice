@@ -1,5 +1,5 @@
-import { MunicipalitiesUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
-import { MunicipalitiesUpdateApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-update-api.dto';
+import { MunicipalitiesUpdateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
+import { MunicipalitiesUpdateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-update-api.dto';
 
 export function municipalitiesUpdateMapper(
     update: MunicipalitiesUpdateEntity

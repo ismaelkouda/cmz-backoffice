@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs';
-
+import { AccessLogsFilterEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs-filter.entity';
+import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AccessLogsFilterEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs-filter.entity';
-import { AccessLogsEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs.entity';
+import { Observable } from 'rxjs';
 
 export abstract class AccessLogsRepository {
     abstract readAll(

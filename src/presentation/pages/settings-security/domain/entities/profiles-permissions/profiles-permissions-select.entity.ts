@@ -1,4 +1,4 @@
-import { ProfilesPermissionsSelectItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-select-api.dto';
+import { ProfilesPermissionsSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-select-api.dto';
 
 export class ProfilesPermissionsSelectEntity {
     constructor(
@@ -9,13 +9,13 @@ export class ProfilesPermissionsSelectEntity {
     static fromDto(
         dto: ProfilesPermissionsSelectItemApiDto
     ): ProfilesPermissionsSelectEntity {
-        return new ProfilesPermissionsSelectEntity(dto.code, dto.name);
+        return new ProfilesPermissionsSelectEntity(dto.uniq_id, dto.name);
     }
 
     public with(
         dto: ProfilesPermissionsSelectItemApiDto
     ): ProfilesPermissionsSelectEntity {
-        if (this.value === dto.code && this.label === dto.name) {
+        if (this.value === dto.uniq_id && this.label === dto.name) {
             return this;
         }
         return ProfilesPermissionsSelectEntity.fromDto(dto);

@@ -1,7 +1,8 @@
-import { TasksActionsCreateVo } from '@presentation/pages/processing/domain/value-objects/tasks/tasks-actions-create.vo';
+import { TasksActionsCreateVo } from '@pages/processing/domain/value-objects/tasks/tasks-actions-create.vo';
 
 export class TasksActionsCreateEntity {
     constructor(
+        public readonly reportUniqId: string,
         public readonly date: string,
         public readonly type: string,
         public readonly description: string,
@@ -10,6 +11,7 @@ export class TasksActionsCreateEntity {
 
     static fromVo(vo: TasksActionsCreateVo): TasksActionsCreateEntity {
         return new TasksActionsCreateEntity(
+            vo.reportUniqId,
             vo.date,
             vo.type,
             vo.description,

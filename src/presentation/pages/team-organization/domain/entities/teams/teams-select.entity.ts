@@ -1,4 +1,4 @@
-import { TeamsSelectItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-select-api.dto';
+import { TeamsSelectItemApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-select-api.dto';
 
 export class TeamsSelectEntity {
     constructor(

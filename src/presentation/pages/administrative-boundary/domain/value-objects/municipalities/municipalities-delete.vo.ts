@@ -1,4 +1,4 @@
-import { MunicipalitiesDeleteDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
+import { MunicipalitiesDeleteDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
 
 export class MunicipalitiesDeleteVo {
     public readonly uniqId: string;

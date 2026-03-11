@@ -1,6 +1,6 @@
-import { RegionsFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
-import { RegionsFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-filter-api.dto';
-import { StatusMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/regions/regions-status.mapper';
+import { RegionsFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
+import { RegionsFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-filter-api.dto';
+import { StatusMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-status.mapper';
 
 export function regionsFilterMapper(
     filter: RegionsFilterEntity

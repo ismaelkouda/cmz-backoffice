@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-
+import { ParticipantsSelectEntity } from '@pages/team-organization/domain/entities/participants/participants-select.entity';
+import { ParticipantsSelectItemApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-select-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { ParticipantsSelectEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-select.entity';
-import { ParticipantsSelectItemApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-select-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsSelectMapper extends ArrayResponseMapper<

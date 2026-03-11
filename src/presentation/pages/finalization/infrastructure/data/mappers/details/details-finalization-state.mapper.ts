@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import { FinalizationState } from '@presentation/pages/finalization/domain/enums/details/details-finalization-state/details-finalization-state.enum';
-import { ApiFinalizationState } from '@presentation/pages/finalization/infrastructure/enums/details/details-finalization-state-api.enum';
+import { FinalizationState } from '@pages/finalization/domain/enums/details/details-finalization-state/details-finalization-state.enum';
+import { ApiFinalizationState } from '@pages/finalization/infrastructure/enums/details/details-finalization-state-api.enum';
 
 @Injectable({ providedIn: 'root' })
 export class FinalizationStateMapper {

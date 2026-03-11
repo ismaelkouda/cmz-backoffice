@@ -1,13 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NotificationsFindOneFilterDto } from '@pages/communication/application/dto/notifications/notifications-find-one-filter.dto';
+import { NotificationsFindOneFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-find-one-filter.entity';
+import { NotificationsFindOneEntity } from '@pages/communication/domain/entities/notifications/notifications-find-one.entity';
+import { NotificationsFindOneRepository } from '@pages/communication/domain/repositories/notifications/notifications-find-one.repository';
+import { NotificationsFindOneFilterVo } from '@pages/communication/domain/value-objects/notifications/notifications-find-one-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { NotificationsFindOneFilterDto } from '@presentation/pages/communication/application/dto/notifications/notifications-find-one-filter.dto';
-import { NotificationsFindOneFilterEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-find-one-filter.entity';
-import { NotificationsFindOneEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-find-one.entity';
-import { NotificationsFindOneRepository } from '@presentation/pages/communication/domain/repositories/notifications/notifications-find-one.repository';
-import { NotificationsFindOneFilterVo } from '@presentation/pages/communication/domain/value-objects/notifications/notifications-find-one-filter.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

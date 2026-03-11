@@ -1,5 +1,5 @@
-import { ProfilesPermissionsFilterEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-filter.entity';
-import { ProfilesPermissionsFilterApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-filter-api.dto';
+import { ProfilesPermissionsFilterEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-filter.entity';
+import { ProfilesPermissionsFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-filter-api.dto';
 
 export function profilesPermissionsFilterMapper(
     vo: ProfilesPermissionsFilterEntity

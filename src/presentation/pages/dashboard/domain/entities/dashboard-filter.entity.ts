@@ -1,4 +1,4 @@
-import { DashboardFilterVo } from '@presentation/pages/dashboard/domain/value-objects/dashboard-filter.vo';
+import { DashboardFilterVo } from '@pages/dashboard/domain/value-objects/dashboard-filter.vo';
 
 export class DashboardFilterEntity {
     constructor(public readonly period: string) {}

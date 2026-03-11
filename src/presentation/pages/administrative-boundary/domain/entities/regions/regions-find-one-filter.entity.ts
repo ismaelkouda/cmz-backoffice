@@ -1,4 +1,4 @@
-import { RegionsFindOneFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-find-one-filter.vo';
+import { RegionsFindOneFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-find-one-filter.vo';
 
 export class RegionsFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

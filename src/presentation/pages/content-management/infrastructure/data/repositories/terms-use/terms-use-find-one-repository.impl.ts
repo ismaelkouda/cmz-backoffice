@@ -1,12 +1,11 @@
 import { inject, Injectable } from '@angular/core';
+import { TermsUseFindOneFilterEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-find-one-filter.entity';
+import { TermsUseFindOneEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-find-one.entity';
+import { TermsUseFindOneRepository } from '@pages/content-management/domain/repositories/terms-use/terms-use-find-one-repository';
+import { termsUseFindOneFilterMapper } from '@pages/content-management/infrastructure/data/mappers/terms-use/terms-use-find-one-filter.mapper';
+import { TermsUseFindOneMapper } from '@pages/content-management/infrastructure/data/mappers/terms-use/terms-use-find-one.mapper';
+import { TermsUseFindOneApi } from '@pages/content-management/infrastructure/data/sources/terms-use/terms-use-find-one.api';
 import { map, Observable } from 'rxjs';
-
-import { TermsUseFindOneFilterEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-find-one-filter.entity';
-import { TermsUseFindOneEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-find-one.entity';
-import { TermsUseFindOneRepository } from '@presentation/pages/content-management/domain/repositories/terms-use/terms-use-find-one-repository';
-import { termsUseFindOneFilterMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/terms-use/terms-use-find-one-filter.mapper';
-import { TermsUseFindOneMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/terms-use/terms-use-find-one.mapper';
-import { TermsUseFindOneApi } from '@presentation/pages/content-management/infrastructure/data/sources/terms-use/terms-use-find-one.api';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUseFindOneRepositoryImpl implements TermsUseFindOneRepository {

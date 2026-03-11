@@ -1,4 +1,4 @@
-import { LegalNoticeFindOneFilterDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-find-one-filter.dto';
+import { LegalNoticeFindOneFilterDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-find-one-filter.dto';
 
 export class LegalNoticeFindOneFilterVo {
     public readonly uniqId: string;

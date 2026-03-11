@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import { ProcessingState } from '@presentation/pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
-import { ApiProcessingState } from '@presentation/pages/processing/infrastructure/enums/details/details-processing-state-api.enum';
+import { ProcessingState } from '@pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
+import { ApiProcessingState } from '@pages/processing/infrastructure/enums/details/details-processing-state-api.enum';
 
 @Injectable({ providedIn: 'root' })
 export class ProcessingStateMapper {

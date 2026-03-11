@@ -15,10 +15,15 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { ProfilesPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
+import { PROFILES_PERMISSIONS_TABLE_CONSTANT } from '@pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-table.constant';
+import { ProfilesPermissionsFilterControl } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-filter.control';
+import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
+import { Status } from '@pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
+import {
+    PROFILES_PERMISSIONS_FORM,
+    PROFILES_PERMISSIONS_USERS,
+} from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions.routes';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -32,16 +37,9 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { ProfilesPermissionsFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
-import { PROFILES_PERMISSIONS_TABLE_CONSTANT } from '@presentation/pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-table.constant';
-import { ProfilesPermissionsFilterControl } from '@presentation/pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-filter.control';
-import { ProfilesPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
-import { Status } from '@presentation/pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
-import {
-    PROFILES_PERMISSIONS_FORM,
-    PROFILES_PERMISSIONS_USERS,
-} from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions.routes';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-profiles-permissions-list',

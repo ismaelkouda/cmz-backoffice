@@ -1,9 +1,8 @@
-import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
-
 import {
     PARTICIPANTS_HISTORY,
     PARTICIPANTS_LIST,
-} from '@presentation/pages/team-organization/presentation/participants/participants.routes';
+} from '@pages/team-organization/presentation/participants/participants.routes';
+import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
 
 export const PARTICIPANTS_TABS = [
     {

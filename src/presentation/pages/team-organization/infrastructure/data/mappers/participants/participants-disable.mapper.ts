@@ -1,5 +1,5 @@
-import { ParticipantsDisableEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-disable.entity';
-import { ParticipantsDisableApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/participants/participants-disable-api.dto';
+import { ParticipantsDisableEntity } from '@pages/team-organization/domain/entities/participants/participants-disable.entity';
+import { ParticipantsDisableApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-disable-api.dto';
 
 export function participantsDisableMapper(
     vo: ParticipantsDisableEntity

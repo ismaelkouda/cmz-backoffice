@@ -1,6 +1,5 @@
+import { TasksFilterVo } from '@pages/processing/domain/value-objects/tasks/tasks-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { TasksFilterVo } from '@presentation/pages/processing/domain/value-objects/tasks/tasks-filter.vo';
 
 export class TasksFilterEntity {
     constructor(

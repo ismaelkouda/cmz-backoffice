@@ -1,6 +1,6 @@
-import { detailsPermissionsFinalize } from '@presentation/pages/finalization/domain/functions/details/details-permissions-finalize.function';
-import { detailsPermissionsTake } from '@presentation/pages/finalization/domain/functions/details/details-permissions-take.function';
-import { DetailsProps } from '@presentation/pages/finalization/domain/interfaces/details/details-props.interface';
+import { detailsPermissionsFinalize } from '@pages/finalization/domain/functions/details/details-permissions-finalize.function';
+import { detailsPermissionsTake } from '@pages/finalization/domain/functions/details/details-permissions-take.function';
+import { DetailsProps } from '@pages/finalization/domain/interfaces/details/details-props.interface';
 
 export function detailsTitle(props: DetailsProps): string {
     if (detailsPermissionsTake(props)) {

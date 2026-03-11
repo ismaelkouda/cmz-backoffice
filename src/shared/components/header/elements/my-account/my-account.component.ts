@@ -18,13 +18,12 @@ import {
 } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { ToastrService } from 'ngx-toastr';
 import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
 import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 
 import { CurrentUser } from '../../../../domain/interfaces/current-user.interface';
 import { EncodingDataService } from '../../../../domain/services/encoding-data.service';

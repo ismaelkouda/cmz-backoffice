@@ -1,14 +1,12 @@
 import { inject, Injectable, signal } from '@angular/core';
-
+import { MunicipalitiesByDepartmentIdFilterDto } from '@pages/administrative-boundary/application/dto/departments/municipalities-by-department-id-filter.dto';
+import { MunicipalitiesByDepartmentIdQuery } from '@pages/administrative-boundary/application/queries/departments/municipalities-by-department-id.query';
+import { MunicipalitiesByDepartmentIdBus } from '@pages/administrative-boundary/application/queries-bus/departments/municipalities-by-department-id.bus';
+import { MunicipalitiesByDepartmentIdEntity } from '@pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { MunicipalitiesByDepartmentIdFilterDto } from '@presentation/pages/administrative-boundary/application/dto/departments/municipalities-by-department-id-filter.dto';
-import { MunicipalitiesByDepartmentIdQuery } from '@presentation/pages/administrative-boundary/application/queries/departments/municipalities-by-department-id.query';
-import { MunicipalitiesByDepartmentIdBus } from '@presentation/pages/administrative-boundary/application/queries-bus/departments/municipalities-by-department-id.bus';
-import { MunicipalitiesByDepartmentIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
 
 @Injectable({
     providedIn: 'root',

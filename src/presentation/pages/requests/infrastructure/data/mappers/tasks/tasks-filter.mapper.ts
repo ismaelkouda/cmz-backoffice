@@ -1,5 +1,5 @@
-import { TasksFilterEntity } from '@presentation/pages/requests/domain/entities/tasks/tasks-filter.entity';
-import { TasksFilterApiDto } from '@presentation/pages/requests/infrastructure/api/dto/tasks/tasks-filter-api.dto';
+import { TasksFilterEntity } from '@pages/requests/domain/entities/tasks/tasks-filter.entity';
+import { TasksFilterApiDto } from '@pages/requests/infrastructure/api/dto/tasks/tasks-filter-api.dto';
 
 export function tasksFilterMapper(
     entity: TasksFilterEntity

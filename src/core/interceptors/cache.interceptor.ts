@@ -1,8 +1,7 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { of, shareReplay, tap } from 'rxjs';
-
 import { ConfigurationService } from '@core/services/configuration.service';
+import { of, shareReplay, tap } from 'rxjs';
 
 import {
     isInternalUrl,

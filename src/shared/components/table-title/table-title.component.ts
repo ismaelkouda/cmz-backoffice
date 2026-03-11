@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
 
 import { AppCustomizationService } from '../../domain/services/app-customization.service';

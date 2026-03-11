@@ -1,5 +1,5 @@
-import { HomeDisableEntity } from '@presentation/pages/content-management/domain/entities/home/home-disable.entity';
-import { HomeDisableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-disable-api.dto';
+import { HomeDisableEntity } from '@pages/content-management/domain/entities/home/home-disable.entity';
+import { HomeDisableApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-disable-api.dto';
 
 export function homeDisableMapper(vo: HomeDisableEntity): HomeDisableApiDto {
     const prams = {} as HomeDisableApiDto;

@@ -9,9 +9,9 @@
 // import { UiFeedbackService } from '@shared/application/ui/ui-feedback.service';
 // import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
-// import { TeamsFreeParticipantsAssignDto } from '@presentation/pages/team-organization/application/dto/teams/teams-free-participants-assign.dto';
-// import { TeamsFreeParticipantsUseCase } from '@presentation/pages/team-organization/application/use-cases/teams/teams-free-participants.use-case';
-// import { TeamsFreeParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-free-participants.entity';
+// import { TeamsFreeParticipantsAssignDto } from '@pages/team-organization/application/dto/teams/teams-free-participants-assign.dto';
+// import { TeamsFreeParticipantsUseCase } from '@pages/team-organization/application/use-cases/teams/teams-free-participants.use-case';
+// import { TeamsFreeParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-free-participants.entity';
 
 // @Injectable({
 //     providedIn: 'root',

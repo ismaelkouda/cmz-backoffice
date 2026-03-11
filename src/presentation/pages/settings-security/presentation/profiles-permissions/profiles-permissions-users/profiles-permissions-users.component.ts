@@ -21,15 +21,13 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectModule } from 'primeng/select';
-import { TagModule } from 'primeng/tag';
-import { map, tap } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { ProfilesPermissionsSelectFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-select.facade';
+import { ProfilesPermissionsUsersFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-users.facade';
+import { UsersSelectFacade } from '@pages/settings-security/application/services/users/users-select.facade';
+import { PROFILES_PERMISSIONS_USERS } from '@pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-users-table.constant';
+import { ProfilesPermissionsUsersFilterControl } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-users-filter.control';
+import { ProfilesPermissionsUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
+import { PROFILES_PERMISSIONS_ROUTE } from '@pages/settings-security/settings-security.routes';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
@@ -41,14 +39,14 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
-
-import { ProfilesPermissionsSelectFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions-select.facade';
-import { ProfilesPermissionsUsersFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions-users.facade';
-import { UsersSelectFacade } from '@presentation/pages/settings-security/application/services/users/users-select.facade';
-import { PROFILES_PERMISSIONS_USERS } from '@presentation/pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-users-table.constant';
-import { ProfilesPermissionsUsersFilterControl } from '@presentation/pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-users-filter.control';
-import { ProfilesPermissionsUsersEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
-import { PROFILES_PERMISSIONS_ROUTE } from '@presentation/pages/settings-security/settings-security.routes';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
+import { map, tap } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-profiles-permissions-users',
@@ -381,13 +379,19 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
             return;
         }
 
+        const title: string = this.t(
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.SWEET_ALERT.TITLE_REMOVE'
+        );
+        const text: string = this.t(
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.SWEET_ALERT.MESSAGE_REMOVE'
+        );
+
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t(
-                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.SWEET_ALERT.TITLE_REMOVE'
-            ),
-            text: this.t(
-                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.SWEET_ALERT.MESSAGE_REMOVE'
+            title: title,
+            text: text.replaceAll(
+                '{{count}}',
+                this.usersSelectedInTable().length.toString()
             ),
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),

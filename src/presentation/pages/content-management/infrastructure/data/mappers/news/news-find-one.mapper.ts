@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
 import {
     NewsFindOneEntity,
     NewsFindOneProps,
-} from '@presentation/pages/content-management/domain/entities/news/news-find-one.entity';
-import { NewsFindOneItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-find-one-response-api.dto';
+} from '@pages/content-management/domain/entities/news/news-find-one.entity';
+import { NewsFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-find-one-response-api.dto';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class NewsFindOneMapper extends SimpleResponseMapper<

@@ -1,7 +1,6 @@
+import { MunicipalitiesFilterDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-filter.dto';
+import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { MunicipalitiesFilterDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-filter.dto';
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
 
 export class MunicipalitiesFilterVo {
     public readonly search?: string;

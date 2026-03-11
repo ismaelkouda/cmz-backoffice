@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { HomeCreateCommand } from '@pages/content-management/application/commands/home/home-create.command';
+import { HomeCreateHandler } from '@pages/content-management/application/commands-handlers/home/home-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { HomeCreateCommand } from '@presentation/pages/content-management/application/commands/home/home-create.command';
-import { HomeCreateHandler } from '@presentation/pages/content-management/application/commands-handlers/home/home-create.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HomeCreateBus {

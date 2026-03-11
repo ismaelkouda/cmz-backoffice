@@ -1,4 +1,4 @@
-import { TasksActionsDeleteDto } from '@presentation/pages/processing/application/dto/tasks/tasks-actions-delete.dto';
+import { TasksActionsDeleteDto } from '@pages/processing/application/dto/tasks/tasks-actions-delete.dto';
 
 export class TasksActionsDeleteVo {
     public readonly uniqId: string;

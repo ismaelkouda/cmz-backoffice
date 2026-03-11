@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';

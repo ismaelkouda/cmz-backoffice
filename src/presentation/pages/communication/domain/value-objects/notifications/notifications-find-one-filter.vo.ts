@@ -1,4 +1,4 @@
-import { NotificationsFindOneFilterDto } from '@presentation/pages/communication/application/dto/notifications/notifications-find-one-filter.dto';
+import { NotificationsFindOneFilterDto } from '@pages/communication/application/dto/notifications/notifications-find-one-filter.dto';
 
 export class NotificationsFindOneFilterVo {
     public readonly uniqId?: string;

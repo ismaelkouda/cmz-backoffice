@@ -15,9 +15,9 @@
 // import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 // import { Paginate } from '@shared/data/dto/simple-response.dto';
 
-// import { TermsUseFacade } from '@presentation/pages/content-management/core/application/services/terms-use.facade';
-// import { TermsUseEntity } from '@presentation/pages/content-management/core/domain/entities/terms-use.entity';
-// import { TermsUseFilter } from '@presentation/pages/content-management/core/domain/value-objects/terms-use-filter.vo';
+// import { TermsUseFacade } from '@pages/content-management/core/application/services/terms-use.facade';
+// import { TermsUseEntity } from '@pages/content-management/core/domain/entities/terms-use.entity';
+// import { TermsUseFilter } from '@pages/content-management/core/domain/value-objects/terms-use-filter.vo';
 
 // import { FilterTermsUseComponent } from '../filter-terms-use/filter-terms-use.component';
 // import { TableTermsUseComponent } from '../table-terms-use/table-terms-use.component';

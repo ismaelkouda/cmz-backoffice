@@ -1,5 +1,5 @@
-import { SlideFilterEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-filter.entity';
-import { SlideFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-filter-api.dto';
+import { SlideFilterEntity } from '@pages/content-management/domain/entities/slide/slide-filter.entity';
+import { SlideFilterApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-filter-api.dto';
 
 export function slideFilterMapper(
     entity: SlideFilterEntity

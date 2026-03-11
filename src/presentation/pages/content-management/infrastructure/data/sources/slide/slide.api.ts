@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
+import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
+import { SlideCreateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-create-api.dto';
+import { SlideDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-delete-api.dto';
+import { SlideFilterApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-filter-api.dto';
+import { SlideResponseApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-response-api.dto';
+import { SlideUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-update-api.dto';
+import { SlideDisableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-disable-api.dto';
+import { SlideEnableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-enable-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { CONTENT_MANAGEMENT_BASE_URL } from '@presentation/pages/content-management/infrastructure/api/content-management.base-url';
-import { CONTENT_MANAGEMENT_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/api/content-management.endpoints';
-import { SlideCreateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-create-api.dto';
-import { SlideDeleteApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-delete-api.dto';
-import { SlideFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-filter-api.dto';
-import { SlidePublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-publish-api.dto';
-import { SlideResponseApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-response-api.dto';
-import { SlideUnpublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-unpublish-api.dto';
-import { SlideUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-update-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SlideApi {
@@ -54,15 +52,13 @@ export class SlideApi {
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 
-    publish(apiDto: SlidePublishApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}/${apiDto.uniq_id}/publish`;
+    enable(apiDto: SlideEnableApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}/${apiDto.uniq_id}/enable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
-    unpublish(
-        apiDto: SlideUnpublishApiDto
-    ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}/${apiDto.uniq_id}/unpublish`;
+    disable(apiDto: SlideDisableApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}/${apiDto.uniq_id}/disable`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 }

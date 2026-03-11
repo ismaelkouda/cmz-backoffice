@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
-import { TasksEntity } from '@presentation/pages/requests/domain/entities/tasks/tasks.entity';
-import { TasksTable } from '@presentation/pages/requests/domain/interfaces/tasks/tasks-table.interface';
+import { TasksEntity } from '@pages/requests/domain/entities/tasks/tasks.entity';
+import { TasksTable } from '@pages/requests/domain/interfaces/tasks/tasks-table.interface';
 
 @Injectable({ providedIn: 'root' })
 export class TasksTableVm {

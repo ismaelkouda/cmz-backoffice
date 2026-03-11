@@ -1,6 +1,5 @@
 import { Provider } from '@angular/core';
 import { inject } from '@angular/core';
-
 import { HistoryRepository } from '@shared/components/history/domain/repositories/history.repository';
 import { HISTORY_BASE_URL } from '@shared/components/history/infrastructure/api/history.base-url';
 import { HistoryRepositoryImpl } from '@shared/components/history/infrastructure/data/repositories/history.repository.impl';

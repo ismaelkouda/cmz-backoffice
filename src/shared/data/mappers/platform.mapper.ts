@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { PlatformDto } from '@shared/data/dto/platform.dto';
 import { Platform } from '@shared/domain/enums/platform.enum';
 

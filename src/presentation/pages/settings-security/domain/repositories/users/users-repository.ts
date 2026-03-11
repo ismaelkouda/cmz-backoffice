@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { UsersCreateEntity } from '@pages/settings-security/domain/entities/users/users-create.entity';
+import { UsersDeleteEntity } from '@pages/settings-security/domain/entities/users/users-delete.entity';
+import { UsersDisableEntity } from '@pages/settings-security/domain/entities/users/users-disable.entity';
+import { UsersEnableEntity } from '@pages/settings-security/domain/entities/users/users-enable.entity';
+import { UsersFilterEntity } from '@pages/settings-security/domain/entities/users/users-filter.entity';
+import { UsersUpdateEntity } from '@pages/settings-security/domain/entities/users/users-update.entity';
+import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { UsersCreateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-create.entity';
-import { UsersDeleteEntity } from '@presentation/pages/settings-security/domain/entities/users/users-delete.entity';
-import { UsersDisableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-disable.entity';
-import { UsersEnableEntity } from '@presentation/pages/settings-security/domain/entities/users/users-enable.entity';
-import { UsersFilterEntity } from '@presentation/pages/settings-security/domain/entities/users/users-filter.entity';
-import { UsersUpdateEntity } from '@presentation/pages/settings-security/domain/entities/users/users-update.entity';
-import { UsersEntity } from '@presentation/pages/settings-security/domain/entities/users/users.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

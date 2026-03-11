@@ -1,4 +1,4 @@
-import { DetailsFilterVo } from '@presentation/pages/requests/domain/value-objects/details/details-filter.vo';
+import { DetailsFilterVo } from '@pages/requests/domain/value-objects/details/details-filter.vo';
 
 export class DetailsFilterEntity {
     constructor(public readonly uniqId: string) {}

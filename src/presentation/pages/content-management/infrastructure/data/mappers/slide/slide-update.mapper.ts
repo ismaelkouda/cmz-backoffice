@@ -1,28 +1,54 @@
-import { SlideUpdateEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-update.entity';
-import { SlideUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-update-api.dto';
+import { inject } from '@angular/core';
+import { SlideUpdateEntity } from '@pages/content-management/domain/entities/slide/slide-update.entity';
+import { SlideUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-update-api.dto';
+import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
 export function slideUpdateMapper(
     entity: SlideUpdateEntity
 ): SlideUpdateApiDto {
+    const platformMapper = inject(PlatformMapper);
     const params: SlideUpdateApiDto = {} as SlideUpdateApiDto;
 
     if (entity.uniqId) {
         params.id = entity.uniqId;
     }
-    if (entity.firstName) {
-        params.first_name = entity.firstName;
+    if (entity.timeDuration) {
+        params.time_duration_in_seconds = entity.timeDuration;
     }
-    if (entity.lastName) {
-        params.last_name = entity.lastName;
+    if (entity.type) {
+        params.type = entity.type;
     }
-    if (entity.email) {
-        params.email = entity.email;
+    if (entity.image) {
+        params.image_file = entity.image;
     }
-    if (entity.phone) {
-        params.phone_number = entity.phone;
+    if (entity.video) {
+        params.video_url = entity.video;
     }
-    if (entity.role) {
-        params.role = entity.role;
+    if (entity.platforms.length > 0) {
+        params.platforms = entity.platforms.map((p) =>
+            platformMapper.mapToDto(p)
+        );
+    }
+    if (entity.startDate) {
+        params.start_date = entity.startDate;
+    }
+    if (entity.endDate) {
+        params.end_date = entity.endDate;
+    }
+    if (entity.title) {
+        params.title = entity.title;
+    }
+    if (entity.subtitle) {
+        params.subtitle = entity.subtitle;
+    }
+    if (entity.content) {
+        params.content = entity.content;
+    }
+    if (entity.buttonLabel) {
+        params.button_label = entity.buttonLabel;
+    }
+    if (entity.buttonUrl) {
+        params.button_url = entity.buttonUrl;
     }
 
     return params;

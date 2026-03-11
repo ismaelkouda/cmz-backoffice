@@ -1,4 +1,4 @@
-import { LegalNoticeUpdateDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-update.dto';
+import { LegalNoticeUpdateDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-update.dto';
 
 export class LegalNoticeUpdateVo {
     public readonly uniqId: string;

@@ -1,4 +1,5 @@
 export interface TasksActionsCreateApiDto {
+    report_uniq_id: string;
     date: string;
     type: string;
     description: string;

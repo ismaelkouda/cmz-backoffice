@@ -1,4 +1,4 @@
-import { DepartmentsFindOneItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/departments/departments-find-one-response-api.dto';
+import { DepartmentsFindOneItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-find-one-response-api.dto';
 
 export class DepartmentsFindOneEntity {
     constructor(

@@ -19,8 +19,22 @@ import {
     Validators,
 } from '@angular/forms';
 import { SafeUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HomeFindOneFacade } from '@pages/content-management/application/services/home/home-find-one.facade';
+import { HomeFacade } from '@pages/content-management/application/services/home/home.facade';
+import { HomeFormControl } from '@pages/content-management/domain/controls/home/home-form.control';
+import { HomeFormHelperService } from '@pages/content-management/domain/services/home/home-form-helper.service';
+import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import {
+    enumToFilterOptions,
+    FilterOption,
+} from '@shared/components/filter/filter.types';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { Platform } from '@shared/domain/enums/platform.enum';
+import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -38,22 +52,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import {
-    enumToFilterOptions,
-    FilterOption,
-} from '@shared/components/filter/filter.types';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 // import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { Platform } from '@shared/domain/enums/platform.enum';
-import { FormValidationService } from '@shared/domain/services/form-validation.service';
-
-import { HomeFindOneFacade } from '@presentation/pages/content-management/application/services/home/home-find-one.facade';
-import { HomeFacade } from '@presentation/pages/content-management/application/services/home/home.facade';
-import { HomeFormControl } from '@presentation/pages/content-management/domain/controls/home/home-form.control';
-import { HomeFormHelperService } from '@presentation/pages/content-management/domain/services/home/home-form-helper.service';
-import { FormValidators } from '@presentation/pages/content-management/domain/validators/form-validators';
 
 @Component({
     selector: 'app-home-form',
@@ -86,9 +85,7 @@ import { FormValidators } from '@presentation/pages/content-management/domain/va
 export class HomeFormComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
-    private readonly route = inject(ActivatedRoute);
-    private readonly router = inject(Router);
-    private readonly submitFacade = inject(HomeFacade);
+    public readonly submitFacade = inject(HomeFacade);
     private readonly facade = inject(HomeFindOneFacade);
     private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
@@ -133,10 +130,8 @@ export class HomeFormComponent implements OnInit {
         this.translate.getCurrentLang()
     );
 
-    public uploadedFile: File | null = null;
-    public imagePreview: string | null = null;
+    public readonly imagePreview = signal<string | null>(null);
     public originalImageUrl!: string;
-    public imageRemoved = false;
     public isPreviewVisible = false;
     public previewContent: SafeUrl | string | null = null;
 
@@ -213,7 +208,9 @@ export class HomeFormComponent implements OnInit {
                 return null;
             }
 
-            const strippedText = control.value.replace(/<[^>]*>/g, '').trim();
+            const strippedText = control.value
+                .replaceAll(/<[^>]*>/g, '')
+                .trim();
 
             if (strippedText.length > maxLength) {
                 return {
@@ -271,7 +268,7 @@ export class HomeFormComponent implements OnInit {
                 { emitEvent: false }
             );
             if (item.image) {
-                this.imagePreview = item.image;
+                this.imagePreview.set(item.image);
             }
             this.itemPatched = true;
         }
@@ -295,14 +292,14 @@ export class HomeFormComponent implements OnInit {
     }
 
     public get allowedImageTypes(): string {
-        return FormValidators.IMAGE_FILE.ALLOWED_TYPES.map((t) =>
+        return FormValidators.IMAGE.ALLOWED_TYPES.map((t) =>
             t.split('/')[1].toUpperCase()
         ).join(', ');
     }
 
     public getContentCharacterCount(): number {
         const content = this.form.get('content')?.value || '';
-        return content.replace(/<[^>]*>/g, '').trim().length;
+        return content.replaceAll(/<[^>]*>/g, '').trim().length;
     }
 
     public getContentCountStatus(): 'safe' | 'warning' | 'danger' {
@@ -352,10 +349,10 @@ export class HomeFormComponent implements OnInit {
     private validateImageFile(file: File): void {
         const imageControl = this.form.get('image');
 
-        if (file.size > FormValidators.IMAGE_FILE.MAX_SIZE_MB * 1000000) {
+        if (file.size > FormValidators.IMAGE.MAX_SIZE_MB * 1000000) {
             imageControl?.setErrors({
                 fileTooLarge: {
-                    maxSize: FormValidators.IMAGE_FILE.MAX_SIZE_MB,
+                    maxSize: FormValidators.IMAGE.MAX_SIZE_MB,
                     actualSize: file.size,
                 },
             });
@@ -364,10 +361,8 @@ export class HomeFormComponent implements OnInit {
 
         this.checkImageDimensions(file).then((dimensions) => {
             if (
-                dimensions.width >
-                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.WIDTH ||
-                dimensions.height >
-                    FormValidators.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
+                dimensions.width > FormValidators.IMAGE.MAX_DIMENSIONS.WIDTH ||
+                dimensions.height > FormValidators.IMAGE.MAX_DIMENSIONS.HEIGHT
             ) {
                 imageControl?.setErrors({ imageDimensions: true });
             }
@@ -377,8 +372,7 @@ export class HomeFormComponent implements OnInit {
     }
 
     public removeImage(): void {
-        this.uploadedFile = null;
-        this.imagePreview = null;
+        this.imagePreview.set(null);
         this.form.get('image')?.reset();
         this.form.get('image')?.markAsTouched();
     }
@@ -388,7 +382,7 @@ export class HomeFormComponent implements OnInit {
     ): Promise<{ width: number; height: number }> {
         return new Promise((resolve) => {
             const img = new Image();
-            img.onload = () => {
+            img.onload = (): void => {
                 resolve({ width: img.width, height: img.height });
             };
             img.src = URL.createObjectURL(file);
@@ -398,42 +392,33 @@ export class HomeFormComponent implements OnInit {
     onFileSelect(event: any): void {
         if (event.files && event.files.length > 0) {
             const file = event.files[0];
-            this.imageRemoved = false;
 
             this.validateImageFile(file);
-            console.log('file: ', file);
 
-            this.uploadedFile = file;
             this.form.patchValue({ image: file });
 
             const reader = new FileReader();
             reader.onload = (e: any) => {
-                this.imagePreview = e.target.result;
-                this.imageRemoved = false;
+                this.imagePreview.set(e.target.result);
             };
             reader.readAsDataURL(file);
         }
     }
 
     restoreImage(): void {
-        this.imagePreview = this.originalImageUrl;
-        this.uploadedFile = null;
+        this.imagePreview.set(this.originalImageUrl);
         this.form.patchValue({ image: this.originalImageUrl });
-        this.imageRemoved = false;
-        // this.originalImageUrl = null;
     }
 
     openPreview(): void {
-        this.previewContent = this.imagePreview;
+        this.previewContent = this.imagePreview();
         if (this.previewContent) {
             this.isPreviewVisible = true;
         }
     }
 
     onSubmit(): void {
-        console.log('sqccsdsvqqvsq');
-        console.log('this.uploadedFile: ', this.uploadedFile);
-        if (this.form.invalid || !this.uploadedFile) {
+        if (this.form.invalid) {
             this.form.markAllAsTouched();
             this.showValidationErrors();
             return;
@@ -472,7 +457,6 @@ export class HomeFormComponent implements OnInit {
     }
 
     // private prepareSubmitData(): FormData {
-    //     this.form.get('image')?.setValue(this.uploadedFile);
     //     const formData = formDataBuilder(this.form.getRawValue());
     //     return formData;
     // }

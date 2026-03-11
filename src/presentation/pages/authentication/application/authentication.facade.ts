@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
+import { AuthVariables } from '@pages/authentication/domain/entities/auth-variables.entity';
+import {
+    LoadAuthenticationVariablesUseCase,
+    LoginUseCase,
+} from '@pages/authentication/domain/use-cases/authentication.use-case';
+import { LoginCredentials } from '@pages/authentication/domain/value-objects/login-credentials.vo';
 import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
@@ -9,14 +16,6 @@ import {
     tap,
     throwError,
 } from 'rxjs';
-
-import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
-import { AuthVariables } from '@pages/authentication/domain/entities/auth-variables.entity';
-import {
-    LoadAuthenticationVariablesUseCase,
-    LoginUseCase,
-} from '@pages/authentication/domain/use-cases/authentication.use-case';
-import { LoginCredentials } from '@pages/authentication/domain/value-objects/login-credentials.vo';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationFacade {

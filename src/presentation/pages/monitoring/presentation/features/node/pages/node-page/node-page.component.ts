@@ -7,10 +7,8 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { NodeFacade } from '@pages/monitoring/application/services/node.facade';
 import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
-
-import { NodeFacade } from '@presentation/pages/monitoring/application/services/node.facade';
 
 @Component({
     selector: 'app-node-page',

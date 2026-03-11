@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-
+import { RegionsFindOneEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
+import { RegionsFindOneItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-find-one-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { RegionsFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
-import { RegionsFindOneItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/regions/regions-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsFindOneMapper extends SimpleResponseMapper<

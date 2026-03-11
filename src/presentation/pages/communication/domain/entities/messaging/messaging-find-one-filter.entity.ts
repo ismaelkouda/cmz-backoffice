@@ -1,4 +1,4 @@
-import { MessagingFindOneFilterVo } from '@presentation/pages/communication/domain/value-objects/messaging/messaging-find-one-filter.vo';
+import { MessagingFindOneFilterVo } from '@pages/communication/domain/value-objects/messaging/messaging-find-one-filter.vo';
 
 export class MessagingFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

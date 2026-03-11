@@ -1,5 +1,5 @@
-import { LegalNoticeFilterEntity } from '@presentation/pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
-import { LegalNoticeFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-filter-api.dto';
+import { LegalNoticeFilterEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
+import { LegalNoticeFilterApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-filter-api.dto';
 
 export function legalNoticeFilterMapper(
     entity: LegalNoticeFilterEntity

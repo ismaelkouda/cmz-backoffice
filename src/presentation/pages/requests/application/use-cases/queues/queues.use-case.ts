@@ -1,13 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { defer, Observable } from 'rxjs';
-
+import { QueuesFilterDto } from '@pages/requests/application/dto/queues/queues-filter.dto';
+import { QueuesFilterEntity } from '@pages/requests/domain/entities/queues/queues-filter.entity';
+import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
+import { QueuesRepository } from '@pages/requests/domain/repositories/queues/queues.repository';
+import { QueuesFilterVo } from '@pages/requests/domain/value-objects/queues/queues-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { QueuesFilterDto } from '@presentation/pages/requests/application/dto/queues/queues-filter.dto';
-import { QueuesFilterEntity } from '@presentation/pages/requests/domain/entities/queues/queues-filter.entity';
-import { QueuesEntity } from '@presentation/pages/requests/domain/entities/queues/queues.entity';
-import { QueuesRepository } from '@presentation/pages/requests/domain/repositories/queues/queues.repository';
-import { QueuesFilterVo } from '@presentation/pages/requests/domain/value-objects/queues/queues-filter.vo';
+import { defer, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

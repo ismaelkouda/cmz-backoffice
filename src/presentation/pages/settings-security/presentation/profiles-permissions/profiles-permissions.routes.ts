@@ -1,11 +1,9 @@
 import { Routes } from '@angular/router';
-
+import { ProfilesPermissionsFormComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-form/profiles-permissions-form.component';
+import { ProfilesPermissionsListComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-list/profiles-permissions-list.component';
+import { ProfilesPermissionsPageComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-page/profiles-permissions-page.component';
+import { ProfilesPermissionsUsersComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-users/profiles-permissions-users.component';
 import { HistoryComponent } from '@shared/components/history/history.component';
-
-import { ProfilesPermissionsFormComponent } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-form/profiles-permissions-form.component';
-import { ProfilesPermissionsListComponent } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-list/profiles-permissions-list.component';
-import { ProfilesPermissionsPageComponent } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-page/profiles-permissions-page.component';
-import { ProfilesPermissionsUsersComponent } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-users/profiles-permissions-users.component';
 
 export const PROFILES_PERMISSIONS_LIST = 'list';
 export const PROFILES_PERMISSIONS_FORM = 'form';

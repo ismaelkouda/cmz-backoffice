@@ -1,6 +1,5 @@
+import { DashboardFilterDto } from '@pages/dashboard/application/dto/dashboard-filter.dto';
 import { InvalidFilterError } from '@shared/domain/errors/filter.error';
-
-import { DashboardFilterDto } from '@presentation/pages/dashboard/application/dto/dashboard-filter.dto';
 
 export class DashboardFilterVo {
     public readonly period: string;

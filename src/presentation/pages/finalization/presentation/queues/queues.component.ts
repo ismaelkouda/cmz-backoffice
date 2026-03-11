@@ -18,9 +18,11 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
-
+import { DetailsFacade } from '@pages/finalization/application/services/details/details.facade';
+import { QueuesFacade } from '@pages/finalization/application/services/queues/queues.facade';
+import { QUEUES_TABLE_CONST } from '@pages/finalization/domain/constants/queues/queues-table.constant';
+import { QueuesFilterControl } from '@pages/finalization/domain/controls/queues/queues-filter-control';
+import { QueuesEntity } from '@pages/finalization/domain/entities/queues/queues.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -39,12 +41,8 @@ import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { DetailsFacade } from '@presentation/pages/finalization/application/services/details/details.facade';
-import { QueuesFacade } from '@presentation/pages/finalization/application/services/queues/queues.facade';
-import { QUEUES_TABLE_CONST } from '@presentation/pages/finalization/domain/constants/queues/queues-table.constant';
-import { QueuesFilterControl } from '@presentation/pages/finalization/domain/controls/queues/queues-filter-control';
-import { QueuesEntity } from '@presentation/pages/finalization/domain/entities/queues/queues.entity';
+import { ToastrService } from 'ngx-toastr';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-queues',

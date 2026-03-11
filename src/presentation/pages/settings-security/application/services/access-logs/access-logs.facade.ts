@@ -1,15 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-
+import { AccessLogsFilterDto } from '@pages/settings-security/application/dto/access-logs/access-logs-filter.dto';
+import { AccessLogsQuery } from '@pages/settings-security/application/queries/access-logs/access-logs.query';
+import { AccessLogsBus } from '@pages/settings-security/application/queries-bus/access-logs/access-logs.bus';
+import { AccessLogsUseCase } from '@pages/settings-security/application/use-cases/access-logs/access-logs.use-case';
+import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { AccessLogsFilterDto } from '@presentation/pages/settings-security/application/dto/access-logs/access-logs-filter.dto';
-import { AccessLogsQuery } from '@presentation/pages/settings-security/application/queries/access-logs/access-logs.query';
-import { AccessLogsBus } from '@presentation/pages/settings-security/application/queries-bus/access-logs/access-logs.bus';
-import { AccessLogsUseCase } from '@presentation/pages/settings-security/application/use-cases/access-logs/access-logs.use-case';
-import { AccessLogsEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs.entity';
 
 @Injectable({
     providedIn: 'root',

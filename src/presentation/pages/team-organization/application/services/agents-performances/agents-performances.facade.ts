@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-
+import { AgentsPerformancesFilterDto } from '@pages/team-organization/application/dto/agents-performances/agents-performances-filter.dto';
+import { AgentsPerformancesQuery } from '@pages/team-organization/application/queries/agents-performances/agents-performances.query';
+import { AgentsPerformancesBus } from '@pages/team-organization/application/queries-bus/agents-performances/agents-performances.bus';
+import { AgentsPerformancesEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { AgentsPerformancesFilterDto } from '@presentation/pages/team-organization/application/dto/agents-performances/agents-performances-filter.dto';
-import { AgentsPerformancesQuery } from '@presentation/pages/team-organization/application/queries/agents-performances/agents-performances.query';
-import { AgentsPerformancesBus } from '@presentation/pages/team-organization/application/queries-bus/agents-performances/agents-performances.bus';
-import { AgentsPerformancesEntity } from '@presentation/pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
 
 @Injectable({
     providedIn: 'root',

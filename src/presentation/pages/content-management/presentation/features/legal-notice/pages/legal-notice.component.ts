@@ -15,9 +15,9 @@
 // import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 // import { Paginate } from '@shared/data/dto/simple-response.dto';
 
-// import { LegalNoticeFacade } from '@presentation/pages/content-management/core/application/services/legal-notice.facade';
-// import { LegalNoticeEntity } from '@presentation/pages/content-management/core/domain/entities/legal-notice.entity';
-// import { LegalNoticeFilter } from '@presentation/pages/content-management/core/domain/value-objects/legal-notice-filter.vo';
+// import { LegalNoticeFacade } from '@pages/content-management/core/application/services/legal-notice.facade';
+// import { LegalNoticeEntity } from '@pages/content-management/core/domain/entities/legal-notice.entity';
+// import { LegalNoticeFilter } from '@pages/content-management/core/domain/value-objects/legal-notice-filter.vo';
 
 // import { FilterLegalNoticeComponent } from '../filter-legal-notice/filter-legal-notice.component';
 // import { CREATE_ROUTE, EDIT_ROUTE, VIEW_ROUTE } from '../legal-notice.routes';

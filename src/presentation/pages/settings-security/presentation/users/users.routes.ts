@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-
-import { UsersFormComponent } from '@presentation/pages/settings-security/presentation/users/users-form/users-form.component';
-import { UsersListComponent } from '@presentation/pages/settings-security/presentation/users/users-list/users-list.component';
-import { UsersPageComponent } from '@presentation/pages/settings-security/presentation/users/users-page/users-page.component';
+import { UsersFormComponent } from '@pages/settings-security/presentation/users/users-form/users-form.component';
+import { UsersListComponent } from '@pages/settings-security/presentation/users/users-list/users-list.component';
+import { UsersPageComponent } from '@pages/settings-security/presentation/users/users-page/users-page.component';
 
 export const USERS_FORM = 'form';
 export const USERS_LIST = 'list';

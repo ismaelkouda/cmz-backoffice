@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { ParticipantsFindOneFilterDto } from '@pages/team-organization/application/dto/participants/participants-find-one-filter.dto';
+import { ParticipantsFindOneQuery } from '@pages/team-organization/application/queries/participants/participants-find-one.query';
+import { ParticipantsFindOneBus } from '@pages/team-organization/application/queries-bus/participants/participants-find-one.bus';
+import { ParticipantsFindOneEntity } from '@pages/team-organization/domain/entities/participants/participants-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { ParticipantsFindOneFilterDto } from '@presentation/pages/team-organization/application/dto/participants/participants-find-one-filter.dto';
-import { ParticipantsFindOneQuery } from '@presentation/pages/team-organization/application/queries/participants/participants-find-one.query';
-import { ParticipantsFindOneBus } from '@presentation/pages/team-organization/application/queries-bus/participants/participants-find-one.bus';
-import { ParticipantsFindOneEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

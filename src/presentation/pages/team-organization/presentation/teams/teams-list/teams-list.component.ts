@@ -15,10 +15,15 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+import { TeamsFacade } from '@pages/team-organization/application/services/teams/teams.facade';
+import { TEAMS_TABLE_CONSTANT } from '@pages/team-organization/domain/constants/teams/teams-table.constant';
+import { TeamsFilterControl } from '@pages/team-organization/domain/controls/teams/teams-filter.control';
+import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
+import { Status } from '@pages/team-organization/domain/enums/teams/teams-status.enum';
+import {
+    TEAMS_FORM,
+    TEAMS_USERS,
+} from '@pages/team-organization/presentation/teams/teams.routes';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -32,16 +37,9 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-
-import { TeamsFacade } from '@presentation/pages/team-organization/application/services/teams/teams.facade';
-import { TEAMS_TABLE_CONSTANT } from '@presentation/pages/team-organization/domain/constants/teams/teams-table.constant';
-import { TeamsFilterControl } from '@presentation/pages/team-organization/domain/controls/teams/teams-filter.control';
-import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
-import { Status } from '@presentation/pages/team-organization/domain/enums/teams/teams-status.enum';
-import {
-    TEAMS_FORM,
-    TEAMS_USERS,
-} from '@presentation/pages/team-organization/presentation/teams/teams.routes';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-teams-list',
@@ -235,10 +233,16 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         if (!item.uniqId) {
             return;
         }
+        const title: string = this.t(
+            'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE_DELETE'
+        );
+        const text: string = this.t(
+            'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE_DELETE'
+        );
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE_DELETE'),
-            text: this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE_DELETE'),
+            title: title,
+            html: text.replaceAll('{{teamCode}}', item.code),
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((res) => {

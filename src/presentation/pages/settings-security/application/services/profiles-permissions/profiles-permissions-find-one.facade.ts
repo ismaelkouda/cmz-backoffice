@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { ProfilesPermissionsFindOneFilterDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-find-one-filter.dto';
+import { ProfilesPermissionsFindOneQuery } from '@pages/settings-security/application/queries/profiles-permissions/profiles-permissions-find-one.query';
+import { ProfilesPermissionsFindOneBus } from '@pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions-find-one.bus';
+import { ProfilesPermissionsFindOneEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { ProfilesPermissionsFindOneFilterDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-find-one-filter.dto';
-import { ProfilesPermissionsFindOneQuery } from '@presentation/pages/settings-security/application/queries/profiles-permissions/profiles-permissions-find-one.query';
-import { ProfilesPermissionsFindOneBus } from '@presentation/pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions-find-one.bus';
-import { ProfilesPermissionsFindOneEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

@@ -1,25 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { DetailsApproveCommand } from '@pages/requests/application/commands/details/details-approve.command';
+import { DetailsRejectCommand } from '@pages/requests/application/commands/details/details-reject.command';
+import { DetailsTakeCommand } from '@pages/requests/application/commands/details/details-take.command';
+import { DetailsApproveBus } from '@pages/requests/application/commands-bus/details/details-approve.bus';
+import { DetailsRejectBus } from '@pages/requests/application/commands-bus/details/details-reject.bus';
+import { DetailsTakeBus } from '@pages/requests/application/commands-bus/details/details-take.bus';
+import { DetailsApproveDto } from '@pages/requests/application/dto/details/details-approve.dto';
+import { DetailsFilterDto } from '@pages/requests/application/dto/details/details-filter.dto';
+import { DetailsRejectDto } from '@pages/requests/application/dto/details/details-reject.dto';
+import { DetailsTakeDto } from '@pages/requests/application/dto/details/details-take.dto';
+import { DetailsQuery } from '@pages/requests/application/queries/details/details.query';
+import { DetailsBus } from '@pages/requests/application/queries-bus/details/details.bus';
+import { QueuesFacade } from '@pages/requests/application/services/queues/queues.facade';
+import { TasksFacade } from '@pages/requests/application/services/tasks/tasks.facade';
+import { DetailsEntity } from '@pages/requests/domain/entities/details/details.entity';
 import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { DetailsApproveCommand } from '@presentation/pages/requests/application/commands/details/details-approve.command';
-import { DetailsRejectCommand } from '@presentation/pages/requests/application/commands/details/details-reject.command';
-import { DetailsTakeCommand } from '@presentation/pages/requests/application/commands/details/details-take.command';
-import { DetailsApproveBus } from '@presentation/pages/requests/application/commands-bus/details/details-approve.bus';
-import { DetailsRejectBus } from '@presentation/pages/requests/application/commands-bus/details/details-reject.bus';
-import { DetailsTakeBus } from '@presentation/pages/requests/application/commands-bus/details/details-take.bus';
-import { DetailsApproveDto } from '@presentation/pages/requests/application/dto/details/details-approve.dto';
-import { DetailsFilterDto } from '@presentation/pages/requests/application/dto/details/details-filter.dto';
-import { DetailsRejectDto } from '@presentation/pages/requests/application/dto/details/details-reject.dto';
-import { DetailsTakeDto } from '@presentation/pages/requests/application/dto/details/details-take.dto';
-import { DetailsQuery } from '@presentation/pages/requests/application/queries/details/details.query';
-import { DetailsBus } from '@presentation/pages/requests/application/queries-bus/details/details.bus';
-import { QueuesFacade } from '@presentation/pages/requests/application/services/queues/queues.facade';
-import { TasksFacade } from '@presentation/pages/requests/application/services/tasks/tasks.facade';
-import { DetailsEntity } from '@presentation/pages/requests/domain/entities/details/details.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

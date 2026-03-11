@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
-
+import { inject, Injectable } from '@angular/core';
+import { SlideFindOneEntity } from '@pages/content-management/domain/entities/slide/slide-find-one.entity';
+import { SlideFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-find-one-response-api.dto';
+import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-status.mapper';
+import { SlideFindOneProps } from '@presentation/pages/content-management/domain/interfaces/slide/slide-find-one-props.interface';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import {
-    SlideFindOneEntity,
-    SlideFindOneProps,
-} from '@presentation/pages/content-management/domain/entities/slide/slide-find-one.entity';
-import { SlideFindOneItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-find-one-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class SlideFindOneMapper extends SimpleResponseMapper<
@@ -15,17 +13,35 @@ export class SlideFindOneMapper extends SimpleResponseMapper<
     SlideFindOneItemApiDto
 > {
     private readonly entityCache = new Map<string, SlideFindOneEntity>();
+    private readonly platformMapper = inject(PlatformMapper);
+    private readonly statusMapper = inject(StatusMapper);
+    private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(dto: SlideFindOneItemApiDto): SlideFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
 
         const props: SlideFindOneProps = {
             uniqId: dto.id,
-            lastName: dto.last_name,
-            firstName: dto.first_name,
-            email: dto.email,
-            phone: dto.phone,
-            role: dto.role,
+            type: dto.type,
+            platforms: this.utils.memoizedList(
+                dto.platforms,
+                (p) => this.platformMapper.mapFromDto(p),
+                (p) => `platform:${p}`
+            ),
+            title: dto.title,
+            subtitle: dto.subtitle,
+            content: dto.content,
+            image: dto.image_url,
+            video: dto.video_url,
+            timeDuration: dto.time_duration_in_seconds,
+            order: dto.order,
+            buttonLabel: dto.button_label,
+            buttonUrl: dto.button_url,
+            status: this.statusMapper.mapFromDto(dto.is_active),
+            startDate: dto.start_date,
+            endDate: dto.end_date,
+            createdAt: dto.created_at,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${dto.id}`;

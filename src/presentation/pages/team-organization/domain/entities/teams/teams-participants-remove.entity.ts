@@ -1,4 +1,4 @@
-import { TeamsParticipantsRemoveVo } from '@presentation/pages/team-organization/domain/value-objects/teams/teams-participants-remove.vo';
+import { TeamsParticipantsRemoveVo } from '@pages/team-organization/domain/value-objects/teams/teams-participants-remove.vo';
 
 export class TeamsParticipantsRemoveEntity {
     constructor(

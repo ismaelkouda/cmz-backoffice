@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { ParticipantsCreateCommand } from '@pages/team-organization/application/commands/participants/participants-create.command';
+import { ParticipantsDeleteCommand } from '@pages/team-organization/application/commands/participants/participants-delete.command';
+import { ParticipantsDisableCommand } from '@pages/team-organization/application/commands/participants/participants-disable.command';
+import { ParticipantsEnableCommand } from '@pages/team-organization/application/commands/participants/participants-enable.command';
+import { ParticipantsUpdateCommand } from '@pages/team-organization/application/commands/participants/participants-update.command';
+import { ParticipantsCreateBus } from '@pages/team-organization/application/commands-bus/participants/participants-create.bus';
+import { ParticipantsDeleteBus } from '@pages/team-organization/application/commands-bus/participants/participants-delete.bus';
+import { ParticipantsDisableBus } from '@pages/team-organization/application/commands-bus/participants/participants-disable.bus';
+import { ParticipantsEnableBus } from '@pages/team-organization/application/commands-bus/participants/participants-enable.bus';
+import { ParticipantsUpdateBus } from '@pages/team-organization/application/commands-bus/participants/participants-update.bus';
+import { ParticipantsCreateDto } from '@pages/team-organization/application/dto/participants/participants-create.dto';
+import { ParticipantsDeleteDto } from '@pages/team-organization/application/dto/participants/participants-delete.dto';
+import { ParticipantsDisableDto } from '@pages/team-organization/application/dto/participants/participants-disable.dto';
+import { ParticipantsEnableDto } from '@pages/team-organization/application/dto/participants/participants-enable.dto';
+import { ParticipantsFilterDto } from '@pages/team-organization/application/dto/participants/participants-filter.dto';
+import { ParticipantsUpdateDto } from '@pages/team-organization/application/dto/participants/participants-update.dto';
+import { ParticipantsQuery } from '@pages/team-organization/application/queries/participants/participants.query';
+import { ParticipantsBus } from '@pages/team-organization/application/queries-bus/participants/participants.bus';
+import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { ParticipantsCreateCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-create.command';
-import { ParticipantsDeleteCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-delete.command';
-import { ParticipantsDisableCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-disable.command';
-import { ParticipantsEnableCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-enable.command';
-import { ParticipantsUpdateCommand } from '@presentation/pages/team-organization/application/commands/participants/participants-update.command';
-import { ParticipantsCreateBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-create.bus';
-import { ParticipantsDeleteBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-delete.bus';
-import { ParticipantsDisableBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-disable.bus';
-import { ParticipantsEnableBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-enable.bus';
-import { ParticipantsUpdateBus } from '@presentation/pages/team-organization/application/commands-bus/participants/participants-update.bus';
-import { ParticipantsCreateDto } from '@presentation/pages/team-organization/application/dto/participants/participants-create.dto';
-import { ParticipantsDeleteDto } from '@presentation/pages/team-organization/application/dto/participants/participants-delete.dto';
-import { ParticipantsDisableDto } from '@presentation/pages/team-organization/application/dto/participants/participants-disable.dto';
-import { ParticipantsEnableDto } from '@presentation/pages/team-organization/application/dto/participants/participants-enable.dto';
-import { ParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/participants/participants-filter.dto';
-import { ParticipantsUpdateDto } from '@presentation/pages/team-organization/application/dto/participants/participants-update.dto';
-import { ParticipantsQuery } from '@presentation/pages/team-organization/application/queries/participants/participants.query';
-import { ParticipantsBus } from '@presentation/pages/team-organization/application/queries-bus/participants/participants.bus';
-import { ParticipantsEntity } from '@presentation/pages/team-organization/domain/entities/participants/participants.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

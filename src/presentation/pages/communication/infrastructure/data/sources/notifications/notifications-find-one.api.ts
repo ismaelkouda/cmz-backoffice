@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { COMMUNICATION_BASE_URL } from '@pages/communication/infrastructure/api/communication.base-url';
+import { COMMUNICATION_ENDPOINTS } from '@pages/communication/infrastructure/api/communication.endpoints';
+import { NotificationsFindOneFilterApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-find-one-filter-api.dto';
+import { NotificationsFindOneResponseApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-find-one-response-api.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { COMMUNICATION_BASE_URL } from '@presentation/pages/communication/infrastructure/api/communication.base-url';
-import { COMMUNICATION_ENDPOINTS } from '@presentation/pages/communication/infrastructure/api/communication.endpoints';
-import { NotificationsFindOneFilterApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-find-one-filter-api.dto';
-import { NotificationsFindOneResponseApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-find-one-response-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsFindOneApi {

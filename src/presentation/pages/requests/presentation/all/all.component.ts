@@ -18,8 +18,11 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-
+import { AllFacade } from '@pages/requests/application/services/all/all.facade';
+import { ALL_TABLE } from '@pages/requests/domain/constants/all/all-table.constants';
+import { AllFilterControl } from '@pages/requests/domain/controls/all/all-filter-control';
+import { AllEntity } from '@pages/requests/domain/entities/all/all.entity';
+import { Status } from '@pages/requests/domain/enums/all/all-status.enum';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -36,12 +39,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-
-import { AllFacade } from '@presentation/pages/requests/application/services/all/all.facade';
-import { ALL_TABLE } from '@presentation/pages/requests/domain/constants/all/all-table.constants';
-import { AllFilterControl } from '@presentation/pages/requests/domain/controls/all/all-filter-control';
-import { AllEntity } from '@presentation/pages/requests/domain/entities/all/all.entity';
-import { Status } from '@presentation/pages/requests/domain/enums/all/all-status.enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-all',

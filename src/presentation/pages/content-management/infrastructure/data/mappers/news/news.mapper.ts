@@ -1,15 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-
+import {
+    NewsEntity,
+    NewsProps,
+} from '@pages/content-management/domain/entities/news/news.entity';
+import { NewsItemApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-response-api.dto';
 import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import {
-    NewsEntity,
-    NewsProps,
-} from '@presentation/pages/content-management/domain/entities/news/news.entity';
-import { NewsItemApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/news/news-response-api.dto';
 
 @Injectable({
     providedIn: 'root',

@@ -1,4 +1,4 @@
-import { PrivacyPolicyUpdateVo } from '@presentation/pages/content-management/domain/value-objects/privacy-policy/privacy-policy-update.vo';
+import { PrivacyPolicyUpdateVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-update.vo';
 
 export class PrivacyPolicyUpdateEntity {
     constructor(

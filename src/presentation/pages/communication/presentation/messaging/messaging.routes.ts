@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
-
+import { MessagingFormComponent } from '@pages/communication/presentation/messaging/messaging-form/messaging-form.component';
+import { MessagingListComponent } from '@pages/communication/presentation/messaging/messaging-list/messaging-list.component';
+import { MessagingPageComponent } from '@pages/communication/presentation/messaging/messaging-page/messaging-page.component';
 import { HistoryComponent } from '@shared/components/history/history.component';
-
-import { MessagingFormComponent } from '@presentation/pages/communication/presentation/messaging/messaging-form/messaging-form.component';
-import { MessagingListComponent } from '@presentation/pages/communication/presentation/messaging/messaging-list/messaging-list.component';
-import { MessagingPageComponent } from '@presentation/pages/communication/presentation/messaging/messaging-page/messaging-page.component';
 
 export const MESSAGING_LIST = 'list';
 export const MESSAGING_FORM = 'form';

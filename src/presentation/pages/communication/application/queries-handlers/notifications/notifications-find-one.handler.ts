@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { NotificationsFindOneQuery } from '@pages/communication/application/queries/notifications/notifications-find-one.query';
+import { NotificationsFindOneUseCase } from '@pages/communication/application/use-cases/notifications/notifications-find-one.use-case';
+import { NotificationsFindOneEntity } from '@pages/communication/domain/entities/notifications/notifications-find-one.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { NotificationsFindOneQuery } from '@presentation/pages/communication/application/queries/notifications/notifications-find-one.query';
-import { NotificationsFindOneUseCase } from '@presentation/pages/communication/application/use-cases/notifications/notifications-find-one.use-case';
-import { NotificationsFindOneEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-find-one.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsFindOneHandler {

@@ -21,6 +21,19 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ProfilesPermissionsFindOneFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-find-one.facade';
+import { ProfilesPermissionsPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-permissions.facade';
+import { ProfilesPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
+import { ProfilesPermissionsFormControls } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-form.control';
+import { ProfilesPermissionsFormHelperService } from '@pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-helper.service';
+import { ProfilesPermissionsFormValidationService } from '@pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-validation.service';
+import { FormValidators } from '@pages/settings-security/domain/validators/form-validators';
+import { ProfilesPermissionsFormSkeletonComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-form-skeleton/profiles-permissions-form-skeleton.component';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
+import { PermissionTreeService } from '@shared/domain/services/permission-tree-node.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -32,21 +45,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
-import { PermissionTreeService } from '@shared/domain/services/permission-tree-node.service';
-
-import { ProfilesPermissionsFindOneFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions-find-one.facade';
-import { ProfilesPermissionsPermissionsFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions-permissions.facade';
-import { ProfilesPermissionsFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
-import { ProfilesPermissionsFormControls } from '@presentation/pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-form.control';
-import { ProfilesPermissionsFormHelperService } from '@presentation/pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-helper.service';
-import { ProfilesPermissionsFormValidationService } from '@presentation/pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-validation.service';
-import { FormValidators } from '@presentation/pages/settings-security/domain/validators/form-validators';
-import { ProfilesPermissionsFormSkeletonComponent } from '@presentation/pages/settings-security/presentation/profiles-permissions/profiles-permissions-form-skeleton/profiles-permissions-form-skeleton.component';
 
 @Component({
     selector: 'app-profiles-permissions-form',

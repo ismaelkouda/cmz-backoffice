@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
-
+import { ParticipantsFormComponent } from '@pages/team-organization/presentation/participants/participants-form/participants-form.component';
+import { ParticipantsListComponent } from '@pages/team-organization/presentation/participants/participants-list/participants-list.component';
+import { ParticipantsPageComponent } from '@pages/team-organization/presentation/participants/participants-page/participants-page.component';
 import { HistoryComponent } from '@shared/components/history/history.component';
-
-import { ParticipantsFormComponent } from '@presentation/pages/team-organization/presentation/participants/participants-form/participants-form.component';
-import { ParticipantsListComponent } from '@presentation/pages/team-organization/presentation/participants/participants-list/participants-list.component';
-import { ParticipantsPageComponent } from '@presentation/pages/team-organization/presentation/participants/participants-page/participants-page.component';
 
 export const PARTICIPANTS_LIST = 'list';
 export const PARTICIPANTS_FORM = 'form';

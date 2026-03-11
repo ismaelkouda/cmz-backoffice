@@ -1,5 +1,5 @@
-import { HomeFilterEntity } from '@presentation/pages/content-management/domain/entities/home/home-filter.entity';
-import { HomeFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/home/home-filter-api.dto';
+import { HomeFilterEntity } from '@pages/content-management/domain/entities/home/home-filter.entity';
+import { HomeFilterApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-filter-api.dto';
 
 export function homeFilterMapper(entity: HomeFilterEntity): HomeFilterApiDto {
     const params: HomeFilterApiDto = {} as HomeFilterApiDto;

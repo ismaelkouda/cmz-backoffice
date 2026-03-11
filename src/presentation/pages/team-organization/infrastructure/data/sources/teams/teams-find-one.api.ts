@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { TeamsFindOneFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-find-one-filter-api.dto';
+import { TeamsFindOneResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-find-one-response-api.dto';
+import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { Observable } from 'rxjs';
-
-import { TeamsFindOneFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-find-one-filter-api.dto';
-import { TeamsFindOneResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/teams/teams-find-one-response-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
-import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsFindOneApi {

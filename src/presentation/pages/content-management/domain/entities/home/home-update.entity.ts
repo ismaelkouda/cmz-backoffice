@@ -1,6 +1,5 @@
+import { HomeUpdateVo } from '@pages/content-management/domain/value-objects/home/home-update.vo';
 import { Platform } from '@shared/domain/enums/platform.enum';
-
-import { HomeUpdateVo } from '@presentation/pages/content-management/domain/value-objects/home/home-update.vo';
 
 export class HomeUpdateEntity {
     constructor(

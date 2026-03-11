@@ -1,4 +1,4 @@
-import { LegalNoticeFindOneFilterVo } from '@presentation/pages/content-management/domain/value-objects/legal-notice/legal-notice-find-one-filter.vo';
+import { LegalNoticeFindOneFilterVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-find-one-filter.vo';
 
 export class LegalNoticeFindOneFilterEntity {
     constructor(public readonly uniqId: string) {}

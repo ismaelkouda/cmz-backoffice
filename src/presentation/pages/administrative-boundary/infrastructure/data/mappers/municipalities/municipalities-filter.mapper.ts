@@ -1,6 +1,6 @@
-import { MunicipalitiesFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
-import { MunicipalitiesFilterApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-filter-api.dto';
-import { StatusMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-status.mapper';
+import { MunicipalitiesFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
+import { MunicipalitiesFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-filter-api.dto';
+import { StatusMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-status.mapper';
 
 export function municipalitiesFilterMapper(
     filter: MunicipalitiesFilterEntity

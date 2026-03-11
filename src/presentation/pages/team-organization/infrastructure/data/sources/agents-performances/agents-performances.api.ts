@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { AgentsPerformancesFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-filter-api.dto';
+import { AgentsPerformancesResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-response-api.dto';
+import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { AgentsPerformancesFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-filter-api.dto';
-import { AgentsPerformancesResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-response-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
-import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AgentsPerformancesApi {

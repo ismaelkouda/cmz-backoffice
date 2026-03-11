@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DepartmentsCreateCommand } from '@pages/administrative-boundary/application/commands/departments/departments-create.command';
+import { DepartmentsCreateHandler } from '@pages/administrative-boundary/application/commands-handlers/departments/departments-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { DepartmentsCreateCommand } from '@presentation/pages/administrative-boundary/application/commands/departments/departments-create.command';
-import { DepartmentsCreateHandler } from '@presentation/pages/administrative-boundary/application/commands-handlers/departments/departments-create.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsCreateBus {

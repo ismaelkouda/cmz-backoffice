@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { DetailsFilterApiDto } from '@pages/processing/infrastructure/api/dto/details/details-filter-api.dto';
+import { DetailsResponseApiDto } from '@pages/processing/infrastructure/api/dto/details/details-response-api.dto';
+import { DetailsTakeApiDto } from '@pages/processing/infrastructure/api/dto/details/details-take-api.dto';
+import { DetailsTreatApiDto } from '@pages/processing/infrastructure/api/dto/details/details-treat-api.dto';
+import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { DetailsFilterApiDto } from '@presentation/pages/processing/infrastructure/api/dto/details/details-filter-api.dto';
-import { DetailsResponseApiDto } from '@presentation/pages/processing/infrastructure/api/dto/details/details-response-api.dto';
-import { DetailsTakeApiDto } from '@presentation/pages/processing/infrastructure/api/dto/details/details-take-api.dto';
-import { DetailsTreatApiDto } from '@presentation/pages/processing/infrastructure/api/dto/details/details-treat-api.dto';
-import { PROCESSING_BASE_URL } from '@presentation/pages/processing/infrastructure/api/processing.base-url';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsApi {

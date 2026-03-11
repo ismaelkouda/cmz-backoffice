@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
+import { RegionsFindOneFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one-filter.entity';
+import { RegionsFindOneEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
+import { RegionsFindOneRepository } from '@pages/administrative-boundary/domain/repositories/regions/regions-find-one-repository';
+import { RegionsFindOneFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-find-one-filter.vo';
 import { Observable } from 'rxjs';
-
-import { RegionsFindOneFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-find-one-filter.entity';
-import { RegionsFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
-import { RegionsFindOneRepository } from '@presentation/pages/administrative-boundary/domain/repositories/regions/regions-find-one-repository';
-import { RegionsFindOneFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-find-one-filter.vo';
 
 import { RegionsFindOneFilterDto } from '../../dto/regions/regions-find-one-filter.dto';
 

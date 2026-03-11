@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
+import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
+import { LegalNoticeCreateApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-create-api.dto';
+import { LegalNoticeDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-delete-api.dto';
+import { LegalNoticeFilterApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-filter-api.dto';
+import { LegalNoticePublishApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-publish-api.dto';
+import { LegalNoticeResponseApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-response-api.dto';
+import { LegalNoticeUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-unpublish-api.dto';
+import { LegalNoticeUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
-
-import { CONTENT_MANAGEMENT_BASE_URL } from '@presentation/pages/content-management/infrastructure/api/content-management.base-url';
-import { CONTENT_MANAGEMENT_ENDPOINTS } from '@presentation/pages/content-management/infrastructure/api/content-management.endpoints';
-import { LegalNoticeCreateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-create-api.dto';
-import { LegalNoticeDeleteApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-delete-api.dto';
-import { LegalNoticeFilterApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-filter-api.dto';
-import { LegalNoticePublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-publish-api.dto';
-import { LegalNoticeResponseApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-response-api.dto';
-import { LegalNoticeUnpublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-unpublish-api.dto';
-import { LegalNoticeUpdateApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-update-api.dto';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeApi {

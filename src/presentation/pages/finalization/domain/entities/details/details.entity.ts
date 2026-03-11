@@ -1,3 +1,13 @@
+import { State } from '@pages/finalization/domain/enums/details/details-state/details-state.enum';
+import { DetailsStatus } from '@pages/finalization/domain/enums/details/details-status/details-status.enum';
+import { detailsLabelButtonSubmit } from '@pages/finalization/domain/functions/details/details-label-button-submit.function';
+import { detailsPermissionsFinalize } from '@pages/finalization/domain/functions/details/details-permissions-finalize.function';
+import { detailsPermissionsManage } from '@pages/finalization/domain/functions/details/details-permissions-manage.function';
+import { detailsPermissionsTake } from '@pages/finalization/domain/functions/details/details-permissions-take.function';
+import { detailsTitle } from '@pages/finalization/domain/functions/details/details-title.function';
+import { DetailsProps } from '@pages/finalization/domain/interfaces/details/details-props.interface';
+import { DetailsPermissions } from '@pages/finalization/domain/types/details/details-permissions.type';
+import { DetailsTreaterInfo } from '@pages/finalization/domain/types/details/details-treater-info.type';
 import { managementWorkflowTimestamps } from '@shared/components/management/domain/functions/management-timestamps.function';
 import { ManagementTimestamp } from '@shared/components/management/domain/interfaces/management-timestamps.interface';
 import { ActorEntity } from '@shared/domain/entities/actor.entity';
@@ -8,17 +18,6 @@ import { TimestampsEntity } from '@shared/domain/entities/timestamps.entity';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
-
-import { State } from '@presentation/pages/finalization/domain/enums/details/details-state/details-state.enum';
-import { DetailsStatus } from '@presentation/pages/finalization/domain/enums/details/details-status/details-status.enum';
-import { detailsLabelButtonSubmit } from '@presentation/pages/finalization/domain/functions/details/details-label-button-submit.function';
-import { detailsPermissionsFinalize } from '@presentation/pages/finalization/domain/functions/details/details-permissions-finalize.function';
-import { detailsPermissionsManage } from '@presentation/pages/finalization/domain/functions/details/details-permissions-manage.function';
-import { detailsPermissionsTake } from '@presentation/pages/finalization/domain/functions/details/details-permissions-take.function';
-import { detailsTitle } from '@presentation/pages/finalization/domain/functions/details/details-title.function';
-import { DetailsProps } from '@presentation/pages/finalization/domain/interfaces/details/details-props.interface';
-import { DetailsPermissions } from '@presentation/pages/finalization/domain/types/details/details-permissions.type';
-import { DetailsTreaterInfo } from '@presentation/pages/finalization/domain/types/details/details-treater-info.type';
 
 export class DetailsEntity {
     constructor(private readonly props: DetailsProps) {}

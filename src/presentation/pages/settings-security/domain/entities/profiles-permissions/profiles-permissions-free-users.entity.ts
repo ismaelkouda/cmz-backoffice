@@ -1,4 +1,4 @@
-import { ProfilesPermissionsFreeUsersItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-response-api.dto';
+import { ProfilesPermissionsFreeUsersItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-response-api.dto';
 
 export class ProfilesPermissionsFreeUsersEntity {
     constructor(

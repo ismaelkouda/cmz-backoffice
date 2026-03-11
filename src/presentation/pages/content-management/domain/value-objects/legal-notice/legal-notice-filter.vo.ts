@@ -1,4 +1,4 @@
-import { LegalNoticeFilterDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-filter.dto';
+import { LegalNoticeFilterDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-filter.dto';
 
 export class LegalNoticeFilterVo {
     public readonly search?: string;

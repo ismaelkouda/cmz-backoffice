@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { NewsFindOneFilterDto } from '@pages/content-management/application/dto/news/news-find-one-filter.dto';
+import { NewsFindOneQuery } from '@pages/content-management/application/queries/news/news-find-one.query';
+import { NewsFindOneBus } from '@pages/content-management/application/queries-bus/news/news-find-one.bus';
+import { NewsFindOneEntity } from '@pages/content-management/domain/entities/news/news-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { NewsFindOneFilterDto } from '@presentation/pages/content-management/application/dto/news/news-find-one-filter.dto';
-import { NewsFindOneQuery } from '@presentation/pages/content-management/application/queries/news/news-find-one.query';
-import { NewsFindOneBus } from '@presentation/pages/content-management/application/queries-bus/news/news-find-one.bus';
-import { NewsFindOneEntity } from '@presentation/pages/content-management/domain/entities/news/news-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

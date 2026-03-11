@@ -1,3 +1,7 @@
+import { ProcessingState } from '@pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
+import { State } from '@pages/processing/domain/enums/details/details-state/details-state.enum';
+import { DetailsStatus } from '@pages/processing/domain/enums/details/details-status/details-status.enum';
+import { DetailsTreaterInfo } from '@pages/processing/domain/types/details/details-treater-info.type';
 import { ActorEntity } from '@shared/domain/entities/actor.entity';
 import { AdministrativeBoundaryEntity } from '@shared/domain/entities/administrative-boundary.entity';
 import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
@@ -6,11 +10,6 @@ import { TimestampsEntity } from '@shared/domain/entities/timestamps.entity';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
-
-import { ProcessingState } from '@presentation/pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
-import { State } from '@presentation/pages/processing/domain/enums/details/details-state/details-state.enum';
-import { DetailsStatus } from '@presentation/pages/processing/domain/enums/details/details-status/details-status.enum';
-import { DetailsTreaterInfo } from '@presentation/pages/processing/domain/types/details/details-treater-info.type';
 
 export interface DetailsProps {
     type: string;

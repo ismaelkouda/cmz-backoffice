@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsCreateCommand } from '@pages/team-organization/application/commands/teams/teams-create.command';
+import { TeamsCreateHandler } from '@pages/team-organization/application/commands-handlers/teams/teams-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsCreateCommand } from '@presentation/pages/team-organization/application/commands/teams/teams-create.command';
-import { TeamsCreateHandler } from '@presentation/pages/team-organization/application/commands-handlers/teams/teams-create.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsCreateBus {

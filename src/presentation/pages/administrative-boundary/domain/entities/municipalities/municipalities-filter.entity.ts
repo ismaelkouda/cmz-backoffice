@@ -1,7 +1,6 @@
+import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
+import { MunicipalitiesFilterVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
-import { MunicipalitiesFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-filter.vo';
 
 export class MunicipalitiesFilterEntity {
     constructor(

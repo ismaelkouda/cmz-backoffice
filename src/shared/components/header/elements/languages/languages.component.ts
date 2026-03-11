@@ -5,9 +5,8 @@ import {
     inject,
     signal,
 } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-
 import { TranslationManagerService } from '@core/services/translation-manager.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface LanguageOption {
     code: string;

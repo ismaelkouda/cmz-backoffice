@@ -1,4 +1,4 @@
-import { ProfilesPermissionsFreeUsersAssignVo } from '@presentation/pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-free-users-assign.vo';
+import { ProfilesPermissionsFreeUsersAssignVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-free-users-assign.vo';
 
 export class ProfilesPermissionsFreeUsersAssignEntity {
     constructor(

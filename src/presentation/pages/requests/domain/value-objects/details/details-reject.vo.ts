@@ -1,4 +1,4 @@
-import { DetailsRejectDto } from '@presentation/pages/requests/application/dto/details/details-reject.dto';
+import { DetailsRejectDto } from '@pages/requests/application/dto/details/details-reject.dto';
 
 export class DetailsRejectVo {
     public readonly uniqId: string;

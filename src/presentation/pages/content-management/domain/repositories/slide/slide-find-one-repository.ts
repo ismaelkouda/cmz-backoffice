@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
+import { SlideFindOneFilterEntity } from '@pages/content-management/domain/entities/slide/slide-find-one-filter.entity';
+import { SlideFindOneEntity } from '@pages/content-management/domain/entities/slide/slide-find-one.entity';
 import { Observable } from 'rxjs';
-
-import { SlideFindOneFilterEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-find-one-filter.entity';
-import { SlideFindOneEntity } from '@presentation/pages/content-management/domain/entities/slide/slide-find-one.entity';
 
 @Injectable({
     providedIn: 'root',

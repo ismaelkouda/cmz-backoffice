@@ -13,11 +13,11 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
-import { map, tap } from 'rxjs';
-
+import { DEPARTMENTS_ROUTE } from '@pages/administrative-boundary/administrative-boundary.routes';
+import { MunicipalitiesByDepartmentIdFacade } from '@pages/administrative-boundary/application/services/departments/municipalities-by-department-id.facade';
+import { MUNICIPALITIES_BY_DEPARTMENT_ID_TABLE_CONST } from '@pages/administrative-boundary/domain/constants/departments/municipalities-by-department-id-table.constants';
+import { MunicipalitiesByDepartmentIdFilterControl } from '@pages/administrative-boundary/domain/controls/departments/municipalities-by-department-id-filter.control';
+import { MunicipalitiesByDepartmentIdEntity } from '@pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
@@ -27,12 +27,10 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 import { ADMINISTRATIVE_BOUNDARY_ROUTE } from '@shared/routes/routes';
-
-import { DEPARTMENTS_ROUTE } from '@presentation/pages/administrative-boundary/administrative-boundary.routes';
-import { MunicipalitiesByDepartmentIdFacade } from '@presentation/pages/administrative-boundary/application/services/departments/municipalities-by-department-id.facade';
-import { MUNICIPALITIES_BY_DEPARTMENT_ID_TABLE_CONST } from '@presentation/pages/administrative-boundary/domain/constants/departments/municipalities-by-department-id-table.constants';
-import { MunicipalitiesByDepartmentIdFilterControl } from '@presentation/pages/administrative-boundary/domain/controls/departments/municipalities-by-department-id-filter.control';
-import { MunicipalitiesByDepartmentIdEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
+import { ToastrService } from 'ngx-toastr';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+import { map, tap } from 'rxjs';
 
 @Component({
     selector: 'app-municipalities-by-department-id',

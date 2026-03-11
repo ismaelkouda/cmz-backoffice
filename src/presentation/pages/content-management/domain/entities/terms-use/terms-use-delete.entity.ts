@@ -1,4 +1,4 @@
-import { TermsUseDeleteVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-delete.vo';
+import { TermsUseDeleteVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-delete.vo';
 
 export class TermsUseDeleteEntity {
     constructor(public readonly uniqId: string) {}

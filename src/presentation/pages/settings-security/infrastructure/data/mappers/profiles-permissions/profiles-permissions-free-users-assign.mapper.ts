@@ -1,5 +1,5 @@
-import { ProfilesPermissionsFreeUsersAssignEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-free-users-assign.entity';
-import { ProfilesPermissionsFreeUsersAssignApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-assign-api.dto';
+import { ProfilesPermissionsFreeUsersAssignEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-free-users-assign.entity';
+import { ProfilesPermissionsFreeUsersAssignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-assign-api.dto';
 
 export function profilesPermissionsFreeUsersAssignMapper(
     vo: ProfilesPermissionsFreeUsersAssignEntity

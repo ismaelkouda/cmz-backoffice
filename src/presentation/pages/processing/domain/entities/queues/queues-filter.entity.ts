@@ -1,6 +1,5 @@
+import { QueuesFilterVo } from '@pages/processing/domain/value-objects/queues/queues-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { QueuesFilterVo } from '@presentation/pages/processing/domain/value-objects/queues/queues-filter.vo';
 
 export class QueuesFilterEntity {
     constructor(

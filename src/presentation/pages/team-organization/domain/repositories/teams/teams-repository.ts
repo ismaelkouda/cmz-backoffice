@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TeamsCreateEntity } from '@pages/team-organization/domain/entities/teams/teams-create.entity';
+import { TeamsDeleteEntity } from '@pages/team-organization/domain/entities/teams/teams-delete.entity';
+import { TeamsDisableEntity } from '@pages/team-organization/domain/entities/teams/teams-disable.entity';
+import { TeamsEnableEntity } from '@pages/team-organization/domain/entities/teams/teams-enable.entity';
+import { TeamsFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-filter.entity';
+import { TeamsUpdateEntity } from '@pages/team-organization/domain/entities/teams/teams-update.entity';
+import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { TeamsCreateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-create.entity';
-import { TeamsDeleteEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-delete.entity';
-import { TeamsDisableEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-disable.entity';
-import { TeamsEnableEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-enable.entity';
-import { TeamsFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-filter.entity';
-import { TeamsUpdateEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-update.entity';
-import { TeamsEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

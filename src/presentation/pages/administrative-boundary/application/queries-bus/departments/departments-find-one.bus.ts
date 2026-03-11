@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { DepartmentsFindOneQuery } from '@pages/administrative-boundary/application/queries/departments/departments-find-one.query';
+import { DepartmentsFindOneHandler } from '@pages/administrative-boundary/application/queries-handlers/departments/departments-find-one.handler';
+import { DepartmentsFindOneEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-find-one.entity';
 import { Observable } from 'rxjs';
-
-import { DepartmentsFindOneQuery } from '@presentation/pages/administrative-boundary/application/queries/departments/departments-find-one.query';
-import { DepartmentsFindOneHandler } from '@presentation/pages/administrative-boundary/application/queries-handlers/departments/departments-find-one.handler';
-import { DepartmentsFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/departments/departments-find-one.entity';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsFindOneBus {

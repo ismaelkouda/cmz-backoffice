@@ -1,6 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
-
+import { HomeCreateCommand } from '@pages/content-management/application/commands/home/home-create.command';
+import { HomeDeleteCommand } from '@pages/content-management/application/commands/home/home-delete.command';
+import { HomeDisableCommand } from '@pages/content-management/application/commands/home/home-disable.command';
+import { HomeEnableCommand } from '@pages/content-management/application/commands/home/home-enable.command';
+import { HomeUpdateCommand } from '@pages/content-management/application/commands/home/home-update.command';
+import { HomeCreateBus } from '@pages/content-management/application/commands-bus/home/home-create.bus';
+import { HomeDeleteBus } from '@pages/content-management/application/commands-bus/home/home-delete.bus';
+import { HomeDisableBus } from '@pages/content-management/application/commands-bus/home/home-disable.bus';
+import { HomeEnableBus } from '@pages/content-management/application/commands-bus/home/home-enable.bus';
+import { HomeUpdateBus } from '@pages/content-management/application/commands-bus/home/home-update.bus';
+import { HomeCreateDto } from '@pages/content-management/application/dto/home/home-create.dto';
+import { HomeDeleteDto } from '@pages/content-management/application/dto/home/home-delete.dto';
+import { HomeDisableDto } from '@pages/content-management/application/dto/home/home-disable.dto';
+import { HomeEnableDto } from '@pages/content-management/application/dto/home/home-enable.dto';
+import { HomeFilterDto } from '@pages/content-management/application/dto/home/home-filter.dto';
+import { HomeUpdateDto } from '@pages/content-management/application/dto/home/home-update.dto';
+import { HomeQuery } from '@pages/content-management/application/queries/home/home.query';
+import { HomeBus } from '@pages/content-management/application/queries-bus/home/home.bus';
+import { HomeEntity } from '@pages/content-management/domain/entities/home/home.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -8,26 +25,7 @@ import {
 } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { HomeCreateCommand } from '@presentation/pages/content-management/application/commands/home/home-create.command';
-import { HomeDeleteCommand } from '@presentation/pages/content-management/application/commands/home/home-delete.command';
-import { HomeDisableCommand } from '@presentation/pages/content-management/application/commands/home/home-disable.command';
-import { HomeEnableCommand } from '@presentation/pages/content-management/application/commands/home/home-enable.command';
-import { HomeUpdateCommand } from '@presentation/pages/content-management/application/commands/home/home-update.command';
-import { HomeCreateBus } from '@presentation/pages/content-management/application/commands-bus/home/home-create.bus';
-import { HomeDeleteBus } from '@presentation/pages/content-management/application/commands-bus/home/home-delete.bus';
-import { HomeDisableBus } from '@presentation/pages/content-management/application/commands-bus/home/home-disable.bus';
-import { HomeEnableBus } from '@presentation/pages/content-management/application/commands-bus/home/home-enable.bus';
-import { HomeUpdateBus } from '@presentation/pages/content-management/application/commands-bus/home/home-update.bus';
-import { HomeCreateDto } from '@presentation/pages/content-management/application/dto/home/home-create.dto';
-import { HomeDeleteDto } from '@presentation/pages/content-management/application/dto/home/home-delete.dto';
-import { HomeDisableDto } from '@presentation/pages/content-management/application/dto/home/home-disable.dto';
-import { HomeEnableDto } from '@presentation/pages/content-management/application/dto/home/home-enable.dto';
-import { HomeFilterDto } from '@presentation/pages/content-management/application/dto/home/home-filter.dto';
-import { HomeUpdateDto } from '@presentation/pages/content-management/application/dto/home/home-update.dto';
-import { HomeQuery } from '@presentation/pages/content-management/application/queries/home/home.query';
-import { HomeBus } from '@presentation/pages/content-management/application/queries-bus/home/home.bus';
-import { HomeEntity } from '@presentation/pages/content-management/domain/entities/home/home.entity';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

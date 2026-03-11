@@ -1,12 +1,11 @@
 import { inject, Injectable } from '@angular/core';
+import { TeamsFindOneFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-find-one-filter.entity';
+import { TeamsFindOneEntity } from '@pages/team-organization/domain/entities/teams/teams-find-one.entity';
+import { TeamsFindOneRepository } from '@pages/team-organization/domain/repositories/teams/teams-find-one-repository';
+import { teamsFindOneFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-find-one-filter.mapper';
+import { TeamsFindOneMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-find-one.mapper';
+import { TeamsFindOneApi } from '@pages/team-organization/infrastructure/data/sources/teams/teams-find-one.api';
 import { map, Observable } from 'rxjs';
-
-import { TeamsFindOneFilterEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-find-one-filter.entity';
-import { TeamsFindOneEntity } from '@presentation/pages/team-organization/domain/entities/teams/teams-find-one.entity';
-import { TeamsFindOneRepository } from '@presentation/pages/team-organization/domain/repositories/teams/teams-find-one-repository';
-import { teamsFindOneFilterMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-find-one-filter.mapper';
-import { TeamsFindOneMapper } from '@presentation/pages/team-organization/infrastructure/data/mappers/teams/teams-find-one.mapper';
-import { TeamsFindOneApi } from '@presentation/pages/team-organization/infrastructure/data/sources/teams/teams-find-one.api';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsFindOneRepositoryImpl implements TeamsFindOneRepository {

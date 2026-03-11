@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-
+import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
+import { ProfilesPermissionsItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-response-api.dto';
+import { StatusMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-status.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { ProfilesPermissionsEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
-import { ProfilesPermissionsItemApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-response-api.dto';
-import { StatusMapper } from '@presentation/pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-status.mapper';
 
 @Injectable({
     providedIn: 'root',

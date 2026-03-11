@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { RegionsQuery } from '@pages/administrative-boundary/application/queries/regions/regions.query';
+import { RegionsHandler } from '@pages/administrative-boundary/application/queries-handlers/regions/regions.handler';
+import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { RegionsQuery } from '@presentation/pages/administrative-boundary/application/queries/regions/regions.query';
-import { RegionsHandler } from '@presentation/pages/administrative-boundary/application/queries-handlers/regions/regions.handler';
-import { RegionsEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsBus {

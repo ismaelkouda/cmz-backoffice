@@ -19,6 +19,16 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ProfilesPermissionsSelectFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-select.facade';
+import { ResponsibilitiesSelectFacade } from '@pages/settings-security/application/services/users/responsibilities-select.facade';
+import { UsersFindOneFacade } from '@pages/settings-security/application/services/users/users-find-one.facade';
+import { UsersFacade } from '@pages/settings-security/application/services/users/users.facade';
+import { UsersFormControl } from '@pages/settings-security/domain/controls/users/users-form.control';
+import { ProfilesPermissionsSelectEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
+import { FormValidators } from '@pages/settings-security/domain/validators/form-validators';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -30,18 +40,6 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-
-import { ProfilesPermissionsSelectFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions-select.facade';
-import { ResponsibilitiesSelectFacade } from '@presentation/pages/settings-security/application/services/users/responsibilities-select.facade';
-import { UsersFindOneFacade } from '@presentation/pages/settings-security/application/services/users/users-find-one.facade';
-import { UsersFacade } from '@presentation/pages/settings-security/application/services/users/users.facade';
-import { UsersFormControl } from '@presentation/pages/settings-security/domain/controls/users/users-form.control';
-import { ProfilesPermissionsSelectEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
-import { FormValidators } from '@presentation/pages/settings-security/domain/validators/form-validators';
 
 import { UsersFormHelperService } from './users-form-helper.service';
 import { UsersFormValidationService } from './users-form-validation.service';
@@ -147,7 +145,7 @@ export class UsersFormComponent implements OnInit {
     });
 
     readonly responsibilities = toSignal(this.responsibilitiesFacade.items$, {
-        initialValue: [] as ProfilesPermissionsSelectEntity[],
+        initialValue: null,
     });
     readonly loadingResponsibilities = toSignal(
         this.responsibilitiesFacade.isLoading$,

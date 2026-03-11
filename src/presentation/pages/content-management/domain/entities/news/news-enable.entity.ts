@@ -1,4 +1,4 @@
-import { NewsEnableVo } from '@presentation/pages/content-management/domain/value-objects/news/news-enable.vo';
+import { NewsEnableVo } from '@pages/content-management/domain/value-objects/news/news-enable.vo';
 
 export class NewsEnableEntity {
     constructor(public readonly uniqId: string) {}

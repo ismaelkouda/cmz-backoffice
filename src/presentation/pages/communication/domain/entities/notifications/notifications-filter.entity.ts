@@ -1,6 +1,5 @@
+import { NotificationsFilterVo } from '@pages/communication/domain/value-objects/notifications/notifications-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { NotificationsFilterVo } from '@presentation/pages/communication/domain/value-objects/notifications/notifications-filter.vo';
 
 export class NotificationsFilterEntity {
     constructor(

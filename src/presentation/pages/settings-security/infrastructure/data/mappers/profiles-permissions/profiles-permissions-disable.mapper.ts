@@ -1,5 +1,5 @@
-import { ProfilesPermissionsDisableEntity } from '@presentation/pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-disable.entity';
-import { ProfilesPermissionsDisableApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-disable-api.dto';
+import { ProfilesPermissionsDisableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-disable.entity';
+import { ProfilesPermissionsDisableApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-disable-api.dto';
 
 export function profilesPermissionsDisableMapper(
     vo: ProfilesPermissionsDisableEntity

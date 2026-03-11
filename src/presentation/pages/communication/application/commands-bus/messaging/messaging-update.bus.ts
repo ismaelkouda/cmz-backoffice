@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { MessagingUpdateCommand } from '@pages/communication/application/commands/messaging/messaging-update.command';
+import { MessagingUpdateHandler } from '@pages/communication/application/commands-handlers/messaging/messaging-update.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { MessagingUpdateCommand } from '@presentation/pages/communication/application/commands/messaging/messaging-update.command';
-import { MessagingUpdateHandler } from '@presentation/pages/communication/application/commands-handlers/messaging/messaging-update.handler';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingUpdateBus {

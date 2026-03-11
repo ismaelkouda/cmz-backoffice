@@ -1,23 +1,21 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
-
+import { MunicipalitiesCreateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
+import { MunicipalitiesDeleteEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
+import { MunicipalitiesFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
+import { MunicipalitiesUpdateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
+import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { MunicipalitiesRepository } from '@pages/administrative-boundary/domain/repositories/municipalities/municipalities-repository';
+import { municipalitiesCreateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-create.mapper';
+import { municipalitiesDeleteMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-delete.mapper';
+import { municipalitiesFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-filter.mapper';
+import { municipalitiesUpdateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-update.mapper';
+import { MunicipalitiesMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities.mapper';
+import { MunicipalitiesApi } from '@pages/administrative-boundary/infrastructure/data/sources/municipalities/municipalities.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { MunicipalitiesCreateEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
-import { MunicipalitiesDeleteEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
-import { MunicipalitiesFilterEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
-import { MunicipalitiesUpdateEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
-import { MunicipalitiesEntity } from '@presentation/pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
-import { MunicipalitiesRepository } from '@presentation/pages/administrative-boundary/domain/repositories/municipalities/municipalities-repository';
-import { municipalitiesCreateMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-create.mapper';
-import { municipalitiesDeleteMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-delete.mapper';
-import { municipalitiesFilterMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-filter.mapper';
-import { municipalitiesUpdateMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-update.mapper';
-import { MunicipalitiesMapper } from '@presentation/pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities.mapper';
-import { MunicipalitiesApi } from '@presentation/pages/administrative-boundary/infrastructure/data/sources/municipalities/municipalities.api';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesRepositoryImpl implements MunicipalitiesRepository {

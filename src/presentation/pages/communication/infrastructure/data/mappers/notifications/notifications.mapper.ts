@@ -1,12 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-
+import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
+import { NotificationsProps } from '@pages/communication/domain/interfaces/notifications/notifications-props.interface';
+import { NotificationsItemApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-response-api.dto';
+import { StatusMapper } from '@pages/communication/infrastructure/data/mappers/notifications/notifications-status.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { NotificationsEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications.entity';
-import { NotificationsProps } from '@presentation/pages/communication/domain/interfaces/notifications/notifications-props.interface';
-import { NotificationsItemApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-response-api.dto';
-import { StatusMapper } from '@presentation/pages/communication/infrastructure/data/mappers/notifications/notifications-status.mapper';
 
 @Injectable({
     providedIn: 'root',

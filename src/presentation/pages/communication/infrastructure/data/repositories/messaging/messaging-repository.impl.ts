@@ -1,27 +1,25 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
+import { MessagingCreateEntity } from '@pages/communication/domain/entities/messaging/messaging-create.entity';
+import { MessagingDeleteEntity } from '@pages/communication/domain/entities/messaging/messaging-delete.entity';
+import { MessagingDisableEntity } from '@pages/communication/domain/entities/messaging/messaging-disable.entity';
+import { MessagingEnableEntity } from '@pages/communication/domain/entities/messaging/messaging-enable.entity';
+import { MessagingFilterEntity } from '@pages/communication/domain/entities/messaging/messaging-filter.entity';
+import { MessagingUpdateEntity } from '@pages/communication/domain/entities/messaging/messaging-update.entity';
+import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
+import { MessagingRepository } from '@pages/communication/domain/repositories/messaging/messaging-repository';
+import { messagingCreateMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-create.mapper';
+import { messagingDeleteMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-delete.mapper';
+import { messagingDisableMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-disable.mapper';
+import { messagingEnableMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-enable.mapper';
+import { messagingFilterMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-filter.mapper';
+import { messagingUpdateMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-update.mapper';
+import { MessagingMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging.mapper';
+import { MessagingApi } from '@pages/communication/infrastructure/data/sources/messaging/messaging.api';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { MessagingCreateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-create.entity';
-import { MessagingDeleteEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-delete.entity';
-import { MessagingDisableEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-disable.entity';
-import { MessagingEnableEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-enable.entity';
-import { MessagingFilterEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-filter.entity';
-import { MessagingUpdateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-update.entity';
-import { MessagingEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging.entity';
-import { MessagingRepository } from '@presentation/pages/communication/domain/repositories/messaging/messaging-repository';
-import { messagingCreateMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging-create.mapper';
-import { messagingDeleteMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging-delete.mapper';
-import { messagingDisableMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging-disable.mapper';
-import { messagingEnableMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging-enable.mapper';
-import { messagingFilterMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging-filter.mapper';
-import { messagingUpdateMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging-update.mapper';
-import { MessagingMapper } from '@presentation/pages/communication/infrastructure/data/mappers/messaging/messaging.mapper';
-import { MessagingApi } from '@presentation/pages/communication/infrastructure/data/sources/messaging/messaging.api';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

@@ -1,4 +1,4 @@
-import { LegalNoticeCreateDto } from '@presentation/pages/content-management/application/dto/legal-notice/legal-notice-create.dto';
+import { LegalNoticeCreateDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-create.dto';
 
 export class LegalNoticeCreateVo {
     public readonly version: string;

@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-
+import { AllEntity } from '@pages/finalization/domain/entities/all/all.entity';
+import { AllProps } from '@pages/finalization/domain/interfaces/all/all-props.interface';
+import { AllItemApiDto } from '@pages/finalization/infrastructure/api/dto/all/all-response-api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { AllEntity } from '@presentation/pages/finalization/domain/entities/all/all.entity';
-import { AllProps } from '@presentation/pages/finalization/domain/interfaces/all/all-props.interface';
-import { AllItemApiDto } from '@presentation/pages/finalization/infrastructure/api/dto/all/all-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {

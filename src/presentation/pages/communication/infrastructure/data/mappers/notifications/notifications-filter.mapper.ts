@@ -1,5 +1,5 @@
-import { NotificationsFilterEntity } from '@presentation/pages/communication/domain/entities/notifications/notifications-filter.entity';
-import { NotificationsFilterApiDto } from '@presentation/pages/communication/infrastructure/api/dto/notifications/notifications-filter-api.dto';
+import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
+import { NotificationsFilterApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-filter-api.dto';
 
 export function NotificationsFilterMapper(
     vo: NotificationsFilterEntity

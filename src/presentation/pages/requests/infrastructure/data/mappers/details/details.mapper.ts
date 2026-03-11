@@ -1,5 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-
+import { DetailsEntity } from '@pages/requests/domain/entities/details/details.entity';
+import { DetailsQualificationState } from '@pages/requests/domain/enums/details/details-qualification-state/details-qualification-state.enum';
+import { DetailsProps } from '@pages/requests/domain/interfaces/details/details-props.interface';
+import { DetailsItemApiDto } from '@pages/requests/infrastructure/api/dto/details/details-response-api.dto';
+import { StatusMapper } from '@pages/requests/infrastructure/data/mappers/details/details-status.mapper';
 import { ActorMapper } from '@shared/data/mappers/actor.mapper';
 import { AdministrativeBoundaryMapper } from '@shared/data/mappers/administrative-boundary.mapper';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
@@ -11,12 +15,6 @@ import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.map
 import { TimestampsMapper } from '@shared/data/mappers/timestamps.mapper';
 import { TreaterInfoMapper } from '@shared/data/mappers/treater-info.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-
-import { DetailsEntity } from '@presentation/pages/requests/domain/entities/details/details.entity';
-import { DetailsQualificationState } from '@presentation/pages/requests/domain/enums/details/details-qualification-state/details-qualification-state.enum';
-import { DetailsProps } from '@presentation/pages/requests/domain/interfaces/details/details-props.interface';
-import { DetailsItemApiDto } from '@presentation/pages/requests/infrastructure/api/dto/details/details-response-api.dto';
-import { StatusMapper } from '@presentation/pages/requests/infrastructure/data/mappers/details/details-status.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsMapper extends SimpleResponseMapper<

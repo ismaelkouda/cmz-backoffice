@@ -1,7 +1,6 @@
+import { Status } from '@pages/administrative-boundary/domain/enums/regions/regions-status.enum';
+import { RegionsFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
-import { Status } from '@presentation/pages/administrative-boundary/domain/enums/regions/regions-status.enum';
-import { RegionsFilterVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-filter.vo';
 
 export class RegionsFilterEntity {
     constructor(

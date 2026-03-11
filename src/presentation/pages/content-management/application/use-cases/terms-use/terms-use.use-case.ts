@@ -1,31 +1,29 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { TermsUseCreateDto } from '@pages/content-management/application/dto/terms-use/terms-use-create.dto';
+import { TermsUseDeleteDto } from '@pages/content-management/application/dto/terms-use/terms-use-delete.dto';
+import { TermsUseFilterDto } from '@pages/content-management/application/dto/terms-use/terms-use-filter.dto';
+import { TermsUsePublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-publish.dto';
+import { TermsUseUnpublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-unpublish.dto';
+import { TermsUseUpdateDto } from '@pages/content-management/application/dto/terms-use/terms-use-update.dto';
+import { TermsUseCreateEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-create.entity';
+import { TermsUseDeleteEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-delete.entity';
+import { TermsUseFilterEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
+import { TermsUsePublishEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-publish.entity';
+import { TermsUseUnpublishEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-unpublish.entity';
+import { TermsUseUpdateEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-update.entity';
+import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
+import { TermsUseRepository } from '@pages/content-management/domain/repositories/terms-use/terms-use-repository';
+import { TermsUseCreateVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-create.vo';
+import { TermsUseDeleteVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-delete.vo';
+import { TermsUseFilterVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-filter.vo';
+import { TermsUsePublishVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-publish.vo';
+import { TermsUseUnpublishVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-unpublish.vo';
+import { TermsUseUpdateVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-
-import { TermsUseCreateDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-create.dto';
-import { TermsUseDeleteDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-delete.dto';
-import { TermsUseFilterDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-filter.dto';
-import { TermsUsePublishDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-publish.dto';
-import { TermsUseUnpublishDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-unpublish.dto';
-import { TermsUseUpdateDto } from '@presentation/pages/content-management/application/dto/terms-use/terms-use-update.dto';
-import { TermsUseCreateEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-create.entity';
-import { TermsUseDeleteEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-delete.entity';
-import { TermsUseFilterEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
-import { TermsUsePublishEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-publish.entity';
-import { TermsUseUnpublishEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-unpublish.entity';
-import { TermsUseUpdateEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use-update.entity';
-import { TermsUseEntity } from '@presentation/pages/content-management/domain/entities/terms-use/terms-use.entity';
-import { TermsUseRepository } from '@presentation/pages/content-management/domain/repositories/terms-use/terms-use-repository';
-import { TermsUseCreateVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-create.vo';
-import { TermsUseDeleteVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-delete.vo';
-import { TermsUseFilterVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-filter.vo';
-import { TermsUsePublishVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-publish.vo';
-import { TermsUseUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-unpublish.vo';
-import { TermsUseUpdateVo } from '@presentation/pages/content-management/domain/value-objects/terms-use/terms-use-update.vo';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

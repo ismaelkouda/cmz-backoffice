@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { AccessLogsQuery } from '@pages/settings-security/application/queries/access-logs/access-logs.query';
+import { AccessLogsUseCase } from '@pages/settings-security/application/use-cases/access-logs/access-logs.use-case';
+import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-
-import { AccessLogsQuery } from '@presentation/pages/settings-security/application/queries/access-logs/access-logs.query';
-import { AccessLogsUseCase } from '@presentation/pages/settings-security/application/use-cases/access-logs/access-logs.use-case';
-import { AccessLogsEntity } from '@presentation/pages/settings-security/domain/entities/access-logs/access-logs.entity';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AccessLogsHandler {

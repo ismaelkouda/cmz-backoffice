@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
+import { AgentsPerformancesFindOneFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-find-one-filter-api.dto';
+import { AgentsPerformancesFindOneResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-find-one-response-api.dto';
+import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
-
-import { AgentsPerformancesFindOneFilterApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-find-one-filter-api.dto';
-import { AgentsPerformancesFindOneResponseApiDto } from '@presentation/pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-find-one-response-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@presentation/pages/team-organization/infrastructure/api/team-organization.base-url';
-import { TEAM_ORGANIZATION_ENDPOINTS } from '@presentation/pages/team-organization/infrastructure/api/team-organization.endpoints';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AgentsPerformancesFindOneApi {

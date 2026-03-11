@@ -1,5 +1,5 @@
-import { PrivacyPolicyUnpublishEntity } from '@presentation/pages/content-management/domain/entities/privacy-policy/privacy-policy-unpublish.entity';
-import { PrivacyPolicyUnpublishApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-unpublish-api.dto';
+import { PrivacyPolicyUnpublishEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-unpublish.entity';
+import { PrivacyPolicyUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-unpublish-api.dto';
 
 export function privacyPolicyUnpublishMapper(
     vo: PrivacyPolicyUnpublishEntity
