@@ -49,6 +49,7 @@ export class ImageUploadComponent implements ControlValueAccessor {
 
     readonly imageSelected = output<ImageSelectedResult>();
     readonly imageError = output<ImageUploadError>();
+    readonly viewImage = output();
 
     readonly status = signal<ImageUploadStatus>('idle');
     readonly isDragging = signal(false);
@@ -64,6 +65,10 @@ export class ImageUploadComponent implements ControlValueAccessor {
     private onTouched: () => void = () => {
         /* empty */
     };
+
+    public openPreview(): void {
+        this.viewImage.emit();
+    }
 
     /* private createPreview(file: File): void {
         const url = URL.createObjectURL(file);
