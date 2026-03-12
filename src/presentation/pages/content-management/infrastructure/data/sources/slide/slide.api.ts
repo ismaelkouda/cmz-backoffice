@@ -9,6 +9,7 @@ import { SlideResponseApiDto } from '@pages/content-management/infrastructure/ap
 import { SlideUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-update-api.dto';
 import { SlideDisableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-disable-api.dto';
 import { SlideEnableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-enable-api.dto';
+import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
@@ -37,13 +38,15 @@ export class SlideApi {
     create(apiDto: SlideCreateApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}/store`;
         const payload = buildHttpPayload(apiDto, []);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        const formData = formDataBuilder(payload);
+        return this.http.post<SimpleResponseDto<void>>(url, formData);
     }
 
     update(apiDto: SlideUpdateApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}/${apiDto.id}/update`;
         const payload = buildHttpPayload(apiDto, ['id']);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        const formData = formDataBuilder(payload);
+        return this.http.post<SimpleResponseDto<void>>(url, formData);
     }
 
     delete(apiDto: SlideDeleteApiDto): Observable<SimpleResponseDto<void>> {

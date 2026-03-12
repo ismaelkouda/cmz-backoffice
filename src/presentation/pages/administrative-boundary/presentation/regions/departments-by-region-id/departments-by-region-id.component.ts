@@ -184,7 +184,7 @@ export class DepartmentsByRegionIdComponent implements OnInit {
         }
         const filter = {
             ...filterValue,
-            departmentId: this.paramsUniqId(),
+            department: this.paramsUniqId(),
             startDate: startDate?.format('YYYY-MM-DD'),
             endDate: endDate?.format('YYYY-MM-DD'),
         };

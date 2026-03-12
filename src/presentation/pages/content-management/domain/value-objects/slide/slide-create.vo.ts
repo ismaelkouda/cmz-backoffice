@@ -5,7 +5,7 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 export class SlideCreateVo {
     constructor(private readonly props: SlideCreateProps) {}
 
-    get timeDuration(): string {
+    get timeDuration(): number {
         return this.props.timeDuration;
     }
 
@@ -13,11 +13,11 @@ export class SlideCreateVo {
         return this.props.type;
     }
 
-    get image(): string {
+    get image(): File | null {
         return this.props.image;
     }
 
-    get video(): string {
+    get video(): string | null {
         return this.props.video;
     }
 

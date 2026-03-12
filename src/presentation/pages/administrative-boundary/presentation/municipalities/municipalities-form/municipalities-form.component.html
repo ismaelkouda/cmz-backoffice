@@ -172,7 +172,7 @@
 
                                                 <div class="col-md-4">
                                                     <label
-                                                        for="departmentId"
+                                                        for="department"
                                                         class="form-label fw-bold"
                                                     >
                                                         {{
@@ -192,7 +192,7 @@
                                                         [loading]="
                                                             loadingDepartments()
                                                         "
-                                                        formControlName="departmentId"
+                                                        formControlName="department"
                                                         optionLabel="name"
                                                         optionValue="value"
                                                         filter="true"
@@ -213,9 +213,9 @@
                                                     >
                                                     </p-select>
                                                     @if (
-                                                        form.get('departmentId')
+                                                        form.get('department')
                                                             ?.invalid &&
-                                                        form.get('departmentId')
+                                                        form.get('department')
                                                             ?.touched
                                                     ) {
                                                         <small

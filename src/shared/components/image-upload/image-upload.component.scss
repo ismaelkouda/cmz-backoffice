@@ -31,8 +31,7 @@
   }
 
   &.is-dragging {
-    border-color: var(--p-primary-color);
-    border-style: solid;
+    border: 2px solid var(--p-primary-color);
     background: var(--p-primary-50, #f0f4ff);
     transform: scale(1.01);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);

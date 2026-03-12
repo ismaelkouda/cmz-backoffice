@@ -1,6 +1,6 @@
 import { Platform } from '@shared/domain/enums/platform.enum';
 
-export interface SlideUpdateDto {
+export interface SlideUpdateProps {
     uniqId: string;
     timeDuration: number;
     type: string;

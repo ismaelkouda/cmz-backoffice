@@ -1,11 +1,14 @@
+import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
 import { Platform } from '@shared/domain/enums/platform.enum';
 
-export interface SlideUpdateDto {
+export interface SlideFindOneProps {
     uniqId: string;
+    status: Status;
+    order: number;
     timeDuration: number;
     type: string;
-    image: File | null;
-    video: string | null;
+    image: string;
+    video: string;
     platforms: Platform[];
     startDate: string;
     endDate: string;
@@ -14,4 +17,6 @@ export interface SlideUpdateDto {
     content: string;
     buttonLabel?: string;
     buttonUrl?: string;
+    createdAt: string;
+    updatedAt: string;
 }

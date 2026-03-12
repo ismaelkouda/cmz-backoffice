@@ -314,7 +314,7 @@ export class MunicipalitiesListComponent {
         this.router.navigate([MUNICIPALITIES_FORM], {
             relativeTo: this.activatedRoute,
             queryParams: {
-                code: item.uniqId,
+                uniqId: item.uniqId,
                 ref: ref,
             },
         });

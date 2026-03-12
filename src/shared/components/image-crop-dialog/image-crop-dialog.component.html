@@ -12,25 +12,17 @@
   appendTo="body"
   [focusOnShow]="false"
 >
-  <ng-template pTemplate="header">
+  <ng-template #header>
     <div class="crop-dialog-header">
-      <div class="crop-dialog-title">
-        <i class="pi pi-crop"></i>
-        <span>{{ 'CONTENT_MANAGEMENT.SLIDE.CROPPER.TITLE' | translate }}</span>
-      </div>
-
-      <div class="crop-platform-badges">
-        @for (badge of platformBadges(); track badge.platform) {
-          <div class="crop-platform-badge" [title]="badge.label">
-            <i [class]="badge.icon"></i>
-            <span>{{ badge.platform | titlecase }}</span>
-          </div>
-        }
-        <div class="crop-ratio-badge">
-          <i class="pi pi-expand"></i>
-          <span>{{ aspectRatioLabel() }}</span>
+        <div class="crop-dialog-title">
+            <i class="pi pi-crop"></i>
+            <span>{{ 'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.TITLE' | translate }}</span>
         </div>
-      </div>
+
+        <div class="crop-ratio-badge">
+            <i class="pi pi-expand"></i>
+            <span>{{ aspectRatioLabel() }}</span>
+        </div>
     </div>
   </ng-template>
 
@@ -44,7 +36,7 @@
             styleClass="crop-spinner"
           />
           <p class="crop-loading-text">
-            {{ 'CONTENT_MANAGEMENT.SLIDE.CROPPER.LOADING' | translate }}
+            {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.LOADING' | translate }}
           </p>
         </div>
       }
@@ -76,7 +68,7 @@
       <div class="crop-toolbar">
         <div class="toolbar-section">
           <span class="toolbar-label">
-            {{ 'CONTENT_MANAGEMENT.SLIDE.CROPPER.ROTATE' | translate }}
+            {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.ROTATE' | translate }}
           </span>
           <div class="toolbar-actions">
             <button
@@ -85,7 +77,7 @@
               icon="pi pi-undo"
               class="p-button-outlined p-button-secondary p-button-sm crop-tool-btn"
               (click)="rotateLeft.emit()"
-              [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.CROPPER.ROTATE_LEFT' | translate"
+              [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.ROTATE_LEFT' | translate"
               tooltipPosition="top"
             ></button>
             <span class="rotation-indicator">{{ rotationLabel() }}</span>
@@ -95,7 +87,7 @@
               icon="pi pi-refresh"
               class="p-button-outlined p-button-secondary p-button-sm crop-tool-btn"
               (click)="rotateRight.emit()"
-              [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.CROPPER.ROTATE_RIGHT' | translate"
+              [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.ROTATE_RIGHT' | translate"
               tooltipPosition="top"
             ></button>
           </div>
@@ -105,7 +97,7 @@
 
         <div class="toolbar-section">
           <span class="toolbar-label">
-            {{ 'CONTENT_MANAGEMENT.SLIDE.CROPPER.FLIP' | translate }}
+            {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.FLIP' | translate }}
           </span>
           <div class="toolbar-actions">
             <button
@@ -116,7 +108,7 @@
               [class.p-button-outlined]="!flipH()"
               class="p-button-secondary p-button-sm crop-tool-btn"
               (click)="flipHorizontal.emit()"
-              [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.CROPPER.FLIP_H' | translate"
+              [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.FLIP_H' | translate"
               tooltipPosition="top"
             ></button>
             <button
@@ -127,7 +119,7 @@
               [class.p-button-outlined]="!flipV()"
               class="p-button-secondary p-button-sm crop-tool-btn"
               (click)="flipVertical.emit()"
-              [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.CROPPER.FLIP_V' | translate"
+              [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.FLIP_V' | translate"
               tooltipPosition="top"
             ></button>
           </div>
@@ -140,20 +132,12 @@
             type="button"
             pButton
             icon="pi pi-replay"
-            [label]="'CONTENT_MANAGEMENT.SLIDE.CROPPER.RESET' | translate"
+            [label]="'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.RESET' | translate"
             class="p-button-text p-button-secondary p-button-sm"
             (click)="resetTransforms.emit()"
-            [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.CROPPER.RESET_TOOLTIP' | translate"
             tooltipPosition="top"
           ></button>
         </div>
-      </div>
-    }
-
-    @if (cropperReady()) {
-      <div class="crop-hint">
-        <i class="pi pi-info-circle"></i>
-        <span>{{ 'CONTENT_MANAGEMENT.SLIDE.CROPPER.HINT_DRAG' | translate }}</span>
       </div>
     }
   </div>
@@ -172,10 +156,12 @@
         type="button"
         pButton
         icon="pi pi-check"
-        [label]="'CONTENT_MANAGEMENT.SLIDE.CROPPER.CONFIRM' | translate"
+        [label]="'COMMON.CONFIRM' | translate"
         class="p-button-primary"
         [disabled]="!canConfirm()"
         (click)="onConfirm()"
       ></button>
     </div>
   </ng-template>
+
+  

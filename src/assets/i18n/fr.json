@@ -712,7 +712,30 @@
                     "INVALID_IMAGE_TYPE": "Type d'image non supporté",
                     "FILE_TOO_LARGE": "Fichier trop volumineux. Max. {maxSize}MB",
                     "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
+                },
+                "CROPPER": {
+                    "TITLE": "Rogner l'image charger",
+                    "ROTATE": "Rotation",
+                    "ROTATE_RIGHT": "Vers la droite",
+                    "ROTATE_LEFT": "Vers la gauche",
+                    "FLIP": "Retourner",
+                    "FLIP_H": "Horizontalement",
+                    "FLIP_V": "Verticalement",
+                    "RESET": "Réinitialiser",
+                    "LOADING": "Chargement de l'image..."
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de slide",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce slide ?",
+                "TITLE_CREATE": "Création de slide",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce slide ?",
+                "TITLE_DELETE": "Suppression de slide",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer ce slide ?",
+                "TITLE_ENABLE": "Activation de slide",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer ce slide ?",
+                "TITLE_DISABLE": "Désactivation de slide",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce slide ?"
             }
         },
         "PRIVACY_POLICY": {

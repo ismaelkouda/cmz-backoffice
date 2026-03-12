@@ -1,16 +1,13 @@
 import { Platform } from '@shared/domain/enums/platform.enum';
 
-export interface SlideUpdateDto {
+export interface HomeUpdateProps {
     uniqId: string;
-    timeDuration: number;
-    type: string;
-    image: File | null;
-    video: string | null;
+    image: string;
     platforms: Platform[];
     startDate: string;
     endDate: string;
     title: string;
-    subtitle: string;
+    resume: string;
     content: string;
     buttonLabel?: string;
     buttonUrl?: string;

@@ -1,12 +1,11 @@
-import { inject } from '@angular/core';
 import { SlideUpdateEntity } from '@pages/content-management/domain/entities/slide/slide-update.entity';
 import { SlideUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-update-api.dto';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
 export function slideUpdateMapper(
-    entity: SlideUpdateEntity
+    entity: SlideUpdateEntity,
+    platformMapper: PlatformMapper
 ): SlideUpdateApiDto {
-    const platformMapper = inject(PlatformMapper);
     const params: SlideUpdateApiDto = {} as SlideUpdateApiDto;
 
     if (entity.uniqId) {

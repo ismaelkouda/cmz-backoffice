@@ -1,12 +1,11 @@
-import { inject } from '@angular/core';
 import { SlideCreateEntity } from '@pages/content-management/domain/entities/slide/slide-create.entity';
 import { SlideCreateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-create-api.dto';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
 export function slideCreateMapper(
-    entity: SlideCreateEntity
+    entity: SlideCreateEntity,
+    platformMapper: PlatformMapper
 ): SlideCreateApiDto {
-    const platformMapper = inject(PlatformMapper);
     const params: SlideCreateApiDto = {} as SlideCreateApiDto;
 
     if (entity.timeDuration) {

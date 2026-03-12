@@ -15,8 +15,7 @@ $dark-gray: var(--color-gray);
     flex-grow: 1;
 }
 
-// Styles du dialog principal
-::ng-deep .report-treatment-dialog {
+.report-treatment-dialog {
     .p-dialog-header {
         background-color: #091624;
         border-radius: 12px 12px 0 0;
