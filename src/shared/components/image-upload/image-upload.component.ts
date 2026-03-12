@@ -198,17 +198,18 @@ export class ImageUploadComponent implements ControlValueAccessor {
     }
 
     public openFilePicker(): void {
-        if (!this.disabled() && !this.hasCroppedImage()) {
-            this.fileInputRef()?.nativeElement?.click();
-        }
+        // if (!this.disabled() && !this.hasCroppedImage()) {
+        this.fileInputRef()?.nativeElement?.click();
+        // }
     }
 
     public onFileInputChange(event: Event): void {
         const input = event.target as HTMLInputElement;
+        console.log('input: ', input);
         const file = input.files?.[0];
         input.value = '';
 
-        if (!file || this.hasCroppedImage()) {
+        if (!file) {
             return;
         }
 

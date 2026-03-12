@@ -120,7 +120,6 @@ export class RegionsFormComponent implements OnInit {
             description: new FormControl('', {
                 nonNullable: true,
                 validators: [
-                    Validators.required,
                     Validators.minLength(FormValidators.DESCRIPTION.MIN),
                     Validators.maxLength(FormValidators.DESCRIPTION.MAX),
                     Validators.pattern(FormValidators.DESCRIPTION.PATTERN),

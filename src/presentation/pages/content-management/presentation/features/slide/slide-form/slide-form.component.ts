@@ -166,14 +166,6 @@ export class SlideFormComponent {
         this.store.onCropperImageLoadFailed();
     }
 
-    public removeImage(): void {
-        this.store.resetImage();
-    }
-
-    public toggleMode(mode: TypeMedia): void {
-        this.store.setMediaMode(mode);
-    }
-
     private formatFileSize(size?: number): string | null {
         if (!size) {
             return null;

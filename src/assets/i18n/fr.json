@@ -668,6 +668,8 @@
                 "BUTTON_LABEL_PLACEHOLDER": "Saisir le libellé du bouton",
                 "BUTTON_URL": "URL Bouton",
                 "BUTTON_URL_PLACEHOLDER": "https://ansut.ci",
+                "CHARGE_IMAGE": "Charger l'image",
+                "CHANGE_IMAGE": "Changer l'image",
                 "PLATFORMS": "Plateformes cible",
                 "START_DATE": "Date début affichage",
                 "END_DATE": "Date fin affichage",
