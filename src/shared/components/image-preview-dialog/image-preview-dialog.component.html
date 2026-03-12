@@ -1,7 +1,7 @@
 <p-dialog
     [visible]="visible()"
     [modal]="true"
-    [closable]="true"
+    [closable]="false"
     [resizable]="false"
     [draggable]="false"
     [style]="{ width: '90vw', maxWidth: '900px' }"
@@ -11,7 +11,7 @@
     (onShow)="onDialogShow()"
     [header]="title() | translate"
 >
-    <div class="preview-content">
+    <div class="preview-content mt-3">
             <img
                 [src]="imageData().url"
                 [alt]="imageData().alt || ('IMAGE_PREVIEW.IMAGE_ALT' | translate)"

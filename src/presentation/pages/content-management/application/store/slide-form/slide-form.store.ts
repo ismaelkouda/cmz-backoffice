@@ -27,6 +27,8 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 
 export type CropperStatus = 'idle' | 'loading' | 'ready' | 'cropping' | 'error';
+const VIDEO = getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO);
+const IMAGE = getEnumKeyByValue(TypeMedia, TypeMedia.IMAGE);
 export interface CropperState {
     status: CropperStatus;
     errorMessage: string | null;
@@ -58,33 +60,28 @@ export class SlideFormStore implements OnDestroy {
 
     readonly form: FormGroup<SlideFormControl> = this.createForm();
 
-    readonly formValue = toSignal(this.form.valueChanges, {
-        initialValue: this.form.getRawValue(),
-        injector: this.injector,
+    readonly typeControl = toSignal(this.form.controls.type.valueChanges, {
+        initialValue: this.form.controls.type.value,
     });
 
-    readonly loading = this.facade.loading;
-    readonly isEditMode = signal(false);
-
-    readonly currentTypeMedia = computed(() => {
-        const value = this.formValue().type;
-        return value;
-    });
-    readonly isVideoMode = computed(() => {
-        const type = this.formValue().type;
-        return type === getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO);
+    public readonly isEditMode = signal(false);
+    private readonly isPatching = signal(false);
+    private readonly cropperState = signal<CropperState>({
+        ...INITIAL_CROPPER_STATE,
     });
 
-    readonly isImageMode = computed(() => {
-        const type = this.formValue().type;
-
-        return type === getEnumKeyByValue(TypeMedia, TypeMedia.IMAGE);
+    public readonly isVideoMode = computed(() => {
+        const type = this.typeControl();
+        return type === VIDEO;
     });
-    readonly selectedPlatforms = computed(
+    public readonly isImageMode = computed(() => {
+        const type = this.typeControl();
+        return type === IMAGE;
+    });
+    public readonly selectedPlatforms = computed(
         () => this.form.controls.platforms.value
     );
-
-    readonly activeCropAspectRatio = computed((): number => {
+    public readonly activeCropAspectRatio = computed((): number => {
         const platforms = this.selectedPlatforms();
         if (!platforms?.length) {
             return PLATFORM_ASPECT_RATIOS[Platform.WEB];
@@ -105,9 +102,6 @@ export class SlideFormStore implements OnDestroy {
         }
         return PLATFORM_ASPECT_RATIOS[Platform.WEB];
     });
-
-    readonly cropperState = signal<CropperState>({ ...INITIAL_CROPPER_STATE });
-
     readonly cropperIsOpen = computed(() => this.cropperState().isOpen);
     readonly cropperStatus = computed(() => this.cropperState().status);
     readonly cropperSourceFile = computed(() => this.cropperState().sourceFile);
@@ -120,15 +114,11 @@ export class SlideFormStore implements OnDestroy {
     );
     readonly hasCroppedImage = computed(() => !!this.cropperState().previewUrl);
 
-    private readonly item = this.facade.items;
-    private readonly isPatching = signal(false);
-
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
         if (!item) {
             return;
         }
-
         runInInjectionContext(this.injector, () => {
             this.isPatching.set(true);
             this.form.patchValue({ ...item });
@@ -139,17 +129,21 @@ export class SlideFormStore implements OnDestroy {
         if (this.isPatching()) {
             return;
         }
-        const type = this.currentTypeMedia();
-        if (type === null) {
+        const type = this.typeControl();
+        if (!type) {
             return;
         }
-        const isVideo = type === getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO);
-        this.resetMediaFields(isVideo);
-        this.updateVideoValidators(isVideo);
+        console.log('type: ', type);
+        this.resetMediaFields(type);
+        this.updateValidatorsByType(type);
     });
 
+    private readonly item = this.facade.items;
+    public readonly loading = this.facade.loading;
+
     ngOnDestroy(): void {
-        this.revokePreviewUrl();
+        const { previewUrl } = this.cropperState();
+        this.revokePreviewUrl(previewUrl);
     }
 
     private createForm(): FormGroup<SlideFormControl> {
@@ -163,13 +157,10 @@ export class SlideFormStore implements OnDestroy {
                         Validators.max(FormValidators.TIME_DURATION.MAX),
                     ],
                 }),
-                type: new FormControl(
-                    getEnumKeyByValue(TypeMedia, TypeMedia.IMAGE) ?? '',
-                    {
-                        nonNullable: true,
-                        validators: [Validators.required],
-                    }
-                ),
+                type: new FormControl(IMAGE ?? '', {
+                    nonNullable: true,
+                    validators: [Validators.required],
+                }),
                 title: new FormControl('', {
                     nonNullable: true,
                     validators: [
@@ -245,32 +236,6 @@ export class SlideFormStore implements OnDestroy {
         );
     }
 
-    private resetMediaFields(isVideo: boolean): void {
-        if (isVideo) {
-            this.form.controls.image.reset(null, { emitEvent: false });
-        } else {
-            this.form.controls.video.reset('', { emitEvent: false });
-        }
-    }
-
-    private updateVideoValidators(isVideo: boolean): void {
-        const videoControl = this.form.controls.video;
-        const imageControl = this.form.controls.image;
-        console.log('videoControl: ', videoControl);
-        if (isVideo) {
-            videoControl.setValidators([
-                Validators.required,
-                Validators.pattern(FormValidators.VIDEO.PATTERNS.GENERIC),
-            ]);
-            imageControl.clearValidators();
-        } else {
-            imageControl.setValidators([Validators.required]);
-            videoControl.clearValidators();
-            console.log('videoControl: ', videoControl);
-        }
-        videoControl.updateValueAndValidity();
-    }
-
     private buttonFieldsConsistencyValidator(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             const label = control.get('buttonLabel')?.value?.trim() as string;
@@ -305,6 +270,43 @@ export class SlideFormStore implements OnDestroy {
         };
     }
 
+    private updateValidatorsByType(type: string): void {
+        const videoControl = this.form.controls.video;
+        const imageControl = this.form.controls.image;
+        const isVideo = type === VIDEO;
+        const isImage = type === IMAGE;
+        if (isVideo) {
+            videoControl.setValidators([
+                Validators.required,
+                Validators.pattern(FormValidators.VIDEO.PATTERNS.GENERIC),
+            ]);
+        } else {
+            videoControl.clearValidators();
+        }
+        if (isImage) {
+            imageControl.setValidators([Validators.required]);
+        } else {
+            imageControl.clearValidators();
+        }
+        videoControl.updateValueAndValidity({ emitEvent: false });
+        imageControl.updateValueAndValidity({ emitEvent: false });
+    }
+
+    private resetMediaFields(type: string | undefined): void {
+        if (!type) {
+            return;
+        }
+
+        const isVideo = type === VIDEO;
+        console.log('isVideo: ', isVideo);
+
+        if (isVideo) {
+            this.resetImage();
+        } else {
+            this.resetVideo();
+        }
+    }
+
     public setDetailsMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);
 
@@ -320,7 +322,8 @@ export class SlideFormStore implements OnDestroy {
     }
 
     public openCropper(file: File): void {
-        this.revokePreviewUrl();
+        const { previewUrl } = this.cropperState();
+        this.revokePreviewUrl(previewUrl);
 
         this.cropperState.update((s) => ({
             ...s,
@@ -350,10 +353,12 @@ export class SlideFormStore implements OnDestroy {
     public confirmCrop(blob: Blob): void {
         this.cropperState.update((s) => ({ ...s, status: 'cropping' }));
 
-        this.revokePreviewUrl();
+        const { previewUrl } = this.cropperState();
+        this.revokePreviewUrl(previewUrl);
 
         const preview = URL.createObjectURL(blob);
-        const originalName = this.cropperState().sourceFile?.name ?? 'image';
+        const sourceFile = this.cropperState().sourceFile;
+        const originalName = sourceFile?.name ?? 'image';
         const ext = this.resolveExtension(blob.type);
         const fileName = `${originalName.replace(/\.[^.]+$/, '')}_cropped.${ext}`;
         const file = new File([blob], fileName, { type: blob.type });
@@ -372,7 +377,9 @@ export class SlideFormStore implements OnDestroy {
     }
 
     public abandonCrop(): void {
-        const hadExistingImage = !!this.cropperState().previewUrl;
+        const state = this.cropperState();
+        const hadExistingImage = !!state.previewUrl;
+        this.revokePreviewUrl(state.previewUrl);
         this.cropperState.update((s) => ({
             ...s,
             isOpen: false,
@@ -380,7 +387,6 @@ export class SlideFormStore implements OnDestroy {
             errorMessage: null,
             sourceFile: null,
         }));
-        this.revokePreviewUrl();
         if (!hadExistingImage) {
             this.form.controls.image.reset(null);
         }
@@ -413,9 +419,7 @@ export class SlideFormStore implements OnDestroy {
         }));
     }
 
-    private revokePreviewUrl(): void {
-        const url = this.cropperState().previewUrl;
-        console.log('url: ', url);
+    private revokePreviewUrl(url: string | null): void {
         if (url) {
             URL.revokeObjectURL(url);
         }
@@ -431,18 +435,14 @@ export class SlideFormStore implements OnDestroy {
         return map[mimeType] ?? 'png';
     }
 
-    public setMediaMode(mode: TypeMedia): void {
-        if (mode === getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO)) {
-            this.resetImage();
-        } else {
-            this.form.controls.video.reset('', { emitEvent: false });
-        }
+    public resetImage(): void {
+        console.log('resetImage: ');
+        this.cropperState.set({ ...INITIAL_CROPPER_STATE });
+        this.form.controls.image.reset(null, { emitEvent: false });
     }
 
-    public resetImage(): void {
-        this.revokePreviewUrl();
-        this.cropperState.set({ ...INITIAL_CROPPER_STATE });
-        this.form.controls.image.reset(null);
-        this.form.controls.image.markAsTouched();
+    public resetVideo(): void {
+        console.log('resetVideo: ');
+        this.form.controls.video.reset('', { emitEvent: false });
     }
 }
