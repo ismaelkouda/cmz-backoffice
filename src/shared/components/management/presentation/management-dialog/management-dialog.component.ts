@@ -24,11 +24,7 @@ import {
 import { TABS } from '@shared/components/management/domain/constants/management-tabs.contant';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { Motifs } from '@shared/components/management/domain/enums/management-motif.enum';
-import { RouteContextService } from '@shared/components/management/domain/services/management-route-context.service';
-import {
-    ManagementContext,
-    ManagementStateService,
-} from '@shared/components/management/domain/services/management-state.service';
+import { ManagementStateService } from '@shared/components/management/domain/services/management-state.service';
 import { ManagementValidationService } from '@shared/components/management/domain/services/management-validation.service';
 import { ManagementHeaderComponent } from '@shared/components/management/presentation/management-header/management-header.component';
 import { ManagementInfoPanelComponent } from '@shared/components/management/presentation/management-info-panel/management-info-panel.component';
@@ -38,6 +34,8 @@ import { ManagementSidebarComponent } from '@shared/components/management/presen
 import { ManagementTreatmentFormComponent } from '@shared/components/management/presentation/management-treatment-form/management-treatment-form.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
+import { RouteContextService } from '@shared/domain/services/route-context.service';
+import { RouteContextType } from '@shared/domain/types/route-context.types';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -73,7 +71,6 @@ import SweetAlert from 'sweetalert2';
     ],
     providers: [
         MessageService,
-        RouteContextService,
         ManagementValidationService,
         ManagementStateService,
     ],
@@ -95,18 +92,20 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     public selectedTabIndex = 0;
     public isTreatmentFormExpanded = true;
     public readonly TABS = TABS;
-    private readonly context = computed<ManagementContext>(() => {
-        if (this.routeContextService.isRequestsModule()) {
-            return 'requests';
+    private readonly context = computed<Partial<RouteContextType | null>>(
+        () => {
+            if (this.routeContextService.isRequestsModule()) {
+                return 'requests';
+            }
+            if (this.routeContextService.isReportsProcessingModule()) {
+                return 'reports-processing';
+            }
+            if (this.routeContextService.isReportsFinalizationModule()) {
+                return 'reports-finalization';
+            }
+            return null;
         }
-        if (this.routeContextService.isReportsProcessingModule()) {
-            return 'processing';
-        }
-        if (this.routeContextService.isReportsFinalizationModule()) {
-            return 'finalization';
-        }
-        return null;
-    });
+    );
     public readonly items = this.stateService.items;
     public readonly loading = this.stateService.loading;
     public readonly actionState = this.stateService.actionState;
@@ -272,7 +271,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
 
     private showConfirmationDialog(): void {
         const items = this.items();
-        console.log('items: ', items);
         const { title, message } = this.getSweetAlertLabels(items);
 
         SweetAlert.fire({
@@ -291,7 +289,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
 
     private getActionType(): string {
         const items = this.items();
-        console.log('items: ', items);
         if (items?.canBeTaken) {
             return 'take';
         }
@@ -310,8 +307,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     }
 
     private executeAction(action: string, payload: any): void {
-        console.log('payload: ', payload);
-        console.log('action: ', action);
         this.stateService.executeAction(action, payload);
     }
 

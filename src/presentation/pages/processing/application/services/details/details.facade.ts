@@ -87,7 +87,7 @@ export class DetailsFacade extends ObjectBaseFacade<
     treat(team: DetailsTreatDto): void {
         this._actionLoading.set(true);
 
-        const command = new DetailsTreatCommand(team.uniqId, team.comment);
+        const command = new DetailsTreatCommand(team.uniqId, team?.comment);
 
         this.handleActionWithRefresh(
             this.treatBus.dispatch(command),

@@ -1,6 +1,6 @@
 export interface DepartmentsByRegionIdFilterApiDto {
     id: string;
-    region_code: string;
+    region_id: string;
     municipality_code?: string;
     search?: string;
     is_active?: boolean;

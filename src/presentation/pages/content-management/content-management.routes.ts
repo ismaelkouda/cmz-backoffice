@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const HOME_ROUTE = 'home-blocks';
-// export const NEWS_ROUTE = 'infos-and-news';
+export const NEWS_ROUTE = 'infos-and-news';
 export const SLIDE_ROUTE = 'sliders';
 // export const PRIVACY_POLICY_ROUTE = 'privacy-policy';
 // export const LEGAL_NOTICE_ROUTE = 'legal-notices';

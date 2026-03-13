@@ -6,16 +6,10 @@ export function calculateActionColumnWidth(actionCount: number): string {
 export const TASKS_TABLE_CONST = {
     actions: [
         {
-            id: 'management-dialog',
-            icon: 'pi pi-window-maximize',
-            tooltip: 'PROCESSING.TASKS.TABLE.TREAT',
-            severity: 'primary',
-        },
-        {
             id: 'actions',
             icon: 'pi pi-check-circle',
             tooltip: 'PROCESSING.TASKS.TABLE.ADD_ACTION',
-            severity: 'info',
+            severity: 'primary',
         },
     ],
     cols: [

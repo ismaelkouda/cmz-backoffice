@@ -127,6 +127,10 @@ export class MunicipalitiesFormComponent implements OnInit {
                     Validators.pattern(FormValidators.NAME.PATTERN),
                 ],
             }),
+            region: new FormControl('', {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
             department: new FormControl('', {
                 nonNullable: true,
                 validators: [Validators.required],

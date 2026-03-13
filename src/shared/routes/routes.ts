@@ -3,7 +3,7 @@ export const SEARCH = 'search';
 
 export const DASHBOARD = 'dashboard';
 export const PROCESSING_ROUTE = 'reports-processing';
-export const REPORT_FINALIZATION_ROUTE = 'reports-finalization';
+export const FINALIZATION_ROUTE = 'reports-finalization';
 export const REPORTING_ROUTE = 'reporting';
 export const MONITORING_ROUTE = 'system-supervision';
 export const REQUESTS_ROUTE = 'requests';
@@ -73,7 +73,7 @@ export const content: Routes = [
             ),
     },
     {
-        path: REPORT_FINALIZATION_ROUTE,
+        path: FINALIZATION_ROUTE,
         data: {
             breadcrumb: {
                 label: 'FINALIZATION.BREADCRUMB.LABEL',

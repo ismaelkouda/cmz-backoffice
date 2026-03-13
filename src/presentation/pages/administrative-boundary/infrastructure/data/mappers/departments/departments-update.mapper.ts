@@ -14,7 +14,7 @@ export function departmentsUpdateMapper(
         params['name'] = update.name;
     }
     if (update.region) {
-        params['region_code'] = update.region;
+        params['region_id'] = update.region;
     }
     if (update.description) {
         params['description'] = update.description;

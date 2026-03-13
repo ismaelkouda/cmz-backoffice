@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 import { LanguagesComponent } from './elements/languages/languages.component';
 import { MyAccountComponent } from './elements/my-account/my-account.component';
@@ -21,6 +22,7 @@ import { MyAccountComponent } from './elements/my-account/my-account.component';
         MyAccountComponent,
         LanguagesComponent,
         TranslateModule,
+        OverlayBadgeModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -4,6 +4,7 @@ import {
     Component,
     computed,
     DestroyRef,
+    effect,
     inject,
     Signal,
     signal,
@@ -21,6 +22,7 @@ import { enumToFilterOptions } from '@shared/components/filter/filter.types';
 import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/image-crop-dialog.component';
 import { ImagePreviewData } from '@shared/components/image-preview-dialog/domain/types/image-preview.types';
 import { ImagePreviewDialogComponent } from '@shared/components/image-preview-dialog/image-preview-dialog.component';
+import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
 import { ImageSelectedResult } from '@shared/components/image-upload/domain/types/image-upload.types';
 import { ImageUploadComponent } from '@shared/components/image-upload/image-upload.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
@@ -32,7 +34,6 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
-import { DialogService } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -45,8 +46,6 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-// import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
 
 @Component({
     selector: 'app-slide-form',
@@ -79,16 +78,18 @@ import SweetAlert from 'sweetalert2';
     providers: [
         SlideFormHelperService,
         MessageService,
-        DialogService,
         SlideFormStore,
+        ImageUploadStateService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SlideFormComponent {
+    readonly store = inject(SlideFormStore);
+    readonly imageStore = inject(ImageUploadStateService);
+
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
-    public readonly store = inject(SlideFormStore);
     private readonly submitFacade = inject(SlideFacade);
     private readonly helper = inject(SlideFormHelperService);
     private readonly validation = inject(FormValidationService);
@@ -100,7 +101,7 @@ export class SlideFormComponent {
     public readonly isEditMode = this.store.isEditMode;
     public readonly isVideoMode = this.store.isVideoMode;
     public readonly isImageMode = this.store.isImageMode;
-    public readonly cropperSourceFile = this.store.cropperSourceFile;
+    public readonly cropperSourceFile = this.imageStore.cropperSourceFile;
 
     public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
 
@@ -117,8 +118,8 @@ export class SlideFormComponent {
     );
 
     readonly previewImageData = computed<ImagePreviewData>(() => {
-        const url = this.store.cropperPreviewUrl();
-        const sourceFile = this.store.cropperSourceFile();
+        const url = this.imageStore.cropperPreviewUrl();
+        const sourceFile = this.imageStore.cropperSourceFile();
 
         return {
             url: url || '',
@@ -133,7 +134,7 @@ export class SlideFormComponent {
                 (params: Record<string, unknown>) =>
                     (params['uniqId'] as string) || ''
             ),
-            tap((uniqId) => this.store.setDetailsMode(uniqId)),
+            tap((uniqId) => this.store.setEditMode(uniqId)),
             takeUntilDestroyed(this.destroyRef)
         ),
         { initialValue: '' }
@@ -143,6 +144,15 @@ export class SlideFormComponent {
         this.translate.onLangChange
             .pipe(takeUntilDestroyed())
             .subscribe((lang) => this.currentLang.set(lang.lang));
+
+        // effect(() => {
+        //     const file = this.imageStore.croppedImageFile();
+        //     if (!file) {
+        //         return;
+        //     }
+
+        //     this.store.form.controls.image.setValue(file);
+        // });
     }
 
     public getErrorMessage(field: string): string {
@@ -151,19 +161,19 @@ export class SlideFormComponent {
     }
 
     public onImageSelected(result: ImageSelectedResult): void {
-        this.store.openCropper(result.file);
+        this.imageStore.openCropper(result.file);
     }
 
     public onCropConfirmed(blob: Blob): void {
-        this.store.confirmCrop(blob);
+        this.imageStore.confirmCrop(blob);
     }
 
     public onCropCancelled(): void {
-        this.store.abandonCrop();
+        this.imageStore.abandonCrop();
     }
 
     public onCropImageLoadFailed(): void {
-        this.store.onCropperImageLoadFailed();
+        this.imageStore.onCropperImageLoadFailed();
     }
 
     private formatFileSize(size?: number): string | null {
@@ -177,7 +187,7 @@ export class SlideFormComponent {
     }
 
     public openImagePreview(): void {
-        if (this.store.hasCroppedImage()) {
+        if (this.imageStore.hasCroppedImage()) {
             this.previewVisible.set(true);
         }
     }

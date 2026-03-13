@@ -18,8 +18,9 @@ import {
     Validators,
 } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Event, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DetailsFacade } from '@pages/processing/application/services/details/details.facade';
 import { TasksActionsFacade } from '@pages/processing/application/services/tasks/tasks-actions.facade';
 import { TASKS_ACTIONS_TABLE } from '@pages/processing/domain/constants/tasks/tasks-actions-table.constant';
 import { TasksActionsFormControl } from '@pages/processing/domain/controls/tasks/tasks-actions-form.control';
@@ -30,6 +31,7 @@ import {
     enumToFilterOptions,
     FilterOption,
 } from '@shared/components/filter/filter.types';
+import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
@@ -68,6 +70,7 @@ import SweetAlert from 'sweetalert2';
         TableComponent,
         ButtonModule,
         BreadcrumbComponent,
+        ManagementDialogComponent,
         TagModule,
         ReactiveFormsModule,
         TranslateModule,
@@ -86,6 +89,7 @@ import SweetAlert from 'sweetalert2';
 })
 export class ActionsTreatmentComponent implements OnInit {
     private readonly title = inject(Title);
+    private readonly closureFacade = inject(DetailsFacade);
     private readonly facade = inject(TasksActionsFacade);
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
@@ -102,6 +106,7 @@ export class ActionsTreatmentComponent implements OnInit {
     private lastSuccess = this.facade.actionSuccess();
     public readonly displayModal = signal<boolean>(false);
     private readonly openRequested = signal(false);
+    public reportTreatmentVisible = false;
 
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -182,7 +187,6 @@ export class ActionsTreatmentComponent implements OnInit {
         if (!this.openRequested()) {
             return;
         }
-        this.form.reset();
         this.displayModal.set(true);
         this.openRequested.set(false);
     });
@@ -214,6 +218,10 @@ export class ActionsTreatmentComponent implements OnInit {
             nonNullable: true,
         }),
     });
+
+    public readonly hasAction = computed<boolean>(
+        () => this.items().length > 0
+    );
 
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
@@ -272,6 +280,37 @@ export class ActionsTreatmentComponent implements OnInit {
         this.form.reset();
     }
 
+    public onSeeClicked(): void {
+        if (!this.uniqId()) {
+            return;
+        }
+        this.reportTreatmentVisible = true;
+    }
+
+    public onClosureClicked(): void {
+        if (!this.uniqId()) {
+            return;
+        }
+        const title: string = this.t(
+            'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_CLOSURE'
+        );
+        const text: string = this.t(
+            'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_CLOSURE'
+        );
+        SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: title,
+            html: text.replaceAll('uniqId', this.uniqId()),
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.closureFacade.treat({ uniqId: this.uniqId() });
+                this.facade.refreshWithLastFilterAndPage();
+            }
+        });
+    }
+
     public onExportExcel(): void {
         const items = this.items();
         if (!items.length) {
@@ -290,6 +329,16 @@ export class ActionsTreatmentComponent implements OnInit {
         if (actionId === 'create') {
             this.openModal();
         }
+    }
+
+    public onEditClicked(params: any): void {
+        console.log('params: ', params.item.props);
+        if (params.ref === 'edit') {
+            this.form.patchValue({ ...params.item.props });
+            console.log('this.form: ', this.form.value);
+            this.openModal();
+        }
+        this.openModal();
     }
 
     private openModal(): void {
@@ -325,20 +374,22 @@ export class ActionsTreatmentComponent implements OnInit {
         });
     }
 
-    public onEditClicked(event: Event): void {
-        if (this.form.invalid || !this.uniqId()) {
-            return;
-        }
-        /* this.facade.create({
-            reportUniqId: this.uniqId(),
-            uniqId: event.uniqId,
-            ...this.form.getRawValue(),
-        }); */
-        console.log(event);
-    }
+    // public onEditClicked(event: Event): void {
+    //     console.log('event1111: ', event);
+    //     if (this.form.invalid || !this.uniqId()) {
+    //         return;
+    //     }
+    //     this.openModal();
+    //     /* this.facade.create({
+    //         reportUniqId: this.uniqId(),
+    //         uniqId: event.uniqId,
+    //         ...this.form.getRawValue(),
+    //     }); */
+    //     console.log(event);
+    // }
 
-    public onDeleteClicked(event: Event): void {
-        if (!this.uniqId()) {
+    public onDeleteClicked(event: any): void {
+        if (!this.uniqId() || !event.props.uniqId) {
             return;
         }
         console.log('event', event);
@@ -346,10 +397,10 @@ export class ActionsTreatmentComponent implements OnInit {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(
-                'PROCESSING.TEAMS.PARTICIPANTS.SWEET_ALERT.TITLE_REMOVE'
+                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_DELETE'
             ),
             text: this.t(
-                'PROCESSING.TEAMS.PARTICIPANTS.SWEET_ALERT.MESSAGE_REMOVE'
+                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_DELETE'
             ),
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
@@ -357,8 +408,9 @@ export class ActionsTreatmentComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 this.facade.delete({
-                    uniqId: this.uniqId(),
+                    uniqId: event.props.uniqId,
                 });
+                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }

@@ -12,11 +12,11 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { SlideFormStore } from '@presentation/pages/content-management/application/store/slide-form/slide-form.store';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 
+import { ImageUploadStateService } from './domain/services/image-upload-state.service';
 import {
     DEFAULT_IMAGE_UPLOAD_CONFIG,
     ImageUploadConfig,
@@ -43,7 +43,7 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageUploadComponent implements ControlValueAccessor {
-    readonly store = inject(SlideFormStore);
+    readonly store = inject(ImageUploadStateService);
     readonly config = input<ImageUploadConfig>(DEFAULT_IMAGE_UPLOAD_CONFIG);
     readonly previewUrl = signal<string | null>(null);
 
@@ -55,10 +55,11 @@ export class ImageUploadComponent implements ControlValueAccessor {
     readonly isDragging = signal(false);
     readonly validationError = signal<ImageUploadError | null>(null);
 
+    readonly disabled = signal(false);
+
     private readonly fileInputRef =
         viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
-    readonly disabled = signal(false);
     private onChange: (value: File | null) => void = () => {
         /* empty */
     };
@@ -205,14 +206,11 @@ export class ImageUploadComponent implements ControlValueAccessor {
 
     public onFileInputChange(event: Event): void {
         const input = event.target as HTMLInputElement;
-        console.log('input: ', input);
         const file = input.files?.[0];
         input.value = '';
-
         if (!file) {
             return;
         }
-
         this.processFile(file, event);
     }
 

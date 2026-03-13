@@ -9,7 +9,7 @@ export class HomeUpdateVo {
         return this.props.uniqId;
     }
 
-    get image(): string {
+    get image(): File | null {
         return this.props.image;
     }
 

@@ -5,7 +5,7 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 export class HomeCreateVo {
     constructor(private readonly props: HomeCreateProps) {}
 
-    get image(): string {
+    get image(): File | null {
         return this.props.image;
     }
 

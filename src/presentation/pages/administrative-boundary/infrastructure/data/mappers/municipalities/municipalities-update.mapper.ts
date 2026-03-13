@@ -14,7 +14,7 @@ export function municipalitiesUpdateMapper(
         params['name'] = update.name;
     }
     if (update.department) {
-        params['department_code'] = update.department;
+        params['department_id'] = update.department;
     }
     if (update.description) {
         params['description'] = update.description;

@@ -1,3 +1,4 @@
+import { ActorDto } from '@shared/data/dto/actor.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export enum ReportStateDto {
@@ -5,13 +6,13 @@ export enum ReportStateDto {
 }
 
 export interface TasksActionsItemApiDto {
-    uniq_id: string;
+    id: string;
     date: string;
     type: string;
     description: string;
     should_notify_user: boolean;
-    created_by: string;
-    updated_by: string;
+    created_by: ActorDto;
+    updated_by: ActorDto;
     created_at: string;
     updated_at: string;
 }

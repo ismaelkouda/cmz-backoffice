@@ -8,7 +8,6 @@ import { TasksActionsUpdateApiDto } from '@pages/processing/infrastructure/api/d
 import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
 import { PROCESSING_ENDPOINTS } from '@pages/processing/infrastructure/api/processing.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
-import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { Observable } from 'rxjs';
 
@@ -20,14 +19,12 @@ export class TasksActionsApi {
     ) {}
 
     execute(
-        filter: TasksActionsFilterApiDto,
+        dto: TasksActionsFilterApiDto,
         page: string
     ): Observable<TasksActionsResponseApiDto> {
-        const url = `${this.baseUrl}${PROCESSING_ENDPOINTS.PROCESSING}?page=${page}`;
-        const params = buildHttpParams(filter);
-        return this.http.get<TasksActionsResponseApiDto>(url, {
-            params,
-        });
+        const { report_uniq_id } = dto;
+        const url = `${this.baseUrl}${report_uniq_id}/${PROCESSING_ENDPOINTS.PROCESSING}?page=${page}`;
+        return this.http.get<TasksActionsResponseApiDto>(url);
     }
 
     create(

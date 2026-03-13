@@ -12,7 +12,7 @@ export function DepartmentsByRegionIdFilterMapper(
         params['search'] = filter.search;
     }
     if (filter.region) {
-        params['region_code'] = filter.region;
+        params['region_id'] = filter.region;
     }
     if (filter.municipality) {
         params['municipality_code'] = filter.municipality;
