@@ -13,7 +13,7 @@ export function municipalitiesCreateMapper(
         params['name'] = create.name;
     }
     if (create.department) {
-        params['department_code'] = create.department;
+        params['department_id'] = create.department;
     }
     if (create.description) {
         params['description'] = create.description;

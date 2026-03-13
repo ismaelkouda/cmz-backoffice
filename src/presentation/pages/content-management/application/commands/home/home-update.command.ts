@@ -3,7 +3,7 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 export class HomeUpdateCommand {
     constructor(
         public readonly uniqId: string,
-        public readonly image: string,
+        public readonly image: File | null,
         public readonly platforms: Platform[],
         public readonly startDate: string,
         public readonly endDate: string,

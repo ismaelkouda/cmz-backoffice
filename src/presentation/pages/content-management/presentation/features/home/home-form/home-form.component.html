@@ -50,113 +50,19 @@
                                             <div
                                                 class="row g-3 align-items-center"
                                             >
-                                                <div class="col-md-9">
-                                                    <div class="image-section">
-                                                        <label
-                                                            class="form-label fw-bold d-block mb-2"
-                                                        >
-                                                            {{
-                                                                'CONTENT_MANAGEMENT.HOME.FORM.IMAGE'
-                                                                    | translate
-                                                            }}
-                                                            <span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            >
+                                                <div class="col-md-6 mt-0">
+                                                    <div class="image">
+                                                        <label for="image" class="form-label fw-bold">
+                                                            {{ 'CONTENT_MANAGEMENT.HOME.FORM.IMAGE' | translate }}
+                                                            <span class="text-danger">*</span>
                                                         </label>
 
-                                                        <div
-                                                            class="image-upload-area d-flex gap-2"
-                                                        >
-                                                            <div
-                                                                class="d-flex align-items-center gap-3 flex-wrap"
-                                                            >
-                                                                <p-fileUpload
-                                                                    mode="basic"
-                                                                    name="imageUpload"
-                                                                    (onSelect)="
-                                                                        onFileSelect(
-                                                                            $event
-                                                                        )
-                                                                    "
-                                                                    [chooseLabel]="
-                                                                        'CONTENT_MANAGEMENT.HOME.FORM.CHOOSE_IMAGE'
-                                                                            | translate
-                                                                    "
-                                                                    styleClass="p-button-outlined"
-                                                                >
-                                                                </p-fileUpload>
-                                                            </div>
-
-                                                            @if (
-                                                                imagePreview()
-                                                            ) {
-                                                                <div
-                                                                    class="media-preview-container"
-                                                                >
-                                                                    <div
-                                                                        class="d-flex align-items-center gap-3"
-                                                                    >
-                                                                        <button
-                                                                            pButton
-                                                                            type="button"
-                                                                            icon="pi pi-eye"
-                                                                            [label]="
-                                                                                'COMMON.PREVIEW'
-                                                                                    | translate
-                                                                            "
-                                                                            class="p-button-rounded p-button-info p-button-text"
-                                                                            (click)="
-                                                                                openPreview()
-                                                                            "
-                                                                        ></button>
-
-                                                                        <div
-                                                                            class="position-relative"
-                                                                        >
-                                                                            <img
-                                                                                [src]="
-                                                                                    imagePreview()
-                                                                                "
-                                                                                alt="Mini Preview"
-                                                                                class="img-thumbnail rounded shadow-sm media-thumbnail"
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            }
-                                                        </div>
-
-                                                        <div class="image-help">
-                                                            <small
-                                                                class="text-muted d-block"
-                                                            >
-                                                                <i
-                                                                    class="pi pi-info-circle me-1"
-                                                                ></i>
-                                                                <!-- {{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.IMAGE_HELP' | translate:{ 
-                                                                    maxSize: VALIDATION.IMAGE_FILE.MAX_SIZE_MB,
-                                                                    maxWidth: VALIDATION.IMAGE_FILE.MAX_DIMENSIONS.WIDTH,
-                                                                    maxHeight: VALIDATION.IMAGE_FILE.MAX_DIMENSIONS.HEIGHT
-                                                                } }} -->
-                                                                <strong
-                                                                    >{{
-                                                                        'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.SUPPORTED_FORMATS'
-                                                                            | translate
-                                                                    }}:</strong
-                                                                >
-                                                                {{
-                                                                    allowedImageTypes
-                                                                }}
-                                                            </small>
-
-                                                            <!-- <div class="supported-formats mt-1">
-                                                                <small class="text-muted">
-                                                                    <strong>{{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.SUPPORTED_FORMATS' | translate }}:</strong>
-                                                                    {{ allowedImageTypes }}
-                                                                </small>
-                                                            </div> -->
-                                                        </div>
+                                                        <app-image-upload
+                                                            id="image"
+                                                            formControlName="image"
+                                                            (viewImage)="openImagePreview()"
+                                                            (imageSelected)="onImageSelected($event)">
+                                                        </app-image-upload>
                                                     </div>
                                                 </div>
                                             </div>
@@ -164,447 +70,247 @@
 
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{
-                                                    'CONTENT_MANAGEMENT.HOME.FORM.CONFIG'
-                                                        | translate
-                                                }}</b>
+                                                <b>{{ 'CONTENT_MANAGEMENT.HOME.FORM.CONFIG' | translate }}</b>
                                             </legend>
 
-                                            <div class="row g-3">
+                                            <div class="row g-3 align-items-center">
                                                 <div class="col-md-6">
-                                                    <label
-                                                        for="buttonLabel"
-                                                        class="form-label"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'
-                                                                | translate
-                                                        }}</label
-                                                    >
+                                                    <label for="buttonLabel" class="form-label fw-bold">
+                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL' | translate }}
+                                                    </label>
                                                     <input
-                                                        class="form-input"
                                                         id="buttonLabel"
+                                                        class="form-input"
                                                         formControlName="buttonLabel"
-                                                        [placeholder]="'Ex: En savoir plus'"
-                                                        [attr.maxlength]="
-                                                            VALIDATION
-                                                                .BUTTON_LABEL
-                                                                .MAX
-                                                        "
+                                                        [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL_PLACEHOLDER' | translate"
+                                                        [attr.maxlength]="allowed.BUTTON_LABEL.MAX"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL' | translate"
+                                                        [attr.aria-invalid]="isFieldInvalid('buttonLabel')"
                                                     />
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-1"
-                                                    >
-                                                        @if (
-                                                            (form.get(
-                                                                'buttonLabel'
-                                                            )?.invalid ||
-                                                                form.errors?.[
-                                                                    'buttonLabelWithoutUrl'
-                                                                ]) &&
-                                                            form.get(
-                                                                'buttonLabel'
-                                                            )?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'buttonLabel'
-                                                                    )
-                                                                }}
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        @if (isFieldInvalid('buttonLabel')) {
+                                                            <small class="text-danger d-block mt-1">
+                                                            {{ getErrorMessage('buttonLabel') }}
                                                             </small>
                                                         }
-                                                        <small
-                                                            class="text-muted ms-auto"
-                                                        >
-                                                            {{
-                                                                (
-                                                                    form.get(
-                                                                        'buttonLabel'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
-                                                            }}/{{
-                                                                VALIDATION
-                                                                    .BUTTON_LABEL
-                                                                    .MAX
-                                                            }}
-                                                        </small>
+                                                        <div class="d-flex align-items-center gap-2 ms-auto">
+                                                            @let labelButton = form.controls.buttonLabel.value;
+                                                            <div class="labelButton-indicator">
+                                                                <small class="labelButton-value text-muted ms-2">
+                                                                    {{ labelButton.length || 0 }}/{{ allowed.BUTTON_LABEL.MAX }}
+                                                                </small>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label
-                                                        for="buttonUrl"
-                                                        class="form-label"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'
-                                                                | translate
-                                                        }}</label
-                                                    >
+                                                    <label for="buttonUrl" class="form-label fw-bold">
+                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL' | translate }}
+                                                    </label>
                                                     <input
-                                                        class="form-input"
                                                         id="buttonUrl"
+                                                        class="form-input"
                                                         formControlName="buttonUrl"
-                                                        [placeholder]="'https://example.com'"
-                                                        [attr.maxlength]="
-                                                            VALIDATION
-                                                                .BUTTON_URL.MAX
-                                                        "
+                                                        [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL_PLACEHOLDER' | translate"
+                                                        [attr.maxlength]="allowed.BUTTON_URL.MAX"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL' | translate"
+                                                        [attr.aria-invalid]="isFieldInvalid('buttonUrl')"
                                                     />
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-1"
-                                                    >
-                                                        @if (
-                                                            (form.get(
-                                                                'buttonUrl'
-                                                            )?.invalid ||
-                                                                form.errors?.[
-                                                                    'buttonUrlWithoutLabel'
-                                                                ]) &&
-                                                            form.get(
-                                                                'buttonUrl'
-                                                            )?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'buttonUrl'
-                                                                    )
-                                                                }}
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        @if (isFieldInvalid('buttonUrl')) {
+                                                            <small class="text-danger d-block mt-1">
+                                                            {{ getErrorMessage('buttonUrl') }}
                                                             </small>
                                                         }
-                                                        <small
-                                                            class="text-muted ms-auto"
-                                                        >
-                                                            {{
-                                                                (
-                                                                    form.get(
-                                                                        'buttonUrl'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
-                                                            }}/{{
-                                                                VALIDATION
-                                                                    .BUTTON_URL
-                                                                    .MAX
-                                                            }}
-                                                        </small>
+                                                        <div class="d-flex align-items-center gap-2 ms-auto">
+                                                            @let urlButton = form.controls.buttonUrl.value;
+                                                            <div class="urlButton-indicator">
+                                                                <small class="urlButton-value text-muted ms-2">
+                                                                    {{ urlButton.length || 0 }}/{{ allowed.BUTTON_URL.MAX }}
+                                                                </small>
+                                                            </div>
+                                                            
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row g-3 mt-2">
+                                            <div class="row g-3 align-items-center">
                                                 <div class="col-md-6">
-                                                    <label
-                                                        for="platforms"
-                                                        class="form-label"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
-                                                    >
+                                                    <label for="platforms" class="form-label fw-bold">
+                                                        {{'CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS' | translate}}
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+
                                                     <p-multiSelect
                                                         class="form-p-select"
-                                                        [options]="
-                                                            platformOptions()
-                                                        "
+                                                        [options]="platformOptions()"
+                                                        [class.mb-4]="!isFieldInvalid('platforms')"
+                                                        formControlName="platforms"
                                                         optionLabel="label"
                                                         optionValue="value"
-                                                        formControlName="platforms"
                                                         styleClass="w-100"
+                                                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                                                        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS' | translate"
+                                                        [attr.aria-invalid]="isFieldInvalid('platforms')"
                                                         [filter]="false"
                                                         [showToggleAll]="false"
-                                                    >
-                                                    </p-multiSelect>
+                                                    />
+                                                    @if (isFieldInvalid('platforms')) {
+                                                        <small class="text-danger d-block mt-1">
+                                                        {{ getErrorMessage('platforms') }}
+                                                        </small>
+                                                    }
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label
-                                                        for="startDate"
-                                                        class="form-label"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.START_DATE'
-                                                                | translate
-                                                        }}</label
-                                                    >
+                                                    <label for="startDate" class="form-label">
+                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.START_DATE' | translate }}
+                                                    </label>
+
                                                     <p-datePicker
-                                                        class="form-p-datepicker w-full"
+                                                        id="startDate"
+                                                        class="form-p-datepicker w-full mb-4"
                                                         formControlName="startDate"
                                                         [showTime]="true"
                                                         [showIcon]="true"
                                                         [placeholder]="'JJ-MM-AAAA'"
                                                         dateFormat="dd-mm-yy"
-                                                    >
-                                                    </p-datePicker>
+                                                        pInputMask="99-99-9999"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.START_DATE' | translate"
+                                                    />
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label
-                                                        for="endDate"
-                                                        class="form-label"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.END_DATE'
-                                                                | translate
-                                                        }}</label
-                                                    >
+                                                    <label for="endDate" class="form-label">
+                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.END_DATE' | translate }}
+                                                    </label>
+
                                                     <p-datePicker
-                                                        class="form-p-datepicker"
+                                                        id="endDate"
+                                                        class="form-p-datepicker w-full mb-4"
                                                         formControlName="endDate"
                                                         [showTime]="true"
                                                         [showIcon]="true"
                                                         [placeholder]="'JJ-MM-AAAA'"
                                                         dateFormat="dd-mm-yy"
-                                                    >
-                                                    </p-datePicker>
+                                                        pInputMask="99-99-9999"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.END_DATE' | translate"
+                                                    />
                                                 </div>
                                             </div>
                                         </fieldset>
 
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{
-                                                    'CONTENT_MANAGEMENT.HOME.FORM.GENERAL_INFO'
-                                                        | translate
-                                                }}</b>
+                                                <b>{{ 'CONTENT_MANAGEMENT.HOME.FORM.GENERAL_INFO' | translate }}</b>
                                             </legend>
-                                            <div class="row g-3">
+                                            <div class="row g-3 align-items-center">
                                                 <div class="col-md-12">
-                                                    <label
-                                                        for="title"
-                                                        class="form-label fw-bold"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.TITLE'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
-                                                    >
+                                                    <label for="title" class="form-label fw-bold">
+                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.TITLE' | translate }}
+                                                        <span class="text-danger">*</span>
+                                                    </label>
                                                     <input
-                                                        class="form-input"
                                                         id="title"
+                                                        class="form-input"
                                                         formControlName="title"
-                                                        [placeholder]="
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.TITLE_PLACEHOLDER'
-                                                                | translate
-                                                        "
-                                                        [attr.maxlength]="
-                                                            VALIDATION.TITLE.MAX
-                                                        "
+                                                        [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.TITLE_PLACEHOLDER' | translate"
+                                                        [attr.maxlength]="allowed.TITLE.MAX"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.TITLE' | translate"
+                                                        [attr.aria-invalid]="isFieldInvalid('title')"
                                                     />
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-1"
-                                                    >
-                                                        @if (
-                                                            form.get('title')
-                                                                ?.invalid &&
-                                                            form.get('title')
-                                                                ?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'title'
-                                                                    )
-                                                                }}
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        @if (isFieldInvalid('title')) {
+                                                            <small class="text-danger d-block mt-1" role="alert">
+                                                            {{ getErrorMessage('title') }}
                                                             </small>
                                                         }
-                                                        <small
-                                                            class="text-muted ms-auto"
-                                                        >
-                                                            {{
-                                                                (
-                                                                    form.get(
-                                                                        'title'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
-                                                            }}/{{
-                                                                VALIDATION.TITLE
-                                                                    .MAX
-                                                            }}
-                                                        </small>
+                                                        <div class="d-flex align-items-center gap-2 ms-auto">
+                                                            @let title = form.controls.title.value;
+                                                            <div class="title-indicator">
+                                                                <small class="title-value text-muted ms-2">
+                                                                    {{ title.length || 0 }}/{{ allowed.TITLE.MAX }}
+                                                                </small>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-12">
-                                                    <label
-                                                        for="resume"
-                                                        class="form-label fw-bold"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.RESUME'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
-                                                    >
+                                                    <label for="resume" class="form-label fw-bold">
+                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.RESUME' | translate }}
+                                                        <span class="text-danger">*</span>
+                                                    </label>
                                                     <textarea
+                                                        id="resume"
+                                                        formControlName="resume"
                                                         rows="3"
                                                         cols="30"
                                                         pTextarea
-                                                        id="resume"
-                                                        formControlName="resume"
-                                                        class="w-100"
-                                                        [attr.maxlength]="
-                                                            VALIDATION.RESUME
-                                                                .MAX
-                                                        "
+                                                        class="form-p-textarea w-100"
+                                                        [invalid]="isFieldInvalid('resume')"
+                                                        [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.RESUME_PLACEHOLDER' | translate"
+                                                        [attr.maxlength]="allowed.RESUME.MAX"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.RESUME' | translate"
+                                                        [attr.aria-invalid]="isFieldInvalid('resume')"
                                                     ></textarea>
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-1"
-                                                    >
-                                                        @if (
-                                                            form.get('resume')
-                                                                ?.invalid &&
-                                                            form.get('resume')
-                                                                ?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'resume'
-                                                                    )
-                                                                }}
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        @if (isFieldInvalid('resume')) {
+                                                            <small class="text-danger d-block mt-1" role="alert">
+                                                            {{ getErrorMessage('resume') }}
                                                             </small>
                                                         }
-                                                        <small
-                                                            class="text-muted ms-auto"
-                                                        >
-                                                            {{
-                                                                (
-                                                                    form.get(
-                                                                        'resume'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
-                                                            }}/{{
-                                                                VALIDATION
-                                                                    .RESUME.MAX
-                                                            }}
-                                                        </small>
+                                                        <div class="d-flex align-items-center gap-2 ms-auto">
+                                                            @let resume = form.controls.resume.value;
+                                                                <div class="resume-indicator">
+                                                                    <small class="resume-value text-muted ms-2">
+                                                                        {{ resume.length || 0 }}/{{ allowed.RESUME.MAX }}
+                                                                    </small>
+                                                                </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-12">
-                                                    <label
-                                                        for="content"
-                                                        class="form-label fw-bold"
-                                                        >{{
-                                                            'CONTENT_MANAGEMENT.HOME.FORM.DESCRIPTION'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></label
-                                                    >
+                                                    <label for="content" class="form-label fw-bold">
+                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.DESCRIPTION' | translate }}
+                                                        <span class="text-danger">*</span>
+                                                    </label>
                                                     <p-editor
+                                                        id="content"
                                                         formControlName="content"
-                                                        [style]="{
-                                                            height: '200px',
-                                                        }"
-                                                    ></p-editor>
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-2"
-                                                    >
-                                                        @if (
-                                                            form.get('content')
-                                                                ?.invalid &&
-                                                            form.get('content')
-                                                                ?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'content'
-                                                                    )
-                                                                }}
+                                                        [invalid]="isFieldInvalid('content')"
+                                                        [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.CONTENT_PLACEHOLDER' | translate"
+                                                        [attr.maxlength]="allowed.CONTENT.MAX"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.CONTENT' | translate"
+                                                        [attr.aria-invalid]="isFieldInvalid('resume')"
+                                                        [style]="{ height: '200px' }"
+                                                    />
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        @if (isFieldInvalid('content')) {
+                                                            <small class="text-danger d-block mt-1" role="alert">
+                                                            {{ getErrorMessage('content') }}
                                                             </small>
                                                         }
-                                                        <div
-                                                            class="d-flex align-items-center gap-2 ms-auto"
-                                                        >
-                                                            @let countStatus =
-                                                                getContentCountStatus();
-                                                            @let charCount =
-                                                                getContentCharacterCount();
-                                                            <small
-                                                                [class]="{
-                                                                    'text-success':
-                                                                        countStatus ===
-                                                                        'safe',
-                                                                    'text-warning':
-                                                                        countStatus ===
-                                                                        'warning',
-                                                                    'text-danger':
-                                                                        countStatus ===
-                                                                        'danger',
-                                                                }"
-                                                            >
-                                                                {{
-                                                                    charCount
-                                                                }}/{{
-                                                                    VALIDATION
-                                                                        .CONTENT
-                                                                        .STRIP_HTML_MAX
-                                                                }}
-                                                            </small>
-                                                            @if (
-                                                                countStatus ===
-                                                                'warning'
-                                                            ) {
-                                                                <i
-                                                                    class="pi pi-exclamation-triangle text-warning"
-                                                                ></i>
-                                                            }
-                                                            @if (
-                                                                countStatus ===
-                                                                'danger'
-                                                            ) {
-                                                                <i
-                                                                    class="pi pi-exclamation-circle text-danger"
-                                                                ></i>
-                                                            }
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </fieldset>
 
-                                        <div
-                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
-                                        >
+                                        <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
                                             <p-button
-                                                label="{{
-                                                    'COMMON.CANCEL' | translate
-                                                }}"
+                                                [label]="'COMMON.CANCEL' | translate"
                                                 styleClass="p-button-text p-button-secondary"
-                                                (click)="navigateToBack()"
-                                            >
-                                            </p-button>
+                                                (onClick)="navigateToBack()"
+                                            />
 
                                             <p-button
-                                                label="{{
-                                                    'COMMON.SAVE' | translate
-                                                }}"
                                                 type="submit"
-                                                [disabled]="form.invalid"
-                                            >
-                                            </p-button>
+                                                [label]="'COMMON.SAVE' | translate"
+                                                [disabled]="form.invalid || loadingSubmit()"
+                                                [attr.aria-label]="'COMMON.SAVE' | translate"
+                                            />
                                         </div>
                                     </form>
                                 </div>
@@ -617,33 +323,29 @@
     </section>
 </main>
 
-<p-dialog
-    [(visible)]="isPreviewVisible"
-    [modal]="true"
-    [style]="{ width: '50vw', maxWidth: '800px' }"
-    [header]="'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW' | translate"
-    [dismissableMask]="true"
-    [draggable]="false"
-    [resizable]="false"
->
-    <div
-        class="d-flex justify-content-center align-items-center bg-light p-3 rounded"
-    >
-        @if (previewContent) {
-            <img
-                [src]="previewContent"
-                alt="Full Preview"
-                class="img-fluid rounded shadow"
-                style="max-height: 70vh; object-fit: contain"
-            />
-        } @else {
-            <p class="text-muted">
-                <i class="pi pi-exclamation-circle me-2"></i>
-                {{
-                    'CONTENT_MANAGEMENT.HOME.MESSAGES.NO_PREVIEW_CONTENT'
-                        | translate
-                }}
-            </p>
-        }
-    </div>
-</p-dialog>
+<app-image-preview-dialog
+    [visible]="previewVisible()"
+    [imageData]="previewImageData()"
+    [title]="'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW'"
+    (hide)="closeImagePreview()"
+/>
+
+<app-image-crop-dialog
+  [visible]="imageStore.cropperIsOpen()"
+  [sourceFile]="imageStore.cropperSourceFile()"
+  [aspectRatio]="imageStore.activeCropAspectRatio()"
+  [rotation]="imageStore.cropperRotation()"
+  [flipH]="imageStore.cropperFlipH()"
+  [flipV]="imageStore.cropperFlipV()"
+  [targetPlatforms]="store.selectedPlatforms()"
+  [isLoading]="imageStore.cropperStatus() === 'loading'"
+  (imageCropped)="onCropConfirmed($event)"
+  (cropCancelled)="onCropCancelled()"
+  (imageLoaded)="imageStore.onCropperImageLoaded()"
+  (loadFailed)="onCropImageLoadFailed()"
+  (rotateLeft)="imageStore.rotateCropper('left')"
+  (rotateRight)="imageStore.rotateCropper('right')"
+  (flipHorizontal)="imageStore.flipCropperHorizontal()"
+  (flipVertical)="imageStore.flipCropperVertical()"
+  (resetTransforms)="imageStore.resetCropperTransforms()"
+/>

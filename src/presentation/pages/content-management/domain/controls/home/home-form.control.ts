@@ -5,7 +5,7 @@ export interface HomeFormControl {
     title: FormControl<string>;
     resume: FormControl<string>;
     content: FormControl<string>;
-    image: FormControl<string>;
+    image: FormControl<File | null>;
     buttonLabel: FormControl<string>;
     buttonUrl: FormControl<string>;
     platforms: FormControl<Platform[]>;

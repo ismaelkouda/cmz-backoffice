@@ -4,5 +4,5 @@ import { TasksActionsFilterApiDto } from '@pages/processing/infrastructure/api/d
 export function TasksActionsFilterMapper(
     entity: TasksActionsFilterEntity
 ): TasksActionsFilterApiDto {
-    return { uniq_id: entity.uniqId };
+    return { report_uniq_id: entity.uniqId };
 }

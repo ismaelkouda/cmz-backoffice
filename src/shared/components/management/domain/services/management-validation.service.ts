@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
+import { RouteContextType } from '@shared/domain/types/route-context.types';
 
 @Injectable({
     providedIn: 'root',
@@ -8,7 +9,7 @@ import { ManagementFormControl } from '@shared/components/management/domain/cont
 export class ManagementValidationService {
     configureFormValidators(
         form: FormGroup<ManagementFormControl>,
-        context: 'requests' | 'processing' | 'finalization',
+        context: Partial<RouteContextType>,
         item: any
     ): void {
         const commentControl = form.get('comment');
@@ -27,13 +28,13 @@ export class ManagementValidationService {
                 }
                 break;
 
-            case 'processing':
+            case 'reports-processing':
                 if (item?.canBeTreated) {
                     commentControl?.setValidators([Validators.required]);
                 }
                 break;
 
-            case 'finalization':
+            case 'reports-finalization':
                 if (item?.canBeFinalized) {
                     commentControl?.setValidators([Validators.required]);
                 }

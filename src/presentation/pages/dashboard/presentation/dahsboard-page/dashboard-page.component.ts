@@ -35,6 +35,7 @@ interface StatisticCard {
         isPositive: boolean;
     };
 }
+const INITIAL_DAY = '90';
 
 @Component({
     selector: 'app-dashboard-page',
@@ -59,7 +60,7 @@ export class DashboardPageComponent implements OnInit {
     private readonly facade = inject(DashboardFacade);
     private readonly translate = inject(TranslateService);
 
-    private readonly _selectedPeriod = signal<Period>('7' as Period);
+    private readonly _selectedPeriod = signal<Period>(INITIAL_DAY as Period);
     readonly selectedPeriod = this._selectedPeriod.asReadonly();
 
     public periodOpts = period;
@@ -92,7 +93,8 @@ export class DashboardPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.title.setTitle(this.translate.instant('DASHBOARD.TITLE'));
-        const initialPeriod = (this.facade.filter()?.period ?? '7') as Period;
+        const initialPeriod = (this.facade.filter()?.period ??
+            INITIAL_DAY) as Period;
         this._selectedPeriod.set(initialPeriod);
         this.facade.read({ period: initialPeriod });
     }

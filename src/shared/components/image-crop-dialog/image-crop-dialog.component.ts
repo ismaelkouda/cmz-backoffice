@@ -89,11 +89,6 @@ export class ImageCropDialogComponent {
     readonly canConfirm = computed((): boolean => {
         const isReady = this.cropperReady();
         const hasBlob = !!this.lastCroppedBlob;
-        console.log('🟤 [CropDialog] canConfirm computed:', {
-            isReady,
-            hasBlob,
-            lastCroppedBlob: this.lastCroppedBlob() ? 'present' : 'null',
-        });
         return isReady && hasBlob;
     });
 
@@ -110,22 +105,8 @@ export class ImageCropDialogComponent {
     }
 
     onImageCropped(event: ImageCroppedEvent): void {
-        console.log('🟤 [CropDialog] onImageCropped - Événement reçu', {
-            hasBlob: !!event.blob,
-            blobType: event.blob?.type,
-            blobSize: event.blob?.size,
-            cropperPosition: event.cropperPosition,
-            imagePosition: event.imagePosition,
-        });
-
         if (event.blob) {
             this.lastCroppedBlob.set(event.blob);
-            console.log('🟤 [CropDialog] lastCroppedBlob mis à jour:', {
-                type: event.blob.type,
-                size: event.blob.size,
-            });
-        } else {
-            console.log('🟤 [CropDialog] onImageCropped - PAS DE BLOB!');
         }
     }
 

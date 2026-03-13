@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ApiError } from '@shared/domain/errors/api.error';
-import { EndPointType } from '@shared/domain/types/end-point.types';
 import { ToastrService } from 'ngx-toastr';
 import {
     BehaviorSubject,
@@ -154,56 +153,4 @@ export abstract class SimpleBaseFacade<
         this.loadingSubject.next(false);
         this.filterSubject.next(null);
     }
-
-    protected readonly itemsDetailsSubject = new BehaviorSubject<TEntity>(
-        {} as TEntity
-    );
-    protected readonly loadingDetailsSubject = new BehaviorSubject<boolean>(
-        false
-    );
-    protected readonly endPointTypeDetailsSubject =
-        new BehaviorSubject<EndPointType>('requests');
-
-    readonly itemsDetails$: Observable<TEntity> =
-        this.itemsDetailsSubject.asObservable();
-    readonly loadingDetails$: Observable<boolean> =
-        this.loadingDetailsSubject.asObservable();
-    readonly endPointType$: Observable<EndPointType> =
-        this.endPointTypeDetailsSubject.asObservable();
-
-    protected fetchDataDetails(
-        fetchObservable: Observable<TEntity>,
-        endPointType: EndPointType
-    ): void {
-        if (this.loadingDetailsSubject.getValue()) {
-            return;
-        }
-
-        this.loadingDetailsSubject.next(true);
-        this.endPointTypeDetailsSubject.next(endPointType);
-
-        fetchObservable
-            .pipe(
-                debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-                tap((response) => {
-                    this.itemsDetailsSubject.next(response);
-                }),
-                finalize(() => this.loadingDetailsSubject.next(false)),
-                catchError((error: unknown) => {
-                    const errorMessage = this.getErrorMessage(error);
-                    this.toastService.error(errorMessage);
-                    return throwError(() => error);
-                })
-            )
-            .subscribe();
-    }
-
-    resetDetails(): void {
-        this.itemsDetailsSubject.next({} as TEntity);
-        this.loadingDetailsSubject.next(false);
-    }
-
-    protected readonly loadingTreatmentSubject = new BehaviorSubject<boolean>(
-        false
-    );
 }

@@ -115,7 +115,7 @@
             "REASSIGN": "Réassignation reussie",
             "ASSIGN": "Assignation reussie",
             "REMOVE": "Retrait reussi",
-            "TAKE": "Prise en charge reussie",
+            "TAKE": "Ajout au panier reussie",
             "APPROVE": "Approbation reussie",
             "REJECT": "Rejecter avec succès",
             "TREAT": "Traiter avec succès",
@@ -473,7 +473,6 @@
                 "MEDIA_DISPLAY": "Média & Affichage",
                 "CONFIG": "Configuration & Actions",
                 "TITLE_PLACEHOLDER": "Ex: Nouveau contenu promotionnel",
-                "VIDEO": "Fichier Vidéo",
                 "VALIDATION": {
                     "IMAGE_REQUIRED": "Image est obligatoire",
                     "VIDEO_REQUIRED": "Video est obligatoire",
@@ -1297,10 +1296,6 @@
                 "ROUTE": "requests",
                 "ICON": "pi-list-check"
             },
-        "STATUS": {
-            "PRISE_EN_CHARGE": "Prise en charge",
-            "APPROBATION": "Approbation"
-        },
         "LABEL": "Qualifications",
         "ROUTE": "requests",
         "QUEUES": {
@@ -1318,7 +1313,7 @@
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "SEE_MORE": "Voir plus",
-                "TAKE": "Prendre",
+                "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -1563,7 +1558,7 @@
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATUS": "Statut",
-                "TAKE": "Prendre",
+                "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -1610,9 +1605,9 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_TAKE": "Prendre en charge les signalements",
-                "MESSAGE_TAKE": "Êtes-vous sûr de vouloir prendre en charge les signalements",
-                "BUTTONS": "Prendre en charge"
+                "TITLE_TAKE": "Ajouter au panier les signalements",
+                "MESSAGE_TAKE": "Êtes-vous sûr de vouloir ajouter au panier les signalements",
+                "BUTTONS": "Ajouter au panier"
             }
         },
         "TASKS": {
@@ -1633,6 +1628,8 @@
                 "STATE": "État",
                 "TREAT": "Traiter",
                 "ADD_ACTION": "Ajouter une Action",
+                "CLOSURE": "Clôturer",
+                "SEE_REPORT": "Visualiser",
                 "ACTION": "Action",
                 "PROCESSING_NEWSPAPERS": "Journal de traitements",
                 "STEP": "Étape",
@@ -1703,7 +1700,7 @@
                 },
                 "TABLE": {
                     "CREATED_AT": "Créé le",
-                    "DATE_ACTION": "Effectué le",
+                    "DATE_ACTION": "Date de l'action",
                     "TYPE": "Type d'action",
                     "DESCRIPTION": "Description",
                     "CREATED_BY": "Créé par",
@@ -1732,7 +1729,13 @@
                     },
                     "SWEET_ALERT": {
                         "TITLE_CREATE": "Création d'une action de traitement",
-                        "MESSAGE_CREATE": "Voulez-vous vraiment créer cette action de traitement ?"
+                        "MESSAGE_CREATE": "Voulez-vous vraiment créer cette action de traitement ?",
+                        "TITLE_UPDATE": "Mise à jour d'une action de traitement",
+                        "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette action de traitement ?",
+                "TITLE_DELETE": "Suppression d'une action de traitement",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette action de traitement ?",
+                        "TITLE_CLOSURE": "Clôture le traitement",
+                        "MESSAGE_CLOSURE": "Voulez-vous vraiment clôturer traitement du signalement <b class='text-primary'>uniqId</b> ?"
                     }
                 }
             }
@@ -1849,7 +1852,7 @@
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
-                "TAKE": "Prendre",
+                "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -1896,9 +1899,9 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_TAKE": "Prendre en charge les signalements",
-                "MESSAGE_TAKE": "Êtes-vous sûr de vouloir prendre en charge les signalements",
-                "BUTTONS": "Prendre en charge"
+                "TITLE_TAKE": "Ajouter au panier les signalements",
+                "MESSAGE_TAKE": "Êtes-vous sûr de vouloir ajouter au panier les signalements",
+                "BUTTONS": "Ajouter au panier"
             }
         },
         "TASKS": {
@@ -2311,7 +2314,7 @@
                 "TREATMENT": "Traitement",
                 "FINALIZATION": "Finalisation",
                 "INFORMATION": "Information",
-                "TAKE": "Prise en charge",
+                "TAKE": "Ajout au panier",
                 "APPROBATION": "Approbation"
             },
             "BUTTONS": {
@@ -2335,7 +2338,7 @@
                 "DATE_PLACEHOLDER": "Date à venir..."
             },
             "STEP_BAR": {
-                "PRISE_EN_CHARGE": "Prise en charge à",
+                "PRISE_EN_CHARGE": "Ajouter au panier à",
                 "APPROBATION": "Approuvé à",
                 "TREATMENT": "Traité à",
                 "FINALIZATION": "Finalisé à",
@@ -2343,12 +2346,12 @@
             },
             "SIDEBAR": {
                 "ACTIONS": {
-                    "TAKE":"Prise en charge",
+                    "TAKE":"Ajouter au panier",
                     "APPROVE": "Approuver",
                     "TREAT": "Traiter"
                 },
                 "INITIATOR": {
-                    "TITLE": "Informations du demandeur",
+                    "TITLE": "Informations de l'initiateur",
                     "LAST_NAME": "Nom",
                     "FIRST_NAME": "Prénoms",
                     "PHONE": "Contact"
@@ -2407,7 +2410,7 @@
             "TREATMENT": {
                 "PANEL": "Panneau de traitement",
                 "TAKE_ACTION": {
-                    "TITLE": "Prendre en charge le signalement",
+                    "TITLE": "Ajouter au panier le signalement",
                     "REQUIRED": "Requis",
                     "DECISION": "Décision",
                     "COMMENT": "Commentaire",
@@ -2417,7 +2420,7 @@
                     "OPTIONS": {
                         "APPROVE": {
                             "LABEL": "Accepter",
-                            "DESCRIPTION": "Prendre en charge le signalement"
+                            "DESCRIPTION": "Ajouter au panier le signalement"
                         },
                         "REJECT": {
                             "LABEL": "Rejeter",

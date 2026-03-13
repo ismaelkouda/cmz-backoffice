@@ -29,6 +29,13 @@
     }
 }
 
+.table-button-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 10px;
+}
+
 .actions-form-content {
     //padding: 1rem 0;
 }

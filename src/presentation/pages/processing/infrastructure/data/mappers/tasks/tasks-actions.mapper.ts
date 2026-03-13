@@ -18,20 +18,20 @@ export class TasksActionsMapper extends PaginatedMapper<
     protected override mapItemFromDto(
         dto: TasksActionsItemApiDto
     ): TasksActionsEntity {
-        MapperUtils.validateDto(dto, { required: ['uniq_id'] });
+        MapperUtils.validateDto(dto, { required: ['id'] });
         const props: TasksActionsProps = {
-            uniqId: dto.uniq_id,
+            uniqId: dto.id,
             date: dto.date,
             type: this.mapActionType(dto.type),
             description: dto.description,
             shouldNotifyUser: dto.should_notify_user ?? false,
-            createdBy: dto.created_by,
-            updatedBy: dto.updated_by,
+            createdBy: `${dto.created_by.last_name} ${dto.created_by.first_name}`,
+            updatedBy: `${dto.updated_by.last_name} ${dto.updated_by.first_name}`,
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };
 
-        const cacheKey = `dto:${dto.uniq_id}`;
+        const cacheKey = `dto:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
 
         const entity = cached

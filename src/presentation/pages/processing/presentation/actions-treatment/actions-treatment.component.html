@@ -20,6 +20,25 @@
                             <div class="ms-auto">
                                 <p-tag severity="success" [value]="uniqId()" />
                             </div>
+                            <div class="table-button-header">
+                                <button
+                                    type="button"
+                                    class="btn btn-dark"
+                                    (click)="onSeeClicked()"
+                                >
+                                    <i class="pi pi-eye me-2"></i>
+                                    <span>{{'PROCESSING.TASKS.TABLE.SEE_REPORT' | translate}}</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    (click)="onClosureClicked()"
+                                    [class.p-disabled]="!hasAction()"
+                                >
+                                    <i class="pi pi-check-circle me-2"></i>
+                                    <span>{{'PROCESSING.TASKS.TABLE.CLOSURE' | translate}}</span>
+                                </button>
+                            </div>
                         </div>
                         <p-button
                             [label]="'COMMON.CLOSE' | translate"
@@ -118,6 +137,14 @@
             </section>
         </article>
     </section>
+
+    @if (reportTreatmentVisible) {
+        <app-management-dialog
+            [(visible)]="reportTreatmentVisible"
+            [uniqId]="uniqId()"
+            (tasks)="onReportTreatmentTasks()"
+        ></app-management-dialog>
+    }
 </main>
 
 <p-dialog

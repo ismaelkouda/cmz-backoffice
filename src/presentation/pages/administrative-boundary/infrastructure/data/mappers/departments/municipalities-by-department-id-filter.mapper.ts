@@ -12,10 +12,10 @@ export function municipalitiesByDepartmentIdFilterMapper(
         params['search'] = filter.search;
     }
     if (filter.region) {
-        params['region_code'] = filter.region;
+        params['region_id'] = filter.region;
     }
     if (filter.department) {
-        params['department_code'] = filter.department;
+        params['department_id'] = filter.department;
     }
 
     if (filter.period?.start) {

@@ -1,3 +1,3 @@
 export interface TasksActionsFilterApiDto {
-    uniq_id: string;
+    report_uniq_id: string;
 }

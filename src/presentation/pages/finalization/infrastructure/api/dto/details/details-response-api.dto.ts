@@ -58,8 +58,8 @@ export interface DetailsItemApiDto {
     created_at: string;
     reported_at: string;
     updated_at: string;
-    region_code: number;
-    department_code: number;
+    region_id: number;
+    department_id: number;
     municipality_code: number;
     initiator: ActorDto | null;
     acknowledged_by: ActorDto | null;

@@ -3,10 +3,10 @@ import { DetailsTreatVo } from '@pages/processing/domain/value-objects/details/d
 export class DetailsTreatEntity {
     constructor(
         public readonly uniqId: string,
-        public readonly comment: string
+        public readonly comment?: string
     ) {}
 
     static fromVo(vo: DetailsTreatVo): DetailsTreatEntity {
-        return new DetailsTreatEntity(vo.uniqId, vo.comment);
+        return new DetailsTreatEntity(vo.uniqId, vo?.comment);
     }
 }

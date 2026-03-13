@@ -37,7 +37,7 @@ export const TASKS_ACTIONS_TABLE = {
             class: 'date_width text-center',
         },
         {
-            field: '__action',
+            field: '__actionDropdown',
             header: 'PROCESSING.TASKS.ACTIONS.TABLE.ACTION',
             width: '6rem',
             class: 'text-center',

@@ -2,7 +2,7 @@ import { PlatformDto } from '@shared/data/dto/platform.dto';
 
 export interface HomeUpdateApiDto {
     uniq_id: string;
-    image_file: string;
+    image_file: File | null;
     platforms: PlatformDto[];
     start_date: string;
     end_date: string;

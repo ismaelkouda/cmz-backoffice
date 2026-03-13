@@ -1,4 +1,4 @@
 export interface DetailsTreatDto {
     uniqId: string;
-    comment: string;
+    comment?: string;
 }

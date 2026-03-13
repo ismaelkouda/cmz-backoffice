@@ -1,6 +1,6 @@
 export interface MunicipalitiesCreateApiDto {
     code: string;
     name: string;
-    department_code: string;
+    department_id: string;
     description: string;
 }

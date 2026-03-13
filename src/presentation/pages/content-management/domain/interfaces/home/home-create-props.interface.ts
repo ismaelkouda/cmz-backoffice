@@ -1,7 +1,7 @@
 import { Platform } from '@shared/domain/enums/platform.enum';
 
 export interface HomeCreateProps {
-    image: string;
+    image: File | null;
     platforms: Platform[];
     startDate: string;
     endDate: string;
