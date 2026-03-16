@@ -4,7 +4,6 @@ import {
     Component,
     computed,
     DestroyRef,
-    effect,
     inject,
     Signal,
     signal,
@@ -144,15 +143,6 @@ export class SlideFormComponent {
         this.translate.onLangChange
             .pipe(takeUntilDestroyed())
             .subscribe((lang) => this.currentLang.set(lang.lang));
-
-        // effect(() => {
-        //     const file = this.imageStore.croppedImageFile();
-        //     if (!file) {
-        //         return;
-        //     }
-
-        //     this.store.form.controls.image.setValue(file);
-        // });
     }
 
     public getErrorMessage(field: string): string {
@@ -166,6 +156,12 @@ export class SlideFormComponent {
 
     public onCropConfirmed(blob: Blob): void {
         this.imageStore.confirmCrop(blob);
+        const file = this.imageStore.getCurrentFile();
+        if (file) {
+            this.form.controls.image.setValue(file);
+            this.form.controls.image.markAsDirty();
+            this.form.controls.image.markAsTouched();
+        }
     }
 
     public onCropCancelled(): void {
@@ -196,6 +192,11 @@ export class SlideFormComponent {
         this.previewVisible.set(false);
     }
 
+    public onImageCleared(): void {
+        this.form.controls.image.reset(null);
+        this.form.controls.image.markAsTouched();
+    }
+
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
@@ -214,7 +215,6 @@ export class SlideFormComponent {
                 return;
             }
             const payload = this.form.getRawValue();
-            console.log('payload: ', payload);
             if (this.isEditMode()) {
                 this.submitFacade.update({
                     uniqId: this.uniqId(),

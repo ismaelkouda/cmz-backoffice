@@ -1,17 +1,17 @@
 <p-dialog
-  [visible]="visible()"
-(onCloseDialog)="onCancel()"
-  [modal]="true"
-  [closable]="false"
-  [resizable]="false"
-  [draggable]="false"
-  [breakpoints]="{ '768px': '95vw', '1024px': '80vw' }"
-  [style]="{ width: '72vw', maxWidth: '920px' }"
-  styleClass="crop-dialog"
-[maximizable]="false"
-  appendTo="body"
-  [focusOnShow]="false"
->
+    [visible]="visible()"
+    (onCloseDialog)="onCancel()"
+    [modal]="true"
+    [closable]="false"
+    [resizable]="false"
+    [draggable]="false"
+    [breakpoints]="{ '768px': '95vw', '1024px': '80vw' }"
+    [style]="{ width: '72vw', maxWidth: '920px' }"
+    styleClass="crop-dialog"
+    [maximizable]="false"
+    appendTo="body"
+    [focusOnShow]="false"
+    >
   <ng-template #header>
     <div class="crop-dialog-header">
         <div class="crop-dialog-title">

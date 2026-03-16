@@ -87,9 +87,7 @@ export class ImageCropDialogComponent {
     });
 
     readonly canConfirm = computed((): boolean => {
-        const isReady = this.cropperReady();
-        const hasBlob = !!this.lastCroppedBlob;
-        return isReady && hasBlob;
+        return this.cropperReady() && !!this.lastCroppedBlob();
     });
 
     readonly rotationLabel = computed(() => `${this.rotation()}°`);

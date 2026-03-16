@@ -211,6 +211,10 @@ export class DetailsEntity {
         return managementWorkflowTimestamps(this.props);
     }
 
+    public displayApproveComment(): boolean {
+        return this.type === 'processing';
+    }
+
     public with(props: DetailsProps): DetailsEntity {
         if (this.updatedAt === props.updatedAt) {
             return this;

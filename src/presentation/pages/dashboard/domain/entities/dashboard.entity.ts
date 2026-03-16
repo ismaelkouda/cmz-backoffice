@@ -88,7 +88,7 @@ export class DashboardEntity {
     }
 
     get lastRefreshAt(): string {
-        return this.props.lastRefreshAt ?? new Date().toISOString();
+        return this.props.lastRefreshAt;
     }
 
     public get totalActive(): number {
@@ -109,7 +109,6 @@ export class DashboardEntity {
         return new DashboardEntity({
             ...this.props,
             ...updates,
-            lastRefreshAt: new Date().toISOString(),
         });
     }
 }

@@ -1,10 +1,11 @@
-import { inject } from '@angular/core';
 import { HomeUpdateEntity } from '@pages/content-management/domain/entities/home/home-update.entity';
 import { HomeUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-update-api.dto';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
-export function homeUpdateMapper(entity: HomeUpdateEntity): HomeUpdateApiDto {
-    const platformMapper = inject(PlatformMapper);
+export function homeUpdateMapper(
+    entity: HomeUpdateEntity,
+    platformMapper: PlatformMapper
+): HomeUpdateApiDto {
     const params: HomeUpdateApiDto = {} as HomeUpdateApiDto;
 
     if (entity.uniqId) {

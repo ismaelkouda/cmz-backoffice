@@ -39,7 +39,6 @@ import { TableHeaderButton } from '@shared/components/table-button-header/table-
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { formatDate } from '@shared/domain/functions/format-data.function';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
-import { Track } from '@shared/domain/functions/track.function';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { PROCESSING_ROUTE } from '@shared/routes/routes';
@@ -273,7 +272,6 @@ export class ActionsTreatmentComponent implements OnInit {
         }
     }
 
-    @Track('actions-treatment', 'refresh')
     public onRefreshClicked(): void {
         this.form.reset();
         this.facade.refresh();

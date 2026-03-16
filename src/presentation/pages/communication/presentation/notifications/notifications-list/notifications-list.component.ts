@@ -3,21 +3,15 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
-    effect,
     inject,
     OnDestroy,
     OnInit,
     Signal,
     signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import {
-    LangChangeEvent,
-    TranslateModule,
-    TranslateService,
-} from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NotificationsFacade } from '@pages/communication/application/services/notifications/notifications.facade';
 import { NOTIFICATIONS } from '@pages/communication/domain/constants/notifications/notifications-table.constant';
 import { NotificationsFilterControl } from '@pages/communication/domain/controls/notifications/notifications-filter.control';
@@ -31,6 +25,7 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { Track } from '@shared/domain/functions/track.function';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
@@ -74,13 +69,9 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     public readonly tableConfig = NOTIFICATIONS;
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-    readonly items = toSignal(this.facade.items$, { initialValue: [] });
-    readonly loading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
-    readonly pagination = toSignal(this.facade.pagination$, {
-        initialValue: null,
-    });
+    readonly items = this.facade.items;
+    readonly loading = this.facade.loading;
+    readonly pagination = this.facade.pagination;
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
             label: 'COMMON.READ_ALL',
@@ -152,28 +143,24 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         }),
     });
     constructor() {
-        this.facade.execute();
         this.translate.onLangChange
             .pipe(takeUntil(this.destroy$))
-            .subscribe((event: LangChangeEvent) => {
+            .subscribe((event) => {
                 this.currentLang.set(event.lang);
+                this.updateTitle();
             });
-
-        effect(() => {
-            this.filterFields();
-        });
     }
 
+    @Track('notifications', (ctx) => ({
+        page: ctx.pagination()?.currentPage,
+        filters: ctx.form.value,
+    }))
     ngOnInit(): void {
-        this.title.setTitle(this.t('COMMUNICATION.NOTIFICATIONS.PAGE_TITLE'));
+        this.updateTitle();
+    }
 
-        this.translate.onLangChange
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.title.setTitle(
-                    this.t('COMMUNICATION.NOTIFICATIONS.PAGE_TITLE')
-                );
-            });
+    private updateTitle(): void {
+        this.title.setTitle(this.t('COMMUNICATION.NOTIFICATIONS.PAGE_TITLE'));
     }
 
     ngOnDestroy(): void {

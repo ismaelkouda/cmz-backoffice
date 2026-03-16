@@ -38,6 +38,7 @@ export class DetailsMapper extends SimpleResponseMapper<
 
     private static readonly QUALIFICATION_STATE_MAP = MapperUtils.createEnumMap(
         {
+            pending: DetailsQualificationState.PENDING,
             completed: DetailsQualificationState.COMPLETED,
         }
     );

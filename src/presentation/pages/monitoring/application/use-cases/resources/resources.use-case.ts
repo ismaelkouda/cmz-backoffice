@@ -1,13 +1,12 @@
 import { Injectable, inject } from '@angular/core';
+import { ResourcesEntity } from '@pages/monitoring/domain/entities/resources/resources.entity';
+import { ResourcesRepository } from '@pages/monitoring/domain/repositories/resources-repository.interface';
 import { Observable } from 'rxjs';
-
-import { ResourcesEntity } from '../../../domain/entities/resources/resources.entity';
-import { ResourcesRepository } from '../../../domain/repositories/resources-repository.interface';
 
 @Injectable({
     providedIn: 'root',
 })
-export class FetchResourcesUseCase {
+export class ResourcesUseCase {
     private readonly repository = inject(ResourcesRepository);
 
     execute(): Observable<ResourcesEntity> {

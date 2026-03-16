@@ -19,6 +19,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
@@ -27,6 +28,7 @@ import { map, Observable } from 'rxjs';
 export class HomeRepositoryImpl implements HomeRepository {
     private readonly api = inject(HomeApi);
     private readonly mapper = inject(HomeMapper);
+    private readonly platformMapper = inject(PlatformMapper);
 
     readAll(
         filter: HomeFilterEntity,
@@ -38,11 +40,11 @@ export class HomeRepositoryImpl implements HomeRepository {
     }
 
     create(payload: HomeCreateEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.create(homeCreateMapper(payload));
+        return this.api.create(homeCreateMapper(payload, this.platformMapper));
     }
 
     update(payload: HomeUpdateEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.update(homeUpdateMapper(payload));
+        return this.api.update(homeUpdateMapper(payload, this.platformMapper));
     }
 
     delete(entity: HomeDeleteEntity): Observable<SimpleResponseDto<void>> {

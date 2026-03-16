@@ -5,11 +5,9 @@ import {
     inject,
     OnInit,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
+import { ReportFacade } from '@pages/reporting/application/services/report.facade';
 import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
-
-import { ReportFacade } from '../../../../../application/services/report.facade';
 
 @Component({
     selector: 'app-report-page',
@@ -25,7 +23,8 @@ import { ReportFacade } from '../../../../../application/services/report.facade'
                 [loadingDescription]="'REPORTING.REPORT.LOADING_DESCRIPTION'"
                 [errorDescription]="'REPORTING.REPORT.ERROR_DESCRIPTION'"
                 (refresh)="refreshDashboard()"
-                [isLoading]="isLoading() ?? false"
+                [loading]="loading()"
+                [error]="error()"
             >
             </app-dashboard-viewer>
         } @else {
@@ -38,11 +37,12 @@ import { ReportFacade } from '../../../../../application/services/report.facade'
 })
 export class ReportPageComponent implements OnInit {
     private readonly facade = inject(ReportFacade);
-    readonly report = toSignal(this.facade.items$);
-    readonly isLoading = toSignal(this.facade.isLoading$);
+    readonly report = this.facade.items;
+    readonly loading = this.facade.loading;
+    readonly error = this.facade.error;
 
     ngOnInit(): void {
-        this.facade.fetchReport();
+        this.facade.execute();
     }
 
     refreshDashboard(): void {

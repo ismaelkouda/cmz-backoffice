@@ -20,5 +20,5 @@ export interface DashboardProps {
     readonly averageTreatmentTime?: number;
     readonly completionRate?: number;
     readonly responseTime?: number;
-    readonly lastRefreshAt?: string;
+    readonly lastRefreshAt: string;
 }

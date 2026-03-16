@@ -288,11 +288,34 @@
                             </div>
                         </div>
 
-                        @if (showCommentSections()) {
                             @if (
-                                !item()?.statusPending &&
-                                !item()?.statusInProgress
+                                item()?.displayApproveComment()
                             ) {
+
+                                @if(item()?.statusReject) {
+                                <div class="data-row full">
+                                    <div class="data-field">
+                                        <label class="field-label">
+                                            <i class="pi pi-file-edit"></i>
+                                            {{
+                                                'MANAGEMENT.FORM.REPORT_INFO.COMMENT_REJECT'
+                                                    | translate
+                                            }}
+                                        </label>
+                                        <div class="field-value description">
+                                            <div class="description-content">
+                                                {{
+                                                    item()?.treater
+                                                        ?.rejectedComment ||
+                                                        ('MANAGEMENT.FORM.REPORT_INFO.NO_COMMENT_REJECT'
+                                                            | translate)
+                                                }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                } @else {
                                 <div class="data-row full">
                                     <div class="data-field">
                                         <label class="field-label">
@@ -314,6 +337,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                }
                             }
 
                             @if (item()?.statusFinalization) {
@@ -366,7 +390,6 @@
                                     </div>
                                 </div>
                             }
-                        }
                     </div>
                 </div>
             </div>
