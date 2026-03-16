@@ -29,7 +29,6 @@ import { TooltipModule } from 'primeng/tooltip';
 export class ManagementInfoPanelComponent {
     public readonly item = input.required<any>();
     public readonly loading = input.required<boolean>();
-    public readonly showCommentSections = input<boolean>(true);
 
     public readonly copy = output<string>();
 

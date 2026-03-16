@@ -1,4 +1,5 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NotificationsReadAllBus } from '@pages/communication/application/commands-bus/notifications/notifications-read-all.bus';
 import { NotificationsFilterDto } from '@pages/communication/application/dto/notifications/notifications-filter.dto';
 import { NotificationsQuery } from '@pages/communication/application/queries/notifications/notifications.query';
@@ -32,6 +33,16 @@ export class NotificationsFacade extends BaseFacade<
 
     private readonly _actionError = signal<unknown | null>(null);
     readonly actionError = this._actionError.asReadonly();
+
+    readonly items = toSignal(this.items$, { initialValue: [] });
+    readonly loading = toSignal(this.isLoading$, { initialValue: false });
+    readonly pagination = toSignal(this.pagination$, {
+        initialValue: null,
+    });
+
+    readonly unreadCount = computed(
+        () => this.items().filter((n) => n.status === 'read').length
+    );
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;

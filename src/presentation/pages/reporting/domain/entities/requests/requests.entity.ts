@@ -1,3 +1,3 @@
-export class RequestEntity {
+export class RequestsEntity {
     constructor(public readonly grafanaLink: string) {}
 }

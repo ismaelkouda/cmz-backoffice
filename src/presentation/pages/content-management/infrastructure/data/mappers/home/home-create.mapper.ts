@@ -1,10 +1,11 @@
-import { inject } from '@angular/core';
 import { HomeCreateEntity } from '@pages/content-management/domain/entities/home/home-create.entity';
 import { HomeCreateApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-create-api.dto';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
-export function homeCreateMapper(entity: HomeCreateEntity): HomeCreateApiDto {
-    const platformMapper = inject(PlatformMapper);
+export function homeCreateMapper(
+    entity: HomeCreateEntity,
+    platformMapper: PlatformMapper
+): HomeCreateApiDto {
     const params: HomeCreateApiDto = {} as HomeCreateApiDto;
 
     if (entity.image) {

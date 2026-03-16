@@ -45,16 +45,14 @@ import {
 export class ImageUploadComponent implements ControlValueAccessor {
     readonly store = inject(ImageUploadStateService);
     readonly config = input<ImageUploadConfig>(DEFAULT_IMAGE_UPLOAD_CONFIG);
-    readonly previewUrl = signal<string | null>(null);
 
     readonly imageSelected = output<ImageSelectedResult>();
     readonly imageError = output<ImageUploadError>();
     readonly viewImage = output();
+    readonly imageCleared = output();
 
     readonly status = signal<ImageUploadStatus>('idle');
-    readonly isDragging = signal(false);
     readonly validationError = signal<ImageUploadError | null>(null);
-
     readonly disabled = signal(false);
 
     private readonly fileInputRef =
@@ -66,10 +64,6 @@ export class ImageUploadComponent implements ControlValueAccessor {
     private onTouched: () => void = () => {
         /* empty */
     };
-
-    public openPreview(): void {
-        this.viewImage.emit();
-    }
 
     /* private createPreview(file: File): void {
         const url = URL.createObjectURL(file);
@@ -155,53 +149,12 @@ export class ImageUploadComponent implements ControlValueAccessor {
         }
     }
 
-    public onDragOver(event: DragEvent): void {
-        event.preventDefault();
-        event.stopPropagation();
-        if (!this.disabled()) {
-            this.isDragging.set(true);
-        }
-    }
-
-    public onDragLeave(event: DragEvent): void {
-        event.preventDefault();
-        this.isDragging.set(false);
-    }
-
-    public onDrop(event: DragEvent): void {
-        event.preventDefault();
-        event.stopPropagation();
-        this.isDragging.set(false);
-
-        if (this.disabled()) {
-            return;
-        }
-
-        if (event.dataTransfer?.files && event.dataTransfer.files.length > 1) {
-            const error: ImageUploadError = {
-                type: 'MULTIPLE_FILES',
-                fileCount: event.dataTransfer.files.length,
-            };
-            this.setError(error);
-            return;
-        }
-
-        const file = event.dataTransfer?.files?.[0];
-        if (!file) {
-            const error: ImageUploadError = {
-                type: 'NO_FILE',
-            };
-            this.setError(error);
-            return;
-        }
-
-        this.processFile(file, event);
+    public openPreview(): void {
+        this.viewImage.emit();
     }
 
     public openFilePicker(): void {
-        // if (!this.disabled() && !this.hasCroppedImage()) {
         this.fileInputRef()?.nativeElement?.click();
-        // }
     }
 
     public onFileInputChange(event: Event): void {
@@ -221,9 +174,10 @@ export class ImageUploadComponent implements ControlValueAccessor {
         this.validationError.set(null);
         this.onChange(null);
         this.onTouched();
+        this.imageCleared.emit();
     }
 
-    private processFile(file: File, originalEvent: Event): void {
+    private processFile(file: File, event: Event): void {
         this.onTouched();
 
         if (!this.config().acceptedTypes.includes(file.type)) {
@@ -251,7 +205,7 @@ export class ImageUploadComponent implements ControlValueAccessor {
         this.validationError.set(null);
         this.onChange(file);
 
-        this.imageSelected.emit({ file, event: originalEvent });
+        this.imageSelected.emit({ file, event: event });
     }
 
     private setError(error: ImageUploadError): void {

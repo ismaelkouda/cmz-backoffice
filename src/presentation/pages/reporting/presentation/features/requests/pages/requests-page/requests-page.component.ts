@@ -5,11 +5,9 @@ import {
     inject,
     OnInit,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
+import { RequestsFacade } from '@pages/reporting/application/services/request.facade';
 import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
-
-import { RequestFacade } from '../../../../../application/services/request.facade';
 
 @Component({
     selector: 'app-requests-page',
@@ -25,7 +23,8 @@ import { RequestFacade } from '../../../../../application/services/request.facad
                 [loadingDescription]="'REPORTING.REQUESTS.LOADING_DESCRIPTION'"
                 [errorDescription]="'REPORTING.REQUESTS.ERROR_DESCRIPTION'"
                 (refresh)="refreshDashboard()"
-                [isLoading]="isLoading() ?? false"
+                [loading]="loading()"
+                [error]="error()"
             >
             </app-dashboard-viewer>
         } @else {
@@ -37,15 +36,16 @@ import { RequestFacade } from '../../../../../application/services/request.facad
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestsPageComponent implements OnInit {
-    private readonly facade = inject(RequestFacade);
-    readonly requests = toSignal(this.facade.items$);
-    readonly isLoading = toSignal(this.facade.isLoading$);
+    private readonly facade = inject(RequestsFacade);
+    readonly requests = this.facade.items;
+    readonly loading = this.facade.loading;
+    readonly error = this.facade.error;
 
     ngOnInit(): void {
-        this.facade.fetchRequests();
+        this.facade.execute();
     }
 
-    refreshDashboard() {
+    refreshDashboard(): void {
         this.facade.refresh();
     }
 }

@@ -43,9 +43,18 @@
                         <app-languages></app-languages>
                     </li>
                     <li class="profile-nav onhover-dropdown">
-                        <p-overlaybadge value="2">
+                        <p-overlaybadge
+                            [value]="count()"
+                            *ngIf="count() > 0"
+                        >
                             <i class="pi pi-bell" style="font-size: 1.5rem"></i>
                         </p-overlaybadge>
+
+                        <i
+                            *ngIf="count() === 0"
+                            class="pi pi-bell"
+                            style="font-size: 1.5rem"
+                        ></i>
                     </li>
                     <li class="profile-nav onhover-dropdown">
                         <app-my-account></app-my-account>

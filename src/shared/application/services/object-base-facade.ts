@@ -9,7 +9,8 @@ export interface Filter {
     toDto(): Record<string, string | string[]>;
 }
 export class ObjectBaseFacade<TEntity, TFilter> {
-    protected readonly _state = signal<ResourceState<TEntity>>({
+    protected readonly _state = signal<ResourceState<TEntity, TFilter>>({
+        filter: null,
         data: null,
         loading: false,
         error: null,
@@ -18,12 +19,10 @@ export class ObjectBaseFacade<TEntity, TFilter> {
 
     readonly state = this._state.asReadonly();
 
-    readonly filter = computed(() => this._filter());
+    readonly filter = computed(() => this._state().filter);
     readonly items = computed(() => this._state().data);
     readonly loading = computed(() => this._state().loading);
     readonly error = computed(() => this._state().error);
-
-    protected readonly _filter = signal<TFilter | null>(null);
 
     protected fetch(
         filter: TFilter,
@@ -33,7 +32,6 @@ export class ObjectBaseFacade<TEntity, TFilter> {
         force = false,
         skipSameFilter = false
     ): void {
-        console.log('this._filter()11111: ', this._filter());
         const current = this._state();
 
         if (!force && !this.shouldFetch(current, staleTime)) {
@@ -45,27 +43,19 @@ export class ObjectBaseFacade<TEntity, TFilter> {
         }
 
         if (!skipSameFilter) {
-            console.log('skipSameFilter: ', skipSameFilter);
-            console.log('filter: ', filter);
-            const prev = this.normalize(this._filter());
+            const prev = this.normalize(current?.filter);
             const curr = this.normalize(filter);
-            console.log('prev: ', prev);
-            console.log('curr: ', curr);
 
             /* const prevEmpty = this.isEmpty(prev); */
             const currEmpty = this.isEmpty(curr);
 
             if (!currEmpty) {
                 const same = this.isSameFilter(prev, curr);
-                console.log('same: ', same);
-
                 if (same) {
                     return;
                 }
             }
         }
-
-        this._filter.set(filter);
 
         this._state.update((s) => ({
             ...s,
@@ -77,6 +67,7 @@ export class ObjectBaseFacade<TEntity, TFilter> {
             .pipe(
                 tap((data) => {
                     this._state.set({
+                        filter,
                         data,
                         loading: false,
                         error: null,
@@ -87,7 +78,7 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                     this._state.update((s) => ({
                         ...s,
                         loading: false,
-                        error: err,
+                        error: err.message,
                     }));
 
                     ui?.notifyError(err);
@@ -102,12 +93,10 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                 })
             )
             .subscribe();
-        console.log('filter2222: ', filter);
-        console.log('this._filter()2222: ', this._filter());
     }
 
     protected shouldFetch(
-        state: ResourceState<TEntity>,
+        state: ResourceState<TEntity, TFilter>,
         staleTime: number
     ): boolean {
         const isStale = Date.now() - state.lastFetch > staleTime;
@@ -116,13 +105,12 @@ export class ObjectBaseFacade<TEntity, TFilter> {
 
     reset(): void {
         this._state.set({
+            filter: null,
             data: null,
             loading: false,
             error: null,
             lastFetch: 0,
         });
-
-        this._filter.set(null);
     }
 
     private normalize(filter: TFilter | null): Record<string, any> {
@@ -138,7 +126,6 @@ export class ObjectBaseFacade<TEntity, TFilter> {
     }
 
     private isEmpty(filter: Record<string, any>): boolean {
-        console.log('filter: ', filter);
         return Object.keys(filter).length === 0;
     }
 

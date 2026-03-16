@@ -23,7 +23,7 @@ export interface DashboardItemApiDto {
     readonly averageTreatmentTime?: number;
     readonly completionRate?: number;
     readonly responseTime?: number;
-    readonly last_refresh_at?: string;
+    readonly last_refresh_at: string;
 }
 
 export type DashboardResponseApiDto = SimpleResponseDto<DashboardItemApiDto>;

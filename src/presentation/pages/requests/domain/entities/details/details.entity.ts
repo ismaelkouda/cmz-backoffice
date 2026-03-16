@@ -174,12 +174,25 @@ export class DetailsEntity {
         return this.status === Status['IN_PROGRESS'];
     }
 
+    public get statusReject(): boolean {
+        return this.status === Status.REJECTED;
+    }
+
     private get statusApproved(): boolean {
         return this.status === Status.APPROVED;
     }
 
     public get updateWorkflowTimestamps(): ManagementTimestamp[] {
         return managementWorkflowTimestamps(this.props);
+    }
+
+    public displayApproveComment(): boolean {
+        return (
+            !(
+                this.status === Status.PENDING ||
+                this.status === Status.IN_PROGRESS
+            ) && this.type === 'requests'
+        );
     }
 
     public with(props: DetailsProps): DetailsEntity {

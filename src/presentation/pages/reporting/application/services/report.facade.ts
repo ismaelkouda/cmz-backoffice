@@ -1,72 +1,24 @@
 import { inject, Injectable } from '@angular/core';
-import { SimpleBaseFacade } from '@shared/application/services/simple-base-facade';
-
-import { ReportEntity } from '../../domain/entities/report/report.entity';
-import { FetchReportUseCase } from '../use-cases/report/fetch-report.use-case';
+import { ReportsBus } from '@pages/reporting//application/queries-bus/reports/reports.bus';
+import { ReportsEntity } from '@pages/reporting/domain/entities/reports/reports.entity';
+import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ReportFacade extends SimpleBaseFacade<ReportEntity, undefined> {
-    private readonly fetchReportUseCase = inject(FetchReportUseCase);
-    readonly requests$ = this.items$;
-
-    private hasInitialized = false;
-    private lastFetchTimestamp = 0;
+export class ReportFacade extends ObjectBaseFacade<ReportsEntity, undefined> {
+    private readonly ui = inject(UiFeedbackService);
+    private readonly bus = inject(ReportsBus);
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    fetchReport(forceRefresh = false): void {
-        if (!this.shouldFetch(forceRefresh)) {
-            return;
-        }
-        const fetch = this.fetchReportUseCase.execute();
-        this.fetchData(null, fetch);
-
-        this.hasInitialized = true;
-        this.lastFetchTimestamp = Date.now();
+    execute(force = false): void {
+        const fetch$ = this.bus.dispatch();
+        this.fetch(undefined, fetch$, this.ui, this.STALE_TIME, force);
     }
 
     refresh(): void {
-        const fetch = this.fetchReportUseCase.execute();
-        this.fetchData(null, fetch);
-
-        this.lastFetchTimestamp = Date.now();
-    }
-
-    private shouldFetch(forceRefresh: boolean): boolean {
-        if (forceRefresh) {
-            return true;
-        }
-        if (!this.hasInitialized) {
-            return true;
-        }
-        const isStale = Date.now() - this.lastFetchTimestamp > this.STALE_TIME;
-        if (isStale) {
-            return true;
-        }
-        const hasData = this.itemsSubject.getValue() !== null;
-        if (!hasData) {
-            return true;
-        }
-
-        return false;
-    }
-
-    resetMemory(): void {
-        this.hasInitialized = false;
-        this.lastFetchTimestamp = 0;
-        this.reset();
-    }
-
-    getMemoryStatus(): {
-        hasInitialized: boolean;
-        lastFetch: number;
-        hasData: boolean;
-    } {
-        return {
-            hasInitialized: this.hasInitialized,
-            lastFetch: this.lastFetchTimestamp,
-            hasData: this.itemsSubject.getValue() !== null,
-        };
+        const fetch$ = this.bus.dispatch();
+        this.fetch(undefined, fetch$, this.ui, this.STALE_TIME, true);
     }
 }

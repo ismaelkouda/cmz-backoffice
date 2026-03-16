@@ -16,6 +16,7 @@ import { ImakoMultiSelectComponent } from '@shared/components/ui/form-elements/i
 import { ImakoSelectComponent } from '@shared/components/ui/form-elements/imako-select/imako-select.component';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
+import { StyleClassModule } from 'primeng/styleclass';
 import { Observable } from 'rxjs';
 
 import { FilterField } from './filter.types';
@@ -33,6 +34,7 @@ import { FilterField } from './filter.types';
         ImakoSelectComponent,
         ImakoMultiSelectComponent,
         ImakoDateComponent,
+        StyleClassModule,
     ],
     templateUrl: './filter.component.html',
     styleUrls: ['./filter.component.scss'],

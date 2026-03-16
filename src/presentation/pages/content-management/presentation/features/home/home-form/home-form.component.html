@@ -61,7 +61,8 @@
                                                             id="image"
                                                             formControlName="image"
                                                             (viewImage)="openImagePreview()"
-                                                            (imageSelected)="onImageSelected($event)">
+                                                            (imageSelected)="onImageSelected($event)"
+                                                            (imageCleared)="onImageCleared()">
                                                         </app-image-upload>
                                                     </div>
                                                 </div>
@@ -333,7 +334,7 @@
 <app-image-crop-dialog
   [visible]="imageStore.cropperIsOpen()"
   [sourceFile]="imageStore.cropperSourceFile()"
-  [aspectRatio]="imageStore.activeCropAspectRatio()"
+  [aspectRatio]="store.activeCropAspectRatio()"
   [rotation]="imageStore.cropperRotation()"
   [flipH]="imageStore.cropperFlipH()"
   [flipV]="imageStore.cropperFlipV()"

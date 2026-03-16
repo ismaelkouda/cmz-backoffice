@@ -340,7 +340,7 @@
                 }
             },
             "TYPE": {
-                "TITLE": "Type de signalement",
+                "TITLE": "Type de signalements",
                 "TOTAL_PROCESSING": {
                     "LABEL": "Total des signalements",
                     "SUBTITLE": "Tous les signalements confondus"
@@ -1452,11 +1452,17 @@
             },
             "STATUS": {
                 "CONFIRMED": "Confirmé",
+                "CONFIRMED_STYLE": "contrast",
                 "APPROVED": "Approuvé",
+                "APPROVED_STYLE": "success",
                 "REJECTED": "Rejeté",
+                "REJECTED_STYLE": "danger",
                 "ABANDONED": "Abandonné",
+                "ABANDONED_STYLE": "warning",
                 "IN_PROGRESS": "En cours",
+                "IN_PROGRESS_STYLE": "warn",
                 "TERMINATED": "Terminé",
+                "TERMINATED_STYLE": "info",
                 "UNKNOWN": "Inconnu"
             },
             "TABLE": {
@@ -2455,13 +2461,14 @@
                 "TYPE": "Type de signalement",
                 "STATUS": "Statut",
                 "DESCRIPTION": "Description du signalement",
-                "COMMENT_APPROVER": "Commentaire approbateur",
-                "NO_COMMENT_APPROVER": "Aucun commentaire approbateur fourni",
-                "COMMENT_TREATMENT": "Commentaire traitement",
-                "COMMENT_FINALIZATION": "Commentaire finalisation",
-                "NO_COMMENT_FINALIZATION": "Aucun commentaire finalisation fourni",
-                "NO_COMMENT_TREATMENT": "Aucun commentaire traitement fourni",
-                "COMMENT_TREAT": "Commentaire traitement",
+                "COMMENT_APPROVER": "Commentaire de l'approbateur",
+                "COMMENT_REJECT": "Commentaire du refuseur",
+                "NO_COMMENT_APPROVER": "Aucun commentaire de l'approbateur fourni",
+                "COMMENT_TREATMENT": "Commentaire du traitent",
+                "COMMENT_FINALIZATION": "Commentaire du finalisateur",
+                "NO_COMMENT_FINALIZATION": "Aucun commentaire du finalisateur fourni",
+                "NO_COMMENT_TREATMENT": "Aucun commentaire du traitent fourni",
+                "COMMENT_TREAT": "Commentaire du traitement",
                 "LOCATION_NAME": "Lien avec la zone",
                 "NO_DESCRIPTION": "Aucune description de localisation fournie"
             },

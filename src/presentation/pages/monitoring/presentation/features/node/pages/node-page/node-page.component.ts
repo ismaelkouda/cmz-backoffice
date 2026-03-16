@@ -5,7 +5,6 @@ import {
     inject,
     OnInit,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
 import { NodeFacade } from '@pages/monitoring/application/services/node.facade';
 import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
@@ -23,7 +22,8 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
             [loadingDescription]="'MONITORING.NODE.LOADING_DESCRIPTION'"
             [errorDescription]="'MONITORING.NODE.ERROR_DESCRIPTION'"
             (refresh)="refreshDashboard()"
-            [isLoading]="isLoading() ?? false"
+            [loading]="loading()"
+            [error]="error()"
         >
         </app-dashboard-viewer>
     `,
@@ -31,14 +31,15 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
 })
 export class NodePageComponent implements OnInit {
     private readonly facade = inject(NodeFacade);
-    readonly data = toSignal(this.facade.items$);
-    readonly isLoading = toSignal(this.facade.isLoading$);
+    readonly data = this.facade.items;
+    readonly loading = this.facade.loading;
+    readonly error = this.facade.error;
 
     ngOnInit(): void {
-        this.facade.fetchNode();
+        this.facade.execute();
     }
 
-    refreshDashboard() {
+    refreshDashboard(): void {
         this.facade.refresh();
     }
 }

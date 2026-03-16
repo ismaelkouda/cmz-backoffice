@@ -141,12 +141,18 @@ export class HomeFormComponent {
         return this.validation.getErrorMessage(field, control?.errors || null);
     }
 
-    public onImageSelected(result: ImageSelectedResult): void {
-        this.imageStore.openCropper(result.file);
+    public onImageSelected({ file }: ImageSelectedResult): void {
+        this.imageStore.openCropper(file);
     }
 
     public onCropConfirmed(blob: Blob): void {
         this.imageStore.confirmCrop(blob);
+        const file = this.imageStore.getCurrentFile();
+        if (file) {
+            this.form.controls.image.setValue(file);
+            this.form.controls.image.markAsDirty();
+            this.form.controls.image.markAsTouched();
+        }
     }
 
     public onCropCancelled(): void {
@@ -177,6 +183,11 @@ export class HomeFormComponent {
         this.previewVisible.set(false);
     }
 
+    public onImageCleared(): void {
+        this.form.controls.image.reset(null);
+        this.form.controls.image.markAsTouched();
+    }
+
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
@@ -195,7 +206,6 @@ export class HomeFormComponent {
                 return;
             }
             const payload = this.form.getRawValue();
-            console.log('payload: ', payload);
             if (this.isEditMode()) {
                 this.submitFacade.update({
                     uniqId: this.uniqId(),

@@ -1,6 +1,6 @@
 export function Track(
     moduleName: string,
-    actionName?: string
+    getDynamicData?: (instance: any) => any
 ): MethodDecorator {
     return function (
         target: object,
@@ -10,13 +10,13 @@ export function Track(
         const originalMethod = descriptor.value;
 
         descriptor.value = function (...args: any[]): void {
+            const dynamicData = getDynamicData ? getDynamicData(this) : null;
             console.log(
-                `Tracking setup for module: ${moduleName}, action: ${actionName || propertyKey.toString()}`
+                `Tracking setup for module: ${moduleName}, dynamic data:`,
+                dynamicData
             );
-            // Here you can add your tracking logic, e.g., sending data to an analytics service
             console.log(`Tracking method: ${String(propertyKey)}`, args);
 
-            // Call the original method
             return originalMethod.apply(this, args);
         };
 
