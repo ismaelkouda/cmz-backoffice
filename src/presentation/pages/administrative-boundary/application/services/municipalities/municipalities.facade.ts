@@ -177,14 +177,15 @@ export class MunicipalitiesFacade extends BaseFacade<
         };
     }
 
-    create(participant: MunicipalitiesCreateDto): void {
+    create(municipality: MunicipalitiesCreateDto): void {
         this._actionState.set('loading');
 
         const command = new MunicipalitiesCreateCommand(
-            participant.code,
-            participant.name,
-            participant.department,
-            participant.description
+            municipality.code,
+            municipality.name,
+            municipality.region,
+            municipality.description,
+            municipality?.department
         );
 
         this.handleActionWithRefresh(
@@ -204,14 +205,15 @@ export class MunicipalitiesFacade extends BaseFacade<
             .subscribe();
     }
 
-    update(participant: MunicipalitiesUpdateDto): void {
+    update(municipality: MunicipalitiesUpdateDto): void {
         this._actionState.set('loading');
         const command = new MunicipalitiesUpdateCommand(
-            participant.uniqId,
-            participant.code,
-            participant.name,
-            participant.department,
-            participant.description
+            municipality.uniqId,
+            municipality.code,
+            municipality.name,
+            municipality.region,
+            municipality.description,
+            municipality?.department
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

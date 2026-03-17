@@ -13,11 +13,14 @@ export function municipalitiesUpdateMapper(
     if (update.name) {
         params['name'] = update.name;
     }
-    if (update.department) {
-        params['department_id'] = update.department;
+    if (update.region) {
+        params['region_id'] = update.region;
     }
     if (update.description) {
         params['description'] = update.description;
+    }
+    if (update.department) {
+        params['department_id'] = update.department;
     }
 
     return params;

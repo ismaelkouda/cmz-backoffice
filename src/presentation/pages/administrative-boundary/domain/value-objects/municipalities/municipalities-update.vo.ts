@@ -4,21 +4,24 @@ export class MunicipalitiesUpdateVo {
     public readonly uniqId: string;
     public readonly code: string;
     public readonly name: string;
-    public readonly department: string;
+    public readonly region: string;
     public readonly description: string;
+    public readonly department?: string;
 
     constructor(props: {
         uniqId: string;
         code: string;
         name: string;
-        department: string;
+        region: string;
         description: string;
+        department?: string;
     }) {
         this.uniqId = props.uniqId;
         this.code = props.code;
         this.name = props.name;
-        this.department = props.department;
+        this.region = props.region;
         this.description = props.description;
+        this.department = props.department;
     }
 
     static fromDto(dto: MunicipalitiesUpdateDto): MunicipalitiesUpdateVo {
@@ -26,8 +29,9 @@ export class MunicipalitiesUpdateVo {
             uniqId: dto.uniqId.trim(),
             code: dto.code,
             name: dto.name,
-            department: dto.department,
+            region: dto.region,
             description: dto.description,
+            department: dto.department,
         });
     }
 }

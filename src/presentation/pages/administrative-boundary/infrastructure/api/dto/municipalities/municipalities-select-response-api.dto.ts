@@ -1,7 +1,7 @@
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface MunicipalitiesSelectItemApiDto {
-    id: string;
+    id: number;
     name: string;
     code: string;
     updated_at: string;

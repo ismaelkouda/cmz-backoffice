@@ -1,6 +1,7 @@
 export interface MunicipalitiesCreateDto {
     code: string;
     name: string;
-    department: string;
+    region: string;
     description: string;
+    department?: string;
 }

@@ -13,18 +13,20 @@ import { SlideFindOneFacade } from '@pages/content-management/application/servic
 import { SlideFormControl } from '@pages/content-management/domain/controls/slide/slide-form.control';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
+import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
 import { PLATFORM_ASPECT_RATIOS } from '@shared/components/image-upload/domain/types/image-upload.types';
 import { Platform } from '@shared/domain/enums/platform.enum';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 
 export type CropperStatus = 'idle' | 'loading' | 'ready' | 'cropping' | 'error';
-const VIDEO = getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO);
-const IMAGE = getEnumKeyByValue(TypeMedia, TypeMedia.IMAGE);
+const VIDEO = getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO) as string;
+const IMAGE = getEnumKeyByValue(TypeMedia, TypeMedia.IMAGE) as string;
 
 @Injectable()
 export class SlideFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(SlideFindOneFacade);
+    private readonly imageStore = inject(ImageUploadStateService);
 
     private readonly isPatching = signal(false);
 
@@ -208,15 +210,29 @@ export class SlideFormStore {
     }
 
     private resetMediaFields(type: string | undefined): void {
+        console.log('type: ', type);
         if (!type) {
             return;
         }
 
-        if (VIDEO) {
-            this.resetImage();
-        } else {
-            this.resetVideo();
+        const resetMap: Record<string, () => void> = {
+            [VIDEO]: () => {
+                this.resetImage();
+                this.resetImageStore();
+            },
+            [IMAGE]: () => {
+                this.resetVideo();
+            },
+        };
+
+        const resetAction = resetMap[type];
+        if (resetAction) {
+            resetAction();
         }
+    }
+
+    private resetImageStore(): void {
+        this.imageStore.resetImage();
     }
 
     private buttonFieldsConsistencyValidator(): ValidatorFn {

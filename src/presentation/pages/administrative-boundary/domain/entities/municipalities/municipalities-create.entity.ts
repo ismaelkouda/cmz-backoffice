@@ -4,16 +4,18 @@ export class MunicipalitiesCreateEntity {
     constructor(
         public readonly code: string,
         public readonly name: string,
-        public readonly department: string,
-        public readonly description: string
+        public readonly region: string,
+        public readonly description: string,
+        public readonly department?: string
     ) {}
 
     static fromVo(vo: MunicipalitiesCreateVo): MunicipalitiesCreateEntity {
         return new MunicipalitiesCreateEntity(
             vo.code,
             vo.name,
-            vo.department,
-            vo.description
+            vo.region,
+            vo.description,
+            vo.department
         );
     }
 }

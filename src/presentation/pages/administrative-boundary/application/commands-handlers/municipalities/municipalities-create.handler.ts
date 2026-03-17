@@ -14,8 +14,9 @@ export class MunicipalitiesCreateHandler {
         return this.useCase.create({
             code: command.code,
             name: command.name,
-            department: command.department,
+            region: command.region,
             description: command.description,
+            department: command?.department,
         });
     }
 }

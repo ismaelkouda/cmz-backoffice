@@ -3,27 +3,31 @@ import { MunicipalitiesCreateDto } from '@pages/administrative-boundary/applicat
 export class MunicipalitiesCreateVo {
     public readonly code: string;
     public readonly name: string;
-    public readonly department: string;
+    public readonly region: string;
     public readonly description: string;
+    public readonly department?: string;
 
     constructor(props: {
         code: string;
         name: string;
-        department: string;
+        region: string;
         description: string;
+        department?: string;
     }) {
         this.code = props.code;
         this.name = props.name;
-        this.department = props.department;
+        this.region = props.region;
         this.description = props.description;
+        this.department = props.department;
     }
 
     static fromDto(dto: MunicipalitiesCreateDto): MunicipalitiesCreateVo {
         return new MunicipalitiesCreateVo({
             code: dto.code,
             name: dto.name,
-            department: dto.department,
+            region: dto.region,
             description: dto.description,
+            department: dto.department,
         });
     }
 }
