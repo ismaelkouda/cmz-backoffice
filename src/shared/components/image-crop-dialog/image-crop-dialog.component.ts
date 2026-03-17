@@ -49,6 +49,10 @@ export class ImageCropDialogComponent {
     readonly flipV = input<boolean>(false);
     readonly targetPlatforms = input<Platform[]>([Platform.WEB]);
     readonly isLoading = input<boolean>(false);
+    readonly minCropWidth = input<number>(800);
+    readonly minCropHeight = input<number>(300);
+    readonly maxCropWidth = input<number>(2048);
+    readonly maxCropHeight = input<number>(1920);
 
     readonly imageCropped = output<Blob | null>();
     readonly cropCancelled = output();
