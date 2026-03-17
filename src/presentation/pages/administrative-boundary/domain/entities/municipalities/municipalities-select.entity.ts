@@ -3,7 +3,7 @@ import { MunicipalitiesSelectProps } from '@shared/domain/interfaces/municipalit
 export class MunicipalitiesSelectEntity {
     constructor(private readonly props: MunicipalitiesSelectProps) {}
 
-    get uniqId(): string {
+    get uniqId(): number {
         return this.props.uniqId;
     }
 

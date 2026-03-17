@@ -2,6 +2,7 @@ export interface MunicipalitiesUpdateDto {
     uniqId: string;
     code: string;
     name: string;
-    department: string;
+    region: string;
     description: string;
+    department?: string;
 }

@@ -6,9 +6,9 @@ import {
     DestroyRef,
     effect,
     inject,
-    OnInit,
+    signal,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
     FormControl,
@@ -19,15 +19,16 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DepartmentsSelectFacade } from '@pages/administrative-boundary/application/services/departments/departments-select.facade';
 import { MunicipalitiesFindOneFacade } from '@pages/administrative-boundary/application/services/municipalities/municipalities-find-one.facade';
 import { MunicipalitiesFacade } from '@pages/administrative-boundary/application/services/municipalities/municipalities.facade';
 import { MunicipalitiesFormControl } from '@pages/administrative-boundary/domain/controls/municipalities/municipalities-form.control';
 import { MunicipalitiesFormHelperService } from '@pages/administrative-boundary/domain/services/municipalities/municipalities-form-helper.service';
 import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
+import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { DepartmentsSelectProps } from '@shared/domain/interfaces/departments-select.props.interface';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -36,7 +37,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 @Component({
@@ -61,12 +62,12 @@ import SweetAlert from 'sweetalert2';
     providers: [MunicipalitiesFormHelperService, FormValidationService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MunicipalitiesFormComponent implements OnInit {
+export class MunicipalitiesFormComponent {
     private readonly title = inject(Title);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly fb = inject(FormBuilder);
     private readonly submitFacade = inject(MunicipalitiesFacade);
-    private readonly departmentsFacade = inject(DepartmentsSelectFacade);
+    private readonly regionsFacade = inject(RegionsSelectFacade);
     private readonly facade = inject(MunicipalitiesFindOneFacade);
     private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
@@ -75,38 +76,28 @@ export class MunicipalitiesFormComponent implements OnInit {
     public readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();
     private itemPatched = false;
-    readonly departments = toSignal(this.departmentsFacade.items$, {
+
+    readonly departments = signal<readonly DepartmentsSelectProps[]>([]);
+    readonly loadingDepartments = signal<boolean>(false);
+    readonly regions = toSignal(this.regionsFacade.items$, {
         initialValue: [],
     });
-    readonly loadingDepartments = toSignal(this.departmentsFacade.isLoading$, {
+    readonly loadingRegions = toSignal(this.regionsFacade.isLoading$, {
         initialValue: false,
     });
+
     readonly items = this.facade.items;
     readonly loading = this.facade.loading;
+
     private readonly paramsUniqId = toSignal(
         this.activatedRoute.queryParams.pipe(
             map((p) => (p['uniqId'] as string) || '')
         ),
         { initialValue: '' }
     );
-    readonly isEditMode = computed(() => !!this.paramsUniqId());
-    private readonly formStateEffect = effect(() => {
-        const state = this.submitFacade.actionState();
-        if (state === 'loading') {
-            this.form.disable({ emitEvent: false });
-        } else {
-            this.form.enable({ emitEvent: false });
-        }
-    });
-    private readonly successEffect = effect(() => {
-        const current = this.submitFacade.actionSuccess();
-        if (current === this.lastSuccess) {
-            return;
-        }
 
-        this.lastSuccess = current;
-        this.navigateToBack();
-    });
+    readonly isEditMode = computed(() => !!this.paramsUniqId());
+
     public form: FormGroup<MunicipalitiesFormControl> =
         this.fb.group<MunicipalitiesFormControl>({
             code: new FormControl('', {
@@ -131,10 +122,10 @@ export class MunicipalitiesFormComponent implements OnInit {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
-            department: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
+            department: new FormControl(
+                { value: '', disabled: true },
+                { nonNullable: true }
+            ),
             description: new FormControl('', {
                 nonNullable: true,
                 validators: [
@@ -145,45 +136,125 @@ export class MunicipalitiesFormComponent implements OnInit {
             }),
         });
 
+    private readonly initEffect = effect(() => {
+        const uniqId = this.paramsUniqId();
+
+        this.facade.reset();
+        this.form.reset();
+        this.form.controls.department.disable({ emitEvent: false });
+
+        if (uniqId) {
+            this.facade.read({ uniqId }, true);
+        }
+
+        this.regionsFacade.readAll();
+    });
+
+    private readonly formStateEffect = effect(() => {
+        const state = this.submitFacade.actionState();
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
+            if (!this.form.controls.region.value) {
+                this.form.controls.department.disable({ emitEvent: false });
+            }
+        }
+    });
+
+    private readonly successEffect = effect(() => {
+        const current = this.submitFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
+
+        this.lastSuccess = current;
+        this.navigateToBack();
+    });
+
     private readonly patchFormFromItem = effect(() => {
         const item = this.items();
+        const regions = this.regions();
         if (item && Object.keys(item).length > 0 && !this.itemPatched) {
             this.form.patchValue(
                 {
                     code: item.code,
                     name: item.name,
-                    department: item.department,
+                    region: item.region,
                     description: item.description,
                 },
                 { emitEvent: false }
             );
+
+            if (item.region) {
+                this.loadingDepartments.set(true);
+
+                const selectedRegion = regions.find(
+                    (region) => region.value === item.region
+                );
+
+                if (selectedRegion?.departments) {
+                    this.departments.set(selectedRegion.departments);
+                    this.form.controls.department.enable({ emitEvent: false });
+                    if (item.department) {
+                        this.form.controls.department.setValue(
+                            item.department,
+                            {
+                                emitEvent: false,
+                            }
+                        );
+                    }
+                } else {
+                    this.departments.set([]);
+                    this.form.controls.department.disable({ emitEvent: false });
+                }
+
+                this.form.controls.department.updateValueAndValidity({
+                    emitEvent: false,
+                });
+                this.loadingDepartments.set(false);
+            }
+
             this.itemPatched = true;
         }
     });
+
+    readonly regionValue = toSignal(this.form.controls.region.valueChanges, {
+        initialValue: this.form.controls.region.value,
+    });
+
+    private readonly regionEffect = effect(() => {
+        if (this.isEditMode() && !this.regionValue()) {
+            return;
+        }
+
+        const region = this.selectedRegion();
+        this.loadingDepartments.set(true);
+        if (region?.departments) {
+            this.departments.set(region.departments);
+
+            this.form.controls.department.enable({ emitEvent: false });
+        } else {
+            this.departments.set([]);
+            this.form.controls.department.reset('', { emitEvent: false });
+            this.form.controls.department.disable({ emitEvent: false });
+        }
+
+        this.form.controls.department.updateValueAndValidity({
+            emitEvent: false,
+        });
+
+        this.loadingDepartments.set(false);
+    });
+
+    readonly selectedRegion = computed(() =>
+        this.regions().find((r) => r.value === this.regionValue())
+    );
 
     constructor() {
         this.title.setTitle(
             'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_FORM.TITLE'
         );
-    }
-
-    ngOnInit(): void {
-        this.activatedRoute.queryParams
-            .pipe(
-                map((p) => (p['uniqId'] as string) || ''),
-                tap((uniqId) => {
-                    if (uniqId) {
-                        this.facade.reset();
-                        this.facade.read({ uniqId }, true);
-                    } else {
-                        this.facade.reset();
-                        this.form.reset();
-                    }
-                    this.departmentsFacade.readAll();
-                }),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe();
     }
 
     getErrorMessage(fieldName: string): string {
@@ -198,6 +269,7 @@ export class MunicipalitiesFormComponent implements OnInit {
         const controlNames = [
             'code',
             'name',
+            'region',
             'department',
             'description',
         ] as const;

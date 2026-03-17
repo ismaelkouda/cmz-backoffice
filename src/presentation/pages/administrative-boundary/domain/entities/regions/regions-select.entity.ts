@@ -3,7 +3,7 @@ import { RegionsSelectProps } from '@shared/domain/interfaces/regions-select.pro
 export class RegionsSelectEntity {
     constructor(private readonly props: RegionsSelectProps) {}
 
-    get uniqId(): string {
+    get uniqId(): number {
         return this.props.uniqId;
     }
 

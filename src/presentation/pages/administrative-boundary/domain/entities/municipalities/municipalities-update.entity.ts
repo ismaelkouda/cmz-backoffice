@@ -5,8 +5,9 @@ export class MunicipalitiesUpdateEntity {
         public readonly uniqId: string,
         public readonly code: string,
         public readonly name: string,
-        public readonly department: string,
-        public readonly description: string
+        public readonly region: string,
+        public readonly description: string,
+        public readonly department?: string
     ) {}
 
     static fromVo(vo: MunicipalitiesUpdateVo): MunicipalitiesUpdateEntity {
@@ -14,8 +15,9 @@ export class MunicipalitiesUpdateEntity {
             vo.uniqId,
             vo.code,
             vo.name,
-            vo.department,
-            vo.description
+            vo.region,
+            vo.description,
+            vo.department
         );
     }
 }

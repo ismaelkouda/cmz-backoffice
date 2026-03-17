@@ -12,11 +12,14 @@ export function municipalitiesCreateMapper(
     if (create.name) {
         params['name'] = create.name;
     }
-    if (create.department) {
-        params['department_id'] = create.department;
+    if (create.region) {
+        params['region_id'] = create.region;
     }
     if (create.description) {
         params['description'] = create.description;
+    }
+    if (create.department) {
+        params['department_id'] = create.department;
     }
 
     return params;

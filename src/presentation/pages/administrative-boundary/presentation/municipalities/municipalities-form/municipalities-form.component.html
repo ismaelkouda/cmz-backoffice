@@ -46,7 +46,7 @@
                                                 }}</b>
                                             </legend>
                                             <div class="row g-3">
-                                                <div class="col-md-4">
+                                                <div class="col-md-2">
                                                     <label
                                                         for="code"
                                                         class="form-label fw-bold"
@@ -170,7 +170,65 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
+                                                    <label
+                                                        for="region"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.FIELDSET_GENERAL_INFO.REGION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <p-select
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            regions()
+                                                        "
+                                                        [loading]="
+                                                            loadingRegions()
+                                                        "
+                                                        formControlName="region"
+                                                        optionLabel="name"
+                                                        optionValue="value"
+                                                        filter="true"
+                                                        filterBy="name"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.FIELDSET_GENERAL_INFO.REGION_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('region')
+                                                            ?.invalid &&
+                                                        form.get('region')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3">
                                                     <label
                                                         for="department"
                                                         class="form-label fw-bold"
@@ -179,10 +237,6 @@
                                                             'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.FIELDSET_GENERAL_INFO.DEPARTMENT'
                                                                 | translate
                                                         }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        >
                                                     </label>
                                                     <p-select
                                                         class="form-p-select"
@@ -212,20 +266,6 @@
                                                         "
                                                     >
                                                     </p-select>
-                                                    @if (
-                                                        form.get('department')
-                                                            ?.invalid &&
-                                                        form.get('department')
-                                                            ?.touched
-                                                    ) {
-                                                        <small
-                                                            class="text-danger d-block mt-1"
-                                                            >{{
-                                                                'COMMON.VALIDATION.REQUIRED'
-                                                                    | translate
-                                                            }}</small
-                                                        >
-                                                    }
                                                 </div>
 
                                                 <div class="col-md-12">
