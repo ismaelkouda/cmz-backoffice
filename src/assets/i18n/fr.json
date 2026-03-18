@@ -963,7 +963,7 @@
                 "NAME": "Nom du département",
                 "REGION": "Région",
                 "DESCRIPTION": "Description",
-                "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                 "POPULATION_SIZE": "# Population",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
@@ -981,7 +981,7 @@
                     "REGION_PLACEHOLDER": "Ex: Nouvelle région",
                     "DESCRIPTION": "Description",
                     "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
-                    "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                    "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                     "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
                     "POPULATION_SIZE": "# Population",
                     "CREATED_AT": "Créé le",
@@ -1012,12 +1012,12 @@
         },
         "MUNICIPALITIES": {
             "BREADCRUMB": {
-                "LABEL": "Communes/sous-préfectures",
+                "LABEL": "Communes/Sous-préfectures",
                 "ROUTE": "municipalities"
             },
             "TABS": {
                 "MUNICIPALITIES": {
-                    "LABEL": "Communes/sous-préfectures",
+                    "LABEL": "Communes/Sous-préfectures",
                     "ROUTE": "municipalities"
                 },
                 "HISTORY": {
@@ -1025,8 +1025,8 @@
                     "ROUTE": "history"
                 }
             },
-            "TITLE": "Communes/sous-préfectures",
-            "LABEL": "Communes/sous-préfectures",
+            "TITLE": "Communes/Sous-préfectures",
+            "LABEL": "Communes/Sous-préfectures",
             "ROUTE": "municipalities",
             "FILTER": {
                 "DATE": {
@@ -1047,31 +1047,31 @@
             },
             "TABLE": {
                 "CODE": "Code",
-                "NAME": "Communes/sous-préfectures",
+                "NAME": "Communes/Sous-préfectures",
                 "REGION": "Région",
                 "DEPARTMENT": "Département",
                 "DESCRIPTION": "Description",
-                "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                 "POPULATION_SIZE": "# Population",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             },
             "FORM": {
-                "TITLE_FORM_EDIT": "Formulaire d'édition de Communes/sous-préfectures",
-                "TITLE_FORM_ADD": "Formulaire d'ajout de Communes/sous-préfectures",
+                "TITLE_FORM_EDIT": "Formulaire d'édition de Communes/Sous-préfectures",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de Communes/Sous-préfectures",
                 "FIELDSET_GENERAL_INFO": {
                     "TITLE": "Informations Générales",
                     "CODE": "Code",
                     "CODE_PLACEHOLDER": "Ex: 1",
-                    "NAME": "Nom de la Communes / sous-préfectures",
-                    "NAME_PLACEHOLDER": "Ex: Nouvelle Communes/sous-préfectures",
+                    "NAME": "Nom de la Communes / Sous-préfectures",
+                    "NAME_PLACEHOLDER": "Ex: Nouvelle Communes/Sous-préfectures",
                     "REGION": "Région",
                     "REGION_PLACEHOLDER": "Ex: Nouvelle région",
                     "DEPARTMENT": "Département",
                     "DEPARTMENT_PLACEHOLDER": "Ex: Nouveau département",
                     "DESCRIPTION": "Description",
                     "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
-                    "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                    "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                     "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
                     "POPULATION_SIZE": "# Population",
                     "CREATED_AT": "Créé le",
@@ -1092,12 +1092,12 @@
                 "CANCEL": "Annuler"
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de Commune/sous-préfecture",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette Commune/sous-préfecture ?",
-                "TITLE_CREATE": "Création de Commune/sous-préfecture",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette Commune/sous-préfecture ?",
-                "TITLE_DELETE": "Suppression de Commune/sous-préfecture",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette Commune/sous-préfecture ?"
+                "TITLE_UPDATE": "Mise à jour de Commune/Sous-préfecture",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette Commune/Sous-préfecture ?",
+                "TITLE_CREATE": "Création de Commune/Sous-préfecture",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette Commune/Sous-préfecture ?",
+                "TITLE_DELETE": "Suppression de Commune/Sous-préfecture",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette Commune/Sous-préfecture ?"
             }
         },
         "REGIONS": {
@@ -1139,7 +1139,7 @@
                 "REGION": "Région",
                 "DEPARTMENTS_COUNT": "# Départements",
                 "DESCRIPTION": "Description",
-                "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                 "POPULATION_SIZE": "# Population",
                 "CREATED_AT": "Créé le",
                 "UPDATED_AT":"Modifié le",
@@ -1157,7 +1157,7 @@
                     "REGION": "Région",
                     "DESCRIPTION": "Description",
                     "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
-                    "MUNICIPALITIES_COUNT": "# communes/sous-préfectures",
+                    "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                     "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
                     "POPULATION_SIZE": "# Population",
                     "CREATED_AT": "Créé le",
@@ -1206,7 +1206,7 @@
             "TABLE": {
                 "CODE": "Code",
                 "NAME": "Nom du département",
-                "MUNICIPALITIES_COUNT": "# Communes/sous-préfectures",
+                "MUNICIPALITIES_COUNT": "# Communes/Sous-préfectures",
                 "DESCRIPTION": "Description",
                 "POPULATION_SIZE": "# Population",
                 "CREATED_AT": "Créé le",
@@ -1215,11 +1215,11 @@
         },
         "MUNICIPALITIES_BY_DEPARTMENT_ID": {
             "BREADCRUMB": {
-                "LABEL": "Communes/sous-préfectures",
+                "LABEL": "Communes/Sous-préfectures",
                 "ROUTE": "municipalities-by-department-id"
             },
-            "TITLE": "Communes/sous-préfectures du département",
-            "LABEL": "Communes/sous-préfectures",
+            "TITLE": "Communes/Sous-préfectures du département",
+            "LABEL": "Communes/Sous-préfectures",
             "ROUTE": "municipalities-by-department-id",
             "FILTER": {
                 "DATE": {
@@ -1232,7 +1232,7 @@
             },
             "TABLE": {
                 "CODE": "Code",
-                "NAME": "Nom de la Commune/sous-préfecture",
+                "NAME": "Nom de la Commune/Sous-préfecture",
                 "DESCRIPTION": "Description",
                 "POPULATION_SIZE": "# Population",
                 "CREATED_AT": "Créé le",
@@ -2247,7 +2247,7 @@
                 "TARGET": "Cible",
                 "REGION": "Région",
                 "DEPARTMENT": "département",
-                "MUNICIPALITIES": "Commune / sous-préfecture",
+                "MUNICIPALITIES": "Commune / Sous-préfecture",
                 "CHANNELS": "Cannaux",
                 "DATE": {
                     "FROM": "Date début",
@@ -2295,7 +2295,7 @@
                     "TITLE": "Limite administrative",
                     "REGION": "Région",
                     "DEPARTMENT": "Département",
-                    "MUNICIPALITY": "Municipalité"
+                    "MUNICIPALITY": "Commune / Sous-prefecture"
                 },
                 "FIELDSET_CHANNELS": {
                     "TITLE": "Cannaux",
