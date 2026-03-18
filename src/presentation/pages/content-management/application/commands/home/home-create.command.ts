@@ -2,10 +2,10 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class HomeCreateCommand {
     constructor(
-        public readonly image: File | null,
+        public readonly image: File | null | string,
         public readonly platforms: Platform[],
-        public readonly startDate: string,
-        public readonly endDate: string,
+        public readonly startDate: Date | null,
+        public readonly endDate: Date | null,
         public readonly title: string,
         public readonly resume: string,
         public readonly content: string,

@@ -98,93 +98,90 @@ export class SlideFormStore {
     });
 
     private createForm(): FormGroup<SlideFormControl> {
-        return this.fb.nonNullable.group<SlideFormControl>(
-            {
-                timeDuration: new FormControl(5, {
-                    nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        Validators.min(FormValidators.TIME_DURATION.MIN),
-                        Validators.max(FormValidators.TIME_DURATION.MAX),
-                    ],
-                }),
-                type: new FormControl(IMAGE ?? '', {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
-                title: new FormControl('', {
-                    nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        Validators.minLength(FormValidators.TITLE.MIN),
-                        Validators.maxLength(FormValidators.TITLE.MAX),
-                        Validators.pattern(FormValidators.TITLE.PATTERN),
-                    ],
-                }),
-                subtitle: new FormControl('', {
-                    nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        Validators.minLength(FormValidators.SUBTITLE.MIN),
-                        Validators.maxLength(FormValidators.SUBTITLE.MAX),
-                        Validators.pattern(FormValidators.SUBTITLE.PATTERN),
-                    ],
-                }),
+        return this.fb.nonNullable.group<SlideFormControl>({
+            timeDuration: new FormControl(5, {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.min(FormValidators.TIME_DURATION.MIN),
+                    Validators.max(FormValidators.TIME_DURATION.MAX),
+                ],
+            }),
+            type: new FormControl(IMAGE, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            title: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.TITLE.MIN),
+                    Validators.maxLength(FormValidators.TITLE.MAX),
+                    Validators.pattern(FormValidators.TITLE.PATTERN),
+                ],
+            }),
+            subtitle: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.SUBTITLE.MIN),
+                    Validators.maxLength(FormValidators.SUBTITLE.MAX),
+                    Validators.pattern(FormValidators.SUBTITLE.PATTERN),
+                ],
+            }),
 
-                content: new FormControl('', {
-                    nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        Validators.minLength(FormValidators.CONTENT.MIN),
-                        this.htmlContentMaxLengthValidator(
-                            FormValidators.CONTENT.STRIP_HTML_MAX
-                        ),
-                    ],
-                }),
+            content: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.CONTENT.MIN),
+                    this.htmlContentMaxLengthValidator(
+                        FormValidators.CONTENT.STRIP_HTML_MAX
+                    ),
+                ],
+            }),
 
-                image: new FormControl(null, {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
+            image: new FormControl(null, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
 
-                video: new FormControl('', {
-                    nonNullable: true,
-                }),
+            video: new FormControl('', {
+                nonNullable: true,
+            }),
 
-                buttonLabel: new FormControl('', {
-                    nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
-                        Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
-                        Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
-                    ],
-                }),
+            buttonLabel: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
+                    Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
+                    Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
+                ],
+            }),
 
-                buttonUrl: new FormControl('', {
-                    nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        Validators.maxLength(FormValidators.BUTTON_URL.MAX),
-                        Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
-                    ],
-                }),
+            buttonUrl: new FormControl('', {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    Validators.maxLength(FormValidators.BUTTON_URL.MAX),
+                    Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
+                ],
+            }),
 
-                platforms: new FormControl([], {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
+            platforms: new FormControl([], {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
 
-                startDate: new FormControl('', {
-                    nonNullable: true,
-                }),
+            startDate: new FormControl('', {
+                nonNullable: true,
+            }),
 
-                endDate: new FormControl('', {
-                    nonNullable: true,
-                }),
-            },
-            { validators: [this.buttonFieldsConsistencyValidator()] }
-        );
+            endDate: new FormControl('', {
+                nonNullable: true,
+            }),
+        });
     }
 
     private updateValidatorsByType(type: string): void {
@@ -210,7 +207,6 @@ export class SlideFormStore {
     }
 
     private resetMediaFields(type: string | undefined): void {
-        console.log('type: ', type);
         if (!type) {
             return;
         }
@@ -233,20 +229,6 @@ export class SlideFormStore {
 
     private resetImageStore(): void {
         this.imageStore.resetImage();
-    }
-
-    private buttonFieldsConsistencyValidator(): ValidatorFn {
-        return (control: AbstractControl): ValidationErrors | null => {
-            const label = control.get('buttonLabel')?.value?.trim() as string;
-            const url = control.get('buttonUrl')?.value?.trim() as string;
-            if (label && !url) {
-                return { buttonLabelWithoutUrl: true };
-            }
-            if (url && !label) {
-                return { buttonUrlWithoutLabel: true };
-            }
-            return null;
-        };
     }
 
     private htmlContentMaxLengthValidator(maxLength: number): ValidatorFn {

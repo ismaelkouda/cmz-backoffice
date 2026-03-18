@@ -9,7 +9,7 @@ export class LegalNoticeUnpublishVo {
 
     static fromDto(dto: LegalNoticeUnpublishDto): LegalNoticeUnpublishVo {
         return new LegalNoticeUnpublishVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

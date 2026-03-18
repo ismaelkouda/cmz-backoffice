@@ -11,7 +11,7 @@ export class ProfilesPermissionsDisableVo {
         dto: ProfilesPermissionsDisableDto
     ): ProfilesPermissionsDisableVo {
         return new ProfilesPermissionsDisableVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

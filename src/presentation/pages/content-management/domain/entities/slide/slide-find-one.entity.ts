@@ -44,10 +44,10 @@ export class SlideFindOneEntity {
     get status(): Status {
         return this.props.status;
     }
-    get startDate(): string {
+    get startDate(): Date | null {
         return this.props.startDate;
     }
-    get endDate(): string {
+    get endDate(): Date | null {
         return this.props.endDate;
     }
     get createdAt(): string {

@@ -1,27 +1,19 @@
-.legal-notice-container {
-    //padding: 1.5rem;
-}
-
-.legal-notice-card {
+.news-page-card {
     border-radius: 1rem;
     box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.legal-notice-card-body {
-    //padding: 2rem;
-}
-
-.legal-notice-header {
+.news-page-header {
     margin-bottom: 1.5rem;
 }
 
-.legal-notice-content {
+.news-page-content {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.legal-notice-divider {
+.news-page-divider {
     opacity: 0.25;
     margin: 0;
 }

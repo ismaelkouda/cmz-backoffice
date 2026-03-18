@@ -1,42 +1,53 @@
-import { NewsCategoriesSelectItemApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-categories-select-response-api.dto';
-import { MapperUtils } from '@shared/domain/utils/mapper-utils';
+import { NewsCategoriesSelectProps } from '../../interfaces/news/news-categories-select.props.interface';
+import { NewsSubCategoriesSelectProps } from '../../interfaces/news/news-sub-categories-select.props.interface';
 
 export class NewsCategoriesSelectEntity {
-    constructor(
-        public readonly name: string,
-        public readonly code: string,
-        public readonly departments: readonly NewsCategoriesSelectEntity[]
-    ) {}
+    constructor(public readonly props: NewsCategoriesSelectProps) {}
 
-    static fromDto(
-        dto: NewsCategoriesSelectItemApiDto
-    ): NewsCategoriesSelectEntity {
-        return new NewsCategoriesSelectEntity(
-            dto.name,
-            dto.code,
-            dto.departments.map(NewsCategoriesSelectEntity.fromDto)
-        );
+    get uniqId(): number {
+        return this.props.uniqId;
     }
 
-    public with(
-        dto: NewsCategoriesSelectItemApiDto
-    ): NewsCategoriesSelectEntity {
-        const departments = MapperUtils.mergeImmutable(
-            this.departments,
-            dto.departments,
-            (d) => d.code,
-            (entity, dto) => entity.with(dto),
-            NewsCategoriesSelectEntity.fromDto
-        );
+    get name(): string {
+        return this.props.name;
+    }
 
-        if (
-            this.name === dto.name &&
-            this.code === dto.code &&
-            departments === this.departments
-        ) {
+    get value(): string {
+        return this.props.value;
+    }
+
+    get subCategories(): readonly NewsSubCategoriesSelectProps[] {
+        return this.props.subCategories;
+    }
+
+    with(props: NewsCategoriesSelectProps): NewsCategoriesSelectEntity {
+        if (this.hasSameProps(props)) {
             return this;
         }
 
-        return new NewsCategoriesSelectEntity(dto.name, dto.code, departments);
+        return new NewsCategoriesSelectEntity(props);
+    }
+
+    private hasSameProps(props: NewsCategoriesSelectProps): boolean {
+        if (
+            this.uniqId !== props.uniqId ||
+            this.name !== props.name ||
+            this.value !== props.value
+        ) {
+            return false;
+        }
+
+        if (this.subCategories.length !== props.subCategories.length) {
+            return false;
+        }
+
+        return this.subCategories.every((municipality, index) => {
+            const otherMunicipality = props.subCategories[index];
+            return (
+                municipality.uniqId === otherMunicipality.uniqId &&
+                municipality.value === otherMunicipality.value &&
+                municipality.name === otherMunicipality.name
+            );
+        });
     }
 }

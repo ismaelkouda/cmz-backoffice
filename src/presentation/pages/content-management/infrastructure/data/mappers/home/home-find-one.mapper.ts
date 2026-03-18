@@ -4,7 +4,6 @@ import { HomeFindOneProps } from '@pages/content-management/domain/interfaces/ho
 import { HomeFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-find-one-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-status.mapper';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
@@ -13,20 +12,14 @@ export class HomeFindOneMapper extends SimpleResponseMapper<
     HomeFindOneItemApiDto
 > {
     private readonly entityCache = new Map<string, HomeFindOneEntity>();
-    private readonly platformMapper = inject(PlatformMapper);
     private readonly statusMapper = inject(StatusMapper);
-    private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(dto: HomeFindOneItemApiDto): HomeFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
 
         const props: HomeFindOneProps = {
             uniqId: dto.id,
-            platforms: this.utils.memoizedList(
-                dto.platforms,
-                (p) => this.platformMapper.mapFromDto(p),
-                (p) => `platform:${p}`
-            ),
+            platforms: dto.platforms,
             title: dto.title,
             resume: dto.resume,
             content: dto.content,
@@ -36,8 +29,8 @@ export class HomeFindOneMapper extends SimpleResponseMapper<
             buttonLabel: dto.button_label,
             buttonUrl: dto.button_url,
             status: this.statusMapper.mapFromDto(dto.is_active),
-            startDate: dto.start_date,
-            endDate: dto.end_date,
+            startDate: dto.start_date ? new Date(dto.start_date) : new Date(),
+            endDate: dto.end_date ? new Date(dto.end_date) : new Date(),
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };

@@ -1,11 +1,10 @@
 import { Status } from '@pages/content-management/domain/enums/legal-notice/legal-notice-status.enum';
 
-export interface Props {
+export interface LegalNoticeProps {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+    version: string;
     status: Status;
-    membersCount: string;
+    createdAt: string;
+    publishedAt: string;
     updatedAt: string;
 }

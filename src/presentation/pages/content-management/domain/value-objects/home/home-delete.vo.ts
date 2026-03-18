@@ -9,7 +9,7 @@ export class HomeDeleteVo {
 
     static fromDto(dto: HomeDeleteDto): HomeDeleteVo {
         return new HomeDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

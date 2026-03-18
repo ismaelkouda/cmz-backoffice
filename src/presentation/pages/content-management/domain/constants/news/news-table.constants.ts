@@ -1,4 +1,4 @@
-export const NEWS_TABLE_CONST = {
+export const NEWS_TABLE = {
     cols: [
         {
             field: '__index',
@@ -16,12 +16,6 @@ export const NEWS_TABLE_CONST = {
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.TITLE',
             width: '17rem',
         },
-        /* {
-            field: 'platforms',
-            header: 'CONTENT_MANAGEMENT.HOME.TABLE.PLATFORM',
-            class: 'text-center',
-            width: '8rem',
-        }, */
         {
             field: 'status',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.STATUS',
@@ -35,20 +29,11 @@ export const NEWS_TABLE_CONST = {
             width: '3rem',
         },
         {
-            field: '__action',
+            field: '__actionDropdown',
             header: 'CONTENT_MANAGEMENT.HOME.TABLE.ACTION',
             class: 'text-center',
             width: '4rem',
         },
     ],
-    globalFilterFields: [
-        'id',
-        'type',
-        'title',
-        'resume',
-        /* 'platforms', */
-        'order',
-        'status',
-        'createdAt',
-    ],
+    globalFilterFields: ['id', 'type', 'title', 'status', 'createdAt'],
 };

@@ -9,7 +9,7 @@ export class PrivacyPolicyDeleteVo {
 
     static fromDto(dto: PrivacyPolicyDeleteDto): PrivacyPolicyDeleteVo {
         return new PrivacyPolicyDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

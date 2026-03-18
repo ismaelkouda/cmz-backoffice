@@ -8,8 +8,6 @@ import {
     input,
     OnInit,
     output,
-    Signal,
-    signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -69,9 +67,14 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
     public form: FormGroup;
     public currentHashtagControl: FormControl;
 
-    public readonly hashtagsCount: Signal<number> = signal(0);
-    public readonly canAddMore: Signal<boolean> = signal(true);
-    public readonly canClearAll: Signal<boolean> = signal(false);
+    public readonly hashtagsCount = computed(() => this.hashtagsArray.length);
+
+    public readonly canAddMore = computed(() => {
+        const max = this.maxHashtags();
+        return !max || this.hashtagsCount() < max;
+    });
+
+    public readonly canClearAll = computed(() => this.hashtagsCount() > 0);
 
     private onChange: (value: string[]) => void = () => {
         /* empty */
@@ -288,13 +291,16 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
     }
 
     writeValue(value: string[]): void {
-        console.log('writeValue appelé avec:', value);
+        const currentValue = this.hashtagsArray.value;
+        if (JSON.stringify(currentValue) === JSON.stringify(value)) {
+            return;
+        }
+
+        while (this.hashtagsArray.length > 0) {
+            this.hashtagsArray.removeAt(0, { emitEvent: false });
+        }
 
         if (value && Array.isArray(value)) {
-            while (this.hashtagsArray.length > 0) {
-                this.hashtagsArray.removeAt(0);
-            }
-
             value.forEach((hashtag) => {
                 if (hashtag && hashtag.trim()) {
                     const formatted = this.formatHashtag(hashtag);
@@ -302,14 +308,12 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
                         formatted,
                         Validators.required
                     );
-                    this.hashtagsArray.push(control);
+                    this.hashtagsArray.push(control, { emitEvent: false });
                 }
             });
-
-            this.hashtagsArray.updateValueAndValidity({ emitEvent: false });
-        } else {
-            this.hashtagsArray.clear({ emitEvent: false });
         }
+
+        this.hashtagsArray.updateValueAndValidity({ emitEvent: true });
     }
 
     registerOnChange(fn: (value: string[]) => void): void {

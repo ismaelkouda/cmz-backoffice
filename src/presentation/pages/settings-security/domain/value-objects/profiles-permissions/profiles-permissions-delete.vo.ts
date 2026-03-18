@@ -11,7 +11,7 @@ export class ProfilesPermissionsDeleteVo {
         dto: ProfilesPermissionsDeleteDto
     ): ProfilesPermissionsDeleteVo {
         return new ProfilesPermissionsDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

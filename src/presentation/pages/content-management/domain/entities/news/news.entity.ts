@@ -1,13 +1,8 @@
-export interface NewsProps {
-    uniqId: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    role: string;
-    status: string;
-    updatedAt: string;
-}
+import {
+    Status,
+    StatusStyle,
+} from '@pages/content-management/domain/enums/news/news-status.enum';
+import { NewsProps } from '@pages/content-management/domain/interfaces/news/news-props.interface';
 
 export class NewsEntity {
     constructor(private readonly props: NewsProps) {}
@@ -15,39 +10,40 @@ export class NewsEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-
-    get lastName(): string {
-        return this.props.lastName;
+    get type(): string {
+        return this.props.type;
     }
-
-    get firstName(): string {
-        return this.props.firstName;
+    get title(): string {
+        return this.props.title;
     }
-
-    get email(): string {
-        return this.props.email;
-    }
-
-    get phone(): string {
-        return this.props.phone;
-    }
-
-    get role(): string {
-        return this.props.role;
-    }
-
-    get status(): string {
+    get status(): Status {
         return this.props.status;
     }
-
+    statusStyle(status: Status): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.PUBLISH]: StatusStyle.PUBLISH,
+            [Status.UNPUBLISH]: StatusStyle.UNPUBLISH,
+        };
+        return methodMap[status];
+    }
+    get createdAt(): string {
+        return this.props.createdAt;
+    }
     get updatedAt(): string {
         return this.props.updatedAt;
     }
 
     public with(props: NewsProps): NewsEntity {
-        if (this.updatedAt === props.updatedAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new NewsEntity(props);
+    }
+
+    toJSON(): NewsProps {
+        return { ...this.props };
     }
 }

@@ -9,7 +9,7 @@ export class HomeUpdateVo {
         return this.props.uniqId;
     }
 
-    get image(): File | null {
+    get image(): File | null | string {
         return this.props.image;
     }
 
@@ -17,11 +17,11 @@ export class HomeUpdateVo {
         return this.props.platforms;
     }
 
-    get startDate(): string {
+    get startDate(): Date | null {
         return this.props.startDate;
     }
 
-    get endDate(): string {
+    get endDate(): Date | null {
         return this.props.endDate;
     }
 

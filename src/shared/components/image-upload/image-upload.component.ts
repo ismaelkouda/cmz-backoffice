@@ -9,8 +9,9 @@ import {
     ElementRef,
     viewChild,
     inject,
+    forwardRef,
 } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
@@ -33,6 +34,13 @@ import {
     templateUrl: './image-upload.component.html',
     styleUrls: ['./image-upload.component.scss'],
     standalone: true,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ImageUploadComponent),
+            multi: true,
+        },
+    ],
     imports: [
         CommonModule,
         TranslateModule,

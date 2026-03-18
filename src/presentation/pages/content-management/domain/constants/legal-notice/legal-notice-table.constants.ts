@@ -1,15 +1,10 @@
-export const LEGAL_NOTICE_TABLE_CONST = {
+export const LEGAL_NOTICE_TABLE = {
     cols: [
         {
             field: '__index',
             header: 'COMMON.INDEX',
             class: 'text-center',
             width: '2rem',
-        },
-        {
-            field: 'name',
-            header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.NAME',
-            width: '10rem',
         },
         {
             field: 'version',
@@ -35,7 +30,7 @@ export const LEGAL_NOTICE_TABLE_CONST = {
             width: '6rem',
         },
         {
-            field: '__action',
+            field: '__actionDropdown',
             header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.ACTION',
             class: 'text-center',
             width: '6rem',

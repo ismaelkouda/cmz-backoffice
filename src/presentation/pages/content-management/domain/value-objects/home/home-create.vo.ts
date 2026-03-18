@@ -5,7 +5,7 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 export class HomeCreateVo {
     constructor(private readonly props: HomeCreateProps) {}
 
-    get image(): File | null {
+    get image(): File | null | string {
         return this.props.image;
     }
 
@@ -13,11 +13,11 @@ export class HomeCreateVo {
         return this.props.platforms;
     }
 
-    get startDate(): string {
+    get startDate(): Date | null {
         return this.props.startDate;
     }
 
-    get endDate(): string {
+    get endDate(): Date | null {
         return this.props.endDate;
     }
 

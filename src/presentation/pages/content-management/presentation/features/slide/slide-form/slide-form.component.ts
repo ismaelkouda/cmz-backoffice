@@ -214,15 +214,15 @@ export class SlideFormComponent {
             if (!result.isConfirmed) {
                 return;
             }
-            const payload = this.form.getRawValue();
-            if (this.isEditMode()) {
-                this.submitFacade.update({
-                    uniqId: this.uniqId(),
-                    ...payload,
-                });
-            } else {
-                this.submitFacade.create(payload);
-            }
+            // const payload = this.form.getRawValue();
+            // if (this.isEditMode()) {
+            //     this.submitFacade.update({
+            //         uniqId: this.uniqId(),
+            //         ...payload,
+            //     });
+            // } else {
+            //     this.submitFacade.create(payload);
+            // }
         });
     }
 

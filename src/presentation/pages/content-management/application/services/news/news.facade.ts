@@ -60,7 +60,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => this.refreshWithLastFilterAndPage()
         );
     }
 
@@ -136,7 +136,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
+    private refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new NewsQuery(
@@ -173,15 +173,15 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
         };
     }
 
-    create(participant: NewsCreateDto): void {
+    create(news: NewsCreateDto): void {
         this._actionState.set('loading');
 
         const command = new NewsCreateCommand(
-            participant.firstName,
-            participant.lastName,
-            participant.email,
-            participant.phone,
-            participant.role
+            news.firstName,
+            news.lastName,
+            news.email,
+            news.phone,
+            news.role
         );
 
         this.handleActionWithRefresh(
@@ -201,15 +201,15 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
             .subscribe();
     }
 
-    update(participant: NewsUpdateDto): void {
+    update(news: NewsUpdateDto): void {
         this._actionState.set('loading');
         const command = new NewsUpdateCommand(
-            participant.uniqId,
-            participant.firstName,
-            participant.lastName,
-            participant.email,
-            participant.phone,
-            participant.role
+            news.uniqId,
+            news.firstName,
+            news.lastName,
+            news.email,
+            news.phone,
+            news.role
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
@@ -233,7 +233,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(team: NewsDisableDto): void {
@@ -241,7 +241,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(team: NewsDeleteDto): void {

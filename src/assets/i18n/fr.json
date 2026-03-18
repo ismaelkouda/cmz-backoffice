@@ -75,8 +75,10 @@
         "ENABLE": "Activer",
         "ACTIVATED": "Activé",
         "PUBLISH": "Publier",
+        "PUBLISH_STYLE": "success",
         "PUBLISHED" : "Publié",
         "UNPUBLISH": "Dépublier",
+        "UNPUBLISH_STYLE": "danger",
         "UNPUBLISHED": "Non Publié",
         "BLOCKED": "Bloquée",
         "AFFECTED": "Affecté",
@@ -111,6 +113,8 @@
             "DELETE": "Suppression reussie",
             "ENABLE": "Activation reussie",
             "DISABLE": "Désactivation reussie",
+            "PUBLISH": "Publication reussie",
+            "UNPUBLISH": "Dépublication reussie",
             "READ": "Lecture reussie",
             "REASSIGN": "Réassignation reussie",
             "ASSIGN": "Assignation reussie",
@@ -340,7 +344,7 @@
                 }
             },
             "TYPE": {
-                "TITLE": "Type de signalements",
+                "TITLE": "Types de signalements",
                 "TOTAL_PROCESSING": {
                     "LABEL": "Total des signalements",
                     "SUBTITLE": "Tous les signalements confondus"
@@ -574,6 +578,8 @@
                 "VIDEO": "Lien Vidéo",
                 "CATEGORY": "Catégorie",
                 "SUB_CATEGORY": "Sous-catégorie",
+                "RESUME_PLACEHOLDER": "Saisir un resumé",
+                "CONTENT_PLACEHOLDER": "Saisir le contenu",
                 "HASHTAGS": "Hashtags",
                 "IMAGE": "Ficher Image",
                 "CHOOSE_IMAGE": "Choisir une image",
@@ -840,11 +846,24 @@
             "FORM": {
                 "VERSION": "Version",
                 "VERSION_PLACEHOLDER": "Ex: 1.0.0",
+                "CONTENT": "Contenu",
+                "CONTENT_PLACEHOLDER": "Saisir le contenu",
                 "TITLE_FORM_EDIT": "Formulaire d'édition de mentions légale",
                 "TITLE_FORM_ADD": "Formulaire d'ajout de mentions légale",
-                "DESCRIPTION": "Contenu",
                 "GENERAL_INFO": "Informations Générales",
                 "CONFIG": "Configuration & Actions"
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de mention légale",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce mention légale ?",
+                "TITLE_CREATE": "Création de mention légale",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce mention légale ?",
+                "TITLE_DELETE": "Suppression de mention légale",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer ce mention légale ?",
+                "TITLE_ENABLE": "Publication de mention légale",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment publier ce mention légale ?",
+                "TITLE_DISABLE": "Dépublication de mention légale",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment dépublier ce mention légale ?"
             }
         },
         "TERMS_USE": {
@@ -1303,17 +1322,17 @@
         "LABEL": "Qualifications",
         "ROUTE": "requests",
         "QUEUES": {
-            "TITLE": "demandes en attente de prise en charge",
-            "LABEL": "File d'attente",
+            "TITLE": "demandes dans le bac à pioche",
+            "LABEL": "Bac à pioche",
             "ROUTE": "queues",
             "BREADCRUMB": {
-                "LABEL": "File d'attente",
+                "LABEL": "Bac à pioche",
                 "ROUTE": "queues"
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "SEE_MORE": "Voir plus",
@@ -1323,7 +1342,7 @@
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source",
                 "DATE": {
@@ -1380,7 +1399,7 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "QUALIFY": "Qualifier",
@@ -1389,7 +1408,7 @@
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Source",
                 "DATE": {
@@ -1473,7 +1492,7 @@
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
@@ -1485,7 +1504,7 @@
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source",
                 "STATUS": "Statut",
@@ -1554,17 +1573,17 @@
         "ROUTE": "processing",
         "QUEUES": {
             "TITLE": "signalements en attente d'affectation",
-            "LABEL": "File d'attente",
+            "LABEL": "Bac à pioche",
             "ROUTE": "queues",
             "BREADCRUMB": {
-                "LABEL": "File d'attente",
+                "LABEL": "Bac à pioche",
                 "ROUTE": "queues"
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATUS": "Statut",
@@ -1574,7 +1593,7 @@
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Source"
             },
@@ -1632,7 +1651,7 @@
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
@@ -1640,6 +1659,8 @@
                 "ADD_ACTION": "Ajouter une Action",
                 "CLOSURE": "Clôturer",
                 "SEE_REPORT": "Visualiser",
+                "DELETE": "Supprimer",
+                "EDIT": "Modifier",
                 "ACTION": "Action",
                 "PROCESSING_NEWSPAPERS": "Journal de traitements",
                 "STEP": "Étape",
@@ -1648,7 +1669,7 @@
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Source"
             },
@@ -1765,7 +1786,7 @@
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
@@ -1777,7 +1798,7 @@
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Source",
                 "STATUS": "Statut"
@@ -1847,18 +1868,18 @@
         "LABEL": "Finalisation Signalements",
         "ROUTE": "reports-finalization",
         "QUEUES": {
-            "TITLE": "Signalements en attente de prise en charge",
-            "LABEL": "File d'attente",
+            "TITLE": "Signalements dans le bac à pioche",
+            "LABEL": "Bac à pioche",
             "ROUTE": "queues",
             "BREADCRUMB": {
-                "LABEL": "File d'attente",
+                "LABEL": "Bac à pioche",
                 "ROUTE": "queues"
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
@@ -1867,7 +1888,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiateur",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "UNIQ_ID": "Identifiant",
                 "OPERATORS": "Opérateur",
                 "STATE": "État"
@@ -1926,7 +1947,7 @@
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
@@ -1937,7 +1958,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiateur",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "UNIQ_ID": "Identifiant",
                 "STATE": "État",
                 "OPERATORS": "Opérateur"
@@ -2006,7 +2027,7 @@
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Source [Num]",
                 "STATE": "État",
@@ -2018,7 +2039,7 @@
             "FILTER": {
                 "INITIATOR": "Initiateur",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Source",
                 "STATUS": "Statut"
@@ -2079,7 +2100,7 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "STATE": "État",
                 "SEE_MORE": "Voir plus",
@@ -2089,7 +2110,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiateur",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "STATE": "État",
                 "OPERATORS": "Opérateur"
             },
@@ -2119,7 +2140,7 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "STATE": "État",
                 "SEE_MORE": "Voir plus",
@@ -2128,7 +2149,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Initiateur",
-                "REPORT_TYPE": "Type de signalement",
+                "REPORT_TYPE": "Types de signalements",
                 "STATE": "État",
                 "OPERATORS": "Opérateur"
             },
@@ -2324,6 +2345,7 @@
                 "TREATMENT": "Traitement",
                 "FINALIZATION": "Finalisation",
                 "INFORMATION": "Information",
+                "CLOSURE": "Clôture",
                 "TAKE": "Ajout au panier",
                 "APPROBATION": "Approbation"
             },
@@ -2462,7 +2484,7 @@
                 "REGION": "Région",
                 "DEPARTMENT": "Département",
                 "COMMUNE": "Commune/Sous-préfecture",
-                "TYPE": "Type de signalement",
+                "TYPE": "Types de signalements",
                 "STATUS": "Statut",
                 "DESCRIPTION": "Description du signalement",
                 "COMMENT_APPROVER": "Commentaire de l'approbateur",

@@ -1,42 +1,39 @@
-export interface LegalNoticeFindOneProps {
-    uniqId: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    role: string;
-}
+import { Status } from '@pages/content-management/domain/enums/legal-notice/legal-notice-status.enum';
+import { LegalNoticeFindOneProps } from '@pages/content-management/domain/interfaces/legal-notice/legal-notice-find-one-props.interface';
+
 export class LegalNoticeFindOneEntity {
     constructor(private readonly props: LegalNoticeFindOneProps) {}
 
     get uniqId(): string {
         return this.props.uniqId;
     }
-
-    get lastName(): string {
-        return this.props.lastName;
+    get version(): string {
+        return this.props.version;
     }
-
-    get firstName(): string {
-        return this.props.firstName;
+    get content(): string {
+        return this.props.content;
     }
-
-    get email(): string {
-        return this.props.email;
+    get status(): Status {
+        return this.props.status;
     }
-
-    get phone(): string {
-        return this.props.phone;
+    get createdAt(): string {
+        return this.props.createdAt;
     }
-
-    get role(): string {
-        return this.props.role;
+    get updatedAt(): string {
+        return this.props.updatedAt;
     }
 
     public with(props: LegalNoticeFindOneProps): LegalNoticeFindOneEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new LegalNoticeFindOneEntity(props);
+    }
+
+    toJSON(): LegalNoticeFindOneProps {
+        return { ...this.props };
     }
 }

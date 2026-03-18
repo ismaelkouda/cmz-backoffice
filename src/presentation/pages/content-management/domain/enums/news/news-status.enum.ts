@@ -1,4 +1,9 @@
 export enum Status {
-    ACTIVE = 'COMMON.ACTIVE',
-    INACTIVE = 'COMMON.INACTIVE',
+    PUBLISH = 'COMMON.PUBLISH',
+    UNPUBLISH = 'COMMON.UNPUBLISH',
+}
+
+export enum StatusStyle {
+    PUBLISH = 'COMMON.PUBLISH_STYLE',
+    UNPUBLISH = 'COMMON.UNPUBLISH_STYLE',
 }

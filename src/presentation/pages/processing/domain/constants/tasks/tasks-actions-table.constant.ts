@@ -1,4 +1,29 @@
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 3);
+    return `${width}rem`;
+}
+
 export const TASKS_ACTIONS_TABLE = {
+    actions: [
+        {
+            id: 'edit',
+            icon: 'pi pi-pencil',
+            tooltip: 'PROCESSING.TASKS.TABLE.EDIT',
+            severity: 'primary',
+        },
+        // {
+        //     id: 'details',
+        //     icon: 'pi pi-eye',
+        //     tooltip: 'PROCESSING.TASKS.TABLE.SEE_REPORT',
+        //     severity: 'contrast',
+        // },
+        {
+            id: 'delete',
+            icon: 'pi pi-trash',
+            tooltip: 'PROCESSING.TASKS.TABLE.DELETE',
+            severity: 'danger',
+        },
+    ],
     cols: [
         {
             field: '__index',
@@ -9,13 +34,13 @@ export const TASKS_ACTIONS_TABLE = {
         {
             field: 'date',
             header: 'PROCESSING.TASKS.ACTIONS.TABLE.DATE_ACTION',
-            width: '12rem',
+            width: '8rem',
             class: 'text-center',
         },
         {
             field: 'type',
             header: 'PROCESSING.TASKS.ACTIONS.TABLE.TYPE',
-            width: '12rem',
+            width: '8rem',
             class: 'text-center',
         },
         {
@@ -33,14 +58,14 @@ export const TASKS_ACTIONS_TABLE = {
         {
             field: 'createdAt',
             header: 'PROCESSING.TASKS.ACTIONS.TABLE.CREATED_AT',
-            width: '12rem',
+            width: '8rem',
             class: 'date_width text-center',
         },
         {
-            field: '__actionDropdown',
-            header: 'PROCESSING.TASKS.ACTIONS.TABLE.ACTION',
-            width: '6rem',
+            field: '__action',
+            header: 'PROCESSING.TASKS.TABLE.ACTION',
             class: 'text-center',
+            width: calculateActionColumnWidth(1),
         },
     ],
     globalFilterFields: [

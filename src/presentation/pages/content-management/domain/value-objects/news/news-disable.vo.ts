@@ -9,7 +9,7 @@ export class NewsDisableVo {
 
     static fromDto(dto: NewsDisableDto): NewsDisableVo {
         return new NewsDisableVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

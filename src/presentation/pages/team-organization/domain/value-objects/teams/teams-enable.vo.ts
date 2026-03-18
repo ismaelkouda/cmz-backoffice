@@ -9,7 +9,7 @@ export class TeamsEnableVo {
 
     static fromDto(dto: TeamsEnableDto): TeamsEnableVo {
         return new TeamsEnableVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

@@ -1,10 +1,10 @@
 import { PlatformDto } from '@shared/data/dto/platform.dto';
 
 export interface HomeCreateApiDto {
-    image_file: File | null;
+    image_file: File | string;
     platforms: PlatformDto[];
-    start_date: string;
-    end_date: string;
+    start_date: Date;
+    end_date: Date;
     title: string;
     resume: string;
     content: string;

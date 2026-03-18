@@ -9,7 +9,7 @@ export class TermsUsePublishVo {
 
     static fromDto(dto: TermsUsePublishDto): TermsUsePublishVo {
         return new TermsUsePublishVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

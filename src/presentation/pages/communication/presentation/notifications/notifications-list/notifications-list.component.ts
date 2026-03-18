@@ -135,10 +135,10 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         type: new FormControl<string | undefined>(undefined, {
             nonNullable: true,
         }),
-        startDate: new FormControl<string | undefined>(undefined, {
+        startDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
-        endDate: new FormControl<string | undefined>(undefined, {
+        endDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
     });

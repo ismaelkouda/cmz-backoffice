@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { PARTICIPANTS_ROUTE } from '@pages/team-organization/team-organization.routes';
-import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
+import { LEGAL_NOTICE_ROUTE } from '@pages/content-management/content-management.routes';
+import { CONTENT_MANAGEMENT_ROUTE } from '@shared/routes/routes';
 
 @Injectable()
 export class LegalNoticeFormHelperService {
@@ -9,19 +9,19 @@ export class LegalNoticeFormHelperService {
 
     navigateToLegalNoticeList(): void {
         this.router.navigate([
-            TEAM_ORGANIZATION_ROUTE + '/' + PARTICIPANTS_ROUTE,
+            CONTENT_MANAGEMENT_ROUTE + '/' + LEGAL_NOTICE_ROUTE,
         ]);
     }
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE_UPDATE'
-            : 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE_CREATE';
+            ? 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE_UPDATE'
+            : 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE_CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE_UPDATE'
-            : 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE_CREATE';
+            ? 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE_UPDATE'
+            : 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE_CREATE';
     }
 }

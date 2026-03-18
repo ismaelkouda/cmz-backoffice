@@ -9,7 +9,7 @@ export class SlideDeleteVo {
 
     static fromDto(dto: SlideDeleteDto): SlideDeleteVo {
         return new SlideDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

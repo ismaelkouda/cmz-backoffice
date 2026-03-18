@@ -26,7 +26,7 @@ export class MunicipalitiesUpdateVo {
 
     static fromDto(dto: MunicipalitiesUpdateDto): MunicipalitiesUpdateVo {
         return new MunicipalitiesUpdateVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
             code: dto.code,
             name: dto.name,
             region: dto.region,

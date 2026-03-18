@@ -9,7 +9,7 @@ export class MessagingDisableVo {
 
     static fromDto(dto: MessagingDisableDto): MessagingDisableVo {
         return new MessagingDisableVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

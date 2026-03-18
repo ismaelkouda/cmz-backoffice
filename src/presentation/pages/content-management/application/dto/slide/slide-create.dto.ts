@@ -6,8 +6,8 @@ export interface SlideCreateDto {
     image: File | null;
     video: string | null;
     platforms: Platform[];
-    startDate: string;
-    endDate: string;
+    startDate: Date | null;
+    endDate: Date | null;
     title: string;
     subtitle: string;
     content: string;

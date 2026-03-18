@@ -1,9 +1,13 @@
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 
 export interface NewsFormControl {
-    firstName: FormControl<string>;
-    lastName: FormControl<string>;
-    email: FormControl<string>;
-    phone: FormControl<string>;
-    role: FormControl<string>;
+    type: FormControl<string>;
+    title: FormControl<string>;
+    resume: FormControl<string>;
+    content: FormControl<string>;
+    image: FormControl<File | null>;
+    video: FormControl<string>;
+    hashtags: FormArray;
+    category: FormControl<string>;
+    subCategory: FormControl<string>;
 }

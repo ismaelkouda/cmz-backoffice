@@ -10,8 +10,8 @@ export class ActionDropdownMapper {
         const methodMap: Record<ActionDropdownDto, ActionDropdown> = {
             [ActionDropdownDto.ACTIVE]: ActionDropdown.ACTIVE,
             [ActionDropdownDto.INACTIVE]: ActionDropdown.INACTIVE,
-            [ActionDropdownDto.PUBLISHED]: ActionDropdown.PUBLISHED,
-            [ActionDropdownDto.UNPUBLISHED]: ActionDropdown.UNPUBLISHED,
+            [ActionDropdownDto.PUBLISH]: ActionDropdown.PUBLISH,
+            [ActionDropdownDto.UNPUBLISH]: ActionDropdown.UNPUBLISH,
         };
         return methodMap[dtoValue] || ActionDropdown.INACTIVE;
     }

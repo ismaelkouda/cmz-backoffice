@@ -38,8 +38,8 @@ export class LegalNoticeFacade extends BaseFacade<
     private readonly filterBus = inject(LegalNoticeBus);
     private readonly createBus = inject(LegalNoticeCreateBus);
     private readonly updateBus = inject(LegalNoticeUpdateBus);
-    private readonly enableBus = inject(LegalNoticePublishBus);
-    private readonly disableBus = inject(LegalNoticeUnpublishBus);
+    private readonly publishBus = inject(LegalNoticePublishBus);
+    private readonly unpublishBus = inject(LegalNoticeUnpublishBus);
     private readonly deleteBus = inject(LegalNoticeDeleteBus);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
@@ -63,7 +63,7 @@ export class LegalNoticeFacade extends BaseFacade<
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => this.refreshWithLastFilterAndPage()
         );
     }
 
@@ -142,7 +142,7 @@ export class LegalNoticeFacade extends BaseFacade<
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
+    private refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new LegalNoticeQuery(
@@ -229,20 +229,20 @@ export class LegalNoticeFacade extends BaseFacade<
             .subscribe();
     }
 
-    enable(team: LegalNoticePublishDto): void {
+    publish(team: LegalNoticePublishDto): void {
         const command = new LegalNoticePublishCommand(team.uniqId);
         this.handleActionWithRefresh(
-            this.enableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
-        );
+            this.publishBus.dispatch(command),
+            'COMMON.SUCCESS.PUBLISH'
+        ).subscribe();
     }
 
-    disable(team: LegalNoticeUnpublishDto): void {
+    unpublish(team: LegalNoticeUnpublishDto): void {
         const command = new LegalNoticeUnpublishCommand(team.uniqId);
         this.handleActionWithRefresh(
-            this.disableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
-        );
+            this.unpublishBus.dispatch(command),
+            'COMMON.SUCCESS.UNPUBLISH'
+        ).subscribe();
     }
 
     delete(team: LegalNoticeDeleteDto): void {

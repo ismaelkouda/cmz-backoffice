@@ -4,6 +4,6 @@ export interface NotificationsFindOneFilterControl {
     search: FormControl<string | undefined>;
     reportType: FormControl<string | undefined>;
     operators: FormControl<boolean | undefined>;
-    startDate: FormControl<string | undefined>;
-    endDate: FormControl<string | undefined>;
+    startDate: FormControl<Date | undefined>;
+    endDate: FormControl<Date | undefined>;
 }

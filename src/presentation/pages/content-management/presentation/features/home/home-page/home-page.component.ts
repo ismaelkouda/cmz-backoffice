@@ -179,10 +179,10 @@ export class HomePageComponent implements OnInit {
         status: new FormControl<string | undefined>(undefined, {
             nonNullable: true,
         }),
-        startDate: new FormControl<string | undefined>(undefined, {
+        startDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
-        endDate: new FormControl<string | undefined>(undefined, {
+        endDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
     });
@@ -261,7 +261,6 @@ export class HomePageComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 this.facade.delete({ uniqId: item.uniqId });
-                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }
@@ -280,7 +279,6 @@ export class HomePageComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 this.facade.enable({ uniqId: item.uniqId });
-                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }
@@ -298,7 +296,6 @@ export class HomePageComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 this.facade.disable({ uniqId: item.uniqId });
-                this.facade.refreshWithLastFilterAndPage();
             }
         });
     }

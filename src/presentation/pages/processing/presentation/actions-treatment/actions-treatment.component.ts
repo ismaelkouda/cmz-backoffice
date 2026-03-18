@@ -24,6 +24,7 @@ import { DetailsFacade } from '@pages/processing/application/services/details/de
 import { TasksActionsFacade } from '@pages/processing/application/services/tasks/tasks-actions.facade';
 import { TASKS_ACTIONS_TABLE } from '@pages/processing/domain/constants/tasks/tasks-actions-table.constant';
 import { TasksActionsFormControl } from '@pages/processing/domain/controls/tasks/tasks-actions-form.control';
+import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
 import { TasksActionsTypes } from '@pages/processing/domain/enums/tasks/tasks-actions-types.enum';
 import { TASKS_ROUTE } from '@pages/processing/processing.routes';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
@@ -72,10 +73,8 @@ import SweetAlert from 'sweetalert2';
         ManagementDialogComponent,
         TagModule,
         ReactiveFormsModule,
-        TranslateModule,
         DialogModule,
         SelectModule,
-        ButtonModule,
         InputGroupModule,
         InputTextModule,
         InputGroupAddonModule,
@@ -101,11 +100,21 @@ export class ActionsTreatmentComponent implements OnInit {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
+
     public readonly tableConfig = TASKS_ACTIONS_TABLE;
     private lastSuccess = this.facade.actionSuccess();
     public readonly displayModal = signal<boolean>(false);
     private readonly openRequested = signal(false);
     public reportTreatmentVisible = false;
+
+    // État pour gérer le mode édition/création
+    private readonly editingItemId = signal<string | null>(null);
+    public readonly isEditMode = computed(() => this.editingItemId() !== null);
+    public readonly modalTitle = computed(() =>
+        this.isEditMode()
+            ? 'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE_EDIT'
+            : 'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE_CREATE'
+    );
 
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -134,11 +143,11 @@ export class ActionsTreatmentComponent implements OnInit {
         { initialValue: '' }
     );
 
-    public readonly operators: Signal<string> = toSignal(
+    public readonly operators: Signal<string[]> = toSignal(
         this.activatedRoute.queryParams.pipe(
             map((params: Params) => params['operators'])
         ),
-        { initialValue: '' }
+        { initialValue: [] }
     );
 
     public readonly createdAt: Signal<string> = toSignal(
@@ -178,8 +187,7 @@ export class ActionsTreatmentComponent implements OnInit {
         }
 
         this.lastSuccess = current;
-        this.form.reset();
-        this.displayModal.set(false);
+        this.closeModal();
     });
 
     private readonly modalEffect = effect(() => {
@@ -249,8 +257,6 @@ export class ActionsTreatmentComponent implements OnInit {
                     this.facade.reset();
                     if (uniqId) {
                         this.facade.readAll({ uniqId }, '1', true);
-                    } else {
-                        this.form.reset();
                     }
                 }),
                 takeUntilDestroyed(this.destroyRef)
@@ -273,9 +279,7 @@ export class ActionsTreatmentComponent implements OnInit {
     }
 
     public onRefreshClicked(): void {
-        this.form.reset();
         this.facade.refresh();
-        this.form.reset();
     }
 
     public onSeeClicked(): void {
@@ -289,16 +293,15 @@ export class ActionsTreatmentComponent implements OnInit {
         if (!this.uniqId()) {
             return;
         }
-        const title: string = this.t(
-            'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_CLOSURE'
-        );
-        const text: string = this.t(
-            'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_CLOSURE'
-        );
+
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: title,
-            html: text.replaceAll('uniqId', this.uniqId()),
+            title: this.t(
+                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_CLOSURE'
+            ),
+            html: this.t(
+                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_CLOSURE'
+            ).replaceAll('uniqId', this.uniqId()),
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
@@ -319,78 +322,59 @@ export class ActionsTreatmentComponent implements OnInit {
         this.exportService.exportAsExcelFile(
             items,
             this.tableConfig,
-            `${this.exportFilePrefix}-teams-participants`
+            `${this.exportFilePrefix}-actions-treatment`
         );
     }
 
     public onHeaderButtonClicked(actionId: string): void {
         if (actionId === 'create') {
-            this.openModal();
+            this.prepareCreate();
         }
     }
 
-    public onEditClicked(params: any): void {
-        console.log('params: ', params.item.props);
-        if (params.ref === 'edit') {
-            this.form.patchValue({ ...params.item.props });
-            console.log('this.form: ', this.form.value);
-            this.openModal();
+    public onActionClicked({
+        item,
+        actionId,
+    }: {
+        item: TasksActionsEntity;
+        actionId?: string;
+    }): void {
+        switch (actionId) {
+            case 'edit':
+                this.prepareEdit(item);
+                break;
+            case 'delete':
+                this.confirmDelete(item);
+                break;
         }
+    }
+
+    private prepareCreate(): void {
+        this.editingItemId.set(null);
+        this.form.reset({
+            date: '',
+            type: '',
+            description: '',
+            shouldNotifyUser: false,
+        });
         this.openModal();
     }
 
-    private openModal(): void {
-        this.openRequested.set(true);
-    }
-
-    public closeModal(): void {
-        this.displayModal.set(false);
-        this.form.reset();
-    }
-
-    public onSubmit(): void {
-        if (this.form.invalid || !this.uniqId()) {
-            return;
-        }
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.t(
-                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_CREATE'
-            ),
-            text: this.t(
-                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_CREATE'
-            ),
-            confirmButtonText: this.t('COMMON.CONFIRM'),
-            cancelButtonText: this.t('COMMON.CANCEL'),
-        }).then((res) => {
-            if (res.isConfirmed) {
-                this.facade.create({
-                    reportUniqId: this.uniqId(),
-                    ...this.form.getRawValue(),
-                });
-            }
+    private prepareEdit(item: TasksActionsEntity): void {
+        this.editingItemId.set(item.uniqId);
+        this.form.patchValue({
+            date: item.date,
+            type: item.type,
+            description: item.description,
+            shouldNotifyUser: item.shouldNotifyUser,
         });
+        this.openModal();
     }
 
-    // public onEditClicked(event: Event): void {
-    //     console.log('event1111: ', event);
-    //     if (this.form.invalid || !this.uniqId()) {
-    //         return;
-    //     }
-    //     this.openModal();
-    //     /* this.facade.create({
-    //         reportUniqId: this.uniqId(),
-    //         uniqId: event.uniqId,
-    //         ...this.form.getRawValue(),
-    //     }); */
-    //     console.log(event);
-    // }
-
-    public onDeleteClicked(event: any): void {
-        if (!this.uniqId() || !event.props.uniqId) {
+    private confirmDelete(item: TasksActionsEntity): void {
+        if (!this.uniqId() || !item.uniqId) {
             return;
         }
-        console.log('event', event);
 
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
@@ -400,17 +384,69 @@ export class ActionsTreatmentComponent implements OnInit {
             text: this.t(
                 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_DELETE'
             ),
-            backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
                 this.facade.delete({
-                    uniqId: event.props.uniqId,
+                    uniqId: item.uniqId,
                 });
-                this.facade.refreshWithLastFilterAndPage();
             }
         });
+    }
+
+    private openModal(): void {
+        this.openRequested.set(true);
+    }
+
+    public closeModal(): void {
+        this.displayModal.set(false);
+        this.editingItemId.set(null);
+        this.form.reset();
+    }
+
+    public onSubmit(): void {
+        if (this.form.invalid || !this.uniqId()) {
+            return;
+        }
+
+        const formValue = this.form.getRawValue();
+        const basePayload = {
+            reportUniqId: this.uniqId(),
+            ...formValue,
+        };
+
+        const dialogConfig = {
+            title: this.isEditMode()
+                ? 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_EDIT'
+                : 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_CREATE',
+            message: this.isEditMode()
+                ? 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_EDIT'
+                : 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_CREATE',
+        };
+
+        SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: this.t(dialogConfig.title),
+            text: this.t(dialogConfig.message),
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
+        }).then((res) => {
+            if (res.isConfirmed) {
+                if (this.isEditMode()) {
+                    // this.facade.update({
+                    //     ...basePayload,
+                    //     uniqId: this.editingItemId()!,
+                    // });
+                } else {
+                    this.facade.create(basePayload);
+                }
+            }
+        });
+    }
+
+    public onReportTreatmentTasks(): void {
+        this.facade.refreshWithLastFilterAndPage();
     }
 
     private t(key: string, params?: object): string {

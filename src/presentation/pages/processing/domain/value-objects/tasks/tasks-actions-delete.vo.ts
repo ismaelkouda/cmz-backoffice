@@ -9,7 +9,7 @@ export class TasksActionsDeleteVo {
 
     static fromDto(dto: TasksActionsDeleteDto): TasksActionsDeleteVo {
         return new TasksActionsDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }
