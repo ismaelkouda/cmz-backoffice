@@ -20,7 +20,7 @@ export class RegionsUpdateVo {
 
     static fromDto(dto: RegionsUpdateDto): RegionsUpdateVo {
         return new RegionsUpdateVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
             code: dto.code,
             name: dto.name,
             description: dto.description,

@@ -81,7 +81,7 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 }
 
                 <!-- Activation/Désactivation -->
-                @if (status() === actionDropdown.UNPUBLISHED) {
+                @if (status() === actionDropdown.UNPUBLISH) {
                     <button
                         ngbDropdownItem
                         class="action-dropdown__item"
@@ -117,7 +117,7 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                     </button>
                 }
 
-                @if (status() === actionDropdown.PUBLISHED) {
+                @if (status() === actionDropdown.PUBLISH) {
                     <button
                         ngbDropdownItem
                         class="action-dropdown__item"

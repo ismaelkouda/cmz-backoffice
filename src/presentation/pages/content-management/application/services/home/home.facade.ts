@@ -60,7 +60,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => this.refreshWithLastFilterAndPage()
         );
     }
 
@@ -139,7 +139,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
+    private refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new HomeQuery(
@@ -245,7 +245,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(team: HomeDisableDto): void {
@@ -253,7 +253,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(team: HomeDeleteDto): void {

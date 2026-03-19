@@ -1,20 +1,18 @@
 import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
-import { Platform } from '@shared/domain/enums/platform.enum';
-
 export interface HomeFindOneProps {
     uniqId: string;
     title: string;
     resume: string;
     order: number;
-    platforms: Platform[];
+    platforms: string[];
     status: Status;
     content: string;
     image: string;
     timeDurationInSeconds: number;
     buttonLabel: string;
     buttonUrl: string;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     createdAt: string;
     updatedAt: string;
 }

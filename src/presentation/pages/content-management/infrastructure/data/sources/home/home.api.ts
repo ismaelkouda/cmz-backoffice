@@ -27,15 +27,14 @@ export class HomeApi {
         page: string
     ): Observable<HomeResponseApiDto> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.HOME}?page=${page}`;
-
         const params = buildHttpParams(filter);
-
         return this.http.get<HomeResponseApiDto>(url, {
             params,
         });
     }
 
     create(apiDto: HomeCreateApiDto): Observable<SimpleResponseDto<void>> {
+        console.log('apiDto: ', apiDto);
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.HOME}/store`;
         const payload = buildHttpPayload(apiDto, []);
         const formData = formDataBuilder(payload);

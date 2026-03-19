@@ -16,7 +16,7 @@ export class NewsCategoriesSelectApi {
     ) {}
 
     readAll(): Observable<NewsCategoriesSelectResponseApiDto> {
-        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.NEWS}/selected-field`;
+        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.CATEGORIES}/selected-field`;
 
         return this.http.get<NewsCategoriesSelectResponseApiDto>(url);
     }

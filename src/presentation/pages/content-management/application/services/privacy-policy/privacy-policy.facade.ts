@@ -63,7 +63,7 @@ export class PrivacyPolicyFacade extends BaseFacade<
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => this.refreshWithLastFilterAndPage()
         );
     }
 
@@ -142,7 +142,7 @@ export class PrivacyPolicyFacade extends BaseFacade<
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
+    private refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new PrivacyPolicyQuery(
@@ -234,7 +234,7 @@ export class PrivacyPolicyFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(team: PrivacyPolicyUnpublishDto): void {
@@ -242,7 +242,7 @@ export class PrivacyPolicyFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(team: PrivacyPolicyDeleteDto): void {

@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import {
-    LegalNoticeFindOneEntity,
-    LegalNoticeFindOneProps,
-} from '@pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
+import { inject, Injectable } from '@angular/core';
+import { LegalNoticeFindOneEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
 import { LegalNoticeFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-find-one-response-api.dto';
+import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-status.mapper';
+import { LegalNoticeFindOneProps } from '@presentation/pages/content-management/domain/interfaces/legal-notice/legal-notice-find-one-props.interface';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
@@ -13,6 +12,7 @@ export class LegalNoticeFindOneMapper extends SimpleResponseMapper<
     LegalNoticeFindOneItemApiDto
 > {
     private readonly entityCache = new Map<string, LegalNoticeFindOneEntity>();
+    private readonly statusMapper = inject(StatusMapper);
 
     protected mapItemFromDto(
         dto: LegalNoticeFindOneItemApiDto
@@ -21,11 +21,11 @@ export class LegalNoticeFindOneMapper extends SimpleResponseMapper<
 
         const props: LegalNoticeFindOneProps = {
             uniqId: dto.id,
-            lastName: dto.last_name,
-            firstName: dto.first_name,
-            email: dto.email,
-            phone: dto.phone,
-            role: dto.role,
+            version: dto.version,
+            content: dto.content,
+            status: this.statusMapper.mapFromDto(dto.is_published),
+            createdAt: dto.created_at,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${dto.id}`;

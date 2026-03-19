@@ -1,12 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import {
-    LegalNoticeEntity,
-    LegalNoticeProps,
-} from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
+import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 import { LegalNoticeItemApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-response-api.dto';
-import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
+import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-status.mapper';
+import { LegalNoticeProps } from '@presentation/pages/content-management/domain/interfaces/legal-notice/legal-notice-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({
@@ -16,21 +13,18 @@ export class LegalNoticeMapper extends PaginatedMapper<
     LegalNoticeEntity,
     LegalNoticeItemApiDto
 > {
-    private readonly actionDropdownMapper: ActionDropdownMapper =
-        inject(ActionDropdownMapper);
-    private readonly rolesMapper: RolesMapper = inject(RolesMapper);
     private readonly entityCache = new Map<string, LegalNoticeEntity>();
+    private readonly statusMapper = inject(StatusMapper);
+    private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(dto: LegalNoticeItemApiDto): LegalNoticeEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: LegalNoticeProps = {
             uniqId: dto.id,
-            lastName: dto.last_name,
-            firstName: dto.first_name,
-            email: dto.email,
-            phone: dto.phone,
-            role: this.rolesMapper.mapFromDto(dto.role),
-            status: this.actionDropdownMapper.mapFromDto(dto.status),
+            version: dto.version,
+            status: this.statusMapper.mapFromDto(dto.is_published),
+            createdAt: dto.created_at,
+            publishedAt: dto.published_at,
             updatedAt: dto.updated_at,
         };
 

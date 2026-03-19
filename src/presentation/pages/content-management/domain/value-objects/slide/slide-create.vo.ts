@@ -25,11 +25,11 @@ export class SlideCreateVo {
         return this.props.platforms;
     }
 
-    get startDate(): string {
+    get startDate(): Date | null {
         return this.props.startDate;
     }
 
-    get endDate(): string {
+    get endDate(): Date | null {
         return this.props.endDate;
     }
 

@@ -1,28 +1,26 @@
-import { Platform } from '@shared/domain/enums/platform.enum';
-
-export const PLATFORM_ASPECT_RATIOS: Record<Platform, number> = {
-    [Platform.WEB]: 16 / 9,
-    [Platform.MOBILE]: 9 / 16,
-    [Platform.PWA]: 1 / 1,
+export const PLATFORM_ASPECT_RATIOS: Record<string, number> = {
+    web: 16 / 9,
+    mobile: 9 / 16,
+    pwa: 1 / 1,
 };
 
-export const PLATFORM_RATIO_LABELS: Record<Platform, string> = {
-    [Platform.WEB]: '16:9 — Paysage (Desktop)',
-    [Platform.MOBILE]: '9:16 — Portrait (Mobile)',
-    [Platform.PWA]: '1:1 — Carré (PWA)',
+export const PLATFORM_RATIO_LABELS: Record<string, string> = {
+    web: '16:9 — Paysage (Desktop)',
+    mobile: '9:16 — Portrait (Mobile)',
+    pwa: '1:1 — Carré (PWA)',
 };
 
-export const PLATFORM_ICONS: Record<Platform, string> = {
-    [Platform.WEB]: 'pi pi-desktop',
-    [Platform.MOBILE]: 'pi pi-mobile',
-    [Platform.PWA]: 'pi pi-th-large',
+export const PLATFORM_ICONS: Record<string, string> = {
+    web: 'pi pi-desktop',
+    mobile: 'pi pi-mobile',
+    pwa: 'pi pi-th-large',
 };
 
 export interface ImageUploadConfig {
     acceptedTypes: string[];
     maxSizeBytes: number;
     enablePreview: boolean;
-    targetPlatforms: Platform[];
+    targetPlatforms: string[];
     hint?: string;
 }
 
@@ -30,7 +28,7 @@ export const DEFAULT_IMAGE_UPLOAD_CONFIG: ImageUploadConfig = {
     acceptedTypes: ['image/jpeg', 'image/png', 'image/webp'],
     maxSizeBytes: 10 * 1024 * 1024,
     enablePreview: false,
-    targetPlatforms: [Platform.WEB],
+    targetPlatforms: ['web'],
     hint: undefined,
 };
 

@@ -1,6 +1,5 @@
 import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
 import { HomeFindOneProps } from '@pages/content-management/domain/interfaces/home/home-find-one-props.interface';
-import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class HomeFindOneEntity {
     constructor(private readonly props: HomeFindOneProps) {}
@@ -8,7 +7,7 @@ export class HomeFindOneEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-    get platforms(): Platform[] {
+    get platforms(): string[] {
         return this.props.platforms;
     }
     get title(): string {
@@ -38,10 +37,10 @@ export class HomeFindOneEntity {
     get status(): Status {
         return this.props.status;
     }
-    get startDate(): string {
+    get startDate(): Date {
         return this.props.startDate;
     }
-    get endDate(): string {
+    get endDate(): Date {
         return this.props.endDate;
     }
     get createdAt(): string {

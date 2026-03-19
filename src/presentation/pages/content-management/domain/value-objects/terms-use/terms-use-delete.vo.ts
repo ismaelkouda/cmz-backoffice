@@ -9,7 +9,7 @@ export class TermsUseDeleteVo {
 
     static fromDto(dto: TermsUseDeleteDto): TermsUseDeleteVo {
         return new TermsUseDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

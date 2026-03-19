@@ -1,33 +1,27 @@
 import { inject, Injectable } from '@angular/core';
-import {
-    NewsEntity,
-    NewsProps,
-} from '@pages/content-management/domain/entities/news/news.entity';
+import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { NewsItemApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-response-api.dto';
-import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
+import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-status.mapper';
+import { NewsProps } from '@presentation/pages/content-management/domain/interfaces/news/news-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({
     providedIn: 'root',
 })
 export class NewsMapper extends PaginatedMapper<NewsEntity, NewsItemApiDto> {
-    private readonly actionDropdownMapper: ActionDropdownMapper =
-        inject(ActionDropdownMapper);
-    private readonly rolesMapper: RolesMapper = inject(RolesMapper);
     private readonly entityCache = new Map<string, NewsEntity>();
+    private readonly statusMapper = inject(StatusMapper);
+    private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(dto: NewsItemApiDto): NewsEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: NewsProps = {
             uniqId: dto.id,
-            lastName: dto.last_name,
-            firstName: dto.first_name,
-            email: dto.email,
-            phone: dto.phone,
-            role: this.rolesMapper.mapFromDto(dto.role),
-            status: this.actionDropdownMapper.mapFromDto(dto.status),
+            type: dto.type,
+            title: dto.title,
+            status: this.statusMapper.mapFromDto(dto.is_published),
+            createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };
 

@@ -150,8 +150,6 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                 }
                 return valA.every((v, i) => v === valB[i]);
             }
-            console.log('valB: ', valB);
-            console.log('valA: ', valA);
 
             return valA === valB;
         });

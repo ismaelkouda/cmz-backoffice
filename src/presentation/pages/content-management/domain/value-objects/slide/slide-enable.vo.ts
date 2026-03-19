@@ -9,7 +9,7 @@ export class SlideEnableVo {
 
     static fromDto(dto: SlideEnableDto): SlideEnableVo {
         return new SlideEnableVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

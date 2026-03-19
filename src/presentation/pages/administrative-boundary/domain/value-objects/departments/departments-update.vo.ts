@@ -23,7 +23,7 @@ export class DepartmentsUpdateVo {
 
     static fromDto(dto: DepartmentsUpdateDto): DepartmentsUpdateVo {
         return new DepartmentsUpdateVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
             code: dto.code,
             name: dto.name,
             region: dto.region,

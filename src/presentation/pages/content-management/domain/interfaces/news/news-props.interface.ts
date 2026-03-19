@@ -1,11 +1,10 @@
 import { Status } from '@pages/content-management/domain/enums/news/news-status.enum';
 
-export interface Props {
+export interface NewsProps {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+    type: string;
+    title: string;
     status: Status;
-    membersCount: string;
+    createdAt: string;
     updatedAt: string;
 }

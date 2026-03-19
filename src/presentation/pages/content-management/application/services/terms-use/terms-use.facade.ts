@@ -63,7 +63,7 @@ export class TermsUseFacade extends BaseFacade<
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => this.refreshWithLastFilterAndPage()
         );
     }
 
@@ -142,7 +142,7 @@ export class TermsUseFacade extends BaseFacade<
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
+    private refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new TermsUseQuery(
@@ -231,7 +231,7 @@ export class TermsUseFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(team: TermsUseUnpublishDto): void {
@@ -239,7 +239,7 @@ export class TermsUseFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(team: TermsUseDeleteDto): void {

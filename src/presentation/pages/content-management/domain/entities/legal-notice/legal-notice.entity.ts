@@ -1,13 +1,8 @@
-export interface LegalNoticeProps {
-    uniqId: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    role: string;
-    status: string;
-    updatedAt: string;
-}
+import {
+    Status,
+    StatusStyle,
+} from '@pages/content-management/domain/enums/legal-notice/legal-notice-status.enum';
+import { LegalNoticeProps } from '@pages/content-management/domain/interfaces/legal-notice/legal-notice-props.interface';
 
 export class LegalNoticeEntity {
     constructor(private readonly props: LegalNoticeProps) {}
@@ -15,39 +10,40 @@ export class LegalNoticeEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-
-    get lastName(): string {
-        return this.props.lastName;
+    get version(): string {
+        return this.props.version;
     }
-
-    get firstName(): string {
-        return this.props.firstName;
-    }
-
-    get email(): string {
-        return this.props.email;
-    }
-
-    get phone(): string {
-        return this.props.phone;
-    }
-
-    get role(): string {
-        return this.props.role;
-    }
-
-    get status(): string {
+    get status(): Status {
         return this.props.status;
     }
-
+    statusStyle(status: Status): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.PUBLISH]: StatusStyle.PUBLISH,
+            [Status.UNPUBLISH]: StatusStyle.UNPUBLISH,
+        };
+        return methodMap[status];
+    }
+    get createdAt(): string {
+        return this.props.createdAt;
+    }
+    get publishedAt(): string {
+        return this.props.publishedAt;
+    }
     get updatedAt(): string {
         return this.props.updatedAt;
     }
 
     public with(props: LegalNoticeProps): LegalNoticeEntity {
-        if (this.updatedAt === props.updatedAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new LegalNoticeEntity(props);
+    }
+
+    toJSON(): LegalNoticeProps {
+        return { ...this.props };
     }
 }

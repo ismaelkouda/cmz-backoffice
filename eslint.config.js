@@ -56,7 +56,7 @@ export default tseslint.config(
         },
         rules: {
 
-            '@angular-eslint/no-forward-ref': 'error',
+            // '@angular-eslint/no-forward-ref': 'error',
             // '@angular-eslint/use-injectable-provided-in': 'error',
             '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
             '@angular-eslint/component-class-suffix': ['error', { suffixes: ['Component','Page','Dialog'] }],

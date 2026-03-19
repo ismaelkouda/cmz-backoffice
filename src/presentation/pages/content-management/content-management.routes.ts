@@ -4,7 +4,7 @@ export const HOME_ROUTE = 'home-blocks';
 export const NEWS_ROUTE = 'infos-and-news';
 export const SLIDE_ROUTE = 'sliders';
 // export const PRIVACY_POLICY_ROUTE = 'privacy-policy';
-// export const LEGAL_NOTICE_ROUTE = 'legal-notices';
+export const LEGAL_NOTICE_ROUTE = 'legal-notices';
 // export const TERMS_USE_ROUTE = 'terms-of-service';
 // export const CREATE_ROUTE = 'create';
 // export const EDIT_ROUTE = 'edit';
@@ -39,26 +39,34 @@ export const routes: Routes = [
             },
         ],
     },
-    // {
-    //     path: NEWS_ROUTE,
-    //     data: {
-    //         breadcrumb: {
-    //             label: 'CONTENT_MANAGEMENT.NEWS.BREADCRUMB.LABEL',
-    //             icon: 'CONTENT_MANAGEMENT.NEWS.BREADCRUMB.ICON',
-    //         },
-    //     },
-    //     children: [
-    //         {
-    //             path: '',
-    //             loadChildren: () =>
-    //                 import('./presentation/features/news/news.routes').then(
-    //                     (m) => m.NEWS_ROUTES
-    //                 ),
-    //             data: { breadcrumb: { hide: true } },
-    //         },
-    //     ],
-    // },
-
+    {
+        path: NEWS_ROUTE,
+        children: [
+            {
+                path: '',
+                data: {
+                    breadcrumb: {
+                        label: 'CONTENT_MANAGEMENT.NEWS.BREADCRUMB.LABEL',
+                        icon: 'CONTENT_MANAGEMENT.NEWS.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import('./presentation/features/news/news.routes').then(
+                                (m) => m.NEWS_ROUTES
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+        ],
+    },
     {
         path: SLIDE_ROUTE,
         children: [
@@ -76,6 +84,35 @@ export const routes: Routes = [
                         loadChildren: () =>
                             import('./presentation/features/slide/slide.routes').then(
                                 (m) => m.SLIDE_ROUTES
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+        ],
+    },
+
+    {
+        path: LEGAL_NOTICE_ROUTE,
+        children: [
+            {
+                path: '',
+                data: {
+                    breadcrumb: {
+                        label: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.BREADCRUMB.LABEL',
+                        icon: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import('./presentation/features/legal-notice/legal-notice.routes').then(
+                                (m) => m.LEGAL_NOTICE_ROUTES
                             ),
                         data: { breadcrumb: { hide: true } },
                     },

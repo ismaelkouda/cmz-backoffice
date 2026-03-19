@@ -11,7 +11,7 @@ export class HomeEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-    get platforms(): Platform[] {
+    get platforms(): string[] {
         return this.props.platforms;
     }
     platformsStyle(platform: Platform): PlatformStyle {

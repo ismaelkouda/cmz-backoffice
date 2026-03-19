@@ -1,5 +1,4 @@
 import { Injectable, signal, computed, OnDestroy } from '@angular/core';
-import { RouteContextType } from '@shared/domain/types/route-context.types';
 
 export type CropperStatus = 'idle' | 'loading' | 'ready' | 'cropping' | 'error';
 export interface CropperState {
@@ -12,6 +11,7 @@ export interface CropperState {
     rotation: number;
     flipH: boolean;
     flipV: boolean;
+    isOriginal: boolean;
 }
 const INITIAL_CROPPER_STATE: CropperState = {
     status: 'idle',
@@ -23,11 +23,10 @@ const INITIAL_CROPPER_STATE: CropperState = {
     rotation: 0,
     flipH: false,
     flipV: false,
+    isOriginal: false,
 };
 @Injectable()
 export class ImageUploadStateService implements OnDestroy {
-    private readonly context = signal<RouteContextType | null>(null);
-
     private readonly cropperState = signal<CropperState>({
         ...INITIAL_CROPPER_STATE,
     });
@@ -43,6 +42,7 @@ export class ImageUploadStateService implements OnDestroy {
         () => this.cropperState().errorMessage
     );
     readonly hasCroppedImage = computed(() => !!this.cropperState().previewUrl);
+    readonly isOriginalImage = computed(() => this.cropperState().isOriginal);
 
     public openCropper(file: File): void {
         const { previewUrl } = this.cropperState();
@@ -52,12 +52,56 @@ export class ImageUploadStateService implements OnDestroy {
             ...s,
             isOpen: true,
             status: 'loading',
+            croppedBlob: null,
             sourceFile: file,
             errorMessage: null,
             rotation: 0,
             flipH: false,
             flipV: false,
+            isOriginal: false,
         }));
+    }
+
+    public async hydrateExistingImage(url: string): Promise<void> {
+        try {
+            this.cropperState.update((s) => ({
+                ...s,
+                status: 'loading',
+                errorMessage: null,
+            }));
+
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const blob = await response.blob();
+            const file = new File([blob], url.split('/').pop() || 'image.jpg', {
+                type: blob.type,
+            });
+            const previewUrl = URL.createObjectURL(blob);
+
+            this.cropperState.update((s) => ({
+                ...s,
+                isOpen: false,
+                previewUrl,
+                status: 'ready',
+                sourceFile: file,
+                croppedBlob: null,
+                errorMessage: null,
+                rotation: 0,
+                flipH: false,
+                flipV: false,
+                isOriginal: true,
+            }));
+        } catch (error) {
+            console.error('Failed to hydrate image:', error);
+            this.cropperState.update((s) => ({
+                ...s,
+                status: 'error',
+                errorMessage:
+                    'CONTENT_MANAGEMENT.HOME.CROPPER.ERROR_LOAD_FAILED',
+            }));
+        }
     }
 
     public onCropperImageLoaded(): void {
@@ -75,19 +119,33 @@ export class ImageUploadStateService implements OnDestroy {
 
     public getCurrentFile(): File | null {
         const state = this.cropperState();
-        if (state.croppedBlob && state.sourceFile) {
+        if (state.croppedBlob) {
             const ext = this.resolveExtension(state.croppedBlob.type);
-            const fileName = `${state.sourceFile.name.replace(/\.[^.]+$/, '')}_cropped.${ext}`;
+            const fileName = state.sourceFile
+                ? `${state.sourceFile.name.replace(/\.[^.]+$/, '')}_cropped.${ext}`
+                : `image_${Date.now()}.${ext}`;
+
             return new File([state.croppedBlob], fileName, {
                 type: state.croppedBlob.type,
             });
         }
-        return null;
+        return state.sourceFile;
+    }
+
+    public openCropperWithExisting(): void {
+        const state = this.cropperState();
+        if (!state.sourceFile) {
+            return;
+        }
+
+        this.cropperState.update((s) => ({
+            ...s,
+            isOpen: true,
+            status: 'ready',
+        }));
     }
 
     public confirmCrop(blob: Blob): void {
-        this.cropperState.update((s) => ({ ...s, status: 'cropping' }));
-
         const { previewUrl, sourceFile } = this.cropperState();
         this.revokePreviewUrl(previewUrl);
 
@@ -95,24 +153,43 @@ export class ImageUploadStateService implements OnDestroy {
 
         this.cropperState.update((s) => ({
             ...s,
-            status: 'idle',
+            status: 'ready',
             croppedBlob: blob,
             sourceFile: sourceFile,
             previewUrl: preview,
             isOpen: false,
+            rotation: 0,
+            flipH: false,
+            flipV: false,
+            isOriginal: false,
         }));
+    }
+
+    public getCroppedBlob(): Blob | null {
+        return this.cropperState().croppedBlob;
     }
 
     public abandonCrop(): void {
         const state = this.cropperState();
         this.revokePreviewUrl(state.previewUrl);
-        this.cropperState.update((s) => ({
-            ...s,
-            isOpen: false,
-            status: 'idle',
-            errorMessage: null,
-            sourceFile: null,
-        }));
+        // this.cropperState.update((s) => ({
+        //     ...s,
+        //     isOpen: false,
+        //     status: 'idle',
+        //     errorMessage: null,
+        //     sourceFile: null,
+        // }));
+        if (state.isOpen) {
+            this.cropperState.update((s) => ({
+                ...s,
+                isOpen: false,
+                status: 'ready',
+                errorMessage: null,
+                rotation: 0,
+                flipH: false,
+                flipV: false,
+            }));
+        }
     }
 
     public rotateCropper(direction: 'left' | 'right'): void {
@@ -143,7 +220,7 @@ export class ImageUploadStateService implements OnDestroy {
     }
 
     private revokePreviewUrl(url: string | null): void {
-        if (url) {
+        if (url && url.startsWith('blob:')) {
             URL.revokeObjectURL(url);
         }
     }
@@ -159,6 +236,8 @@ export class ImageUploadStateService implements OnDestroy {
     }
 
     public resetImage(): void {
+        const { previewUrl } = this.cropperState();
+        this.revokePreviewUrl(previewUrl);
         this.cropperState.set({ ...INITIAL_CROPPER_STATE });
     }
 

@@ -9,7 +9,7 @@ export class ParticipantsDisableVo {
 
     static fromDto(dto: ParticipantsDisableDto): ParticipantsDisableVo {
         return new ParticipantsDisableVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

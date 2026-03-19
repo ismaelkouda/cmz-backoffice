@@ -16,12 +16,12 @@ export const MANAGEMENT_TIMESTAMP: ManagementTimestamp[] = [
         key: 'confirmedAt',
         key1: 'abandonedAt',
         key2: 'processedAt',
-        label: 'MANAGEMENT.STATUS.TREATMENT',
+        label: 'MANAGEMENT.STATUS.FINALIZATION',
         timestamp: null,
     },
     {
         key: 'finalizedAt',
-        label: 'MANAGEMENT.STATUS.FINALIZATION',
+        label: 'MANAGEMENT.STATUS.CLOSURE',
         timestamp: null,
     },
 ];

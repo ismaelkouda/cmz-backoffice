@@ -9,7 +9,7 @@ export class MessagingDeleteVo {
 
     static fromDto(dto: MessagingDeleteDto): MessagingDeleteVo {
         return new MessagingDeleteVo({
-            uniqId: dto.uniqId.trim(),
+            uniqId: dto.uniqId,
         });
     }
 }

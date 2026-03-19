@@ -1,10 +1,9 @@
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface NewsCategoriesSelectItemApiDto {
-    id: string;
+    id: number;
     name: string;
-    code: string;
-    departments: NewsCategoriesSelectItemApiDto[];
+    sub_categories: NewsCategoriesSelectItemApiDto[];
 }
 
 export type NewsCategoriesSelectResponseApiDto = SimpleResponseDto<

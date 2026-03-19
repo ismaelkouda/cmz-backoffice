@@ -60,7 +60,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => this.refreshWithLastFilterAndPage()
         );
     }
 
@@ -139,7 +139,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
+    private refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new SlideQuery(
@@ -251,7 +251,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(team: SlideDisableDto): void {
@@ -259,7 +259,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(team: SlideDeleteDto): void {

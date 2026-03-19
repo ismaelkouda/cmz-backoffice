@@ -6,8 +6,8 @@ export interface SlideCreateApiDto {
     image_file: File | null;
     video_url: string | null;
     platforms: PlatformDto[];
-    start_date: string;
-    end_date: string;
+    start_date: Date;
+    end_date: Date;
     title: string;
     subtitle: string;
     content: string;
