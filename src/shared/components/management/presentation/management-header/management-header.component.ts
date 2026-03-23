@@ -7,6 +7,7 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TooltipModule } from 'primeng/tooltip';
 
@@ -31,7 +32,11 @@ export class ManagementHeaderComponent {
 
     protected readonly isReport = computed((): boolean => {
         const item = this.item();
-        return !!(item?.inProcessing || item?.inFinalization);
+        console.log('item?.type: ', item?.type);
+        return (
+            item?.type === TypeReport.PROCESSING ||
+            item?.type === TypeReport.FINALIZATION
+        );
     });
 
     protected readonly confirmCount = computed((): number => {

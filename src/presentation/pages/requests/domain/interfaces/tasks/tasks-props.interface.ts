@@ -9,4 +9,5 @@ export interface TasksProps {
     source: ReportSource;
     initiatorPhoneNumber: string;
     reportedAt: string;
+    updatedAt: string;
 }

@@ -3,7 +3,7 @@ import { TasksActionsUpdateDto } from '@pages/processing/application/dto/tasks/t
 export class TasksActionsUpdateVo {
     public readonly uniqId: string;
     public readonly reportUniqId: string;
-    public readonly date: string;
+    public readonly date: Date | null;
     public readonly type: string;
     public readonly description: string;
     public readonly shouldNotifyUser: boolean;
@@ -11,7 +11,7 @@ export class TasksActionsUpdateVo {
     constructor(props: {
         uniqId: string;
         reportUniqId: string;
-        date: string;
+        date: Date | null;
         type: string;
         description: string;
         shouldNotifyUser: boolean;

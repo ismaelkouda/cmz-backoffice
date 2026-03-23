@@ -209,7 +209,7 @@ export class ActionsTreatmentComponent implements OnInit {
     });
 
     readonly form = this.fb.group<TasksActionsFormControl>({
-        date: new FormControl<string>('', {
+        date: new FormControl<Date | null>(null, {
             nonNullable: true,
             validators: [Validators.required],
         }),
@@ -352,9 +352,6 @@ export class ActionsTreatmentComponent implements OnInit {
     private prepareCreate(): void {
         this.editingItemId.set(null);
         this.form.reset({
-            date: '',
-            type: '',
-            description: '',
             shouldNotifyUser: false,
         });
         this.openModal();

@@ -42,8 +42,15 @@ export class AllEntity implements AllProps {
         return this.props.reportedAt;
     }
 
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
     public with(props: AllProps): AllEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new AllEntity(props);

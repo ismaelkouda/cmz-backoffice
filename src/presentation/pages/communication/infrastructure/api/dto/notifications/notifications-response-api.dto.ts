@@ -10,6 +10,7 @@ export interface NotificationsItemApiDto {
     status: ApiStatus;
     model_id: string;
     sent_at: string;
+    updated_at: string;
 }
 
 export type NotificationsResponseApiDto =

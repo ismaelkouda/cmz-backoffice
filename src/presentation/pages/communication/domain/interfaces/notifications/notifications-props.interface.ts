@@ -8,4 +8,5 @@ export interface NotificationsProps {
     message: string;
     status: Status;
     sendAt: string;
+    updatedAt: string;
 }

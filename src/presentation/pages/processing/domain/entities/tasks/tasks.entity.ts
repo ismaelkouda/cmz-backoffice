@@ -30,8 +30,15 @@ export class TasksEntity implements TasksProps {
         return this.props.reportedAt;
     }
 
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
     public with(props: TasksProps): TasksEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new TasksEntity(props);

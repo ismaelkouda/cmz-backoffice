@@ -8,7 +8,7 @@ export type TasksActionsType =
 
 export interface TasksActionsProps {
     uniqId: string;
-    date: string;
+    date: Date;
     type: string;
     description: string;
     shouldNotifyUser: boolean;
@@ -24,7 +24,7 @@ export class TasksActionsEntity implements TasksActionsProps {
         return this.props.uniqId;
     }
 
-    get date(): string {
+    get date(): Date {
         return this.props.date;
     }
 

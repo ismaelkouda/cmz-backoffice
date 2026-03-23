@@ -29,6 +29,7 @@ export class NotificationsMapper extends PaginatedMapper<
             message: dto.message,
             status: this.statusMapper.mapFromDto(dto.status),
             sendAt: dto.sent_at,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${props.uniqId}`;

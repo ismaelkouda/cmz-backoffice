@@ -4,7 +4,7 @@ import {
 } from '@pages/content-management/domain/enums/legal-notice/legal-notice-status.enum';
 import { LegalNoticeProps } from '@pages/content-management/domain/interfaces/legal-notice/legal-notice-props.interface';
 
-export class LegalNoticeEntity {
+export class LegalNoticeEntity implements LegalNoticeProps {
     constructor(private readonly props: LegalNoticeProps) {}
 
     get uniqId(): string {

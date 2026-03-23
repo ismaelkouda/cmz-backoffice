@@ -14,6 +14,7 @@ export interface AllItemApiDto {
     source: ReportSourceDto;
     initiator_phone_number: string;
     reported_at: string;
+    updated_at: string;
 }
 
 export type AllResponseApiDto = PaginatedResponseDto<AllItemApiDto>;

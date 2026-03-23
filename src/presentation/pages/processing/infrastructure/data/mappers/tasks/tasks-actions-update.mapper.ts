@@ -7,7 +7,7 @@ export function tasksActionsUpdateMapper(
     return {
         uniq_id: entity.uniqId,
         report_uniq_id: entity.reportUniqId,
-        date: entity.date,
+        date: entity.date ? entity.date : new Date(),
         type: entity.type,
         description: entity.description,
         should_notify_user: Boolean(entity.shouldNotifyUser),

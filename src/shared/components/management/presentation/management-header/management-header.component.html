@@ -8,17 +8,14 @@
             ></p-skeleton>
         </div>
     } @else {
+        <span class="header-title">
+            {{ mainTitle() | translate }}
         @if (isReport()) {
-            <span class="header-title">
-                {{ mainTitle() | translate }}
-                {{ 'MANAGEMENT.HEADER.DETAILS_REPORT' | translate }}
-            </span>
+            {{ 'MANAGEMENT.HEADER.DETAILS_REPORT' | translate }}
         } @else {
-            <span class="header-title">
-                {{ mainTitle() | translate }}
-                {{ 'MANAGEMENT.HEADER.DETAILS_DEMAND' | translate }}
-            </span>
+            {{ 'MANAGEMENT.HEADER.DETAILS_DEMAND' | translate }}
         }
+        </span>
 
         @if (uniqId()) {
             <span
@@ -34,7 +31,7 @@
             </span>
         }
 
-        @if (isReport()) {
+        @if (confirmCount()) {
             <span class="header-title">
                 {{ 'MANAGEMENT.HEADER.NUMBER_OF_CONFIRMATIONS' | translate }}
                 [ {{ confirmCount() }} ]

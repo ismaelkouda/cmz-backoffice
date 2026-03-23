@@ -11,4 +11,5 @@ export interface AllProps {
     initiatorPhoneNumber: string;
     status: Status;
     reportedAt: string;
+    updatedAt: string;
 }
