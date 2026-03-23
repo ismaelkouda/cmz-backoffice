@@ -1,74 +1,92 @@
 <div
-  class="image-upload-container mb-2"
-  [class.has-error]="hasError()"
-  [class.has-file]="hasCroppedImage()"
-  [class.is-disabled]="disabled()"
-  role="button"
-  [attr.aria-disabled]="disabled()"
-  [attr.aria-label]="'IMAGE_UPLOAD.ARIA_LABEL' | translate"
-  tabindex="0"
+    class="image-upload-container mb-2"
+    [class.has-error]="hasError()"
+    [class.has-file]="hasCroppedImage()"
+    [class.is-disabled]="disabled()"
+    role="button"
+    [attr.aria-disabled]="disabled()"
+    [attr.aria-label]="'IMAGE_UPLOAD.ARIA_LABEL' | translate"
+    tabindex="0"
 >
-  <input
-    #fileInput
-    type="file"
-    class="file-input-hidden"
-    [accept]="acceptAttribute()"
-    [disabled]="disabled()"
-    aria-hidden="true"
-    (change)="onFileInputChange($event)"
-  />
+    <input
+        #fileInput
+        type="file"
+        class="file-input-hidden"
+        [accept]="acceptAttribute()"
+        [disabled]="disabled()"
+        aria-hidden="true"
+        (change)="onFileInputChange($event)"
+    />
 
-  @if (isIdle()) {
-    <div class="upload-idle-state" 
-        (click)="openFilePicker()"
-        (keydown.enter)="openFilePicker()"
-        (keydown.space)="openFilePicker()"
-        [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.FORM.CHARGE_IMAGE' | translate"
-        tooltipPosition="top">
-        <div class="upload-icon-wrapper">
-            <i class="pi pi-cloud-upload upload-icon"></i>
-        </div>
+    @if (isIdle()) {
+        <div
+            class="upload-idle-state"
+            (click)="openFilePicker()"
+            (keydown.enter)="openFilePicker()"
+            (keydown.space)="openFilePicker()"
+            [pTooltip]="
+                'CONTENT_MANAGEMENT.SLIDE.FORM.CHARGE_IMAGE' | translate
+            "
+            tooltipPosition="top"
+        >
+            <div class="upload-icon-wrapper">
+                <i class="pi pi-cloud-upload upload-icon"></i>
+            </div>
 
-        <div class="upload-texts">
-            <p class="upload-subtitle">
-            {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_FORMATS' | translate }}
-            <span class="format-badges">
-                @for (format of formatBadges(); track format.original) {
-                <span class="format-badge" [pTooltip]="format.original">
-                    <i [class]="format.icon"></i>
-                    {{ format.display }}
-                </span>
-                }
-            </span>
-            — {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_SIZE' | translate }} {{ maxSizeMb() }} Mo
-            </p>
-        </div>
-    </div>
-  }
-
-  @if (hasCroppedImage()) {
-    <div class="upload-selected-state" 
-        (click)="$event.stopPropagation()"
-        (keydown.enter)="$event.stopPropagation()"
-        (keydown.space)="$event.stopPropagation()">
-        <div class="selected-file-info">
-            <img
-                [src]="store.cropperPreviewUrl()"
-                [alt]="'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE' | translate"
-                class="img-thumbnail media-thumbnail"
-                (click)="openFilePicker()"
-                (keydown.enter)="openFilePicker()"
-                (keydown.space)="openFilePicker()"
-                [pTooltip]="'CONTENT_MANAGEMENT.SLIDE.FORM.CHANGE_IMAGE' | translate"
-                tooltipPosition="top"
-            />
-            <div class="selected-details">
-            <span class="selected-filename" [title]="fileName()!">{{ fileName() }}</span>
-            <span class="selected-filesize">{{ fileSizeMb() }}</span>
+            <div class="upload-texts">
+                <p class="upload-subtitle">
+                    {{
+                        'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_FORMATS'
+                            | translate
+                    }}
+                    <span class="format-badges">
+                        @for (format of formatBadges(); track format.original) {
+                            <span
+                                class="format-badge"
+                                [pTooltip]="format.original"
+                            >
+                                <i [class]="format.icon"></i>
+                                {{ format.display }}
+                            </span>
+                        }
+                    </span>
+                    —
+                    {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_SIZE' | translate }}
+                    {{ maxSizeMb() }} Mo
+                </p>
             </div>
         </div>
-        <div class="selected-actions">
-            <!-- <button
+    }
+
+    @if (hasCroppedImage()) {
+        <div
+            class="upload-selected-state"
+            (click)="$event.stopPropagation()"
+            (keydown.enter)="$event.stopPropagation()"
+            (keydown.space)="$event.stopPropagation()"
+        >
+            <div class="selected-file-info">
+                <img
+                    [src]="store.cropperPreviewUrl()"
+                    [alt]="'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE' | translate"
+                    class="img-thumbnail media-thumbnail"
+                    (click)="openFilePicker()"
+                    (keydown.enter)="openFilePicker()"
+                    (keydown.space)="openFilePicker()"
+                    [pTooltip]="
+                        'CONTENT_MANAGEMENT.SLIDE.FORM.CHANGE_IMAGE' | translate
+                    "
+                    tooltipPosition="top"
+                />
+                <div class="selected-details">
+                    <span class="selected-filename" [title]="fileName()!">{{
+                        fileName()
+                    }}</span>
+                    <span class="selected-filesize">{{ fileSizeMb() }}</span>
+                </div>
+            </div>
+            <div class="selected-actions">
+                <!-- <button
             type="button"
             pButton
             icon="pi pi-sync"
@@ -77,60 +95,73 @@
             (click)="openFilePicker()"
             [pTooltip]="'IMAGE_UPLOAD.CHANGE_TOOLTIP' | translate"
             ></button> -->
+                <button
+                    type="button"
+                    pButton
+                    icon="pi pi-eye"
+                    [label]="
+                        'CONTENT_MANAGEMENT.SLIDE.FORM.SEE_IMAGE' | translate
+                    "
+                    class="p-button-text p-button-info p-button-sm"
+                    (click)="openPreview()"
+                ></button>
+                <button
+                    type="button"
+                    pButton
+                    icon="pi pi-trash"
+                    [label]="
+                        'CONTENT_MANAGEMENT.SLIDE.FORM.REMOVE_IMAGE' | translate
+                    "
+                    class="p-button-text p-button-danger p-button-sm"
+                    (click)="clearFile($event)"
+                ></button>
+            </div>
+        </div>
+    }
+
+    @if (hasError()) {
+        <div
+            class="upload-error-state"
+            (click)="$event.stopPropagation()"
+            (keydown.enter)="$event.stopPropagation()"
+            (keydown.space)="$event.stopPropagation()"
+        >
+            <div class="error-content">
+                <i class="pi pi-exclamation-circle error-icon"></i>
+                <div class="error-details">
+                    @if (validationError()?.type === 'INVALID_TYPE') {
+                        <p class="error-message">
+                            {{ 'IMAGE_UPLOAD.ERROR_INVALID_TYPE' | translate }}
+                            <strong>{{ displayFormats() }}</strong>
+                        </p>
+                    }
+                    @if (validationError()?.type === 'FILE_TOO_LARGE') {
+                        <p class="error-message">
+                            {{
+                                'IMAGE_UPLOAD.ERROR_TOO_LARGE'
+                                    | translate: { max: maxSizeMb() }
+                            }}
+                        </p>
+                    }
+                    @if (validationError()?.type === 'MULTIPLE_FILES') {
+                        <p class="error-message">
+                            {{
+                                'IMAGE_UPLOAD.ERROR_MULTIPLE_FILES'
+                                    | translate
+                                        : { count: validationError().fileCount }
+                            }}
+                        </p>
+                    }
+                </div>
+            </div>
             <button
                 type="button"
                 pButton
-                icon="pi pi-eye"
-                [label]="'CONTENT_MANAGEMENT.SLIDE.FORM.SEE_IMAGE' | translate"
-                class="p-button-text p-button-info p-button-sm"
-                (click)="openPreview()"
-            ></button>
-            <button
-            type="button"
-            pButton
-            icon="pi pi-trash"
-            [label]="'CONTENT_MANAGEMENT.SLIDE.FORM.REMOVE_IMAGE' | translate"
-            class="p-button-text p-button-danger p-button-sm"
-            (click)="clearFile($event)"
+                icon="pi pi-undo"
+                [label]="'IMAGE_UPLOAD.RETRY' | translate"
+                class="p-button-outlined p-button-danger p-button-sm"
+                (click)="openFilePicker()"
             ></button>
         </div>
-    </div>
-  }
-
-  @if (hasError()) {
-    <div class="upload-error-state" 
-        (click)="$event.stopPropagation()"
-        (keydown.enter)="$event.stopPropagation()"
-        (keydown.space)="$event.stopPropagation()">
-        <div class="error-content">
-            <i class="pi pi-exclamation-circle error-icon"></i>
-            <div class="error-details">
-            @if (validationError()?.type === 'INVALID_TYPE') {
-                <p class="error-message">
-                {{ 'IMAGE_UPLOAD.ERROR_INVALID_TYPE' | translate }}
-                <strong>{{ displayFormats() }}</strong>
-                </p>
-            }
-            @if (validationError()?.type === 'FILE_TOO_LARGE') {
-                <p class="error-message">
-                {{ 'IMAGE_UPLOAD.ERROR_TOO_LARGE' | translate : { max: maxSizeMb() } }}
-                </p>
-            }
-            @if (validationError()?.type === 'MULTIPLE_FILES') {
-                <p class="error-message">
-                {{ 'IMAGE_UPLOAD.ERROR_MULTIPLE_FILES' | translate : { count: validationError().fileCount } }}
-                </p>
-            }
-            </div>
-        </div>
-        <button
-            type="button"
-            pButton
-            icon="pi pi-undo"
-            [label]="'IMAGE_UPLOAD.RETRY' | translate"
-            class="p-button-outlined p-button-danger p-button-sm"
-            (click)="openFilePicker()"
-        ></button>
-    </div>
-  }
+    }
 </div>

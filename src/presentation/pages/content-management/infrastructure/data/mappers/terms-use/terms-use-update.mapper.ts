@@ -10,10 +10,10 @@ export function termsUseUpdateMapper(
         params.id = entity.uniqId;
     }
     if (entity.version) {
-        params.first_name = entity.version;
+        params.version = entity.version;
     }
     if (entity.content) {
-        params.last_name = entity.content;
+        params.content = entity.content;
     }
 
     return params;

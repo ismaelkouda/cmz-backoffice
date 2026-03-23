@@ -1,3 +1,3 @@
-export class NewsEnableCommand {
+export class NewsPublishCommand {
     constructor(public readonly uniqId: string) {}
 }

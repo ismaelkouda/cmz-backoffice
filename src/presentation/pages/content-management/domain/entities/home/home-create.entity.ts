@@ -1,30 +1,46 @@
+import { HomeCreateProps } from '@pages/content-management/domain/interfaces/home/home-create-props.interface';
 import { HomeCreateVo } from '@pages/content-management/domain/value-objects/home/home-create.vo';
-import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class HomeCreateEntity {
-    constructor(
-        public readonly image: File | null | string,
-        public readonly platforms: Platform[],
-        public readonly startDate: Date | null,
-        public readonly endDate: Date | null,
-        public readonly title: string,
-        public readonly resume: string,
-        public readonly content: string,
-        public readonly buttonLabel?: string,
-        public readonly buttonUrl?: string
-    ) {}
+    constructor(private readonly props: HomeCreateProps) {}
+
+    get image(): File | null | string {
+        return this.props.image;
+    }
+
+    get platforms(): string[] {
+        return this.props.platforms;
+    }
+
+    get startDate(): Date | null {
+        return this.props.startDate;
+    }
+
+    get endDate(): Date | null {
+        return this.props.endDate;
+    }
+
+    get title(): string {
+        return this.props.title;
+    }
+
+    get resume(): string {
+        return this.props.resume;
+    }
+
+    get content(): string {
+        return this.props.content;
+    }
+
+    get buttonLabel(): string | undefined {
+        return this.props.buttonLabel;
+    }
+
+    get buttonUrl(): string | undefined {
+        return this.props.buttonUrl;
+    }
 
     static fromVo(vo: HomeCreateVo): HomeCreateEntity {
-        return new HomeCreateEntity(
-            vo.image,
-            vo.platforms,
-            vo.startDate,
-            vo.endDate,
-            vo.title,
-            vo.resume,
-            vo.content,
-            vo.buttonLabel,
-            vo.buttonUrl
-        );
+        return new HomeCreateEntity(vo);
     }
 }

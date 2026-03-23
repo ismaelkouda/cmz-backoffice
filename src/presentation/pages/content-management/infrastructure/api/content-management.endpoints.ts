@@ -4,6 +4,6 @@ export const CONTENT_MANAGEMENT_ENDPOINTS = {
     NEWS: 'cms/news',
     CATEGORIES: 'cms/categories',
     LEGAL_NOTICE: 'cms/legal-notices',
-    PRIVACY_POLICY: 'content-management/privacy-policy',
-    TERMS_USE: 'content-management/terms-use',
+    PRIVACY_POLICY: 'cms/privacy-policies',
+    TERMS_USE: 'cms/terms-use',
 } as const;

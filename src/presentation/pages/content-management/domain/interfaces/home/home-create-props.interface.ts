@@ -1,8 +1,6 @@
-import { Platform } from '@shared/domain/enums/platform.enum';
-
 export interface HomeCreateProps {
     image: File | null | string;
-    platforms: Platform[];
+    platforms: string[];
     startDate: Date | null;
     endDate: Date | null;
     title: string;

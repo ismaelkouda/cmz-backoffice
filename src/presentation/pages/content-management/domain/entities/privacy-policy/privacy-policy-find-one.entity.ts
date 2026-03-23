@@ -1,42 +1,39 @@
-export interface PrivacyPolicyFindOneProps {
-    uniqId: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    role: string;
-}
+import { Status } from '@pages/content-management/domain/enums/privacy-policy/privacy-policy-status.enum';
+import { PrivacyPolicyFindOneProps } from '@pages/content-management/domain/interfaces/privacy-policy/privacy-policy-find-one-props.interface';
+
 export class PrivacyPolicyFindOneEntity {
     constructor(private readonly props: PrivacyPolicyFindOneProps) {}
 
     get uniqId(): string {
         return this.props.uniqId;
     }
-
-    get lastName(): string {
-        return this.props.lastName;
+    get version(): string {
+        return this.props.version;
     }
-
-    get firstName(): string {
-        return this.props.firstName;
+    get content(): string {
+        return this.props.content;
     }
-
-    get email(): string {
-        return this.props.email;
+    get status(): Status {
+        return this.props.status;
     }
-
-    get phone(): string {
-        return this.props.phone;
+    get createdAt(): string {
+        return this.props.createdAt;
     }
-
-    get role(): string {
-        return this.props.role;
+    get updatedAt(): string {
+        return this.props.updatedAt;
     }
 
     public with(props: PrivacyPolicyFindOneProps): PrivacyPolicyFindOneEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new PrivacyPolicyFindOneEntity(props);
+    }
+
+    toJSON(): PrivacyPolicyFindOneProps {
+        return { ...this.props };
     }
 }

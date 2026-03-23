@@ -27,7 +27,10 @@
                                     (click)="onSeeClicked()"
                                 >
                                     <i class="pi pi-eye me-2"></i>
-                                    <span>{{'PROCESSING.TASKS.TABLE.SEE_REPORT' | translate}}</span>
+                                    <span>{{
+                                        'PROCESSING.TASKS.TABLE.SEE_REPORT'
+                                            | translate
+                                    }}</span>
                                 </button>
                                 <button
                                     type="button"
@@ -36,7 +39,10 @@
                                     [class.p-disabled]="!hasAction()"
                                 >
                                     <i class="pi pi-check-circle me-2"></i>
-                                    <span>{{'PROCESSING.TASKS.TABLE.CLOSURE' | translate}}</span>
+                                    <span>{{
+                                        'PROCESSING.TASKS.TABLE.CLOSURE'
+                                            | translate
+                                    }}</span>
                                 </button>
                             </div>
                         </div>
@@ -52,7 +58,7 @@
                         <div class="report-subtitle">
                             <div class="subtitle-item">
                                 <span class="subtitle-label">
-                                    {{'COMMON.REPORT' | translate}} : 
+                                    {{ 'COMMON.REPORT' | translate }} :
                                 </span>
                                 <p-tag
                                     [value]="reportType() | translate"
@@ -62,7 +68,7 @@
 
                             <div class="subtitle-item">
                                 <span class="subtitle-label">
-                                    {{'COMMON.OPERATORS' | translate}} : 
+                                    {{ 'COMMON.OPERATORS' | translate }} :
                                 </span>
                                 <div class="operators-list">
                                     @for (
@@ -84,7 +90,7 @@
 
                             <div class="subtitle-item">
                                 <span class="subtitle-label">
-                                    {{'COMMON.CREATED_AT' | translate}} : 
+                                    {{ 'COMMON.CREATED_AT' | translate }} :
                                 </span>
                                 <span class="subtitle-value">{{
                                     getFormatDate(createdAt())
@@ -93,7 +99,7 @@
 
                             <div class="subtitle-item">
                                 <span class="subtitle-label">
-                                    {{'COMMON.SOURCE' | translate}} : 
+                                    {{ 'COMMON.SOURCE' | translate }} :
                                 </span>
                                 <span class="subtitle-value"
                                     >{{ source() | translate }} [

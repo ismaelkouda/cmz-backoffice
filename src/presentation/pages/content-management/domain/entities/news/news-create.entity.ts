@@ -1,21 +1,46 @@
+import { NewsCreateProps } from '@pages/content-management/domain/interfaces/news/news-create-props.interface';
 import { NewsCreateVo } from '@pages/content-management/domain/value-objects/news/news-create.vo';
 
 export class NewsCreateEntity {
-    constructor(
-        public readonly firstName: string,
-        public readonly lastName: string,
-        public readonly email: string,
-        public readonly phone: string,
-        public readonly role: string
-    ) {}
+    constructor(private readonly props: NewsCreateProps) {}
+
+    get type(): string {
+        return this.props.type;
+    }
+
+    get image(): File | null | string {
+        return this.props.image;
+    }
+
+    get video(): string | null {
+        return this.props.video;
+    }
+
+    get category(): string {
+        return this.props.category;
+    }
+
+    get subCategory(): string {
+        return this.props.subCategory;
+    }
+
+    get hashtags(): string[] {
+        return this.props.hashtags;
+    }
+
+    get title(): string {
+        return this.props.title;
+    }
+
+    get resume(): string {
+        return this.props.resume;
+    }
+
+    get content(): string {
+        return this.props.content;
+    }
 
     static fromVo(vo: NewsCreateVo): NewsCreateEntity {
-        return new NewsCreateEntity(
-            vo.firstName,
-            vo.lastName,
-            vo.email,
-            vo.phone,
-            vo.role
-        );
+        return new NewsCreateEntity(vo);
     }
 }

@@ -42,71 +42,171 @@
                                     >
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{ 'CONTENT_MANAGEMENT.SLIDE.FORM.MEDIA_DISPLAY' | translate }}</b>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.SLIDE.FORM.MEDIA_DISPLAY'
+                                                        | translate
+                                                }}</b>
                                             </legend>
-                                            <div class="row g-3 align-items-center">
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
                                                 <div class="col-md-3">
-                                                    <label for="timeDuration" class="form-label fw-bold">
-                                                        {{'CONTENT_MANAGEMENT.SLIDE.FORM.DURATION' | translate}}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="timeDuration"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.DURATION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
 
                                                     <input
                                                         id="timeDuration"
                                                         class="form-input"
                                                         type="number"
-                                                        [min]="allowed.TIME_DURATION.MIN"
-                                                        [max]="allowed.TIME_DURATION.MAX"
-                                                        [step]="allowed.TIME_DURATION.STEP"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.DURATION' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('timeDuration')"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.DURATION_PLACEHOLDER' | translate"
+                                                        [min]="
+                                                            allowed
+                                                                .TIME_DURATION
+                                                                .MIN
+                                                        "
+                                                        [max]="
+                                                            allowed
+                                                                .TIME_DURATION
+                                                                .MAX
+                                                        "
+                                                        [step]="
+                                                            allowed
+                                                                .TIME_DURATION
+                                                                .STEP
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.DURATION'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'timeDuration'
+                                                            )
+                                                        "
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.DURATION_PLACEHOLDER'
+                                                                | translate
+                                                        "
                                                         formControlName="timeDuration"
                                                     />
-                                                    <div class="d-flex justify-content-between align-items-center">
-
-                                                        @if (isFieldInvalid('timeDuration')) {
-                                                            <small class="text-danger d-block mt-1">
-                                                            {{ getErrorMessage('timeDuration') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'timeDuration'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'timeDuration'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
-                                                        <div class="d-flex align-items-center gap-2 ms-auto">
-                                                            @let duration = form.controls.timeDuration.value;
-                                                                <div class="duration-indicator">
-                                                                    <small class="duration-value text-muted ms-2">
-                                                                        {{ duration || 0 }}/{{ allowed.TIME_DURATION.MAX }}s
-                                                                    </small>
-                                                                </div>
+                                                        <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let duration =
+                                                                form.controls
+                                                                    .timeDuration
+                                                                    .value;
+                                                            <div
+                                                                class="duration-indicator"
+                                                            >
+                                                                <small
+                                                                    class="duration-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        duration ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .TIME_DURATION
+                                                                            .MAX
+                                                                    }}s
+                                                                </small>
+                                                            </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="col-md-3">
-                                                    <label for="type" class="form-label fw-bold">
-                                                        {{'CONTENT_MANAGEMENT.SLIDE.FORM.TYPE' | translate}}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="type"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.TYPE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <p-select
                                                         class="form-p-select mb-4"
-                                                        [options]="typeOptions()"
+                                                        [options]="
+                                                            typeOptions()
+                                                        "
                                                         formControlName="type"
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         styleClass="w-100"
-                                                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                                                        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.TYPE' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('type')"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.TYPE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'type'
+                                                            )
+                                                        "
                                                     />
                                                 </div>
 
                                                 @if (isVideoMode()) {
-                                                    <div class="fade-in col-md-6">
-                                                        <label for="video" class="form-label fw-bold">
-                                                            {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.VIDEO' | translate }}
-                                                            <span class="text-danger">*</span>
+                                                    <div
+                                                        class="fade-in col-md-6"
+                                                    >
+                                                        <label
+                                                            for="video"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'CONTENT_MANAGEMENT.SLIDE.FORM.VIDEO'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
                                                         </label>
 
                                                         <input
@@ -114,22 +214,60 @@
                                                             class="form-input"
                                                             formControlName="video"
                                                             [placeholder]="'https://youtube.com/watch?v=... ou https://vimeo.com/...'"
-                                                            [attr.maxlength]="allowed.VIDEO.MAX"
-                                                            [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.VIDEO' | translate"
-                                                            [attr.aria-invalid]="isFieldInvalid('video')"
+                                                            [attr.maxlength]="
+                                                                allowed.VIDEO
+                                                                    .MAX
+                                                            "
+                                                            [attr.aria-label]="
+                                                                'CONTENT_MANAGEMENT.SLIDE.FORM.VIDEO'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                isFieldInvalid(
+                                                                    'video'
+                                                                )
+                                                            "
                                                         />
-                                                        <div class="d-flex justify-content-between align-items-center">
-
-                                                            @if (isFieldInvalid('video')) {
-                                                                <small class="text-danger d-block mt-1">
-                                                                {{ getErrorMessage('video') }}
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center"
+                                                        >
+                                                            @if (
+                                                                isFieldInvalid(
+                                                                    'video'
+                                                                )
+                                                            ) {
+                                                                <small
+                                                                    class="text-danger d-block mt-1"
+                                                                >
+                                                                    {{
+                                                                        getErrorMessage(
+                                                                            'video'
+                                                                        )
+                                                                    }}
                                                                 </small>
                                                             }
-                                                            <div class="d-flex align-items-center gap-2 ms-auto">
-                                                                @let video = form.controls.video.value;
-                                                                <div class="video-indicator">
-                                                                    <small class="video-value text-muted ms-2">
-                                                                        {{ video.length || 0 }}/{{ allowed.VIDEO.MAX }}s
+                                                            <div
+                                                                class="d-flex align-items-center gap-2 ms-auto"
+                                                            >
+                                                                @let video =
+                                                                    form
+                                                                        .controls
+                                                                        .video
+                                                                        .value;
+                                                                <div
+                                                                    class="video-indicator"
+                                                                >
+                                                                    <small
+                                                                        class="video-value text-muted ms-2"
+                                                                    >
+                                                                        {{
+                                                                            video.length ||
+                                                                                0
+                                                                        }}/{{
+                                                                            allowed
+                                                                                .VIDEO
+                                                                                .MAX
+                                                                        }}s
                                                                     </small>
                                                                 </div>
                                                             </div>
@@ -137,19 +275,39 @@
                                                     </div>
                                                 }
                                                 @if (isImageMode()) {
-                                                    <div class="fade-in col-md-6 mt-0">
+                                                    <div
+                                                        class="fade-in col-md-6 mt-0"
+                                                    >
                                                         <div class="image">
-                                                            <label for="image" class="form-label fw-bold">
-                                                                {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE' | translate }}
-                                                                <span class="text-danger">*</span>
+                                                            <label
+                                                                for="image"
+                                                                class="form-label fw-bold"
+                                                            >
+                                                                {{
+                                                                    'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE'
+                                                                        | translate
+                                                                }}
+                                                                <span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                >
                                                             </label>
 
                                                             <app-image-upload
                                                                 id="image"
                                                                 formControlName="image"
-                                                                (viewImage)="openImagePreview()"
-                                                                (imageSelected)="onImageSelected($event)"
-                                                                (imageCleared)="onImageCleared()">
+                                                                (viewImage)="
+                                                                    openImagePreview()
+                                                                "
+                                                                (imageSelected)="
+                                                                    onImageSelected(
+                                                                        $event
+                                                                    )
+                                                                "
+                                                                (imageCleared)="
+                                                                    onImageCleared()
+                                                                "
+                                                            >
                                                             </app-image-upload>
                                                         </div>
                                                     </div>
@@ -159,102 +317,246 @@
 
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{ 'CONTENT_MANAGEMENT.SLIDE.FORM.CONFIG' | translate }}</b>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.SLIDE.FORM.CONFIG'
+                                                        | translate
+                                                }}</b>
                                             </legend>
 
-                                            <div class="row g-3 align-items-center">
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
                                                 <div class="col-md-6">
-                                                    <label for="buttonLabel" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_LABEL' | translate }}
+                                                    <label
+                                                        for="buttonLabel"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_LABEL'
+                                                                | translate
+                                                        }}
                                                     </label>
                                                     <input
                                                         id="buttonLabel"
                                                         class="form-input"
                                                         formControlName="buttonLabel"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_LABEL_PLACEHOLDER' | translate"
-                                                        [attr.maxlength]="allowed.BUTTON_LABEL.MAX"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_LABEL' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('buttonLabel')"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_LABEL_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            allowed.BUTTON_LABEL
+                                                                .MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_LABEL'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'buttonLabel'
+                                                            )
+                                                        "
                                                     />
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('buttonLabel')) {
-                                                            <small class="text-danger d-block mt-1">
-                                                            {{ getErrorMessage('buttonLabel') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'buttonLabel'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'buttonLabel'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
-                                                        <div class="d-flex align-items-center gap-2 ms-auto">
-                                                            @let labelButton = form.controls.buttonLabel.value;
-                                                            <div class="labelButton-indicator">
-                                                                <small class="labelButton-value text-muted ms-2">
-                                                                    {{ labelButton.length || 0 }}/{{ allowed.BUTTON_LABEL.MAX }}
+                                                        <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let labelButton =
+                                                                form.controls
+                                                                    .buttonLabel
+                                                                    .value;
+                                                            <div
+                                                                class="labelButton-indicator"
+                                                            >
+                                                                <small
+                                                                    class="labelButton-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        labelButton.length ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .BUTTON_LABEL
+                                                                            .MAX
+                                                                    }}
                                                                 </small>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="buttonUrl" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL' | translate }}
+                                                    <label
+                                                        for="buttonUrl"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL'
+                                                                | translate
+                                                        }}
                                                     </label>
                                                     <input
                                                         id="buttonUrl"
                                                         class="form-input"
                                                         formControlName="buttonUrl"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL_PLACEHOLDER' | translate"
-                                                        [attr.maxlength]="allowed.BUTTON_URL.MAX"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('buttonUrl')"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            allowed.BUTTON_URL
+                                                                .MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'buttonUrl'
+                                                            )
+                                                        "
                                                     />
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('buttonUrl')) {
-                                                            <small class="text-danger d-block mt-1">
-                                                            {{ getErrorMessage('buttonUrl') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'buttonUrl'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'buttonUrl'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
-                                                        <div class="d-flex align-items-center gap-2 ms-auto">
-                                                            @let urlButton = form.controls.buttonUrl.value;
-                                                            <div class="urlButton-indicator">
-                                                                <small class="urlButton-value text-muted ms-2">
-                                                                    {{ urlButton.length || 0 }}/{{ allowed.BUTTON_URL.MAX }}
+                                                        <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let urlButton =
+                                                                form.controls
+                                                                    .buttonUrl
+                                                                    .value;
+                                                            <div
+                                                                class="urlButton-indicator"
+                                                            >
+                                                                <small
+                                                                    class="urlButton-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        urlButton.length ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .BUTTON_URL
+                                                                            .MAX
+                                                                    }}
                                                                 </small>
                                                             </div>
-                                                            
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row g-3 align-items-center">
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
                                                 <div class="col-md-6">
-                                                    <label for="platforms" class="form-label fw-bold">
-                                                        {{'CONTENT_MANAGEMENT.SLIDE.FORM.PLATFORMS' | translate}}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="platforms"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.PLATFORMS'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
 
                                                     <p-multiSelect
                                                         class="form-p-select"
-                                                        [options]="platformOptions()"
-                                                        [class.mb-4]="!isFieldInvalid('platforms')"
+                                                        [options]="
+                                                            platformOptions()
+                                                        "
+                                                        [class.mb-4]="
+                                                            !isFieldInvalid(
+                                                                'platforms'
+                                                            )
+                                                        "
                                                         formControlName="platforms"
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         styleClass="w-100"
-                                                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.PLATFORMS' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('platforms')"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.PLATFORMS'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'platforms'
+                                                            )
+                                                        "
                                                         [filter]="false"
                                                         [showToggleAll]="false"
                                                     />
-                                                    @if (isFieldInvalid('platforms')) {
-                                                        <small class="text-danger d-block mt-1">
-                                                        {{ getErrorMessage('platforms') }}
+                                                    @if (
+                                                        isFieldInvalid(
+                                                            'platforms'
+                                                        )
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'platforms'
+                                                                )
+                                                            }}
                                                         </small>
                                                     }
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="startDate" class="form-label">
-                                                        {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.START_DATE' | translate }}
+                                                    <label
+                                                        for="startDate"
+                                                        class="form-label"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.START_DATE'
+                                                                | translate
+                                                        }}
                                                     </label>
 
                                                     <p-datePicker
@@ -263,15 +565,25 @@
                                                         formControlName="startDate"
                                                         [showTime]="true"
                                                         [showIcon]="true"
+                                                        [showClear]="true"
                                                         [placeholder]="'JJ-MM-AAAA'"
                                                         dateFormat="dd-mm-yy"
                                                         pInputMask="99-99-9999"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.START_DATE' | translate"
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.START_DATE'
+                                                                | translate
+                                                        "
                                                     />
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="endDate" class="form-label">
-                                                        {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.END_DATE' | translate }}
+                                                    <label
+                                                        for="endDate"
+                                                        class="form-label"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.END_DATE'
+                                                                | translate
+                                                        }}
                                                     </label>
 
                                                     <p-datePicker
@@ -280,10 +592,14 @@
                                                         formControlName="endDate"
                                                         [showTime]="true"
                                                         [showIcon]="true"
+                                                        [showClear]="true"
                                                         [placeholder]="'JJ-MM-AAAA'"
                                                         dateFormat="dd-mm-yy"
                                                         pInputMask="99-99-9999"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.END_DATE' | translate"
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.END_DATE'
+                                                                | translate
+                                                        "
                                                     />
                                                 </div>
                                             </div>
@@ -291,34 +607,89 @@
 
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{ 'CONTENT_MANAGEMENT.SLIDE.FORM.GENERAL_INFO' | translate }}</b>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.SLIDE.FORM.GENERAL_INFO'
+                                                        | translate
+                                                }}</b>
                                             </legend>
-                                            <div class="row g-3 align-items-center">
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
                                                 <div class="col-md-12">
-                                                    <label for="title" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE' | translate }}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="title"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <input
                                                         id="title"
                                                         class="form-input"
                                                         formControlName="title"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE_PLACEHOLDER' | translate"
-                                                        [attr.maxlength]="allowed.TITLE.MAX"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('title')"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            allowed.TITLE.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'title'
+                                                            )
+                                                        "
                                                     />
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('title')) {
-                                                            <small class="text-danger d-block mt-1" role="alert">
-                                                            {{ getErrorMessage('title') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'title'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'title'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
-                                                        <div class="d-flex align-items-center gap-2 ms-auto">
-                                                            @let title = form.controls.title.value;
-                                                            <div class="title-indicator">
-                                                                <small class="title-value text-muted ms-2">
-                                                                    {{ title.length || 0 }}/{{ allowed.TITLE.MAX }}
+                                                        <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let title =
+                                                                form.controls
+                                                                    .title
+                                                                    .value;
+                                                            <div
+                                                                class="title-indicator"
+                                                            >
+                                                                <small
+                                                                    class="title-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        title.length ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .TITLE
+                                                                            .MAX
+                                                                    }}
                                                                 </small>
                                                             </div>
                                                         </div>
@@ -326,9 +697,18 @@
                                                 </div>
 
                                                 <div class="col-md-12">
-                                                    <label for="subtitle" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE' | translate }}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="subtitle"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <textarea
                                                         id="subtitle"
@@ -337,49 +717,134 @@
                                                         cols="30"
                                                         pTextarea
                                                         class="form-p-textarea w-100"
-                                                        [invalid]="isFieldInvalid('subtitle')"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE_PLACEHOLDER' | translate"
-                                                        [attr.maxlength]="allowed.SUBTITLE.MAX"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('subtitle')"
+                                                        [invalid]="
+                                                            isFieldInvalid(
+                                                                'subtitle'
+                                                            )
+                                                        "
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            allowed.SUBTITLE.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'subtitle'
+                                                            )
+                                                        "
                                                     ></textarea>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('subtitle')) {
-                                                            <small class="text-danger d-block mt-1" role="alert">
-                                                            {{ getErrorMessage('subtitle') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'subtitle'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'subtitle'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
-                                                        <div class="d-flex align-items-center gap-2 ms-auto">
-                                                            @let subtitle = form.controls.subtitle.value;
-                                                                <div class="subtitle-indicator">
-                                                                    <small class="subtitle-value text-muted ms-2">
-                                                                        {{ subtitle.length || 0 }}/{{ allowed.SUBTITLE.MAX }}
-                                                                    </small>
-                                                                </div>
+                                                        <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let subtitle =
+                                                                form.controls
+                                                                    .subtitle
+                                                                    .value;
+                                                            <div
+                                                                class="subtitle-indicator"
+                                                            >
+                                                                <small
+                                                                    class="subtitle-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        subtitle.length ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .SUBTITLE
+                                                                            .MAX
+                                                                    }}
+                                                                </small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-12">
-                                                    <label for="content" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.DESCRIPTION' | translate }}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="content"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.DESCRIPTION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <p-editor
                                                         id="content"
                                                         formControlName="content"
-                                                        [invalid]="isFieldInvalid('content')"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT_PLACEHOLDER' | translate"
-                                                        [attr.maxlength]="allowed.CONTENT.MAX"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('subtitle')"
-                                                        [style]="{ height: '200px' }"
+                                                        [invalid]="
+                                                            isFieldInvalid(
+                                                                'content'
+                                                            )
+                                                        "
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            allowed.CONTENT.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'subtitle'
+                                                            )
+                                                        "
+                                                        [style]="{
+                                                            height: '200px',
+                                                        }"
                                                     />
 
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('content')) {
-                                                            <small class="text-danger d-block mt-1" role="alert">
-                                                            {{ getErrorMessage('content') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'content'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'content'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
                                                     </div>
@@ -387,18 +852,25 @@
                                             </div>
                                         </fieldset>
 
-                                        <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
                                             <p-button
-                                                [label]="'COMMON.CANCEL' | translate"
+                                                [label]="
+                                                    'COMMON.CANCEL' | translate
+                                                "
                                                 styleClass="p-button-text p-button-secondary"
                                                 (onClick)="navigateToBack()"
                                             />
 
                                             <p-button
                                                 type="submit"
-                                                [label]="'COMMON.SAVE' | translate"
-                                                [disabled]="form.invalid || loadingSubmit()"
-                                                [attr.aria-label]="'COMMON.SAVE' | translate"
+                                                [label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
+                                                [attr.aria-label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
                                             />
                                         </div>
                                     </form>
@@ -420,21 +892,21 @@
 />
 
 <app-image-crop-dialog
-  [visible]="imageStore.cropperIsOpen()"
-  [sourceFile]="imageStore.cropperSourceFile()"
-  [aspectRatio]="store.activeCropAspectRatio()"
-  [rotation]="imageStore.cropperRotation()"
-  [flipH]="imageStore.cropperFlipH()"
-  [flipV]="imageStore.cropperFlipV()"
-  [targetPlatforms]="store.selectedPlatforms()"
-  [isLoading]="imageStore.cropperStatus() === 'loading'"
-  (imageCropped)="onCropConfirmed($event)"
-  (cropCancelled)="onCropCancelled()"
-  (imageLoaded)="imageStore.onCropperImageLoaded()"
-  (loadFailed)="onCropImageLoadFailed()"
-  (rotateLeft)="imageStore.rotateCropper('left')"
-  (rotateRight)="imageStore.rotateCropper('right')"
-  (flipHorizontal)="imageStore.flipCropperHorizontal()"
-  (flipVertical)="imageStore.flipCropperVertical()"
-  (resetTransforms)="imageStore.resetCropperTransforms()"
+    [visible]="imageStore.cropperIsOpen()"
+    [sourceFile]="imageStore.cropperSourceFile()"
+    [aspectRatio]="store.activeCropAspectRatio()"
+    [rotation]="imageStore.cropperRotation()"
+    [flipH]="imageStore.cropperFlipH()"
+    [flipV]="imageStore.cropperFlipV()"
+    [targetPlatforms]="store.selectedPlatforms()"
+    [isLoading]="imageStore.cropperStatus() === 'loading'"
+    (imageCropped)="onCropConfirmed($event)"
+    (cropCancelled)="onCropCancelled()"
+    (imageLoaded)="imageStore.onCropperImageLoaded()"
+    (loadFailed)="onCropImageLoadFailed()"
+    (rotateLeft)="imageStore.rotateCropper('left')"
+    (rotateRight)="imageStore.rotateCropper('right')"
+    (flipHorizontal)="imageStore.flipCropperHorizontal()"
+    (flipVertical)="imageStore.flipCropperVertical()"
+    (resetTransforms)="imageStore.resetCropperTransforms()"
 />

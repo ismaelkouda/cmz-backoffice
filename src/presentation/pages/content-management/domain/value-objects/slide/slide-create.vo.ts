@@ -1,6 +1,5 @@
 import { SlideCreateDto } from '@pages/content-management/application/dto/slide/slide-create.dto';
 import { SlideCreateProps } from '@pages/content-management/domain/interfaces/slide/slide-create-props.interface';
-import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class SlideCreateVo {
     constructor(private readonly props: SlideCreateProps) {}
@@ -13,7 +12,7 @@ export class SlideCreateVo {
         return this.props.type;
     }
 
-    get image(): File | null {
+    get image(): File | null | string {
         return this.props.image;
     }
 
@@ -21,7 +20,7 @@ export class SlideCreateVo {
         return this.props.video;
     }
 
-    get platforms(): Platform[] {
+    get platforms(): string[] {
         return this.props.platforms;
     }
 

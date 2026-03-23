@@ -1,6 +1,5 @@
 import { HomeCreateDto } from '@pages/content-management/application/dto/home/home-create.dto';
 import { HomeCreateProps } from '@pages/content-management/domain/interfaces/home/home-create-props.interface';
-import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class HomeCreateVo {
     constructor(private readonly props: HomeCreateProps) {}
@@ -9,7 +8,7 @@ export class HomeCreateVo {
         return this.props.image;
     }
 
-    get platforms(): Platform[] {
+    get platforms(): string[] {
         return this.props.platforms;
     }
 

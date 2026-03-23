@@ -3,26 +3,26 @@
         .p-dialog-header {
             padding: 1.25rem 1.5rem;
             border-bottom: 1px solid var(--p-surface-200);
-            
+
             .p-dialog-title {
                 font-weight: 600;
                 font-size: 1.1rem;
                 display: flex;
                 align-items: center;
                 gap: 0.5rem;
-                
+
                 &::before {
                     content: '🖼️';
                     font-size: 1.2rem;
                 }
             }
         }
-        
+
         .p-dialog-content {
             padding-top: 10px;
             overflow: hidden;
         }
-        
+
         .p-dialog-footer {
             padding: 1rem 1.5rem;
             border-top: 1px solid var(--p-surface-200);
@@ -57,7 +57,7 @@
     color: var(--p-surface-500);
     text-align: center;
     padding: 2rem;
-    
+
     .loading-text,
     .error-text {
         margin: 0;
@@ -86,7 +86,7 @@
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
-    
+
     .metadata-item {
         display: flex;
         align-items: center;
@@ -97,7 +97,7 @@
         background: var(--p-surface-100);
         border-radius: 20px;
         border: 1px solid var(--p-surface-200);
-        
+
         i {
             color: var(--p-primary-color);
             font-size: 0.9rem;
@@ -117,11 +117,11 @@
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .image-metadata {
         justify-content: center;
     }
-    
+
     .preview-actions {
         justify-content: flex-end;
     }

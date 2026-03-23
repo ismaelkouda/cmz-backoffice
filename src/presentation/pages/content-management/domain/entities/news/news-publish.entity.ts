@@ -1,10 +1,10 @@
-import { NewsDisableVo } from '@pages/content-management/domain/value-objects/news/news-disable.vo';
+import { NewsPublishVo } from '@presentation/pages/content-management/domain/value-objects/news/news-publish.vo';
 
-export class NewsDisableEntity {
+export class NewsPublishEntity {
     constructor(public readonly uniqId: string) {}
 
-    static fromVo(vo: NewsDisableVo): NewsDisableEntity {
-        return new NewsDisableEntity(vo.uniqId);
+    static fromVo(vo: NewsPublishVo): NewsPublishEntity {
+        return new NewsPublishEntity(vo.uniqId);
     }
 
     appliesToAdminScope(): boolean {

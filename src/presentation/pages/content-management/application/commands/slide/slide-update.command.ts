@@ -1,13 +1,11 @@
-import { Platform } from '@shared/domain/enums/platform.enum';
-
 export class SlideUpdateCommand {
     constructor(
         public readonly uniqId: string,
         public readonly timeDuration: number,
         public readonly type: string,
-        public readonly image: File | null,
+        public readonly image: File | null | string,
         public readonly video: string | null,
-        public readonly platforms: Platform[],
+        public readonly platforms: string[],
         public readonly startDate: Date | null,
         public readonly endDate: Date | null,
         public readonly title: string,

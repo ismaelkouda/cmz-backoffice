@@ -1,6 +1,5 @@
 import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
 import { SlideFindOneProps } from '@pages/content-management/domain/interfaces/slide/slide-find-one-props.interface';
-import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class SlideFindOneEntity {
     constructor(private readonly props: SlideFindOneProps) {}
@@ -8,7 +7,7 @@ export class SlideFindOneEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-    get platforms(): Platform[] {
+    get platforms(): string[] {
         return this.props.platforms;
     }
     get type(): string {

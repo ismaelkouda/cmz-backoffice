@@ -9,12 +9,6 @@ export class NewsCreateHandler {
     constructor(private readonly useCase: NewsUseCase) {}
 
     execute(command: NewsCreateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            firstName: command.firstName,
-            lastName: command.lastName,
-            email: command.email,
-            phone: command.phone,
-            role: command.role,
-        });
+        return this.useCase.create({ ...command });
     }
 }

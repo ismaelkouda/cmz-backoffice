@@ -1,5 +1,4 @@
 import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
-import { Platform } from '@shared/domain/enums/platform.enum';
 
 export interface SlideFindOneProps {
     uniqId: string;
@@ -9,7 +8,7 @@ export interface SlideFindOneProps {
     type: string;
     image: string;
     video: string;
-    platforms: Platform[];
+    platforms: string[];
     startDate: Date | null;
     endDate: Date | null;
     title: string;

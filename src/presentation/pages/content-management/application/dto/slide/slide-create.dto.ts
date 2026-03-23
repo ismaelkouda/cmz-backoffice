@@ -1,11 +1,9 @@
-import { Platform } from '@shared/domain/enums/platform.enum';
-
 export interface SlideCreateDto {
     timeDuration: number;
     type: string;
-    image: File | null;
+    image: File | null | string;
     video: string | null;
-    platforms: Platform[];
+    platforms: string[];
     startDate: Date | null;
     endDate: Date | null;
     title: string;

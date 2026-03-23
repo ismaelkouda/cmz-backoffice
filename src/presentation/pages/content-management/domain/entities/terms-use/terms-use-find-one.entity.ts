@@ -1,42 +1,39 @@
-export interface TermsUseFindOneProps {
-    uniqId: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    role: string;
-}
+import { Status } from '@pages/content-management/domain/enums/terms-use/terms-use-status.enum';
+import { TermsUseFindOneProps } from '@pages/content-management/domain/interfaces/terms-use/terms-use-find-one-props.interface';
+
 export class TermsUseFindOneEntity {
     constructor(private readonly props: TermsUseFindOneProps) {}
 
     get uniqId(): string {
         return this.props.uniqId;
     }
-
-    get lastName(): string {
-        return this.props.lastName;
+    get version(): string {
+        return this.props.version;
     }
-
-    get firstName(): string {
-        return this.props.firstName;
+    get content(): string {
+        return this.props.content;
     }
-
-    get email(): string {
-        return this.props.email;
+    get status(): Status {
+        return this.props.status;
     }
-
-    get phone(): string {
-        return this.props.phone;
+    get createdAt(): string {
+        return this.props.createdAt;
     }
-
-    get role(): string {
-        return this.props.role;
+    get updatedAt(): string {
+        return this.props.updatedAt;
     }
 
     public with(props: TermsUseFindOneProps): TermsUseFindOneEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new TermsUseFindOneEntity(props);
+    }
+
+    toJSON(): TermsUseFindOneProps {
+        return { ...this.props };
     }
 }

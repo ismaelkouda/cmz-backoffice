@@ -1,23 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { NewsCreateCommand } from '@pages/content-management/application/commands/news/news-create.command';
 import { NewsDeleteCommand } from '@pages/content-management/application/commands/news/news-delete.command';
-import { NewsDisableCommand } from '@pages/content-management/application/commands/news/news-disable.command';
-import { NewsEnableCommand } from '@pages/content-management/application/commands/news/news-enable.command';
 import { NewsUpdateCommand } from '@pages/content-management/application/commands/news/news-update.command';
 import { NewsCreateBus } from '@pages/content-management/application/commands-bus/news/news-create.bus';
 import { NewsDeleteBus } from '@pages/content-management/application/commands-bus/news/news-delete.bus';
-import { NewsDisableBus } from '@pages/content-management/application/commands-bus/news/news-disable.bus';
-import { NewsEnableBus } from '@pages/content-management/application/commands-bus/news/news-enable.bus';
 import { NewsUpdateBus } from '@pages/content-management/application/commands-bus/news/news-update.bus';
 import { NewsCreateDto } from '@pages/content-management/application/dto/news/news-create.dto';
 import { NewsDeleteDto } from '@pages/content-management/application/dto/news/news-delete.dto';
-import { NewsDisableDto } from '@pages/content-management/application/dto/news/news-disable.dto';
-import { NewsEnableDto } from '@pages/content-management/application/dto/news/news-enable.dto';
 import { NewsFilterDto } from '@pages/content-management/application/dto/news/news-filter.dto';
 import { NewsUpdateDto } from '@pages/content-management/application/dto/news/news-update.dto';
 import { NewsQuery } from '@pages/content-management/application/queries/news/news.query';
 import { NewsBus } from '@pages/content-management/application/queries-bus/news/news.bus';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
+import { NewsPublishCommand } from '@presentation/pages/content-management/application/commands/news/news-publish.command';
+import { NewsUnpublishCommand } from '@presentation/pages/content-management/application/commands/news/news-unpublish.command';
+import { NewsPublishBus } from '@presentation/pages/content-management/application/commands-bus/news/news-publish.bus';
+import { NewsUnpublishBus } from '@presentation/pages/content-management/application/commands-bus/news/news-unpublish.bus';
+import { NewsPublishDto } from '@presentation/pages/content-management/application/dto/news/news-publish.dto';
+import { NewsUnpublishDto } from '@presentation/pages/content-management/application/dto/news/news-unpublish.dto';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -35,8 +35,8 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
     private readonly filterBus = inject(NewsBus);
     private readonly createBus = inject(NewsCreateBus);
     private readonly updateBus = inject(NewsUpdateBus);
-    private readonly enableBus = inject(NewsEnableBus);
-    private readonly disableBus = inject(NewsDisableBus);
+    private readonly enableBus = inject(NewsPublishBus);
+    private readonly disableBus = inject(NewsUnpublishBus);
     private readonly deleteBus = inject(NewsDeleteBus);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
@@ -177,11 +177,15 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
         this._actionState.set('loading');
 
         const command = new NewsCreateCommand(
-            news.firstName,
-            news.lastName,
-            news.email,
-            news.phone,
-            news.role
+            news.type,
+            news.image,
+            news.video,
+            news.category,
+            news.subCategory,
+            news.hashtags,
+            news.title,
+            news.resume,
+            news.content
         );
 
         this.handleActionWithRefresh(
@@ -205,11 +209,15 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
         this._actionState.set('loading');
         const command = new NewsUpdateCommand(
             news.uniqId,
-            news.firstName,
-            news.lastName,
-            news.email,
-            news.phone,
-            news.role
+            news.type,
+            news.image,
+            news.video,
+            news.category,
+            news.subCategory,
+            news.hashtags,
+            news.title,
+            news.resume,
+            news.content
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
@@ -228,19 +236,19 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
             .subscribe();
     }
 
-    enable(team: NewsEnableDto): void {
-        const command = new NewsEnableCommand(team.uniqId);
+    publish(team: NewsPublishDto): void {
+        const command = new NewsPublishCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.PUBLISH'
         ).subscribe();
     }
 
-    disable(team: NewsDisableDto): void {
-        const command = new NewsDisableCommand(team.uniqId);
+    unpublish(team: NewsUnpublishDto): void {
+        const command = new NewsUnpublishCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.UNPUBLISH'
         ).subscribe();
     }
 

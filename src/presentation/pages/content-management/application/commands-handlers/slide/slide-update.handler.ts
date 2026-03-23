@@ -9,20 +9,6 @@ export class SlideUpdateHandler {
     constructor(private readonly useCase: SlideUseCase) {}
 
     execute(command: SlideUpdateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            timeDuration: command.timeDuration,
-            type: command.type,
-            image: command.image,
-            video: command.video,
-            platforms: command.platforms,
-            startDate: command.startDate,
-            endDate: command.endDate,
-            title: command.title,
-            subtitle: command.subtitle,
-            content: command.content,
-            buttonLabel: command.buttonLabel,
-            buttonUrl: command.buttonUrl,
-        });
+        return this.useCase.update({ ...command });
     }
 }

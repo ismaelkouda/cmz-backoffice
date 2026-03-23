@@ -7,20 +7,32 @@ export function newsUpdateMapper(entity: NewsUpdateEntity): NewsUpdateApiDto {
     if (entity.uniqId) {
         params.id = entity.uniqId;
     }
-    if (entity.firstName) {
-        params.first_name = entity.firstName;
+    if (entity.type) {
+        params.type = entity.type;
     }
-    if (entity.lastName) {
-        params.last_name = entity.lastName;
+    if (entity.image) {
+        params.image_file = entity.image;
     }
-    if (entity.email) {
-        params.email = entity.email;
+    if (entity.video) {
+        params.video_url = entity.video;
     }
-    if (entity.phone) {
-        params.phone_number = entity.phone;
+    if (entity.category) {
+        params.category = entity.category;
     }
-    if (entity.role) {
-        params.role = entity.role;
+    if (entity.subCategory) {
+        params.sub_category = entity.subCategory;
+    }
+    if (entity.hashtags.length > 0) {
+        params.hashtags = entity.hashtags;
+    }
+    if (entity.title) {
+        params.title = entity.title;
+    }
+    if (entity.resume) {
+        params.resume = entity.resume;
+    }
+    if (entity.content) {
+        params.content = entity.content;
     }
 
     return params;

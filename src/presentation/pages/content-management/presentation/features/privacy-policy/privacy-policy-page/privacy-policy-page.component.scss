@@ -1,27 +1,19 @@
-.privacy-policy-container {
-    //padding: 1.5rem;
-}
-
-.privacy-policy-card {
+.privacy-policy-page-card {
     border-radius: 1rem;
     box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
-.privacy-policy-card-body {
-    //padding: 2rem;
-}
-
-.privacy-policy-header {
+.privacy-policy-page-header {
     margin-bottom: 1.5rem;
 }
 
-.privacy-policy-content {
+.privacy-policy-page-content {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.privacy-policy-divider {
+.privacy-policy-page-divider {
     opacity: 0.25;
     margin: 0;
 }

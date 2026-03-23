@@ -1,12 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import {
-    PrivacyPolicyEntity,
-    PrivacyPolicyProps,
-} from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
+import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
 import { PrivacyPolicyItemApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-response-api.dto';
-import { ActionDropdownMapper } from '@shared/data/mappers/action-dropdown.mapper';
+import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/privacy-policy/privacy-policy-status.mapper';
+import { PrivacyPolicyProps } from '@presentation/pages/content-management/domain/interfaces/privacy-policy/privacy-policy-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({
@@ -16,10 +13,9 @@ export class PrivacyPolicyMapper extends PaginatedMapper<
     PrivacyPolicyEntity,
     PrivacyPolicyItemApiDto
 > {
-    private readonly actionDropdownMapper: ActionDropdownMapper =
-        inject(ActionDropdownMapper);
-    private readonly rolesMapper: RolesMapper = inject(RolesMapper);
     private readonly entityCache = new Map<string, PrivacyPolicyEntity>();
+    private readonly statusMapper = inject(StatusMapper);
+    private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(
         dto: PrivacyPolicyItemApiDto
@@ -27,12 +23,10 @@ export class PrivacyPolicyMapper extends PaginatedMapper<
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: PrivacyPolicyProps = {
             uniqId: dto.id,
-            lastName: dto.last_name,
-            firstName: dto.first_name,
-            email: dto.email,
-            phone: dto.phone,
-            role: this.rolesMapper.mapFromDto(dto.role),
-            status: this.actionDropdownMapper.mapFromDto(dto.status),
+            version: dto.version,
+            status: this.statusMapper.mapFromDto(dto.is_published),
+            createdAt: dto.created_at,
+            publishedAt: dto.published_at,
             updatedAt: dto.updated_at,
         };
 

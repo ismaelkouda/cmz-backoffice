@@ -1,0 +1,66 @@
+<main class="container-fluid privacy-policy-container" role="main">
+    <section class="row privacy-policy-row">
+        <article class="col-sm-12 privacy-policy-article">
+            <app-breadcrumb />
+
+            <section class="card privacy-policy-card">
+                <div class="card-body privacy-policy-card-body">
+                    <header class="privacy-policy-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'CONTENT_MANAGEMENT.PRIVACY_POLICY.TITLE'
+                                    | translate
+                                    | lowercase
+                            "
+                        ></app-page-title>
+                    </header>
+
+                    <div class="privacy-policy-content">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="loading()"
+                            [formGroup]="form"
+                            [fields]="filterFields()"
+                            (filter)="onFilterClicked($event)"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="5"
+                        ></app-filter>
+
+                        <hr class="privacy-policy-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                [loading]="loading()"
+                                [items]="items()"
+                                [pagination]="pagination()"
+                                [config]="tableConfig"
+                                [headerButtons]="headerButtons()"
+                                (headerButtonClicked)="
+                                    onHeaderButtonClicked($event)
+                                "
+                                (refreshRequested)="onRefreshClicked()"
+                                (createRequested)="
+                                    onHeaderButtonClicked($event)
+                                "
+                                (editRequested)="onNavigateToForm($event)"
+                                (deleteRequested)="onDeleteClicked($event)"
+                                (enableRequested)="onEnableClicked($event)"
+                                (disableRequested)="onDisableClicked($event)"
+                                dataKey="uniqId"
+                            ></app-table>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onPageChangeClicked($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

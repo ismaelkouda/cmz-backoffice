@@ -1,11 +1,10 @@
 import { Status } from '@pages/content-management/domain/enums/privacy-policy/privacy-policy-status.enum';
 
-export interface Props {
+export interface PrivacyPolicyProps {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+    version: string;
     status: Status;
-    membersCount: string;
+    createdAt: string;
+    publishedAt: string;
     updatedAt: string;
 }

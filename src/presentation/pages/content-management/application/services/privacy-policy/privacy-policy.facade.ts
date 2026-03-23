@@ -38,8 +38,8 @@ export class PrivacyPolicyFacade extends BaseFacade<
     private readonly filterBus = inject(PrivacyPolicyBus);
     private readonly createBus = inject(PrivacyPolicyCreateBus);
     private readonly updateBus = inject(PrivacyPolicyUpdateBus);
-    private readonly enableBus = inject(PrivacyPolicyPublishBus);
-    private readonly disableBus = inject(PrivacyPolicyUnpublishBus);
+    private readonly publishBus = inject(PrivacyPolicyPublishBus);
+    private readonly unpublishBus = inject(PrivacyPolicyUnpublishBus);
     private readonly deleteBus = inject(PrivacyPolicyDeleteBus);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
@@ -229,19 +229,19 @@ export class PrivacyPolicyFacade extends BaseFacade<
             .subscribe();
     }
 
-    enable(team: PrivacyPolicyPublishDto): void {
+    publish(team: PrivacyPolicyPublishDto): void {
         const command = new PrivacyPolicyPublishCommand(team.uniqId);
         this.handleActionWithRefresh(
-            this.enableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            this.publishBus.dispatch(command),
+            'COMMON.SUCCESS.PUBLISH'
         ).subscribe();
     }
 
-    disable(team: PrivacyPolicyUnpublishDto): void {
+    unpublish(team: PrivacyPolicyUnpublishDto): void {
         const command = new PrivacyPolicyUnpublishCommand(team.uniqId);
         this.handleActionWithRefresh(
-            this.disableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            this.unpublishBus.dispatch(command),
+            'COMMON.SUCCESS.UNPUBLISH'
         ).subscribe();
     }
 

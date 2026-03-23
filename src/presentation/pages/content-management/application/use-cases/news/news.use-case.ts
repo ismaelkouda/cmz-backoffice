@@ -1,24 +1,24 @@
 import { inject, Injectable } from '@angular/core';
 import { NewsCreateDto } from '@pages/content-management/application/dto/news/news-create.dto';
 import { NewsDeleteDto } from '@pages/content-management/application/dto/news/news-delete.dto';
-import { NewsDisableDto } from '@pages/content-management/application/dto/news/news-disable.dto';
-import { NewsEnableDto } from '@pages/content-management/application/dto/news/news-enable.dto';
 import { NewsFilterDto } from '@pages/content-management/application/dto/news/news-filter.dto';
 import { NewsUpdateDto } from '@pages/content-management/application/dto/news/news-update.dto';
 import { NewsCreateEntity } from '@pages/content-management/domain/entities/news/news-create.entity';
 import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
-import { NewsDisableEntity } from '@pages/content-management/domain/entities/news/news-disable.entity';
-import { NewsEnableEntity } from '@pages/content-management/domain/entities/news/news-enable.entity';
 import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
 import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { NewsRepository } from '@pages/content-management/domain/repositories/news/news-repository';
 import { NewsCreateVo } from '@pages/content-management/domain/value-objects/news/news-create.vo';
 import { NewsDeleteVo } from '@pages/content-management/domain/value-objects/news/news-delete.vo';
-import { NewsDisableVo } from '@pages/content-management/domain/value-objects/news/news-disable.vo';
-import { NewsEnableVo } from '@pages/content-management/domain/value-objects/news/news-enable.vo';
 import { NewsFilterVo } from '@pages/content-management/domain/value-objects/news/news-filter.vo';
 import { NewsUpdateVo } from '@pages/content-management/domain/value-objects/news/news-update.vo';
+import { NewsPublishDto } from '@presentation/pages/content-management/application/dto/news/news-publish.dto';
+import { NewsUnpublishDto } from '@presentation/pages/content-management/application/dto/news/news-unpublish.dto';
+import { NewsPublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-publish.entity';
+import { NewsUnpublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-unpublish.entity';
+import { NewsPublishVo } from '@presentation/pages/content-management/domain/value-objects/news/news-publish.vo';
+import { NewsUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/news/news-unpublish.vo';
 import {
     Paginate,
     SimpleResponseDto,
@@ -52,16 +52,16 @@ export class NewsUseCase {
         return this.repository.update(entity);
     }
 
-    enable(dto: NewsEnableDto): Observable<SimpleResponseDto<void>> {
-        const vo = NewsEnableVo.fromDto(dto);
-        const entity = NewsEnableEntity.fromVo(vo);
-        return this.repository.enable(entity);
+    publish(dto: NewsPublishDto): Observable<SimpleResponseDto<void>> {
+        const vo = NewsPublishVo.fromDto(dto);
+        const entity = NewsPublishEntity.fromVo(vo);
+        return this.repository.publish(entity);
     }
 
-    disable(dto: NewsDisableDto): Observable<SimpleResponseDto<void>> {
-        const vo = NewsDisableVo.fromDto(dto);
-        const entity = NewsDisableEntity.fromVo(vo);
-        return this.repository.disable(entity);
+    unpublish(dto: NewsUnpublishDto): Observable<SimpleResponseDto<void>> {
+        const vo = NewsUnpublishVo.fromDto(dto);
+        const entity = NewsUnpublishEntity.fromVo(vo);
+        return this.repository.unpublish(entity);
     }
 
     delete(dto: NewsDeleteDto): Observable<SimpleResponseDto<void>> {

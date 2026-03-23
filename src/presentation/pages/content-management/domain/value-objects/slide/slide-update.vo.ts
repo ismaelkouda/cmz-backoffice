@@ -1,6 +1,5 @@
 import { SlideUpdateDto } from '@pages/content-management/application/dto/slide/slide-update.dto';
 import { SlideUpdateProps } from '@pages/content-management/domain/interfaces/slide/slide-update-props.interface';
-import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class SlideUpdateVo {
     constructor(private readonly props: SlideUpdateProps) {}
@@ -17,7 +16,7 @@ export class SlideUpdateVo {
         return this.props.type;
     }
 
-    get image(): File | null {
+    get image(): File | null | string {
         return this.props.image;
     }
 
@@ -25,7 +24,7 @@ export class SlideUpdateVo {
         return this.props.video;
     }
 
-    get platforms(): Platform[] {
+    get platforms(): string[] {
         return this.props.platforms;
     }
 

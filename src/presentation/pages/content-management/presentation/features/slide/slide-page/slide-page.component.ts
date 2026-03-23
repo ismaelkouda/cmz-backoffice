@@ -86,7 +86,6 @@ export class SlidePageComponent implements OnInit {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptions(Status, this.t.bind(this));
@@ -203,7 +202,6 @@ export class SlidePageComponent implements OnInit {
 
     ngOnInit(): void {
         this.title.setTitle(this.t('CONTENT_MANAGEMENT.SLIDE.PAGE_TITLE'));
-
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
@@ -310,7 +308,7 @@ export class SlidePageComponent implements OnInit {
         this.exportService.exportAsExcelFile(
             items,
             this.tableConfig,
-            `${this.exportFilePrefix}-participants`
+            `${this.exportFilePrefix}-slide`
         );
     }
 

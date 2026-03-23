@@ -9,16 +9,6 @@ export class HomeCreateHandler {
     constructor(private readonly useCase: HomeUseCase) {}
 
     execute(command: HomeCreateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            image: command.image,
-            platforms: command.platforms,
-            startDate: command.startDate,
-            endDate: command.endDate,
-            title: command.title,
-            resume: command.resume,
-            content: command.content,
-            buttonLabel: command.buttonLabel,
-            buttonUrl: command.buttonUrl,
-        });
+        return this.useCase.create({ ...command });
     }
 }

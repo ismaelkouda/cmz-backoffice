@@ -6,16 +6,13 @@ import {
     DestroyRef,
     inject,
     input,
-    OnInit,
     output,
+    signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
     ControlValueAccessor,
-    FormArray,
-    FormBuilder,
     FormControl,
-    FormGroup,
     NG_VALUE_ACCESSOR,
     ReactiveFormsModule,
     Validators,
@@ -24,7 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 
 @Component({
     selector: 'app-hashtags-input',
@@ -48,272 +45,149 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
+export class HashtagsInputComponent implements ControlValueAccessor {
     public readonly label = input<string>('Hashtags');
-    public readonly required = input<boolean>(true);
+    public readonly required = input<boolean>(false);
     public readonly minHashtags = input<number>(1);
     public readonly maxHashtags = input<number | undefined>(undefined);
     public readonly showStats = input<boolean>(true);
     public readonly allowedPattern = input<string>('^[a-zA-Z0-9_]+$');
+    public readonly placeholder = input<string>('Ajouter un hashtag...');
 
-    public hashtagsChanged = output<string[]>();
-    public hashtagAdded = output<string>();
-    public hashtagRemoved = output<string>();
-    public hashtagsCleared = output<undefined>();
+    public readonly hashtagsChanged = output<string[]>();
+    public readonly hashtagAdded = output<string>();
+    public readonly hashtagRemoved = output<string>();
+    public readonly hashtagsCleared = output();
 
-    private readonly fb = inject(FormBuilder);
     private readonly destroyRef = inject(DestroyRef);
 
-    public form: FormGroup;
-    public currentHashtagControl: FormControl;
+    public readonly hashtags = signal<string[]>([]);
+    public isDisabled = false;
+    private onTouched = (): void => {
+        console.log('onTouched: ');
+    };
+    private onChange = (value: string[]): void => {
+        console.log('value: ', value);
+    };
 
-    public readonly hashtagsCount = computed(() => this.hashtagsArray.length);
+    protected readonly inputControl = new FormControl('', {
+        nonNullable: true,
+        validators: [
+            Validators.maxLength(50),
+            Validators.pattern(this.allowedPattern()),
+        ],
+        updateOn: 'change',
+    });
 
-    public readonly canAddMore = computed(() => {
+    protected readonly hashtagsCount = computed(() => this.hashtags().length);
+
+    protected readonly canAddMore = computed(() => {
         const max = this.maxHashtags();
         return !max || this.hashtagsCount() < max;
     });
 
-    public readonly canClearAll = computed(() => this.hashtagsCount() > 0);
+    protected readonly canClearAll = computed(() => this.hashtagsCount() > 0);
 
-    private onChange: (value: string[]) => void = () => {
-        /* empty */
-    };
-    private onTouched: () => void = () => {
-        /* empty */
-    };
-    private isDisabled = false;
+    protected readonly inputError = computed(() => {
+        const errors = this.inputControl.errors;
+        if (!errors) {
+            return null;
+        }
+
+        if (errors['duplicate']) {
+            return 'VALIDATION.DUPLICATE_HASHTAG';
+        }
+        if (errors['pattern']) {
+            return 'VALIDATION.INVALID_HASHTAG_FORMAT';
+        }
+        if (errors['maxlength']) {
+            return 'VALIDATION.MAX_LENGTH_EXCEEDED';
+        }
+        return null;
+    });
 
     constructor() {
-        this.form = this.fb.group({
-            hashtags: this.fb.array<string>(
-                [],
-                [this.createHashtagsArrayValidator()]
-            ),
-        });
-
-        this.currentHashtagControl = this.fb.control('', [
-            Validators.pattern(this.allowedPattern()),
-            Validators.maxLength(50),
-        ]);
-
-        this.hashtagsCount = computed(() => this.hashtagsArray.length);
-        this.canAddMore = computed(() => {
-            const max = this.maxHashtags();
-            return !max || this.hashtagsCount() < max;
-        });
-        this.canClearAll = computed(() => this.hashtagsCount() > 0);
-
-        console.log('this.hashtagsCount()', this.hashtagsCount());
-    }
-
-    ngOnInit(): void {
-        this.setupFormListeners();
-    }
-
-    private setupFormListeners(): void {
-        this.currentHashtagControl.valueChanges
+        this.inputControl.valueChanges
             .pipe(
                 debounceTime(300),
                 distinctUntilChanged(),
+                filter(() => !this.isDisabled),
                 takeUntilDestroyed(this.destroyRef)
             )
-            .subscribe(() => {
-                this.validateCurrentHashtag();
-            });
-
-        this.hashtagsArray.valueChanges
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((hashtags: string[]) => {
-                this.onChange(hashtags);
-                this.hashtagsChanged.emit(hashtags);
+            .subscribe((value) => {
+                this.validateInput(value);
             });
     }
 
-    get hashtagsArray(): FormArray {
-        return this.form.get('hashtags') as FormArray;
-    }
+    private validateInput(value: string): void {
+        console.log('value: ', value);
+        const trimmed = value.trim();
 
-    private createHashtagsArrayValidator(): any {
-        return (control: any) => {
-            const array = control as FormArray;
-
-            if (this.required() && array.length < this.minHashtags()) {
-                return {
-                    minHashtags: {
-                        required: this.minHashtags(),
-                        actual: array.length,
-                    },
-                };
-            }
-
-            const max = this.maxHashtags();
-            if (max && array.length > max) {
-                return { maxHashtags: { max, actual: array.length } };
-            }
-
-            const values = array.value as string[];
-            const duplicates = values.filter(
-                (item, index) => values.indexOf(item) !== index
-            );
-            if (duplicates.length > 0) {
-                return { duplicateHashtags: duplicates };
-            }
-
-            return null;
-        };
-    }
-
-    private validateCurrentHashtag(): void {
-        const value = this.currentHashtagControl.value?.trim();
-
-        if (!value) {
-            this.currentHashtagControl.setErrors(null);
+        if (!trimmed) {
+            this.inputControl.setErrors(null);
             return;
         }
 
-        if (value.length > 50) {
-            this.currentHashtagControl.setErrors({
-                maxlength: { requiredLength: 50, actualLength: value.length },
-            });
+        const existingHashtags = this.hashtags();
+        if (existingHashtags.includes(this.formatHashtag(trimmed))) {
+            this.inputControl.setErrors({ duplicate: true });
             return;
         }
-
-        const pattern = new RegExp(this.allowedPattern());
-        if (!pattern.test(value)) {
-            this.currentHashtagControl.setErrors({ pattern: true });
-            return;
-        }
-
-        const existingHashtags = this.hashtagsArray.value;
-        if (existingHashtags.includes(value)) {
-            this.currentHashtagControl.setErrors({ duplicate: true });
-            return;
-        }
-
-        this.currentHashtagControl.setErrors(null);
-    }
-
-    public addHashtag(event?: Event): void {
-        if (event) {
-            event.preventDefault();
-        }
-
-        if (!this.canAddCurrentHashtag()) {
-            return;
-        }
-
-        const value = this.formatHashtag(this.currentHashtagControl.value);
-
-        this.hashtagsArray.push(this.fb.control(value, Validators.required));
-
-        this.hashtagAdded.emit(value);
-
-        this.currentHashtagControl.reset();
-        this.currentHashtagControl.markAsUntouched();
-
-        setTimeout(() => {
-            const input = document.querySelector(
-                '.hashtag-input'
-            ) as HTMLInputElement;
-            if (input) {
-                input.focus();
-            }
-        });
-    }
-
-    public removeHashtag(index: number): void {
-        const removedHashtag = this.hashtagsArray.at(index).value;
-
-        this.hashtagsArray.removeAt(index);
-        this.hashtagRemoved.emit(removedHashtag);
-
-        this.hashtagsArray.markAsTouched();
-        this.hashtagsArray.updateValueAndValidity();
-    }
-
-    public clearAll(): void {
-        this.hashtagsArray.clear();
-        this.hashtagsCleared.emit(undefined);
-
-        this.hashtagsArray.markAsTouched();
-        this.hashtagsArray.updateValueAndValidity();
     }
 
     private formatHashtag(value: string): string {
-        console.log(value);
         const trimmed = value.trim();
         return trimmed.startsWith('#') ? trimmed : `#${trimmed}`;
     }
 
-    public canAddCurrentHashtag(): boolean {
-        return (
-            this.currentHashtagControl.valid &&
-            this.currentHashtagControl.value?.trim() &&
-            this.canAddMore()
-        );
+    private updateParent(value: string[]): void {
+        console.log('value: ', value);
+        this.onChange(value);
+        this.hashtagsChanged.emit(value);
+        console.log('updated453355446346536 ', this.hashtags());
     }
 
-    public onBlur(): void {
-        this.onTouched();
+    public addHashtag(event?: Event): void {
+        event?.preventDefault();
 
-        if (
-            this.currentHashtagControl.valid &&
-            this.currentHashtagControl.value?.trim()
-        ) {
-            this.addHashtag();
-        }
-    }
+        const value = this.inputControl.value.trim();
 
-    public getHashtagTrackBy(index: number, control: any): string {
-        return `${index}-${control.value}`;
-    }
-
-    public getErrorMessage(errors: any): string {
-        if (!errors) {
-            return '';
-        }
-
-        if (errors.required) {
-            return 'VALIDATION.REQUIRED';
-        }
-        if (errors.pattern) {
-            return 'VALIDATION.INVALID_HASHTAG_FORMAT';
-        }
-        if (errors.maxlength) {
-            return 'VALIDATION.MAX_LENGTH_EXCEEDED';
-        }
-        if (errors.duplicate) {
-            return 'VALIDATION.DUPLICATE_HASHTAG';
-        }
-
-        return 'VALIDATION.INVALID_INPUT';
-    }
-
-    writeValue(value: string[]): void {
-        const currentValue = this.hashtagsArray.value;
-        if (JSON.stringify(currentValue) === JSON.stringify(value)) {
+        if (!value || this.inputControl.invalid || !this.canAddMore()) {
             return;
         }
 
-        while (this.hashtagsArray.length > 0) {
-            this.hashtagsArray.removeAt(0, { emitEvent: false });
-        }
+        const formatted = this.formatHashtag(value);
+        const current = this.hashtags();
+        const updated = [...current, formatted];
+        console.log('updated: ', this.hashtags());
 
-        if (value && Array.isArray(value)) {
-            value.forEach((hashtag) => {
-                if (hashtag && hashtag.trim()) {
-                    const formatted = this.formatHashtag(hashtag);
-                    const control = this.fb.control(
-                        formatted,
-                        Validators.required
-                    );
-                    this.hashtagsArray.push(control, { emitEvent: false });
-                }
-            });
-        }
+        this.hashtags.set(updated);
+        this.hashtagAdded.emit(formatted);
+        this.updateParent(updated);
 
-        this.hashtagsArray.updateValueAndValidity({ emitEvent: true });
+        this.inputControl.reset();
+    }
+
+    public removeHashtag(index: number): void {
+        const current = this.hashtags();
+        const removed = current[index];
+        const updated = current.filter((_, i) => i !== index);
+
+        this.hashtags.set(updated);
+        this.hashtagRemoved.emit(removed);
+        this.updateParent(updated);
+
+        this.validateInput(this.inputControl.value);
+    }
+
+    public clearAll(): void {
+        this.hashtags.set([]);
+        this.hashtagsCleared.emit();
+        this.updateParent([]);
+    }
+
+    writeValue(value: string[] | null): void {
+        this.hashtags.set(value?.filter((h) => h !== null) ?? []);
     }
 
     registerOnChange(fn: (value: string[]) => void): void {
@@ -328,11 +202,9 @@ export class HashtagsInputComponent implements OnInit, ControlValueAccessor {
         this.isDisabled = isDisabled;
 
         if (isDisabled) {
-            this.currentHashtagControl.disable();
-            this.hashtagsArray.disable();
+            this.inputControl.disable();
         } else {
-            this.currentHashtagControl.enable();
-            this.hashtagsArray.enable();
+            this.inputControl.enable();
         }
     }
 }

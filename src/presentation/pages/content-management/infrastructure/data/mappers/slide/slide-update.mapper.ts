@@ -25,7 +25,7 @@ export function slideUpdateMapper(
     }
     if (entity.platforms.length > 0) {
         params.platforms = entity.platforms.map((p) =>
-            platformMapper.mapToDto(p)
+            platformMapper.mapStringToDto(p)
         );
     }
     if (entity.startDate) {

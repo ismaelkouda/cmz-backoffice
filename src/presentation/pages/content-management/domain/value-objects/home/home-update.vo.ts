@@ -1,6 +1,5 @@
 import { HomeUpdateDto } from '@pages/content-management/application/dto/home/home-update.dto';
 import { HomeUpdateProps } from '@pages/content-management/domain/interfaces/home/home-update-props.interface';
-import { Platform } from '@shared/domain/enums/platform.enum';
 
 export class HomeUpdateVo {
     constructor(private readonly props: HomeUpdateProps) {}
@@ -13,7 +12,7 @@ export class HomeUpdateVo {
         return this.props.image;
     }
 
-    get platforms(): Platform[] {
+    get platforms(): string[] {
         return this.props.platforms;
     }
 
