@@ -227,8 +227,14 @@
                                                 </div>
 
                                                 <div class="col-md-12">
-                                                    <label for="description" class="form-label fw-bold">
-                                                        {{ 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION' | translate }}
+                                                    <label
+                                                        for="description"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION'
+                                                                | translate
+                                                        }}
                                                     </label>
                                                     <textarea
                                                         rows="3"
@@ -237,10 +243,19 @@
                                                         id="description"
                                                         formControlName="description"
                                                         class="w-100"
-                                                        [attr.maxlength]="VALIDATION.DESCRIPTION.MAX"
-                                                        [placeholder]="'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION_PLACEHOLDER' | translate">
+                                                        [attr.maxlength]="
+                                                            VALIDATION
+                                                                .DESCRIPTION.MAX
+                                                        "
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    >
                                                     </textarea>
-                                                    <div class="d-flex justify-content-between align-items-center mt-1">
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mt-1"
+                                                    >
                                                         @if (
                                                             form.get(
                                                                 'description'

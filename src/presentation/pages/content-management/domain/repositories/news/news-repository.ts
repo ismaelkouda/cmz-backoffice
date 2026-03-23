@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NewsCreateEntity } from '@pages/content-management/domain/entities/news/news-create.entity';
 import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
-import { NewsDisableEntity } from '@pages/content-management/domain/entities/news/news-disable.entity';
-import { NewsEnableEntity } from '@pages/content-management/domain/entities/news/news-enable.entity';
 import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
 import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
+import { NewsPublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-publish.entity';
+import { NewsUnpublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-unpublish.entity';
 import {
     Paginate,
     SimpleResponseDto,
@@ -29,10 +29,10 @@ export abstract class NewsRepository {
     abstract delete(
         entity: NewsDeleteEntity
     ): Observable<SimpleResponseDto<void>>;
-    abstract enable(
-        entity: NewsEnableEntity
+    abstract publish(
+        entity: NewsPublishEntity
     ): Observable<SimpleResponseDto<void>>;
-    abstract disable(
-        entity: NewsDisableEntity
+    abstract unpublish(
+        entity: NewsUnpublishEntity
     ): Observable<SimpleResponseDto<void>>;
 }

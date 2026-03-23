@@ -4,8 +4,8 @@ import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastru
 import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
 import { NewsCreateApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-create-api.dto';
 import { NewsDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-delete-api.dto';
-import { NewsDisableApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-disable-api.dto';
-import { NewsEnableApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-enable-api.dto';
+import { NewsUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-disable-api.dto';
+import { NewsPublishApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-enable-api.dto';
 import { NewsFilterApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-filter-api.dto';
 import { NewsResponseApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-response-api.dto';
 import { NewsUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-update-api.dto';
@@ -52,13 +52,15 @@ export class NewsApi {
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 
-    enable(apiDto: NewsEnableApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.NEWS}/${apiDto.uniq_id}/enable`;
+    publish(apiDto: NewsPublishApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.NEWS}/${apiDto.uniq_id}/publish`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
-    disable(apiDto: NewsDisableApiDto): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.NEWS}/${apiDto.uniq_id}/disable`;
+    unpublish(
+        apiDto: NewsUnpublishApiDto
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.NEWS}/${apiDto.uniq_id}/unpublish`;
         return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 }

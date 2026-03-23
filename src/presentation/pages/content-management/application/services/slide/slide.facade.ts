@@ -250,7 +250,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         const command = new SlideEnableCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.ENABLE'
         ).subscribe();
     }
 
@@ -258,7 +258,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         const command = new SlideDisableCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.DISABLE'
         ).subscribe();
     }
 

@@ -1,20 +1,20 @@
 import { inject, Injectable } from '@angular/core';
 import { NewsCreateEntity } from '@pages/content-management/domain/entities/news/news-create.entity';
 import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
-import { NewsDisableEntity } from '@pages/content-management/domain/entities/news/news-disable.entity';
-import { NewsEnableEntity } from '@pages/content-management/domain/entities/news/news-enable.entity';
 import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
 import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { NewsRepository } from '@pages/content-management/domain/repositories/news/news-repository';
 import { newsCreateMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-create.mapper';
 import { newsDeleteMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-delete.mapper';
-import { newsDisableMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-disable.mapper';
-import { newsEnableMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-enable.mapper';
 import { newsFilterMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-filter.mapper';
 import { newsUpdateMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-update.mapper';
 import { NewsMapper } from '@pages/content-management/infrastructure/data/mappers/news/news.mapper';
 import { NewsApi } from '@pages/content-management/infrastructure/data/sources/news/news.api';
+import { NewsPublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-publish.entity';
+import { NewsUnpublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-unpublish.entity';
+import { newsPublishMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news/news-publish.mapper';
+import { newsUnpublishMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news/news-unpublish.mapper';
 import {
     Paginate,
     SimpleResponseDto,
@@ -49,11 +49,13 @@ export class NewsRepositoryImpl implements NewsRepository {
         return this.api.delete(newsDeleteMapper(entity));
     }
 
-    enable(entity: NewsEnableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.enable(newsEnableMapper(entity));
+    publish(entity: NewsPublishEntity): Observable<SimpleResponseDto<void>> {
+        return this.api.publish(newsPublishMapper(entity));
     }
 
-    disable(entity: NewsDisableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.disable(newsDisableMapper(entity));
+    unpublish(
+        entity: NewsUnpublishEntity
+    ): Observable<SimpleResponseDto<void>> {
+        return this.api.unpublish(newsUnpublishMapper(entity));
     }
 }

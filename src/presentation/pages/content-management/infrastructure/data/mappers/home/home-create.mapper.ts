@@ -21,10 +21,8 @@ export function homeCreateMapper(
         params.title = entity.title;
     }
     if (entity.platforms.length > 0) {
-        console.log('entity.platforms: TYPEOF', entity.platforms);
-        console.log('entity.platforms: ', entity.platforms);
         params.platforms = entity.platforms.map((p) =>
-            platformMapper.mapToDto(p)
+            platformMapper.mapStringToDto(p)
         );
     }
     if (entity.title) {

@@ -1,8 +1,12 @@
 export interface NewsUpdateApiDto {
     id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    role: string;
+    type: string;
+    image_file: File | string;
+    video_url: string;
+    category: string;
+    sub_category: string;
+    hashtags: string[];
+    title: string;
+    resume: string;
+    content: string;
 }

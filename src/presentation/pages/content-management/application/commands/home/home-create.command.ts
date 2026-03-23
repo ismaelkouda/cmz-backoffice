@@ -1,9 +1,7 @@
-import { Platform } from '@shared/domain/enums/platform.enum';
-
 export class HomeCreateCommand {
     constructor(
         public readonly image: File | null | string,
-        public readonly platforms: Platform[],
+        public readonly platforms: string[],
         public readonly startDate: Date | null,
         public readonly endDate: Date | null,
         public readonly title: string,

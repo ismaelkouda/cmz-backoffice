@@ -626,6 +626,18 @@
                     "FILE_TOO_LARGE": "Fichier trop volumineux. Max. {maxSize}MB",
                     "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour des Infos & Actualités",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet Infos & Actualités ?",
+                "TITLE_CREATE": "Création des Infos & Actualités",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cet Infos & Actualités ?",
+                "TITLE_DELETE": "Suppression des Infos & Actualités",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet Infos & Actualités ?",
+                "TITLE_PUBLISH": "Publication des Infos & Actualités",
+                "MESSAGE_PUBLISH": "Voulez-vous vraiment publier cet Infos & Actualités ?",
+                "TITLE_UNPUBLISH": "Dépublication des Infos & Actualités",
+                "MESSAGE_UNPUBLISH": "Voulez-vous vraiment dépublier cet Infos & Actualités ?"
             }
         },
         "SLIDE": {

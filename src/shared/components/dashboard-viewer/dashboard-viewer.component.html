@@ -65,27 +65,26 @@
                             </h3>
                             <p>{{ loadingDescription() | translate }}</p>
                         </div>
-                    }@else if (error()) {
+                    } @else if (error()) {
                         <div class="error-state">
                             <div class="error-icon">
                                 <i class="pi pi-exclamation-triangle"></i>
                             </div>
-                            <h3>{{ 'COMMON.ERROR_GRAFANA_DASHBOARD' | translate }}</h3>
+                            <h3>
+                                {{
+                                    'COMMON.ERROR_GRAFANA_DASHBOARD' | translate
+                                }}
+                            </h3>
                             <p>{{ errorDescription() | translate }}</p>
                             <button
                                 pButton
                                 icon="pi pi-refresh"
-                                label="{{
-                                    'COMMON.RETRY'
-                                        | translate
-                                }}"
+                                label="{{ 'COMMON.RETRY' | translate }}"
                                 (click)="handleRefreshDashboard()"
                                 class="p-button-primary"
                             ></button>
                         </div>
-                    }
-
-                    @else {
+                    } @else {
                         <div
                             class="grafana-container"
                             [class.fullscreen]="isFullscreen()"

@@ -9,19 +9,6 @@ export class SlideCreateHandler {
     constructor(private readonly useCase: SlideUseCase) {}
 
     execute(command: SlideCreateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            timeDuration: command.timeDuration,
-            type: command.type,
-            image: command.image,
-            video: command.video,
-            platforms: command.platforms,
-            startDate: command.startDate,
-            endDate: command.endDate,
-            title: command.title,
-            subtitle: command.subtitle,
-            content: command.content,
-            buttonLabel: command.buttonLabel,
-            buttonUrl: command.buttonUrl,
-        });
+        return this.useCase.create({ ...command });
     }
 }

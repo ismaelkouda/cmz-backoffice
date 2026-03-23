@@ -1,37 +1,50 @@
 import { NewsUpdateDto } from '@pages/content-management/application/dto/news/news-update.dto';
+import { NewsUpdateProps } from '@pages/content-management/domain/interfaces/news/news-update-props.interface';
 
 export class NewsUpdateVo {
-    public readonly uniqId: string;
-    public readonly firstName: string;
-    public readonly lastName: string;
-    public readonly email: string;
-    public readonly phone: string;
-    public readonly role: string;
+    constructor(private readonly props: NewsUpdateProps) {}
 
-    constructor(props: {
-        uniqId: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-        role: string;
-    }) {
-        this.uniqId = props.uniqId;
-        this.firstName = props.firstName;
-        this.lastName = props.lastName;
-        this.email = props.email;
-        this.phone = props.phone;
-        this.role = props.role;
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+
+    get type(): string {
+        return this.props.type;
+    }
+
+    get image(): File | null | string {
+        return this.props.image;
+    }
+
+    get video(): string | null {
+        return this.props.video;
+    }
+
+    get category(): string {
+        return this.props.category;
+    }
+
+    get subCategory(): string {
+        return this.props.subCategory;
+    }
+
+    get hashtags(): string[] {
+        return this.props.hashtags;
+    }
+
+    get title(): string {
+        return this.props.title;
+    }
+
+    get resume(): string {
+        return this.props.resume;
+    }
+
+    get content(): string {
+        return this.props.content;
     }
 
     static fromDto(dto: NewsUpdateDto): NewsUpdateVo {
-        return new NewsUpdateVo({
-            uniqId: dto.uniqId,
-            firstName: dto.firstName,
-            lastName: dto.lastName,
-            email: dto.email,
-            phone: dto.phone,
-            role: dto.role,
-        });
+        return new NewsUpdateVo(dto);
     }
 }

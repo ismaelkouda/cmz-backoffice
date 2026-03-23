@@ -1,4 +1,3 @@
-
 <main class="container-fluid form-news-container" role="main">
     <section class="row form-news-row">
         <article class="col-sm-12 form-news-article">
@@ -15,9 +14,9 @@
                                 [title]="
                                     isEditMode()
                                         ? ('CONTENT_MANAGEMENT.NEWS.FORM.TITLE_FORM_EDIT'
-                                            | translate)
+                                          | translate)
                                         : ('CONTENT_MANAGEMENT.NEWS.FORM.TITLE_FORM_ADD'
-                                            | translate)
+                                          | translate)
                                 "
                             >
                             </app-page-title>
@@ -41,35 +40,77 @@
                                     >
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{ 'CONTENT_MANAGEMENT.NEWS.FORM.MEDIA_DISPLAY' | translate }}</b>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.NEWS.FORM.MEDIA_DISPLAY'
+                                                        | translate
+                                                }}</b>
                                             </legend>
-                                            <div class="row g-3 align-items-center">
-
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
                                                 <div class="col-md-3">
-                                                    <label for="type" class="form-label fw-bold">
-                                                        {{'CONTENT_MANAGEMENT.NEWS.FORM.TYPE' | translate}}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="type"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.TYPE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <p-select
                                                         class="form-p-select mb-4"
-                                                        [options]="typeOptions()"
+                                                        [options]="
+                                                            typeOptions()
+                                                        "
                                                         formControlName="type"
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         styleClass="w-100"
-                                                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                                                        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.NEWS.FORM.TYPE' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('type')"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.TYPE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'type'
+                                                            )
+                                                        "
                                                     />
                                                 </div>
 
                                                 @if (isVideoMode()) {
-                                                    <div class="fade-in col-md-6">
-                                                        <label for="video" class="form-label fw-bold">
-                                                            {{ 'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO' | translate }}
-                                                            <span class="text-danger">*</span>
+                                                    <div
+                                                        class="fade-in col-md-6"
+                                                    >
+                                                        <label
+                                                            for="video"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
                                                         </label>
 
                                                         <input
@@ -77,22 +118,60 @@
                                                             class="form-input"
                                                             formControlName="video"
                                                             [placeholder]="'https://youtube.com/watch?v=... ou https://vimeo.com/...'"
-                                                            [attr.maxlength]="allowed.VIDEO.MAX"
-                                                            [attr.aria-label]="'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO' | translate"
-                                                            [attr.aria-invalid]="isFieldInvalid('video')"
+                                                            [attr.maxlength]="
+                                                                allowed.VIDEO
+                                                                    .MAX
+                                                            "
+                                                            [attr.aria-label]="
+                                                                'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                isFieldInvalid(
+                                                                    'video'
+                                                                )
+                                                            "
                                                         />
-                                                        <div class="d-flex justify-content-between align-items-center">
-
-                                                            @if (isFieldInvalid('video')) {
-                                                                <small class="text-danger d-block mt-1">
-                                                                {{ getErrorMessage('video') }}
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center"
+                                                        >
+                                                            @if (
+                                                                isFieldInvalid(
+                                                                    'video'
+                                                                )
+                                                            ) {
+                                                                <small
+                                                                    class="text-danger d-block mt-1"
+                                                                >
+                                                                    {{
+                                                                        getErrorMessage(
+                                                                            'video'
+                                                                        )
+                                                                    }}
                                                                 </small>
                                                             }
-                                                            <div class="d-flex align-items-center gap-2 ms-auto">
-                                                                @let video = form.controls.video.value;
-                                                                <div class="video-indicator">
-                                                                    <small class="video-value text-muted ms-2">
-                                                                        {{ video.length || 0 }}/{{ allowed.VIDEO.MAX }}s
+                                                            <div
+                                                                class="d-flex align-items-center gap-2 ms-auto"
+                                                            >
+                                                                @let video =
+                                                                    form
+                                                                        .controls
+                                                                        .video
+                                                                        .value;
+                                                                <div
+                                                                    class="video-indicator"
+                                                                >
+                                                                    <small
+                                                                        class="video-value text-muted ms-2"
+                                                                    >
+                                                                        {{
+                                                                            video.length ||
+                                                                                0
+                                                                        }}/{{
+                                                                            allowed
+                                                                                .VIDEO
+                                                                                .MAX
+                                                                        }}s
                                                                     </small>
                                                                 </div>
                                                             </div>
@@ -100,19 +179,39 @@
                                                     </div>
                                                 }
                                                 @if (isImageMode()) {
-                                                    <div class="fade-in col-md-6 mt-0">
+                                                    <div
+                                                        class="fade-in col-md-6 mt-0"
+                                                    >
                                                         <div class="image">
-                                                            <label for="image" class="form-label fw-bold">
-                                                                {{ 'CONTENT_MANAGEMENT.NEWS.FORM.IMAGE' | translate }}
-                                                                <span class="text-danger">*</span>
+                                                            <label
+                                                                for="image"
+                                                                class="form-label fw-bold"
+                                                            >
+                                                                {{
+                                                                    'CONTENT_MANAGEMENT.NEWS.FORM.IMAGE'
+                                                                        | translate
+                                                                }}
+                                                                <span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                >
                                                             </label>
 
                                                             <app-image-upload
                                                                 id="image"
                                                                 formControlName="image"
-                                                                (viewImage)="openImagePreview()"
-                                                                (imageSelected)="onImageSelected($event)"
-                                                                (imageCleared)="onImageCleared()">
+                                                                (viewImage)="
+                                                                    openImagePreview()
+                                                                "
+                                                                (imageSelected)="
+                                                                    onImageSelected(
+                                                                        $event
+                                                                    )
+                                                                "
+                                                                (imageCleared)="
+                                                                    onImageCleared()
+                                                                "
+                                                            >
                                                             </app-image-upload>
                                                         </div>
                                                     </div>
@@ -129,97 +228,235 @@
                                             </legend>
                                             <div class="row g-3">
                                                 <div class="col-md-3">
-                                                    <label for="category" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY' | translate }}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="category"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <p-select
                                                         class="form-p-select"
-                                                        [options]="store.categories()"
-                                                        [loading]="store.loadingCategories()"
+                                                        [options]="
+                                                            store.categories()
+                                                        "
+                                                        [loading]="
+                                                            store.loadingCategories()
+                                                        "
                                                         formControlName="category"
                                                         optionLabel="name"
                                                         optionValue="value"
                                                         styleClass="w-100"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY_PLACEHOLDER' | translate"
-                                                        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                                                        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('category')"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.CATEGORY'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'category'
+                                                            )
+                                                        "
                                                         [showClear]="true"
                                                     />
-                                                    @if (isFieldInvalid('category')) {
-                                                        <small class="text-danger d-block mt-1">
-                                                            {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                                                    @if (
+                                                        isFieldInvalid(
+                                                            'category'
+                                                        )
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}
                                                         </small>
                                                     }
                                                 </div>
 
                                                 <div class="col-md-4">
-                                                    <label for="subCategory" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY' | translate }}
+                                                    <label
+                                                        for="subCategory"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY'
+                                                                | translate
+                                                        }}
                                                     </label>
                                                     <p-select
                                                         class="form-p-select"
-                                                        [options]="store.subCategories()"
-                                                        [loading]="store.loadingNewsSubCategories()"
+                                                        [options]="
+                                                            store.subCategories()
+                                                        "
+                                                        [loading]="
+                                                            store.loadingNewsSubCategories()
+                                                        "
                                                         formControlName="subCategory"
                                                         optionLabel="name"
                                                         optionValue="value"
                                                         styleClass="w-100"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY_PLACEHOLDER' | translate"
-                                                        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                                                        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('subCategory')"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.SUB_CATEGORY'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'subCategory'
+                                                            )
+                                                        "
                                                         [showClear]="true"
                                                     />
-                                                    @if (!form.controls.category.value) {
-                                                        <small class="text-muted d-block mt-1">
-                                                            <i class="pi pi-info-circle me-1"></i>
-                                                            {{ 'CONTENT_MANAGEMENT.NEWS.FORM.SELECT_CATEGORY_FIRST' | translate }}
+                                                    @if (
+                                                        !form.controls.category
+                                                            .value
+                                                    ) {
+                                                        <small
+                                                            class="text-muted d-block mt-1"
+                                                        >
+                                                            <i
+                                                                class="pi pi-info-circle me-1"
+                                                            ></i>
+                                                            {{
+                                                                'CONTENT_MANAGEMENT.NEWS.FORM.SELECT_CATEGORY_FIRST'
+                                                                    | translate
+                                                            }}
                                                         </small>
-                                                    } @else if (store.subCategories().length === 0) {
-                                                        <small class="text-muted d-block mt-1">
-                                                            <i class="pi pi-info-circle me-1"></i>
-                                                            {{ 'CONTENT_MANAGEMENT.NEWS.FORM.NO_SUB_CATEGORIES' | translate }}
+                                                    } @else if (
+                                                        store.subCategories()
+                                                            .length === 0
+                                                    ) {
+                                                        <small
+                                                            class="text-muted d-block mt-1"
+                                                        >
+                                                            <i
+                                                                class="pi pi-info-circle me-1"
+                                                            ></i>
+                                                            {{
+                                                                'CONTENT_MANAGEMENT.NEWS.FORM.NO_SUB_CATEGORIES'
+                                                                    | translate
+                                                            }}
                                                         </small>
                                                     }
                                                 </div>
 
                                                 <div class="col-md-5">
-                                                    <label for="hashtags" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS' | translate }}
-                                                        @if (store.isEditMode()) {
-                                                            <small class="text-muted">({{ store.hashtagsArray.length }} / 10)</small>
+                                                    <label
+                                                        for="hashtags"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS'
+                                                                | translate
+                                                        }}
+                                                        @if (
+                                                            store.isEditMode()
+                                                        ) {
+                                                            <small
+                                                                class="text-muted"
+                                                                >({{
+                                                                    store
+                                                                        .hashtagsArray
+                                                                        .length
+                                                                }}
+                                                                / 10)</small
+                                                            >
                                                         }
                                                     </label>
-                                                    
+
                                                     <app-hashtags-input
-                                                        [formControl]="store.hashtagsArray"
-                                                        [label]="'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS' | translate"
+                                                        formControlName="hashtags"
+                                                        [label]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.HASHTAGS'
+                                                                | translate
+                                                        "
                                                         [required]="true"
                                                         [minHashtags]="1"
                                                         [maxHashtags]="10"
-                                                        [showStats]="true"
-                                                        (hashtagsChanged)="onHashtagsChanged($event)"
-                                                        (hashtagAdded)="onHashtagAdded($event)"
-                                                        (hashtagRemoved)="onHashtagRemoved($event)"
-                                                        (hashtagsCleared)="onHashtagsCleared()"
                                                     ></app-hashtags-input>
-    
-                                                    @if (store.hashtagsArray.invalid && store.hashtagsArray.touched) {
-                                                        <small class="text-danger d-block mt-1">
-                                                            @if (store.hashtagsArray.errors?.['minHashtags']) {
-                                                                {{ 'VALIDATION.AT_LEAST_ONE_HASHTAG' | translate }}
+
+                                                    @if (
+                                                        store.hashtagsArray
+                                                            .invalid &&
+                                                        store.hashtagsArray
+                                                            .touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            @if (
+                                                                store
+                                                                    .hashtagsArray
+                                                                    .errors?.[
+                                                                    'minHashtags'
+                                                                ]
+                                                            ) {
+                                                                {{
+                                                                    'VALIDATION.AT_LEAST_ONE_HASHTAG'
+                                                                        | translate
+                                                                }}
                                                             }
-                                                            @if (store.hashtagsArray.errors?.['maxHashtags']) {
-                                                                {{ 'VALIDATION.MAX_HASHTAGS_EXCEEDED' | translate: {
-                                                                    max: store.hashtagsArray.errors['maxHashtags'].max
-                                                                } }}
+                                                            @if (
+                                                                store
+                                                                    .hashtagsArray
+                                                                    .errors?.[
+                                                                    'maxHashtags'
+                                                                ]
+                                                            ) {
+                                                                {{
+                                                                    'VALIDATION.MAX_HASHTAGS_EXCEEDED'
+                                                                        | translate
+                                                                            : {
+                                                                                  max: store
+                                                                                      .hashtagsArray
+                                                                                      .errors[
+                                                                                      'maxHashtags'
+                                                                                  ]
+                                                                                      .max,
+                                                                              }
+                                                                }}
                                                             }
-                                                            @if (store.hashtagsArray.errors?.['duplicateHashtags']) {
-                                                                {{ 'VALIDATION.DUPLICATE_HASHTAGS' | translate }}
+                                                            @if (
+                                                                store
+                                                                    .hashtagsArray
+                                                                    .errors?.[
+                                                                    'duplicateHashtags'
+                                                                ]
+                                                            ) {
+                                                                {{
+                                                                    'VALIDATION.DUPLICATE_HASHTAGS'
+                                                                        | translate
+                                                                }}
                                                             }
                                                         </small>
                                                     }
@@ -229,34 +466,89 @@
 
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{ 'CONTENT_MANAGEMENT.NEWS.FORM.GENERAL_INFO' | translate }}</b>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.NEWS.FORM.GENERAL_INFO'
+                                                        | translate
+                                                }}</b>
                                             </legend>
-                                            <div class="row g-3 align-items-center">
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
                                                 <div class="col-md-12">
-                                                    <label for="title" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.TITLE' | translate }}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="title"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.TITLE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <input
                                                         id="title"
                                                         class="form-input"
                                                         formControlName="title"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.TITLE_PLACEHOLDER' | translate"
-                                                        [attr.maxlength]="allowed.TITLE.MAX"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.NEWS.FORM.TITLE' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('title')"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.TITLE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            allowed.TITLE.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.TITLE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'title'
+                                                            )
+                                                        "
                                                     />
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('title')) {
-                                                            <small class="text-danger d-block mt-1" role="alert">
-                                                            {{ getErrorMessage('title') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'title'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'title'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
-                                                        <div class="d-flex align-items-center gap-2 ms-auto">
-                                                            @let title = form.controls.title.value;
-                                                            <div class="title-indicator">
-                                                                <small class="title-value text-muted ms-2">
-                                                                    {{ title.length || 0 }}/{{ allowed.TITLE.MAX }}
+                                                        <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let title =
+                                                                form.controls
+                                                                    .title
+                                                                    .value;
+                                                            <div
+                                                                class="title-indicator"
+                                                            >
+                                                                <small
+                                                                    class="title-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        title.length ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .TITLE
+                                                                            .MAX
+                                                                    }}
                                                                 </small>
                                                             </div>
                                                         </div>
@@ -264,9 +556,18 @@
                                                 </div>
 
                                                 <div class="col-md-12">
-                                                    <label for="resume" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.RESUME' | translate }}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="resume"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.RESUME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <textarea
                                                         id="resume"
@@ -275,49 +576,134 @@
                                                         cols="30"
                                                         pTextarea
                                                         class="form-p-textarea w-100"
-                                                        [invalid]="isFieldInvalid('resume')"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.RESUME_PLACEHOLDER' | translate"
-                                                        [attr.maxlength]="allowed.RESUME.MAX"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.NEWS.FORM.RESUME' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('resume')"
+                                                        [invalid]="
+                                                            isFieldInvalid(
+                                                                'resume'
+                                                            )
+                                                        "
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.RESUME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            allowed.RESUME.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.RESUME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'resume'
+                                                            )
+                                                        "
                                                     ></textarea>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('resume')) {
-                                                            <small class="text-danger d-block mt-1" role="alert">
-                                                            {{ getErrorMessage('resume') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'resume'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'resume'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
-                                                        <div class="d-flex align-items-center gap-2 ms-auto">
-                                                            @let resume = form.controls.resume.value;
-                                                                <div class="resume-indicator">
-                                                                    <small class="resume-value text-muted ms-2">
-                                                                        {{ resume.length || 0 }}/{{ allowed.RESUME.MAX }}
-                                                                    </small>
-                                                                </div>
+                                                        <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let resume =
+                                                                form.controls
+                                                                    .resume
+                                                                    .value;
+                                                            <div
+                                                                class="resume-indicator"
+                                                            >
+                                                                <small
+                                                                    class="resume-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        resume.length ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .RESUME
+                                                                            .MAX
+                                                                    }}
+                                                                </small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-12">
-                                                    <label for="content" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.NEWS.FORM.DESCRIPTION' | translate }}
-                                                        <span class="text-danger">*</span>
+                                                    <label
+                                                        for="content"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.DESCRIPTION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
                                                     <p-editor
                                                         id="content"
                                                         formControlName="content"
-                                                        [invalid]="isFieldInvalid('content')"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.NEWS.FORM.CONTENT_PLACEHOLDER' | translate"
-                                                        [attr.maxlength]="allowed.CONTENT.MAX"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.NEWS.FORM.CONTENT' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('resume')"
-                                                        [style]="{ height: '200px' }"
+                                                        [invalid]="
+                                                            isFieldInvalid(
+                                                                'content'
+                                                            )
+                                                        "
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.CONTENT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            allowed.CONTENT.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.NEWS.FORM.CONTENT'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'resume'
+                                                            )
+                                                        "
+                                                        [style]="{
+                                                            height: '200px',
+                                                        }"
                                                     />
 
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('content')) {
-                                                            <small class="text-danger d-block mt-1" role="alert">
-                                                            {{ getErrorMessage('content') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'content'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'content'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
                                                     </div>
@@ -325,18 +711,29 @@
                                             </div>
                                         </fieldset>
 
-                                        <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
                                             <p-button
-                                                [label]="'COMMON.CANCEL' | translate"
+                                                [label]="
+                                                    'COMMON.CANCEL' | translate
+                                                "
                                                 styleClass="p-button-text p-button-secondary"
                                                 (onClick)="navigateToBack()"
                                             />
 
                                             <p-button
                                                 type="submit"
-                                                [label]="'COMMON.SAVE' | translate"
-                                                [disabled]="form.invalid || loadingSubmit()"
-                                                [attr.aria-label]="'COMMON.SAVE' | translate"
+                                                [label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
+                                                [attr.aria-label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
                                             />
                                         </div>
                                     </form>
@@ -350,7 +747,6 @@
     </section>
 </main>
 
-
 <app-image-preview-dialog
     [visible]="previewVisible()"
     [imageData]="previewImageData()"
@@ -359,19 +755,19 @@
 />
 
 <app-image-crop-dialog
-  [visible]="imageStore.cropperIsOpen()"
-  [sourceFile]="imageStore.cropperSourceFile()"
-  [rotation]="imageStore.cropperRotation()"
-  [flipH]="imageStore.cropperFlipH()"
-  [flipV]="imageStore.cropperFlipV()"
-  [isLoading]="imageStore.cropperStatus() === 'loading'"
-  (imageCropped)="onCropConfirmed($event)"
-  (cropCancelled)="onCropCancelled()"
-  (imageLoaded)="imageStore.onCropperImageLoaded()"
-  (loadFailed)="onCropImageLoadFailed()"
-  (rotateLeft)="imageStore.rotateCropper('left')"
-  (rotateRight)="imageStore.rotateCropper('right')"
-  (flipHorizontal)="imageStore.flipCropperHorizontal()"
-  (flipVertical)="imageStore.flipCropperVertical()"
-  (resetTransforms)="imageStore.resetCropperTransforms()"
+    [visible]="imageStore.cropperIsOpen()"
+    [sourceFile]="imageStore.cropperSourceFile()"
+    [rotation]="imageStore.cropperRotation()"
+    [flipH]="imageStore.cropperFlipH()"
+    [flipV]="imageStore.cropperFlipV()"
+    [isLoading]="imageStore.cropperStatus() === 'loading'"
+    (imageCropped)="onCropConfirmed($event)"
+    (cropCancelled)="onCropCancelled()"
+    (imageLoaded)="imageStore.onCropperImageLoaded()"
+    (loadFailed)="onCropImageLoadFailed()"
+    (rotateLeft)="imageStore.rotateCropper('left')"
+    (rotateRight)="imageStore.rotateCropper('right')"
+    (flipHorizontal)="imageStore.flipCropperHorizontal()"
+    (flipVertical)="imageStore.flipCropperVertical()"
+    (resetTransforms)="imageStore.resetCropperTransforms()"
 />

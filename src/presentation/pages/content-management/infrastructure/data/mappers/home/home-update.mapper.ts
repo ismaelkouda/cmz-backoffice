@@ -14,6 +14,11 @@ export function homeUpdateMapper(
     if (entity.image) {
         params.image_file = entity.image;
     }
+    if (entity.platforms.length > 0) {
+        params.platforms = entity.platforms.map((p: string) =>
+            platformMapper.mapStringToDto(p)
+        );
+    }
     if (entity.startDate) {
         params.start_date = entity.startDate;
     }
@@ -22,11 +27,6 @@ export function homeUpdateMapper(
     }
     if (entity.title) {
         params.title = entity.title;
-    }
-    if (entity.platforms.length > 0) {
-        params.platforms = entity.platforms.map((p) =>
-            platformMapper.mapToDto(p)
-        );
     }
     if (entity.title) {
         params.title = entity.title;

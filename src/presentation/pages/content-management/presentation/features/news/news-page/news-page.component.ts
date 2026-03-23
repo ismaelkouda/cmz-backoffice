@@ -85,7 +85,6 @@ export class NewsPageComponent implements OnInit {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptions(Status, this.t.bind(this));
@@ -160,7 +159,6 @@ export class NewsPageComponent implements OnInit {
             nonNullable: true,
         }),
     });
-
     constructor() {
         this.facade.readAll();
         this.translate.onLangChange
@@ -177,7 +175,6 @@ export class NewsPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.title.setTitle(this.t('CONTENT_MANAGEMENT.NEWS.PAGE_TITLE'));
-
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
@@ -245,14 +242,14 @@ export class NewsPageComponent implements OnInit {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_ENABLE'),
-            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_ENABLE')}`,
+            title: this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_PUBLISH'),
+            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_PUBLISH')}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.enable({ uniqId: item.uniqId });
+                this.facade.publish({ uniqId: item.uniqId });
             }
         });
     }
@@ -263,13 +260,15 @@ export class NewsPageComponent implements OnInit {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_DISABLE'),
-            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_DISABLE')}`,
+            title: this.t(
+                'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_UNPUBLISH'
+            ),
+            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_UNPUBLISH')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.facade.disable({ uniqId: item.uniqId });
+                this.facade.unpublish({ uniqId: item.uniqId });
             }
         });
     }
@@ -284,7 +283,7 @@ export class NewsPageComponent implements OnInit {
         this.exportService.exportAsExcelFile(
             items,
             this.tableConfig,
-            `${this.exportFilePrefix}-participants`
+            `${this.exportFilePrefix}-news`
         );
     }
 

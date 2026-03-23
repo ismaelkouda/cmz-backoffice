@@ -1,4 +1,11 @@
-import { Injectable, inject, signal, computed, effect } from '@angular/core';
+import {
+    Injectable,
+    inject,
+    signal,
+    computed,
+    effect,
+    untracked,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
     AbstractControl,
@@ -17,10 +24,14 @@ import { ImageUploadStateService } from '@shared/components/image-upload/domain/
 import { PLATFORM_ASPECT_RATIOS } from '@shared/components/image-upload/domain/types/image-upload.types';
 import { Platform } from '@shared/domain/enums/platform.enum';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
+import { MediaValue } from '@shared/domain/types/media.types';
 
 export type CropperStatus = 'idle' | 'loading' | 'ready' | 'cropping' | 'error';
 const VIDEO = getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO) as string;
 const IMAGE = getEnumKeyByValue(TypeMedia, TypeMedia.IMAGE) as string;
+const WEB = getEnumKeyByValue(Platform, Platform.WEB) as Platform;
+const PWA = getEnumKeyByValue(Platform, Platform.PWA) as Platform;
+const MOBILE = getEnumKeyByValue(Platform, Platform.MOBILE) as Platform;
 
 @Injectable()
 export class SlideFormStore {
@@ -29,30 +40,23 @@ export class SlideFormStore {
     private readonly imageStore = inject(ImageUploadStateService);
 
     private readonly isPatching = signal(false);
+    private readonly imageError = signal<string | null>(null);
 
     readonly form: FormGroup<SlideFormControl> = this.createForm();
+
+    public readonly isEditMode = signal(false);
 
     readonly typeControl = toSignal(this.form.controls.type.valueChanges, {
         initialValue: this.form.controls.type.value,
     });
 
-    public readonly isEditMode = signal(false);
-
-    public readonly isVideoMode = computed(() => {
-        const type = this.typeControl();
-        return type === VIDEO;
-    });
-    public readonly isImageMode = computed(() => {
-        const type = this.typeControl();
-        return type === IMAGE;
-    });
     public readonly selectedPlatforms = computed(
         () => this.form.controls.platforms.value
     );
     public readonly activeCropAspectRatio = computed((): number => {
         const platforms = this.selectedPlatforms();
         if (!platforms?.length) {
-            return PLATFORM_ASPECT_RATIOS[Platform.WEB];
+            return PLATFORM_ASPECT_RATIOS[WEB];
         }
 
         const ratios = platforms.map((p) => PLATFORM_ASPECT_RATIOS[p]);
@@ -62,28 +66,30 @@ export class SlideFormStore {
             return ratios[0];
         }
 
-        if (platforms.includes(Platform.MOBILE)) {
-            return PLATFORM_ASPECT_RATIOS[Platform.MOBILE];
+        if (platforms.includes(MOBILE)) {
+            return PLATFORM_ASPECT_RATIOS[MOBILE];
         }
-        if (platforms.includes(Platform.PWA)) {
-            return PLATFORM_ASPECT_RATIOS[Platform.PWA];
+        if (platforms.includes(PWA)) {
+            return PLATFORM_ASPECT_RATIOS[PWA];
         }
-        return PLATFORM_ASPECT_RATIOS[Platform.WEB];
+        return PLATFORM_ASPECT_RATIOS[WEB];
+    });
+    public readonly isImageReady = computed(() => {
+        return this.imageStore.hasCroppedImage() || !!this.imageError();
+    });
+    public readonly imageErrorMessage = computed(() => this.imageError());
+
+    public readonly isVideoMode = computed(() => {
+        const type = this.typeControl();
+        return type === VIDEO;
+    });
+    public readonly isImageMode = computed(() => {
+        const type = this.typeControl();
+        return type === IMAGE;
     });
 
     private readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
-
-    private readonly patchItemEffect = effect(() => {
-        const item = this.item();
-        if (!item) {
-            return;
-        }
-
-        this.isPatching.set(true);
-        this.form.patchValue({ ...item });
-        queueMicrotask(() => this.isPatching.set(false));
-    });
 
     private readonly typeMediaEffect = effect(() => {
         if (this.isPatching()) {
@@ -93,95 +99,202 @@ export class SlideFormStore {
         if (!type) {
             return;
         }
-        this.resetMediaFields(type);
-        this.updateValidatorsByType(type);
+        untracked(() => {
+            this.handleTypeChange(type);
+        });
     });
 
+    private handleTypeChange(type: string): void {
+        this.resetMediaFields(type);
+        this.updateValidatorsByType(type);
+    }
+
+    private readonly patchItemEffect = effect(() => {
+        const item = this.item();
+        if (!item) {
+            return;
+        }
+        this.isPatching.set(true);
+        this.form.patchValue(
+            {
+                timeDuration: item.timeDuration,
+                type: item.type,
+                video: item.video,
+                title: item.title,
+                subtitle: item.subtitle,
+                content: item.content,
+                buttonLabel: item.buttonLabel,
+                buttonUrl: item.buttonUrl,
+                platforms: item.platforms,
+                startDate: item.startDate,
+                endDate: item.endDate,
+            },
+            { emitEvent: false }
+        );
+        if (item.image) {
+            this.handleExistingImage(item.image);
+        } else {
+            this.resetImage();
+        }
+        queueMicrotask(() => this.isPatching.set(false));
+    });
+
+    private async handleExistingImage(url: string): Promise<void> {
+        try {
+            const mediaValue: MediaValue = {
+                type: 'remote',
+                url: url,
+            };
+
+            this.form.controls.image.setValue(mediaValue, { emitEvent: false });
+            await this.imageStore.hydrateExistingImage(url);
+
+            if (!this.imageStore.hasCroppedImage()) {
+                throw new Error(
+                    'Image hydration failed - no preview available'
+                );
+            }
+
+            this.imageError.set(null);
+        } catch (error) {
+            console.error('❌ Failed to handle existing image:', error);
+            this.imageError.set('CONTENT_MANAGEMENT.SLIDE.IMAGE_LOAD_ERROR');
+            this.form.controls.image.setErrors({ imageLoadFailed: true });
+        }
+    }
+
     private createForm(): FormGroup<SlideFormControl> {
-        return this.fb.nonNullable.group<SlideFormControl>({
-            timeDuration: new FormControl(5, {
-                nonNullable: true,
+        return this.fb.nonNullable.group<SlideFormControl>(
+            {
+                timeDuration: new FormControl(5, {
+                    nonNullable: true,
+                    validators: [
+                        Validators.required,
+                        Validators.min(FormValidators.TIME_DURATION.MIN),
+                        Validators.max(FormValidators.TIME_DURATION.MAX),
+                    ],
+                }),
+                type: new FormControl(IMAGE, {
+                    nonNullable: true,
+                    validators: [Validators.required],
+                }),
+                title: new FormControl('', {
+                    nonNullable: true,
+                    validators: [
+                        Validators.required,
+                        Validators.minLength(FormValidators.TITLE.MIN),
+                        Validators.maxLength(FormValidators.TITLE.MAX),
+                        Validators.pattern(FormValidators.TITLE.PATTERN),
+                    ],
+                }),
+                subtitle: new FormControl('', {
+                    nonNullable: true,
+                    validators: [
+                        Validators.required,
+                        Validators.minLength(FormValidators.SUBTITLE.MIN),
+                        Validators.maxLength(FormValidators.SUBTITLE.MAX),
+                        Validators.pattern(FormValidators.SUBTITLE.PATTERN),
+                    ],
+                }),
+                content: new FormControl('', {
+                    nonNullable: true,
+                    validators: [
+                        Validators.required,
+                        Validators.minLength(FormValidators.CONTENT.MIN),
+                        this.htmlContentMaxLengthValidator(
+                            FormValidators.CONTENT.STRIP_HTML_MAX
+                        ),
+                    ],
+                }),
+                image: new FormControl(null, {
+                    validators: [Validators.required],
+                }),
+                video: new FormControl('', {
+                    nonNullable: true,
+                }),
+                buttonLabel: new FormControl('', {
+                    nonNullable: true,
+                    validators: [
+                        Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
+                        Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
+                        Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
+                    ],
+                }),
+                buttonUrl: new FormControl('', {
+                    nonNullable: true,
+                    validators: [
+                        Validators.maxLength(FormValidators.BUTTON_URL.MAX),
+                        Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
+                    ],
+                }),
+                platforms: new FormControl([], {
+                    nonNullable: true,
+                    validators: [Validators.required],
+                }),
+                startDate: new FormControl<Date | null>(null, {
+                    nonNullable: true,
+                }),
+                endDate: new FormControl<Date | null>(null, {
+                    nonNullable: true,
+                }),
+            },
+            {
                 validators: [
-                    Validators.required,
-                    Validators.min(FormValidators.TIME_DURATION.MIN),
-                    Validators.max(FormValidators.TIME_DURATION.MAX),
+                    this.buttonFieldsConsistencyValidator(),
+                    this.typeMediaConsistencyValidator(),
                 ],
-            }),
-            type: new FormControl(IMAGE, {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-            title: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.TITLE.MIN),
-                    Validators.maxLength(FormValidators.TITLE.MAX),
-                    Validators.pattern(FormValidators.TITLE.PATTERN),
-                ],
-            }),
-            subtitle: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.SUBTITLE.MIN),
-                    Validators.maxLength(FormValidators.SUBTITLE.MAX),
-                    Validators.pattern(FormValidators.SUBTITLE.PATTERN),
-                ],
-            }),
+            }
+        );
+    }
 
-            content: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.CONTENT.MIN),
-                    this.htmlContentMaxLengthValidator(
-                        FormValidators.CONTENT.STRIP_HTML_MAX
-                    ),
-                ],
-            }),
+    private buttonFieldsConsistencyValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const label = control.get('buttonLabel')?.value?.trim() as string;
+            const url = control.get('buttonUrl')?.value?.trim() as string;
+            if (label && !url) {
+                return { buttonLabelWithoutUrl: true };
+            }
+            if (url && !label) {
+                return { buttonUrlWithoutLabel: true };
+            }
+            return null;
+        };
+    }
 
-            image: new FormControl(null, {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
+    private typeMediaConsistencyValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const type = control.get('type')?.value;
+            const image = control.get('image')?.value;
+            const video = control.get('video')?.value;
 
-            video: new FormControl('', {
-                nonNullable: true,
-            }),
+            if (type === IMAGE && !image) {
+                return { imageRequired: true };
+            }
+            if (type === VIDEO && !video) {
+                return { videoRequired: true };
+            }
+            return null;
+        };
+    }
 
-            buttonLabel: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
-                    Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
-                    Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
-                ],
-            }),
-
-            buttonUrl: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.maxLength(FormValidators.BUTTON_URL.MAX),
-                    Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
-                ],
-            }),
-
-            platforms: new FormControl([], {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-
-            startDate: new FormControl('', {
-                nonNullable: true,
-            }),
-
-            endDate: new FormControl('', {
-                nonNullable: true,
-            }),
-        });
+    private htmlContentMaxLengthValidator(maxLength: number): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (!control.value) {
+                return null;
+            }
+            const stripped = (control.value as string)
+                .replaceAll(/<[^>]*>/g, '')
+                .trim();
+            if (stripped.length > maxLength) {
+                return {
+                    htmlMaxLength: {
+                        actual: stripped.length,
+                        maxAllowed: maxLength,
+                    },
+                };
+            }
+            return null;
+        };
     }
 
     private updateValidatorsByType(type: string): void {
@@ -206,6 +319,27 @@ export class SlideFormStore {
         imageControl.updateValueAndValidity({ emitEvent: false });
     }
 
+    public getSubmitValue(uniqId?: string): any {
+        const raw = this.form.getRawValue();
+
+        const basePayload = {
+            ...raw,
+            image: this.transformImageForApi(raw.image),
+        };
+
+        return uniqId ? { ...basePayload, uniqId } : basePayload;
+    }
+
+    private transformImageForApi(
+        image: MediaValue | null
+    ): string | File | null {
+        if (!image) {
+            return null;
+        }
+
+        return image.type === 'remote' ? image.url : image.file;
+    }
+
     private resetMediaFields(type: string | undefined): void {
         if (!type) {
             return;
@@ -227,36 +361,61 @@ export class SlideFormStore {
         }
     }
 
+    public onImageSelected(file: File): void {
+        const mediaValue: MediaValue = {
+            type: 'local',
+            file: file,
+        };
+
+        this.form.controls.image.setValue(mediaValue);
+        this.imageStore.openCropper(file);
+        this.imageError.set(null);
+    }
+    public openCropperForExisting(): void {
+        if (this.imageStore.hasCroppedImage()) {
+            this.imageStore.openCropperWithExisting();
+        }
+    }
+    public onCropConfirmed(blob: Blob): void {
+        this.imageStore.confirmCrop(blob);
+        const file = this.imageStore.getCurrentFile();
+        if (file) {
+            const mediaValue: MediaValue = {
+                type: 'local',
+                file: file,
+            };
+
+            this.form.controls.image.setValue(mediaValue);
+            this.form.controls.image.markAsDirty();
+            this.form.controls.image.markAsTouched();
+            this.imageError.set(null);
+        }
+    }
+    public onCropCancelled(): void {
+        this.imageStore.abandonCrop();
+    }
+    public onImageCleared(): void {
+        this.resetImage();
+        this.form.controls.image.markAsTouched();
+    }
+    public getCurrentImageFile(): File | null {
+        return this.imageStore.getCurrentFile();
+    }
+    public isImageAvailable(): boolean {
+        return this.imageStore.hasCroppedImage();
+    }
+
+    private resetVideo(): void {
+        this.form.controls.video.reset('', { emitEvent: false });
+    }
+    private resetImage(): void {
+        this.form.controls.image.reset(null, { emitEvent: false });
+        this.imageStore.resetImage();
+        this.imageError.set(null);
+    }
+
     private resetImageStore(): void {
         this.imageStore.resetImage();
-    }
-
-    private htmlContentMaxLengthValidator(maxLength: number): ValidatorFn {
-        return (control: AbstractControl): ValidationErrors | null => {
-            if (!control.value) {
-                return null;
-            }
-            const stripped = (control.value as string)
-                .replaceAll(/<[^>]*>/g, '')
-                .trim();
-            if (stripped.length > maxLength) {
-                return {
-                    htmlMaxLength: {
-                        actual: stripped.length,
-                        maxAllowed: maxLength,
-                    },
-                };
-            }
-            return null;
-        };
-    }
-
-    public resetImage(): void {
-        this.form.controls.image.reset(null, { emitEvent: false });
-    }
-
-    public resetVideo(): void {
-        this.form.controls.video.reset('', { emitEvent: false });
     }
 
     public setEditMode(uniqId: string | null): void {
@@ -271,5 +430,16 @@ export class SlideFormStore {
         }
 
         this.facade.read({ uniqId }, true);
+    }
+
+    public reset(): void {
+        this.form.reset({
+            timeDuration: 5,
+        });
+        this.facade.reset();
+        this.resetImageStore();
+        this.imageError.set(null);
+        this.isEditMode.set(false);
+        this.isPatching.set(false);
     }
 }

@@ -22,4 +22,13 @@ export class PlatformMapper {
         };
         return methodMap[value];
     }
+
+    mapStringToDto(value: string): PlatformDto {
+        const methodMap: Record<string, PlatformDto> = {
+            mobile: PlatformDto.MOBILE,
+            web: PlatformDto.WEB,
+            pwa: PlatformDto.PWA,
+        };
+        return methodMap[value];
+    }
 }

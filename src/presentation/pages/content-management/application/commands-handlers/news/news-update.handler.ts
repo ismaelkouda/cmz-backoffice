@@ -9,13 +9,6 @@ export class NewsUpdateHandler {
     constructor(private readonly useCase: NewsUseCase) {}
 
     execute(command: NewsUpdateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            firstName: command.firstName,
-            lastName: command.lastName,
-            email: command.email,
-            phone: command.phone,
-            role: command.role,
-        });
+        return this.useCase.update({ ...command });
     }
 }

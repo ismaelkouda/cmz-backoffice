@@ -9,17 +9,6 @@ export class HomeUpdateHandler {
     constructor(private readonly useCase: HomeUseCase) {}
 
     execute(command: HomeUpdateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            image: command.image,
-            platforms: command.platforms,
-            startDate: command.startDate,
-            endDate: command.endDate,
-            title: command.title,
-            resume: command.resume,
-            content: command.content,
-            buttonLabel: command.buttonLabel,
-            buttonUrl: command.buttonUrl,
-        });
+        return this.useCase.update({ ...command });
     }
 }

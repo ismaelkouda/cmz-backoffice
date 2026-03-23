@@ -183,23 +183,14 @@ export class HomeFormComponent {
             if (!result.isConfirmed) {
                 return;
             }
-            const payload = this.form.getRawValue();
-            const submitPayload = {
-                ...payload,
-                image:
-                    payload.image?.type === 'remote'
-                        ? payload.image.url
-                        : payload.image?.file,
-            };
 
-            // if (this.isEditMode()) {
-            //     this.submitFacade.update({
-            //         uniqId: this.uniqId(),
-            //         ...submitPayload,
-            //     });
-            // } else {
-            //     this.submitFacade.create(submitPayload);
-            // }
+            if (this.isEditMode()) {
+                const payload = this.store.getSubmitValue(this.uniqId());
+                this.submitFacade.update(payload);
+            } else {
+                const payload = this.store.getSubmitValue();
+                this.submitFacade.create(payload);
+            }
         });
     }
 

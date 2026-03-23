@@ -1,9 +1,13 @@
 export class NewsCreateCommand {
     constructor(
-        public readonly firstName: string,
-        public readonly lastName: string,
-        public readonly email: string,
-        public readonly phone: string,
-        public readonly role: string
+        public readonly type: string,
+        public readonly image: File | null | string,
+        public readonly video: string | null,
+        public readonly category: string,
+        public readonly subCategory: string,
+        public readonly hashtags: string[],
+        public readonly title: string,
+        public readonly resume: string,
+        public readonly content: string
     ) {}
 }

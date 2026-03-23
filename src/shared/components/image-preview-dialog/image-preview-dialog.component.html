@@ -12,14 +12,14 @@
     [header]="title() | translate"
 >
     <div class="preview-content mt-3">
-            <img
-                [src]="imageData().url"
-                [alt]="imageData().alt || ('IMAGE_PREVIEW.IMAGE_ALT' | translate)"
-                class="preview-image"
-                [class.loaded]="imageLoaded()"
-                (load)="onImageLoad()"
-                (error)="onImageError()"
-            />
+        <img
+            [src]="imageData().url"
+            [alt]="imageData().alt || ('IMAGE_PREVIEW.IMAGE_ALT' | translate)"
+            class="preview-image"
+            [class.loaded]="imageLoaded()"
+            (load)="onImageLoad()"
+            (error)="onImageError()"
+        />
 
         @if (imageError()) {
             <div class="preview-error">
@@ -35,14 +35,20 @@
         <div class="preview-footer">
             <div class="image-metadata">
                 @if (imageData().fileName) {
-                    <span class="metadata-item" [pTooltip]="'IMAGE_PREVIEW.FILE_NAME' | translate">
+                    <span
+                        class="metadata-item"
+                        [pTooltip]="'IMAGE_PREVIEW.FILE_NAME' | translate"
+                    >
                         <i class="pi pi-file"></i>
                         {{ imageData().fileName }}
                     </span>
                 }
-                
+
                 @if (imageData().fileSize) {
-                    <span class="metadata-item" [pTooltip]="'IMAGE_PREVIEW.FILE_SIZE' | translate">
+                    <span
+                        class="metadata-item"
+                        [pTooltip]="'IMAGE_PREVIEW.FILE_SIZE' | translate"
+                    >
                         <i class="pi pi-chart-bar"></i>
                         {{ imageData().fileSize }}
                     </span>

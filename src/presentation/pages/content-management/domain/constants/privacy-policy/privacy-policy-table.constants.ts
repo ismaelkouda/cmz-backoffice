@@ -1,4 +1,4 @@
-export const PRIVACY_POLICY_TABLE_CONST = {
+export const PRIVACY_POLICY_TABLE = {
     cols: [
         {
             field: '__index',

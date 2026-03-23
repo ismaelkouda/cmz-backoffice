@@ -1,16 +1,11 @@
-import { ActionDropdownDto } from '@shared/data/dto/action-dropdown.dto';
-import { RolesDto } from '@shared/data/dto/roles.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface TermsUseItemApiDto {
     id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-    role: RolesDto;
-    status: ActionDropdownDto;
+    version: string;
+    is_published: boolean;
     created_at: string;
+    published_at: string;
     updated_at: string;
 }
 

@@ -143,10 +143,7 @@
                 }
             </div>
 
-            @if (
-                items()?.canBeApproved ||
-                items()?.canBeFinalized
-            ) {
+            @if (items()?.canBeApproved || items()?.canBeFinalized) {
                 <app-management-treatment-form
                     [form]="form"
                     [loading]="loading()"

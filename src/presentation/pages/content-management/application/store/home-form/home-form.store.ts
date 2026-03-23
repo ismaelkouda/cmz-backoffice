@@ -21,6 +21,7 @@ export type CropperStatus = 'idle' | 'loading' | 'ready' | 'cropping' | 'error';
 const WEB = getEnumKeyByValue(Platform, Platform.WEB) as Platform;
 const PWA = getEnumKeyByValue(Platform, Platform.PWA) as Platform;
 const MOBILE = getEnumKeyByValue(Platform, Platform.MOBILE) as Platform;
+
 @Injectable()
 export class HomeFormStore {
     private readonly fb = inject(FormBuilder);
@@ -58,11 +59,9 @@ export class HomeFormStore {
         }
         return PLATFORM_ASPECT_RATIOS[WEB];
     });
-
     public readonly isImageReady = computed(() => {
         return this.imageStore.hasCroppedImage() || !!this.imageError();
     });
-
     public readonly imageErrorMessage = computed(() => this.imageError());
 
     private readonly item = this.facade.items;
@@ -90,9 +89,7 @@ export class HomeFormStore {
         if (item.image) {
             this.handleExistingImage(item.image);
         } else {
-            this.form.controls.image.reset(null, { emitEvent: false });
-            this.imageStore.resetImage();
-            this.imageError.set(null);
+            this.resetImage();
         }
         queueMicrotask(() => this.isPatching.set(false));
     });
@@ -153,13 +150,11 @@ export class HomeFormStore {
                     ],
                 }),
                 image: new FormControl<MediaValue | null>(null, {
-                    nonNullable: true,
                     validators: [Validators.required],
                 }),
                 buttonLabel: new FormControl('', {
                     nonNullable: true,
                     validators: [
-                        Validators.required,
                         Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
                         Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
                         Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
@@ -168,7 +163,6 @@ export class HomeFormStore {
                 buttonUrl: new FormControl('', {
                     nonNullable: true,
                     validators: [
-                        Validators.required,
                         Validators.maxLength(FormValidators.BUTTON_URL.MAX),
                         Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
                     ],
@@ -222,7 +216,26 @@ export class HomeFormStore {
         };
     }
 
-    // ========== MÉTHODES PUBLIQUES POUR L'INTERACTION ==========
+    public getSubmitValue(uniqId?: string): any {
+        const raw = this.form.getRawValue();
+
+        const basePayload = {
+            ...raw,
+            image: this.transformImageForApi(raw.image),
+        };
+
+        return uniqId ? { ...basePayload, uniqId } : basePayload;
+    }
+
+    private transformImageForApi(
+        image: MediaValue | null
+    ): string | File | null {
+        if (!image) {
+            return null;
+        }
+        return image.type === 'remote' ? image.url : image.file;
+    }
+
     public onImageSelected(file: File): void {
         const mediaValue: MediaValue = {
             type: 'local',
@@ -233,13 +246,11 @@ export class HomeFormStore {
         this.imageStore.openCropper(file);
         this.imageError.set(null);
     }
-
     public openCropperForExisting(): void {
         if (this.imageStore.hasCroppedImage()) {
             this.imageStore.openCropperWithExisting();
         }
     }
-
     public onCropConfirmed(blob: Blob): void {
         this.imageStore.confirmCrop(blob);
         const file = this.imageStore.getCurrentFile();
@@ -255,22 +266,18 @@ export class HomeFormStore {
             this.imageError.set(null);
         }
     }
-
     public onCropCancelled(): void {
         this.imageStore.abandonCrop();
     }
-
     public onImageCleared(): void {
         this.form.controls.image.reset(null);
         this.imageStore.resetImage();
         this.form.controls.image.markAsTouched();
         this.imageError.set(null);
     }
-
     public getCurrentImageFile(): File | null {
         return this.imageStore.getCurrentFile();
     }
-
     public isImageAvailable(): boolean {
         return this.imageStore.hasCroppedImage();
     }

@@ -244,7 +244,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
         const command = new HomeEnableCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.ENABLE'
         ).subscribe();
     }
 
@@ -252,7 +252,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
         const command = new HomeDisableCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.DISABLE'
         ).subscribe();
     }
 

@@ -3,9 +3,9 @@ import { Routes } from '@angular/router';
 export const HOME_ROUTE = 'home-blocks';
 export const NEWS_ROUTE = 'infos-and-news';
 export const SLIDE_ROUTE = 'sliders';
-// export const PRIVACY_POLICY_ROUTE = 'privacy-policy';
+export const PRIVACY_POLICY_ROUTE = 'privacy-policy';
 export const LEGAL_NOTICE_ROUTE = 'legal-notices';
-// export const TERMS_USE_ROUTE = 'terms-of-service';
+export const TERMS_USE_ROUTE = 'terms-of-service';
 // export const CREATE_ROUTE = 'create';
 // export const EDIT_ROUTE = 'edit';
 // export const VIEW_ROUTE = 'view';
@@ -125,25 +125,34 @@ export const routes: Routes = [
         ],
     },
 
-    // {
-    //     path: PRIVACY_POLICY_ROUTE,
-    //     data: {
-    //         breadcrumb: {
-    //             label: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.BREADCRUMB.LABEL',
-    //             icon: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.BREADCRUMB.ICON',
-    //         },
-    //     },
-    //     children: [
-    //         {
-    //             path: '',
-    //             loadChildren: () =>
-    //                 import('./presentation/features/privacy-policy/privacy-policy.routes').then(
-    //                     (m) => m.PRIVACY_POLICY_ROUTES
-    //                 ),
-    //             data: { breadcrumb: { hide: true } },
-    //         },
-    //     ],
-    // },
+    {
+        path: PRIVACY_POLICY_ROUTE,
+        children: [
+            {
+                path: '',
+                data: {
+                    breadcrumb: {
+                        label: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.BREADCRUMB.LABEL',
+                        icon: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import('./presentation/features/privacy-policy/privacy-policy.routes').then(
+                                (m) => m.PRIVACY_POLICY_ROUTES
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+        ],
+    },
 
     // {
     //     path: TERMS_USE_ROUTE,

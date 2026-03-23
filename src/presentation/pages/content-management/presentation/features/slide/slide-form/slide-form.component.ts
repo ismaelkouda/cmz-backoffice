@@ -117,16 +117,27 @@ export class SlideFormComponent {
     );
 
     readonly previewImageData = computed<ImagePreviewData>(() => {
-        const url = this.imageStore.cropperPreviewUrl();
-        const sourceFile = this.imageStore.cropperSourceFile();
+        const previewUrl = this.imageStore.cropperPreviewUrl();
+        const mediaValue = this.form.controls.image.value;
+
+        let fileName: string | null = null;
+        let fileSize: number | undefined = undefined;
+
+        if (mediaValue?.type === 'local' && mediaValue.file) {
+            fileName = mediaValue.file.name;
+            fileSize = mediaValue.file.size;
+        } else if (mediaValue?.type === 'remote' && mediaValue.url) {
+            fileName = mediaValue.url.split('/').pop() || 'image.jpg';
+        }
 
         return {
-            url: url || '',
-            fileName: sourceFile?.name || null,
-            fileSize: this.formatFileSize(sourceFile?.size),
-            alt: this.translate.instant('CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE'),
+            url: previewUrl || '',
+            fileName,
+            fileSize: this.formatFileSize(fileSize),
+            alt: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.IMAGE'),
         };
     });
+
     private readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
             map(
@@ -150,24 +161,6 @@ export class SlideFormComponent {
         return this.validation.getErrorMessage(field, control?.errors || null);
     }
 
-    public onImageSelected(result: ImageSelectedResult): void {
-        this.imageStore.openCropper(result.file);
-    }
-
-    public onCropConfirmed(blob: Blob): void {
-        this.imageStore.confirmCrop(blob);
-        const file = this.imageStore.getCurrentFile();
-        if (file) {
-            this.form.controls.image.setValue(file);
-            this.form.controls.image.markAsDirty();
-            this.form.controls.image.markAsTouched();
-        }
-    }
-
-    public onCropCancelled(): void {
-        this.imageStore.abandonCrop();
-    }
-
     public onCropImageLoadFailed(): void {
         this.imageStore.onCropperImageLoadFailed();
     }
@@ -180,21 +173,6 @@ export class SlideFormComponent {
         return size < 1024 * 1024
             ? `${(size / 1024).toFixed(0)} Ko`
             : `${(size / (1024 * 1024)).toFixed(1)} Mo`;
-    }
-
-    public openImagePreview(): void {
-        if (this.imageStore.hasCroppedImage()) {
-            this.previewVisible.set(true);
-        }
-    }
-
-    public closeImagePreview(): void {
-        this.previewVisible.set(false);
-    }
-
-    public onImageCleared(): void {
-        this.form.controls.image.reset(null);
-        this.form.controls.image.markAsTouched();
     }
 
     onSubmit(): void {
@@ -214,15 +192,14 @@ export class SlideFormComponent {
             if (!result.isConfirmed) {
                 return;
             }
-            // const payload = this.form.getRawValue();
-            // if (this.isEditMode()) {
-            //     this.submitFacade.update({
-            //         uniqId: this.uniqId(),
-            //         ...payload,
-            //     });
-            // } else {
-            //     this.submitFacade.create(payload);
-            // }
+
+            if (this.isEditMode()) {
+                const payload = this.store.getSubmitValue(this.uniqId());
+                this.submitFacade.update(payload);
+            } else {
+                const payload = this.store.getSubmitValue();
+                this.submitFacade.create(payload);
+            }
         });
     }
 
@@ -248,6 +225,32 @@ export class SlideFormComponent {
     public isFieldInvalid(fieldName: string): boolean {
         const control = this.form.get(fieldName);
         return !!(control?.invalid && control?.touched);
+    }
+
+    public onImageSelected({ file }: ImageSelectedResult): void {
+        this.store.onImageSelected(file);
+    }
+
+    public onCropConfirmed(blob: Blob): void {
+        this.store.onCropConfirmed(blob);
+    }
+
+    public onCropCancelled(): void {
+        this.store.onCropCancelled();
+    }
+
+    public onImageCleared(): void {
+        this.store.onImageCleared();
+    }
+
+    public openImagePreview(): void {
+        if (this.store.isImageAvailable()) {
+            this.previewVisible.set(true);
+        }
+    }
+
+    public closeImagePreview(): void {
+        this.previewVisible.set(false);
     }
 
     navigateToBack(): void {

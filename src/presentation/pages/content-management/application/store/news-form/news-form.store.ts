@@ -1,4 +1,11 @@
-import { Injectable, inject, signal, computed, effect } from '@angular/core';
+import {
+    Injectable,
+    inject,
+    signal,
+    computed,
+    effect,
+    untracked,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
     AbstractControl,
@@ -17,6 +24,7 @@ import { NewsSubCategoriesSelectProps } from '@presentation/pages/content-manage
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
+import { MediaValue } from '@shared/domain/types/media.types';
 
 export type CropperStatus = 'idle' | 'loading' | 'ready' | 'cropping' | 'error';
 const VIDEO = getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO) as string;
@@ -30,8 +38,21 @@ export class NewsFormStore {
     private readonly imageStore = inject(ImageUploadStateService);
 
     private readonly isPatching = signal(false);
+    private readonly imageError = signal<string | null>(null);
 
     readonly form: FormGroup<NewsFormControl> = this.createForm();
+
+    public readonly isEditMode = signal(false);
+    readonly subCategories = signal<readonly NewsSubCategoriesSelectProps[]>(
+        []
+    );
+    readonly loadingNewsSubCategories = signal<boolean>(false);
+    readonly categories = toSignal(this.categoriesFacade.items$, {
+        initialValue: [],
+    });
+    readonly loadingCategories = toSignal(this.categoriesFacade.isLoading$, {
+        initialValue: false,
+    });
 
     public readonly hashtagsArray = this.form.controls.hashtags;
 
@@ -45,8 +66,6 @@ export class NewsFormStore {
         }
     );
 
-    public readonly isEditMode = signal(false);
-
     public readonly isVideoMode = computed(() => {
         const type = this.typeControl();
         return type === VIDEO;
@@ -55,11 +74,12 @@ export class NewsFormStore {
         const type = this.typeControl();
         return type === IMAGE;
     });
-
-    readonly selectedCategory = computed(() =>
-        this.categories().find((r) => r.value === this.categoryValue())
-    );
-
+    readonly selectedCategory = computed(() => {
+        if (this.isPatching()) {
+            return undefined;
+        }
+        return this.categories().find((r) => r.value === this.categoryValue());
+    });
     public readonly hashtagsErrors = computed(() => {
         const errors = this.hashtagsArray.errors;
         if (!errors) {
@@ -72,99 +92,109 @@ export class NewsFormStore {
             duplicateHashtags: errors['duplicateHashtags'],
         };
     });
-
     public readonly hashtagsTouched = computed(
         () => this.hashtagsArray.touched
     );
+    public readonly isImageReady = computed(() => {
+        return this.imageStore.hasCroppedImage() || !!this.imageError();
+    });
+    public readonly imageErrorMessage = computed(() => this.imageError());
 
     private readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
-    readonly subCategories = signal<readonly NewsSubCategoriesSelectProps[]>(
-        []
-    );
-    readonly loadingNewsSubCategories = signal<boolean>(false);
-    readonly categories = toSignal(this.categoriesFacade.items$, {
-        initialValue: [],
-    });
-    readonly loadingCategories = toSignal(this.categoriesFacade.isLoading$, {
-        initialValue: false,
-    });
-
-    // private readonly patchItemEffect = effect(() => {
-    //     const item = this.item();
-    //     if (!item) {
-    //         return;
-    //     }
-
-    //     this.isPatching.set(true);
-
-    //     // Patch des valeurs simples
-    //     this.form.patchValue(
-    //         {
-    //             type: item.type,
-    //             title: item.title,
-    //             resume: item.resume,
-    //             content: item.content,
-    //             image: item.image,
-    //             video: item.video,
-    //             category: item.category,
-    //             subCategory: item.subCategory,
-    //         },
-    //         { emitEvent: false }
-    //     );
-
-    //     // Gestion spéciale pour les hashtags (FormArray)
-    //     const hashtagsArray = this.form.controls.hashtags;
-    //     hashtagsArray.clear({ emitEvent: false });
-
-    //     if (item.hashtags?.length) {
-    //         item.hashtags.forEach((tag: string) => {
-    //             hashtagsArray.push(this.fb.control(tag, Validators.required), {
-    //                 emitEvent: false,
-    //             });
-    //         });
-    //     }
-
-    //     hashtagsArray.updateValueAndValidity({ emitEvent: false });
-
-    //     queueMicrotask(() => this.isPatching.set(false));
-    // });
 
     private readonly typeMediaEffect = effect(() => {
         if (this.isPatching()) {
             return;
         }
+
         const type = this.typeControl();
         if (!type) {
             return;
         }
-        this.resetMediaFields(type);
-        this.updateValidatorsByType(type);
+
+        untracked(() => {
+            this.handleTypeChange(type);
+        });
     });
 
+    private handleTypeChange(type: string): void {
+        this.resetMediaFields(type);
+        this.updateValidatorsByType(type);
+    }
     private readonly categoryEffect = effect(() => {
-        if (this.isEditMode() && !this.categoryValue()) {
+        if (this.isPatching()) {
             return;
         }
-
         const category = this.selectedCategory();
         this.loadingNewsSubCategories.set(true);
         if (category?.subCategories) {
             this.subCategories.set(category.subCategories);
-
             this.form.controls.subCategory.enable({ emitEvent: false });
+            if (!this.form.controls.subCategory.value) {
+                this.form.controls.subCategory.reset('', { emitEvent: false });
+            }
         } else {
             this.subCategories.set([]);
             this.form.controls.subCategory.reset('', { emitEvent: false });
             this.form.controls.subCategory.disable({ emitEvent: false });
         }
-
         this.form.controls.subCategory.updateValueAndValidity({
             emitEvent: false,
         });
-
         this.loadingNewsSubCategories.set(false);
     });
+    private readonly patchItemEffect = effect(() => {
+        const item = this.item();
+        if (!item) {
+            return;
+        }
+        this.isPatching.set(true);
+        this.form.patchValue(
+            {
+                type: item.type,
+                video: item.video,
+                title: item.title,
+                resume: item.resume,
+                content: item.content,
+                category: item.category,
+                subCategory: item.subCategory,
+                hashtags: item.hashtags || [],
+            },
+            { emitEvent: false }
+        );
+
+        if (item.image) {
+            this.handleExistingImage(item.image);
+        } else {
+            this.resetImage();
+        }
+        queueMicrotask(() => this.isPatching.set(false));
+    });
+
+    private async handleExistingImage(url: string): Promise<void> {
+        try {
+            const mediaValue: MediaValue = {
+                type: 'remote',
+                url: url,
+            };
+
+            this.form.controls.image.setValue(mediaValue, { emitEvent: false });
+            await this.imageStore.hydrateExistingImage(url);
+
+            if (!this.imageStore.hasCroppedImage()) {
+                throw new Error(
+                    'Image hydration failed - no preview available'
+                );
+            }
+
+            this.imageError.set(null);
+        } catch (error) {
+            console.error('❌ Failed to handle existing image:', error);
+            this.imageError.set('CONTENT_MANAGEMENT.NEWS.IMAGE_LOAD_ERROR');
+            this.form.controls.image.setErrors({ imageLoadFailed: true });
+        }
+    }
 
     private createForm(): FormGroup<NewsFormControl> {
         return this.fb.nonNullable.group<NewsFormControl>(
@@ -201,8 +231,7 @@ export class NewsFormStore {
                         ),
                     ],
                 }),
-                image: new FormControl(null, {
-                    nonNullable: true,
+                image: new FormControl<MediaValue | null>(null, {
                     validators: [Validators.required],
                 }),
                 video: new FormControl('', {
@@ -216,10 +245,29 @@ export class NewsFormStore {
                     { value: '', disabled: true },
                     { nonNullable: true }
                 ),
-                hashtags: this.fb.array<string>([]),
+                hashtags: new FormControl<string[]>([], {
+                    nonNullable: true,
+                    validators: [Validators.minLength(1)],
+                }),
             },
-            { validators: [this.buttonFieldsConsistencyValidator()] }
+            { validators: [this.typeMediaConsistencyValidator()] }
         );
+    }
+
+    private typeMediaConsistencyValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const type = control.get('type')?.value;
+            const image = control.get('image')?.value;
+            const video = control.get('video')?.value;
+
+            if (type === IMAGE && !image) {
+                return { imageRequired: true };
+            }
+            if (type === VIDEO && !video) {
+                return { videoRequired: true };
+            }
+            return null;
+        };
     }
 
     private updateValidatorsByType(type: string): void {
@@ -244,6 +292,27 @@ export class NewsFormStore {
         imageControl.updateValueAndValidity({ emitEvent: false });
     }
 
+    public getSubmitValue(uniqId?: string): any {
+        const raw = this.form.getRawValue();
+
+        const basePayload = {
+            ...raw,
+            image: this.transformImageForApi(raw.image),
+        };
+
+        return uniqId ? { ...basePayload, uniqId } : basePayload;
+    }
+
+    private transformImageForApi(
+        image: MediaValue | null
+    ): string | File | null {
+        if (!image) {
+            return null;
+        }
+
+        return image.type === 'remote' ? image.url : image.file;
+    }
+
     private resetMediaFields(type: string | undefined): void {
         if (!type) {
             return;
@@ -263,24 +332,6 @@ export class NewsFormStore {
         if (resetAction) {
             resetAction();
         }
-    }
-
-    private resetImageStore(): void {
-        this.imageStore.resetImage();
-    }
-
-    private buttonFieldsConsistencyValidator(): ValidatorFn {
-        return (control: AbstractControl): ValidationErrors | null => {
-            const label = control.get('buttonLabel')?.value?.trim() as string;
-            const url = control.get('buttonUrl')?.value?.trim() as string;
-            if (label && !url) {
-                return { buttonLabelWithoutUrl: true };
-            }
-            if (url && !label) {
-                return { buttonUrlWithoutLabel: true };
-            }
-            return null;
-        };
     }
 
     private htmlContentMaxLengthValidator(maxLength: number): ValidatorFn {
@@ -303,25 +354,85 @@ export class NewsFormStore {
         };
     }
 
-    public resetImage(): void {
-        this.form.controls.image.reset(null, { emitEvent: false });
+    public onImageSelected(file: File): void {
+        const mediaValue: MediaValue = {
+            type: 'local',
+            file: file,
+        };
+
+        this.form.controls.image.setValue(mediaValue);
+        this.imageStore.openCropper(file);
+        this.imageError.set(null);
+    }
+    public openCropperForExisting(): void {
+        if (this.imageStore.hasCroppedImage()) {
+            this.imageStore.openCropperWithExisting();
+        }
+    }
+    public onCropConfirmed(blob: Blob): void {
+        this.imageStore.confirmCrop(blob);
+        const file = this.imageStore.getCurrentFile();
+        if (file) {
+            const mediaValue: MediaValue = {
+                type: 'local',
+                file: file,
+            };
+
+            this.form.controls.image.setValue(mediaValue);
+            this.form.controls.image.markAsDirty();
+            this.form.controls.image.markAsTouched();
+            this.imageError.set(null);
+        }
+    }
+    public onCropCancelled(): void {
+        this.imageStore.abandonCrop();
+    }
+    public onImageCleared(): void {
+        this.resetImage();
+        this.form.controls.image.markAsTouched();
+    }
+    public getCurrentImageFile(): File | null {
+        return this.imageStore.getCurrentFile();
+    }
+    public isImageAvailable(): boolean {
+        return this.imageStore.hasCroppedImage();
     }
 
-    public resetVideo(): void {
+    private resetVideo(): void {
         this.form.controls.video.reset('', { emitEvent: false });
+    }
+    private resetImage(): void {
+        this.form.controls.image.reset(null, { emitEvent: false });
+        this.imageStore.resetImage();
+        this.imageError.set(null);
+    }
+
+    private resetImageStore(): void {
+        this.imageStore.resetImage();
     }
 
     public setEditMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);
 
-        this.facade.reset();
-        this.form.reset();
-        this.form.controls.subCategory.disable({ emitEvent: false });
-
-        if (uniqId) {
-            this.facade.read({ uniqId }, true);
+        if (!uniqId) {
+            this.form.reset();
+            this.facade.reset();
+            this.resetImageStore();
+            this.imageError.set(null);
+            this.form.controls.subCategory.disable({ emitEvent: false });
+            return;
         }
 
+        this.facade.read({ uniqId }, true);
         this.categoriesFacade.readAll();
+    }
+
+    public reset(): void {
+        this.form.reset();
+        this.facade.reset();
+        this.resetImageStore();
+        this.imageError.set(null);
+        this.isEditMode.set(false);
+        this.isPatching.set(false);
     }
 }

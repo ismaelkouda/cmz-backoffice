@@ -1,42 +1,63 @@
-export interface NewsFindOneProps {
-    uniqId: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    role: string;
-}
+import { Status } from '@pages/content-management/domain/enums/news/news-status.enum';
+import { NewsFindOneProps } from '@pages/content-management/domain/interfaces/news/news-find-one-props.interface';
+
 export class NewsFindOneEntity {
     constructor(private readonly props: NewsFindOneProps) {}
 
     get uniqId(): string {
         return this.props.uniqId;
     }
-
-    get lastName(): string {
-        return this.props.lastName;
+    get hashtags(): string[] {
+        return this.props.hashtags;
     }
-
-    get firstName(): string {
-        return this.props.firstName;
+    get type(): string {
+        return this.props.type;
     }
-
-    get email(): string {
-        return this.props.email;
+    get title(): string {
+        return this.props.title;
     }
-
-    get phone(): string {
-        return this.props.phone;
+    get resume(): string {
+        return this.props.resume;
     }
-
-    get role(): string {
-        return this.props.role;
+    get content(): string {
+        return this.props.content;
+    }
+    get image(): string {
+        return this.props.image;
+    }
+    get video(): string {
+        return this.props.video;
+    }
+    get order(): number {
+        return this.props.order;
+    }
+    get category(): string {
+        return this.props.category;
+    }
+    get subCategory(): string {
+        return this.props.subCategory;
+    }
+    get status(): Status {
+        return this.props.status;
+    }
+    get createdAt(): string {
+        return this.props.createdAt;
+    }
+    get updatedAt(): string {
+        return this.props.updatedAt;
     }
 
     public with(props: NewsFindOneProps): NewsFindOneEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new NewsFindOneEntity(props);
+    }
+
+    toJSON(): NewsFindOneProps {
+        return { ...this.props };
     }
 }

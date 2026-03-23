@@ -1,11 +1,10 @@
 import { Status } from '@pages/content-management/domain/enums/terms-use/terms-use-status.enum';
 
-export interface Props {
+export interface TermsUseProps {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+    version: string;
     status: Status;
-    membersCount: string;
+    createdAt: string;
+    publishedAt: string;
     updatedAt: string;
 }

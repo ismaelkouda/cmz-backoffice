@@ -1,3 +1,3 @@
-export interface NewsDisableApiDto {
+export interface NewsUnpublishApiDto {
     uniq_id: string;
 }
