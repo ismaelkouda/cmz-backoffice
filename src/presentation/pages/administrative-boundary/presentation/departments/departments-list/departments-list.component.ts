@@ -111,7 +111,7 @@ export class DepartmentsListComponent implements OnInit {
             placeholder: 'COMMON.SELECT_PLACEHOLDER',
             options: this.regions(),
             optionLabel: 'name',
-            optionValue: 'code',
+            optionValue: 'value',
             showClear: true,
             filter: true,
         },

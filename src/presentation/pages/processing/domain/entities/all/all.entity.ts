@@ -2,9 +2,18 @@ import { AllProps } from '@pages/processing/domain/interfaces/all/all-props.inte
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export class AllEntity implements AllProps {
     constructor(private readonly props: AllProps) {}
+
+    get type(): TypeReport {
+        return this.props.type;
+    }
+
+    get actionsRef(): string {
+        return this.props.uniqId;
+    }
 
     get uniqId(): string {
         return this.props.uniqId;

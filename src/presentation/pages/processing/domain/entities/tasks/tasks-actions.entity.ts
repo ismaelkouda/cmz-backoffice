@@ -1,3 +1,5 @@
+import { formatDateSafe } from '@shared/domain/functions/format-date';
+
 export type TasksActionsType =
     | 'ANALYSIS'
     | 'TREATMENT'
@@ -20,12 +22,20 @@ export interface TasksActionsProps {
 export class TasksActionsEntity implements TasksActionsProps {
     constructor(private readonly props: TasksActionsProps) {}
 
+    get actionsRef(): string {
+        return this.props.type;
+    }
+
     get uniqId(): string {
         return this.props.uniqId;
     }
 
     get date(): Date {
         return this.props.date;
+    }
+
+    get formatDate(): string {
+        return formatDateSafe(this.props.date);
     }
 
     get type(): string {

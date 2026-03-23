@@ -2,9 +2,18 @@ import { TasksProps } from '@pages/finalization/domain/interfaces/tasks/tasks-pr
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export class TasksEntity implements TasksProps {
     constructor(private readonly props: TasksProps) {}
+
+    get type(): TypeReport {
+        return this.props.type;
+    }
+
+    get actionsRef(): string {
+        return this.props.uniqId;
+    }
 
     get uniqId(): string {
         return this.props.uniqId;

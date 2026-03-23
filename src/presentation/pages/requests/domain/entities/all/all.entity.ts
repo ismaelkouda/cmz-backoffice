@@ -9,9 +9,18 @@ import {
     TelecomOperator,
     TelecomOperatorStyle,
 } from '@shared/domain/enums/telecom-operator.enum';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export class AllEntity implements AllProps {
     constructor(private readonly props: AllProps) {}
+
+    get type(): TypeReport {
+        return this.props.type;
+    }
+
+    get actionsRef(): string {
+        return this.props.uniqId;
+    }
 
     get uniqId(): string {
         return this.props.uniqId;

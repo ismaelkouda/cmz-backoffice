@@ -63,7 +63,7 @@
         <app-management-dialog
             [(visible)]="reportTreatmentVisible"
             [uniqId]="selectedReportId"
-            (queues)="onReportTreatmentQueues()"
+            [type]="selectedManagementType"
         ></app-management-dialog>
     }
 </main>

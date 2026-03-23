@@ -2,9 +2,18 @@ import { QueuesProps } from '@pages/finalization/domain/interfaces/queues/queues
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export class QueuesEntity implements QueuesProps {
     constructor(private readonly props: QueuesProps) {}
+
+    get type(): TypeReport {
+        return this.props.type;
+    }
+
+    get actionsRef(): string {
+        return this.props.uniqId;
+    }
 
     get uniqId(): string {
         return this.props.uniqId;

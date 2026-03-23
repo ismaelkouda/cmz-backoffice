@@ -15,7 +15,7 @@
     styleClass="p-datatable-gridlines"
     [reorderableColumns]="true"
     [dataKey]="dataKey()"
-    selectionMode="single"
+    [selectionMode]="selectionMode()"
 >
     <ng-template pTemplate="caption">
         <div class="container-table-header">
@@ -290,23 +290,11 @@
                                                 type="button"
                                                 pButton
                                                 [icon]="action.icon"
-                                                [severity]="
-                                                    action.severity ||
-                                                    'secondary'
-                                                "
-                                                (click)="
-                                                    onActionClick(
-                                                        rowData,
-                                                        action.id
-                                                    )
-                                                "
-                                                [pTooltip]="
-                                                    (action.tooltip
-                                                        | translate) +
-                                                    ' ' +
-                                                    (rowData.uniqId || '')
-                                                "
+                                                [severity]="action.severity || 'secondary'"
+                                                (click)="onActionClick(rowData, action.id)"
+                                                [pTooltip]="getTooltip(action, rowData)"
                                                 tooltipPosition="bottom"
+                                                [escape]="false"
                                                 [disabled]="loading()"
                                                 size="small"
                                                 class="action-btn"

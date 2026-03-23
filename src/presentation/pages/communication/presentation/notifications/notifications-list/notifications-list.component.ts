@@ -69,6 +69,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     public readonly tableConfig = NOTIFICATIONS;
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
+    public selectedManagementType: string | null = null;
     readonly items = this.facade.items;
     readonly loading = this.facade.loading;
     readonly pagination = this.facade.pagination;
@@ -248,7 +249,9 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     }): void {
         const { item } = event;
         this.selectedReportId = item.reference;
+        this.selectedManagementType = item.type;
         this.reportTreatmentVisible = true;
+        this.facade.readOne({ uniqId: item.reference });
     }
 
     public onExportClicked(): void {

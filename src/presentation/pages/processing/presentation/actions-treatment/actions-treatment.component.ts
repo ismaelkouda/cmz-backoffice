@@ -107,7 +107,6 @@ export class ActionsTreatmentComponent implements OnInit {
     private readonly openRequested = signal(false);
     public reportTreatmentVisible = false;
 
-    // État pour gérer le mode édition/création
     private readonly editingItemId = signal<string | null>(null);
     public readonly isEditMode = computed(() => this.editingItemId() !== null);
     public readonly modalTitle = computed(() =>

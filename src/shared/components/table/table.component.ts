@@ -70,9 +70,9 @@ export class TableComponent {
     public readonly hiddenButtonOther = input<boolean>(true);
     public readonly dataKey = input<string>('uniqId');
     public readonly headerButtons = input<TableHeaderButton[]>([]);
-    public readonly selectionMode = input<
-        'single' | 'multiple' | 'saisie' | null
-    >('single');
+    public readonly selectionMode = input<'single' | 'multiple' | 'saisie'>(
+        'single'
+    );
     public readonly selection = input<any | any[] | null>(null);
 
     public readonly refreshRequested = output<undefined>();
@@ -140,6 +140,12 @@ export class TableComponent {
 
     public onActionClick(item: any, actionId?: string): void {
         this.actionClicked.emit({ item, actionId });
+    }
+
+    getTooltip(action: any, rowData: any): string {
+        return `${this.translate.instant(action.tooltip)} 
+            <span class="custom-tooltip">${rowData.actionsRef}</span>
+        `;
     }
 
     public onNumberInputChange(count: number): void {

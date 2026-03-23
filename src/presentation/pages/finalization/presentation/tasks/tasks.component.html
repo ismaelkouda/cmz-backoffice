@@ -33,7 +33,7 @@
 
                         <section class="table-section">
                             <app-table
-                                selectionMode="multiple"
+                                [selectionMode]="'multiple'"
                                 class="table-component"
                                 dataKey="uniqId"
                                 [config]="tableConfig"
@@ -68,7 +68,7 @@
         <app-management-dialog
             [(visible)]="reportTreatmentVisible"
             [uniqId]="selectedReportId"
-            (tasks)="onReportTreatmentTasks()"
+            [type]="selectedManagementType"
         ></app-management-dialog>
     }
 </main>

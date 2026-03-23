@@ -6,6 +6,8 @@ import { StatusMapper } from '@pages/communication/infrastructure/data/mappers/n
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
+import { TypeReportMapper } from './notifications-type-report.mapper';
+
 @Injectable({
     providedIn: 'root',
 })
@@ -14,6 +16,7 @@ export class NotificationsMapper extends PaginatedMapper<
     NotificationsItemApiDto
 > {
     private readonly statusMapper = inject(StatusMapper);
+    private readonly typeReportMapper = inject(TypeReportMapper);
     private readonly entityCache = new Map<string, NotificationsEntity>();
 
     protected mapItemFromDto(
@@ -25,7 +28,7 @@ export class NotificationsMapper extends PaginatedMapper<
             uniqId: dto.id,
             reference: dto.model_id,
             title: dto.title,
-            type: dto.type,
+            type: this.typeReportMapper.mapFromDto(dto.model_type),
             message: dto.message,
             status: this.statusMapper.mapFromDto(dto.status),
             sendAt: dto.sent_at,

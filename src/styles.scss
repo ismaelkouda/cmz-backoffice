@@ -614,6 +614,10 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     }
 }
 
+.custom-tooltip {
+  color: var(--theme-secondary) !important;
+}
+
 .p-datatable {
     width: 100%;
     border-collapse: separate;

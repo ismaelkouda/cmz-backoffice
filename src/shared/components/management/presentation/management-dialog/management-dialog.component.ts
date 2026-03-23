@@ -33,9 +33,8 @@ import { ManagementPhotosPanelComponent } from '@shared/components/management/pr
 import { ManagementSidebarComponent } from '@shared/components/management/presentation/management-sidebar/management-sidebar.component';
 import { ManagementTreatmentFormComponent } from '@shared/components/management/presentation/management-treatment-form/management-treatment-form.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
-import { RouteContextService } from '@shared/domain/services/route-context.service';
-import { RouteContextType } from '@shared/domain/types/route-context.types';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
@@ -82,30 +81,30 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     private readonly validationService = inject(ManagementValidationService);
     private readonly stateService = inject(ManagementStateService);
     private readonly fb = inject(FormBuilder);
-    private readonly routeContextService = inject(RouteContextService);
     private readonly clipboardService = inject(ClipboardService);
     public readonly visible = input.required<boolean>();
     public readonly uniqId = input.required<string>();
+    public readonly type = input.required<TypeReport>();
     public readonly visibleChange = output<boolean>();
     public readonly closed = output();
 
     public selectedTabIndex = 0;
     public isTreatmentFormExpanded = true;
     public readonly TABS = TABS;
-    private readonly context = computed<Partial<RouteContextType | null>>(
-        () => {
-            if (this.routeContextService.isRequestsModule()) {
-                return 'requests';
-            }
-            if (this.routeContextService.isReportsProcessingModule()) {
-                return 'reports-processing';
-            }
-            if (this.routeContextService.isReportsFinalizationModule()) {
-                return 'reports-finalization';
-            }
-            return null;
-        }
-    );
+    // private readonly context = computed<Partial<RouteContextType | null>>(
+    //     () => {
+    //         if (this.routeContextService.isRequestsModule()) {
+    //             return 'requests';
+    //         }
+    //         if (this.routeContextService.isReportsProcessingModule()) {
+    //             return 'reports-processing';
+    //         }
+    //         if (this.routeContextService.isReportsFinalizationModule()) {
+    //             return 'reports-finalization';
+    //         }
+    //         return null;
+    //     }
+    // );
     public readonly items = this.stateService.items;
     public readonly loading = this.stateService.loading;
     public readonly actionState = this.stateService.actionState;
@@ -133,13 +132,11 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     });
 
     private readonly validationEffect = effect(() => {
-        const items = this.items();
-        const context = this.context();
-        if (items && context) {
+        if (this.items() && this.type()) {
             this.validationService.configureFormValidators(
                 this.form,
-                context,
-                items
+                this.type(),
+                this.items()
             );
         }
     });
@@ -160,7 +157,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     });
 
     ngOnInit(): void {
-        this.stateService.initialize(this.context(), this.uniqId());
+        this.stateService.initialize(this.type(), this.uniqId());
     }
 
     ngOnDestroy(): void {
@@ -196,9 +193,8 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
 
     public onValidReportTreatment(): void {
         const items = this.items();
-        const context = this.context();
 
-        if (!this.uniqId() || !items || !context) {
+        if (!this.uniqId() || !items || !this.type()) {
             return;
         }
 
@@ -276,7 +272,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(title),
-            text: `${this.t(message)} ${this.uniqId()}`,
+            html: `${this.t(message).replaceAll('uniqId', this.uniqId())}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
