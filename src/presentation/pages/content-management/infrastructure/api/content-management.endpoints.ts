@@ -5,5 +5,5 @@ export const CONTENT_MANAGEMENT_ENDPOINTS = {
     CATEGORIES: 'cms/categories',
     LEGAL_NOTICE: 'cms/legal-notices',
     PRIVACY_POLICY: 'cms/privacy-policies',
-    TERMS_USE: 'cms/terms-use',
+    TERMS_USE: 'cms/terms-of-use',
 } as const;

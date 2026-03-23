@@ -7,11 +7,6 @@ export const PRIVACY_POLICY_TABLE = {
             width: '2rem',
         },
         {
-            field: 'name',
-            header: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.TABLE.NAME',
-            width: '10rem',
-        },
-        {
             field: 'version',
             header: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.TABLE.VERSION',
             width: '6rem',
@@ -35,7 +30,7 @@ export const PRIVACY_POLICY_TABLE = {
             width: '6rem',
         },
         {
-            field: '__action',
+            field: '__actionDropdown',
             header: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.TABLE.ACTION',
             class: 'text-center',
             width: '6rem',
