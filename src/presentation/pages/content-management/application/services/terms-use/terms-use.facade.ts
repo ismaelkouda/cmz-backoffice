@@ -226,19 +226,19 @@ export class TermsUseFacade extends BaseFacade<
             .subscribe();
     }
 
-    enable(team: TermsUsePublishDto): void {
+    publish(team: TermsUsePublishDto): void {
         const command = new TermsUsePublishCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.PUBLISH'
         ).subscribe();
     }
 
-    disable(team: TermsUseUnpublishDto): void {
+    unpublish(team: TermsUseUnpublishDto): void {
         const command = new TermsUseUnpublishCommand(team.uniqId);
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.UNPUBLISH'
         ).subscribe();
     }
 

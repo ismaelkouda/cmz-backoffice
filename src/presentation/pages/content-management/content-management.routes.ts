@@ -6,9 +6,6 @@ export const SLIDE_ROUTE = 'sliders';
 export const PRIVACY_POLICY_ROUTE = 'privacy-policy';
 export const LEGAL_NOTICE_ROUTE = 'legal-notices';
 export const TERMS_USE_ROUTE = 'terms-of-service';
-// export const CREATE_ROUTE = 'create';
-// export const EDIT_ROUTE = 'edit';
-// export const VIEW_ROUTE = 'view';
 
 export const routes: Routes = [
     {
@@ -154,43 +151,32 @@ export const routes: Routes = [
         ],
     },
 
-    // {
-    //     path: TERMS_USE_ROUTE,
-    //     data: {
-    //         breadcrumb: {
-    //             label: 'CONTENT_MANAGEMENT.TERMS_USE.BREADCRUMB.LABEL',
-    //             icon: 'CONTENT_MANAGEMENT.TERMS_USE.BREADCRUMB.ICON',
-    //         },
-    //     },
-    //     children: [
-    //         {
-    //             path: '',
-    //             loadChildren: () =>
-    //                 import('./presentation/features/terms-use/terms-use.routes').then(
-    //                     (m) => m.TERMS_USE_ROUTES
-    //                 ),
-    //             data: { breadcrumb: { hide: true } },
-    //         },
-    //     ],
-    // },
-
-    // {
-    //     path: LEGAL_NOTICE_ROUTE,
-    //     data: {
-    //         breadcrumb: {
-    //             label: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.BREADCRUMB.LABEL',
-    //             icon: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.BREADCRUMB.ICON',
-    //         },
-    //     },
-    //     children: [
-    //         {
-    //             path: '',
-    //             loadChildren: () =>
-    //                 import('./presentation/features/legal-notice/legal-notice.routes').then(
-    //                     (m) => m.LEGAL_NOTICE_ROUTES
-    //                 ),
-    //             data: { breadcrumb: { hide: true } },
-    //         },
-    //     ],
-    // },
+    {
+        path: TERMS_USE_ROUTE,
+        children: [
+            {
+                path: '',
+                data: {
+                    breadcrumb: {
+                        label: 'CONTENT_MANAGEMENT.TERMS_USE.BREADCRUMB.LABEL',
+                        icon: 'CONTENT_MANAGEMENT.TERMS_USE.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import('./presentation/features/terms-use/terms-use.routes').then(
+                                (m) => m.TERMS_USE_ROUTES
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+        ],
+    },
 ];
