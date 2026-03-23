@@ -10,9 +10,10 @@ import { TimestampsEntity } from '@shared/domain/entities/timestamps.entity';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export interface DetailsProps {
-    type: string;
+    type: TypeReport;
     uniqId: string;
     reportUniqId: string;
     initiatorPhone: string;

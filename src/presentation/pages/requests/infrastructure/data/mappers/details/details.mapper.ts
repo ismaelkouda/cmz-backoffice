@@ -14,6 +14,7 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { TimestampsMapper } from '@shared/data/mappers/timestamps.mapper';
 import { TreaterInfoMapper } from '@shared/data/mappers/treater-info.mapper';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
@@ -47,7 +48,7 @@ export class DetailsMapper extends SimpleResponseMapper<
         MapperUtils.validateDto(dto, { required: ['uniq_id'] });
 
         const props: DetailsProps = {
-            type: 'requests',
+            type: TypeReport.REQUESTS,
             uniqId: dto.uniq_id,
             reportUniqId: dto.request_report_uniq_id,
             initiatorPhone: dto.initiator_phone_number,

@@ -36,6 +36,7 @@ export class AllMapper extends PaginatedMapper<AllEntity, AllItemApiDto> {
             initiatorPhoneNumber: dto.initiator_phone_number,
             status: this.statusMapper.mapApiToStatus(dto.status),
             reportedAt: dto.reported_at,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${dto.uniq_id}`;

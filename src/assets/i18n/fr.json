@@ -80,6 +80,8 @@
         "UNPUBLISH": "Dépublier",
         "UNPUBLISH_STYLE": "danger",
         "UNPUBLISHED": "Non Publié",
+        "READ_STYLE": "sucess",
+        "UNREAD_STYLE": "danger",
         "BLOCKED": "Bloquée",
         "AFFECTED": "Affecté",
         "PENDING": "En attente",
@@ -2587,7 +2589,7 @@
             },
             "FOOTER": {
             "ACTIONS": {
-                "TAKE_CHARGE": "Prendre en charge",
+                "TAKE_CHARGE": "Ajouter au panier",
                 "APPROVE": "Approuver",
                 "PROCESS": "Traiter",
                 "FINALIZE": "Finaliser",
@@ -2599,7 +2601,7 @@
             "SWEET_ALERT_PARAMS": {
             "CONFIRM": {
                 "WAITING": {
-                "TITLE": "Prendre en charge le signalement"
+                "TITLE": "Ajouter au panier le signalement"
                 },
                 "REJECT": {
                 "TITLE": "Rejeter le signalement"
@@ -2619,7 +2621,7 @@
             },
             "MESSAGES": {
                 "WAITING": {
-                "TITLE": "Êtes-vous sûr de vouloir prendre en charge le signalement"
+                "TITLE": "Êtes-vous sûr de vouloir ajouter au panier le signalement"
                 },
                 "REJECT": {
                 "TITLE": "Êtes-vous sûr de vouloir rejeté le signalement"

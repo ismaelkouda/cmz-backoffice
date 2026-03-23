@@ -1,7 +1,7 @@
 export interface TasksActionsUpdateDto {
     uniqId: string;
     reportUniqId: string;
-    date: string;
+    date: Date | null;
     type: string;
     description: string;
     shouldNotifyUser: boolean;

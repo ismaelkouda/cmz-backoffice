@@ -9,4 +9,5 @@ export interface AllProps {
     source: ReportSource;
     initiatorPhoneNumber: string;
     reportedAt: string;
+    updatedAt: string;
 }

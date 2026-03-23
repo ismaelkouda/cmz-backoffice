@@ -12,6 +12,7 @@ export interface AllItemApiDto {
     initiator_phone_number: string;
     status: ApiStatus;
     reported_at: string;
+    updated_at: string;
 }
 
 export type AllResponseApiDto = PaginatedResponseDto<AllItemApiDto>;

@@ -14,6 +14,7 @@ export interface QueuesItemApiDto {
     source: ReportSourceDto;
     initiator_phone_number: string;
     reported_at: string;
+    updated_at: string;
 }
 
 export type QueuesResponseApiDto = PaginatedResponseDto<QueuesItemApiDto>;

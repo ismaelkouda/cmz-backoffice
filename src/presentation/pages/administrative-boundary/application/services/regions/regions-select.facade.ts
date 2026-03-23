@@ -15,8 +15,6 @@ export class RegionsSelectFacade extends ArrayBaseFacade<
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly fetchUseCase = inject(RegionsSelectUseCase);
 
-    readonly municipalitiesByDepartmentId$ = this.items$;
-
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;

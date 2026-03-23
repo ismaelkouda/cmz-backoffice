@@ -37,8 +37,15 @@ export class NotificationsEntity {
         return methodMap[status];
     }
 
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
     public with(props: NotificationsProps): NotificationsEntity {
-        if (this.sendAt === props.sendAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new NotificationsEntity(props);

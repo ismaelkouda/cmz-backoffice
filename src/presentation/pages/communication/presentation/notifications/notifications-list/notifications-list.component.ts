@@ -143,6 +143,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         }),
     });
     constructor() {
+        this.facade.execute();
         this.translate.onLangChange
             .pipe(takeUntil(this.destroy$))
             .subscribe((event) => {

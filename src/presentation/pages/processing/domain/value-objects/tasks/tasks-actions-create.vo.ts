@@ -2,14 +2,14 @@ import { TasksActionsCreateDto } from '@pages/processing/application/dto/tasks/t
 
 export class TasksActionsCreateVo {
     public readonly reportUniqId: string;
-    public readonly date: string;
+    public readonly date: Date | null;
     public readonly type: string;
     public readonly description: string;
     public readonly shouldNotifyUser: boolean;
 
     constructor(props: {
         reportUniqId: string;
-        date: string;
+        date: Date | null;
         type: string;
         description: string;
         shouldNotifyUser: boolean;

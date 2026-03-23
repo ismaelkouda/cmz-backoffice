@@ -21,7 +21,7 @@ export class TasksActionsMapper extends PaginatedMapper<
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: TasksActionsProps = {
             uniqId: dto.id,
-            date: dto.date,
+            date: dto.date ? new Date(dto.date) : new Date(),
             type: this.mapActionType(dto.type),
             description: dto.description,
             shouldNotifyUser: dto.should_notify_user ?? false,

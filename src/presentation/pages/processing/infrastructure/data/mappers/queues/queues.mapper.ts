@@ -36,6 +36,7 @@ export class QueuesMapper extends PaginatedMapper<
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
             reportedAt: dto.reported_at,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${dto.uniq_id}`;

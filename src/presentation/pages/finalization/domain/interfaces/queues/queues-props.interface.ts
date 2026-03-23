@@ -9,4 +9,5 @@ export interface QueuesProps {
     source: ReportSource;
     initiatorPhoneNumber: string;
     reportedAt: string;
+    updatedAt: string;
 }

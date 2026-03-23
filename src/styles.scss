@@ -669,6 +669,12 @@ body .ui-table .ui-table-tbody > tr > td {
     border: 0 !important;
 }
 
+.p-datatable-tbody > tr.p-datatable-row-selected {
+    background-color: var(--theme-default) !important;
+    color: var(--color-white) !important;
+    border: 0 !important;
+}
+
 input:focus,
 textarea:focus,
 select:focus,

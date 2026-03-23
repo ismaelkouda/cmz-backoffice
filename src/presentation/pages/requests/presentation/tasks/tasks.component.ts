@@ -254,6 +254,7 @@ export class TasksComponent implements OnInit {
         actionId?: string;
     }): void {
         const { item } = event;
+        console.log('item: ', item);
         this.selectedReportId = item.uniqId;
         this.reportTreatmentVisible = true;
     }
