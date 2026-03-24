@@ -79,6 +79,7 @@ export class TasksComponent implements OnInit {
     );
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
+    public selectedManagementType: string | null = null;
     public readonly tableConfig = TASKS_TABLE_CONST;
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -270,6 +271,7 @@ export class TasksComponent implements OnInit {
         }
         const { item } = event;
         this.selectedReportId = item.uniqId;
+        this.selectedManagementType = item.type;
         this.reportTreatmentVisible = true;
     }
 

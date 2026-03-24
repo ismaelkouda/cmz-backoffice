@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { COMMUNICATION_BASE_URL } from '@pages/communication/infrastructure/api/communication.base-url';
 import { COMMUNICATION_ENDPOINTS } from '@pages/communication/infrastructure/api/communication.endpoints';
 import { NotificationsFilterApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-filter-api.dto';
+import { NotificationsReadOneApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-read-one-api.dto';
 import { NotificationsResponseApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-response-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -24,6 +25,13 @@ export class NotificationsApi {
         const params = buildHttpParams(filter);
 
         return this.http.get<NotificationsResponseApiDto>(url, { params });
+    }
+
+    readOne(
+        apiDto: NotificationsReadOneApiDto
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.NOTIFICATIONS}/${apiDto.uniq_id}/read`;
+        return this.http.put<SimpleResponseDto<void>>(url, {});
     }
 
     readAll(): Observable<SimpleResponseDto<void>> {

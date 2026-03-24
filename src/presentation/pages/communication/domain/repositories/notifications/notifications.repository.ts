@@ -1,4 +1,5 @@
 import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
+import { NotificationsReadOneEntity } from '@pages/communication/domain/entities/notifications/notifications-read-one.entity';
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
 import {
     Paginate,
@@ -11,5 +12,8 @@ export abstract class NotificationsRepository {
         filter: NotificationsFilterEntity | null,
         page: string
     ): Observable<Paginate<NotificationsEntity>>;
+    abstract readOne(
+        entity: NotificationsReadOneEntity
+    ): Observable<SimpleResponseDto<void>>;
     abstract readAll(): Observable<SimpleResponseDto<void>>;
 }

@@ -32,7 +32,7 @@ export const TASKS_ACTIONS_TABLE = {
             width: '3rem',
         },
         {
-            field: 'date',
+            field: 'formatDate',
             header: 'PROCESSING.TASKS.ACTIONS.TABLE.DATE_ACTION',
             width: '8rem',
             class: 'text-center',

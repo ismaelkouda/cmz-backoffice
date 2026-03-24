@@ -6,6 +6,7 @@ import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.ma
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
@@ -23,6 +24,7 @@ export class TasksMapper extends PaginatedMapper<TasksEntity, TasksItemApiDto> {
         });
 
         const props: TasksProps = {
+            type: TypeReport.PROCESSING,
             uniqId: dto.uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
             operators: this.utils.memoizedList(

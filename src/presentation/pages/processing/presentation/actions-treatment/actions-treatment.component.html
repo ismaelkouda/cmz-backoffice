@@ -123,6 +123,7 @@
                                 [pagination]="pagination()"
                                 [config]="tableConfig"
                                 [headerButtons]="headerButtons()"
+                                (refreshRequested)="onRefreshClicked()"
                                 (headerButtonClicked)="
                                     onHeaderButtonClicked($event)
                                 "
@@ -146,7 +147,7 @@
         <app-management-dialog
             [(visible)]="reportTreatmentVisible"
             [uniqId]="uniqId()"
-            (tasks)="onReportTreatmentTasks()"
+            [type]="selectedManagementType"
         ></app-management-dialog>
     }
 </main>

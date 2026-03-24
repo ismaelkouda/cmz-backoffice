@@ -81,6 +81,7 @@ export class TasksComponent implements OnInit {
     );
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
+    public selectedManagementType: string | null = null;
     public readonly selectedInTable = signal<TasksEntity[]>([]);
     private lastSuccess = this.finalizeFacade.actionSuccess();
     public readonly tableConfig = TASKS_TABLE_CONST;
@@ -317,6 +318,7 @@ export class TasksComponent implements OnInit {
     }): void {
         const { item } = event;
         this.selectedReportId = item.uniqId;
+        this.selectedManagementType = item.type;
         this.reportTreatmentVisible = true;
     }
 

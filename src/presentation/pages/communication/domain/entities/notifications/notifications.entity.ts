@@ -3,10 +3,14 @@ import {
     StatusStyle,
 } from '@pages/communication/domain/enums/notifications/notifications-status.enum';
 import { NotificationsProps } from '@pages/communication/domain/interfaces/notifications/notifications-props.interface';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export class NotificationsEntity {
     constructor(private readonly props: NotificationsProps) {}
 
+    get actionsRef(): string {
+        return this.props.reference;
+    }
     get uniqId(): string {
         return this.props.uniqId;
     }
@@ -16,7 +20,7 @@ export class NotificationsEntity {
     get title(): string {
         return this.props.title;
     }
-    get type(): string {
+    get type(): TypeReport {
         return this.props.type;
     }
     get message(): string {

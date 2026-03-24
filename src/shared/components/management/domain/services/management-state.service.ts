@@ -3,7 +3,7 @@ import { DetailsFacade as FinalizationFacade } from '@pages/finalization/applica
 import { DetailsFacade as ProcessingFacade } from '@pages/processing/application/services/details/details.facade';
 import { DetailsFacade as RequestsFacade } from '@pages/requests/application/services/details/details.facade';
 import { ManagementEntityType } from '@shared/components/management/domain/types/management-entity.type';
-import { RouteContextType } from '@shared/domain/types/route-context.types';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 @Injectable()
 export class ManagementStateService {
@@ -11,7 +11,7 @@ export class ManagementStateService {
     private readonly processingFacade = inject(ProcessingFacade);
     private readonly finalizationFacade = inject(FinalizationFacade);
 
-    private readonly context = signal<RouteContextType | null>(null);
+    private readonly context = signal<TypeReport | null>(null);
     private readonly uniqId = signal<string>('');
 
     readonly requestsItems = this.requestsFacade.items;
@@ -37,9 +37,9 @@ export class ManagementStateService {
         switch (ctx) {
             case 'requests':
                 return this.requestsItems();
-            case 'reports-processing':
+            case 'processing':
                 return this.processingItems();
-            case 'reports-finalization':
+            case 'finalization':
                 return this.finalizationItems();
             default:
                 return null;
@@ -51,9 +51,9 @@ export class ManagementStateService {
         switch (ctx) {
             case 'requests':
                 return this.requestsLoading();
-            case 'reports-processing':
+            case 'processing':
                 return this.processingLoading();
-            case 'reports-finalization':
+            case 'finalization':
                 return this.finalizationLoading();
             default:
                 return false;
@@ -65,9 +65,9 @@ export class ManagementStateService {
         switch (ctx) {
             case 'requests':
                 return this.requestsActionState();
-            case 'reports-processing':
+            case 'processing':
                 return this.processingActionState();
-            case 'reports-finalization':
+            case 'finalization':
                 return this.finalizationActionState();
             default:
                 return 'idle' as const;
@@ -79,9 +79,9 @@ export class ManagementStateService {
         switch (ctx) {
             case 'requests':
                 return this.requestsActionSuccess();
-            case 'reports-processing':
+            case 'processing':
                 return this.processingActionSuccess();
-            case 'reports-finalization':
+            case 'finalization':
                 return this.finalizationActionSuccess();
             default:
                 return 0;
@@ -93,16 +93,16 @@ export class ManagementStateService {
         switch (ctx) {
             case 'requests':
                 return this.requestsFacade.actionError();
-            case 'reports-processing':
+            case 'processing':
                 return this.processingFacade.actionError();
-            case 'reports-finalization':
+            case 'finalization':
                 return this.finalizationFacade.actionError();
             default:
                 return null;
         }
     });
 
-    initialize(context: RouteContextType | null, uniqId: string): void {
+    initialize(context: TypeReport, uniqId: string): void {
         if (!context || !uniqId) {
             return;
         }
@@ -116,10 +116,10 @@ export class ManagementStateService {
             case 'requests':
                 this.requestsFacade.read(dto, true);
                 break;
-            case 'reports-processing':
+            case 'processing':
                 this.processingFacade.read(dto, true);
                 break;
-            case 'reports-finalization':
+            case 'finalization':
                 this.finalizationFacade.read(dto, true);
                 break;
         }
@@ -137,10 +137,10 @@ export class ManagementStateService {
             case 'requests':
                 this.executeRequestsAction(action, { ...payload, uniqId });
                 break;
-            case 'reports-processing':
+            case 'processing':
                 this.executeProcessingAction(action, { ...payload, uniqId });
                 break;
-            case 'reports-finalization':
+            case 'finalization':
                 this.executeFinalizationAction(action, { ...payload, uniqId });
                 break;
         }
@@ -172,7 +172,6 @@ export class ManagementStateService {
     }
 
     private executeFinalizationAction(action: string, payload: any): void {
-        console.log('action executeFinalizationAction: ', action);
         switch (action) {
             case 'take':
                 this.finalizationFacade.take(payload);
@@ -197,10 +196,10 @@ export class ManagementStateService {
             case 'requests':
                 this.requestsFacade.read(dto, forceRefresh);
                 break;
-            case 'reports-processing':
+            case 'processing':
                 this.processingFacade.read(dto, forceRefresh);
                 break;
-            case 'reports-finalization':
+            case 'finalization':
                 this.finalizationFacade.read(dto, forceRefresh);
                 break;
         }

@@ -74,6 +74,7 @@ export class QueuesComponent implements OnInit {
     );
     public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
+    public selectedManagementType: string | null = null;
     public readonly tableConfig = QUEUES_TABLE_CONST;
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -279,6 +280,7 @@ export class QueuesComponent implements OnInit {
     }): void {
         const { item } = event;
         this.selectedReportId = item.uniqId;
+        this.selectedManagementType = item.type;
         this.reportTreatmentVisible = true;
     }
 }

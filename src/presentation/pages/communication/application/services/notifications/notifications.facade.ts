@@ -1,7 +1,10 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { NotificationsReadOneCommand } from '@pages/communication/application/commands/notifications/notifications-read-one.command';
 import { NotificationsReadAllBus } from '@pages/communication/application/commands-bus/notifications/notifications-read-all.bus';
+import { NotificationsReadOneBus } from '@pages/communication/application/commands-bus/notifications/notifications-read-one.bus';
 import { NotificationsFilterDto } from '@pages/communication/application/dto/notifications/notifications-filter.dto';
+import { NotificationsReadOneDto } from '@pages/communication/application/dto/notifications/notifications-read-one.dto';
 import { NotificationsQuery } from '@pages/communication/application/queries/notifications/notifications.query';
 import { NotificationsBus } from '@pages/communication/application/queries-bus/notifications/notifications.bus';
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
@@ -24,6 +27,7 @@ export class NotificationsFacade extends BaseFacade<
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly filterBus = inject(NotificationsBus);
     private readonly readAllBus = inject(NotificationsReadAllBus);
+    private readonly readOneBus = inject(NotificationsReadOneBus);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
     readonly actionState = this._actionState.asReadonly();
@@ -50,7 +54,7 @@ export class NotificationsFacade extends BaseFacade<
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
-        successKey: string
+        successKey?: string
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
@@ -169,10 +173,17 @@ export class NotificationsFacade extends BaseFacade<
         };
     }
 
+    readOne(team: NotificationsReadOneDto): void {
+        const command = new NotificationsReadOneCommand(team.uniqId);
+        this.handleActionWithRefresh(
+            this.readOneBus.dispatch(command)
+        ).subscribe();
+    }
+
     readAll(): void {
         this.handleActionWithRefresh(
             this.readAllBus.dispatch(),
-            'COMMON.SUCCESS.UPDATE'
+            'COMMON.SUCCESS.READ'
         ).subscribe();
     }
 }

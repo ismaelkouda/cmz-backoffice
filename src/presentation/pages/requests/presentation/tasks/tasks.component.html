@@ -59,7 +59,7 @@
         <app-management-dialog
             [(visible)]="reportTreatmentVisible"
             [uniqId]="selectedReportId"
-            (tasks)="onReportTreatmentTasks()"
+            [type]="selectedManagementType"
         ></app-management-dialog>
     }
 </main>
