@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { SlideFindOneEntity } from '@pages/content-management/domain/entities/slide/slide-find-one.entity';
 import { SlideFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-find-one-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-status.mapper';
-import { SlideFindOneProps } from '@presentation/pages/content-management/domain/interfaces/slide/slide-find-one-props.interface';
+import { SlideFindOneProps } from '@pages/content-management/domain/interfaces/slide/slide-find-one-props.interface';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';

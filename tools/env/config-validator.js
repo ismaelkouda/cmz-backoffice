@@ -89,7 +89,6 @@ export type EnvironmentName = keyof typeof ENVIRONMENTS;
 `;
 }
 
-// Export nommé pour ES Modules
 export default {
     validateConfig,
     generateTypes,

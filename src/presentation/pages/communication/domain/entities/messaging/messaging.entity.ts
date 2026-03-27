@@ -11,6 +11,10 @@ export class MessagingEntity {
         return this.props.uniqId;
     }
 
+    get actionsRef(): string {
+        return this.props.type;
+    }
+
     get reportId(): string {
         return this.props.reportId;
     }

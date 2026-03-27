@@ -743,9 +743,9 @@
     }
 
     .page-body-wrapper {
-        background-color: $main-body-color;
 
         .page-body {
+            background-color: $main-body-color;
             min-height: calc(100vh - #{$header-size});
             margin-top: $header-size;
             position: relative;
@@ -1423,7 +1423,6 @@
                     z-index: 9;
                     height: auto;
                     line-height: inherit;
-                    background: $white;
                     width: $sidebar-compact-width;
                     text-align: left;
                     transition: 0.3s;
@@ -2538,7 +2537,6 @@
                 > div {
                     height: auto;
                     line-height: inherit;
-                    background: $white;
                     width: 150px;
                     text-align: left;
                     transition: 0.3s;

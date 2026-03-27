@@ -65,6 +65,7 @@ body[class='dark-only'] {
 @import 'base/reset';
 @import 'base/typography';
 @import 'global';
+@import 'utils/modern-swal';
 //  *** components ***
 /* @import '../scss/pages/custom.scss';
 @import 'components/according.scss';
@@ -146,7 +147,7 @@ body[class='dark-only'] {
 	*** themes ***
 -----------------------*/
 
-@import 'themes/dark.scss';
+// @import 'themes/dark.scss';
 @import 'themes/theme-customizer.scss';
 @import 'themes/update.scss';
 @import 'layout/footer.scss';

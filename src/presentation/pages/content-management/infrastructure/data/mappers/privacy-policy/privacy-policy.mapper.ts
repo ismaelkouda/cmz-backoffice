@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
 import { PrivacyPolicyItemApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/privacy-policy/privacy-policy-status.mapper';
-import { PrivacyPolicyProps } from '@presentation/pages/content-management/domain/interfaces/privacy-policy/privacy-policy-props.interface';
+import { PrivacyPolicyProps } from '@pages/content-management/domain/interfaces/privacy-policy/privacy-policy-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

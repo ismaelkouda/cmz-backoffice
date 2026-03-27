@@ -20,7 +20,7 @@ export function allFilterMapper(entity: AllFilterEntity): AllFilterApiDto {
         params.source = entity.source;
     }
     if (entity.status) {
-        params.state = entity.status;
+        params.status = entity.status;
     }
     if (entity.period?.start) {
         params.start_date = entity.period.start;

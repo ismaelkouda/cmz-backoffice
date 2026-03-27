@@ -91,20 +91,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     public selectedTabIndex = 0;
     public isTreatmentFormExpanded = true;
     public readonly TABS = TABS;
-    // private readonly context = computed<Partial<RouteContextType | null>>(
-    //     () => {
-    //         if (this.routeContextService.isRequestsModule()) {
-    //             return 'requests';
-    //         }
-    //         if (this.routeContextService.isReportsProcessingModule()) {
-    //             return 'reports-processing';
-    //         }
-    //         if (this.routeContextService.isReportsFinalizationModule()) {
-    //             return 'reports-finalization';
-    //         }
-    //         return null;
-    //     }
-    // );
     public readonly items = this.stateService.items;
     public readonly loading = this.stateService.loading;
     public readonly actionState = this.stateService.actionState;
@@ -149,15 +135,21 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         }
     });
 
+    private lastHandledSuccess = 0;
+
     private readonly successEffect = effect(() => {
         const success = this.stateService.actionSuccess();
-        if (success) {
+
+        if (success > this.lastHandledSuccess) {
+            this.lastHandledSuccess = success;
             this.onCloseDialog();
         }
     });
 
     ngOnInit(): void {
         this.stateService.initialize(this.type(), this.uniqId());
+        console.log('this.type(): ', this.type());
+        console.log('this.items(): ', this.items());
     }
 
     ngOnDestroy(): void {
@@ -247,7 +239,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     public onCloseDialog(): void {
         SweetAlert.close();
         this.visibleChange.emit(false);
-        this.closed.emit();
+        console.log('falsedscdsscsd: ');
         this.stateService.reset();
     }
 

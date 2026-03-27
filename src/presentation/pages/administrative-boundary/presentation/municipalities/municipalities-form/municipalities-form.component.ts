@@ -24,7 +24,7 @@ import { MunicipalitiesFacade } from '@pages/administrative-boundary/application
 import { MunicipalitiesFormControl } from '@pages/administrative-boundary/domain/controls/municipalities/municipalities-form.control';
 import { MunicipalitiesFormHelperService } from '@pages/administrative-boundary/domain/services/municipalities/municipalities-form-helper.service';
 import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
-import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
+import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';

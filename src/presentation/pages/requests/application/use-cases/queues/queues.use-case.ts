@@ -5,7 +5,7 @@ import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.enti
 import { QueuesRepository } from '@pages/requests/domain/repositories/queues/queues.repository';
 import { QueuesFilterVo } from '@pages/requests/domain/value-objects/queues/queues-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-import { defer, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -17,10 +17,8 @@ export class QueuesUseCase {
         filterDto: QueuesFilterDto | null,
         page: string
     ): Observable<Paginate<QueuesEntity>> {
-        return defer(() => {
-            const vo = QueuesFilterVo.fromDto(filterDto);
-            const entity = QueuesFilterEntity.fromVo(vo);
-            return this.repository.execute(entity, page);
-        });
+        const vo = QueuesFilterVo.fromDto(filterDto);
+        const entity = QueuesFilterEntity.fromVo(vo);
+        return this.repository.execute(entity, page);
     }
 }

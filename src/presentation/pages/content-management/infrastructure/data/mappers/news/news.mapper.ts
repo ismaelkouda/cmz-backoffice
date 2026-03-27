@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { NewsItemApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-status.mapper';
-import { NewsProps } from '@presentation/pages/content-management/domain/interfaces/news/news-props.interface';
+import { NewsProps } from '@pages/content-management/domain/interfaces/news/news-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

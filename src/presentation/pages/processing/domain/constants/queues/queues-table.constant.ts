@@ -3,7 +3,7 @@ export function calculateActionColumnWidth(actionCount: number): string {
     return `${width}rem`;
 }
 
-export const QUEUES_TABLE_CONST = {
+export const QUEUES_TABLE = {
     actions: [
         {
             id: 'management-dialog',
@@ -26,7 +26,7 @@ export const QUEUES_TABLE_CONST = {
             width: '8rem',
         },
         {
-            field: 'reportType',
+            field: 'reportTypeLabel',
             header: 'PROCESSING.QUEUES.TABLE.REPORT_TYPE',
             width: '11rem',
         },
@@ -36,7 +36,7 @@ export const QUEUES_TABLE_CONST = {
             width: '10rem',
         },
         {
-            field: 'source',
+            field: 'sourceLabel',
             header: 'PROCESSING.QUEUES.TABLE.SOURCE',
             width: '12rem',
         },
@@ -55,9 +55,10 @@ export const QUEUES_TABLE_CONST = {
     ],
     globalFilterFields: [
         'uniqId',
-        'reportType',
+        'reportTypeLabel',
         'operators',
-        'source',
+        'sourceLabel',
+        'initiatorPhoneNumber',
         'reportedAt',
     ],
 };

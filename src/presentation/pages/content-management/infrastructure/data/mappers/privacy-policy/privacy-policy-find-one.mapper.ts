@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { PrivacyPolicyFindOneEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one.entity';
 import { PrivacyPolicyFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-find-one-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/privacy-policy/privacy-policy-status.mapper';
-import { PrivacyPolicyFindOneProps } from '@presentation/pages/content-management/domain/interfaces/privacy-policy/privacy-policy-find-one-props.interface';
+import { PrivacyPolicyFindOneProps } from '@pages/content-management/domain/interfaces/privacy-policy/privacy-policy-find-one-props.interface';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

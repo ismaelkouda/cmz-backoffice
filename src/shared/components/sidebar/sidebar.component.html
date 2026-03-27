@@ -45,17 +45,7 @@
     >
         <i [attr.data-feather]="'arrow-right'"></i>
     </button>
-    <div
-        id="sidebar-menu"
-        [ngStyle]="{
-            marginLeft:
-                this.layout.config.settings.layout == 'Rome' ||
-                'Singapore' ||
-                'Barcelona'
-                    ? margin + 'px'
-                    : '0px',
-        }"
-    >
+    <div id="sidebar-menu">
         <ul class="sidebar-links custom-scrollbar">
             <div class="simplebar-wrapper">
                 <div class="simplebar-mask">

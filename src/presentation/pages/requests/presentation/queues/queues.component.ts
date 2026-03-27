@@ -11,17 +11,18 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import {
     LangChangeEvent,
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
+import { QueuesFilterDto } from '@pages/requests/application/dto/queues/queues-filter.dto';
 import { QueuesFacade } from '@pages/requests/application/services/queues/queues.facade';
 import { QUEUES_TABLE } from '@pages/requests/domain/constants/queues/queues-table.constant';
-import { QueuesFilterControl } from '@pages/requests/domain/controls/queues/queues-filter-control';
-import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
+import { QueuesVmProps } from '@pages/requests/presentation/adapters/queues/queues-vm-props.interface';
+import { QueuesPresenter } from '@pages/requests/presentation/adapters/queues/queues-vm.presenter';
+import { QueuesFilterStore } from '@pages/requests/presentation/store/queues/queues-filter.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -36,11 +37,10 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
-
-import { QueuesTableVm } from '../../domain/view-models/queues/queues-table.vm';
 
 @Component({
     selector: 'app-queues',
@@ -57,16 +57,16 @@ import { QueuesTableVm } from '../../domain/view-models/queues/queues-table.vm';
         PaginationComponent,
         TranslateModule,
     ],
+    providers: [QueuesFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueuesComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
-    private readonly queuesTableVm = inject(QueuesTableVm);
     public readonly facade = inject(QueuesFacade);
-    private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
+    public readonly formStore = inject(QueuesFilterStore);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     readonly exportFilePrefix = this.normalizeExportPrefix(
@@ -75,12 +75,18 @@ export class QueuesComponent implements OnInit {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-    public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-    public selectedManagementType: string | null = null;
     public readonly tableConfig = QUEUES_TABLE;
+    readonly form = this.formStore.form;
+    public readonly reportTreatmentVisible = signal<boolean>(false);
+    public readonly selectedManagementType = signal<TypeReport>(
+        TypeReport.REQUESTS
+    );
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
+    });
+    private readonly currentFilter = toSignal(this.facade.currentFilter$, {
+        initialValue: null,
     });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
@@ -189,32 +195,16 @@ export class QueuesComponent implements OnInit {
             },
         ];
     });
-    readonly form = this.fb.group<QueuesFilterControl>({
-        initiatorPhoneNumber: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        uniqId: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        reportType: new FormControl<string | null>(null, {
-            nonNullable: true,
-        }),
-        operators: new FormControl<string[]>([], {
-            nonNullable: true,
-        }),
-        source: new FormControl<string | null>(null, {
-            nonNullable: true,
-        }),
-        startDate: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        endDate: new FormControl<string>('', {
-            nonNullable: true,
-        }),
+    readonly presenter = new QueuesPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
 
     constructor() {
-        this.facade.read();
+        this.facade.read(this.currentFilter() as QueuesFilterDto);
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {
@@ -231,7 +221,6 @@ export class QueuesComponent implements OnInit {
 
     ngOnInit(): void {
         this.title.setTitle(this.t('REQUESTS.QUEUES.TITLE'));
-
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
@@ -239,12 +228,12 @@ export class QueuesComponent implements OnInit {
             });
     }
 
-    public onFilterClicked(filterValues: any): void {
-        this.facade.read(filterValues, '1', true);
+    public onFilterClicked(): void {
+        this.facade.read(this.formStore.value, '1', true);
     }
 
     public onRefreshClicked(): void {
-        this.form.reset();
+        this.formStore.reset();
         this.facade.refresh();
     }
 
@@ -253,13 +242,17 @@ export class QueuesComponent implements OnInit {
     }
 
     public onActionClicked(event: {
-        item: QueuesEntity;
+        item: QueuesVmProps;
         actionId?: string;
     }): void {
         const { item } = event;
+        this.selectedManagementType.set(item.type);
         this.selectedReportId = item.uniqId;
-        this.selectedManagementType = item.type;
-        this.reportTreatmentVisible = true;
+        this.reportTreatmentVisible.set(true);
+    }
+
+    public onVisibleChange(event: boolean): void {
+        this.reportTreatmentVisible.set(event);
     }
 
     private t(key: string): string {

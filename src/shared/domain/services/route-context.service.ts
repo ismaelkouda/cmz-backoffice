@@ -5,7 +5,7 @@ import {
     HOME_ROUTE,
     NEWS_ROUTE,
     SLIDE_ROUTE,
-} from '@presentation/pages/content-management/content-management.routes';
+} from '@pages/content-management/content-management.routes';
 import { RouteContextType } from '@shared/domain/types/route-context.types';
 import {
     PROCESSING_ROUTE,

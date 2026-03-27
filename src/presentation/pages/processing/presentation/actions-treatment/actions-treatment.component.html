@@ -61,7 +61,7 @@
                                     {{ 'COMMON.REPORT' | translate }} :
                                 </span>
                                 <p-tag
-                                    [value]="reportType() | translate"
+                                    [value]="reportType()"
                                     [rounded]="true"
                                 ></p-tag>
                             </div>
@@ -102,7 +102,7 @@
                                     {{ 'COMMON.SOURCE' | translate }} :
                                 </span>
                                 <span class="subtitle-value"
-                                    >{{ source() | translate }} [
+                                    >{{ source() }} [
                                     {{ initiatorPhone() }} ]
                                 </span>
                             </div>
@@ -143,11 +143,12 @@
         </article>
     </section>
 
-    @if (reportTreatmentVisible) {
+    @if (reportTreatmentVisible()) {
         <app-management-dialog
-            [(visible)]="reportTreatmentVisible"
+            [visible]="reportTreatmentVisible()"
             [uniqId]="uniqId()"
-            [type]="selectedManagementType"
+            [type]="selectedManagementType()"
+            (visibleChange)="onVisibleChange($event)"
         ></app-management-dialog>
     }
 </main>

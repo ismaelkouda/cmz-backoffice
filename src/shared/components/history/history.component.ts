@@ -1,4 +1,4 @@
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -37,7 +37,6 @@ import { HistoryFacade } from './application/services/history.facade';
         PaginationComponent,
         ReactiveFormsModule,
         DialogModule,
-        JsonPipe,
     ],
     templateUrl: './history.component.html',
     styleUrls: ['./history.component.scss'],

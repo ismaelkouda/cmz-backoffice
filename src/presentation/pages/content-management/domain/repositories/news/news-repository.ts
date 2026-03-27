@@ -4,8 +4,8 @@ import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news
 import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
 import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
-import { NewsPublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-publish.entity';
-import { NewsUnpublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-unpublish.entity';
+import { NewsPublishEntity } from '@pages/content-management/domain/entities/news/news-publish.entity';
+import { NewsUnpublishEntity } from '@pages/content-management/domain/entities/news/news-unpublish.entity';
 import {
     Paginate,
     SimpleResponseDto,

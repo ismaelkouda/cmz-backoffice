@@ -38,6 +38,7 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { formatDate } from '@shared/domain/functions/format-data.function';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
@@ -105,7 +106,10 @@ export class ActionsTreatmentComponent implements OnInit {
     private lastSuccess = this.facade.actionSuccess();
     public readonly displayModal = signal<boolean>(false);
     private readonly openRequested = signal(false);
-    public reportTreatmentVisible = false;
+    public readonly reportTreatmentVisible = signal<boolean>(false);
+    public readonly selectedManagementType = signal<TypeReport>(
+        TypeReport.PROCESSING
+    );
 
     private readonly editingItemId = signal<string | null>(null);
     public readonly isEditMode = computed(() => this.editingItemId() !== null);
@@ -285,7 +289,11 @@ export class ActionsTreatmentComponent implements OnInit {
         if (!this.uniqId()) {
             return;
         }
-        this.reportTreatmentVisible = true;
+        this.reportTreatmentVisible.set(true);
+    }
+
+    public onVisibleChange(event: boolean): void {
+        this.reportTreatmentVisible.set(event);
     }
 
     public onClosureClicked(): void {

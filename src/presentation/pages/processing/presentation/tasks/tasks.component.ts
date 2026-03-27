@@ -11,7 +11,7 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -19,11 +19,13 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
+import { TasksFilterDto } from '@pages/processing/application/dto/tasks/tasks-filter.dto';
 import { TasksFacade } from '@pages/processing/application/services/tasks/tasks.facade';
-import { TASKS_TABLE_CONST } from '@pages/processing/domain/constants/tasks/tasks-table.constants';
-import { TasksFilterControl } from '@pages/processing/domain/controls/tasks/tasks-filter-control';
-import { TasksEntity } from '@pages/processing/domain/entities/tasks/tasks.entity';
+import { TASKS_TABLE } from '@pages/processing/domain/constants/tasks/tasks-table.constants';
+import { TasksVmProps } from '@pages/processing/presentation/adapters/tasks/tasks-vm-props.interface';
+import { TasksPresenter } from '@pages/processing/presentation/adapters/tasks/tasks-vm.presenter';
 import { ACTIONS_ROUTE } from '@pages/processing/processing.routes';
+import { TasksFilterStore } from '@pages/processing/presentation/store/tasks/tasks-filter.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -38,6 +40,7 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
@@ -58,6 +61,7 @@ import { ToastrService } from 'ngx-toastr';
         ReactiveFormsModule,
         FilterComponent,
     ],
+    providers: [TasksFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksComponent implements OnInit {
@@ -66,9 +70,9 @@ export class TasksComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly title = inject(Title);
     public readonly facade = inject(TasksFacade);
-    private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
+    public readonly formStore = inject(TasksFilterStore);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     readonly exportFilePrefix = this.normalizeExportPrefix(
@@ -77,12 +81,18 @@ export class TasksComponent implements OnInit {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-    public reportTreatmentVisible = false;
     public selectedReportId: string | null = null;
-    public selectedManagementType: string | null = null;
-    public readonly tableConfig = TASKS_TABLE_CONST;
+    public readonly tableConfig = TASKS_TABLE;
+    readonly form = this.formStore.form;
+    public readonly reportTreatmentVisible = signal<boolean>(false);
+    public readonly selectedManagementType = signal<TypeReport>(
+        TypeReport.PROCESSING
+    );
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
+    });
+    private readonly currentFilter = toSignal(this.facade.currentFilter$, {
+        initialValue: null,
     });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
@@ -189,32 +199,16 @@ export class TasksComponent implements OnInit {
             },
         ];
     });
-    readonly form = this.fb.group<TasksFilterControl>({
-        initiatorPhoneNumber: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        uniqId: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        reportType: new FormControl<string | null>(null, {
-            nonNullable: true,
-        }),
-        operators: new FormControl<string[]>([], {
-            nonNullable: true,
-        }),
-        source: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        startDate: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        endDate: new FormControl<string>('', {
-            nonNullable: true,
-        }),
+    readonly presenter = new TasksPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
 
     constructor() {
-        this.facade.read();
+        this.facade.read(this.currentFilter() as TasksFilterDto);
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {
@@ -238,12 +232,12 @@ export class TasksComponent implements OnInit {
             });
     }
 
-    public onFilterClicked(filterValues: any): void {
-        this.facade.read(filterValues, '1', true);
+    public onFilterClicked(): void {
+        this.facade.read(this.formStore.value, '1', true);
     }
 
     public onRefreshClicked(): void {
-        this.form.reset();
+        this.formStore.reset();
         this.facade.refresh();
     }
 
@@ -252,7 +246,7 @@ export class TasksComponent implements OnInit {
     }
 
     public onActionClicked(event: {
-        item: TasksEntity;
+        item: TasksVmProps;
         actionId?: string;
     }): void {
         if (event.actionId === 'actions') {
@@ -260,19 +254,23 @@ export class TasksComponent implements OnInit {
                 relativeTo: this.activatedRoute,
                 queryParams: {
                     uniqId: event.item.uniqId,
-                    reportType: event.item.reportType,
+                    reportType: event.item.reportTypeLabel,
                     operators: event.item.operators,
                     createdAt: event.item.reportedAt,
-                    source: event.item.source,
+                    source: event.item.sourceLabel,
                     initiatorPhone: event.item.initiatorPhoneNumber,
                 },
             });
             return;
         }
         const { item } = event;
+        this.selectedManagementType.set(item.type);
         this.selectedReportId = item.uniqId;
-        this.selectedManagementType = item.type;
-        this.reportTreatmentVisible = true;
+        this.reportTreatmentVisible.set(true);
+    }
+
+    public onVisibleChange(event: boolean): void {
+        this.reportTreatmentVisible.set(event);
     }
 
     private t(key: string): string {

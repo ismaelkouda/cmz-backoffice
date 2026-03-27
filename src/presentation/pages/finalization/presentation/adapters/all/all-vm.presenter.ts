@@ -1,0 +1,19 @@
+import { AllEntity } from '@pages/finalization/domain/entities/all/all.entity';
+import { AllVmProps } from '@pages/finalization/domain/interfaces/all/all-vm-props.interface';
+
+export class AllPresenter {
+    constructor(private readonly t: (key: string) => string) {}
+
+    map(item: AllEntity): AllVmProps {
+        return {
+            uniqId: item.uniqId,
+            type: item.type,
+            reportTypeLabel: this.t(item.reportType),
+            operators: item.operators,
+            sourceLabel: this.t(item.source),
+            initiatorPhoneNumber: item.initiatorPhoneNumber,
+            reportedAt: item.reportedAt,
+            actionsRef: item.actionsRef,
+        };
+    }
+}

@@ -1,4 +1,3 @@
-import { Status } from '@pages/requests/domain/enums/all/all-status.enum';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export interface AllFilterProps {
@@ -6,7 +5,7 @@ export interface AllFilterProps {
     uniqId?: string;
     reportType?: string;
     operators?: string[];
-    status?: Status;
+    status?: string;
     source?: string;
     period?: DatePeriod;
 }

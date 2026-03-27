@@ -26,7 +26,7 @@ export const ALL_TABLE = {
             width: '8rem',
         },
         {
-            field: 'reportType',
+            field: 'reportTypeLabel',
             header: 'REQUESTS.ALL.TABLE.REPORT_TYPE',
             width: '12rem',
         },
@@ -36,12 +36,12 @@ export const ALL_TABLE = {
             width: '12rem',
         },
         {
-            field: 'source',
+            field: 'sourceLabel',
             header: 'REQUESTS.ALL.TABLE.SOURCE',
             width: '12rem',
         },
         {
-            field: 'status',
+            field: 'statusLabel',
             header: 'REQUESTS.ALL.TABLE.STATUS',
             class: 'text-center',
             width: '4rem',
@@ -62,9 +62,10 @@ export const ALL_TABLE = {
     globalFilterFields: [
         'uniqId',
         'reportTypeLabel',
-        'operatorsLabels',
+        'operators',
         'sourceLabel',
-        'state',
+        'statusLabel',
+        'initiatorPhoneNumber',
         'reportedAt',
     ],
 };

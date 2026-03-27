@@ -11,6 +11,8 @@ import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TooltipModule } from 'primeng/tooltip';
 
+import { ManagementEntityType } from '../../domain/types/management-entity.type';
+
 @Component({
     selector: 'app-management-header',
     standalone: true,
@@ -20,7 +22,7 @@ import { TooltipModule } from 'primeng/tooltip';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementHeaderComponent {
-    public readonly item = input.required<any>();
+    public readonly item = input.required<ManagementEntityType>();
     public readonly uniqId = input.required<string>();
     public readonly loading = input.required<boolean>();
 
@@ -32,7 +34,13 @@ export class ManagementHeaderComponent {
 
     protected readonly isReport = computed((): boolean => {
         const item = this.item();
+        if (!item || !item.type) {
+            return false;
+        }
+
+        console.log('item: ', item);
         console.log('item?.type: ', item?.type);
+
         return (
             item?.type === TypeReport.PROCESSING ||
             item?.type === TypeReport.FINALIZATION

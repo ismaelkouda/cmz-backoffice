@@ -11,16 +11,17 @@ import {
     Signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { MessagingFacade } from '@pages/communication/application/services/messaging/messaging.facade';
 import { MESSAGING_TABLE } from '@pages/communication/domain/constants/messaging/messaging-table.constant';
-import { MessagingFilterControl } from '@pages/communication/domain/controls/messaging/messaging-filter.control';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { MessagingPresenter } from '@pages/communication/presentation/adapters/messaging/messaging-vm.presenter';
 import { MESSAGING_FORM } from '@pages/communication/presentation/messaging/messaging.routes';
+import { MessagingFilterStore } from '@pages/communication/presentation/store/messaging/messaging-filter.store';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -48,6 +49,7 @@ import SweetAlert from 'sweetalert2';
         PaginationComponent,
         ReactiveFormsModule,
     ],
+    providers: [MessagingFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './messaging-list.component.html',
     styleUrls: ['./messaging-list.component.scss'],
@@ -55,9 +57,9 @@ import SweetAlert from 'sweetalert2';
 export class MessagingListComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     public readonly facade = inject(MessagingFacade);
+    public readonly formStore = inject(MessagingFilterStore);
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
@@ -70,6 +72,7 @@ export class MessagingListComponent implements OnInit, OnDestroy {
     );
     private readonly destroy$ = new Subject<void>();
     public readonly tableConfig = MESSAGING_TABLE;
+    readonly form = this.formStore.form;
     readonly items = toSignal(this.facade.items$, { initialValue: [] });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
@@ -126,16 +129,12 @@ export class MessagingListComponent implements OnInit, OnDestroy {
             },
         ];
     });
-    readonly form = this.fb.group<MessagingFilterControl>({
-        search: new FormControl<string | undefined>(undefined, {
-            nonNullable: true,
-        }),
-        reportId: new FormControl<string | undefined>(undefined, {
-            nonNullable: true,
-        }),
-        targetType: new FormControl<string | undefined>(undefined, {
-            nonNullable: true,
-        }),
+    readonly presenter = new MessagingPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     constructor() {
         this.facade.readAll();
@@ -167,12 +166,12 @@ export class MessagingListComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    public onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1', true);
+    public onFilterClicked(): void {
+        this.facade.readAll(this.formStore.value, '1', true);
     }
 
     public onRefreshClicked(): void {
-        this.form.reset();
+        this.formStore.reset();
         this.facade.refresh();
     }
 

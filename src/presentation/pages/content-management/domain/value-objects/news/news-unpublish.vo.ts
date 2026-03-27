@@ -1,4 +1,4 @@
-import { NewsUnpublishDto } from '@presentation/pages/content-management/application/dto/news/news-unpublish.dto';
+import { NewsUnpublishDto } from '@pages/content-management/application/dto/news/news-unpublish.dto';
 
 export class NewsUnpublishVo {
     public readonly uniqId: string;

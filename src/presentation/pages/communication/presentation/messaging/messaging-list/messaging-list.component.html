@@ -4,7 +4,7 @@
         [isLoading]="loading()"
         [formGroup]="form"
         [fields]="filterFields()"
-        (filter)="onFilterClicked($event)"
+        (filter)="onFilterClicked()"
         [filterState]="facade.currentFilter$"
         [limit]="5"
     ></app-filter>
@@ -15,7 +15,7 @@
         <app-table
             class="table-component"
             [loading]="loading()"
-            [items]="items()"
+            [items]="itemsVM()"
             [pagination]="pagination()"
             [config]="tableConfig"
             [headerButtons]="headerButtons()"

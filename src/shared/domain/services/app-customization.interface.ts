@@ -34,11 +34,10 @@ export interface AppCustomizationConfig {
         storageKey: string;
     };
 
-    layout: {
-        type: 'ltr' | 'rtl';
-        version: string;
-        sidebarType: string;
-        icon: string;
+    modes: {
+        supported: readonly string[];
+        default: string;
+        storageKey: string;
     };
 
     assets: {

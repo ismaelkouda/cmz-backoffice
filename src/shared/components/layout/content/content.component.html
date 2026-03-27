@@ -1,17 +1,13 @@
-<!-- page-wrapper Start-->
-<div [ngClass]="layout.config.settings.layout_type">
-    <div class="page-wrapper" id="canvas-bookmark" [ngClass]="layoutClass">
+<div>
+    <div class="page-wrapper compact-wrapper" id="canvas-bookmark" [ngClass]="layoutClass">
         <header class="header">
             <app-header
                 [collapseSidebar]="navServices.collapseSidebar"
             ></app-header>
         </header>
-        <!-- Page Body Start-->
         <div class="page-body-wrapper">
             <div
                 class="sidebar-wrapper"
-                [attr.sidebar-layout]="layout.config.settings.sidebar_type"
-                [attr.icon]="layout.config.settings.icon"
                 [class.close_icon]="navServices.collapseSidebar"
             >
                 <app-sidebar></app-sidebar>
@@ -31,13 +27,10 @@
                     </div>
                 </main>
             </div>
-            <!-- footer start-->
             <footer class="footer">
                 <app-footer></app-footer>
             </footer>
-            <!-- footer End-->
         </div>
-        <!-- Page Body End-->
     </div>
 </div>
 <div class="bg-overlay1"></div>

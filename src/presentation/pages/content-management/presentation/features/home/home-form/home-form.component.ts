@@ -15,7 +15,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HomeFacade } from '@pages/content-management/application/services/home/home.facade';
 import { HomeFormHelperService } from '@pages/content-management/domain/services/home/home-form-helper.service';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
-import { HomeFormStore } from '@presentation/pages/content-management/application/store/home-form/home-form.store';
+import { HomeFormStore } from '@pages/content-management/application/store/home-form/home-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { enumToFilterOptions } from '@shared/components/filter/filter.types';
 import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/image-crop-dialog.component';

@@ -12,7 +12,7 @@ export class NotificationsEntity {
         return this.props.reference;
     }
     get uniqId(): string {
-        return this.props.uniqId;
+        return this.props.reference;
     }
     get reference(): string {
         return this.props.reference;
@@ -26,7 +26,7 @@ export class NotificationsEntity {
     get message(): string {
         return this.props.message;
     }
-    get status(): string {
+    get status(): Status {
         return this.props.status;
     }
 

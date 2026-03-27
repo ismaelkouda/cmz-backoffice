@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
@@ -10,6 +10,7 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.scss'],
     imports: [CommonModule, TranslateModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
     public today: number = Date.now();

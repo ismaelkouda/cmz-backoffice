@@ -22,7 +22,7 @@
     }
 };
             window.__env.buildInfo = {
-                timestamp: '2026-03-23T09:37:01.322Z',
+                timestamp: '2026-03-24T12:30:05.726Z',
                 environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'
@@ -30,7 +30,7 @@
             
             // Validation de la configuration
             if (typeof window.__env.authenticationUrl === 'undefined' && typeof window.__env.reportUrl === 'undefined' && typeof window.__env.settingUrl === 'undefined') {
-                console.error('❌ Configuration API manquante');
+                console.error('❌ Configuration API manquante (authenticationUrl, reportUrl, settingUrl)');
             }
             
             // Lock la configuration

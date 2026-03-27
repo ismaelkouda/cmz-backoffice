@@ -8,7 +8,6 @@ export class AllFilterEntity {
         public readonly reportType?: string,
         public readonly operators?: string[],
         public readonly source?: string,
-        public readonly state?: string,
         public readonly period?: DatePeriod
     ) {}
 
@@ -19,7 +18,6 @@ export class AllFilterEntity {
             vo.reportType,
             vo.operators,
             vo.source,
-            vo.state,
             vo.period
         );
     }

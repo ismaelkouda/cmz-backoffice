@@ -76,7 +76,7 @@ export class FilterComponent {
     }
 
     public getControl(name: string) {
-        return this.formGroup().get(name) as any;
+        return this.formGroup().get(name);
     }
 
     public onSubmitFilterForm(): void {

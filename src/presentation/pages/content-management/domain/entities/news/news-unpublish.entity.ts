@@ -1,4 +1,4 @@
-import { NewsUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/news/news-unpublish.vo';
+import { NewsUnpublishVo } from '@pages/content-management/domain/value-objects/news/news-unpublish.vo';
 
 export class NewsUnpublishEntity {
     constructor(public readonly uniqId: string) {}

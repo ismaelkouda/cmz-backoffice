@@ -1,4 +1,4 @@
-import { SlideEnableDto } from '@presentation/pages/content-management/application/dto/slide/slide-enable.dto';
+import { SlideEnableDto } from '@pages/content-management/application/dto/slide/slide-enable.dto';
 
 export class SlideEnableVo {
     public readonly uniqId: string;
