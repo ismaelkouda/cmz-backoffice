@@ -114,13 +114,13 @@ export class ManagementStateService {
 
         switch (context) {
             case 'requests':
-                this.requestsFacade.read(dto, true);
+                this.requestsFacade.read(dto);
                 break;
             case 'processing':
-                this.processingFacade.read(dto, true);
+                this.processingFacade.read(dto);
                 break;
             case 'finalization':
-                this.finalizationFacade.read(dto, true);
+                this.finalizationFacade.read(dto);
                 break;
         }
     }
@@ -182,31 +182,12 @@ export class ManagementStateService {
         }
     }
 
-    refresh(forceRefresh = true): void {
-        const ctx = this.context();
-        const uniqId = this.uniqId();
-
-        if (!ctx || !uniqId) {
-            return;
-        }
-
-        const dto = { uniqId };
-
-        switch (ctx) {
-            case 'requests':
-                this.requestsFacade.read(dto, forceRefresh);
-                break;
-            case 'processing':
-                this.processingFacade.read(dto, forceRefresh);
-                break;
-            case 'finalization':
-                this.finalizationFacade.read(dto, forceRefresh);
-                break;
-        }
-    }
-
     reset(): void {
         this.context.set(null);
         this.uniqId.set('');
+
+        this.requestsFacade.resetActionState();
+        this.processingFacade.resetActionState();
+        this.finalizationFacade.resetActionState();
     }
 }

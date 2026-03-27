@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { RequestRepository } from '@pages/reporting/domain/repositories/request-repository.interface';
-import { RequestsEntity } from '@presentation/pages/reporting/domain/entities/requests/requests.entity';
+import { RequestsEntity } from '@pages/reporting/domain/entities/requests/requests.entity';
 import { Observable } from 'rxjs';
 
 @Injectable({

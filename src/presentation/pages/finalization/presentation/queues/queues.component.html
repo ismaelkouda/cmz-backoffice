@@ -24,7 +24,7 @@
                             [isLoading]="loading()"
                             [formGroup]="form"
                             [fields]="filterFields()"
-                            (filter)="onFilterClicked($event)"
+                            (filter)="onFilterClicked()"
                             [filterState]="facade.currentFilter$"
                             [limit]="4"
                         ></app-filter>
@@ -37,7 +37,7 @@
                                 dataKey="uniqId"
                                 [config]="tableConfig"
                                 [loading]="loading()"
-                                [items]="items()"
+                                [items]="itemsVM()"
                                 [pagination]="pagination()"
                                 (refreshRequested)="onRefreshClicked()"
                                 selectionMode="multiple"
@@ -62,11 +62,12 @@
         </article>
     </section>
 
-    @if (reportTreatmentVisible) {
+    @if (reportTreatmentVisible()) {
         <app-management-dialog
-            [(visible)]="reportTreatmentVisible"
+            [visible]="reportTreatmentVisible()"
             [uniqId]="selectedReportId"
-            [type]="selectedManagementType"
+            [type]="selectedManagementType()"
+            (visibleChange)="onVisibleChange($event)"
         ></app-management-dialog>
     }
 </main>

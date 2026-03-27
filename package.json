@@ -6,6 +6,7 @@
     "env:generate": "node tools/env/env-cli.js",
     "env:validate": "node scripts/env-cli.js --validate",
     "env:types": "node scripts/env-cli.js --types",
+    
     "env:dev": "node tools/env/generate-env.js dev",
     "env:cloud": "node tools/env/generate-env.js cloud",
     "env:cmz_dev": "node tools/env/generate-env.js cmz_dev",

@@ -1,6 +1,6 @@
 import { Title } from '@angular/platform-browser';
+import { AppCustomizationConfig } from '@shared/domain/services/app-customization.interface';
 
-import { AppCustomizationConfig } from './app-customization.interface';
 import { getDynamicTitle } from './app-customization.utils';
 
 export function setDocumentTitle(
@@ -112,22 +112,6 @@ export function setThemeColors(
         root.style.setProperty('--login-bg', `url('${config.assets.loginBg}')`);
     } catch (error) {
         console.error('Erreur lors de la configuration des couleurs:', error);
-    }
-}
-
-export function setLayoutDirection(
-    document: Document,
-    config: AppCustomizationConfig
-): void {
-    try {
-        if (config.layout.type === 'rtl') {
-            document.documentElement.setAttribute('dir', config.layout.type);
-        }
-    } catch (error) {
-        console.error(
-            'Erreur lors de la configuration de la direction:',
-            error
-        );
     }
 }
 

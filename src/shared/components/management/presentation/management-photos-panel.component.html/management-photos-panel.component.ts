@@ -81,7 +81,6 @@ export class ManagementPhotosPanelComponent {
             `Failed to load ${type} photo for item:`,
             this.item()?.uniqId
         );
-        // Ici vous pourriez émettre un événement ou logger l'erreur
     }
 
     protected isValidImageUrl(url: string | null): boolean {

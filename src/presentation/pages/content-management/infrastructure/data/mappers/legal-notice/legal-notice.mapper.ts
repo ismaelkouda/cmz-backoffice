@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 import { LegalNoticeItemApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-status.mapper';
-import { LegalNoticeProps } from '@presentation/pages/content-management/domain/interfaces/legal-notice/legal-notice-props.interface';
+import { LegalNoticeProps } from '@pages/content-management/domain/interfaces/legal-notice/legal-notice-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

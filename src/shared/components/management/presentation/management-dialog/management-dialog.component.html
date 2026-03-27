@@ -1,7 +1,6 @@
 <p-dialog
     [visible]="visible()"
     (visibleChange)="onCloseDialog()"
-    (onCloseDialog)="onCloseDialog()"
     [modal]="true"
     [draggable]="false"
     [resizable]="false"
@@ -34,20 +33,20 @@
             @if (loading()) {
                 <div class="step-bar skeleton-step-bar">
                     <div class="skeleton-steps">
+                        @for (step of [1, 2, 3, 4, 5]; track step) {
                         <p-skeleton
-                            *ngFor="let step of [1, 2, 3, 4, 5]"
                             width="180px"
                             height="20px"
                             styleClass="step-skeleton"
-                        >
-                        </p-skeleton>
+                        />
+                        }
                     </div>
                 </div>
 
                 <nav class="content-tabs">
                     <div class="tabs-container">
+                        @for (tab of [1, 2, 3]; track tab) {
                         <div
-                            *ngFor="let tab of [1, 2, 3]"
                             class="content-tab skeleton-tab"
                         >
                             <div class="tab-visual">
@@ -63,36 +62,35 @@
                                 ></p-skeleton>
                             </span>
                         </div>
+                        }
                     </div>
                 </nav>
             } @else {
                 <div class="step-bar">
+                    @for (item of items()?.updateWorkflowTimestamps; track item.key) {
                     <span
-                        *ngFor="
-                            let step of items()?.updateWorkflowTimestamps;
-                            let i = index
-                        "
                         class="step-item"
                     >
                         <span class="step-label">{{
-                            step.label | translate
+                            item.label | translate
                         }}</span>
                         <span class="step-timestamp">
                             [{{
-                                step.timestamp
-                                    ? (step.timestamp
+                                item.timestamp
+                                    ? (item.timestamp
                                       | date: 'yyyy-MM-dd HH:mm:ss')
                                     : '---:---'
                             }}]
                         </span>
                     </span>
+                    }
                 </div>
 
                 <nav class="content-tabs">
                     <div class="tabs-container">
                         @for (
                             tab of TABS;
-                            track trackByTab($index, tab.value)
+                            track tab.value
                         ) {
                             <button
                                 (click)="selectTab($index)"

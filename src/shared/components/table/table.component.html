@@ -85,7 +85,7 @@
         >
             @for (
                 col of columns;
-                track trackByColField($index, col.field, rowData)
+                track col.field
             ) {
                 <td [class]="col.class">
                     @if (col.field === '__selection') {
@@ -150,9 +150,9 @@
                                     tooltipPosition="bottom"
                                 />
                             }
-                            @case ('reportType') {
+                            @case ('reportTypeLabel') {
                                 <div>
-                                    {{ rowData.reportType | translate }}
+                                    {{ rowData.reportTypeLabel }}
                                 </div>
                             }
                             @case ('operators') {
@@ -191,7 +191,7 @@
                                     "
                                 >
                                     @for (
-                                        platform of rowData?.platforms;
+                                        platform of rowData.platforms;
                                         track platform
                                     ) {
                                         <p-tag
@@ -211,12 +211,12 @@
                                 <div
                                     class="tag-group"
                                     *ngIf="
-                                        rowData.channels?.length;
+                                        rowData.channels.length;
                                         else noChannel
                                     "
                                 >
                                     @for (
-                                        channel of rowData?.channels;
+                                        channel of rowData.channels;
                                         track channel
                                     ) {
                                         <p-tag
@@ -232,12 +232,12 @@
                                     <span class="no-data">-</span>
                                 </ng-template>
                             }
-                            @case ('status') {
+                            @case ('statusLabel') {
                                 <div class="tag-group status-group">
                                     <p-tag
-                                        [value]="rowData.status | translate"
+                                        [value]="rowData.statusLabel"
                                         [severity]="
-                                            rowData.statusStyle(rowData.status)
+                                            rowData.statusStyle
                                                 | translate
                                         "
                                     />
@@ -248,28 +248,15 @@
                                     {{ getFormatDate(rowData.reportedAt) }}
                                 </time>
                             }
-                            @case ('source') {
+                            @case ('sourceLabel') {
                                 <div class="source-type-content">
-                                    <span>{{
-                                        rowData.source | translate
-                                    }}</span>
-                                    <span
-                                        class="copyable"
-                                        pTooltip="{{
-                                            'COMMON.COPY' | translate
-                                        }}"
-                                        (click)="
-                                            copyToClipboard(
-                                                rowData.initiatorPhoneNumber
-                                            )
-                                        "
-                                        (keypress)="
-                                            copyToClipboard(
-                                                rowData.initiatorPhoneNumber
-                                            )
-                                        "
-                                        tooltipPosition="bottom"
-                                        >[ {{ rowData.initiatorPhoneNumber }} ]
+                                    <span>{{ rowData.sourceLabel}}</span>
+                                    <span class="copyable"
+                                        pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                        (click)="copyToClipboard(rowData.initiatorPhoneNumber)"
+                                        (keypress)="copyToClipboard(rowData.initiatorPhoneNumber)"
+                                        tooltipPosition="bottom">
+                                        [ {{ rowData.initiatorPhoneNumber }} ]
                                     </span>
                                 </div>
                             }
@@ -290,9 +277,19 @@
                                                 type="button"
                                                 pButton
                                                 [icon]="action.icon"
-                                                [severity]="action.severity || 'secondary'"
-                                                (click)="onActionClick(rowData, action.id)"
-                                                [pTooltip]="getTooltip(action, rowData)"
+                                                [severity]="
+                                                    action.severity ||
+                                                    'secondary'
+                                                "
+                                                (click)="
+                                                    onActionClick(
+                                                        rowData,
+                                                        action.id
+                                                    )
+                                                "
+                                                [pTooltip]="
+                                                    getTooltip(action, rowData)
+                                                "
                                                 tooltipPosition="bottom"
                                                 [escape]="false"
                                                 [disabled]="loading()"

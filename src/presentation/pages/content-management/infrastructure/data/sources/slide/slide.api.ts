@@ -7,8 +7,8 @@ import { SlideDeleteApiDto } from '@pages/content-management/infrastructure/api/
 import { SlideFilterApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-filter-api.dto';
 import { SlideResponseApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-response-api.dto';
 import { SlideUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-update-api.dto';
-import { SlideDisableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-disable-api.dto';
-import { SlideEnableApiDto } from '@presentation/pages/content-management/infrastructure/api/dto/slide/slide-enable-api.dto';
+import { SlideDisableApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-disable-api.dto';
+import { SlideEnableApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-enable-api.dto';
 import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';

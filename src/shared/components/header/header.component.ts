@@ -7,12 +7,11 @@ import {
     OnInit,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { NotificationsFacade } from '@presentation/pages/communication/application/services/notifications/notifications.facade';
+import { NotificationsFacade } from '@pages/communication/application/services/notifications/notifications.facade';
+import { LanguagesComponent } from '@shared/components/header/elements/languages/languages.component';
+import { MyAccountComponent } from '@shared/components/header/elements/my-account/my-account.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-
-import { LanguagesComponent } from './elements/languages/languages.component';
-import { MyAccountComponent } from './elements/my-account/my-account.component';
 
 @Component({
     selector: 'app-header',

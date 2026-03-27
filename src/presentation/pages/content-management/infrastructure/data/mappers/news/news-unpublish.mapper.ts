@@ -1,5 +1,5 @@
 import { NewsUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-disable-api.dto';
-import { NewsUnpublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-unpublish.entity';
+import { NewsUnpublishEntity } from '@pages/content-management/domain/entities/news/news-unpublish.entity';
 
 export function newsUnpublishMapper(
     vo: NewsUnpublishEntity

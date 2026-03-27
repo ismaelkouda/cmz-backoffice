@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { EncodingDataService } from './encoding-data.service';
+import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AsFeatureService {
-    constructor(private encodingService: EncodingDataService) {}
+    constructor(private readonly encodingService: EncodingDataService) {}
 
     public getAsAccessFeature(): string[] | null {
         return this.encodingService.getData('modules');

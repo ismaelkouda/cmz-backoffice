@@ -12,12 +12,12 @@ import { SlideUpdateDto } from '@pages/content-management/application/dto/slide/
 import { SlideQuery } from '@pages/content-management/application/queries/slide/slide.query';
 import { SlideBus } from '@pages/content-management/application/queries-bus/slide/slide.bus';
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
-import { SlideDisableCommand } from '@presentation/pages/content-management/application/commands/slide/slide-disable.command';
-import { SlideEnableCommand } from '@presentation/pages/content-management/application/commands/slide/slide-enable.command';
-import { SlideDisableBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-disable.bus';
-import { SlideEnableBus } from '@presentation/pages/content-management/application/commands-bus/slide/slide-enable.bus';
-import { SlideDisableDto } from '@presentation/pages/content-management/application/dto/slide/slide-disable.dto';
-import { SlideEnableDto } from '@presentation/pages/content-management/application/dto/slide/slide-enable.dto';
+import { SlideDisableCommand } from '@pages/content-management/application/commands/slide/slide-disable.command';
+import { SlideEnableCommand } from '@pages/content-management/application/commands/slide/slide-enable.command';
+import { SlideDisableBus } from '@pages/content-management/application/commands-bus/slide/slide-disable.bus';
+import { SlideEnableBus } from '@pages/content-management/application/commands-bus/slide/slide-enable.bus';
+import { SlideDisableDto } from '@pages/content-management/application/dto/slide/slide-disable.dto';
+import { SlideEnableDto } from '@pages/content-management/application/dto/slide/slide-enable.dto';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,

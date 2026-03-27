@@ -11,10 +11,10 @@ import { newsFilterMapper } from '@pages/content-management/infrastructure/data/
 import { newsUpdateMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-update.mapper';
 import { NewsMapper } from '@pages/content-management/infrastructure/data/mappers/news/news.mapper';
 import { NewsApi } from '@pages/content-management/infrastructure/data/sources/news/news.api';
-import { NewsPublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-publish.entity';
-import { NewsUnpublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-unpublish.entity';
-import { newsPublishMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news/news-publish.mapper';
-import { newsUnpublishMapper } from '@presentation/pages/content-management/infrastructure/data/mappers/news/news-unpublish.mapper';
+import { NewsPublishEntity } from '@pages/content-management/domain/entities/news/news-publish.entity';
+import { NewsUnpublishEntity } from '@pages/content-management/domain/entities/news/news-unpublish.entity';
+import { newsPublishMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-publish.mapper';
+import { newsUnpublishMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-unpublish.mapper';
 import {
     Paginate,
     SimpleResponseDto,

@@ -9,13 +9,16 @@ import {
     Signal,
     signal,
 } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NotificationsFacade } from '@pages/communication/application/services/notifications/notifications.facade';
 import { NOTIFICATIONS } from '@pages/communication/domain/constants/notifications/notifications-table.constant';
-import { NotificationsFilterControl } from '@pages/communication/domain/controls/notifications/notifications-filter.control';
-import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
+import { NotificationsVmProps } from '@pages/communication/presentation/adapters/notifications/notifications-vm-props.interface';
+import { NotificationsPresenter } from '@pages/communication/presentation/adapters/notifications/notifications-vm.presenter';
+import { NotificationsFilterStore } from '@pages/communication/presentation/store/notifications/notifications-filter.store';
+import { NotificationsFilterDto } from '@presentation/pages/communication/application/dto/notifications/notifications-filter.dto';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
@@ -25,6 +28,7 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { Track } from '@shared/domain/functions/track.function';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
@@ -49,12 +53,13 @@ import SweetAlert from 'sweetalert2';
         TableComponent,
         PaginationComponent,
     ],
+    providers: [NotificationsFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsListComponent implements OnInit, OnDestroy {
     private readonly title = inject(Title);
     public readonly facade = inject(NotificationsFacade);
-    private readonly fb = inject(FormBuilder);
+    public readonly formStore = inject(NotificationsFilterStore);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
@@ -67,12 +72,22 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     );
     private readonly destroy$ = new Subject<void>();
     public readonly tableConfig = NOTIFICATIONS;
-    public reportTreatmentVisible = false;
+    readonly form = this.formStore.form;
     public selectedReportId: string | null = null;
-    public selectedManagementType: string | null = null;
-    readonly items = this.facade.items;
-    readonly loading = this.facade.loading;
-    readonly pagination = this.facade.pagination;
+    public readonly reportTreatmentVisible = signal<boolean>(false);
+    public readonly selectedManagementType = signal<TypeReport | null>(null);
+    readonly items = toSignal(this.facade.items$, {
+        initialValue: [],
+    });
+    private readonly currentFilter = toSignal(this.facade.currentFilter$, {
+        initialValue: null,
+    });
+    readonly loading = toSignal(this.facade.isLoading$, {
+        initialValue: false,
+    });
+    readonly pagination = toSignal(this.facade.pagination$, {
+        initialValue: null,
+    });
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
             label: 'COMMON.READ_ALL',
@@ -129,22 +144,15 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
             },
         ];
     });
-    readonly form = this.fb.group<NotificationsFilterControl>({
-        search: new FormControl<string | undefined>(undefined, {
-            nonNullable: true,
-        }),
-        type: new FormControl<string | undefined>(undefined, {
-            nonNullable: true,
-        }),
-        startDate: new FormControl<Date | undefined>(undefined, {
-            nonNullable: true,
-        }),
-        endDate: new FormControl<Date | undefined>(undefined, {
-            nonNullable: true,
-        }),
+    readonly presenter = new NotificationsPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     constructor() {
-        this.facade.execute();
+        this.facade.execute(this.currentFilter() as NotificationsFilterDto);
         this.translate.onLangChange
             .pipe(takeUntil(this.destroy$))
             .subscribe((event) => {
@@ -170,12 +178,12 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    public onFilterClicked(filterValues: any): void {
-        this.facade.execute(filterValues, '1', true);
+    public onFilterClicked(): void {
+        this.facade.execute(this.formStore.value, '1', true);
     }
 
     public onRefreshClicked(): void {
-        this.form.reset();
+        this.formStore.reset();
         this.facade.refresh();
     }
 
@@ -190,7 +198,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     }
 
     public onNavigateToForm(event: {
-        item?: NotificationsEntity;
+        item?: NotificationsVmProps;
         ref: CrudFormType;
     }): void {
         console.log(event);
@@ -223,7 +231,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         });
     }
 
-    public onDeleteClicked(item: NotificationsEntity): void {
+    public onDeleteClicked(item: NotificationsVmProps): void {
         if (!item.uniqId) {
             return;
         }
@@ -244,14 +252,18 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     }
 
     public onActionClicked(event: {
-        item: NotificationsEntity;
+        item: NotificationsVmProps;
         actionId?: string;
     }): void {
         const { item } = event;
-        this.selectedReportId = item.reference;
-        this.selectedManagementType = item.type;
-        this.reportTreatmentVisible = true;
-        this.facade.readOne({ uniqId: item.reference });
+        this.selectedReportId = item.uniqId;
+        this.selectedManagementType.set(item.type);
+        this.reportTreatmentVisible.set(true);
+        this.facade.readOne({ uniqId: item.uniqId });
+    }
+
+    public onVisibleChange(event: boolean): void {
+        this.reportTreatmentVisible.set(event);
     }
 
     public onExportClicked(): void {

@@ -4,7 +4,7 @@ export interface AllFilterApiDto {
     report_type?: string;
     operators?: string[];
     source?: string;
-    state?: string;
+    status?: string;
     start_date?: Date;
     end_date?: Date;
 }

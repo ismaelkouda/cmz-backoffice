@@ -37,7 +37,7 @@ export const NOTIFICATIONS = {
             width: '20rem',
         },
         {
-            field: 'status',
+            field: 'statusLabel',
             header: 'COMMUNICATION.NOTIFICATIONS.TABLE.STATUS',
             class: 'text-center',
             width: '5rem',
@@ -55,5 +55,5 @@ export const NOTIFICATIONS = {
             width: calculateActionColumnWidth(1),
         },
     ],
-    globalFilterFields: ['title', 'message', 'status', 'sendAt'],
+    globalFilterFields: ['title', 'message', 'statusLabel', 'sendAt'],
 };

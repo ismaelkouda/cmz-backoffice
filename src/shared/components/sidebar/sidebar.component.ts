@@ -17,7 +17,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
-import { LayoutService } from '@shared/domain/services/layout.service';
 import { NavService } from '@shared/domain/services/nav.service';
 import { TabService } from '@shared/domain/services/tab.service';
 import { Subscription } from 'rxjs';
@@ -49,7 +48,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     constructor(
         private readonly router: Router,
         public navServices: NavService,
-        public layout: LayoutService,
         private readonly encodingService: EncodingDataService,
         private readonly tabService: TabService
     ) {}

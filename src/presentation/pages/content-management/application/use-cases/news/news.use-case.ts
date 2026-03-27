@@ -13,12 +13,12 @@ import { NewsCreateVo } from '@pages/content-management/domain/value-objects/new
 import { NewsDeleteVo } from '@pages/content-management/domain/value-objects/news/news-delete.vo';
 import { NewsFilterVo } from '@pages/content-management/domain/value-objects/news/news-filter.vo';
 import { NewsUpdateVo } from '@pages/content-management/domain/value-objects/news/news-update.vo';
-import { NewsPublishDto } from '@presentation/pages/content-management/application/dto/news/news-publish.dto';
-import { NewsUnpublishDto } from '@presentation/pages/content-management/application/dto/news/news-unpublish.dto';
-import { NewsPublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-publish.entity';
-import { NewsUnpublishEntity } from '@presentation/pages/content-management/domain/entities/news/news-unpublish.entity';
-import { NewsPublishVo } from '@presentation/pages/content-management/domain/value-objects/news/news-publish.vo';
-import { NewsUnpublishVo } from '@presentation/pages/content-management/domain/value-objects/news/news-unpublish.vo';
+import { NewsPublishDto } from '@pages/content-management/application/dto/news/news-publish.dto';
+import { NewsUnpublishDto } from '@pages/content-management/application/dto/news/news-unpublish.dto';
+import { NewsPublishEntity } from '@pages/content-management/domain/entities/news/news-publish.entity';
+import { NewsUnpublishEntity } from '@pages/content-management/domain/entities/news/news-unpublish.entity';
+import { NewsPublishVo } from '@pages/content-management/domain/value-objects/news/news-publish.vo';
+import { NewsUnpublishVo } from '@pages/content-management/domain/value-objects/news/news-unpublish.vo';
 import {
     Paginate,
     SimpleResponseDto,

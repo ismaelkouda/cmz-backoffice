@@ -98,6 +98,7 @@ export class TableComponent {
     public readonly export = new EventEmitter<void>();
 
     constructor() {
+        console.log('items:czceczacz ', this.items());
         effect(() => {
             if (this.numberToCheck() > 0) {
                 this.onNumberInputChange(this.numberToCheck());
@@ -175,14 +176,7 @@ export class TableComponent {
         this.headerButtonClicked.emit(actionId);
     }
 
-    trackByColField(index: number, field: any, row: any): string {
-        if (!field) {
-            return row.uniqId;
-        }
-        return field;
-    }
-
-    getItemStatus(item: any): ActionDropdown {
+    public getItemStatus(item: any): ActionDropdown {
         return (
             (item.status as ActionDropdown) ||
             ('NONE' as unknown as ActionDropdown)

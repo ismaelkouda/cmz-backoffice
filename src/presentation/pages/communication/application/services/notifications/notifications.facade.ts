@@ -8,6 +8,7 @@ import { NotificationsReadOneDto } from '@pages/communication/application/dto/no
 import { NotificationsQuery } from '@pages/communication/application/queries/notifications/notifications.query';
 import { NotificationsBus } from '@pages/communication/application/queries-bus/notifications/notifications.bus';
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
+import { Status } from '@pages/communication/domain/enums/notifications/notifications-status.enum';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,
@@ -39,13 +40,9 @@ export class NotificationsFacade extends BaseFacade<
     readonly actionError = this._actionError.asReadonly();
 
     readonly items = toSignal(this.items$, { initialValue: [] });
-    readonly loading = toSignal(this.isLoading$, { initialValue: false });
-    readonly pagination = toSignal(this.pagination$, {
-        initialValue: null,
-    });
 
     readonly unreadCount = computed(
-        () => this.items().filter((n) => n.status === 'read').length
+        () => this.items().filter((n) => n.status === Status.READ).length
     );
 
     private hasInitialized = false;

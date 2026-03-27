@@ -1,4 +1,4 @@
-import { AppCustomizationConfig } from './app-customization.interface';
+import { AppCustomizationConfig } from '@shared/domain/services/app-customization.interface';
 
 export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
     app: {
@@ -32,11 +32,10 @@ export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
         default: 'fr',
         storageKey: 'language',
     },
-    layout: {
-        type: 'ltr',
-        version: 'light-only',
-        sidebarType: 'default-sidebar',
-        icon: 'stroke-svg',
+    modes: {
+        supported: ['dark', 'light', 'system'] as const,
+        default: 'light',
+        storageKey: 'mode',
     },
     assets: {
         favicon: 'favicon.ico',

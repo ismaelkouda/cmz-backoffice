@@ -17,8 +17,10 @@ import {
 } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
+    PreloadAllModules,
     provideRouter,
     withInMemoryScrolling,
+    withPreloading,
     withRouterConfig,
     withViewTransitions,
 } from '@angular/router';
@@ -171,6 +173,7 @@ export const appConfig: ApplicationConfig = {
 
         provideRouter(
             routes,
+            withPreloading(PreloadAllModules),
             withViewTransitions({
                 skipInitialTransition: true,
                 onViewTransitionCreated: (transitionInfo) => {

@@ -26,7 +26,7 @@ export const QUEUES_TABLE = {
             width: '8rem',
         },
         {
-            field: 'reportType',
+            field: 'reportTypeLabel',
             header: 'REQUESTS.QUEUES.TABLE.REPORT_TYPE',
             width: '11rem',
         },
@@ -36,7 +36,7 @@ export const QUEUES_TABLE = {
             width: '10rem',
         },
         {
-            field: 'source',
+            field: 'sourceLabel',
             header: 'REQUESTS.QUEUES.TABLE.SOURCE',
             width: '12rem',
         },
@@ -55,9 +55,10 @@ export const QUEUES_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
-        'reportType',
+        'reportTypeLabel',
         'operators',
-        'source',
+        'sourceLabel',
+        'initiatorPhoneNumber',
         'reportedAt',
     ],
 };

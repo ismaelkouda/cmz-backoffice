@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { NewsPublishCommand } from '@presentation/pages/content-management/application/commands/news/news-publish.command';
-import { NewsPublishHandler } from '@presentation/pages/content-management/application/commands-handlers/news/news-publish.handler';
+import { NewsPublishCommand } from '@pages/content-management/application/commands/news/news-publish.command';
+import { NewsPublishHandler } from '@pages/content-management/application/commands-handlers/news/news-publish.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

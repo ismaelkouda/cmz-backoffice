@@ -1,9 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { generateTypes, validateConfig } from './config-validator.js';
 
-// Equivalent à __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -25,19 +24,14 @@ class EnvironmentGenerator {
             throw new Error("❌ Fichier 'config.js' introuvable");
         }
 
-        // Import dynamique pour charger le fichier de configuration
         const configModule = await import(this.configPath);
         return configModule.default || configModule;
     }
 
     validateEnvironment(config, env) {
-        if (!env) {
-            throw new Error('❌ Environnement non spécifié');
-        }
-
         if (!config[env]) {
             throw new Error(
-                `❌ Configuration non trouvée pour l'environnement '${env}'`
+                `❌ Configuration non trouvée pour config.js '${env}'`
             );
         }
 
@@ -54,7 +48,6 @@ class EnvironmentGenerator {
     generateTypeDefinitions(config) {
         const typeDefinition = generateTypes(config);
         fs.writeFileSync(this.typesOutputPath, typeDefinition, 'utf8');
-        console.log('✅ Types TypeScript générés:', this.typesOutputPath);
     }
 
     generateEnvFile(config, env) {
@@ -71,7 +64,7 @@ class EnvironmentGenerator {
             
             // Validation de la configuration
             if (typeof window.__env.authenticationUrl === 'undefined' && typeof window.__env.reportUrl === 'undefined' && typeof window.__env.settingUrl === 'undefined') {
-                console.error('❌ Configuration API manquante');
+                console.error('❌ Configuration API manquante (authenticationUrl, reportUrl, settingUrl)');
             }
             
             // Lock la configuration
@@ -85,21 +78,14 @@ class EnvironmentGenerator {
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir, { recursive: true });
         }
-        console.log(
-            `✅ Fichier env.js généré pour '${env}' → ${this.envOutputPath}`
-        );
         fs.writeFileSync(this.envOutputPath, output, 'utf8');
     }
 
     async generate(env) {
         try {
-            console.log(`🚀 Génération de l'environnement: ${env}`);
-
             const config = await this.loadConfig();
             this.generateTypeDefinitions(config);
             this.generateEnvFile(config, env);
-
-            console.log(`🎉 Configuration ${env} générée avec succès!`);
             return true;
         } catch (error) {
             console.error('💥 Erreur lors de la génération:', error.message);
@@ -108,15 +94,14 @@ class EnvironmentGenerator {
     }
 }
 
-// Gestion de l'appel en ligne de commande
 const args = process.argv.slice(2);
-const environment = args[0];
+const env = args[0];
 
-if (!environment) {
-    console.error('❌ Usage: node generate-env.js <environment>');
+if (!env) {
+    console.error('❌ Usage: node generate-env.js <environnement>');
     process.exit(1);
 }
 
 const generator = new EnvironmentGenerator();
-generator.generate(environment);
+generator.generate(env);
 export default EnvironmentGenerator;

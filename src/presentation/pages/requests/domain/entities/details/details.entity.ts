@@ -196,7 +196,18 @@ export class DetailsEntity {
     }
 
     public with(props: DetailsProps): DetailsEntity {
-        if (this.updatedAt === props.updatedAt) {
+        console.log('props.updatedAt: ', props.updatedAt);
+        console.log('this.updatedAt: ', this.updatedAt);
+        console.log('props.uniqId: ', props.uniqId);
+        console.log('this.uniqId: ', this.uniqId);
+        console.log(
+            'this.updatedAt === props.updatedAtthis.uniqId === props.uniqId: ',
+            this.updatedAt === props.updatedAt && this.uniqId === props.uniqId
+        );
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new DetailsEntity(props);

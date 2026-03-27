@@ -16,7 +16,7 @@ import { NewsFacade } from '@pages/content-management/application/services/news/
 import { NewsFormHelperService } from '@pages/content-management/domain/services/news/news-form-helper.service';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { HashtagsInputComponent } from '@pages/content-management/presentation/features/news/hashtags-input/hashtags-input.component';
-import { NewsFormStore } from '@presentation/pages/content-management/application/store/news-form/news-form.store';
+import { NewsFormStore } from '@pages/content-management/application/store/news-form/news-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { enumToFilterOptions } from '@shared/components/filter/filter.types';
 import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/image-crop-dialog.component';

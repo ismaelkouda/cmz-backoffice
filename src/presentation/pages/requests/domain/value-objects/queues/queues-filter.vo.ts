@@ -1,4 +1,4 @@
-import { QueuesFilterDto } from '@pages/finalization/application/dto/queues/queues-filter.dto';
+import { QueuesFilterDto } from '@pages/requests/application/dto/queues/queues-filter.dto';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 

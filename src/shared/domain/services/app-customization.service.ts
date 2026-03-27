@@ -2,24 +2,17 @@ import { DOCUMENT } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-
-import { DEFAULT_CUSTOMIZATION } from './app-customization.config';
+import { DEFAULT_CUSTOMIZATION } from '@shared/domain/services/app-customization.config';
 import {
     setDocumentTitle,
     setFavicon,
     setFonts,
-    setLayoutDirection,
     setMetaTags,
     setThemeColors,
-} from './app-customization.dom';
-import { AppCustomizationConfig } from './app-customization.interface';
-import { EnvService } from './env.service';
+} from '@shared/domain/services/app-customization.dom';
+import { AppCustomizationConfig } from '@shared/domain/services/app-customization.interface';
+import { EnvService } from '@shared/domain/services/env.service';
 
-/**
- * Service de personnalisation de l'application
- * Centralise toutes les configurations personnalisables de l'application
- * Utilise les valeurs de appSettings depuis EnvService ou les valeurs par défaut
- */
 @Injectable({
     providedIn: 'root',
 })
@@ -40,10 +33,7 @@ export class AppCustomizationService {
         this.translate = inject(TranslateService);
         this.envService = inject(EnvService);
 
-        // Fusionner la configuration par défaut avec les valeurs de appSettings
         this.config = this.mergeConfigurations();
-        // Appliquer la personnalisation immédiatement
-        this.applyCustomization();
     }
 
     /**
@@ -96,7 +86,7 @@ export class AppCustomizationService {
                     DEFAULT_CUSTOMIZATION.colors.loadingBar,
             },
             languages: DEFAULT_CUSTOMIZATION.languages,
-            layout: DEFAULT_CUSTOMIZATION.layout,
+            modes: DEFAULT_CUSTOMIZATION.modes,
             assets: {
                 favicon:
                     appSettings.appLogoIcon ||
@@ -142,7 +132,6 @@ export class AppCustomizationService {
         setFavicon(this.document, this.config);
         setThemeColors(this.document, this.config);
         setFonts(this.document, this.config);
-        setLayoutDirection(this.document, this.config);
         setMetaTags(this.document, this.config);
     }
 
@@ -189,6 +178,34 @@ export class AppCustomizationService {
     }
 
     /**
+     * Obtient le mode de l'utilisateur
+     * Priorité : localStorage > mode du navigateur > mode par défaut
+     * @public
+     * @returns {string} Code de mode
+     */
+    public getUserMode(): string {
+        const {
+            supported,
+            default: defaultMode,
+            storageKey,
+        } = this.config.modes;
+
+        const stored = localStorage.getItem(storageKey);
+        if (stored && supported.includes(stored)) {
+            return stored;
+        }
+
+        const prefersDark = this.document.defaultView?.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches;
+        console.log('prefersDark: ', prefersDark);
+
+        const mode = prefersDark ? 'dark' : 'light';
+
+        return supported.includes(mode) ? mode : defaultMode;
+    }
+
+    /**
      * Configure la langue par défaut de l'application
      * @public
      * @param {string} lang - Code de langue
@@ -204,5 +221,43 @@ export class AppCustomizationService {
                 error
             );
         }
+    }
+
+    /**
+     * Configure le mode par défaut de l'application
+     * @public
+     * @param {string} mode - Code de mode
+     * @param mode
+     * @returns {void}
+     */
+    public setDefaultMode(mode: string): void {
+        try {
+            localStorage.setItem(this.config.modes.storageKey, mode);
+        } catch (error) {
+            console.error('Erreur lors de la configuration de la mode:', error);
+        }
+    }
+
+    public listenToSystemMode(): void {
+        const mediaQuery = this.document.defaultView?.matchMedia(
+            '(prefers-color-scheme: dark)'
+        );
+
+        mediaQuery?.addEventListener('change', (event) => {
+            console.log('event: ', event);
+            const newMode = event.matches ? 'dark' : 'light';
+
+            // ⚠️ seulement si user n’a pas forcé un mode
+            const stored = localStorage.getItem(this.config.modes.storageKey);
+            console.log(
+                'this.config.modes.storageKey: ',
+                this.config.modes.storageKey
+            );
+            console.log('stored: ', stored);
+
+            if (!stored || stored === 'system') {
+                this.setDefaultMode(newMode);
+            }
+        });
     }
 }

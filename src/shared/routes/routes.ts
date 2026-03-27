@@ -21,7 +21,7 @@ export const content: Routes = [
     {
         path: DASHBOARD,
         loadChildren: () =>
-            import('../../presentation/pages/dashboard/dashboard.routes').then(
+            import('@pages/dashboard/dashboard.routes').then(
                 (m) => m.routes
             ),
         data: {
@@ -42,7 +42,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/team-organization/team-organization.routes').then(
+            import('@pages/team-organization/team-organization.routes').then(
                 (m) => m.routes
             ),
     },
@@ -55,7 +55,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/requests/requests.routes').then(
+            import('@pages/requests/requests.routes').then(
                 (m) => m.routes
             ),
     },
@@ -68,7 +68,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/processing/processing.routes').then(
+            import('@pages/processing/processing.routes').then(
                 (m) => m.routes
             ),
     },
@@ -81,7 +81,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/finalization/finalization.routes').then(
+            import('@pages/finalization/finalization.routes').then(
                 (m) => m.routes
             ),
     },
@@ -94,7 +94,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/reporting/reporting.route').then(
+            import('@pages/reporting/reporting.route').then(
                 (m) => m.routes
             ),
     },
@@ -107,14 +107,14 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/communication/communication.routes').then(
+            import('@pages/communication/communication.routes').then(
                 (m) => m.routes
             ),
     },
     {
         path: CONTENT_MANAGEMENT_ROUTE,
         loadChildren: () =>
-            import('../../presentation/pages/content-management/content-management.routes').then(
+            import('@pages/content-management/content-management.routes').then(
                 (m) => m.routes
             ),
         data: {
@@ -127,7 +127,7 @@ export const content: Routes = [
     {
         path: ADMINISTRATIVE_BOUNDARY_ROUTE,
         loadChildren: () =>
-            import('../../presentation/pages/administrative-boundary/administrative-boundary.routes').then(
+            import('@pages/administrative-boundary/administrative-boundary.routes').then(
                 (m) => m.routes
             ),
         data: {
@@ -140,7 +140,7 @@ export const content: Routes = [
     {
         path: SETTINGS_SECURITY_ROUTE,
         loadChildren: () =>
-            import('../../presentation/pages/settings-security/settings-security.routes').then(
+            import('@pages/settings-security/settings-security.routes').then(
                 (m) => m.routes
             ),
         data: {
@@ -159,7 +159,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/monitoring/monitoring.routes').then(
+            import('@pages/monitoring/monitoring.routes').then(
                 (m) => m.routes
             ),
     },

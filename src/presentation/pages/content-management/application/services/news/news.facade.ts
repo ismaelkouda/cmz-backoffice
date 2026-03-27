@@ -12,12 +12,12 @@ import { NewsUpdateDto } from '@pages/content-management/application/dto/news/ne
 import { NewsQuery } from '@pages/content-management/application/queries/news/news.query';
 import { NewsBus } from '@pages/content-management/application/queries-bus/news/news.bus';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
-import { NewsPublishCommand } from '@presentation/pages/content-management/application/commands/news/news-publish.command';
-import { NewsUnpublishCommand } from '@presentation/pages/content-management/application/commands/news/news-unpublish.command';
-import { NewsPublishBus } from '@presentation/pages/content-management/application/commands-bus/news/news-publish.bus';
-import { NewsUnpublishBus } from '@presentation/pages/content-management/application/commands-bus/news/news-unpublish.bus';
-import { NewsPublishDto } from '@presentation/pages/content-management/application/dto/news/news-publish.dto';
-import { NewsUnpublishDto } from '@presentation/pages/content-management/application/dto/news/news-unpublish.dto';
+import { NewsPublishCommand } from '@pages/content-management/application/commands/news/news-publish.command';
+import { NewsUnpublishCommand } from '@pages/content-management/application/commands/news/news-unpublish.command';
+import { NewsPublishBus } from '@pages/content-management/application/commands-bus/news/news-publish.bus';
+import { NewsUnpublishBus } from '@pages/content-management/application/commands-bus/news/news-unpublish.bus';
+import { NewsPublishDto } from '@pages/content-management/application/dto/news/news-publish.dto';
+import { NewsUnpublishDto } from '@pages/content-management/application/dto/news/news-unpublish.dto';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,

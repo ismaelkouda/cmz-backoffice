@@ -1,5 +1,3 @@
-import { Status } from '@pages/requests/domain/enums/all/all-status.enum';
-
 export class AllQuery {
     constructor(
         public readonly initiatorPhoneNumber?: string,
@@ -7,7 +5,7 @@ export class AllQuery {
         public readonly reportType?: string,
         public readonly operators?: string[],
         public readonly source?: string,
-        public readonly status?: Status,
+        public readonly status?: string,
         public readonly startDate?: string,
         public readonly endDate?: string
     ) {}

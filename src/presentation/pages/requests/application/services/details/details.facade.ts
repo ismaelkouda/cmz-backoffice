@@ -11,6 +11,7 @@ import { DetailsRejectDto } from '@pages/requests/application/dto/details/detail
 import { DetailsTakeDto } from '@pages/requests/application/dto/details/details-take.dto';
 import { DetailsQuery } from '@pages/requests/application/queries/details/details.query';
 import { DetailsBus } from '@pages/requests/application/queries-bus/details/details.bus';
+import { AllFacade } from '@pages/requests/application/services/all/all.facade';
 import { QueuesFacade } from '@pages/requests/application/services/queues/queues.facade';
 import { TasksFacade } from '@pages/requests/application/services/tasks/tasks.facade';
 import { DetailsEntity } from '@pages/requests/domain/entities/details/details.entity';
@@ -29,6 +30,7 @@ export class DetailsFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly queuesFacade = inject(QueuesFacade);
     private readonly tasksFacade = inject(TasksFacade);
+    private readonly allFacade = inject(AllFacade);
     private readonly bus = inject(DetailsBus);
     private readonly approveBus = inject(DetailsApproveBus);
     private readonly takeBus = inject(DetailsTakeBus);
@@ -58,10 +60,10 @@ export class DetailsFacade extends ObjectBaseFacade<
         );
     }
 
-    read(filter: DetailsFilterDto, force = false): void {
+    read(filter: DetailsFilterDto): void {
         const command = new DetailsQuery(filter.uniqId);
         const fetch$ = this.bus.dispatch(command);
-        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
+        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, true, true);
     }
 
     take(item: DetailsTakeDto): void {
@@ -72,7 +74,10 @@ export class DetailsFacade extends ObjectBaseFacade<
         this.handleActionWithRefresh(
             this.takeBus.dispatch(command),
             'COMMON.SUCCESS.TAKE',
-            () => this.queuesFacade.refreshWithLastFilterAndPage()
+            () => {
+                this.queuesFacade.refreshWithLastFilterAndPage();
+                this.tasksFacade.refreshWithLastFilterAndPage();
+            }
         )
 
             .pipe(
@@ -96,7 +101,10 @@ export class DetailsFacade extends ObjectBaseFacade<
         this.handleActionWithRefresh(
             this.approveBus.dispatch(command),
             'COMMON.SUCCESS.APPROVE',
-            () => this.tasksFacade.refreshWithLastFilterAndPage()
+            () => {
+                this.tasksFacade.refreshWithLastFilterAndPage();
+                this.allFacade.refreshWithLastFilterAndPage();
+            }
         )
             .pipe(
                 tap(() => {
@@ -123,7 +131,10 @@ export class DetailsFacade extends ObjectBaseFacade<
         this.handleActionWithRefresh(
             this.rejectBus.dispatch(command),
             'COMMON.SUCCESS.REJECT',
-            () => this.tasksFacade.refreshWithLastFilterAndPage()
+            () => {
+                this.tasksFacade.refreshWithLastFilterAndPage();
+                this.allFacade.refreshWithLastFilterAndPage();
+            }
         )
             .pipe(
                 tap(() => {
@@ -136,5 +147,11 @@ export class DetailsFacade extends ObjectBaseFacade<
                 finalize(() => this._actionLoading.set(false))
             )
             .subscribe();
+    }
+
+    resetActionState(): void {
+        this._actionSuccess.set(0);
+        this._actionError.set(null);
+        this._actionLoading.set(false);
     }
 }

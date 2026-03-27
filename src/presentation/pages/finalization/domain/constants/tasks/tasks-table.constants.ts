@@ -3,7 +3,7 @@ export function calculateActionColumnWidth(actionCount: number): string {
     return `${width}rem`;
 }
 
-export const TASKS_TABLE_CONST = {
+export const TASKS_TABLE = {
     actions: [
         {
             id: 'management-dialog',

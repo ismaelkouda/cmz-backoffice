@@ -10,11 +10,11 @@
     } @else {
         <span class="header-title">
             {{ mainTitle() | translate }}
-        @if (isReport()) {
-            {{ 'MANAGEMENT.HEADER.DETAILS_REPORT' | translate }}
-        } @else {
-            {{ 'MANAGEMENT.HEADER.DETAILS_DEMAND' | translate }}
-        }
+            @if (isReport()) {
+                {{ 'MANAGEMENT.HEADER.DETAILS_REPORT' | translate }}
+            } @else {
+                {{ 'MANAGEMENT.HEADER.DETAILS_DEMAND' | translate }}
+            }
         </span>
 
         @if (uniqId()) {

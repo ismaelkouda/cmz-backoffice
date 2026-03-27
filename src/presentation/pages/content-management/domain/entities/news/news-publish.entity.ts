@@ -1,4 +1,4 @@
-import { NewsPublishVo } from '@presentation/pages/content-management/domain/value-objects/news/news-publish.vo';
+import { NewsPublishVo } from '@pages/content-management/domain/value-objects/news/news-publish.vo';
 
 export class NewsPublishEntity {
     constructor(public readonly uniqId: string) {}

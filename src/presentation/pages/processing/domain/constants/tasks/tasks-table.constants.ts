@@ -3,7 +3,7 @@ export function calculateActionColumnWidth(actionCount: number): string {
     return `${width}rem`;
 }
 
-export const TASKS_TABLE_CONST = {
+export const TASKS_TABLE = {
     actions: [
         {
             id: 'actions',
@@ -26,7 +26,7 @@ export const TASKS_TABLE_CONST = {
             width: '8rem',
         },
         {
-            field: 'reportType',
+            field: 'reportTypeLabel',
             header: 'PROCESSING.TASKS.TABLE.REPORT_TYPE',
             width: '11rem',
         },
@@ -36,7 +36,7 @@ export const TASKS_TABLE_CONST = {
             width: '10rem',
         },
         {
-            field: 'source',
+            field: 'sourceLabel',
             header: 'PROCESSING.TASKS.TABLE.SOURCE',
             width: '12rem',
         },
@@ -55,9 +55,10 @@ export const TASKS_TABLE_CONST = {
     ],
     globalFilterFields: [
         'uniqId',
-        'reportType',
+        'reportTypeLabel',
         'operators',
-        'source',
+        'sourceLabel',
+        'initiatorPhoneNumber',
         'reportedAt',
     ],
 };
