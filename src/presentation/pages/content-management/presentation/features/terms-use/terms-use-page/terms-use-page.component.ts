@@ -26,6 +26,7 @@ import { Status } from '@pages/content-management/domain/enums/terms-use/terms-u
 import { TERMS_USE_FORM } from '@pages/content-management/presentation/features/terms-use/terms-use.routes';
 import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/terms-use/terms-use-filter-keys.constants';
 import { TERMS_USE_TABLE } from '@presentation/pages/content-management/presentation/adapters/terms-use/terms-use-table.constants';
+import { TermsUsePresenter } from '@presentation/pages/content-management/presentation/adapters/terms-use/terms-use-vm.presenter';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -183,6 +184,13 @@ export class TermsUsePageComponent implements OnInit {
         endDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
+    });
+    readonly presenter = new TermsUsePresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     constructor() {
         this.facade.readAll();

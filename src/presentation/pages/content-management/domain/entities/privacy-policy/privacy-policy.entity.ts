@@ -10,6 +10,9 @@ export class PrivacyPolicyEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
+    get actionsRef(): string {
+        return this.props.uniqId;
+    }
     get version(): string {
         return this.props.version;
     }

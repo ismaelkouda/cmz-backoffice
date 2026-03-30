@@ -26,6 +26,7 @@ import { Status } from '@pages/content-management/domain/enums/legal-notice/lega
 import { LEGAL_NOTICE_FORM } from '@pages/content-management/presentation/features/legal-notice/legal-notice.routes';
 import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/legal-notice/legal-notice-filter-keys.constants';
 import { LEGAL_NOTICE_TABLE } from '@presentation/pages/content-management/presentation/adapters/legal-notice/legal-notice-table.constants';
+import { LegalNoticePresenter } from '@presentation/pages/content-management/presentation/adapters/legal-notice/legal-notice-vm.presenter';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -183,6 +184,13 @@ export class LegalNoticePageComponent implements OnInit {
         endDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
+    });
+    readonly presenter = new LegalNoticePresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     constructor() {
         this.facade.readAll();

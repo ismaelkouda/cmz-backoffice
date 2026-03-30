@@ -26,6 +26,7 @@ import { Status } from '@pages/content-management/domain/enums/privacy-policy/pr
 import { PRIVACY_POLICY_FORM } from '@pages/content-management/presentation/features/privacy-policy/privacy-policy.routes';
 import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/privacy-policy/privacy-policy-filter-keys.constants';
 import { PRIVACY_POLICY_TABLE } from '@presentation/pages/content-management/presentation/adapters/privacy-policy/privacy-policy-table.constants';
+import { PrivacyPolicyPresenter } from '@presentation/pages/content-management/presentation/adapters/privacy-policy/privacy-policy-vm.presenter';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -189,6 +190,13 @@ export class PrivacyPolicyPageComponent implements OnInit {
         endDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
+    });
+    readonly presenter = new PrivacyPolicyPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     constructor() {
         this.facade.readAll();

@@ -11,7 +11,6 @@ export class HomeEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-
     get actionsRef(): string {
         return this.props.uniqId;
     }
