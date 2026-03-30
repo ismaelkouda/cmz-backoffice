@@ -11,4 +11,5 @@ export interface MessagingProps {
     subject: string;
     content: string;
     createdAt: string;
+    updatedAt: string;
 }

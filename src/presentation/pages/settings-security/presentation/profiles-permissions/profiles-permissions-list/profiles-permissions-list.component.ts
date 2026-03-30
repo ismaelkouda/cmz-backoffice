@@ -16,7 +16,6 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ProfilesPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
-import { PROFILES_PERMISSIONS_TABLE_CONSTANT } from '@pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-table.constant';
 import { ProfilesPermissionsFilterControl } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-filter.control';
 import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
 import { Status } from '@pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
@@ -24,6 +23,7 @@ import {
     PROFILES_PERMISSIONS_FORM,
     PROFILES_PERMISSIONS_USERS,
 } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions.routes';
+import { PROFILES_PERMISSIONS_TABLE } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-table.constant';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -40,6 +40,8 @@ import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
+
+import { ProfilesPermissionsPresenter } from '../../adapters/profiles-permissions/profiles-permissions-vm.presenter';
 
 @Component({
     selector: 'app-profiles-permissions-list',
@@ -72,7 +74,7 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
         this.translate.getCurrentLang()
     );
     private readonly destroy$ = new Subject<void>();
-    readonly tableConfig = PROFILES_PERMISSIONS_TABLE_CONSTANT;
+    readonly tableConfig = PROFILES_PERMISSIONS_TABLE;
     readonly items = toSignal(this.facade.items$, { initialValue: [] });
     readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
@@ -147,6 +149,13 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
                 },
             },
         ];
+    });
+    readonly presenter = new ProfilesPermissionsPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     readonly form = this.fb.group<ProfilesPermissionsFilterControl>({
         search: new FormControl<string | undefined>(undefined, {

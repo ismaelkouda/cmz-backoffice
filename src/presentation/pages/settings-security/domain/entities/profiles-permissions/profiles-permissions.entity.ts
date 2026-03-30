@@ -10,6 +10,9 @@ export class ProfilesPermissionsEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
+    get actionsRef(): string {
+        return this.props.name;
+    }
     get name(): string {
         return this.props.name;
     }
@@ -40,7 +43,10 @@ export class ProfilesPermissionsEntity {
     }
 
     public with(props: ProfilesPermissionsProps): ProfilesPermissionsEntity {
-        if (this.updatedAt === props.updatedAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new ProfilesPermissionsEntity(props);

@@ -8,7 +8,8 @@ export class UsersFindOneEntity {
         public readonly email: string,
         public readonly phone: string,
         public readonly profile: string,
-        public readonly responsibility: string
+        public readonly responsibility: string,
+        public readonly updatedAt: string
     ) {}
 
     static fromDto(dto: UsersFindOneItemApiDto): UsersFindOneEntity {
@@ -19,12 +20,13 @@ export class UsersFindOneEntity {
             dto.email,
             dto.phone,
             dto.profile.name,
-            dto.responsibility.name
+            dto.responsibility.name,
+            dto.updated_at
         );
     }
 
     public with(dto: UsersFindOneItemApiDto): UsersFindOneEntity {
-        if (this.uniqId === dto.id) {
+        if (this.uniqId === dto.id && this.updatedAt === dto.updated_at) {
             return this;
         }
         return UsersFindOneEntity.fromDto(dto);

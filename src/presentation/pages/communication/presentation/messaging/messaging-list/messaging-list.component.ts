@@ -16,12 +16,13 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { MessagingFacade } from '@pages/communication/application/services/messaging/messaging.facade';
-import { MESSAGING_TABLE } from '@pages/communication/domain/constants/messaging/messaging-table.constant';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
 import { MessagingPresenter } from '@pages/communication/presentation/adapters/messaging/messaging-vm.presenter';
 import { MESSAGING_FORM } from '@pages/communication/presentation/messaging/messaging.routes';
 import { MessagingFilterStore } from '@pages/communication/presentation/store/messaging/messaging-filter.store';
+import { Channels } from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MESSAGING_TABLE } from '@presentation/pages/communication/presentation/adapters/messaging/messaging-table.constant';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -84,6 +85,10 @@ export class MessagingListComponent implements OnInit, OnDestroy {
         this.currentLang();
         return enumToFilterOptions(Target, this.t.bind(this));
     });
+    readonly channelsOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptions(Channels, this.t.bind(this));
+    });
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
             label: 'COMMON.CREATE',
@@ -96,6 +101,7 @@ export class MessagingListComponent implements OnInit, OnDestroy {
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const targetOpts = this.targetOptions();
+        const channelOpts = this.channelsOptions();
 
         return [
             {
@@ -114,7 +120,7 @@ export class MessagingListComponent implements OnInit, OnDestroy {
             },
             {
                 type: 'select',
-                name: 'target',
+                name: 'targetType',
                 label: this.t('COMMUNICATION.MESSAGING.FILTER.TARGET'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: targetOpts,
@@ -126,6 +132,23 @@ export class MessagingListComponent implements OnInit, OnDestroy {
                 translationKeys: {
                     label: 'COMMUNICATION.MESSAGING.FILTER.TARGET',
                 },
+            },
+            {
+                type: 'multi-select',
+                name: 'channels',
+                label: this.t('COMMUNICATION.MESSAGING.FILTER.CHANNELS'),
+                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+                options: channelOpts,
+                optionLabel: 'label',
+                optionValue: 'value',
+                filter: false,
+                showToggleAll: false,
+                showClear: true,
+                icon: 'pi pi-filter',
+                translationKeys: {
+                    label: 'COMMUNICATION.MESSAGING.FILTER.CHANNELS',
+                },
+                class: 'p-medium',
             },
         ];
     });

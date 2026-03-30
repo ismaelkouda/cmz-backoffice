@@ -13,6 +13,7 @@ export interface MessagingItemApiDto {
     subject: string;
     content: string;
     created_at: string;
+    updated_at: string;
 }
 
 export type MessagingResponseApiDto = PaginatedResponseDto<MessagingItemApiDto>;

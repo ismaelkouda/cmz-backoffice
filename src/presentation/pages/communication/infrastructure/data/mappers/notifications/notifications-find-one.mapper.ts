@@ -29,6 +29,7 @@ export class NotificationsFindOneMapper extends PaginatedMapper<
             source: dto.source,
             initiatorPhoneNumber: dto.initiator_phone_number,
             createdAt: dto.created_at,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${dto.uniq_id}`;

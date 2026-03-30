@@ -17,9 +17,9 @@ import {
 import { Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AccessLogsFacade } from '@pages/settings-security/application/services/access-logs/access-logs.facade';
-import { ACCESS_LOGS_TABLE_CONSTANT } from '@pages/settings-security/domain/constants/access-logs/access-logs-table.constant';
 import { AccessLogsFilterControl } from '@pages/settings-security/domain/controls/access-logs/access-logs-filter.control';
 import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
+import { ACCESS_LOGS_TABLE_CONSTANT } from '@presentation/pages/settings-security/presentation/adapters/access-logs/access-logs-table.constant';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {

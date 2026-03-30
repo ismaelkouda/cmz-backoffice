@@ -20,12 +20,12 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { LegalNoticeFacade } from '@pages/content-management/application/services/legal-notice/legal-notice.facade';
-import { FILTER_KEYS } from '@pages/content-management/domain/constants/legal-notice/legal-notice-filter-keys.constants';
-import { LEGAL_NOTICE_TABLE } from '@pages/content-management/domain/constants/legal-notice/legal-notice-table.constants';
 import { LegalNoticeFilterControl } from '@pages/content-management/domain/controls/legal-notice/legal-notice-filter.control';
 import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 import { Status } from '@pages/content-management/domain/enums/legal-notice/legal-notice-status.enum';
 import { LEGAL_NOTICE_FORM } from '@pages/content-management/presentation/features/legal-notice/legal-notice.routes';
+import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/legal-notice/legal-notice-filter-keys.constants';
+import { LEGAL_NOTICE_TABLE } from '@presentation/pages/content-management/presentation/adapters/legal-notice/legal-notice-table.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {

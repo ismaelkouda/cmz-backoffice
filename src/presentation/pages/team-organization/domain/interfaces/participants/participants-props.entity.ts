@@ -1,6 +1,5 @@
+import { Status } from '@pages/team-organization/domain/enums/participants/participants-status.enum';
 import { Roles } from '@shared/domain/enums/roles.enum';
-
-import { Status } from '../../enums/participants/participants-status.enum';
 
 export interface ParticipantsProps {
     uniqId: string;

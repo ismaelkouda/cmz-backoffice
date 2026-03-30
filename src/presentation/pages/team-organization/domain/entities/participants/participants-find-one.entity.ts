@@ -5,6 +5,7 @@ export interface ParticipantsFindOneProps {
     email: string;
     phone: string;
     role: string;
+    updatedAt: string;
 }
 export class ParticipantsFindOneEntity {
     constructor(private readonly props: ParticipantsFindOneProps) {}
@@ -33,8 +34,15 @@ export class ParticipantsFindOneEntity {
         return this.props.role;
     }
 
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
     public with(props: ParticipantsFindOneProps): ParticipantsFindOneEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new ParticipantsFindOneEntity(props);

@@ -10,6 +10,11 @@ export class TeamsEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
+
+    get actionsRef(): string {
+        return this.props.code;
+    }
+
     get code(): string {
         return this.props.code;
     }
@@ -37,7 +42,10 @@ export class TeamsEntity {
     }
 
     public with(props: TeamsProps): TeamsEntity {
-        if (this.updatedAt === props.updatedAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new TeamsEntity(props);

@@ -6,6 +6,7 @@ export interface HistoryItemApiDto {
     action: string;
     source: string;
     created_at: string;
+    updated_at: string;
 }
 
 export type HistoryResponseApiDto = PaginatedResponseDto<HistoryItemApiDto>;

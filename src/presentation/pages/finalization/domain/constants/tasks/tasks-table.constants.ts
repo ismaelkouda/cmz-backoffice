@@ -33,7 +33,7 @@ export const TASKS_TABLE = {
             width: '8rem',
         },
         {
-            field: 'reportType',
+            field: 'reportTypeLabel',
             header: 'FINALIZATION.TASKS.TABLE.REPORT_TYPE',
             width: '11rem',
         },
@@ -43,7 +43,7 @@ export const TASKS_TABLE = {
             width: '10rem',
         },
         {
-            field: 'source',
+            field: 'sourceLabel',
             header: 'FINALIZATION.TASKS.TABLE.SOURCE',
             width: '12rem',
         },
@@ -62,9 +62,9 @@ export const TASKS_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
-        'reportType',
+        'reportTypeLabel',
         'operators',
-        'source',
+        'sourceLabel',
         'reportedAt',
     ],
 };

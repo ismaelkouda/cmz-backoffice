@@ -63,8 +63,15 @@ export class MessagingEntity {
         return this.props.createdAt;
     }
 
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
     public with(props: MessagingProps): MessagingEntity {
-        if (this.createdAt === props.createdAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new MessagingEntity(props);

@@ -1,0 +1,26 @@
+.notifications-bell-container {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        color: inherit;
+        outline: none;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        &.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: var(--primary-color, #2256a3);
+            box-shadow: 0 0 0 2px rgba(34, 86, 163, 0.2);
+        }
+}

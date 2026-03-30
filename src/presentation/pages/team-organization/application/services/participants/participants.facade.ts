@@ -232,7 +232,7 @@ export class ParticipantsFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(team: ParticipantsDisableDto): void {
@@ -240,7 +240,7 @@ export class ParticipantsFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(team: ParticipantsDeleteDto): void {

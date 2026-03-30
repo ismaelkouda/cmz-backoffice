@@ -33,7 +33,7 @@ export class RegionsFindOneEntity {
         );
     }
     public with(dto: RegionsFindOneItemApiDto): RegionsFindOneEntity {
-        if (this.updatedAt === dto.updated_at) {
+        if (this.updatedAt === dto.updated_at && this.uniqId === dto.id) {
             return this;
         }
         return RegionsFindOneEntity.fromDto(dto);

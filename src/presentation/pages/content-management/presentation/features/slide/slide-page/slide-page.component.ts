@@ -20,12 +20,13 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { SlideFacade } from '@pages/content-management/application/services/slide/slide.facade';
-import { FILTER_KEYS } from '@pages/content-management/domain/constants/slide/slide-filter-keys.constants';
-import { SLIDE_TABLE } from '@pages/content-management/domain/constants/slide/slide-table.constants';
 import { SlideFilterControl } from '@pages/content-management/domain/controls/slide/slide-filter.control';
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
 import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
 import { SLIDE_FORM } from '@pages/content-management/presentation/features/slide/slide.routes';
+import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/slide/slide-filter-keys.constants';
+import { SLIDE_TABLE } from '@presentation/pages/content-management/presentation/adapters/slide/slide-table.constants';
+import { SlidePresenter } from '@presentation/pages/content-management/presentation/adapters/slide/slide-vm.presenter';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -184,6 +185,13 @@ export class SlidePageComponent implements OnInit {
         endDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
+    });
+    readonly presenter = new SlidePresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     constructor() {
         this.facade.readAll();

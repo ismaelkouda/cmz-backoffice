@@ -10,8 +10,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NotificationsFacade } from '@pages/communication/application/services/notifications/notifications.facade';
 import { LanguagesComponent } from '@shared/components/header/elements/languages/languages.component';
 import { MyAccountComponent } from '@shared/components/header/elements/my-account/my-account.component';
+import { NotificationsBellComponent } from '@shared/components/header/elements/notifications-bell/notifications-bell.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
-import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 @Component({
     selector: 'app-header',
@@ -22,8 +22,8 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
         CommonModule,
         MyAccountComponent,
         LanguagesComponent,
+        NotificationsBellComponent,
         TranslateModule,
-        OverlayBadgeModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
     readonly count = this.facade.unreadCount;
 
     ngOnInit(): void {
-        console.log('count: ', this.count());
+        this.facade.execute();
     }
 
     statusLayout(): boolean {

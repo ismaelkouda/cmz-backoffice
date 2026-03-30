@@ -28,6 +28,7 @@ export class AgentsPerformancesMapper extends PaginatedMapper<
             percentages: dto.percentages,
             status: this.mapActionDropdown(dto.is_active),
             createdAt: dto.created_at,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${props.uniqId}`;

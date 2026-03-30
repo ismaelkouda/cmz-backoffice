@@ -8,6 +8,7 @@ export interface HistoryFindOneItemApiDto {
     module: string;
     used_agent: string;
     created_at: string;
+    updated_at: string;
     data?: { key: string; value: string }[];
 }
 

@@ -7,6 +7,7 @@ export interface ParticipantsFindOneItemApiDto {
     email: string;
     phone: string;
     role: string;
+    updated_at: string;
 }
 
 export type ParticipantsFindOneResponseApiDto =

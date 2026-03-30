@@ -20,12 +20,12 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { TermsUseFacade } from '@pages/content-management/application/services/terms-use/terms-use.facade';
-import { FILTER_KEYS } from '@pages/content-management/domain/constants/terms-use/terms-use-filter-keys.constants';
-import { TERMS_USE_TABLE } from '@pages/content-management/domain/constants/terms-use/terms-use-table.constants';
 import { TermsUseFilterControl } from '@pages/content-management/domain/controls/terms-use/terms-use-filter.control';
 import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
 import { Status } from '@pages/content-management/domain/enums/terms-use/terms-use-status.enum';
 import { TERMS_USE_FORM } from '@pages/content-management/presentation/features/terms-use/terms-use.routes';
+import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/terms-use/terms-use-filter-keys.constants';
+import { TERMS_USE_TABLE } from '@presentation/pages/content-management/presentation/adapters/terms-use/terms-use-table.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {

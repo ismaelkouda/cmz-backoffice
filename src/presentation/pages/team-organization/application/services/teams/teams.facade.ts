@@ -60,7 +60,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => this.refreshWithLastFilterAndPage()
         );
     }
 

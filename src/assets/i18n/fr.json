@@ -2698,6 +2698,7 @@
                     "STATUS": "Statut",
                     "CREATED_AT": "Créé le",
                     "CREATED_BY": "Créé par",
+                    "UPDATED_AT": "Mise à jour le",
                     "ACTION": "Action"
                 },
                 "FILTER": {
@@ -2807,7 +2808,7 @@
                     "USER_PLACEHOLDER": "Trouver un utilisateur"
                 },
                 "TABLE": {
-                    "CREATED_AT": "Créé le",
+                    "UPDATED_AT": "Mise à jour le",
                     "NAME": "Profil",
                     "DESCRIPTION": "Description",
                     "USERS_COUNT": "# utilisateurs",
@@ -3116,7 +3117,7 @@
                 },
                 "FORM": {
                     "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
-                    "TITLE_FORM_EDIT": "Formulaire de modification d'équipe <b class='text-primary'>{{teamCode}}</b>",
+                    "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
                     "TABS": {
                         "GENERAL_INFO": {
                             "TITLE": "Informations Générales",

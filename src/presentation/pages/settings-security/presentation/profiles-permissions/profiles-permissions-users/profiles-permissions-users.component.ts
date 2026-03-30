@@ -24,7 +24,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProfilesPermissionsSelectFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-select.facade';
 import { ProfilesPermissionsUsersFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-users.facade';
 import { UsersSelectFacade } from '@pages/settings-security/application/services/users/users-select.facade';
-import { PROFILES_PERMISSIONS_USERS } from '@pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-users-table.constant';
+import { PROFILES_PERMISSIONS_USERS } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-users-table.constant';
 import { ProfilesPermissionsUsersFilterControl } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-users-filter.control';
 import { ProfilesPermissionsUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
 import { PROFILES_PERMISSIONS_ROUTE } from '@pages/settings-security/settings-security.routes';

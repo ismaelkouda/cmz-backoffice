@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     inject,
@@ -44,6 +45,7 @@ import { UpdateProfileRequestDto } from './data/dto/update-profile-request.dto';
         InputMaskModule,
         TranslateModule,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAccountComponent implements OnInit, OnDestroy {
     private readonly toastService = inject(ToastrService);

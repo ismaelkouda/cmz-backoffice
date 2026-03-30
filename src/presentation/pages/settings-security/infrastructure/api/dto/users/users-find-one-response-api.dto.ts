@@ -16,7 +16,7 @@ export interface UsersFindOneItemApiDto {
     };
     is_active: boolean;
     created_at?: string;
-    updated_at?: string;
+    updated_at: string;
 }
 
 export type UsersFindOneResponseApiDto =

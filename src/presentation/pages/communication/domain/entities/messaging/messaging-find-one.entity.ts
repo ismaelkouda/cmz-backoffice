@@ -10,6 +10,7 @@ export interface MessagingFindOneProps {
     subject: string;
     content: string;
     createdAt: string;
+    updatedAt: string;
 }
 
 export class MessagingFindOneEntity {
@@ -59,8 +60,15 @@ export class MessagingFindOneEntity {
         return this.props.createdAt;
     }
 
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
     public with(props: MessagingFindOneProps): MessagingFindOneEntity {
-        if (this.createdAt === props.createdAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new MessagingFindOneEntity(props);
