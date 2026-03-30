@@ -15,7 +15,7 @@ import {
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { USERS_TABS } from '@pages/settings-security/domain/constants/users/users-tabs.constants';
+import { USERS_TABS } from '@presentation/pages/settings-security/presentation/adapters/users/users-tabs.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TabsModule } from 'primeng/tabs';

@@ -1,0 +1,9 @@
+<div class="notifications-bell-container">
+    @if (notificationsCount() > 0) {
+        <p-overlaybadge [value]="notificationsCount()">
+            <i class="pi pi-bell" style="font-size: 1.3rem"></i>
+        </p-overlaybadge>
+    } @else {
+        <i class="pi pi-bell" style="font-size: 1.3rem"></i>
+    }
+</div>

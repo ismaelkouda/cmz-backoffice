@@ -1,7 +1,6 @@
+import { StatusDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-status-api.dto';
 import { RolesDto } from '@shared/data/dto/roles.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
-
-import { StatusDto } from './participants-status-api.dto';
 
 export interface ParticipantsItemApiDto {
     id: string;

@@ -6,6 +6,7 @@ export interface ProfilesPermissionsFreeUsersItemApiDto {
     phone: string;
     first_name: string;
     last_name: string;
+    updated_at: string;
 }
 
 export type ProfilesPermissionsFreeUsersResponseApiDto =

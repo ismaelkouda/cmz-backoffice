@@ -4,7 +4,9 @@ import {
     Component,
     OnDestroy,
     OnInit,
+    computed,
     inject,
+    signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,9 +14,9 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UsersFacade } from '@pages/settings-security/application/services/users/users.facade';
-import { USERS_TABLE_CONSTANT } from '@pages/settings-security/domain/constants/users/users-table.constant';
 import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
 import { USERS_FORM } from '@pages/settings-security/presentation/users/users.routes';
+import { USERS_TABLE } from '@presentation/pages/settings-security/presentation/adapters/users/users-table.constant';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
@@ -25,6 +27,8 @@ import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
+
+import { UsersPresenter } from '../../adapters/users/users-vm.presenter';
 
 @Component({
     selector: 'app-users-list',
@@ -48,7 +52,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
     private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    public readonly tableConfig = USERS_TABLE_CONSTANT;
+    public readonly tableConfig = USERS_TABLE;
     private readonly destroy$ = new Subject<void>();
     private readonly tableExportExcelFileService = inject(
         TableExportExcelFileService
@@ -61,8 +65,18 @@ export class UsersListComponent implements OnInit, OnDestroy {
     readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: {} as Paginate<UsersEntity>,
     });
+    readonly presenter = new UsersPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
+    });
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.config.app.name
+    );
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
     );
 
     constructor() {

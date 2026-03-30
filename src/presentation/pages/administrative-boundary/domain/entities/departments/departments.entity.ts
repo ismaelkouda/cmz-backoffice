@@ -34,7 +34,7 @@ export class DepartmentsEntity {
     }
 
     public with(dto: DepartmentsItemApiDto): DepartmentsEntity {
-        if (this.updatedAt === dto.updated_at) {
+        if (this.updatedAt === dto.updated_at && this.uniqId === dto.id) {
             return this;
         }
         return DepartmentsEntity.fromDto(dto);

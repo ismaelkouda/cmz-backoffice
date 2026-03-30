@@ -20,12 +20,13 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { NewsFacade } from '@pages/content-management/application/services/news/news.facade';
-import { FILTER_KEYS } from '@pages/content-management/domain/constants/news/news-filter-keys.constants';
-import { NEWS_TABLE } from '@pages/content-management/domain/constants/news/news-table.constants';
 import { NewsFilterControl } from '@pages/content-management/domain/controls/news/news-filter.control';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { Status } from '@pages/content-management/domain/enums/news/news-status.enum';
 import { NEWS_FORM } from '@pages/content-management/presentation/features/news/news.routes';
+import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/news/news-filter-keys.constants';
+import { NEWS_TABLE } from '@presentation/pages/content-management/presentation/adapters/news/news-table.constants';
+import { NewsPresenter } from '@presentation/pages/content-management/presentation/adapters/news/news-vm.presenter';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -158,6 +159,13 @@ export class NewsPageComponent implements OnInit {
         endDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
+    });
+    readonly presenter = new NewsPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     constructor() {
         this.facade.readAll();

@@ -15,7 +15,7 @@ import {
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { PROFILES_PERMISSIONS_TABS } from '@pages/settings-security/domain/constants/profiles-permissions/profiles-permissions-tabs.constants';
+import { PROFILES_PERMISSIONS_TABS } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-tabs.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TabsModule } from 'primeng/tabs';

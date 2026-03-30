@@ -9,7 +9,8 @@ export class TeamsParticipantsEntity {
         public email: string,
         public phone: string,
         public role: string,
-        public isActive: boolean
+        public isActive: boolean,
+        public updatedAt?: string
     ) {}
 
     static fromDto(dto: TeamsParticipantsItemApiDto): TeamsParticipantsEntity {
@@ -21,12 +22,13 @@ export class TeamsParticipantsEntity {
             dto.email,
             dto.phone,
             dto.role,
-            dto.is_active
+            dto.is_active,
+            dto.updated_at
         );
     }
 
     public with(dto: TeamsParticipantsItemApiDto): TeamsParticipantsEntity {
-        if (this.uniqId === dto.id) {
+        if (this.uniqId === dto.id && this.updatedAt === dto.updated_at) {
             return this;
         }
         return TeamsParticipantsEntity.fromDto(dto);

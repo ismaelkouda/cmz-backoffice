@@ -26,6 +26,7 @@ export class ParticipantsFindOneMapper extends SimpleResponseMapper<
             email: dto.email,
             phone: dto.phone,
             role: dto.role,
+            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${dto.id}`;

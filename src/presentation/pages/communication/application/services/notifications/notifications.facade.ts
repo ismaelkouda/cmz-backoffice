@@ -42,7 +42,7 @@ export class NotificationsFacade extends BaseFacade<
     readonly items = toSignal(this.items$, { initialValue: [] });
 
     readonly unreadCount = computed(
-        () => this.items().filter((n) => n.status === Status.READ).length
+        () => this.items().filter((n) => n.status === Status.UNREAD).length
     );
 
     private hasInitialized = false;

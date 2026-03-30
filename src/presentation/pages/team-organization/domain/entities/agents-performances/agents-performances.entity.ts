@@ -8,6 +8,7 @@ export interface AgentsPerformancesProps {
     percentages: string;
     status: AGENTS_PERFORMANCES_STATUS;
     createdAt: string;
+    updatedAt: string;
 }
 export class AgentsPerformancesEntity {
     constructor(private readonly props: AgentsPerformancesProps) {}
@@ -33,9 +34,15 @@ export class AgentsPerformancesEntity {
     get createdAt(): string {
         return this.props.name;
     }
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
 
     public with(props: AgentsPerformancesProps): AgentsPerformancesEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.uniqId === props.uniqId &&
+            this.updatedAt === props.updatedAt
+        ) {
             return this;
         }
         return new AgentsPerformancesEntity(props);

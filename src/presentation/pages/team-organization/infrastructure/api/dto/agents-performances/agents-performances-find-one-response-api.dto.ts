@@ -7,6 +7,7 @@ export interface AgentsPerformancesFindOneItemApiDto {
     source: string;
     initiator_phone_number: string;
     created_at: string;
+    updated_at: string;
 }
 
 export type AgentsPerformancesFindOneResponseApiDto =

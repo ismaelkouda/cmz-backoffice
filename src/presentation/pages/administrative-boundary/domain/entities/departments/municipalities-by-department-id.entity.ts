@@ -36,7 +36,7 @@ export class MunicipalitiesByDepartmentIdEntity {
     public with(
         dto: MunicipalitiesByDepartmentIdItemApiDto
     ): MunicipalitiesByDepartmentIdEntity {
-        if (this.updatedAt === dto.updated_at) {
+        if (this.updatedAt === dto.updated_at && this.uniqId === dto.id) {
             return this;
         }
         return MunicipalitiesByDepartmentIdEntity.fromDto(dto);

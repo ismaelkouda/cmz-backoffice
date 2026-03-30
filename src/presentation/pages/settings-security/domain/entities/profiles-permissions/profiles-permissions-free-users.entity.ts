@@ -6,7 +6,8 @@ export class ProfilesPermissionsFreeUsersEntity {
         public email: string,
         public phone: string,
         public firstName: string,
-        public lastName: string
+        public lastName: string,
+        public updatedAt: string
     ) {}
 
     static fromDto(
@@ -17,14 +18,15 @@ export class ProfilesPermissionsFreeUsersEntity {
             dto.email,
             dto.phone,
             dto.first_name,
-            dto.last_name
+            dto.last_name,
+            dto.updated_at
         );
     }
 
     public with(
         dto: ProfilesPermissionsFreeUsersItemApiDto
     ): ProfilesPermissionsFreeUsersEntity {
-        if (this.uniqId === dto.uniq_id) {
+        if (this.uniqId === dto.uniq_id && this.updatedAt === dto.updated_at) {
             return this;
         }
         return ProfilesPermissionsFreeUsersEntity.fromDto(dto);

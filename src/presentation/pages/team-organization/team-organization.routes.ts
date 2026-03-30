@@ -20,7 +20,7 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import('./presentation/participants/participants.routes').then(
+                            import('./presentation/features/participants/participants.routes').then(
                                 (m) => m.PARTICIPANTS_ROUTES
                             ),
                         data: { breadcrumb: { hide: true } },
@@ -43,7 +43,7 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import('./presentation/teams/teams.routes').then(
+                            import('./presentation/features/teams/teams.routes').then(
                                 (m) => m.TEAMS_ROUTES
                             ),
                         data: { breadcrumb: { hide: true } },
@@ -66,7 +66,7 @@ export const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import('./presentation/agents-performances/agents-performances.routes').then(
+                            import('./presentation/features/agents-performances/agents-performances.routes').then(
                                 (m) => m.AGENTS_PERFORMANCES_ROUTES
                             ),
                         data: { breadcrumb: { hide: true } },

@@ -9,6 +9,7 @@ export interface TeamsParticipantsItemApiDto {
     last_name: string;
     role: string;
     is_active: boolean;
+    updated_at: string;
 }
 
 export type TeamsParticipantsResponseApiDto =

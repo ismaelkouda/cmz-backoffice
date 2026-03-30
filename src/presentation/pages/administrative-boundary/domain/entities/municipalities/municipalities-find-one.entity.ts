@@ -38,7 +38,7 @@ export class MunicipalitiesFindOneEntity {
     public with(
         dto: MunicipalitiesFindOneItemApiDto
     ): MunicipalitiesFindOneEntity {
-        if (this.updatedAt === dto.updated_at) {
+        if (this.updatedAt === dto.updated_at && this.uniqId === dto.id) {
             return this;
         }
         return MunicipalitiesFindOneEntity.fromDto(dto);

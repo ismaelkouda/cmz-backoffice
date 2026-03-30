@@ -36,7 +36,7 @@ export class DepartmentsByRegionIdEntity {
     public with(
         dto: DepartmentsByRegionIdItemApiDto
     ): DepartmentsByRegionIdEntity {
-        if (this.updatedAt === dto.updated_at) {
+        if (this.updatedAt === dto.updated_at && this.uniqId === dto.id) {
             return this;
         }
         return DepartmentsByRegionIdEntity.fromDto(dto);

@@ -20,7 +20,7 @@ export class AccessLogsEntity {
     }
 
     public with(dto: AccessLogsItemApiDto): AccessLogsEntity {
-        if (this.createdAt === dto.created_at) {
+        if (this.uniqId === dto.id) {
             return this;
         }
         return AccessLogsEntity.fromDto(dto);

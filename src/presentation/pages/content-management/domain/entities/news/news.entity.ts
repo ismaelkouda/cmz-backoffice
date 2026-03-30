@@ -10,6 +10,9 @@ export class NewsEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
+    get actionsRef(): string {
+        return this.props.uniqId;
+    }
     get type(): string {
         return this.props.type;
     }

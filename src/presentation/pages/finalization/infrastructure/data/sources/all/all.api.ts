@@ -19,7 +19,9 @@ export class AllApi {
         page: string
     ): Observable<AllResponseApiDto> {
         const url = `${this.baseUrl}${FINALIZATION_ENDPOINTS.ALL}?page=${page}`;
-        const params = buildHttpParams(filter);
+        const params = buildHttpParams(filter, {
+            arrayFormat: 'comma',
+        });
         return this.http.get<AllResponseApiDto>(url, {
             params,
         });

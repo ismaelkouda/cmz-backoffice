@@ -1,0 +1,38 @@
+<div class="teams-content">
+    <app-filter
+        class="filter-component"
+        [isLoading]="loading()"
+        [formGroup]="form"
+        [fields]="filterFields()"
+        (filter)="onFilterClicked($event)"
+        [filterState]="facade.currentFilter$"
+        [limit]="5"
+    ></app-filter>
+
+    <hr class="teams-divider" />
+
+    <section class="table-section">
+        <app-table
+            class="table-component"
+            [loading]="loading()"
+            [items]="itemsVM()"
+            [pagination]="pagination()"
+            [config]="tableConfig"
+            [headerButtons]="headerButtons()"
+            (headerButtonClicked)="onHeaderButtonClicked($event)"
+            (refreshRequested)="onRefreshClicked()"
+            (editRequested)="onNavigateToForm($event)"
+            (deleteRequested)="onDeleteClicked($event)"
+            (enableRequested)="onEnableClicked($event)"
+            (disableRequested)="onDisableClicked($event)"
+            (badgeClicked)="onBadgeClicked($event)"
+            dataKey="uniqId"
+        ></app-table>
+
+        <app-pagination
+            class="pagination-component"
+            [pagination]="pagination()"
+            (pageChange)="onPageChangeClicked($event)"
+        ></app-pagination>
+    </section>
+</div>

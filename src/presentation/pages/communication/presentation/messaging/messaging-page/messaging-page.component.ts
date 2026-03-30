@@ -15,7 +15,7 @@ import {
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { MESSAGING_TABS } from '@pages/communication/domain/constants/messaging/messaging-tabs.constants';
+import { MESSAGING_TABS } from '@presentation/pages/communication/presentation/adapters/messaging/messaging-tabs.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TabsModule } from 'primeng/tabs';

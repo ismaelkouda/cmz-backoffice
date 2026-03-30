@@ -20,12 +20,12 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { PrivacyPolicyFacade } from '@pages/content-management/application/services/privacy-policy/privacy-policy.facade';
-import { FILTER_KEYS } from '@pages/content-management/domain/constants/privacy-policy/privacy-policy-filter-keys.constants';
-import { PRIVACY_POLICY_TABLE } from '@pages/content-management/domain/constants/privacy-policy/privacy-policy-table.constants';
 import { PrivacyPolicyFilterControl } from '@pages/content-management/domain/controls/privacy-policy/privacy-policy-filter.control';
 import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
 import { Status } from '@pages/content-management/domain/enums/privacy-policy/privacy-policy-status.enum';
 import { PRIVACY_POLICY_FORM } from '@pages/content-management/presentation/features/privacy-policy/privacy-policy.routes';
+import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/privacy-policy/privacy-policy-filter-keys.constants';
+import { PRIVACY_POLICY_TABLE } from '@presentation/pages/content-management/presentation/adapters/privacy-policy/privacy-policy-table.constants';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {

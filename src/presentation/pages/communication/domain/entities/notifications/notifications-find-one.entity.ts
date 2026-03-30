@@ -5,6 +5,7 @@ export interface NotificationsFindOneProps {
     source: string;
     initiatorPhoneNumber: string;
     createdAt: string;
+    updatedAt: string;
 }
 export class NotificationsFindOneEntity {
     constructor(private readonly props: NotificationsFindOneProps) {}
@@ -28,8 +29,15 @@ export class NotificationsFindOneEntity {
         return this.props.createdAt;
     }
 
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
     public with(props: NotificationsFindOneProps): NotificationsFindOneEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.uniqId === props.uniqId &&
+            this.updatedAt === props.updatedAt
+        ) {
             return this;
         }
         return new NotificationsFindOneEntity(props);

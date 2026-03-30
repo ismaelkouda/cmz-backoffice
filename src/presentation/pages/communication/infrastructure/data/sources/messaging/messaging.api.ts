@@ -26,9 +26,9 @@ export class MessagingApi {
         page: string
     ): Observable<MessagingResponseApiDto> {
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}?page=${page}`;
-
-        const params = buildHttpParams(filter);
-
+        const params = buildHttpParams(filter, {
+            arrayFormat: 'comma',
+        });
         return this.http.get<MessagingResponseApiDto>(url, {
             params,
         });

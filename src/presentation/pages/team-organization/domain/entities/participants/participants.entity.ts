@@ -12,6 +12,10 @@ export class ParticipantsEntity {
         return this.props.uniqId;
     }
 
+    get actionsRef(): string {
+        return this.props.lastName + '-' + this.props.firstName;
+    }
+
     get lastName(): string {
         return this.props.lastName;
     }
@@ -58,7 +62,10 @@ export class ParticipantsEntity {
     }
 
     public with(props: ParticipantsProps): ParticipantsEntity {
-        if (this.updatedAt === props.updatedAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
         return new ParticipantsEntity(props);

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { AllComponent } from '@pages/requests/presentation/all/all.component';
-import { QueuesComponent } from '@pages/requests/presentation/queues/queues.component';
-import { TasksComponent } from '@pages/requests/presentation/tasks/tasks.component';
+import { AllComponent } from '@presentation/pages/requests/presentation/features/all/all.component';
+import { QueuesComponent } from '@presentation/pages/requests/presentation/features/queues/queues.component';
+import { TasksComponent } from '@presentation/pages/requests/presentation/features/tasks/tasks.component';
 
 export const QUEUES_ROUTE = 'queues';
 export const TASKS_ROUTE = 'tasks';

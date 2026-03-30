@@ -20,12 +20,13 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { HomeFacade } from '@pages/content-management/application/services/home/home.facade';
-import { FILTER_KEYS } from '@pages/content-management/domain/constants/home/home-filter-keys.constants';
-import { HOME_TABLE } from '@pages/content-management/domain/constants/home/home-table.constants';
 import { HomeFilterControl } from '@pages/content-management/domain/controls/home/home-filter.control';
 import { HomeEntity } from '@pages/content-management/domain/entities/home/home.entity';
 import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
 import { HOME_FORM } from '@pages/content-management/presentation/features/home/home.routes';
+import { FILTER_KEYS } from '@presentation/pages/content-management/presentation/adapters/home/home-filter-keys.constants';
+import { HOME_TABLE } from '@presentation/pages/content-management/presentation/adapters/home/home-table.constants';
+import { HomePresenter } from '@presentation/pages/content-management/presentation/adapters/home/home-vm.presenter';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -184,6 +185,13 @@ export class HomePageComponent implements OnInit {
         endDate: new FormControl<Date | undefined>(undefined, {
             nonNullable: true,
         }),
+    });
+    readonly presenter = new HomePresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     constructor() {
         this.facade.readAll();

@@ -5,6 +5,7 @@ export interface AgentsPerformancesFindOneProps {
     source: string;
     initiatorPhoneNumber: string;
     createdAt: string;
+    updatedAt: string;
 }
 export class AgentsPerformancesFindOneEntity {
     constructor(private readonly props: AgentsPerformancesFindOneProps) {}
@@ -28,10 +29,17 @@ export class AgentsPerformancesFindOneEntity {
         return this.props.createdAt;
     }
 
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
     public with(
         props: AgentsPerformancesFindOneProps
     ): AgentsPerformancesFindOneEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.uniqId === props.uniqId &&
+            this.updatedAt === props.updatedAt
+        ) {
             return this;
         }
         return new AgentsPerformancesFindOneEntity(props);

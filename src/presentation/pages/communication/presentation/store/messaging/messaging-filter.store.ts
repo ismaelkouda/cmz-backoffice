@@ -19,10 +19,10 @@ export class MessagingFilterStore {
             search: new FormControl<string>('', {
                 nonNullable: true,
             }),
-            reportId: new FormControl<string | null>(null, {
+            channels: new FormControl<string[]>([], {
                 nonNullable: true,
             }),
-            targetType: new FormControl<string>('', {
+            targetType: new FormControl<string | null>(null, {
                 nonNullable: true,
             }),
         });
@@ -48,7 +48,7 @@ export class MessagingFilterStore {
 
         return {
             search: raw.search || undefined,
-            reportId: raw.reportId || undefined,
+            channels: raw.channels || undefined,
             targetType: raw.targetType || undefined,
         };
     }

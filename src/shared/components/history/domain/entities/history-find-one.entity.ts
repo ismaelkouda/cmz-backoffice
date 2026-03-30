@@ -9,6 +9,7 @@ export class HistoryFindOneEntity {
         public readonly module: string,
         public readonly usedAgent: string,
         public readonly createdAt: string,
+        public readonly updatedAt: string,
         public readonly data: { key: string; value: string }[]
     ) {}
 
@@ -21,12 +22,13 @@ export class HistoryFindOneEntity {
             dto.module,
             dto.used_agent,
             dto.created_at,
+            dto.updated_at,
             dto.data ?? []
         );
     }
 
     public with(dto: HistoryFindOneItemApiDto): HistoryFindOneEntity {
-        if (this.uniqId === dto.id) {
+        if (this.uniqId === dto.id && this.updatedAt === dto.updated_at) {
             return this;
         }
         return HistoryFindOneEntity.fromDto(dto);
