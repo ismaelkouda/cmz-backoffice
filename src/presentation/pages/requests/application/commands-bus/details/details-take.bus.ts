@@ -9,7 +9,6 @@ export class DetailsTakeBus {
     constructor(private readonly createHandler: DetailsTakeHandler) {}
 
     dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
-        console.log('command: ', command instanceof DetailsTakeCommand);
         if (command instanceof DetailsTakeCommand) {
             return this.createHandler.execute(command);
         }

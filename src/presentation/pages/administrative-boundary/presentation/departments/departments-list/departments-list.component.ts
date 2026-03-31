@@ -238,7 +238,6 @@ export class DepartmentsListComponent implements OnInit {
         item: DepartmentsEntity;
         ref: CrudFormType;
     }): void {
-        console.log(item);
         this.router.navigate([DEPARTMENTS_FORM], {
             relativeTo: this.activatedRoute,
             queryParams: {
@@ -277,7 +276,6 @@ export class DepartmentsListComponent implements OnInit {
         item: DepartmentsEntity;
         col: HTMLTableCellElement;
     }): void {
-        console.log(event.item);
         this.router.navigate([MUNICIPALITIES_BY_DEPARTMENT_ID_ROUTE], {
             relativeTo: this.activatedRoute,
             queryParams: {

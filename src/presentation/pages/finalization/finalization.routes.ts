@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { AllComponent } from './presentation/all/all.component';
-import { QueuesComponent } from './presentation/queues/queues.component';
-import { TasksComponent } from './presentation/tasks/tasks.component';
+import { AllComponent } from './presentation/features/all/all.component';
+import { QueuesComponent } from './presentation/features/queues/queues.component';
+import { TasksComponent } from './presentation/features/tasks/tasks.component';
 
 export const TREATMENT_ROUTE = 'processing';
 export const QUEUES_ROUTE = 'queues';

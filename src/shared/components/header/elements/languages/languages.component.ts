@@ -56,7 +56,6 @@ export class LanguagesComponent {
     }
 
     public async selectLanguage(langCode: string): Promise<void> {
-        console.log('Selected language:', langCode);
         await this.translationService.changeLanguage(langCode);
         this.closeDropdown();
     }

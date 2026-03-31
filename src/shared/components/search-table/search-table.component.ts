@@ -33,7 +33,6 @@ export class SearchTableComponent {
     @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
 
     onSearch(value: string): void {
-        console.log(value);
         this.searchEvent.emit(value);
         if (this.dt) {
             this.dt.filterGlobal(value, 'contains');

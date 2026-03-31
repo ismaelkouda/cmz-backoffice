@@ -119,7 +119,6 @@ export class MunicipalitiesListComponent {
 
     readonly filteredDepartments = computed(() => {
         const item = this.selectedRegion();
-        console.log(item);
         if (!item) {
             return [];
         }
@@ -217,7 +216,6 @@ export class MunicipalitiesListComponent {
 
         effect(() => {
             const filter = this.filterData();
-            console.log('this.regions() selected: ', this.regions());
 
             untracked(() => {
                 if (filter) {
@@ -251,8 +249,6 @@ export class MunicipalitiesListComponent {
     }
 
     public filter(formValue: any): void {
-        console.log('this.regions(): filter ', this.regions());
-        console.log('formValue: ', formValue);
         const { startDate, endDate, isValidRange } = parseAndValidateDateRange(
             formValue.startDate,
             formValue.endDate

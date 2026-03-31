@@ -55,13 +55,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
             observable,
             this.uiFeedbackService,
             successKey,
-            () => {
-                console.log(
-                    'this.filterSubject.getValue()?.uniqId: ',
-                    this.filterSubject.getValue()?.uniqId
-                );
-                this.refresh();
-            }
+            () => this.refresh()
         );
     }
 
@@ -155,7 +149,6 @@ export class TeamsParticipantsFacade extends BaseFacade<
     }
 
     reassign(dto: TeamsParticipantsReassignDto): void {
-        console.log('dto: ', dto);
         this._actionState.set('loading');
         const command = new TeamsParticipantsReassignCommand(
             dto.uniqId,

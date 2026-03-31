@@ -17,13 +17,13 @@ import {
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { TasksFilterDto } from '@pages/finalization/application/dto/tasks/tasks-filter.dto';
-import { TasksFacade } from '@pages/finalization/application/services/tasks/tasks.facade';
-import { TASKS_TABLE } from '@pages/finalization/domain/constants/tasks/tasks-table.constants';
-import { TasksVmProps } from '@pages/finalization/domain/interfaces/tasks/tasks-vm-props.interface';
-import { TasksPresenter } from '@pages/finalization/presentation/adapters/tasks/tasks-vm.presenter';
+import { QueuesFilterDto } from '@pages/finalization/application/dto/queues/queues-filter.dto';
 import { DetailsFacade } from '@pages/finalization/application/services/details/details.facade';
-import { TasksFilterStore } from '@pages/finalization/presentation/store/tasks/tasks-filter.store';
+import { QueuesFacade } from '@pages/finalization/application/services/queues/queues.facade';
+import { QUEUES_TABLE } from '@pages/finalization/domain/constants/queues/queues-table.constant';
+import { QueuesVmProps } from '@pages/finalization/domain/interfaces/queues/queues-vm-props.interface';
+import { QueuesPresenter } from '@pages/finalization/presentation/adapters/queues/queues-vm.presenter';
+import { QueuesFilterStore } from '@pages/finalization/presentation/store/queues/queues-filter.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -35,7 +35,6 @@ import { ManagementDialogComponent } from '@shared/components/management/present
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
@@ -48,48 +47,48 @@ import { ToastrService } from 'ngx-toastr';
 import SweetAlert from 'sweetalert2';
 
 @Component({
-    selector: 'app-tasks',
+    selector: 'app-queues',
     standalone: true,
-    templateUrl: './tasks.component.html',
-    styleUrls: ['./tasks.component.scss'],
+    templateUrl: './queues.component.html',
+    styleUrls: ['./queues.component.scss'],
     imports: [
         CommonModule,
+        FilterComponent,
         BreadcrumbComponent,
         TableComponent,
         ManagementDialogComponent,
         PageTitleComponent,
         PaginationComponent,
         TranslateModule,
-        FilterComponent,
     ],
-    providers: [TasksFilterStore],
+    providers: [QueuesFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TasksComponent implements OnInit {
+export class QueuesComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
-    public readonly facade = inject(TasksFacade);
-    public readonly finalizeFacade = inject(DetailsFacade);
+    public readonly facade = inject(QueuesFacade);
+    private readonly takeFacade = inject(DetailsFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    public readonly formStore = inject(TasksFilterStore);
+    public readonly formStore = inject(QueuesFilterStore);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.config.app.name
     );
+    private lastSuccess = this.takeFacade.actionSuccess();
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
     public selectedReportId: string | null = null;
-    public readonly tableConfig = TASKS_TABLE;
+    public readonly tableConfig = QUEUES_TABLE;
     readonly form = this.formStore.form;
+    public readonly selectedInTable = signal<QueuesVmProps[]>([]);
     public readonly reportTreatmentVisible = signal<boolean>(false);
     public readonly selectedManagementType = signal<TypeReport>(
         TypeReport.FINALIZATION
     );
-    public readonly selectedInTable = signal<TasksVmProps[]>([]);
-    private lastSuccess = this.finalizeFacade.actionSuccess();
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
@@ -124,29 +123,29 @@ export class TasksComponent implements OnInit {
             {
                 type: 'text',
                 name: 'initiatorPhoneNumber',
-                label: this.t('FINALIZATION.TASKS.FILTER.INITIATOR'),
+                label: this.t('FINALIZATION.QUEUES.FILTER.INITIATOR'),
                 placeholder: this.t('COMMON.PHONE_PLACEHOLDER'),
                 icon: 'pi pi-phone',
                 translationKeys: {
-                    label: 'FINALIZATION.TASKS.FILTER.INITIATOR',
+                    label: 'FINALIZATION.QUEUES.FILTER.INITIATOR',
                     placeholder: 'COMMON.PHONE_PLACEHOLDER',
                 },
             },
             {
                 type: 'text',
                 name: 'uniqId',
-                label: this.t('FINALIZATION.TASKS.FILTER.UNIQ_ID'),
+                label: this.t('FINALIZATION.QUEUES.FILTER.UNIQ_ID'),
                 placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
                 icon: 'pi pi-id-card',
                 translationKeys: {
-                    label: 'FINALIZATION.TASKS.FILTER.UNIQ_ID',
+                    label: 'FINALIZATION.QUEUES.FILTER.UNIQ_ID',
                     placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
                 },
             },
             {
                 type: 'select',
                 name: 'reportType',
-                label: this.t('FINALIZATION.TASKS.FILTER.REPORT_TYPE'),
+                label: this.t('FINALIZATION.QUEUES.FILTER.REPORT_TYPE'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: reportTypeOpts,
                 optionLabel: 'label',
@@ -154,14 +153,14 @@ export class TasksComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'FINALIZATION.TASKS.FILTER.REPORT_TYPE',
+                    label: 'FINALIZATION.QUEUES.FILTER.REPORT_TYPE',
                 },
                 class: 'p-long',
             },
             {
                 type: 'multi-select',
                 name: 'operators',
-                label: this.t('FINALIZATION.TASKS.FILTER.OPERATORS'),
+                label: this.t('FINALIZATION.QUEUES.FILTER.OPERATORS'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: telecomOperatorsOpts,
                 optionLabel: 'label',
@@ -169,14 +168,14 @@ export class TasksComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'FINALIZATION.TASKS.FILTER.OPERATORS',
+                    label: 'FINALIZATION.QUEUES.FILTER.OPERATORS',
                 },
                 class: 'p-medium',
             },
             {
                 type: 'select',
                 name: 'source',
-                label: this.t('FINALIZATION.TASKS.FILTER.SOURCE'),
+                label: this.t('FINALIZATION.QUEUES.FILTER.SOURCE'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: reportSourceOpts,
                 optionLabel: 'label',
@@ -184,7 +183,7 @@ export class TasksComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'FINALIZATION.TASKS.FILTER.SOURCE',
+                    label: 'FINALIZATION.QUEUES.FILTER.SOURCE',
                 },
             },
             {
@@ -201,24 +200,22 @@ export class TasksComponent implements OnInit {
             },
         ];
     });
-    readonly presenter = new TasksPresenter(
+    readonly presenter = new QueuesPresenter(
         this.translate.instant.bind(this.translate)
     );
     readonly itemsVM = computed(() => {
         this.currentLang();
         return this.items().map((item) => this.presenter.map(item));
     });
-
     private readonly formStateEffect = effect(() => {
-        if (this.finalizeFacade.actionLoading()) {
-            this.formStore.disable();
+        if (this.takeFacade.actionLoading()) {
+            this.form.disable({ emitEvent: false });
         } else {
-            this.formStore.enable();
+            this.form.enable({ emitEvent: false });
         }
     });
-
     private readonly successEffect = effect(() => {
-        const current = this.finalizeFacade.actionSuccess();
+        const current = this.takeFacade.actionSuccess();
         if (current === this.lastSuccess) {
             return;
         }
@@ -226,19 +223,8 @@ export class TasksComponent implements OnInit {
         this.lastSuccess = current;
     });
 
-    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.FINALIZE',
-            actionId: 'finalize',
-            class: 'btn-primary',
-            icon: 'pi pi-check-circle',
-            translateKey: 'COMMON.FINALIZE',
-            disabled: !this.selectedInTable().length,
-        },
-    ]);
-
     constructor() {
-        this.facade.read(this.currentFilter() as TasksFilterDto);
+        this.facade.read(this.currentFilter() as QueuesFilterDto);
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {
@@ -254,11 +240,12 @@ export class TasksComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.title.setTitle(this.t('FINALIZATION.TASKS.TITLE'));
+        this.title.setTitle(this.t('FINALIZATION.QUEUES.TITLE'));
+
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
-                this.title.setTitle(this.t('FINALIZATION.TASKS.TITLE'));
+                this.title.setTitle(this.t('FINALIZATION.QUEUES.TITLE'));
             });
     }
 
@@ -275,6 +262,46 @@ export class TasksComponent implements OnInit {
         this.facade.changePage(JSON.stringify(event + 1));
     }
 
+    public onHeaderButtonClicked(actionId: string): void {
+        if (actionId === CrudFormType.TAKE) {
+            SweetAlert.fire({
+                ...SWEET_ALERT_PARAMS,
+                title: this.t('FINALIZATION.QUEUES.SWEET_ALERT.TITLE_TAKE'),
+                text: this.t('FINALIZATION.QUEUES.SWEET_ALERT.TITLE_MESSAGE'),
+                backdrop: false,
+                confirmButtonText: this.t('COMMON.CONFIRM'),
+                cancelButtonText: this.t('COMMON.CANCEL'),
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    this.takeFacade.take({
+                        uniqId: JSON.stringify(
+                            this.selectedInTable().map((p) => p.uniqId)
+                        ),
+                    });
+                }
+            });
+        }
+    }
+
+    public onActionClicked(event: {
+        item: QueuesVmProps;
+        actionId?: string;
+    }): void {
+        const { item } = event;
+        this.selectedManagementType.set(item.type);
+        this.selectedReportId = item.uniqId;
+        this.reportTreatmentVisible.set(true);
+    }
+
+    public onVisibleChange(event: boolean): void {
+        this.reportTreatmentVisible.set(event);
+    }
+
+    public onSelectionChange(selection: QueuesVmProps | QueuesVmProps[]): void {
+        const queues = Array.isArray(selection) ? selection : [selection];
+        this.selectedInTable.set(queues.filter((u) => !!u));
+    }
+
     private t(key: string): string {
         return this.translate.instant(key);
     }
@@ -282,7 +309,7 @@ export class TasksComponent implements OnInit {
     public onExportClicked(): void {
         const tasks = this.items();
         if (tasks && tasks.length > 0) {
-            const fileName = `${this.exportFilePrefix}-tasks`;
+            const fileName = `${this.exportFilePrefix}-queues`;
             this.exportService.exportAsExcelFile(
                 tasks,
                 this.tableConfig,
@@ -300,46 +327,5 @@ export class TasksComponent implements OnInit {
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
-    }
-
-    public onActionClicked(event: {
-        item: TasksVmProps;
-        actionId?: string;
-    }): void {
-        const { item } = event;
-        this.selectedManagementType.set(item.type);
-        this.selectedReportId = item.uniqId;
-        this.reportTreatmentVisible.set(true);
-    }
-
-    public onVisibleChange(event: boolean): void {
-        this.reportTreatmentVisible.set(event);
-    }
-
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.TAKE) {
-            SweetAlert.fire({
-                ...SWEET_ALERT_PARAMS,
-                title: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_TAKE'),
-                text: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_MESSAGE'),
-                backdrop: false,
-                confirmButtonText: this.t('COMMON.CONFIRM'),
-                cancelButtonText: this.t('COMMON.CANCEL'),
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    this.finalizeFacade.take({
-                        uniqId: JSON.stringify(
-                            this.selectedInTable().map((p) => p.uniqId)
-                        ),
-                    });
-                    this.facade.refreshWithLastFilterAndPage();
-                }
-            });
-        }
-    }
-
-    public onSelectionChange(selection: TasksVmProps | TasksVmProps[]): void {
-        const tasks = Array.isArray(selection) ? selection : [selection];
-        this.selectedInTable.set(tasks.filter((u) => !!u));
     }
 }

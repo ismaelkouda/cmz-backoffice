@@ -18,7 +18,6 @@ export class DepartmentsByRegionIdApi {
         paramsDto: DepartmentsByRegionIdFilterApiDto,
         page: string
     ): Observable<DepartmentsByRegionIdResponseApiDto> {
-        console.log('paramsDto', paramsDto);
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.DEPARTMENTS}?page=${page}`;
 
         const params = this.createHttpParams(paramsDto);

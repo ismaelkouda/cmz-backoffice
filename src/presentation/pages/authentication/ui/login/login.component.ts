@@ -4,7 +4,6 @@ import {
     Component,
     inject,
     OnDestroy,
-    OnInit,
 } from '@angular/core';
 import {
     AbstractControl,
@@ -46,7 +45,7 @@ import { takeUntil } from 'rxjs/operators';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
     private readonly authenticationFacade = inject(AuthenticationFacade);
     private readonly encodingDataService = inject(EncodingDataService);
     private readonly translateService = inject(TranslateService);
@@ -70,15 +69,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         }),
     });
 
-    private destroy$ = new Subject<void>();
+    private readonly destroy$ = new Subject<void>();
     public readonly config = inject(AppCustomizationService).config;
-
-    ngOnInit(): void {
-        console.log(
-            'LoginComponent ngOnInit',
-            this.translateService.getCurrentLang()
-        );
-    }
 
     ngOnDestroy(): void {
         this.destroy$.next();

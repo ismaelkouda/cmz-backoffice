@@ -66,7 +66,6 @@ export class DetailsFacade extends ObjectBaseFacade<
         this._actionLoading.set(true);
 
         const command = new DetailsTakeCommand(item.uniqId);
-        console.log('command take: ', command);
 
         this.handleActionWithRefresh(
             this.takeBus.dispatch(command),

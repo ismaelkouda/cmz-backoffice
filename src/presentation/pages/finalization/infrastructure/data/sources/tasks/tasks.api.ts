@@ -19,7 +19,6 @@ export class TasksApi {
         page: string
     ): Observable<TasksResponseApiDto> {
         const url = `${this.baseUrl}${FINALIZATION_ENDPOINTS.TASKS}?page=${page}`;
-        console.log('url: ', url);
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });

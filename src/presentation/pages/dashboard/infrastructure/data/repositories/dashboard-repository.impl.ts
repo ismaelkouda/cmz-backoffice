@@ -14,10 +14,6 @@ export class DashboardRepositoryImpl implements DashboardRepository {
 
     execute(entity: DashboardFilterEntity): Observable<DashboardEntity> {
         const paramsDto = dashboardFilterMapper(entity);
-        console.log(
-            '🚀 ~ DashboardRepositoryImpl ~ execute ~ paramsDto:',
-            paramsDto
-        );
         return this.api
             .execute(paramsDto)
             .pipe(map((response) => this.mapper.mapFromDto(response)));

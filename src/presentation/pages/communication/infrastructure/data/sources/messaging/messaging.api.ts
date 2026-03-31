@@ -48,7 +48,6 @@ export class MessagingApi {
 
     delete(apiDto: MessagingDeleteApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}/${apiDto}/delete`;
-        console.log('url', url);
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 

@@ -243,7 +243,6 @@ export class RegionsListComponent implements OnInit {
     }
 
     public onDeleteClicked(item: RegionsEntity): void {
-        console.log('item: ', item);
         if (this.items().length < 1 && !item.uniqId) {
             return;
         }

@@ -111,8 +111,6 @@ export class DetailsMapper extends SimpleResponseMapper<
 
         const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
-        console.log('cached: ', cached);
-        console.log('props: ', props);
 
         const entity = cached ? cached.with(props) : new DetailsEntity(props);
 

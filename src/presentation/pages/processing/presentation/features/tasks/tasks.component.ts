@@ -11,19 +11,21 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
     LangChangeEvent,
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { QueuesFilterDto } from '@pages/finalization/application/dto/queues/queues-filter.dto';
-import { DetailsFacade } from '@pages/finalization/application/services/details/details.facade';
-import { QueuesFacade } from '@pages/finalization/application/services/queues/queues.facade';
-import { QUEUES_TABLE } from '@pages/finalization/domain/constants/queues/queues-table.constant';
-import { QueuesVmProps } from '@pages/finalization/domain/interfaces/queues/queues-vm-props.interface';
-import { QueuesPresenter } from '@pages/finalization/presentation/adapters/queues/queues-vm.presenter';
-import { QueuesFilterStore } from '@pages/finalization/presentation/store/queues/queues-filter.store';
+import { TasksFilterDto } from '@pages/processing/application/dto/tasks/tasks-filter.dto';
+import { TasksFacade } from '@pages/processing/application/services/tasks/tasks.facade';
+import { TASKS_TABLE } from '@pages/processing/domain/constants/tasks/tasks-table.constants';
+import { TasksVmProps } from '@pages/processing/presentation/adapters/tasks/tasks-vm-props.interface';
+import { TasksPresenter } from '@pages/processing/presentation/adapters/tasks/tasks-vm.presenter';
+import { TasksFilterStore } from '@pages/processing/presentation/store/tasks/tasks-filter.store';
+import { ACTIONS_ROUTE } from '@pages/processing/processing.routes';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -35,59 +37,56 @@ import { ManagementDialogComponent } from '@shared/components/management/present
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
 
 @Component({
-    selector: 'app-queues',
+    selector: 'app-tasks',
     standalone: true,
-    templateUrl: './queues.component.html',
-    styleUrls: ['./queues.component.scss'],
+    templateUrl: './tasks.component.html',
+    styleUrls: ['./tasks.component.scss'],
     imports: [
         CommonModule,
-        FilterComponent,
         BreadcrumbComponent,
         TableComponent,
         ManagementDialogComponent,
         PageTitleComponent,
         PaginationComponent,
         TranslateModule,
+        ReactiveFormsModule,
+        FilterComponent,
     ],
-    providers: [QueuesFilterStore],
+    providers: [TasksFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QueuesComponent implements OnInit {
+export class TasksComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private readonly title = inject(Title);
-    public readonly facade = inject(QueuesFacade);
-    private readonly takeFacade = inject(DetailsFacade);
+    public readonly facade = inject(TasksFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    public readonly formStore = inject(QueuesFilterStore);
+    public readonly formStore = inject(TasksFilterStore);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.config.app.name
     );
-    private lastSuccess = this.takeFacade.actionSuccess();
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
     public selectedReportId: string | null = null;
-    public readonly tableConfig = QUEUES_TABLE;
+    public readonly tableConfig = TASKS_TABLE;
     readonly form = this.formStore.form;
-    public readonly selectedInTable = signal<QueuesVmProps[]>([]);
     public readonly reportTreatmentVisible = signal<boolean>(false);
     public readonly selectedManagementType = signal<TypeReport>(
-        TypeReport.FINALIZATION
+        TypeReport.PROCESSING
     );
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -123,29 +122,29 @@ export class QueuesComponent implements OnInit {
             {
                 type: 'text',
                 name: 'initiatorPhoneNumber',
-                label: this.t('FINALIZATION.QUEUES.FILTER.INITIATOR'),
+                label: this.t('PROCESSING.TASKS.FILTER.INITIATOR'),
                 placeholder: this.t('COMMON.PHONE_PLACEHOLDER'),
                 icon: 'pi pi-phone',
                 translationKeys: {
-                    label: 'FINALIZATION.QUEUES.FILTER.INITIATOR',
+                    label: 'PROCESSING.TASKS.FILTER.INITIATOR',
                     placeholder: 'COMMON.PHONE_PLACEHOLDER',
                 },
             },
             {
                 type: 'text',
                 name: 'uniqId',
-                label: this.t('FINALIZATION.QUEUES.FILTER.UNIQ_ID'),
+                label: this.t('PROCESSING.TASKS.FILTER.UNIQ_ID'),
                 placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
                 icon: 'pi pi-id-card',
                 translationKeys: {
-                    label: 'FINALIZATION.QUEUES.FILTER.UNIQ_ID',
+                    label: 'PROCESSING.TASKS.FILTER.UNIQ_ID',
                     placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
                 },
             },
             {
                 type: 'select',
                 name: 'reportType',
-                label: this.t('FINALIZATION.QUEUES.FILTER.REPORT_TYPE'),
+                label: this.t('PROCESSING.TASKS.FILTER.REPORT_TYPE'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: reportTypeOpts,
                 optionLabel: 'label',
@@ -153,14 +152,14 @@ export class QueuesComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'FINALIZATION.QUEUES.FILTER.REPORT_TYPE',
+                    label: 'PROCESSING.TASKS.FILTER.REPORT_TYPE',
                 },
                 class: 'p-long',
             },
             {
                 type: 'multi-select',
                 name: 'operators',
-                label: this.t('FINALIZATION.QUEUES.FILTER.OPERATORS'),
+                label: this.t('PROCESSING.TASKS.FILTER.OPERATORS'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: telecomOperatorsOpts,
                 optionLabel: 'label',
@@ -168,14 +167,14 @@ export class QueuesComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'FINALIZATION.QUEUES.FILTER.OPERATORS',
+                    label: 'PROCESSING.TASKS.FILTER.OPERATORS',
                 },
                 class: 'p-medium',
             },
             {
                 type: 'select',
                 name: 'source',
-                label: this.t('FINALIZATION.QUEUES.FILTER.SOURCE'),
+                label: this.t('PROCESSING.TASKS.FILTER.SOURCE'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: reportSourceOpts,
                 optionLabel: 'label',
@@ -183,7 +182,7 @@ export class QueuesComponent implements OnInit {
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'FINALIZATION.QUEUES.FILTER.SOURCE',
+                    label: 'PROCESSING.TASKS.FILTER.SOURCE',
                 },
             },
             {
@@ -200,7 +199,7 @@ export class QueuesComponent implements OnInit {
             },
         ];
     });
-    readonly presenter = new QueuesPresenter(
+    readonly presenter = new TasksPresenter(
         this.translate.instant.bind(this.translate)
     );
     readonly itemsVM = computed(() => {
@@ -208,25 +207,8 @@ export class QueuesComponent implements OnInit {
         return this.items().map((item) => this.presenter.map(item));
     });
 
-    private readonly formStateEffect = effect(() => {
-        if (this.takeFacade.actionLoading()) {
-            this.form.disable({ emitEvent: false });
-        } else {
-            this.form.enable({ emitEvent: false });
-        }
-    });
-
-    private readonly successEffect = effect(() => {
-        const current = this.takeFacade.actionSuccess();
-        if (current === this.lastSuccess) {
-            return;
-        }
-
-        this.lastSuccess = current;
-    });
-
     constructor() {
-        this.facade.read(this.currentFilter() as QueuesFilterDto);
+        this.facade.read(this.currentFilter() as TasksFilterDto);
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {
@@ -242,12 +224,11 @@ export class QueuesComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.title.setTitle(this.t('FINALIZATION.QUEUES.TITLE'));
-
+        this.title.setTitle(this.t('PROCESSING.TASKS.TITLE'));
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
-                this.title.setTitle(this.t('FINALIZATION.QUEUES.TITLE'));
+                this.title.setTitle(this.t('PROCESSING.TASKS.TITLE'));
             });
     }
 
@@ -264,32 +245,24 @@ export class QueuesComponent implements OnInit {
         this.facade.changePage(JSON.stringify(event + 1));
     }
 
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.TAKE) {
-            SweetAlert.fire({
-                ...SWEET_ALERT_PARAMS,
-                title: this.t('FINALIZATION.QUEUES.SWEET_ALERT.TITLE_TAKE'),
-                text: this.t('FINALIZATION.QUEUES.SWEET_ALERT.TITLE_MESSAGE'),
-                backdrop: false,
-                confirmButtonText: this.t('COMMON.CONFIRM'),
-                cancelButtonText: this.t('COMMON.CANCEL'),
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    this.takeFacade.take({
-                        uniqId: JSON.stringify(
-                            this.selectedInTable().map((p) => p.uniqId)
-                        ),
-                    });
-                    this.facade.refreshWithLastFilterAndPage();
-                }
-            });
-        }
-    }
-
     public onActionClicked(event: {
-        item: QueuesVmProps;
+        item: TasksVmProps;
         actionId?: string;
     }): void {
+        if (event.actionId === 'actions') {
+            this.router.navigate([ACTIONS_ROUTE], {
+                relativeTo: this.activatedRoute,
+                queryParams: {
+                    uniqId: event.item.uniqId,
+                    reportType: event.item.reportTypeLabel,
+                    operators: event.item.operators,
+                    createdAt: event.item.reportedAt,
+                    source: event.item.sourceLabel,
+                    initiatorPhone: event.item.initiatorPhoneNumber,
+                },
+            });
+            return;
+        }
         const { item } = event;
         this.selectedManagementType.set(item.type);
         this.selectedReportId = item.uniqId;
@@ -298,11 +271,6 @@ export class QueuesComponent implements OnInit {
 
     public onVisibleChange(event: boolean): void {
         this.reportTreatmentVisible.set(event);
-    }
-
-    public onSelectionChange(selection: QueuesVmProps | QueuesVmProps[]): void {
-        const queues = Array.isArray(selection) ? selection : [selection];
-        this.selectedInTable.set(queues.filter((u) => !!u));
     }
 
     private t(key: string): string {

@@ -98,7 +98,6 @@ export class TableComponent {
     public readonly export = new EventEmitter<void>();
 
     constructor() {
-        console.log('items:czceczacz ', this.items());
         effect(() => {
             if (this.numberToCheck() > 0) {
                 this.onNumberInputChange(this.numberToCheck());

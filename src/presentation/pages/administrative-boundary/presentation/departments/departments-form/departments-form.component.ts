@@ -143,7 +143,6 @@ export class DepartmentsFormComponent implements OnInit {
 
     private readonly patchFormFromItem = effect(() => {
         const item = this.items();
-        console.log('item: ', item);
         if (item && Object.keys(item).length > 0 && !this.itemPatched) {
             this.form.patchValue(
                 {

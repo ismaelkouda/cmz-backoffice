@@ -2661,546 +2661,466 @@
                     "CONFIRM": "Confirmer"
                 }
             }
-        },
-        "SETTINGS_SECURITY": {
-            "BREADCRUMB": {
-                "LABEL": "Paramètres & Sécurité",
-                "ROUTE": "security-settings",
-                "ICON": "pi-cog"
-            },
+    },
+    "SETTINGS_SECURITY": {
+        "BREADCRUMB": {
             "LABEL": "Paramètres & Sécurité",
             "ROUTE": "security-settings",
+            "ICON": "pi-cog"
+        },
+        "LABEL": "Paramètres & Sécurité",
+        "ROUTE": "security-settings",
+        "USERS": {
+            "BREADCRUMB": {
+                "LABEL": "Utilisateurs",
+                "ROUTE": "users"
+            },
+            "TABS": {
+                "USERS": {
+                    "LABEL": "Utilisateurs",
+                    "ROUTE": "users"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Utilisateurs",
+            "ROUTE": "users",
+            "TABLE": {
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Téléphone",
+                "PROFILE": "Profil Utilisateur",
+                "MATRICULE": "Matricule",
+                "EMAIL": "Email",
+                "RESPONSIBILITY": "Responsabilité",
+                "STATUS": "Statut",
+                "CREATED_AT": "Créé le",
+                "CREATED_BY": "Créé par",
+                "UPDATED_AT": "Mise à jour le",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "PROFIL": "Profil",
+                "STATE": "État",
+                "MATRICULE": "Matricule",
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Nom et prénoms"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter un utilisateur",
+                "EDIT_TITLE": "Modifier un utilisateur",
+                "PHONE": "Téléphone",
+                "PROFILE": "Profil Utilisateur",
+                "MATRICULE": "Matricule",
+                "EMAIL": "Email",
+                "LAST_NAME_REQUIRED": "Le nom est requis",
+                "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
+                "PROFILE_REQUIRED": "Le profil est requis",
+                "MATRICULE_REQUIRED": "Le matricule est requis",
+                "EMAIL_REQUIRED": "L'email est requis",
+                "EMAIL_INVALID": "L'email n'est pas valide",
+                "PHONE_REQUIRED": "Le téléphone est requis",
+                "TITLE_FORM_ADD": "Formulaire d'ajout d'utilisateur",
+                "TITLE_FORM_EDIT": "Formulaire de modification d'utilisateur",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Téléphone",
+                    "PROFILE": "Profil Utilisateur",
+                    "RESPONSIBILITY": "Responsabilité",
+                    "MATRICULE": "Matricule",
+                    "EMAIL": "Email",
+                    "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "PHONE_PLACEHOLDER": "Ex: 0612345678",
+                    "PROFILE_PLACEHOLDER": "Ex: Admin",
+                    "MATRICULE_PLACEHOLDER": "Ex: 123456",
+                    "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                }
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "DISABLE": "Désactiver"
+            },
+            "CONFIRM": {
+                "DELETE_TITLE": "Supprimer l'utilisateur",
+                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'utilisateur {{name}} ? Cette action est irréversible.",
+                "DISABLE_TITLE": "Désactiver l'utilisateur",
+                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver l'utilisateur {{name}} ?"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "CREATED": "Utilisateur créé avec succès",
+                    "UPDATED": "Utilisateur modifié avec succès",
+                    "DELETED": "Utilisateur supprimé avec succès",
+                    "ENABLED": "Utilisateur activé avec succès",
+                    "DISABLED": "Utilisateur désactivé avec succès"
+                }
+            },
+            "OPTIONS": {
+                "PROFIL": {
+                    "ADMIN": "Administrateur",
+                    "USER": "Utilisateur"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "PROFIL": {
+                "NOT_ASSIGNED": "Non assigné"
+            }
+        },
+        "PROFILES_PERMISSIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Profils et Habilitations",
+                "ROUTE": "profils et habilitations"
+            },
+            "TABS": {
+                "PROFILES_PERMISSIONS": {
+                    "LABEL": "Profils et Habilitations",
+                    "ROUTE": "profils et habilitations"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Profils habilitations",
+            "LABEL": "Permissions Profils",
+            "ROUTE": "permission-profiles",
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "USER": "Utilisateur",
+                "USER_PLACEHOLDER": "Trouver un utilisateur"
+            },
+            "TABLE": {
+                "UPDATED_AT": "Mise à jour le",
+                "NAME": "Profil",
+                "DESCRIPTION": "Description",
+                "USERS_COUNT": "# utilisateurs",
+                "STATUS": "Statut",
+                "SEE_MORE": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "ADD": "Ajouter",
+                "ACTIVE": "Actif",
+                "INACTIVE": "Inactif",
+                "ASSIGNED": "Assigné",
+                "UNASSIGNED": "Non assigné",
+                "ASSIGN": "Assigner",
+                "UNASSIGN": "Déassigner",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_ADD": "Formulaire d'ajout de profil",
+                "TITLE_FORM_EDIT": "Formulaire de modification de profil",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "NAME": "Nom du profil",
+                    "NAME_PLACEHOLDER": "Ex: Nouveau profil",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "Ex: Description du profil"
+                },
+                "FIELDSET_PERMISSIONS": {
+                    "TITLE": "Permissions",
+                    "NAME": "Nom du profil",
+                    "NAME_PLACEHOLDER": "Ex: Nouveau profil",
+                    "DESCRIPTION": "Description",
+                    "DESCRIPTION_PLACEHOLDER": "Ex: Description du profil",
+                    "EXPAND_ALL": "Dérouler tout",
+                    "COLLAPSE_ALL": "Fermer tout",
+                    "SELECTED_COUNT": "Nombre de permissions accordées",
+                    "NO_PERMISSIONS_AVAILABLE": "Permission non disponible",
+                    "TREE_PLACEHOLDER": "Rechercher..."
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire"
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de profil",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet profil ?",
+                "TITLE_CREATE": "Création de profil",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cet profil ?",
+                "TITLE_DELETE": "Suppression de profil",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet profil ?",
+                "TITLE_ENABLE": "Activation de profil",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet profil ?",
+                "TITLE_DISABLE": "Désactivation de profil",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cet profil ?"
+            },
             "USERS": {
                 "BREADCRUMB": {
                     "LABEL": "Utilisateurs",
                     "ROUTE": "users"
                 },
-                "TABS": {
-                    "USERS": {
-                        "LABEL": "Utilisateurs",
-                        "ROUTE": "users"
-                    },
-                    "HISTORY": {
-                        "LABEL": "Historique",
-                        "ROUTE": "history"
-                    }
-                },
-                "TITLE": "Utilisateurs",
-                "ROUTE": "users",
-                "TABLE": {
-                    "LAST_NAME": "Nom",
-                    "FIRST_NAME": "Prénoms",
-                    "PHONE": "Téléphone",
-                    "PROFILE": "Profil Utilisateur",
-                    "MATRICULE": "Matricule",
-                    "EMAIL": "Email",
-                    "RESPONSIBILITY": "Responsabilité",
-                    "STATUS": "Statut",
-                    "CREATED_AT": "Créé le",
-                    "CREATED_BY": "Créé par",
-                    "UPDATED_AT": "Mise à jour le",
-                    "ACTION": "Action"
-                },
-                "FILTER": {
-                    "PROFIL": "Profil",
-                    "STATE": "État",
-                    "MATRICULE": "Matricule",
-                    "SEARCH": "Recherche",
-                    "SEARCH_PLACEHOLDER": "Nom et prénoms"
-                },
-                "FORM": {
-                    "CREATE_TITLE": "Ajouter un utilisateur",
-                    "EDIT_TITLE": "Modifier un utilisateur",
-                    "PHONE": "Téléphone",
-                    "PROFILE": "Profil Utilisateur",
-                    "MATRICULE": "Matricule",
-                    "EMAIL": "Email",
-                    "LAST_NAME_REQUIRED": "Le nom est requis",
-                    "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
-                    "PROFILE_REQUIRED": "Le profil est requis",
-                    "MATRICULE_REQUIRED": "Le matricule est requis",
-                    "EMAIL_REQUIRED": "L'email est requis",
-                    "EMAIL_INVALID": "L'email n'est pas valide",
-                    "PHONE_REQUIRED": "Le téléphone est requis",
-                    "TITLE_FORM_ADD": "Formulaire d'ajout d'utilisateur",
-                    "TITLE_FORM_EDIT": "Formulaire de modification d'utilisateur",
-                    "FIELDSET_GENERAL_INFO": {
-                        "TITLE": "Informations Générales",
-                        "LAST_NAME": "Nom",
-                        "FIRST_NAME": "Prénoms",
-                        "PHONE": "Téléphone",
-                        "PROFILE": "Profil Utilisateur",
-                        "RESPONSIBILITY": "Responsabilité",
-                        "MATRICULE": "Matricule",
-                        "EMAIL": "Email",
-                        "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
-                        "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
-                        "PHONE_PLACEHOLDER": "Ex: 0612345678",
-                        "PROFILE_PLACEHOLDER": "Ex: Admin",
-                        "MATRICULE_PLACEHOLDER": "Ex: 123456",
-                        "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
-                    }
-                },
-                "BUTTONS": {
-                    "ADD": "Ajouter"
-                },
-                "ACTIONS": {
-                    "VIEW": "Voir plus",
-                    "EDIT": "Modifier",
-                    "DELETE": "Supprimer",
-                    "DISABLE": "Désactiver"
-                },
-                "CONFIRM": {
-                    "DELETE_TITLE": "Supprimer l'utilisateur",
-                    "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'utilisateur {{name}} ? Cette action est irréversible.",
-                    "DISABLE_TITLE": "Désactiver l'utilisateur",
-                    "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver l'utilisateur {{name}} ?"
-                },
-                "MESSAGES": {
-                    "SUCCESS": {
-                        "CREATED": "Utilisateur créé avec succès",
-                        "UPDATED": "Utilisateur modifié avec succès",
-                        "DELETED": "Utilisateur supprimé avec succès",
-                        "ENABLED": "Utilisateur activé avec succès",
-                        "DISABLED": "Utilisateur désactivé avec succès"
-                    }
-                },
-                "OPTIONS": {
-                    "PROFIL": {
-                        "ADMIN": "Administrateur",
-                        "USER": "Utilisateur"
-                    }
-                },
-                "LABELS": {
-                    "STATUS": {
-                        "ACTIVE": "Actif",
-                        "INACTIVE": "Inactif"
-                    }
-                },
-                "PROFIL": {
-                    "NOT_ASSIGNED": "Non assigné"
-                }
-            },
-            "PROFILES_PERMISSIONS": {
-                "BREADCRUMB": {
-                    "LABEL": "Profils et Habilitations",
-                    "ROUTE": "profils et habilitations"
-                },
-                "TABS": {
-                    "PROFILES_PERMISSIONS": {
-                        "LABEL": "Profils et Habilitations",
-                        "ROUTE": "profils et habilitations"
-                    },
-                    "HISTORY": {
-                        "LABEL": "Historique",
-                        "ROUTE": "history"
-                    }
-                },
-                "TITLE": "Profils habilitations",
-                "LABEL": "Permissions Profils",
-                "ROUTE": "permission-profiles",
+                "TITLE": "Utilisateurs du profil",
+                "LABEL": "Utilisateurs",
+                "ROUTE": "profile-and-permissions",
                 "FILTER": {
                     "SEARCH": "Rechercher",
-                    "SEARCH_PLACEHOLDER": "Rechercher",
-                    "STATUS": "Status",
-                    "STATUS_PLACEHOLDER": "Status",
-                    "USER": "Utilisateur",
-                    "USER_PLACEHOLDER": "Trouver un utilisateur"
-                },
-                "TABLE": {
-                    "UPDATED_AT": "Mise à jour le",
-                    "NAME": "Profil",
-                    "DESCRIPTION": "Description",
-                    "USERS_COUNT": "# utilisateurs",
-                    "STATUS": "Statut",
-                    "SEE_MORE": "Voir plus",
-                    "EDIT": "Modifier",
-                    "DELETE": "Supprimer",
-                    "ADD": "Ajouter",
-                    "ACTIVE": "Actif",
-                    "INACTIVE": "Inactif",
-                    "ASSIGNED": "Assigné",
-                    "UNASSIGNED": "Non assigné",
-                    "ASSIGN": "Assigner",
-                    "UNASSIGN": "Déassigner",
-                    "ACTION": "Action"
-                },
-                "FORM": {
-                    "TITLE_FORM_ADD": "Formulaire d'ajout de profil",
-                    "TITLE_FORM_EDIT": "Formulaire de modification de profil",
-                    "FIELDSET_GENERAL_INFO": {
-                        "TITLE": "Informations Générales",
-                        "NAME": "Nom du profil",
-                        "NAME_PLACEHOLDER": "Ex: Nouveau profil",
-                        "DESCRIPTION": "Description",
-                        "DESCRIPTION_PLACEHOLDER": "Ex: Description du profil"
-                    },
-                    "FIELDSET_PERMISSIONS": {
-                        "TITLE": "Permissions",
-                        "NAME": "Nom du profil",
-                        "NAME_PLACEHOLDER": "Ex: Nouveau profil",
-                        "DESCRIPTION": "Description",
-                        "DESCRIPTION_PLACEHOLDER": "Ex: Description du profil",
-                        "EXPAND_ALL": "Dérouler tout",
-                        "COLLAPSE_ALL": "Fermer tout",
-                        "SELECTED_COUNT": "Nombre de permissions accordées",
-                        "NO_PERMISSIONS_AVAILABLE": "Permission non disponible",
-                        "TREE_PLACEHOLDER": "Rechercher..."
-                    },
-                    "VALIDATION": {
-                        "MIN_LENGTH": "Minimum caractères requis",
-                        "MAX_LENGTH": "Maximum caractères autorisés",
-                        "MIN_VALUE": "Valeur minimale",
-                        "MAX_VALUE": "Valeur maximale",
-                        "INVALID_FORMAT": "Format invalide",
-                        "INVALID_INPUT": "Valeur invalide",
-                        "REQUIRED": "Ce champ est obligatoire"
-                    }
-                },
-                "SWEET_ALERT": {
-                    "TITLE_UPDATE": "Mise à jour de profil",
-                    "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet profil ?",
-                    "TITLE_CREATE": "Création de profil",
-                    "MESSAGE_CREATE": "Voulez-vous vraiment créer cet profil ?",
-                    "TITLE_DELETE": "Suppression de profil",
-                    "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet profil ?",
-                    "TITLE_ENABLE": "Activation de profil",
-                    "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet profil ?",
-                    "TITLE_DISABLE": "Désactivation de profil",
-                    "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cet profil ?"
-                },
-                "USERS": {
-                    "BREADCRUMB": {
-                        "LABEL": "Utilisateurs",
-                        "ROUTE": "users"
-                    },
-                    "TITLE": "Utilisateurs du profil",
-                    "LABEL": "Utilisateurs",
-                    "ROUTE": "profile-and-permissions",
-                    "FILTER": {
-                        "SEARCH": "Rechercher",
-                        "SEARCH_PLACEHOLDER": "Rechercher"
-                    },
-                    "TABLE": {
-                        "CODE": "Code",
-                        "FIRST_NAME": "Prénom",
-                        "LAST_NAME": "Nom",
-                        "PHONE": "Téléphone",
-                        "EMAIL": "Email"
-                    },
-                    "SWEET_ALERT": {
-                        "TITLE_REASSIGN": "Réaffectation d'utilisateurs(s)",
-                        "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} utilisateurs(s) de cet profil ?",
-                        "TITLE_REMOVE": "Retrait d'utilisateurs(s)",
-                        "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} utilisateurs(s) de cet profil ?"
-                    },
-                    "MODAL": {
-                        "REASSIGN_TITLE": "Réaffectation des profils",
-                        "REASSIGN_LABEL": "Profils",
-                        "ASSIGN_TITLE": "Affectation des utilisateurs",
-                        "ASSIGN_LABEL": "Utilisateurs",
-                        "NEW_PROFILE": "Nouveau profil",
-                        "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
-                        "REASSIGN_MESSAGE": "{{count}} utilisateur(s) seront réaffectés"
-                    }
-                }
-            },
-            "ACCESS_LOGS": {
-                "BREADCRUMB": {
-                    "LABEL": "Journaux d'accès",
-                    "ROUTE": "access-logs"
-                },
-                "TITLE": "Journaux d'accès",
-                "LABEL": "Journaux d'accès",
-                "ROUTE": "access-logs",
-                "FILTER": {
-                    "ACTION": "Action",
-                    "SEARCH": "Recherche",
-                    "SEARCH_PLACEHOLDER": "Rechercher",
-                    "ACTIONS_OPTIONS": {
-                        "LOGIN": "Connexion",
-                        "LOGOUT": "Déconnexion",
-                        "ATTEMPTED_LOGIN": "Tentative de connexion",
-                        "BLOCKED_ATTEMPTED_LOGIN": "Connexion bloquée",
-                        "ATTEMPTS_EXCEEDED": "Tentatives de connexion échouées"
-                    },
-                    "DATE": {
-                        "FROM": "Date de début",
-                        "TO": "Date de fin",
-                        "PLACEHOLDER": "YYYY-MM-DD"
-                    }
-                },
-                "TABLE": {
-                    "SOURCE": "Source",
-                    "USED_AGENT": "Agent utilisé",
-                    "CREATED_AT": "Créé le",
-                    "ACTION": "Action"
-                }
-            }
-        },
-        "TEAM_ORGANIZATION": {
-            "BREADCRUMB": {
-                "LABEL": "Organisation des équipes",
-                "ROUTE": "organization",
-                "ICON": "pi-users"
-            },
-            "LABEL": "Organisation des équipes",
-            "ROUTE": "organization",
-            "PARTICIPANTS": {
-                "BREADCRUMB": {
-                    "LABEL": "Membres",
-                    "ROUTE": "participant"
-                },
-                "TABS": {
-                    "PARTICIPANTS": {
-                        "LABEL": "Membres",
-                        "ROUTE": "participant"
-                    },
-                    "HISTORY": {
-                        "LABEL": "Historique",
-                        "ROUTE": "history"
-                    }
-                },
-                "TITLE": "Membres",
-                "ROUTE": "participant",
-                "FILTER": {
-                    "SEARCH": "Recherche",
-                    "SEARCH_PLACEHOLDER": "Nom et prénoms",
-                    "STATUS": "Status",
-                    "STATUS_PLACEHOLDER": "Status",
-                    "ROLES": "Rôles",
-                    "TEAMS": "Équipes"
-                },
-                "TABLE": {
-                    "MATRICULE": "Matricule",
-                    "LAST_NAME": "Nom",
-                    "FIRST_NAME": "Prénoms",
-                    "EMAIL": "Email",
-                    "PHONE": "Téléphone",
-                    "ROLE": "Rôle",
-                    "RESPONSIBILITY": "Responsabilité",
-                    "STATE": "État",
-                    "STATUS": "Statut",
-                    "CREATED_AT": "Créé le",
-                    "UPDATED_AT":"Modifié le",
-                    "ACTION": "Action"
-                },
-                "FORM": {
-                    "CREATE_TITLE": "Ajouter un membre",
-                    "EDIT_TITLE": "Modifier un membre",
-                    "PHONE": "Téléphone",
-                    "ROLE": "Rôle",
-                    "MATRICULE": "Matricule",
-                    "EMAIL": "Email",
-                    "LAST_NAME_REQUIRED": "Le nom est requis",
-                    "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
-                    "ROLE_REQUIRED": "Le rôle est requis",
-                    "MATRICULE_REQUIRED": "Le matricule est requis",
-                    "EMAIL_REQUIRED": "L'email est requis",
-                    "EMAIL_INVALID": "L'email n'est pas valide",
-                    "PHONE_REQUIRED": "Le téléphone est requis",
-                    "TITLE_FORM_ADD": "Formulaire d'ajout de membre",
-                    "TITLE_FORM_EDIT": "Formulaire de modification de membre",
-                    "FIELDSET_GENERAL_INFO": {
-                        "TITLE": "Informations Générales",
-                        "LAST_NAME": "Nom",
-                        "FIRST_NAME": "Prénoms",
-                        "PHONE": "Téléphone",
-                        "ROLE": "Rôle",
-                        "MATRICULE": "Matricule",
-                        "EMAIL": "Email",
-                        "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
-                        "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
-                        "PHONE_PLACEHOLDER": "Ex: 0612345678",
-                        "ROLE_PLACEHOLDER": "Ex: Admin",
-                        "MATRICULE_PLACEHOLDER": "Ex: 123456",
-                        "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
-                    }
-                },
-                "SWEET_ALERT": {
-                    "TITLE_UPDATE": "Mise à jour de membre",
-                    "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce membre ?",
-                    "TITLE_CREATE": "Création de membre",
-                    "MESSAGE_CREATE": "Voulez-vous vraiment créer ce membre ?",
-                    "TITLE_DELETE": "Suppression de membre",
-                    "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet membre ?",
-                    "TITLE_ENABLE": "Activation de membre",
-                    "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet membre ?",
-                    "TITLE_DISABLE": "Désactivation de membre",
-                    "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce membre ?"
-                },
-                "BUTTONS": {
-                    "ADD": "Ajouter"
-                },
-                "ACTIONS": {
-                    "VIEW": "Voir plus",
-                    "EDIT": "Modifier",
-                    "DELETE": "Supprimer",
-                    "DISABLE": "Désactiver"
-                },
-                "CONFIRM": {
-                    "DELETE_TITLE": "Supprimer le membre",
-                    "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer le membre {{name}} ? Cette action est irréversible.",
-                    "DISABLE_TITLE": "Désactiver le membre",
-                    "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver le membre {{name}} ?"
-                },
-                "MESSAGES": {
-                    "SUCCESS": {
-                        "CREATED": "Intervenant créé avec succès",
-                        "UPDATED": "Intervenant modifié avec succès",
-                        "DELETED": "Intervenant supprimé avec succès",
-                        "ENABLED": "Intervenant activé avec succès",
-                        "DISABLED": "Intervenant désactivé avec succès"
-                    }
-                },
-                "OPTIONS": {
-                    "ROLE": {
-                        "ADMIN": "Administrateur",
-                        "USER": "Intervenant"
-                    }
-                },
-                "LABELS": {
-                    "STATUS": {
-                        "ACTIVE": "Actif",
-                        "INACTIVE": "Inactif"
-                    }
-                },
-                "PROFIL": {
-                    "NOT_ASSIGNED": "Non assigné"
-                }
-            },
-            "TEAMS": {
-                "BREADCRUMB": {
-                    "LABEL": "Equipes",
-                    "ROUTE": "team"
-                },
-                "TABS": {
-                    "TEAMS": {
-                        "LABEL": "Equipes",
-                        "ROUTE": "team"
-                    },
-                    "HISTORY": {
-                        "LABEL": "Historique",
-                        "ROUTE": "history"
-                    }
-                },
-                "TITLE": "Equipes",
-                "LABEL": "équipes",
-                "ROUTE": "team",
-                "FILTER": {
-                    "SEARCH": "Rechercher",
-                    "SEARCH_PLACEHOLDER": "Rechercher",
-                    "STATUS": "Status",
-                    "STATUS_PLACEHOLDER": "Status",
-                    "PARTICIPANT": "Membre",
-                    "PARTICIPANT_PLACEHOLDER": "Trouver un membre"
+                    "SEARCH_PLACEHOLDER": "Rechercher"
                 },
                 "TABLE": {
                     "CODE": "Code",
-                    "NAME": "Profil",
-                    "DESCRIPTION": "Description",
-                    "STATUS": "Statut",
-                    "PARTICIPANTS_COUNT": "# membres",
-                    "CREATED_AT": "Créé le",
-                    "UPDATED_AT": "Modifié le",
-                    "SEE_MORE": "Voir plus",
-                    "EDIT": "Modifier",
-                    "DELETE": "Supprimer",
-                    "ADD": "Ajouter",
-                    "ACTIVE": "Actif",
-                    "INACTIVE": "Inactif",
-                    "ASSIGNED": "Assigné",
-                    "UNASSIGNED": "Non assigné",
-                    "ASSIGN": "Assigner",
-                    "UNASSIGN": "Déassigner",
-                    "ACTION": "Action"
-                },
-                "FORM": {
-                    "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
-                    "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
-                    "TABS": {
-                        "GENERAL_INFO": {
-                            "TITLE": "Informations Générales",
-                            "FIELDSET_GENERAL_INFO": {
-                                "TITLE": "Informations Générales",
-                                "CODE": "Code",
-                                "CODE_PLACEHOLDER": "Ex: TE001",
-                                "NAME": "Nom de l'équipe",
-                                "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
-                                "DESCRIPTION": "Description",
-                                "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
-                            }
-                        },
-                        "PERMISSIONS": {
-                            "TITLE": "Permissions",
-                            "FIELDSET_REPORT_TYPES": {
-                                "TITLE": "Types de signalements",
-                                "ABI": "Absence d'Internet",
-                                "ZOB": "Zone Blanche",
-                                "CPS": "Couverture Partielle Signal",
-                                "CPO": "Couverture Partielle Operateur"
-                            },
-                            "FIELDSET_OPERATORS": {
-                                "TITLE": "Opérateurs",
-                                "MTN": "MTN",
-                                "ORANGE": "Orange",
-                                "MOOV": "Moov"
-                            },
-                            "FIELDSET_AREA_EXPERTISE": {
-                                "TITLE": "zone de compétences",
-                                "EXPAND_ALL": "Dérouler tout",
-                                "COLLAPSE_ALL": "Fermer tout",
-                                "SELECTED_COUNT": "Nombre de permissions accordées",
-                                "NO_PERMISSIONS_AVAILABLE": "Permission non disponible",
-                                "PERMISSIONS_REQUIRED": "Permissions requises",
-                                "TREE_PLACEHOLDER": "Rechercher..."
-                            }
-                        }
-                    },
-                    "VALIDATION": {
-                        "MIN_LENGTH": "Minimum caractères requis",
-                        "MAX_LENGTH": "Maximum caractères autorisés",
-                        "MIN_VALUE": "Valeur minimale",
-                        "MAX_VALUE": "Valeur maximale",
-                        "INVALID_FORMAT": "Format invalide",
-                        "INVALID_INPUT": "Valeur invalide",
-                        "REQUIRED": "Ce champ est obligatoire"
-                    }
+                    "FIRST_NAME": "Prénom",
+                    "LAST_NAME": "Nom",
+                    "PHONE": "Téléphone",
+                    "EMAIL": "Email"
                 },
                 "SWEET_ALERT": {
-                    "TITLE_UPDATE": "Mise à jour de l'équipe",
-                    "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette équipe ?",
-                    "TITLE_CREATE": "Création de l'équipe",
-                    "MESSAGE_CREATE": "Voulez-vous vraiment créer cette équipe ?",
-                    "TITLE_DELETE": "Suppression de l'équipe",
-                    "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette équipe <b class='text-primary'>{{teamCode}}</b> ?",
-                    "TITLE_ENABLE": "Activation de l'équipe",
-                    "MESSAGE_ENABLE": "Voulez-vous vraiment activer cette équipe ?",
-                    "TITLE_DISABLE": "Désactivation de l'équipe",
-                    "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?"
+                    "TITLE_REASSIGN": "Réaffectation d'utilisateurs(s)",
+                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} utilisateurs(s) de cet profil ?",
+                    "TITLE_REMOVE": "Retrait d'utilisateurs(s)",
+                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} utilisateurs(s) de cet profil ?"
                 },
+                "MODAL": {
+                    "REASSIGN_TITLE": "Réaffectation des profils",
+                    "REASSIGN_LABEL": "Profils",
+                    "ASSIGN_TITLE": "Affectation des utilisateurs",
+                    "ASSIGN_LABEL": "Utilisateurs",
+                    "NEW_PROFILE": "Nouveau profil",
+                    "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
+                    "REASSIGN_MESSAGE": "{{count}} utilisateur(s) seront réaffectés"
+                }
+            }
+        },
+        "ACCESS_LOGS": {
+            "BREADCRUMB": {
+                "LABEL": "Journaux d'accès",
+                "ROUTE": "access-logs"
+            },
+            "TITLE": "Journaux d'accès",
+            "LABEL": "Journaux d'accès",
+            "ROUTE": "access-logs",
+            "FILTER": {
+                "ACTION": "Action",
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "ACTIONS_OPTIONS": {
+                    "LOGIN": "Connexion",
+                    "LOGOUT": "Déconnexion",
+                    "ATTEMPTED_LOGIN": "Tentative de connexion",
+                    "BLOCKED_ATTEMPTED_LOGIN": "Connexion bloquée",
+                    "ATTEMPTS_EXCEEDED": "Tentatives de connexion échouées"
+                },
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "TABLE": {
+                "SOURCE": "Source",
+                "USED_AGENT": "Agent utilisé",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
+            }
+        }
+    },
+    "TEAM_ORGANIZATION": {
+        "BREADCRUMB": {
+            "LABEL": "Organisation des équipes",
+            "ROUTE": "organization",
+            "ICON": "pi-users"
+        },
+        "LABEL": "Organisation des équipes",
+        "ROUTE": "organization",
+        "PARTICIPANTS": {
+            "BREADCRUMB": {
+                "LABEL": "Membres",
+                "ROUTE": "participant"
+            },
+            "TABS": {
                 "PARTICIPANTS": {
-                    "BREADCRUMB": {
-                        "LABEL": "Membres",
-                        "ROUTE": "participant"
-                    },
-                    "TITLE": "Membres de l'équipe",
-                    "LABEL": "participants",
-                    "ROUTE": "team-users",
-                    "FILTER": {
-                        "SEARCH": "Rechercher",
-                        "SEARCH_PLACEHOLDER": "Rechercher"
-                    },
-                    "TABLE": {
-                        "CODE": "Code",
-                        "FIRST_NAME": "Prénom",
-                        "LAST_NAME": "Nom",
-                        "PHONE": "Téléphone",
-                        "EMAIL": "Email"
-                    },
-                    "FORM": {
-                        "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
-                        "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
+                    "LABEL": "Membres",
+                    "ROUTE": "participant"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Membres",
+            "ROUTE": "participant",
+            "FILTER": {
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Nom et prénoms",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "ROLES": "Rôles",
+                "TEAMS": "Équipes"
+            },
+            "TABLE": {
+                "MATRICULE": "Matricule",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "EMAIL": "Email",
+                "PHONE": "Téléphone",
+                "ROLE": "Rôle",
+                "RESPONSIBILITY": "Responsabilité",
+                "STATE": "État",
+                "STATUS": "Statut",
+                "CREATED_AT": "Créé le",
+                "UPDATED_AT":"Modifié le",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "CREATE_TITLE": "Ajouter un membre",
+                "EDIT_TITLE": "Modifier un membre",
+                "PHONE": "Téléphone",
+                "ROLE": "Rôle",
+                "MATRICULE": "Matricule",
+                "EMAIL": "Email",
+                "LAST_NAME_REQUIRED": "Le nom est requis",
+                "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
+                "ROLE_REQUIRED": "Le rôle est requis",
+                "MATRICULE_REQUIRED": "Le matricule est requis",
+                "EMAIL_REQUIRED": "L'email est requis",
+                "EMAIL_INVALID": "L'email n'est pas valide",
+                "PHONE_REQUIRED": "Le téléphone est requis",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de membre",
+                "TITLE_FORM_EDIT": "Formulaire de modification de membre",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Téléphone",
+                    "ROLE": "Rôle",
+                    "MATRICULE": "Matricule",
+                    "EMAIL": "Email",
+                    "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "PHONE_PLACEHOLDER": "Ex: 0612345678",
+                    "ROLE_PLACEHOLDER": "Ex: Admin",
+                    "MATRICULE_PLACEHOLDER": "Ex: 123456",
+                    "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de membre",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce membre ?",
+                "TITLE_CREATE": "Création de membre",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce membre ?",
+                "TITLE_DELETE": "Suppression de membre",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet membre ?",
+                "TITLE_ENABLE": "Activation de membre",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet membre ?",
+                "TITLE_DISABLE": "Désactivation de membre",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce membre ?"
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "DISABLE": "Désactiver"
+            },
+            "CONFIRM": {
+                "DELETE_TITLE": "Supprimer le membre",
+                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer le membre {{name}} ? Cette action est irréversible.",
+                "DISABLE_TITLE": "Désactiver le membre",
+                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver le membre {{name}} ?"
+            },
+            "MESSAGES": {
+                "SUCCESS": {
+                    "CREATED": "Intervenant créé avec succès",
+                    "UPDATED": "Intervenant modifié avec succès",
+                    "DELETED": "Intervenant supprimé avec succès",
+                    "ENABLED": "Intervenant activé avec succès",
+                    "DISABLED": "Intervenant désactivé avec succès"
+                }
+            },
+            "OPTIONS": {
+                "ROLE": {
+                    "ADMIN": "Administrateur",
+                    "USER": "Intervenant"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "PROFIL": {
+                "NOT_ASSIGNED": "Non assigné"
+            }
+        },
+        "TEAMS": {
+            "BREADCRUMB": {
+                "LABEL": "Equipes",
+                "ROUTE": "team"
+            },
+            "TABS": {
+                "TEAMS": {
+                    "LABEL": "Equipes",
+                    "ROUTE": "team"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Equipes",
+            "LABEL": "équipes",
+            "ROUTE": "team",
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "PARTICIPANT": "Membre",
+                "PARTICIPANT_PLACEHOLDER": "Trouver un membre"
+            },
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Profil",
+                "DESCRIPTION": "Description",
+                "STATUS": "Statut",
+                "PARTICIPANTS_COUNT": "# membres",
+                "CREATED_AT": "Créé le",
+                "UPDATED_AT": "Modifié le",
+                "SEE_MORE": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "ADD": "Ajouter",
+                "ACTIVE": "Actif",
+                "INACTIVE": "Inactif",
+                "ASSIGNED": "Assigné",
+                "UNASSIGNED": "Non assigné",
+                "ASSIGN": "Assigner",
+                "UNASSIGN": "Déassigner",
+                "ACTION": "Action"
+            },
+            "FORM": {
+                "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
+                "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
+                "TABS": {
+                    "GENERAL_INFO": {
+                        "TITLE": "Informations Générales",
                         "FIELDSET_GENERAL_INFO": {
                             "TITLE": "Informations Générales",
                             "CODE": "Code",
@@ -3209,143 +3129,223 @@
                             "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
                             "DESCRIPTION": "Description",
                             "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
-                        },
-                        "VALIDATION": {
-                            "MIN_LENGTH": "Minimum caractères requis",
-                            "MAX_LENGTH": "Maximum caractères autorisés",
-                            "MIN_VALUE": "Valeur minimale",
-                            "MAX_VALUE": "Valeur maximale",
-                            "INVALID_FORMAT": "Format invalide",
-                            "INVALID_INPUT": "Valeur invalide",
-                            "REQUIRED": "Ce champ est obligatoire"
                         }
                     },
-                    "SWEET_ALERT": {
-                        "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?",
-                        "TITLE_REASSIGN": "Réaffectation de(s) membre(s)",
-                        "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} membre(s) de cette équipe ?",
-                        "TITLE_REMOVE": "Retrait de(s) membre(s)",
-                        "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} membre(s) de cette équipe ?"
-                    },
-                    "MODAL": {
-                        "REASSIGN_TITLE": "Réaffectation des membres",
-                        "REASSIGN_LABEL": "Équipe",
-                        "ASSIGN_TITLE": "Affectation des membres",
-                        "ASSIGN_LABEL": "Intervenant",
-                        "NEW_PROFILE": "Nouveau profil",
-                        "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
-                        "REASSIGN_MESSAGE": "{{count}} membre(s) seront réaffectés"
+                    "PERMISSIONS": {
+                        "TITLE": "Permissions",
+                        "FIELDSET_REPORT_TYPES": {
+                            "TITLE": "Types de signalements",
+                            "ABI": "Absence d'Internet",
+                            "ZOB": "Zone Blanche",
+                            "CPS": "Couverture Partielle Signal",
+                            "CPO": "Couverture Partielle Operateur"
+                        },
+                        "FIELDSET_OPERATORS": {
+                            "TITLE": "Opérateurs",
+                            "MTN": "MTN",
+                            "ORANGE": "Orange",
+                            "MOOV": "Moov"
+                        },
+                        "FIELDSET_AREA_EXPERTISE": {
+                            "TITLE": "zone de compétences",
+                            "EXPAND_ALL": "Dérouler tout",
+                            "COLLAPSE_ALL": "Fermer tout",
+                            "SELECTED_COUNT": "Nombre de permissions accordées",
+                            "NO_PERMISSIONS_AVAILABLE": "Permission non disponible",
+                            "PERMISSIONS_REQUIRED": "Permissions requises",
+                            "TREE_PLACEHOLDER": "Rechercher..."
+                        }
                     }
+                },
+                "VALIDATION": {
+                    "MIN_LENGTH": "Minimum caractères requis",
+                    "MAX_LENGTH": "Maximum caractères autorisés",
+                    "MIN_VALUE": "Valeur minimale",
+                    "MAX_VALUE": "Valeur maximale",
+                    "INVALID_FORMAT": "Format invalide",
+                    "INVALID_INPUT": "Valeur invalide",
+                    "REQUIRED": "Ce champ est obligatoire"
                 }
             },
-            "AGENTS_PERFORMANCES": {
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour de l'équipe",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette équipe ?",
+                "TITLE_CREATE": "Création de l'équipe",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette équipe ?",
+                "TITLE_DELETE": "Suppression de l'équipe",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette équipe <b class='text-primary'>{{teamCode}}</b> ?",
+                "TITLE_ENABLE": "Activation de l'équipe",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cette équipe ?",
+                "TITLE_DISABLE": "Désactivation de l'équipe",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?"
+            },
+            "PARTICIPANTS": {
                 "BREADCRUMB": {
+                    "LABEL": "Membres",
+                    "ROUTE": "participant"
+                },
+                "TITLE": "Membres de l'équipe",
+                "LABEL": "participants",
+                "ROUTE": "team-users",
+                "FILTER": {
+                    "SEARCH": "Rechercher",
+                    "SEARCH_PLACEHOLDER": "Rechercher"
+                },
+                "TABLE": {
+                    "CODE": "Code",
+                    "FIRST_NAME": "Prénom",
+                    "LAST_NAME": "Nom",
+                    "PHONE": "Téléphone",
+                    "EMAIL": "Email"
+                },
+                "FORM": {
+                    "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
+                    "TITLE_FORM_EDIT": "Formulaire de modification d'équipe",
+                    "FIELDSET_GENERAL_INFO": {
+                        "TITLE": "Informations Générales",
+                        "CODE": "Code",
+                        "CODE_PLACEHOLDER": "Ex: TE001",
+                        "NAME": "Nom de l'équipe",
+                        "NAME_PLACEHOLDER": "Ex: Nouvelle équipe",
+                        "DESCRIPTION": "Description",
+                        "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipe"
+                    },
+                    "VALIDATION": {
+                        "MIN_LENGTH": "Minimum caractères requis",
+                        "MAX_LENGTH": "Maximum caractères autorisés",
+                        "MIN_VALUE": "Valeur minimale",
+                        "MAX_VALUE": "Valeur maximale",
+                        "INVALID_FORMAT": "Format invalide",
+                        "INVALID_INPUT": "Valeur invalide",
+                        "REQUIRED": "Ce champ est obligatoire"
+                    }
+                },
+                "SWEET_ALERT": {
+                    "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?",
+                    "TITLE_REASSIGN": "Réaffectation de(s) membre(s)",
+                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} membre(s) de cette équipe ?",
+                    "TITLE_REMOVE": "Retrait de(s) membre(s)",
+                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} membre(s) de cette équipe ?"
+                },
+                "MODAL": {
+                    "REASSIGN_TITLE": "Réaffectation des membres",
+                    "REASSIGN_LABEL": "Équipe",
+                    "ASSIGN_TITLE": "Affectation des membres",
+                    "ASSIGN_LABEL": "Intervenant",
+                    "NEW_PROFILE": "Nouveau profil",
+                    "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
+                    "REASSIGN_MESSAGE": "{{count}} membre(s) seront réaffectés"
+                }
+            }
+        },
+        "AGENTS_PERFORMANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Performances des agents",
+                "ROUTE": "agent-performances"
+            },
+            "TABS": {
+                "AGENTS_PERFORMANCES": {
                     "LABEL": "Performances des agents",
                     "ROUTE": "agent-performances"
                 },
-                "TABS": {
-                    "AGENTS_PERFORMANCES": {
-                        "LABEL": "Performances des agents",
-                        "ROUTE": "agent-performances"
-                    },
-                    "HISTORY": {
-                        "LABEL": "Historique",
-                        "ROUTE": "history"
-                    }
-                },
-                "TITLE": "Performances des agents",
-                "LABEL": "Performances des agents",
-                "ROUTE": "agent-performances",
-                "FILTER": {
-                    "SEARCH": "Rechercher",
-                    "SEARCH_PLACEHOLDER": "Rechercher",
-                    "STATUS": "Status",
-                    "STATUS_PLACEHOLDER": "Status",
-                    "PARTICIPANT": "Membre",
-                    "PARTICIPANT_PLACEHOLDER": "Trouver un membre",
-                    "DATE": {
-                        "FROM": "Date de début",
-                        "TO": "Date de fin",
-                        "PLACEHOLDER": "YYYY-MM-DD"
-                    }
-                },
-                "TABLE": {
-                    "NAME": "Nom complet de l'agent",
-                    "GOALS_SIZE": "# Objectifs",
-                    "ACHIEVEMENTS_SIZE": "# Réalisations",
-                    "PERCENTAGES": "Pourcentages",
-                    "STATUS": "Status",
-                    "CREATED_AT": "Créé le",
-                    "ACTION": "Action"
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
                 }
-            }
-        },
-        "REPORTING": {
-            "BREADCRUMB": {
-                "LABEL": "Suivi & Reporting",
-                "ROUTE": "reporting",
-                "ICON": "pi pi-chart-bar"
             },
-            "LABEL": "Suivi des demandes",
-            "REQUESTS": {
-                "BREADCRUMB": {
-                    "LABEL": "Suivi des demandes",
-                    "ROUTE": "requests"
-                },
-                "TITLE": "Tableau de bord analytique des demandes",
-                "LABEL": "Demandes",
-                "LOADING_DESCRIPTION": "Suivi des demandes en cours...",
-                "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des demandes. Veuillez recharger la page ou contacter le support."
+            "TITLE": "Performances des agents",
+            "LABEL": "Performances des agents",
+            "ROUTE": "agent-performances",
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "STATUS": "Status",
+                "STATUS_PLACEHOLDER": "Status",
+                "PARTICIPANT": "Membre",
+                "PARTICIPANT_PLACEHOLDER": "Trouver un membre",
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
             },
-            "REPORT": {
-                "BREADCRUMB": {
-                    "LABEL": "Suivi des signalements",
-                    "ROUTE": "reports"
-                },
-                "TITLE": "Tableau de bord analytique des signalements",
-                "LABEL": "Signalement",
-                "LOADING_DESCRIPTION": "Suivi des signalements en cours...",
-                "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements. Veuillez recharger la page ou contacter le support."
-            }
-
-        },
-        "MONITORING": {
-            "BREADCRUMB": {
-                "LABEL": "Supervision systèmes",
-                "ROUTE": "system-supervision",
-                "ICON": "pi pi-sync"
-            },
-            "LABEL": "Supervision systèmes",
-            "RESOURCES": {
-                "BREADCRUMB": {
-                    "LABEL": "Etat des ressources",
-                    "ROUTE": "resources-states"
-                },
-                "TITLE": "Tableau de bord analytique des états des ressources",
-                "LABEL": "Ressources",
-                "LOADING_DESCRIPTION": "Suivi des ressources en cours...",
-                "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des états des ressources. Veuillez recharger la page ou contacter le support."
-            },
-            "SERVICES": {
-                "BREADCRUMB": {
-                    "LABEL": "Etat des services",
-                    "ROUTE": "services-states"
-                },
-                "TITLE": "Tableau de bord analytique des états des services",
-                "LABEL": "Performances des noeuds",
-                "LOADING_DESCRIPTION": "Suivi des services en cours...",
-                "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des états des ressources. Veuillez recharger la page ou contacter le support."
-            },
-            "NODE": {
-                "BREADCRUMB": {
-                    "LABEL": "Performances des noeuds",
-                    "ROUTE": "processing-status"
-                },
-                "TITLE": "Tableau de bord analytique - Performances des noeuds",
-                "LABEL": "Performances des noeuds",
-                "LOADING_DESCRIPTION": "Suivi des performances en cours...",
-                "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Performances des noeuds. Veuillez recharger la page ou contacter le support."
+            "TABLE": {
+                "NAME": "Nom complet de l'agent",
+                "GOALS_SIZE": "# Objectifs",
+                "ACHIEVEMENTS_SIZE": "# Réalisations",
+                "PERCENTAGES": "Pourcentages",
+                "STATUS": "Status",
+                "CREATED_AT": "Créé le",
+                "ACTION": "Action"
             }
         }
+    },
+    "REPORTING": {
+        "BREADCRUMB": {
+            "LABEL": "Suivi & Reporting",
+            "ROUTE": "reporting",
+            "ICON": "pi pi-chart-bar"
+        },
+        "LABEL": "Suivi des demandes",
+        "REQUESTS": {
+            "BREADCRUMB": {
+                "LABEL": "Suivi des demandes",
+                "ROUTE": "requests"
+            },
+            "TITLE": "Tableau de bord analytique des demandes",
+            "LABEL": "Demandes",
+            "LOADING_DESCRIPTION": "Suivi des demandes en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des demandes. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT": {
+            "BREADCRUMB": {
+                "LABEL": "Suivi des signalements",
+                "ROUTE": "reports"
+            },
+            "TITLE": "Tableau de bord analytique des signalements",
+            "LABEL": "Signalement",
+            "LOADING_DESCRIPTION": "Suivi des signalements en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements. Veuillez recharger la page ou contacter le support."
+        }
+
+    },
+    "MONITORING": {
+        "BREADCRUMB": {
+            "LABEL": "Supervision systèmes",
+            "ROUTE": "system-supervision",
+            "ICON": "pi pi-sync"
+        },
+        "LABEL": "Supervision systèmes",
+        "RESOURCES": {
+            "BREADCRUMB": {
+                "LABEL": "Etat des ressources",
+                "ROUTE": "resources-states"
+            },
+            "TITLE": "Tableau de bord analytique des états des ressources",
+            "LABEL": "Ressources",
+            "LOADING_DESCRIPTION": "Suivi des ressources en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des états des ressources. Veuillez recharger la page ou contacter le support."
+        },
+        "SERVICES": {
+            "BREADCRUMB": {
+                "LABEL": "Etat des services",
+                "ROUTE": "services-states"
+            },
+            "TITLE": "Tableau de bord analytique des états des services",
+            "LABEL": "Performances des noeuds",
+            "LOADING_DESCRIPTION": "Suivi des services en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des états des ressources. Veuillez recharger la page ou contacter le support."
+        },
+        "NODE": {
+            "BREADCRUMB": {
+                "LABEL": "Performances des noeuds",
+                "ROUTE": "processing-status"
+            },
+            "TITLE": "Tableau de bord analytique - Performances des noeuds",
+            "LABEL": "Performances des noeuds",
+            "LOADING_DESCRIPTION": "Suivi des performances en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Performances des noeuds. Veuillez recharger la page ou contacter le support."
+        }
+    }
 }
 
