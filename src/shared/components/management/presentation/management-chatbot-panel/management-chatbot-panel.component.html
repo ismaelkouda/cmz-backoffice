@@ -1,0 +1,45 @@
+<div class="chatbot-panel">
+
+  <!-- <div class="chat-header">
+    <div class="header-title">
+      <i class="pi pi-comments"></i>
+      <span>{{ 'MANAGEMENT.CHAT.TITLE' | translate }}</span>
+    </div>
+
+    <button 
+      pButton 
+      type="button"
+      icon="pi pi-refresh"
+      [loading]="loading()"
+      (click)="onRefreshClicked()"
+      [pTooltip]="'COMMON.REFRESH' | translate"
+      tooltipPosition="left"
+      class="p-button-outlined p-button-sm"
+    ></button>
+  </div> -->
+
+  <app-chat-message-list 
+    [messages]="messages()" 
+    [loading]="loading()"
+    (loadNextPage)="store.loadNextPage()"
+  />
+
+  @if (isTyping()) {
+    <div class="typing-indicator">
+      <div class="typing-dots">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
+      <span class="typing-text">{{ 'MANAGEMENT.CHAT.TYPING' | translate }}</span>
+    </div>
+  }
+
+  <app-chat-input 
+    [draft]="draft()" 
+    [sending]="sending()"
+    (draftChange)="onDraftChange($event)"
+    (send)="onSendClicked()"
+  />
+
+</div>

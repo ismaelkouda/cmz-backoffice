@@ -7,6 +7,9 @@ import { MessagingProps } from '@pages/communication/domain/interfaces/messaging
 export class MessagingEntity {
     constructor(private readonly props: MessagingProps) {}
 
+    readonly sender = 'agent';
+    readonly readAt: string | null = null;
+
     get uniqId(): string {
         return this.props.uniqId;
     }

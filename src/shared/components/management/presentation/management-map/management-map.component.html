@@ -12,7 +12,7 @@
         tabindex="0"
     ></div>
 
-    <div class="map-popup" *ngIf="enablePopup" [class.show]="showPopup()">
+    <div class="map-popup" *ngIf="enablePopup()" [class.show]="showPopup()">
         <div class="popup-content">
             <div class="popup-header">
                 <h3>{{ selectedMarker()?.title || 'Position' }}</h3>
@@ -22,11 +22,11 @@
             </div>
             <div class="popup-body">
                 <p>
-                    <strong>Latitude:</strong> {{ latitude | number: '1.6-6' }}
+                    <strong>Latitude:</strong> {{ latitude() | number: '1.6-6' }}
                 </p>
                 <p>
                     <strong>Longitude:</strong>
-                    {{ longitude | number: '1.6-6' }}
+                    {{ longitude() | number: '1.6-6' }}
                 </p>
                 <p *ngIf="selectedMarker()?.description" class="description">
                     {{ selectedMarker()?.description }}
@@ -51,8 +51,8 @@
 
     <div class="coordinates-badge" *ngIf="isMapInitialized()">
         <div class="badge-content">
-            📍 {{ latitude | number: '1.6-6' }},
-            {{ longitude | number: '1.6-6' }}
+            📍 {{ latitude() | number: '1.6-6' }},
+            {{ longitude() | number: '1.6-6' }}
         </div>
     </div>
 </div>

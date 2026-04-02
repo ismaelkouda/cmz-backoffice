@@ -1421,6 +1421,7 @@
                     position: fixed;
                     top: 0;
                     z-index: 9;
+                    background-color: var(--theme-default) !important;
                     height: auto;
                     line-height: inherit;
                     width: $sidebar-compact-width;
@@ -1658,10 +1659,7 @@
                                         letter-spacing: 0.7px;
                                         text-transform: none;
                                         font-size: 14px;
-                                        color: rgba(
-                                            $theme-body-sub-title-color,
-                                            0.8
-                                        );
+                                        color: white;
                                     }
 
                                     &.link-nav {
@@ -1914,10 +1912,8 @@
                                                         a {
                                                             padding: 7px 25px;
                                                             font-size: 14px;
-                                                            color: rgba(
-                                                                $theme-body-font-color,
-                                                                0.6
-                                                            );
+                                                            color: var(--color-gray-light);
+                                                            opacity: 0.8;
                                                             display: block;
                                                             position: relative;
                                                             letter-spacing: 0.06em;
@@ -1935,6 +1931,7 @@
                                                             &.active {
                                                                 background-color: white;
                                                                 color: black;
+                                                                opacity: 1;
 
                                                                 &::before {
                                                                     opacity: 1;
@@ -1943,6 +1940,7 @@
                                                             }
 
                                                             &:after {
+                                                                opacity: 1;
                                                                 left: 27px;
                                                                 @extend %sidebar-after;
                                                             }
@@ -1958,6 +1956,7 @@
                                                                 );
                                                                 color: white;
                                                                 margin-left: 0;
+                                                                opacity: 1;
                                                             }
                                                         }
                                                     }

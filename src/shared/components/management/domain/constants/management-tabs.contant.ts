@@ -14,4 +14,9 @@ export const TABS = [
         label: 'MANAGEMENT.TABS.CATEGORIES.GEOGRAPHIC_VIEW',
         icon: 'pi pi-map-marker',
     },
+    {
+        value: 'chatbot',
+        label: 'MANAGEMENT.TABS.CATEGORIES.CHATBOT',
+        icon: 'pi pi-comments',
+    },
 ] as const;

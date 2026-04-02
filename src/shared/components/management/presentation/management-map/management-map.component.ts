@@ -3,8 +3,9 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
+    inject,
     Inject,
-    Input,
+    input,
     NgZone,
     OnDestroy,
     OnInit,
@@ -31,6 +32,9 @@ export interface MapMarker {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementMapComponent implements OnInit, OnDestroy {
+    private readonly openLayersLoader = inject(OpenLayersLoaderService);
+    private readonly ngZone = inject(NgZone);
+    private readonly elementRef = inject(ElementRef);
     readonly isMapInitialized = signal(false);
     readonly isLoading = signal(true);
     readonly mapViewState = signal({
@@ -41,33 +45,28 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     readonly selectedMarker = signal<MapMarker | null>(null);
     readonly showPopup = signal(false);
 
-    @Input() latitude!: number;
-    @Input() longitude!: number;
-    @Input() zoom = 15;
-    @Input() markerTitle = 'Position';
-    @Input() markerDescription = 'Localisation spécifiée';
-    @Input() markerColor = '#3366ff';
-    @Input() enablePopup = true;
-    @Input() enableAnimations = true;
+    public readonly latitude = input.required<number>();
+    public readonly longitude = input.required<number>();
+    public readonly zoom = input<number>(15);
+    public readonly markerTitle = input<string>('Position');
+    public readonly markerDescription = input<string>('Localisation spécifiée');
+    public readonly markerColor = input<string>('#3366ff');
+    public readonly enablePopup = input<boolean>(true);
+    public readonly enableAnimations = input<boolean>(true);
 
     private map: any = null;
     private markerLayer: any = null;
     private popupOverlay: any = null;
-    private destroy$ = new Subject<void>();
+    private readonly destroy$ = new Subject<void>();
     private olModules: any = null;
 
-    constructor(
-        private elementRef: ElementRef,
-        private ngZone: NgZone,
-        private openLayersLoader: OpenLayersLoaderService,
-        @Inject(PLATFORM_ID) private platformId: object
-    ) {}
+    constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {}
 
-    async ngOnInit() {
+    ngOnInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
         }
-        await this.initializeMap();
+        this.initializeMap();
     }
 
     ngOnDestroy(): void {
@@ -106,6 +105,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
 
         const mapContainer =
             this.elementRef.nativeElement.querySelector('.map-container');
+        console.log('mapContainer: ', mapContainer);
         if (!mapContainer) {
             throw new Error('Container de carte non trouvé');
         }
@@ -117,13 +117,14 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 ],
             }),
         });
+        console.log('osmLayer: ', osmLayer);
 
         this.map = new Map({
             target: mapContainer,
             layers: [osmLayer],
             view: new View({
-                center: fromLonLat([this.longitude, this.latitude]),
-                zoom: this.zoom,
+                center: fromLonLat([this.longitude(), this.latitude()]),
+                zoom: this.zoom(),
                 minZoom: 2,
                 maxZoom: 18,
             }),
@@ -136,16 +137,16 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
 
         const marker = new Feature({
             geometry: new Point(
-                this.olModules.fromLonLat([this.longitude, this.latitude])
+                this.olModules.fromLonLat([this.longitude(), this.latitude()])
             ),
-            title: this.markerTitle,
-            description: this.markerDescription,
+            title: this.markerTitle(),
+            description: this.markerDescription(),
         });
 
         marker.setStyle(
             new Style({
                 image: new Icon({
-                    src: this.generateMarkerSvg(this.markerColor),
+                    src: this.generateMarkerSvg(this.markerColor()),
                     scale: 0.8,
                     anchor: [0.5, 1],
                     anchorXUnits: 'fraction',
@@ -193,17 +194,17 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 (ft: any) => ft
             );
 
-            if (feature && this.enablePopup) {
+            if (feature && this.enablePopup()) {
                 const coordinates = feature.getGeometry().getCoordinates();
                 this.popupOverlay.setPosition(coordinates);
 
                 this.selectedMarker.set({
                     id: 'main-marker',
-                    latitude: this.latitude,
-                    longitude: this.longitude,
+                    latitude: this.latitude(),
+                    longitude: this.longitude(),
                     title: feature.get('title'),
                     description: feature.get('description'),
-                    color: this.markerColor,
+                    color: this.markerColor(),
                 });
 
                 this.showPopup.set(true);
@@ -229,8 +230,8 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         if (this.map && this.olModules) {
             const { fromLonLat } = this.olModules;
             this.map.getView().animate({
-                center: fromLonLat([this.longitude, this.latitude]),
-                zoom: this.zoom,
+                center: fromLonLat([this.longitude(), this.latitude()]),
+                zoom: this.zoom(),
                 duration: 1000,
             });
         }
@@ -243,3 +244,31 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         }
     }
 }
+
+// @Injectable({ providedIn: 'root' })
+// export class MapFacade {
+//     constructor(
+//         private store: MapStore,
+//         private http: HttpClient
+//     ) {}
+
+//     loadClusters(bounds: Bounds) {
+//         this.store.startLoading();
+
+//         const params = {
+//             minLat: bounds.minLat,
+//             maxLat: bounds.maxLat,
+//             minLng: bounds.minLng,
+//             maxLng: bounds.maxLng,
+//         };
+
+//         this.http.get<MapCluster[]>('/map/clusters', { params })
+//             .pipe(
+//                 catchError(err => {
+//                     this.store.setError('Erreur lors du chargement des clusters');
+//                     return EMPTY;
+//                 })
+//             )
+//             .subscribe(clusters => this.store.setClusters(clusters));
+//     }
+// }

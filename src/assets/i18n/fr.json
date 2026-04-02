@@ -6,6 +6,10 @@
         "ES": "Espagnol"
     },
     "COMMON": {
+        "DATE": {
+            "TODAY": "Aujourd'hui",
+            "YESTERDAY": "Hier"
+        },
         "INDEX": "#",
         "SELECTION": "Selection",
         "SELECT_PLACEHOLDER": "Sélectionner...",
@@ -2436,6 +2440,7 @@
                     "INFORMATION": "Informations",
                     "IMAGES": "Photos",
                     "GEOGRAPHIC_VIEW": "Vue géographique",
+                    "CHATBOT": "Complement d'information",
                     "TREATMENT_LOGS": "Journal de traitement"
                 },
                 "SECTIONS": {
