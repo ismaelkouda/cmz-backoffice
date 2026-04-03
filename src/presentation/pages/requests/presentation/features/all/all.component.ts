@@ -98,15 +98,19 @@ export class AllComponent implements OnInit {
         initialValue: null,
     });
     readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
         return enumToFilterOptions(TelecomOperator, this.t.bind(this));
     });
     readonly reportSourceOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
         return enumToFilterOptions(ReportSource, this.t.bind(this));
     });
     readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
         return enumToFilterOptions(ReportType, this.t.bind(this));
     });
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
         return enumToFilterOptions(Status, this.t.bind(this));
     });
     readonly filterFields: Signal<FilterField[]> = computed(() => {

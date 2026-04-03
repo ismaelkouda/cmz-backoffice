@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -83,7 +83,6 @@ import SweetAlert from 'sweetalert2';
         DatePickerModule,
         ToggleSwitchModule,
     ],
-    providers: [DatePipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionsTreatmentComponent implements OnInit {

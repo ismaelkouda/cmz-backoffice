@@ -2,16 +2,14 @@
     <div class="header-wrapper row m-0" *ngIf="statusLayout()">
         <div class="col col-12 horizontal-wrapper pl-0">
             <div class="nav-right">
-                <ul class="nav-menus">
-                    <li class="onhover-dropdown p-0">
+                <ul class="nav-menus mb-0">
+                    <li>
                         <app-languages></app-languages>
                     </li>
-                    <li class="onhover-dropdown p-0">
-                        <p-overlaybadge value="2">
-                            <i class="pi pi-bell" style="font-size: 2rem"></i>
-                        </p-overlaybadge>
+                    <li>
+                        <app-notifications-bell [notificationsCount]="count()"></app-notifications-bell>
                     </li>
-                    <li class="profile-nav onhover-dropdown">
+                    <li>
                         <app-my-account></app-my-account>
                     </li>
                 </ul>
@@ -25,17 +23,6 @@
         <h3 class="legend">
             <b>{{ config.app.title }}</b>
         </h3>
-            <!-- <div class="refresh-icon-wrapper">
-                    <button
-                        type="button"
-                        class="pi pi-refresh header-icon refresh-button"
-                        [title]="'LAYOUT.HEADER.REFRESH.TITLE' | translate"
-                        (click)="handleRefreshNotification()"
-                        [attr.aria-label]="
-                            'LAYOUT.HEADER.REFRESH.ARIA_LABEL' | translate
-                        "
-                    ></button>
-                </div> -->
         <ul class="nav-menus mb-0">
             <li>
                 <app-languages></app-languages>

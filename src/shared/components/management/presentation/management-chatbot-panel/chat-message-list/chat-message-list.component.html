@@ -1,0 +1,23 @@
+<div 
+  #scrollContainer 
+  class="messages-scroll-container"
+  (scroll)="onScroll()"
+>
+  @if (loading() && messages().length === 0) {
+    <div class="skeleton-container">
+      @for (i of [1,2,3]; track i) {
+        <p-skeleton height="68px" width="65%" styleClass="mb-4"></p-skeleton>
+        <p-skeleton height="68px" width="82%" styleClass="mb-4 ml-auto"></p-skeleton>
+      }
+    </div>
+  } @else if (messages().length === 0) {
+    <div class="empty-chat-state">
+      <i class="pi pi-comments text-4xl mb-3 text-gray-400"></i>
+      <p class="text-gray-500">Aucun message pour le moment</p>
+    </div>
+  } @else {
+    @for (message of messages(); track message.id) {
+      <app-chat-message-item [message]="message" />
+    }
+  }
+</div>

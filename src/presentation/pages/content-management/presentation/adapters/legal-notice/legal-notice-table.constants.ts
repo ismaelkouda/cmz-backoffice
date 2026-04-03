@@ -12,7 +12,7 @@ export const LEGAL_NOTICE_TABLE = {
             width: '6rem',
         },
         {
-            field: 'status',
+            field: 'statusLabel',
             header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.STATUS',
             class: 'text-center',
             width: '6rem',
@@ -40,7 +40,7 @@ export const LEGAL_NOTICE_TABLE = {
         'uniqId',
         'name',
         'version',
-        'status',
+        'statusLabel',
         'createdAt',
         'publishedAt',
     ],

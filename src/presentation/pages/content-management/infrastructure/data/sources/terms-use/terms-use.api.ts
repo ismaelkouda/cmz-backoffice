@@ -48,7 +48,6 @@ export class TermsUseApi {
 
     delete(apiDto: TermsUseDeleteApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.TERMS_USE}/${apiDto.uniq_id}/delete`;
-        console.log('url', url);
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 

@@ -16,7 +16,6 @@ export class MessagingFindOneRepositoryImpl implements MessagingFindOneRepositor
         filter: MessagingFindOneFilterEntity
     ): Observable<MessagingFindOneEntity> {
         const paramsDto = messagingFindOneFilterMapper(filter);
-        console.log('paramsDto: ', paramsDto);
         return this.api
             .read(paramsDto)
             .pipe(map((response) => this.mapper.mapFromDto(response)));

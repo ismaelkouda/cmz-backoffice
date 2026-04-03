@@ -1,0 +1,24 @@
+.messages-scroll-container {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px 12px;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.skeleton-container {
+  padding: 16px;
+}
+
+.empty-chat-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: #6c757d;
+}

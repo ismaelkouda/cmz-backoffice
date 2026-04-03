@@ -54,7 +54,6 @@ export class PrivacyPolicyApi {
         apiDto: PrivacyPolicyDeleteApiDto
     ): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.PRIVACY_POLICY}/${apiDto.uniq_id}/delete`;
-        console.log('url', url);
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 

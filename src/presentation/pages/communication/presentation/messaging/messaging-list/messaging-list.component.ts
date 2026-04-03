@@ -218,7 +218,6 @@ export class MessagingListComponent implements OnInit, OnDestroy {
         const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
-        console.log('queryParams: ', queryParams);
         this.router.navigate([MESSAGING_FORM], {
             relativeTo: this.activatedRoute,
             queryParams,

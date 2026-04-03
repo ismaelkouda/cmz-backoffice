@@ -60,6 +60,7 @@ import { routes } from '@presentation/app.routes';
 import Aura from '@primeng/themes/aura';
 import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
 import { historyProviders } from '@shared/components/history/di/history.providers';
+import { provideManagement } from '@shared/components/management/di/management.providers';
 import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
 
@@ -274,6 +275,8 @@ export const appConfig: ApplicationConfig = {
         ...provideMonitoring(),
 
         ...provideCommunication(),
+
+        ...provideManagement(),
 
         ...provideTeamOrganization(),
 

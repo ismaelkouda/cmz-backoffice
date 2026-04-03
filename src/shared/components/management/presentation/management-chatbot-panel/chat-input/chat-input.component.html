@@ -1,0 +1,21 @@
+<div class="chat-input-container">
+  <textarea
+    class="chat-textarea"
+    rows="1"
+    [value]="draft()"
+    [disabled]="sending()"
+    placeholder="Écrire un message à l'émetteur..."
+    (input)="onInput($event)"
+    (keydown)="onKeyDown($event)"
+  ></textarea>
+
+  <button
+    pButton
+    type="button"
+    icon="pi pi-send"
+    [disabled]="!draft().trim() || sending()"
+    (click)="onSend()"
+    class="send-button"
+    [loading]="sending()"
+  ></button>
+</div>

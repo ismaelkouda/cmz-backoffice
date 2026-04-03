@@ -20,7 +20,6 @@ export class MessagingFindOneFacade extends ObjectBaseFacade<
 
     read(filter: MessagingFindOneFilterDto, force = false): void {
         const command = new MessagingFindOneQuery(filter.uniqId);
-        console.log('filter.uniqId: ', filter.uniqId);
         const fetch$ = this.bus.dispatch(command);
         this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
     }

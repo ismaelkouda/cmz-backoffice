@@ -16,7 +16,6 @@ export class MessagingFindOneApi {
     read(
         dto?: MessagingFindOneFilterApiDto
     ): Observable<MessagingFindOneResponseApiDto> {
-        console.log('dto: ', dto);
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}/${dto?.id}`;
         return this.http.get<MessagingFindOneResponseApiDto>(url);
     }

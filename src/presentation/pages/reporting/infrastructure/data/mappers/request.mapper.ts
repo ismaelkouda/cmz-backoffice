@@ -9,7 +9,6 @@ export class RequestMapper extends SimpleResponseMapper<
     RequestItemDto
 > {
     protected override mapItemFromDto(dto: RequestItemDto): RequestsEntity {
-        console.log('dto', dto);
         return new RequestsEntity(dto.requestReportReportingLink);
     }
 }

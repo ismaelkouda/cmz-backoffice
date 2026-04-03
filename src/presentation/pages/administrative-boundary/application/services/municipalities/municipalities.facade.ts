@@ -84,7 +84,6 @@ export class MunicipalitiesFacade extends BaseFacade<
             filter?.startDate,
             filter?.endDate
         );
-        console.log('command: ', command);
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
             filter,

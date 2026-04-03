@@ -54,7 +54,6 @@ export class LegalNoticeApi {
         apiDto: LegalNoticeDeleteApiDto
     ): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.LEGAL_NOTICE}/${apiDto.uniq_id}/delete`;
-        console.log('url', url);
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 

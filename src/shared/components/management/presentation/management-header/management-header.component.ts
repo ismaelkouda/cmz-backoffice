@@ -38,9 +38,6 @@ export class ManagementHeaderComponent {
             return false;
         }
 
-        console.log('item: ', item);
-        console.log('item?.type: ', item?.type);
-
         return (
             item?.type === TypeReport.PROCESSING ||
             item?.type === TypeReport.FINALIZATION

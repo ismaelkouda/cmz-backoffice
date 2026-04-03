@@ -139,6 +139,12 @@
                     >
                     </app-management-map>
                 }
+
+                @if (selectedTabIndex === 3) {
+                     <app-management-chatbot-panel
+                        [uniqId]="uniqId()"
+                    />
+                }
             </div>
 
             @if (items()?.canBeApproved || items()?.canBeFinalized) {

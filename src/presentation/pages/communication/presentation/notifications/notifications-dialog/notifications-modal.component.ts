@@ -10,10 +10,6 @@ import { TranslateModule } from '@ngx-translate/core';
     imports: [CommonModule, TranslateModule],
 })
 export class NotificationsModalComponent implements OnInit {
-    constructor() {
-        console.log('NotificationsModalComponent');
-    }
-
     ngOnInit(): void {
         console.log('NotificationsModalComponent ngOnInit');
     }

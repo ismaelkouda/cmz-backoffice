@@ -141,10 +141,8 @@ export class HashtagsInputComponent implements ControlValueAccessor {
     }
 
     private updateParent(value: string[]): void {
-        console.log('value: ', value);
         this.onChange(value);
         this.hashtagsChanged.emit(value);
-        console.log('updated453355446346536 ', this.hashtags());
     }
 
     public addHashtag(event?: Event): void {
@@ -159,7 +157,6 @@ export class HashtagsInputComponent implements ControlValueAccessor {
         const formatted = this.formatHashtag(value);
         const current = this.hashtags();
         const updated = [...current, formatted];
-        console.log('updated: ', this.hashtags());
 
         this.hashtags.set(updated);
         this.hashtagAdded.emit(formatted);

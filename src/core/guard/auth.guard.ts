@@ -3,9 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { TokenInterface } from '@shared/domain/interfaces/token.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 
-export const authGuard: CanActivateFn = (route, state) => {
-    console.log('AuthGuard invoked for route:', state.url);
-    console.log('Route parameters:', route.params);
+export const authGuard: CanActivateFn = () => {
     const encodingService = inject(EncodingDataService);
     const token = encodingService.getData(
         'token_data'

@@ -46,6 +46,8 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import SweetAlert from 'sweetalert2';
 
+import { ManagementChatbotPanelComponent } from '../management-chatbot-panel/management-chatbot-panel.component';
+
 @Component({
     selector: 'app-management-dialog',
     standalone: true,
@@ -65,6 +67,7 @@ import SweetAlert from 'sweetalert2';
         ManagementPhotosPanelComponent,
         ManagementMapComponent,
         ManagementInfoPanelComponent,
+        ManagementChatbotPanelComponent,
         ManagementTreatmentFormComponent,
         TagModule,
     ],
@@ -148,8 +151,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.stateService.initialize(this.type(), this.uniqId());
-        console.log('this.type(): ', this.type());
-        console.log('this.items(): ', this.items());
     }
 
     ngOnDestroy(): void {
@@ -190,22 +191,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
             return;
         }
 
-        // if (this.validationService.isTakeAction(items)) {
-        //     this.executeAction('take', {});
-        //     return;
-        // }
-
-        // if (
-        //     !this.validationService.isFormValidForContext(
-        //         this.form,
-        //         context,
-        //         items
-        //     )
-        // ) {
-        //     this.markFormAsTouched();
-        //     return;
-        // }
-
         if (!this.validateForm()) {
             return;
         }
@@ -239,7 +224,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     public onCloseDialog(): void {
         SweetAlert.close();
         this.visibleChange.emit(false);
-        console.log('falsedscdsscsd: ');
         this.stateService.reset();
     }
 

@@ -262,7 +262,7 @@ export class QueuesComponent implements OnInit {
     public onExportClicked(): void {
         const tasks = this.items();
         if (tasks && tasks.length > 0) {
-            const fileName = `${this.exportFilePrefix}-tasks`;
+            const fileName = `${this.exportFilePrefix}-queues`;
             this.exportService.exportAsExcelFile(
                 tasks,
                 this.tableConfig,

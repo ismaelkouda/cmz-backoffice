@@ -19,8 +19,6 @@ export class DashboardApi {
     ): Observable<DashboardResponseApiDto> {
         const url = `${this.baseUrl}${DASHBOARD_ENDPOINTS.STATISTICS}`;
         const params = buildHttpParams(apiDto);
-        console.log('🚀 ~ DashboardApi ~ execute ~ params:', params);
-
         return this.http.get<DashboardResponseApiDto>(url, { params });
     }
 }

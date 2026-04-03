@@ -63,7 +63,6 @@ export class DetailsFacade extends ObjectBaseFacade<
     }
 
     take(item: DetailsTakeDto): void {
-        console.log('item: ', item);
         this._actionLoading.set(true);
 
         const command = new DetailsTakeCommand(item.uniqId);
