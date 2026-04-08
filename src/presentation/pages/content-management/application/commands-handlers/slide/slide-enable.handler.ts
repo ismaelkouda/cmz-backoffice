@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SlideUseCase } from '@pages/content-management/application/use-cases/slide/slide.use-case';
 import { SlideEnableCommand } from '@pages/content-management/application/commands/slide/slide-enable.command';
+import { SlideUseCase } from '@pages/content-management/application/use-cases/slide/slide.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

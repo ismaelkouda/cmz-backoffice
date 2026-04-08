@@ -1,12 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ConfigurationService } from '@core/services/configuration.service';
-import { tap } from 'rxjs';
-
 import {
     isInternalUrl,
     isStaticAssetRequest,
-} from './utils/interceptor-request-filter.util';
+} from '@core/interceptors/utils/interceptor-request-filter.util';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { tap } from 'rxjs';
 
 export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
     const config = inject(ConfigurationService);

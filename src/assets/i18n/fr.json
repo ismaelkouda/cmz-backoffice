@@ -2464,9 +2464,11 @@
                     "TITLE": "Ajouter au panier le signalement",
                     "REQUIRED": "Requis",
                     "DECISION": "Décision",
+                    "CALLBACK": "Rappel",
                     "COMMENT": "Commentaire",
                     "COMMENT_PLACEHOLDER": "Saisissez votre commentaire...",
                     "MOTIF": "Motif",
+                    "CALLBACK_TYPE": "Type de rappel",
                     "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
                     "OPTIONS": {
                         "APPROVE": {
@@ -2480,6 +2482,33 @@
                     },
                     "VALIDATION": {
                     "MOTIF_REQUIRED": "Le motif est réquis",
+                    "CALLBACK_TYPE_REQUIRED": "Le type de rappel est réquis",
+                    "COMMENT_REQUIRED": "Un commentaire est requis"
+                    }
+                },
+                "CALLBACK_ACTION": {
+                    "TITLE": "Ajouter au panier le signalement",
+                    "REQUIRED": "Requis",
+                    "DECISION": "Décision",
+                    "CALLBACK": "Rappel",
+                    "COMMENT": "Commentaire",
+                    "COMMENT_PLACEHOLDER": "Saisissez votre commentaire...",
+                    "MOTIF": "Motif",
+                    "CALLBACK_TYPE": "Type de rappel",
+                    "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
+                    "OPTIONS": {
+                        "CALLBACK": {
+                            "LABEL": "Callback",
+                            "DESCRIPTION": "Faire un rappel sur le signalement"
+                        },
+                        "EDIT": {
+                            "LABEL": "Modifier",
+                            "DESCRIPTION": "Modifier le signalement"
+                        }
+                    },
+                    "VALIDATION": {
+                    "MOTIF_REQUIRED": "Le motif est réquis",
+                    "CALLBACK_TYPE_REQUIRED": "Le type de rappel est réquis",
                     "COMMENT_REQUIRED": "Un commentaire est requis"
                     }
                 }

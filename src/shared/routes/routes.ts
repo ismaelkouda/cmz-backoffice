@@ -21,9 +21,7 @@ export const content: Routes = [
     {
         path: DASHBOARD,
         loadChildren: () =>
-            import('@pages/dashboard/dashboard.routes').then(
-                (m) => m.routes
-            ),
+            import('@pages/dashboard/dashboard.routes').then((m) => m.routes),
         data: {
             module: 'TEAM_ORGANIZATION',
             subModule: [
@@ -55,9 +53,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('@pages/requests/requests.routes').then(
-                (m) => m.routes
-            ),
+            import('@pages/requests/requests.routes').then((m) => m.routes),
     },
     {
         path: PROCESSING_ROUTE,
@@ -68,9 +64,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('@pages/processing/processing.routes').then(
-                (m) => m.routes
-            ),
+            import('@pages/processing/processing.routes').then((m) => m.routes),
     },
     {
         path: FINALIZATION_ROUTE,
@@ -94,9 +88,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('@pages/reporting/reporting.route').then(
-                (m) => m.routes
-            ),
+            import('@pages/reporting/reporting.route').then((m) => m.routes),
     },
     {
         path: COMMUNICATION_ROUTE,
@@ -159,9 +151,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('@pages/monitoring/monitoring.routes').then(
-                (m) => m.routes
-            ),
+            import('@pages/monitoring/monitoring.routes').then((m) => m.routes),
     },
     {
         path: '',

@@ -7,6 +7,7 @@ import {
     ViewChild,
     ElementRef,
     effect,
+    afterNextRender,
 } from '@angular/core';
 import { SkeletonModule } from 'primeng/skeleton';
 
@@ -34,8 +35,11 @@ export class ChatMessageListComponent {
 
     constructor() {
         effect(() => {
-            if (this.messages().length > 0 && this.shouldAutoScroll) {
-                setTimeout(() => this.scrollToBottom(), 30);
+            const currentMessages = this.messages();
+            if (currentMessages.length > 0 && this.shouldAutoScroll) {
+                afterNextRender(() => {
+                    this.scrollToBottom();
+                });
             }
         });
     }
@@ -46,17 +50,30 @@ export class ChatMessageListComponent {
             return;
         }
 
-        if (el.scrollTop < 40 && !this.loading()) {
+        // Détection du scroll en haut pour charger les anciens messages
+        if (el.scrollTop <= 50 && !this.loading()) {
             this.shouldAutoScroll = false;
             this.loadNextPage.emit();
         }
+
+        // Mise à jour de l'état auto-scroll
+        const isAtBottom =
+            el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+        if (isAtBottom) {
+            this.shouldAutoScroll = true;
+        }
     }
 
-    private scrollToBottom(): void {
+    private scrollToBottom(smooth = false): void {
         const el = this.scrollContainerRef?.nativeElement;
-        if (el) {
+        if (!el) {
+            return;
+        }
+
+        if (smooth) {
+            el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+        } else {
             el.scrollTop = el.scrollHeight;
-            this.shouldAutoScroll = true;
         }
     }
 }

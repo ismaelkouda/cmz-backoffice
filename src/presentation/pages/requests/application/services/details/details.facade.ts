@@ -93,10 +93,13 @@ export class DetailsFacade extends ObjectBaseFacade<
             .subscribe();
     }
 
-    approve(team: DetailsApproveDto): void {
+    approve(detail: DetailsApproveDto): void {
         this._actionLoading.set(true);
 
-        const command = new DetailsApproveCommand(team.uniqId, team.comment);
+        const command = new DetailsApproveCommand(
+            detail.uniqId,
+            detail.comment
+        );
 
         this.handleActionWithRefresh(
             this.approveBus.dispatch(command),
@@ -119,13 +122,14 @@ export class DetailsFacade extends ObjectBaseFacade<
             .subscribe();
     }
 
-    reject(team: DetailsRejectDto): void {
+    reject(detail: DetailsRejectDto): void {
         this._actionLoading.set(true);
 
         const command = new DetailsRejectCommand(
-            team.uniqId,
-            team.comment,
-            team.reason
+            detail.uniqId,
+            detail.comment,
+            detail.reason,
+            detail.callbackType
         );
 
         this.handleActionWithRefresh(

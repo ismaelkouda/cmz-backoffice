@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { NewsUseCase } from '@pages/content-management/application/use-cases/news/news.use-case';
 import { NewsUnpublishCommand } from '@pages/content-management/application/commands/news/news-unpublish.command';
+import { NewsUseCase } from '@pages/content-management/application/use-cases/news/news.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

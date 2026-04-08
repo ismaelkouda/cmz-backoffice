@@ -25,6 +25,7 @@ export class TreaterInfoMapper {
             abandoned_comment: treaterInfo.abandonedComment,
             deny_count: treaterInfo.denyCount,
             reason: treaterInfo.reason,
+            callback_type: treaterInfo.callbackType,
         };
     }
 
@@ -46,7 +47,8 @@ export class TreaterInfoMapper {
             treaterInfoDto.confirmed_comment,
             treaterInfoDto.abandoned_comment,
             treaterInfoDto.deny_count,
-            treaterInfoDto.reason
+            treaterInfoDto.reason,
+            treaterInfoDto.callback_type
         );
     }
 }

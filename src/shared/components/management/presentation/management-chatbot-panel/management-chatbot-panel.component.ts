@@ -8,7 +8,7 @@ import {
     OnDestroy,
     signal,
 } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ChatInputComponent } from '@shared/components/management/presentation/management-chatbot-panel/chat-input/chat-input.component';
 import { ChatMessageListComponent } from '@shared/components/management/presentation/management-chatbot-panel/chat-message-list/chat-message-list.component';
 import { ButtonModule } from 'primeng/button';
@@ -38,7 +38,6 @@ export class ManagementChatbotPanelComponent implements OnDestroy {
     readonly uniqId = input.required<string>();
 
     public readonly store = inject(ChatbotStore);
-    private readonly translate = inject(TranslateService);
 
     readonly messages = this.store.messages;
     readonly loading = this.store.loading;

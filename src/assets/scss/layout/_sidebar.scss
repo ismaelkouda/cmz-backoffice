@@ -743,7 +743,6 @@
     }
 
     .page-body-wrapper {
-
         .page-body {
             background-color: $main-body-color;
             min-height: calc(100vh - #{$header-size});
@@ -1912,7 +1911,9 @@
                                                         a {
                                                             padding: 7px 25px;
                                                             font-size: 14px;
-                                                            color: var(--color-gray-light);
+                                                            color: var(
+                                                                --color-gray-light
+                                                            );
                                                             opacity: 0.8;
                                                             display: block;
                                                             position: relative;

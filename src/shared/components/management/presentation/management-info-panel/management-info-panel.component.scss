@@ -1507,18 +1507,6 @@ textarea {
     white-space: nowrap;
 }
 
-.decision-label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 0.75rem;
-}
-
-.motif-select {
-    width: 100%;
-}
-
 .p-select-label.p-placeholder {
     font-size: 1rem;
     font-weight: 600;
@@ -2228,15 +2216,6 @@ button:focus-visible,
 
         .action-header {
             margin-bottom: 1.5rem;
-        }
-
-        .decision-options-skeleton {
-            margin-bottom: 2rem;
-
-            .radio-options-skeleton {
-                display: flex;
-                gap: 1rem;
-            }
         }
 
         .form-fields-skeleton {

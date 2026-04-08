@@ -16,4 +16,5 @@ export interface DetailsTreaterInfo {
     abandonedComment: string | null;
     denyCount: number;
     reason: string | null;
+    callbackType: string | null;
 }

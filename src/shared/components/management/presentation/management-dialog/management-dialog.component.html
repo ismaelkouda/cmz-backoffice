@@ -20,6 +20,7 @@
     </ng-template>
 
     <div class="main-container command-layout">
+        
         <app-management-sidebar
             [item]="items()"
             [loading]="loading()"
@@ -34,11 +35,11 @@
                 <div class="step-bar skeleton-step-bar">
                     <div class="skeleton-steps">
                         @for (step of [1, 2, 3, 4, 5]; track step) {
-                        <p-skeleton
-                            width="180px"
-                            height="20px"
-                            styleClass="step-skeleton"
-                        />
+                            <p-skeleton
+                                width="180px"
+                                height="20px"
+                                styleClass="step-skeleton"
+                            />
                         }
                     </div>
                 </div>
@@ -46,52 +47,48 @@
                 <nav class="content-tabs">
                     <div class="tabs-container">
                         @for (tab of [1, 2, 3]; track tab) {
-                        <div
-                            class="content-tab skeleton-tab"
-                        >
-                            <div class="tab-visual">
-                                <p-skeleton
-                                    shape="circle"
-                                    size="24px"
-                                ></p-skeleton>
+                            <div class="content-tab skeleton-tab">
+                                <div class="tab-visual">
+                                    <p-skeleton
+                                        shape="circle"
+                                        size="24px"
+                                    ></p-skeleton>
+                                </div>
+                                <span class="tab-label">
+                                    <p-skeleton
+                                        width="80px"
+                                        height="16px"
+                                    ></p-skeleton>
+                                </span>
                             </div>
-                            <span class="tab-label">
-                                <p-skeleton
-                                    width="80px"
-                                    height="16px"
-                                ></p-skeleton>
-                            </span>
-                        </div>
                         }
                     </div>
                 </nav>
             } @else {
                 <div class="step-bar">
-                    @for (item of items()?.updateWorkflowTimestamps; track item.key) {
-                    <span
-                        class="step-item"
-                    >
-                        <span class="step-label">{{
-                            item.label | translate
-                        }}</span>
-                        <span class="step-timestamp">
-                            [{{
-                                item.timestamp
-                                    ? (item.timestamp
-                                      | date: 'yyyy-MM-dd HH:mm:ss')
-                                    : '---:---'
-                            }}]
+                    @for (
+                        item of items()?.updateWorkflowTimestamps;
+                        track item.key
+                    ) {
+                        <span class="step-item">
+                            <span class="step-label">{{
+                                item.label | translate
+                            }}</span>
+                            <span class="step-timestamp">
+                                [{{
+                                    item.timestamp
+                                        ? (item.timestamp
+                                          | date: 'yyyy-MM-dd HH:mm:ss')
+                                        : '---:---'
+                                }}]
+                            </span>
                         </span>
-                    </span>
                     }
                 </div>
 
                 <nav class="content-tabs">
                     <div class="tabs-container">
-                        @for (
-                            tab of TABS;
-                            track tab.value
-                        ) {
+                        @for (tab of TABS; track tab.value) {
                             <button
                                 (click)="selectTab($index)"
                                 [class.active]="selectedTabIndex === $index"
@@ -112,6 +109,23 @@
 
             <div class="tab-content-area">
                 @if (selectedTabIndex === 0) {
+
+
+                    @if (items()?.canBeApproved || items()?.canBeFinalized) {
+                        <app-management-callback
+                            [form]="form"
+                            [loading]="loading()"
+                            [expanded]="isTreatmentFormExpanded"
+                            [submitting]="submitting()"
+                            [submitLabel]="items()?.labelButtonSubmit ?? ''"
+                            [showApprovalSection]="items()?.canBeApproved ?? false"
+                            [callbackTypeOptions]="motifOptions()"
+                            (cancelForm)="closeTreatmentForm()"
+                            (submitForm)="onValidReportTreatment()"
+                            (decisionChange)="setDecision($event)"
+                            (managementTypeChange)="setManagementType($event)"
+                        />
+                    }
                     <app-management-info-panel
                         [item]="items()"
                         [loading]="loading()"
@@ -141,9 +155,7 @@
                 }
 
                 @if (selectedTabIndex === 3) {
-                     <app-management-chatbot-panel
-                        [uniqId]="uniqId()"
-                    />
+                    <app-management-chatbot-panel [uniqId]="uniqId()" />
                 }
             </div>
 
@@ -159,6 +171,7 @@
                     (cancelForm)="closeTreatmentForm()"
                     (submitForm)="onValidReportTreatment()"
                     (decisionChange)="setDecision($event)"
+                    (managementTypeChange)="setManagementType($event)"
                 />
             }
         </main>

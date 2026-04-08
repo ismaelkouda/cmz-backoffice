@@ -12,7 +12,12 @@
     <div *ngIf="store.isPermissionDenied()" class="permission-denied">
         <div class="message-card">
             <h3>📍 Location Access Required</h3>
-            <p>{{ store.error() || 'Location permission is required to use this feature.' }}</p>
+            <p>
+                {{
+                    store.error() ||
+                        'Location permission is required to use this feature.'
+                }}
+            </p>
             <button (click)="requestLocationPermission()" class="btn-retry">
                 Try Again
             </button>
@@ -20,21 +25,28 @@
     </div>
 
     <!-- Error message -->
-    <div *ngIf="store.hasError() && !store.isPermissionDenied()" class="error-message">
+    <div
+        *ngIf="store.hasError() && !store.isPermissionDenied()"
+        class="error-message"
+    >
         <div class="message-card error">
             <h3>⚠️ Error</h3>
             <p>{{ store.error() }}</p>
-            <button (click)="retryLoad()" class="btn-retry">
-                Retry
-            </button>
+            <button (click)="retryLoad()" class="btn-retry">Retry</button>
         </div>
     </div>
 
     <!-- Fallback message when no clusters -->
-    <div *ngIf="!store.loading() && !store.hasClusters() && store.hasBounds()" class="no-data">
+    <div
+        *ngIf="!store.loading() && !store.hasClusters() && store.hasBounds()"
+        class="no-data"
+    >
         <div class="message-card info">
             <h3>📍 No Data</h3>
-            <p>No clusters found in this area. Try moving the map to another location.</p>
+            <p>
+                No clusters found in this area. Try moving the map to another
+                location.
+            </p>
         </div>
     </div>
 
