@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { NewsCategoriesSelectEntity } from '@pages/content-management/domain/entities/news/news-categories-select.entity';
-import { NewsCategoriesSelectItemApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-categories-select-response-api.dto';
 import { NewsCategoriesSelectProps } from '@pages/content-management/domain/interfaces/news/news-categories-select.props.interface';
 import { NewsSubCategoriesSelectProps } from '@pages/content-management/domain/interfaces/news/news-sub-categories-select.props.interface';
+import { NewsCategoriesSelectItemApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-categories-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

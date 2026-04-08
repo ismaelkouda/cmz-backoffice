@@ -1,13 +1,12 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ConfigurationService } from '@core/services/configuration.service';
-import { AuthToken } from '@shared/domain/interfaces/current-user.interface';
-import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
-
 import {
     isInternalUrl,
     isStaticAssetRequest,
-} from './utils/interceptor-request-filter.util';
+} from '@core/interceptors/utils/interceptor-request-filter.util';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { AuthToken } from '@shared/domain/interfaces/current-user.interface';
+import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
@@ -22,10 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     }
 
     const tokenData: AuthToken | null = encodingService.getData('token_data');
-    const token =
-        tokenData?.value ??
-        localStorage.getItem('auth_token') ??
-        sessionStorage.getItem('auth_token');
+    const token = tokenData?.value;
 
     if (!token) {
         return next(req);

@@ -2,19 +2,19 @@ import { inject, Injectable } from '@angular/core';
 import { NewsCreateEntity } from '@pages/content-management/domain/entities/news/news-create.entity';
 import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
 import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
+import { NewsPublishEntity } from '@pages/content-management/domain/entities/news/news-publish.entity';
+import { NewsUnpublishEntity } from '@pages/content-management/domain/entities/news/news-unpublish.entity';
 import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { NewsRepository } from '@pages/content-management/domain/repositories/news/news-repository';
 import { newsCreateMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-create.mapper';
 import { newsDeleteMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-delete.mapper';
 import { newsFilterMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-filter.mapper';
+import { newsPublishMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-publish.mapper';
+import { newsUnpublishMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-unpublish.mapper';
 import { newsUpdateMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-update.mapper';
 import { NewsMapper } from '@pages/content-management/infrastructure/data/mappers/news/news.mapper';
 import { NewsApi } from '@pages/content-management/infrastructure/data/sources/news/news.api';
-import { NewsPublishEntity } from '@pages/content-management/domain/entities/news/news-publish.entity';
-import { NewsUnpublishEntity } from '@pages/content-management/domain/entities/news/news-unpublish.entity';
-import { newsPublishMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-publish.mapper';
-import { newsUnpublishMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-unpublish.mapper';
 import {
     Paginate,
     SimpleResponseDto,

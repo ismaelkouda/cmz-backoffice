@@ -8,5 +8,6 @@ export function detailsRejectMapper(
         uniq_id: entity.uniqId,
         comment: entity.comment,
         reason: entity.reason,
+        callback_type: entity.callbackType,
     };
 }

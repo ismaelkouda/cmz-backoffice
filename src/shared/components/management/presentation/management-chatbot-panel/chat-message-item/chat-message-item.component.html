@@ -1,29 +1,40 @@
 @if (message().showDateSeparator) {
-  <div class="date-separator">
-    <span>{{ message().dateLabel }}</span>
-  </div>
-} @else {
-  <div class="message-wrapper" [class.agent]="message().isAgent">
-    <div class="message-bubble"
-         [class.left]="message().position === 'left'"
-         [class.right]="message().position === 'right'">
-
-      <div class="bubble-content">
-        {{ message().content }}
-      </div>
-
-      <div class="bubble-meta">
-        <span class="timestamp">{{ message().timestampFormatted }}</span>
-        
-        @if (message().isAgent) {
-          <span class="read-status">
-            <i class="pi pi-check" [class.read]="message().isRead"></i>
-            @if (message().isRead) {
-              <i class="pi pi-check-double read"></i>
-            }
-          </span>
-        }
-      </div>
+    <div class="date-separator text-center">
+        <span>{{ message().dateLabel }}</span>
     </div>
-  </div>
+} @else {
+    <div class="message-wrapper" [class.agent]="message().isAgent">
+        <div
+            class="message-bubble"
+            [class.left]="message().position === 'left'"
+            [class.right]="message().position === 'right'"
+        >
+
+            <div class="bubble-name">
+                {{ message().sender }}
+            </div>
+
+            <div class="bubble-content">
+                {{ message().content }}
+            </div>
+
+            <div class="bubble-meta">
+                <span class="timestamp">{{
+                    message().timestampFormatted
+                }}</span>
+
+                @if (message().isAgent) {
+                    <span class="read-status">
+                        <i
+                            class="pi pi-check"
+                            [class.read]="message().isRead"
+                        ></i>
+                        @if (message().isRead) {
+                            <i class="pi pi-check-double read"></i>
+                        }
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
 }

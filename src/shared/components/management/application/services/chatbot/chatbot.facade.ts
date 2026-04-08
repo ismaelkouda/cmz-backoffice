@@ -166,6 +166,7 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
+        console.log('command: ', command);
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
             filter,

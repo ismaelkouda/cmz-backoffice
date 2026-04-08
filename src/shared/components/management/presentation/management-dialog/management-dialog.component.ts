@@ -26,6 +26,8 @@ import { ManagementFormControl } from '@shared/components/management/domain/cont
 import { Motifs } from '@shared/components/management/domain/enums/management-motif.enum';
 import { ManagementStateService } from '@shared/components/management/domain/services/management-state.service';
 import { ManagementValidationService } from '@shared/components/management/domain/services/management-validation.service';
+import { ManagementCallbackComponent } from '@shared/components/management/presentation/management-callback/management-callback.component';
+import { ManagementChatbotPanelComponent } from '@shared/components/management/presentation/management-chatbot-panel/management-chatbot-panel.component';
 import { ManagementHeaderComponent } from '@shared/components/management/presentation/management-header/management-header.component';
 import { ManagementInfoPanelComponent } from '@shared/components/management/presentation/management-info-panel/management-info-panel.component';
 import { ManagementMapComponent } from '@shared/components/management/presentation/management-map/management-map.component';
@@ -45,8 +47,6 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import SweetAlert from 'sweetalert2';
-
-import { ManagementChatbotPanelComponent } from '../management-chatbot-panel/management-chatbot-panel.component';
 
 @Component({
     selector: 'app-management-dialog',
@@ -68,6 +68,7 @@ import { ManagementChatbotPanelComponent } from '../management-chatbot-panel/man
         ManagementMapComponent,
         ManagementInfoPanelComponent,
         ManagementChatbotPanelComponent,
+        ManagementCallbackComponent,
         ManagementTreatmentFormComponent,
         TagModule,
     ],
@@ -109,6 +110,12 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     });
 
     readonly form = this.fb.group<ManagementFormControl>({
+        managementType: new FormControl<string>('', {
+            nonNullable: true,
+        }),
+        callbackType: new FormControl<string>('', {
+            nonNullable: true,
+        }),
         decision: new FormControl<string>('', {
             nonNullable: true,
         }),
@@ -207,6 +214,14 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         }
 
         return true;
+    }
+
+    public setManagementType(managementType: string): void {
+        this.form.patchValue({ managementType });
+        if (managementType === 'edit') {
+            this.form.patchValue({ callbackType: '' });
+        }
+        this.form.get('managementType')?.markAsTouched();
     }
 
     public setDecision(decision: string): void {

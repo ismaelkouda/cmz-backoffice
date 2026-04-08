@@ -16,4 +16,5 @@ export interface TreaterInfoDto {
     abandoned_comment: string | null;
     deny_count: number;
     reason: string | null;
+    callback_type: string | null;
 }

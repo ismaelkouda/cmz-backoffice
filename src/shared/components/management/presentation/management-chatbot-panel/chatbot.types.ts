@@ -1,5 +1,6 @@
 export interface ChatMessageVM {
     id: string;
+    sender: string;
     content: string;
     isAgent: boolean;
     position: 'left' | 'right';

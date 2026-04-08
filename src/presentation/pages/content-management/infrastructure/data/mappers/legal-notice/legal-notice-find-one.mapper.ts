@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { LegalNoticeFindOneEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-find-one.entity';
+import { LegalNoticeFindOneProps } from '@pages/content-management/domain/interfaces/legal-notice/legal-notice-find-one-props.interface';
 import { LegalNoticeFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-find-one-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-status.mapper';
-import { LegalNoticeFindOneProps } from '@pages/content-management/domain/interfaces/legal-notice/legal-notice-find-one-props.interface';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

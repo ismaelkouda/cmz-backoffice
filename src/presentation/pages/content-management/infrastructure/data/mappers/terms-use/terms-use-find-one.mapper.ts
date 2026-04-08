@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { TermsUseFindOneEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-find-one.entity';
+import { TermsUseFindOneProps } from '@pages/content-management/domain/interfaces/terms-use/terms-use-find-one-props.interface';
 import { TermsUseFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-find-one-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/terms-use/terms-use-status.mapper';
-import { TermsUseFindOneProps } from '@pages/content-management/domain/interfaces/terms-use/terms-use-find-one-props.interface';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

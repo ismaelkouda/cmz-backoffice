@@ -2461,6 +2461,7 @@
                     "COMMENT": "Comment",
                     "COMMENT_PLACEHOLDER": "Enter your comment...",
                     "MOTIF": "Reason",
+                    "CALLBACK_TYPE": "Callback type",
                     "MOTIF_PLACEHOLDER": "Enter your comment...",
                     "OPTIONS": {
                         "APPROVE": {
@@ -2474,6 +2475,7 @@
                     },
                     "VALIDATION": {
                         "MOTIF_REQUIRED": "Reason is required",
+                        "CALLBACK_TYPE_REQUIRED": "Callback type is required",
                         "COMMENT_REQUIRED": "A comment is required"
                     }
                 }

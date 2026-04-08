@@ -39,6 +39,7 @@ export class ChatbotPresenter {
             if (currentDateLabel !== lastDateLabel) {
                 result.push({
                     id: `separator-${currentDateLabel}`,
+                    sender: '',
                     content: '',
                     isAgent: false,
                     position: 'left',
@@ -87,11 +88,12 @@ export class ChatbotPresenter {
 
     public mapSingleToVM(entity: ChatbotEntity): ChatMessageVM {
         const isAgent = this.isAgentMessage(entity);
-        const position = isAgent ? 'right' : 'left';
+        const position = isAgent ? 'left' : 'left'; // Tous les messages alignés à gauche pour un affichage centré
         const isRead = this.isMessageRead(entity);
 
         return {
             id: entity.uniqId || '',
+            sender: entity.sender,
             content: this.cleanContent(entity.content),
             isAgent,
             position,
@@ -138,6 +140,7 @@ export class ChatbotPresenter {
             : {
                   day: '2-digit',
                   month: '2-digit',
+                  year: 'numeric',
                   hour: '2-digit',
                   minute: '2-digit',
               };

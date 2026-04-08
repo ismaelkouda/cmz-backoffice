@@ -1,23 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { SlideCreateCommand } from '@pages/content-management/application/commands/slide/slide-create.command';
 import { SlideDeleteCommand } from '@pages/content-management/application/commands/slide/slide-delete.command';
+import { SlideDisableCommand } from '@pages/content-management/application/commands/slide/slide-disable.command';
+import { SlideEnableCommand } from '@pages/content-management/application/commands/slide/slide-enable.command';
 import { SlideUpdateCommand } from '@pages/content-management/application/commands/slide/slide-update.command';
 import { SlideCreateBus } from '@pages/content-management/application/commands-bus/slide/slide-create.bus';
 import { SlideDeleteBus } from '@pages/content-management/application/commands-bus/slide/slide-delete.bus';
+import { SlideDisableBus } from '@pages/content-management/application/commands-bus/slide/slide-disable.bus';
+import { SlideEnableBus } from '@pages/content-management/application/commands-bus/slide/slide-enable.bus';
 import { SlideUpdateBus } from '@pages/content-management/application/commands-bus/slide/slide-update.bus';
 import { SlideCreateDto } from '@pages/content-management/application/dto/slide/slide-create.dto';
 import { SlideDeleteDto } from '@pages/content-management/application/dto/slide/slide-delete.dto';
+import { SlideDisableDto } from '@pages/content-management/application/dto/slide/slide-disable.dto';
+import { SlideEnableDto } from '@pages/content-management/application/dto/slide/slide-enable.dto';
 import { SlideFilterDto } from '@pages/content-management/application/dto/slide/slide-filter.dto';
 import { SlideUpdateDto } from '@pages/content-management/application/dto/slide/slide-update.dto';
 import { SlideQuery } from '@pages/content-management/application/queries/slide/slide.query';
 import { SlideBus } from '@pages/content-management/application/queries-bus/slide/slide.bus';
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
-import { SlideDisableCommand } from '@pages/content-management/application/commands/slide/slide-disable.command';
-import { SlideEnableCommand } from '@pages/content-management/application/commands/slide/slide-enable.command';
-import { SlideDisableBus } from '@pages/content-management/application/commands-bus/slide/slide-disable.bus';
-import { SlideEnableBus } from '@pages/content-management/application/commands-bus/slide/slide-enable.bus';
-import { SlideDisableDto } from '@pages/content-management/application/dto/slide/slide-disable.dto';
-import { SlideEnableDto } from '@pages/content-management/application/dto/slide/slide-enable.dto';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
     handleObservableWithFeedback,

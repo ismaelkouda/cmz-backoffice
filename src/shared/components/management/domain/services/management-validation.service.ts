@@ -15,15 +15,20 @@ export class ManagementValidationService {
         const commentControl = form.get('comment');
         const decisionControl = form.get('decision');
         const reasonControl = form.get('reason');
+        const managementTypeControl = form.get('managementType');
+        const callbackTypeControl = form.get('callbackType');
 
         commentControl?.clearValidators();
         decisionControl?.clearValidators();
         reasonControl?.clearValidators();
+        managementTypeControl?.clearValidators();
+        callbackTypeControl?.clearValidators();
 
         switch (context) {
             case 'requests':
                 if (item?.canBeApproved) {
                     decisionControl?.setValidators([Validators.required]);
+                    managementTypeControl?.setValidators([Validators.required]);
                     this.setupConditionalValidation(form);
                 }
                 break;
@@ -44,6 +49,8 @@ export class ManagementValidationService {
         commentControl?.updateValueAndValidity();
         decisionControl?.updateValueAndValidity();
         reasonControl?.updateValueAndValidity();
+        managementTypeControl?.updateValueAndValidity();
+        callbackTypeControl?.updateValueAndValidity();
     }
 
     private setupConditionalValidation(
@@ -52,6 +59,8 @@ export class ManagementValidationService {
         const decisionControl = form.get('decision');
         const reasonControl = form.get('reason');
         const commentControl = form.get('comment');
+        const managementTypeControl = form.get('managementType');
+        const callbackTypeControl = form.get('callbackType');
 
         decisionControl?.valueChanges.subscribe((decision) => {
             if (decision === 'rejected') {
@@ -61,9 +70,17 @@ export class ManagementValidationService {
                 reasonControl?.clearValidators();
                 commentControl?.clearValidators();
             }
-
             reasonControl?.updateValueAndValidity();
             commentControl?.updateValueAndValidity();
+        });
+
+        managementTypeControl?.valueChanges.subscribe((managementType) => {
+            if (managementType === 'callback') {
+                callbackTypeControl?.setValidators([Validators.required]);
+            } else {
+                callbackTypeControl?.clearValidators();
+            }
+            callbackTypeControl?.updateValueAndValidity();
         });
     }
 

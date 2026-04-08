@@ -67,7 +67,6 @@ export class ChatbotStore {
 
     readonly hasNextPage = this._hasNextPage.asReadonly();
 
-    // ── Effects ───────────────────────────────────────────────────
     private lastSuccessCount = 0;
 
     private readonly syncEffect = effect(() => {
@@ -111,7 +110,6 @@ export class ChatbotStore {
             this.lastSuccessCount = currentSuccess;
             this._draftMessage.set('');
             this._sending.set(false);
-            this.refresh();
         }
     });
 
@@ -133,7 +131,7 @@ export class ChatbotStore {
             search: uniqId,
         };
 
-        this.facade.readAll(filter, page.toString(), page === 1);
+        this.facade.readAll(filter, page.toString(), true);
     }
 
     public loadNextPage(): void {

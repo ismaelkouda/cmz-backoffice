@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
+import { TermsUseProps } from '@pages/content-management/domain/interfaces/terms-use/terms-use-props.interface';
 import { TermsUseItemApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/terms-use/terms-use-status.mapper';
-import { TermsUseProps } from '@pages/content-management/domain/interfaces/terms-use/terms-use-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

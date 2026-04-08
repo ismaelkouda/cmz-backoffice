@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { QueuesFacade } from '@pages/finalization/application/services/queues/queues.facade';
 import { QueuesFilterDto } from '@pages/finalization/application/dto/queues/queues-filter.dto';
+import { QueuesFacade } from '@pages/finalization/application/services/queues/queues.facade';
 import { QueuesFilterControl } from '@pages/finalization/presentation/store/queues/queues-filter-control';
 
 @Injectable()

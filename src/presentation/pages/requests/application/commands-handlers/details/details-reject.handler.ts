@@ -15,6 +15,7 @@ export class DetailsRejectHandler {
             uniqId: command.uniqId,
             comment: command.comment,
             reason: command.reason,
+            callbackType: command.callbackType,
         });
     }
 }

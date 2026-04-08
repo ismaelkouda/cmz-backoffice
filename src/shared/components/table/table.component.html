@@ -83,10 +83,7 @@
             [pReorderableRow]="rowIndex"
             [pSelectableRow]="rowData"
         >
-            @for (
-                col of columns;
-                track col.field
-            ) {
+            @for (col of columns; track col.field) {
                 <td [class]="col.class">
                     @if (col.field === '__selection') {
                         <p-tableCheckbox [value]="rowData" />
@@ -237,8 +234,7 @@
                                     <p-tag
                                         [value]="rowData.statusLabel"
                                         [severity]="
-                                            rowData.statusStyle
-                                                | translate
+                                            rowData.statusStyle | translate
                                         "
                                     />
                                 </div>
@@ -250,12 +246,24 @@
                             }
                             @case ('sourceLabel') {
                                 <div class="source-type-content">
-                                    <span>{{ rowData.sourceLabel}}</span>
-                                    <span class="copyable"
-                                        pTooltip="{{ 'COMMON.COPY' | translate }}"
-                                        (click)="copyToClipboard(rowData.initiatorPhoneNumber)"
-                                        (keypress)="copyToClipboard(rowData.initiatorPhoneNumber)"
-                                        tooltipPosition="bottom">
+                                    <span>{{ rowData.sourceLabel }}</span>
+                                    <span
+                                        class="copyable"
+                                        pTooltip="{{
+                                            'COMMON.COPY' | translate
+                                        }}"
+                                        (click)="
+                                            copyToClipboard(
+                                                rowData.initiatorPhoneNumber
+                                            )
+                                        "
+                                        (keypress)="
+                                            copyToClipboard(
+                                                rowData.initiatorPhoneNumber
+                                            )
+                                        "
+                                        tooltipPosition="bottom"
+                                    >
                                         [ {{ rowData.initiatorPhoneNumber }} ]
                                     </span>
                                 </div>

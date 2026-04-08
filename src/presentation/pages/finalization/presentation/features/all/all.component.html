@@ -58,7 +58,7 @@
     @if (reportTreatmentVisible()) {
         <app-management-dialog
             [visible]="reportTreatmentVisible()"
-            [uniqId]="selectedReportId"             
+            [uniqId]="selectedReportId"
             [type]="selectedManagementType()"
             (visibleChange)="onVisibleChange($event)"
         ></app-management-dialog>

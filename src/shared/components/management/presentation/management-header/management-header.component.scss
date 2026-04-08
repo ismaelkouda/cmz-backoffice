@@ -1486,7 +1486,7 @@ textarea {
     white-space: nowrap;
 }
 
-.decision-label {
+.decision-label, .management-type {
     display: block;
     font-size: 0.875rem;
     font-weight: 600;
@@ -1494,7 +1494,7 @@ textarea {
     margin-bottom: 0.75rem;
 }
 
-.motif-select {
+.motif-select, .callback-type {
     width: 100%;
 }
 
@@ -2202,7 +2202,7 @@ button:focus-visible,
             margin-bottom: 1.5rem;
         }
 
-        .decision-options-skeleton {
+        .decision-options-skeleton, .callback-type {
             margin-bottom: 2rem;
 
             .radio-options-skeleton {

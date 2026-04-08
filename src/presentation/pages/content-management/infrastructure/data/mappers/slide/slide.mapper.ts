@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
+import { SlideProps } from '@pages/content-management/domain/interfaces/slide/slide-props.interface';
 import { SlideItemApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-status.mapper';
-import { SlideProps } from '@pages/content-management/domain/interfaces/slide/slide-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';

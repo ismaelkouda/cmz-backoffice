@@ -1,12 +1,11 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ConfigurationService } from '@core/services/configuration.service';
-import { of, shareReplay, tap } from 'rxjs';
-
 import {
     isInternalUrl,
     isStaticAssetRequest,
-} from './utils/interceptor-request-filter.util';
+} from '@core/interceptors/utils/interceptor-request-filter.util';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { of, shareReplay, tap } from 'rxjs';
 
 interface CacheEntry {
     response: HttpResponse<any>;

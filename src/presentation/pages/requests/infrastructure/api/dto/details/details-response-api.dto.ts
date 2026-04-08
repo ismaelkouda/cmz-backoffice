@@ -47,6 +47,7 @@ export interface DetailsItemApiDto {
     abandoned_at: string | null;
     acknowledged_at: string | null;
     reason: string | null;
+    callback_type: string | null;
     status: ApiStatus;
     qualification_state: QualificationStateDto | null;
     processing_state: ProcessingStateDto | null;
