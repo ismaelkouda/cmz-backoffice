@@ -80,6 +80,32 @@ export class ManagementCallbackComponent {
         onCleanup(() => sub.unsubscribe());
     });
 
+    private readonly callbackTypeStateEffect = effect(() => {
+        const form = this.form();
+        const managementType = this.managementType();
+
+        if (!form) {
+            return;
+        }
+
+        const callbackTypeControl = form.get('callbackType');
+        callbackTypeControl?.disable({ emitEvent: false });
+        if (!callbackTypeControl) {
+            return;
+        }
+
+        if (managementType === 'edit') {
+            callbackTypeControl.setValue(null, { emitEvent: false });
+            callbackTypeControl.clearValidators();
+            callbackTypeControl.disable({ emitEvent: false });
+        } else if (managementType === 'callback') {
+            callbackTypeControl.enable({ emitEvent: false });
+            callbackTypeControl.setValidators([Validators.required]);
+        }
+
+        callbackTypeControl.updateValueAndValidity({ emitEvent: false });
+    });
+
     protected readonly formErrors = computed((): Record<string, string[]> => {
         const form = this.form();
         const errors: Record<string, string[]> = {};
@@ -133,31 +159,6 @@ export class ManagementCallbackComponent {
 
         return 'Champ invalide';
     }
-
-    private readonly callbackTypeStateEffect = effect(() => {
-        const form = this.form();
-        const managementType = this.managementType();
-
-        if (!form) {
-            return;
-        }
-
-        const callbackTypeControl = form.get('callbackType');
-        if (!callbackTypeControl) {
-            return;
-        }
-
-        if (managementType === 'edit') {
-            callbackTypeControl.setValue(null, { emitEvent: false });
-            callbackTypeControl.clearValidators();
-            callbackTypeControl.disable({ emitEvent: false });
-        } else if (managementType === 'callback') {
-            callbackTypeControl.enable({ emitEvent: false });
-            callbackTypeControl.setValidators([Validators.required]);
-        }
-
-        callbackTypeControl.updateValueAndValidity({ emitEvent: false });
-    });
 
     protected isManagementType(value: 'edit' | 'callback'): boolean {
         return this.form()?.get('managementType')?.value === value;

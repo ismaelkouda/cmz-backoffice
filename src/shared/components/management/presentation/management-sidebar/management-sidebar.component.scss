@@ -1873,64 +1873,6 @@ button:focus-visible,
     }
 }
 
-//kouda
-/* Container principal du formulaire de traitement */
-.treatment-form-container {
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-    overflow: hidden;
-}
-
-.treatment-form-expanded {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.treatment-form-collapsed {
-    max-height: 60px;
-}
-
-.treatment-form-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    background: linear-gradient(90deg, #d4edda, #c8e6c9);
-    border-bottom: 1px solid #e9ecef;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-/* .treatment-form-header:hover {
-    background: #e9ecef;
-} */
-
-.treatment-form-toggle {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.treatment-form-toggle i {
-    font-size: 1.1rem;
-    color: #6c757d;
-    transition: transform 0.3s ease;
-}
-
-.toggle-label {
-    font-weight: 600;
-    color: #495057;
-}
-
-.treatment-form-status .status-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
 .status-required {
     background: #fff3cd;
     color: #856404;

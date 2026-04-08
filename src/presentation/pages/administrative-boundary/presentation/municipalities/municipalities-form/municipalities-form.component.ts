@@ -3,7 +3,6 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
-    DestroyRef,
     effect,
     inject,
     signal,
@@ -70,7 +69,6 @@ export class MunicipalitiesFormComponent {
     private readonly regionsFacade = inject(RegionsSelectFacade);
     private readonly facade = inject(MunicipalitiesFindOneFacade);
     private readonly translate = inject(TranslateService);
-    private readonly destroyRef = inject(DestroyRef);
     private readonly validationService = inject(FormValidationService);
     private readonly helperService = inject(MunicipalitiesFormHelperService);
     public readonly VALIDATION = FormValidators;

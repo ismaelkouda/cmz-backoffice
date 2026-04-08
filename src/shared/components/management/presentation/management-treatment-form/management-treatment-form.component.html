@@ -31,7 +31,7 @@
             <div class="treatment-form-content">
                 <div class="treatment-form-body">
                     <div class="action-section">
-                        <form [formGroup]="form()" class="decision-form-row">
+                        <form [formGroup]="store.form" class="decision-form-row">
                             <div class="row">
                                 @if (showApprovalSection()) {
                                     <div class="col-md-4">
@@ -177,42 +177,24 @@
 
                                     <!-- @if (shouldShowReasonField()) { -->
                                     <div class="col-md-3">
-                                        <label
-                                            class="decision-label"
-                                            for="reason"
-                                        >
-                                            {{
-                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
-                                                    | translate
-                                            }}
-                                        </label>
-                                        <p-select
-                                            id="reason"
-                                            class="form-p-select"
-                                            formControlName="reason"
-                                            [options]="motifOptions()"
-                                            optionLabel="label"
-                                            optionValue="value"
-                                            [placeholder]="
-                                                'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
-                                                    | translate
-                                            "
-                                            [emptyMessage]="
-                                                'COMMON.SELECT_EMPTY_MESSAGE'
-                                                    | translate
-                                            "
-                                            [emptyFilterMessage]="
-                                                'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
-                                                    | translate
-                                            "
-                                            [showClear]="true"
-                                            styleClass="w-100"
-                                            appendTo="body"
-                                            [ngClass]="{
-                                                'ng-invalid ng-dirty':
-                                                    isFieldInvalid('reason'),
-                                            }"
-                                        />
+                                            <label class="decision-label" for="reason">
+                                                {{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF' | translate }}
+                                            </label>
+                                            <p-select
+                                                id="reason"
+                                                class="form-p-select"
+                                                formControlName="reason"
+                                                [options]="motifOptions()"
+                                                optionLabel="label"
+                                                optionValue="value"
+                                                [placeholder]="'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF' | translate"
+                                                [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                                                [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                                appendTo="body"
+                                                [ngClass]="{ 'ng-invalid ng-dirty': isFieldInvalid('reason') }"
+                                            />
                                         <!-- @if (isFieldInvalid('reason')) {
                                             <div
                                                 class="validation-error"
@@ -228,48 +210,18 @@
                                     <!-- } -->
                                 }
 
-                                <div
-                                    class="col-md"
-                                    [class.col-md-12]="!showApprovalSection()"
-                                    [class.col-md-5]="
-                                        showApprovalSection() &&
-                                        shouldShowReasonField()
-                                    "
-                                    [class.col-md-5]="
-                                        showApprovalSection() &&
-                                        !shouldShowReasonField()
-                                    "
-                                >
+                                <div class="col-md" [class.col-md-12]="!showApprovalSection()"
+                                        [class.col-md-5]="showApprovalSection() && shouldShowReasonField()">
                                     <label class="comment-label" for="comment">
-                                        {{
-                                            'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
-                                                | translate
-                                        }}
+                                        {{ 'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT' | translate }}
                                     </label>
-                                    <textarea
-                                        id="comment"
-                                        pTextarea
-                                        class="comment-textarea w-100"
-                                        formControlName="comment"
-                                        [placeholder]="
-                                            'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT_PLACEHOLDER'
-                                                | translate
-                                        "
-                                        [rows]="2"
-                                        [ngClass]="{
-                                            'ng-invalid ng-dirty':
-                                                isFieldInvalid('comment'),
-                                        }"
-                                    ></textarea>
+                                    <textarea id="comment" pTextarea class="comment-textarea w-100"
+                                                formControlName="comment" [rows]="2"
+                                                [ngClass]="{ 'ng-invalid ng-dirty': isFieldInvalid('comment') }">
+                                    </textarea>
                                     @if (isFieldInvalid('comment')) {
-                                        <div
-                                            class="validation-error"
-                                            role="alert"
-                                        >
-                                            {{
-                                                getCommentValidationMessage()
-                                                    | translate
-                                            }}
+                                        <div class="validation-error" role="alert">
+                                        {{ getCommentValidationMessage() | translate }}
                                         </div>
                                     }
                                 </div>
@@ -293,7 +245,7 @@
                                     class="treatment-btn treatment-btn-primary"
                                     type="button"
                                     (click)="submitForm.emit()"
-                                    [disabled]="submitting() || form()?.invalid"
+                                    [disabled]="submitting() || !store.isFormValid()"
                                 >
                                     @if (!submitting()) {
                                         <i class="pi pi-check"></i>
