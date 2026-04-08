@@ -1160,7 +1160,7 @@ textarea {
     white-space: nowrap;
 }
 
-.management-type-label {
+.decision-label {
     display: block;
     font-size: 0.875rem;
     font-weight: 600;
@@ -1185,6 +1185,7 @@ textarea {
     gap: 1rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    background: white;
 
     &:hover {
         border-color: #d1d5db;
@@ -1198,8 +1199,11 @@ textarea {
     align-items: center;
     gap: 1rem;
     padding: 13px !important;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
+    background: white;
 
     &:hover {
         border-color: #d1d5db;
@@ -1857,7 +1861,7 @@ button:focus-visible,
             margin-bottom: 1.5rem;
         }
 
-        .management-type-options-skeleton {
+        .decision-options-skeleton {
             margin-bottom: 2rem;
 
             .radio-options-skeleton {

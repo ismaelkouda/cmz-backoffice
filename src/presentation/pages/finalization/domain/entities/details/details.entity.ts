@@ -10,6 +10,7 @@ import { DetailsPermissions } from '@pages/finalization/domain/types/details/det
 import { DetailsTreaterInfo } from '@pages/finalization/domain/types/details/details-treater-info.type';
 import { managementWorkflowTimestamps } from '@shared/components/management/domain/functions/management-timestamps.function';
 import { ManagementTimestamp } from '@shared/components/management/domain/interfaces/management-timestamps.interface';
+import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 import { ActorEntity } from '@shared/domain/entities/actor.entity';
 import { AdministrativeBoundaryEntity } from '@shared/domain/entities/administrative-boundary.entity';
 import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
@@ -78,8 +79,16 @@ export class DetailsEntity {
         return this.props.reportType;
     }
 
+    get reportTypeKey(): string {
+        return this.props.reportTypeKey;
+    }
+
     get operators(): TelecomOperator[] {
         return this.props.operators;
+    }
+
+    get operatorsKey(): TelecomOperatorDto[] {
+        return this.props.operatorsKey;
     }
 
     get description(): string {

@@ -75,11 +75,13 @@ export class DetailsMapper extends SimpleResponseMapper<
             source: this.reportSourceMapper.mapToEnum(dto.source),
             location: this.locationMapper.mapToEntity(dto),
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
+            reportTypeKey: dto.report_type,
             operators: this.utils.memoizedList(
                 dto.operators,
                 (op) => this.telecomOperatorMapper.mapToEnum(op),
                 (op) => `telecom:${op}`
             ),
+            operatorsKey: dto.operators,
             description: dto.description,
             media: this.reportMediaMapper.mapToEntity(dto),
             treater: this.treaterInfoMapper.mapToEntity(dto),

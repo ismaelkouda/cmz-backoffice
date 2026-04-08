@@ -109,27 +109,19 @@
 
             <div class="tab-content-area">
                 @if (selectedTabIndex === 0) {
-
-
-                    @if (items()?.canBeApproved || items()?.canBeFinalized) {
-                        <app-management-callback
-                            [form]="form"
-                            [loading]="loading()"
-                            [expanded]="isTreatmentFormExpanded"
-                            [submitting]="submitting()"
-                            [submitLabel]="items()?.labelButtonSubmit ?? ''"
-                            [showApprovalSection]="items()?.canBeApproved ?? false"
-                            [callbackTypeOptions]="motifOptions()"
-                            (cancelForm)="closeTreatmentForm()"
-                            (submitForm)="onValidReportTreatment()"
-                            (decisionChange)="setDecision($event)"
-                            (managementTypeChange)="setManagementType($event)"
-                        />
-                    }
                     <app-management-info-panel
                         [item]="items()"
                         [loading]="loading()"
-                        (copy)="copyToClipboard($event)"
+                        (copyClicked)="copyToClipboard($event)"
+                        [loading]="loading()"
+                        [submitting]="submitting()"
+                        [submitLabel]="items()?.labelButtonSubmit ?? ''"
+                        [callbackTypeOptions]="callbackTypesOptions()"
+                        [reportTypeOptions]="reportTypeOptions()"
+                        [telecomOperatorsOptions]="telecomOperatorsOptions()"
+                        (cancelForm)="closeTreatmentForm()"
+                        (submitForm)="onValidReportTreatment()"
+                        (managementTypeChange)="setManagementType($event)"
                     />
                 }
 
@@ -161,7 +153,6 @@
 
             @if (items()?.canBeApproved || items()?.canBeFinalized) {
                 <app-management-treatment-form
-                    [form]="form"
                     [loading]="loading()"
                     [expanded]="isTreatmentFormExpanded"
                     [submitting]="submitting()"
@@ -171,7 +162,6 @@
                     (cancelForm)="closeTreatmentForm()"
                     (submitForm)="onValidReportTreatment()"
                     (decisionChange)="setDecision($event)"
-                    (managementTypeChange)="setManagementType($event)"
                 />
             }
         </main>

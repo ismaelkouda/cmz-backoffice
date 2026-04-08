@@ -12,7 +12,7 @@ import {
     signal,
     Signal,
 } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DetailsEntity as FinalizationEntity } from '@pages/finalization/domain/entities/details/details.entity';
 import { DetailsEntity as ProcessingEntity } from '@pages/processing/domain/entities/details/details.entity';
@@ -22,11 +22,9 @@ import {
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { TABS } from '@shared/components/management/domain/constants/management-tabs.contant';
-import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { Motifs } from '@shared/components/management/domain/enums/management-motif.enum';
 import { ManagementStateService } from '@shared/components/management/domain/services/management-state.service';
 import { ManagementValidationService } from '@shared/components/management/domain/services/management-validation.service';
-import { ManagementCallbackComponent } from '@shared/components/management/presentation/management-callback/management-callback.component';
 import { ManagementChatbotPanelComponent } from '@shared/components/management/presentation/management-chatbot-panel/management-chatbot-panel.component';
 import { ManagementHeaderComponent } from '@shared/components/management/presentation/management-header/management-header.component';
 import { ManagementInfoPanelComponent } from '@shared/components/management/presentation/management-info-panel/management-info-panel.component';
@@ -35,6 +33,8 @@ import { ManagementPhotosPanelComponent } from '@shared/components/management/pr
 import { ManagementSidebarComponent } from '@shared/components/management/presentation/management-sidebar/management-sidebar.component';
 import { ManagementTreatmentFormComponent } from '@shared/components/management/presentation/management-treatment-form/management-treatment-form.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 import { ClipboardService } from 'ngx-clipboard';
@@ -47,6 +47,9 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import SweetAlert from 'sweetalert2';
+
+import { CallbackTypes } from '../../domain/enums/management-callback.enum';
+import { ManagementFormStore } from '../store/management-form.store';
 
 @Component({
     selector: 'app-management-dialog',
@@ -68,7 +71,6 @@ import SweetAlert from 'sweetalert2';
         ManagementMapComponent,
         ManagementInfoPanelComponent,
         ManagementChatbotPanelComponent,
-        ManagementCallbackComponent,
         ManagementTreatmentFormComponent,
         TagModule,
     ],
@@ -76,15 +78,16 @@ import SweetAlert from 'sweetalert2';
         MessageService,
         ManagementValidationService,
         ManagementStateService,
+        ManagementFormStore,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementDialogComponent implements OnInit, OnDestroy {
+    private readonly store = inject(ManagementFormStore);
     private readonly toastService = inject(ToastrService);
     private readonly translate = inject(TranslateService);
     private readonly validationService = inject(ManagementValidationService);
     private readonly stateService = inject(ManagementStateService);
-    private readonly fb = inject(FormBuilder);
     private readonly clipboardService = inject(ClipboardService);
     public readonly visible = input.required<boolean>();
     public readonly uniqId = input.required<string>();
@@ -95,6 +98,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     public selectedTabIndex = 0;
     public isTreatmentFormExpanded = true;
     public readonly TABS = TABS;
+    public readonly form = this.store.form;
     public readonly items = this.stateService.items;
     public readonly loading = this.stateService.loading;
     public readonly actionState = this.stateService.actionState;
@@ -109,22 +113,28 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         return enumToFilterOptions(Motifs, this.t.bind(this), 'toUpperCase');
     });
 
-    readonly form = this.fb.group<ManagementFormControl>({
-        managementType: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        callbackType: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        decision: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        comment: new FormControl<string>('', {
-            nonNullable: true,
-        }),
-        reason: new FormControl<string>('', {
-            nonNullable: true,
-        }),
+    readonly callbackTypesOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptions(
+            CallbackTypes,
+            this.t.bind(this),
+            'toUpperCase'
+        );
+    });
+    readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptions(ReportType, this.t.bind(this));
+    });
+    readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptions(TelecomOperator, this.t.bind(this));
+    });
+
+    private readonly storeEffect = effect(() => {
+        const item = this.items();
+        if (item && this.uniqId()) {
+            this.store.setItem(item);
+        }
     });
 
     private readonly validationEffect = effect(() => {
@@ -217,19 +227,13 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     }
 
     public setManagementType(managementType: string): void {
-        this.form.patchValue({ managementType });
-        if (managementType === 'edit') {
-            this.form.patchValue({ callbackType: '' });
-        }
-        this.form.get('managementType')?.markAsTouched();
+        this.store.setManagementType(
+            managementType as 'edit' | 'callback' | 'details'
+        );
     }
 
     public setDecision(decision: string): void {
-        this.form.patchValue({ decision });
-        if (decision === 'accepted') {
-            this.form.patchValue({ reason: '' });
-        }
-        this.form.get('decision')?.markAsTouched();
+        this.store.setDecision(decision as 'accepted' | 'rejected');
     }
 
     public selectTab(index: number): void {

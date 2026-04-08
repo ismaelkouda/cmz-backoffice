@@ -2497,6 +2497,10 @@
                     "CALLBACK_TYPE": "Type de rappel",
                     "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
                     "OPTIONS": {
+                        "DETAILS": {
+                            "LABEL": "Infos",
+                            "DESCRIPTION": "Voir les détails du signalement"
+                        },
                         "CALLBACK": {
                             "LABEL": "Callback",
                             "DESCRIPTION": "Faire un rappel sur le signalement"

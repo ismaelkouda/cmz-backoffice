@@ -2,6 +2,8 @@ import { ProcessingState } from '@pages/processing/domain/enums/details/details-
 import { State } from '@pages/processing/domain/enums/details/details-state/details-state.enum';
 import { DetailsStatus } from '@pages/processing/domain/enums/details/details-status/details-status.enum';
 import { DetailsTreaterInfo } from '@pages/processing/domain/types/details/details-treater-info.type';
+import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
+import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 import { ActorEntity } from '@shared/domain/entities/actor.entity';
 import { AdministrativeBoundaryEntity } from '@shared/domain/entities/administrative-boundary.entity';
 import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
@@ -27,7 +29,9 @@ export interface DetailsProps {
     source: ReportSource;
     location: ReportLocationEntity;
     reportType: ReportType;
+    reportTypeKey: ReportTypeDto;
     operators: TelecomOperator[];
+    operatorsKey: TelecomOperatorDto[];
     description: string;
     media: ReportMediaEntity | null;
     treater: DetailsTreaterInfo;
