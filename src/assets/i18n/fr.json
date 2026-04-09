@@ -36,6 +36,10 @@
         "CRITICAL": "CRITIQUE",
         "GPS": "GPS",
         "WHAT3WORDS": "What3Words",
+        "RESIDENCE_PLACE": "Lieu d'habitation",
+        "ACTIVITY_PLACE": "Lieu d'activité",
+        "TRANSIT_PLACE": "Lieu de passage",
+        "PLACE_NOT_PROVIDED": "Lieu non fourni",
         "WEB": "Web",
         "WEB_STYLE": "info",
         "APP": "Appli Mobile",
@@ -2404,7 +2408,8 @@
                     "TITLE": "Informations de l'initiateur",
                     "LAST_NAME": "Nom",
                     "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contact"
+                    "PHONE": "Contact",
+                    "EMAIL": "Email"
                 },
                 "APPROVER": {
                     "TITLE": "Informations de l'approbateur",
@@ -2440,7 +2445,7 @@
                     "INFORMATION": "Informations",
                     "IMAGES": "Photos",
                     "GEOGRAPHIC_VIEW": "Vue géographique",
-                    "CHATBOT": "Complement d'information",
+                    "CHATBOT": "Messagerie",
                     "TREATMENT_LOGS": "Journal de traitement"
                 },
                 "SECTIONS": {
@@ -2498,7 +2503,7 @@
                     "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
                     "OPTIONS": {
                         "DETAILS": {
-                            "LABEL": "Infos",
+                            "LABEL": "Visualisation",
                             "DESCRIPTION": "Voir les détails du signalement"
                         },
                         "CALLBACK": {
@@ -2518,112 +2523,112 @@
                 }
             },
             "FORM": {
-            "READ_ONLY": "Lecture seule",
-            "NOT_SPECIFIED": "Non spécifié",
-            "NO_DESCRIPTION": "Aucune description fournie",
-            "STATUS": {
-                "INVALID": "Inalide",
-            "VALID": "Valide"
-            },
-            "REPORT_INFO": {
-                "TITLE": "Information du signalement",
-                "TRANSMISSION_CHANNEL": "Canal Emission",
-                "GEOLOCATION_SYSTEM": "Système Géolocalisation",
-                "OPERATORS": "Opérateurs concernés",
-                "DATE_TIME_ENTRY": "Date Heure saisie",
-                "DATE_TIME_RECEIPT": "Date Heure réception",
-                "NUMBER_OF_ACTIONS": "Nombre d'actions menées",
-                "REGION": "Région",
-                "DEPARTMENT": "Département",
-                "COMMUNE": "Commune/Sous-préfecture",
-                "TYPE": "Types de signalements",
-                "STATUS": "Statut",
-                "DESCRIPTION": "Description du signalement",
-                "COMMENT_APPROVER": "Commentaire de l'approbateur",
-                "COMMENT_REJECT": "Commentaire du refuseur",
-                "NO_COMMENT_APPROVER": "Aucun commentaire de l'approbateur fourni",
-                "COMMENT_TREATMENT": "Commentaire du traitent",
-                "COMMENT_FINALIZATION": "Commentaire du finalisateur",
-                "NO_COMMENT_FINALIZATION": "Aucun commentaire du finalisateur fourni",
-                "NO_COMMENT_TREATMENT": "Aucun commentaire du traitent fourni",
-                "COMMENT_TREAT": "Commentaire du traitement",
-                "LOCATION_NAME": "Lien avec la zone",
-                "NO_DESCRIPTION": "Aucune description de localisation fournie"
-            },
-            "LOCATION_INFO": {
-                "TITLE": "Informations de la localisation",
-                "COORDINATES": "Coordonnées",
-                "LOCATION_METHOD": "Lecture Coordonnées",
-                "LONGITUDE": "Longitude",
-                "LATITUDE": "Latitude",
-                "PLACE_DESCRIPTION": "Description de l'endroit",
-                "NO_DESCRIPTION": "Aucune description de localisation fournie"
-            },
-            "PICTURES_INFO": {
-                "TITLE": "Description de l'endroit"
-            },
-            "PICTURES": {
-                "TITLE": "Photos",
-                "ACCESS_ROAD": "Voie d'accès",
-                "OBSERVATION_POINT": "Point d'observation",
-                "NO_DATA": "Aucune photo disponible."
-            },
-
-            "FIELDS": {
-                "REPORT_ID": "ID Signalement",
-                "SOURCE": "Source",
-                "INITIATOR": "Initiateur",
-                "OPERATORS": "Opérateurs concernés",
-                "LOCATION_NAME": "Nom du lieu",
-                "LOCATION_METHOD": "Méthode",
-                "LOCATION_TYPE": "Type localisation",
-                "REGION": "Région",
-                "DEPARTMENT": "Département",
-                "COMMUNE": "Commune/Sous-préfecture"
-            },
-            "VALUES": {
-                "SOURCE": {
-                "APP": "Application Mobile",
-                "WEB": "Site Web",
-                "ADMIN": "Administration"
-                },
-                "REPORT_TYPE": {
-                "ABI": "Absence d'Internet",
-                "ZOB": "Zone Blanche",
-                "CPS": "Couverture Partielle Signal",
-                "CPO": "Couverture Partielle Operateur",
-                "OTHER": "Autre"
-                },
+                "READ_ONLY": "Lecture seule",
+                "NOT_SPECIFIED": "Non spécifié",
+                "NO_DESCRIPTION": "Aucune description fournie",
                 "STATUS": {
-                "PENDING": "En attente",
-                "APPROVED": "Approuvé",
-                "REJECTED": "Rejeté",
-                "ABANDONED": "Abandonné",
-                "CONFIRM": "Confirmer",
-                "TERMINATED": "Terminé",
-                "RECEIVED": "Reçu",
-                "IN_PROGRESS": "En cours",
-                "SUBMISSION": "Soumission",
-                "PROCESSING": "Traitement"
+                    "INVALID": "Inalide",
+                "VALID": "Valide"
                 },
-                "OPERATORS": {
-                "MTN": "MTN",
-                "ORANGE": "Orange",
-                "MOOV": "Moov"
+                "REPORT_INFO": {
+                    "TITLE": "Information du signalement",
+                    "TRANSMISSION_CHANNEL": "Canal Emission",
+                    "GEOLOCATION_SYSTEM": "Système Géolocalisation",
+                    "OPERATORS": "Opérateurs concernés",
+                    "DATE_TIME_ENTRY": "Date Heure saisie",
+                    "DATE_TIME_RECEIPT": "Date Heure réception",
+                    "NUMBER_OF_ACTIONS": "Nombre d'actions menées",
+                    "REGION": "Région",
+                    "DEPARTMENT": "Département",
+                    "COMMUNE": "Commune/Sous-préfecture",
+                    "TYPE": "Types de signalements",
+                    "STATUS": "Statut",
+                    "DESCRIPTION": "Description du signalement",
+                    "COMMENT_APPROVER": "Commentaire de l'approbateur",
+                    "COMMENT_REJECT": "Commentaire du refuseur",
+                    "NO_COMMENT_APPROVER": "Aucun commentaire de l'approbateur fourni",
+                    "COMMENT_TREATMENT": "Commentaire du traitent",
+                    "COMMENT_FINALIZATION": "Commentaire du finalisateur",
+                    "NO_COMMENT_FINALIZATION": "Aucun commentaire du finalisateur fourni",
+                    "NO_COMMENT_TREATMENT": "Aucun commentaire du traitent fourni",
+                    "COMMENT_TREAT": "Commentaire du traitement",
+                    "LOCATION_NAME": "Lien avec la zone",
+                    "NO_DESCRIPTION": "Aucune description fournie"
                 },
-                "LOCATION": {
-                "METHOD_AUTO": "Automatique",
-                "METHOD_MANUAL": "Manuel",
-                "TYPE_GPS": "GPS",
-                "TYPE_NETWORK": "Réseau",
-                "TYPE_MANUAL": "Manuel"
+                "LOCATION_INFO": {
+                    "TITLE": "Informations de la localisation",
+                    "COORDINATES": "Coordonnées",
+                    "LOCATION_METHOD": "Lecture Coordonnées",
+                    "LONGITUDE": "Longitude",
+                    "LATITUDE": "Latitude",
+                    "PLACE_DESCRIPTION": "Description de l'endroit",
+                    "NO_DESCRIPTION": "Aucune description de localisation fournie"
+                },
+                "PICTURES_INFO": {
+                    "TITLE": "Description de l'endroit"
+                },
+                "PICTURES": {
+                    "TITLE": "Photos",
+                    "ACCESS_ROAD": "Voie d'accès",
+                    "OBSERVATION_POINT": "Point d'observation",
+                    "NO_DATA": "Aucune photo disponible."
+                },
+
+                "FIELDS": {
+                    "REPORT_ID": "ID Signalement",
+                    "SOURCE": "Source",
+                    "INITIATOR": "Initiateur",
+                    "OPERATORS": "Opérateurs concernés",
+                    "LOCATION_NAME": "Nom du lieu",
+                    "LOCATION_METHOD": "Méthode",
+                    "LOCATION_TYPE": "Type localisation",
+                    "REGION": "Région",
+                    "DEPARTMENT": "Département",
+                    "COMMUNE": "Commune/Sous-préfecture"
+                },
+                "VALUES": {
+                    "SOURCE": {
+                    "APP": "Application Mobile",
+                    "WEB": "Site Web",
+                    "ADMIN": "Administration"
+                    },
+                    "REPORT_TYPE": {
+                    "ABI": "Absence d'Internet",
+                    "ZOB": "Zone Blanche",
+                    "CPS": "Couverture Partielle Signal",
+                    "CPO": "Couverture Partielle Operateur",
+                    "OTHER": "Autre"
+                    },
+                    "STATUS": {
+                    "PENDING": "En attente",
+                    "APPROVED": "Approuvé",
+                    "REJECTED": "Rejeté",
+                    "ABANDONED": "Abandonné",
+                    "CONFIRM": "Confirmer",
+                    "TERMINATED": "Terminé",
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement"
+                    },
+                    "OPERATORS": {
+                    "MTN": "MTN",
+                    "ORANGE": "Orange",
+                    "MOOV": "Moov"
+                    },
+                    "LOCATION": {
+                    "METHOD_AUTO": "Automatique",
+                    "METHOD_MANUAL": "Manuel",
+                    "TYPE_GPS": "GPS",
+                    "TYPE_NETWORK": "Réseau",
+                    "TYPE_MANUAL": "Manuel"
+                    }
+                },
+                "ACTIONS": {
+                    "VIEW_MAP": "Voir sur la carte",
+                    "COPY_COORDINATES": "Copier les coordonnées",
+                    "OPEN_MAP": "Ouvrir la carte"
                 }
-            },
-            "ACTIONS": {
-                "VIEW_MAP": "Voir sur la carte",
-                "COPY_COORDINATES": "Copier les coordonnées",
-                "OPEN_MAP": "Ouvrir la carte"
-            }
             },
             "FOOTER": {
                 "ACTIONS": {

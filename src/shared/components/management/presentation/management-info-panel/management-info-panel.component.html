@@ -74,7 +74,7 @@
 } @else {
     <form [formGroup]="store.form"> 
         @if (item()?.canBeApproved || item()?.canBeFinalized) {
-        <div class="treatment-form-body">
+        <div class="m-3">
             <div class="action-section">
                 <div class="management-type-form-row">
                     <div class="row d-flex justify-content-center">
@@ -232,71 +232,9 @@
                 <div class="data-card location-card">
                     <div class="card-body">
                         <div class="data-grid">
+
                             <div class="data-row quadruple">
-                                <div class="data-field">
-                                    <label class="field-label">
-                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
-                                    </label>
-                                    <div class="field-value">
-                                        {{ item()?.source || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
-                                    </div>
-                                </div>
-
-                                <div class="data-field">
-                                    <label class="field-label">{{
-                                        'MANAGEMENT.FORM.REPORT_INFO.GEOLOCATION_SYSTEM'
-                                            | translate
-                                    }}</label>
-                                    <div class="field-value">
-                                        {{
-                                            item()?.location?.type ||
-                                                'MANAGEMENT.FORM.NOT_SPECIFIED'
-                                                | translate
-                                        }}
-                                    </div>
-                                </div>
-
-                                <div class="data-field coordinate">
-                                    <label class="field-label">
-                                        {{ 'MANAGEMENT.FORM.LOCATION_INFO.COORDINATES' | translate }}
-                                        <i class="pi pi-copy" (click)="onCopyCoordinates()" tabindex="0" role="button"></i>
-                                    </label>
-                                    @if (isManagementType('details')) {
-                                        <div class="field-value coordinate-value" (click)="onCopyCoordinates()" tabindex="0" role="button">
-                                        <i class="pi pi-map-marker"></i>
-                                        {{ coordinates() || ('MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}
-                                        </div>
-                                    } @else {
-                                        <input class="form-input" pInputText type="text" formControlName="coordinates" placeholder="Lat, Lng" />
-
-                                    }
-                                </div>
-
-                                <div class="data-field">
-                                    <label class="field-label">{{
-                                        'MANAGEMENT.FORM.LOCATION_INFO.LOCATION_METHOD'
-                                            | translate
-                                    }}</label>
-                                    <div class="field-value">
-                                        {{
-                                            item()?.location?.method ||
-                                                'MANAGEMENT.FORM.NOT_SPECIFIED'
-                                                | translate
-                                        }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="data-row triple">
-                                <div class="data-field">
-                                    <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME' | translate }}</label>
-                                    @if (isManagementType('details')) {
-                                        <div class="field-value">{{ item()?.location?.name || ('MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}</div>
-                                    } @else {
-                                        <input class="form-input" pInputText type="text" formControlName="locationName" />
-                                    }
-                                </div>
-                                <div class="data-field">
+                                <div class="data-field fixed-width">
                                     <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.TYPE' | translate }}</label>
                                     @if (isManagementType('details')) {
                                         <div class="field-value">{{ (item()?.reportType || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}</div>
@@ -311,14 +249,14 @@
                                             [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
                                             [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
                                             [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
-                                            [attr.aria-label]="'COMMUNICATION.MESSAGING.FORM.FIELDSET_GENERAL_INFO.TARGET' | translate" />
+                                            [attr.aria-label]="'MANAGEMENT.FORM.REPORT_INFO.TYPE' | translate" />
                                     }
                                 </div>
 
-                                <div class="data-field">
+                                <div class="data-field fixed-width">
                                     <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.OPERATORS' | translate }}</label>
                                     @if (isManagementType('details')) {
-                                        <div class="field-value operator-padding">
+                                        <div class="field-value operator-padding short">
                                         @for (operator of item()?.operators || []; track operator) {
                                             <p-tag [value]="operator | translate" [ngStyle]="getOperatorTagStyle(operator | translate)" styleClass="operator-tag" />
                                         } @empty {
@@ -339,9 +277,90 @@
                                             [showToggleAll]="false"/>
                                     }
                                 </div>
+
+                                <div class="data-field flexible">
+                                    <label class="field-label">
+                                        <i class="pi pi-file-edit"></i>
+                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.DESCRIPTION' | translate }}
+                                    </label>
+                                    @if (isManagementType('details')) {
+                                        <div class="field-value long">
+                                            {{ item()?.description || ('MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION' | translate) }}
+                                        </div>
+                                    } @else {
+                                        <input class="form-input" pInputText type="text" formControlName="description" />
+                                    }
+                                </div>
+
+                                <div class="data-field fixed-width">
+                                    <label class="field-label">
+                                        {{ 'MANAGEMENT.FORM.LOCATION_INFO.COORDINATES' | translate }}
+                                        <i class="pi pi-copy" (click)="onCopyCoordinates()" tabindex="0" role="button"></i>
+                                    </label>
+                                    @if (isManagementType('details')) {
+                                        <div class="field-value coordinate-value middle" (click)="onCopyCoordinates()" tabindex="0" role="button">
+                                        <i class="pi pi-map-marker"></i>&nbsp;
+                                        {{ coordinates() || ('MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}
+                                        </div>
+                                    } @else {
+                                        <p-inputgroup>
+                                            <input class="form-input" pInputText type="text" formControlName="coordinates" placeholder="Lat, Lng" />
+                                            <p-inputgroup-addon>
+                                                <p-button 
+                                                icon="pi pi-map" 
+                                                severity="secondary" 
+                                                (click)="openLocationPicker()"
+                                                [text]="true">
+                                                </p-button>
+                                            </p-inputgroup-addon>
+                                        </p-inputgroup>
+                                    }
+                                </div>
                             </div>
 
-                            <div class="data-row triple">
+                            <div class="data-row quintuple">
+                                <div class="data-field">
+                                    <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME' | translate }}</label>
+                                    @if (isManagementType('details')) {
+                                        <div class="field-value">{{ item()?.location?.name || ('MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}</div>
+                                    } @else {
+                                        <p-select 
+                                            class="form-p-select" 
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            formControlName="locationName" 
+                                            [options]="locationNameOptions()" 
+                                            styleClass="w-100"
+                                            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                                            [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                                            [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
+                                            [attr.aria-label]="'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME' | translate" />
+                                    }
+                                </div>
+
+                                <div class="data-field">
+                                    <label class="field-label">
+                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
+                                    </label>
+                                    <div class="field-value">
+                                        {{ item()?.source || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                    </div>
+                                </div>
+
+                                <div class="data-field">
+                                    <label class="field-label">{{
+                                        'MANAGEMENT.FORM.LOCATION_INFO.LOCATION_METHOD'
+                                            | translate
+                                    }}</label>
+                                    <div class="field-value">
+                                        {{
+                                            item()?.location?.method ||
+                                                'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate
+                                        }}
+                                    </div>
+                                </div>
+
                                 <div class="data-field">
                                     <label class="field-label">{{
                                         'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_ENTRY'
@@ -386,24 +405,6 @@
                                         </div>
                                     </div>
                                 }
-                            </div>
-
-                            <div class="data-row full">
-                                <div class="data-field">
-                                    <label class="field-label">
-                                        <i class="pi pi-file-edit"></i>
-                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.DESCRIPTION' | translate }}
-                                    </label>
-                                    @if (isManagementType('details')) {
-                                        <div class="field-value description">
-                                        <div class="description-content">
-                                            {{ item()?.description || ('MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION' | translate) }}
-                                        </div>
-                                        </div>
-                                    } @else {
-                                        <textarea class="form-control" formControlName="description" rows="3"></textarea>
-                                    }
-                                </div>
                             </div>
 
                             @if (item()?.displayApproveComment()) {
