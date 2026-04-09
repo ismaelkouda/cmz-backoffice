@@ -1,6 +1,6 @@
 export enum LocationName {
-    RESIDENCE_PLACE = 'COMMON.RESIDENCE_PLACE',
-    ACTIVITY_PLACE = 'COMMON.ACTIVITY_PLACE',
-    TRANSIT_PLACE = 'COMMON.TRANSIT_PLACE',
-    PLACE_NOT_PROVIDED = 'COMMON.PLACE_NOT_PROVIDED',
+    "Lieu d'habitation" = 'COMMON.RESIDENCE_PLACE',
+    "Lieu d'activité" = 'COMMON.ACTIVITY_PLACE',
+    'Lieu de passage' = 'COMMON.TRANSIT_PLACE',
+    'Lieu non fourni' = 'COMMON.PLACE_NOT_PROVIDED',
 }

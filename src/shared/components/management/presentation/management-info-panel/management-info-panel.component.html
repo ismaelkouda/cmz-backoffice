@@ -246,6 +246,7 @@
                                             formControlName="reportType" 
                                             [options]="reportTypeOptions()" 
                                             styleClass="w-100"
+                                            appendTo="body"
                                             [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
                                             [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
                                             [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
@@ -271,6 +272,7 @@
                                             formControlName="operators" 
                                             [options]="telecomOperatorsOptions()" 
                                             styleClass="w-100" 
+                                            appendTo="body"
                                             [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
                                             [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
                                             [filter]="false"
@@ -317,7 +319,6 @@
                                     }
                                 </div>
                             </div>
-
                             <div class="data-row quintuple">
                                 <div class="data-field">
                                     <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME' | translate }}</label>
@@ -331,6 +332,7 @@
                                             formControlName="locationName" 
                                             [options]="locationNameOptions()" 
                                             styleClass="w-100"
+                                            appendTo="body"
                                             [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
                                             [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
                                             [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
