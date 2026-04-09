@@ -2,6 +2,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
+    effect,
     ElementRef,
     inject,
     Inject,
@@ -37,7 +38,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     private readonly ngZone = inject(NgZone);
     private readonly elementRef = inject(ElementRef);
     private readonly mapContainer =
-        viewChild<ElementRef<HTMLDivElement>>('mapContainer');
+        viewChild.required<ElementRef<HTMLDivElement>>('mapContainer');
     readonly isMapInitialized = signal(false);
     readonly isLoading = signal(true);
     readonly mapViewState = signal({
@@ -63,13 +64,19 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     private readonly destroy$ = new Subject<void>();
     private olModules: any = null;
 
-    constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {}
+    constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {
+        effect(() => {
+            const container = this.mapContainer();
+            if (container && !this.map) {
+                this.initializeMap(container.nativeElement);
+            }
+        });
+    }
 
     ngOnInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             return;
         }
-        this.initializeMap();
     }
 
     ngOnDestroy(): void {
@@ -78,7 +85,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         this.cleanupMap();
     }
 
-    private async initializeMap(): Promise<void> {
+    private async initializeMap(container: HTMLElement): Promise<void> {
         try {
             this.isLoading.set(true);
             this.olModules = await this.openLayersLoader.loadModulesPromise();
@@ -88,7 +95,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             }
 
             await this.ngZone.runOutsideAngular(() => {
-                this.createMap();
+                this.createMap(container);
                 this.addMarker();
                 this.setupPopup();
                 this.setupMapEvents();
@@ -103,10 +110,9 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         }
     }
 
-    private createMap(): void {
+    private createMap(container: HTMLElement): void {
         const { Map, View, fromLonLat, TileLayer, OSM } = this.olModules;
 
-        console.log('mapContainer: ', this.mapContainer());
         if (!this.mapContainer()) {
             throw new Error('Container de carte non trouvé');
         }
@@ -121,7 +127,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         console.log('osmLayer: ', osmLayer);
 
         this.map = new Map({
-            target: this.mapContainer(),
+            target: container,
             layers: [osmLayer],
             view: new View({
                 center: fromLonLat([this.longitude(), this.latitude()]),
