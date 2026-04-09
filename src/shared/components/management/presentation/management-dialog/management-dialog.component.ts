@@ -33,6 +33,7 @@ import { ManagementPhotosPanelComponent } from '@shared/components/management/pr
 import { ManagementSidebarComponent } from '@shared/components/management/presentation/management-sidebar/management-sidebar.component';
 import { ManagementTreatmentFormComponent } from '@shared/components/management/presentation/management-treatment-form/management-treatment-form.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { LocationName } from '@shared/domain/enums/location-name.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
@@ -128,6 +129,11 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptions(TelecomOperator, this.t.bind(this));
+    });
+
+    readonly locationNameOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptions(LocationName, this.t.bind(this));
     });
 
     private readonly storeEffect = effect(() => {

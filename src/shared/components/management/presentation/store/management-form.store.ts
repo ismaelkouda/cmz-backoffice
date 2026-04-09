@@ -6,6 +6,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
+import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 
 import { ManagementEntityType } from '../../domain/types/management-entity.type';
 
@@ -179,6 +180,12 @@ export class ManagementFormStore {
         console.log('type: ', type);
         this.form.patchValue({ managementType: type });
         this.form.get('managementType')?.markAsTouched();
+    }
+
+    public setCoordinates(coordinates: Coordinates): void {
+        this.form.patchValue({
+            coordinates: `${coordinates.latitude}, ${coordinates.longitude}`,
+        });
     }
 
     public setDecision(decision: 'accepted' | 'rejected'): void {

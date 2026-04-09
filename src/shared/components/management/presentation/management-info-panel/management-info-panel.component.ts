@@ -10,8 +10,15 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilterOption } from '@shared/components/filter/filter.types';
+import { LocationPickerDialogComponent } from '@shared/components/location-picker/ui/location-picker-dialog.component';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
+import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
+import { ButtonModule } from 'primeng/button';
+import { DialogService } from 'primeng/dynamicdialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
@@ -31,17 +38,23 @@ import { ManagementFormStore } from '../store/management-form.store';
         SkeletonModule,
         TranslateModule,
         InputTextModule,
+        InputGroupModule,
+        InputGroupAddonModule,
         SelectModule,
         MultiSelectModule,
+        ButtonModule,
         TagModule,
         TooltipModule,
+        DynamicDialogModule,
     ],
+    providers: [DialogService],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './management-info-panel.component.html',
     styleUrls: ['./management-info-panel.component.scss'],
 })
 export class ManagementInfoPanelComponent {
     private readonly store = inject(ManagementFormStore);
+    private readonly dialogService = inject(DialogService);
     public readonly item = input.required<ManagementEntityType>();
     public readonly loading = input.required<boolean>();
 
@@ -123,8 +136,36 @@ export class ManagementInfoPanelComponent {
     public readonly callbackTypeOptions = input<FilterOption[]>([]);
     public readonly reportTypeOptions = input<FilterOption[]>([]);
     public readonly telecomOperatorsOptions = input<FilterOption[]>([]);
+    public readonly locationNameOptions = input<FilterOption[]>([]);
 
     protected shouldShowCallbackTypeField =
         this.store.shouldShowCallbackTypeField;
     protected isFormValid = this.store.isFormValid;
+
+    public openLocationPicker(): void {
+        if (!this.dialogService) {
+            return;
+        }
+        const ref = this.dialogService.open(LocationPickerDialogComponent, {
+            header: 'Sélectionner une position sur la carte',
+            width: this.isMobile() ? '100vw' : '90vw',
+            height: this.isMobile() ? '100vh' : 'auto',
+            maximizable: false,
+            draggable: false,
+            closable: true,
+            data: { initialCoords: this.item()?.location?.coordinates },
+            styleClass: 'location-picker-dialog',
+        });
+        ref?.onClose.subscribe((result: Coordinates | null) => {
+            if (result) {
+                console.log('result: ', result);
+                // On garde le format string pour compatibilité visuelle du champ
+                this.store.setCoordinates(result);
+                // Le backend recevra l'objet structuré via votre service d'envoi
+            }
+        });
+    }
+    private isMobile(): boolean {
+        return window.innerWidth <= 992;
+    }
 }

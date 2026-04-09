@@ -21,6 +21,7 @@ export interface OpenLayersModules {
     defaults: typeof import('ol/control').defaults;
     Overlay: typeof import('ol/Overlay').default;
     Icon: typeof import('ol/style/Icon').default;
+    Interactions: typeof import('ol/interaction').defaults;
 }
 
 @Injectable({
@@ -79,6 +80,7 @@ export class OpenLayersLoaderService {
                 const controlModule = await import('ol/control');
                 const overlayModule = await import('ol/Overlay');
                 const iconModule = await import('ol/style/Icon');
+                const interactionsModule = await import('ol/interaction');
 
                 return {
                     Map: mapModule.default,
@@ -99,6 +101,7 @@ export class OpenLayersLoaderService {
                     defaults: controlModule.defaults,
                     Overlay: overlayModule.default,
                     Icon: iconModule.default,
+                    Interactions: interactionsModule.defaults,
                 };
             } catch (error) {
                 console.error(

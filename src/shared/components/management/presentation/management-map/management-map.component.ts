@@ -11,6 +11,7 @@ import {
     OnInit,
     PLATFORM_ID,
     signal,
+    viewChild,
 } from '@angular/core';
 import { OpenLayersLoaderService } from '@shared/domain/services/openlayers-loader.service';
 import { Subject } from 'rxjs';
@@ -35,6 +36,8 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     private readonly openLayersLoader = inject(OpenLayersLoaderService);
     private readonly ngZone = inject(NgZone);
     private readonly elementRef = inject(ElementRef);
+    private readonly mapContainer =
+        viewChild<ElementRef<HTMLDivElement>>('mapContainer');
     readonly isMapInitialized = signal(false);
     readonly isLoading = signal(true);
     readonly mapViewState = signal({
@@ -103,10 +106,8 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     private createMap(): void {
         const { Map, View, fromLonLat, TileLayer, OSM } = this.olModules;
 
-        const mapContainer =
-            this.elementRef.nativeElement.querySelector('.map-container');
-        console.log('mapContainer: ', mapContainer);
-        if (!mapContainer) {
+        console.log('mapContainer: ', this.mapContainer());
+        if (!this.mapContainer()) {
             throw new Error('Container de carte non trouvé');
         }
 
@@ -120,7 +121,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         console.log('osmLayer: ', osmLayer);
 
         this.map = new Map({
-            target: mapContainer,
+            target: this.mapContainer(),
             layers: [osmLayer],
             view: new View({
                 center: fromLonLat([this.longitude(), this.latitude()]),
