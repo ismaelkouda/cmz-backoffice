@@ -31,6 +31,20 @@
             </span>
         }
 
+        <span class="header-title">
+            {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
+        </span>
+
+        <span
+            class="header-title copyable"
+            [pTooltip]="'COMMON.COPY' | translate"
+            tooltipPosition="bottom"
+            tabindex="0"
+            role="button"
+        >
+            [ {{ source() | translate }} ]
+        </span>
+
         @if (confirmCount()) {
             <span class="header-title">
                 {{ 'MANAGEMENT.HEADER.NUMBER_OF_CONFIRMATIONS' | translate }}

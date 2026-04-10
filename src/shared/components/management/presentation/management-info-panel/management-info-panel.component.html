@@ -72,169 +72,15 @@
         </div>
     </div>
 } @else {
-    <form [formGroup]="store.form"> 
-        @if (item()?.canBeApproved || item()?.canBeFinalized) {
-        <div class="m-3">
-            <div class="action-section">
-                <div class="management-type-form-row">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-md-5">
-                            <div class="col-md-12">
-                                <div class="container-radio-option col-md-12">
-                                    <div
-                                        class="radio-option col-md"
-                                        role="radiogroup"
-                                        aria-labelledby="management-type-label"
-                                    >
-
-                                        <div
-                                            class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                            (click)="onManagementTypeChange('details')"
-                                            (keypress)="onManagementTypeChange('details')"
-                                            [class.selected]="isManagementType('details')"
-                                            tabindex="0" role="radio"
-                                            [attr.aria-checked]="isManagementType('details')"
-                                        >
-                                            <div class="radio-indicator">
-                                                <div class="radio-dot" [class.checked]="isManagementType('details')"></div>
-                                            </div>
-                                            <div class="radio-content">
-                                                <div class="radio-text">
-                                                    <div class="radio-title">
-                                                        {{
-                                                            'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.DETAILS.LABEL'
-                                                                | translate
-                                                        }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div
-                                            class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                            (click)="onManagementTypeChange('edit')"
-                                            (keypress)="onManagementTypeChange('edit')"
-                                            [class.selected]="isManagementType('edit')"
-                                            tabindex="0" role="radio"
-                                            [attr.aria-checked]="isManagementType('edit')"
-                                        >
-                                            <div class="radio-indicator">
-                                                <div class="radio-dot" [class.checked]="isManagementType('edit')"></div>
-                                            </div>
-                                            <div class="radio-content">
-                                                <div class="radio-text">
-                                                    <div class="radio-title">
-                                                        {{
-                                                            'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.EDIT.LABEL'
-                                                                | translate
-                                                        }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div
-                                            class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                            (click)="
-                                                onManagementTypeChange(
-                                                    'callback'
-                                                )
-                                            "
-                                            (keypress)="
-                                                onManagementTypeChange(
-                                                    'callback'
-                                                )
-                                            "
-                                            [class.selected]="
-                                                isManagementType(
-                                                    'callback'
-                                                )
-                                            "
-                                            tabindex="0"
-                                            role="radio"
-                                            [attr.aria-checked]="
-                                                isManagementType(
-                                                    'callback'
-                                                )
-                                            "
-                                        >
-                                            <div
-                                                class="radio-indicator"
-                                            >
-                                                <div
-                                                    class="radio-dot"
-                                                    [class.checked]="
-                                                        isManagementType(
-                                                            'callback'
-                                                        )
-                                                    "
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="radio-content"
-                                            >
-                                                <div
-                                                    class="radio-text"
-                                                >
-                                                    <div
-                                                        class="radio-title"
-                                                    >
-                                                        {{
-                                                            'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.CALLBACK.LABEL'
-                                                                | translate
-                                                        }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-5">
-                            <p-select
-                                id="callbackType"
-                                class="form-p-select"
-                                formControlName="callbackType"
-                                [options]="callbackTypeOptions()" 
-                                [disabled]="isManagementType('details') || isManagementType('edit')"
-                                optionLabel="label"
-                                optionValue="value"
-                                [placeholder]="
-                                    'MANAGEMENT.TREATMENT.CALLBACK_ACTION.CALLBACK_TYPE'
-                                        | translate
-                                "
-                                [emptyMessage]="
-                                    'COMMON.SELECT_EMPTY_MESSAGE'
-                                        | translate
-                                "
-                                [emptyFilterMessage]="
-                                    'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
-                                        | translate
-                                "
-                                [showClear]="true"
-                                styleClass="w-100"
-                                appendTo="body"
-                                [ngClass]="{
-                                    'ng-invalid ng-dirty':
-                                        isFieldInvalid('callbackType'),
-                                }"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        }
+    <form [formGroup]="store.form">
         <div class="tab-panel information-panel">
             <div class="information-content">
                 <div class="data-card location-card">
                     <div class="card-body">
                         <div class="data-grid">
 
-                            <div class="data-row quadruple">
-                                <div class="data-field fixed-width">
+                            <div class="data-row triple">
+                                <div class="data-field">
                                     <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.TYPE' | translate }}</label>
                                     @if (isManagementType('details')) {
                                         <div class="field-value">{{ (item()?.reportType || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}</div>
@@ -254,7 +100,7 @@
                                     }
                                 </div>
 
-                                <div class="data-field fixed-width">
+                                <div class="data-field">
                                     <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.OPERATORS' | translate }}</label>
                                     @if (isManagementType('details')) {
                                         <div class="field-value operator-padding short">
@@ -293,33 +139,8 @@
                                         <input class="form-input" pInputText type="text" formControlName="description" />
                                     }
                                 </div>
-
-                                <div class="data-field fixed-width">
-                                    <label class="field-label">
-                                        {{ 'MANAGEMENT.FORM.LOCATION_INFO.COORDINATES' | translate }}
-                                        <i class="pi pi-copy" (click)="onCopyCoordinates()" tabindex="0" role="button"></i>
-                                    </label>
-                                    @if (isManagementType('details')) {
-                                        <div class="field-value coordinate-value middle" (click)="onCopyCoordinates()" tabindex="0" role="button">
-                                        <i class="pi pi-map-marker"></i>&nbsp;
-                                        {{ coordinates() || ('MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}
-                                        </div>
-                                    } @else {
-                                        <p-inputgroup>
-                                            <input class="form-input" pInputText type="text" formControlName="coordinates" placeholder="Lat, Lng" />
-                                            <p-inputgroup-addon>
-                                                <p-button 
-                                                icon="pi pi-map" 
-                                                severity="secondary" 
-                                                (click)="openLocationPicker()"
-                                                [text]="true">
-                                                </p-button>
-                                            </p-inputgroup-addon>
-                                        </p-inputgroup>
-                                    }
-                                </div>
                             </div>
-                            <div class="data-row quintuple">
+                            <div class="data-row triple">
                                 <div class="data-field">
                                     <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME' | translate }}</label>
                                     @if (isManagementType('details')) {
@@ -341,15 +162,50 @@
                                 </div>
 
                                 <div class="data-field">
-                                    <label class="field-label">
-                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
+                                    <label class="field-label mb-0">
+                                        {{ 'MANAGEMENT.FORM.LOCATION_INFO.COORDINATES' | translate }}
+                                        <i class="pi pi-copy" (click)="onCopyCoordinates()" tabindex="0" role="button"></i>
+                                        <p-tag
+                                            [value]="item()?.location?.method | translate"
+                                            [severity]="item().locationStyle(item()?.location?.method) | translate
+                                            "
+                                        />
                                     </label>
-                                    <div class="field-value">
-                                        {{ item()?.source || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
-                                    </div>
+                                    @if (isManagementType('details')) {
+                                        <div class="field-value coordinate-value middle" (click)="onCopyCoordinates()" tabindex="0" role="button">
+                                        <i class="pi pi-map-marker"></i>&nbsp;
+                                        {{ coordinates() || ('MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}
+                                        </div>
+                                    } @else {
+                                        <p-inputgroup>
+                                            <input class="form-input" pInputText type="text" formControlName="coordinates" placeholder="Lat, Lng" />
+                                            <p-inputgroup-addon>
+                                                <p-button 
+                                                icon="pi pi-map" 
+                                                severity="secondary" 
+                                                (click)="openLocationPicker()"
+                                                [text]="true">
+                                                </p-button>
+                                            </p-inputgroup-addon>
+                                        </p-inputgroup>
+                                    }
                                 </div>
 
-                                <div class="data-field">
+                                <div class="data-field flexible">
+                                    <label class="field-label">
+                                        <i class="pi pi-file-edit"></i>
+                                        {{ 'MANAGEMENT.FORM.PICTURES_INFO.TITLE' | translate }}
+                                    </label>
+                                    @if (isManagementType('details')) {
+                                        <div class="field-value long">
+                                            {{ item()?.placeDescription || ('MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION' | translate) }}
+                                        </div>
+                                    } @else {
+                                        <input class="form-input" pInputText type="text" formControlName="placeDescription" />
+                                    }
+                                </div>
+
+                                <!-- <div class="data-field">
                                     <label class="field-label">{{
                                         'MANAGEMENT.FORM.LOCATION_INFO.LOCATION_METHOD'
                                             | translate
@@ -361,9 +217,18 @@
                                                 | translate
                                         }}
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <div class="data-field">
+                                <!-- <div class="data-field">
+                                    <label class="field-label">
+                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
+                                    </label>
+                                    <div class="field-value">
+                                        {{ item()?.source || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="data-field">
                                     <label class="field-label">{{
                                         'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_ENTRY'
                                             | translate
@@ -389,7 +254,7 @@
                                                     | translate)
                                         }}
                                     </div>
-                                </div>
+                                </div> -->
 
                                 @if (
                                     item()?.inProcessing || item()?.inFinalization

@@ -70,9 +70,9 @@ $light-gray: var(--color-gray-light);
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     }
 
-    &.quadruple {
+    &.triple {
         display: grid;
-        grid-template-columns: 250px 250px 1fr minmax(200px, auto);
+        grid-template-columns: 300px 300px 1fr;
         gap: 1.5rem;
         
         @media (max-width: 1200px) {
@@ -87,6 +87,22 @@ $light-gray: var(--color-gray-light);
             grid-template-columns: 1fr;
         }
     }
+
+    // &.quintuple {
+    //     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    // }
+
+    // &.quadruple {
+    //     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    // }
+
+    // &.triple {
+    //     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    // }
+
+    // &.double {
+    //     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    // }
 
     &.full {
         grid-template-columns: 1fr;

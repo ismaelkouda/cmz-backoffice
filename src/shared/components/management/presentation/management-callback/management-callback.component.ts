@@ -2,19 +2,29 @@ import { CommonModule } from '@angular/common';
 import {
     Component,
     input,
-    output,
     computed,
-    effect,
     ChangeDetectionStrategy,
-    signal,
-    Input,
+    output,
+    inject,
 } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
+import { ButtonModule } from 'primeng/button';
+import { DialogService } from 'primeng/dynamicdialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
-import { TextareaModule } from 'primeng/textarea';
+import { SkeletonModule } from 'primeng/skeleton';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
+
+import { ManagementEntityType } from '../../domain/types/management-entity.type';
+import { ManagementFormStore } from '../store/management-form.store';
 
 @Component({
     selector: 'app-management-callback',
@@ -22,159 +32,57 @@ import { TextareaModule } from 'primeng/textarea';
     imports: [
         CommonModule,
         ReactiveFormsModule,
+        SkeletonModule,
         TranslateModule,
+        InputTextModule,
+        InputGroupModule,
+        InputGroupAddonModule,
         SelectModule,
-        TextareaModule,
+        MultiSelectModule,
+        ButtonModule,
+        TagModule,
+        TooltipModule,
+        DynamicDialogModule,
     ],
+    providers: [DialogService],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './management-callback.component.html',
     styleUrls: ['./management-callback.component.scss'],
 })
 export class ManagementCallbackComponent {
-    public readonly form = input.required<FormGroup<ManagementFormControl>>();
-    public readonly submitting = input<boolean>(false);
-    public readonly submitLabel = input.required<string>();
+    private readonly store = inject(ManagementFormStore);
+    public readonly item = input.required<ManagementEntityType>();
     public readonly loading = input.required<boolean>();
-    public readonly showApprovalSection = input<boolean>(false);
-    public readonly callbackTypeOptions = input<FilterOption[]>([]);
 
-    public readonly cancelForm = output();
-    public readonly submitForm = output();
     public readonly managementTypeChange = output<string>();
 
-    private readonly _expanded = signal<boolean>(true);
+    protected readonly formErrors = computed(() => this.store.formErrors());
 
-    @Input()
-    set expanded(value: boolean) {
-        this._expanded.set(value);
-    }
-
-    readonly expandedState = computed(() => this._expanded());
-
-    protected toggle(): void {
-        this._expanded.update((v) => !v);
-    }
-
-    private readonly managementType = signal<string>('');
-    protected readonly shouldShowCallbackTypeField = computed(
-        () => this.managementType() === 'callback'
-    );
-    private readonly managementTypeSyncEffect = effect((onCleanup) => {
-        const form = this.form();
-
-        if (!form) {
-            return;
-        }
-
-        const control = form.get('managementType');
-        if (!control) {
-            return;
-        }
-
-        this.managementType.set(control.value);
-
-        const sub = control.valueChanges.subscribe((value) => {
-            this.managementType.set(value);
-        });
-
-        onCleanup(() => sub.unsubscribe());
-    });
-
-    private readonly callbackTypeStateEffect = effect(() => {
-        const form = this.form();
-        const managementType = this.managementType();
-
-        if (!form) {
-            return;
-        }
-
-        const callbackTypeControl = form.get('callbackType');
-        callbackTypeControl?.disable({ emitEvent: false });
-        if (!callbackTypeControl) {
-            return;
-        }
-
-        if (managementType === 'edit') {
-            callbackTypeControl.setValue(null, { emitEvent: false });
-            callbackTypeControl.clearValidators();
-            callbackTypeControl.disable({ emitEvent: false });
-        } else if (managementType === 'callback') {
-            callbackTypeControl.enable({ emitEvent: false });
-            callbackTypeControl.setValidators([Validators.required]);
-        }
-
-        callbackTypeControl.updateValueAndValidity({ emitEvent: false });
-    });
-
-    protected readonly formErrors = computed((): Record<string, string[]> => {
-        const form = this.form();
-        const errors: Record<string, string[]> = {};
-
-        if (!form) {
-            return errors;
-        }
-
-        Object.keys(form.controls).forEach((key) => {
-            const control = form.get(key);
-            if (control?.errors) {
-                errors[key] = Object.keys(control.errors);
-            }
-        });
-
-        return errors;
-    });
-
-    protected readonly hasErrors = computed((): boolean => {
-        return Object.keys(this.formErrors()).length > 0;
-    });
-
-    protected readonly isFormValid = computed((): boolean => {
-        return this.form()?.valid ?? false;
-    });
-
-    protected getFieldError(
-        fieldName: keyof ManagementFormControl
-    ): string | null {
-        const control = this.form()?.get(fieldName);
-
-        if (!control?.errors || !control.touched) {
-            return null;
-        }
-
-        const errors = control.errors;
-
-        if (errors['required']) {
-            return 'Ce champ est requis';
-        }
-
-        if (errors['minlength']) {
-            const requiredLength = errors['minlength'].requiredLength;
-            return `Minimum ${requiredLength} caractères requis`;
-        }
-
-        if (errors['maxlength']) {
-            const requiredLength = errors['maxlength'].requiredLength;
-            return `Maximum ${requiredLength} caractères autorisés`;
-        }
-
-        return 'Champ invalide';
-    }
-
-    protected isManagementType(value: 'edit' | 'callback'): boolean {
-        return this.form()?.get('managementType')?.value === value;
-    }
+    protected readonly hasErrors = computed(() => this.store.hasErrors());
 
     protected isFieldInvalid(fieldName: keyof ManagementFormControl): boolean {
-        const control = this.form()?.get(fieldName);
+        const control = this.store.form.get(fieldName);
         return !!(control?.invalid && control?.touched);
     }
 
+    protected isManagementType(
+        value: 'edit' | 'callback' | 'details'
+    ): boolean {
+        return this.store.isManagementType(value);
+    }
+
     protected onManagementTypeChange(
-        managementType: 'edit' | 'callback'
+        managementType: 'edit' | 'callback' | 'details'
     ): void {
-        const form = this.form();
-        form.patchValue({ managementType });
-        form.get('managementType')?.markAsTouched();
+        this.store.setManagementType(managementType);
         this.managementTypeChange.emit(managementType);
     }
+
+    public readonly submitting = input<boolean>(false);
+    public readonly showApprovalSection = input<boolean>(false);
+    public readonly callbackTypeOptions = input<FilterOption[]>([]);
+
+    protected shouldShowCallbackTypeField =
+        this.store.shouldShowCallbackTypeField;
+    protected isFormValid = this.store.isFormValid;
 }

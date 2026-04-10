@@ -7,6 +7,7 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TooltipModule } from 'primeng/tooltip';
@@ -46,6 +47,10 @@ export class ManagementHeaderComponent {
 
     protected readonly confirmCount = computed((): number => {
         return this.item()?.confirmCount ?? 0;
+    });
+
+    protected readonly source = computed((): ReportSource | undefined => {
+        return this.item()?.source;
     });
 
     protected onCopyId(): void {

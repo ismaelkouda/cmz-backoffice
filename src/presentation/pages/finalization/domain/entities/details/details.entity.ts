@@ -16,6 +16,10 @@ import { AdministrativeBoundaryEntity } from '@shared/domain/entities/administra
 import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
 import { ReportMediaEntity } from '@shared/domain/entities/report-media.entity';
 import { TimestampsEntity } from '@shared/domain/entities/timestamps.entity';
+import {
+    LocationMethod,
+    LocationMethodStyle,
+} from '@shared/domain/enums/location-method.enum';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
@@ -73,6 +77,15 @@ export class DetailsEntity {
 
     get location(): ReportLocationEntity {
         return this.props.location;
+    }
+
+    locationStyle(location: LocationMethod): LocationMethodStyle {
+        const methodMap: Record<LocationMethod, LocationMethodStyle> = {
+            [LocationMethod.AUTO]: LocationMethodStyle.AUTO,
+            [LocationMethod.MANUAL]: LocationMethodStyle.MANUAL,
+            [LocationMethod.UNKNOWN]: LocationMethodStyle.UNKNOWN,
+        };
+        return methodMap[location];
     }
 
     get reportType(): ReportType {
