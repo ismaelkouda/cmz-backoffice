@@ -105,6 +105,14 @@
                         }
                     </div>
                 </nav>
+                
+                <app-management-callback
+                    [item]="items()"
+                    [loading]="loading()"
+                    [submitting]="submitting()"
+                    [callbackTypeOptions]="callbackTypesOptions()"
+                    (managementTypeChange)="setManagementType($event)"
+                />
             }
 
             <div class="tab-content-area">
@@ -113,16 +121,11 @@
                         [item]="items()"
                         [loading]="loading()"
                         (copyClicked)="copyToClipboard($event)"
-                        [loading]="loading()"
                         [submitting]="submitting()"
                         [submitLabel]="items()?.labelButtonSubmit ?? ''"
-                        [callbackTypeOptions]="callbackTypesOptions()"
                         [reportTypeOptions]="reportTypeOptions()"
                         [telecomOperatorsOptions]="telecomOperatorsOptions()"
                         [locationNameOptions]="locationNameOptions()"
-                        (cancelForm)="closeTreatmentForm()"
-                        (submitForm)="onValidReportTreatment()"
-                        (managementTypeChange)="setManagementType($event)"
                     />
                 }
 

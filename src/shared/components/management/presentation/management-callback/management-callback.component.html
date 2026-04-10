@@ -1,68 +1,56 @@
 @if (!loading()) {
-    <div class="treatment-form-body">
-        <div class="action-section">
-            <form [formGroup]="form()" class="management-type-form-row">
-                <div class="row d-flex justify-content-center">
-                        <div class="col-md-4">
+    <form [formGroup]="store.form"> 
+        @if (item()?.canBeApproved || item()?.canBeFinalized) {
+        <div class="m-3">
+            <div class="action-section">
+                <div class="management-type-form-row">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-5">
                             <div class="col-md-12">
-                                <div
-                                    class="container-radio-option col-md-12"
-                                >
+                                <div class="container-radio-option col-md-12">
                                     <div
                                         class="radio-option col-md"
                                         role="radiogroup"
                                         aria-labelledby="management-type-label"
                                     >
+
                                         <div
                                             class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                            (click)="
-                                                onManagementTypeChange(
-                                                    'edit'
-                                                )
-                                            "
-                                            (keypress)="
-                                                onManagementTypeChange(
-                                                    'edit'
-                                                )
-                                            "
-                                            [class.selected]="
-                                                isManagementType(
-                                                    'edit'
-                                                )
-                                            "
-                                            tabindex="0"
-                                            role="radio"
-                                            [attr.aria-checked]="
-                                                isManagementType(
-                                                    'edit'
-                                                )
-                                            "
-                                            [attr.aria-label]="
-                                                'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.EDIT.LABEL'
-                                                    | translate
-                                            "
+                                            (click)="onManagementTypeChange('details')"
+                                            (keypress)="onManagementTypeChange('details')"
+                                            [class.selected]="isManagementType('details')"
+                                            tabindex="0" role="radio"
+                                            [attr.aria-checked]="isManagementType('details')"
                                         >
-                                            <div
-                                                class="radio-indicator"
-                                            >
-                                                <div
-                                                    class="radio-dot"
-                                                    [class.checked]="
-                                                        isManagementType(
-                                                            'edit'
-                                                        )
-                                                    "
-                                                ></div>
+                                            <div class="radio-indicator">
+                                                <div class="radio-dot" [class.checked]="isManagementType('details')"></div>
                                             </div>
-                                            <div
-                                                class="radio-content"
-                                            >
-                                                <div
-                                                    class="radio-text"
-                                                >
-                                                    <div
-                                                        class="radio-title"
-                                                    >
+                                            <div class="radio-content">
+                                                <div class="radio-text">
+                                                    <div class="radio-title">
+                                                        {{
+                                                            'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.DETAILS.LABEL'
+                                                                | translate
+                                                        }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div
+                                            class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
+                                            (click)="onManagementTypeChange('edit')"
+                                            (keypress)="onManagementTypeChange('edit')"
+                                            [class.selected]="isManagementType('edit')"
+                                            tabindex="0" role="radio"
+                                            [attr.aria-checked]="isManagementType('edit')"
+                                        >
+                                            <div class="radio-indicator">
+                                                <div class="radio-dot" [class.checked]="isManagementType('edit')"></div>
+                                            </div>
+                                            <div class="radio-content">
+                                                <div class="radio-text">
+                                                    <div class="radio-title">
                                                         {{
                                                             'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.EDIT.LABEL'
                                                                 | translate
@@ -95,10 +83,6 @@
                                                 isManagementType(
                                                     'callback'
                                                 )
-                                            "
-                                            [attr.aria-label]="
-                                                'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.CALLBACK.LABEL'
-                                                    | translate
                                             "
                                         >
                                             <div
@@ -135,13 +119,13 @@
                             </div>
                         </div>
 
-                        <!-- @if (shouldShowCallbackTypeField()) { -->
                         <div class="col-md-5">
                             <p-select
                                 id="callbackType"
                                 class="form-p-select"
                                 formControlName="callbackType"
-                                [options]="callbackTypeOptions()"
+                                [options]="callbackTypeOptions()" 
+                                [disabled]="isManagementType('details') || isManagementType('edit')"
                                 optionLabel="label"
                                 optionValue="value"
                                 [placeholder]="
@@ -165,9 +149,10 @@
                                 }"
                             />
                         </div>
-                        <!-- } -->
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+        }
+    </form>
 }

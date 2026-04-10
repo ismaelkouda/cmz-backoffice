@@ -26,6 +26,7 @@ import { TABS } from '@shared/components/management/domain/constants/management-
 import { Motifs } from '@shared/components/management/domain/enums/management-motif.enum';
 import { ManagementStateService } from '@shared/components/management/domain/services/management-state.service';
 import { ManagementValidationService } from '@shared/components/management/domain/services/management-validation.service';
+import { ManagementCallbackComponent } from '@shared/components/management/presentation/management-callback/management-callback.component';
 import { ManagementChatbotPanelComponent } from '@shared/components/management/presentation/management-chatbot-panel/management-chatbot-panel.component';
 import { ManagementHeaderComponent } from '@shared/components/management/presentation/management-header/management-header.component';
 import { ManagementInfoPanelComponent } from '@shared/components/management/presentation/management-info-panel/management-info-panel.component';
@@ -69,6 +70,7 @@ import { ManagementFormStore } from '../store/management-form.store';
         ReactiveFormsModule,
         ManagementHeaderComponent,
         ManagementSidebarComponent,
+        ManagementCallbackComponent,
         ManagementPhotosPanelComponent,
         ManagementMapComponent,
         ManagementInfoPanelComponent,

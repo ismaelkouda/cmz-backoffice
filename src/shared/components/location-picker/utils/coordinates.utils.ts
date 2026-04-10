@@ -32,5 +32,7 @@ export function formatCoordinatesString(
     lng: number,
     precision: number = DECIMAL_PRECISION
 ): string {
+    console.log('lat: ', lat);
+    console.log('lng: ', lng);
     return `${lat.toFixed(precision)}, ${lng.toFixed(precision)}`;
 }

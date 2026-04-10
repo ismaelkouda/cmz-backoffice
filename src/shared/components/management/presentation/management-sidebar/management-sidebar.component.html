@@ -68,46 +68,26 @@
                         {{ 'MANAGEMENT.SIDEBAR.INITIATOR.TITLE' | translate }}
                     </div>
                     <div class="sidebar-content">
-                        <p>
+                        <p class="phone-number">
                             <strong
                                 >{{
                                     'MANAGEMENT.SIDEBAR.INITIATOR.PHONE'
                                         | translate
                                 }}:</strong
                             >
-                            {{ initiatorLastName() }}
-                        </p>
-                        <p>
-                            <strong
-                                >{{
-                                    'MANAGEMENT.SIDEBAR.INITIATOR.EMAIL'
-                                        | translate
-                                }}:</strong
+                            {{ initiatorPhone() }}
+                            <i
+                                class="pi pi-copy copy-icon"
+                                (click)="copyItem.emit(initiatorPhone()!)"
+                                (keypress)="
+                                    copyItem.emit(initiatorPhone()!)
+                                "
+                                pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                tabindex="0"
+                                role="button"
                             >
-                            {{ initiatorFirstName() }}
+                            </i>
                         </p>
-                        @if (initiatorPhone()) {
-                            <p class="phone-number">
-                                <strong
-                                    >{{
-                                        'MANAGEMENT.SIDEBAR.INITIATOR.PHONE'
-                                            | translate
-                                    }}:</strong
-                                >
-                                {{ initiatorPhone() }}
-                                <i
-                                    class="pi pi-copy copy-icon"
-                                    (click)="copyItem.emit(initiatorPhone()!)"
-                                    (keypress)="
-                                        copyItem.emit(initiatorPhone()!)
-                                    "
-                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
-                                    tabindex="0"
-                                    role="button"
-                                >
-                                </i>
-                            </p>
-                        }
                     </div>
                 </div>
             }

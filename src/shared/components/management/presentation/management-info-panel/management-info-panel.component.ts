@@ -10,11 +10,11 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilterOption } from '@shared/components/filter/filter.types';
+import { LocationCoordinates } from '@shared/components/location-picker/models/location-coordinates.model';
 import { LocationPickerDialogComponent } from '@shared/components/location-picker/ui/location-picker-dialog.component';
 import { formatCoordinatesString } from '@shared/components/location-picker/utils/coordinates.utils';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
-import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 import { ButtonModule } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
@@ -59,9 +59,6 @@ export class ManagementInfoPanelComponent {
     public readonly item = input.required<ManagementEntityType>();
     public readonly loading = input.required<boolean>();
 
-    public readonly cancelForm = output();
-    public readonly submitForm = output();
-    public readonly managementTypeChange = output<string>();
     public readonly copyClicked = output<string>();
     protected readonly coordinates = computed((): string => {
         const currentItem = this.item();
@@ -88,30 +85,6 @@ export class ManagementInfoPanelComponent {
         return operatorsTagStyle(operator);
     }
 
-    protected getFieldError(
-        fieldName: keyof ManagementFormControl
-    ): string | null {
-        const control = this.store.form.get(fieldName);
-        if (!control?.errors || !control.touched) {
-            return null;
-        }
-
-        const errors = control.errors;
-
-        if (errors['required']) {
-            return 'Ce champ est requis';
-        }
-        if (errors['minlength']) {
-            const requiredLength = errors['minlength'].requiredLength;
-            return `Minimum ${requiredLength} caractères requis`;
-        }
-        if (errors['maxlength']) {
-            const requiredLength = errors['maxlength'].requiredLength;
-            return `Maximum ${requiredLength} caractères autorisés`;
-        }
-        return 'Champ invalide';
-    }
-
     protected isFieldInvalid(fieldName: keyof ManagementFormControl): boolean {
         const control = this.store.form.get(fieldName);
         return !!(control?.invalid && control?.touched);
@@ -123,18 +96,9 @@ export class ManagementInfoPanelComponent {
         return this.store.isManagementType(value);
     }
 
-    protected onManagementTypeChange(
-        managementType: 'edit' | 'callback' | 'details'
-    ): void {
-        console.log('managementType: ', managementType);
-        this.store.setManagementType(managementType);
-        this.managementTypeChange.emit(managementType);
-    }
-
     public readonly submitting = input<boolean>(false);
     public readonly submitLabel = input.required<string>();
     public readonly showApprovalSection = input<boolean>(false);
-    public readonly callbackTypeOptions = input<FilterOption[]>([]);
     public readonly reportTypeOptions = input<FilterOption[]>([]);
     public readonly telecomOperatorsOptions = input<FilterOption[]>([]);
     public readonly locationNameOptions = input<FilterOption[]>([]);
@@ -157,11 +121,12 @@ export class ManagementInfoPanelComponent {
             data: { initialCoords: this.item()?.location?.coordinates },
             styleClass: 'location-picker-dialog',
         });
-        ref?.onClose.subscribe((result: Coordinates | null) => {
+        ref?.onClose.subscribe((result: LocationCoordinates | null) => {
             if (result) {
+                console.log('result: ', result);
                 const coordinatesString = formatCoordinatesString(
-                    result.latitude,
-                    result.longitude
+                    result.lat,
+                    result.lng
                 );
                 this.store.setCoordinates(coordinatesString);
             }
