@@ -45,6 +45,7 @@ export class ImageUploadStateService implements OnDestroy {
     readonly isOriginalImage = computed(() => this.cropperState().isOriginal);
 
     public openCropper(file: File): void {
+        console.log('file: ', file);
         const { previewUrl } = this.cropperState();
         this.revokePreviewUrl(previewUrl);
 
