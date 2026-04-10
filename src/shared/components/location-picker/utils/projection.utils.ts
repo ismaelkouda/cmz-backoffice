@@ -4,14 +4,18 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 import {
     isValidCoordinates,
     formatCoordinatesString,
-} from './coordinates.validator';
+} from './coordinates.utils';
+import { DEFAULT_CENTER_IVORY_COAST } from './lat-lng.utils';
 
 export function toOlCoordinate(lat: number, lng: number): Coordinate {
     if (!isValidCoordinates(lat, lng)) {
         console.warn(
             `[Projection] Coordonnées invalides: ${formatCoordinatesString(lat, lng)}`
         );
-        return [0, 0]; // Fallback safe
+        return toOlCoordinate(
+            DEFAULT_CENTER_IVORY_COAST.lat,
+            DEFAULT_CENTER_IVORY_COAST.lng
+        );
     }
     return fromLonLat([lng, lat]);
 }

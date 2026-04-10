@@ -3,8 +3,8 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
-    effect,
     inject,
+    OnDestroy,
     signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,13 +15,23 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
+import {
+    debounceTime,
+    distinctUntilChanged,
+    filter,
+    Subject,
+    switchMap,
+    takeUntil,
+} from 'rxjs';
 
 import { OlMapComponent } from '../components/ol-map.component';
+import { LocationFacade } from '../facade/location.facade';
 import { GeocodeResult } from '../models/geo-result.model';
+import { LocationCoordinates } from '../models/location-coordinates.model';
 import { LocationPickerData } from '../models/location-picker-data.model';
-import { GeoService } from '../services/geo.service';
-import { LocationStateService } from '../services/location-state.service';
-import { formatCoordinatesString } from '../utils/coordinates.validator';
+import { GeoProxyService } from '../services/geo-proxy.service';
+import { GEO_SERVICE } from '../services/geo.service';
+import { formatCoordinatesString } from '../utils/coordinates.utils';
 import { isMobile } from '../utils/lat-lng.utils';
 
 @Component({
@@ -37,126 +47,108 @@ import { isMobile } from '../utils/lat-lng.utils';
         TranslateModule,
         OlMapComponent,
     ],
+    providers: [
+        LocationFacade,
+        { provide: GEO_SERVICE, useClass: GeoProxyService },
+    ],
     templateUrl: './location-picker-dialog.component.html',
     styleUrls: ['./location-picker-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationPickerDialogComponent {
+export class LocationPickerDialogComponent implements OnDestroy {
     private readonly ref = inject(DynamicDialogRef);
     private readonly config = inject(DynamicDialogConfig<LocationPickerData>);
-    private readonly locationState = inject(LocationStateService);
-    private readonly geoService = inject(GeoService, { optional: true });
+    public readonly facade = inject(LocationFacade);
 
-    // État
     readonly searchQuery = signal('');
     readonly searchResults = signal<GeocodeResult[]>([]);
-    readonly selectedCoordinates = signal<Coordinates | null>(null);
-    readonly currentAddress = signal<string | null>(null);
     readonly isSearching = signal(false);
+    readonly error = signal<string | null>(null);
+    readonly isMobile = signal(isMobile());
 
-    // Inputs du modal
     readonly initialCoordinates = signal<Coordinates | null>(null);
     readonly initialZoom = signal<number>(15);
 
-    // Computed display
     readonly currentCoordinatesDisplay = computed(() => {
-        const coords = this.selectedCoordinates();
+        const coords = this.facade.coordinates();
         if (coords) {
-            return formatCoordinatesString(coords.latitude, coords.longitude);
+            return formatCoordinatesString(coords.lat, coords.lng);
         }
         return 'Aucune position sélectionnée';
     });
 
-    // Mobile detection
-    readonly isMobile = signal(isMobile());
+    readonly currentAddress = this.facade.currentAddress;
+    readonly isLoadingAddress = this.facade.isLoading;
+
+    private readonly geoService = inject(GEO_SERVICE);
+
+    private readonly searchSubject = new Subject<string>();
+    private readonly destroy$ = new Subject<void>();
 
     constructor() {
-        // Récupération des données du modal
         const data = this.config.data;
         if (data?.initialCoordinates) {
-            this.initialCoordinates.set(data.initialCoordinates);
-            this.selectedCoordinates.set(data.initialCoordinates);
-            this.locationState.setSelected(data.initialCoordinates);
+            this.facade.setCoordinates(data.initialCoordinates);
         }
-        if (data?.initialZoom) {
-            this.initialZoom.set(data.initialZoom);
-        }
-
-        // Synchronisation avec le service d'état
-        effect(() => {
-            const coords = this.locationState.selectedCoordinates();
-            if (coords) {
-                this.selectedCoordinates.set(coords);
-                // Optionnel: reverse geocoding pour l'adresse
-                this.loadAddressForCoordinates(
-                    coords.latitude,
-                    coords.longitude
-                );
-            }
-        });
+        this.setupSearch();
     }
 
-    onSearchChange() {
+    private setupSearch(): void {
+        this.searchSubject
+            .pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                filter((query) => query.length >= 3),
+                switchMap(async (query) => {
+                    this.isSearching.set(true);
+                    this.error.set(null);
+                    try {
+                        return await this.facade.search(query);
+                    } catch {
+                        this.error.set('Erreur de recherche');
+                        return [];
+                    } finally {
+                        this.isSearching.set(false);
+                    }
+                }),
+                takeUntil(this.destroy$)
+            )
+            .subscribe((results) => this.searchResults.set(results));
+    }
+
+    onSearchChange(): void {
         const query = this.searchQuery();
         if (query.length < 3) {
             this.searchResults.set([]);
-            return;
+            this.error.set(null);
         }
-
-        // Debounce manuel pour simplicité
-        const timeoutId = setTimeout(async () => {
-            if (this.geoService && query === this.searchQuery()) {
-                this.isSearching.set(true);
-                const results = await this.geoService.geocode(query);
-                this.searchResults.set(results);
-                this.isSearching.set(false);
-            }
-        }, 300);
-
-        return () => clearTimeout(timeoutId);
+        this.searchSubject.next(query);
     }
 
-    onSelectSearchResult(result: GeocodeResult): void {
-        this.locationState.setSelected({
-            latitude: result.lat,
-            longitude: result.lng,
-        } as Coordinates);
+    onSelectResult(result: GeocodeResult): void {
+        this.facade.setCoordinates({
+            lat: result.point.lat,
+            lng: result.point.lng,
+        });
         this.searchQuery.set(result.displayName);
         this.searchResults.set([]);
     }
-
-    private async loadAddressForCoordinates(
-        lat: number,
-        lng: number
-    ): Promise<void> {
-        if (!this.geoService) {
-            return;
-        }
-
-        try {
-            const result = await this.geoService.reverseGeocode(lat, lng);
-            if (result?.address) {
-                this.currentAddress.set(result.address);
-            }
-        } catch (error) {
-            console.warn('[LocationPicker] Reverse geocoding failed:', error);
-        }
+    onMapCoordinatesChange(coords: LocationCoordinates): void {
+        this.facade.setCoordinates(coords);
     }
-
-    copyAddress(): void {
-        const address = this.currentAddress();
-        if (address) {
-            navigator.clipboard.writeText(address);
-            // Optionnel: toast de confirmation
-        }
-    }
-
     onValidate(): void {
-        const coords = this.selectedCoordinates();
+        const coords = this.facade.coordinates();
         this.ref.close(coords);
     }
 
     onCancel(): void {
         this.ref.close(null);
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+        this.searchSubject.complete();
+        this.facade.clear();
     }
 }

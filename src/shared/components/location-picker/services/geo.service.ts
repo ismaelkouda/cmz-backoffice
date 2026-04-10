@@ -11,5 +11,4 @@ export abstract class GeoService {
     ): Promise<ReverseGeocodeResult>;
 }
 
-// Token pour injection (permet mocking + multiples implémentations)
 export const GEO_SERVICE = new InjectionToken<GeoService>('GEO_SERVICE');

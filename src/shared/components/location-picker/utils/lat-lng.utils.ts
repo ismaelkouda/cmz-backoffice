@@ -6,7 +6,7 @@ export const DEFAULT_CENTER_IVORY_COAST: { lat: number; lng: number } = {
 };
 
 export function isMobile(): boolean {
-    if (typeof window === 'undefined') {
+    if (typeof globalThis.window === 'undefined') {
         return false;
     }
     return window.innerWidth <= 992;

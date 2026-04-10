@@ -1,61 +1,86 @@
 <div class="location-picker-dialog" [class.mobile]="isMobile()">
-            <div class="search-section mt-3">
-                <div class="p-inputgroup">
-                    <p-inputgroup>
-                        <p-inputgroup-addon>
-                            <i class="pi pi-search"></i>
-                        </p-inputgroup-addon>
-                        <input pInputText class="form-input w-full" [placeholder]="'COMMON.RESEARCH' | translate"
-                            [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" 
-                            />
-                    </p-inputgroup>
-                </div>
-                
-                @if (searchResults().length > 0) {
-                    <div class="search-results">
-                        @for (result of searchResults(); track result.displayName) {
-                            <div class="search-result-item" (click)="onSelectSearchResult(result)">
-                                <i class="pi pi-map-marker"></i>
-                                <span>{{ result.displayName }}</span>
-                            </div>
-                        }
+    <div class="search-section mt-3">
+        <div class="p-inputgroup">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-search"></i>
+                </p-inputgroup-addon>
+                <input 
+                    pInputText 
+                    class="form-input w-full" 
+                    [placeholder]="'COMMON.RESEARCH' | translate"
+                    [(ngModel)]="searchQuery" 
+                    (ngModelChange)="onSearchChange()" 
+                />
+            </p-inputgroup>
+        </div>
+        
+        @if (isSearching()) {
+            <div class="search-loading">
+                <i class="pi pi-spin pi-spinner"></i>
+                <span>Recherche en cours...</span>
+            </div>
+        }
+        
+        @if (error()) {
+            <div class="search-error">
+                <i class="pi pi-exclamation-triangle"></i>
+                <span>{{ error() }}</span>
+            </div>
+        }
+        
+        @if (searchResults().length > 0) {
+            <div class="search-results">
+                @for (result of searchResults(); track result.displayName) {
+                    <div class="search-result-item" (click)="onSelectSearchResult(result)">
+                        <i class="pi pi-map-marker"></i>
+                        <span>{{ result.displayName }}</span>
                     </div>
                 }
             </div>
-            
-            <div class="map-wrapper">
-                <app-ol-map 
-                    [initialCoords]="initialCoordinates()" 
-                    [initialZoom]="initialZoom()">
-                </app-ol-map>
+        }
+        
+        <!-- Message aucun résultat -->
+        @if (!isSearching() && searchQuery().length >= 3 && searchResults().length === 0 && !error()) {
+            <div class="no-results">
+                <i class="pi pi-info-circle"></i>
+                <span>Aucun résultat trouvé</span>
             </div>
-            
-            <div class="footer">
-                <div class="coordinates-preview">
-                    <i class="pi pi-crosshair"></i>
-                    <span>{{ currentCoordinatesDisplay() }}</span>
-                    <button 
-                        *ngIf="currentAddress()" 
-                        class="address-preview" 
-                        (click)="copyAddress()">
-                        <i class="pi pi-copy"></i>
-                        {{ currentAddress() | slice:0:60 }}...
-                    </button>
-                </div>
-                
-                <div class="actions">
-                    <p-button 
-                        label="Annuler" 
-                        icon="pi pi-times" 
-                        severity="secondary" 
-                        (click)="onCancel()">
-                    </p-button>
-                    <p-button 
-                        label="Valider" 
-                        icon="pi pi-check" 
-                        (click)="onValidate()"
-                        [disabled]="!selectedCoordinates()">
-                    </p-button>
-                </div>
-            </div>
+        }
+    </div>
+    
+    <div class="map-wrapper">
+        <app-ol-map
+            [initialCoords]="facade.coordinates()"
+            (coordinatesChange)="onMapCoordinatesChange($event)">
+        </app-ol-map>
+    </div>
+    
+    <div class="footer">
+        <div class="coordinates-preview">
+            <i class="pi pi-crosshair"></i>
+            <span>{{ currentCoordinatesDisplay() }}</span>
+            @if (currentAddress()) {
+                <button class="address-preview" (click)="copyAddress()">
+                    <i class="pi pi-copy"></i>
+                    {{ currentAddress() | slice:0:60 }}...
+                </button>
+            }
         </div>
+        
+        <div class="actions">
+            <p-button 
+                [label]="'COMMON.CANCEL' | translate" 
+                icon="pi pi-times" 
+                severity="secondary" 
+                (click)="onCancel()">
+            </p-button>
+            <p-button 
+                [label]="'COMMON.VALIDATE' | translate" 
+                icon="pi pi-check" 
+                (click)="onValidate()"
+                [disabled]="!facade.coordinates()">
+            </p-button>
+        </div>
+    </div>
+</div>

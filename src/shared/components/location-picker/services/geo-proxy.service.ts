@@ -13,73 +13,41 @@ export class GeoProxyService implements GeoService {
     private readonly http = inject(HttpClient);
     private readonly cache = inject(GeoCacheService);
 
-    private readonly CACHE_KEY_PREFIX = {
-        GEOCODE: 'geocode_',
-        REVERSE: 'reverse_',
-    };
-
     async geocode(query: string): Promise<GeocodeResult[]> {
-        if (!query || query.trim().length === 0) {
-            return [];
-        }
+        const key = this.cache.buildKey({ type: 'geocode', query });
 
-        const cacheKey = `${this.CACHE_KEY_PREFIX.GEOCODE}${query.toLowerCase().trim()}`;
-
-        // Vérification cache
-        const cached = this.cache.get<GeocodeResult[]>(cacheKey);
+        const cached = this.cache.get<GeocodeResult[]>(key);
         if (cached) {
             return cached;
         }
 
-        try {
-            const results = await lastValueFrom(
-                this.http.post<GeocodeResult[]>('/api/geo/geocode', { query })
-            );
+        const result = await lastValueFrom(
+            this.http.post<GeocodeResult[]>('/api/geo/geocode', { query })
+        );
 
-            if (results && results.length > 0) {
-                this.cache.set(cacheKey, results);
-            }
-
-            return results || [];
-        } catch (error) {
-            console.error('[GeoProxy] Geocode failed:', query, error);
-            return [];
-        }
+        this.cache.set(key, result);
+        return result;
     }
 
     async reverseGeocode(
         lat: number,
         lng: number
     ): Promise<ReverseGeocodeResult> {
-        const roundedLat = Math.round(lat * 1e6) / 1e6;
-        const roundedLng = Math.round(lng * 1e6) / 1e6;
-        const cacheKey = `${this.CACHE_KEY_PREFIX.REVERSE}${roundedLat}_${roundedLng}`;
+        const key = this.cache.buildKey({ type: 'reverse', lat, lng });
 
-        const cached = this.cache.get<ReverseGeocodeResult>(cacheKey);
+        const cached = this.cache.get<ReverseGeocodeResult>(key);
         if (cached) {
             return cached;
         }
 
-        try {
-            const result = await lastValueFrom(
-                this.http.post<ReverseGeocodeResult>('/api/geo/reverse', {
-                    lat,
-                    lng,
-                })
-            );
+        const result = await lastValueFrom(
+            this.http.post<ReverseGeocodeResult>('/api/geo/reverse', {
+                lat,
+                lng,
+            })
+        );
 
-            if (result && result.address) {
-                this.cache.set(cacheKey, result);
-            }
-
-            return result || { address: '' };
-        } catch (error) {
-            console.error(
-                '[GeoProxy] Reverse geocode failed:',
-                { lat, lng },
-                error
-            );
-            return { address: '' };
-        }
+        this.cache.set(key, result);
+        return result;
     }
 }
