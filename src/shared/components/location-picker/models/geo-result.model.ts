@@ -1,6 +1,7 @@
+import { GeoPoint } from '@shared/domain/interfaces/geo-point.interface';
+
 export interface GeocodeResult {
-    lat: number;
-    lng: number;
+    point: GeoPoint;
     displayName: string;
     boundingBox?: [number, number, number, number];
     importance?: number;

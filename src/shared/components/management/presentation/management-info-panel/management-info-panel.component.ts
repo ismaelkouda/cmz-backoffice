@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { LocationPickerDialogComponent } from '@shared/components/location-picker/ui/location-picker-dialog.component';
-import { formatCoordinatesString } from '@shared/components/location-picker/utils/coordinates.validator';
+import { formatCoordinatesString } from '@shared/components/location-picker/utils/coordinates.utils';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
@@ -151,7 +151,7 @@ export class ManagementInfoPanelComponent {
             header: 'Sélectionner une position sur la carte',
             width: this.isMobile() ? '100vw' : '90vw',
             height: this.isMobile() ? '100vh' : 'auto',
-            maximizable: false,
+            maximizable: true,
             draggable: false,
             closable: true,
             data: { initialCoords: this.item()?.location?.coordinates },
@@ -163,9 +163,7 @@ export class ManagementInfoPanelComponent {
                     result.latitude,
                     result.longitude
                 );
-                // On garde le format string pour compatibilité visuelle du champ
                 this.store.setCoordinates(coordinatesString);
-                // Le backend recevra l'objet structuré via votre service d'envoi
             }
         });
     }

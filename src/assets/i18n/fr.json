@@ -16,6 +16,7 @@
         "CANCEL": "Annuler",
         "CONFIRM": "Confirmer",
         "DELETE": "Supprimer",
+        "VALIDATE": "Valider",
         "COPY": "Copier",
         "RETRY": "Recharger",
         "COPIED_TO_CLIPBOARD": "Copier dans le presse papier",
