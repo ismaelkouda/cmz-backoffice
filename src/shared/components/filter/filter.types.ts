@@ -46,6 +46,19 @@ export function enumToFilterOptions<T extends Record<string, string>>(
     }));
 }
 
+export function enumToFilterValueOptions<T extends Record<string, string>>(
+    e: T,
+    translate: (key: string) => string
+): {
+    label: string;
+    value: string;
+}[] {
+    return Object.entries(e).map(([key, translationKey]) => ({
+        label: translate(translationKey),
+        value: key,
+    }));
+}
+
 export function getEnumKeyByValue<T extends object>(
     enumObj: T,
     value: string,

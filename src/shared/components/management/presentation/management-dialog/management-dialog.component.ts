@@ -19,6 +19,7 @@ import { DetailsEntity as ProcessingEntity } from '@pages/processing/domain/enti
 import { DetailsEntity as RequestsEntity } from '@pages/requests/domain/entities/details/details.entity';
 import {
     enumToFilterOptions,
+    enumToFilterValueOptions,
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { TABS } from '@shared/components/management/domain/constants/management-tabs.contant';
@@ -133,7 +134,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
 
     readonly locationNameOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(LocationName, this.t.bind(this));
+        return enumToFilterValueOptions(LocationName, this.t.bind(this));
     });
 
     private readonly storeEffect = effect(() => {
