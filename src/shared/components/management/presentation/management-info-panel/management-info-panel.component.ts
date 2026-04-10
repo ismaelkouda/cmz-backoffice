@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { LocationPickerDialogComponent } from '@shared/components/location-picker/ui/location-picker-dialog.component';
+import { formatCoordinatesString } from '@shared/components/location-picker/utils/coordinates.validator';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
@@ -158,9 +159,12 @@ export class ManagementInfoPanelComponent {
         });
         ref?.onClose.subscribe((result: Coordinates | null) => {
             if (result) {
-                console.log('result: ', result);
+                const coordinatesString = formatCoordinatesString(
+                    result.latitude,
+                    result.longitude
+                );
                 // On garde le format string pour compatibilité visuelle du champ
-                this.store.setCoordinates(result);
+                this.store.setCoordinates(coordinatesString);
                 // Le backend recevra l'objet structuré via votre service d'envoi
             }
         });

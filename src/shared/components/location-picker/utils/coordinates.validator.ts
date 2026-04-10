@@ -47,12 +47,6 @@ export function parseCoordinatesString(input: string): Coordinates | null {
     } as Coordinates;
 }
 
-/**
- * Formate des coordonnées en chaîne "lat, lng"
- * @param lat
- * @param lng
- * @param precision
- */
 export function formatCoordinatesString(
     lat: number,
     lng: number,
