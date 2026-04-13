@@ -22,6 +22,7 @@ export class ManagementFormStore {
     readonly decision = signal<'accepted' | 'rejected' | ''>('');
 
     readonly isEditMode = signal(false);
+    readonly imageFile = signal<File | null>(null);
 
     readonly shouldShowCallbackTypeField = computed(
         () => this.managementType() === 'callback'
@@ -55,6 +56,8 @@ export class ManagementFormStore {
         () => Object.keys(this.formErrors()).length > 0
     );
 
+    readonly hasImage = computed(() => !!this.imageFile());
+
     setItem(item: ManagementEntityType): void {
         this.item.set(item);
     }
@@ -73,10 +76,13 @@ export class ManagementFormStore {
             decision: new FormControl<string>('', { nonNullable: true }),
             comment: new FormControl<string>('', { nonNullable: true }),
             reason: new FormControl<string>('', { nonNullable: true }),
+            placePhoto: new FormControl<File | null>(null, {
+                validators: [Validators.required],
+            }),
         });
     }
 
-    private readonly managementTypeSyncEffect = effect((onCleanup) => {
+    private readonly syncManagementType = effect((onCleanup) => {
         const control = this.form.get('managementType');
         if (!control) {
             return;
@@ -91,7 +97,7 @@ export class ManagementFormStore {
         onCleanup(() => sub.unsubscribe());
     });
 
-    private readonly decisionSyncEffect = effect((onCleanup) => {
+    private readonly syncDecision = effect((onCleanup) => {
         const control = this.form.get('decision');
         if (!control) {
             return;
@@ -108,7 +114,7 @@ export class ManagementFormStore {
 
     private hydrated = false;
 
-    private readonly hydrateFormEffect = effect(() => {
+    private readonly hydrateForm = effect(() => {
         const item = this.item();
         const mode = this.managementType();
 
@@ -143,7 +149,7 @@ export class ManagementFormStore {
         this.hydrated = true;
     });
 
-    private readonly conditionalStateEffect = effect(() => {
+    private readonly conditionalState = effect(() => {
         const managementType = this.managementType();
         const decision = this.decision();
 
@@ -176,31 +182,56 @@ export class ManagementFormStore {
     });
 
     public setManagementType(type: 'edit' | 'callback' | 'details'): void {
-        console.log('type: ', type);
         this.form.patchValue({ managementType: type });
-        this.form.get('managementType')?.markAsTouched();
     }
 
     public setCoordinates(coordinates: string): void {
         this.form.patchValue({
-            coordinates: coordinates,
+            coordinates,
         });
     }
 
     public setDecision(decision: 'accepted' | 'rejected'): void {
         this.form.patchValue({ decision });
-        this.form.get('decision')?.markAsTouched();
+    }
+
+    public setImage(file: File | null): void {
+        this.imageFile.set(file);
+        this.form.controls.placePhoto.setValue(file);
+        this.form.controls.placePhoto.markAsTouched();
+    }
+
+    public resetImage(): void {
+        this.imageFile.set(null);
+        this.form.controls.placePhoto.reset(null);
     }
 
     public resetForm(): void {
         this.form.reset();
         this.managementType.set('');
         this.decision.set('');
-        this.isEditMode.set(false);
+        this.imageFile.set(null);
         this.form.enable({ emitEvent: false });
     }
 
     public isManagementType(value: 'edit' | 'callback' | 'details'): boolean {
         return this.managementType() === value;
     }
+
+    // public onImageCleared(): void {
+    //     this.form.controls.placePhoto.reset(null);
+    //     this.imageStore.resetImage();
+    //     this.form.controls.placePhoto.markAsTouched();
+    //     this.imageError.set(null);
+    // }
+
+    // public isImageAvailable(): boolean {
+    //     return this.imageStore.hasCroppedImage();
+    // }
+
+    // public onImageSelected(file: File): void {
+    //     this.form.controls.placePhoto.setValue(file);
+    //     this.imageStore.openCropper(file);
+    //     this.imageError.set(null);
+    // }
 }
