@@ -34,7 +34,6 @@ export class HomeApi {
     }
 
     create(apiDto: HomeCreateApiDto): Observable<SimpleResponseDto<void>> {
-        console.log('apiDto: ', apiDto);
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.HOME}/store`;
         const payload = buildHttpPayload(apiDto, []);
         const formData = formDataBuilder(payload);
@@ -50,7 +49,6 @@ export class HomeApi {
 
     delete(apiDto: HomeDeleteApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.HOME}/${apiDto.uniq_id}/delete`;
-        console.log('url', url);
         return this.http.delete<SimpleResponseDto<void>>(url);
     }
 

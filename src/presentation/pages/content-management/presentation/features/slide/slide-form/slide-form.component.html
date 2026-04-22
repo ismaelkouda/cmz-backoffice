@@ -295,20 +295,17 @@
 
                                                             <app-image-upload
                                                                 id="image"
+                                                                [instanceId]="
+                                                                    instanceId()
+                                                                "
                                                                 formControlName="image"
                                                                 (viewImage)="
                                                                     openImagePreview()
                                                                 "
-                                                                (imageSelected)="
-                                                                    onImageSelected(
-                                                                        $event
-                                                                    )
-                                                                "
                                                                 (imageCleared)="
                                                                     onImageCleared()
                                                                 "
-                                                            >
-                                                            </app-image-upload>
+                                                            />
                                                         </div>
                                                     </div>
                                                 }
@@ -886,27 +883,26 @@
 
 <app-image-preview-dialog
     [visible]="previewVisible()"
-    [imageData]="previewImageData()"
+    [instanceId]="'slide-photo'"
     [title]="'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_PREVIEW'"
     (hide)="closeImagePreview()"
 />
 
 <app-image-crop-dialog
-    [visible]="imageStore.cropperIsOpen()"
-    [sourceFile]="imageStore.cropperSourceFile()"
+    [visible]="imageState().isOpen"
+    [sourceFile]="imageState().sourceFile"
     [aspectRatio]="store.activeCropAspectRatio()"
-    [rotation]="imageStore.cropperRotation()"
-    [flipH]="imageStore.cropperFlipH()"
-    [flipV]="imageStore.cropperFlipV()"
+    [rotation]="imageState().rotation"
+    [flipH]="imageState().flipH"
+    [flipV]="imageState().flipV"
     [targetPlatforms]="store.selectedPlatforms()"
-    [isLoading]="imageStore.cropperStatus() === 'loading'"
+    [isLoading]="imageState().status === 'loading'"
     (imageCropped)="onCropConfirmed($event)"
-    (cropCancelled)="onCropCancelled()"
-    (imageLoaded)="imageStore.onCropperImageLoaded()"
-    (loadFailed)="onCropImageLoadFailed()"
-    (rotateLeft)="imageStore.rotateCropper('left')"
-    (rotateRight)="imageStore.rotateCropper('right')"
-    (flipHorizontal)="imageStore.flipCropperHorizontal()"
-    (flipVertical)="imageStore.flipCropperVertical()"
-    (resetTransforms)="imageStore.resetCropperTransforms()"
+    (imageLoaded)="onImageLoaded()"
+    (loadFailed)="onImageFailed()"
+    (rotateLeft)="onImageRotate('left')"
+    (rotateRight)="onImageRotate('right')"
+    (flipHorizontal)="onImageFlipHorizontal()"
+    (flipVertical)="onImageFlipVertical()"
+    (resetTransforms)="onImageResetTransforms()"
 />

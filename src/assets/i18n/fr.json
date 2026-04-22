@@ -45,7 +45,7 @@
         "PLACE_NOT_PROVIDED": "Lieu non fourni",
         "WEB": "Web",
         "WEB_STYLE": "info",
-        "APP": "Appli Mobile",
+        "APP": "Application",
         "MOBILE": "Mobile",
         "MOBILE_STYLE": "contrast",
         "PWA": "PWA",
@@ -66,6 +66,12 @@
         "ACTIVE_STYLE": "success",
         "INACTIVE": "Inactif",
         "INACTIVE_STYLE": "danger",
+        "PENDING_STYLE": "warn", 
+        "BLOCKED_STYLE": "danger",
+        "COMPLETED": "Atteint",
+        "NOT_COMPLETED": "Non atteint",
+        "COMPLETED_STYLE": "success",
+        "NOT_COMPLETED_STYLE": "danger",
         "FILTER": "Filtrer",
         "UPLOAD": "Télécharger",
         "PREVIEW": "Aperçu",
@@ -119,8 +125,11 @@
         "LIST_OF": "Liste des",
         "UPDATED_AT": "Mises à jour au",
         "SUPERVISOR": "Superviseur",
+        "SUPERVISOR_STYLE": "success",
         "LEADER": "Chef d'équipe",
+        "LEADER_STYLE": "info",
         "AGENT": "Gestionnaire",
+        "AGENT_STYLE": "contrast",
         "SUCCESS": {
             "CREATE": "Création reussie",
             "UPDATE": "Mise à jour reussie",
@@ -1360,7 +1369,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "SEE_MORE": "Voir plus",
                 "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
@@ -1427,7 +1436,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
@@ -1520,7 +1529,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -1611,7 +1620,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "STATUS": "Statut",
                 "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
@@ -1679,7 +1688,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "STATE": "État",
                 "TREAT": "Traiter",
                 "ADD_ACTION": "Ajouter une Action",
@@ -1814,7 +1823,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -1907,7 +1916,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "STATE": "État",
                 "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
@@ -1975,7 +1984,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -2055,7 +2064,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source [Num]",
+                "SOURCE": "Initiateur [Num]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -2382,7 +2391,7 @@
                 "FINALIZATION": "Finaliser",
                 "INFORMATION": "Information",
                 "TAKE": "Prendre",
-                "APPROBATION": "Approuver"
+                "APPROBATION": "Valider"
             },
             "HEADER": {
                 "DETAILS_REPORT": "du signalement",
@@ -2561,7 +2570,7 @@
                 },
                 "LOCATION_INFO": {
                     "TITLE": "Informations de la localisation",
-                    "COORDINATES": "Coordonnées",
+                    "COORDINATES": "Coordonnées (Lat, Lng)",
                     "LOCATION_METHOD": "Lecture Coordonnées",
                     "LONGITUDE": "Longitude",
                     "LATITUDE": "Latitude",
@@ -2573,8 +2582,8 @@
                 },
                 "PICTURES": {
                     "TITLE": "Photos",
-                    "ACCESS_ROAD": "Voie d'accès",
-                    "OBSERVATION_POINT": "Point d'observation",
+                    "ACCESS_ROAD": "Une voie d'accès",
+                    "OBSERVATION_POINT": "Le point d'observation",
                     "NO_DATA": "Aucune photo disponible."
                 },
 
@@ -2741,7 +2750,7 @@
                 "PROFILE": "Profil Utilisateur",
                 "MATRICULE": "Matricule",
                 "EMAIL": "Email",
-                "RESPONSIBILITY": "Responsabilité",
+                "ROLE": "Rôle",
                 "STATUS": "Statut",
                 "CREATED_AT": "Créé le",
                 "CREATED_BY": "Créé par",
@@ -2787,6 +2796,18 @@
                     "MATRICULE_PLACEHOLDER": "Ex: 123456",
                     "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE_UPDATE": "Mise à jour d'utilisateur",
+                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet utilisateur ?",
+                "TITLE_CREATE": "Création d'utilisateur",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer cet utilisateur ? <br><b class='color-primary'>Nous allons envoyer les accès de connexion à l'adresse email </b><b class='color-secondary'>{{email}}</b>",
+                "TITLE_DELETE": "Suppression d'utilisateur",
+                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet utilisateur ?",
+                "TITLE_ENABLE": "Activation d'utilisateur",
+                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet utilisateur ?",
+                "TITLE_DISABLE": "Désactivation d'utilisateur",
+                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cet utilisateur ?"
             },
             "BUTTONS": {
                 "ADD": "Ajouter"
@@ -3068,7 +3089,7 @@
                 "TITLE_UPDATE": "Mise à jour de membre",
                 "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce membre ?",
                 "TITLE_CREATE": "Création de membre",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce membre ?",
+                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce membre ? <br><b class='color-primary'>Nous allons envoyer les accès de connexion à l'adresse email </b><b class='color-secondary'>{{email}}</b>",
                 "TITLE_DELETE": "Suppression de membre",
                 "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet membre ?",
                 "TITLE_ENABLE": "Activation de membre",
@@ -3148,6 +3169,7 @@
                 "DESCRIPTION": "Description",
                 "STATUS": "Statut",
                 "PARTICIPANTS_COUNT": "# membres",
+                "ROLES": "Rôles",
                 "CREATED_AT": "Créé le",
                 "UPDATED_AT": "Modifié le",
                 "SEE_MORE": "Voir plus",
@@ -3243,7 +3265,8 @@
                     "FIRST_NAME": "Prénom",
                     "LAST_NAME": "Nom",
                     "PHONE": "Téléphone",
-                    "EMAIL": "Email"
+                    "EMAIL": "Email",
+                    "ROLE": "Rôle"
                 },
                 "FORM": {
                     "TITLE_FORM_ADD": "Formulaire d'ajout d'équipe",
@@ -3317,7 +3340,7 @@
                 }
             },
             "TABLE": {
-                "NAME": "Nom complet de l'agent",
+                "NAME": "Nom complet de l'intervenant",
                 "GOALS_SIZE": "# Objectifs",
                 "ACHIEVEMENTS_SIZE": "# Réalisations",
                 "PERCENTAGES": "Pourcentages",
@@ -3327,6 +3350,66 @@
             }
         }
     },
+    "HISTORY": {
+            "FILTER": {
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date"
+                }
+            },
+            "TABLE": {
+                "ACTION_TYPE": "Type d'action",
+                "DETAILS": "Détails",
+                "SOURCE": "Source",
+                "CREATED_AT": "Créé le",
+                "SEE_MORE": "Voir plus",
+                "ACTION": "Action"
+            },
+            "DIALOG": {
+                "TITLE": "Détail de l'historique",
+                "DATE": "Date & Heure",
+                "USER": "Utilisateur",
+                "OPERATION": "Opération",
+                "ACTION": "Action",
+                "MODULE": "Module",
+                "SUB_MODULE": "Sous-module",
+                "IP_ADDRESS": "Adresse IP",
+                "ACCESS_METHOD": "Moyen d'accès",
+                "CHANGES": "Modifications",
+                "NO_CHANGES": "Aucune modification détectée",
+                "NO_DATA": "Aucune donnée disponible",
+                "PARSE_ERROR": "Erreur lors de l'analyse des données",
+                "FIELD": "Champ",
+                "BEFORE": "Avant",
+                "AFTER": "Après",
+                "CHANGE": "Changement"
+            },
+            "SUMMARY": {
+                "MODIFIED": "modifiés",
+                "UNCHANGED": "inchangés",
+                "TOTAL": "total"
+            },
+            "EVENT": {
+                "CREATE": "Création",
+                "UPDATE": "Mise à jour",
+                "DELETE": "Suppression",
+                "UNKNOWN": "Évènement"
+            },
+            "OPERATION": {
+                "CREATE": "Création",
+                "UPDATE": "Mise à jour",
+                "DELETE": "Suppression",
+                "UNKNOWN": "Action inconnue"
+            },
+            "CHANGE": {
+                "ADDED": "Ajouté",
+                "REMOVED": "Supprimé",
+                "UPDATED": "Modifié",
+                "UNCHANGED": "Inchangé"
+            }
+        },
     "REPORTING": {
         "BREADCRUMB": {
             "LABEL": "Suivi & Reporting",

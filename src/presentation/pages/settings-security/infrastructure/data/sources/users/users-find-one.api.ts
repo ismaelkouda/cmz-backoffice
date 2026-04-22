@@ -17,7 +17,7 @@ export class UsersFindOneApi {
         filter?: UsersFindOneFilterApiDto
     ): Observable<UsersFindOneResponseApiDto> {
         const params = filter?.id ? `/${filter.id}` : '';
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/${params}`;
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}${params}`;
         return this.http.get<UsersFindOneResponseApiDto>(url);
     }
 }

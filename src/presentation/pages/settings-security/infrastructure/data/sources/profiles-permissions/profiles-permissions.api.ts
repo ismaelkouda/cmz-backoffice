@@ -4,7 +4,7 @@ import { ProfilesPermissionsCreateApiDto } from '@pages/settings-security/infras
 import { ProfilesPermissionsFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-filter-api.dto';
 import { ProfilesPermissionsResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-response-api.dto';
 import { ProfilesPermissionsUpdateApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-update-api.dto';
-import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
+import { SETTINGS_SECURITY_LOGS_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -19,7 +19,8 @@ import { ProfilesPermissionsEnableApiDto } from '../../../api/dto/profiles-permi
 export class ProfilesPermissionsApi {
     constructor(
         private readonly http: HttpClient,
-        @Inject(SETTINGS_SECURITY_BASE_URL) private readonly baseUrl: string
+        @Inject(SETTINGS_SECURITY_LOGS_BASE_URL)
+        private readonly baseUrl: string
     ) {}
 
     readAll(

@@ -212,15 +212,12 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
 
     public onValidReportTreatment(): void {
         const items = this.items();
-
         if (!this.uniqId() || !items || !this.type()) {
             return;
         }
-
         if (!this.validateForm()) {
             return;
         }
-
         this.showConfirmationDialog();
     }
 
@@ -235,9 +232,9 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         return true;
     }
 
-    public setManagementType(managementType: string): void {
-        this.store.setManagementType(
-            managementType as 'edit' | 'callback' | 'details'
+    public setApprovalType(approvalType: string): void {
+        this.store.setApprovalType(
+            approvalType as 'edit' | 'callback' | 'details'
         );
     }
 

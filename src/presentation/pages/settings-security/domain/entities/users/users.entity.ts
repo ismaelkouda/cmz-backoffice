@@ -3,11 +3,8 @@ import {
     StatusStyle,
 } from '@pages/settings-security/domain/enums/users/users-status.enum';
 import { UsersProps } from '@pages/settings-security/domain/interfaces/users/users-props.interface';
-import { Profiles, ProfilesStyle } from '@shared/domain/enums/profiles.enum';
-import {
-    Responsibilities,
-    ResponsibilitiesStyle,
-} from '@shared/domain/enums/responsibilities.enum';
+// import { Profiles, ProfilesStyle } from '@shared/domain/enums/profiles.enum';
+import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
 
 export class UsersEntity {
     constructor(private readonly props: UsersProps) {}
@@ -36,31 +33,29 @@ export class UsersEntity {
         return this.props.phone;
     }
 
-    get responsibility(): Responsibilities {
-        return this.props.responsibility;
+    get role(): Roles {
+        return this.props.role;
     }
-    responsibilityStyle(
-        responsibility: Responsibilities
-    ): ResponsibilitiesStyle {
-        const methodMap: Record<Responsibilities, ResponsibilitiesStyle> = {
-            [Responsibilities.SUPERVISOR]: ResponsibilitiesStyle.SUPERVISOR,
-            [Responsibilities.LEADER]: ResponsibilitiesStyle.LEADER,
-            [Responsibilities.AGENT]: ResponsibilitiesStyle.AGENT,
+    roleStyle(role: Roles): RolesStyle {
+        const methodMap: Record<Roles, RolesStyle> = {
+            [Roles.SUPERVISOR]: RolesStyle.SUPERVISOR,
+            [Roles['TEAM-LEADER']]: RolesStyle['TEAM-LEADER'],
+            [Roles.AGENT]: RolesStyle.AGENT,
         };
-        return methodMap[responsibility];
+        return methodMap[role];
     }
 
-    get profile(): Profiles {
+    get profile(): string {
         return this.props.profile;
     }
-    profileStyle(profile: Profiles): ProfilesStyle {
-        const methodMap: Record<Profiles, ProfilesStyle> = {
-            [Profiles.SUPERVISOR]: ProfilesStyle.SUPERVISOR,
-            [Profiles.LEADER]: ProfilesStyle.LEADER,
-            [Profiles.AGENT]: ProfilesStyle.AGENT,
-        };
-        return methodMap[profile];
-    }
+    // profileStyle(profile: Profiles): ProfilesStyle {
+    //     const methodMap: Record<Profiles, ProfilesStyle> = {
+    //         [Profiles.SUPERVISOR]: ProfilesStyle.SUPERVISOR,
+    //         [Profiles.LEADER]: ProfilesStyle.LEADER,
+    //         [Profiles.AGENT]: ProfilesStyle.AGENT,
+    //     };
+    //     return methodMap[profile];
+    // }
 
     get status(): Status {
         return this.props.status;

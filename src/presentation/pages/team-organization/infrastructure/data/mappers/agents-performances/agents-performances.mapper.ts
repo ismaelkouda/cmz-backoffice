@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
     AgentsPerformancesEntity,
     AgentsPerformancesProps,
 } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
-import { AGENTS_PERFORMANCES_STATUS } from '@pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
 import { AgentsPerformancesItemApiDto } from '@pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-response-api.dto';
+import { StatusMapper } from '@pages/team-organization/infrastructure/data/mappers/agents-performances/agents-performances-status.mapper';
+import { ActorMapper } from '@shared/data/mappers/actor.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
+import { ActorEntity } from '@shared/domain/entities/actor.entity';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
@@ -13,22 +15,27 @@ export class AgentsPerformancesMapper extends PaginatedMapper<
     AgentsPerformancesEntity,
     AgentsPerformancesItemApiDto
 > {
+    private readonly utils = new MapperUtils();
+    private readonly actorMapper = inject(ActorMapper);
+    private readonly statusMapper = inject(StatusMapper);
     private readonly entityCache = new Map<string, AgentsPerformancesEntity>();
 
     protected mapItemFromDto(
         dto: AgentsPerformancesItemApiDto
     ): AgentsPerformancesEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
+        const user = this.utils.memoized(dto.user, (i) =>
+            this.actorMapper.mapToEntity(i)
+        ) as ActorEntity;
 
         const props: AgentsPerformancesProps = {
             uniqId: dto.id,
-            name: dto.name,
-            goalsSize: dto.goals_size,
-            achievementsSize: dto.achievements_size,
-            percentages: dto.percentages,
-            status: this.mapActionDropdown(dto.is_active),
+            user,
+            goalsSize: dto.task_target,
+            achievementsSize: dto.tasks_completed,
+            percentages: dto.percentage,
+            status: this.statusMapper.mapFromDto(dto.status),
             createdAt: dto.created_at,
-            updatedAt: dto.updated_at,
         };
 
         const cacheKey = `dto:${props.uniqId}`;
@@ -40,12 +47,5 @@ export class AgentsPerformancesMapper extends PaginatedMapper<
 
         this.entityCache.set(cacheKey, entity);
         return entity;
-    }
-
-    private mapActionDropdown(status: boolean): AGENTS_PERFORMANCES_STATUS {
-        if (status) {
-            return AGENTS_PERFORMANCES_STATUS.ACHIEVED;
-        }
-        return AGENTS_PERFORMANCES_STATUS.NOT_ACHIEVED;
     }
 }

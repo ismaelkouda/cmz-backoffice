@@ -17,4 +17,7 @@ export interface ProfilesPermissionsVmProps {
 
     updatedAt: string;
     actionsRef: string;
+
+    disableDropdownDelete: boolean;
+    hiddenDropdownDelete: boolean;
 }

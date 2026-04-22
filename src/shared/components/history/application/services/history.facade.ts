@@ -21,7 +21,7 @@ export class HistoryFacade extends BaseFacade<HistoryEntity, HistoryFilterDto> {
     private readonly STALE_TIME = 2 * 60 * 1000;
 
     readAll(
-        filter: HistoryFilterDto = {},
+        filter: HistoryFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false
     ): void {
@@ -38,6 +38,8 @@ export class HistoryFacade extends BaseFacade<HistoryEntity, HistoryFilterDto> {
         }
 
         const command = new HistoryFilterCommand(
+            filter.typeModel,
+            filter.module,
             filter?.search,
             filter?.startDate,
             filter?.endDate
@@ -55,17 +57,23 @@ export class HistoryFacade extends BaseFacade<HistoryEntity, HistoryFilterDto> {
     }
 
     refresh(): void {
-        this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new HistoryFilterCommand(
+            filter?.typeModel ?? '',
+            filter?.module,
             filter?.search,
             filter?.startDate,
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            filter,
+            page,
+            fetch$,
+            this.uiFeedbackService
+        );
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -75,6 +83,8 @@ export class HistoryFacade extends BaseFacade<HistoryEntity, HistoryFilterDto> {
             return;
         }
         const command = new HistoryFilterCommand(
+            filter.typeModel ?? '',
+            filter?.module,
             filter?.search,
             filter?.startDate,
             filter?.endDate

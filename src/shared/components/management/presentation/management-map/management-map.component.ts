@@ -124,7 +124,6 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 ],
             }),
         });
-        console.log('osmLayer: ', osmLayer);
 
         this.map = new Map({
             target: container,

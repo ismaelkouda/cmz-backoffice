@@ -1,7 +1,8 @@
-import { TreeNode } from 'primeng/api';
+// import { TreeNode } from 'primeng/api';
 
-export interface PermissionTreeNodeApiDto extends TreeNode {
-    value: string;
-    title: string;
-    checked: boolean;
-}
+// export interface PermissionTreeNodeApiDto extends TreeNode {
+//     value: string;
+//     title: string;
+//     slug?: string;
+//     checked: boolean;
+// }

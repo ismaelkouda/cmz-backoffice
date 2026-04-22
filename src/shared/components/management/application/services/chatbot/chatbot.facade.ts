@@ -153,7 +153,6 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
 
     refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
-        console.log('filter: ', filter);
         const page = this.pageSubject.getValue();
         const command = new ChatbotQuery(
             filter?.reportId,
@@ -166,7 +165,6 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        console.log('command: ', command);
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
             filter,
@@ -196,7 +194,6 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
     }
 
     create(chatbot: ChatbotCreateDto): void {
-        console.log('chatbot: ', chatbot);
         this._actionState.set('loading');
 
         const command = new ChatbotCreateCommand(

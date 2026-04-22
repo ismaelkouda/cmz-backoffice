@@ -13,6 +13,6 @@ export const MUNICIPALITIES_TABS = [
         route: `/${ADMINISTRATIVE_BOUNDARY_ROUTE}/history`,
         label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { participant: 'test' },
+        queryParams: { ref: 'test' },
     },
 ];

@@ -19,8 +19,9 @@ export class QueuesRepositoryImpl extends QueuesRepository {
         entity: QueuesFilterEntity,
         page: string
     ): Observable<Paginate<QueuesEntity>> {
+        const paramsDto = queuesFilterMapper(entity);
         return this.api
-            .execute(queuesFilterMapper(entity), page)
+            .execute(paramsDto, page)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

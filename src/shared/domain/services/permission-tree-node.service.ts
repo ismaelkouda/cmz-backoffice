@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PermissionTreeService {
     transformPermissionsToTree(permissions: any[]): TreeNodeInterface[] {
         return permissions.map((p) => this.mapEntityToTreeNode(p));
@@ -18,6 +18,7 @@ export class PermissionTreeService {
 
         return {
             key: entity.key.toString(),
+            value: entity.value.toString(),
             label: entity.label,
             icon: entity.icon ?? '',
             checked: entity.checked ?? false,
@@ -29,14 +30,15 @@ export class PermissionTreeService {
     }
 
     collectLeafKeysFromNodes(nodes: TreeNodeInterface[]): string[] {
+        console.log('nodes: ', nodes);
         const result = new Set<string>();
 
         const collect = (node: TreeNodeInterface) => {
-            if (node.key) {
-                result.add(node.key);
+            if (node.value) {
+                result.add(node.value);
             }
             if (!node.children || node.children.length === 0) {
-                result.add(node.key);
+                result.add(node.value);
                 return;
             }
             node.children.forEach(collect);
@@ -101,5 +103,25 @@ export class PermissionTreeService {
             expanded: false,
             children: node.children ? this.collapseAll(node.children) : [],
         }));
+    }
+
+    collectCheckedNodes(nodes: TreeNodeInterface[]): TreeNodeInterface[] {
+        const result: TreeNodeInterface[] = [];
+
+        const walk = (items: TreeNodeInterface[]) => {
+            for (const node of items) {
+                if (node.checked) {
+                    result.push(node);
+                }
+
+                if (node.children?.length) {
+                    walk(node.children);
+                }
+            }
+        };
+
+        walk(nodes);
+
+        return result;
     }
 }

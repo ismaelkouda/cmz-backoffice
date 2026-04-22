@@ -19,7 +19,10 @@ export class HistoryFindOneFacade extends ObjectBaseFacade<
     private readonly STALE_TIME = 2 * 60 * 1000;
 
     read(filter: HistoryFindOneFilterDto, force = false): void {
-        const command = new HistoryFindOneFilterCommand(filter.uniqId);
+        const command = new HistoryFindOneFilterCommand(
+            filter.uniqId,
+            filter.typeModel
+        );
         const fetch$ = this.bus.dispatch(command);
         this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
     }

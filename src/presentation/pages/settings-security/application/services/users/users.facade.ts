@@ -84,7 +84,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
         const command = new UsersQuery(
             filter?.search,
             filter?.profile,
-            filter?.responsibility,
+            filter?.role,
             filter?.isActive
         );
         const fetch$ = this.filterBus.dispatch(command, page);
@@ -107,7 +107,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
         const command = new UsersQuery(
             filter?.search,
             filter?.profile,
-            filter?.responsibility,
+            filter?.role,
             filter?.isActive
         );
         const fetch$ = this.filterBus.dispatch(command, page);
@@ -123,7 +123,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
         const command = new UsersQuery(
             filter?.search,
             filter?.profile,
-            filter?.responsibility,
+            filter?.role,
             filter?.isActive
         );
         const fetch$ = this.filterBus.dispatch(command, page);
@@ -142,7 +142,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
         const command = new UsersQuery(
             filter?.search,
             filter?.profile,
-            filter?.responsibility,
+            filter?.role,
             filter?.isActive
         );
         const fetch$ = this.filterBus.dispatch(command, page);
@@ -182,7 +182,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
             participant.email,
             participant.phone,
             participant.profile,
-            participant.responsibility
+            participant.role
         );
 
         this.handleActionWithRefresh(
@@ -211,7 +211,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
             participant.email,
             participant.phone,
             participant.profile,
-            participant.responsibility
+            participant.role
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
@@ -235,7 +235,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(user: UsersDisableDto): void {
@@ -243,7 +243,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(user: UsersDeleteDto): void {
@@ -251,6 +251,6 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
-        );
+        ).subscribe();
     }
 }

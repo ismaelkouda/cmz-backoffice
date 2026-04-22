@@ -12,7 +12,7 @@ export function profilesPermissionsUsersRemoveMapper(
     }
 
     if (vo.users) {
-        params.users = vo.users;
+        params.user_ids = vo.users;
     }
 
     return params;

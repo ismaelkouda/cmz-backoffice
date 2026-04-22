@@ -105,7 +105,7 @@ export class ActionsTreatmentComponent implements OnInit {
     private lastSuccess = this.facade.actionSuccess();
     public readonly displayModal = signal<boolean>(false);
     private readonly openRequested = signal(false);
-    public readonly reportTreatmentVisible = signal<boolean>(false);
+    public readonly isVisibleDialog = signal<boolean>(false);
     public readonly selectedManagementType = signal<TypeReport>(
         TypeReport.PROCESSING
     );
@@ -288,11 +288,11 @@ export class ActionsTreatmentComponent implements OnInit {
         if (!this.uniqId()) {
             return;
         }
-        this.reportTreatmentVisible.set(true);
+        this.isVisibleDialog.set(true);
     }
 
     public onVisibleChange(event: boolean): void {
-        this.reportTreatmentVisible.set(event);
+        this.isVisibleDialog.set(event);
     }
 
     public onClosureClicked(): void {

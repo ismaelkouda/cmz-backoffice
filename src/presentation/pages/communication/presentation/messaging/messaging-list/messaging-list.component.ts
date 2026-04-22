@@ -19,7 +19,7 @@ import { MessagingFacade } from '@pages/communication/application/services/messa
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
 import { MessagingPresenter } from '@pages/communication/presentation/adapters/messaging/messaging-vm.presenter';
-import { MESSAGING_FORM } from '@pages/communication/presentation/messaging/messaging.routes';
+import { MESSAGING_FORM } from '@pages/communication/presentation/messaging/messaging-paths.constants';
 import { MessagingFilterStore } from '@pages/communication/presentation/store/messaging/messaging-filter.store';
 import { Channels } from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
 import { MESSAGING_TABLE } from '@presentation/pages/communication/presentation/adapters/messaging/messaging-table.constant';
@@ -218,7 +218,7 @@ export class MessagingListComponent implements OnInit, OnDestroy {
         const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
-        this.router.navigate([MESSAGING_FORM], {
+        this.router.navigate(['../', MESSAGING_FORM], {
             relativeTo: this.activatedRoute,
             queryParams,
         });

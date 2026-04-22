@@ -1,7 +1,6 @@
-import { GeoPoint } from '@shared/domain/interfaces/geo-point.interface';
+import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 
-export interface LocationCoordinates extends GeoPoint {
+export interface LocationCoordinates extends Coordinates {
     address?: string;
-    what3words?: string;
     accuracy?: number;
 }

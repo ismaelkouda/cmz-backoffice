@@ -20,7 +20,6 @@
     </ng-template>
 
     <div class="main-container command-layout">
-        
         <app-management-sidebar
             [item]="items()"
             [loading]="loading()"
@@ -105,13 +104,13 @@
                         }
                     </div>
                 </nav>
-                
+
                 <app-management-callback
                     [item]="items()"
                     [loading]="loading()"
                     [submitting]="submitting()"
                     [callbackTypeOptions]="callbackTypesOptions()"
-                    (managementTypeChange)="setManagementType($event)"
+                    (approvalTypeChange)="setApprovalType($event)"
                 />
             }
 

@@ -38,7 +38,7 @@ export class ParticipantsEntity {
     roleStyle(role: Roles): RolesStyle {
         const methodMap: Record<Roles, RolesStyle> = {
             [Roles.SUPERVISOR]: RolesStyle.SUPERVISOR,
-            [Roles.LEADER]: RolesStyle.LEADER,
+            [Roles['TEAM-LEADER']]: RolesStyle['TEAM-LEADER'],
             [Roles.AGENT]: RolesStyle.AGENT,
         };
         return methodMap[role];

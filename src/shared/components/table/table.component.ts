@@ -68,6 +68,8 @@ export class TableComponent {
     public readonly pagination = input<Paginate<any> | null>(null);
     public readonly config = input.required<TableConfig>();
     public readonly hiddenButtonOther = input<boolean>(true);
+    public readonly hiddenButtonExport = input<boolean>(false);
+    public readonly hiddenButtonRefresh = input<boolean>(false);
     public readonly dataKey = input<string>('uniqId');
     public readonly headerButtons = input<TableHeaderButton[]>([]);
     public readonly selectionMode = input<'single' | 'multiple' | 'saisie'>(

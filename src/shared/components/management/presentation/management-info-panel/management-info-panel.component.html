@@ -5,11 +5,15 @@
                 <div class="data-card report-info-card skeleton-card">
                     <div class="card-header">
                         <div class="card-title-group">
-                            <p-skeleton shape="circle" size="32px"/>
-                            <p-skeleton width="200px" height="24px"/>
+                            <p-skeleton shape="circle" size="32px" />
+                            <p-skeleton width="200px" height="24px" />
                         </div>
                         <div class="card-badges">
-                            <p-skeleton width="120px" height="28px" borderRadius="20px"/>
+                            <p-skeleton
+                                width="120px"
+                                height="28px"
+                                borderRadius="20px"
+                            />
                         </div>
                     </div>
 
@@ -78,113 +82,232 @@
                 <div class="data-card location-card">
                     <div class="card-body">
                         <div class="data-grid">
-
                             <div class="data-row triple">
                                 <div class="data-field">
-                                    <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.TYPE' | translate }}</label>
-                                    @if (isManagementType('details')) {
-                                        <div class="field-value">{{ (item()?.reportType || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}</div>
+                                    <label class="field-label">{{
+                                        'MANAGEMENT.FORM.REPORT_INFO.TYPE'
+                                            | translate
+                                    }}</label>
+                                    @if (isApprovalType('details')) {
+                                        <div class="field-value">
+                                            {{
+                                                item()?.reportType ||
+                                                    'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                    | translate
+                                            }}
+                                        </div>
                                     } @else {
-                                        <p-select 
-                                            class="form-p-select" 
+                                        <p-select
+                                            class="form-p-select"
                                             optionLabel="label"
                                             optionValue="value"
-                                            formControlName="reportType" 
-                                            [options]="reportTypeOptions()" 
+                                            formControlName="reportType"
+                                            [options]="reportTypeOptions()"
                                             styleClass="w-100"
                                             appendTo="body"
-                                            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                            [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                                            [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
-                                            [attr.aria-label]="'MANAGEMENT.FORM.REPORT_INFO.TYPE' | translate" />
+                                            [placeholder]="
+                                                'COMMON.SELECT_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                            [emptyMessage]="
+                                                'COMMON.SELECT_EMPTY_MESSAGE'
+                                                    | translate
+                                            "
+                                            [emptyFilterMessage]="
+                                                'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                    | translate
+                                            "
+                                            [attr.aria-label]="
+                                                'MANAGEMENT.FORM.REPORT_INFO.TYPE'
+                                                    | translate
+                                            "
+                                        />
                                     }
                                 </div>
 
                                 <div class="data-field">
-                                    <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.OPERATORS' | translate }}</label>
-                                    @if (isManagementType('details')) {
-                                        <div class="field-value operator-padding short">
-                                        @for (operator of item()?.operators || []; track operator) {
-                                            <p-tag [value]="operator | translate" [ngStyle]="getOperatorTagStyle(operator | translate)" styleClass="operator-tag" />
-                                        } @empty {
-                                            <span>{{ 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}</span>
-                                        }
+                                    <label class="field-label">{{
+                                        'MANAGEMENT.FORM.REPORT_INFO.OPERATORS'
+                                            | translate
+                                    }}</label>
+                                    @if (isApprovalType('details')) {
+                                        <div
+                                            class="field-value operator-padding short"
+                                        >
+                                            @for (
+                                                operator of item()?.operators ||
+                                                    [];
+                                                track operator
+                                            ) {
+                                                <p-tag
+                                                    [value]="
+                                                        operator | translate
+                                                    "
+                                                    [ngStyle]="
+                                                        getOperatorTagStyle(
+                                                            operator | translate
+                                                        )
+                                                    "
+                                                    styleClass="operator-tag"
+                                                />
+                                            } @empty {
+                                                <span>{{
+                                                    'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                        | translate
+                                                }}</span>
+                                            }
                                         </div>
                                     } @else {
-                                        <p-multiSelect 
-                                            class="form-p-select" 
+                                        <p-multiSelect
+                                            class="form-p-select"
                                             optionLabel="label"
                                             optionValue="value"
-                                            formControlName="operators" 
-                                            [options]="telecomOperatorsOptions()" 
-                                            styleClass="w-100" 
+                                            formControlName="operators"
+                                            [options]="
+                                                telecomOperatorsOptions()
+                                            "
+                                            styleClass="w-100"
                                             appendTo="body"
-                                            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                            [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                                            [placeholder]="
+                                                'COMMON.SELECT_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                            [emptyMessage]="
+                                                'COMMON.SELECT_EMPTY_MESSAGE'
+                                                    | translate
+                                            "
                                             [filter]="false"
-                                            [showToggleAll]="false"/>
+                                            [showToggleAll]="false"
+                                        />
                                     }
                                 </div>
 
                                 <div class="data-field flexible">
                                     <label class="field-label">
                                         <i class="pi pi-file-edit"></i>
-                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.DESCRIPTION' | translate }}
+                                        {{
+                                            'MANAGEMENT.FORM.REPORT_INFO.DESCRIPTION'
+                                                | translate
+                                        }}
                                     </label>
-                                    @if (isManagementType('details')) {
+                                    @if (isApprovalType('details')) {
                                         <div class="field-value long">
-                                            {{ item()?.description || ('MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION' | translate) }}
+                                            {{
+                                                item()?.description ||
+                                                    ('MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION'
+                                                        | translate)
+                                            }}
                                         </div>
                                     } @else {
-                                        <input class="form-input" pInputText type="text" formControlName="description" />
+                                        <input
+                                            class="form-input"
+                                            pInputText
+                                            type="text"
+                                            formControlName="description"
+                                        />
                                     }
                                 </div>
                             </div>
                             <div class="data-row triple">
                                 <div class="data-field">
-                                    <label class="field-label">{{ 'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME' | translate }}</label>
-                                    @if (isManagementType('details')) {
-                                        <div class="field-value">{{ item()?.location?.name || ('MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}</div>
+                                    <label class="field-label">{{
+                                        'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME'
+                                            | translate
+                                    }}</label>
+                                    @if (isApprovalType('details')) {
+                                        <div class="field-value">
+                                            {{
+                                                item()?.location?.name ||
+                                                    ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                        | translate)
+                                            }}
+                                        </div>
                                     } @else {
-                                        <p-select 
-                                            class="form-p-select" 
+                                        <p-select
+                                            class="form-p-select"
                                             optionLabel="label"
                                             optionValue="value"
-                                            formControlName="locationName" 
-                                            [options]="locationNameOptions()" 
+                                            formControlName="locationName"
+                                            [options]="locationNameOptions()"
                                             styleClass="w-100"
                                             appendTo="body"
-                                            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                            [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                                            [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
-                                            [attr.aria-label]="'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME' | translate" />
+                                            [placeholder]="
+                                                'COMMON.SELECT_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                            [emptyMessage]="
+                                                'COMMON.SELECT_EMPTY_MESSAGE'
+                                                    | translate
+                                            "
+                                            [emptyFilterMessage]="
+                                                'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                    | translate
+                                            "
+                                            [attr.aria-label]="
+                                                'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME'
+                                                    | translate
+                                            "
+                                        />
                                     }
                                 </div>
 
                                 <div class="data-field">
                                     <label class="field-label mb-0">
-                                        {{ 'MANAGEMENT.FORM.LOCATION_INFO.COORDINATES' | translate }}
-                                        <i class="pi pi-copy" (click)="onCopyCoordinates()" tabindex="0" role="button"></i>
+                                        {{
+                                            'MANAGEMENT.FORM.LOCATION_INFO.COORDINATES'
+                                                | translate
+                                        }}
+                                        <!-- <i
+                                            class="pi pi-copy"
+                                            (click)="onCopyCoordinates()"
+                                            tabindex="0"
+                                            role="button"
+                                        ></i> -->
                                         <p-tag
-                                            [value]="item()?.location?.method | translate"
-                                            [severity]="item().locationStyle(item()?.location?.method) | translate
+                                            [value]="
+                                                item()?.location?.method
+                                                    | translate
+                                            "
+                                            [severity]="
+                                                item().locationStyle(
+                                                    item()?.location?.method
+                                                ) | translate
                                             "
                                         />
                                     </label>
-                                    @if (isManagementType('details')) {
-                                        <div class="field-value coordinate-value middle" (click)="onCopyCoordinates()" tabindex="0" role="button">
-                                        <i class="pi pi-map-marker"></i>&nbsp;
-                                        {{ coordinates() || ('MANAGEMENT.FORM.NOT_SPECIFIED' | translate) }}
+                                    @if (isApprovalType('details')) {
+                                        <div
+                                            class="field-value coordinate-value middle"
+                                            (click)="onCopyCoordinates()"
+                                            tabindex="0"
+                                            role="button"
+                                        >
+                                            <i class="pi pi-map-marker"></i
+                                            >&nbsp;
+                                            {{
+                                                coordinates() ||
+                                                    ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                        | translate)
+                                            }}
                                         </div>
                                     } @else {
                                         <p-inputgroup>
-                                            <input class="form-input" pInputText type="text" formControlName="coordinates" placeholder="Lat, Lng" />
+                                            <input
+                                                class="form-input"
+                                                pInputText
+                                                type="text"
+                                                [value]="coordinates()"
+                                                placeholder="Lat, Lng"
+                                            />
                                             <p-inputgroup-addon>
-                                                <p-button 
-                                                icon="pi pi-map" 
-                                                severity="secondary" 
-                                                (click)="openLocationPicker()"
-                                                [text]="true">
+                                                <p-button
+                                                    icon="pi pi-map"
+                                                    severity="secondary"
+                                                    (click)="
+                                                        openLocationPicker()
+                                                    "
+                                                    [text]="true"
+                                                >
                                                 </p-button>
                                             </p-inputgroup-addon>
                                         </p-inputgroup>
@@ -194,14 +317,26 @@
                                 <div class="data-field flexible">
                                     <label class="field-label">
                                         <i class="pi pi-file-edit"></i>
-                                        {{ 'MANAGEMENT.FORM.PICTURES_INFO.TITLE' | translate }}
+                                        {{
+                                            'MANAGEMENT.FORM.PICTURES_INFO.TITLE'
+                                                | translate
+                                        }}
                                     </label>
-                                    @if (isManagementType('details')) {
+                                    @if (isApprovalType('details')) {
                                         <div class="field-value long">
-                                            {{ item()?.placeDescription || ('MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION' | translate) }}
+                                            {{
+                                                item()?.placeDescription ||
+                                                    ('MANAGEMENT.FORM.REPORT_INFO.NO_DESCRIPTION'
+                                                        | translate)
+                                            }}
                                         </div>
                                     } @else {
-                                        <input class="form-input" pInputText type="text" formControlName="placeDescription" />
+                                        <input
+                                            class="form-input"
+                                            pInputText
+                                            type="text"
+                                            formControlName="placeDescription"
+                                        />
                                     }
                                 </div>
 
@@ -257,7 +392,8 @@
                                 </div> -->
 
                                 @if (
-                                    item()?.inProcessing || item()?.inFinalization
+                                    item()?.inProcessing ||
+                                    item()?.inFinalization
                                 ) {
                                     <div class="data-field">
                                         <label class="field-label">{{
@@ -285,8 +421,12 @@
                                                         | translate
                                                 }}
                                             </label>
-                                            <div class="field-value description">
-                                                <div class="description-content">
+                                            <div
+                                                class="field-value description"
+                                            >
+                                                <div
+                                                    class="description-content"
+                                                >
                                                     {{
                                                         item()?.treater
                                                             ?.rejectedComment ||
@@ -307,8 +447,12 @@
                                                         | translate
                                                 }}
                                             </label>
-                                            <div class="field-value description">
-                                                <div class="description-content">
+                                            <div
+                                                class="field-value description"
+                                            >
+                                                <div
+                                                    class="description-content"
+                                                >
                                                     {{
                                                         item()?.treater
                                                             ?.approvedComment ||
@@ -347,7 +491,8 @@
                             }
 
                             @if (
-                                item()?.statusFinalization && item()?.stateCompleted
+                                item()?.statusFinalization &&
+                                item()?.stateCompleted
                             ) {
                                 <div class="data-row full">
                                     <div class="data-field">

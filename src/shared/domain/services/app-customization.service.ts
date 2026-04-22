@@ -198,7 +198,6 @@ export class AppCustomizationService {
         const prefersDark = this.document.defaultView?.matchMedia(
             '(prefers-color-scheme: dark)'
         ).matches;
-        console.log('prefersDark: ', prefersDark);
 
         const mode = prefersDark ? 'dark' : 'light';
 
@@ -244,16 +243,9 @@ export class AppCustomizationService {
         );
 
         mediaQuery?.addEventListener('change', (event) => {
-            console.log('event: ', event);
             const newMode = event.matches ? 'dark' : 'light';
 
-            // ⚠️ seulement si user n’a pas forcé un mode
             const stored = localStorage.getItem(this.config.modes.storageKey);
-            console.log(
-                'this.config.modes.storageKey: ',
-                this.config.modes.storageKey
-            );
-            console.log('stored: ', stored);
 
             if (!stored || stored === 'system') {
                 this.setDefaultMode(newMode);

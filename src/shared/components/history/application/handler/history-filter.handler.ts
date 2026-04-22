@@ -15,6 +15,8 @@ export class HistoryFilterHandler {
     ): Observable<Paginate<HistoryEntity>> {
         return this.useCase.execute(
             {
+                typeModel: command.typeModel,
+                module: command.module,
                 search: command.search,
                 startDate: command.startDate,
                 endDate: command.endDate,

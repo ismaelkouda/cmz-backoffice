@@ -13,8 +13,8 @@
 >
     <div class="preview-content mt-3">
         <img
-            [src]="imageData().url"
-            [alt]="imageData().alt || ('IMAGE_PREVIEW.IMAGE_ALT' | translate)"
+            [src]="image().url"
+            [alt]="image().alt || ('IMAGE_PREVIEW.IMAGE_ALT' | translate)"
             class="preview-image"
             [class.loaded]="imageLoaded()"
             (load)="onImageLoad()"
@@ -34,23 +34,23 @@
     <ng-template pTemplate="footer">
         <div class="preview-footer">
             <div class="image-metadata">
-                @if (imageData().fileName) {
+                @if (image().fileName) {
                     <span
                         class="metadata-item"
                         [pTooltip]="'IMAGE_PREVIEW.FILE_NAME' | translate"
                     >
                         <i class="pi pi-file"></i>
-                        {{ imageData().fileName }}
+                        {{ image().fileName }}
                     </span>
                 }
 
-                @if (imageData().fileSize) {
+                @if (image().fileSize) {
                     <span
                         class="metadata-item"
                         [pTooltip]="'IMAGE_PREVIEW.FILE_SIZE' | translate"
                     >
                         <i class="pi pi-chart-bar"></i>
-                        {{ imageData().fileSize }}
+                        {{ image().fileSize }}
                     </span>
                 }
             </div>

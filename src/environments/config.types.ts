@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2026-04-07T13:16:19.670Z
+// Generated at: 2026-04-16T18:06:47.475Z
 
 export interface AppConfig {
     authenticationUrl: string;
@@ -10,9 +10,6 @@ export interface AppConfig {
     enableDebug: boolean;
     messageApp?: {
         sourceStockTenantSim: string;
-        sourceStockOrangeSim: string;
-        sourceSoldeDotation: string;
-        sourceSoldeDotationOrange: string;
     };
     appSettings?: {
         appName: string;
@@ -51,13 +48,6 @@ export const ENVIRONMENTS = {
         fileUrl: 'https://cmz-service-api.paas.imako.digital/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
-        messageApp: {
-            sourceStockTenantSim:
-                'Le système utilisera une SIM blanche du Stock du Tenant',
-            sourceStockOrangeSim: 'Orange fournira la SIM...',
-            sourceSoldeDotation: 'Le solde de la dotation Data...',
-            sourceSoldeDotationOrange: 'Orange fera le dépôt...',
-        },
         appSettings: {
             appName: 'Connect My Zone',
             appLogoFull: 'assets/images/logo/logo-ansut-full.png',
@@ -126,14 +116,6 @@ export const ENVIRONMENTS = {
         fileUrl: 'http://10.10.0.200:12555/',
         environmentDeployment: 'TEST',
         enableDebug: true,
-    },
-    prod: {
-        authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
-        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
-        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
-        fileUrl: 'https://sim-monitoring.cateli.io:12555/',
-        environmentDeployment: 'PROD',
-        enableDebug: false,
     },
 } as const;
 

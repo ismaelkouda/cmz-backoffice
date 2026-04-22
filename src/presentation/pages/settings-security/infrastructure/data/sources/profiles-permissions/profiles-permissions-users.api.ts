@@ -5,7 +5,7 @@ import { ProfilesPermissionsUsersFilterApiDto } from '@pages/settings-security/i
 import { ProfilesPermissionsUsersReassignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-reassign-api.dto';
 import { ProfilesPermissionsUsersRemoveApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-remove-api.dto';
 import { ProfilesPermissionsUsersResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-response-api.dto';
-import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
+import { SETTINGS_SECURITY_LOGS_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -16,7 +16,8 @@ import { Observable } from 'rxjs';
 export class ProfilesPermissionsUsersApi {
     constructor(
         private readonly http: HttpClient,
-        @Inject(SETTINGS_SECURITY_BASE_URL) private readonly baseUrl: string
+        @Inject(SETTINGS_SECURITY_LOGS_BASE_URL)
+        private readonly baseUrl: string
     ) {}
 
     readAll(
@@ -50,8 +51,8 @@ export class ProfilesPermissionsUsersApi {
     remove(
         dto: ProfilesPermissionsUsersRemoveApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/${dto.uniq_id}/remove`;
+        const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/${dto.uniq_id}/remove-users`;
         const payload = buildHttpPayload(dto, ['uniq_id']);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.put<SimpleResponseDto<void>>(url, payload);
     }
 }

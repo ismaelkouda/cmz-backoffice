@@ -17,7 +17,7 @@ export class UsersHandler {
             {
                 search: command.search,
                 profile: command.profile,
-                responsibility: command.responsibility,
+                role: command.role,
                 isActive: command.isActive,
             },
             page

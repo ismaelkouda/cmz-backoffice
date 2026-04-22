@@ -16,12 +16,16 @@ import {
     OpenLayersModules,
 } from '@shared/domain/services/openlayers-loader.service';
 import type { Map } from 'ol';
+import { Coordinate } from 'ol/coordinate';
 import type Feature from 'ol/Feature';
 import type { Point } from 'ol/geom';
 import type { Modify } from 'ol/interaction';
 
 import { LocationCoordinates } from '../models/location-coordinates.model';
-import { isValidCoordinates } from '../utils/coordinates.utils';
+import {
+    isValidCoordinates,
+    normalizeCoordinates,
+} from '../utils/coordinates.utils';
 import { fromOlCoordinate, toOlCoordinate } from '../utils/projection.utils';
 
 @Component({
@@ -53,29 +57,31 @@ export class OlMapComponent implements OnDestroy {
     constructor() {
         effect(() => {
             const container = this.mapContainer();
-            if (container && !this.map) {
-                this.initMap(container.nativeElement);
-            }
-        });
-
-        effect(() => {
             const coords = this.initialCoords();
-            if (coords && this.map && this.markerFeature) {
-                const olCoord = toOlCoordinate(coords.lat, coords.lng);
-                this.markerFeature.getGeometry()?.setCoordinates(olCoord);
-                this.map.getView().setCenter(olCoord);
+            if (container && !this.map && coords) {
+                const olCoord = toOlCoordinate(
+                    coords.latitude,
+                    coords.longitude
+                );
+                this.initMap(container.nativeElement, olCoord);
             }
         });
     }
 
-    private async initMap(container: HTMLElement): Promise<void> {
+    private async initMap(
+        container: HTMLElement,
+        olCoord: Coordinate
+    ): Promise<void> {
         this.olModules = await this.olLoader.loadModulesPromise();
         await this.ngZone.runOutsideAngular(async () => {
-            await this.createMap(container);
+            await this.createMap(container, olCoord);
         });
     }
 
-    private async createMap(container: HTMLElement): Promise<void> {
+    private async createMap(
+        container: HTMLElement,
+        olCoord: Coordinate
+    ): Promise<void> {
         const {
             Map,
             View,
@@ -86,13 +92,19 @@ export class OlMapComponent implements OnDestroy {
             VectorSource,
             Modify,
         } = this.olModules;
-        const osmLayer = new TileLayer({ source: new OSM() });
+        const osmLayer = new TileLayer({
+            source: new OSM({
+                attributions: [
+                    '© <a href="https://www.imako.digital" target="_blank">IMAKO</a>',
+                ],
+            }),
+        });
 
         this.map = new Map({
             target: container,
             layers: [osmLayer],
             view: new View({
-                center: toOlCoordinate(5.3167, -4.0333),
+                center: olCoord ?? toOlCoordinate(5.3167, -4.0333),
                 zoom: this.initialZoom(),
                 minZoom: 2,
                 maxZoom: 18,
@@ -107,8 +119,11 @@ export class OlMapComponent implements OnDestroy {
             source: new VectorSource(),
         });
         this.map.addLayer(this.vectorLayer);
+        this.map
+            .getView()
+            .setCenter(olCoord ?? toOlCoordinate(5.3167, -4.0333));
 
-        await this.createMarker();
+        await this.createMarker(olCoord);
 
         this.modifyInteraction = new Modify({
             source: this.vectorLayer.getSource(),
@@ -119,15 +134,16 @@ export class OlMapComponent implements OnDestroy {
         this.modifyInteraction.on('modifyend', () => this.handleDragEnd());
     }
 
-    private async createMarker(): Promise<void> {
+    private async createMarker(olCoord: Coordinate): Promise<void> {
         if (!this.map || !this.vectorLayer) {
             return;
         }
-        const { Feature, Point, Icon, Style } = this.olModules;
+        const { Feature, Point, Icon, Style, Circle, Fill, Stroke } =
+            this.olModules;
 
         const markerStyle = new Style({
             image: new Icon({
-                src: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+                src: 'data/square.svg',
                 scale: 0.08,
                 anchor: [0.5, 1],
                 anchorXUnits: 'fraction',
@@ -135,18 +151,29 @@ export class OlMapComponent implements OnDestroy {
             }),
         });
 
-        const initialCoord = toOlCoordinate(5.3167, -4.0333);
+        const pointStyle = new Style({
+            image: new Circle({
+                radius: 7,
+                fill: new Fill({
+                    color: '#2256a3',
+                }),
+                stroke: new Stroke({
+                    color: 'white',
+                    width: 2,
+                }),
+            }),
+        });
 
         this.markerFeature = new Feature({
-            geometry: new Point(initialCoord),
+            geometry: new Point(olCoord ?? toOlCoordinate(5.3167, -4.0333)),
         }) as Feature<Point>;
-        this.markerFeature.setStyle(markerStyle);
+        this.markerFeature.setStyle([pointStyle, markerStyle]);
         this.vectorLayer.getSource()?.addFeature(this.markerFeature);
     }
 
     private handleMapClick(evt: any): void {
-        const { lat, lng } = fromOlCoordinate(evt.coordinate);
-        this.emitCoordinates(lat, lng);
+        const { latitude, longitude } = fromOlCoordinate(evt.coordinate);
+        this.emitCoordinates(latitude, longitude);
     }
 
     private handleDragEnd(): void {
@@ -157,8 +184,10 @@ export class OlMapComponent implements OnDestroy {
         if (!coord) {
             return;
         }
-        const { lat, lng } = fromOlCoordinate(coord as [number, number]);
-        this.emitCoordinates(lat, lng);
+        const { latitude, longitude } = fromOlCoordinate(
+            coord as [number, number]
+        );
+        this.emitCoordinates(latitude, longitude);
     }
 
     // private moveMarkerTo(lat: number, lng: number): void {
@@ -166,18 +195,16 @@ export class OlMapComponent implements OnDestroy {
     //     this.markerFeature?.getGeometry()?.setCoordinates(olCoord);
     // }
 
-    private emitCoordinates(lat: number, lng: number): void {
-        if (!isValidCoordinates(lat, lng)) {
+    private emitCoordinates(latitude: number, longitude: number): void {
+        if (!isValidCoordinates(latitude, longitude)) {
             console.warn(
                 '[OlMap] Tentative de déplacement vers coordonnées invalides:',
-                { lat, lng }
+                { latitude, longitude }
             );
             return;
         }
-        this.coordinatesChange.emit({
-            lat,
-            lng,
-        });
+        const normalize = normalizeCoordinates(latitude, longitude);
+        this.coordinatesChange.emit(normalize);
     }
 
     ngOnDestroy(): void {

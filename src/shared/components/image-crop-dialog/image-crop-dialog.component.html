@@ -30,7 +30,7 @@
 
     <div class="crop-dialog-body">
         <div class="crop-canvas-area">
-            @if (!cropperReady() && !isLoading()) {
+            @if (!cropperReady() && isLoading()) {
                 <div class="crop-loading-overlay">
                     <p-progressSpinner
                         strokeWidth="3"

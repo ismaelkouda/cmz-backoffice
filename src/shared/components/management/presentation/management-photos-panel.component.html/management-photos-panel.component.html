@@ -43,39 +43,44 @@
                                     <div
                                         class="field-value photo-container d-flex justify-content-center"
                                     >
-                                        @if (placePhoto(); as photoUrl) {
-                                            <app-image-zoom
-                                                [src]="photoUrl"
-                                                [alt]="'MANAGEMENT.FORM.PICTURES.OBSERVATION_POINT' | translate "
-                                                (error)="onImageError('place')"
-                                            />
-                                        } @else {
-                                            <div
-                                                class="no-image-placeholder"
-                                                role="status"
-                                            >
-                                                <!-- <i
-                                                    class="pi pi-image"
+                                        <div
+                                            class="no-image-placeholder"
+                                            role="status"
+                                        >
+                                            <!-- @if (placePhoto(); as photoUrl) {
+                                                <app-image-zoom
+                                                    id="image"
+                                                    [instanceId]="instanceId()"
+                                                    formControlName="image"
+                                                    (viewImage)="openImagePreview()"
+                                                    (imageCleared)="
+                                                        onImageCleared()
+                                                    "
+                                                />
+                                            } @else { -->
+                                            @if (isApprovalType('details')) {
+                                                <i
+                                                    class="pi pi-image d-flex align-items-center"
                                                     aria-hidden="true"
-                                                ></i> -->
-                                                <!-- <h4 class="card-title text-danger">
+                                                ></i>
+                                                <h4
+                                                    class="card-title text-danger"
+                                                >
                                                     {{
                                                         'MANAGEMENT.FORM.PICTURES.NO_DATA'
                                                             | translate
                                                     }}
-                                                </h4> -->
-
+                                                </h4>
+                                            } @else {
                                                 <div class="image">
                                                     <app-image-upload
                                                         id="image"
+                                                        [instanceId]="
+                                                            instanceId()
+                                                        "
                                                         formControlName="placePhoto"
                                                         (viewImage)="
                                                             openImagePreview()
-                                                        "
-                                                        (imageSelected)="
-                                                            onImageSelected(
-                                                                $event
-                                                            )
                                                         "
                                                         (imageCleared)="
                                                             onImageCleared()
@@ -83,12 +88,12 @@
                                                     >
                                                     </app-image-upload>
                                                 </div>
-                                            </div>
-                                        }
+                                            }
+                                            <!-- } -->
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Photo de la voie d'accès -->
                                 <div class="data-field">
                                     <div class="photo-header">
                                         <div class="field-label">
@@ -106,32 +111,21 @@
                                     <div
                                         class="field-value photo-container d-flex justify-content-center"
                                     >
-                                        @if (accessPhoto(); as photoUrl) {
-                                            <app-image-zoom
-                                                [src]="photoUrl"
-                                                [alt]="
-                                                    'MANAGEMENT.FORM.PICTURES.ACCESS_ROAD'
+                                        <div
+                                            class="no-image-placeholder"
+                                            role="status"
+                                        >
+                                            <i
+                                                class="pi pi-image d-flex align-items-center"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <h4 class="card-title text-danger">
+                                                {{
+                                                    'MANAGEMENT.FORM.PICTURES.NO_DATA'
                                                         | translate
-                                                "
-                                                (error)="onImageError('access')"
-                                            />
-                                        } @else {
-                                            <div
-                                                class="no-image-placeholder"
-                                                role="status"
-                                            >
-                                                <i
-                                                    class="pi pi-image"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                <h2 class="card-title text-danger">
-                                                    {{
-                                                        'MANAGEMENT.FORM.PICTURES.NO_DATA'
-                                                            | translate
-                                                    }}
-                                                </h2>
-                                            </div>
-                                        }
+                                                }}
+                                            </h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -176,26 +170,25 @@
 
     <app-image-preview-dialog
         [visible]="previewVisible()"
-        [imageData]="previewImageData()"
+        [instanceId]="instanceId()"
         [title]="'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW'"
         (hide)="closeImagePreview()"
     />
 
     <app-image-crop-dialog
-    [visible]="imageStore.cropperIsOpen()"
-    [sourceFile]="imageStore.cropperSourceFile()"
-    [rotation]="imageStore.cropperRotation()"
-    [flipH]="imageStore.cropperFlipH()"
-    [flipV]="imageStore.cropperFlipV()"
-    [isLoading]="imageStore.cropperStatus() === 'loading'"
-    (imageCropped)="onCropConfirmed($event)"
-    (cropCancelled)="onCropCancelled()"
-    (imageLoaded)="imageStore.onCropperImageLoaded()"
-    (loadFailed)="onCropImageLoadFailed()"
-    (rotateLeft)="imageStore.rotateCropper('left')"
-    (rotateRight)="imageStore.rotateCropper('right')"
-    (flipHorizontal)="imageStore.flipCropperHorizontal()"
-    (flipVertical)="imageStore.flipCropperVertical()"
-    (resetTransforms)="imageStore.resetCropperTransforms()"
-/>
+        [visible]="imageState().isOpen"
+        [sourceFile]="imageState().sourceFile"
+        [rotation]="imageState().rotation"
+        [flipH]="imageState().flipH"
+        [flipV]="imageState().flipV"
+        [isLoading]="imageState().status === 'loading'"
+        (imageCropped)="onCropConfirmed($event)"
+        (imageLoaded)="onImageLoaded()"
+        (loadFailed)="onImageFailed()"
+        (rotateLeft)="onImageRotate('left')"
+        (rotateRight)="onImageRotate('right')"
+        (flipHorizontal)="onImageFlipHorizontal()"
+        (flipVertical)="onImageFlipVertical()"
+        (resetTransforms)="onImageResetTransforms()"
+    />
 }

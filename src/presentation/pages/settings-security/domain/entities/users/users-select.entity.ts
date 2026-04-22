@@ -7,11 +7,17 @@ export class UsersSelectEntity {
     ) {}
 
     static fromDto(dto: UsersSelectItemApiDto): UsersSelectEntity {
-        return new UsersSelectEntity(dto.id, dto.fullName);
+        return new UsersSelectEntity(
+            dto.id,
+            `${dto.first_name} ${dto.last_name}`
+        );
     }
 
     public with(dto: UsersSelectItemApiDto): UsersSelectEntity {
-        if (this.value === dto.id && this.label === dto.fullName) {
+        if (
+            this.value === dto.id &&
+            this.label === `${dto.first_name} ${dto.last_name}`
+        ) {
             return this;
         }
         return UsersSelectEntity.fromDto(dto);

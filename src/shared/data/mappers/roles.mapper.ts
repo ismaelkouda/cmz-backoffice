@@ -9,7 +9,7 @@ export class RolesMapper {
     mapFromDto(dtoValue: RolesDto): Roles {
         const methodMap: Record<RolesDto, Roles> = {
             [RolesDto.SUPERVISOR]: Roles.SUPERVISOR,
-            [RolesDto.LEADER]: Roles.LEADER,
+            [RolesDto['TEAM-LEADER']]: Roles['TEAM-LEADER'],
             [RolesDto.AGENT]: Roles.AGENT,
         };
         return methodMap[dtoValue] || Roles.AGENT;

@@ -3,4 +3,5 @@ export const TEAM_ORGANIZATION_ENDPOINTS = {
     PARTICIPANTS: 'teams-organization/members',
     ROLES: 'teams-organization/roles',
     AGENTS_PERFORMANCES: 'teams-organization/agents-performances',
+    DAILY_GOAL: 'teams-organization/daily-goal',
 } as const;

@@ -80,7 +80,7 @@ export class TasksComponent implements OnInit {
     public selectedReportId: string | null = null;
     public readonly tableConfig = TASKS_TABLE;
     readonly form = this.formStore.form;
-    public readonly reportTreatmentVisible = signal<boolean>(false);
+    public readonly isVisibleDialog = signal<boolean>(false);
     public readonly selectedManagementType = signal<TypeReport>(
         TypeReport.REQUESTS
     );
@@ -251,11 +251,11 @@ export class TasksComponent implements OnInit {
         const { item } = event;
         this.selectedManagementType.set(item.type);
         this.selectedReportId = item.uniqId;
-        this.reportTreatmentVisible.set(true);
+        this.isVisibleDialog.set(true);
     }
 
     public onVisibleChange(event: boolean): void {
-        this.reportTreatmentVisible.set(event);
+        this.isVisibleDialog.set(event);
     }
 
     private t(key: string): string {

@@ -68,7 +68,7 @@ export class ManagementSidebarComponent {
     });
 
     protected readonly initiatorPhone = computed((): string | null => {
-        return this.item()?.initiator?.phone ?? null;
+        return this.item()?.initiatorPhone;
     });
 
     protected readonly showApproverSection = computed((): boolean => {

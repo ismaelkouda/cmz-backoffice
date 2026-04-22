@@ -2,6 +2,14 @@
 
 @import './assets/scss/app.scss';
 
+.color-primary {
+    color: var(--theme-default) !important;
+}
+
+.color-secondary {
+    color: var(--theme-secondary) !important;
+}
+
 .input[type='file'] {
     color: #000 !important;
 }

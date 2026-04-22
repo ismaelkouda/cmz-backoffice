@@ -98,7 +98,18 @@ export class DetailsFacade extends ObjectBaseFacade<
 
         const command = new DetailsApproveCommand(
             detail.uniqId,
-            detail.comment
+            detail.comment,
+            detail.approvalType,
+            detail.callbackType,
+            detail.coordinates,
+            detail.locationName,
+            detail.reportType,
+            detail.operators,
+            detail.description,
+            detail.decision,
+            detail.placeDescription,
+            detail.reason,
+            detail.placePhoto
         );
 
         this.handleActionWithRefresh(

@@ -40,6 +40,7 @@ export class ProfilesPermissionsPermissionsMapper extends SimpleResponseMapper<
     ): TreeNodeEntity {
         return new TreeNodeEntity(
             dto.data.value,
+            dto.data.value,
             dto.data.title,
             dto.data.checked ?? false,
             dto.children?.map((c) => this.mapPermissionNode(c)) ?? []

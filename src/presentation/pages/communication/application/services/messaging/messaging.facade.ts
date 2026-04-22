@@ -197,7 +197,6 @@ export class MessagingFacade extends BaseFacade<
     }
 
     create(messaging: MessagingCreateDto): void {
-        console.log('messaging: ', messaging);
         this._actionState.set('loading');
 
         const command = new MessagingCreateCommand(

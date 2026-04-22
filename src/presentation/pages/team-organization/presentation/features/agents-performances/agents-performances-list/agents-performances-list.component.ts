@@ -22,8 +22,8 @@ import {
 import { AgentsPerformancesFacade } from '@pages/team-organization/application/services/agents-performances/agents-performances.facade';
 import { AgentsPerformancesFilterControl } from '@pages/team-organization/domain/controls/agents-performances/agents-performances-filter.control';
 import { AgentsPerformancesEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
-import { AGENTS_PERFORMANCES_STATUS } from '@pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
-import { AGENTS_PERFORMANCES_FORM } from '@pages/team-organization/presentation/features/agents-performances/agents-performances.routes';
+import { Status } from '@pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
+import { AGENTS_PERFORMANCES_FORM } from '@pages/team-organization/presentation/features/agents-performances/agents-performances-paths.constants';
 import { AGENTS_PERFORMANCES_TABLE_CONSTANT } from '@presentation/pages/team-organization/presentation/adapters/agents-performances/agents-performances-table.constant';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -38,6 +38,8 @@ import { TableExportExcelFileService } from '@shared/domain/services/table-expor
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
+
+import { AgentsPerformancesPresenter } from '../../../adapters/agents-performances/agents-performances-vm.presenter';
 
 @Component({
     selector: 'app-agents-performances',
@@ -81,10 +83,7 @@ export class AgentsPerformancesListComponent implements OnInit, OnDestroy {
     });
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(
-            AGENTS_PERFORMANCES_STATUS,
-            this.t.bind(this)
-        );
+        return enumToFilterOptions(Status, this.t.bind(this));
     });
 
     readonly filterFields: Signal<FilterField[]> = computed(() => {
@@ -155,6 +154,13 @@ export class AgentsPerformancesListComponent implements OnInit, OnDestroy {
                     'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.FILTER.DATE.PLACEHOLDER',
             },
         ];
+    });
+    readonly presenter = new AgentsPerformancesPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
     });
     readonly form = this.fb.group<AgentsPerformancesFilterControl>({
         search: new FormControl<string | undefined>(undefined, {

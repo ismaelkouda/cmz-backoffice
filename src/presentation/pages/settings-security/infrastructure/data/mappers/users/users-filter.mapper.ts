@@ -12,8 +12,8 @@ export function usersFilterMapper(
     if (entity.profile) {
         params.profile = entity.profile;
     }
-    if (entity.responsibility) {
-        params.responsibility = entity.responsibility;
+    if (entity.role) {
+        params.role = entity.role;
     }
     if (entity.isActive !== undefined) {
         params.is_active = !!entity.isActive;

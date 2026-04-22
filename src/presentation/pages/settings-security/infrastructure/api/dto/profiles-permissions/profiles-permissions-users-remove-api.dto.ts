@@ -1,4 +1,4 @@
 export interface ProfilesPermissionsUsersRemoveApiDto {
     uniq_id: string;
-    users: string[];
+    user_ids: string[];
 }

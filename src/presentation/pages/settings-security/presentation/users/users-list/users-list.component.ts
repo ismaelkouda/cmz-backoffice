@@ -15,10 +15,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UsersFacade } from '@pages/settings-security/application/services/users/users.facade';
 import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
-import { USERS_FORM } from '@pages/settings-security/presentation/users/users.routes';
+import { USERS_FORM } from '@pages/settings-security/presentation/users/users-paths.constants';
 import { USERS_TABLE } from '@presentation/pages/settings-security/presentation/adapters/users/users-table.constant';
+import { UsersPresenter } from '@presentation/pages/settings-security/presentation/adapters/users/users-vm.presenter';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
@@ -27,8 +29,6 @@ import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { UsersPresenter } from '../../adapters/users/users-vm.presenter';
 
 @Component({
     selector: 'app-users-list',
@@ -78,6 +78,15 @@ export class UsersListComponent implements OnInit, OnDestroy {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
+    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.CREATE',
+            actionId: CrudFormType.CREATE,
+            class: 'btn-primary',
+            icon: 'pi pi-plus',
+            translateKey: 'COMMON.CREATE',
+        },
+    ]);
 
     constructor() {
         this.facade.readAll();
@@ -108,13 +117,13 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.facade.refresh();
     }
 
-    public onCreateClicked({ ref }: { ref: CrudFormType }): void {
-        this.router.navigate([USERS_FORM], {
-            relativeTo: this.activatedRoute,
-            queryParams: {
-                ref: ref,
-            },
-        });
+    public onCreateClicked(actionId: string): void {
+        if (actionId === CrudFormType.CREATE) {
+            this.onNavigateToForm({
+                item: undefined,
+                ref: CrudFormType.CREATE,
+            });
+        }
     }
 
     public onNavigateToForm(event: {
@@ -124,7 +133,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
-        this.router.navigate([USERS_FORM], {
+        this.router.navigate(['../', USERS_FORM], {
             relativeTo: this.activatedRoute,
             queryParams,
         });

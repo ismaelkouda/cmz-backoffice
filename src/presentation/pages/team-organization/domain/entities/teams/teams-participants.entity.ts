@@ -1,36 +1,55 @@
-import { TeamsParticipantsItemApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-response-api.dto';
-
+import { TeamsParticipantsProps } from '@pages/team-organization/domain/interfaces/teams/teams-participants-props.entity';
+import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
 export class TeamsParticipantsEntity {
-    constructor(
-        public readonly uniqId: string,
-        public matricule: string,
-        public firstName: string,
-        public lastName: string,
-        public email: string,
-        public phone: string,
-        public role: string,
-        public isActive: boolean,
-        public updatedAt?: string
-    ) {}
+    constructor(private readonly props: TeamsParticipantsProps) {}
 
-    static fromDto(dto: TeamsParticipantsItemApiDto): TeamsParticipantsEntity {
-        return new TeamsParticipantsEntity(
-            dto.id,
-            dto.matricule,
-            dto.first_name,
-            dto.last_name,
-            dto.email,
-            dto.phone,
-            dto.role,
-            dto.is_active,
-            dto.updated_at
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
     }
 
-    public with(dto: TeamsParticipantsItemApiDto): TeamsParticipantsEntity {
-        if (this.uniqId === dto.id && this.updatedAt === dto.updated_at) {
+    get actionsRef(): string {
+        return this.props.lastName + '-' + this.props.firstName;
+    }
+
+    get lastName(): string {
+        return this.props.lastName;
+    }
+
+    get firstName(): string {
+        return this.props.firstName;
+    }
+
+    get email(): string {
+        return this.props.email;
+    }
+
+    get phone(): string {
+        return this.props.phone;
+    }
+
+    get role(): Roles {
+        return this.props.role;
+    }
+    roleStyle(role: Roles): RolesStyle {
+        const methodMap: Record<Roles, RolesStyle> = {
+            [Roles.SUPERVISOR]: RolesStyle.SUPERVISOR,
+            [Roles['TEAM-LEADER']]: RolesStyle['TEAM-LEADER'],
+            [Roles.AGENT]: RolesStyle.AGENT,
+        };
+        return methodMap[role];
+    }
+
+    get updatedAt(): string {
+        return this.props.updatedAt;
+    }
+
+    public with(props: TeamsParticipantsProps): TeamsParticipantsEntity {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
-        return TeamsParticipantsEntity.fromDto(dto);
+        return new TeamsParticipantsEntity(props);
     }
 }

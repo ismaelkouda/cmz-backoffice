@@ -1,5 +1,5 @@
 export enum RolesDto {
     SUPERVISOR = 'supervisor',
-    LEADER = 'leader',
+    'TEAM-LEADER' = 'team-leader',
     AGENT = 'agent',
 }

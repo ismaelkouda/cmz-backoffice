@@ -1,6 +1,6 @@
 export interface UsersFilterApiDto {
     search?: string;
     profile?: string;
-    responsibility?: string;
+    role?: string;
     is_active?: boolean;
 }

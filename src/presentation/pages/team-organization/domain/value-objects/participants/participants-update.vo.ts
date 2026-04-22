@@ -1,4 +1,5 @@
 import { ParticipantsUpdateDto } from '@pages/team-organization/application/dto/participants/participants-update.dto';
+import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 
 export class ParticipantsUpdateVo {
     public readonly uniqId: string;
@@ -25,12 +26,13 @@ export class ParticipantsUpdateVo {
     }
 
     static fromDto(dto: ParticipantsUpdateDto): ParticipantsUpdateVo {
+        const phone = normalizePhoneNumber(dto.phone?.trim()) as string;
         return new ParticipantsUpdateVo({
             uniqId: dto.uniqId,
             firstName: dto.firstName,
             lastName: dto.lastName,
             email: dto.email,
-            phone: dto.phone,
+            phone,
             role: dto.role,
         });
     }

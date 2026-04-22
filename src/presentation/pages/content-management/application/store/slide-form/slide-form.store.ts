@@ -20,7 +20,6 @@ import { SlideFindOneFacade } from '@pages/content-management/application/servic
 import { SlideFormControl } from '@pages/content-management/domain/controls/slide/slide-form.control';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
-import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
 import { PLATFORM_ASPECT_RATIOS } from '@shared/components/image-upload/domain/types/image-upload.types';
 import { Platform } from '@shared/domain/enums/platform.enum';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
@@ -37,10 +36,10 @@ const MOBILE = getEnumKeyByValue(Platform, Platform.MOBILE) as Platform;
 export class SlideFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(SlideFindOneFacade);
-    private readonly imageStore = inject(ImageUploadStateService);
 
     private readonly isPatching = signal(false);
     private readonly imageError = signal<string | null>(null);
+    public readonly imageFile = signal<File | string | null>(null);
 
     readonly form: FormGroup<SlideFormControl> = this.createForm();
 
@@ -74,10 +73,8 @@ export class SlideFormStore {
         }
         return PLATFORM_ASPECT_RATIOS[WEB];
     });
-    public readonly isImageReady = computed(() => {
-        return this.imageStore.hasCroppedImage() || !!this.imageError();
-    });
     public readonly imageErrorMessage = computed(() => this.imageError());
+    public readonly hasImage = computed(() => !!this.imageFile());
 
     public readonly isVideoMode = computed(() => {
         const type = this.typeControl();
@@ -88,7 +85,7 @@ export class SlideFormStore {
         return type === IMAGE;
     });
 
-    private readonly item = this.facade.items;
+    public readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
 
     private readonly typeMediaEffect = effect(() => {
@@ -145,16 +142,8 @@ export class SlideFormStore {
                 type: 'remote',
                 url: url,
             };
-
+            this.imageFile.set(url);
             this.form.controls.image.setValue(mediaValue, { emitEvent: false });
-            await this.imageStore.hydrateExistingImage(url);
-
-            if (!this.imageStore.hasCroppedImage()) {
-                throw new Error(
-                    'Image hydration failed - no preview available'
-                );
-            }
-
             this.imageError.set(null);
         } catch (error) {
             console.error('❌ Failed to handle existing image:', error);
@@ -340,84 +329,6 @@ export class SlideFormStore {
         return image.type === 'remote' ? image.url : image.file;
     }
 
-    private resetMediaFields(type: string | undefined): void {
-        if (!type) {
-            return;
-        }
-
-        const resetMap: Record<string, () => void> = {
-            [VIDEO]: () => {
-                this.resetImage();
-                this.resetImageStore();
-            },
-            [IMAGE]: () => {
-                this.resetVideo();
-            },
-        };
-
-        const resetAction = resetMap[type];
-        if (resetAction) {
-            resetAction();
-        }
-    }
-
-    public onImageSelected(file: File): void {
-        const mediaValue: MediaValue = {
-            type: 'local',
-            file: file,
-        };
-
-        this.form.controls.image.setValue(mediaValue);
-        this.imageStore.openCropper(file);
-        this.imageError.set(null);
-    }
-    public openCropperForExisting(): void {
-        if (this.imageStore.hasCroppedImage()) {
-            this.imageStore.openCropperWithExisting();
-        }
-    }
-    public onCropConfirmed(blob: Blob): void {
-        this.imageStore.confirmCrop(blob);
-        const file = this.imageStore.getCurrentFile();
-        if (file) {
-            const mediaValue: MediaValue = {
-                type: 'local',
-                file: file,
-            };
-
-            this.form.controls.image.setValue(mediaValue);
-            this.form.controls.image.markAsDirty();
-            this.form.controls.image.markAsTouched();
-            this.imageError.set(null);
-        }
-    }
-    public onCropCancelled(): void {
-        this.imageStore.abandonCrop();
-    }
-    public onImageCleared(): void {
-        this.resetImage();
-        this.form.controls.image.markAsTouched();
-    }
-    public getCurrentImageFile(): File | null {
-        return this.imageStore.getCurrentFile();
-    }
-    public isImageAvailable(): boolean {
-        return this.imageStore.hasCroppedImage();
-    }
-
-    private resetVideo(): void {
-        this.form.controls.video.reset('', { emitEvent: false });
-    }
-    private resetImage(): void {
-        this.form.controls.image.reset(null, { emitEvent: false });
-        this.imageStore.resetImage();
-        this.imageError.set(null);
-    }
-
-    private resetImageStore(): void {
-        this.imageStore.resetImage();
-    }
-
     public setEditMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);
 
@@ -432,12 +343,51 @@ export class SlideFormStore {
         this.facade.read({ uniqId }, true);
     }
 
+    public setImage(file: File): void {
+        const mediaValue: MediaValue = {
+            type: 'local',
+            file: file,
+        };
+        this.imageFile.set(file);
+        this.form.controls.image.setValue(mediaValue);
+        this.form.controls.image.markAsTouched();
+        this.imageError.set(null);
+    }
+
+    public resetImage(): void {
+        this.imageFile.set(null);
+        this.form.controls.image.reset(null);
+    }
+
+    private resetMediaFields(type: string | undefined): void {
+        if (!type) {
+            return;
+        }
+
+        const resetMap: Record<string, () => void> = {
+            [VIDEO]: () => {
+                this.resetImage();
+            },
+            [IMAGE]: () => {
+                this.resetVideo();
+            },
+        };
+
+        const resetAction = resetMap[type];
+        if (resetAction) {
+            resetAction();
+        }
+    }
+
+    private resetVideo(): void {
+        this.form.controls.video.reset('', { emitEvent: false });
+    }
+
     public reset(): void {
         this.form.reset({
             timeDuration: 5,
         });
-        this.facade.reset();
-        this.resetImageStore();
+        this.imageFile.set(null);
         this.imageError.set(null);
         this.isEditMode.set(false);
         this.isPatching.set(false);

@@ -3,18 +3,18 @@ import { UsersFilterDto } from '@pages/settings-security/application/dto/users/u
 export class UsersFilterVo {
     public readonly search?: string;
     public readonly profile?: string;
-    public readonly responsibility?: string;
+    public readonly role?: string;
     public readonly isActive?: string;
 
     constructor(props: {
         search?: string;
         profile?: string;
-        responsibility?: string;
+        role?: string;
         isActive?: string;
     }) {
         this.search = props.search;
         this.profile = props.profile;
-        this.responsibility = props.responsibility;
+        this.role = props.role;
         this.isActive = props.isActive;
     }
 
@@ -24,7 +24,7 @@ export class UsersFilterVo {
         return new UsersFilterVo({
             search: dto?.search?.trim() || undefined,
             profile: dto?.profile,
-            responsibility: dto?.responsibility,
+            role: dto?.role,
             isActive: dto?.isActive,
         });
     }

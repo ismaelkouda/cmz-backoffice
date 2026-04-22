@@ -9,9 +9,6 @@ const configSchema = Joi.object({
     enableDebug: Joi.boolean().required(),
     messageApp: Joi.object({
         sourceStockTenantSim: Joi.string().required(),
-        sourceStockOrangeSim: Joi.string().required(),
-        sourceSoldeDotation: Joi.string().required(),
-        sourceSoldeDotationOrange: Joi.string().required(),
     }).optional(),
     appSettings: Joi.object({
         appName: Joi.string().required(),
@@ -55,9 +52,6 @@ export interface AppConfig {
     enableDebug: boolean;
     messageApp?: {
         sourceStockTenantSim: string;
-        sourceStockOrangeSim: string;
-        sourceSoldeDotation: string;
-        sourceSoldeDotationOrange: string;
     };
     appSettings?: {
         appName: string;

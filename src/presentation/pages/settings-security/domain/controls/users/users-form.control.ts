@@ -6,5 +6,5 @@ export interface UsersFormControl {
     email: FormControl<string>;
     phone: FormControl<string>;
     profile: FormControl<string>;
-    responsibility: FormControl<string>;
+    role: FormControl<string>;
 }

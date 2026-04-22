@@ -23,7 +23,7 @@ import { ParticipantsEntity } from '@pages/team-organization/domain/entities/par
 import { Status } from '@pages/team-organization/domain/enums/participants/participants-status.enum';
 import { PARTICIPANTS_TABLE } from '@presentation/pages/team-organization/presentation/adapters/participants/participants-table.constant';
 import { ParticipantsPresenter } from '@presentation/pages/team-organization/presentation/adapters/participants/participants-vm.presenter';
-import { PARTICIPANTS_FORM } from '@presentation/pages/team-organization/presentation/features/participants/participants.routes';
+import { PARTICIPANTS_FORM } from '@presentation/pages/team-organization/presentation/features/participants/participants-paths.constants';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -235,7 +235,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
         this.facade.changePage(JSON.stringify(event + 1));
     }
 
-    public onHeaderButtonClicked(actionId: string): void {
+    public onCreateClicked(actionId: string): void {
         if (actionId === CrudFormType.CREATE) {
             this.onNavigateToForm({
                 item: undefined,
@@ -251,7 +251,7 @@ export class ParticipantsListComponent implements OnInit, OnDestroy {
         const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
-        this.router.navigate([PARTICIPANTS_FORM], {
+        this.router.navigate(['../', PARTICIPANTS_FORM], {
             relativeTo: this.activatedRoute,
             queryParams,
         });

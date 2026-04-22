@@ -15,7 +15,7 @@ export class UsersCreateHandler {
             email: command.email,
             phone: command.phone,
             profile: command.profile,
-            responsibility: command.responsibility,
+            role: command.role,
         });
     }
 }

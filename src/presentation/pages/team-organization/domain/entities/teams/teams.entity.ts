@@ -44,7 +44,8 @@ export class TeamsEntity {
     public with(props: TeamsProps): TeamsEntity {
         if (
             this.updatedAt === props.updatedAt &&
-            this.uniqId === props.uniqId
+            this.uniqId === props.uniqId &&
+            this.membersCount === props.membersCount
         ) {
             return this;
         }

@@ -4,6 +4,7 @@ import { HistoryFindOneFilterApiDto } from '@shared/components/history/infrastru
 import { HistoryFindOneResponseApiDto } from '@shared/components/history/infrastructure/api/dto/history-find-one-response-api.dto';
 import { HISTORY_ENDPOINTS } from '@shared/components/history/infrastructure/api/dto/history.endpoints';
 import { HISTORY_BASE_URL } from '@shared/components/history/infrastructure/api/history.base-url';
+import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -14,10 +15,15 @@ export class HistoryFindOneApi {
     ) {}
 
     read(
-        filter?: HistoryFindOneFilterApiDto
+        dto: HistoryFindOneFilterApiDto
     ): Observable<HistoryFindOneResponseApiDto> {
-        const params = filter?.id ? `/${filter.id}` : '';
-        const url = `${this.baseUrl}${HISTORY_ENDPOINTS.HISTORY}/${params}`;
-        return this.http.get<HistoryFindOneResponseApiDto>(url);
+        const { id, ...filterParams } = dto;
+        console.log('dto: ', dto);
+        const params = buildHttpParams(filterParams, { skipEmptyString: true });
+        const uniq_id = id ? `/${id}` : '';
+        const url = `${this.baseUrl}${HISTORY_ENDPOINTS.HISTORY}${uniq_id}`;
+        return this.http.get<HistoryFindOneResponseApiDto>(url, {
+            params,
+        });
     }
 }

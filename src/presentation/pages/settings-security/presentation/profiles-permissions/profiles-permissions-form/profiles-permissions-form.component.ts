@@ -2,38 +2,22 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    computed,
     effect,
     inject,
-    signal,
-    Signal,
-    WritableSignal,
-    DestroyRef,
-    OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ProfilesPermissionsFindOneFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-find-one.facade';
-import { ProfilesPermissionsPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-permissions.facade';
 import { ProfilesPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
-import { ProfilesPermissionsFormControls } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-form.control';
 import { ProfilesPermissionsFormHelperService } from '@pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-helper.service';
 import { ProfilesPermissionsFormValidationService } from '@pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-validation.service';
 import { FormValidators } from '@pages/settings-security/domain/validators/form-validators';
 import { ProfilesPermissionsFormSkeletonComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-form-skeleton/profiles-permissions-form-skeleton.component';
+import { ProfilesPermissionsStore } from '@pages/settings-security/presentation/store/profiles-permissions/profiles-permissions.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
-import { PermissionTreeService } from '@shared/domain/services/permission-tree-node.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -43,7 +27,6 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
-import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 @Component({
@@ -69,45 +52,41 @@ import SweetAlert from 'sweetalert2';
     ],
     providers: [
         MessageService,
-        PermissionTreeService,
+        ProfilesPermissionsStore,
         ProfilesPermissionsFormValidationService,
         ProfilesPermissionsFormHelperService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfilesPermissionsFormComponent implements OnInit {
+export class ProfilesPermissionsFormComponent {
+    readonly store = inject(ProfilesPermissionsStore);
+
     private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly router = inject(Router);
-    private readonly fb = inject(FormBuilder);
-    private readonly submitFacade = inject(ProfilesPermissionsFacade);
-    private readonly facade = inject(ProfilesPermissionsFindOneFacade);
-    private readonly permissionsFacade = inject(
-        ProfilesPermissionsPermissionsFacade
-    );
     private readonly translate = inject(TranslateService);
-    private readonly destroyRef = inject(DestroyRef);
-    private readonly validationService = inject(
+    private readonly submitFacade = inject(ProfilesPermissionsFacade);
+    private readonly helper = inject(ProfilesPermissionsFormHelperService);
+    private readonly validation = inject(
         ProfilesPermissionsFormValidationService
     );
-    private readonly treeService = inject(PermissionTreeService);
-    private readonly helperService = inject(
-        ProfilesPermissionsFormHelperService
-    );
+
+    public readonly form = this.store.form;
+    public readonly loading = this.store.loading;
+    readonly permissions = this.store.permissions;
+    readonly loadingPermissions = this.store.loadingPermissions;
+    public readonly isEditMode = this.store.isEditMode;
+
+    public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
     readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();
-    private itemPatched = false;
-    readonly items = this.facade.items;
-    readonly loading = this.facade.loading;
-    private readonly paramsUniqId: Signal<string> = toSignal(
-        this.activatedRoute.queryParams.pipe(
-            map(
-                (params: Record<string, unknown>) =>
-                    (params['uniqId'] as string) || ''
-            )
-        ),
-        { initialValue: '' }
-    );
-    readonly isEditMode = computed(() => !!this.paramsUniqId());
+    readonly permissionTree = this.store.permissionTree;
+    readonly selectedNodes = this.store.selectedNodes;
+    readonly selectedCount = this.store.selectedCount;
+
+    constructor() {
+        const uniqId = this.activatedRoute.snapshot.queryParamMap.get('uniqId');
+        this.store.setMode(uniqId || undefined);
+    }
+
     private readonly formStateEffect = effect(() => {
         const state = this.submitFacade.actionState();
         if (state === 'loading') {
@@ -126,138 +105,16 @@ export class ProfilesPermissionsFormComponent implements OnInit {
         this.navigateToBack();
     });
 
-    readonly permissions = this.permissionsFacade.items;
-    readonly loadingPermissions = this.permissionsFacade.loading;
-    readonly permissionTree: WritableSignal<TreeNodeInterface[]> = signal([]);
-    readonly leafCount: WritableSignal<number> = signal(0);
-
-    private readonly updatePermissionTree = effect(() => {
-        const item = this.items();
-        const permissions = this.permissions();
-        const tree = this.paramsUniqId()
-            ? item?.permissions
-                ? this.treeService.transformPermissionsToTree(item.permissions)
-                : []
-            : this.treeService.transformPermissionsToTree(
-                  permissions?.props?.permissions ?? []
-              );
-        this.permissionTree.set(tree);
-    });
-    public selectedNodes: TreeNodeInterface[] = [];
-
-    readonly form: FormGroup<ProfilesPermissionsFormControls> =
-        this.fb.nonNullable.group<ProfilesPermissionsFormControls>({
-            name: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.NAME.MIN),
-                    Validators.maxLength(FormValidators.NAME.MAX),
-                    Validators.pattern(FormValidators.NAME.PATTERN),
-                ],
-            }),
-            description: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.DESCRIPTION.MIN),
-                    Validators.maxLength(FormValidators.DESCRIPTION.MAX),
-                    Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
-                ],
-            }),
-            permissions: new FormControl([], {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-        });
-
-    private readonly patchFormFromItem = effect(() => {
-        const item = this.items();
-        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
-            this.form.patchValue(
-                {
-                    name: item.name,
-                    description: item.description,
-                },
-                { emitEvent: false }
-            );
-            this.itemPatched = true;
-        }
-    });
-
-    private readonly initializeFormFromProfile = effect(() => {
-        const treeNodes = this.permissionTree();
-        if (treeNodes.length > 0) {
-            const checkedNodes = this.collectCheckedNodes(treeNodes);
-            this.selectedNodes = [...checkedNodes];
-        } else {
-            this.selectedNodes = [];
-        }
-    });
-
-    private collectCheckedNodes(
-        nodes: TreeNodeInterface[]
-    ): TreeNodeInterface[] {
-        const result: TreeNodeInterface[] = [];
-        for (const node of nodes) {
-            if (node.checked) {
-                result.push(node);
-            }
-            if (node.children?.length) {
-                result.push(...this.collectCheckedNodes(node.children));
-            }
-        }
-        return result;
-    }
-
-    ngOnInit(): void {
-        this.activatedRoute.queryParams
-            .pipe(
-                map((p) => (p['uniqId'] as string) || ''),
-                tap((uniqId) => {
-                    if (uniqId) {
-                        this.facade.reset();
-                        this.permissionsFacade.reset();
-                        this.facade.read({ uniqId }, true);
-                    } else {
-                        this.facade.reset();
-                        this.form.reset();
-                        this.permissionsFacade.readAll();
-                    }
-                }),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe();
+    onTreeInteractions(): void {
+        this.store.updateSelectedNodes(this.selectedNodes());
     }
 
     onExpandAll(): void {
-        const treeNodes = this.permissionTree();
-        const expandedNodes = this.treeService.expandAll(treeNodes);
-        this.permissionTree.set(expandedNodes);
+        this.store.expandAll();
     }
 
     onCollapseAll(): void {
-        const treeNodes = this.permissionTree();
-        const collapsedNodes = this.treeService.collapseAll(treeNodes);
-        this.permissionTree.set(collapsedNodes);
-    }
-
-    onTreeInteractions(): void {
-        const selectedPermissions = this.treeService.collectLeafKeysFromNodes(
-            this.selectedNodes
-        );
-        this.form.controls.permissions.setValue(selectedPermissions);
-        this.leafCount.set(
-            this.treeService.countLeafNodes(this.selectedNodes).size
-        );
-    }
-
-    getErrorMessage(fieldName: string): string {
-        const control = this.form.get(fieldName);
-        return this.validationService.getErrorMessage(
-            fieldName,
-            control?.errors || null
-        );
+        this.store.collapseAll();
     }
 
     private showValidationErrors(): void {
@@ -276,6 +133,14 @@ export class ProfilesPermissionsFormComponent implements OnInit {
         }
     }
 
+    getErrorMessage(fieldName: string): string {
+        const control = this.form.get(fieldName);
+        return this.validation.getErrorMessage(
+            fieldName,
+            control?.errors || null
+        );
+    }
+
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
@@ -283,10 +148,8 @@ export class ProfilesPermissionsFormComponent implements OnInit {
             return;
         }
 
-        const title = this.helperService.getSweetAlertTitle(this.isEditMode());
-        const message = this.helperService.getSweetAlertMessage(
-            this.isEditMode()
-        );
+        const title = this.helper.getSweetAlertTitle(this.isEditMode());
+        const message = this.helper.getSweetAlertMessage(this.isEditMode());
 
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
@@ -303,14 +166,15 @@ export class ProfilesPermissionsFormComponent implements OnInit {
     }
 
     private submitForm(): void {
-        const participant = this.form.getRawValue();
-        if (this.isEditMode()) {
+        const payload = this.form.getRawValue();
+        const uniqId = this.activatedRoute.snapshot.queryParamMap.get('uniqId');
+        if (this.isEditMode() && uniqId) {
             this.submitFacade.update({
-                uniqId: this.paramsUniqId(),
-                ...participant,
+                uniqId,
+                ...payload,
             });
         } else {
-            this.submitFacade.create(participant);
+            this.submitFacade.create(payload);
         }
     }
 
@@ -319,6 +183,6 @@ export class ProfilesPermissionsFormComponent implements OnInit {
     }
 
     navigateToBack(): void {
-        this.helperService.navigateToProfilesPermissionsList();
+        this.helper.navigateToProfilesPermissionsList();
     }
 }

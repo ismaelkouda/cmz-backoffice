@@ -15,7 +15,7 @@
         <app-table
             class="table-component"
             [loading]="loading()"
-            [items]="items()"
+            [items]="itemsVM()"
             [pagination]="pagination()"
             [config]="tableConfig"
             (refreshRequested)="onRefreshClicked()"

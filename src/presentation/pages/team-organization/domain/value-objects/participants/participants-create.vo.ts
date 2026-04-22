@@ -1,4 +1,5 @@
 import { ParticipantsCreateDto } from '@pages/team-organization/application/dto/participants/participants-create.dto';
+import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 
 export class ParticipantsCreateVo {
     public readonly firstName: string;
@@ -22,11 +23,12 @@ export class ParticipantsCreateVo {
     }
 
     static fromDto(dto: ParticipantsCreateDto): ParticipantsCreateVo {
+        const phone = normalizePhoneNumber(dto.phone?.trim()) as string;
         return new ParticipantsCreateVo({
             firstName: dto.firstName,
             lastName: dto.lastName,
             email: dto.email,
-            phone: dto.phone,
+            phone,
             role: dto.role,
         });
     }

@@ -25,8 +25,13 @@ export const TEAMS_PARTICIPANTS = {
         {
             field: 'email',
             header: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.EMAIL',
-            class: 'text-center',
             width: '15rem',
+        },
+        {
+            field: 'roleLabel',
+            header: 'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.TABLE.ROLE',
+            class: 'text-center',
+            width: '7rem',
         },
         {
             field: '__selection',
@@ -36,5 +41,5 @@ export const TEAMS_PARTICIPANTS = {
             type: 'selection',
         },
     ],
-    globalFilterFields: ['lastName', 'firstName', 'phone', 'email'],
+    globalFilterFields: ['lastName', 'firstName', 'email', 'phone'],
 };

@@ -11,7 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
     NavigationEnd,
     Router,
-    RouterLinkActive,
+    RouterModule,
     RouterOutlet,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -30,8 +30,8 @@ import { filter } from 'rxjs';
         PageTitleComponent,
         TabsModule,
         TranslateModule,
+        RouterModule,
         RouterOutlet,
-        RouterLinkActive,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './agents-performances-page.component.html',
@@ -46,7 +46,6 @@ export class AgentsPerformancesPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.updateActiveTab();
-
         this.router.events
             .pipe(
                 filter((event) => event instanceof NavigationEnd),
@@ -58,38 +57,7 @@ export class AgentsPerformancesPageComponent implements OnInit {
     }
 
     private updateActiveTab(): void {
-        const urlTree = this.router.parseUrl(this.router.url);
-        const path =
-            urlTree.root.children['primary']?.segments
-                .map((s) => s.path)
-                .join('/') || '';
-        const queryParams = urlTree.queryParams;
-
-        let matchingTab = this.tabs.find((tab) => {
-            const tabPath = tab.route.split('/').filter(Boolean).join('/');
-            if (tabPath !== path) {
-                return false;
-            }
-            if (tab.queryParams) {
-                return Object.entries(tab.queryParams).every(
-                    ([k, v]) => queryParams[k] === v
-                );
-            }
-            return true;
-        });
-
-        if (!matchingTab && path.endsWith('history')) {
-            const historyTab = this.tabs.find((t) =>
-                t.route.endsWith('history')
-            );
-            if (historyTab) {
-                this.router.navigate([historyTab.route], {
-                    queryParams: historyTab.queryParams,
-                });
-                matchingTab = historyTab;
-            }
-        }
-
-        this.activeTab.set(matchingTab?.value ?? '0');
+        const currentPath = this.router.url.split('?')[0];
+        this.activeTab.set(currentPath);
     }
 }

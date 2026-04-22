@@ -2,14 +2,14 @@ import { Routes } from '@angular/router';
 import { TeamsFormComponent } from '@presentation/pages/team-organization/presentation/features/teams/teams-form/teams-form.component';
 import { TeamsListComponent } from '@presentation/pages/team-organization/presentation/features/teams/teams-list/teams-list.component';
 import { TeamsPageComponent } from '@presentation/pages/team-organization/presentation/features/teams/teams-page/teams-page.component';
-import { HistoryComponent } from '@shared/components/history/history.component';
-
-import { TeamsParticipantsComponent } from './teams-participants/teams-participants.component';
-
-export const TEAMS_LIST = 'list';
-export const TEAMS_FORM = 'form';
-export const TEAMS_HISTORY = 'history';
-export const TEAMS_USERS = 'teams-users';
+import { TeamsParticipantsComponent } from '@presentation/pages/team-organization/presentation/features/teams/teams-participants/teams-participants.component';
+import {
+    TEAMS_HISTORY,
+    TEAMS_FORM,
+    TEAMS_USERS,
+    TEAMS_LIST,
+} from '@presentation/pages/team-organization/presentation/features/teams/teams-paths.constants';
+import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const TEAMS_ROUTES: Routes = [
     {
@@ -22,12 +22,17 @@ export const TEAMS_ROUTES: Routes = [
         children: [
             {
                 path: '',
+                pathMatch: 'full',
+                redirectTo: TEAMS_LIST,
+            },
+            {
+                path: TEAMS_LIST,
                 component: TeamsListComponent,
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: TEAMS_HISTORY,
-                component: HistoryComponent,
+                component: HistoryPageComponent,
                 data: { breadcrumb: { hide: true } },
             },
         ],

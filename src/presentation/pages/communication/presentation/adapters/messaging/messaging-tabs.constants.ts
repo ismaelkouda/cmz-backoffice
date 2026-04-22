@@ -1,21 +1,19 @@
-import {
-    MESSAGING_HISTORY,
-    MESSAGING_LIST,
-} from '@pages/communication/presentation/messaging/messaging.routes';
+import { MESSAGING_LIST } from '@pages/communication/presentation/messaging/messaging-paths.constants';
+import { MESSAGING_ROUTE } from '@presentation/pages/communication/communication.routes';
 import { COMMUNICATION_ROUTE } from '@shared/routes/routes';
 
 export const MESSAGING_TABS = [
     {
         value: '0',
-        route: `${COMMUNICATION_ROUTE}/${MESSAGING_LIST}`,
+        route: `/${COMMUNICATION_ROUTE}/${MESSAGING_ROUTE}/${MESSAGING_LIST}`,
         label: 'COMMUNICATION.MESSAGING.TABS.MESSAGING.LABEL',
         icon: 'pi pi-list',
     },
     {
         value: '1',
-        route: `${COMMUNICATION_ROUTE}/${MESSAGING_HISTORY}`,
+        route: `/${COMMUNICATION_ROUTE}/${MESSAGING_ROUTE}/history`,
         label: 'COMMUNICATION.MESSAGING.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { participant: 'test' },
+        queryParams: { ref: 'message-diffusion' },
     },
 ];

@@ -7,7 +7,7 @@ export const AGENTS_PERFORMANCES_TABLE_CONSTANT = {
             width: '2rem',
         },
         {
-            field: 'name',
+            field: 'fullName',
             header: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.NAME',
             width: '18rem',
         },
@@ -29,7 +29,7 @@ export const AGENTS_PERFORMANCES_TABLE_CONSTANT = {
             width: '10rem',
         },
         {
-            field: 'status',
+            field: 'statusLabel',
             header: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.STATUS',
             class: 'text-center',
             width: '5rem',
@@ -42,11 +42,11 @@ export const AGENTS_PERFORMANCES_TABLE_CONSTANT = {
         },
     ],
     globalFilterFields: [
-        'name',
+        'fullName',
         'goalsSize',
         'achievementsSize',
         'percentages',
-        'status',
+        'statusLabel',
         'createdAt',
     ],
 };

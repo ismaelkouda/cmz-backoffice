@@ -3,11 +3,13 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
+    inject,
     input,
     output,
     signal,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
 import { Platform } from '@shared/domain/enums/platform.enum';
 import {
     ImageCropperComponent,
@@ -40,6 +42,7 @@ import { PLATFORM_RATIO_LABELS } from '../image-upload/domain/types/image-upload
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageCropDialogComponent {
+    private readonly store = inject(ImageUploadStateService);
     readonly outputFormat = input<'png' | 'jpeg' | 'webp'>('png');
     readonly visible = input.required<boolean>();
     readonly sourceFile = input<File | null>(null);
