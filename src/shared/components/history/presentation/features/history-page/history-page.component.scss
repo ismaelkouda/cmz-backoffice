@@ -1,0 +1,16 @@
+.history-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.history-divider {
+    margin: 0;
+    border-color: var(--border-color);
+}
+
+.table-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

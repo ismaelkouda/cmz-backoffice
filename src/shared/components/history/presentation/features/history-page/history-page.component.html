@@ -1,0 +1,42 @@
+<div class="fade-in history-content">
+    <app-filter
+        class="filter-component"
+        [isLoading]="loading()"
+        [formGroup]="form"
+        [fields]="filterFields()"
+        [limit]="5"
+    ></app-filter>
+
+    <div>{{typeModel()}}</div>
+
+    <hr class="history-divider" />
+
+    <section class="table-section">
+        <app-table
+            class="table-component"
+            [loading]="loading()"
+            [items]="itemsVM()"
+            [pagination]="pagination()"
+            [config]="tableConfig"
+            (refreshRequested)="onRefreshClicked()"
+            (actionClicked)="onActionClicked($event)"
+            (export)="onExportClicked()"
+            dataKey="uniqId"
+        ></app-table>
+
+        <app-pagination
+            class="pagination-component"
+            [pagination]="pagination()"
+            (pageChange)="onPageChange($event)"
+        ></app-pagination>
+    </section>
+
+    @if (isVisibleDialog()) {
+        <app-history-dialog
+            [visible]="isVisibleDialog()"
+            [uniqId]="uniqId"
+            [typeModel]="typeModel()"
+            (visibleChange)="onVisibleChange($event)"
+        ></app-history-dialog>
+    }
+</div>
