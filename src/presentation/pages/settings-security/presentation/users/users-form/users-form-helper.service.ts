@@ -33,10 +33,6 @@ export class UsersFormHelperService {
             : 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE_CREATE';
     }
 
-    /**
-     * Get SweetAlert message based on edit mode.
-     * @param isEditMode
-     */
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
             ? 'SETTINGS_SECURITY.USERS.SWEET_ALERT.MESSAGE_UPDATE'

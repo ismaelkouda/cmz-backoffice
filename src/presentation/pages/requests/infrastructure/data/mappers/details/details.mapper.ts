@@ -109,6 +109,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             placePhoto: dto.place_photo,
             accessPlacePhoto: dto.access_place_photo,
             confirmCount: dto.confirm_count,
+            placeDescription: dto.place_description,
         };
 
         const cacheKey = `dto:${dto.uniq_id}`;

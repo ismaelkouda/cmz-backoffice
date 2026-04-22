@@ -5,7 +5,7 @@ import { StatusMapper } from '@pages/settings-security/infrastructure/data/mappe
 import { UsersProps } from '@presentation/pages/settings-security/domain/interfaces/users/users-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ProfilesMapper } from '@shared/data/mappers/profiles.mapper';
-import { ResponsibilitiesMapper } from '@shared/data/mappers/responsibilities.mapper';
+import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({
@@ -13,9 +13,7 @@ import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 })
 export class UsersMapper extends PaginatedMapper<UsersEntity, UsersItemApiDto> {
     private readonly profilesMapper: ProfilesMapper = inject(ProfilesMapper);
-    private readonly responsibilitiesMapper: ResponsibilitiesMapper = inject(
-        ResponsibilitiesMapper
-    );
+    private readonly rolesMapper: RolesMapper = inject(RolesMapper);
     private readonly statusMapper = inject(StatusMapper);
     private readonly entityCache = new Map<string, UsersEntity>();
 
@@ -27,10 +25,8 @@ export class UsersMapper extends PaginatedMapper<UsersEntity, UsersItemApiDto> {
             firstName: dto.first_name,
             email: dto.email,
             phone: dto.phone,
-            profile: this.profilesMapper.mapFromDto(dto.profile),
-            responsibility: this.responsibilitiesMapper.mapFromDto(
-                dto.responsibility
-            ),
+            profile: dto.profile,
+            role: this.rolesMapper.mapFromDto(dto.role),
             status: this.statusMapper.mapFromDto(dto.status),
             updatedAt: dto.updated_at,
         };

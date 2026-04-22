@@ -9,8 +9,9 @@ export class HistoryFindOneHandler {
     constructor(private readonly useCase: HistoryFindOneUseCase) {}
 
     execute(command: HistoryFindOneQuery): Observable<HistoryFindOneEntity> {
-        return this.useCase.execute({
+        return this.useCase.read({
             uniqId: command.uniqId,
+            typeModel: command.typeModel,
         });
     }
 }

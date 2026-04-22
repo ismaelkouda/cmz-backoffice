@@ -6,24 +6,16 @@ import {
     DestroyRef,
     effect,
     inject,
-    OnInit,
     Signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ParticipantsFindOneFacade } from '@pages/team-organization/application/services/participants/participants-find-one.facade';
 import { ParticipantsFacade } from '@pages/team-organization/application/services/participants/participants.facade';
-import { ParticipantsFormControl } from '@pages/team-organization/domain/controls/participants/participants-form.control';
 import { ParticipantsFormHelperService } from '@pages/team-organization/domain/services/participants/participants-form-helper.service';
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
+import { ParticipantsStore } from '@pages/team-organization/presentation/store/participants/participants.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import {
     enumToFilterOptions,
@@ -32,7 +24,6 @@ import {
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Roles } from '@shared/domain/enums/roles.enum';
-import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -68,32 +59,39 @@ import SweetAlert from 'sweetalert2';
     ],
     providers: [
         MessageService,
-        FormValidationService,
         ParticipantsFormHelperService,
+        ParticipantsStore,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ParticipantsFormComponent implements OnInit {
+export class ParticipantsFormComponent {
+    readonly store = inject(ParticipantsStore);
+
     private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly fb = inject(FormBuilder);
-    private readonly submitFacade = inject(ParticipantsFacade);
-    private readonly facade = inject(ParticipantsFindOneFacade);
-    private readonly translate = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly validationService = inject(FormValidationService);
-    private readonly helperService = inject(ParticipantsFormHelperService);
+    private readonly translate = inject(TranslateService);
+    private readonly submitFacade = inject(ParticipantsFacade);
+    private readonly helper = inject(ParticipantsFormHelperService);
+    private readonly validation = inject(FormValidationService);
+
+    public readonly form = this.store.form;
+    public readonly loading = this.store.loading;
+    public readonly isEditMode = this.store.isEditMode;
+
+    public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
     readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();
-    private itemPatched = false;
-    readonly items = this.facade.items;
-    readonly loading = this.facade.loading;
-    private readonly paramsUniqId = toSignal(
+    private readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
-            map((p) => (p['uniqId'] as string) || '')
+            map(
+                (params: Record<string, unknown>) =>
+                    (params['uniqId'] as string) || ''
+            ),
+            tap((uniqId) => this.store.setMode(uniqId)),
+            takeUntilDestroyed(this.destroyRef)
         ),
         { initialValue: '' }
     );
-    readonly isEditMode = computed(() => !!this.paramsUniqId());
     private readonly formStateEffect = effect(() => {
         const state = this.submitFacade.actionState();
         if (state === 'loading') {
@@ -102,7 +100,6 @@ export class ParticipantsFormComponent implements OnInit {
             this.form.enable({ emitEvent: false });
         }
     });
-
     private readonly successEffect = effect(() => {
         const current = this.submitFacade.actionSuccess();
         if (current === this.lastSuccess) {
@@ -112,94 +109,9 @@ export class ParticipantsFormComponent implements OnInit {
         this.lastSuccess = current;
         this.navigateToBack();
     });
-
     readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
         return enumToFilterOptions(Roles, this.t.bind(this));
     });
-
-    readonly form: FormGroup<ParticipantsFormControl> =
-        this.fb.nonNullable.group<ParticipantsFormControl>({
-            firstName: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.FIRST_NAME.MIN),
-                    Validators.maxLength(FormValidators.FIRST_NAME.MAX),
-                    Validators.pattern(FormValidators.FIRST_NAME.PATTERN),
-                ],
-            }),
-            lastName: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.LAST_NAME.MIN),
-                    Validators.maxLength(FormValidators.LAST_NAME.MAX),
-                    Validators.pattern(FormValidators.LAST_NAME.PATTERN),
-                ],
-            }),
-            email: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.pattern(FormValidators.EMAIL.PATTERN),
-                ],
-            }),
-            phone: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.PHONE.MIN),
-                    Validators.maxLength(FormValidators.PHONE.MAX),
-                    Validators.pattern(FormValidators.PHONE.PATTERN),
-                ],
-            }),
-            role: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-        });
-
-    private readonly patchFormFromItem = effect(() => {
-        const item = this.items();
-        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
-            this.form.patchValue(
-                {
-                    lastName: item.lastName,
-                    firstName: item.firstName,
-                    email: item.email,
-                    phone: formatPhoneForMask(item.phone),
-                    role: item.role,
-                },
-                { emitEvent: false }
-            );
-            this.itemPatched = true;
-        }
-    });
-
-    ngOnInit(): void {
-        this.activatedRoute.queryParams
-            .pipe(
-                map((p) => (p['uniqId'] as string) || ''),
-                tap((uniqId) => {
-                    this.facade.reset();
-                    if (uniqId) {
-                        this.facade.read({ uniqId }, true);
-                    } else {
-                        this.form.reset();
-                    }
-                }),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe();
-    }
-
-    getErrorMessage(fieldName: string): string {
-        const control = this.form.get(fieldName);
-        return this.validationService.getErrorMessage(
-            fieldName,
-            control?.errors || null
-        );
-    }
 
     private showValidationErrors(): void {
         const controlNames = [
@@ -223,22 +135,29 @@ export class ParticipantsFormComponent implements OnInit {
         }
     }
 
+    getErrorMessage(fieldName: string): string {
+        const control = this.form.get(fieldName);
+        return this.validation.getErrorMessage(
+            fieldName,
+            control?.errors || null
+        );
+    }
+
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             this.showValidationErrors();
             return;
         }
-
-        const title = this.helperService.getSweetAlertTitle(this.isEditMode());
-        const message = this.helperService.getSweetAlertMessage(
-            this.isEditMode()
-        );
-
+        const title = this.helper.getSweetAlertTitle(this.isEditMode());
+        const message = this.helper.getSweetAlertMessage(this.isEditMode());
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(title),
-            text: this.t(message),
+            html: this.t(message).replace(
+                '{{email}}',
+                this.form.controls.email.value || ''
+            ),
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
@@ -250,15 +169,14 @@ export class ParticipantsFormComponent implements OnInit {
     }
 
     private submitForm(): void {
-        const participant = this.form.getRawValue();
-
+        const payload = this.form.getRawValue();
         if (this.isEditMode()) {
             this.submitFacade.update({
-                uniqId: this.paramsUniqId(),
-                ...participant,
+                uniqId: this.uniqId(),
+                ...payload,
             });
         } else {
-            this.submitFacade.create(participant);
+            this.submitFacade.create(payload);
         }
     }
 
@@ -267,6 +185,6 @@ export class ParticipantsFormComponent implements OnInit {
     }
 
     navigateToBack(): void {
-        this.helperService.navigateToParticipantsList();
+        this.helper.navigateToParticipantsList();
     }
 }

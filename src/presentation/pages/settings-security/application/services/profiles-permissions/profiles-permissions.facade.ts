@@ -230,7 +230,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     disable(team: ProfilesPermissionsDisableDto): void {
@@ -238,7 +238,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        );
+        ).subscribe();
     }
 
     delete(team: ProfilesPermissionsDeleteDto): void {
@@ -246,6 +246,6 @@ export class ProfilesPermissionsFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
-        );
+        ).subscribe();
     }
 }

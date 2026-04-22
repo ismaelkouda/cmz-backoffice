@@ -45,5 +45,6 @@ export interface DetailsProps {
     reportedAt: string;
     placePhoto: string;
     accessPlacePhoto: string;
+    placeDescription: string;
     confirmCount: number;
 }

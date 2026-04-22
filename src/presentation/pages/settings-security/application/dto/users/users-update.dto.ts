@@ -5,5 +5,5 @@ export interface UsersUpdateDto {
     email: string;
     phone: string;
     profile: string;
-    responsibility: string;
+    role: string;
 }

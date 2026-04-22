@@ -7,14 +7,15 @@ import {
     output,
     inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { LocationCoordinates } from '@shared/components/location-picker/models/location-coordinates.model';
 import { LocationPickerDialogComponent } from '@shared/components/location-picker/ui/location-picker-dialog.component';
-import { formatCoordinatesString } from '@shared/components/location-picker/utils/coordinates.utils';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
+import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 import { ButtonModule } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
@@ -54,32 +55,38 @@ import { ManagementFormStore } from '../store/management-form.store';
     styleUrls: ['./management-info-panel.component.scss'],
 })
 export class ManagementInfoPanelComponent {
-    private readonly store = inject(ManagementFormStore);
+    public readonly store = inject(ManagementFormStore);
     private readonly dialogService = inject(DialogService);
     public readonly item = input.required<ManagementEntityType>();
     public readonly loading = input.required<boolean>();
 
     public readonly copyClicked = output<string>();
-    protected readonly coordinates = computed((): string => {
-        const currentItem = this.item();
-        if (!currentItem?.location?.coordinates) {
-            return '';
+    readonly coordinatesSignal = toSignal(
+        this.store.form.controls.coordinates.valueChanges,
+        {
+            initialValue: this.store.form.controls.coordinates.value,
         }
+    );
 
-        const { latitude, longitude } = currentItem.location.coordinates;
-        return latitude && longitude ? `${latitude}, ${longitude}` : '';
+    readonly coordinates = computed(() => {
+        const coords = this.coordinatesSignal();
+        const currentItem = this.item();
+
+        return coords && currentItem?.location?.coordinates
+            ? `${coords.latitude}, ${coords.longitude}`
+            : `${currentItem?.location?.coordinates.latitude}, ${currentItem?.location?.coordinates.longitude}`;
     });
 
     protected readonly formErrors = computed(() => this.store.formErrors());
 
     protected readonly hasErrors = computed(() => this.store.hasErrors());
 
-    protected onCopyCoordinates(): void {
-        const coords = this.coordinates();
-        if (coords) {
-            this.copyClicked.emit(coords);
-        }
-    }
+    // protected onCopyCoordinates(): void {
+    //     const coords = this.coordinates();
+    //     if (coords) {
+    //         this.copyClicked.emit(coords);
+    //     }
+    // }
 
     protected getOperatorTagStyle(operator: string): Record<string, string> {
         return operatorsTagStyle(operator);
@@ -90,10 +97,8 @@ export class ManagementInfoPanelComponent {
         return !!(control?.invalid && control?.touched);
     }
 
-    protected isManagementType(
-        value: 'edit' | 'callback' | 'details'
-    ): boolean {
-        return this.store.isManagementType(value);
+    protected isApprovalType(value: 'edit' | 'callback' | 'details'): boolean {
+        return this.store.isApprovalType(value);
     }
 
     public readonly submitting = input<boolean>(false);
@@ -105,7 +110,6 @@ export class ManagementInfoPanelComponent {
 
     protected shouldShowCallbackTypeField =
         this.store.shouldShowCallbackTypeField;
-    protected isFormValid = this.store.isFormValid;
 
     public openLocationPicker(): void {
         if (!this.dialogService) {
@@ -118,19 +122,21 @@ export class ManagementInfoPanelComponent {
             maximizable: true,
             draggable: false,
             closable: true,
-            data: { initialCoords: this.item()?.location?.coordinates },
+            data: { initialCoords: this.initialCoords },
             styleClass: 'location-picker-dialog',
         });
         ref?.onClose.subscribe((result: LocationCoordinates | null) => {
             if (result) {
-                console.log('result: ', result);
-                const coordinatesString = formatCoordinatesString(
-                    result.lat,
-                    result.lng
-                );
-                this.store.setCoordinates(coordinatesString);
+                this.store.setCoordinates(result);
             }
         });
+    }
+    private get initialCoords(): Coordinates | null {
+        const coordinatesControl = this.store.form.controls.coordinates;
+        if (coordinatesControl.value) {
+            return coordinatesControl.value;
+        }
+        return this.item()?.location?.coordinates ?? null;
     }
     private isMobile(): boolean {
         return window.innerWidth <= 992;

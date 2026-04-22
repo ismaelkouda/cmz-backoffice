@@ -14,6 +14,6 @@ export const PROFILES_PERMISSIONS_TABS = [
         route: `/${SETTINGS_SECURITY_ROUTE}/${PROFILES_PERMISSIONS_ROUTE}/history`,
         label: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { user: 'test' },
+        queryParams: { ref: 'profile-user' },
     },
 ];

@@ -1,15 +1,29 @@
+import { ActorDto } from '@shared/data/dto/actor.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
+export type HistoryDataItemApiDto =
+    | {
+          key: string;
+          value: unknown;
+      }
+    | {
+          key: string;
+          previous_value: unknown;
+          current_value: unknown;
+      };
 export interface HistoryFindOneItemApiDto {
     id: string;
-    user: string;
-    address_ip: string;
+    created_at: string;
+    event: string;
     action: string;
     module: string;
-    used_agent: string;
-    created_at: string;
+    sous_module: string;
+    ip_address: string;
+    type_action: string;
+    initiator: ActorDto;
+    agent_use: string;
+    data?: HistoryDataItemApiDto[];
     updated_at: string;
-    data?: { key: string; value: string }[];
 }
 
 export type HistoryFindOneResponseApiDto =

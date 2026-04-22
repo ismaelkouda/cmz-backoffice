@@ -1,6 +1,6 @@
 export interface UsersFilterDto {
     search?: string;
     profile?: string;
-    responsibility?: string;
+    role?: string;
     isActive?: string;
 }

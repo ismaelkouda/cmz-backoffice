@@ -17,7 +17,7 @@ export class ParticipantsSelectApi {
         filter: string | null
     ): Observable<ParticipantsSelectResponseApiDto> {
         const params = buildHttpParams({ role: filter });
-        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/members/select-field`;
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/free-members`;
         return this.http.get<ParticipantsSelectResponseApiDto>(url, {
             params,
         });

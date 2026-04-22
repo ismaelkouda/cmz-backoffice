@@ -39,6 +39,7 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
             }
 
             if (status === 401) {
+                console.log('reqvdszvzdevzevzevzeve: ', req);
                 safeHandle401(req, encodingDataService);
             } else if (status === 403) {
                 console.warn('Forbidden', req.url);
@@ -56,13 +57,13 @@ function safeHandle401(
     encodingDataService: EncodingDataService
 ): void {
     try {
-        if (
-            req.url.includes('/auth/') ||
-            req.url.includes('/login') ||
-            req.url.includes('/token')
-        ) {
-            return;
-        }
+        // if (
+        //     req.url.includes('/auth/') ||
+        //     req.url.includes('/login') ||
+        //     req.url.includes('/token')
+        // ) {
+        //     return;
+        // }
 
         encodingDataService.removeKeysWithPrefix('token_data');
         encodingDataService.removeKeysWithPrefix('user_data');

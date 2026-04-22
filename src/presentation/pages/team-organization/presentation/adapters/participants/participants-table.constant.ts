@@ -22,22 +22,21 @@ export const PARTICIPANTS_TABLE = {
             width: '12rem',
         },
         {
-            field: 'email',
-            header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.EMAIL',
-            width: '10rem',
-        },
-        {
             field: 'phone',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.PHONE',
             class: 'text-center',
             width: '7rem',
         },
         {
+            field: 'email',
+            header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.EMAIL',
+            width: '10rem',
+        },
+        {
             field: 'roleLabel',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.ROLE',
             class: 'text-center',
             width: '7rem',
-            type: 'badge',
         },
         {
             field: 'statusLabel',

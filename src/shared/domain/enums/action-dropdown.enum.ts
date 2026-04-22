@@ -4,4 +4,5 @@ export enum ActionDropdown {
     PUBLISH = 'COMMON.PUBLISH',
     UNPUBLISH = 'COMMON.UNPUBLISH',
     AFFECTED = 'COMMON.AFFECTED',
+    DELETE = 'COMMON.DELETE',
 }

@@ -4,6 +4,7 @@ import {
     Component,
     computed,
     DestroyRef,
+    effect,
     inject,
     Signal,
     signal,
@@ -20,10 +21,8 @@ import { HashtagsInputComponent } from '@pages/content-management/presentation/f
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { enumToFilterOptions } from '@shared/components/filter/filter.types';
 import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/image-crop-dialog.component';
-import { ImagePreviewData } from '@shared/components/image-preview-dialog/domain/types/image-preview.types';
 import { ImagePreviewDialogComponent } from '@shared/components/image-preview-dialog/image-preview-dialog.component';
 import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
-import { ImageSelectedResult } from '@shared/components/image-upload/domain/types/image-upload.types';
 import { ImageUploadComponent } from '@shared/components/image-upload/image-upload.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
@@ -84,8 +83,10 @@ import SweetAlert from 'sweetalert2';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewsFormComponent {
-    readonly store = inject(NewsFormStore);
-    readonly imageStore = inject(ImageUploadStateService);
+    public readonly instanceId = signal('NewsFormComponent');
+    protected readonly store = inject(NewsFormStore);
+    private readonly imageStore = inject(ImageUploadStateService);
+    protected readonly imageState = this.imageStore.getStore(this.instanceId());
 
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
@@ -101,7 +102,6 @@ export class NewsFormComponent {
     public readonly isEditMode = this.store.isEditMode;
     public readonly isVideoMode = this.store.isVideoMode;
     public readonly isImageMode = this.store.isImageMode;
-    public readonly cropperSourceFile = this.imageStore.cropperSourceFile;
 
     public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
 
@@ -112,28 +112,6 @@ export class NewsFormComponent {
     readonly typeOptions = computed(() =>
         enumToFilterOptions(TypeMedia, (key) => this.translate.instant(key))
     );
-
-    readonly previewImageData = computed<ImagePreviewData>(() => {
-        const previewUrl = this.imageStore.cropperPreviewUrl();
-        const mediaValue = this.form.controls.image.value;
-
-        let fileName: string | null = null;
-        let fileSize: number | undefined = undefined;
-
-        if (mediaValue?.type === 'local' && mediaValue.file) {
-            fileName = mediaValue.file.name;
-            fileSize = mediaValue.file.size;
-        } else if (mediaValue?.type === 'remote' && mediaValue.url) {
-            fileName = mediaValue.url.split('/').pop() || 'image.jpg';
-        }
-
-        return {
-            url: previewUrl || '',
-            fileName,
-            fileSize: this.formatFileSize(fileSize),
-            alt: this.translate.instant('CONTENT_MANAGEMENT.HOME.FORM.IMAGE'),
-        };
-    });
 
     private readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
@@ -151,25 +129,19 @@ export class NewsFormComponent {
         this.translate.onLangChange
             .pipe(takeUntilDestroyed())
             .subscribe((lang) => this.currentLang.set(lang.lang));
+
+        effect(() => {
+            const item = this.store.item();
+            if (!item?.image) {
+                return;
+            }
+            this.imageStore.hydrate(this.instanceId(), item.image);
+        });
     }
 
     public getErrorMessage(field: string): string {
         const control = this.form.get(field);
         return this.validation.getErrorMessage(field, control?.errors || null);
-    }
-
-    public onCropImageLoadFailed(): void {
-        this.imageStore.onCropperImageLoadFailed();
-    }
-
-    private formatFileSize(size?: number): string | null {
-        if (!size) {
-            return null;
-        }
-
-        return size < 1024 * 1024
-            ? `${(size / 1024).toFixed(0)} Ko`
-            : `${(size / (1024 * 1024)).toFixed(1)} Mo`;
     }
 
     onSubmit(): void {
@@ -224,26 +196,47 @@ export class NewsFormComponent {
         return !!(control?.invalid && control?.touched);
     }
 
-    public onImageSelected({ file }: ImageSelectedResult): void {
-        this.store.onImageSelected(file);
+    public onCropConfirmed(event: Blob): void {
+        this.imageStore.confirmCrop(this.instanceId(), event);
+        const file = this.imageStore.getCurrentFile(this.instanceId());
+        if (file) {
+            this.store.setImage(file);
+        }
     }
 
-    public onCropConfirmed(blob: Blob): void {
-        this.store.onCropConfirmed(blob);
-    }
-
-    public onCropCancelled(): void {
-        this.store.onCropCancelled();
-    }
-
-    public onImageCleared(): void {
-        this.store.onImageCleared();
-    }
-
-    public openImagePreview(): void {
-        if (this.store.isImageAvailable()) {
+    protected openImagePreview(): void {
+        if (this.store.hasImage()) {
             this.previewVisible.set(true);
         }
+    }
+
+    protected onImageCleared(): void {
+        this.store.resetImage();
+        this.imageStore.reset(this.instanceId());
+    }
+
+    protected onImageLoaded(): void {
+        this.imageStore.setLoaded(this.instanceId());
+    }
+
+    protected onImageFailed(): void {
+        this.imageStore.setFailed(this.instanceId());
+    }
+
+    protected onImageRotate(direction: 'left' | 'right'): void {
+        this.imageStore.rotateCropper(this.instanceId(), direction);
+    }
+
+    protected onImageFlipHorizontal(): void {
+        this.imageStore.flipCropperHorizontal(this.instanceId());
+    }
+
+    protected onImageFlipVertical(): void {
+        this.imageStore.flipCropperVertical(this.instanceId());
+    }
+
+    protected onImageResetTransforms(): void {
+        this.imageStore.resetCropperTransforms(this.instanceId());
     }
 
     public closeImagePreview(): void {

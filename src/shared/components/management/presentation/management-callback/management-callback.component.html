@@ -1,115 +1,147 @@
 @if (!loading()) {
-    <form [formGroup]="store.form"> 
+    <form [formGroup]="store.form">
         @if (item()?.canBeApproved || item()?.canBeFinalized) {
-        <div class="m-3">
-            <div class="action-section">
-                <div class="management-type-form-row">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-md-5">
-                            <div class="col-md-12">
-                                <div class="container-radio-option col-md-12">
+            <div class="m-3">
+                <div class="action-section">
+                    <div class="management-type-form-row">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-5">
+                                <div class="col-md-12">
                                     <div
-                                        class="radio-option col-md"
-                                        role="radiogroup"
-                                        aria-labelledby="management-type-label"
+                                        class="container-radio-option col-md-12"
                                     >
-
                                         <div
-                                            class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                            (click)="onManagementTypeChange('details')"
-                                            (keypress)="onManagementTypeChange('details')"
-                                            [class.selected]="isManagementType('details')"
-                                            tabindex="0" role="radio"
-                                            [attr.aria-checked]="isManagementType('details')"
-                                        >
-                                            <div class="radio-indicator">
-                                                <div class="radio-dot" [class.checked]="isManagementType('details')"></div>
-                                            </div>
-                                            <div class="radio-content">
-                                                <div class="radio-text">
-                                                    <div class="radio-title">
-                                                        {{
-                                                            'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.DETAILS.LABEL'
-                                                                | translate
-                                                        }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div
-                                            class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                            (click)="onManagementTypeChange('edit')"
-                                            (keypress)="onManagementTypeChange('edit')"
-                                            [class.selected]="isManagementType('edit')"
-                                            tabindex="0" role="radio"
-                                            [attr.aria-checked]="isManagementType('edit')"
-                                        >
-                                            <div class="radio-indicator">
-                                                <div class="radio-dot" [class.checked]="isManagementType('edit')"></div>
-                                            </div>
-                                            <div class="radio-content">
-                                                <div class="radio-text">
-                                                    <div class="radio-title">
-                                                        {{
-                                                            'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.EDIT.LABEL'
-                                                                | translate
-                                                        }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div
-                                            class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
-                                            (click)="
-                                                onManagementTypeChange(
-                                                    'callback'
-                                                )
-                                            "
-                                            (keypress)="
-                                                onManagementTypeChange(
-                                                    'callback'
-                                                )
-                                            "
-                                            [class.selected]="
-                                                isManagementType(
-                                                    'callback'
-                                                )
-                                            "
-                                            tabindex="0"
-                                            role="radio"
-                                            [attr.aria-checked]="
-                                                isManagementType(
-                                                    'callback'
-                                                )
-                                            "
+                                            class="radio-option col-md"
+                                            role="radiogroup"
+                                            aria-labelledby="management-type-label"
                                         >
                                             <div
-                                                class="radio-indicator"
+                                                class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
+                                                (click)="
+                                                    onApprovalTypeChange(
+                                                        'details'
+                                                    )
+                                                "
+                                                (keypress)="
+                                                    onApprovalTypeChange(
+                                                        'details'
+                                                    )
+                                                "
+                                                [class.selected]="
+                                                    isApprovalType('details')
+                                                "
+                                                tabindex="0"
+                                                role="radio"
+                                                [attr.aria-checked]="
+                                                    isApprovalType('details')
+                                                "
                                             >
-                                                <div
-                                                    class="radio-dot"
-                                                    [class.checked]="
-                                                        isManagementType(
-                                                            'callback'
-                                                        )
-                                                    "
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="radio-content"
-                                            >
-                                                <div
-                                                    class="radio-text"
-                                                >
+                                                <div class="radio-indicator">
                                                     <div
-                                                        class="radio-title"
-                                                    >
-                                                        {{
-                                                            'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.CALLBACK.LABEL'
-                                                                | translate
-                                                        }}
+                                                        class="radio-dot"
+                                                        [class.checked]="
+                                                            isApprovalType(
+                                                                'details'
+                                                            )
+                                                        "
+                                                    ></div>
+                                                </div>
+                                                <div class="radio-content">
+                                                    <div class="radio-text">
+                                                        <div
+                                                            class="radio-title"
+                                                        >
+                                                            {{
+                                                                'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.DETAILS.LABEL'
+                                                                    | translate
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
+                                                (click)="
+                                                    onApprovalTypeChange('edit')
+                                                "
+                                                (keypress)="
+                                                    onApprovalTypeChange('edit')
+                                                "
+                                                [class.selected]="
+                                                    isApprovalType('edit')
+                                                "
+                                                tabindex="0"
+                                                role="radio"
+                                                [attr.aria-checked]="
+                                                    isApprovalType('edit')
+                                                "
+                                            >
+                                                <div class="radio-indicator">
+                                                    <div
+                                                        class="radio-dot"
+                                                        [class.checked]="
+                                                            isApprovalType(
+                                                                'edit'
+                                                            )
+                                                        "
+                                                    ></div>
+                                                </div>
+                                                <div class="radio-content">
+                                                    <div class="radio-text">
+                                                        <div
+                                                            class="radio-title"
+                                                        >
+                                                            {{
+                                                                'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.EDIT.LABEL'
+                                                                    | translate
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
+                                                (click)="
+                                                    onApprovalTypeChange(
+                                                        'callback'
+                                                    )
+                                                "
+                                                (keypress)="
+                                                    onApprovalTypeChange(
+                                                        'callback'
+                                                    )
+                                                "
+                                                [class.selected]="
+                                                    isApprovalType('callback')
+                                                "
+                                                tabindex="0"
+                                                role="radio"
+                                                [attr.aria-checked]="
+                                                    isApprovalType('callback')
+                                                "
+                                            >
+                                                <div class="radio-indicator">
+                                                    <div
+                                                        class="radio-dot"
+                                                        [class.checked]="
+                                                            isApprovalType(
+                                                                'callback'
+                                                            )
+                                                        "
+                                                    ></div>
+                                                </div>
+                                                <div class="radio-content">
+                                                    <div class="radio-text">
+                                                        <div
+                                                            class="radio-title"
+                                                        >
+                                                            {{
+                                                                'MANAGEMENT.TREATMENT.CALLBACK_ACTION.OPTIONS.CALLBACK.LABEL'
+                                                                    | translate
+                                                            }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,42 +149,44 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-5">
-                            <p-select
-                                id="callbackType"
-                                class="form-p-select"
-                                formControlName="callbackType"
-                                [options]="callbackTypeOptions()" 
-                                [disabled]="isManagementType('details') || isManagementType('edit')"
-                                optionLabel="label"
-                                optionValue="value"
-                                [placeholder]="
-                                    'MANAGEMENT.TREATMENT.CALLBACK_ACTION.CALLBACK_TYPE'
-                                        | translate
-                                "
-                                [emptyMessage]="
-                                    'COMMON.SELECT_EMPTY_MESSAGE'
-                                        | translate
-                                "
-                                [emptyFilterMessage]="
-                                    'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
-                                        | translate
-                                "
-                                [showClear]="true"
-                                styleClass="w-100"
-                                appendTo="body"
-                                [ngClass]="{
-                                    'ng-invalid ng-dirty':
-                                        isFieldInvalid('callbackType'),
-                                }"
-                            />
+                            <div class="col-md-5">
+                                <p-select
+                                    id="callbackType"
+                                    class="form-p-select"
+                                    formControlName="callbackType"
+                                    [options]="callbackTypeOptions()"
+                                    [disabled]="
+                                        isApprovalType('details') ||
+                                        isApprovalType('edit')
+                                    "
+                                    optionLabel="label"
+                                    optionValue="value"
+                                    [placeholder]="
+                                        'MANAGEMENT.TREATMENT.CALLBACK_ACTION.CALLBACK_TYPE'
+                                            | translate
+                                    "
+                                    [emptyMessage]="
+                                        'COMMON.SELECT_EMPTY_MESSAGE'
+                                            | translate
+                                    "
+                                    [emptyFilterMessage]="
+                                        'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                            | translate
+                                    "
+                                    [showClear]="true"
+                                    styleClass="w-100"
+                                    appendTo="body"
+                                    [ngClass]="{
+                                        'ng-invalid ng-dirty':
+                                            isFieldInvalid('callbackType'),
+                                    }"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
     </form>
 }

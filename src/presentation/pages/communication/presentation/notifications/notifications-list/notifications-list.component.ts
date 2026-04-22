@@ -29,7 +29,6 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
-import { Track } from '@shared/domain/functions/track.function';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
@@ -74,7 +73,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     public readonly tableConfig = NOTIFICATIONS;
     readonly form = this.formStore.form;
     public selectedReportId: string | null = null;
-    public readonly reportTreatmentVisible = signal<boolean>(false);
+    public readonly isVisibleDialog = signal<boolean>(false);
     public readonly selectedManagementType = signal<TypeReport | null>(null);
     readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -161,10 +160,6 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
             });
     }
 
-    @Track('notifications', (ctx) => ({
-        page: ctx.pagination()?.currentPage,
-        filters: ctx.form.value,
-    }))
     ngOnInit(): void {
         this.updateTitle();
     }
@@ -201,7 +196,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         item?: NotificationsVmProps;
         ref: CrudFormType;
     }): void {
-        console.log(event);
+        console.log('event: ', event);
         // const queryParams = event.item
         //     ? { uniqId: event.item.uniqId, ref: event.ref }
         //     : { ref: event.ref };
@@ -258,12 +253,12 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         const { item } = event;
         this.selectedReportId = item.uniqId;
         this.selectedManagementType.set(item.type);
-        this.reportTreatmentVisible.set(true);
+        this.isVisibleDialog.set(true);
         this.facade.readOne({ uniqId: item.uniqId });
     }
 
     public onVisibleChange(event: boolean): void {
-        this.reportTreatmentVisible.set(event);
+        this.isVisibleDialog.set(event);
     }
 
     public onExportClicked(): void {

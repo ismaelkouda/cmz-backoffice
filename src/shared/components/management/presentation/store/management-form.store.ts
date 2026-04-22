@@ -6,33 +6,34 @@ import {
     Validators,
 } from '@angular/forms';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
+import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
+import { MediaValue } from '@shared/domain/types/media.types';
 
 import { ManagementEntityType } from '../../domain/types/management-entity.type';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ManagementFormStore {
     private readonly fb = inject(FormBuilder);
     readonly item = signal<ManagementEntityType | null>(null);
 
     readonly form: FormGroup<ManagementFormControl> = this.createForm();
 
-    readonly managementType = signal<'edit' | 'callback' | 'details' | ''>(
+    readonly approvalType = signal<'edit' | 'callback' | 'details' | ''>(
         'details'
     );
     readonly decision = signal<'accepted' | 'rejected' | ''>('');
+    private readonly imageError = signal<string | null>(null);
 
     readonly isEditMode = signal(false);
-    readonly imageFile = signal<File | null>(null);
+    readonly imageFile = signal<File | string | null>(null);
 
     readonly shouldShowCallbackTypeField = computed(
-        () => this.managementType() === 'callback'
+        () => this.approvalType() === 'callback'
     );
 
     readonly shouldShowReasonField = computed(
         () => this.decision() === 'rejected'
     );
-
-    readonly isFormValid = computed(() => this.form?.valid ?? false);
 
     readonly formErrors = computed((): Record<string, string[]> => {
         const errors: Record<string, string[]> = {};
@@ -56,7 +57,8 @@ export class ManagementFormStore {
         () => Object.keys(this.formErrors()).length > 0
     );
 
-    readonly hasImage = computed(() => !!this.imageFile());
+    public readonly imageErrorMessage = computed(() => this.imageError());
+    public readonly hasImage = computed(() => !!this.imageFile());
 
     setItem(item: ManagementEntityType): void {
         this.item.set(item);
@@ -64,34 +66,45 @@ export class ManagementFormStore {
 
     private createForm(): FormGroup<ManagementFormControl> {
         return this.fb.nonNullable.group<ManagementFormControl>({
-            managementType: new FormControl<string>('details', {
+            approvalType: new FormControl<string>('details', {
                 nonNullable: true,
             }),
             callbackType: new FormControl<string>('', { nonNullable: true }),
-            coordinates: new FormControl<string>('', { nonNullable: true }),
+            coordinates: new FormControl<Coordinates | null>(null),
             locationName: new FormControl<string>('', { nonNullable: true }),
             reportType: new FormControl<string>('', { nonNullable: true }),
             description: new FormControl<string>('', { nonNullable: true }),
             operators: new FormControl<string[]>([], { nonNullable: true }),
             decision: new FormControl<string>('', { nonNullable: true }),
-            comment: new FormControl<string>('', { nonNullable: true }),
-            reason: new FormControl<string>('', { nonNullable: true }),
-            placePhoto: new FormControl<File | null>(null, {
-                validators: [Validators.required],
+            placeDescription: new FormControl<string>('', {
+                nonNullable: true,
             }),
+            reason: new FormControl<string>('', { nonNullable: true }),
+            placePhoto: new FormControl<MediaValue | null>(null),
+            comment: new FormControl<string>('', { nonNullable: true }),
         });
     }
 
-    private readonly syncManagementType = effect((onCleanup) => {
-        const control = this.form.get('managementType');
+    private readonly syncApprovalType = effect((onCleanup) => {
+        const control = this.form.get('approvalType');
         if (!control) {
             return;
         }
 
-        this.managementType.set(control.value as any);
+        this.approvalType.set(control.value as any);
 
         const sub = control.valueChanges.subscribe((value) => {
-            this.managementType.set(value as any);
+            this.approvalType.set(value as any);
+        });
+
+        onCleanup(() => sub.unsubscribe());
+    });
+
+    readonly formStatus = signal(this.form.status);
+
+    private readonly syncFormStatus = effect((onCleanup) => {
+        const sub = this.form.statusChanges.subscribe((status) => {
+            this.formStatus.set(status);
         });
 
         onCleanup(() => sub.unsubscribe());
@@ -112,45 +125,45 @@ export class ManagementFormStore {
         onCleanup(() => sub.unsubscribe());
     });
 
-    private hydrated = false;
-
     private readonly hydrateForm = effect(() => {
         const item = this.item();
-        const mode = this.managementType();
-
-        if (!item) {
-            return;
-        }
-
+        const mode = this.approvalType();
         const isEditable = mode === 'edit' || mode === 'callback';
 
-        if (!isEditable) {
-            this.hydrated = false;
+        if (!item || isEditable) {
             return;
         }
 
-        if (this.hydrated) {
-            return;
-        }
-
-        this.form.patchValue(
-            {
-                coordinates: item.location?.coordinates
-                    ? `${item.location.coordinates.latitude}, ${item.location.coordinates.longitude}`
-                    : '',
-                locationName: item.location?.name ?? '',
-                reportType: item.reportTypeKey ?? '',
-                description: item.description ?? '',
-                operators: item.operatorsKey ?? [],
+        this.form.patchValue({
+            coordinates: {
+                latitude: item.location.coordinates.latitude,
+                longitude: item.location.coordinates.longitude,
             },
-            { emitEvent: false }
-        );
+            locationName: item.location?.name ?? '',
+            reportType: item.reportTypeKey ?? '',
+            description: item.description ?? '',
+            operators: item.operatorsKey ?? [],
+        });
+        const current = this.form.controls.placePhoto.value;
 
-        this.hydrated = true;
+        if (!current || current.type === 'remote') {
+            this.handleExistingImage(item.placePhoto);
+        }
     });
 
+    private handleExistingImage(url: string): void {
+        const mediaValue: MediaValue = {
+            type: 'remote',
+            url: url,
+        };
+        this.imageFile.set(url);
+        this.form.controls.placePhoto.setValue(mediaValue, {
+            emitEvent: false,
+        });
+    }
+
     private readonly conditionalState = effect(() => {
-        const managementType = this.managementType();
+        const approvalType = this.approvalType();
         const decision = this.decision();
 
         const callbackControl = this.form.get('callbackType');
@@ -160,8 +173,8 @@ export class ManagementFormStore {
             return;
         }
 
-        if (managementType !== 'callback') {
-            callbackControl.reset(null);
+        if (approvalType !== 'callback') {
+            callbackControl.reset('');
             callbackControl.disable();
         } else {
             callbackControl.enable();
@@ -169,7 +182,7 @@ export class ManagementFormStore {
         }
 
         if (decision === 'accepted') {
-            reasonControl.setValue(null, { emitEvent: false });
+            reasonControl.setValue('', { emitEvent: false });
             reasonControl.clearValidators();
             reasonControl.disable({ emitEvent: false });
         } else if (decision === 'rejected') {
@@ -177,15 +190,16 @@ export class ManagementFormStore {
             reasonControl.setValidators([Validators.required]);
         }
 
-        callbackControl.updateValueAndValidity({ emitEvent: false });
-        reasonControl.updateValueAndValidity({ emitEvent: false });
+        callbackControl.updateValueAndValidity();
+        reasonControl.updateValueAndValidity();
     });
 
-    public setManagementType(type: 'edit' | 'callback' | 'details'): void {
-        this.form.patchValue({ managementType: type });
+    public setApprovalType(type: 'edit' | 'callback' | 'details'): void {
+        this.form.patchValue({ approvalType: type });
     }
 
-    public setCoordinates(coordinates: string): void {
+    public setCoordinates(coordinates: Coordinates): void {
+        console.log('coordinates: ', coordinates);
         this.form.patchValue({
             coordinates,
         });
@@ -195,43 +209,55 @@ export class ManagementFormStore {
         this.form.patchValue({ decision });
     }
 
-    public setImage(file: File | null): void {
+    public getSubmitValue(uniqId: string): any {
+        const raw = this.form.getRawValue();
+
+        const basePayload = {
+            ...raw,
+            image: this.transformImageForApi(raw.placePhoto),
+        };
+
+        return { ...basePayload, uniqId };
+    }
+
+    private transformImageForApi(
+        image: MediaValue | null
+    ): string | File | null {
+        if (!image) {
+            return null;
+        }
+
+        return image.type === 'remote' ? image.url : image.file;
+    }
+
+    public setImage(file: File): void {
+        const mediaValue: MediaValue = {
+            type: 'local',
+            file: file,
+        };
         this.imageFile.set(file);
-        this.form.controls.placePhoto.setValue(file);
+        this.form.controls.placePhoto.setValue(mediaValue);
         this.form.controls.placePhoto.markAsTouched();
+        this.imageError.set(null);
     }
 
     public resetImage(): void {
+        console.log('resetImage called');
         this.imageFile.set(null);
         this.form.controls.placePhoto.reset(null);
     }
 
     public resetForm(): void {
+        console.log('imageStore reset');
         this.form.reset();
-        this.managementType.set('');
+        this.approvalType.set('');
         this.decision.set('');
         this.imageFile.set(null);
+        this.imageError.set(null);
         this.form.enable({ emitEvent: false });
     }
 
-    public isManagementType(value: 'edit' | 'callback' | 'details'): boolean {
-        return this.managementType() === value;
+    public isApprovalType(value: 'edit' | 'callback' | 'details'): boolean {
+        return this.approvalType() === value;
     }
-
-    // public onImageCleared(): void {
-    //     this.form.controls.placePhoto.reset(null);
-    //     this.imageStore.resetImage();
-    //     this.form.controls.placePhoto.markAsTouched();
-    //     this.imageError.set(null);
-    // }
-
-    // public isImageAvailable(): boolean {
-    //     return this.imageStore.hasCroppedImage();
-    // }
-
-    // public onImageSelected(file: File): void {
-    //     this.form.controls.placePhoto.setValue(file);
-    //     this.imageStore.openCropper(file);
-    //     this.imageError.set(null);
-    // }
 }

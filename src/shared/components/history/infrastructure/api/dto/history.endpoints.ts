@@ -1,3 +1,3 @@
 export const HISTORY_ENDPOINTS = {
-    HISTORY: 'history',
+    HISTORY: 'settings-and-security/histories',
 } as const;

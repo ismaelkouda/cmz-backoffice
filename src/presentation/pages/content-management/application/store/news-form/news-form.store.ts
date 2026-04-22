@@ -22,7 +22,6 @@ import { NewsFormControl } from '@pages/content-management/domain/controls/news/
 import { NewsSubCategoriesSelectProps } from '@pages/content-management/domain/interfaces/news/news-sub-categories-select.props.interface';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
-import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 import { MediaValue } from '@shared/domain/types/media.types';
 
@@ -35,10 +34,10 @@ export class NewsFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(NewsFindOneFacade);
     private readonly categoriesFacade = inject(NewsCategoriesSelectFacade);
-    private readonly imageStore = inject(ImageUploadStateService);
 
     private readonly isPatching = signal(false);
     private readonly imageError = signal<string | null>(null);
+    public readonly imageFile = signal<File | string | null>(null);
 
     readonly form: FormGroup<NewsFormControl> = this.createForm();
 
@@ -95,12 +94,10 @@ export class NewsFormStore {
     public readonly hashtagsTouched = computed(
         () => this.hashtagsArray.touched
     );
-    public readonly isImageReady = computed(() => {
-        return this.imageStore.hasCroppedImage() || !!this.imageError();
-    });
     public readonly imageErrorMessage = computed(() => this.imageError());
+    public readonly hasImage = computed(() => !!this.imageFile());
 
-    private readonly item = this.facade.items;
+    public readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
 
     private readonly typeMediaEffect = effect(() => {
@@ -144,7 +141,7 @@ export class NewsFormStore {
         });
         this.loadingNewsSubCategories.set(false);
     });
-    private readonly patchItemEffect = effect(() => {
+    private readonly hydrateForm = effect(() => {
         const item = this.item();
         if (!item) {
             return;
@@ -178,20 +175,12 @@ export class NewsFormStore {
                 type: 'remote',
                 url: url,
             };
-
+            this.imageFile.set(url);
             this.form.controls.image.setValue(mediaValue, { emitEvent: false });
-            await this.imageStore.hydrateExistingImage(url);
-
-            if (!this.imageStore.hasCroppedImage()) {
-                throw new Error(
-                    'Image hydration failed - no preview available'
-                );
-            }
-
             this.imageError.set(null);
         } catch (error) {
             console.error('❌ Failed to handle existing image:', error);
-            this.imageError.set('CONTENT_MANAGEMENT.NEWS.IMAGE_LOAD_ERROR');
+            this.imageError.set('CONTENT_MANAGEMENT.SLIDE.IMAGE_LOAD_ERROR');
             this.form.controls.image.setErrors({ imageLoadFailed: true });
         }
     }
@@ -313,6 +302,36 @@ export class NewsFormStore {
         return image.type === 'remote' ? image.url : image.file;
     }
 
+    public setEditMode(uniqId: string | null): void {
+        this.isEditMode.set(!!uniqId);
+
+        if (!uniqId) {
+            this.form.reset();
+            this.facade.reset();
+            this.form.controls.subCategory.disable({ emitEvent: false });
+            return;
+        }
+
+        this.facade.read({ uniqId }, true);
+        this.categoriesFacade.readAll();
+    }
+
+    public setImage(file: File): void {
+        const mediaValue: MediaValue = {
+            type: 'local',
+            file: file,
+        };
+        this.imageFile.set(file);
+        this.form.controls.image.setValue(mediaValue);
+        this.form.controls.image.markAsTouched();
+        this.imageError.set(null);
+    }
+
+    public resetImage(): void {
+        this.imageFile.set(null);
+        this.form.controls.image.reset(null);
+    }
+
     private resetMediaFields(type: string | undefined): void {
         if (!type) {
             return;
@@ -321,7 +340,6 @@ export class NewsFormStore {
         const resetMap: Record<string, () => void> = {
             [VIDEO]: () => {
                 this.resetImage();
-                this.resetImageStore();
             },
             [IMAGE]: () => {
                 this.resetVideo();
@@ -354,83 +372,13 @@ export class NewsFormStore {
         };
     }
 
-    public onImageSelected(file: File): void {
-        const mediaValue: MediaValue = {
-            type: 'local',
-            file: file,
-        };
-
-        this.form.controls.image.setValue(mediaValue);
-        this.imageStore.openCropper(file);
-        this.imageError.set(null);
-    }
-    public openCropperForExisting(): void {
-        if (this.imageStore.hasCroppedImage()) {
-            this.imageStore.openCropperWithExisting();
-        }
-    }
-    public onCropConfirmed(blob: Blob): void {
-        this.imageStore.confirmCrop(blob);
-        const file = this.imageStore.getCurrentFile();
-        if (file) {
-            const mediaValue: MediaValue = {
-                type: 'local',
-                file: file,
-            };
-
-            this.form.controls.image.setValue(mediaValue);
-            this.form.controls.image.markAsDirty();
-            this.form.controls.image.markAsTouched();
-            this.imageError.set(null);
-        }
-    }
-    public onCropCancelled(): void {
-        this.imageStore.abandonCrop();
-    }
-    public onImageCleared(): void {
-        this.resetImage();
-        this.form.controls.image.markAsTouched();
-    }
-    public getCurrentImageFile(): File | null {
-        return this.imageStore.getCurrentFile();
-    }
-    public isImageAvailable(): boolean {
-        return this.imageStore.hasCroppedImage();
-    }
-
     private resetVideo(): void {
         this.form.controls.video.reset('', { emitEvent: false });
-    }
-    private resetImage(): void {
-        this.form.controls.image.reset(null, { emitEvent: false });
-        this.imageStore.resetImage();
-        this.imageError.set(null);
-    }
-
-    private resetImageStore(): void {
-        this.imageStore.resetImage();
-    }
-
-    public setEditMode(uniqId: string | null): void {
-        this.isEditMode.set(!!uniqId);
-
-        if (!uniqId) {
-            this.form.reset();
-            this.facade.reset();
-            this.resetImageStore();
-            this.imageError.set(null);
-            this.form.controls.subCategory.disable({ emitEvent: false });
-            return;
-        }
-
-        this.facade.read({ uniqId }, true);
-        this.categoriesFacade.readAll();
     }
 
     public reset(): void {
         this.form.reset();
-        this.facade.reset();
-        this.resetImageStore();
+        this.imageFile.set(null);
         this.imageError.set(null);
         this.isEditMode.set(false);
         this.isPatching.set(false);

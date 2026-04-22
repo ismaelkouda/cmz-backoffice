@@ -35,6 +35,7 @@ export class TeamsPermissionsMapper extends SimpleResponseMapper<
     private mapPermissionNode(dto: TeamsPermissionsItemApiDto): TreeNodeEntity {
         return new TreeNodeEntity(
             dto.data.value,
+            dto.data.slug ?? '',
             dto.data.title,
             dto.data.checked ?? false,
             dto.children?.map((c) => this.mapPermissionNode(c)) ?? []

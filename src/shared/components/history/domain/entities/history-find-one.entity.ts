@@ -1,36 +1,77 @@
-import { HistoryFindOneItemApiDto } from '@shared/components/history/infrastructure/api/dto/history-find-one-response-api.dto';
+import { ActorEntity } from '@shared/domain/entities/actor.entity';
+
+import { HistoryEventType } from '../enums/history-event-type.enum';
+import {
+    HistoryFieldChange,
+    HistoryFindOneProps,
+} from '../interfaces/history-find-one-props.interface';
 
 export class HistoryFindOneEntity {
-    constructor(
-        public readonly uniqId: string,
-        public readonly user: string,
-        public readonly addressIp: string,
-        public readonly action: string,
-        public readonly module: string,
-        public readonly usedAgent: string,
-        public readonly createdAt: string,
-        public readonly updatedAt: string,
-        public readonly data: { key: string; value: string }[]
-    ) {}
-
-    static fromDto(dto: HistoryFindOneItemApiDto): HistoryFindOneEntity {
-        return new HistoryFindOneEntity(
-            dto.id,
-            dto.user,
-            dto.address_ip,
-            dto.action,
-            dto.module,
-            dto.used_agent,
-            dto.created_at,
-            dto.updated_at,
-            dto.data ?? []
-        );
+    constructor(private readonly props: HistoryFindOneProps) {
+        this.props = { ...props };
     }
 
-    public with(dto: HistoryFindOneItemApiDto): HistoryFindOneEntity {
-        if (this.uniqId === dto.id && this.updatedAt === dto.updated_at) {
-            return this;
-        }
-        return HistoryFindOneEntity.fromDto(dto);
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+
+    get createdAt(): string {
+        return this.props.createdAt;
+    }
+
+    get event(): HistoryEventType {
+        return this.props.event;
+    }
+
+    get rawEvent(): string {
+        return this.props.rawEvent;
+    }
+
+    get action(): string {
+        return this.props.action;
+    }
+
+    get module(): string {
+        return this.props.module;
+    }
+
+    get accessMethod(): string | undefined {
+        return this.props.accessMethod;
+    }
+
+    get sourceIp(): string | undefined {
+        return this.props.sourceIp;
+    }
+
+    get user(): ActorEntity | null {
+        return this.props.user;
+    }
+
+    get changes(): HistoryFieldChange[] {
+        return this.props.changes;
+    }
+
+    get hasChanges(): boolean {
+        return this.props.changes.length > 0;
+    }
+
+    get timestamps() {
+        return this.props.timestamps;
+    }
+
+    isCreateEvent(): boolean {
+        return this.props.event === HistoryEventType.CREATE;
+    }
+
+    isUpdateEvent(): boolean {
+        return this.props.event === HistoryEventType.UPDATE;
+    }
+
+    isDeleteEvent(): boolean {
+        return this.props.event === HistoryEventType.DELETE;
+    }
+
+    with(props: Partial<HistoryFindOneProps>): HistoryFindOneEntity {
+        return new HistoryFindOneEntity({ ...this.props, ...props });
     }
 }

@@ -33,7 +33,7 @@ import { ManagementFormStore } from '../store/management-form.store';
     styleUrls: ['./management-treatment-form.component.scss'],
 })
 export class ManagementTreatmentFormComponent {
-    private readonly store = inject(ManagementFormStore);
+    public readonly store = inject(ManagementFormStore);
     public readonly loading = input.required<boolean>();
     public readonly submitLabel = input.required<string>();
     public readonly showApprovalSection = input<boolean>(false);
@@ -55,14 +55,12 @@ export class ManagementTreatmentFormComponent {
     protected readonly shouldShowReasonField = this.store.shouldShowReasonField;
     protected readonly formErrors = computed(() => this.store.formErrors());
     protected readonly hasErrors = computed(() => this.store.hasErrors());
-    protected readonly isFormValid = this.store.isFormValid;
 
     protected toggle(): void {
         this._expanded.update((v) => !v);
     }
 
     protected isDecision(value: 'accepted' | 'rejected'): boolean {
-        console.log('this.store.decision(): ', this.store.decision());
         return this.store.decision() === value;
     }
 
@@ -110,7 +108,6 @@ export class ManagementTreatmentFormComponent {
     }
 
     protected onDecisionChange(decision: 'accepted' | 'rejected'): void {
-        console.log('decision: ', decision);
         this.store.setDecision(decision);
         this.decisionChange.emit(decision);
     }

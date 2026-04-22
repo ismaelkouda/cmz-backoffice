@@ -76,7 +76,6 @@ export abstract class BaseFacade<TEntity, TFilter> {
         }
 
         const prevFilter = this.filterSubject.getValue();
-        console.log('prevFilter: ', prevFilter);
         if (!prevFilter || this.hasFilterChanged(prevFilter, filter)) {
             this.filterSubject.next(filter);
         }

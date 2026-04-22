@@ -13,6 +13,6 @@ export const REGIONS_TABS = [
         route: `/${ADMINISTRATIVE_BOUNDARY_ROUTE}/history`,
         label: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { participant: 'test' },
+        queryParams: { ref: 'test' },
     },
 ];

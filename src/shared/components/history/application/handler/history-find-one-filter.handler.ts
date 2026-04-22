@@ -11,8 +11,9 @@ export class HistoryFindOneFilterHandler {
     execute(
         command: HistoryFindOneFilterCommand
     ): Observable<HistoryFindOneEntity> {
-        return this.useCase.execute({
+        return this.useCase.read({
             uniqId: command.uniqId,
+            typeModel: command.typeModel,
         });
     }
 }

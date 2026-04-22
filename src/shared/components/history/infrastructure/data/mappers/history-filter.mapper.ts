@@ -6,6 +6,14 @@ export function HistoryFilterMapper(
 ): HistoryFilterApiDto {
     const params: HistoryFilterApiDto = {} as HistoryFilterApiDto;
 
+    if (vo.typeModel) {
+        params.type_model = vo.typeModel;
+    }
+
+    if (vo.module) {
+        params.module = vo.module;
+    }
+
     if (vo.search) {
         params.search = vo.search;
     }
@@ -16,5 +24,5 @@ export function HistoryFilterMapper(
         params.end_date = vo.period.end;
     }
 
-    return params;
+    return { ...params };
 }

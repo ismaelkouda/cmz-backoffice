@@ -14,18 +14,16 @@
                                     | translate
                                     | lowercase
                             "
-                        ></app-page-title>
+                        />
                     </header>
 
-                    <p-tabs lazy [value]="activeTab()">
+                    <p-tabs [value]="activeTab()">
                         <p-tablist>
-                            @for (tab of tabs; track tab.route) {
+                            @for (tab of tabs; track tab.value) {
                                 <p-tab
-                                    [routerLink]="[tab.route]"
-                                    routerLinkActive="p-highlight"
-                                    #rla="routerLinkActive"
-                                    [value]="tab.value"
-                                    [class.p-highlight]="rla.isActive"
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
                                 >
                                     <i [class]="tab.icon"></i>
                                     <span>{{ tab.label | translate }}</span>

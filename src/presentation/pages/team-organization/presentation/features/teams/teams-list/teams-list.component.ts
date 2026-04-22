@@ -24,7 +24,7 @@ import { TeamsPresenter } from '@presentation/pages/team-organization/presentati
 import {
     TEAMS_FORM,
     TEAMS_USERS,
-} from '@presentation/pages/team-organization/presentation/features/teams/teams.routes';
+} from '@presentation/pages/team-organization/presentation/features/teams/teams-paths.constants';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -218,7 +218,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         item: TeamsEntity;
         col: HTMLTableCellElement;
     }): void {
-        this.router.navigate([TEAMS_USERS], {
+        this.router.navigate(['../', TEAMS_USERS], {
             relativeTo: this.activatedRoute,
             queryParams: { uniqId: event.item.uniqId, name: event.item.name },
         });
@@ -231,7 +231,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
-        this.router.navigate([TEAMS_FORM], {
+        this.router.navigate(['../', TEAMS_FORM], {
             relativeTo: this.activatedRoute,
             queryParams,
         });

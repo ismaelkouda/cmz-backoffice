@@ -2,11 +2,8 @@ import {
     Status,
     StatusStyle,
 } from '@pages/settings-security/domain/enums/users/users-status.enum';
-import { Profiles, ProfilesStyle } from '@shared/domain/enums/profiles.enum';
-import {
-    Responsibilities,
-    ResponsibilitiesStyle,
-} from '@shared/domain/enums/responsibilities.enum';
+import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
+// import { Profiles, ProfilesStyle } from '@shared/domain/enums/profiles.enum';
 
 export interface UsersVmProps {
     uniqId: string;
@@ -16,13 +13,13 @@ export interface UsersVmProps {
     email: string;
     phone: string;
 
-    responsibility: Responsibilities;
-    responsibilityLabel: string;
-    responsibilityStyle: ResponsibilitiesStyle;
+    role: Roles;
+    roleLabel: string;
+    roleStyle: RolesStyle;
 
-    profile: Profiles;
-    profileLabel: string;
-    profileStyle: ProfilesStyle;
+    profile: string;
+    // profileLabel: string;
+    // profileStyle: ProfilesStyle;
 
     status: Status;
     statusLabel: string;

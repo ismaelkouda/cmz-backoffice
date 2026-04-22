@@ -6,6 +6,6 @@ export class UsersUpdateCommand {
         public readonly email: string,
         public readonly phone: string,
         public readonly profile: string,
-        public readonly responsibility: string
+        public readonly role: string
     ) {}
 }

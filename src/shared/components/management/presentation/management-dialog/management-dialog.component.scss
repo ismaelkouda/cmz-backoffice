@@ -20,7 +20,7 @@ $dark-gray: var(--color-gray);
         background-color: #091624;
         border-radius: 12px 12px 0 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 1.5rem 2rem;
+        padding: 0.5rem 1rem;
 
         display: flex;
         justify-content: space-between;
@@ -1504,7 +1504,8 @@ textarea {
     white-space: nowrap;
 }
 
-.decision-label, .management-type {
+.decision-label,
+.management-type {
     display: block;
     font-size: 0.875rem;
     font-weight: 600;
@@ -1512,7 +1513,8 @@ textarea {
     margin-bottom: 0.75rem;
 }
 
-.motif-select, .callback-type {
+.motif-select,
+.callback-type {
     width: 100%;
 }
 
@@ -2227,7 +2229,8 @@ button:focus-visible,
             margin-bottom: 1.5rem;
         }
 
-        .decision-options-skeleton, .management-type {
+        .decision-options-skeleton,
+        .management-type {
             margin-bottom: 2rem;
 
             .radio-options-skeleton {

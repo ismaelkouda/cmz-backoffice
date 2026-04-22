@@ -85,7 +85,7 @@ export class QueuesComponent implements OnInit {
     public readonly tableConfig = QUEUES_TABLE;
     readonly form = this.formStore.form;
     public readonly selectedInTable = signal<QueuesVmProps[]>([]);
-    public readonly reportTreatmentVisible = signal<boolean>(false);
+    public readonly isVisibleDialog = signal<boolean>(false);
     public readonly selectedManagementType = signal<TypeReport>(
         TypeReport.FINALIZATION
     );
@@ -290,11 +290,11 @@ export class QueuesComponent implements OnInit {
         const { item } = event;
         this.selectedManagementType.set(item.type);
         this.selectedReportId = item.uniqId;
-        this.reportTreatmentVisible.set(true);
+        this.isVisibleDialog.set(true);
     }
 
     public onVisibleChange(event: boolean): void {
-        this.reportTreatmentVisible.set(event);
+        this.isVisibleDialog.set(event);
     }
 
     public onSelectionChange(selection: QueuesVmProps | QueuesVmProps[]): void {

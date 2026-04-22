@@ -43,6 +43,7 @@ export class TeamsFindOneMapper extends SimpleResponseMapper<
     private mapPermissionNode(dto: PermissionApiDto): TreeNodeEntity {
         return new TreeNodeEntity(
             dto.data.value,
+            dto.data.slug ?? '',
             dto.data.title,
             dto.data.checked ?? false,
             dto.children?.map((c) => this.mapPermissionNode(c)) ?? []

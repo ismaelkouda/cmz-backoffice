@@ -45,7 +45,6 @@ export class TeamsParticipantsUseCase {
     assign(
         command: TeamsParticipantsAssignCommand
     ): Observable<SimpleResponseDto<void>> {
-        console.log('command', command);
         const vo = TeamsParticipantsAssignVo.create(command);
         const entity = TeamsParticipantsAssignEntity.fromVo(vo);
         return this.repository.assign(entity);

@@ -4,7 +4,7 @@ export class UsersFilterEntity {
     constructor(
         public readonly search?: string,
         public readonly profile?: string,
-        public readonly responsibility?: string,
+        public readonly role?: string,
         public readonly isActive?: string
     ) {}
 
@@ -12,7 +12,7 @@ export class UsersFilterEntity {
         return new UsersFilterEntity(
             vo.search,
             vo.profile,
-            vo.responsibility,
+            vo.role,
             vo.isActive
         );
     }
@@ -21,7 +21,7 @@ export class UsersFilterEntity {
         return JSON.stringify({
             search: this.search,
             profile: this.profile,
-            responsibility: this.responsibility,
+            role: this.role,
             isActive: this.isActive,
         });
     }

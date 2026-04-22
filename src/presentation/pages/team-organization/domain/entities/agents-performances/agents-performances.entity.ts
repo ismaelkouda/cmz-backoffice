@@ -1,14 +1,14 @@
-import { AGENTS_PERFORMANCES_STATUS } from '@pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
+import { Status } from '@pages/team-organization/domain/enums/agents-performances/agents-performances-status.enum';
+import { ActorEntity } from '@shared/domain/entities/actor.entity';
 
 export interface AgentsPerformancesProps {
     uniqId: string;
-    name: string;
+    user: ActorEntity;
     goalsSize: string;
     achievementsSize: string;
     percentages: string;
-    status: AGENTS_PERFORMANCES_STATUS;
+    status: Status;
     createdAt: string;
-    updatedAt: string;
 }
 export class AgentsPerformancesEntity {
     constructor(private readonly props: AgentsPerformancesProps) {}
@@ -16,8 +16,8 @@ export class AgentsPerformancesEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-    get name(): string {
-        return this.props.name;
+    get user(): ActorEntity {
+        return this.props.user;
     }
     get goalsSize(): string {
         return this.props.goalsSize;
@@ -28,20 +28,17 @@ export class AgentsPerformancesEntity {
     get percentages(): string {
         return this.props.percentages;
     }
-    get status(): string {
+    get status(): Status {
         return this.props.status;
     }
     get createdAt(): string {
-        return this.props.name;
-    }
-    get updatedAt(): string {
-        return this.props.updatedAt;
+        return this.props.createdAt;
     }
 
     public with(props: AgentsPerformancesProps): AgentsPerformancesEntity {
         if (
             this.uniqId === props.uniqId &&
-            this.updatedAt === props.updatedAt
+            this.createdAt === props.createdAt
         ) {
             return this;
         }

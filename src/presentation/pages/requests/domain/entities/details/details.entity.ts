@@ -160,6 +160,10 @@ export class DetailsEntity {
         return this.props.accessPlacePhoto;
     }
 
+    get placeDescription(): string {
+        return this.props.placeDescription;
+    }
+
     get confirmCount(): number {
         return this.props.confirmCount;
     }

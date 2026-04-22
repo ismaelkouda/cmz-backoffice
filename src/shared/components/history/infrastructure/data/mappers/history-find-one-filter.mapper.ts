@@ -6,8 +6,13 @@ export function historyFindOneFilterMapper(
 ): HistoryFindOneFilterApiDto {
     const params: HistoryFindOneFilterApiDto = {} as HistoryFindOneFilterApiDto;
 
+    console.log('entity: ', entity);
     if (entity.uniqId) {
         params.id = entity.uniqId;
+    }
+
+    if (entity.typeModel) {
+        params.type_model = entity.typeModel;
     }
 
     return params;

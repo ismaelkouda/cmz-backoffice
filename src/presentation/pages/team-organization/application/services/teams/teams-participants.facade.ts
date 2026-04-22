@@ -11,6 +11,7 @@ import { TeamsParticipantsReassignDto } from '@pages/team-organization/applicati
 import { TeamsParticipantsRemoveDto } from '@pages/team-organization/application/dto/teams/teams-participants-remove.dto';
 import { TeamsParticipantsQuery } from '@pages/team-organization/application/queries/teams/teams-participants.query';
 import { TeamsParticipantsBus } from '@pages/team-organization/application/queries-bus/teams/teams-participants.bus';
+import { TeamsFacade } from '@pages/team-organization/application/services/teams/teams.facade';
 import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import {
@@ -28,6 +29,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
     TeamsParticipantsEntity,
     TeamsParticipantsFilterDto
 > {
+    private readonly teamFacade = inject(TeamsFacade);
     private readonly uiFeedbackService = inject(UiFeedbackService);
     private readonly filterBus = inject(TeamsParticipantsBus);
     private readonly reassignBus = inject(TeamsParticipantsReassignBus);
@@ -55,7 +57,10 @@ export class TeamsParticipantsFacade extends BaseFacade<
             observable,
             this.uiFeedbackService,
             successKey,
-            () => this.refresh()
+            () => {
+                this.refresh();
+                this.teamFacade.refresh();
+            }
         );
     }
 

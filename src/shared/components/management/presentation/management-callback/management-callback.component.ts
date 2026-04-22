@@ -54,7 +54,7 @@ export class ManagementCallbackComponent {
     public readonly item = input.required<ManagementEntityType>();
     public readonly loading = input.required<boolean>();
 
-    public readonly managementTypeChange = output<string>();
+    public readonly approvalTypeChange = output<string>();
 
     protected readonly formErrors = computed(() => this.store.formErrors());
 
@@ -65,17 +65,15 @@ export class ManagementCallbackComponent {
         return !!(control?.invalid && control?.touched);
     }
 
-    protected isManagementType(
-        value: 'edit' | 'callback' | 'details'
-    ): boolean {
-        return this.store.isManagementType(value);
+    protected isApprovalType(value: 'edit' | 'callback' | 'details'): boolean {
+        return this.store.isApprovalType(value);
     }
 
-    protected onManagementTypeChange(
-        managementType: 'edit' | 'callback' | 'details'
+    protected onApprovalTypeChange(
+        approvalType: 'edit' | 'callback' | 'details'
     ): void {
-        this.store.setManagementType(managementType);
-        this.managementTypeChange.emit(managementType);
+        this.store.setApprovalType(approvalType);
+        this.approvalTypeChange.emit(approvalType);
     }
 
     public readonly submitting = input<boolean>(false);
@@ -84,5 +82,4 @@ export class ManagementCallbackComponent {
 
     protected shouldShowCallbackTypeField =
         this.store.shouldShowCallbackTypeField;
-    protected isFormValid = this.store.isFormValid;
 }

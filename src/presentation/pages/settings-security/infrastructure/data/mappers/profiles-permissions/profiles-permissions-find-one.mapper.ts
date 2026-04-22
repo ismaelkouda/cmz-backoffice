@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ProfilesPermissionsFindOneEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
-import { ProfilesPermissionsTreeNodeEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-tree-node.entity';
 import {
     PermissionApiDto,
     ProfilesPermissionsFindOneItemApiDto,
 } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-find-one-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
@@ -42,10 +42,9 @@ export class ProfilesPermissionsFindOneMapper extends SimpleResponseMapper<
         return entity;
     }
 
-    private mapPermissionNode(
-        dto: PermissionApiDto
-    ): ProfilesPermissionsTreeNodeEntity {
-        return new ProfilesPermissionsTreeNodeEntity(
+    private mapPermissionNode(dto: PermissionApiDto): TreeNodeEntity {
+        return new TreeNodeEntity(
+            dto.data.value,
             dto.data.value,
             dto.data.title,
             dto.data.checked ?? false,

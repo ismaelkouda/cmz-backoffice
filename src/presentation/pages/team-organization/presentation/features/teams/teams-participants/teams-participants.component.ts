@@ -26,6 +26,7 @@ import { TeamsParticipantsFacade } from '@pages/team-organization/application/se
 import { TeamsSelectFacade } from '@pages/team-organization/application/services/teams/teams-select.facade';
 import { TeamsParticipantsFilterControl } from '@pages/team-organization/domain/controls/teams/teams-participants-filter.control';
 import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
+import { TeamsParticipantsPresenter } from '@pages/team-organization/presentation/adapters/teams/teams-participants-vm.presenter';
 import { TEAMS_ROUTE } from '@pages/team-organization/team-organization.routes';
 import { TEAMS_PARTICIPANTS } from '@presentation/pages/team-organization/presentation/adapters/teams/teams-participants-table.constant';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
@@ -120,6 +121,13 @@ export class TeamsParticipantsComponent implements OnInit {
             initialValue: false,
         }
     );
+    readonly presenter = new TeamsParticipantsPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
+    });
 
     public readonly displayReassignModal = signal<boolean>(false);
     private readonly openReassignRequested = signal<boolean>(false);

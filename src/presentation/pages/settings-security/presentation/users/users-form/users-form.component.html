@@ -23,7 +23,7 @@
                         </div>
                         <p-button
                             [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="onCancel()"
+                            (onClick)="navigateToBack()"
                             styleClass="p-button-danger"
                             [attr.aria-label]="'COMMON.CLOSE' | translate"
                         >
@@ -380,13 +380,13 @@
                                                         class="form-p-select"
                                                         [options]="profiles()"
                                                         formControlName="profile"
-                                                        optionLabel="name"
+                                                        optionLabel="label"
                                                         optionValue="value"
                                                         [loading]="
                                                             loadingProfiles()
                                                         "
-                                                        filter="true"
-                                                        filterBy="name"
+                                                        filter="false"
+                                                        filterBy="label"
                                                         styleClass="w-100"
                                                         [placeholder]="
                                                             'COMMON.SELECT_PLACEHOLDER'
@@ -431,32 +431,25 @@
 
                                                 <div class="col-md-4">
                                                     <label
-                                                        for="responsibility"
+                                                        for="role"
                                                         class="form-label fw-bold"
                                                     >
                                                         {{
-                                                            'SETTINGS_SECURITY.USERS.FORM.FIELDSET_GENERAL_INFO.RESPONSIBILITY'
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
                                                                 | translate
                                                         }}
-                                                        <span
-                                                            class="text-danger"
-                                                            aria-label="required"
-                                                            >*</span
-                                                        >
+                                                       @if (store.isRoleRequired()) {
+                                                            <span class="text-danger" aria-label="required">*</span>
+                                                        }
                                                     </label>
                                                     <p-select
-                                                        id="responsibility"
+                                                        id="role"
                                                         class="form-p-select"
-                                                        [options]="
-                                                            responsibilities()
-                                                        "
-                                                        formControlName="responsibility"
-                                                        optionLabel="name"
+                                                        [options]="rolesOptions()"
+                                                        formControlName="role"
+                                                        optionLabel="label"
                                                         optionValue="value"
-                                                        [loading]="
-                                                            loadingResponsibilities()
-                                                        "
-                                                        filter="true"
+                                                        filter="false"
                                                         filterBy="name"
                                                         styleClass="w-100"
                                                         [placeholder]="
@@ -472,26 +465,22 @@
                                                                 | translate
                                                         "
                                                         [attr.aria-label]="
-                                                            'SETTINGS_SECURITY.USERS.FORM.FIELDSET_GENERAL_INFO.RESPONSIBILITY'
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
                                                                 | translate
                                                         "
                                                         [attr.aria-invalid]="
-                                                            form.get(
-                                                                'responsibility'
-                                                            )?.invalid &&
-                                                            form.get(
-                                                                'responsibility'
-                                                            )?.touched
+                                                            form.get('role')
+                                                                ?.invalid &&
+                                                            form.get('role')
+                                                                ?.touched
                                                         "
                                                     >
                                                     </p-select>
                                                     @if (
-                                                        form.get(
-                                                            'responsibility'
-                                                        )?.invalid &&
-                                                        form.get(
-                                                            'responsibility'
-                                                        )?.touched
+                                                        form.get('role')
+                                                            ?.invalid &&
+                                                        form.get('role')
+                                                            ?.touched
                                                     ) {
                                                         <small
                                                             class="text-danger d-block mt-1"
@@ -514,7 +503,7 @@
                                                     'COMMON.CANCEL' | translate
                                                 }}"
                                                 styleClass="p-button-text p-button-secondary"
-                                                (click)="onCancel()"
+                                                (click)="navigateToBack()"
                                                 [attr.aria-label]="
                                                     'COMMON.CANCEL' | translate
                                                 "

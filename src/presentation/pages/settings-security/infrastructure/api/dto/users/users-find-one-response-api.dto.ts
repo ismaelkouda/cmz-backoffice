@@ -1,3 +1,4 @@
+import { RolesDto } from '@shared/data/dto/roles.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface UsersFindOneItemApiDto {
@@ -6,14 +7,8 @@ export interface UsersFindOneItemApiDto {
     last_name: string;
     email: string;
     phone: string;
-    profile: {
-        code: string;
-        name: string;
-    };
-    responsibility: {
-        code: string;
-        name: string;
-    };
+    profile: string;
+    role: RolesDto;
     is_active: boolean;
     created_at?: string;
     updated_at: string;

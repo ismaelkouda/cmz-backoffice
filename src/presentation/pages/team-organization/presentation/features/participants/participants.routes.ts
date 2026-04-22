@@ -2,11 +2,12 @@ import { Routes } from '@angular/router';
 import { ParticipantsFormComponent } from '@presentation/pages/team-organization/presentation/features/participants/participants-form/participants-form.component';
 import { ParticipantsListComponent } from '@presentation/pages/team-organization/presentation/features/participants/participants-list/participants-list.component';
 import { ParticipantsPageComponent } from '@presentation/pages/team-organization/presentation/features/participants/participants-page/participants-page.component';
-import { HistoryComponent } from '@shared/components/history/history.component';
-
-export const PARTICIPANTS_LIST = 'list';
-export const PARTICIPANTS_FORM = 'form';
-export const PARTICIPANTS_HISTORY = 'history';
+import {
+    PARTICIPANTS_FORM,
+    PARTICIPANTS_HISTORY,
+    PARTICIPANTS_LIST,
+} from '@presentation/pages/team-organization/presentation/features/participants/participants-paths.constants';
+import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const PARTICIPANTS_ROUTES: Routes = [
     {
@@ -19,12 +20,17 @@ export const PARTICIPANTS_ROUTES: Routes = [
         children: [
             {
                 path: '',
+                pathMatch: 'full',
+                redirectTo: PARTICIPANTS_LIST,
+            },
+            {
+                path: PARTICIPANTS_LIST,
                 component: ParticipantsListComponent,
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: PARTICIPANTS_HISTORY,
-                component: HistoryComponent,
+                component: HistoryPageComponent,
                 data: { breadcrumb: { hide: true } },
             },
         ],

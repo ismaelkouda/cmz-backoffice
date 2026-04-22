@@ -7,6 +7,7 @@ import { DetailsResponseApiDto } from '@pages/requests/infrastructure/api/dto/de
 import { DetailsTakeApiDto } from '@pages/requests/infrastructure/api/dto/details/details-take-api.dto';
 import { REQUESTS_BASE_URL } from '@pages/requests/infrastructure/api/report-requests.base-url';
 import { REQUESTS_ENDPOINTS } from '@pages/requests/infrastructure/api/report-requests.endpoints';
+import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { Observable } from 'rxjs';
@@ -30,14 +31,34 @@ export class DetailsApi {
     }
 
     approve(apiDto: DetailsApproveApiDto): Observable<SimpleResponseDto<void>> {
+        console.log('apiDto: ', apiDto);
         const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/${apiDto.uniq_id}/approve`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        const formData = formDataBuilder(payload);
+        return this.http.post<SimpleResponseDto<void>>(url, formData);
     }
 
     reject(apiDto: DetailsRejectApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/${apiDto.uniq_id}/reject`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
+    }
+
+    private parseCoordinates(
+        coordinatesString: string
+    ): { latitude: number; longitude: number } | null {
+        if (!coordinatesString) {
+            return null;
+        }
+
+        const [lat, lng] = coordinatesString
+            .split(',')
+            .map((part) => Number.parseFloat(part.trim()));
+
+        if (Number.isNaN(lat) || Number.isNaN(lng)) {
+            return null;
+        }
+
+        return { latitude: lat, longitude: lng };
     }
 }

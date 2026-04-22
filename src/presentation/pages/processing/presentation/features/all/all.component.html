@@ -55,9 +55,9 @@
         </article>
     </section>
 
-    @if (reportTreatmentVisible()) {
+    @if (isVisibleDialog()) {
         <app-management-dialog
-            [visible]="reportTreatmentVisible()"
+            [visible]="isVisibleDialog()"
             [uniqId]="selectedReportId"
             [type]="selectedManagementType()"
             (visibleChange)="onVisibleChange($event)"

@@ -72,23 +72,18 @@ export class LocationPickerDialogComponent implements OnDestroy {
     readonly currentCoordinatesDisplay = computed(() => {
         const coords = this.facade.coordinates();
         if (coords) {
-            return formatCoordinatesString(coords.lat, coords.lng);
+            return formatCoordinatesString(coords.latitude, coords.longitude);
         }
         return 'Aucune position sélectionnée';
     });
-
-    readonly currentAddress = this.facade.currentAddress;
-    readonly isLoadingAddress = this.facade.isLoading;
-
-    private readonly geoService = inject(GEO_SERVICE);
 
     private readonly searchSubject = new Subject<string>();
     private readonly destroy$ = new Subject<void>();
 
     constructor() {
         const data = this.config.data;
-        if (data?.initialCoordinates) {
-            this.facade.setCoordinates(data.initialCoordinates);
+        if (data?.initialCoords) {
+            this.facade.setCoordinates(data.initialCoords);
         }
         this.setupSearch();
     }
@@ -123,15 +118,6 @@ export class LocationPickerDialogComponent implements OnDestroy {
             this.error.set(null);
         }
         this.searchSubject.next(query);
-    }
-
-    onSelectResult(result: GeocodeResult): void {
-        this.facade.setCoordinates({
-            lat: result.point.lat,
-            lng: result.point.lng,
-        });
-        this.searchQuery.set(result.displayName);
-        this.searchResults.set([]);
     }
     onMapCoordinatesChange(coords: LocationCoordinates): void {
         this.facade.setCoordinates(coords);

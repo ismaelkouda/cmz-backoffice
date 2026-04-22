@@ -79,9 +79,7 @@
                             <i
                                 class="pi pi-copy copy-icon"
                                 (click)="copyItem.emit(initiatorPhone()!)"
-                                (keypress)="
-                                    copyItem.emit(initiatorPhone()!)
-                                "
+                                (keypress)="copyItem.emit(initiatorPhone()!)"
                                 pTooltip="{{ 'COMMON.COPY' | translate }}"
                                 tabindex="0"
                                 role="button"

@@ -3,7 +3,7 @@ import { ProfilesPermissionsFormComponent } from '@pages/settings-security/prese
 import { ProfilesPermissionsListComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-list/profiles-permissions-list.component';
 import { ProfilesPermissionsPageComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-page/profiles-permissions-page.component';
 import { ProfilesPermissionsUsersComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-users/profiles-permissions-users.component';
-import { HistoryComponent } from '@shared/components/history/history.component';
+import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const PROFILES_PERMISSIONS_LIST = 'list';
 export const PROFILES_PERMISSIONS_FORM = 'form';
@@ -26,7 +26,7 @@ export const PROFILES_PERMISSIONS_ROUTES: Routes = [
             },
             {
                 path: PROFILES_PERMISSIONS_HISTORY,
-                component: HistoryComponent,
+                component: HistoryPageComponent,
                 data: { breadcrumb: { hide: true } },
             },
         ],

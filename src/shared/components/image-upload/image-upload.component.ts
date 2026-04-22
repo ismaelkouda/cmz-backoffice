@@ -22,8 +22,6 @@ import {
     DEFAULT_IMAGE_UPLOAD_CONFIG,
     ImageUploadConfig,
     ImageUploadError,
-    ImageSelectedResult,
-    ImageUploadStatus,
     PLATFORM_ASPECT_RATIOS,
     PLATFORM_RATIO_LABELS,
     PLATFORM_ICONS,
@@ -51,17 +49,19 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageUploadComponent implements ControlValueAccessor {
-    readonly store = inject(ImageUploadStateService);
-    readonly config = input<ImageUploadConfig>(DEFAULT_IMAGE_UPLOAD_CONFIG);
+    readonly service = inject(ImageUploadStateService);
 
-    readonly imageSelected = output<ImageSelectedResult>();
+    readonly config = input<ImageUploadConfig>(DEFAULT_IMAGE_UPLOAD_CONFIG);
+    readonly instanceId = input.required<string>();
+
+    readonly imageCleared = output();
     readonly imageError = output<ImageUploadError>();
     readonly viewImage = output();
-    readonly imageCleared = output();
 
-    readonly status = signal<ImageUploadStatus>('idle');
-    readonly validationError = signal<ImageUploadError | null>(null);
+    readonly vm = computed(() => this.service.connect(this.instanceId()));
+
     readonly disabled = signal(false);
+    readonly validationError = signal<ImageUploadError | null>(null);
 
     private readonly fileInputRef =
         viewChild<ElementRef<HTMLInputElement>>('fileInput');
@@ -73,12 +73,28 @@ export class ImageUploadComponent implements ControlValueAccessor {
         /* empty */
     };
 
-    /* private createPreview(file: File): void {
-        const url = URL.createObjectURL(file);
-        this.previewUrl.set(url);
-    }
-    readonly fileName = signal<string | null>(null);
-    readonly fileSize = signal<number | null>(null); */
+    readonly isIdle = computed(
+        () => !this.vm().hasImage() && !this.vm().hasError()
+    );
+
+    readonly hasError = computed(() => this.vm().hasError());
+    readonly hasImage = computed(() => this.vm().hasImage());
+
+    readonly fileName = computed(() => this.vm().fileName() ?? null);
+    readonly fileSize = computed(() => this.vm().fileSize() ?? null);
+
+    readonly fileSizeMb = computed(() => {
+        const size = this.vm().fileSize();
+        if (!size) {
+            return null;
+        }
+
+        return size < 1024 * 1024
+            ? `${(size / 1024).toFixed(0)} Ko`
+            : `${(size / (1024 * 1024)).toFixed(1)} Mo`;
+    });
+
+    readonly previewUrl = computed(() => this.vm().previewUrl());
 
     readonly displayFormats = computed(() => {
         return this.config()
@@ -86,14 +102,6 @@ export class ImageUploadComponent implements ControlValueAccessor {
                 type.replace('image/', '').toUpperCase()
             )
             .join(', ');
-    });
-
-    readonly formatBadges = computed(() => {
-        return this.config().acceptedTypes.map((type) => ({
-            original: type,
-            display: type.replace('image/', '').toUpperCase(),
-            icon: this.getFormatIcon(type),
-        }));
     });
 
     readonly acceptAttribute = computed(() =>
@@ -104,26 +112,12 @@ export class ImageUploadComponent implements ControlValueAccessor {
         (this.config().maxSizeBytes / (1024 * 1024)).toFixed(0)
     );
 
-    readonly hasCroppedImage = computed(() => this.store.hasCroppedImage());
-
-    readonly fileName = computed(() => {
-        const sourceFile = this.store.cropperSourceFile();
-        return sourceFile?.name ?? null;
-    });
-
-    readonly fileSize = computed(() => {
-        const sourceFile = this.store.cropperSourceFile();
-        return sourceFile?.size ?? null;
-    });
-
-    readonly fileSizeMb = computed(() => {
-        const size = this.fileSize();
-        if (!size) {
-            return null;
-        }
-        return size < 1024 * 1024
-            ? `${(size / 1024).toFixed(0)} Ko`
-            : `${(size / (1024 * 1024)).toFixed(1)} Mo`;
+    readonly formatBadges = computed(() => {
+        return this.config().acceptedTypes.map((type) => ({
+            original: type,
+            display: type.replace('image/', '').toUpperCase(),
+            icon: this.getFormatIcon(type),
+        }));
     });
 
     readonly platformHints = computed(() => {
@@ -135,10 +129,87 @@ export class ImageUploadComponent implements ControlValueAccessor {
         }));
     });
 
-    readonly hasError = computed(() => this.status() === 'error');
-    readonly isIdle = computed(
-        () => !this.hasCroppedImage() && this.status() !== 'error'
-    );
+    public openFilePicker(): void {
+        this.fileInputRef()?.nativeElement?.click();
+    }
+
+    public onFileChange(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        const file = input.files?.[0];
+        input.value = '';
+        if (!file) {
+            return;
+        }
+        this.onTouched();
+        this.processFile(file);
+    }
+
+    private processFile(file: File): void {
+        const config = this.config();
+
+        if (!config.acceptedTypes.includes(file.type)) {
+            return this.setError({
+                type: 'INVALID_TYPE',
+                file,
+                acceptedTypes: config.acceptedTypes,
+            });
+        }
+
+        if (file.size > config.maxSizeBytes) {
+            return this.setError({
+                type: 'FILE_TOO_LARGE',
+                file,
+                maxSizeBytes: config.maxSizeBytes,
+                actualSizeBytes: file.size,
+            });
+        }
+
+        this.validationError.set(null);
+        this.service.openCropper(this.instanceId(), file);
+        this.onChange(file);
+    }
+
+    public clearFile(event: Event): void {
+        event.stopPropagation();
+        this.service.reset(this.instanceId());
+        this.validationError.set(null);
+        this.onChange(null);
+        this.onTouched();
+        this.imageCleared.emit();
+    }
+
+    public openPreview(): void {
+        this.viewImage.emit();
+    }
+
+    private setError(error: ImageUploadError): void {
+        this.validationError.set(error);
+        this.onChange(null);
+        this.imageError.emit(error);
+    }
+
+    writeValue(file: File | null): void {
+        if (!file) {
+            this.service.reset(this.instanceId());
+            return;
+        }
+        console.log('writeValue called', file);
+
+        const preview = URL.createObjectURL(file);
+        this.service.hydrate(this.instanceId(), preview);
+    }
+
+    public registerOnChange(fn: (value: File | null) => void): void {
+        this.onChange = fn;
+    }
+
+    public registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
+
+    setDisabledState(isDisabled: boolean): void {
+        this.disabled.set(isDisabled);
+    }
 
     private getFormatIcon(type: string): string {
         const format = type.replace('image/', '');
@@ -155,87 +226,5 @@ export class ImageUploadComponent implements ControlValueAccessor {
             default:
                 return 'pi pi-file';
         }
-    }
-
-    public openPreview(): void {
-        this.viewImage.emit();
-    }
-
-    public openFilePicker(): void {
-        this.fileInputRef()?.nativeElement?.click();
-    }
-
-    public onFileInputChange(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        const file = input.files?.[0];
-        input.value = '';
-        if (!file) {
-            return;
-        }
-        this.processFile(file, event);
-    }
-
-    public clearFile(event: Event): void {
-        event.stopPropagation();
-        this.store.resetImage();
-        this.status.set('idle');
-        this.validationError.set(null);
-        this.onChange(null);
-        this.onTouched();
-        this.imageCleared.emit();
-    }
-
-    private processFile(file: File, event: Event): void {
-        this.onTouched();
-
-        if (!this.config().acceptedTypes.includes(file.type)) {
-            const error: ImageUploadError = {
-                type: 'INVALID_TYPE',
-                file,
-                acceptedTypes: this.config().acceptedTypes,
-            };
-            this.setError(error);
-            return;
-        }
-
-        if (file.size > this.config().maxSizeBytes) {
-            const error: ImageUploadError = {
-                type: 'FILE_TOO_LARGE',
-                file,
-                maxSizeBytes: this.config().maxSizeBytes,
-                actualSizeBytes: file.size,
-            };
-            this.setError(error);
-            return;
-        }
-
-        this.status.set('selected');
-        this.validationError.set(null);
-        this.onChange(file);
-
-        this.imageSelected.emit({ file, event: event });
-    }
-
-    private setError(error: ImageUploadError): void {
-        this.status.set('error');
-        this.validationError.set(error);
-        this.onChange(null);
-        this.imageError.emit(error);
-    }
-
-    public writeValue(value: File | null): void {
-        if (value) {
-            this.status.set('selected');
-        } else {
-            this.status.set('idle');
-        }
-    }
-
-    public registerOnChange(fn: (value: File | null) => void): void {
-        this.onChange = fn;
-    }
-
-    public registerOnTouched(fn: () => void): void {
-        this.onTouched = fn;
     }
 }

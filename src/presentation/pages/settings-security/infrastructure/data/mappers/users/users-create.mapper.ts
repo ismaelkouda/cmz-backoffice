@@ -21,8 +21,8 @@ export function usersCreateMapper(
     if (entity.profile) {
         params.profile = entity.profile;
     }
-    if (entity.responsibility) {
-        params.responsibility = entity.responsibility;
+    if (entity.role) {
+        params.role = entity.role;
     }
 
     return params;

@@ -1,12 +1,15 @@
+import { ActorDto } from '@shared/data/dto/actor.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface HistoryItemApiDto {
     id: string;
-    action_type: string;
+    type_action: string;
+    id_model: string;
     action: string;
-    source: string;
+    agent_use: string;
+    ip_address: string;
+    initiator: ActorDto;
     created_at: string;
-    updated_at: string;
 }
 
 export type HistoryResponseApiDto = PaginatedResponseDto<HistoryItemApiDto>;

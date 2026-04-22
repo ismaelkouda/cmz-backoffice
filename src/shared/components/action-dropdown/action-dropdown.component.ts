@@ -135,25 +135,28 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                     </button>
                 }
 
-                <!-- Séparateur -->
-                <div class="action-dropdown__separator"></div>
+                @if (!hiddenDelete()) {
+                    <!-- Séparateur -->
+                    <div class="action-dropdown__separator"></div>
 
-                <!-- Suppression -->
-                <button
-                    ngbDropdownItem
-                    class="action-dropdown__item action-dropdown__item--danger"
-                    (click)="onDelete()"
-                    [attr.aria-label]="'COMMON.DELETE_ITEM' | translate"
-                >
-                    <div class="action-dropdown__item-content">
-                        <i
-                            class="pi pi-trash action-dropdown__icon action-dropdown__icon--danger"
-                        ></i>
-                        <span class="action-dropdown__label">{{
-                            'COMMON.DELETE' | translate
-                        }}</span>
-                    </div>
-                </button>
+                    <!-- Suppression -->
+                    <button
+                        ngbDropdownItem
+                        class="action-dropdown__item action-dropdown__item--danger"
+                        (click)="onDelete()"
+                        [disabled]="disableDelete()"
+                        [attr.aria-label]="'COMMON.DELETE_ITEM' | translate"
+                    >
+                        <div class="action-dropdown__item-content">
+                            <i
+                                class="pi pi-trash action-dropdown__icon action-dropdown__icon--danger"
+                            ></i>
+                            <span class="action-dropdown__label">{{
+                                'COMMON.DELETE' | translate
+                            }}</span>
+                        </div>
+                    </button>
+                }
             </div>
         </div>
     `,
@@ -272,7 +275,13 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
                 &:focus {
                     outline: none;
-                    box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.2);
+                    box-shadow: inset 0 0 0 2px var(--color-default);
+                }
+
+                &:disabled {
+                    color: var(--text-disabled, #6c757d);
+                    cursor: not-allowed;
+                    background: transparent;
                 }
             }
 
@@ -376,6 +385,8 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 })
 export class ActionDropdownComponent {
     public readonly disabled = input<boolean>();
+    public readonly disableDelete = input<boolean>(false);
+    public readonly hiddenDelete = input<boolean>(false);
     public readonly status = input.required<ActionDropdown>();
     public readonly actionDropdown = ActionDropdown;
 

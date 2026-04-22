@@ -1,8 +1,11 @@
 import { inject, PLATFORM_ID } from '@angular/core';
 
-export const DEFAULT_CENTER_IVORY_COAST: { lat: number; lng: number } = {
-    lat: 5.3167,
-    lng: -4.0333,
+export const DEFAULT_CENTER_IVORY_COAST: {
+    latitude: number;
+    longitude: number;
+} = {
+    latitude: 5.3167,
+    longitude: -4.0333,
 };
 
 export function isMobile(): boolean {

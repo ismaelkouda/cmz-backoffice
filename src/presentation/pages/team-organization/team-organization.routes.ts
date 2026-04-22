@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 export const PARTICIPANTS_ROUTE = 'participant';
 export const TEAMS_ROUTE = 'team';
 export const AGENTS_PERFORMANCES_ROUTE = 'agent-performances';
+export const DAILY_GOAL_ROUTE = 'daily-goal';
 
 export const routes: Routes = [
     {
@@ -68,6 +69,29 @@ export const routes: Routes = [
                         loadChildren: () =>
                             import('./presentation/features/agents-performances/agents-performances.routes').then(
                                 (m) => m.AGENTS_PERFORMANCES_ROUTES
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: DAILY_GOAL_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'TEAM_ORGANIZATION.DAILY_GOAL.BREADCRUMB.LABEL',
+                        icon: 'TEAM_ORGANIZATION.DAILY_GOAL.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadChildren: () =>
+                            import('./presentation/features/daily-goal/daily-goal.routes').then(
+                                (m) => m.DAILY_GOAL_ROUTES
                             ),
                         data: { breadcrumb: { hide: true } },
                     },
