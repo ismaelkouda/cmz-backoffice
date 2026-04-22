@@ -1,24 +1,25 @@
-<main class="container-fluid regions-container" role="main">
-    <section class="row regions-row">
-        <article class="col-sm-12 regions-article">
+<main class="container-fluid daily-goal-container" role="main">
+    <section class="row daily-goal-row">
+        <article class="col-sm-12 daily-goal-article">
             <app-breadcrumb />
 
-            <section class="card regions-card">
-                <div class="card-body regions-card-body">
-                    <header class="regions-header">
+            <section class="card daily-goal-card">
+                <div class="card-body daily-goal-card-body">
+                    <header class="daily-goal-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'ADMINISTRATIVE_BOUNDARY.REGIONS.TITLE'
+                                'TEAM_ORGANIZATION.TEAMS.TITLE'
                                     | translate
+                                    | lowercase
                             "
                         ></app-page-title>
                     </header>
 
-                    <p-tabs lazy [value]="activeTab()">
+                    <p-tabs [value]="activeTab()">
                         <p-tablist>
-                            @for (tab of tabs; track tab.route) {
+                            @for (tab of tabs; track tab.value) {
                                 <p-tab
                                     [value]="tab.route"
                                     [routerLink]="tab.route"
