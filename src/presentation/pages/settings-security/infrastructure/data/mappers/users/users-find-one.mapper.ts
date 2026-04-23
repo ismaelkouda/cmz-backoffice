@@ -23,7 +23,7 @@ export class UsersFindOneMapper extends SimpleResponseMapper<
             firstName: dto.first_name,
             email: dto.email,
             phone: dto.phone,
-            profile: dto.profile,
+            profile: dto.profile_id,
             role: dto.role,
             updatedAt: dto.updated_at,
         };

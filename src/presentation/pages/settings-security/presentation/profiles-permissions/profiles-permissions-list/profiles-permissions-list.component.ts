@@ -22,11 +22,12 @@ import { Status } from '@pages/settings-security/domain/enums/profiles-permissio
 import {
     PROFILES_PERMISSIONS_FORM,
     PROFILES_PERMISSIONS_USERS,
-} from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions.routes';
+} from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-paths.constant';
 import { PROFILES_PERMISSIONS_TABLE } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-table.constant';
+import { ProfilesPermissionsPresenter } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-vm.presenter';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
-    enumToFilterOptions,
+    enumToFilterOptionsWithValue,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
@@ -40,8 +41,6 @@ import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-
-import { ProfilesPermissionsPresenter } from '../../adapters/profiles-permissions/profiles-permissions-vm.presenter';
 
 @Component({
     selector: 'app-profiles-permissions-list',
@@ -84,7 +83,7 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
     });
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(Status, this.t.bind(this));
+        return enumToFilterOptionsWithValue(Status, this.t.bind(this));
     });
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
@@ -118,7 +117,7 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
             },
             {
                 type: 'select',
-                name: 'isActive',
+                name: 'status',
                 label: this.t(
                     'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FILTER.STATUS'
                 ),
@@ -164,7 +163,7 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
         user: new FormControl<string | undefined>(undefined, {
             nonNullable: true,
         }),
-        isActive: new FormControl<string | undefined>(undefined, {
+        status: new FormControl<Status | undefined>(undefined, {
             nonNullable: true,
         }),
     });
@@ -230,7 +229,7 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
         const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
-        this.router.navigate([PROFILES_PERMISSIONS_FORM], {
+        this.router.navigate(['../', PROFILES_PERMISSIONS_FORM], {
             relativeTo: this.activatedRoute,
             queryParams,
         });
@@ -304,7 +303,7 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
         item: ProfilesPermissionsEntity;
         col: HTMLTableCellElement;
     }): void {
-        this.router.navigate([PROFILES_PERMISSIONS_USERS], {
+        this.router.navigate(['../', PROFILES_PERMISSIONS_USERS], {
             relativeTo: this.activatedRoute,
             queryParams: { uniqId: event.item.uniqId, name: event.item.name },
         });

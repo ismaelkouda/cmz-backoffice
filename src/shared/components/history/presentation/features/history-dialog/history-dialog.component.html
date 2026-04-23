@@ -231,24 +231,30 @@
                             </div>
                         }
 
-                        <!-- TABLE DES MODIFICATIONS -->
-                        @if (data.changes && data.changes.length > 0) {
+                        <!-- Dans le template, remplacer l'app-table existant -->
+                        @if (data.table && data.table.rows && data.table.rows.length > 0) {
                             <div class="changes-section">
                                 <div class="section-header">
                                     <h4>{{ 'HISTORY.DIALOG.CHANGES' | translate }}</h4>
+                                    <!-- Optionnel: afficher le mode actif pour le debug -->
+                                    @if (data.table.mode === 'DIFF') {
+                                        <span class="mode-badge diff">Comparaison</span>
+                                    } @else {
+                                        <span class="mode-badge snapshot">Valeur</span>
+                                    }
                                 </div>
                                 
                                 <app-table
                                     class="table-component history-diff-table"
                                     dataKey="fieldKey"
-                                    [config]="tableConfig"
+                                    [config]="data.table.config"
                                     [loading]="loading()"
-                                    [items]="data.changes"
+                                    [items]="data.table.rows"
                                     [hiddenButtonExport]="true"
                                     [hiddenButtonRefresh]="true"
                                 ></app-table>
                             </div>
-                        } 
+                        }
                         @else if (!data.summary?.hasDiff && data.changes?.length === 0) {
                             <div class="no-changes-state">
                                 <i class="pi pi-info-circle"></i>

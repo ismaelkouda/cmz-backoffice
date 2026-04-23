@@ -1,5 +1,5 @@
 export interface TeamsCreateApiDto {
-    code: string;
+    // code: string;
     name: string;
     description: string;
     operators: string[];

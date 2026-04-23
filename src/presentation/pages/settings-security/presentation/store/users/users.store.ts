@@ -12,7 +12,6 @@ import { UsersFindOneFacade } from '@pages/settings-security/application/service
 import { UsersFormControl } from '@pages/settings-security/domain/controls/users/users-form.control';
 import { ProfilesPermissionsSelectEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
 import { FormValidators } from '@pages/settings-security/domain/validators/form-validators';
-import { profilesWithoutRole } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/users-profiles-without-role.constant';
 import { enumToFilterOptions } from '@shared/components/filter/filter.types';
 import { Roles } from '@shared/domain/enums/roles.enum';
 import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
@@ -39,12 +38,12 @@ export class UsersStore {
 
     readonly form: FormGroup<UsersFormControl> = this.createForm();
 
-    private readonly profileValue = toSignal(
-        this.form.controls.profile.valueChanges,
-        {
-            initialValue: this.form.controls.profile.value,
-        }
-    );
+    // private readonly profileValue = toSignal(
+    //     this.form.controls.profile.valueChanges,
+    //     {
+    //         initialValue: this.form.controls.profile.value,
+    //     }
+    // );
 
     private createForm(): FormGroup<UsersFormControl> {
         return this.fb.nonNullable.group<UsersFormControl>({
@@ -93,50 +92,61 @@ export class UsersStore {
         });
     }
 
-    readonly isRoleRequired = computed(() => {
-        const profile = this.profileValue();
-        console.log('profile: ', profile);
-
-        return (
-            !!profile &&
-            !profilesWithoutRole.includes(
-                profile as (typeof profilesWithoutRole)[number]
-            )
-        );
-    });
+    // readonly isRoleRequired = computed(() => {
+    //     const profile = this.profileValue();
+    //     return (
+    //         !!profile &&
+    //         !profilesWithoutRole.includes(
+    //             profile as (typeof profilesWithoutRole)[number]
+    //         )
+    //     );
+    // });
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
-        if (item && Object.keys(item).length > 0) {
-            this.form.patchValue(
-                {
-                    lastName: item.lastName,
-                    firstName: item.firstName,
-                    email: item.email,
-                    phone: formatPhoneForMask(item.phone),
-                    profile: item.profile,
-                    role: item.role,
-                },
-                { emitEvent: false }
-            );
+
+        if (!item || Object.keys(item).length === 0) {
+            return;
         }
-    });
-
-    private readonly roleValidationEffect = effect(() => {
-        const roleControl = this.form.controls.role;
-        const isRequired = this.isRoleRequired();
-
-        if (isRequired) {
-            roleControl.enable({ emitEvent: false });
-            roleControl.setValidators([Validators.required]);
-        } else {
-            roleControl.reset('', { emitEvent: false });
-            roleControl.clearValidators();
-            roleControl.disable({ emitEvent: false });
+        if (!this.form.pristine) {
+            return;
         }
 
-        roleControl.updateValueAndValidity({ emitEvent: false });
+        this.form.patchValue(
+            {
+                lastName: item.lastName,
+                firstName: item.firstName,
+                email: item.email,
+                phone: formatPhoneForMask(item.phone),
+                profile: item.profile,
+                role: item.role,
+            },
+            { emitEvent: true }
+        );
+
+        // queueMicrotask(() => {
+        //     this.form.controls.role.patchValue(item.role, {
+        //         emitEvent: false,
+        //     });
+        // });
     });
+
+    // private readonly roleValidationEffect = effect(() => {
+    //     const roleControl = this.form.controls.role;
+    //     const isRequired = this.isRoleRequired();
+
+    //     if (isRequired) {
+    //         console.log('isRequired: ', isRequired);
+    //         roleControl.enable({ emitEvent: false });
+    //         roleControl.setValidators([Validators.required]);
+    //     } else {
+    //         roleControl.reset('', { emitEvent: false });
+    //         roleControl.clearValidators();
+    //         roleControl.disable({ emitEvent: false });
+    //     }
+
+    //     roleControl.updateValueAndValidity({ emitEvent: false });
+    // });
 
     public setMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);

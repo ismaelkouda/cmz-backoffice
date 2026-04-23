@@ -173,7 +173,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         this._actionState.set('loading');
 
         const command = new TeamsCreateCommand(
-            team.code,
+            // team.code,
             team.name,
             team.description,
             team.reportTypes,
@@ -203,7 +203,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
 
         const command = new TeamsUpdateCommand(
             team.uniqId,
-            team.code,
+            // team.code,
             team.name,
             team.description,
             team.reportTypes,

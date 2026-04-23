@@ -18,8 +18,6 @@ export class PrivacyPolicyFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(PrivacyPolicyFindOneFacade);
 
-    private readonly isPatching = signal(false);
-
     readonly form: FormGroup<PrivacyPolicyFormControl> = this.createForm();
 
     readonly versionValue = toSignal(this.form.controls.version.valueChanges, {
@@ -45,11 +43,13 @@ export class PrivacyPolicyFormStore {
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
-        if (!item) {
+
+        if (!item || Object.keys(item).length === 0) {
             return;
         }
-
-        this.isPatching.set(true);
+        if (!this.form.pristine) {
+            return;
+        }
 
         this.form.patchValue(
             {
@@ -58,8 +58,6 @@ export class PrivacyPolicyFormStore {
             },
             { emitEvent: false }
         );
-
-        queueMicrotask(() => this.isPatching.set(false));
     });
 
     private createForm(): FormGroup<PrivacyPolicyFormControl> {

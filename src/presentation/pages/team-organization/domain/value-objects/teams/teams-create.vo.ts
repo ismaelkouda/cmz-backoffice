@@ -1,7 +1,7 @@
 import { TeamsCreateDto } from '@pages/team-organization/application/dto/teams/teams-create.dto';
 
 export class TeamsCreateVo {
-    readonly code: string;
+    // readonly code: string;
     readonly name: string;
     readonly description: string;
     readonly operators: string[];
@@ -9,14 +9,14 @@ export class TeamsCreateVo {
     readonly permissions: string[];
 
     private constructor(props: {
-        code: string;
+        // code: string;
         name: string;
         description: string;
         operators: string[];
         reportTypes: string[];
         permissions: string[];
     }) {
-        this.code = props.code;
+        // this.code = props.code;
         this.name = props.name;
         this.description = props.description;
         this.operators = props.operators;
@@ -26,7 +26,7 @@ export class TeamsCreateVo {
 
     static fromDto(dto: TeamsCreateDto): TeamsCreateVo {
         return new TeamsCreateVo({
-            code: dto.code,
+            // code: dto.code,
             name: dto.name,
             description: dto.description,
             operators: dto.operators,

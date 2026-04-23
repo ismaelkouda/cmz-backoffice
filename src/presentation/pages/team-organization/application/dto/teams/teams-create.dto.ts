@@ -1,5 +1,5 @@
 export interface TeamsCreateDto {
-    code: string;
+    // code: string;
     name: string;
     description: string;
     reportTypes: string[];

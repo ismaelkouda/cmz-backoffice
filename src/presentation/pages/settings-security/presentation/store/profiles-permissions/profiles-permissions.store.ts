@@ -20,7 +20,6 @@ export class ProfilesPermissionsStore {
         ProfilesPermissionsPermissionsFacade
     );
     private readonly treeService = inject(PermissionTreeService);
-    private readonly isPatching = signal(false);
     public readonly isEditMode = signal(false);
     private readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
@@ -102,16 +101,21 @@ export class ProfilesPermissionsStore {
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
-        if (item && Object.keys(item).length > 0) {
-            this.form.patchValue(
-                {
-                    name: item.name,
-                    description: item.description,
-                },
-                { emitEvent: false }
-            );
-            queueMicrotask(() => this.isPatching.set(false));
+
+        if (!item || Object.keys(item).length === 0) {
+            return;
         }
+        if (!this.form.pristine) {
+            return;
+        }
+
+        this.form.patchValue(
+            {
+                name: item.name,
+                description: item.description,
+            },
+            { emitEvent: false }
+        );
     });
 
     public setMode(uniqId?: string): void {

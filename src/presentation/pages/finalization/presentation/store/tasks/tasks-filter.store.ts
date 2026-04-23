@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { TasksFilterDto } from '@pages/requests/application/dto/tasks/tasks-filter.dto';
 import { TasksFacade } from '@pages/requests/application/services/tasks/tasks.facade';
 import { TasksFilterControl } from '@pages/requests/presentation/store/tasks/tasks-filter-control';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()
 export class TasksFilterStore {
@@ -22,7 +23,7 @@ export class TasksFilterStore {
             uniqId: new FormControl<string>('', {
                 nonNullable: true,
             }),
-            reportType: new FormControl<string | null>(null, {
+            reportType: new FormControl<ReportType | null>(null, {
                 nonNullable: true,
             }),
             operators: new FormControl<string[]>([], {

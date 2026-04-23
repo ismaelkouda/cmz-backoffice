@@ -7,6 +7,6 @@ export function toFilterDto(
     return {
         search: control.search.value,
         user: control.user.value,
-        isActive: control.isActive.value,
+        status: control.status.value,
     };
 }

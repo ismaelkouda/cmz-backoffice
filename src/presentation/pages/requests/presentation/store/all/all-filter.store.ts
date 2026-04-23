@@ -3,7 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AllFilterDto } from '@pages/requests/application/dto/all/all-filter.dto';
 import { AllFacade } from '@pages/requests/application/services/all/all.facade';
+import { Status } from '@pages/requests/domain/enums/all/all-status.enum';
 import { AllFilterControl } from '@pages/requests/presentation/store/all/all-filter-control';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()
 export class AllFilterStore {
@@ -22,7 +24,7 @@ export class AllFilterStore {
             uniqId: new FormControl<string>('', {
                 nonNullable: true,
             }),
-            reportType: new FormControl<string | null>(null, {
+            reportType: new FormControl<ReportType | null>(null, {
                 nonNullable: true,
             }),
             operators: new FormControl<string[]>([], {
@@ -31,7 +33,7 @@ export class AllFilterStore {
             source: new FormControl<string | null>(null, {
                 nonNullable: true,
             }),
-            status: new FormControl<string | null>(null, {
+            status: new FormControl<Status | null>(null, {
                 nonNullable: true,
             }),
             startDate: new FormControl<string>('', {

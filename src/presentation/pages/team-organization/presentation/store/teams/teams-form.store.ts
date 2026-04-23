@@ -18,7 +18,6 @@ export class TeamsFormStore {
     private readonly facade = inject(TeamsFindOneFacade);
     private readonly permissionsFacade = inject(TeamsPermissionsFacade);
     private readonly treeService = inject(PermissionTreeService);
-    private readonly isPatching = signal(false);
     public readonly isEditMode = signal(false);
     private readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
@@ -72,15 +71,15 @@ export class TeamsFormStore {
 
     private createForm(): FormGroup<TeamsFormControls> {
         return this.fb.nonNullable.group<TeamsFormControls>({
-            code: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.CODE.MIN),
-                    Validators.maxLength(FormValidators.CODE.MAX),
-                    Validators.pattern(FormValidators.CODE.PATTERN),
-                ],
-            }),
+            // code: new FormControl('', {
+            //     nonNullable: true,
+            //     validators: [
+            //         Validators.required,
+            //         Validators.minLength(FormValidators.CODE.MIN),
+            //         Validators.maxLength(FormValidators.CODE.MAX),
+            //         Validators.pattern(FormValidators.CODE.PATTERN),
+            //     ],
+            // }),
             name: new FormControl('', {
                 nonNullable: true,
                 validators: [
@@ -116,19 +115,24 @@ export class TeamsFormStore {
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
-        if (item && Object.keys(item).length > 0) {
-            this.form.patchValue(
-                {
-                    code: item.code,
-                    name: item.name,
-                    description: item.description,
-                    reportTypes: item.reportTypes || [],
-                    operators: item.operators || [],
-                },
-                { emitEvent: false }
-            );
-            queueMicrotask(() => this.isPatching.set(false));
+
+        if (!item || Object.keys(item).length === 0) {
+            return;
         }
+        if (!this.form.pristine) {
+            return;
+        }
+
+        this.form.patchValue(
+            {
+                // code: item.code,
+                name: item.name,
+                description: item.description,
+                reportTypes: item.reportTypes || [],
+                operators: item.operators || [],
+            },
+            { emitEvent: false }
+        );
     });
 
     public setMode(uniqId?: string): void {

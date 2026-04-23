@@ -28,6 +28,7 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
+    enumToFilterOptionsWithValue,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
@@ -102,7 +103,7 @@ export class AllComponent implements OnInit {
     });
     readonly reportSourceOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(ReportSource, this.t.bind(this));
+        return enumToFilterOptionsWithValue(ReportSource, this.t.bind(this));
     });
     readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();

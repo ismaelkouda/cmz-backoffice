@@ -7,9 +7,8 @@ export interface UsersFindOneItemApiDto {
     last_name: string;
     email: string;
     phone: string;
-    profile: string;
+    profile_id: string;
     role: RolesDto;
-    is_active: boolean;
     created_at?: string;
     updated_at: string;
 }

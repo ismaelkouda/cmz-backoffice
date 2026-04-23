@@ -4,6 +4,6 @@ export interface UsersUpdateApiDto {
     last_name: string;
     email: string;
     phone: string;
-    profile: string;
+    profile_id: string;
     role: string;
 }

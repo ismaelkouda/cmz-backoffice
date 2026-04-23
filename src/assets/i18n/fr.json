@@ -3382,6 +3382,7 @@
                 "NO_DATA": "Aucune donnée disponible",
                 "PARSE_ERROR": "Erreur lors de l'analyse des données",
                 "FIELD": "Champ",
+                "VALUE": "Valeur",
                 "BEFORE": "Avant",
                 "AFTER": "Après",
                 "CHANGE": "Changement"

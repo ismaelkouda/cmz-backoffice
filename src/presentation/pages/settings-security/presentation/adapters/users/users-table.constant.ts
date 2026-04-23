@@ -36,7 +36,6 @@ export const USERS_TABLE = {
             header: 'SETTINGS_SECURITY.USERS.TABLE.ROLE',
             class: 'text-center',
             width: '7rem',
-            type: 'badge',
         },
         {
             field: 'statusLabel',

@@ -24,7 +24,7 @@ import { TeamsPresenter } from '@presentation/pages/team-organization/presentati
 import {
     TEAMS_FORM,
     TEAMS_USERS,
-} from '@presentation/pages/team-organization/presentation/features/teams/teams-paths.constants';
+} from '@presentation/pages/team-organization/presentation/features/teams/teams-paths.constant';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,

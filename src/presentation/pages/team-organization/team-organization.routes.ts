@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const PARTICIPANTS_ROUTE = 'participant';
 export const TEAMS_ROUTE = 'team';
 export const AGENTS_PERFORMANCES_ROUTE = 'agent-performances';
-export const DAILY_GOAL_ROUTE = 'daily-goal';
+export const DAILY_GOAL_ROUTE = 'daily-objective';
 
 export const routes: Routes = [
     {

@@ -2,7 +2,7 @@ import { TeamsCreateVo } from '@pages/team-organization/domain/value-objects/tea
 
 export class TeamsCreateEntity {
     constructor(
-        public readonly code: string,
+        // public readonly code: string,
         public readonly name: string,
         public readonly description: string,
         public readonly operators: string[],
@@ -12,7 +12,7 @@ export class TeamsCreateEntity {
 
     static fromVo(vo: TeamsCreateVo): TeamsCreateEntity {
         return new TeamsCreateEntity(
-            vo.code,
+            // vo.code,
             vo.name,
             vo.description,
             vo.operators,
