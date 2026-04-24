@@ -81,7 +81,7 @@ const config = {
         reportUrl: 'https://api-services.connecte-ma-zone.ansut.ci/reports/v1.0/backoffice/',
         settingUrl: 'https://api-services.connecte-ma-zone.ansut.ci/base-settings/v1.0/backoffice/',
         fileUrl: 'https://api-services.connecte-ma-zone.ansut.ci/auth/backoffice/',
-        environmentDeployment: 'DEV',
+        environmentDeployment: 'CMZ_PROD',
         enableDebug: true,
         messageApp: {
             sourceStockTenantSim: 'Le système utilisera une SIM blanche du Stock du Tenant',

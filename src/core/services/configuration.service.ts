@@ -70,8 +70,7 @@ export class ConfigurationService {
     }
 
     private loadServerConfig(): { config: AppConfig; buildInfo: BuildInfo } {
-        const nodeEnv =
-            (process.env['NODE_ENV'] as 'dev' | 'test' | 'prod') || 'dev';
+        const nodeEnv = (process.env['NODE_ENV'] as 'dev' | 'prod') || 'dev';
 
         const configs = {
             dev: {
@@ -187,10 +186,6 @@ export class ConfigurationService {
 
     get isProduction(): boolean {
         return this.config.environmentDeployment === 'PROD';
-    }
-
-    get isTest(): boolean {
-        return this.config.environmentDeployment === 'TEST';
     }
 
     get appSettings() {
