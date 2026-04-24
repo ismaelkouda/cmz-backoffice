@@ -6,8 +6,8 @@ export class UsersCreateEntity {
         public readonly lastName: string,
         public readonly email: string,
         public readonly phone: string,
-        public readonly profile: string,
-        public readonly role: string
+        public readonly profile: string
+        // public readonly role: string
     ) {}
 
     static fromVo(vo: UsersCreateVo): UsersCreateEntity {
@@ -16,8 +16,8 @@ export class UsersCreateEntity {
             vo.lastName,
             vo.email,
             vo.phone,
-            vo.profile,
-            vo.role
+            vo.profile
+            // vo.role
         );
     }
 }

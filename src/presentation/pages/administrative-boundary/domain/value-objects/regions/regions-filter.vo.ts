@@ -1,40 +1,27 @@
 import { RegionsFilterDto } from '@pages/administrative-boundary/application/dto/regions/regions-filter.dto';
 import { Status } from '@pages/administrative-boundary/domain/enums/regions/regions-status.enum';
+import { RegionsFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/regions-filter-props.interface';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class RegionsFilterVo {
-    public readonly search?: string;
-    public readonly department?: string;
-    public readonly municipality?: string;
-    public readonly status?: Status;
-    public readonly period?: DatePeriod;
+    constructor(private readonly props: RegionsFilterProps) {}
 
-    constructor(props: {
-        search?: string;
-        department?: string;
-        municipality?: string;
-        status?: Status;
-        period?: DatePeriod;
-    }) {
-        this.search = props.search;
-        this.department = props.department;
-        this.municipality = props.municipality;
-        this.status = props.status;
-        this.period = props.period;
+    get search(): string | undefined {
+        return this.props.search;
     }
-
-    static fromDto(dto: RegionsFilterDto | null): RegionsFilterVo {
-        let period: DatePeriod | undefined;
-
-        if (dto?.startDate || dto?.endDate) {
-            period = DatePeriod.create(dto.startDate, dto.endDate);
-        }
-        return new RegionsFilterVo({
-            search: dto?.search?.trim() || undefined,
-            department: dto?.department,
-            municipality: dto?.municipality,
-            status: dto?.status,
-            period,
-        });
+    get department(): string | undefined {
+        return this.props.department;
+    }
+    get municipality(): string | undefined {
+        return this.props.municipality;
+    }
+    get status(): Status | undefined {
+        return this.props.status;
+    }
+    get period(): DatePeriod | undefined {
+        return this.props.period;
+    }
+    static fromDto(dto: RegionsFilterDto): RegionsFilterVo {
+        return new RegionsFilterVo(dto);
     }
 }

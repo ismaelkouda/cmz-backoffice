@@ -7,7 +7,7 @@ export class UsersUpdateVo {
     public readonly email: string;
     public readonly phone: string;
     public readonly profile: string;
-    public readonly role: string;
+    // public readonly role: string;
 
     constructor(props: {
         uniqId: string;
@@ -16,7 +16,7 @@ export class UsersUpdateVo {
         email: string;
         phone: string;
         profile: string;
-        role: string;
+        // role: string;
     }) {
         this.uniqId = props.uniqId;
         this.firstName = props.firstName;
@@ -24,7 +24,7 @@ export class UsersUpdateVo {
         this.email = props.email;
         this.phone = props.phone;
         this.profile = props.profile;
-        this.role = props.role;
+        // this.role = props.role;
     }
 
     static fromDto(dto: UsersUpdateDto): UsersUpdateVo {
@@ -35,7 +35,7 @@ export class UsersUpdateVo {
             email: dto.email,
             phone: dto.phone,
             profile: dto.profile,
-            role: dto.role,
+            // role: dto.role,
         });
     }
 }

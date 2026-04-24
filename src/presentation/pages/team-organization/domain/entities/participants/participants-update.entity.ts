@@ -6,8 +6,8 @@ export class ParticipantsUpdateEntity {
         public readonly firstName: string,
         public readonly lastName: string,
         public readonly email: string,
-        public readonly phone: string,
-        public readonly role: string
+        public readonly phone: string
+        // public readonly role: string
     ) {}
     static fromVo(vo: ParticipantsUpdateVo): ParticipantsUpdateEntity {
         return new ParticipantsUpdateEntity(
@@ -15,8 +15,8 @@ export class ParticipantsUpdateEntity {
             vo.firstName,
             vo.lastName,
             vo.email,
-            vo.phone,
-            vo.role
+            vo.phone
+            // vo.role
         );
     }
 }

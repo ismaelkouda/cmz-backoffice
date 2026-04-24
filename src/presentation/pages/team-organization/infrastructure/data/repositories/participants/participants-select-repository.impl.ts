@@ -10,9 +10,9 @@ export class ParticipantsSelectRepositoryImpl implements ParticipantsSelectRepos
     private readonly api = inject(ParticipantsSelectApi);
     private readonly mapper = inject(ParticipantsSelectMapper);
 
-    readAll(filter: string | null): Observable<ParticipantsSelectEntity[]> {
+    readAll(): Observable<ParticipantsSelectEntity[]> {
         return this.api
-            .readAll(filter)
+            .readAll()
             .pipe(map((dto) => this.mapper.mapFromDto(dto)));
     }
 }

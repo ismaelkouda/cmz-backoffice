@@ -19,38 +19,87 @@
             class="upload-idle-state"
             (click)="openFilePicker()"
         >
-            <i class="pi pi-cloud-upload"></i>
-            <p class="mb-0">
-                Formats: {{ displayFormats() }} — Max: {{ maxSizeMb() }} Mo
-            </p>
+            <div class="upload-icon-wrapper">
+                <i class="pi pi-cloud-upload upload-icon"></i>
+            </div>
+
+            <div class="upload-texts">
+                <p class="upload-subtitle">
+                    {{
+                        'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_FORMATS'
+                            | translate
+                    }}
+                    <span class="format-badges">
+                        @for (format of formatBadges(); track format.original) {
+                            <span
+                                class="format-badge"
+                                [pTooltip]="format.original"
+                            >
+                                <i [class]="format.icon"></i>
+                                {{ format.display }}
+                            </span>
+                        }
+                    </span>
+                    —
+                    {{ 'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE_SIZE' | translate }}
+                    {{ maxSizeMb() }} Mo
+                </p>
+            </div>
+
         </button>
     }
 
     @if (hasImage()) {
-        <div class="upload-selected-state">
-            <img
-                [src]="previewUrl()"
-                alt=""
-                class="img-thumbnail"
-                (onClick)="openFilePicker()"
-            />
+        <div
+            class="upload-selected-state"
+            (click)="$event.stopPropagation()"
+            (keydown.enter)="$event.stopPropagation()"
+            (keydown.space)="$event.stopPropagation()"
+        >
 
-            <div>
-                <span>{{ fileName() }}</span>
-                <span>{{ fileSizeMb() }}</span>
+            <div class="selected-file-info">
+                <img
+                        [src]="previewUrl()"
+                        [alt]="'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE' | translate"
+                        class="img-thumbnail media-thumbnail"
+                        (click)="openFilePicker()"
+                        (keydown.enter)="openFilePicker()"
+                        (keydown.space)="openFilePicker()"
+                        [pTooltip]="
+                            'CONTENT_MANAGEMENT.SLIDE.FORM.CHANGE_IMAGE' | translate
+                        "
+                        tooltipPosition="top"
+                    />
+
+
+                <div>
+                    <span>{{ fileName() }}</span>
+                    <span>{{ fileSizeMb() }}</span>
+                </div>
             </div>
 
-            <div class="button-container">
-                <p-button
+            <div class="selected-actions">
+                <button
+                    type="button"
+                    pButton
                     icon="pi pi-eye"
-                    severity="contrast"
+                    [label]="
+                        'CONTENT_MANAGEMENT.SLIDE.FORM.SEE_IMAGE' | translate
+                    "
+                    class="p-button-text p-button-info p-button-sm"
                     (click)="openPreview()"
-                ></p-button>
-                <p-button
+                ></button>
+                <button
+                    type="button"
+                    pButton
                     icon="pi pi-trash"
-                    severity="danger"
+                    [label]="
+                        'CONTENT_MANAGEMENT.SLIDE.FORM.REMOVE_IMAGE' | translate
+                    "
+                    class="p-button-text p-button-danger p-button-sm"
                     (click)="clearFile($event)"
-                ></p-button>
+                ></button>
+
             </div>
         </div>
     }

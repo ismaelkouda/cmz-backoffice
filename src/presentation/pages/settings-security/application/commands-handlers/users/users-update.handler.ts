@@ -16,7 +16,7 @@ export class UsersUpdateHandler {
             email: command.email,
             phone: command.phone,
             profile: command.profile,
-            role: command.role,
+            // role: command.role,
         });
     }
 }

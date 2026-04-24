@@ -1,44 +1,47 @@
-import { DepartmentsFindOneItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-find-one-response-api.dto';
+import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
+import { DepartmentsFindOneProps } from '@pages/administrative-boundary/domain/interfaces/departments/departments-find-one-props.interface';
 
 export class DepartmentsFindOneEntity {
-    constructor(
-        public readonly uniqId: string,
-        public readonly name: string,
-        public readonly code: string,
-        public readonly description: string,
-        public readonly region: string,
-        public readonly populationSize: number,
-        public readonly municipalitiesCount: number,
-        public readonly status: boolean,
-        public readonly createdBy: string,
-        public readonly updatedBy: string,
-        public readonly createdAt: string,
-        public readonly updatedAt: string
-    ) {}
+    constructor(private readonly props: DepartmentsFindOneProps) {}
 
-    static fromDto(
-        dto: DepartmentsFindOneItemApiDto
-    ): DepartmentsFindOneEntity {
-        return new DepartmentsFindOneEntity(
-            dto.id,
-            dto.name,
-            dto.code,
-            dto.description,
-            dto.region.id,
-            dto.population_size,
-            dto.municipalities_count,
-            dto.is_active,
-            dto.created_by,
-            dto.updated_by,
-            dto.created_at,
-            dto.updated_at
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+    get name(): string {
+        return this.props.name;
+    }
+    get code(): string {
+        return this.props.code;
+    }
+    get description(): string {
+        return this.props.description;
+    }
+    get region(): string {
+        return this.props.region;
+    }
+    get populationSize(): number {
+        return this.props.populationSize;
+    }
+    get municipalitiesCount(): number {
+        return this.props.municipalitiesCount;
+    }
+    get status(): Status {
+        return this.props.status;
+    }
+    get createdAt(): string {
+        return this.props.createdAt;
+    }
+    get updatedAt(): string {
+        return this.props.updatedAt;
     }
 
-    public with(dto: DepartmentsFindOneItemApiDto): DepartmentsFindOneEntity {
-        if (this.updatedAt === dto.updated_at && this.uniqId === dto.id) {
+    public with(props: DepartmentsFindOneProps): DepartmentsFindOneEntity {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
-        return DepartmentsFindOneEntity.fromDto(dto);
+        return new DepartmentsFindOneEntity(props);
     }
 }

@@ -23,7 +23,7 @@ export class ParticipantsSelectFacade extends ArrayBaseFacade<
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    readAll(filter: string, forceRefresh = false): void {
+    readAll(forceRefresh = false): void {
         const hasData = this.itemsSubject.getValue().length > 0;
         if (
             !shouldFetch(
@@ -37,7 +37,7 @@ export class ParticipantsSelectFacade extends ArrayBaseFacade<
         }
 
         this.fetchWithFilter(
-            filter,
+            null,
             this.useCase.readAll.bind(this.useCase),
             this.uiFeedbackService
         );

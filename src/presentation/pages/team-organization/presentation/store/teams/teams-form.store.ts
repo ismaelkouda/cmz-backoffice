@@ -115,6 +115,7 @@ export class TeamsFormStore {
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
+        console.log('item: ', item);
 
         if (!item || Object.keys(item).length === 0) {
             return;

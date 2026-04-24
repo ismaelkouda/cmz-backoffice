@@ -19,9 +19,7 @@ export class HistoryApi {
         page: string
     ): Observable<HistoryResponseApiDto> {
         const url = `${this.baseUrl}${HISTORY_ENDPOINTS.HISTORY}?page=${page}`;
-
         const params = buildHttpParams(filter);
-
         return this.http.get<HistoryResponseApiDto>(url, { params });
     }
 }

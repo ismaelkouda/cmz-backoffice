@@ -25,6 +25,7 @@ import { DailyGoalEntity } from '@pages/team-organization/domain/entities/daily-
 import { Status } from '@pages/team-organization/domain/enums/daily-goal/daily-goal-status.enum';
 import { DAILY_GOAL_FORM } from '@pages/team-organization/presentation/features/daily-goal/daily-goal-paths.constants';
 import { DAILY_GOAL_TABLE_CONSTANT } from '@presentation/pages/team-organization/presentation/adapters/daily-goal/daily-goal-table.constant';
+import { DailyGoalPresenter } from '@presentation/pages/team-organization/presentation/adapters/daily-goal/daily-goal-vm.presenter';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
@@ -38,8 +39,6 @@ import { TableExportExcelFileService } from '@shared/domain/services/table-expor
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-
-import { DailyGoalPresenter } from '../../../adapters/daily-goal/daily-goal-vm.presenter';
 
 @Component({
     selector: 'app-daily-goal',
@@ -171,7 +170,7 @@ export class DailyGoalListComponent implements OnInit, OnDestroy {
         ref: CrudFormType;
     }): void {
         const queryParams = { uniqId: event.item.uniqId, ref: event.ref };
-        this.router.navigate([DAILY_GOAL_FORM], {
+        this.router.navigate(['../', DAILY_GOAL_FORM], {
             relativeTo: this.activatedRoute,
             queryParams,
         });

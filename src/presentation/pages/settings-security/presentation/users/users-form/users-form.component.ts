@@ -74,7 +74,7 @@ export class UsersFormComponent {
 
     readonly profiles = this.store.profiles;
     readonly loadingProfiles = this.store.loadingProfiles;
-    readonly rolesOptions = this.store.rolesOptions;
+    // readonly rolesOptions = this.store.rolesOptions;
 
     public readonly isEditMode = this.store.isEditMode;
 
@@ -118,7 +118,7 @@ export class UsersFormComponent {
             'email',
             'phone',
             'profile',
-            'role',
+            // 'role',
         ] as const;
 
         controlNames.forEach((name) => {

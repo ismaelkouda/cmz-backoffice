@@ -4,5 +4,5 @@ export interface UsersCreateApiDto {
     email: string;
     phone: string;
     profile_id: string;
-    role: string;
+    // role: string;
 }

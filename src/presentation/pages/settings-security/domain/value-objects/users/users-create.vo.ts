@@ -6,7 +6,7 @@ export class UsersCreateVo {
     public readonly email: string;
     public readonly phone: string;
     public readonly profile: string;
-    public readonly role: string;
+    // public readonly role: string;
 
     constructor(props: {
         firstName: string;
@@ -14,14 +14,14 @@ export class UsersCreateVo {
         email: string;
         phone: string;
         profile: string;
-        role: string;
+        // role: string;
     }) {
         this.firstName = props.firstName;
         this.lastName = props.lastName;
         this.email = props.email;
         this.phone = props.phone;
         this.profile = props.profile;
-        this.role = props.role;
+        // this.role = props.role;
     }
 
     static fromDto(dto: UsersCreateDto): UsersCreateVo {
@@ -31,7 +31,7 @@ export class UsersCreateVo {
             email: dto.email,
             phone: dto.phone,
             profile: dto.profile,
-            role: dto.role,
+            // role: dto.role,
         });
     }
 }

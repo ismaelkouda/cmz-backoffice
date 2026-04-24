@@ -26,7 +26,7 @@ export class MunicipalitiesUseCase {
     private readonly repository = inject(MunicipalitiesRepository);
 
     execute(
-        dto: MunicipalitiesFilterDto | null,
+        dto: MunicipalitiesFilterDto,
         page: string
     ): Observable<Paginate<MunicipalitiesEntity>> {
         const vo = MunicipalitiesFilterVo.fromDto(dto);

@@ -4,5 +4,5 @@ export interface UsersCreateDto {
     email: string;
     phone: string;
     profile: string;
-    role: string;
+    // role: string;
 }

@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { DepartmentsByRegionIdEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
 import { DepartmentsByRegionIdItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-response-api.dto';
+import { StatusMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-status.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
@@ -9,7 +10,7 @@ export class DepartmentsByRegionIdMapper extends PaginatedMapper<
     DepartmentsByRegionIdEntity,
     DepartmentsByRegionIdItemApiDto
 > {
-    private readonly utils = new MapperUtils();
+    private readonly statusMapper = inject(StatusMapper);
     private readonly entityCache = new Map<
         string,
         DepartmentsByRegionIdEntity
@@ -22,12 +23,25 @@ export class DepartmentsByRegionIdMapper extends PaginatedMapper<
             required: ['id'],
         });
 
-        const cacheKey = `dto:${dto.id}`;
+        const props = {
+            uniqId: dto.id,
+            name: dto.name,
+            code: dto.code,
+            description: dto.description,
+            populationSize: dto.population_size,
+            municipalitiesCount: dto.municipalities_count,
+            status: this.statusMapper.mapApiToStatus(dto.is_active),
+            createdAt: dto.created_at,
+            updatedAt: dto.updated_at,
+        };
+
+        const cacheKey = `dto:${props.uniqId}`;
         const cached = this.entityCache.get(cacheKey);
 
         const entity = cached
-            ? cached.with(dto)
-            : DepartmentsByRegionIdEntity.fromDto(dto);
+            ? cached.with(props)
+            : new DepartmentsByRegionIdEntity(props);
+
         this.entityCache.set(cacheKey, entity);
         return entity;
     }

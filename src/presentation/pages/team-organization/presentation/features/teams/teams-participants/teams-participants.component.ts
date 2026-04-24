@@ -241,16 +241,32 @@ export class TeamsParticipantsComponent implements OnInit {
     ]);
 
     private buildAssignMenuItems(): MenuItem[] {
-        return Object.entries(Roles).map(([key, translationKey]) => ({
+        return Object.entries(Roles).map(([, translationKey]) => ({
             label: this.t(translationKey),
-            command: () => this.onAssignRoleSelected(key.toLowerCase()),
+            command: () => this.onAssignRoleSelected(translationKey),
         }));
     }
 
-    private onAssignRoleSelected(role: string): void {
+    protected readonly role = signal<Roles | null>(null);
+    private onAssignRoleSelected(role: Roles): void {
+        console.log('role: ', role);
+        this.role.set(role);
         this.openAssignRequested.set(true);
-        this.participantsSelectFacade.readAll(role, true);
+        this.participantsSelectFacade.readAll(true);
     }
+
+    protected readonly assignTitle = computed(() => {
+        const role = this.role();
+        const roleLabel = role ? this.t(role) : this.t('COMMON.MEMBER');
+        const teamName = this.paramsName() || '';
+        return this.t(
+            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.ASSIGN_TITLE',
+            {
+                membres: roleLabel,
+                team: teamName,
+            }
+        );
+    });
 
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();

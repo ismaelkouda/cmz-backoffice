@@ -2801,7 +2801,7 @@
                 "TITLE_UPDATE": "Mise à jour d'utilisateur",
                 "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet utilisateur ?",
                 "TITLE_CREATE": "Création d'utilisateur",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer cet utilisateur ? <br><b class='color-primary'>Nous allons envoyer les accès de connexion à l'adresse email </b><b class='color-secondary'>{{email}}</b>",
+                "MESSAGE_CREATE": "<b>Confirmez-vous la création de cet utilisateur </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
                 "TITLE_DELETE": "Suppression d'utilisateur",
                 "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet utilisateur ?",
                 "TITLE_ENABLE": "Activation d'utilisateur",
@@ -3089,7 +3089,7 @@
                 "TITLE_UPDATE": "Mise à jour de membre",
                 "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce membre ?",
                 "TITLE_CREATE": "Création de membre",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce membre ? <br><b class='color-primary'>Nous allons envoyer les accès de connexion à l'adresse email </b><b class='color-secondary'>{{email}}</b>",
+                "MESSAGE_CREATE": "<b>Confirmez-vous la création de ce membre </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
                 "TITLE_DELETE": "Suppression de membre",
                 "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet membre ?",
                 "TITLE_ENABLE": "Activation de membre",
@@ -3254,7 +3254,7 @@
                     "ROUTE": "participant"
                 },
                 "TITLE": "Membres de l'équipe",
-                "LABEL": "participants",
+                "LABEL": "Membres",
                 "ROUTE": "team-users",
                 "FILTER": {
                     "SEARCH": "Rechercher",
@@ -3300,8 +3300,8 @@
                 "MODAL": {
                     "REASSIGN_TITLE": "Réaffectation des membres",
                     "REASSIGN_LABEL": "Équipe",
-                    "ASSIGN_TITLE": "Affectation des membres",
-                    "ASSIGN_LABEL": "Intervenant",
+                    "ASSIGN_TITLE": "Affecter des {{membres}} à l'équipe {{team}}",
+                    "ASSIGN_LABEL": "Membre(s)",
                     "NEW_PROFILE": "Nouveau profil",
                     "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
                     "REASSIGN_MESSAGE": "{{count}} membre(s) seront réaffectés"

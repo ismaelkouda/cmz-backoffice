@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class ParticipantsSelectUseCase {
     private readonly repository = inject(ParticipantsSelectRepository);
 
-    readAll(filter: string | null): Observable<ParticipantsSelectEntity[]> {
-        return this.repository.readAll(filter);
+    readAll(): Observable<ParticipantsSelectEntity[]> {
+        return this.repository.readAll();
     }
 }

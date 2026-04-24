@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
     FormBuilder,
@@ -12,8 +12,6 @@ import { UsersFindOneFacade } from '@pages/settings-security/application/service
 import { UsersFormControl } from '@pages/settings-security/domain/controls/users/users-form.control';
 import { ProfilesPermissionsSelectEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
 import { FormValidators } from '@pages/settings-security/domain/validators/form-validators';
-import { enumToFilterOptions } from '@shared/components/filter/filter.types';
-import { Roles } from '@shared/domain/enums/roles.enum';
 import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
 
 @Injectable()
@@ -32,9 +30,9 @@ export class UsersStore {
     readonly loadingProfiles = toSignal(this.profilesFacade.isLoading$, {
         initialValue: false,
     });
-    readonly rolesOptions = computed(() =>
-        enumToFilterOptions(Roles, (key) => this.translate.instant(key))
-    );
+    // readonly rolesOptions = computed(() =>
+    //     enumToFilterOptions(Roles, (key) => this.translate.instant(key))
+    // );
 
     readonly form: FormGroup<UsersFormControl> = this.createForm();
 
@@ -85,10 +83,10 @@ export class UsersStore {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
-            role: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
+            // role: new FormControl('', {
+            //     nonNullable: true,
+            //     validators: [Validators.required],
+            // }),
         });
     }
 
@@ -119,7 +117,7 @@ export class UsersStore {
                 email: item.email,
                 phone: formatPhoneForMask(item.phone),
                 profile: item.profile,
-                role: item.role,
+                // role: item.role,
             },
             { emitEvent: true }
         );

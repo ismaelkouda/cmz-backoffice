@@ -26,7 +26,7 @@ export class RegionsUseCase {
     private readonly repository = inject(RegionsRepository);
 
     execute(
-        dto: RegionsFilterDto | null,
+        dto: RegionsFilterDto,
         page: string
     ): Observable<Paginate<RegionsEntity>> {
         const vo = RegionsFilterVo.fromDto(dto);

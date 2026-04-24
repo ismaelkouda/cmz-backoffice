@@ -1,42 +1,47 @@
-import { MunicipalitiesItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-response-api.dto';
+import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
+import { MunicipalitiesProps } from '@pages/administrative-boundary/domain/interfaces/municipalities/municipalities-props.interface';
 
 export class MunicipalitiesEntity {
-    constructor(
-        public readonly uniqId: string,
-        public name: string,
-        public code: string,
-        public description: string,
-        public region: string,
-        public department: string,
-        public populationSize: number,
-        public isActive: boolean,
-        public createdBy: string,
-        public updatedBy: string,
-        public createdAt: string,
-        public updatedAt: string
-    ) {}
+    constructor(private readonly props: MunicipalitiesProps) {}
 
-    static fromDto(dto: MunicipalitiesItemApiDto): MunicipalitiesEntity {
-        return new MunicipalitiesEntity(
-            dto.id,
-            dto.name,
-            dto.code,
-            dto.description,
-            dto.region.name,
-            dto.department.name,
-            dto.population_size,
-            dto.is_active,
-            dto.created_by,
-            dto.updated_by,
-            dto.created_at,
-            dto.updated_at
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+    get name(): string {
+        return this.props.name;
+    }
+    get code(): string {
+        return this.props.code;
+    }
+    get description(): string {
+        return this.props.description;
+    }
+    get region(): string {
+        return this.props.region;
+    }
+    get department(): string {
+        return this.props.department;
+    }
+    get populationSize(): number {
+        return this.props.populationSize;
+    }
+    get status(): Status {
+        return this.props.status;
+    }
+    get createdAt(): string {
+        return this.props.createdAt;
+    }
+    get updatedAt(): string {
+        return this.props.updatedAt;
     }
 
-    public with(dto: MunicipalitiesItemApiDto): MunicipalitiesEntity {
-        if (this.updatedAt === dto.updated_at && this.uniqId === dto.id) {
+    public with(props: MunicipalitiesProps): MunicipalitiesEntity {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
-        return MunicipalitiesEntity.fromDto(dto);
+        return new MunicipalitiesEntity(props);
     }
 }

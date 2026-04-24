@@ -5,10 +5,10 @@ import { HistoryVmProps } from './history-vm-props.interface';
 export class HistoryPresenter {
     map(item: HistoryEntity): HistoryVmProps {
         return {
-            uniqId: item.uniqId,
+            uniqId: item.id,
             actionType: item.actionType,
             action: item.action,
-            source: item.source,
+            source: `${item.ipAddress} - [${item.initiator?.phone}] ${item.initiator?.lastName} ${item.initiator?.firstName}`,
             createdAt: item.createdAt,
             actionsRef: item.actionType,
         };

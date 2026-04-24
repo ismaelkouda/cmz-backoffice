@@ -179,8 +179,8 @@ export class ParticipantsFacade extends BaseFacade<
             participant.firstName,
             participant.lastName,
             participant.email,
-            participant.phone,
-            participant.role
+            participant.phone
+            // participant.role
         );
 
         this.handleActionWithRefresh(
@@ -207,8 +207,8 @@ export class ParticipantsFacade extends BaseFacade<
             participant.firstName,
             participant.lastName,
             participant.email,
-            participant.phone,
-            participant.role
+            participant.phone
+            // participant.role
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

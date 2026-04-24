@@ -107,7 +107,7 @@ export class MunicipalitiesListComponent {
             department: new FormControl<string | null>(null, {
                 nonNullable: true,
             }),
-            status: new FormControl<string | null>(null),
+            status: new FormControl<Status | null>(null),
             startDate: new FormControl<string | null>(null),
             endDate: new FormControl<string | null>(null),
         });
