@@ -55,10 +55,10 @@ export class ParticipantsStore {
                     Validators.pattern(FormValidators.PHONE.PATTERN),
                 ],
             }),
-            role: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
+            // role: new FormControl('', {
+            //     nonNullable: true,
+            //     validators: [Validators.required],
+            // }),
         });
     }
 
@@ -78,7 +78,7 @@ export class ParticipantsStore {
                 firstName: item.firstName,
                 email: item.email,
                 phone: formatPhoneForMask(item.phone),
-                role: item.role,
+                // role: item.role,
             },
             { emitEvent: false }
         );

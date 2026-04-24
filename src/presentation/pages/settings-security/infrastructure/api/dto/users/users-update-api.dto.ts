@@ -5,5 +5,5 @@ export interface UsersUpdateApiDto {
     email: string;
     phone: string;
     profile_id: string;
-    role: string;
+    // role: string;
 }

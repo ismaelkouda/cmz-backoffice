@@ -4,5 +4,5 @@ export interface ParticipantsUpdateDto {
     lastName: string;
     email: string;
     phone: string;
-    role: string;
+    // role: string;
 }

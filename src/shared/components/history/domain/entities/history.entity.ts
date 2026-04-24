@@ -1,29 +1,32 @@
-import { HistoryItemApiDto } from '@shared/components/history/infrastructure/api/dto/history-response.api.dto';
+import { HistoryProps } from '@shared/components/history/domain/interfaces/history-props.interface';
+import { ActorEntity } from '@shared/domain/entities/actor.entity';
 
 export class HistoryEntity {
-    constructor(
-        public readonly uniqId: string,
-        public readonly actionType: string,
-        public readonly action: string,
-        public readonly source: string,
-        public readonly createdAt: string
-    ) {}
+    constructor(private readonly props: HistoryProps) {}
 
-    static fromDto(dto: HistoryItemApiDto): HistoryEntity {
-        const source = `${dto.ip_address} - [${dto.initiator.phone}] ${dto.initiator.last_name} ${dto.initiator.first_name}`;
-        return new HistoryEntity(
-            dto.id_model,
-            dto.type_action,
-            dto.action,
-            source,
-            dto.created_at
-        );
+    get id(): string {
+        return this.props.id;
+    }
+    get actionType(): string {
+        return this.props.actionType;
+    }
+    get action(): string {
+        return this.props.action;
+    }
+    get initiator(): ActorEntity | null {
+        return this.props.initiator;
+    }
+    get ipAddress(): string | null {
+        return this.props?.ip_address || null;
+    }
+    get createdAt(): string {
+        return this.props.createdAt;
     }
 
-    public with(dto: HistoryItemApiDto): HistoryEntity {
-        if (this.createdAt === dto.created_at) {
+    public with(props: HistoryProps): HistoryEntity {
+        if (this.createdAt === props.createdAt && this.id === props.id) {
             return this;
         }
-        return HistoryEntity.fromDto(dto);
+        return new HistoryEntity(props);
     }
 }

@@ -75,18 +75,11 @@
                                                 <div class="image">
                                                     <app-image-upload
                                                         id="image"
-                                                        [instanceId]="
-                                                            instanceId()
-                                                        "
+                                                        [instanceId]="instanceId()"
                                                         formControlName="placePhoto"
-                                                        (viewImage)="
-                                                            openImagePreview()
-                                                        "
-                                                        (imageCleared)="
-                                                            onImageCleared()
-                                                        "
-                                                    >
-                                                    </app-image-upload>
+                                                        (viewImage)="openImagePreview()"
+                                                        (imageCleared)="onImageCleared()"
+                                                    />
                                                 </div>
                                             }
                                             <!-- } -->

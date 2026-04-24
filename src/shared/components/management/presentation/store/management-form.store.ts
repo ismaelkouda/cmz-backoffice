@@ -142,6 +142,7 @@ export class ManagementFormStore {
             locationName: item.location?.name ?? '',
             reportType: item.reportTypeKey ?? '',
             description: item.description ?? '',
+            placeDescription: item.placeDescription ?? '',
             operators: item.operatorsKey ?? [],
         });
         const current = this.form.controls.placePhoto.value;

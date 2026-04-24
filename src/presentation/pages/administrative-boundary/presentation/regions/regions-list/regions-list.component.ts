@@ -165,7 +165,7 @@ export class RegionsListComponent implements OnInit {
                 search: new FormControl<string | null>(null),
                 department: new FormControl<string | null>(null),
                 municipality: new FormControl<string | null>(null),
-                status: new FormControl<string | null>(null),
+                status: new FormControl<Status | null>(null),
                 startDate: new FormControl<string | null>(null),
                 endDate: new FormControl<string | null>(null),
             });

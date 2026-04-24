@@ -1,26 +1,25 @@
-import { DepartmentsFilterDto } from '@pages/administrative-boundary/application/dto/departments/departments-filter.dto';
 import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
+import { DepartmentsFilterProps } from '@pages/administrative-boundary/domain/interfaces/departments/departments-filter-props.interface';
+import { DepartmentsFilterDto } from '@presentation/pages/administrative-boundary/application/dto/departments/departments-filter.dto';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class DepartmentsFilterVo {
-    public readonly search?: string;
-    public readonly region?: string;
-    public readonly municipality?: string;
-    public readonly status?: Status;
-    public readonly period?: DatePeriod;
+    constructor(private readonly props: DepartmentsFilterProps) {}
 
-    constructor(props: {
-        search?: string;
-        region?: string;
-        municipality?: string;
-        status?: Status;
-        period?: DatePeriod;
-    }) {
-        this.search = props.search;
-        this.region = props.region;
-        this.municipality = props.municipality;
-        this.status = props.status;
-        this.period = props.period;
+    get search(): string | undefined {
+        return this.props.search;
+    }
+    get region(): string | undefined {
+        return this.props.region;
+    }
+    get municipality(): string | undefined {
+        return this.props.municipality;
+    }
+    get status(): Status | undefined {
+        return this.props.status;
+    }
+    get period(): DatePeriod | undefined {
+        return this.props.period;
     }
 
     static fromDto(dto: DepartmentsFilterDto | null): DepartmentsFilterVo {
@@ -29,8 +28,9 @@ export class DepartmentsFilterVo {
         if (dto?.startDate || dto?.endDate) {
             period = DatePeriod.create(dto.startDate, dto.endDate);
         }
+
         return new DepartmentsFilterVo({
-            search: dto?.search?.trim() || undefined,
+            search: dto?.search,
             region: dto?.region,
             municipality: dto?.municipality,
             status: dto?.status,

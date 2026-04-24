@@ -6,5 +6,5 @@ export interface TeamsFormControls {
     description: FormControl<string>;
     reportTypes: FormControl<string[]>;
     operators: FormControl<string[]>;
-    permissions: FormControl<string[]>;
+    permissions: FormControl<any[]>;
 }

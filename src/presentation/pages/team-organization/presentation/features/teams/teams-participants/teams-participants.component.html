@@ -149,21 +149,15 @@
     [visible]="displayAssignModal()"
     (visibleChange)="displayAssignModal.set($event)"
     [modal]="true"
-    [style]="{ width: '450px' }"
+    [style]="{ width: '700px' }"
     [draggable]="false"
     [resizable]="false"
-    header="{{
-        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.ASSIGN_TITLE' | translate
-    }}"
+    [header]="assignTitle()"
 >
     <form [formGroup]="assignForm">
         <div class="form-group my-1">
             <label for="team">
-                <b>
-                    {{
-                        'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.MODAL.ASSIGN_LABEL'
-                            | translate
-                    }}
+                <b class="color-primary">{{ role() | translate }}
                     <span class="text-danger">*</span>
                 </b>
             </label>

@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
+import { DepartmentsSelectUseCase } from '@pages/administrative-boundary/application/use-cases/departments/departments-select.use-case';
+import { DepartmentsSelectEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
-
-import { DepartmentsSelectEntity } from '../../../domain/entities/departments/departments-select.entity';
-import { DepartmentsSelectUseCase } from '../../use-cases/departments/departments-select.use-case';
 
 @Injectable({
     providedIn: 'root',

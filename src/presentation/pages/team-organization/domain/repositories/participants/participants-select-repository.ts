@@ -6,7 +6,5 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export abstract class ParticipantsSelectRepository {
-    abstract readAll(
-        filter: string | null
-    ): Observable<ParticipantsSelectEntity[]>;
+    abstract readAll(): Observable<ParticipantsSelectEntity[]>;
 }

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    computed,
     DestroyRef,
     effect,
     inject,
@@ -17,13 +16,13 @@ import { ParticipantsFormHelperService } from '@pages/team-organization/domain/s
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
 import { ParticipantsStore } from '@pages/team-organization/presentation/store/participants/participants.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import {
-    enumToFilterOptions,
-    FilterOption,
-} from '@shared/components/filter/filter.types';
+// import {
+//     enumToFilterOptions,
+//     FilterOption,
+// } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { Roles } from '@shared/domain/enums/roles.enum';
+// import { Roles } from '@shared/domain/enums/roles.enum';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -109,9 +108,9 @@ export class ParticipantsFormComponent {
         this.lastSuccess = current;
         this.navigateToBack();
     });
-    readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
-        return enumToFilterOptions(Roles, this.t.bind(this));
-    });
+    // readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
+    //     return enumToFilterOptions(Roles, this.t.bind(this));
+    // });
 
     private showValidationErrors(): void {
         const controlNames = [
@@ -119,7 +118,7 @@ export class ParticipantsFormComponent {
             'lastName',
             'email',
             'phone',
-            'role',
+            // 'role',
         ] as const;
 
         const errors = controlNames

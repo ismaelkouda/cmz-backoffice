@@ -7,7 +7,7 @@ export interface DepartmentsByRegionIdItemApiDto {
     description: string;
     population_size: number;
     municipalities_count: number;
-    status: string;
+    is_active: boolean;
     created_by: string;
     updated_by: string;
     created_at: string;

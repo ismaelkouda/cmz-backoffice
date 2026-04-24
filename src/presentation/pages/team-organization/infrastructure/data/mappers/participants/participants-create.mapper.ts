@@ -18,9 +18,9 @@ export function participantsCreateMapper(
     if (entity.phone) {
         params.phone_number = entity.phone;
     }
-    if (entity.role) {
-        params.role = entity.role;
-    }
+    // if (entity.role) {
+    //     params.role = entity.role;
+    // }
 
     return params;
 }

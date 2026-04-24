@@ -173,7 +173,7 @@ export class DepartmentsListComponent implements OnInit {
                 search: new FormControl<string | null>(null),
                 region: new FormControl<string | null>(null),
                 municipality: new FormControl<string | null>(null),
-                status: new FormControl<string | null>(null),
+                status: new FormControl<Status | null>(null),
                 startDate: new FormControl<string | null>(null),
                 endDate: new FormControl<string | null>(null),
             });

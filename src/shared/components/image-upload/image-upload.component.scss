@@ -3,6 +3,63 @@
     width: 100%;
 }
 
+.image-upload-container {
+    position: relative;
+    border: 2px dashed var(--p-surface-300);
+    border-radius: 12px;
+    padding: 0.5rem 1.5rem;
+    background: var(--p-surface-50);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+
+    &:hover:not(.is-disabled) {
+        border-color: var(--p-primary-color);
+        background: var(--p-primary-50, #f0f4ff);
+        box-shadow: 0 0 0 4px rgba(var(--p-primary-rgb, 99, 102, 241), 0.08);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--p-primary-color);
+        outline-offset: 2px;
+    }
+
+    &.is-dragging {
+        border: 2px solid var(--p-primary-color);
+        background: var(--p-primary-50, #f0f4ff);
+        transform: scale(1.01);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+        .upload-icon {
+            transform: translateY(-4px) scale(1.1);
+            color: var(--p-primary-color);
+        }
+    }
+
+    &.has-error {
+        border-color: var(--p-red-500);
+        background: var(--p-red-50, #fff5f5);
+        cursor: default;
+    }
+
+    &.has-file {
+        border-style: solid;
+        border-color: var(--p-green-400);
+        background: var(--p-green-50, #f0fff4);
+        cursor: default;
+        padding: 0.5rem 1.5rem;
+    }
+
+    &.is-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+}
+
 .file-input-hidden {
     display: none;
     position: absolute;
@@ -12,6 +69,8 @@
     height: 100%;
     cursor: pointer;
 }
+
+
 
 .upload-idle-state {
     display: flex;
@@ -123,17 +182,10 @@
 
 .upload-selected-state {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     gap: 1rem;
-
-    .button-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100px;
-    }
 }
 
 .selected-file-info {

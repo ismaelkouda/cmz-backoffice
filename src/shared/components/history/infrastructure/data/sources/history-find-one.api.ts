@@ -18,7 +18,6 @@ export class HistoryFindOneApi {
         dto: HistoryFindOneFilterApiDto
     ): Observable<HistoryFindOneResponseApiDto> {
         const { id, ...filterParams } = dto;
-        console.log('dto: ', dto);
         const params = buildHttpParams(filterParams, { skipEmptyString: true });
         const uniq_id = id ? `/${id}` : '';
         const url = `${this.baseUrl}${HISTORY_ENDPOINTS.HISTORY}${uniq_id}`;

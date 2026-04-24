@@ -173,16 +173,16 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
         };
     }
 
-    create(participant: UsersCreateDto): void {
+    create(user: UsersCreateDto): void {
         this._actionState.set('loading');
 
         const command = new UsersCreateCommand(
-            participant.firstName,
-            participant.lastName,
-            participant.email,
-            participant.phone,
-            participant.profile,
-            participant.role
+            user.firstName,
+            user.lastName,
+            user.email,
+            user.phone,
+            user.profile
+            // user.role
         );
 
         this.handleActionWithRefresh(
@@ -202,16 +202,16 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
             .subscribe();
     }
 
-    update(participant: UsersUpdateDto): void {
+    update(user: UsersUpdateDto): void {
         this._actionState.set('loading');
         const command = new UsersUpdateCommand(
-            participant.uniqId,
-            participant.firstName,
-            participant.lastName,
-            participant.email,
-            participant.phone,
-            participant.profile,
-            participant.role
+            user.uniqId,
+            user.firstName,
+            user.lastName,
+            user.email,
+            user.phone,
+            user.profile
+            // user.role
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

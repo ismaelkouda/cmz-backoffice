@@ -16,7 +16,7 @@ export class ParticipantsCreateHandler {
             lastName: command.lastName,
             email: command.email,
             phone: command.phone,
-            role: command.role,
+            // role: command.role,
         });
     }
 }

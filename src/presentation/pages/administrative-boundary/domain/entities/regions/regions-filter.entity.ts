@@ -1,33 +1,27 @@
 import { Status } from '@pages/administrative-boundary/domain/enums/regions/regions-status.enum';
+import { RegionsFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/regions-filter-props.interface';
 import { RegionsFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-filter.vo';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class RegionsFilterEntity {
-    constructor(
-        public readonly search?: string,
-        public readonly department?: string,
-        public readonly municipality?: string,
-        public readonly status?: Status,
-        public readonly period?: DatePeriod
-    ) {}
+    constructor(private readonly props: RegionsFilterProps) {}
 
-    static fromVo(vo: RegionsFilterVo): RegionsFilterEntity {
-        return new RegionsFilterEntity(
-            vo?.search,
-            vo?.department,
-            vo?.municipality,
-            vo?.status,
-            vo.period
-        );
+    get search(): string | undefined {
+        return this.props.search;
     }
-
-    public clone(updates: Partial<RegionsFilterEntity>): RegionsFilterEntity {
-        return new RegionsFilterEntity(
-            updates.search ?? this.search,
-            updates.department ?? this.department,
-            updates.municipality ?? this.municipality,
-            updates.status ?? this.status,
-            updates.period ?? this.period
-        );
+    get department(): string | undefined {
+        return this.props.department;
+    }
+    get municipality(): string | undefined {
+        return this.props.municipality;
+    }
+    get status(): Status | undefined {
+        return this.props.status;
+    }
+    get period(): DatePeriod | undefined {
+        return this.props.period;
+    }
+    static fromVo(vo: RegionsFilterVo): RegionsFilterEntity {
+        return new RegionsFilterEntity(vo);
     }
 }

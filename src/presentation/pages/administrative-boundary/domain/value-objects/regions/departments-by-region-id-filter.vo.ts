@@ -1,44 +1,31 @@
 import { DepartmentsByRegionIdFilterDto } from '@pages/administrative-boundary/application/dto/regions/departments-by-region-id-filter.dto';
+import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
+import { DepartmentsByRegionIdFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/departments-by-region-id-filter-props.interface';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
 export class DepartmentsByRegionIdFilterVo {
-    public readonly uniqId: string;
-    public readonly search?: string;
-    public readonly region?: string;
-    public readonly municipality?: string;
-    public readonly status?: string;
-    public readonly period?: DatePeriod;
-
-    constructor(props: {
-        uniqId: string;
-        search?: string;
-        region?: string;
-        municipality?: string;
-        status?: string;
-        period?: DatePeriod;
-    }) {
-        this.uniqId = props.uniqId;
-        this.search = props.search;
-        this.region = props.region;
-        this.municipality = props.municipality;
-        this.status = props.status;
-        this.period = props.period;
+    constructor(private readonly props: DepartmentsByRegionIdFilterProps) {}
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+    get search(): string | undefined {
+        return this.props.search;
+    }
+    get region(): string | undefined {
+        return this.props.region;
+    }
+    get municipality(): string | undefined {
+        return this.props.municipality;
+    }
+    get status(): Status | undefined {
+        return this.props.status;
+    }
+    get period(): DatePeriod | undefined {
+        return this.props.period;
     }
 
     static fromDto(
-        dto: DepartmentsByRegionIdFilterDto | null
+        dto: DepartmentsByRegionIdFilterDto
     ): DepartmentsByRegionIdFilterVo {
-        let period: DatePeriod | undefined;
-
-        if (dto?.startDate || dto?.endDate) {
-            period = DatePeriod.create(dto.startDate, dto.endDate);
-        }
-        return new DepartmentsByRegionIdFilterVo({
-            uniqId: dto?.uniqId.trim() ?? '',
-            search: dto?.search?.trim() || undefined,
-            municipality: dto?.municipality,
-            status: dto?.status,
-            period,
-        });
+        return new DepartmentsByRegionIdFilterVo(dto);
     }
 }

@@ -1,42 +1,47 @@
-import { RegionsItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-response-api.dto';
+import { Status } from '@pages/administrative-boundary/domain/enums/regions/regions-status.enum';
+import { RegionsProps } from '@pages/administrative-boundary/domain/interfaces/regions/regions-props.interface';
 
 export class RegionsEntity {
-    constructor(
-        public readonly uniqId: string,
-        public name: string,
-        public code: string,
-        public description: string,
-        public populationSize: number,
-        public departmentsCount: number,
-        public municipalitiesCount: number,
-        public isActive: boolean,
-        public createdBy: string,
-        public updatedBy: string,
-        public createdAt: string,
-        public updatedAt: string
-    ) {}
+    constructor(public readonly props: RegionsProps) {}
 
-    static fromDto(dto: RegionsItemApiDto): RegionsEntity {
-        return new RegionsEntity(
-            dto.id,
-            dto.name,
-            dto.code,
-            dto.description,
-            dto.population_size,
-            dto.departments_count,
-            dto.municipalities_count,
-            dto.is_active,
-            dto.created_by,
-            dto.updated_by,
-            dto.created_at,
-            dto.updated_at
-        );
+    get uniqId(): string {
+        return this.props.uniqId;
+    }
+    get name(): string {
+        return this.props.name;
+    }
+    get code(): string {
+        return this.props.code;
+    }
+    get description(): string {
+        return this.props.description;
+    }
+    get populationSize(): number {
+        return this.props.populationSize;
+    }
+    get departmentsCount(): number {
+        return this.props.departmentsCount;
+    }
+    get municipalitiesCount(): number {
+        return this.props.municipalitiesCount;
+    }
+    get status(): Status {
+        return this.props.status;
+    }
+    get createdAt(): string {
+        return this.props.createdAt;
+    }
+    get updatedAt(): string {
+        return this.props.updatedAt;
     }
 
-    public with(dto: RegionsItemApiDto): RegionsEntity {
-        if (this.updatedAt === dto.updated_at && this.uniqId === dto.id) {
+    public with(props: RegionsProps): RegionsEntity {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
-        return RegionsEntity.fromDto(dto);
+        return new RegionsEntity(props);
     }
 }

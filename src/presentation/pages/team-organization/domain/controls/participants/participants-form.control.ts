@@ -5,5 +5,4 @@ export interface ParticipantsFormControl {
     lastName: FormControl<string>;
     email: FormControl<string>;
     phone: FormControl<string>;
-    role: FormControl<string>;
 }
