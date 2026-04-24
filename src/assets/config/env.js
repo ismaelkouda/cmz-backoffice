@@ -1,14 +1,11 @@
 (function (window) {
             window.__env = {
-    "authenticationUrl": "https://api-services.connecte-ma-zone.ansut.ci/auth/v1.0/backoffice/",
-    "reportUrl": "https://api-services.connecte-ma-zone.ansut.ci/reports/v1.0/backoffice/",
-    "settingUrl": "https://api-services.connecte-ma-zone.ansut.ci/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://api-services.connecte-ma-zone.ansut.ci/auth/backoffice/",
+    "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
+    "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
+    "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
+    "fileUrl": "http://10.10.70.64:7000/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
-    "messageApp": {
-        "sourceStockTenantSim": "Le système utilisera une SIM blanche du Stock du Tenant"
-    },
     "appSettings": {
         "appName": "Connect My Zone",
         "appLogoFull": "assets/images/logo/logo-ansut-full.png",
@@ -19,8 +16,8 @@
     }
 };
             window.__env.buildInfo = {
-                timestamp: '2026-04-24T15:34:32.259Z',
-                environment: 'cmz_prod',
+                timestamp: '2026-04-16T18:06:47.492Z',
+                environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'
             };
