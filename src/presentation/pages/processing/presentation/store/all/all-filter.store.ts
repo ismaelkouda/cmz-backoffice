@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AllFilterDto } from '@pages/requests/application/dto/all/all-filter.dto';
-import { AllFacade } from '@pages/requests/application/services/all/all.facade';
-import { AllFilterControl } from '@pages/requests/presentation/store/all/all-filter-control';
+import { AllFilterDto } from '@pages/processing/application/dto/all/all-filter.dto';
+import { AllFacade } from '@pages/processing/application/services/all/all.facade';
+import { AllFilterControl } from '@pages/processing/presentation/store/all/all-filter-control';
+import { State } from '@presentation/pages/processing/domain/enums/all/all-state.enum';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()
 export class AllFilterStore {
@@ -22,7 +24,7 @@ export class AllFilterStore {
             uniqId: new FormControl<string>('', {
                 nonNullable: true,
             }),
-            reportType: new FormControl<string | null>(null, {
+            reportType: new FormControl<ReportType | null>(null, {
                 nonNullable: true,
             }),
             operators: new FormControl<string[]>([], {
@@ -31,7 +33,7 @@ export class AllFilterStore {
             source: new FormControl<string | null>(null, {
                 nonNullable: true,
             }),
-            status: new FormControl<string | null>(null, {
+            state: new FormControl<State | null>(null, {
                 nonNullable: true,
             }),
             startDate: new FormControl<string>('', {
@@ -68,7 +70,7 @@ export class AllFilterStore {
             endDate: raw.endDate || undefined,
             reportType: raw.reportType || undefined,
             source: raw.source || undefined,
-            status: raw.status || undefined,
+            state: raw.state || undefined,
             operators: raw.operators?.length ? raw.operators : undefined,
         };
     }

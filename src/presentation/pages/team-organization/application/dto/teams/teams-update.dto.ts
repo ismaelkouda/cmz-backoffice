@@ -1,6 +1,6 @@
 export interface TeamsUpdateDto {
     uniqId: string;
-    code: string;
+    // code: string;
     name: string;
     description: string;
     reportTypes: string[];

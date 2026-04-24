@@ -18,8 +18,6 @@ export class LegalNoticeFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(LegalNoticeFindOneFacade);
 
-    private readonly isPatching = signal(false);
-
     readonly form: FormGroup<LegalNoticeFormControl> = this.createForm();
 
     readonly versionValue = toSignal(this.form.controls.version.valueChanges, {
@@ -45,11 +43,13 @@ export class LegalNoticeFormStore {
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
-        if (!item) {
+
+        if (!item || Object.keys(item).length === 0) {
             return;
         }
-
-        this.isPatching.set(true);
+        if (!this.form.pristine) {
+            return;
+        }
 
         this.form.patchValue(
             {
@@ -58,8 +58,6 @@ export class LegalNoticeFormStore {
             },
             { emitEvent: false }
         );
-
-        queueMicrotask(() => this.isPatching.set(false));
     });
 
     private createForm(): FormGroup<LegalNoticeFormControl> {

@@ -6,25 +6,54 @@ export enum HistoryEventType {
     UNKNOWN = 'UNKNOWN',
 }
 
+export const EVENT_TYPE_TO_API: Record<HistoryEventType, string> = {
+    [HistoryEventType.CREATE]: 'Création',
+    [HistoryEventType.UPDATE]: 'Mise à jour',
+    [HistoryEventType.DELETE]: 'Suppression',
+    [HistoryEventType.EVENT]: 'Évènement',
+    [HistoryEventType.UNKNOWN]: 'Inconnu',
+};
+
+export const API_TO_EVENT_TYPE: Record<string, HistoryEventType> = {
+    Création: HistoryEventType.CREATE,
+    'Mise à jour': HistoryEventType.UPDATE,
+    Suppression: HistoryEventType.DELETE,
+    Évènement: HistoryEventType.EVENT,
+};
+
 export function mapToHistoryEventType(value: string | null): HistoryEventType {
     if (!value) {
         return HistoryEventType.UNKNOWN;
     }
+    return API_TO_EVENT_TYPE[value] ?? HistoryEventType.UNKNOWN;
+}
 
-    const normalized = value
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase()
-        .trim();
-
-    switch (normalized) {
-        case 'creation':
-            return HistoryEventType.CREATE;
-        case 'mise a jour':
-            return HistoryEventType.UPDATE;
-        case 'suppression':
-            return HistoryEventType.DELETE;
+export function getEventSeverity(
+    type: HistoryEventType
+): 'success' | 'info' | 'warning' | 'danger' {
+    switch (type) {
+        case HistoryEventType.CREATE:
+            return 'success';
+        case HistoryEventType.UPDATE:
+            return 'warning';
+        case HistoryEventType.DELETE:
+            return 'danger';
         default:
-            return HistoryEventType.UNKNOWN;
+            return 'info';
+    }
+}
+
+export function getEventLabelKey(type: HistoryEventType): string {
+    switch (type) {
+        case HistoryEventType.CREATE:
+            return 'HISTORY.EVENT.CREATE';
+        case HistoryEventType.UPDATE:
+            return 'HISTORY.EVENT.UPDATE';
+        case HistoryEventType.DELETE:
+            return 'HISTORY.EVENT.DELETE';
+        case HistoryEventType.EVENT:
+            return 'HISTORY.EVENT.EVENT';
+        default:
+            return 'HISTORY.EVENT.UNKNOWN';
     }
 }

@@ -22,7 +22,7 @@ export function usersUpdateMapper(
         params.phone = entity.phone;
     }
     if (entity.profile) {
-        params.profile = entity.profile;
+        params.profile_id = entity.profile;
     }
     if (entity.role) {
         params.role = entity.role;

@@ -1,11 +1,12 @@
 import { TasksFilterDto } from '@pages/requests/application/dto/tasks/tasks-filter.dto';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class TasksFilterVo {
     public readonly initiatorPhoneNumber?: string;
     public readonly uniqId?: string;
-    public readonly reportType?: string;
+    public readonly reportType?: ReportType;
     public readonly operators?: string[];
     public readonly source?: string;
     public readonly period?: DatePeriod;
@@ -13,7 +14,7 @@ export class TasksFilterVo {
     private constructor(props: {
         initiatorPhoneNumber?: string;
         uniqId?: string;
-        reportType?: string;
+        reportType?: ReportType;
         operators?: string[];
         source?: string;
         period?: DatePeriod;

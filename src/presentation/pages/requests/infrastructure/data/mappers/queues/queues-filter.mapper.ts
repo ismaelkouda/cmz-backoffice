@@ -1,30 +1,28 @@
+import { inject, Injectable } from '@angular/core';
 import { QueuesFilterEntity } from '@pages/requests/domain/entities/queues/queues-filter.entity';
 import { QueuesFilterApiDto } from '@pages/requests/infrastructure/api/dto/queues/queues-filter-api.dto';
+import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 
-export function queuesFilterMapper(vo: QueuesFilterEntity): QueuesFilterApiDto {
-    const params: QueuesFilterApiDto = {} as QueuesFilterApiDto;
+@Injectable({
+    providedIn: 'root',
+})
+export class QueuesFilterMapper {
+    private readonly reportTypeMapper = inject(ReportTypeMapper);
 
-    if (vo.initiatorPhoneNumber) {
-        params.initiator_phone_number = vo.initiatorPhoneNumber;
+    map(entity: QueuesFilterEntity): QueuesFilterApiDto {
+        console.log('entity: ', entity);
+        return {
+            ...(entity.initiatorPhoneNumber && {
+                initiator_phone_number: entity.initiatorPhoneNumber,
+            }),
+            ...(entity.uniqId && { uniq_id: entity.uniqId }),
+            ...(entity.reportType && {
+                report_type: this.reportTypeMapper.mapToDto(entity.reportType),
+            }),
+            ...(entity.operators && { operators: entity.operators }),
+            ...(entity.source && { source: entity.source }),
+            ...(entity.period?.start && { start_date: entity.period.start }),
+            ...(entity.period?.end && { end_date: entity.period.end }),
+        };
     }
-    if (vo.uniqId) {
-        params.uniq_id = vo.uniqId;
-    }
-    if (vo.reportType) {
-        params.report_type = vo.reportType;
-    }
-    if (vo.operators) {
-        params.operators = vo.operators;
-    }
-    if (vo.source) {
-        params.source = vo.source;
-    }
-    if (vo.period?.start) {
-        params.start_date = vo.period.start;
-    }
-    if (vo.period?.end) {
-        params.end_date = vo.period.end;
-    }
-
-    return params;
 }

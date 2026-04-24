@@ -11,7 +11,7 @@ export class TeamsUpdateHandler {
     execute(command: TeamsUpdateCommand): Observable<SimpleResponseDto<void>> {
         return this.useCase.update({
             uniqId: command.uniqId,
-            code: command.code,
+            // code: command.code,
             name: command.name,
             description: command.description,
             reportTypes: command.reportTypes,

@@ -17,7 +17,7 @@ export class ProfilesPermissionsHandler {
             {
                 search: command.search,
                 user: command.user,
-                isActive: command.isActive,
+                status: command.status,
             },
             page
         );

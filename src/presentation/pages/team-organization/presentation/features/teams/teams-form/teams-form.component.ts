@@ -130,7 +130,7 @@ export class TeamsFormComponent {
 
     private showValidationErrors(): void {
         const controlNames = [
-            'code',
+            // 'code',
             'name',
             'description',
             'reportTypes',

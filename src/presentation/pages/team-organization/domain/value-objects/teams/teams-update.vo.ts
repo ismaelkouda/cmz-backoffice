@@ -2,7 +2,7 @@ import { TeamsUpdateDto } from '@pages/team-organization/application/dto/teams/t
 
 export class TeamsUpdateVo {
     readonly uniqId: string;
-    readonly code: string;
+    // readonly code: string;
     readonly name: string;
     readonly description: string;
     readonly operators: string[];
@@ -11,7 +11,7 @@ export class TeamsUpdateVo {
 
     private constructor(props: {
         uniqId: string;
-        code: string;
+        // code: string;
         name: string;
         description: string;
         operators: string[];
@@ -19,7 +19,7 @@ export class TeamsUpdateVo {
         permissions: any[];
     }) {
         this.uniqId = props.uniqId;
-        this.code = props.code;
+        // this.code = props.code;
         this.name = props.name;
         this.description = props.description;
         this.operators = props.operators;
@@ -30,7 +30,7 @@ export class TeamsUpdateVo {
     static fromDto(dto: TeamsUpdateDto): TeamsUpdateVo {
         return new TeamsUpdateVo({
             uniqId: dto.uniqId,
-            code: dto.code,
+            // code: dto.code,
             name: dto.name,
             description: dto.description,
             operators: dto.operators,

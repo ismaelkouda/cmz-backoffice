@@ -6,9 +6,9 @@ export function TeamsCreateMapper(
 ): TeamsCreateApiDto {
     const params: TeamsCreateApiDto = {} as TeamsCreateApiDto;
 
-    if (entity.code) {
-        params['code'] = entity.code;
-    }
+    // if (entity.code) {
+    //     params['code'] = entity.code;
+    // }
 
     if (entity.name) {
         params['name'] = entity.name;

@@ -21,13 +21,31 @@
                             >
                             </app-page-title>
                         </div>
-                        <p-button
-                            [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="navigateToBack()"
-                            styleClass="p-button-danger"
-                            [attr.aria-label]="'COMMON.CLOSE' | translate"
-                        >
-                        </p-button>
+                        
+                        <div class="d-flex align-items-center gap-2">
+                            <button
+                                pButton
+                                type="submit"
+                                (click)="onSubmit()"
+                                [disabled]="form.invalid || loadingSubmit()"
+                            >
+                                @if (!loadingSubmit()) {
+                                    <i class="pi pi-check"></i>
+                                } @else {
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                }
+                                {{ 'COMMON.SAVE' | translate }}
+                            </button>
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="navigateToBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
                     </header>
 
                     <div class="row">
@@ -438,9 +456,7 @@
                                                             'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
                                                                 | translate
                                                         }}
-                                                       @if (store.isRoleRequired()) {
-                                                            <span class="text-danger" aria-label="required">*</span>
-                                                        }
+                                                        <span class="text-danger" aria-label="required">*</span>
                                                     </label>
                                                     <p-select
                                                         id="role"
@@ -495,9 +511,7 @@
                                             </div>
                                         </fieldset>
 
-                                        <div
-                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
-                                        >
+                                        <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
                                             <p-button
                                                 label="{{
                                                     'COMMON.CANCEL' | translate
@@ -510,17 +524,22 @@
                                             >
                                             </p-button>
 
-                                            <p-button
-                                                label="{{
-                                                    'COMMON.SAVE' | translate
-                                                }}"
+                                            <button
+                                                pButton
                                                 type="submit"
-                                                [disabled]="form.invalid"
-                                                [attr.aria-label]="
-                                                    'COMMON.SAVE' | translate
-                                                "
+                                                [disabled]="form.invalid || loadingSubmit()"
                                             >
-                                            </p-button>
+                                                @if (!loadingSubmit()) {
+                                                    <i class="pi pi-check"></i>
+                                                } @else {
+                                                    <span
+                                                        class="spinner-border spinner-border-sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    ></span>
+                                                }
+                                                {{ 'COMMON.SAVE' | translate }}
+                                            </button>
                                         </div>
                                     </form>
                                 </div>

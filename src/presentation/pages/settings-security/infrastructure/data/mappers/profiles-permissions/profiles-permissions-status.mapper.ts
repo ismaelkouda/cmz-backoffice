@@ -3,11 +3,11 @@ import { Status } from '@pages/settings-security/domain/enums/profiles-permissio
 
 @Injectable({ providedIn: 'root' })
 export class StatusMapper {
-    private readonly statusMapping = {
+    readonly statusMapping = {
         toApi: {
             [Status.ACTIVE]: true,
             [Status.INACTIVE]: false,
-        },
+        } as const,
     };
 
     mapStatusToApi(status: Status): boolean {

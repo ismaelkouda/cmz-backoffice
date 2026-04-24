@@ -12,7 +12,6 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistoryFindOneFacade } from '@shared/components/history/application/services/history-find-one.facade';
 import { HistoryDialogVmPresenter } from '@shared/components/history/presentation/adapters/history-dialog-vm.presenter';
-import { HISTORY_DIALOG_TABLE_CONFIG } from '@shared/components/history/presentation/adapters/history-dialog.constant';
 import { TableComponent } from '@shared/components/table/table.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
@@ -58,7 +57,6 @@ export class HistoryDialogComponent {
 
     readonly vm = computed(() => this.presenter.map(this.item()));
 
-    readonly tableConfig = HISTORY_DIALOG_TABLE_CONFIG;
     readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.config.app.name
     );
@@ -69,7 +67,6 @@ export class HistoryDialogComponent {
         effect(() => {
             const uniqId = this.uniqId();
             const typeModel = this.typeModel();
-            console.log('typeModel: ', typeModel);
             const visible = this.visible();
 
             if (!visible || !uniqId) {

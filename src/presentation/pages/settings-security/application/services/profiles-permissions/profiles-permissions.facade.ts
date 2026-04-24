@@ -87,7 +87,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
         const command = new ProfilesPermissionsQuery(
             filter?.search,
             filter?.user,
-            filter?.isActive
+            filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
@@ -109,7 +109,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
         const command = new ProfilesPermissionsQuery(
             filter?.search,
             filter?.user,
-            filter?.isActive
+            filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
@@ -124,7 +124,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
         const command = new ProfilesPermissionsQuery(
             filter?.search,
             filter?.user,
-            filter?.isActive
+            filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
@@ -142,7 +142,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
         const command = new ProfilesPermissionsQuery(
             filter?.search,
             filter?.user,
-            filter?.isActive
+            filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(

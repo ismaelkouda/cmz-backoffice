@@ -1,14 +1,15 @@
 import { AllFilterDto } from '@pages/requests/application/dto/all/all-filter.dto';
+import { Status } from '@pages/requests/domain/enums/all/all-status.enum';
 import { AllFilterProps } from '@pages/requests/domain/interfaces/all/all-filter-props.interface';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-
 export class AllFilterVo {
     public readonly initiatorPhoneNumber?: string;
     public readonly uniqId?: string;
-    public readonly reportType?: string;
+    public readonly reportType?: ReportType;
     public readonly operators?: string[];
-    public readonly status?: string;
+    public readonly status?: Status;
     public readonly source?: string;
     public readonly period?: DatePeriod;
 

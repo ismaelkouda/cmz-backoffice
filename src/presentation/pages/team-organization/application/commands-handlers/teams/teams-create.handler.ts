@@ -10,7 +10,7 @@ export class TeamsCreateHandler {
 
     execute(command: TeamsCreateCommand): Observable<SimpleResponseDto<void>> {
         return this.useCase.create({
-            code: command.code,
+            // code: command.code,
             name: command.name,
             description: command.description,
             reportTypes: command.reportTypes,

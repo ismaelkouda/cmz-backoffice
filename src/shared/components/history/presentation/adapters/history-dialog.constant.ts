@@ -1,6 +1,11 @@
+// history-dialog-table.config.ts
 import { TableConfig } from '@shared/domain/services/table-export-excel-file.service';
 
-export const HISTORY_DIALOG_TABLE_CONFIG: TableConfig = {
+/**
+ * Configuration pour le mode DIFF (comparaison avant/après)
+ * Utilisé pour les événements de type UPDATE
+ */
+export const HISTORY_DIFF_TABLE_CONFIG: TableConfig = {
     cols: [
         {
             field: 'fieldLabel',
@@ -28,4 +33,25 @@ export const HISTORY_DIALOG_TABLE_CONFIG: TableConfig = {
         },
     ],
     globalFilterFields: ['fieldLabel', 'beforeDisplay', 'afterDisplay'],
+};
+
+/**
+ * Configuration pour le mode SNAPSHOT (vue simple)
+ * Utilisé pour les événements de type CREATE et DELETE
+ */
+export const HISTORY_SNAPSHOT_TABLE_CONFIG: TableConfig = {
+    cols: [
+        {
+            field: 'fieldLabel',
+            header: 'HISTORY.DIALOG.FIELD',
+            width: '35%',
+        },
+        {
+            field: 'afterDisplay',
+            header: 'HISTORY.DIALOG.VALUE',
+            width: '65%',
+            class: 'after-value-column',
+        },
+    ],
+    globalFilterFields: ['fieldLabel', 'afterDisplay'],
 };

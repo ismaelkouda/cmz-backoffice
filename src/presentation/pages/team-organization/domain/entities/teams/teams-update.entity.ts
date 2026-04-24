@@ -3,7 +3,7 @@ import { TeamsUpdateVo } from '@pages/team-organization/domain/value-objects/tea
 export class TeamsUpdateEntity {
     constructor(
         public readonly uniqId: string,
-        public readonly code: string,
+        // public readonly code: string,
         public readonly name: string,
         public readonly description: string,
         public readonly operators: string[],
@@ -14,7 +14,7 @@ export class TeamsUpdateEntity {
     static fromVo(vo: TeamsUpdateVo): TeamsUpdateEntity {
         return new TeamsUpdateEntity(
             vo.uniqId,
-            vo.code,
+            // vo.code,
             vo.name,
             vo.description,
             vo.operators,

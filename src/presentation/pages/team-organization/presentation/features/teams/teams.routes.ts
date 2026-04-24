@@ -8,7 +8,7 @@ import {
     TEAMS_FORM,
     TEAMS_USERS,
     TEAMS_LIST,
-} from '@presentation/pages/team-organization/presentation/features/teams/teams-paths.constants';
+} from '@presentation/pages/team-organization/presentation/features/teams/teams-paths.constant';
 import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const TEAMS_ROUTES: Routes = [

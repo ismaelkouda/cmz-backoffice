@@ -1,6 +1,6 @@
 export interface TeamsUpdateApiDto {
     id: string;
-    code: string;
+    // code: string;
     name: string;
     description: string;
     operators: string[];

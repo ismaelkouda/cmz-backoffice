@@ -1,11 +1,12 @@
 import { AllFilterDto } from '@pages/finalization/application/dto/all/all-filter.dto';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class AllFilterVo {
     public readonly initiatorPhoneNumber?: string;
     public readonly uniqId?: string;
-    public readonly reportType?: string;
+    public readonly reportType?: ReportType;
     public readonly operators?: string[];
     public readonly state?: string;
     public readonly source?: string;
@@ -14,7 +15,7 @@ export class AllFilterVo {
     private constructor(props: {
         initiatorPhoneNumber?: string;
         uniqId?: string;
-        reportType?: string;
+        reportType?: ReportType;
         operators?: string[];
         state?: string;
         source?: string;

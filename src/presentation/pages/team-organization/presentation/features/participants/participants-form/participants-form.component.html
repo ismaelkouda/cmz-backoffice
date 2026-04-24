@@ -21,13 +21,30 @@
                             >
                             </app-page-title>
                         </div>
-                        <p-button
-                            [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="navigateToBack()"
-                            styleClass="p-button-danger"
-                            [attr.aria-label]="'COMMON.CLOSE' | translate"
-                        >
-                        </p-button>
+                        <div class="d-flex align-items-center gap-2">
+                            <button
+                                pButton
+                                type="submit"
+                                (click)="onSubmit()"
+                                [disabled]="form.invalid || loadingSubmit()"
+                            >
+                                @if (!loadingSubmit()) {
+                                    <i class="pi pi-check"></i>
+                                } @else {
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                }
+                                {{ 'COMMON.SAVE' | translate }}
+                            </button>
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="navigateToBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
                     </header>
 
                     <div class="row">
@@ -445,17 +462,22 @@
                                             >
                                             </p-button>
 
-                                            <p-button
-                                                label="{{
-                                                    'COMMON.SAVE' | translate
-                                                }}"
+                                            <button
+                                                pButton
                                                 type="submit"
-                                                [disabled]="form.invalid"
-                                                [attr.aria-label]="
-                                                    'COMMON.SAVE' | translate
-                                                "
+                                                [disabled]="form.invalid || loadingSubmit()"
                                             >
-                                            </p-button>
+                                                @if (!loadingSubmit()) {
+                                                    <i class="pi pi-check"></i>
+                                                } @else {
+                                                    <span
+                                                        class="spinner-border spinner-border-sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    ></span>
+                                                }
+                                                {{ 'COMMON.SAVE' | translate }}
+                                            </button>
                                         </div>
                                     </form>
                                 </div>

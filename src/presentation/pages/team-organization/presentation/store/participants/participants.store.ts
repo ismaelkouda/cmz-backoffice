@@ -14,7 +14,6 @@ import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-ma
 export class ParticipantsStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(ParticipantsFindOneFacade);
-    private readonly isPatching = signal(false);
     public readonly isEditMode = signal(false);
     private readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
@@ -65,19 +64,24 @@ export class ParticipantsStore {
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
-        if (item && Object.keys(item).length > 0) {
-            this.form.patchValue(
-                {
-                    lastName: item.lastName,
-                    firstName: item.firstName,
-                    email: item.email,
-                    phone: formatPhoneForMask(item.phone),
-                    role: item.role,
-                },
-                { emitEvent: false }
-            );
-            queueMicrotask(() => this.isPatching.set(false));
+
+        if (!item || Object.keys(item).length === 0) {
+            return;
         }
+        if (!this.form.pristine) {
+            return;
+        }
+
+        this.form.patchValue(
+            {
+                lastName: item.lastName,
+                firstName: item.firstName,
+                email: item.email,
+                phone: formatPhoneForMask(item.phone),
+                role: item.role,
+            },
+            { emitEvent: false }
+        );
     });
 
     public setMode(uniqId: string | null): void {
@@ -85,7 +89,6 @@ export class ParticipantsStore {
 
         this.facade.reset();
         this.form.reset();
-
         if (uniqId) {
             this.facade.read({ uniqId }, true);
         }

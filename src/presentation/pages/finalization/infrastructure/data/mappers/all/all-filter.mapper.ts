@@ -1,30 +1,28 @@
+import { inject, Injectable } from '@angular/core';
 import { AllFilterEntity } from '@pages/finalization/domain/entities/all/all-filter.entity';
 import { AllFilterApiDto } from '@pages/finalization/infrastructure/api/dto/all/all-filter-api.dto';
+import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 
-export function allFilterMapper(vo: AllFilterEntity): AllFilterApiDto {
-    const params: AllFilterApiDto = {} as AllFilterApiDto;
+@Injectable({
+    providedIn: 'root',
+})
+export class AllFilterMapper {
+    private readonly reportTypeMapper = inject(ReportTypeMapper);
 
-    if (vo.initiatorPhoneNumber) {
-        params.initiator_phone_number = vo.initiatorPhoneNumber;
+    map(entity: AllFilterEntity): AllFilterApiDto {
+        return {
+            ...(entity.initiatorPhoneNumber && {
+                initiator_phone_number: entity.initiatorPhoneNumber,
+            }),
+            ...(entity.uniqId && { uniq_id: entity.uniqId }),
+            ...(entity.reportType && {
+                report_type: this.reportTypeMapper.mapToDto(entity.reportType),
+            }),
+            ...(entity.operators && { operators: entity.operators }),
+            ...(entity.source && { source: entity.source }),
+            ...(entity.state && { state: entity.state }),
+            ...(entity.period?.start && { start_date: entity.period.start }),
+            ...(entity.period?.end && { end_date: entity.period.end }),
+        };
     }
-    if (vo.uniqId) {
-        params.uniq_id = vo.uniqId;
-    }
-    if (vo.reportType) {
-        params.report_type = vo.reportType;
-    }
-    if (vo.operators) {
-        params.operators = vo.operators;
-    }
-    if (vo.source) {
-        params.source = vo.source;
-    }
-    if (vo.period?.start) {
-        params.start_date = vo.period.start;
-    }
-    if (vo.period?.end) {
-        params.end_date = vo.period.end;
-    }
-
-    return params;
 }

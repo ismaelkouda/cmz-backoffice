@@ -11,7 +11,7 @@ import { profilesPermissionsCreateMapper } from '@pages/settings-security/infras
 import { profilesPermissionsDeleteMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-delete.mapper';
 import { profilesPermissionsDisableMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-disable.mapper';
 import { profilesPermissionsEnableMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-enable.mapper';
-import { profilesPermissionsFilterMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-filter.mapper';
+import { ProfilesPermissionsFilterMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-filter.mapper';
 import { profilesPermissionsUpdateMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-update.mapper';
 import { ProfilesPermissionsMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions.mapper';
 import { ProfilesPermissionsApi } from '@pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions.api';
@@ -27,12 +27,13 @@ import { map, Observable } from 'rxjs';
 export class ProfilesPermissionsRepositoryImpl implements ProfilesPermissionsRepository {
     private readonly api = inject(ProfilesPermissionsApi);
     private readonly mapper = inject(ProfilesPermissionsMapper);
+    private readonly mapperFilter = inject(ProfilesPermissionsFilterMapper);
 
     execute(
         entity: ProfilesPermissionsFilterEntity,
         page: string
     ): Observable<Paginate<ProfilesPermissionsEntity>> {
-        const paramsDto = profilesPermissionsFilterMapper(entity);
+        const paramsDto = this.mapperFilter.map(entity);
         return this.api
             .readAll(paramsDto, page)
             .pipe(map((response) => this.mapper.mapFromDto(response)));

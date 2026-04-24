@@ -26,7 +26,6 @@ export class HomeFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(HomeFindOneFacade);
 
-    private readonly isPatching = signal(false);
     private readonly imageError = signal<string | null>(null);
     public readonly imageFile = signal<File | string | null>(null);
 
@@ -66,10 +65,14 @@ export class HomeFormStore {
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
-        if (!item) {
+
+        if (!item || Object.keys(item).length === 0) {
             return;
         }
-        this.isPatching.set(true);
+        if (!this.form.pristine) {
+            return;
+        }
+
         this.form.patchValue(
             {
                 title: item.title,
@@ -88,7 +91,6 @@ export class HomeFormStore {
         } else {
             this.resetImage();
         }
-        queueMicrotask(() => this.isPatching.set(false));
     });
 
     private async handleExistingImage(url: string): Promise<void> {
@@ -259,6 +261,5 @@ export class HomeFormStore {
         this.imageFile.set(null);
         this.imageError.set(null);
         this.isEditMode.set(false);
-        this.isPatching.set(false);
     }
 }

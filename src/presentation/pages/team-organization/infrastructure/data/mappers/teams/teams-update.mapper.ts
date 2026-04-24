@@ -8,9 +8,9 @@ export function teamsUpdateMapper(
 
     params['id'] = entity.uniqId;
 
-    if (entity.code) {
-        params['code'] = entity.code;
-    }
+    // if (entity.code) {
+    //     params['code'] = entity.code;
+    // }
 
     if (entity.name) {
         params['name'] = entity.name;

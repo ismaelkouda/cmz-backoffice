@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { QueuesFilterDto } from '@pages/processing/application/dto/queues/queues-filter.dto';
 import { QueuesFacade } from '@pages/processing/application/services/queues/queues.facade';
 import { QueuesFilterControl } from '@pages/processing/presentation/store/queues/queues-filter-control';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()
 export class QueuesFilterStore {
@@ -22,7 +23,7 @@ export class QueuesFilterStore {
             uniqId: new FormControl<string>('', {
                 nonNullable: true,
             }),
-            reportType: new FormControl<string | null>(null, {
+            reportType: new FormControl<ReportType | null>(null, {
                 nonNullable: true,
             }),
             operators: new FormControl<string[]>([], {
