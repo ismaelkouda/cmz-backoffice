@@ -48,7 +48,8 @@
             !isSearching() &&
             searchQuery().length >= 3 &&
             searchResults().length === 0 &&
-            !error()
+            !error() &&
+            !hasParsedCoordinates()
         ) {
             <div class="no-results">
                 <i class="pi pi-info-circle"></i>

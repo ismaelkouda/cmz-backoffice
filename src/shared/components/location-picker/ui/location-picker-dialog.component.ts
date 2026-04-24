@@ -31,7 +31,10 @@ import { LocationCoordinates } from '../models/location-coordinates.model';
 import { LocationPickerData } from '../models/location-picker-data.model';
 import { GeoProxyService } from '../services/geo-proxy.service';
 import { GEO_SERVICE } from '../services/geo.service';
-import { formatCoordinatesString } from '../utils/coordinates.utils';
+import {
+    formatCoordinatesString,
+    parseCoordinates,
+} from '../utils/coordinates.utils';
 import { isMobile } from '../utils/lat-lng.utils';
 
 @Component({
@@ -64,6 +67,7 @@ export class LocationPickerDialogComponent implements OnDestroy {
     readonly searchResults = signal<GeocodeResult[]>([]);
     readonly isSearching = signal(false);
     readonly error = signal<string | null>(null);
+    readonly hasParsedCoordinates = signal(false);
     readonly isMobile = signal(isMobile());
 
     readonly initialCoordinates = signal<Coordinates | null>(null);
@@ -112,15 +116,41 @@ export class LocationPickerDialogComponent implements OnDestroy {
     }
 
     onSearchChange(): void {
-        const query = this.searchQuery();
+        const query = this.searchQuery().trim();
+
+        const coords = parseCoordinates(query);
+
+        if (coords) {
+            this.facade.setCoordinates(coords);
+            this.searchResults.set([]);
+            this.error.set(null);
+            this.isSearching.set(false);
+            this.searchSubject.next('');
+            this.hasParsedCoordinates.set(true);
+            return;
+        }
+        this.hasParsedCoordinates.set(false);
+
         if (query.length < 3) {
             this.searchResults.set([]);
             this.error.set(null);
+            return;
         }
+
         this.searchSubject.next(query);
     }
+
     onMapCoordinatesChange(coords: LocationCoordinates): void {
         this.facade.setCoordinates(coords);
+    }
+    onSelectSearchResult(result: GeocodeResult): void {
+        this.facade.setCoordinates({
+            latitude: result.point.latitude,
+            longitude: result.point.longitude,
+            address: result.displayName,
+        });
+        this.searchResults.set([]);
+        this.searchQuery.set(result.displayName);
     }
     onValidate(): void {
         const coords = this.facade.coordinates();
