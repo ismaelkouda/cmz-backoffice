@@ -1,12 +1,18 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2026-04-16T18:06:47.475Z
+// Generated at: 2026-04-24T15:34:32.245Z
 
 export interface AppConfig {
     authenticationUrl: string;
     reportUrl: string;
     settingUrl: string;
     fileUrl: string;
-    environmentDeployment: 'DEV' | 'CLOUD' | 'CMZ_DEV' | 'TEST' | 'PROD';
+    environmentDeployment:
+        | 'DEV'
+        | 'CLOUD'
+        | 'CMZ_DEV'
+        | 'CMZ_PROD'
+        | 'TEST'
+        | 'PROD';
     enableDebug: boolean;
     messageApp?: {
         sourceStockTenantSim: string;
@@ -91,6 +97,33 @@ export const ENVIRONMENTS = {
         settingUrl:
             'https://api-services.mazone-test.ansut.ci/base-settings/v1.0/backoffice/',
         fileUrl: 'https://api-services.mazone-test.ansut.ci/auth/backoffice/',
+        environmentDeployment: 'DEV',
+        enableDebug: true,
+        messageApp: {
+            sourceStockTenantSim:
+                'Le système utilisera une SIM blanche du Stock du Tenant',
+            sourceStockOrangeSim: 'Orange fournira la SIM...',
+            sourceSoldeDotation: 'Le solde de la dotation Data...',
+            sourceSoldeDotationOrange: 'Orange fera le dépôt...',
+        },
+        appSettings: {
+            appName: 'Connect My Zone',
+            appLogoFull: 'assets/images/logo/logo-ansut-full.png',
+            appLogoIcon: 'assets/images/favicon.png',
+            appPrimaryColor: '#2256A3',
+            appSecondaryColor: '#F08224',
+            appTertiaryColor: '#FFFFFF',
+        },
+    },
+    cmz_prod: {
+        authenticationUrl:
+            'https://api-services.connecte-ma-zone.ansut.ci/auth/v1.0/backoffice/',
+        reportUrl:
+            'https://api-services.connecte-ma-zone.ansut.ci/reports/v1.0/backoffice/',
+        settingUrl:
+            'https://api-services.connecte-ma-zone.ansut.ci/base-settings/v1.0/backoffice/',
+        fileUrl:
+            'https://api-services.connecte-ma-zone.ansut.ci/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
         messageApp: {

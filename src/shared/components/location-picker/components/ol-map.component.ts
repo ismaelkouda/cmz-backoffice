@@ -58,13 +58,37 @@ export class OlMapComponent implements OnDestroy {
         effect(() => {
             const container = this.mapContainer();
             const coords = this.initialCoords();
-            if (container && !this.map && coords) {
-                const olCoord = toOlCoordinate(
-                    coords.latitude,
-                    coords.longitude
-                );
-                this.initMap(container.nativeElement, olCoord);
+
+            if (container && coords) {
+                if (!this.map) {
+                    const olCoord = toOlCoordinate(
+                        coords.latitude,
+                        coords.longitude
+                    );
+                    this.initMap(container.nativeElement, olCoord);
+                } else {
+                    this.moveMapToCoordinates(
+                        coords.latitude,
+                        coords.longitude
+                    );
+                }
             }
+        });
+    }
+
+    private moveMapToCoordinates(lat: number, lng: number): void {
+        if (!this.map) {
+            return;
+        }
+
+        const olCoord = toOlCoordinate(lat, lng);
+
+        this.moveMarkerTo(lat, lng);
+
+        this.map.getView().animate({
+            center: olCoord,
+            duration: 500,
+            zoom: this.initialZoom(),
         });
     }
 
@@ -172,8 +196,29 @@ export class OlMapComponent implements OnDestroy {
     }
 
     private handleMapClick(evt: any): void {
-        const { latitude, longitude } = fromOlCoordinate(evt.coordinate);
+        this.syncPosition(evt.coordinate);
+    }
+
+    private syncPosition(coord: [number, number]): void {
+        const { latitude, longitude } = fromOlCoordinate(coord);
+
+        this.moveMarkerTo(latitude, longitude);
         this.emitCoordinates(latitude, longitude);
+
+        this.map?.getView().animate({
+            center: coord,
+            duration: 300,
+        });
+    }
+
+    private moveMarkerTo(lat: number, lng: number): void {
+        if (!this.markerFeature) {
+            return;
+        }
+
+        const olCoord = toOlCoordinate(lat, lng);
+
+        this.markerFeature.getGeometry()?.setCoordinates(olCoord);
     }
 
     private handleDragEnd(): void {

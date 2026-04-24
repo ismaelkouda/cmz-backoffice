@@ -34,3 +34,52 @@ export function formatCoordinatesString(
 ): string {
     return `${latitude.toFixed(precision)}, ${longitude.toFixed(precision)}`;
 }
+
+export function parseCoordinates(query: string): Coordinates | null {
+    const cleaned = query
+        .replace(/[°'"′″]/g, ' ')
+        .replace(/,/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    const decimalMatch = cleaned.match(/^(-?\d+\.?\d*)\s+(-?\d+\.?\d*)$/);
+    if (decimalMatch) {
+        const lat = parseFloat(decimalMatch[1]);
+        const lng = parseFloat(decimalMatch[2]);
+        if (isValidCoordinates(lat, lng)) {
+            return { latitude: lat, longitude: lng };
+        }
+    }
+
+    const dmsMatch = cleaned.match(
+        /^(\d+)\s+(\d+)\s+(\d+(?:\.\d+)?)\s*([NS]?)\s+(\d+)\s+(\d+)\s+(\d+(?:\.\d+)?)\s*([EW]?)$/i
+    );
+
+    if (dmsMatch) {
+        const latDeg = parseInt(dmsMatch[1]);
+        const latMin = parseInt(dmsMatch[2]);
+        const latSec = parseFloat(dmsMatch[3]);
+        const latDir = (dmsMatch[4] || '').toUpperCase();
+
+        const lngDeg = parseInt(dmsMatch[5]);
+        const lngMin = parseInt(dmsMatch[6]);
+        const lngSec = parseFloat(dmsMatch[7]);
+        const lngDir = (dmsMatch[8] || '').toUpperCase();
+
+        let lat = latDeg + latMin / 60 + latSec / 3600;
+        let lng = lngDeg + lngMin / 60 + lngSec / 3600;
+
+        if (latDir === 'S') {
+            lat = -lat;
+        }
+        if (lngDir === 'W') {
+            lng = -lng;
+        }
+
+        if (isValidCoordinates(lat, lng)) {
+            return normalizeCoordinates(lat, lng);
+        }
+    }
+
+    return null;
+}

@@ -23,6 +23,7 @@ import {
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { TABS } from '@shared/components/management/domain/constants/management-tabs.contant';
+import { CallbackTypes } from '@shared/components/management/domain/enums/management-callback.enum';
 import { Motifs } from '@shared/components/management/domain/enums/management-motif.enum';
 import { ManagementStateService } from '@shared/components/management/domain/services/management-state.service';
 import { ManagementValidationService } from '@shared/components/management/domain/services/management-validation.service';
@@ -34,6 +35,7 @@ import { ManagementMapComponent } from '@shared/components/management/presentati
 import { ManagementPhotosPanelComponent } from '@shared/components/management/presentation/management-photos-panel.component.html/management-photos-panel.component';
 import { ManagementSidebarComponent } from '@shared/components/management/presentation/management-sidebar/management-sidebar.component';
 import { ManagementTreatmentFormComponent } from '@shared/components/management/presentation/management-treatment-form/management-treatment-form.component';
+import { ManagementFormStore } from '@shared/components/management/presentation/store/management-form.store';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { LocationName } from '@shared/domain/enums/location-name.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
@@ -50,9 +52,6 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import SweetAlert from 'sweetalert2';
-
-import { CallbackTypes } from '../../domain/enums/management-callback.enum';
-import { ManagementFormStore } from '../store/management-form.store';
 
 @Component({
     selector: 'app-management-dialog',

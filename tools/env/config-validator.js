@@ -5,7 +5,7 @@ const configSchema = Joi.object({
     reportUrl: Joi.string().uri().required(),
     settingUrl: Joi.string().uri().required(),
     fileUrl: Joi.string().uri().required(),
-    environmentDeployment: Joi.string().valid('DEV', 'CLOUD', 'CMZ_DEV', 'TEST', 'PROD').required(),
+    environmentDeployment: Joi.string().valid('DEV', 'CLOUD', 'CMZ_DEV', 'CMZ_PROD', 'PROD').required(),
     enableDebug: Joi.boolean().required(),
     messageApp: Joi.object({
         sourceStockTenantSim: Joi.string().required(),
@@ -48,7 +48,7 @@ export interface AppConfig {
     reportUrl: string;
     settingUrl: string;
     fileUrl: string;
-    environmentDeployment: 'DEV' | 'CLOUD' | 'CMZ_DEV' | 'TEST' | 'PROD';
+    environmentDeployment: 'DEV' | 'CLOUD' | 'CMZ_DEV' | 'CMZ_PROD' | 'PROD';
     enableDebug: boolean;
     messageApp?: {
         sourceStockTenantSim: string;

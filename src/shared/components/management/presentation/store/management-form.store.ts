@@ -6,10 +6,9 @@ import {
     Validators,
 } from '@angular/forms';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
+import { ManagementEntityType } from '@shared/components/management/domain/types/management-entity.type';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 import { MediaValue } from '@shared/domain/types/media.types';
-
-import { ManagementEntityType } from '../../domain/types/management-entity.type';
 
 @Injectable({ providedIn: 'root' })
 export class ManagementFormStore {
@@ -170,16 +169,32 @@ export class ManagementFormStore {
         const callbackControl = this.form.get('callbackType');
         const reasonControl = this.form.get('reason');
 
+        const requiredFields = [
+            'coordinates',
+            'locationName',
+            'reportType',
+            'description',
+            'operators',
+            'placeDescription',
+            'placePhoto',
+            'comment',
+        ] as const;
+
+        const callbackRequiredFields = [
+            'callbackType',
+            ...requiredFields,
+        ] as const;
+
         if (!callbackControl || !reasonControl) {
             return;
         }
 
         if (approvalType !== 'callback') {
             callbackControl.reset('');
+            callbackControl.clearValidators();
             callbackControl.disable();
         } else {
             callbackControl.enable();
-            callbackControl.setValidators([Validators.required]);
         }
 
         if (decision === 'accepted') {
@@ -191,8 +206,28 @@ export class ManagementFormStore {
             reasonControl.setValidators([Validators.required]);
         }
 
-        callbackControl.updateValueAndValidity();
-        reasonControl.updateValueAndValidity();
+        ['callbackType', ...requiredFields].forEach((field) => {
+            const control = this.form.get(field);
+            control?.clearValidators();
+        });
+
+        if (decision === 'accepted') {
+            const fieldsToRequire =
+                approvalType === 'callback'
+                    ? callbackRequiredFields
+                    : approvalType === 'edit'
+                      ? requiredFields
+                      : [];
+
+            fieldsToRequire.forEach((field) => {
+                const control = this.form.get(field);
+                control?.setValidators([Validators.required]);
+                control?.updateValueAndValidity({ emitEvent: false });
+            });
+        }
+
+        callbackControl.updateValueAndValidity({ emitEvent: false });
+        reasonControl.updateValueAndValidity({ emitEvent: false });
     });
 
     public setApprovalType(type: 'edit' | 'callback' | 'details'): void {

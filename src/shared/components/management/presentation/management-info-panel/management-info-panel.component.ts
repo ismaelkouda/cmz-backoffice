@@ -70,11 +70,17 @@ export class ManagementInfoPanelComponent {
 
     readonly coordinates = computed(() => {
         const coords = this.coordinatesSignal();
-        const currentItem = this.item();
 
-        return coords && currentItem?.location?.coordinates
-            ? `${coords.latitude}, ${coords.longitude}`
-            : `${currentItem?.location?.coordinates.latitude}, ${currentItem?.location?.coordinates.longitude}`;
+        if (coords === null) {
+            return '';
+        }
+
+        const fallback = this.item()?.location?.coordinates;
+        const finalCoords = coords ?? fallback;
+
+        return finalCoords
+            ? `${finalCoords.latitude}, ${finalCoords.longitude}`
+            : '';
     });
 
     protected readonly formErrors = computed(() => this.store.formErrors());

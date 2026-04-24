@@ -13,10 +13,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
+import { ManagementFormStore } from '@shared/components/management/presentation/store/management-form.store';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
-
-import { ManagementFormStore } from '../store/management-form.store';
 
 @Component({
     selector: 'app-management-treatment-form',
