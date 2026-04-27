@@ -6,6 +6,6 @@ export interface TeamsParticipantsProps {
     firstName: string;
     email: string;
     phone: string;
-    role: Roles;
+    role: Roles | null;
     updatedAt: string;
 }

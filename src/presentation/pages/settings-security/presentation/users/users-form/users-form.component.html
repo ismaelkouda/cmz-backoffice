@@ -21,7 +21,7 @@
                             >
                             </app-page-title>
                         </div>
-                        
+
                         <div class="d-flex align-items-center gap-2">
                             <button
                                 pButton
@@ -403,6 +403,7 @@
                                                         [loading]="
                                                             loadingProfiles()
                                                         "
+                                                        showClear="true"
                                                         filter="false"
                                                         filterBy="label"
                                                         styleClass="w-100"
@@ -511,7 +512,9 @@
                                             </div>
                                         </fieldset>
 
-                                        <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
                                             <p-button
                                                 label="{{
                                                     'COMMON.CANCEL' | translate
@@ -527,7 +530,10 @@
                                             <button
                                                 pButton
                                                 type="submit"
-                                                [disabled]="form.invalid || loadingSubmit()"
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
                                             >
                                                 @if (!loadingSubmit()) {
                                                     <i class="pi pi-check"></i>

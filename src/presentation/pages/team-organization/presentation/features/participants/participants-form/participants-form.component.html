@@ -62,7 +62,10 @@
                                     >
                                         <fieldset class="fieldset">
                                             <legend>
-                                                <b>{{ 'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.TITLE' | translate }}</b>
+                                                <b>{{
+                                                    'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.TITLE'
+                                                        | translate
+                                                }}</b>
                                             </legend>
                                             <div class="row g-3">
                                                 <div class="col-md-4">
@@ -462,7 +465,10 @@
                                             <button
                                                 pButton
                                                 type="submit"
-                                                [disabled]="form.invalid || loadingSubmit()"
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
                                             >
                                                 @if (!loadingSubmit()) {
                                                     <i class="pi pi-check"></i>

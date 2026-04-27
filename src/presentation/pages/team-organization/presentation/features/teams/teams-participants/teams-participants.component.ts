@@ -249,7 +249,6 @@ export class TeamsParticipantsComponent implements OnInit {
 
     protected readonly role = signal<Roles | null>(null);
     private onAssignRoleSelected(role: Roles): void {
-        console.log('role: ', role);
         this.role.set(role);
         this.openAssignRequested.set(true);
         this.participantsSelectFacade.readAll(true);
@@ -401,6 +400,7 @@ export class TeamsParticipantsComponent implements OnInit {
         }
         this.facade.assign({
             uniqId: this.uniqId(),
+            role: this.role() || Roles.AGENT,
             ...this.assignForm.getRawValue(),
         });
     }

@@ -34,7 +34,7 @@ export class TeamsParticipantsApi {
     ): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${dto.uniq_id}/affect-members`;
         const payload = buildHttpPayload(dto, ['uniq_id']);
-        return this.http.put<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 
     reassign(

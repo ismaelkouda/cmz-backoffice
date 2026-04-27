@@ -9,7 +9,7 @@ export interface UsersProps {
     email: string;
     phone: string;
     profile: string;
-    role: Roles;
+    role: Roles | null;
     status: Status;
     updatedAt: string;
 }

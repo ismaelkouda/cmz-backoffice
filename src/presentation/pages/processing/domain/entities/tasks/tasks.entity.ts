@@ -4,7 +4,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
-export class TasksEntity implements TasksProps {
+export class TasksEntity {
     constructor(private readonly props: TasksProps) {}
 
     get type(): TypeReport {

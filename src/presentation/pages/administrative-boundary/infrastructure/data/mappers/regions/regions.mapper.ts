@@ -26,6 +26,7 @@ export class RegionsMapper extends PaginatedMapper<
             populationSize: dto.population_size,
             departmentsCount: dto.departments_count,
             municipalitiesCount: dto.municipalities_count,
+            infrastructureCount: dto.infrastructure_size,
             status: this.statusMapper.mapApiToStatus(dto.is_active),
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,

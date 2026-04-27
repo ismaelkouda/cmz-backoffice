@@ -58,6 +58,8 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
+import { ActionsTreatmentPresenter } from '../adapters/tasks/actions-treatment/actions-treatment-vm.presenter';
+
 @Component({
     selector: 'app-actions-treatment',
     standalone: true,
@@ -102,6 +104,14 @@ export class ActionsTreatmentComponent implements OnInit {
     );
 
     public readonly tableConfig = TASKS_ACTIONS_TABLE;
+
+    readonly presenter = new ActionsTreatmentPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    readonly itemsVM = computed(() => {
+        this.currentLang();
+        return this.items().map((item) => this.presenter.map(item));
+    });
     private lastSuccess = this.facade.actionSuccess();
     public readonly displayModal = signal<boolean>(false);
     private readonly openRequested = signal(false);
@@ -109,7 +119,6 @@ export class ActionsTreatmentComponent implements OnInit {
     public readonly selectedManagementType = signal<TypeReport>(
         TypeReport.PROCESSING
     );
-
     private readonly editingItemId = signal<string | null>(null);
     public readonly isEditMode = computed(() => this.editingItemId() !== null);
     public readonly modalTitle = computed(() =>
@@ -437,10 +446,10 @@ export class ActionsTreatmentComponent implements OnInit {
         }).then((res) => {
             if (res.isConfirmed) {
                 if (this.isEditMode()) {
-                    // this.facade.update({
-                    //     ...basePayload,
-                    //     uniqId: this.editingItemId()!,
-                    // });
+                    this.facade.update({
+                        ...basePayload,
+                        uniqId: this.editingItemId() ?? '',
+                    });
                 } else {
                     this.facade.create(basePayload);
                 }

@@ -76,12 +76,10 @@ export class SlideFormStore {
     public readonly hasImage = computed(() => !!this.imageFile());
 
     public readonly isVideoMode = computed(() => {
-        const type = this.typeControl();
-        return type === VIDEO;
+        return this.typeControl() === VIDEO;
     });
     public readonly isImageMode = computed(() => {
-        const type = this.typeControl();
-        return type === IMAGE;
+        return this.typeControl() === IMAGE;
     });
 
     public readonly item = this.facade.items;

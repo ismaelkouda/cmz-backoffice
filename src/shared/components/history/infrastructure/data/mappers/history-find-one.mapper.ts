@@ -25,7 +25,7 @@ export class HistoryFindOneMapper extends SimpleResponseMapper<
     ): HistoryFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
 
-        const changes = this.dataParser.parseByEvent(dto.event, dto.data);
+        const changes = this.dataParser.parseByEvent(dto.type_action, dto.data);
 
         const user = this.utils.memoized(dto.initiator, (i) =>
             this.actorMapper.mapToEntity(i)
@@ -34,7 +34,7 @@ export class HistoryFindOneMapper extends SimpleResponseMapper<
         const props: HistoryFindOneProps = {
             uniqId: dto.id,
             createdAt: dto.created_at,
-            event: mapToHistoryEventType(dto.event),
+            event: mapToHistoryEventType(dto.type_action),
             rawEvent: dto.type_action,
             action: dto.action,
             module: dto.module,

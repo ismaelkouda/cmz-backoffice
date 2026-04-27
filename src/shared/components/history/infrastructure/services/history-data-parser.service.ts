@@ -73,21 +73,13 @@ export class HistoryDataParserService {
         }
     }
 
-    /**
-     * Normalise une valeur pour l'affichage
-     * Retourne une chaîne de caractères formatée
-     * @param value
-     * @param locale
-     */
     normalizeValue(value: unknown, locale = 'fr'): string {
         if (value === null || value === undefined) {
             return 'N/A';
         }
 
-        // Handle objects
         if (typeof value === 'object' && !Array.isArray(value)) {
             const obj = value as Record<string, unknown>;
-            // Extraction intelligente du nom
             if (obj['nom']) {
                 return String(obj['nom']);
             }
@@ -103,27 +95,14 @@ export class HistoryDataParserService {
             return JSON.stringify(obj);
         }
 
-        // Handle arrays
-        if (Array.isArray(value)) {
-            if (value.length === 0) {
-                return 'Vide';
-            }
-            return value
-                .map((item) => this.normalizeValue(item, locale))
-                .join(', ');
-        }
-
-        // Handle dates
         if (typeof value === 'string' && this.isDateString(value)) {
             return this.formatDate(value, locale);
         }
 
-        // Handle boolean
         if (typeof value === 'boolean') {
             return value ? 'Oui' : 'Non';
         }
 
-        // Handle numbers
         if (typeof value === 'number') {
             return value.toLocaleString(locale);
         }

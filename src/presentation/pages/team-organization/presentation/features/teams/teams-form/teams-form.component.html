@@ -637,7 +637,10 @@
                                             <button
                                                 pButton
                                                 type="submit"
-                                                [disabled]="form.invalid || loadingSubmit()"
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
                                             >
                                                 @if (!loadingSubmit()) {
                                                     <i class="pi pi-check"></i>

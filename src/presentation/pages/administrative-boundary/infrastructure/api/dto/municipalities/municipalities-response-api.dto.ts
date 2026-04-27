@@ -8,6 +8,7 @@ export interface MunicipalitiesItemApiDto {
     description: string;
     region: AdministrativeBoundaryDto;
     department: AdministrativeBoundaryDto;
+    infrastructure_size: number;
     population_size: number;
     is_active: boolean;
     created_by: string;

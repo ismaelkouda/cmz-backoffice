@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
     TasksActionsEntity,
-    TasksActionsProps,
     TasksActionsType,
 } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
 import { TasksActionsItemApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-response-api.dto';
+import { TasksActionsProps } from '@presentation/pages/processing/domain/interfaces/tasks/tasks-actions/tasks-actions-props.interface';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

@@ -20,6 +20,7 @@
     <ng-template pTemplate="caption">
         <div class="container-table-header">
             <app-table-title
+                [hiddenTableTitle]="hiddenTableTitle()"
                 [count]="pagination()?.total"
                 [perPage]="pagination()?.per_page"
                 [page]="pagination()?.current_page"
@@ -242,14 +243,18 @@
                                 </div>
                             }
                             @case ('roleLabel') {
-                                <div class="tag-group status-group">
-                                    <p-badge
-                                        [value]="rowData.roleLabel"
-                                        [severity]="
-                                            rowData.roleStyle | translate
-                                        "
-                                    />
-                                </div>
+                                @if (rowData.roleLabel) {
+                                    <div class="tag-group status-group">
+                                        <p-badge
+                                            [value]="rowData.roleLabel"
+                                            [severity]="
+                                                rowData.roleStyle | translate
+                                            "
+                                        />
+                                    </div>
+                                } @else {
+                                    <span class="no-data">-</span>
+                                }
                             }
                             @case ('reportedAt') {
                                 <time [attr.datetime]="rowData.reportedAt">
@@ -308,11 +313,11 @@
                                                     )
                                                 "
                                                 [pTooltip]="
-                                                    getTooltip(action, rowData)
+                                                    getTooltip(action.id, rowData)
                                                 "
                                                 tooltipPosition="bottom"
                                                 [escape]="false"
-                                                [disabled]="loading()"
+                                                [disabled]="loading() || disabledButton(action.id, rowData)"
                                                 size="small"
                                                 class="action-btn"
                                                 [class]="action.class"
@@ -324,8 +329,12 @@
                             @case ('__actionDropdown') {
                                 <app-action-dropdown
                                     [disabled]="loading()"
-                                    [disableDelete]="rowData.disableDropdownDelete"
-                                    [hiddenDelete]="rowData.hiddenDropdownDelete"
+                                    [disableDelete]="
+                                        rowData.disableDropdownDelete
+                                    "
+                                    [hiddenDelete]="
+                                        rowData.hiddenDropdownDelete
+                                    "
                                     [status]="getItemStatus(rowData)"
                                     (edit)="onEdit(rowData)"
                                     (view)="onView(rowData)"

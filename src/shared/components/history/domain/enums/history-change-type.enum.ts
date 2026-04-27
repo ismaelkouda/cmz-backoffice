@@ -46,6 +46,7 @@ export function getChangeStyle(
 }
 
 export function getChangeLabelKey(type: HistoryChangeType): string {
+    console.log('type: ', type);
     switch (type) {
         case HistoryChangeType.ADDED:
             return 'HISTORY.CHANGE.ADDED';

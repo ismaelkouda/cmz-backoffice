@@ -7,7 +7,7 @@ export interface ParticipantsProps {
     firstName: string;
     email: string;
     phone: string;
-    role: Roles;
+    role: Roles | null;
     status: Status;
     updatedAt: string;
 }

@@ -8,6 +8,7 @@ import {
     inject,
     Signal,
     signal,
+    untracked,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -28,6 +29,7 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { Platform } from '@shared/domain/enums/platform.enum';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
+import { MediaValue } from '@shared/domain/types/media.types';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -73,19 +75,15 @@ import SweetAlert from 'sweetalert2';
         ToastModule,
         TooltipModule,
     ],
-    providers: [
-        SlideFormHelperService,
-        MessageService,
-        SlideFormStore,
-        ImageUploadStateService,
-    ],
+    providers: [SlideFormHelperService, MessageService, SlideFormStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SlideFormComponent {
-    public readonly instanceId = signal('SlideFormComponent');
+    public readonly instanceId = 'slide-form-image';
+
     protected readonly store = inject(SlideFormStore);
     private readonly imageStore = inject(ImageUploadStateService);
-    protected readonly imageState = this.imageStore.getStore(this.instanceId());
+
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
@@ -93,19 +91,46 @@ export class SlideFormComponent {
     private readonly helper = inject(SlideFormHelperService);
     private readonly validation = inject(FormValidationService);
 
-    readonly previewVisible = signal(false);
+    public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
 
     public readonly form = this.store.form;
     public readonly loading = this.store.loading;
     public readonly isEditMode = this.store.isEditMode;
+    public readonly item = this.store.item;
     public readonly isVideoMode = this.store.isVideoMode;
     public readonly isImageMode = this.store.isImageMode;
 
-    public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
+    readonly previewVisible = signal(false);
 
-    private readonly currentLang = signal<string>(
-        this.translate.getCurrentLang()
+    readonly imageVm = computed(() => this.imageStore.connect(this.instanceId));
+
+    readonly cropperState = computed(() =>
+        this.imageStore.getStore(this.instanceId)()
     );
+
+    readonly imageSignal = toSignal(this.form.controls.image.valueChanges, {
+        initialValue: this.form.controls.image.value,
+    });
+
+    readonly image = computed((): MediaValue | string | undefined => {
+        const formImage = this.imageSignal();
+        const item = this.item();
+
+        return formImage ?? item?.image;
+    });
+
+    protected readonly hasPhotos = computed((): boolean => {
+        return !!this.image();
+    });
+
+    readonly isIdle = computed(() => !this.imageVm().hasImage());
+    readonly hasError = computed(() => this.imageVm().hasError());
+    readonly hasImage = computed(() => this.imageVm().hasImage());
+    readonly fileName = computed(() => this.imageVm().fileName() ?? null);
+    readonly fileSize = computed(() => this.imageVm().fileSize() ?? null);
+    readonly previewUrl = computed(() => this.imageVm().previewUrl());
+
+    private readonly currentLang = signal(this.translate.getCurrentLang());
 
     readonly typeOptions = computed(() =>
         enumToFilterOptions(TypeMedia, (key) => this.translate.instant(key))
@@ -115,35 +140,100 @@ export class SlideFormComponent {
         enumToFilterOptions(Platform, (key) => this.translate.instant(key))
     );
 
-    private readonly uniqId: Signal<string> = toSignal(
+    readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
-            map(
-                (params: Record<string, unknown>) =>
-                    (params['uniqId'] as string) || ''
-            ),
+            map((params) => (params['uniqId'] as string) || ''),
             tap((uniqId) => this.store.setEditMode(uniqId)),
             takeUntilDestroyed(this.destroyRef)
         ),
         { initialValue: '' }
     );
 
+    private previousDetailsType = false;
+
     constructor() {
+        this.initializeLanguageListener();
+        this.initializeImageHydration();
+    }
+
+    private resetImage(): void {
+        effect(() => {
+            const current = this.store.isImageMode();
+
+            if (current && !this.previousDetailsType) {
+                untracked(() => {
+                    this.onImageCleared();
+                });
+            }
+
+            this.previousDetailsType = current;
+        });
+    }
+
+    private initializeLanguageListener(): void {
         this.translate.onLangChange
             .pipe(takeUntilDestroyed())
-            .subscribe((lang) => this.currentLang.set(lang.lang));
+            .subscribe((lang) => {
+                this.currentLang.set(lang.lang);
+            });
+    }
 
+    private initializeImageHydration(): void {
         effect(() => {
-            const item = this.store.item();
-            if (!item) {
+            const item = this.item();
+            const formImage = this.imageSignal();
+            const previewUrl = this.imageVm().previewUrl();
+
+            if (previewUrl) {
                 return;
             }
-            this.imageStore.hydrate(this.instanceId(), item.image);
+
+            if (formImage?.type === 'remote' && formImage.url) {
+                this.imageStore.hydrate(this.instanceId, formImage.url);
+                return;
+            }
+
+            if (formImage?.type === 'local' && formImage.file) {
+                this.imageStore.setPreviewFromFile(
+                    this.instanceId,
+                    formImage.file
+                );
+                return;
+            }
+
+            if (item?.image) {
+                this.imageStore.hydrate(this.instanceId, item.image);
+            }
         });
     }
 
     public getErrorMessage(field: string): string {
         const control = this.form.get(field);
         return this.validation.getErrorMessage(field, control?.errors || null);
+    }
+
+    public isFieldInvalid(fieldName: string): boolean {
+        const control = this.form.get(fieldName);
+        return !!(control?.invalid && control?.touched);
+    }
+
+    public get allowedImageTypes(): string {
+        return FormValidators.IMAGE.ALLOWED_TYPES.map((t) =>
+            t.split('/')[1].toUpperCase()
+        ).join(', ');
+    }
+
+    public get allowed(): typeof FormValidators {
+        return FormValidators;
+    }
+
+    public getContentCharacterCount(): number {
+        const content = this.form.get('content')?.value || '';
+        return content.replaceAll(/<[^>]*>/g, '').trim().length;
+    }
+
+    public get typeMedia(): typeof TypeMedia {
+        return TypeMedia;
     }
 
     onSubmit(): void {
@@ -174,33 +264,9 @@ export class SlideFormComponent {
         });
     }
 
-    public get allowedImageTypes(): string {
-        return FormValidators.IMAGE.ALLOWED_TYPES.map((t) =>
-            t.split('/')[1].toUpperCase()
-        ).join(', ');
-    }
-
-    public get allowed(): typeof FormValidators {
-        return FormValidators;
-    }
-
-    public get typeMedia(): typeof TypeMedia {
-        return TypeMedia;
-    }
-
-    public getContentCharacterCount(): number {
-        const content = this.form.get('content')?.value || '';
-        return content.replaceAll(/<[^>]*>/g, '').trim().length;
-    }
-
-    public isFieldInvalid(fieldName: string): boolean {
-        const control = this.form.get(fieldName);
-        return !!(control?.invalid && control?.touched);
-    }
-
     public onCropConfirmed(event: Blob): void {
-        this.imageStore.confirmCrop(this.instanceId(), event);
-        const file = this.imageStore.getCurrentFile(this.instanceId());
+        this.imageStore.confirmCrop(this.instanceId, event);
+        const file = this.imageStore.getCurrentFile(this.instanceId);
         if (file) {
             this.store.setImage(file);
         }
@@ -214,31 +280,31 @@ export class SlideFormComponent {
 
     protected onImageCleared(): void {
         this.store.resetImage();
-        this.imageStore.reset(this.instanceId());
+        this.imageStore.reset(this.instanceId);
     }
 
     protected onImageLoaded(): void {
-        this.imageStore.setLoaded(this.instanceId());
+        this.imageStore.setLoaded(this.instanceId);
     }
 
     protected onImageFailed(): void {
-        this.imageStore.setFailed(this.instanceId());
+        this.imageStore.setFailed(this.instanceId);
     }
 
     protected onImageRotate(direction: 'left' | 'right'): void {
-        this.imageStore.rotateCropper(this.instanceId(), direction);
+        this.imageStore.rotateCropper(this.instanceId, direction);
     }
 
     protected onImageFlipHorizontal(): void {
-        this.imageStore.flipCropperHorizontal(this.instanceId());
+        this.imageStore.flipCropperHorizontal(this.instanceId);
     }
 
     protected onImageFlipVertical(): void {
-        this.imageStore.flipCropperVertical(this.instanceId());
+        this.imageStore.flipCropperVertical(this.instanceId);
     }
 
     protected onImageResetTransforms(): void {
-        this.imageStore.resetCropperTransforms(this.instanceId());
+        this.imageStore.resetCropperTransforms(this.instanceId);
     }
 
     public closeImagePreview(): void {

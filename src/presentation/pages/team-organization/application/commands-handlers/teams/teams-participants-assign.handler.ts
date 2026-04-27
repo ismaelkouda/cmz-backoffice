@@ -13,6 +13,7 @@ export class TeamsParticipantsAssignHandler {
     ): Observable<SimpleResponseDto<void>> {
         return this.useCase.assign({
             uniqId: command.uniqId,
+            roles: command.roles,
             participants: command.participants,
         });
     }

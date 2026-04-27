@@ -382,10 +382,15 @@
                                                 <button
                                                     pButton
                                                     type="submit"
-                                                    [disabled]="form.invalid || loadingSubmit()"
+                                                    [disabled]="
+                                                        form.invalid ||
+                                                        loadingSubmit()
+                                                    "
                                                 >
                                                     @if (!loadingSubmit()) {
-                                                        <i class="pi pi-check"></i>
+                                                        <i
+                                                            class="pi pi-check"
+                                                        ></i>
                                                     } @else {
                                                         <span
                                                             class="spinner-border spinner-border-sm"
@@ -393,7 +398,10 @@
                                                             aria-hidden="true"
                                                         ></span>
                                                     }
-                                                    {{ 'COMMON.SAVE' | translate }}
+                                                    {{
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    }}
                                                 </button>
 
                                                 <p-button

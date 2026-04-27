@@ -9,6 +9,7 @@ export interface DepartmentsItemApiDto {
     region: AdministrativeBoundaryDto;
     population_size: number;
     municipalities_count: number;
+    infrastructure_size: number;
     is_active: boolean;
     created_by: string;
     updated_by: string;

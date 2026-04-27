@@ -35,6 +35,13 @@ export const DEPARTMENTS_TABLE = {
             width: '2rem',
             type: 'number',
         },
+        {
+            field: 'infrastructureCount',
+            header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.INFRASTRUCTURES_COUNT',
+            class: 'text-center',
+            width: '7rem',
+            type: 'number',
+        },
         /*  {
              field: 'description',
              header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.DESCRIPTION',
@@ -59,6 +66,8 @@ export const DEPARTMENTS_TABLE = {
         'region',
         'municipalitiesCount',
         'populationSize',
+        'infrastructureCount',
+
         /*  'description', */
         'createdAt',
     ],

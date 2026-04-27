@@ -98,14 +98,18 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     public readonly visibleChange = output<boolean>();
     public readonly closed = output();
 
-    public selectedTabIndex = 0;
     public isTreatmentFormExpanded = true;
-    public readonly TABS = TABS;
     public readonly form = this.store.form;
     public readonly items = this.stateService.items;
     public readonly loading = this.stateService.loading;
     public readonly actionState = this.stateService.actionState;
     public readonly submitting = computed(() => this.actionState());
+
+    public readonly photoTabInstanceId = computed(
+        () => `management-photo-${this.uniqId()}`
+    );
+
+    public readonly selectedTab = signal('information');
 
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -136,6 +140,16 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     readonly locationNameOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterValueOptions(LocationName, this.t.bind(this));
+    });
+
+    public readonly tabs = computed(() => {
+        const type = this.type();
+
+        if (type === TypeReport.REQUESTS) {
+            return TABS.filter((tab) => tab.value !== 'chatbot');
+        }
+
+        return TABS;
     });
 
     private readonly storeEffect = effect(() => {
@@ -180,6 +194,13 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.stateService.reset();
+    }
+
+    public selectTab(index: number): void {
+        const tab = this.tabs()[index];
+        if (tab) {
+            this.selectedTab.set(tab.value);
+        }
     }
 
     public toggleTreatmentForm(): void {
@@ -239,10 +260,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
 
     public setDecision(decision: string): void {
         this.store.setDecision(decision as 'accepted' | 'rejected');
-    }
-
-    public selectTab(index: number): void {
-        this.selectedTabIndex = index;
     }
 
     public onCloseDialog(): void {

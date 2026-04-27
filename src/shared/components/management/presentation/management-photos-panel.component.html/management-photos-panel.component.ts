@@ -6,6 +6,8 @@ import {
     ChangeDetectionStrategy,
     inject,
     signal,
+    effect,
+    untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,7 +15,6 @@ import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/i
 import { ImagePreviewDialogComponent } from '@shared/components/image-preview-dialog/image-preview-dialog.component';
 import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
 import { ImageUploadComponent } from '@shared/components/image-upload/image-upload.component';
-import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
 import { ManagementEntityType } from '@shared/components/management/domain/types/management-entity.type';
 import { ManagementFormStore } from '@shared/components/management/presentation/store/management-form.store';
 import { MediaValue } from '@shared/domain/types/media.types';
@@ -24,30 +25,32 @@ import { MediaValue } from '@shared/domain/types/media.types';
     imports: [
         CommonModule,
         TranslateModule,
-        ImageZoomComponent,
         ImageUploadComponent,
         ImagePreviewDialogComponent,
         ImageCropDialogComponent,
     ],
-    providers: [ImageUploadStateService],
     templateUrl: './management-photos-panel.component.html',
     styleUrls: ['./management-photos-panel.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementPhotosPanelComponent {
-    public readonly instanceId = signal('ManagementPhotosPanelComponent');
+    public readonly instanceId = input.required<string>();
+
     public readonly store = inject(ManagementFormStore);
     protected readonly imageStore = inject(ImageUploadStateService);
-    protected readonly imageState = this.imageStore.getStore(this.instanceId());
 
     public readonly item = input.required<ManagementEntityType>();
     public readonly loading = input.required<boolean>();
 
     readonly previewVisible = signal(false);
 
-    protected isApprovalType(value: 'edit' | 'callback' | 'details'): boolean {
-        return this.store.isApprovalType(value);
-    }
+    readonly imageVm = computed(() =>
+        this.imageStore.connect(this.instanceId())
+    );
+
+    readonly cropperState = computed(() =>
+        this.imageStore.getStore(this.instanceId())()
+    );
 
     readonly placePhotoSignal = toSignal(
         this.store.form.controls.placePhoto.valueChanges,
@@ -73,31 +76,67 @@ export class ManagementPhotosPanelComponent {
         return !!(this.placePhoto() || this.accessPhoto());
     });
 
-    // private readonly syncHydrate = effect(() => {
-    //     const item = this.store.item();
-    //     const mode = this.store.approvalType();
+    readonly isIdle = computed(() => !this.imageVm().hasImage());
+    readonly hasError = computed(() => this.imageVm().hasError());
+    readonly hasImage = computed(() => this.imageVm().hasImage());
+    readonly fileName = computed(() => this.imageVm().fileName() ?? null);
+    readonly fileSize = computed(() => this.imageVm().fileSize() ?? null);
+    readonly previewUrl = computed(() => this.imageVm().previewUrl());
 
-    //     if (mode !== 'details' || !item?.placePhoto) {
-    //         console.log('!item?.placePhoto: ', !item?.placePhoto);
-    //         return;
-    //     }
+    private previousDetailsType = false;
 
-    //     if (item?.placePhoto) {
-    //         console.log('mode: ', mode);
-    //         console.log('item?.placePhoto: ', item?.placePhoto);
-    //         this.imageStore.reset(this.instanceId());
-    //         return;
-    //     }
+    constructor() {
+        this.initializeImageHydration();
+        this.resetImage();
+    }
 
-    //     this.imageStore.hydrate(this.instanceId(), item.placePhoto);
-    // });
+    private resetImage(): void {
+        effect(() => {
+            const current = this.store.shouldShowDetailsTypeField();
 
-    readonly approvalTypeSignal = toSignal(
-        this.store.form.controls.approvalType.valueChanges,
-        {
-            initialValue: this.store.form.controls.approvalType.value,
-        }
-    );
+            if (current && !this.previousDetailsType) {
+                untracked(() => {
+                    this.onImageCleared();
+                });
+            }
+
+            this.previousDetailsType = current;
+        });
+    }
+
+    private initializeImageHydration(): void {
+        effect(() => {
+            const currentItem = this.item();
+            const media = this.placePhotoSignal();
+            const hasPreview = this.previewUrl();
+
+            if (hasPreview || !media) {
+                return;
+            }
+
+            if (media.type === 'remote' && media.url) {
+                this.imageStore.hydrate(this.instanceId(), media.url);
+            }
+
+            if (media.type === 'local' && media.file) {
+                this.imageStore.setPreviewFromFile(
+                    this.instanceId(),
+                    media.file
+                );
+            }
+
+            if (!media && currentItem?.placePhoto) {
+                this.imageStore.hydrate(
+                    this.instanceId(),
+                    currentItem.placePhoto
+                );
+            }
+        });
+    }
+
+    protected isApprovalType(value: 'edit' | 'callback' | 'details'): boolean {
+        return this.store.isApprovalType(value);
+    }
 
     public onCropConfirmed(event: Blob): void {
         this.imageStore.confirmCrop(this.instanceId(), event);

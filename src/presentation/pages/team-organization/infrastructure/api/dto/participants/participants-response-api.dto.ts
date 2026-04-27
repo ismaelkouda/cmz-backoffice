@@ -8,7 +8,7 @@ export interface ParticipantsItemApiDto {
     last_name: string;
     email: string;
     phone: string;
-    role: RolesDto;
+    role: RolesDto | null;
     status: StatusDto;
     created_at: string;
     updated_at: string;

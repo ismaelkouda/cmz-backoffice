@@ -25,6 +25,9 @@ export class MunicipalitiesEntity {
     get populationSize(): number {
         return this.props.populationSize;
     }
+    get infrastructureCount(): number {
+        return this.props.infrastructureCount;
+    }
     get status(): Status {
         return this.props.status;
     }

@@ -87,7 +87,7 @@
 
                 <nav class="content-tabs">
                     <div class="tabs-container">
-                        @for (tab of TABS; track tab.value) {
+                        @for (tab of tabs(); track tab.value) {
                             <button
                                 (click)="selectTab($index)"
                                 [class.active]="selectedTabIndex === $index"
@@ -115,7 +115,7 @@
             }
 
             <div class="tab-content-area">
-                @if (selectedTabIndex === 0) {
+                @if (selectedTab() === 'information') {
                     <app-management-info-panel
                         [item]="items()"
                         [loading]="loading()"
@@ -128,14 +128,15 @@
                     />
                 }
 
-                @if (selectedTabIndex === 1) {
+                @if (selectedTab() === 'images') {
                     <app-management-photos-panel
+                        [instanceId]="photoTabInstanceId()"
                         [item]="items()"
                         [loading]="loading()"
                     />
                 }
 
-                @if (selectedTabIndex === 2) {
+                @if (selectedTab() === 'geographic-view') {
                     <app-management-map
                         [latitude]="items().location.coordinates.latitude"
                         [longitude]="items().location.coordinates.longitude"
@@ -149,7 +150,7 @@
                     </app-management-map>
                 }
 
-                @if (selectedTabIndex === 3) {
+                @if (selectedTab() === 'chatbot') {
                     <app-management-chatbot-panel [uniqId]="uniqId()" />
                 }
             </div>

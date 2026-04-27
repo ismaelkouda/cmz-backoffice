@@ -58,8 +58,6 @@ export class ImageUploadComponent implements ControlValueAccessor {
     readonly imageError = output<ImageUploadError>();
     readonly viewImage = output();
 
-    readonly vm = computed(() => this.service.connect(this.instanceId()));
-
     readonly disabled = signal(false);
     readonly validationError = signal<ImageUploadError | null>(null);
 
@@ -73,18 +71,17 @@ export class ImageUploadComponent implements ControlValueAccessor {
         /* empty */
     };
 
-    readonly isIdle = computed(
-        () => !this.vm().hasImage() && !this.vm().hasError()
-    );
+    readonly isIdle = input<boolean>(false);
 
-    readonly hasError = computed(() => this.vm().hasError());
-    readonly hasImage = computed(() => this.vm().hasImage());
+    readonly hasError = input<boolean>(false);
+    readonly hasImage = input<boolean>(false);
 
-    readonly fileName = computed(() => this.vm().fileName() ?? null);
-    readonly fileSize = computed(() => this.vm().fileSize() ?? null);
+    readonly fileName = input<string | null>(null);
+    readonly fileSize = input<number | null>(null);
+    readonly previewUrl = input<string | null>(null);
 
     readonly fileSizeMb = computed(() => {
-        const size = this.vm().fileSize();
+        const size = this.fileSize();
         if (!size) {
             return null;
         }
@@ -93,8 +90,6 @@ export class ImageUploadComponent implements ControlValueAccessor {
             ? `${(size / 1024).toFixed(0)} Ko`
             : `${(size / (1024 * 1024)).toFixed(1)} Mo`;
     });
-
-    readonly previewUrl = computed(() => this.vm().previewUrl());
 
     readonly displayFormats = computed(() => {
         return this.config()

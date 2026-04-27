@@ -5,7 +5,7 @@ import {
     ElementRef,
     HostListener,
     inject,
-    Input,
+    input,
 } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 
@@ -19,8 +19,8 @@ import { DialogModule } from 'primeng/dialog';
 })
 export class ImageZoomComponent {
     private readonly el: ElementRef = inject(ElementRef);
-    @Input() src!: string;
-    @Input() label?: string;
+    protected readonly src = input.required<string>();
+    protected readonly label = input<string>();
 
     zoomVisible = false;
     lensPosition = { top: 0, left: 0 };

@@ -28,11 +28,11 @@
                 font-size: 1.25rem;
                 font-weight: 600;
                 color: white;
-                
+
                 &.copyable {
                     cursor: pointer;
                     transition: opacity 0.2s;
-                    
+
                     &:hover {
                         opacity: 0.8;
                     }
@@ -116,7 +116,7 @@
     .skeleton-card {
         .card-header {
             margin-bottom: 1.5rem;
-            
+
             .card-title-group {
                 display: flex;
                 align-items: center;
@@ -493,7 +493,7 @@
 .error-state {
     background: #fef2f2;
     border-color: #fecaca;
-    
+
     i {
         color: #ef4444;
     }
@@ -508,7 +508,7 @@
 .no-changes-state {
     background: #f0fdf4;
     border-color: #bbf7d0;
-    
+
     i {
         color: #10b981;
     }
@@ -593,7 +593,7 @@
 
     .summary-section .summary-card {
         padding: 0.75rem 1rem;
-        
+
         .summary-stats .stat-item .stat-value {
             font-size: 1.25rem;
         }
@@ -601,7 +601,7 @@
 
     .user-info {
         flex-wrap: wrap;
-        
+
         .user-name {
             font-size: 0.85rem;
         }
@@ -611,7 +611,7 @@
     .empty-state,
     .no-changes-state {
         padding: 2rem 1rem;
-        
+
         i {
             font-size: 2rem;
         }
@@ -652,7 +652,7 @@
         .header-title {
             font-size: 1rem;
         }
-        
+
         .p-tag {
             font-size: 0.7rem;
         }
@@ -661,17 +661,17 @@
     .summary-section .summary-card .summary-stats {
         flex-direction: column;
         gap: 0.75rem;
-        
+
         .stat-item {
             text-align: left;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            
+
             .stat-value {
                 font-size: 1.1rem;
             }
-            
+
             .stat-label {
                 font-size: 0.7rem;
             }
@@ -684,7 +684,7 @@
             height: 28px;
             font-size: 0.7rem;
         }
-        
+
         .user-name {
             font-size: 0.8rem;
         }
@@ -731,7 +731,7 @@
 .tab-content-area::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 3px;
-    
+
     &:hover {
         background: #94a3b8;
     }

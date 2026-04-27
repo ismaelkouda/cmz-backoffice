@@ -84,10 +84,19 @@
                         <div class="data-grid">
                             <div class="data-row triple">
                                 <div class="data-field">
-                                    <label class="field-label">{{
-                                        'MANAGEMENT.FORM.REPORT_INFO.TYPE'
-                                            | translate
-                                    }}</label>
+                                    <label class="field-label">
+                                        {{
+                                            'MANAGEMENT.FORM.REPORT_INFO.TYPE'
+                                                | translate
+                                        }}
+                                        @if (!isApprovalType('details')) {
+                                            <span
+                                                class="text-danger"
+                                                aria-label="required"
+                                                >*</span
+                                            >
+                                        }
+                                    </label>
                                     @if (isApprovalType('details')) {
                                         <div class="field-value">
                                             {{
@@ -126,10 +135,19 @@
                                 </div>
 
                                 <div class="data-field">
-                                    <label class="field-label">{{
-                                        'MANAGEMENT.FORM.REPORT_INFO.OPERATORS'
-                                            | translate
-                                    }}</label>
+                                    <label class="field-label">
+                                        {{
+                                            'MANAGEMENT.FORM.REPORT_INFO.OPERATORS'
+                                                | translate
+                                        }}
+                                        @if (!isApprovalType('details')) {
+                                            <span
+                                                class="text-danger"
+                                                aria-label="required"
+                                                >*</span
+                                            >
+                                        }
+                                    </label>
                                     @if (isApprovalType('details')) {
                                         <div
                                             class="field-value operator-padding short"
@@ -189,6 +207,13 @@
                                             'MANAGEMENT.FORM.REPORT_INFO.DESCRIPTION'
                                                 | translate
                                         }}
+                                        @if (!isApprovalType('details')) {
+                                            <span
+                                                class="text-danger"
+                                                aria-label="required"
+                                                >*</span
+                                            >
+                                        }
                                     </label>
                                     @if (isApprovalType('details')) {
                                         <div class="field-value long">
@@ -210,10 +235,19 @@
                             </div>
                             <div class="data-row triple">
                                 <div class="data-field">
-                                    <label class="field-label">{{
-                                        'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME'
-                                            | translate
-                                    }}</label>
+                                    <label class="field-label">
+                                        {{
+                                            'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME'
+                                                | translate
+                                        }}
+                                        @if (!isApprovalType('details')) {
+                                            <span
+                                                class="text-danger"
+                                                aria-label="required"
+                                                >*</span
+                                            >
+                                        }
+                                    </label>
                                     @if (isApprovalType('details')) {
                                         <div class="field-value">
                                             {{
@@ -257,12 +291,19 @@
                                             'MANAGEMENT.FORM.LOCATION_INFO.COORDINATES'
                                                 | translate
                                         }}
-                                        <!-- <i
+                                        <i
                                             class="pi pi-copy"
                                             (click)="onCopyCoordinates()"
                                             tabindex="0"
                                             role="button"
-                                        ></i> -->
+                                        ></i>
+                                        @if (!isApprovalType('details')) {
+                                            <span
+                                                class="text-danger"
+                                                aria-label="required"
+                                                >*</span
+                                            >
+                                        }
                                         <p-tag
                                             [value]="
                                                 item()?.location?.method
@@ -322,6 +363,13 @@
                                             'MANAGEMENT.FORM.PICTURES_INFO.TITLE'
                                                 | translate
                                         }}
+                                        @if (!isApprovalType('details')) {
+                                            <span
+                                                class="text-danger"
+                                                aria-label="required"
+                                                >*</span
+                                            >
+                                        }
                                     </label>
                                     @if (isApprovalType('details')) {
                                         <div class="field-value long">
