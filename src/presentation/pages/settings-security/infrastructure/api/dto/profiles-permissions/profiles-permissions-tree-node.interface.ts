@@ -12,6 +12,7 @@ export interface TreeNodeInterface {
     selectable?: boolean;
     leaf?: boolean;
     checked?: boolean;
+    partialChecked?: boolean;
 
     parent?: TreeNodeInterface;
     children?: TreeNodeInterface[];

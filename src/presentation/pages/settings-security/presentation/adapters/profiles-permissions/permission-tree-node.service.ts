@@ -10,29 +10,53 @@ export class PermissionTreeService {
     mapNodes(permissions: TreeNodeEntity[]): TreeNodeInterface[] {
         return permissions.map((node) => this.mapNode(node));
     }
-
     private mapNode(entity: TreeNodeEntity): TreeNodeInterface {
         const children = entity.children.map((child) => this.mapNode(child));
 
+        const hasCheckedChildren = children.some(
+            (child) => child.checked || child.partialChecked
+        );
+
         return {
             key: entity.key,
+
             value: entity.value,
+
             label: entity.label,
-            actions: { ...entity.actions },
+
             availableActions: [...entity.availableActions],
+
+            actions: {
+                ...entity.actions,
+            },
+
             selectable: true,
-            expanded: this.hasCheckedDescendant(children),
-            children,
+
+            expanded: entity.checked || hasCheckedChildren,
+
+            checked: entity.checked,
+
+            partialChecked: !entity.checked && hasCheckedChildren,
+
             leaf: entity.isLeaf,
+
+            children,
         };
     }
 
     private hasCheckedDescendant(children: TreeNodeInterface[]): boolean {
-        return children.some(
-            (child) =>
-                this.hasAnyCheckedAction(child) ||
-                this.hasCheckedDescendant(child.children ?? [])
-        );
+        return children.some((child) => {
+            if (child.checked) {
+                return true;
+            }
+            if (child.partialChecked) {
+                return true;
+            }
+            if (this.hasAnyCheckedAction(child)) {
+                return true;
+            }
+            return this.hasCheckedDescendant(child.children ?? []);
+        });
     }
 
     private hasAnyCheckedAction(node: TreeNodeInterface): boolean {
@@ -40,19 +64,27 @@ export class PermissionTreeService {
     }
 
     expandAll(nodes: TreeNodeInterface[]): TreeNodeInterface[] {
-        return nodes.map((node) => ({
-            ...node,
-            expanded: true,
-            children: node.children ? this.expandAll(node.children) : [],
-        }));
+        nodes.forEach((node) => {
+            node.expanded = true;
+
+            if (node.children?.length) {
+                this.expandAll(node.children);
+            }
+        });
+
+        return [...nodes];
     }
 
     collapseAll(nodes: TreeNodeInterface[]): TreeNodeInterface[] {
-        return nodes.map((node) => ({
-            ...node,
-            expanded: false,
-            children: node.children ? this.collapseAll(node.children) : [],
-        }));
+        nodes.forEach((node) => {
+            node.expanded = false;
+
+            if (node.children?.length) {
+                this.collapseAll(node.children);
+            }
+        });
+
+        return [...nodes];
     }
 
     updateNodeAction(
@@ -63,14 +95,13 @@ export class PermissionTreeService {
         if (!node.actions) {
             node.actions = {};
         }
-
         node.actions[action] = checked;
-
-        this.propagateDown(node, action, checked);
-        this.propagateUp(node, action);
+        this.refreshNodeState(node);
+        this.propagateActionDown(node, action, checked);
+        this.propagateNodeUp(node);
     }
 
-    private propagateDown(
+    private propagateActionDown(
         node: TreeNodeInterface,
         action: string,
         checked: boolean
@@ -79,42 +110,178 @@ export class PermissionTreeService {
             if (child.availableActions?.includes(action)) {
                 child.actions[action] = checked;
             }
-
-            this.propagateDown(child, action, checked);
+            this.refreshNodeState(child);
+            this.propagateActionDown(child, action, checked);
         });
     }
 
-    private propagateUp(node: TreeNodeInterface, action: string): void {
+    updateNodeSelection(node: TreeNodeInterface, checked: boolean): void {
+        node.checked = checked;
+        node.partialChecked = false;
+        Object.keys(node.actions ?? {}).forEach((action) => {
+            node.actions[action] = checked;
+        });
+        this.propagateNodeDown(node, checked);
+        this.propagateNodeUp(node);
+    }
+
+    private propagateNodeDown(node: TreeNodeInterface, checked: boolean): void {
+        node.children?.forEach((child) => {
+            child.checked = checked;
+
+            child.partialChecked = false;
+
+            Object.keys(child.actions ?? {}).forEach((action) => {
+                child.actions[action] = checked;
+            });
+
+            this.refreshNodeState(child);
+
+            this.propagateNodeDown(child, checked);
+        });
+    }
+
+    private refreshNodeState(node: TreeNodeInterface): void {
+        const children = node.children ?? [];
+
+        if (children.length) {
+            const checkedChildren = children.filter(
+                (child) => child.checked
+            ).length;
+
+            const hasPartialChild = children.some(
+                (child) => child.partialChecked
+            );
+
+            if (checkedChildren === children.length && !hasPartialChild) {
+                node.checked = true;
+                node.partialChecked = false;
+                return;
+            }
+
+            if (checkedChildren === 0 && !hasPartialChild) {
+                const actions = Object.values(node.actions ?? {});
+
+                if (!actions.length) {
+                    node.checked = false;
+                    node.partialChecked = false;
+                    return;
+                }
+
+                const allChecked = actions.every(Boolean);
+
+                const someChecked = actions.some(Boolean);
+
+                node.checked = allChecked;
+
+                node.partialChecked = someChecked && !allChecked;
+
+                return;
+            }
+
+            node.checked = false;
+            node.partialChecked = true;
+
+            return;
+        }
+
+        const values = Object.values(node.actions ?? {});
+
+        if (!values.length) {
+            return;
+        }
+
+        const allChecked = values.every(Boolean);
+
+        const noneChecked = values.every((v) => !v);
+
+        if (allChecked) {
+            node.checked = true;
+            node.partialChecked = false;
+            return;
+        }
+
+        if (noneChecked) {
+            node.checked = false;
+            node.partialChecked = false;
+            return;
+        }
+
+        node.checked = false;
+        node.partialChecked = true;
+    }
+
+    private propagateNodeUp(node: TreeNodeInterface): void {
         let parent = node.parent;
 
         while (parent) {
             const children = parent.children ?? [];
+            const checkedChildren = children.filter(
+                (child) => child.checked
+            ).length;
+            const hasIndeterminateChild = children.some(
+                (child) => child.partialChecked
+            );
+            if (checkedChildren === children.length && !hasIndeterminateChild) {
+                parent.checked = true;
 
+                parent.partialChecked = false;
+            } else if (checkedChildren === 0 && !hasIndeterminateChild) {
+                parent.checked = false;
+                parent.partialChecked = false;
+            } else {
+                parent.checked = false;
+                parent.partialChecked = true;
+            }
+            this.refreshParentActions(parent);
+            parent = parent.parent;
+        }
+    }
+
+    private refreshParentActions(parent: TreeNodeInterface): void {
+        const children = parent.children ?? [];
+        const actions = parent.availableActions ?? [];
+
+        actions.forEach((action) => {
             const eligibleChildren = children.filter((child) =>
                 child.availableActions?.includes(action)
             );
-
             if (!eligibleChildren.length) {
-                parent = parent.parent;
-                continue;
+                return;
             }
-
             const allChecked = eligibleChildren.every(
                 (child) => child.actions?.[action] === true
             );
-
-            const noneChecked = eligibleChildren.every(
-                (child) => !child.actions?.[action]
+            const someChecked = eligibleChildren.some(
+                (child) => child.actions?.[action] === true
             );
+            parent.actions[action] = allChecked || someChecked;
+        });
+    }
 
-            if (allChecked) {
-                parent.actions[action] = true;
-            } else if (noneChecked) {
-                parent.actions[action] = false;
-            } else {
-                parent.actions[action] = false;
-            }
+    recalculateTreeState(nodes: TreeNodeInterface[]): void {
+        nodes.forEach((node) => {
+            this.recalculateNode(node);
+        });
+    }
 
+    private recalculateNode(node: TreeNodeInterface): void {
+        node.children?.forEach((child) => {
+            this.recalculateNode(child);
+        });
+
+        this.refreshNodeState(node);
+
+        if (node.checked || node.partialChecked) {
+            this.expandParents(node);
+        }
+    }
+
+    private expandParents(node: TreeNodeInterface): void {
+        let parent = node.parent;
+
+        while (parent) {
+            parent.expanded = true;
             parent = parent.parent;
         }
     }
@@ -128,143 +295,80 @@ export class PermissionTreeService {
         if (!children.length) {
             return node.actions?.[action] ? 'checked' : 'unchecked';
         }
-
         const eligibleChildren = children.filter((child) =>
             child.availableActions?.includes(action)
         );
-
         if (!eligibleChildren.length) {
             return node.actions?.[action] ? 'checked' : 'unchecked';
         }
-
         const checkedCount = eligibleChildren.filter(
             (child) => child.actions?.[action]
         ).length;
-
         if (checkedCount === 0) {
             return 'unchecked';
         }
-
         if (checkedCount === eligibleChildren.length) {
             return 'checked';
         }
-
         return 'indeterminate';
     }
-
-    updateNodeSelection(node: TreeNodeInterface, checked: boolean): void {
-        node.checked = checked;
-        Object.keys(node.actions ?? {}).forEach((action) => {
-            node.actions[action] = checked;
-        });
-        this.propagateNodeDown(node, checked);
-        Object.keys(node.actions ?? {}).forEach((action) => {
-            this.propagateUp(node, action);
-        });
-    }
-
-    private propagateNodeDown(node: TreeNodeInterface, checked: boolean): void {
-        node.children?.forEach((child) => {
-            Object.keys(child.actions ?? {}).forEach((action) => {
-                child.actions[action] = checked;
-            });
-            this.propagateNodeDown(child, checked);
-        });
-    }
-
-    // private propagateNodeUp(node: TreeNodeInterface, action: string): void {
-    //     console.log('node: ', node);
-    //     let parent = node.parent;
-    //     console.log('parent: ', parent);
-
-    //     while (parent) {
-    //         const children = parent.children ?? [];
-    //         console.log('children: ', children);
-
-    //         const eligibleChildren = children.filter((child) =>
-    //             child.availableActions?.includes(action)
-    //         );
-
-    //         if (!eligibleChildren.length) {
-    //             parent = parent.parent;
-    //             continue;
-    //         }
-    //         console.log('eligibleChildren: ', eligibleChildren);
-
-    //         parent.actions[action] = true;
-
-    //         parent = parent.parent;
-    //     }
-    // }
 
     getNodeState(
         node: TreeNodeInterface
     ): 'checked' | 'unchecked' | 'indeterminate' {
-        const actions = Object.values(node.actions ?? {});
-        if (!actions.length) {
-            return 'unchecked';
+        if (node.partialChecked) {
+            return 'indeterminate';
         }
-        const allTrue = actions.every(Boolean);
-        const allFalse = actions.every((v) => !v);
-        if (allTrue) {
-            return 'checked';
-        }
-        if (allFalse) {
-            return 'unchecked';
-        }
-        return 'indeterminate';
+        return node.checked ? 'checked' : 'unchecked';
     }
 
-    flatten(nodes: TreeNodeInterface[]) {
+    flatten(nodes: TreeNodeInterface[]): Record<string, string[]> {
         const result: Record<string, string[]> = {};
-
         const walk = (node: TreeNodeInterface): boolean => {
             const activeActions = Object.entries(node.actions ?? {})
-                .filter(([, v]) => v)
-                .map(([k]) => k);
-
+                .filter(([, value]) => value)
+                .map(([action]) => action);
             const hasChildren = !!node.children?.length;
-
             let hasActiveDescendant = false;
-
             if (node.children?.length) {
                 hasActiveDescendant = node.children.map(walk).some(Boolean);
             }
-
             if (!hasChildren) {
                 if (node.checked || activeActions.length > 0) {
                     result[node.key] = activeActions;
+
                     return true;
                 }
                 return false;
             }
-
-            if (hasActiveDescendant) {
+            if (
+                hasActiveDescendant ||
+                node.checked ||
+                activeActions.length > 0
+            ) {
                 result[node.key] = activeActions;
+
                 return true;
             }
-
             return false;
         };
-
         nodes.forEach(walk);
-
         return result;
     }
 
     collectCheckedNodes(nodes: TreeNodeInterface[]): TreeNodeInterface[] {
         const result: TreeNodeInterface[] = [];
-
         const walk = (node: TreeNodeInterface) => {
-            if (this.hasAnyCheckedAction(node)) {
+            if (
+                node.checked ||
+                node.partialChecked ||
+                this.hasAnyCheckedAction(node)
+            ) {
                 result.push(node);
             }
-
             node.children?.forEach(walk);
         };
-
         nodes.forEach(walk);
-
         return result;
     }
 }

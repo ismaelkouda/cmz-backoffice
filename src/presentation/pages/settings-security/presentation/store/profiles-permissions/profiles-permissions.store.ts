@@ -66,6 +66,7 @@ export class ProfilesPermissionsStore {
             const nodes = this.treeService.mapNodes(item.permissions);
 
             this.attachParents(nodes);
+            this.treeService.recalculateTreeState(nodes);
 
             this.tree.set(nodes);
 
@@ -144,6 +145,7 @@ export class ProfilesPermissionsStore {
     }
 
     updateNode(node: TreeNodeInterface, checked: boolean): void {
+        console.log('node: ', node);
         this.treeService.updateNodeSelection(node, checked);
         this.syncFormPermissions();
     }
