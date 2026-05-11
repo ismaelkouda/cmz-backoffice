@@ -69,7 +69,20 @@
                                                         <app-image-upload
                                                             id="image"
                                                             [instanceId]="
-                                                                instanceId()
+                                                                instanceId
+                                                            "
+                                                            [isIdle]="isIdle()"
+                                                            [hasError]="
+                                                                hasError()
+                                                            "
+                                                            [hasImage]="
+                                                                hasImage()
+                                                            "
+                                                            [fileName]="
+                                                                fileName()
+                                                            "
+                                                            [fileSize]="
+                                                                fileSize()
                                                             "
                                                             formControlName="image"
                                                             (viewImage)="
@@ -658,20 +671,18 @@
 
 <app-image-preview-dialog
     [visible]="previewVisible()"
-    [instanceId]="instanceId()"
+    [instanceId]="instanceId"
     [title]="'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW'"
     (hide)="closeImagePreview()"
 />
 
 <app-image-crop-dialog
-    [visible]="imageState().isOpen"
-    [sourceFile]="imageState().sourceFile"
-    [aspectRatio]="store.activeCropAspectRatio()"
-    [rotation]="imageState().rotation"
-    [flipH]="imageState().flipH"
-    [flipV]="imageState().flipV"
-    [targetPlatforms]="store.selectedPlatforms()"
-    [isLoading]="imageState().status === 'loading'"
+    [visible]="cropperState().isOpen"
+    [sourceFile]="cropperState().sourceFile"
+    [rotation]="cropperState().rotation"
+    [flipH]="cropperState().flipH"
+    [flipV]="cropperState().flipV"
+    [isLoading]="cropperState().status === 'loading'"
     (imageCropped)="onCropConfirmed($event)"
     (imageLoaded)="onImageLoaded()"
     (loadFailed)="onImageFailed()"

@@ -1,6 +1,6 @@
 @if (!loading()) {
     <form [formGroup]="store.form">
-        @if (item()?.canBeApproved || item()?.canBeFinalized) {
+        @if (item()?.canBeApproved) {
             <div class="m-3">
                 <div class="action-section">
                     <div class="management-type-form-row">

@@ -17,6 +17,6 @@ export const PARTICIPANTS_TABS = [
         route: `/${TEAM_ORGANIZATION_ROUTE}/${PARTICIPANTS_ROUTE}/${PARTICIPANTS_HISTORY}`,
         label: 'TEAM_ORGANIZATION.PARTICIPANTS.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { ref: 'user', module: 'member' },
+        queryParams: { ref: 'user', module: 'teams-organization' },
     },
 ];

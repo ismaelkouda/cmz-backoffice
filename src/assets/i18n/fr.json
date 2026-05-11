@@ -999,7 +999,8 @@
                 "REGION": "Région",
                 "DESCRIPTION": "Description",
                 "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
-                "POPULATION_SIZE": "# Population",
+                "POPULATION_SIZE": "# Populations",
+                "INFRASTRUCTURES_COUNT": "# Infrastructures",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             },
@@ -1018,7 +1019,7 @@
                     "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
                     "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                     "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
-                    "POPULATION_SIZE": "# Population",
+                    "POPULATION_SIZE": "# Populations",
                     "CREATED_AT": "Créé le",
                     "ACTION": "Action"
                 },
@@ -1087,7 +1088,8 @@
                 "DEPARTMENT": "Département",
                 "DESCRIPTION": "Description",
                 "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
-                "POPULATION_SIZE": "# Population",
+                "POPULATION_SIZE": "# Populations",
+                "INFRASTRUCTURES_COUNT": "# Infrastructures",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             },
@@ -1108,7 +1110,7 @@
                     "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
                     "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                     "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
-                    "POPULATION_SIZE": "# Population",
+                    "POPULATION_SIZE": "# Populations",
                     "CREATED_AT": "Créé le",
                     "ACTION": "Action"
                 },
@@ -1175,7 +1177,8 @@
                 "DEPARTMENTS_COUNT": "# Départements",
                 "DESCRIPTION": "Description",
                 "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
-                "POPULATION_SIZE": "# Population",
+                "POPULATION_SIZE": "# Populations",
+                "INFRASTRUCTURES_COUNT": "# Infrastructures",
                 "CREATED_AT": "Créé le",
                 "UPDATED_AT":"Modifié le",
                 "ACTION": "Action"
@@ -1194,7 +1197,7 @@
                     "DESCRIPTION_PLACEHOLDER": "Ex: Description du département",
                     "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                     "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ex: 100",
-                    "POPULATION_SIZE": "# Population",
+                    "POPULATION_SIZE": "# Populations",
                     "CREATED_AT": "Créé le",
                     "ACTION": "Action"
                 },
@@ -1243,7 +1246,8 @@
                 "NAME": "Nom du département",
                 "MUNICIPALITIES_COUNT": "# Communes/Sous-préfectures",
                 "DESCRIPTION": "Description",
-                "POPULATION_SIZE": "# Population",
+                "POPULATION_SIZE": "# Populations",
+                "INFRASTRUCTURES_COUNT": "# Infrastructures",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             }
@@ -1269,7 +1273,8 @@
                 "CODE": "Code",
                 "NAME": "Nom de la Commune/Sous-préfecture",
                 "DESCRIPTION": "Description",
-                "POPULATION_SIZE": "# Population",
+                "POPULATION_SIZE": "# Populations",
+                "INFRASTRUCTURES_COUNT": "# Infrastructures",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             }
@@ -1773,7 +1778,11 @@
                     "ACTION": "Action",
                     "STEP": "Étape",
                     "STATUS": "Statut",
-                    "SEE_MORE": "Voir plus"
+                    "SEE_MORE": "Voir plus",
+                    "TOOLTIP_BUTTON_CAN_NOT_DELETE": "Impossible de supprimer cette action",
+                    "TOOLTIP_BUTTON_CAN_NOT_EDIT": "Impossible de modifier cette action",
+                    "TOOLTIP_BUTTON_CAN_DELETE": "Supprimer cette action",
+                    "TOOLTIP_BUTTON_CAN_EDIT": "Modifier cette action"
                 },
                 "DIALOG": {
                     "TITLE": "Enregistrement d'une action de traitement",
@@ -1796,8 +1805,8 @@
                     "SWEET_ALERT": {
                         "TITLE_CREATE": "Création d'une action de traitement",
                         "MESSAGE_CREATE": "Voulez-vous vraiment créer cette action de traitement ?",
-                        "TITLE_UPDATE": "Mise à jour d'une action de traitement",
-                        "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette action de traitement ?",
+                        "TITLE_EDIT": "Mise à jour d'une action de traitement",
+                        "MESSAGE_EDIT": "Voulez-vous vraiment mettre à jour cette action de traitement ?",
                         "TITLE_DELETE": "Suppression d'une action de traitement",
                         "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette action de traitement ?",
                         "TITLE_CLOSURE": "Clôture le traitement",
@@ -3165,7 +3174,7 @@
             },
             "TABLE": {
                 "CODE": "Code",
-                "NAME": "Profil",
+                "NAME": "Equipe",
                 "DESCRIPTION": "Description",
                 "STATUS": "Statut",
                 "PARTICIPANTS_COUNT": "# membres",
@@ -3409,6 +3418,10 @@
                 "REMOVED": "Supprimé",
                 "UPDATED": "Modifié",
                 "UNCHANGED": "Inchangé"
+            },
+            "IS_CHANGED": {
+                "YES": "OUI",
+                "NO": "NON"
             }
         },
     "REPORTING": {

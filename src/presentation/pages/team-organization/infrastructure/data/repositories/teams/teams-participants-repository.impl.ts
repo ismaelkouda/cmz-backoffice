@@ -5,7 +5,7 @@ import { TeamsParticipantsReassignEntity } from '@pages/team-organization/domain
 import { TeamsParticipantsRemoveEntity } from '@pages/team-organization/domain/entities/teams/teams-participants-remove.entity';
 import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { TeamsParticipantsRepository } from '@pages/team-organization/domain/repositories/teams/teams-participants-repository';
-import { teamsParticipantsAssignMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-assign.mapper';
+import { TeamsParticipantsAssignMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-assign.mapper';
 import { teamsParticipantsFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-filter.mapper';
 import { teamsParticipantsReassignMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-reassign.mapper';
 import { teamsParticipantsRemoveMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-participants-remove.mapper';
@@ -21,6 +21,7 @@ import { map, Observable } from 'rxjs';
 export class TeamsParticipantsRepositoryImpl implements TeamsParticipantsRepository {
     private readonly api = inject(TeamsParticipantsApi);
     private readonly mapper = inject(TeamsParticipantsMapper);
+    private readonly filterMapper = inject(TeamsParticipantsAssignMapper);
 
     readAll(
         filter: TeamsParticipantsFilterEntity,
@@ -42,7 +43,8 @@ export class TeamsParticipantsRepositoryImpl implements TeamsParticipantsReposit
     assign(
         dto: TeamsParticipantsAssignEntity
     ): Observable<SimpleResponseDto<void>> {
-        const dtoApi = teamsParticipantsAssignMapper(dto);
+        const dtoApi = this.filterMapper.map(dto);
+        console.log('dtoApi: ', dtoApi);
         return this.api.assign(dtoApi);
     }
 

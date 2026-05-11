@@ -30,6 +30,10 @@ export class ManagementFormStore {
         () => this.approvalType() === 'callback'
     );
 
+    readonly shouldShowDetailsTypeField = computed(
+        () => this.approvalType() === 'details'
+    );
+
     readonly shouldShowReasonField = computed(
         () => this.decision() === 'rejected'
     );
@@ -145,10 +149,9 @@ export class ManagementFormStore {
             operators: item.operatorsKey ?? [],
         });
         const current = this.form.controls.placePhoto.value;
+        console.log('current: ', current);
 
-        if (!current || current.type === 'remote') {
-            this.handleExistingImage(item.placePhoto);
-        }
+        this.handleExistingImage(item.placePhoto);
     });
 
     private handleExistingImage(url: string): void {
@@ -278,13 +281,11 @@ export class ManagementFormStore {
     }
 
     public resetImage(): void {
-        console.log('resetImage called');
         this.imageFile.set(null);
         this.form.controls.placePhoto.reset(null);
     }
 
     public resetForm(): void {
-        console.log('imageStore reset');
         this.form.reset();
         this.approvalType.set('');
         this.decision.set('');

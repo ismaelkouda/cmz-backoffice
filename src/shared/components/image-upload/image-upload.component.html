@@ -45,7 +45,6 @@
                     {{ maxSizeMb() }} Mo
                 </p>
             </div>
-
         </button>
     }
 
@@ -56,21 +55,19 @@
             (keydown.enter)="$event.stopPropagation()"
             (keydown.space)="$event.stopPropagation()"
         >
-
             <div class="selected-file-info">
                 <img
-                        [src]="previewUrl()"
-                        [alt]="'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE' | translate"
-                        class="img-thumbnail media-thumbnail"
-                        (click)="openFilePicker()"
-                        (keydown.enter)="openFilePicker()"
-                        (keydown.space)="openFilePicker()"
-                        [pTooltip]="
-                            'CONTENT_MANAGEMENT.SLIDE.FORM.CHANGE_IMAGE' | translate
-                        "
-                        tooltipPosition="top"
-                    />
-
+                    [src]="previewUrl()"
+                    [alt]="'CONTENT_MANAGEMENT.SLIDE.FORM.IMAGE' | translate"
+                    class="img-thumbnail media-thumbnail"
+                    (click)="openFilePicker()"
+                    (keydown.enter)="openFilePicker()"
+                    (keydown.space)="openFilePicker()"
+                    [pTooltip]="
+                        'CONTENT_MANAGEMENT.SLIDE.FORM.CHANGE_IMAGE' | translate
+                    "
+                    tooltipPosition="top"
+                />
 
                 <div>
                     <span>{{ fileName() }}</span>
@@ -99,7 +96,6 @@
                     class="p-button-text p-button-danger p-button-sm"
                     (click)="clearFile($event)"
                 ></button>
-
             </div>
         </div>
     }

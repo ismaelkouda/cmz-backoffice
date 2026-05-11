@@ -25,6 +25,9 @@ export class RegionsEntity {
     get municipalitiesCount(): number {
         return this.props.municipalitiesCount;
     }
+    get infrastructureCount(): number {
+        return this.props.infrastructureCount;
+    }
     get status(): Status {
         return this.props.status;
     }

@@ -1,10 +1,5 @@
-// history-dialog-table.config.ts
 import { TableConfig } from '@shared/domain/services/table-export-excel-file.service';
 
-/**
- * Configuration pour le mode DIFF (comparaison avant/après)
- * Utilisé pour les événements de type UPDATE
- */
 export const HISTORY_DIFF_TABLE_CONFIG: TableConfig = {
     cols: [
         {
@@ -29,7 +24,6 @@ export const HISTORY_DIFF_TABLE_CONFIG: TableConfig = {
             header: 'HISTORY.DIALOG.CHANGE',
             width: '15%',
             class: 'change-status-column text-center',
-            type: 'badge',
         },
     ],
     globalFilterFields: ['fieldLabel', 'beforeDisplay', 'afterDisplay'],

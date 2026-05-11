@@ -70,6 +70,7 @@ export class ImageUploadStateService {
 
     public connect(id: string): CropperStore {
         const state = this.getStore(id);
+        console.log('state: ', state());
 
         return {
             state,
@@ -338,14 +339,13 @@ export class ImageUploadStateService {
     }
 
     public reset(id: string): void {
-        console.log('reset: ');
         const store = this.getStore(id);
         const state = store();
 
         if (state.previewUrl) {
             this.revokeUrl(state.previewUrl);
         }
-
+        console.log('reset: ');
         store.set(createInitialState());
     }
 

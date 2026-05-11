@@ -76,6 +76,7 @@ export class TableComponent {
         'single'
     );
     public readonly selection = input<any | any[] | null>(null);
+    public readonly hiddenTableTitle = input<boolean>(false);
 
     public readonly refreshRequested = output<undefined>();
     public readonly createRequested = output<{ ref: CrudFormType }>();
@@ -128,6 +129,14 @@ export class TableComponent {
         this.enableRequested.emit(item);
     }
 
+    public disabledButton(type: 'edit' | 'delete', item: any): void {
+        const disable = {
+            edit: item.disableButtonEdit,
+            delete: item.disableButtonDelete,
+        };
+        return disable[type];
+    }
+
     public onDisable(item: any): void {
         this.disableRequested.emit(item);
     }
@@ -144,10 +153,19 @@ export class TableComponent {
         this.actionClicked.emit({ item, actionId });
     }
 
-    getTooltip(action: any, rowData: any): string {
-        return `${this.translate.instant(action.tooltip)} 
-            <span class="custom-tooltip">${rowData.actionsRef}</span>
-        `;
+    protected getTooltip(type: 'edit' | 'delete', item: any): string {
+        const tooltip = {
+            edit: item.disableButtonEdit
+                ? item.tooltipButtonCanNotEdit
+                : item.tooltipButtonCanEdit,
+            delete: item.disableButtonDelete
+                ? item.tooltipButtonCanNotDelete
+                : item.tooltipButtonCanDelete,
+        };
+
+        return `${tooltip[type]} 
+                <span class="custom-tooltip">${item.actionsRef}</span>
+            `;
     }
 
     public onNumberInputChange(count: number): void {

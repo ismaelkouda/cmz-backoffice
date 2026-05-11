@@ -7,6 +7,7 @@ export interface DepartmentsProps {
     region: string;
     populationSize: number;
     municipalitiesCount: number;
+    infrastructureCount: number;
     status: Status;
     createdAt: string;
     updatedAt: string;

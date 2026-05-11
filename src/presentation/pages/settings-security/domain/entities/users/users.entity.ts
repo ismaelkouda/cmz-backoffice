@@ -33,7 +33,7 @@ export class UsersEntity {
         return this.props.phone;
     }
 
-    get role(): Roles {
+    get role(): Roles | null {
         return this.props.role;
     }
     roleStyle(role: Roles): RolesStyle {

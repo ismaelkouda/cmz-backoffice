@@ -5,7 +5,7 @@ export interface HistoryDialogChangeRowVM {
     afterDisplay: string;
     changeLabelKey: string;
     changeStyle: 'success' | 'warning' | 'danger' | 'secondary';
-    changed: boolean;
+    changed: string;
     changeType: HistoryChangeType;
     highlight: boolean;
 }
@@ -56,16 +56,4 @@ export interface HistoryDialogViewModel {
         parseError: boolean;
         showDiffTable: boolean;
     };
-}
-
-export interface HistoryDialogChangeRowVM {
-    fieldKey: string;
-    fieldLabel: string;
-    beforeDisplay: string;
-    afterDisplay: string;
-    changeLabelKey: string;
-    changeStyle: 'success' | 'warning' | 'danger' | 'secondary';
-    changed: boolean;
-    changeType: HistoryChangeType;
-    highlight: boolean;
 }

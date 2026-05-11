@@ -87,12 +87,12 @@ export class ManagementInfoPanelComponent {
 
     protected readonly hasErrors = computed(() => this.store.hasErrors());
 
-    // protected onCopyCoordinates(): void {
-    //     const coords = this.coordinates();
-    //     if (coords) {
-    //         this.copyClicked.emit(coords);
-    //     }
-    // }
+    protected onCopyCoordinates(): void {
+        const coords = this.coordinates();
+        if (coords) {
+            this.copyClicked.emit(coords);
+        }
+    }
 
     protected getOperatorTagStyle(operator: string): Record<string, string> {
         return operatorsTagStyle(operator);

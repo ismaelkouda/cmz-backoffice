@@ -1,5 +1,5 @@
 import { TeamsParticipantsProps } from '@pages/team-organization/domain/interfaces/teams/teams-participants-props.entity';
-import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
+import { Roles } from '@shared/domain/enums/roles.enum';
 export class TeamsParticipantsEntity {
     constructor(private readonly props: TeamsParticipantsProps) {}
 
@@ -27,16 +27,8 @@ export class TeamsParticipantsEntity {
         return this.props.phone;
     }
 
-    get role(): Roles {
+    get role(): Roles | null {
         return this.props.role;
-    }
-    roleStyle(role: Roles): RolesStyle {
-        const methodMap: Record<Roles, RolesStyle> = {
-            [Roles.SUPERVISOR]: RolesStyle.SUPERVISOR,
-            [Roles['TEAM-LEADER']]: RolesStyle['TEAM-LEADER'],
-            [Roles.AGENT]: RolesStyle.AGENT,
-        };
-        return methodMap[role];
     }
 
     get updatedAt(): string {

@@ -28,6 +28,7 @@ export class HistoryDataParserService {
             .replace(/[\u0300-\u036f]/g, '')
             .toLowerCase()
             .trim();
+        console.log('normalizedEvent: ', event);
 
         switch (normalizedEvent) {
             case 'creation':
@@ -70,6 +71,7 @@ export class HistoryDataParserService {
 
     private parseUpdate(data: HistoryDataItemApiDto[]): HistoryFieldChange[] {
         return data.map((item) => {
+            console.log('item: ', item);
             const previousValue =
                 'previousValue' in item ? item.previousValue : null;
 

@@ -1,5 +1,7 @@
 import { formatDateSafe } from '@shared/domain/functions/format-date';
 
+import { TasksActionsProps } from '../../interfaces/tasks/tasks-actions/tasks-actions-props.interface';
+
 export type TasksActionsType =
     | 'ANALYSIS'
     | 'TREATMENT'
@@ -8,17 +10,6 @@ export type TasksActionsType =
     | 'VALIDATION'
     | 'OTHER';
 
-export interface TasksActionsProps {
-    uniqId: string;
-    date: Date;
-    type: string;
-    description: string;
-    shouldNotifyUser: boolean;
-    createdBy: string;
-    updatedBy: string;
-    createdAt: string;
-    updatedAt: string;
-}
 export class TasksActionsEntity implements TasksActionsProps {
     constructor(private readonly props: TasksActionsProps) {}
 

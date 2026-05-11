@@ -12,9 +12,9 @@ export interface ParticipantsVmProps {
     email: string;
     phone: string;
 
-    role: Roles;
-    roleLabel: string;
-    roleStyle: RolesStyle;
+    role: Roles | null;
+    roleLabel: string | null;
+    roleStyle: RolesStyle | null;
 
     status: Status;
     statusLabel: string;

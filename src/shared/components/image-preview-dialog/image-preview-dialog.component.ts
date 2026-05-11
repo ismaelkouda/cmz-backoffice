@@ -15,6 +15,8 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
 
+import { ImageZoomComponent } from '../image-zoom/image-zoom.component';
+
 @Component({
     selector: 'app-image-preview-dialog',
     templateUrl: './image-preview-dialog.component.html',
@@ -24,6 +26,7 @@ import { TooltipModule } from 'primeng/tooltip';
         CommonModule,
         TranslateModule,
         DialogModule,
+        ImageZoomComponent,
         ButtonModule,
         TooltipModule,
     ],

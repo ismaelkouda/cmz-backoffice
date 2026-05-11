@@ -1,4 +1,3 @@
-// history-dialog-vm.presenter.ts (CORRIGÉ)
 import { inject, Injectable } from '@angular/core';
 import { TableConfig } from '@shared/domain/interfaces/table-config';
 
@@ -42,7 +41,6 @@ export class HistoryDialogVmPresenter {
         const changes = this.buildChanges(entity, locale);
         const changedFields = changes.filter((c) => c.changed).length;
 
-        // 🔴 LOGIQUE MÉTIER: Sélection de la configuration selon le type d'évènement
         const tableMode = this.getTableMode(entity);
         const tableConfig = this.getTableConfig(tableMode);
         const tableRows = this.getTableRows(changes, tableMode);
@@ -79,23 +77,16 @@ export class HistoryDialogVmPresenter {
         };
     }
 
-    /**
-     * 🔴 DÉCISION MÉTIER: Détermine le mode de table en fonction du type d'évènement
-     * @param entity
-     */
     private getTableMode(entity: HistoryFindOneEntity): HistoryTableMode {
+        console.log('entity: ', entity);
         if (entity.isUpdateEvent()) {
             return HistoryTableMode.DIFF;
         }
-        // CREATE ou DELETE → mode SNAPSHOT
         return HistoryTableMode.SNAPSHOT;
     }
 
-    /**
-     * 🔴 Retourne la configuration correspondant au mode
-     * @param mode
-     */
     private getTableConfig(mode: HistoryTableMode): TableConfig {
+        console.log('mode: ', mode);
         switch (mode) {
             case HistoryTableMode.DIFF:
                 return HISTORY_DIFF_TABLE_CONFIG;
@@ -106,12 +97,6 @@ export class HistoryDialogVmPresenter {
         }
     }
 
-    /**
-     * 🔴 Prépare les lignes de la table selon le mode
-     * Pour SNAPSHOT, on ne garde que fieldLabel et afterDisplay
-     * @param changes
-     * @param mode
-     */
     private getTableRows(
         changes: HistoryDialogChangeRowVM[],
         mode: HistoryTableMode
@@ -120,14 +105,11 @@ export class HistoryDialogVmPresenter {
             return changes;
         }
 
-        // Mode SNAPSHOT: on conserve seulement fieldLabel et afterDisplay
-        // Les propriétés beforeDisplay, changeLabelKey, etc. ne sont pas affichées
         return changes.map((change) => ({
             ...change,
-            // Pour SNAPSHOT, afterDisplay contient la valeur (créée ou supprimée)
-            beforeDisplay: '', // Vide car non utilisé
-            changeLabelKey: '', // Vide car non utilisé
-            changed: false,
+            beforeDisplay: '',
+            changeLabelKey: '',
+            changed: 'HISTORY.IS_CHANGED.NO',
             highlight: false,
         }));
     }
@@ -157,6 +139,7 @@ export class HistoryDialogVmPresenter {
         if (!entity.changes || entity.changes.length === 0) {
             return [];
         }
+        console.log('entitysdvdsds: ', entity.changes);
 
         return entity.changes.map((change) => ({
             fieldKey: change.key,
@@ -171,7 +154,10 @@ export class HistoryDialogVmPresenter {
             ),
             changeLabelKey: getChangeLabelKey(change.changeType),
             changeStyle: getChangeStyle(change.changeType),
-            changed: change.changeType !== HistoryChangeType.UNCHANGED,
+            changed:
+                change.changeType === HistoryChangeType.UNCHANGED
+                    ? 'Non'
+                    : 'Oui',
             changeType: change.changeType,
             highlight: change.changeType === HistoryChangeType.UPDATED,
         }));

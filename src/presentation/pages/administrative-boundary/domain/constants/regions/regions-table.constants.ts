@@ -23,16 +23,16 @@ export const REGIONS_TABLE = {
             width: '2rem',
             type: 'badge-button',
         },
-        /*  {
-             field: 'municipalitiesCount',
-             header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.MUNICIPALITIES_COUNT',
-             class: 'text-center',
-             width: '2rem',
-             type: 'badge-button',
-         }, */
         {
             field: 'populationSize',
             header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.POPULATION_SIZE',
+            class: 'text-center',
+            width: '2rem',
+            type: 'number',
+        },
+        {
+            field: 'infrastructureCount',
+            header: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TABLE.INFRASTRUCTURES_COUNT',
             class: 'text-center',
             width: '2rem',
             type: 'number',
@@ -62,6 +62,7 @@ export const REGIONS_TABLE = {
         'departmentsCount',
         'municipalitiesCount',
         'populationSize',
+        'infrastructureCount',
         /*  'description', */
         'updatedAt',
     ],
