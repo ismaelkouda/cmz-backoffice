@@ -1,7 +1,8 @@
 import { inject, Provider } from '@angular/core';
-import { REQUESTS_BASE_URL } from '@pages/requests/infrastructure/api/report-requests.base-url';
+import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/requests.base-url';
 import { provideMapClusters } from '@shared/components/map-clusters/di/map-clusters.providers';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).reportUrl;

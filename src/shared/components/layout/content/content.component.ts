@@ -10,7 +10,7 @@ import { FooterComponent } from '@shared/components/footer/footer.component';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { SidebarComponent } from '@shared/components/sidebar/sidebar.component';
 import { fadeInAnimation } from '@shared/data/router-animation/router-animation';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { NavService } from '@shared/domain/services/nav.service';
 import * as feather from 'feather-icons';
 import { filter } from 'rxjs';

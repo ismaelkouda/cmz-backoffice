@@ -10,4 +10,7 @@ export interface TasksVmProps {
     initiatorPhoneNumber: string;
     reportedAt: string;
     actionsRef: string;
+
+    tooltipButtonFinalize: string;
+    disableButtonFinalize: boolean;
 }

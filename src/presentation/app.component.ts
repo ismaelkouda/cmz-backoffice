@@ -8,9 +8,10 @@ import { RouterOutlet } from '@angular/router';
 import { NgxLoadingBar } from '@ngx-loading-bar/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TapToTopComponent } from '@shared/components/tap-to-top/tap-to-top.component';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../core/config/env.service';
 
 @Component({
     selector: 'app-root',
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
     private readonly envService = inject(EnvService);
     private readonly encodingService = inject(EncodingDataService);
 
-    public readonly config = this.customizationService.config;
+    public readonly config = this.customizationService.customization;
 
     ngOnInit(): void {
         this.initializeApplication();

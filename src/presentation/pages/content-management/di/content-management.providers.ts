@@ -13,7 +13,8 @@ import { slideProviders } from '@pages/content-management/di/slide/slide.provide
 import { termsUseFindOneProviders } from '@pages/content-management/di/terms-use/terms-use-find-one.providers';
 import { termsUseProviders } from '@pages/content-management/di/terms-use/terms-use.providers';
 import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).settingUrl;

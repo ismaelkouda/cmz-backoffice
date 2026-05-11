@@ -1,4 +1,4 @@
-<div class="fade-in history-content">
+<div class="history-content">
     <app-filter
         class="filter-component"
         [isLoading]="loading()"
@@ -34,7 +34,7 @@
             [visible]="isVisibleDialog()"
             [uniqId]="uniqId"
             [typeModel]="typeModel()"
-            (visibleChange)="onVisibleChange($event)"
+            (visibleChange)="onVisibleDialogClicked($event)"
         ></app-history-dialog>
     }
 </div>

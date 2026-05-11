@@ -11,7 +11,8 @@ import { provideRegionsFindOne } from '@pages/administrative-boundary/di/regions
 import { regionsSelectProviders } from '@pages/administrative-boundary/di/regions/regions-select.providers';
 import { provideRegions } from '@pages/administrative-boundary/di/regions/regions.providers';
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = (): string => {
     const baseUrl = inject(EnvService).settingUrl;

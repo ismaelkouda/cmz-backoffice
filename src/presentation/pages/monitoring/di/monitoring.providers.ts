@@ -1,6 +1,6 @@
 import { inject, Provider } from '@angular/core';
-import { EnvService } from '@shared/domain/services/env.service';
 
+import { EnvService } from '../../../../core/config/env.service';
 import { NodeRepository } from '../domain/repositories/node-repository.interface';
 import { ResourcesRepository } from '../domain/repositories/resources-repository.interface';
 import { ServicesRepository } from '../domain/repositories/services-repository.interface';

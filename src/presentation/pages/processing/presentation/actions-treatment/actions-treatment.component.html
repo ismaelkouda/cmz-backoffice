@@ -6,52 +6,55 @@
             <section class="card actions-form-card">
                 <div class="card-body actions-form-card-body">
                     <header class="actions-form-header">
-                        <div class="d-flex align-items-center">
+                        <div class="action-buttons d-flex gap-2">
                             <app-page-title
-                                class="page-title-component"
-                                [displayDate]="false"
                                 [title]="
                                     'PROCESSING.TASKS.ACTIONS.TITLE'
                                         | translate
                                         | lowercase
                                 "
-                            >
-                            </app-page-title>
-                            <div class="ms-auto">
-                                <p-tag severity="success" [value]="uniqId()" />
-                            </div>
-                            <div class="table-button-header">
-                                <button
-                                    type="button"
-                                    class="btn btn-dark"
-                                    (click)="onSeeClicked()"
-                                >
-                                    <i class="pi pi-eye me-2"></i>
-                                    <span>{{
-                                        'PROCESSING.TASKS.TABLE.SEE_REPORT'
-                                            | translate
-                                    }}</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    class="btn btn-primary"
-                                    (click)="onClosureClicked()"
-                                    [class.p-disabled]="!hasAction()"
-                                >
-                                    <i class="pi pi-check-circle me-2"></i>
-                                    <span>{{
-                                        'PROCESSING.TASKS.TABLE.CLOSURE'
-                                            | translate
-                                    }}</span>
-                                </button>
-                            </div>
+                                [displayDate]="false"
+                            />
+                            @if (uniqId()) {
+                                <p-tag
+                                    [value]="uniqId()"
+                                    severity="contrast"
+                                    [rounded]="true"
+                                />
+                            }
+                            <p-button
+                                label="{{
+                                    'PROCESSING.TASKS.TABLE.SEE_REPORT'
+                                        | translate
+                                }}"
+                                icon="pi pi-eye"
+                                [pTooltip]="
+                                    'PROCESSING.TASKS.ACTIONS.TOOLTIP.SEE_MORE'
+                                        | translate
+                                "
+                                tooltipPosition="bottom"
+                                styleClass="p-button-outlined p-button-secondary"
+                                (onClick)="isReportDialogVisible.set(true)"
+                            />
+                            <p-button
+                                label="{{
+                                    'PROCESSING.TASKS.TABLE.CLOSURE' | translate
+                                }}"
+                                icon="pi pi-check-circle"
+                                styleClass="p-button-success"
+                                tooltipPosition="bottom"
+                                [disabled]="canClosure()"
+                                (onClick)="onClosureClicked()"
+                                [pTooltip]="closureTooltip()"
+                            />
                         </div>
+
                         <p-button
-                            [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="navigateToBack()"
+                            label="{{ 'COMMON.CLOSE' | translate }}"
+                            icon="pi pi-times"
                             styleClass="p-button-danger"
-                        >
-                        </p-button>
+                            (onClick)="navigateBack()"
+                        />
                     </header>
 
                     <div class="fade-in actions-content">
@@ -76,11 +79,9 @@
                                         track operator
                                     ) {
                                         <p-tag
-                                            [value]="operator | translate"
+                                            [value]="operator"
                                             [style]="
-                                                getOperatorTagStyle(
-                                                    operator | translate
-                                                )
+                                                getOperatorTagStyle(operator)
                                             "
                                             styleClass="operator-tag"
                                         />
@@ -117,23 +118,22 @@
                         >
                             <app-table
                                 class="table-component"
+                                dataKey="uniqId"
+                                [config]="tableConfig"
                                 [loading]="loading()"
                                 [items]="itemsVM()"
                                 [pagination]="pagination()"
-                                [config]="tableConfig"
                                 [headerButtons]="headerButtons()"
-                                (refreshRequested)="onRefreshClicked()"
                                 (headerButtonClicked)="
                                     onHeaderButtonClicked($event)
                                 "
                                 (actionClicked)="onActionClicked($event)"
-                                dataKey="uniqId"
                             ></app-table>
 
                             <app-pagination
-                                class="actions-pagination-component"
+                                class="pagination-component"
                                 [pagination]="pagination()"
-                                (pageChange)="onPageChange($event)"
+                                (pageChange)="onChangePageClicked($event)"
                             ></app-pagination>
                         </section>
                     </div>
@@ -141,130 +141,312 @@
             </section>
         </article>
     </section>
-
-    @if (isVisibleDialog()) {
-        <app-management-dialog
-            [visible]="isVisibleDialog()"
-            [uniqId]="uniqId()"
-            [type]="selectedManagementType()"
-            (visibleChange)="onVisibleChange($event)"
-        ></app-management-dialog>
-    }
 </main>
 
+@if (isReportDialogVisible()) {
+    <app-management-dialog
+        [visible]="isReportDialogVisible()"
+        [uniqId]="uniqId()"
+        [type]="selectedManagementType()"
+        (visibleChange)="isReportDialogVisible.set($event)"
+    ></app-management-dialog>
+}
+
 <p-dialog
-    [visible]="displayModal()"
-    (visibleChange)="displayModal.set($event)"
+    [visible]="formStore.isOpen()"
+    (visibleChange)="formStore.close()"
     [modal]="true"
     [draggable]="false"
-    [dismissableMask]="true"
-    [style]="{ width: '45rem' }"
     [resizable]="false"
-    header="{{ 'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE' | translate }}"
+    styleClass="action-form-dialog"
 >
-    <form [formGroup]="form">
-        <div class="row pt-3">
-            <div class="col-md-6 form-group">
-                <label for="team">
-                    <b
-                        >{{
-                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE'
-                                | translate
-                        }}
-                        <span class="text-danger">*</span>
-                    </b>
-                </label>
-                <p-datepicker
-                    formControlName="date"
-                    [showIcon]="true"
-                    [readonlyInput]="true"
-                    dateFormat="yy-mm-dd"
-                    pInputMask="99-99-9999"
-                    [showTime]="true"
-                    [hourFormat]="24"
-                    appendTo="body"
-                    class="form-control"
-                ></p-datepicker>
+    <ng-template #header>
+        <div class="dialog-header">
+            <div class="header-content">
+                <h2 class="dialog-title">
+                    {{
+                        (formStore.isEditMode()
+                            ? 'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE_EDIT'
+                            : 'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE'
+                        ) | translate
+                    }}
+                </h2>
+
+                @if (uniqId()) {
+                    <p-tag
+                        [value]="uniqId()"
+                        severity="info"
+                        styleClass="uniq-id-tag"
+                        (click)="copyToClipboard(uniqId())"
+                        [pTooltip]="'COMMON.COPY' | translate"
+                        tooltipPosition="bottom"
+                    />
+                }
             </div>
-            <div class="col-md-6 form-group">
-                <label for="action-type">
-                    <b>
+        </div>
+    </ng-template>
+
+    <div class="dialog-body">
+        <div class="report-summary">
+            <div class="summary-item">
+                <span class="summary-label">{{
+                    'COMMON.REPORT' | translate
+                }}</span>
+                <p-tag [value]="reportType()" [rounded]="true" />
+            </div>
+
+            @if (operators().length) {
+                <div class="summary-item">
+                    <span class="summary-label">{{
+                        'COMMON.OPERATORS' | translate
+                    }}</span>
+                    <div class="operators-badges">
+                        @for (operator of operators(); track operator) {
+                            <p-tag
+                                [value]="operator"
+                                [style]="getOperatorTagStyle(operator)"
+                            />
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="summary-item">
+                <span class="summary-label">{{
+                    'COMMON.CREATED_AT' | translate
+                }}</span>
+                <span class="summary-value">{{
+                    getFormatDate(createdAt())
+                }}</span>
+            </div>
+
+            <div class="summary-item">
+                <span class="summary-label">{{
+                    'COMMON.SOURCE' | translate
+                }}</span>
+                <span class="summary-value"
+                    >{{ source() }} [{{ initiatorPhone() }}]</span
+                >
+            </div>
+        </div>
+
+        <form
+            [formGroup]="formStore.form"
+            (ngSubmit)="onSubmit()"
+            class="action-form"
+        >
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">
                         {{
                             'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE'
                                 | translate
                         }}
-                        <span class="text-danger">*</span>
-                    </b>
-                </label>
-                <p-select
-                    id="action-type"
-                    formControlName="type"
-                    [options]="actionsTypesOptions()"
-                    optionLabel="label"
-                    optionValue="value"
-                    placeholder="{{ 'COMMON.SELECT_PLACEHOLDER' | translate }}"
-                    class="form-control"
-                    [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                    [emptyFilterMessage]="
-                        'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate
-                    "
-                ></p-select>
-            </div>
-        </div>
+                        <span class="required">*</span>
+                    </label>
+                    <p-select
+                        class="form-p-select"
+                        formControlName="type"
+                        [options]="actionsType()"
+                        optionLabel="label"
+                        optionValue="value"
+                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                        [emptyMessage]="
+                            'COMMON.SELECT_EMPTY_MESSAGE' | translate
+                        "
+                        styleClass="w-full"
+                    />
+                </div>
 
-        <div class="form-group pt-3">
-            <label for="action-description">
-                {{
-                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION'
-                        | translate
-                }}
-                <span class="text-danger">*</span>
-            </label>
-            <textarea
-                id="action-description"
-                pInputTextarea
-                formControlName="description"
-                rows="5"
-                maxlength="255"
-                placeholder="{{
-                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION_PLACEHOLDER'
-                        | translate
-                }}"
-                class="form-control"
-            ></textarea>
-        </div>
+                <div class="col-md-3">
+                    <label class="form-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE'
+                                | translate
+                        }}
+                        <span class="required">*</span>
+                    </label>
+                    <p-datepicker
+                        formControlName="date"
+                        [showIcon]="true"
+                        [showTime]="true"
+                        hourFormat="24"
+                        dateFormat="yy-mm-dd"
+                        appendTo="body"
+                        styleClass="w-full"
+                    />
+                </div>
 
-        <div class="form-group pt-3 toggle-group">
-            <div class="toggle-container">
-                <label for="action-notify" class="toggle-label">
-                    {{
-                        'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
-                            | translate
-                    }}
-                </label>
-                <p-toggleswitch
-                    id="action-notify"
-                    formControlName="shouldNotifyUser"
-                ></p-toggleswitch>
+                @if (operators().length) {
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            {{ 'COMMON.OPERATORS' | translate }}
+                            <span class="required">*</span>
+                        </label>
+                        <div class="operator-card" role="radiogroup">
+                            @for (operator of operators(); track operator) {
+                                <div
+                                    class="operator-item"
+                                    [class.selected]="
+                                        formStore.operator() === operator
+                                    "
+                                    (click)="formStore.selectOperator(operator)"
+                                    (keydown.enter)="
+                                        formStore.selectOperator(operator)
+                                    "
+                                    role="radio"
+                                    [attr.aria-checked]="
+                                        formStore.operator() === operator
+                                    "
+                                    tabindex="0"
+                                >
+                                    <div class="radio-indicator">
+                                        <div
+                                            class="radio-dot"
+                                            [class.active]="
+                                                formStore.operator() ===
+                                                operator
+                                            "
+                                        ></div>
+                                    </div>
+                                    <p-tag
+                                        [value]="operator"
+                                        [style]="getOperatorTagStyle(operator)"
+                                    />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
             </div>
+
+            <div class="row my-3">
+                <div class="col-md-4">
+                    <label class="form-label" id="conformity-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
+                                | translate
+                        }}
+                        <span class="required">*</span>
+                    </label>
+
+                    <p-selectbutton
+                        formControlName="isConform"
+                        [options]="conformityOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        dataKey="value"
+                        [allowEmpty]="false"
+                        [invalid]="
+                            formStore.form.get('isConform')?.invalid &&
+                            formStore.form.get('isConform')?.touched
+                        "
+                        ariaLabelledBy="conformity-label"
+                        styleClass="w-full conformity-selector"
+                        size="small"
+                    >
+                        <ng-template #item let-option>
+                            <div class="conformity-option">
+                                <i [class]="option.icon"></i>
+
+                                <div class="conformity-content">
+                                    <span class="title">
+                                        {{ option.label }}
+                                    </span>
+
+                                    @if (option.description) {
+                                        <small class="description">
+                                            {{ option.description }}
+                                        </small>
+                                    }
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-selectbutton>
+
+                    @if (
+                        formStore.form.get('isConform')?.invalid &&
+                        formStore.form.get('isConform')?.touched
+                    ) {
+                        <small class="error-message">
+                            {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                        </small>
+                    }
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION'
+                                | translate
+                        }}
+                        <span class="required">*</span>
+                    </label>
+                    <textarea
+                        pInputTextarea
+                        formControlName="description"
+                        rows="3"
+                        [maxlength]="255"
+                        [placeholder]="
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION_PLACEHOLDER'
+                                | translate
+                        "
+                        class="w-full"
+                        [autoResize]="true"
+                    ></textarea>
+                    <div class="field-footer">
+                        @if (
+                            formStore.form.get('description')?.invalid &&
+                            formStore.form.get('description')?.touched
+                        ) {
+                            <small class="error-message">
+                                {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                            </small>
+                        }
+                        <small class="char-count">
+                            {{
+                                formStore.form.get('description')?.value
+                                    ?.length || 0
+                            }}/255
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-field full-width">
+                <div class="toggle-field">
+                    <label class="form-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
+                                | translate
+                        }}
+                    </label>
+                    <p-toggleswitch formControlName="shouldNotifyUser" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <ng-template #footer>
+        <div class="dialog-footer">
+            <p-button
+                [label]="'COMMON.CANCEL' | translate"
+                icon="pi pi-times"
+                severity="secondary"
+                [outlined]="true"
+                (onClick)="formStore.close()"
+            />
+
+            <p-button
+                [label]="'COMMON.SAVE' | translate"
+                [icon]="
+                    formStore.isSubmitting()
+                        ? 'pi pi-spin pi-spinner'
+                        : 'pi pi-check'
+                "
+                [loading]="formStore.isSubmitting()"
+                [disabled]="!formStore.isValid() || formStore.isSubmitting()"
+                (onClick)="onSubmit()"
+            />
         </div>
-    </form>
-    <ng-template pTemplate="footer">
-        <p-button
-            [label]="'COMMON.CANCEL' | translate"
-            icon="pi pi-times"
-            severity="danger"
-            (onClick)="closeModal()"
-        ></p-button>
-        <p-button
-            [label]="'COMMON.SAVE' | translate"
-            [icon]="
-                facade.actionState() === 'loading'
-                    ? 'pi pi-spin pi-spinner'
-                    : 'pi pi-check'
-            "
-            (onClick)="onSubmit()"
-            [disabled]="form.invalid || facade.actionState() === 'loading'"
-        ></p-button>
     </ng-template>
 </p-dialog>

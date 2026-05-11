@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
 
+import { TreeNodeEntity } from '../entities/tree-node.entity';
+import { PermissionAction } from '../types/permission-action.type';
+
 @Injectable({ providedIn: 'root' })
 export class PermissionTreeService {
-    transformPermissionsToTree(permissions: any[]): TreeNodeInterface[] {
-        return permissions.map((p) => this.mapEntityToTreeNode(p));
+    public mapNodes(permissions: TreeNodeEntity[]): TreeNodeInterface[] {
+        return permissions.map((p: TreeNodeEntity) => this.mapNode(p));
     }
 
-    private mapEntityToTreeNode(entity: any): TreeNodeInterface {
+    private mapNode(entity: TreeNodeEntity): TreeNodeInterface {
         const children: TreeNodeInterface[] = (entity.children ?? []).map(
-            (c: any) => this.mapEntityToTreeNode(c)
+            (c: TreeNodeEntity) => this.mapNode(c)
         );
 
         const hasCheckedDescendant = children.some(
@@ -17,76 +20,16 @@ export class PermissionTreeService {
         );
 
         return {
-            key: entity.key.toString(),
-            value: entity.value.toString(),
-            label: entity.label,
-            icon: entity.icon ?? '',
-            checked: entity.checked ?? false,
+            key: entity?.key.toString(),
+            value: entity?.value.toString(),
+            label: entity?.label,
+            icon: entity?.label ?? '',
+            actions: entity.actions,
             selectable: true,
             expanded: hasCheckedDescendant,
             children,
             leaf: children.length === 0,
         };
-    }
-
-    collectLeafKeysFromNodes(nodes: TreeNodeInterface[]): string[] {
-        console.log('nodes: ', nodes);
-        const result = new Set<string>();
-
-        const collect = (node: TreeNodeInterface) => {
-            if (node.value) {
-                result.add(node.value);
-            }
-            if (!node.children || node.children.length === 0) {
-                result.add(node.value);
-                return;
-            }
-            node.children.forEach(collect);
-        };
-
-        nodes.forEach(collect);
-        return [...result];
-    }
-
-    countLeafNodes(nodes: TreeNodeInterface[]): Set<string> {
-        const leafKeys = new Set<string>();
-
-        const collect = (node: TreeNodeInterface) => {
-            if (!node.children || node.children.length === 0) {
-                leafKeys.add(node.key);
-                return;
-            }
-            node.children.forEach(collect);
-        };
-
-        nodes.forEach(collect);
-
-        return leafKeys;
-    }
-
-    updateNodesExpanded(
-        nodes: TreeNodeInterface[],
-        selectedNodes: TreeNodeInterface[]
-    ): TreeNodeInterface[] {
-        const selectedKeys = new Set(selectedNodes.map((n) => n.key));
-
-        const hasSelectedDescendant = (node: TreeNodeInterface): boolean => {
-            if (selectedKeys.has(node.key)) {
-                return true;
-            }
-            return node.children?.some(hasSelectedDescendant) ?? false;
-        };
-
-        return nodes.map((node) => {
-            const updatedChildren = node.children
-                ? this.updateNodesExpanded(node.children, selectedNodes)
-                : [];
-            return {
-                ...node,
-                expanded: hasSelectedDescendant(node),
-                children: updatedChildren,
-            };
-        });
     }
 
     expandAll(nodes: TreeNodeInterface[]): TreeNodeInterface[] {
@@ -105,22 +48,89 @@ export class PermissionTreeService {
         }));
     }
 
+    propagateDown(
+        node: TreeNodeInterface,
+        action: PermissionAction,
+        value: boolean
+    ): void {
+        node.data.actions[action] = value;
+
+        node.children?.forEach((child) =>
+            this.propagateDown(child, action, value)
+        );
+    }
+
+    propagateUp(node: TreeNodeInterface, action: PermissionAction): void {
+        let parent = node.parent;
+        if (!parent) {
+            return;
+        }
+
+        while (parent) {
+            const children = parent.children ?? [];
+
+            const allChecked = children.every(
+                (child: any) => child.data?.actions?.[action] === true
+            );
+
+            parent.data.actions[action] = allChecked;
+
+            parent = parent.parent;
+        }
+    }
+
+    getActionState(
+        node: TreeNodeInterface,
+        action: PermissionAction
+    ): 'checked' | 'unchecked' | 'indeterminate' {
+        if (!node.children?.length && node.actions) {
+            return node.actions[action] ? 'checked' : 'unchecked';
+        }
+
+        const states = node.children.map((c) => this.getActionState(c, action));
+
+        const allChecked = states.every((s) => s === 'checked');
+        const allUnchecked = states.every((s) => s === 'unchecked');
+
+        if (allChecked) {
+            return 'checked';
+        }
+        if (allUnchecked) {
+            return 'unchecked';
+        }
+
+        return 'indeterminate';
+    }
+
+    flatten(nodes: TreeNodeInterface[]): any[] {
+        const result = new Map<string, any>();
+
+        const walk = (node: TreeNodeInterface) => {
+            result.set(node.key, {
+                key: node.key,
+                actions: { ...node.actions },
+            });
+
+            node.children?.forEach(walk);
+        };
+
+        nodes.forEach(walk);
+
+        return Array.from(result.values());
+    }
+
     collectCheckedNodes(nodes: TreeNodeInterface[]): TreeNodeInterface[] {
         const result: TreeNodeInterface[] = [];
 
-        const walk = (items: TreeNodeInterface[]) => {
-            for (const node of items) {
-                if (node.checked) {
-                    result.push(node);
-                }
-
-                if (node.children?.length) {
-                    walk(node.children);
-                }
+        const walk = (n: TreeNodeInterface) => {
+            if (Object.values(n.actions ?? {}).some(Boolean)) {
+                result.push(n);
             }
+
+            n.children?.forEach(walk);
         };
 
-        walk(nodes);
+        nodes.forEach(walk);
 
         return result;
     }

@@ -36,7 +36,7 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
 import { ToastrService } from 'ngx-toastr';
@@ -102,7 +102,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
         initialValue: null,
     });
     readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+        this.appConfig.customization.app.name
     );
 
     readonly profiles = toSignal(this.profilesPermissionsSelectFacade.items$, {

@@ -38,7 +38,7 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Roles } from '@shared/domain/enums/roles.enum';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
 import { ToastrService } from 'ngx-toastr';
@@ -103,7 +103,7 @@ export class TeamsParticipantsComponent implements OnInit {
         initialValue: null,
     });
     readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+        this.appConfig.customization.app.name
     );
 
     readonly teams = toSignal(this.teamsSelectFacade.items$, {

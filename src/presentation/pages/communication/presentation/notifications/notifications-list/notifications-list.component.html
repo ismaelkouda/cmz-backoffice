@@ -42,15 +42,13 @@
                                 (headerButtonClicked)="
                                     onHeaderButtonClicked($event)
                                 "
-                                (refreshRequested)="onRefreshClicked()"
                                 (actionClicked)="onActionClicked($event)"
-                                (export)="onExportClicked()"
                             ></app-table>
 
                             <app-pagination
                                 class="pagination-component"
                                 [pagination]="pagination()"
-                                (pageChange)="onPageChangeClicked($event)"
+                                (pageChange)="onChangePageClicked($event)"
                             ></app-pagination>
                         </section>
                     </div>
@@ -64,7 +62,7 @@
             [visible]="isVisibleDialog()"
             [uniqId]="selectedReportId"
             [type]="selectedManagementType()"
-            (visibleChange)="onVisibleChange($event)"
+            (visibleChange)="onVisibleDialogClicked($event)"
         ></app-management-dialog>
     }
 </main>

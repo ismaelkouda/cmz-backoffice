@@ -1,7 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { AppConfig, BuildInfo } from '@environments/config.types';
 import { BehaviorSubject, Observable } from 'rxjs';
+
+import { AppConfig, BuildInfo } from '../config/config.types';
 
 @Injectable({
     providedIn: 'root',
@@ -25,11 +26,7 @@ export class ConfigurationService {
     }
 
     private loadConfiguration(): { config: AppConfig; buildInfo: BuildInfo } {
-        if (isPlatformBrowser(this.platformId)) {
-            return this.loadBrowserConfig();
-        } else {
-            return this.loadServerConfig();
-        }
+        return this.loadBrowserConfig();
     }
 
     private loadBrowserConfig(): { config: AppConfig; buildInfo: BuildInfo } {
@@ -67,63 +64,6 @@ export class ConfigurationService {
             console.warn('⚠️ Error accessing window configuration:', error);
             return null;
         }
-    }
-
-    private loadServerConfig(): { config: AppConfig; buildInfo: BuildInfo } {
-        const nodeEnv = (process.env['NODE_ENV'] as 'dev' | 'prod') || 'dev';
-
-        const configs = {
-            dev: {
-                authenticationUrl:
-                    'http://10.10.70.64:7000/auth/v1.0/backoffice/',
-                reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
-                settingUrl:
-                    'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
-                fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
-                environmentDeployment: 'DEV' as const,
-                enableDebug: true,
-                messageApp: {
-                    sourceStockTenantSim:
-                        'Le système utilisera une SIM blanche du Stock du Tenant',
-                    sourceStockOrangeSim: 'Orange fournira la SIM...',
-                    sourceSoldeDotation: 'Le solde de la dotation Data...',
-                    sourceSoldeDotationOrange: 'Orange fera le dépôt...',
-                },
-                appSettings: {
-                    appName: 'IMAKO',
-                    appLogoFull: 'assets/images/logo/logo-ansut-full.png',
-                    appLogoIcon: 'assets/images/favicon.png',
-                    appPrimaryColor: '#0566FF',
-                    appSecondaryColor: '#F08224',
-                    appTertiaryColor: '#FFFFFF',
-                },
-            },
-            test: {
-                authenticationUrl:
-                    'http://10.10.70.64:7000/auth/v1.0/backoffice/',
-                reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
-                settingUrl:
-                    'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
-                fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
-                environmentDeployment: 'TEST' as const,
-                enableDebug: true,
-            },
-            prod: {
-                authenticationUrl:
-                    'http://10.10.70.64:7000/auth/v1.0/backoffice/',
-                reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
-                settingUrl:
-                    'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
-                fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
-                environmentDeployment: 'PROD' as const,
-                enableDebug: false,
-            },
-        };
-
-        return {
-            config: configs[nodeEnv],
-            buildInfo: this.createDefaultBuildInfo(nodeEnv),
-        };
     }
 
     private createDefaultBuildInfo(environment?: string): BuildInfo {
@@ -190,10 +130,6 @@ export class ConfigurationService {
 
     get appSettings() {
         return this.config.appSettings || {};
-    }
-
-    get messageApp() {
-        return this.config.messageApp || {};
     }
 
     get buildInformation(): BuildInfo {

@@ -4,7 +4,7 @@ import { TasksVmProps } from '@pages/finalization/domain/interfaces/tasks/tasks-
 export class TasksPresenter {
     constructor(private readonly t: (key: string) => string) {}
 
-    map(item: TasksEntity): TasksVmProps {
+    map(item: TasksEntity, permission: { canFinalize: boolean }): TasksVmProps {
         return {
             uniqId: item.uniqId,
             type: item.type,
@@ -14,6 +14,10 @@ export class TasksPresenter {
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonFinalize: permission.canFinalize
+                ? this.t('FINALIZATION.TASKS.TOOLTIP.FINALIZE')
+                : this.t('FINALIZATION.TASKS.TOOLTIP.SEE_MORE'),
+            disableButtonFinalize: !permission.canFinalize,
         };
     }
 }

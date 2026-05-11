@@ -154,14 +154,17 @@ export class TasksActionsFacade extends BaseFacade<
     }
 
     create(action: TasksActionsCreateDto): void {
+        console.log('action: ', action);
         this._actionState.set('loading');
 
         const command = new TasksActionsCreateCommand(
             action.reportUniqId,
             action.date,
             action.type,
+            action.operator,
             action.description,
-            action.shouldNotifyUser
+            action.shouldNotifyUser,
+            action.isConform
         );
 
         this.handleActionWithRefresh(
@@ -182,6 +185,7 @@ export class TasksActionsFacade extends BaseFacade<
     }
 
     update(action: TasksActionsUpdateDto): void {
+        console.log('action: ', action);
         this._actionState.set('loading');
 
         const command = new TasksActionsUpdateCommand(
@@ -189,8 +193,10 @@ export class TasksActionsFacade extends BaseFacade<
             action.reportUniqId,
             action.date,
             action.type,
+            action.operator,
             action.description,
-            action.shouldNotifyUser
+            action.shouldNotifyUser,
+            action.isConform
         );
 
         this.handleActionWithRefresh(

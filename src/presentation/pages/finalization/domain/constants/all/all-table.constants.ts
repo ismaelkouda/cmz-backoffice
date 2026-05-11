@@ -6,9 +6,9 @@ export function calculateActionColumnWidth(actionCount: number): string {
 export const ALL_TABLE = {
     actions: [
         {
-            id: 'management-dialog',
+            id: 'view',
             icon: 'pi pi-window-maximize',
-            tooltip: 'FINALIZATION.ALL.TABLE.TAKE',
+            tooltip: 'FINALIZATION.ALL.TABLE.SEE_MORE',
             severity: 'primary',
         },
     ],

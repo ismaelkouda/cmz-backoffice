@@ -392,23 +392,23 @@
             "TASK_STATUS": {
                 "TITLE": "Etat des bacs de taches en attente",
                 "PENDING": {
-                    "LABEL": "En attente",
+                    "LABEL": "En attente de qualification",
                     "SUBTITLE": "Signalements en attente de qualification"
                 },
                 "IN_PROGRESS": {
-                    "LABEL": "En traitement",
+                    "LABEL": "Demandes rejetées",
                     "SUBTITLE": "Signalements en attente d'affectation"
                 },
                 "TREATED": {
-                    "LABEL": "Traités",
+                    "LABEL": "Signalements en traitement",
                     "SUBTITLE": "Signalements en cours de traitement"
                 },
                 "FINALIZED": {
-                    "LABEL": "Finalisés",
+                    "LABEL": "Signalements clôturés",
                     "SUBTITLE": "Signalements en attente de finalisation"
                 },
                 "EVALUATED": {
-                    "LABEL": "Evalués",
+                    "LABEL": "Signalements évalués",
                     "SUBTITLE": "Signalements en attente d'évaluation"
                 }
             },
@@ -1000,7 +1000,7 @@
                 "DESCRIPTION": "Description",
                 "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                 "POPULATION_SIZE": "# Populations",
-                "INFRASTRUCTURES_COUNT": "# Infrastructures",
+                "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             },
@@ -1089,7 +1089,7 @@
                 "DESCRIPTION": "Description",
                 "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                 "POPULATION_SIZE": "# Populations",
-                "INFRASTRUCTURES_COUNT": "# Infrastructures",
+                "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             },
@@ -1178,7 +1178,7 @@
                 "DESCRIPTION": "Description",
                 "MUNICIPALITIES_COUNT": "# communes/Sous-préfectures",
                 "POPULATION_SIZE": "# Populations",
-                "INFRASTRUCTURES_COUNT": "# Infrastructures",
+                "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
                 "UPDATED_AT":"Modifié le",
                 "ACTION": "Action"
@@ -1247,7 +1247,7 @@
                 "MUNICIPALITIES_COUNT": "# Communes/Sous-préfectures",
                 "DESCRIPTION": "Description",
                 "POPULATION_SIZE": "# Populations",
-                "INFRASTRUCTURES_COUNT": "# Infrastructures",
+                "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             }
@@ -1274,7 +1274,7 @@
                 "NAME": "Nom de la Commune/Sous-préfecture",
                 "DESCRIPTION": "Description",
                 "POPULATION_SIZE": "# Populations",
-                "INFRASTRUCTURES_COUNT": "# Infrastructures",
+                "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
             }
@@ -1426,6 +1426,25 @@
                     "IN_PROGRESS": "En cours",
                     "COMPLETED": "Terminé"
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "TAKE": "Ajouter au panier cette demande",
+                    "NOT_TAKE": "Impossible d'ajouter au panier cette demande"
+                },
+                "MESSAGE": {
+                    "TAKE": "Êtes-vous sûr de vouloir ajouter au panier la demande <b class='text-primary'>uniqId</b>",
+                    "NOT_TAKE": "Votre profile ne vous permet pas d'ajout au panier la demande <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des demandes",
+                "EXPORT": "Exporter la liste de {nb} demandes",
+                "TAKE": "Ajouter au panier cette demande",
+                "NO_PERMISSION_EXPORT": "Exportation des demandes non permis",
+                "NO_EXPORT": "Aucune demande à exporter",
+                "NOT_TAKE": "Impossible d'ajouter au panier cette demande",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "TASKS": {
@@ -1503,6 +1522,25 @@
                     "IN_REVIEW": "En revue",
                     "QUEUED": "Fermée"
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "QUALIFY": "Qualifier cette demande",
+                    "NOT_QUALIFY": "Impossible de qualifier cette demande"
+                },
+                "MESSAGE": {
+                    "QUALIFY": "Êtes-vous sûr de vouloir qualifier la demande <b class='text-primary'>uniqId</b>",
+                    "NOT_QUALIFY": "Votre profile ne vous permet pas de qualifier la demande <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des demandes",
+                "EXPORT": "Exporter la liste de {nb} demandes",
+                "QUALIFY": "Qualifier cette demande",
+                "NO_PERMISSION_EXPORT": "Exportation des demandes non permis",
+                "NO_EXPORT": "Aucune demande à exporter",
+                "NOT_QUALIFY": "Impossible de qualifier cette demande",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "ALL": {
@@ -1595,12 +1633,19 @@
                     "IN_REVIEW": "En revue",
                     "QUEUED": "Fermée"
                 }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des demandes",
+                "EXPORT": "Exporter la liste de {nb} demandes",
+                "NO_PERMISSION_EXPORT": "Exportation des demandes non permis",
+                "NO_EXPORT": "Aucune demande à exporter",
+                "SEE_MORE": "Voir plus d'informations"
             }
         }
     },
     "PROCESSING": {
         "BREADCRUMB": {
-            "LABEL": "Traitements Signalements",
+            "LABEL": "Prise en charge",
             "ROUTE": "processing",
             "ICON": "pi pi-check-square"
         },
@@ -1609,7 +1654,7 @@
             "FINALIZATION": "Finalisation",
             "EVALUATION": "Evaluation"
         },
-        "LABEL": "Traitements Signalements",
+        "LABEL": "Prise en charge",
         "ROUTE": "processing",
         "QUEUES": {
             "TITLE": "signalements en attente d'affectation",
@@ -1674,9 +1719,23 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_TAKE": "Ajouter au panier les signalements",
-                "MESSAGE_TAKE": "Êtes-vous sûr de vouloir ajouter au panier les signalements",
-                "BUTTONS": "Ajouter au panier"
+                "TITLE": {
+                    "TAKE": "Ajouter au panier ce signalement",
+                    "NOT_TAKE": "Impossible d'ajouter au panier ce signalement"
+                },
+                "MESSAGE": {
+                    "TAKE": "Êtes-vous sûr de vouloir ajouter au panier ce signalement <b class='text-primary'>uniqId</b>",
+                    "NOT_TAKE": "Votre profile ne vous permet pas d'ajout au panier ce signalement <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements",
+                "TAKE": "Ajouter au panier ce signalement",
+                "NOT_TAKE": "Impossible d'ajouter au panier ce signalement",
+                "NO_PERMISSION_EXPORT": "Exportation des signalements non permis",
+                "NO_EXPORT": "Aucun signalement à exporter",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "TASKS": {
@@ -1775,14 +1834,48 @@
                     "TYPE": "Type d'action",
                     "DESCRIPTION": "Description",
                     "CREATED_BY": "Créé par",
+                    "OPERATORS": "Opérateur",
                     "ACTION": "Action",
                     "STEP": "Étape",
                     "STATUS": "Statut",
-                    "SEE_MORE": "Voir plus",
-                    "TOOLTIP_BUTTON_CAN_NOT_DELETE": "Impossible de supprimer cette action",
-                    "TOOLTIP_BUTTON_CAN_NOT_EDIT": "Impossible de modifier cette action",
-                    "TOOLTIP_BUTTON_CAN_DELETE": "Supprimer cette action",
-                    "TOOLTIP_BUTTON_CAN_EDIT": "Modifier cette action"
+                    "SEE_MORE": "Voir plus"
+                },
+                "SWEET_ALERT": {
+                    "TITLE": {
+                        "CREATE": "Créer cet action",
+                        "NOT_CREATE": "Impossible de créer cet action",
+                        "EDIT": "Editer cet action",
+                        "NOT_EDIT": "Impossible d'éditer cet action",
+                        "DELETE": "Supprimer cet action",
+                        "NOT_DELETE": "Impossible de supprimer cet action"
+                    },
+                    "MESSAGE": {
+                        "CREATE": "Êtes-vous sûr de vouloir créer cet action <b class='text-primary'>uniqId</b>",
+                        "NOT_CREATE": "Votre profile ne vous permet pas de créer cet action <b class='text-primary'>uniqId</b>",
+                        "EDIT": "Êtes-vous sûr de vouloir éditer cet action <b class='text-primary'>uniqId</b>",
+                        "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cet action <b class='text-primary'>uniqId</b>",
+                        "DELETE": "Êtes-vous sûr de vouloir supprimer cet action <b class='text-primary'>uniqId</b>",
+                        "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cet action <b class='text-primary'>uniqId</b>"
+                    }
+                },
+                "TOOLTIP": {
+                    "REFRESH": "Rafraîchir la liste des actions",
+                    "EXPORT": "Exporter la liste de {nb} actions",
+                    "CREATE": "Créer une action",
+                    "EDIT": "Editer cet action",
+                    "CLOSE": "Clôturer cet action",
+                    "DELETE": "Supprimer cet action",
+                    "NO_PERMISSION_EXPORT": "Exportation des actions non permis",
+                    "NO_EXPORT": "Aucune action à exporter",
+                    "NO_PERMISSION_CREATE": "Création d'une action non permis",
+                    "NOT_EDIT": "Utilisateurs notifier, Impossible d'éditer cet action",
+                    "NO_PERMISSION_EDIT": "Edition d'une action non permis",
+                    "NOT_ALREADY_CLOSE": "Traitement a été une clôturé",
+                    "NO_PERMISSION_CLOSE": "Clôture d'une action non permis",
+                    "NO_CLOSE": "Veuillez créer au moins une action avant la clôture",
+                    "NOT_DELETE": "Utilisateurs notifier, Impossible de supprimer cet action",
+                    "NO_PERMISSION_DELETE": "Suppression d'une action non permis",
+                    "SEE_MORE": "Voir plus d'informations"
                 },
                 "DIALOG": {
                     "TITLE": "Enregistrement d'une action de traitement",
@@ -1793,6 +1886,11 @@
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
                         "NOTIFY_USERS": "Notifier les utilisateurs",
+                        "CONFORMITY": {
+                            "TITLE": "Conformité",
+                            "CONFORM": "Conforme",
+                            "NO_CONFORM": "Pas conforme"
+                        },
                         "TYPE_ACTIONS_OPTIONS": {
                             "ANALYSIS": "Analyse",
                             "TREATMENT": "Traitement",
@@ -1809,10 +1907,28 @@
                         "MESSAGE_EDIT": "Voulez-vous vraiment mettre à jour cette action de traitement ?",
                         "TITLE_DELETE": "Suppression d'une action de traitement",
                         "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette action de traitement ?",
-                        "TITLE_CLOSURE": "Clôture le traitement",
+                        "TITLE_CLOSURE": "Clôturer le traitement",
                         "MESSAGE_CLOSURE": "Voulez-vous vraiment clôturer traitement du signalement <b class='text-primary'>uniqId</b> ?"
                     }
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "TREAT": "Traiter ce signalement",
+                    "NOT_TREAT": "Impossible de traiter ce signalement"
+                },
+                "MESSAGE": {
+                    "TREAT": "Êtes-vous sûr de vouloir traiter ce signalement <b class='text-primary'>uniqId</b>",
+                    "NOT_TREAT": "Votre profile ne vous permet pas de traiter ce signalement <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements",
+                "TREAT": "Traiter ce signalement",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements",
+                "NOT_TREAT": "Impossible de traiter ce signalement",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "ALL": {
@@ -1895,6 +2011,12 @@
                     "IN_REVIEW": "En revue",
                     "QUEUED": "Fermée"
                 }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements",
+                "SEE_MORE": "Voir plus d'informations"
             }
         }
     },
@@ -1974,9 +2096,22 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_TAKE": "Ajouter au panier les signalements",
-                "MESSAGE_TAKE": "Êtes-vous sûr de vouloir ajouter au panier les signalements",
-                "BUTTONS": "Ajouter au panier"
+                "TITLE": {
+                    "TAKE": "Ajouter au panier ce signalement",
+                    "NOT_TAKE": "Impossible d'ajouter au panier ce signalement"
+                },
+                "MESSAGE": {
+                    "TAKE": "Êtes-vous sûr de vouloir ajouter au panier ce signalement <b class='text-primary'>uniqId</b>",
+                    "NOT_TAKE": "Votre profile ne vous permet pas d'ajout au panier ce signalement <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements",
+                "TAKE": "Ajouter au panier ce signalement",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements",
+                "NOT_TAKE": "Impossible d'ajouter au panier ce signalement",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "TASKS": {
@@ -2054,6 +2189,24 @@
                     "IN_REVIEW": "En revue",
                     "QUEUED": "Fermée"
                 }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "TREAT": "Finaliser ce signalement",
+                    "NOT_TREAT": "Impossible de finaliser ce signalement"
+                },
+                "MESSAGE": {
+                    "TREAT": "Êtes-vous sûr de vouloir finaliser ce signalement <b class='text-primary'>uniqId</b>",
+                    "NOT_TREAT": "Votre profile ne vous permet pas de finaliser ce signalement <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements",
+                "TREAT": "Ajouter au panier ce signalement",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements",
+                "NOT_TREAT": "Impossible de finaliser ce signalement",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "ALL": {
@@ -2077,8 +2230,7 @@
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
-                "SEE_MORE": "Voir plus",
-                "ACTION": "Action"
+                "SEE_MORE": "Voir plus"
             },
             "FILTER": {
                 "INITIATOR": "Initiateur",
@@ -2135,28 +2287,51 @@
                     "IN_REVIEW": "En revue",
                     "QUEUED": "Fermée"
                 }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements",
+                "SEE_MORE": "Voir plus d'informations"
             }
-        },
-        "TREATMENT": {
-            "TITLE": "signalements en cours de traitement",
-            "LABEL": "Traitement",
-            "ROUTE": "progress",
+        }
+    },
+    "REPORT_STATES": {
+        "BREADCRUMB": {
+                "LABEL": "Etat des signalements",
+                "ROUTE": "report-status",
+                "ICON": "pi-list-check"
+            },
+        "LABEL": "Qualifications",
+        "ROUTE": "report-status",
+        "REJECT": {
+            "TITLE": "demandes rejetées",
+            "LABEL": "Demandes rejetées",
+            "ROUTE": "rejected",
+            "BREADCRUMB": {
+                "LABEL": "Demandes rejetées",
+                "ROUTE": "rejected"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
-                "REPORT_TYPE": "Types de signalements",
+                "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
-                "STATE": "État",
+                "SOURCE": "Initiateur [Num]",
                 "SEE_MORE": "Voir plus",
-                "TREAT": "Traiter",
-                "JOURNAL": "Journal",
+                "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
             },
             "FILTER": {
-                "INITIATOR": "Initiateur",
-                "REPORT_TYPE": "Types de signalements",
-                "STATE": "État",
-                "OPERATORS": "Opérateur"
+                "INITIATOR": "Numero initiateur",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Types de demandes",
+                "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -2165,58 +2340,222 @@
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
                 },
-                "STATE": {
-                    "TERMINATED": "Terminé",
-                    "IN_PROGRESS": "En cours",
-                    "REJECTED": "Rejeté"
-                },
                 "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
                 }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Réceptionné",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des demandes",
+                "EXPORT": "Exporter la liste de {nb} demandes rejetées",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des demandes",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
-        "FINALIZE": {
-            "TITLE": "signalements en attente de finalisation",
-            "LABEL": "Finalisation",
-            "ROUTE": "finalize",
+        "CLOSE": {
+            "TITLE": "signalements clôturés",
+            "LABEL": "Signalements clôturés",
+            "ROUTE": "closed",
+            "BREADCRUMB": {
+                "LABEL": "Signalements clôturés",
+                "ROUTE": "closed"
+            },
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "STATE": "État",
-                "SEE_MORE": "Voir plus",
-                "FINALIZE": "Finaliser",
+                "SOURCE": "Initiateur [Num]",
+                "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
             "FILTER": {
-                "INITIATOR": "Initiateur",
+                "INITIATOR": "Numero initiateur",
+                "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
-                "STATE": "État",
-                "OPERATORS": "Opérateur"
+                "OPERATORS": "Opérateur",
+                "SOURCE": "Source",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "WHITE_ZONE": "Zone Blanche"
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet",
+                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
+                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
                 },
-                "STATE": {
-                    "FINALIZED": "Finalisé",
-                    "PENDING": "En attente",
+                "STATUS": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
                     "REJECTED": "Rejeté"
                 },
                 "OPERATORS": {
                     "ORANGE": "Orange",
                     "MTN": "MTN",
                     "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
                 }
             },
-            "REPORT_FINALIZE": {
-                "TITLE": "Finalisation du signalement",
-                "LABEL": "Finalisation du signalement",
-                "REPORT_ID": "Identifiant du signalement",
-                "PLACEHOLDER": "Contenu de la finalisation à venir..."
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements clôturés",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements clôturés",
+                "SEE_MORE": "Voir plus d'informations"
+            }
+        },
+        "EVALUATE": {
+            "TITLE": "signalements évalués",
+            "LABEL": "Signalements évalués",
+            "ROUTE": "evaluated",
+            "BREADCRUMB": {
+                "LABEL": "Signalements évalués",
+                "ROUTE": "evaluated"
+            },
+            "STATUS": {
+                "CONFIRMED": "Confirmé",
+                "CONFIRMED_STYLE": "contrast",
+                "APPROVED": "Approuvé",
+                "APPROVED_STYLE": "success",
+                "REJECTED": "Rejeté",
+                "REJECTED_STYLE": "danger",
+                "ABANDONED": "Abandonné",
+                "ABANDONED_STYLE": "warning",
+                "IN_PROGRESS": "En cours",
+                "IN_PROGRESS_STYLE": "warn",
+                "TERMINATED": "Terminé",
+                "TERMINATED_STYLE": "info",
+                "UNKNOWN": "Inconnu"
+            },
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "REPORTED_AT": "Signalé le",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Types de signalements",
+                "OPERATORS": "Opérateurs",
+                "SOURCE": "Initiateur [Num]",
+                "STATE": "État",
+                "STEP": "Étape",
+                "STATUS": "Statut",
+                "SEE_MORE": "Voir plus",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Numero initiateur",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Types de signalements",
+                "OPERATORS": "Opérateurs",
+                "SOURCE": "Source",
+                "STATUS": "Statut",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Zone Blanche",
+                    "NO_INTERNET": "Absence d'Internet",
+                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
+                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                },
+                "OPERATORS": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements évalués",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements évalués",
+                "SEE_MORE": "Voir plus d'informations"
             }
         }
     },
@@ -2256,6 +2595,8 @@
                 "SEND_AT": "Envoyer Le",
                 "SEE_MORE": "Voir plus",
                 "READ": "Lire",
+                "TOOLTIP_BUTTON_CAN_NOT_READ": "Impossible de lire cette notification",
+                "TOOLTIP_BUTTON_CAN_READ": "Lire la notification",
                 "ACTION": "Action"
             },
 
@@ -2306,6 +2647,7 @@
                 "SUBJECT": "Sujet",
                 "CONTENT": "Contenu",
                 "SEE_MORE": "Voir plus",
+                "TOOLTIP_BUTTON_CAN_VIEW": "Voir plus d'infos sur le message",
                 "ACTION": "Action"
             },
             "ENUMS": {
@@ -2387,7 +2729,7 @@
                 "SUBMISSION": "Soumission",
                 "QUALIFICATION": "Qualification",
                 "TREATMENT": "Traitement",
-                "FINALIZATION": "Finalisation",
+                "FINALIZATION": "Prise en charge",
                 "INFORMATION": "Information",
                 "CLOSURE": "Clôture",
                 "TAKE": "Ajout au panier",
@@ -2665,9 +3007,6 @@
             },
             "SWEET_ALERT_PARAMS": {
                 "CONFIRM": {
-                    "WAITING": {
-                    "TITLE": "Ajouter au panier le signalement"
-                    },
                     "REJECT": {
                     "TITLE": "Rejeter le signalement"
                     },
@@ -3060,6 +3399,7 @@
                 "STATUS": "Statut",
                 "CREATED_AT": "Créé le",
                 "UPDATED_AT":"Modifié le",
+                "TOOLTIP_DROPDOWN_CAN_NOT_CHOOSE": "Impossible de choisir une action pour",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -3360,70 +3700,70 @@
         }
     },
     "HISTORY": {
-            "FILTER": {
-                "SEARCH": "Recherche",
-                "SEARCH_PLACEHOLDER": "Rechercher",
-                "DATE": {
-                    "FROM": "Start Date",
-                    "TO": "End Date"
-                }
-            },
-            "TABLE": {
-                "ACTION_TYPE": "Type d'action",
-                "DETAILS": "Détails",
-                "SOURCE": "Source",
-                "CREATED_AT": "Créé le",
-                "SEE_MORE": "Voir plus",
-                "ACTION": "Action"
-            },
-            "DIALOG": {
-                "TITLE": "Détail de l'historique",
-                "DATE": "Date & Heure",
-                "USER": "Utilisateur",
-                "OPERATION": "Opération",
-                "ACTION": "Action",
-                "MODULE": "Module",
-                "SUB_MODULE": "Sous-module",
-                "IP_ADDRESS": "Adresse IP",
-                "ACCESS_METHOD": "Moyen d'accès",
-                "CHANGES": "Modifications",
-                "NO_CHANGES": "Aucune modification détectée",
-                "NO_DATA": "Aucune donnée disponible",
-                "PARSE_ERROR": "Erreur lors de l'analyse des données",
-                "FIELD": "Champ",
-                "VALUE": "Valeur",
-                "BEFORE": "Avant",
-                "AFTER": "Après",
-                "CHANGE": "Changement"
-            },
-            "SUMMARY": {
-                "MODIFIED": "modifiés",
-                "UNCHANGED": "inchangés",
-                "TOTAL": "total"
-            },
-            "EVENT": {
-                "CREATE": "Création",
-                "UPDATE": "Mise à jour",
-                "DELETE": "Suppression",
-                "UNKNOWN": "Évènement"
-            },
-            "OPERATION": {
-                "CREATE": "Création",
-                "UPDATE": "Mise à jour",
-                "DELETE": "Suppression",
-                "UNKNOWN": "Action inconnue"
-            },
-            "CHANGE": {
-                "ADDED": "Ajouté",
-                "REMOVED": "Supprimé",
-                "UPDATED": "Modifié",
-                "UNCHANGED": "Inchangé"
-            },
-            "IS_CHANGED": {
-                "YES": "OUI",
-                "NO": "NON"
+        "FILTER": {
+            "SEARCH": "Recherche",
+            "SEARCH_PLACEHOLDER": "Rechercher",
+            "DATE": {
+                "FROM": "Start Date",
+                "TO": "End Date"
             }
         },
+        "TABLE": {
+            "ACTION_TYPE": "Type d'action",
+            "DETAILS": "Détails",
+            "SOURCE": "Source",
+            "CREATED_AT": "Créé le",
+            "SEE_MORE": "Voir plus",
+            "ACTION": "Action"
+        },
+        "DIALOG": {
+            "TITLE": "Détail de l'historique",
+            "DATE": "Date & Heure",
+            "USER": "Utilisateur",
+            "OPERATION": "Opération",
+            "ACTION": "Action",
+            "MODULE": "Module",
+            "SUB_MODULE": "Sous-module",
+            "IP_ADDRESS": "Adresse IP",
+            "ACCESS_METHOD": "Moyen d'accès",
+            "CHANGES": "Modifications",
+            "NO_CHANGES": "Aucune modification détectée",
+            "NO_DATA": "Aucune donnée disponible",
+            "PARSE_ERROR": "Erreur lors de l'analyse des données",
+            "FIELD": "Champ",
+            "VALUE": "Valeur",
+            "BEFORE": "Avant",
+            "AFTER": "Après",
+            "CHANGE": "Changement"
+        },
+        "SUMMARY": {
+            "MODIFIED": "modifiés",
+            "UNCHANGED": "inchangés",
+            "TOTAL": "total"
+        },
+        "EVENT": {
+            "CREATE": "Création",
+            "UPDATE": "Mise à jour",
+            "DELETE": "Suppression",
+            "UNKNOWN": "Évènement"
+        },
+        "OPERATION": {
+            "CREATE": "Création",
+            "UPDATE": "Mise à jour",
+            "DELETE": "Suppression",
+            "UNKNOWN": "Action inconnue"
+        },
+        "CHANGE": {
+            "ADDED": "Ajouté",
+            "REMOVED": "Supprimé",
+            "UPDATED": "Modifié",
+            "UNCHANGED": "Inchangé"
+        },
+        "IS_CHANGED": {
+            "YES": "OUI",
+            "NO": "NON"
+        }
+    },
     "REPORTING": {
         "BREADCRUMB": {
             "LABEL": "Suivi & Reporting",

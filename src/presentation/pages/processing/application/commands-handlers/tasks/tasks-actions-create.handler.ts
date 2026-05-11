@@ -15,8 +15,10 @@ export class TasksActionsCreateHandler {
             reportUniqId: command.reportUniqId,
             date: command.date,
             type: command.type,
+            operator: command.operator,
             description: command.description,
             shouldNotifyUser: command.shouldNotifyUser,
+            isConform: command.isConform,
         });
     }
 }

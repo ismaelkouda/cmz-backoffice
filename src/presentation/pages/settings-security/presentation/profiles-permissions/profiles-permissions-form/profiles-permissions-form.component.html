@@ -1,58 +1,54 @@
-@if (loading()) {
-    <app-profiles-permissions-form-skeleton />
-} @else {
-    <main
-        class="container-fluid form-profiles-permissions-container"
-        role="main"
-    >
-        <section class="row form-profiles-permissions-row">
-            <article class="col-sm-12 form-profiles-permissions">
-                <app-breadcrumb />
+<main class="container-fluid form-profiles-permissions-container" role="main">
+    <section class="row form-profiles-permissions-row">
+        <article class="col-sm-12 form-profiles-permissions">
+            <app-breadcrumb />
+            <section class="card form-profiles-permissions-card">
+                <div class="card-body form-profiles-permissions-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="
+                                    isEditMode()
+                                        ? ('SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.TITLE_FORM_EDIT'
+                                          | translate)
+                                        : ('SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.TITLE_FORM_ADD'
+                                          | translate)
+                                "
+                            >
+                            </app-page-title>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <button
+                                pButton
+                                type="submit"
+                                (click)="onSubmit()"
+                                [disabled]="form.invalid || loadingSubmit()"
+                            >
+                                @if (!loadingSubmit()) {
+                                    <i class="pi pi-check"></i>
+                                } @else {
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                }
+                                {{ 'COMMON.SAVE' | translate }}
+                            </button>
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="navigateToBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
+                    </header>
 
-                <section class="card form-profiles-permissions-card">
-                    <div class="card-body form-profiles-permissions-card-body">
-                        <header class="actions-form-header">
-                            <div class="d-flex align-items-center">
-                                <app-page-title
-                                    class="page-title-component"
-                                    [displayDate]="false"
-                                    [displayList]="false"
-                                    [title]="
-                                        isEditMode()
-                                            ? ('SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.TITLE_FORM_EDIT'
-                                              | translate)
-                                            : ('SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.TITLE_FORM_ADD'
-                                              | translate)
-                                    "
-                                >
-                                </app-page-title>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <button
-                                    pButton
-                                    type="submit"
-                                    (click)="onSubmit()"
-                                    [disabled]="form.invalid || loadingSubmit()"
-                                >
-                                    @if (!loadingSubmit()) {
-                                        <i class="pi pi-check"></i>
-                                    } @else {
-                                        <span
-                                            class="spinner-border spinner-border-sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                        ></span>
-                                    }
-                                    {{ 'COMMON.SAVE' | translate }}
-                                </button>
-                                <p-button
-                                    label="{{ 'COMMON.CLOSE' | translate }}"
-                                    (onClick)="navigateToBack()"
-                                    styleClass="p-button-danger"
-                                />
-                            </div>
-                        </header>
-
+                    @if (loading()) {
+                        <app-profiles-permissions-form-skeleton />
+                    } @else {
                         <div class="row">
                             <div class="col-12">
                                 <div class="card shadow-sm border-0">
@@ -217,7 +213,7 @@
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-3"
                                                         >
-                                                            <div
+                                                            <!-- <div
                                                                 class="tree-controls"
                                                             >
                                                                 <p-button
@@ -253,86 +249,195 @@
                                                                     "
                                                                 >
                                                                 </p-button>
-                                                            </div>
+                                                            </div> -->
 
-                                                            <span
-                                                                class="selected-count badge"
-                                                            >
-                                                                {{
-                                                                    'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.FIELDSET_PERMISSIONS.SELECTED_COUNT'
-                                                                        | translate
-                                                                }}:
-                                                                {{
-                                                                    selectedCount()
-                                                                }}
-                                                            </span>
+                                                            <!-- <span
+                                                                    class="selected-count badge"
+                                                                >
+                                                                    {{
+                                                                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.FIELDSET_PERMISSIONS.SELECTED_COUNT'
+                                                                            | translate
+                                                                    }}:
+                                                                    {{
+                                                                        selectedCount()
+                                                                    }}
+                                                                </span> -->
                                                         </div>
 
                                                         <div
                                                             class="tree-container border rounded p-3"
                                                         >
                                                             @if (
-                                                                permissionTree()
-                                                                    .length > 0
+                                                                tree().length >
+                                                                0
                                                             ) {
-                                                                <p-tree
+                                                                <p-treeTable
                                                                     [value]="
-                                                                        permissionTree()
+                                                                        tree()
                                                                     "
-                                                                    selectionMode="checkbox"
-                                                                    [(selection)]="
-                                                                        selectedNodes
-                                                                    "
-                                                                    (onNodeSelect)="
-                                                                        onTreeInteractions()
-                                                                    "
-                                                                    (onNodeUnselect)="
-                                                                        onTreeInteractions()
-                                                                    "
-                                                                    class="w-full"
-                                                                    [filter]="
+                                                                    [scrollable]="
                                                                         true
                                                                     "
-                                                                    [filterPlaceholder]="
-                                                                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.FIELDSET_PERMISSIONS.TREE_PLACEHOLDER'
-                                                                            | translate
-                                                                    "
-                                                                    scrollHeight="400px"
+                                                                    scrollHeight="500px"
+                                                                    class="w-full permission-tree-table"
                                                                 >
                                                                     <ng-template
-                                                                        pTemplate="default"
-                                                                        let-node
+                                                                        pTemplate="header"
                                                                     >
-                                                                        <div
-                                                                            class="d-flex align-items-center justify-content-between w-100"
-                                                                        >
-                                                                            <div
-                                                                                class="node-info"
+                                                                        <tr>
+                                                                            <th
+                                                                                style="
+                                                                                    width: 45%;
+                                                                                "
                                                                             >
-                                                                                <span
-                                                                                    class="fw-medium"
-                                                                                    >{{
-                                                                                        node.label
-                                                                                    }}</span
-                                                                                >
-                                                                                @if (
-                                                                                    node
-                                                                                        .data
-                                                                                        ?.description
-                                                                                ) {
-                                                                                    <small
-                                                                                        class="text-muted d-block"
-                                                                                        >{{
-                                                                                            node
-                                                                                                .data
-                                                                                                .description
-                                                                                        }}</small
-                                                                                    >
-                                                                                }
-                                                                            </div>
-                                                                        </div>
+                                                                                Permission
+                                                                            </th>
+                                                                            <th
+                                                                                style="
+                                                                                    width: 55%;
+                                                                                "
+                                                                            >
+                                                                                Actions
+                                                                                disponibles
+                                                                            </th>
+                                                                        </tr>
                                                                     </ng-template>
-                                                                </p-tree>
+
+                                                                    <ng-template
+                                                                        pTemplate="body"
+                                                                        let-rowNode
+                                                                        let-rowData="rowData"
+                                                                    >
+                                                                        @let currentNode =
+                                                                            rowNode.node;
+
+                                                                        <tr>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex align-items-center gap-2"
+                                                                                >
+                                                                                    <p-treeTableToggler
+                                                                                        [rowNode]="
+                                                                                            rowNode
+                                                                                        "
+                                                                                    />
+                                                                                    <p-checkbox
+                                                                                        [binary]="
+                                                                                            true
+                                                                                        "
+                                                                                        size="large"
+                                                                                        [ngModel]="
+                                                                                            store.treeService.getNodeState(
+                                                                                                currentNode
+                                                                                            ) ===
+                                                                                            'checked'
+                                                                                        "
+                                                                                        [indeterminate]="
+                                                                                            store.treeService.getNodeState(
+                                                                                                currentNode
+                                                                                            ) ===
+                                                                                            'indeterminate'
+                                                                                        "
+                                                                                        [ngModelOptions]="{
+                                                                                            standalone: true,
+                                                                                        }"
+                                                                                        (onChange)="
+                                                                                            store.updateNode(
+                                                                                                currentNode,
+                                                                                                $event.checked
+                                                                                            )
+                                                                                        "
+                                                                                    />
+                                                                                    <span
+                                                                                        class="permission-label"
+                                                                                        [class.fw-semibold]="
+                                                                                            currentNode
+                                                                                                .children
+                                                                                                ?.length
+                                                                                        "
+                                                                                    >
+                                                                                        {{
+                                                                                            currentNode.label
+                                                                                        }}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                @let actionsObject =
+                                                                                    currentNode.actions ||
+                                                                                    currentNode.availableActions;
+                                                                                @let actionsList =
+                                                                                    actionsObject
+                                                                                        | keyvalue;
+
+                                                                                @if (
+                                                                                    actionsList.length >
+                                                                                    0
+                                                                                ) {
+                                                                                    <div
+                                                                                        class="d-flex flex-wrap gap-3"
+                                                                                    >
+                                                                                        @for (
+                                                                                            action of actionsList;
+                                                                                            track action.key
+                                                                                        ) {
+                                                                                            <div
+                                                                                                class="action-item d-flex align-items-center gap-2"
+                                                                                            >
+                                                                                                <p-checkbox
+                                                                                                    [binary]="
+                                                                                                        true
+                                                                                                    "
+                                                                                                    size="large"
+                                                                                                    [ngModel]="
+                                                                                                        getActionState(
+                                                                                                            currentNode,
+                                                                                                            action.key
+                                                                                                        ) ===
+                                                                                                        'checked'
+                                                                                                    "
+                                                                                                    [indeterminate]="
+                                                                                                        getActionState(
+                                                                                                            currentNode,
+                                                                                                            action.key
+                                                                                                        ) ===
+                                                                                                        'indeterminate'
+                                                                                                    "
+                                                                                                    [ngModelOptions]="{
+                                                                                                        standalone: true,
+                                                                                                    }"
+                                                                                                    (onChange)="
+                                                                                                        onPermissionChange(
+                                                                                                            rowNode,
+                                                                                                            action.key,
+                                                                                                            $event.checked
+                                                                                                        )
+                                                                                                    "
+                                                                                                />
+                                                                                                <span
+                                                                                                    class="small text-capitalize"
+                                                                                                    >{{
+                                                                                                        action.key
+                                                                                                    }}</span
+                                                                                                >
+                                                                                            </div>
+                                                                                        }
+                                                                                    </div>
+                                                                                } @else {
+                                                                                    <span
+                                                                                        class="text-muted fst-italic small"
+                                                                                    >
+                                                                                        {{
+                                                                                            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.FIELDSET_PERMISSIONS.NO_PERMISSIONS_AVAILABLE'
+                                                                                                | translate
+                                                                                        }}
+                                                                                    </span>
+                                                                                }
+                                                                            </td>
+                                                                        </tr>
+                                                                    </ng-template>
+                                                                </p-treeTable>
                                                             } @else {
                                                                 <div
                                                                     class="empty-state text-center py-5"
@@ -403,29 +508,15 @@
                                                             | translate
                                                     }}
                                                 </button>
-
-                                                <p-button
-                                                    label="{{
-                                                        'COMMON.SAVE'
-                                                            | translate
-                                                    }}"
-                                                    type="submit"
-                                                    [disabled]="
-                                                        form.invalid ||
-                                                        loading()
-                                                    "
-                                                    [loading]="loading()"
-                                                >
-                                                </p-button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </article>
-        </section>
-    </main>
-}
+                    }
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

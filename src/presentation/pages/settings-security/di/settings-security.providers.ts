@@ -14,7 +14,8 @@ import {
     SETTINGS_SECURITY_BASE_URL,
     SETTINGS_SECURITY_LOGS_BASE_URL,
 } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).settingUrl;

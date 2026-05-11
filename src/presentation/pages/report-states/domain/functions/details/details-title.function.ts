@@ -1,0 +1,29 @@
+import { detailsPermissionsApprove } from '@pages/report-states/domain/functions/details/details-permissions-approve.function';
+import { detailsPermissionsReject } from '@pages/report-states/domain/functions/details/details-permissions-reject.function';
+import { detailsPermissionsTake } from '@pages/report-states/domain/functions/details/details-permissions-take.function';
+
+import {
+    DetailsContext,
+    DetailsRule,
+} from '../../entities/details/details.entity';
+
+const RULES: DetailsRule[] = [
+    {
+        name: 'TAKE',
+        when: (ctx) =>
+            detailsPermissionsTake(ctx.props, ctx.permissions.canTake),
+        title: 'MANAGEMENT.STATUS.TAKE',
+    },
+    {
+        name: 'APPROVE',
+        when: (ctx) =>
+            detailsPermissionsApprove(ctx.props, ctx.permissions.canQualify) ||
+            detailsPermissionsReject(ctx.props),
+        title: 'MANAGEMENT.STATUS.APPROBATION',
+    },
+];
+
+export function detailsTitle(ctx: DetailsContext): string {
+    const rule = RULES.find((r) => r.when(ctx));
+    return rule?.title ?? 'MANAGEMENT.STATUS.INFORMATION';
+}

@@ -1,6 +1,12 @@
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
+
 export interface TasksActionsVmProps {
     uniqId: string;
     type: string;
+    code: string;
+    operators: TelecomOperator[];
+    shouldNotifyUser: boolean;
+    isConform: boolean;
     date: string;
     description: string;
     notifyUser: boolean;
@@ -10,10 +16,8 @@ export interface TasksActionsVmProps {
     updatedAt: string;
     actionsRef: string;
 
-    tooltipButtonCanNotDelete: string;
-    tooltipButtonCanDelete: string;
+    tooltipButtonDelete: string;
+    tooltipButtonEdit: string;
     disableButtonDelete: boolean;
-    tooltipButtonCanNotEdit: string;
-    tooltipButtonCanEdit: string;
     disableButtonEdit: boolean;
 }

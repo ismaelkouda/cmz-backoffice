@@ -4,7 +4,8 @@ import { provideDetails } from '@pages/finalization/di/details/details.providers
 import { provideQueues } from '@pages/finalization/di/queues/queues.providers';
 import { provideTasks } from '@pages/finalization/di/tasks/tasks.providers';
 import { FINALIZATION_BASE_URL } from '@pages/finalization/infrastructure/api/finalization.base-url';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).reportUrl;

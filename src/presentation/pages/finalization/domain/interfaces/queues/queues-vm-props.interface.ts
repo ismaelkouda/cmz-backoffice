@@ -10,4 +10,7 @@ export interface QueuesVmProps {
     initiatorPhoneNumber: string;
     reportedAt: string;
     actionsRef: string;
+
+    tooltipButtonTake: string;
+    disableButtonTake: boolean;
 }

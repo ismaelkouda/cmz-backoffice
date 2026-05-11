@@ -4,16 +4,17 @@ import { ProfilesPermissionsCreateApiDto } from '@pages/settings-security/infras
 export function profilesPermissionsCreateMapper(
     entity: ProfilesPermissionsCreateEntity
 ): ProfilesPermissionsCreateApiDto {
-    const params: ProfilesPermissionsCreateApiDto =
-        {} as ProfilesPermissionsCreateApiDto;
+    const params = {} as ProfilesPermissionsCreateApiDto;
 
     if (entity.name) {
-        params['name'] = entity.name;
+        params.name = entity.name;
     }
+
     if (entity.description) {
-        params['description'] = entity.description;
+        params.description = entity.description;
     }
-    if (entity.permissions && entity.permissions.length > 0) {
+
+    if (entity.permissions) {
         params['permissions'] = entity.permissions;
     }
 

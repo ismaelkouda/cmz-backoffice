@@ -88,7 +88,7 @@
 }
 
 .period-select-button {
-    .p-button {
+    .p-togglebutton {
         padding: 8px 16px;
         font-size: 13px;
         font-weight: 600;
@@ -96,7 +96,7 @@
         transition: all 0.3s ease;
         border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.3);
 
-        &.p-highlight {
+        &.p-togglebutton-checked {
             background: linear-gradient(
                 135deg,
                 var(--theme-default, #5b9bd5) 0%,

@@ -14,3 +14,20 @@ export function formatDateSafe(dateString: Date): string {
         second: '2-digit',
     });
 }
+
+export function parseFrenchDate(dateString: string): Date | null {
+    if (!dateString) {
+        return null;
+    }
+
+    const [datePart, timePart] = dateString.split(' ');
+
+    if (!datePart || !timePart) {
+        return null;
+    }
+
+    const [day, month, year] = datePart.split('/').map(Number);
+    const [hours, minutes, seconds] = timePart.split(':').map(Number);
+
+    return new Date(year, month - 1, day, hours, minutes, seconds);
+}

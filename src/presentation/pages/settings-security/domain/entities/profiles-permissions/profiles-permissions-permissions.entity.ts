@@ -1,4 +1,4 @@
-import { PermissionsProps } from '@shared/domain/interfaces/permissions-props.interface';
+import { PermissionsProps } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/permissions-props.interface';
 
 export class ProfilesPermissionsPermissionsEntity {
     constructor(public readonly props: PermissionsProps) {}

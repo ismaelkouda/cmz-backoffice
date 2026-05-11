@@ -9,8 +9,8 @@
 
 //     public readonly config = {
 //         color: {
-//             primary_color: this.customizationService.config.colors.primary,
-//             secondary_color: this.customizationService.config.colors.secondary,
+//             primary_color: this.customizationService.customization.colors.primary,
+//             secondary_color: this.customizationService.customization.colors.secondary,
 //         },
 //     };
 // }

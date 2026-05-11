@@ -14,4 +14,8 @@ export interface NotificationsVmProps {
     statusStyle: StatusStyle;
     sendAt: string;
     actionsRef: string;
+
+    tooltipButtonCanNotRead: string;
+    tooltipButtonCanRead: string;
+    disableButtonRead: boolean;
 }

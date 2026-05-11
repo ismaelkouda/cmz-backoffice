@@ -34,7 +34,7 @@ import {
 } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
@@ -66,7 +66,7 @@ export class DailyGoalListComponent implements OnInit, OnDestroy {
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+        this.appConfig.customization.app.name
     );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -161,7 +161,7 @@ export class DailyGoalListComponent implements OnInit, OnDestroy {
         this.facade.refresh();
     }
 
-    public onPageChangeClicked(page: number): void {
+    public onChangePageClicked(page: number): void {
         this.facade.changePage(JSON.stringify(page + 1));
     }
 

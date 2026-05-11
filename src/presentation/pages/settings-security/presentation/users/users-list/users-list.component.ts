@@ -23,7 +23,7 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
@@ -73,7 +73,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         return this.items().map((item) => this.presenter.map(item));
     });
     private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+        this.appConfig.customization.app.name
     );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -109,7 +109,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    public onPageChangeClicked(event: number): void {
+    public onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
     }
 

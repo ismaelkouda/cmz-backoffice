@@ -4,7 +4,7 @@ import { TasksVmProps } from '@pages/processing/presentation/adapters/tasks/task
 export class TasksPresenter {
     constructor(private readonly t: (key: string) => string) {}
 
-    map(item: TasksEntity): TasksVmProps {
+    map(item: TasksEntity, permission: { canTreat: boolean }): TasksVmProps {
         return {
             uniqId: item.uniqId,
             type: item.type,
@@ -14,6 +14,10 @@ export class TasksPresenter {
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonTreat: permission.canTreat
+                ? this.t('PROCESSING.TASKS.TOOLTIP.TREAT')
+                : this.t('PROCESSING.TASKS.TOOLTIP.SEE_MORE'),
+            disableButtonTreat: false,
         };
     }
 }

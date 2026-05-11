@@ -30,7 +30,7 @@ import { PageTitleComponent } from '@shared/components/page-title/page-title.com
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 import { ToastrService } from 'ngx-toastr';
@@ -63,7 +63,7 @@ export class AccessLogsListComponent implements OnInit {
     );
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.config.app.name
+        this.appCustomizationService.customization.app.name
     );
     public readonly tableConfig = ACCESS_LOGS_TABLE_CONSTANT;
     readonly isLoading = toSignal(this.facade.isLoading$, {

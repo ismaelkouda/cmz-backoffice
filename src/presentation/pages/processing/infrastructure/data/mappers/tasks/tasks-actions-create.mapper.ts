@@ -7,8 +7,10 @@ export function tasksActionsCreateMapper(
     return {
         report_uniq_id: entity.reportUniqId,
         date: entity.date ? entity.date : new Date(),
-        type: entity.type,
+        operator: entity.operator.toLowerCase(),
+        type_code: entity.type,
         description: entity.description,
         should_notify_user: Boolean(entity.shouldNotifyUser),
+        status: Boolean(entity.isConform),
     };
 }

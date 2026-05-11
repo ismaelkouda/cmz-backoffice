@@ -1,13 +1,29 @@
 import { detailsPermissionsFinalize } from '@pages/finalization/domain/functions/details/details-permissions-finalize.function';
 import { detailsPermissionsTake } from '@pages/finalization/domain/functions/details/details-permissions-take.function';
-import { DetailsProps } from '@pages/finalization/domain/interfaces/details/details-props.interface';
 
-export function detailsLabelButtonSubmit(props: DetailsProps): string {
-    if (detailsPermissionsTake(props)) {
-        return 'MANAGEMENT.BUTTONS.TAKE';
-    } else if (detailsPermissionsFinalize(props)) {
-        return 'MANAGEMENT.BUTTONS.FINALIZATION';
-    } else {
-        return 'MANAGEMENT.BUTTONS.INFORMATION';
-    }
+import {
+    DetailsContext,
+    DetailsRule,
+} from '../../entities/details/details.entity';
+
+const RULES: DetailsRule[] = [
+    {
+        name: 'TAKE',
+        when: (ctx) =>
+            detailsPermissionsTake(ctx.props, ctx.permissions.canTake),
+        title: 'MANAGEMENT.BUTTONS.TAKE',
+    },
+    {
+        name: 'APPROVE',
+        when: (ctx) =>
+            detailsPermissionsFinalize(ctx.props, ctx.permissions.canFinalize),
+        title: 'MANAGEMENT.BUTTONS.FINALIZATION',
+    },
+];
+
+export function detailsLabelButtonSubmit(ctx: DetailsContext): string {
+    console.log('ctx: ', ctx);
+    const rule = RULES.find((r) => r.when(ctx));
+    console.log('rule: ', rule);
+    return rule?.title ?? 'MANAGEMENT.BUTTONS.INFORMATION';
 }

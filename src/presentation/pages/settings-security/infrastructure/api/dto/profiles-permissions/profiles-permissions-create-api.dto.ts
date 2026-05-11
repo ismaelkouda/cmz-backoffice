@@ -1,5 +1,5 @@
 export interface ProfilesPermissionsCreateApiDto {
     name: string;
     description: string;
-    permissions: string[];
+    permissions?: Record<string, string[]>;
 }

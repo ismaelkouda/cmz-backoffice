@@ -155,13 +155,13 @@
                 }
             </div>
 
-            @if (items()?.canBeApproved || items()?.canBeFinalized) {
+            @if (items()?.canQualify || items()?.canBeFinalized) {
                 <app-management-treatment-form
                     [loading]="loading()"
                     [expanded]="isTreatmentFormExpanded"
                     [submitting]="submitting()"
                     [submitLabel]="items()?.labelButtonSubmit ?? ''"
-                    [showApprovalSection]="items()?.canBeApproved ?? false"
+                    [showApprovalSection]="items()?.canQualify ?? false"
                     [motifOptions]="motifOptions()"
                     (cancelForm)="closeTreatmentForm()"
                     (submitForm)="onValidReportTreatment()"

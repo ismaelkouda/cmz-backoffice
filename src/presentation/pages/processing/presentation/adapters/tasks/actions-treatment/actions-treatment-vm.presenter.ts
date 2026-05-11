@@ -4,11 +4,24 @@ import { TasksActionsVmProps } from './actions-treatments-vm-props.interface';
 
 export class ActionsTreatmentPresenter {
     constructor(private readonly t: (key: string) => string) {}
-    map(item: TasksActionsEntity): TasksActionsVmProps {
+    map(
+        item: TasksActionsEntity,
+        permission: {
+            canTreat: boolean;
+            tooltip: {
+                edit: string;
+                delete: string;
+            };
+        }
+    ): TasksActionsVmProps {
         return {
             uniqId: item.uniqId,
             notifyUser: item.shouldNotifyUser,
             type: item.type,
+            code: item.code,
+            operators: item.operators,
+            shouldNotifyUser: item.shouldNotifyUser,
+            isConform: item.isConform,
             date: item.formatDate,
             description: item.description,
             createdBy: item.createdBy,
@@ -16,20 +29,16 @@ export class ActionsTreatmentPresenter {
             createdAt: item.createdAt,
             updatedAt: item.updatedAt,
             actionsRef: item.actionsRef,
-            tooltipButtonCanNotDelete: this.t(
-                'PROCESSING.TASKS.ACTIONS.TABLE.TOOLTIP_BUTTON_CAN_NOT_DELETE'
-            ),
-            tooltipButtonCanDelete: this.t(
-                'PROCESSING.TASKS.ACTIONS.TABLE.TOOLTIP_BUTTON_CAN_DELETE'
-            ),
-            disableButtonDelete: item.shouldNotifyUser,
-            tooltipButtonCanNotEdit: this.t(
-                'PROCESSING.TASKS.ACTIONS.TABLE.TOOLTIP_BUTTON_CAN_NOT_EDIT'
-            ),
-            tooltipButtonCanEdit: this.t(
-                'PROCESSING.TASKS.ACTIONS.TABLE.TOOLTIP_BUTTON_CAN_EDIT'
-            ),
-            disableButtonEdit: item.shouldNotifyUser,
+            tooltipButtonDelete:
+                permission.canTreat && !item.shouldNotifyUser
+                    ? this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.DELETE')
+                    : permission.tooltip.delete,
+            tooltipButtonEdit:
+                permission.canTreat && !item.shouldNotifyUser
+                    ? this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.EDIT')
+                    : permission.tooltip.edit,
+            disableButtonDelete: item.shouldNotifyUser || !permission.canTreat,
+            disableButtonEdit: item.shouldNotifyUser || !permission.canTreat,
         };
     }
 }

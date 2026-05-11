@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+import { EnvService } from '../../../core/config/env.service';
+
 import { EncodingDataService } from './encoding-data.service';
-import { EnvService } from './env.service';
 
 export type AccessFeature = [
     'solde-data',

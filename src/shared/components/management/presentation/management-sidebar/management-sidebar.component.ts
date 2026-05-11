@@ -35,18 +35,18 @@ export class ManagementSidebarComponent {
     public readonly copyItem = output<string>();
 
     protected readonly showTakeButton = computed((): boolean => {
-        return !!this.item()?.canBeTaken;
+        return !!this.item()?.canTake;
     });
 
     protected readonly getActionLabel = computed((): string => {
         const item = this.item();
-        if (item?.canBeTaken) {
+        if (item?.canTake) {
             return 'MANAGEMENT.SIDEBAR.ACTIONS.TAKE';
         }
-        if (item?.canBeApproved) {
+        if (item?.canQualify) {
             return 'MANAGEMENT.SIDEBAR.ACTIONS.APPROVE';
         }
-        if (item?.canBeTreated) {
+        if (item?.canTreat) {
             return 'MANAGEMENT.SIDEBAR.ACTIONS.TREAT';
         }
         if (item?.canBeFinalized) {

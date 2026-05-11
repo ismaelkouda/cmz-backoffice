@@ -92,73 +92,84 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     private readonly validationService = inject(ManagementValidationService);
     private readonly stateService = inject(ManagementStateService);
     private readonly clipboardService = inject(ClipboardService);
-    public readonly visible = input.required<boolean>();
-    public readonly uniqId = input.required<string>();
-    public readonly type = input.required<TypeReport>();
-    public readonly visibleChange = output<boolean>();
-    public readonly closed = output();
-
-    public isTreatmentFormExpanded = true;
-    public readonly form = this.store.form;
-    public readonly items = this.stateService.items;
-    public readonly loading = this.stateService.loading;
-    public readonly actionState = this.stateService.actionState;
-    public readonly submitting = computed(() => this.actionState());
-
-    public readonly photoTabInstanceId = computed(
+    protected readonly visible = input.required<boolean>();
+    protected readonly uniqId = input.required<string>();
+    protected readonly type = input.required<TypeReport>();
+    protected readonly visibleChange = output<boolean>();
+    protected readonly closed = output();
+    protected isTreatmentFormExpanded = true;
+    protected readonly form = this.store.form;
+    protected readonly items = this.stateService.items;
+    protected readonly loading = this.stateService.loading;
+    protected readonly actionState = this.stateService.actionState;
+    protected readonly sweetAlert = this.stateService.sweetAlert;
+    protected readonly canQualify = this.stateService.canQualify;
+    protected readonly canTreat = this.stateService.canTreat;
+    protected readonly canFinalize = this.stateService.canFinalize;
+    protected readonly submitting = computed(() => this.actionState());
+    // protected readonly canExecuteQualify = computed(() => {
+    //     const item = this.items();
+    //     return item?.canQualify && this.canQualify() && this.submitting();
+    // });
+    // protected readonly canExecuteTreat = computed(() => {
+    //     const item = this.items();
+    //     return item?.canTreat && this.canTreat() && this.submitting();
+    // });
+    // protected readonly canExecuteFinalize = computed(() => {
+    //     const item = this.items();
+    //     return item?.canFinalize && this.canFinalize() && this.submitting();
+    // });
+    protected readonly photoTabInstanceId = computed(
         () => `management-photo-${this.uniqId()}`
     );
-
-    public readonly selectedTab = signal('information');
-
+    protected readonly selectedTab = signal('information');
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-
-    readonly motifOptions: Signal<FilterOption[]> = computed(() => {
+    protected readonly motifOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptions(Motifs, this.t.bind(this), 'toUpperCase');
     });
-
-    readonly callbackTypesOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(
-            CallbackTypes,
-            this.t.bind(this),
-            'toUpperCase'
-        );
-    });
-    readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(ReportType, this.t.bind(this));
-    });
-    readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(TelecomOperator, this.t.bind(this));
-    });
-
-    readonly locationNameOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterValueOptions(LocationName, this.t.bind(this));
-    });
-
-    public readonly tabs = computed(() => {
+    protected readonly callbackTypesOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(
+                CallbackTypes,
+                this.t.bind(this),
+                'toUpperCase'
+            );
+        }
+    );
+    protected readonly reportTypeOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(ReportType, this.t.bind(this));
+        }
+    );
+    protected readonly telecomOperatorsOptions: Signal<FilterOption[]> =
+        computed(() => {
+            this.currentLang();
+            return enumToFilterOptions(TelecomOperator, this.t.bind(this));
+        });
+    protected readonly locationNameOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterValueOptions(LocationName, this.t.bind(this));
+        }
+    );
+    protected readonly tabs = computed(() => {
         const type = this.type();
-
         if (type === TypeReport.REQUESTS) {
             return TABS.filter((tab) => tab.value !== 'chatbot');
         }
-
         return TABS;
     });
-
     private readonly storeEffect = effect(() => {
         const item = this.items();
         if (item && this.uniqId()) {
             this.store.setItem(item);
         }
     });
-
     private readonly validationEffect = effect(() => {
         if (this.items() && this.type()) {
             this.validationService.configureFormValidators(
@@ -168,7 +179,6 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
             );
         }
     });
-
     private readonly loadingEffect = effect(() => {
         if (this.submitting()) {
             this.form.disable({ emitEvent: false });
@@ -176,61 +186,49 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
             this.form.enable({ emitEvent: false });
         }
     });
-
     private lastHandledSuccess = 0;
-
     private readonly successEffect = effect(() => {
         const success = this.stateService.actionSuccess();
-
         if (success > this.lastHandledSuccess) {
             this.lastHandledSuccess = success;
             this.onCloseDialog();
         }
     });
-
     ngOnInit(): void {
         this.stateService.initialize(this.type(), this.uniqId());
     }
-
     ngOnDestroy(): void {
         this.stateService.reset();
     }
-
-    public selectTab(index: number): void {
+    protected selectTab(index: number): void {
         const tab = this.tabs()[index];
         if (tab) {
             this.selectedTab.set(tab.value);
         }
     }
-
-    public toggleTreatmentForm(): void {
+    protected toggleTreatmentForm(): void {
         this.isTreatmentFormExpanded = !this.isTreatmentFormExpanded;
         if (this.isTreatmentFormExpanded) {
             this.markFormAsTouched();
         }
     }
-
-    public getToggleButtonIcon(): string {
+    protected getToggleButtonIcon(): string {
         return this.isTreatmentFormExpanded
             ? 'pi pi-chevron-down'
             : 'pi pi-chevron-up';
     }
-
-    public openTreatmentForm(): void {
+    protected openTreatmentForm(): void {
         this.isTreatmentFormExpanded = true;
         this.markFormAsTouched();
     }
-
-    public closeTreatmentForm(): void {
+    protected closeTreatmentForm(): void {
         this.isTreatmentFormExpanded = false;
     }
-
-    copyToClipboard(value: string): void {
+    protected copyToClipboard(value: string): void {
         this.clipboardService.copyFromContent(value);
         this.toastService.success(this.t('COMMON.COPIED_TO_CLIPBOARD'));
     }
-
-    public onValidReportTreatment(): void {
+    protected onValidReportTreatment(): void {
         const items = this.items();
         if (!this.uniqId() || !items || !this.type()) {
             return;
@@ -240,52 +238,42 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         }
         this.showConfirmationDialog();
     }
-
     private validateForm(): boolean {
         this.form.updateValueAndValidity({ emitEvent: false });
-
         if (this.form.invalid) {
             this.markFormAsTouched();
             return false;
         }
-
         return true;
     }
 
-    public setApprovalType(approvalType: string): void {
+    protected setApprovalType(approvalType: string): void {
         this.store.setApprovalType(
-            approvalType as 'edit' | 'callback' | 'details'
+            approvalType as 'edit' | 'callback' | 'view'
         );
     }
-
-    public setDecision(decision: string): void {
+    protected setDecision(decision: string): void {
         this.store.setDecision(decision as 'accepted' | 'rejected');
     }
-
-    public onCloseDialog(): void {
+    protected onCloseDialog(): void {
         SweetAlert.close();
         this.visibleChange.emit(false);
         this.stateService.reset();
     }
-
-    public getOperatorTagStyle(operator: string): Record<string, string> {
+    protected getOperatorTagStyle(operator: string): Record<string, string> {
         return operatorsTagStyle(operator);
     }
-
-    public trackByTab(_: number, tab: { value: string }): string {
+    protected trackByTab(_: number, tab: { value: string }): string {
         return tab.value;
     }
-
     private markFormAsTouched(): void {
         Object.values(this.form.controls).forEach((control) =>
             control.markAsTouched()
         );
     }
-
     private showConfirmationDialog(): void {
         const items = this.items();
         const { title, message } = this.getSweetAlertLabels(items);
-
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(title),
@@ -299,18 +287,17 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
             }
         });
     }
-
     private getActionType(): string {
         const items = this.items();
-        if (items?.canBeTaken) {
+        if (items?.canTake) {
             return 'take';
         }
-        if ((items as RequestsEntity).canBeApproved) {
+        if ((items as RequestsEntity).canQualify) {
             return this.form.get('decision')?.value === 'rejected'
                 ? 'reject'
                 : 'approve';
         }
-        if ((items as ProcessingEntity).canBeTreated) {
+        if ((items as ProcessingEntity).canTreat) {
             return 'treat';
         }
         if ((items as FinalizationEntity).canBeFinalized) {
@@ -318,18 +305,16 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         }
         return 'see';
     }
-
     private executeAction(action: string, payload: any): void {
         this.stateService.executeAction(action, payload);
     }
-
     private getSweetAlertLabels(item: any): { title: string; message: string } {
-        if (item?.canBeTaken) {
+        if (item?.canTake) {
             return {
-                title: 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.WAITING.TITLE',
-                message: 'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.WAITING.TITLE',
+                title: this.t(this.sweetAlert().title),
+                message: this.t(this.sweetAlert().message),
             };
-        } else if (item?.canBeApproved) {
+        } else if (item?.canQualify) {
             const decision = this.form.get('decision')?.value;
             if (decision === 'rejected') {
                 return {
@@ -344,7 +329,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
                         'MANAGEMENT.SWEET_ALERT_PARAMS.MESSAGES.APPROVAL.TITLE',
                 };
             }
-        } else if (item?.canBeTreated) {
+        } else if (item?.canTreat) {
             return {
                 title: 'MANAGEMENT.SWEET_ALERT_PARAMS.CONFIRM.TREATMENT.TITLE',
                 message:

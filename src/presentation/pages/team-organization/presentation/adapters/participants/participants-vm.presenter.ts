@@ -19,6 +19,10 @@ export class ParticipantsPresenter {
             statusStyle: item.statusStyle(item.status),
             updatedAt: item.updatedAt,
             actionsRef: item.actionsRef,
+            tooltipDisableDropdown: this.t(
+                'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.TOOLTIP_DROPDOWN_CAN_NOT_CHOOSE'
+            ),
+            disableDropdown: true,
         };
     }
 }

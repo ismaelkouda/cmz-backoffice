@@ -15,7 +15,7 @@ export function profilesPermissionsUpdateMapper(
     if (entity.description) {
         params['description'] = entity.description;
     }
-    if (entity.permissions && entity.permissions.length > 0) {
+    if (entity.permissions) {
         params['permissions'] = entity.permissions;
     }
 

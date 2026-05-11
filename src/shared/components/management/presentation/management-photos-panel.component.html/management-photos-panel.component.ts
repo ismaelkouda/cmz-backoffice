@@ -134,7 +134,7 @@ export class ManagementPhotosPanelComponent {
         });
     }
 
-    protected isApprovalType(value: 'edit' | 'callback' | 'details'): boolean {
+    protected isApprovalType(value: 'edit' | 'callback' | 'view'): boolean {
         return this.store.isApprovalType(value);
     }
 

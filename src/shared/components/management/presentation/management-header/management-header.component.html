@@ -45,6 +45,14 @@
             [ {{ source() | translate }} ]
         </span>
 
+        <span class="header-title">
+            {{ 'MANAGEMENT.FORM.REPORT_INFO.STATUS' | translate }}
+        </span>
+
+        <span class="header-title" tabindex="0" role="button">
+            [ {{ status() | translate }} ]
+        </span>
+
         @if (confirmCount()) {
             <span class="header-title">
                 {{ 'MANAGEMENT.HEADER.NUMBER_OF_CONFIRMATIONS' | translate }}

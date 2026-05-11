@@ -10,4 +10,6 @@ export interface AllVmProps {
     initiatorPhoneNumber: string;
     reportedAt: string;
     actionsRef: string;
+    tooltipButtonView: string;
+    disableButtonView: boolean;
 }

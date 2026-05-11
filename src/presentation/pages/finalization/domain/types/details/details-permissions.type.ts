@@ -1,1 +1,1 @@
-export type DetailsPermissions = 'take' | 'finalize' | 'see';
+// export type DetailsPermissions = 'take' | 'finalize' | 'see';

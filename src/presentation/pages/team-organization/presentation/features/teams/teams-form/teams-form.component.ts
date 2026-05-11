@@ -84,7 +84,6 @@ export class TeamsFormComponent {
     private lastSuccess = this.submitFacade.actionSuccess();
     readonly permissionTree = this.store.permissionTree;
     readonly selectedNodes = this.store.selectedNodes;
-    readonly selectedCount = this.store.selectedCount;
 
     readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
         return enumToFilterOptions(ReportType, this.t.bind(this));

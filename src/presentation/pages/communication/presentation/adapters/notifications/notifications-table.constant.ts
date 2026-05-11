@@ -6,7 +6,7 @@ export function calculateActionColumnWidth(actionCount: number): string {
 export const NOTIFICATIONS = {
     actions: [
         {
-            id: 'management-dialog',
+            id: 'read',
             icon: 'pi pi-window-maximize',
             tooltip: 'COMMUNICATION.NOTIFICATIONS.TABLE.READ',
             severity: 'primary',

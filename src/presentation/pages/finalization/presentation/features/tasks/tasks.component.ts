@@ -3,7 +3,6 @@ import {
     ChangeDetectionStrategy,
     Component,
     DestroyRef,
-    OnInit,
     Signal,
     computed,
     effect,
@@ -41,9 +40,9 @@ import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import SweetAlert from 'sweetalert2';
 
@@ -65,61 +64,76 @@ import SweetAlert from 'sweetalert2';
     providers: [TasksFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
-    public readonly facade = inject(TasksFacade);
-    public readonly finalizeFacade = inject(DetailsFacade);
+    protected readonly facade = inject(TasksFacade);
+    private readonly finalizeFacade = inject(DetailsFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    public readonly formStore = inject(TasksFilterStore);
+    private readonly formStore = inject(TasksFilterStore);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+    private readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.customization.app.name
     );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-    public selectedReportId: string | null = null;
-    public readonly tableConfig = TASKS_TABLE;
-    readonly form = this.formStore.form;
-    public readonly isVisibleDialog = signal<boolean>(false);
-    public readonly selectedManagementType = signal<TypeReport>(
+    private readonly canExport = this.permissionActions.can(
+        '/reports-finalization/tasks',
+        'export'
+    );
+    private readonly canFinalize = this.permissionActions.can(
+        '/reports-finalization/tasks',
+        'execute'
+    );
+    protected selectedReportId: string | null = null;
+    protected readonly tableConfig = TASKS_TABLE;
+    protected readonly form = this.formStore.form;
+    protected readonly isVisibleDialog = signal<boolean>(false);
+    protected readonly selectedManagementType = signal<TypeReport>(
         TypeReport.FINALIZATION
     );
-    public readonly selectedInTable = signal<TasksVmProps[]>([]);
+    protected readonly selectedInTable = signal<TasksVmProps[]>([]);
     private lastSuccess = this.finalizeFacade.actionSuccess();
-    readonly items = toSignal(this.facade.items$, {
+
+    private readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
     private readonly currentFilter = toSignal(this.facade.currentFilter$, {
         initialValue: null,
     });
-    readonly loading = toSignal(this.facade.isLoading$, {
+    protected readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    readonly pagination = toSignal(this.facade.pagination$, {
+    protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(TelecomOperator, this.t.bind(this));
-    });
-    readonly reportSourceOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(ReportSource, this.t.bind(this));
-    });
-    readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(ReportType, this.t.bind(this));
-    });
-    readonly filterFields: Signal<FilterField[]> = computed(() => {
+    private readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(TelecomOperator, this.t.bind(this));
+        }
+    );
+    private readonly reportSourceOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(ReportSource, this.t.bind(this));
+        }
+    );
+    private readonly reportTypeOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(ReportType, this.t.bind(this));
+        }
+    );
+    protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const telecomOperatorsOpts = this.telecomOperatorsOptions();
         const reportSourceOpts = this.reportSourceOptions();
         const reportTypeOpts = this.reportTypeOptions();
-
         return [
             {
                 type: 'text',
@@ -201,12 +215,51 @@ export class TasksComponent implements OnInit {
             },
         ];
     });
-    readonly presenter = new TasksPresenter(
+    protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            class: 'btn-dark',
+            icon: 'pi pi-refresh',
+            translateKey: 'COMMON.REFRESH',
+            tooltip: this.t('FINALIZATION.QUEUES.TOOLTIP.REFRESH'),
+        },
+        {
+            label: 'COMMON.EXPORT',
+            actionId: 'export',
+            class: 'btn-success',
+            icon: 'pi pi-file',
+            translateKey: 'COMMON.EXPORT',
+            tooltip: this.exportTooltip(),
+            disabled: this.canExportData(),
+        },
+    ]);
+    private readonly presenter = new TasksPresenter(
         this.translate.instant.bind(this.translate)
     );
-    readonly itemsVM = computed(() => {
-        this.currentLang();
-        return this.items().map((item) => this.presenter.map(item));
+    protected readonly itemsVM = computed(() => {
+        return this.items().map((item) =>
+            this.presenter.map(item, {
+                canFinalize: this.canFinalize(),
+            })
+        );
+    });
+    private readonly canExportData = computed(
+        () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
+    );
+    private readonly exportTooltip = computed(() => {
+        const permission = !this.canExport();
+        const noData = this.itemsVM().length < 1;
+        if (permission) {
+            return this.t('FINALIZATION.TASKS.TOOLTIP.NO_PERMISSION_EXPORT');
+        }
+        if (noData) {
+            return this.t('FINALIZATION.TASKS.TOOLTIP.NO_EXPORT');
+        }
+        return this.t('FINALIZATION.TASKS.TOOLTIP.EXPORT').replace(
+            '{nb}',
+            String(this.itemsVM().length)
+        );
     });
     private readonly formStateEffect = effect(() => {
         if (this.finalizeFacade.actionLoading()) {
@@ -223,18 +276,6 @@ export class TasksComponent implements OnInit {
 
         this.lastSuccess = current;
     });
-
-    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.FINALIZE',
-            actionId: 'finalize',
-            class: 'btn-primary',
-            icon: 'pi pi-check-circle',
-            translateKey: 'COMMON.FINALIZE',
-            disabled: !this.selectedInTable().length,
-        },
-    ]);
-
     constructor() {
         this.facade.read(this.currentFilter() as TasksFilterDto);
         this.translate.onLangChange
@@ -244,36 +285,24 @@ export class TasksComponent implements OnInit {
             });
 
         effect(() => {
+            this.pageTitle();
             this.filterFields();
             this.telecomOperatorsOptions();
             this.reportSourceOptions();
             this.reportTypeOptions();
         });
     }
-
-    ngOnInit(): void {
+    private pageTitle(): void {
+        this.currentLang();
         this.title.setTitle(this.t('FINALIZATION.TASKS.TITLE'));
-        this.translate.onLangChange
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.title.setTitle(this.t('FINALIZATION.TASKS.TITLE'));
-            });
     }
-
-    public onFilterClicked(): void {
+    protected onFilterClicked(): void {
         this.facade.read(this.formStore.value, '1', true);
     }
-
-    public onRefreshClicked(): void {
-        this.formStore.reset();
-        this.facade.refresh();
-    }
-
-    public onPageChange(event: number): void {
+    protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
     }
-
-    public onActionClicked(event: {
+    protected onActionClicked(event: {
         item: TasksVmProps;
         actionId?: string;
     }): void {
@@ -282,42 +311,36 @@ export class TasksComponent implements OnInit {
         this.selectedReportId = item.uniqId;
         this.isVisibleDialog.set(true);
     }
-
-    public onVisibleChange(event: boolean): void {
-        this.isVisibleDialog.set(event);
-    }
-
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.TAKE) {
-            SweetAlert.fire({
-                ...SWEET_ALERT_PARAMS,
-                title: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_TAKE'),
-                text: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_MESSAGE'),
-                backdrop: false,
-                confirmButtonText: this.t('COMMON.CONFIRM'),
-                cancelButtonText: this.t('COMMON.CANCEL'),
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    this.finalizeFacade.take({
-                        uniqId: JSON.stringify(
-                            this.selectedInTable().map((p) => p.uniqId)
-                        ),
-                    });
-                }
-            });
-        }
-    }
-
-    public onSelectionChange(selection: TasksVmProps | TasksVmProps[]): void {
+    protected onSelectionChange(
+        selection: TasksVmProps | TasksVmProps[]
+    ): void {
         const tasks = Array.isArray(selection) ? selection : [selection];
         this.selectedInTable.set(tasks.filter((u) => !!u));
     }
-
+    protected onVisibleDialogClicked(event: boolean): void {
+        this.isVisibleDialog.set(event);
+    }
     private t(key: string): string {
         return this.translate.instant(key);
     }
-
-    public onExportClicked(): void {
+    private readonly headerActions: Record<string, () => void> = {
+        refresh: () => this.onRefreshData(),
+        export: () => this.exportData(),
+        finalize: () => this.onTakeBulkClicked(),
+    };
+    protected onHeaderButtonClicked(actionId: string): void {
+        const action = this.headerActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
+            return;
+        }
+        action();
+    }
+    private onRefreshData(): void {
+        this.formStore.reset();
+        this.facade.refresh();
+    }
+    private exportData(): void {
         const tasks = this.items();
         if (tasks && tasks.length > 0) {
             const fileName = `${this.exportFilePrefix}-tasks`;
@@ -330,7 +353,6 @@ export class TasksComponent implements OnInit {
             this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
         }
     }
-
     private normalizeExportPrefix(appName: string): string {
         return (
             appName
@@ -338,5 +360,23 @@ export class TasksComponent implements OnInit {
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
+    }
+    private onTakeBulkClicked(): void {
+        SweetAlert.fire({
+            ...SWEET_ALERT_PARAMS,
+            title: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_TAKE'),
+            text: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_MESSAGE'),
+            backdrop: false,
+            confirmButtonText: this.t('COMMON.CONFIRM'),
+            cancelButtonText: this.t('COMMON.CANCEL'),
+        }).then((res) => {
+            if (res.isConfirmed) {
+                this.finalizeFacade.take({
+                    uniqId: JSON.stringify(
+                        this.selectedInTable().map((p) => p.uniqId)
+                    ),
+                });
+            }
+        });
     }
 }

@@ -37,23 +37,19 @@
                                 dataKey="uniqId"
                                 [config]="tableConfig"
                                 [loading]="loading()"
+                                [headerButtons]="headerButtons()"
                                 [items]="itemsVM()"
                                 [pagination]="pagination()"
-                                (refreshRequested)="onRefreshClicked()"
-                                selectionMode="multiple"
-                                [selection]="selectedInTable()"
                                 (actionClicked)="onActionClicked($event)"
-                                (selectionChange)="onSelectionChange($event)"
                                 (headerButtonClicked)="
                                     onHeaderButtonClicked($event)
                                 "
-                                (export)="onExportClicked()"
                             ></app-table>
 
                             <app-pagination
                                 class="pagination-component"
                                 [pagination]="pagination()"
-                                (pageChange)="onPageChange($event)"
+                                (pageChange)="onChangePageClicked($event)"
                             ></app-pagination>
                         </section>
                     </div>
@@ -67,7 +63,7 @@
             [visible]="isVisibleDialog()"
             [uniqId]="selectedReportId"
             [type]="selectedManagementType()"
-            (visibleChange)="onVisibleChange($event)"
+            (visibleChange)="onVisibleDialogClicked($event)"
         ></app-management-dialog>
     }
 </main>

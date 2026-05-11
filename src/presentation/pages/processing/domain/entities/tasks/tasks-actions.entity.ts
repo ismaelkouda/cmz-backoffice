@@ -1,3 +1,7 @@
+import {
+    TelecomOperator,
+    TelecomOperatorStyle,
+} from '@shared/domain/enums/telecom-operator.enum';
 import { formatDateSafe } from '@shared/domain/functions/format-date';
 
 import { TasksActionsProps } from '../../interfaces/tasks/tasks-actions/tasks-actions-props.interface';
@@ -33,12 +37,33 @@ export class TasksActionsEntity implements TasksActionsProps {
         return this.props.type;
     }
 
+    get code(): string {
+        return this.props.code;
+    }
+
+    get operators(): TelecomOperator[] {
+        return this.props.operators;
+    }
+
+    operatorsStyle(operator: TelecomOperator): TelecomOperatorStyle {
+        const methodMap: Record<TelecomOperator, TelecomOperatorStyle> = {
+            [TelecomOperator.MTN]: TelecomOperatorStyle.MTN,
+            [TelecomOperator.ORANGE]: TelecomOperatorStyle.ORANGE,
+            [TelecomOperator.MOOV]: TelecomOperatorStyle.MOOV,
+        };
+        return methodMap[operator];
+    }
+
     get description(): string {
         return this.props.description;
     }
 
     get shouldNotifyUser(): boolean {
         return this.props.shouldNotifyUser;
+    }
+
+    get isConform(): boolean {
+        return this.props.isConform;
     }
 
     get createdBy(): string {

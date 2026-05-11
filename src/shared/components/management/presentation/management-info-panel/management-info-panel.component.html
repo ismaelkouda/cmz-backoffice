@@ -89,7 +89,7 @@
                                             'MANAGEMENT.FORM.REPORT_INFO.TYPE'
                                                 | translate
                                         }}
-                                        @if (!isApprovalType('details')) {
+                                        @if (!isApprovalType('view')) {
                                             <span
                                                 class="text-danger"
                                                 aria-label="required"
@@ -97,7 +97,7 @@
                                             >
                                         }
                                     </label>
-                                    @if (isApprovalType('details')) {
+                                    @if (isApprovalType('view')) {
                                         <div class="field-value">
                                             {{
                                                 item()?.reportType ||
@@ -140,7 +140,7 @@
                                             'MANAGEMENT.FORM.REPORT_INFO.OPERATORS'
                                                 | translate
                                         }}
-                                        @if (!isApprovalType('details')) {
+                                        @if (!isApprovalType('view')) {
                                             <span
                                                 class="text-danger"
                                                 aria-label="required"
@@ -148,7 +148,7 @@
                                             >
                                         }
                                     </label>
-                                    @if (isApprovalType('details')) {
+                                    @if (isApprovalType('view')) {
                                         <div
                                             class="field-value operator-padding short"
                                         >
@@ -207,7 +207,7 @@
                                             'MANAGEMENT.FORM.REPORT_INFO.DESCRIPTION'
                                                 | translate
                                         }}
-                                        @if (!isApprovalType('details')) {
+                                        @if (!isApprovalType('view')) {
                                             <span
                                                 class="text-danger"
                                                 aria-label="required"
@@ -215,7 +215,7 @@
                                             >
                                         }
                                     </label>
-                                    @if (isApprovalType('details')) {
+                                    @if (isApprovalType('view')) {
                                         <div class="field-value long">
                                             {{
                                                 item()?.description ||
@@ -240,7 +240,7 @@
                                             'MANAGEMENT.FORM.REPORT_INFO.LOCATION_NAME'
                                                 | translate
                                         }}
-                                        @if (!isApprovalType('details')) {
+                                        @if (!isApprovalType('view')) {
                                             <span
                                                 class="text-danger"
                                                 aria-label="required"
@@ -248,7 +248,7 @@
                                             >
                                         }
                                     </label>
-                                    @if (isApprovalType('details')) {
+                                    @if (isApprovalType('view')) {
                                         <div class="field-value">
                                             {{
                                                 item()?.location?.name ||
@@ -297,7 +297,7 @@
                                             tabindex="0"
                                             role="button"
                                         ></i>
-                                        @if (!isApprovalType('details')) {
+                                        @if (!isApprovalType('view')) {
                                             <span
                                                 class="text-danger"
                                                 aria-label="required"
@@ -310,13 +310,13 @@
                                                     | translate
                                             "
                                             [severity]="
-                                                item().locationStyle(
+                                                item()?.locationStyle(
                                                     item()?.location?.method
                                                 ) | translate
                                             "
                                         />
                                     </label>
-                                    @if (isApprovalType('details')) {
+                                    @if (isApprovalType('view')) {
                                         <div
                                             class="field-value coordinate-value middle"
                                             (click)="onCopyCoordinates()"
@@ -363,7 +363,7 @@
                                             'MANAGEMENT.FORM.PICTURES_INFO.TITLE'
                                                 | translate
                                         }}
-                                        @if (!isApprovalType('details')) {
+                                        @if (!isApprovalType('view')) {
                                             <span
                                                 class="text-danger"
                                                 aria-label="required"
@@ -371,7 +371,7 @@
                                             >
                                         }
                                     </label>
-                                    @if (isApprovalType('details')) {
+                                    @if (isApprovalType('view')) {
                                         <div class="field-value long">
                                             {{
                                                 item()?.placeDescription ||

@@ -4,7 +4,8 @@ import { RequestRepository } from '@pages/reporting/domain/repositories/request-
 import { REPORTING_API_BASE_URL } from '@pages/reporting/infrastructure/api/reporting.config';
 import { ReportRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/reports.repository.impl';
 import { RequestRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/requests.repository.impl';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = (): string => {
     const baseUrl = inject(EnvService).settingUrl;

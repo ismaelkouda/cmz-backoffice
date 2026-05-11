@@ -15,6 +15,13 @@ export class NotificationsPresenter {
             statusStyle: item.statusStyle(item.status),
             sendAt: item.sendAt,
             actionsRef: item.actionsRef,
+            tooltipButtonCanNotRead: this.t(
+                'COMMUNICATION.NOTIFICATIONS.TABLE.TOOLTIP_BUTTON_CAN_NOT_READ'
+            ),
+            tooltipButtonCanRead: this.t(
+                'COMMUNICATION.NOTIFICATIONS.TABLE.TOOLTIP_BUTTON_CAN_READ'
+            ),
+            disableButtonRead: false,
         };
     }
 }

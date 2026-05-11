@@ -15,6 +15,7 @@ import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.map
 import { TimestampsMapper } from '@shared/data/mappers/timestamps.mapper';
 import { TreaterInfoMapper } from '@shared/data/mappers/treater-info.mapper';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
@@ -36,6 +37,7 @@ export class DetailsMapper extends SimpleResponseMapper<
     );
     private readonly timestampsMapper = inject(TimestampsMapper);
     private readonly statusMapper = inject(StatusMapper);
+    private readonly permissionActions = inject(PermissionActionsService);
 
     private static readonly QUALIFICATION_STATE_MAP = MapperUtils.createEnumMap(
         {
@@ -115,7 +117,18 @@ export class DetailsMapper extends SimpleResponseMapper<
         const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
 
-        const entity = cached ? cached.with(props) : new DetailsEntity(props);
+        const entity = cached
+            ? cached.with(props)
+            : new DetailsEntity(props, {
+                  canTake: this.permissionActions.can(
+                      '/requests/queues',
+                      'take'
+                  )(),
+                  canQualify: this.permissionActions.can(
+                      '/requests/tasks',
+                      'approve'
+                  )(),
+              });
 
         this.entityCache.set(cacheKey, entity);
         return entity;

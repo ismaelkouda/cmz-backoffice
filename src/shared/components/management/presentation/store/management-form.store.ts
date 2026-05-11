@@ -17,9 +17,7 @@ export class ManagementFormStore {
 
     readonly form: FormGroup<ManagementFormControl> = this.createForm();
 
-    readonly approvalType = signal<'edit' | 'callback' | 'details' | ''>(
-        'details'
-    );
+    readonly approvalType = signal<'edit' | 'callback' | 'view' | ''>('view');
     readonly decision = signal<'accepted' | 'rejected' | ''>('');
     private readonly imageError = signal<string | null>(null);
 
@@ -31,7 +29,7 @@ export class ManagementFormStore {
     );
 
     readonly shouldShowDetailsTypeField = computed(
-        () => this.approvalType() === 'details'
+        () => this.approvalType() === 'view'
     );
 
     readonly shouldShowReasonField = computed(
@@ -69,7 +67,7 @@ export class ManagementFormStore {
 
     private createForm(): FormGroup<ManagementFormControl> {
         return this.fb.nonNullable.group<ManagementFormControl>({
-            approvalType: new FormControl<string>('details', {
+            approvalType: new FormControl<string>('view', {
                 nonNullable: true,
             }),
             callbackType: new FormControl<string>('', { nonNullable: true }),
@@ -148,8 +146,6 @@ export class ManagementFormStore {
             placeDescription: item.placeDescription ?? '',
             operators: item.operatorsKey ?? [],
         });
-        const current = this.form.controls.placePhoto.value;
-        console.log('current: ', current);
 
         this.handleExistingImage(item.placePhoto);
     });
@@ -233,12 +229,11 @@ export class ManagementFormStore {
         reasonControl.updateValueAndValidity({ emitEvent: false });
     });
 
-    public setApprovalType(type: 'edit' | 'callback' | 'details'): void {
+    public setApprovalType(type: 'edit' | 'callback' | 'view'): void {
         this.form.patchValue({ approvalType: type });
     }
 
     public setCoordinates(coordinates: Coordinates): void {
-        console.log('coordinates: ', coordinates);
         this.form.patchValue({
             coordinates,
         });
@@ -294,7 +289,7 @@ export class ManagementFormStore {
         this.form.enable({ emitEvent: false });
     }
 
-    public isApprovalType(value: 'edit' | 'callback' | 'details'): boolean {
+    public isApprovalType(value: 'edit' | 'callback' | 'view'): boolean {
         return this.approvalType() === value;
     }
 }
