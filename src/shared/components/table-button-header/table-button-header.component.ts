@@ -11,6 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
+import { TooltipModule } from 'primeng/tooltip';
 
 export interface TableHeaderButton {
     label?: string;
@@ -27,7 +28,13 @@ export interface TableHeaderButton {
 @Component({
     selector: 'app-table-button-header',
     standalone: true,
-    imports: [CommonModule, ButtonModule, TranslateModule, MenuModule],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        TranslateModule,
+        MenuModule,
+        TooltipModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [
         `
@@ -76,62 +83,32 @@ export interface TableHeaderButton {
                         }
                     </button>
                 } @else {
-                    <button
-                        type="button"
-                        [class.p-disabled]="btn.disabled"
-                        class="btn"
-                        [ngClass]="btn.class || 'btn-secondary'"
-                        [attr.aria-label]="
-                            showLabels
-                                ? null
-                                : (btn.translateKey || btn.label || ''
-                                  | translate)
-                        "
-                        (click)="onButtonClick(btn.actionId)"
-                    >
-                        @if (btn.icon) {
-                            <i [class]="btn.icon" [class.me-2]="showLabels"></i>
-                        }
-                        @if (showLabels && (btn.label || btn.translateKey)) {
-                            <span>{{
-                                btn.translateKey || btn.label | translate
-                            }}</span>
-                        }
-                    </button>
+                    <span [pTooltip]="btn.tooltip" tooltipPosition="bottom">
+                        <button
+                            type="button"
+                            [disabled]="btn.disabled"
+                            class="btn"
+                            [ngClass]="btn.class || 'btn-secondary'"
+                            [pTooltip]="btn.tooltip"
+                            tooltipPosition="bottom"
+                            (click)="onButtonClick(btn.actionId)"
+                        >
+                            @if (btn.icon) {
+                                <i
+                                    [class]="btn.icon"
+                                    [class.me-2]="showLabels"
+                                ></i>
+                            }
+                            @if (
+                                showLabels && (btn.label || btn.translateKey)
+                            ) {
+                                <span>{{
+                                    btn.translateKey || btn.label | translate
+                                }}</span>
+                            }
+                        </button>
+                    </span>
                 }
-            }
-
-            @if (!hiddenButtonRefresh()) {
-                <button
-                    type="button"
-                    [class.p-disabled]="disabledButtonRefresh()"
-                    class="btn btn-dark"
-                    [attr.aria-label]="
-                        showLabels ? null : ('COMMON.REFRESH' | translate)
-                    "
-                    (click)="onRefresh()"
-                >
-                    <i class="pi pi-refresh me-2"></i>
-                    <span *ngIf="showLabels">{{
-                        'COMMON.REFRESH' | translate
-                    }}</span>
-                </button>
-            }
-            @if (!hiddenButtonExport()) {
-                <button
-                    type="button"
-                    [class.p-disabled]="disabledButtonExport()"
-                    class="btn btn-success"
-                    [attr.aria-label]="
-                        showLabels ? null : ('COMMON.EXPORT' | translate)
-                    "
-                    (click)="onExport()"
-                >
-                    <i class="pi pi-file me-2"></i>
-                    <span *ngIf="showLabels">{{
-                        'COMMON.EXPORT' | translate
-                    }}</span>
-                </button>
             }
         </div>
     `,

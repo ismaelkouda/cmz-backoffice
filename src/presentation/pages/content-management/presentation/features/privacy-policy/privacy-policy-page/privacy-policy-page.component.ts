@@ -40,7 +40,7 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { semanticVersionValidator } from '@shared/domain/functions/semantic-version-validator';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
@@ -73,7 +73,7 @@ export class PrivacyPolicyPageComponent implements OnInit {
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+        this.appConfig.customization.app.name
     );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -235,7 +235,7 @@ export class PrivacyPolicyPageComponent implements OnInit {
         this.facade.refresh();
     }
 
-    public onPageChangeClicked(event: number): void {
+    public onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
     }
 

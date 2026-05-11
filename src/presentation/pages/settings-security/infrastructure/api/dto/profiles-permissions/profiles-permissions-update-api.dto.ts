@@ -2,5 +2,5 @@ export interface ProfilesPermissionsUpdateApiDto {
     id: string;
     name: string;
     description: string;
-    permissions: string[];
+    permissions?: Record<string, string[]>;
 }

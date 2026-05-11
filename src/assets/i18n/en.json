@@ -2600,9 +2600,6 @@
             },
             "SWEET_ALERT_PARAMS": {
                 "CONFIRM": {
-                    "WAITING": {
-                        "TITLE": "Add report to cart"
-                    },
                     "REJECT": {
                         "TITLE": "Reject report"
                     },

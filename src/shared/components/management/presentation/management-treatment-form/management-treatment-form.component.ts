@@ -37,12 +37,11 @@ export class ManagementTreatmentFormComponent {
     public readonly submitLabel = input.required<string>();
     public readonly showApprovalSection = input<boolean>(false);
     public readonly motifOptions = input<FilterOption[]>([]);
+    public readonly submitting = input<boolean>(false);
 
     public readonly cancelForm = output();
     public readonly submitForm = output();
     public readonly decisionChange = output<string>();
-
-    public readonly submitting = input<boolean>(false);
 
     private readonly _expanded = signal<boolean>(true);
     @Input()

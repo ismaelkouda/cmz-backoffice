@@ -3,7 +3,6 @@ import {
     ChangeDetectionStrategy,
     Component,
     DestroyRef,
-    OnInit,
     Signal,
     computed,
     effect,
@@ -36,11 +35,13 @@ import { ManagementDialogComponent } from '@shared/components/management/present
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -63,57 +64,68 @@ import { ToastrService } from 'ngx-toastr';
     providers: [AllFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AllComponent implements OnInit {
+export class AllComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
-    public readonly facade = inject(AllFacade);
+    protected readonly facade = inject(AllFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    public readonly formStore = inject(AllFilterStore);
+    protected readonly formStore = inject(AllFilterStore);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+    private readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.customization.app.name
     );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-    public selectedReportId: string | null = null;
-    public readonly tableConfig = ALL_TABLE;
-    readonly form = this.formStore.form;
-    public readonly isVisibleDialog = signal<boolean>(false);
-    public readonly selectedManagementType = signal<TypeReport>(
+    private readonly canExport = this.permissionActions.can(
+        '/requests/all',
+        'export'
+    );
+    protected selectedReportId: string | null = null;
+    protected readonly tableConfig = ALL_TABLE;
+    protected readonly form = this.formStore.form;
+    protected readonly isVisibleDialog = signal<boolean>(false);
+    protected readonly selectedManagementType = signal<TypeReport>(
         TypeReport.REQUESTS
     );
-    readonly items = toSignal(this.facade.items$, {
+    protected readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
     private readonly currentFilter = toSignal(this.facade.currentFilter$, {
         initialValue: null,
     });
-    readonly loading = toSignal(this.facade.isLoading$, {
+    protected readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    readonly pagination = toSignal(this.facade.pagination$, {
+    protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(TelecomOperator, this.t.bind(this));
-    });
-    readonly reportSourceOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(ReportSource, this.t.bind(this));
-    });
-    readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(ReportType, this.t.bind(this));
-    });
-    readonly statusOptions: Signal<FilterOption[]> = computed(() => {
+    private readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(TelecomOperator, this.t.bind(this));
+        }
+    );
+    private readonly reportSourceOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(ReportSource, this.t.bind(this));
+        }
+    );
+    private readonly reportTypeOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(ReportType, this.t.bind(this));
+        }
+    );
+    private readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptions(Status, this.t.bind(this));
     });
-    readonly filterFields: Signal<FilterField[]> = computed(() => {
+    protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const telecomOperatorsOpts = this.telecomOperatorsOptions();
         const reportSourceOpts = this.reportSourceOptions();
@@ -218,14 +230,49 @@ export class AllComponent implements OnInit {
             },
         ];
     });
-    readonly presenter = new AllPresenter(
+    protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            class: 'btn-dark',
+            icon: 'pi pi-refresh',
+            translateKey: 'COMMON.REFRESH',
+            tooltip: this.t('REQUESTS.ALL.TABLE.TOOLTIP.REFRESH'),
+        },
+        {
+            label: 'COMMON.EXPORT',
+            actionId: 'export',
+            class: 'btn-success',
+            icon: 'pi pi-file',
+            translateKey: 'COMMON.EXPORT',
+            tooltip: this.exportTooltip(),
+            disabled: this.canExportData(),
+        },
+    ]);
+    private readonly presenter = new AllPresenter(
         this.translate.instant.bind(this.translate)
     );
-    readonly itemsVM = computed(() => {
+    protected readonly itemsVM = computed(() => {
         this.currentLang();
         return this.items().map((item) => this.presenter.map(item));
     });
-
+    private readonly canExportData = computed(
+        () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
+    );
+    private readonly exportTooltip = computed(() => {
+        const permission = !this.canExport();
+        const noData = this.itemsVM().length < 1;
+        if (permission) {
+            return this.t('REQUESTS.ALL.TOOLTIP.NO_PERMISSION_EXPORT');
+        }
+        if (noData) {
+            return this.t('REQUESTS.ALL.TOOLTIP.NO_EXPORT');
+        }
+        return this.t('REQUESTS.ALL.TOOLTIP.EXPORT').replace(
+            '{nb}',
+            String(this.itemsVM().length)
+        );
+    });
     constructor() {
         this.facade.read(this.currentFilter() as AllFilterDto);
         this.translate.onLangChange
@@ -235,6 +282,7 @@ export class AllComponent implements OnInit {
             });
 
         effect(() => {
+            this.pageTitle();
             this.filterFields();
             this.telecomOperatorsOptions();
             this.reportSourceOptions();
@@ -242,30 +290,17 @@ export class AllComponent implements OnInit {
             this.statusOptions();
         });
     }
-
-    ngOnInit(): void {
+    private pageTitle(): void {
+        this.currentLang();
         this.title.setTitle(this.t('REQUESTS.ALL.TITLE'));
-        this.translate.onLangChange
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.title.setTitle(this.t('REQUESTS.ALL.TITLE'));
-            });
     }
-
-    public onFilterClicked(): void {
+    protected onFilterClicked(): void {
         this.facade.read(this.formStore.value, '1', true);
     }
-
-    public onRefreshClicked(): void {
-        this.formStore.reset();
-        this.facade.refresh();
-    }
-
-    public onPageChange(event: number): void {
+    protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
     }
-
-    public onActionClicked(event: {
+    protected onActionClicked(event: {
         item: AllVmProps;
         actionId?: string;
     }): void {
@@ -274,16 +309,30 @@ export class AllComponent implements OnInit {
         this.selectedReportId = item.uniqId;
         this.isVisibleDialog.set(true);
     }
-
-    public onVisibleChange(event: boolean): void {
+    protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
     }
-
     private t(key: string): string {
         return this.translate.instant(key);
     }
-
-    public onExportClicked(): void {
+    protected onHeaderButtonClicked(actionId: string): void {
+        const actions: Record<string, () => void> = {
+            refresh: () => this.refreshData(),
+            export: () => {
+                if (this.canExportData()) {
+                    this.toast.error(this.exportTooltip());
+                    return;
+                }
+                this.exportData();
+            },
+        };
+        actions[actionId]?.();
+    }
+    private refreshData(): void {
+        this.formStore.reset();
+        this.facade.refresh();
+    }
+    public exportData(): void {
         const tasks = this.items();
         if (tasks && tasks.length > 0) {
             const fileName = `${this.exportFilePrefix}-all`;
@@ -296,7 +345,6 @@ export class AllComponent implements OnInit {
             this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
         }
     }
-
     private normalizeExportPrefix(appName: string): string {
         return (
             appName

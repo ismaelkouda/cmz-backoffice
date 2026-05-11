@@ -1,4 +1,4 @@
-import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
+import { TreeNodeEntity } from '../entities/tree-node.entity';
 
 export interface PermissionsProps {
     permissions: TreeNodeEntity[];

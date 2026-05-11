@@ -19,7 +19,7 @@ import { FilterField } from '@shared/components/filter/filter.types';
 import { HISTORY_TABLE_CONSTANT } from '@shared/components/history/presentation/adapters/history-table.constant';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 import { ToastrService } from 'ngx-toastr';
@@ -63,7 +63,7 @@ export class HistoryPageComponent implements OnInit {
     );
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.config.app.name
+        this.appCustomizationService.customization.app.name
     );
 
     readonly items = toSignal(this.facade.items$, { initialValue: [] });
@@ -198,7 +198,7 @@ export class HistoryPageComponent implements OnInit {
         this.isVisibleDialog.set(true);
     }
 
-    public onVisibleChange(event: boolean): void {
+    public onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
     }
 

@@ -4,7 +4,7 @@ import { QueuesVmProps } from '@pages/requests/presentation/adapters/queues/queu
 export class QueuesPresenter {
     constructor(private readonly t: (key: string) => string) {}
 
-    map(item: QueuesEntity): QueuesVmProps {
+    map(item: QueuesEntity, permission: { canTake: boolean }): QueuesVmProps {
         return {
             uniqId: item.uniqId,
             type: item.type,
@@ -14,6 +14,10 @@ export class QueuesPresenter {
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonTake: permission.canTake
+                ? this.t('REQUESTS.QUEUES.TOOLTIP.TAKE')
+                : this.t('REQUESTS.QUEUES.TOOLTIP.SEE_MORE'),
+            disableButtonTake: false,
         };
     }
 }

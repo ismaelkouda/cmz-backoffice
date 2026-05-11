@@ -25,7 +25,7 @@ export class DepartmentsMapper extends PaginatedMapper<
             name: dto.name,
             code: dto.code,
             description: dto.description,
-            region: dto.region.id,
+            region: dto.region.name,
             populationSize: dto.population_size,
             municipalitiesCount: dto.municipalities_count,
             infrastructureCount: dto.infrastructure_size,

@@ -3,12 +3,12 @@ import { ProfilesPermissionsCreateDto } from '@pages/settings-security/applicati
 export class ProfilesPermissionsCreateVo {
     readonly name: string;
     readonly description: string;
-    readonly permissions: string[];
+    readonly permissions: Record<string, string[]>;
 
     private constructor(props: {
         name: string;
         description: string;
-        permissions: string[];
+        permissions: Record<string, string[]>;
     }) {
         this.name = props.name;
         this.description = props.description;

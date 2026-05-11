@@ -3,7 +3,7 @@ import { Component, inject, input, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
 
-import { AppCustomizationService } from '../../domain/services/app-customization.service';
+import { AppCustomizationService } from '../../domain/services/app-customization/app-customization.service';
 
 @Component({
     selector: 'app-table-title',
@@ -46,7 +46,7 @@ import { AppCustomizationService } from '../../domain/services/app-customization
     `,
 })
 export class TableTitleComponent {
-    public readonly config = inject(AppCustomizationService).config;
+    public readonly config = inject(AppCustomizationService).customization;
 
     public readonly hiddenTableTitle = input<boolean>(false);
     @Input() label = true;

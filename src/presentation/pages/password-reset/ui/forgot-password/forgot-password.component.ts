@@ -17,10 +17,11 @@ import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
 import { ForgotPasswordFormInterface } from '@pages/password-reset/data/interfaces/forgot-password-form.interface';
-import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { EnvService } from '../../../../../core/config/env.service';
 
 @Component({
     selector: 'app-forgot-password',
@@ -31,9 +32,10 @@ import { takeUntil } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordComponent implements OnDestroy {
+    private readonly appConfig = inject(EnvService);
     private readonly passwordResetFacade = inject(PasswordResetFacade);
     private readonly location = inject(Location);
-    public readonly AUTH_LOGO = AUTH_LOGO;
+    public readonly AUTH_LOGO = this.appConfig.appSettings['authLogo'];
     public isEmailSent = false;
 
     public forgotPasswordForm = new FormGroup<ForgotPasswordFormInterface>({
@@ -44,7 +46,7 @@ export class ForgotPasswordComponent implements OnDestroy {
     });
 
     private readonly destroy$ = new Subject<void>();
-    public readonly config = inject(AppCustomizationService).config;
+    public readonly config = inject(AppCustomizationService).customization;
     readonly isForgotPasswordLoading = toSignal(
         this.passwordResetFacade.isForgotPasswordLoading$,
         {

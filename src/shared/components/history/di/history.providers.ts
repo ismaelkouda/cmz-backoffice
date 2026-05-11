@@ -4,7 +4,8 @@ import { HistoryRepository } from '@shared/components/history/domain/repositorie
 import { HISTORY_BASE_URL } from '@shared/components/history/infrastructure/api/history.base-url';
 import { HistoryFindOneRepositoryImpl } from '@shared/components/history/infrastructure/data/repositories/history-find-one-repository.impl';
 import { HistoryRepositoryImpl } from '@shared/components/history/infrastructure/data/repositories/history.repository.impl';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).authenticationUrl;

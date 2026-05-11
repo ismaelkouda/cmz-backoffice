@@ -3,7 +3,6 @@ import {
     ChangeDetectionStrategy,
     Component,
     DestroyRef,
-    OnInit,
     Signal,
     computed,
     effect,
@@ -35,16 +34,15 @@ import { ManagementDialogComponent } from '@shared/components/management/present
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
 
 @Component({
     selector: 'app-queues',
@@ -64,61 +62,71 @@ import SweetAlert from 'sweetalert2';
     providers: [QueuesFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QueuesComponent implements OnInit {
+export class QueuesComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
-    public readonly facade = inject(QueuesFacade);
+    protected readonly facade = inject(QueuesFacade);
     private readonly takeFacade = inject(DetailsFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    public readonly formStore = inject(QueuesFilterStore);
+    private readonly formStore = inject(QueuesFilterStore);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+    private readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.customization.app.name
     );
     private lastSuccess = this.takeFacade.actionSuccess();
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-    public selectedReportId: string | null = null;
-    public readonly tableConfig = QUEUES_TABLE;
-    readonly form = this.formStore.form;
-    public readonly selectedInTable = signal<QueuesVmProps[]>([]);
-    public readonly isVisibleDialog = signal<boolean>(false);
-    public readonly selectedManagementType = signal<TypeReport>(
+    private readonly canExport = this.permissionActions.can(
+        '/reports-finalization/queues',
+        'export'
+    );
+    protected selectedReportId: string | null = null;
+    protected readonly tableConfig = QUEUES_TABLE;
+    protected readonly form = this.formStore.form;
+    protected readonly selectedInTable = signal<QueuesVmProps[]>([]);
+    protected readonly isVisibleDialog = signal<boolean>(false);
+    protected readonly selectedManagementType = signal<TypeReport>(
         TypeReport.FINALIZATION
     );
-    readonly items = toSignal(this.facade.items$, {
+    private readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
     private readonly currentFilter = toSignal(this.facade.currentFilter$, {
         initialValue: null,
     });
-    readonly loading = toSignal(this.facade.isLoading$, {
+    protected readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    readonly pagination = toSignal(this.facade.pagination$, {
+    protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(TelecomOperator, this.t.bind(this));
-    });
-    readonly reportSourceOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(ReportSource, this.t.bind(this));
-    });
-    readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(ReportType, this.t.bind(this));
-    });
-    readonly filterFields: Signal<FilterField[]> = computed(() => {
+    private readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(TelecomOperator, this.t.bind(this));
+        }
+    );
+    private readonly reportSourceOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(ReportSource, this.t.bind(this));
+        }
+    );
+    private readonly reportTypeOptions: Signal<FilterOption[]> = computed(
+        () => {
+            this.currentLang();
+            return enumToFilterOptions(ReportType, this.t.bind(this));
+        }
+    );
+    protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const telecomOperatorsOpts = this.telecomOperatorsOptions();
         const reportSourceOpts = this.reportSourceOptions();
         const reportTypeOpts = this.reportTypeOptions();
-
         return [
             {
                 type: 'text',
@@ -200,12 +208,53 @@ export class QueuesComponent implements OnInit {
             },
         ];
     });
-    readonly presenter = new QueuesPresenter(
+    protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            class: 'btn-dark',
+            icon: 'pi pi-refresh',
+            translateKey: 'COMMON.REFRESH',
+            tooltip: this.t('FINALIZATION.QUEUES.TOOLTIP.REFRESH'),
+        },
+        {
+            label: 'COMMON.EXPORT',
+            actionId: 'export',
+            class: 'btn-success',
+            icon: 'pi pi-file',
+            translateKey: 'COMMON.EXPORT',
+            tooltip: this.exportTooltip(),
+            disabled: this.canExportData(),
+        },
+    ]);
+    private readonly presenter = new QueuesPresenter(
         this.translate.instant.bind(this.translate)
     );
-    readonly itemsVM = computed(() => {
-        this.currentLang();
-        return this.items().map((item) => this.presenter.map(item));
+    protected readonly itemsVM = computed(() => {
+        const canTake = this.permissionActions.can(
+            '/reports-finalization/queues',
+            'take'
+        )();
+        return this.items().map((item) =>
+            this.presenter.map(item, { canTake })
+        );
+    });
+    private readonly canExportData = computed(
+        () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
+    );
+    private readonly exportTooltip = computed(() => {
+        const permission = !this.canExport();
+        const noData = this.itemsVM().length < 1;
+        if (permission) {
+            return this.t('FINALIZATION.QUEUES.TOOLTIP.NO_PERMISSION_EXPORT');
+        }
+        if (noData) {
+            return this.t('FINALIZATION.QUEUES.TOOLTIP.NO_EXPORT');
+        }
+        return this.t('FINALIZATION.QUEUES.TOOLTIP.EXPORT').replace(
+            '{nb}',
+            String(this.itemsVM().length)
+        );
     });
     private readonly formStateEffect = effect(() => {
         if (this.takeFacade.actionLoading()) {
@@ -222,7 +271,6 @@ export class QueuesComponent implements OnInit {
 
         this.lastSuccess = current;
     });
-
     constructor() {
         this.facade.read(this.currentFilter() as QueuesFilterDto);
         this.translate.onLangChange
@@ -230,60 +278,25 @@ export class QueuesComponent implements OnInit {
             .subscribe((event: LangChangeEvent) => {
                 this.currentLang.set(event.lang);
             });
-
         effect(() => {
+            this.pageTitle();
             this.filterFields();
             this.telecomOperatorsOptions();
             this.reportSourceOptions();
             this.reportTypeOptions();
         });
     }
-
-    ngOnInit(): void {
+    private pageTitle(): void {
+        this.currentLang();
         this.title.setTitle(this.t('FINALIZATION.QUEUES.TITLE'));
-
-        this.translate.onLangChange
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.title.setTitle(this.t('FINALIZATION.QUEUES.TITLE'));
-            });
     }
-
-    public onFilterClicked(): void {
+    protected onFilterClicked(): void {
         this.facade.read(this.formStore.value, '1', true);
     }
-
-    public onRefreshClicked(): void {
-        this.formStore.reset();
-        this.facade.refresh();
-    }
-
-    public onPageChange(event: number): void {
+    protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
     }
-
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.TAKE) {
-            SweetAlert.fire({
-                ...SWEET_ALERT_PARAMS,
-                title: this.t('FINALIZATION.QUEUES.SWEET_ALERT.TITLE_TAKE'),
-                text: this.t('FINALIZATION.QUEUES.SWEET_ALERT.TITLE_MESSAGE'),
-                backdrop: false,
-                confirmButtonText: this.t('COMMON.CONFIRM'),
-                cancelButtonText: this.t('COMMON.CANCEL'),
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    this.takeFacade.take({
-                        uniqId: JSON.stringify(
-                            this.selectedInTable().map((p) => p.uniqId)
-                        ),
-                    });
-                }
-            });
-        }
-    }
-
-    public onActionClicked(event: {
+    protected onActionClicked(event: {
         item: QueuesVmProps;
         actionId?: string;
     }): void {
@@ -292,26 +305,44 @@ export class QueuesComponent implements OnInit {
         this.selectedReportId = item.uniqId;
         this.isVisibleDialog.set(true);
     }
-
-    public onVisibleChange(event: boolean): void {
+    protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
     }
-
-    public onSelectionChange(selection: QueuesVmProps | QueuesVmProps[]): void {
-        const queues = Array.isArray(selection) ? selection : [selection];
-        this.selectedInTable.set(queues.filter((u) => !!u));
-    }
-
     private t(key: string): string {
         return this.translate.instant(key);
     }
-
-    public onExportClicked(): void {
-        const tasks = this.items();
-        if (tasks && tasks.length > 0) {
+    private readonly headerActions: Record<string, () => void> = {
+        refresh: () => this.onRefreshData(),
+        export: () => {
+            if (!this.canExport()) {
+                this.toast.error(this.exportTooltip());
+                return;
+            }
+            this.exportData();
+        },
+    };
+    protected onHeaderButtonClicked(actionId: string): void {
+        const action = this.headerActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
+            return;
+        }
+        action();
+    }
+    private onRefreshData(): void {
+        this.formStore.reset();
+        this.facade.refresh();
+    }
+    private exportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const item = this.items();
+        if (item && item.length > 0) {
             const fileName = `${this.exportFilePrefix}-queues`;
             this.exportService.exportAsExcelFile(
-                tasks,
+                item,
                 this.tableConfig,
                 fileName
             );

@@ -65,7 +65,7 @@
             @if (showInitiatorSection()) {
                 <div class="sidebar-section">
                     <div class="sidebar-header">
-                        {{ 'MANAGEMENT.SIDEBAR.INITIATOR.TITLE' | translate }}
+                        {{ 'MANAGEMENT.STATUS.SUBMISSION' | translate }}
                     </div>
                     <div class="sidebar-content">
                         <p class="phone-number">
@@ -90,11 +90,10 @@
                 </div>
             }
 
-            <!-- Section Approbateur -->
             @if (showApproverSection()) {
                 <div class="sidebar-section">
                     <div class="sidebar-header">
-                        {{ 'MANAGEMENT.SIDEBAR.APPROVER.TITLE' | translate }}
+                        {{ 'MANAGEMENT.STATUS.QUALIFICATION' | translate }}
                     </div>
                     <div class="sidebar-content">
                         <p>
@@ -137,11 +136,10 @@
                 </div>
             }
 
-            <!-- Section Rejecteur -->
             @if (showRejecterSection()) {
                 <div class="sidebar-section">
                     <div class="sidebar-header">
-                        {{ 'MANAGEMENT.SIDEBAR.REFUSER.TITLE' | translate }}
+                        {{ 'MANAGEMENT.STATUS.QUALIFICATION' | translate }}
                     </div>
                     <div class="sidebar-content">
                         <p>
@@ -184,11 +182,10 @@
                 </div>
             }
 
-            <!-- Section Traitement -->
             @if (showProcessorSection()) {
                 <div class="sidebar-section">
                     <div class="sidebar-header">
-                        {{ 'MANAGEMENT.SIDEBAR.PROCESSED.TITLE' | translate }}
+                        {{ 'MANAGEMENT.STATUS.FINALIZATION' | translate }}
                     </div>
                     <div class="sidebar-content">
                         <p>

@@ -1,4 +1,4 @@
-import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
+import { TreeNodeEntity } from './profiles-permissions-tree-node.entity';
 
 export class ProfilesPermissionsFindOneEntity {
     constructor(

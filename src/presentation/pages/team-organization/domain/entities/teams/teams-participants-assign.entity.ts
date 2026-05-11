@@ -4,7 +4,7 @@ import { Roles } from '@shared/domain/enums/roles.enum';
 export class TeamsParticipantsAssignEntity {
     constructor(
         public readonly uniqId: string,
-        public readonly roles: Roles,
+        public readonly role: Roles,
         public readonly participants: string[]
     ) {}
 
@@ -13,7 +13,7 @@ export class TeamsParticipantsAssignEntity {
     ): TeamsParticipantsAssignEntity {
         return new TeamsParticipantsAssignEntity(
             vo.uniqId,
-            vo.roles,
+            vo.role,
             vo.participants
         );
     }

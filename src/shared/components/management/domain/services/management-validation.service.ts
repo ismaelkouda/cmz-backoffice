@@ -26,7 +26,7 @@ export class ManagementValidationService {
 
         switch (context) {
             case 'requests':
-                if (item?.canBeApproved) {
+                if (item?.canQualify) {
                     decisionControl?.setValidators([Validators.required]);
                     approvalTypeControl?.setValidators([Validators.required]);
                     this.setupConditionalValidation(form);
@@ -34,7 +34,7 @@ export class ManagementValidationService {
                 break;
 
             case 'processing':
-                if (item?.canBeTreated) {
+                if (item?.canTreat) {
                     commentControl?.setValidators([Validators.required]);
                 }
                 break;
@@ -97,6 +97,6 @@ export class ManagementValidationService {
     }
 
     isTakeAction(item: any): boolean {
-        return item?.canBeTaken || false;
+        return item?.canTake || false;
     }
 }

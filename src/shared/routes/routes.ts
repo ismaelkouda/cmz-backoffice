@@ -4,6 +4,7 @@ export const SEARCH = 'search';
 export const DASHBOARD = 'dashboard';
 export const PROCESSING_ROUTE = 'reports-processing';
 export const FINALIZATION_ROUTE = 'reports-finalization';
+export const REPORT_STATES_ROUTE = 'report-status';
 export const REPORTING_ROUTE = 'reporting';
 export const MONITORING_ROUTE = 'system-supervision';
 export const REQUESTS_ROUTE = 'requests';
@@ -66,16 +67,29 @@ export const content: Routes = [
         loadChildren: () =>
             import('@pages/processing/processing.routes').then((m) => m.routes),
     },
+    // {
+    //     path: FINALIZATION_ROUTE,
+    //     data: {
+    //         breadcrumb: {
+    //             label: 'FINALIZATION.BREADCRUMB.LABEL',
+    //             icon: 'FINALIZATION.BREADCRUMB.ICON',
+    //         },
+    //     },
+    //     loadChildren: () =>
+    //         import('@pages/finalization/finalization.routes').then(
+    //             (m) => m.routes
+    //         ),
+    // },
     {
-        path: FINALIZATION_ROUTE,
+        path: REPORT_STATES_ROUTE,
         data: {
             breadcrumb: {
-                label: 'FINALIZATION.BREADCRUMB.LABEL',
-                icon: 'FINALIZATION.BREADCRUMB.ICON',
+                label: 'REPORT_STATES.BREADCRUMB.LABEL',
+                icon: 'REPORT_STATES.BREADCRUMB.ICON',
             },
         },
         loadChildren: () =>
-            import('@pages/finalization/finalization.routes').then(
+            import('@pages/report-states/report-states.routes').then(
                 (m) => m.routes
             ),
     },

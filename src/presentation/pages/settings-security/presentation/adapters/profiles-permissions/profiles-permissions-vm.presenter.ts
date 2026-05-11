@@ -16,9 +16,9 @@ export class ProfilesPermissionsPresenter {
             statusStyle: item.statusStyle(item.status),
             usersCount: item.usersCount,
             updatedAt: item.updatedAt,
+            actionsRef: item.actionsRef,
             disableDropdownDelete: Number(item.usersCount) > 0,
             hiddenDropdownDelete: profilesNotDelete.has(item.slug),
-            actionsRef: item.actionsRef,
         };
     }
 }

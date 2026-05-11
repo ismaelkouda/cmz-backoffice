@@ -1,29 +1,28 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { AllFilterApiDto } from '@pages/requests/infrastructure/api/dto/all/all-filter-api.dto';
 import { AllResponseApiDto } from '@pages/requests/infrastructure/api/dto/all/all-response-api.dto';
-import { REQUESTS_BASE_URL } from '@pages/requests/infrastructure/api/report-requests.base-url';
-import { REQUESTS_ENDPOINTS } from '@pages/requests/infrastructure/api/report-requests.endpoints';
+import { REQUESTS_ENDPOINTS } from '@presentation/pages/requests/infrastructure/api/requests.endpoints';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AllApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(REQUESTS_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly reportApiUrl = inject(REPORT_API_URL);
 
     execute(
         filter: AllFilterApiDto,
         page: string
     ): Observable<AllResponseApiDto> {
-        const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.ALL}?page=${page}`;
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });
-        return this.http.get<AllResponseApiDto>(url, {
-            params,
-        });
+
+        return this.http.get<AllResponseApiDto>(
+            `${this.reportApiUrl}${REQUESTS_ENDPOINTS.ALL}`,
+            { params: { ...params, page } }
+        );
     }
 }

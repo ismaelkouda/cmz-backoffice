@@ -33,17 +33,9 @@ export class TeamsFormStore {
         const permissions = this.permissions();
 
         return this.isEditMode()
-            ? this.treeService.transformPermissionsToTree(
-                  item?.permissions ?? []
-              )
-            : this.treeService.transformPermissionsToTree(
-                  permissions?.props?.permissions ?? []
-              );
+            ? this.treeService.mapNodes(item?.permissions ?? [])
+            : this.treeService.mapNodes(permissions?.props?.permissions ?? []);
     });
-
-    readonly selectedCount = computed(
-        () => this.treeService.countLeafNodes(this.selectedNodes()).size
-    );
 
     constructor() {
         effect(() => {
@@ -134,6 +126,8 @@ export class TeamsFormStore {
             },
             { emitEvent: false }
         );
+        const treeNodePermissions = this.treeService.mapNodes(item.permissions);
+        this.patchSelectedNodes(treeNodePermissions);
     });
 
     public setMode(uniqId?: string): void {
@@ -153,9 +147,9 @@ export class TeamsFormStore {
     updateSelectedNodes(nodes: TreeNodeInterface[]): void {
         this.selectedNodes.set(nodes);
 
-        const permissions = this.treeService.collectLeafKeysFromNodes(nodes);
+        // const permissions = this.treeService.collectLeafKeysFromNodes(nodes);
 
-        this.form.controls.permissions.setValue(permissions);
+        // this.form.controls.permissions.setValue(permissions);
     }
 
     expandAll(): void {
@@ -168,6 +162,11 @@ export class TeamsFormStore {
         const collapsed = this.treeService.collapseAll(this.permissionTree());
 
         this.selectedNodes.set(this.treeService.collectCheckedNodes(collapsed));
+    }
+
+    patchSelectedNodes(nodes: TreeNodeInterface[]): void {
+        const selectedNodes = this.treeService.collectCheckedNodes(nodes);
+        this.updateSelectedNodes(selectedNodes);
     }
 
     public resetForm(): void {

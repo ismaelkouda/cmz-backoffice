@@ -1,17 +1,5 @@
 const config = {
     dev: {        
-        /* authenticationUrl: 'http://10.10.0.9:7000/auth/v1.0/backoffice/',
-        reportUrl: 'http://10.10.0.9:7001/reports/v1.0/backoffice/',
-        settingUrl: 'http://10.10.0.9:7002/base-settings/v1.0/backoffice/',
-        fileUrl: 'http://10.10.0.9:7000/auth/backoffice/', */
-
-        /* authenticationUrl:
-            'https://api-services.mazone.imako.digital/auth/v1.0/backoffice/',
-        reportUrl:
-            'https://api-services.mazone.imako.digital/reports/v1.0/backoffice/',
-        settingUrl:
-            'https://api-services.mazone.imako.digital/base-settings/v1.0/backoffice/',
-        fileUrl: 'https://api-services.mazone.imako.digital/auth/backoffice/', */
 
         authenticationUrl: 'https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/',
         reportUrl: 'https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/',
@@ -22,12 +10,75 @@ const config = {
         enableDebug: true,
 
         appSettings: {
-            appName: 'Connect My Zone',
-            appLogoFull: 'assets/images/logo/logo-ansut-full.png',
-            appLogoIcon: 'assets/images/favicon.png',
-            appPrimaryColor: '#2256A3',
-            appSecondaryColor: '#F08224',
-            appTertiaryColor: '#FFFFFF',
+            app: {
+                name: 'Connect My Zone',
+                title: 'Connect My Zone Back-office',
+                description: 'Système de Gestion des zones non connectées',
+                keywords:
+                    'Connect My Zone, Back-office, Gestion, Zones non connectées',
+                author: 'ANSUT',
+            },
+            fonts: {
+                primary: "'Avenir', 'Futura', sans-serif",
+                secondary: "'Helvetica', sans-serif",
+            },
+            colors: {
+                primary: '#2256a3',
+                secondary: '#f08224',
+                tertiary: '#FFFFFF',
+                black: '#1D1D1B',
+                white: '#ffffff',
+                gray: '#878787',
+                grayLight: '#e0e0de',
+                error: '#dc3545',
+                warning: '#ffc107',
+                success: '#28a745',
+                info: '#17a2b8',
+            },
+            languages: {
+                supported: ['en', 'fr'],
+                default: 'fr',
+                storageKey: 'language',
+            },
+            modes: {
+                supported: ['dark', 'light', 'system'],
+                default: 'light',
+                storageKey: 'mode',
+            },
+            assets: {
+                favicon: 'favicon.ico',
+                authLogo: 'assets/images/logo/app-logo-full.png',
+                sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
+                logoIcon: 'assets/images/favicon.png',
+                loginBg: 'assets/images/login/login_bg.jpg',
+            },
+            loadingBar: {
+                color: '#2256a3',
+                height: '4px',
+                includeSpinner: false,
+            },
+            error: {
+                displayStyles: {
+                    position: 'fixed',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    background: '#dc3545',
+                    color: 'white',
+                    padding: '1rem',
+                    textAlign: 'center',
+                    fontFamily: 'Arial, sans-serif',
+                    zIndex: '9999',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                },
+                role: 'alert',
+                ariaLive: 'assertive',
+            },
+            performance: {
+                bootstrapStartMark: 'app-bootstrap-start',
+                bootstrapEndMark: 'app-bootstrap-end',
+                bootstrapMeasure: 'app-bootstrap',
+            },
         },
     },
     cloud: {
@@ -46,7 +97,7 @@ const config = {
 
         appSettings: {
             appName: 'Connect My Zone',
-            appLogoFull: 'assets/images/logo/logo-ansut-full.png',
+            authLogo: 'assets/images/logo/app-logo-full.png',
             appLogoIcon: 'assets/images/favicon.png',
             appPrimaryColor: '#2256A3',
             appSecondaryColor: '#F08224',
@@ -60,20 +111,76 @@ const config = {
         fileUrl: 'https://api-services.mazone-test.ansut.ci/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
-        messageApp: {
-            sourceStockTenantSim: 'Le système utilisera une SIM blanche du Stock du Tenant',
-            sourceStockOrangeSim: 'Orange fournira la SIM...',
-            sourceSoldeDotation: 'Le solde de la dotation Data...',
-            sourceSoldeDotationOrange: 'Orange fera le dépôt...',
-        },
-
         appSettings: {
-            appName: 'Connect My Zone',
-            appLogoFull: 'assets/images/logo/logo-ansut-full.png',
-            appLogoIcon: 'assets/images/favicon.png',
-            appPrimaryColor: '#2256A3',
-            appSecondaryColor: '#F08224',
-            appTertiaryColor: '#FFFFFF',
+            app: {
+                name: 'Connect My Zone',
+                title: 'Connect My Zone Back-office',
+                description: 'Système de Gestion des zones non connectées',
+                keywords:
+                    'Connect My Zone, Back-office, Gestion, Zones non connectées',
+                author: 'ANSUT',
+            },
+            fonts: {
+                primary: "'Avenir', 'Futura', sans-serif",
+                secondary: "'Helvetica', sans-serif",
+            },
+            colors: {
+                primary: '#2256a3',
+                secondary: '#f08224',
+                tertiary: '#FFFFFF',
+                black: '#1D1D1B',
+                white: '#ffffff',
+                gray: '#878787',
+                grayLight: '#e0e0de',
+                error: '#dc3545',
+                warning: '#ffc107',
+                success: '#28a745',
+                info: '#17a2b8',
+            },
+            languages: {
+                supported: ['en', 'fr'],
+                default: 'fr',
+                storageKey: 'language',
+            },
+            modes: {
+                supported: ['dark', 'light', 'system'],
+                default: 'light',
+                storageKey: 'mode',
+            },
+            assets: {
+                favicon: 'favicon.ico',
+                authLogo: 'assets/images/logo/app-logo-full.png',
+                sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
+                logoIcon: 'assets/images/favicon.png',
+                loginBg: 'assets/images/login/login_bg.jpg',
+            },
+            loadingBar: {
+                color: '#2256a3',
+                height: '4px',
+                includeSpinner: false,
+            },
+            error: {
+                displayStyles: {
+                    position: 'fixed',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    background: '#dc3545',
+                    color: 'white',
+                    padding: '1rem',
+                    textAlign: 'center',
+                    fontFamily: 'Arial, sans-serif',
+                    zIndex: '9999',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                },
+                role: 'alert',
+                ariaLive: 'assertive',
+            },
+            performance: {
+                bootstrapStartMark: 'app-bootstrap-start',
+                bootstrapEndMark: 'app-bootstrap-end',
+                bootstrapMeasure: 'app-bootstrap',
+            },
         },
     },
     cmz_prod: {
@@ -83,20 +190,76 @@ const config = {
         fileUrl: 'https://api-services.connecte-ma-zone.ansut.ci/auth/backoffice/',
         environmentDeployment: 'CMZ_PROD',
         enableDebug: true,
-        messageApp: {
-            sourceStockTenantSim: 'Le système utilisera une SIM blanche du Stock du Tenant',
-            sourceStockOrangeSim: 'Orange fournira la SIM...',
-            sourceSoldeDotation: 'Le solde de la dotation Data...',
-            sourceSoldeDotationOrange: 'Orange fera le dépôt...',
-        },
-
         appSettings: {
-            appName: 'Connect My Zone',
-            appLogoFull: 'assets/images/logo/logo-ansut-full.png',
-            appLogoIcon: 'assets/images/favicon.png',
-            appPrimaryColor: '#2256A3',
-            appSecondaryColor: '#F08224',
-            appTertiaryColor: '#FFFFFF',
+            app: {
+                name: 'Connect My Zone',
+                title: 'Connect My Zone Back-office',
+                description: 'Système de Gestion des zones non connectées',
+                keywords:
+                    'Connect My Zone, Back-office, Gestion, Zones non connectées',
+                author: 'ANSUT',
+            },
+            fonts: {
+                primary: "'Avenir', 'Futura', sans-serif",
+                secondary: "'Helvetica', sans-serif",
+            },
+            colors: {
+                primary: '#2256a3',
+                secondary: '#f08224',
+                tertiary: '#FFFFFF',
+                black: '#1D1D1B',
+                white: '#ffffff',
+                gray: '#878787',
+                grayLight: '#e0e0de',
+                error: '#dc3545',
+                warning: '#ffc107',
+                success: '#28a745',
+                info: '#17a2b8',
+            },
+            languages: {
+                supported: ['en', 'fr'],
+                default: 'fr',
+                storageKey: 'language',
+            },
+            modes: {
+                supported: ['dark', 'light', 'system'],
+                default: 'light',
+                storageKey: 'mode',
+            },
+            assets: {
+                favicon: 'favicon.ico',
+                authLogo: 'assets/images/logo/app-logo-full.png',
+                sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
+                logoIcon: 'assets/images/favicon.png',
+                loginBg: 'assets/images/login/login_bg.jpg',
+            },
+            loadingBar: {
+                color: '#2256a3',
+                height: '4px',
+                includeSpinner: false,
+            },
+            error: {
+                displayStyles: {
+                    position: 'fixed',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    background: '#dc3545',
+                    color: 'white',
+                    padding: '1rem',
+                    textAlign: 'center',
+                    fontFamily: 'Arial, sans-serif',
+                    zIndex: '9999',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                },
+                role: 'alert',
+                ariaLive: 'assertive',
+            },
+            performance: {
+                bootstrapStartMark: 'app-bootstrap-start',
+                bootstrapEndMark: 'app-bootstrap-end',
+                bootstrapMeasure: 'app-bootstrap',
+            },
         },
     }
 };

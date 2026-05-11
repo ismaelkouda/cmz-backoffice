@@ -1,13 +1,29 @@
 import { detailsPermissionsTake } from '@pages/processing/domain/functions/details/details-permissions-take.function';
 import { detailsPermissionsTreat } from '@pages/processing/domain/functions/details/details-permissions-treat.function';
-import { DetailsProps } from '@pages/processing/domain/interfaces/details/details-props.interface';
 
-export function detailsTitle(props: DetailsProps): string {
-    if (detailsPermissionsTake(props)) {
-        return 'MANAGEMENT.STATUS.TAKE';
-    } else if (detailsPermissionsTreat(props)) {
-        return 'MANAGEMENT.STATUS.TREATMENT';
-    } else {
-        return 'MANAGEMENT.STATUS.INFORMATION';
-    }
+import {
+    DetailsContext,
+    DetailsRule,
+} from '../../entities/details/details.entity';
+
+const RULES: DetailsRule[] = [
+    {
+        name: 'TAKE',
+        when: (ctx) =>
+            detailsPermissionsTake(ctx.props, ctx.permissions.canTake),
+        title: 'MANAGEMENT.STATUS.TAKE',
+    },
+    {
+        name: 'APPROVE',
+        when: (ctx) =>
+            detailsPermissionsTreat(ctx.props, ctx.permissions.canTreat),
+        title: 'MANAGEMENT.STATUS.TREATMENT',
+    },
+];
+
+export function detailsTitle(ctx: DetailsContext): string {
+    console.log('detailsTitle ctx: ', ctx);
+    const rule = RULES.find((r) => r.when(ctx));
+    console.log('detailsTitle rule: ', rule);
+    return rule?.title ?? 'MANAGEMENT.STATUS.INFORMATION';
 }

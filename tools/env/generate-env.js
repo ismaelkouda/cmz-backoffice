@@ -6,25 +6,28 @@ import { generateTypes, validateConfig } from './config-validator.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-class EnvironmentGenerator {
+export class EnvironmentGenerator {
     constructor() {
-        this.configPath = path.resolve(__dirname, './config.js');
-        this.typesOutputPath = path.resolve(
-            __dirname,
-            '../../src/environments/config.types.ts'
-        );
-        this.envOutputPath = path.resolve(
-            __dirname,
-            '../../src/assets/config/env.js'
-        );
+        this.paths = {
+            config: path.resolve(__dirname, './config.js'),
+            types: path.resolve(
+                __dirname,
+                '../../src/core/config/config.types.ts'
+            ),
+            runtimeEnv: path.resolve(
+                __dirname,
+                '../../src/assets/config/env.js'
+            ),
+        };
     }
-
+    
     async loadConfig() {
-        if (!fs.existsSync(this.configPath)) {
-            throw new Error("❌ Fichier 'config.js' introuvable");
-        }
+        this.ensureFileExists(
+            this.paths.config,
+            "❌ Fichier 'config.js' introuvable"
+        );
 
-        const configModule = await import(this.configPath);
+        const configModule = await import(this.paths.config);
         return configModule.default || configModule;
     }
 
@@ -35,6 +38,7 @@ class EnvironmentGenerator {
             );
         }
 
+        console.log('config[env]: ', config[env]);
         const validation = validateConfig(config[env]);
         if (!validation.isValid) {
             throw new Error(
@@ -45,52 +49,52 @@ class EnvironmentGenerator {
         return validation.config;
     }
 
-    generateTypeDefinitions(config) {
-        const typeDefinition = generateTypes(config);
-        fs.writeFileSync(this.typesOutputPath, typeDefinition, 'utf8');
-    }
+    buildRuntimeConfig(config, env) {
+        return `(function (window) {
+            window.__env = ${JSON.stringify(config, null, 4)};
 
-    generateEnvFile(config, env) {
-        const selectedConfig = this.validateEnvironment(config, env);
-
-        const output = `(function (window) {
-            window.__env = ${JSON.stringify(selectedConfig, null, 4)};
             window.__env.buildInfo = {
                 timestamp: '${new Date().toISOString()}',
                 environment: '${env}',
                 version: '${process.env.npm_package_version || '1.0.0'}',
                 commitHash: '${process.env.GIT_COMMIT_HASH || 'local'}'
             };
-            
-            // Validation de la configuration
-            if (typeof window.__env.authenticationUrl === 'undefined' && typeof window.__env.reportUrl === 'undefined' && typeof window.__env.settingUrl === 'undefined') {
-                console.error('❌ Configuration API manquante (authenticationUrl, reportUrl, settingUrl)');
-            }
-            
-            // Lock la configuration
-            Object.freeze(window.__env);
-            Object.freeze(window.__env.messageApp);
-            Object.freeze(window.__env.appSettings);
-        })(this);`;
 
-        // Création du dossier si nécessaire
-        const outputDir = path.dirname(this.envOutputPath);
-        if (!fs.existsSync(outputDir)) {
-            fs.mkdirSync(outputDir, { recursive: true });
+            Object.freeze(window.__env);
+
+            if (window.__env.appSettings) {
+                Object.freeze(window.__env.appSettings);
+            }
+        })(this);`;
+    }
+
+    writeFile(filePath, content) {
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
+        fs.writeFileSync(filePath, content, 'utf8');
+    }
+
+    ensureFileExists(filePath, errorMessage) {
+        if (!fs.existsSync(filePath)) {
+            throw new Error(errorMessage);
         }
-        fs.writeFileSync(this.envOutputPath, output, 'utf8');
     }
 
     async generate(env) {
-        try {
-            const config = await this.loadConfig();
-            this.generateTypeDefinitions(config);
-            this.generateEnvFile(config, env);
-            return true;
-        } catch (error) {
-            console.error('💥 Erreur lors de la génération:', error.message);
-            process.exit(1);
-        }
+        const config = await this.loadConfig();
+
+        const validatedConfig = this.validateEnvironment(config, env);
+
+        this.writeFile(
+            this.paths.types,
+            generateTypes(config)
+        );
+
+        this.writeFile(
+            this.paths.runtimeEnv,
+            this.buildRuntimeConfig(validatedConfig, env)
+        );
+
+        return true;
     }
 }
 
@@ -98,10 +102,15 @@ const args = process.argv.slice(2);
 const env = args[0];
 
 if (!env) {
-    console.error('❌ Usage: node generate-env.js <environnement>');
+    console.error('❌ Usage: node generate-env.js <environment>');
     process.exit(1);
 }
 
 const generator = new EnvironmentGenerator();
-generator.generate(env);
+
+generator.generate(env).catch((error) => {
+    console.error('💥 Erreur lors de la génération:', error.message);
+    process.exit(1);
+});
+
 export default EnvironmentGenerator;

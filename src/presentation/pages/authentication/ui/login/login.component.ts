@@ -19,12 +19,11 @@ import { LoginFormInterface } from '@pages/authentication/data/interfaces/login-
 import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
 import { FORGOT_PASSWORD } from '@pages/password-reset/password-reset.routes';
 import { REINITIALIZATION } from '@presentation/app.routes';
-import { AUTH_LOGO } from '@shared/constants/logoAnsut.constant';
 import {
     AuthToken,
     CurrentUser,
 } from '@shared/domain/interfaces/current-user.interface';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { DASHBOARD } from '@shared/routes/routes';
 import { PasswordModule } from 'primeng/password';
@@ -46,13 +45,14 @@ import { takeUntil } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnDestroy {
+    public readonly appConfig = inject(AppCustomizationService).customization;
     private readonly authenticationFacade = inject(AuthenticationFacade);
     private readonly encodingDataService = inject(EncodingDataService);
     private readonly translateService = inject(TranslateService);
     private readonly router = inject(Router);
     public readonly REINITIALIZATION = REINITIALIZATION;
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
-    public readonly AUTH_LOGO = AUTH_LOGO;
+    public readonly AUTH_LOGO = this.appConfig.assets.authLogo;
 
     public loginForm = new FormGroup<LoginFormInterface>({
         email: new FormControl('', {
@@ -70,7 +70,6 @@ export class LoginComponent implements OnDestroy {
     });
 
     private readonly destroy$ = new Subject<void>();
-    public readonly config = inject(AppCustomizationService).config;
 
     ngOnDestroy(): void {
         this.destroy$.next();
@@ -160,5 +159,10 @@ export class LoginComponent implements OnDestroy {
         this.encodingDataService.saveData('user_data', user, true);
         this.encodingDataService.saveData('token_data', token, true);
         this.encodingDataService.saveData('menu', user.permissions, true);
+        this.encodingDataService.saveData(
+            'permissionsActions',
+            user.actions,
+            true
+        );
     }
 }

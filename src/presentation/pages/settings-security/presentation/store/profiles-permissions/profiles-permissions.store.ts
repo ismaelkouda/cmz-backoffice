@@ -9,66 +9,89 @@ import { ProfilesPermissionsFindOneFacade } from '@pages/settings-security/appli
 import { ProfilesPermissionsPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-permissions.facade';
 import { ProfilesPermissionsFormControls } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-form.control';
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
-import { TreeNodeInterface } from '@shared/domain/interfaces/tree-node.interface';
-import { PermissionTreeService } from '@shared/domain/services/permission-tree-node.service';
+import { TreeNodeInterface } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-tree-node.interface';
+import { PermissionTreeService } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/permission-tree-node.service';
+import { PermissionAction } from '@shared/domain/types/permission-action.type';
 
 @Injectable()
 export class ProfilesPermissionsStore {
     private readonly fb = inject(FormBuilder);
-    private readonly facade = inject(ProfilesPermissionsFindOneFacade);
+    private readonly findOneFacade = inject(ProfilesPermissionsFindOneFacade);
     private readonly permissionsFacade = inject(
         ProfilesPermissionsPermissionsFacade
     );
-    private readonly treeService = inject(PermissionTreeService);
+    public readonly treeService = inject(PermissionTreeService);
+
     public readonly isEditMode = signal(false);
-    private readonly item = this.facade.items;
-    public readonly loading = this.facade.loading;
-    readonly permissions = this.permissionsFacade.items;
+
+    public readonly loading = this.findOneFacade.loading;
     readonly loadingPermissions = this.permissionsFacade.loading;
 
-    readonly selectedNodes = signal<TreeNodeInterface[]>([]);
+    readonly form = this.createForm();
 
-    readonly form: FormGroup<ProfilesPermissionsFormControls> =
-        this.createForm();
+    readonly tree = signal<TreeNodeInterface[]>([]);
 
-    readonly permissionTree = computed(() => {
-        const item = this.item();
-        const permissions = this.permissions();
-
-        return this.isEditMode()
-            ? this.treeService.transformPermissionsToTree(
-                  item?.permissions ?? []
-              )
-            : this.treeService.transformPermissionsToTree(
-                  permissions?.props?.permissions ?? []
-              );
-    });
-
-    readonly selectedCount = computed(
-        () => this.treeService.countLeafNodes(this.selectedNodes()).size
+    readonly selectedNodes = computed(() =>
+        this.treeService.collectCheckedNodes(this.tree())
     );
 
-    constructor() {
-        effect(() => {
-            const item = this.item();
+    readonly getActionState = (
+        node: TreeNodeInterface,
+        action: PermissionAction
+    ): 'checked' | 'unchecked' | 'indeterminate' =>
+        this.treeService.getActionState(node, action);
 
-            if (!item) {
+    readonly selectedCount = computed(() => this.selectedNodes().length);
+
+    constructor() {
+        this.registerEffects();
+    }
+
+    private registerEffects(): void {
+        effect(() => {
+            const item = this.findOneFacade.items();
+
+            if (!this.isEditMode() || !item) {
                 return;
             }
 
             this.form.patchValue(
                 {
-                    name: item.name,
-                    description: item.description,
+                    name: item.name ?? '',
+                    description: item.description ?? '',
                 },
                 { emitEvent: false }
             );
+
+            const nodes = this.treeService.mapNodes(item.permissions);
+
+            this.attachParents(nodes);
+
+            this.tree.set(nodes);
+
+            this.syncFormPermissions();
         });
 
         effect(() => {
-            const tree = this.permissionTree();
+            const permissions = this.permissionsFacade.items();
 
-            this.selectedNodes.set(this.treeService.collectCheckedNodes(tree));
+            if (this.isEditMode()) {
+                return;
+            }
+
+            if (!permissions?.props?.permissions) {
+                return;
+            }
+
+            const nodes = this.treeService.mapNodes(
+                permissions.props.permissions
+            );
+
+            this.attachParents(nodes);
+
+            this.tree.set(nodes);
+
+            this.syncFormPermissions();
         });
     }
 
@@ -99,62 +122,75 @@ export class ProfilesPermissionsStore {
         });
     }
 
-    private readonly patchItemEffect = effect(() => {
-        const item = this.item();
+    setMode(uniqId?: string): void {
+        this.resetState();
 
-        if (!item || Object.keys(item).length === 0) {
-            return;
-        }
-        if (!this.form.pristine) {
-            return;
-        }
-
-        this.form.patchValue(
-            {
-                name: item.name,
-                description: item.description,
-            },
-            { emitEvent: false }
-        );
-    });
-
-    public setMode(uniqId?: string): void {
         this.isEditMode.set(!!uniqId);
 
-        this.form.reset();
-        this.facade.reset();
-        this.permissionsFacade.reset();
-
         if (uniqId) {
-            this.facade.read({ uniqId }, true);
+            this.findOneFacade.read({ uniqId }, true);
         } else {
             this.permissionsFacade.readAll();
         }
     }
 
-    updateSelectedNodes(nodes: TreeNodeInterface[]): void {
-        this.selectedNodes.set(nodes);
+    updatePermission(
+        node: TreeNodeInterface,
+        action: string,
+        checked: boolean
+    ): void {
+        this.treeService.updateNodeAction(node, action, checked);
+        this.syncFormPermissions();
+    }
 
-        const permissions = this.treeService.collectLeafKeysFromNodes(nodes);
-
-        this.form.controls.permissions.setValue(permissions);
+    updateNode(node: TreeNodeInterface, checked: boolean): void {
+        this.treeService.updateNodeSelection(node, checked);
+        this.syncFormPermissions();
     }
 
     expandAll(): void {
-        const expanded = this.treeService.expandAll(this.permissionTree());
-
-        this.selectedNodes.set(this.treeService.collectCheckedNodes(expanded));
+        this.tree.update((nodes) => this.treeService.expandAll(nodes));
     }
 
     collapseAll(): void {
-        const collapsed = this.treeService.collapseAll(this.permissionTree());
-
-        this.selectedNodes.set(this.treeService.collectCheckedNodes(collapsed));
+        this.tree.update((nodes) => this.treeService.collapseAll(nodes));
     }
 
-    public resetForm(): void {
+    getPayload() {
+        const raw = this.form.getRawValue();
+
+        return {
+            ...raw,
+            permissions: this.treeService.flatten(this.tree()),
+        };
+    }
+
+    private syncFormPermissions(): void {
+        this.form.controls.permissions.setValue(
+            this.treeService.flatten(this.tree()) as any,
+            { emitEvent: false }
+        );
+    }
+
+    private attachParents(
+        nodes: TreeNodeInterface[],
+        parent?: TreeNodeInterface
+    ): void {
+        nodes.forEach((node) => {
+            node.parent = parent;
+
+            if (node.children?.length) {
+                this.attachParents(node.children, node);
+            }
+        });
+    }
+
+    private resetState(): void {
         this.form.reset();
-        this.isEditMode.set(false);
-        this.facade.reset();
+
+        this.tree.set([]);
+
+        this.findOneFacade.reset();
+        this.permissionsFacade.reset();
     }
 }

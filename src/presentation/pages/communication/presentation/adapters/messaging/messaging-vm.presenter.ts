@@ -16,6 +16,10 @@ export class MessagingPresenter {
             content: item.content,
             createdAt: item.createdAt,
             actionsRef: item.actionsRef,
+            tooltipButtonCanView: this.t(
+                'COMMUNICATION.MESSAGING.TABLE.TOOLTIP_BUTTON_CAN_VIEW'
+            ),
+            disableButtonView: false,
         };
     }
 }

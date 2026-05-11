@@ -2,6 +2,6 @@ import { Roles } from '@shared/domain/enums/roles.enum';
 
 export interface TeamsParticipantsAssignDto {
     uniqId: string;
-    roles: Roles;
+    role: Roles;
     participants: string[];
 }

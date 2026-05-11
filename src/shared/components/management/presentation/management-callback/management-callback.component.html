@@ -1,6 +1,6 @@
 @if (!loading()) {
     <form [formGroup]="store.form">
-        @if (item()?.canBeApproved) {
+        @if (item()?.canQualify) {
             <div class="m-3">
                 <div class="action-section">
                     <div class="management-type-form-row">
@@ -18,22 +18,18 @@
                                             <div
                                                 class="col-md d-flex align-items-center justify-content-center cursor-pointer gap-3"
                                                 (click)="
-                                                    onApprovalTypeChange(
-                                                        'details'
-                                                    )
+                                                    onApprovalTypeChange('view')
                                                 "
                                                 (keypress)="
-                                                    onApprovalTypeChange(
-                                                        'details'
-                                                    )
+                                                    onApprovalTypeChange('view')
                                                 "
                                                 [class.selected]="
-                                                    isApprovalType('details')
+                                                    isApprovalType('view')
                                                 "
                                                 tabindex="0"
                                                 role="radio"
                                                 [attr.aria-checked]="
-                                                    isApprovalType('details')
+                                                    isApprovalType('view')
                                                 "
                                             >
                                                 <div class="radio-indicator">
@@ -41,7 +37,7 @@
                                                         class="radio-dot"
                                                         [class.checked]="
                                                             isApprovalType(
-                                                                'details'
+                                                                'view'
                                                             )
                                                         "
                                                     ></div>
@@ -157,7 +153,7 @@
                                     formControlName="callbackType"
                                     [options]="callbackTypeOptions()"
                                     [disabled]="
-                                        isApprovalType('details') ||
+                                        isApprovalType('view') ||
                                         isApprovalType('edit')
                                     "
                                     optionLabel="label"

@@ -3,16 +3,20 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
+    DestroyRef,
+    effect,
     inject,
-    OnDestroy,
-    OnInit,
     Signal,
     signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+    LangChangeEvent,
+    TranslateModule,
+    TranslateService,
+} from '@ngx-translate/core';
 import { NotificationsFacade } from '@pages/communication/application/services/notifications/notifications.facade';
 import { NotificationsVmProps } from '@pages/communication/presentation/adapters/notifications/notifications-vm-props.interface';
 import { NotificationsPresenter } from '@pages/communication/presentation/adapters/notifications/notifications-vm.presenter';
@@ -29,11 +33,10 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 @Component({
@@ -55,49 +58,41 @@ import SweetAlert from 'sweetalert2';
     providers: [NotificationsFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificationsListComponent implements OnInit, OnDestroy {
+export class NotificationsListComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
-    public readonly facade = inject(NotificationsFacade);
-    public readonly formStore = inject(NotificationsFilterStore);
+    protected readonly facade = inject(NotificationsFacade);
+    private readonly formStore = inject(NotificationsFilterStore);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
-    );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-    private readonly destroy$ = new Subject<void>();
-    public readonly tableConfig = NOTIFICATIONS;
-    readonly form = this.formStore.form;
-    public selectedReportId: string | null = null;
-    public readonly isVisibleDialog = signal<boolean>(false);
-    public readonly selectedManagementType = signal<TypeReport | null>(null);
-    readonly items = toSignal(this.facade.items$, {
+    private readonly canExport = this.permissionActions.can(
+        '/communication/notification',
+        'export'
+    );
+    protected readonly tableConfig = NOTIFICATIONS;
+    protected readonly form = this.formStore.form;
+    protected selectedReportId: string | null = null;
+    protected readonly isVisibleDialog = signal<boolean>(false);
+    protected readonly selectedManagementType = signal<TypeReport | null>(null);
+    protected readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
     private readonly currentFilter = toSignal(this.facade.currentFilter$, {
         initialValue: null,
     });
-    readonly loading = toSignal(this.facade.isLoading$, {
+    protected readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    readonly pagination = toSignal(this.facade.pagination$, {
+    protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.READ_ALL',
-            actionId: CrudFormType.READ_ALL,
-            class: 'btn-primary',
-            icon: 'pi pi-check-square',
-            translateKey: 'COMMON.READ_ALL',
-            disabled: this.items().length === 0,
-        },
-    ]);
-    readonly filterFields: Signal<FilterField[]> = computed(() => {
+    protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
 
         return [
@@ -143,70 +138,115 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
             },
         ];
     });
-    readonly presenter = new NotificationsPresenter(
+    protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.READ_ALL',
+            actionId: 'read_all',
+            class: 'btn-primary',
+            icon: 'pi pi-check-square',
+            translateKey: 'COMMON.READ_ALL',
+            disabled: this.itemsVM().length === 0,
+        },
+        {
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            icon: 'pi pi-refresh',
+            class: 'btn-dark',
+            tooltip: this.t('COMMUNICATION.NOTIFICATIONS.TOOLTIP.REFRESH'),
+        },
+        {
+            label: 'COMMON.EXPORT',
+            actionId: 'export',
+            icon: 'pi pi-file',
+            class: 'btn-success',
+            disabled: this.canExportData(),
+            tooltip: this.exportTooltip(),
+        },
+    ]);
+    private readonly presenter = new NotificationsPresenter(
         this.translate.instant.bind(this.translate)
     );
-    readonly itemsVM = computed(() => {
+    protected readonly itemsVM = computed(() => {
         this.currentLang();
         return this.items().map((item) => this.presenter.map(item));
+    });
+    private readonly canExportData = computed(
+        () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
+    );
+    private readonly exportTooltip = computed(() => {
+        const permission = !this.canExport();
+        const noData = this.itemsVM().length < 1;
+        if (permission) {
+            return this.t(
+                'COMMUNICATION.NOTIFICATIONS.TOOLTIP.NO_PERMISSION_EXPORT'
+            );
+        }
+        if (noData) {
+            return this.t('COMMUNICATION.NOTIFICATIONS.TOOLTIP.NO_EXPORT');
+        }
+        return this.t('COMMUNICATION.NOTIFICATIONS.TOOLTIP.EXPORT').replace(
+            '{nb}',
+            String(this.itemsVM().length)
+        );
     });
     constructor() {
         this.facade.execute(this.currentFilter() as NotificationsFilterDto);
         this.translate.onLangChange
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((event) => {
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((event: LangChangeEvent) => {
                 this.currentLang.set(event.lang);
-                this.updateTitle();
             });
-    }
 
-    ngOnInit(): void {
-        this.updateTitle();
+        effect(() => {
+            this.pageTitle();
+        });
     }
-
-    private updateTitle(): void {
+    private pageTitle(): void {
+        this.currentLang();
         this.title.setTitle(this.t('COMMUNICATION.NOTIFICATIONS.PAGE_TITLE'));
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    public onFilterClicked(): void {
+    protected onFilterClicked(): void {
         this.facade.execute(this.formStore.value, '1', true);
     }
 
-    public onRefreshClicked(): void {
+    protected onChangePageClicked(event: number): void {
+        this.facade.changePage(JSON.stringify(event + 1));
+    }
+    protected onActionClicked(event: {
+        item: NotificationsVmProps;
+        actionId?: string;
+    }): void {
+        const { item } = event;
+        this.selectedManagementType.set(item.type);
+        this.selectedReportId = item.uniqId;
+        this.isVisibleDialog.set(true);
+    }
+    protected onVisibleDialogClicked(event: boolean): void {
+        this.isVisibleDialog.set(event);
+    }
+    protected onHeaderButtonClicked(actionId: string): void {
+        const actions: Record<string, () => void> = {
+            read_all: () => {
+                this.onReadAll();
+            },
+            refresh: () => this.onRefreshData(),
+            export: () => {
+                if (this.canExportData()) {
+                    this.toast.error(this.exportTooltip());
+                    return;
+                }
+                this.exportData();
+            },
+        };
+        actions[actionId]?.();
+    }
+    private onRefreshData(): void {
         this.formStore.reset();
         this.facade.refresh();
     }
 
-    public onPageChangeClicked(event: number): void {
-        this.facade.changePage(JSON.stringify(event + 1));
-    }
-
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.READ_ALL) {
-            this.onReadAllClicked();
-        }
-    }
-
-    public onNavigateToForm(event: {
-        item?: NotificationsVmProps;
-        ref: CrudFormType;
-    }): void {
-        console.log('event: ', event);
-        // const queryParams = event.item
-        //     ? { uniqId: event.item.uniqId, ref: event.ref }
-        //     : { ref: event.ref };
-        // this.router.navigate([NOTIFICATIONS_FORM], {
-        //     relativeTo: this.activatedRoute,
-        //     queryParams,
-        // });
-    }
-
-    public onReadAllClicked(): void {
+    public onReadAll(): void {
         if (this.items().length === 0) {
             return;
         }
@@ -226,7 +266,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         });
     }
 
-    public onDeleteClicked(item: NotificationsVmProps): void {
+    public onDelete(item: NotificationsVmProps): void {
         if (!item.uniqId) {
             return;
         }
@@ -246,32 +286,22 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         });
     }
 
-    public onActionClicked(event: {
-        item: NotificationsVmProps;
-        actionId?: string;
-    }): void {
-        const { item } = event;
-        this.selectedReportId = item.uniqId;
-        this.selectedManagementType.set(item.type);
-        this.isVisibleDialog.set(true);
-        this.facade.readOne({ uniqId: item.uniqId });
-    }
-
-    public onVisibleChange(event: boolean): void {
-        this.isVisibleDialog.set(event);
-    }
-
-    public onExportClicked(): void {
+    private exportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
         const items = this.items();
         if (!items.length) {
             this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
-
+        const appName = this.appConfig.customization.app.name;
+        const filePrefix = this.normalizePrefix(appName);
         this.exportService.exportAsExcelFile(
             items,
             this.tableConfig,
-            `${this.exportFilePrefix}-messaging`
+            `${filePrefix}-actions-treatment`
         );
     }
 
@@ -279,16 +309,12 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         return this.translate.instant(key);
     }
 
-    private normalizeExportPrefix(appName: string): string {
+    private normalizePrefix(appName: string): string {
         return (
             appName
                 .toLowerCase()
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
-    }
-
-    public getCurrentLanguage(): string {
-        return this.currentLang();
     }
 }

@@ -5,4 +5,5 @@ export enum CrudFormType {
     EDIT = 'edit',
     VIEW = 'view',
     FINALIZE = 'finalize',
+    EXPORT = 'export',
 }

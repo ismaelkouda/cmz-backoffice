@@ -11,7 +11,7 @@ import { NotificationsFacade } from '@pages/communication/application/services/n
 import { LanguagesComponent } from '@shared/components/header/elements/languages/languages.component';
 import { MyAccountComponent } from '@shared/components/header/elements/my-account/my-account.component';
 import { NotificationsBellComponent } from '@shared/components/header/elements/notifications-bell/notifications-bell.component';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 
 @Component({
     selector: 'app-header',
@@ -28,7 +28,7 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-    public readonly config = inject(AppCustomizationService).config;
+    public readonly config = inject(AppCustomizationService).customization;
     public readonly collapseSidebar = input.required<boolean>();
     private readonly facade = inject(NotificationsFacade);
     readonly count = this.facade.unreadCount;

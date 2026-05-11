@@ -5,7 +5,7 @@ import {
     input,
     output,
 } from '@angular/core';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
@@ -16,10 +16,12 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
         <div ngbDropdown class="action-dropdown" container="body">
             <button
                 [disabled]="disabled()"
+                [ngbTooltip]="tooltip()"
+                container="body"
+                placement="bottom"
                 type="button"
                 class="action-dropdown__trigger"
                 ngbDropdownToggle
-                [attr.aria-label]="'COMMON.CHOOSE' | translate"
             >
                 <span class="action-dropdown__trigger-icon">
                     {{ 'COMMON.CHOOSE' | translate }}
@@ -215,6 +217,26 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                     outline: none;
                     box-shadow: 0 0 0 3px var(--theme-default);
                 }
+
+                &:disabled {
+                    background: color-mix(
+                        in srgb,
+                        var(--theme-default) 45%,
+                        white 55%
+                    );
+                    border-color: color-mix(
+                        in srgb,
+                        var(--theme-default) 45%,
+                        white 55%
+                    );
+                    color: color-mix(
+                        in srgb,
+                        var(--theme-default) 80%,
+                        white 20%
+                    );
+                    cursor: not-allowed;
+                    opacity: 0.7;
+                }
             }
 
             .action-dropdown__trigger-icon {
@@ -380,11 +402,12 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
             }
         `,
     ],
-    imports: [CommonModule, TranslateModule, NgbDropdownModule],
+    imports: [CommonModule, TranslateModule, NgbDropdownModule, NgbTooltip],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionDropdownComponent {
     public readonly disabled = input<boolean>();
+    public readonly tooltip = input<string>();
     public readonly disableDelete = input<boolean>(false);
     public readonly hiddenDelete = input<boolean>(false);
     public readonly status = input.required<ActionDropdown>();

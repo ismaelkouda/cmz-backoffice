@@ -14,6 +14,8 @@ export class AllPresenter {
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonView: this.t('FINALIZATION.ALL.TOOLTIP.SEE_MORE'),
+            disableButtonView: false,
         };
     }
 }

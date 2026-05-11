@@ -11,7 +11,8 @@ import { teamsPermissionsProviders } from '@pages/team-organization/di/teams/tea
 import { teamsSelectProviders } from '@pages/team-organization/di/teams/teams-select.providers';
 import { teamsProviders } from '@pages/team-organization/di/teams/teams.providers';
 import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).authenticationUrl;

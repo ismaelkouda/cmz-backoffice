@@ -182,8 +182,8 @@ export class DashboardPageComponent implements OnInit {
                 count: separatorThousands(data.totalReportsInProcessing || 0),
                 label: 'DASHBOARD.SECTIONS.TASK_STATUS.IN_PROGRESS.LABEL',
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.IN_PROGRESS.SUBTITLE',
-                color: 'info',
-                icon: 'pi-cog pi-spin',
+                color: 'error',
+                icon: 'pi-times',
                 routerFilter: () => this.router.navigate(['/report/approval']),
             },
             {
@@ -192,7 +192,7 @@ export class DashboardPageComponent implements OnInit {
                 label: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATED.LABEL',
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATED.SUBTITLE',
                 color: 'warning',
-                icon: 'pi-check',
+                icon: 'pi-cog pi-spin',
                 routerFilter: () =>
                     this.router.navigate(['/report/processing']),
             },

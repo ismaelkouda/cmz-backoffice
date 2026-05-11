@@ -13,9 +13,9 @@ export interface DashboardItemApiDto {
     readonly total_zob_reports?: number;
     readonly total_cps_reports?: number;
     readonly total_abi_reports?: number;
-    readonly total_reports_pending?: number;
+    readonly total_request_report_pending?: number;
+    readonly total_request_report_rejected?: number;
     readonly total_reports_in_processing?: number;
-    readonly total_reports_processed?: number;
     readonly total_reports_finalized?: number;
     readonly total_reports_evaluated?: number;
     readonly treatmentRate?: number;

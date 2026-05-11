@@ -1,5 +1,5 @@
 export interface ProfilesPermissionsCreateDto {
     name: string;
     description: string;
-    permissions: string[];
+    permissions: Record<string, string[]>;
 }

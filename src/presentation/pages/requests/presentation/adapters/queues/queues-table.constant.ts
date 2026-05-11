@@ -6,7 +6,7 @@ export function calculateActionColumnWidth(actionCount: number): string {
 export const QUEUES_TABLE = {
     actions: [
         {
-            id: 'management-dialog',
+            id: 'take',
             icon: 'pi pi-window-maximize',
             tooltip: 'REQUESTS.QUEUES.TABLE.TAKE',
             severity: 'primary',

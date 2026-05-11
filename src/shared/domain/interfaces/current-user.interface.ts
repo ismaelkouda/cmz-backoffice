@@ -26,6 +26,7 @@ export interface CurrentUser {
     photo: string;
     permissions: UserPermissions[];
     paths: string[];
+    actions: Record<string, string[]> | null;
 }
 
 export interface AuthToken {

@@ -313,11 +313,20 @@
                                                     )
                                                 "
                                                 [pTooltip]="
-                                                    getTooltip(action.id, rowData)
+                                                    getTooltip(
+                                                        action.id,
+                                                        rowData
+                                                    )
                                                 "
-                                                tooltipPosition="bottom"
+                                                tooltipPosition="left"
                                                 [escape]="false"
-                                                [disabled]="loading() || disabledButton(action.id, rowData)"
+                                                [disabled]="
+                                                    loading() ||
+                                                    disabledButton(
+                                                        action.id,
+                                                        rowData
+                                                    )
+                                                "
                                                 size="small"
                                                 class="action-btn"
                                                 [class]="action.class"
@@ -328,7 +337,10 @@
                             }
                             @case ('__actionDropdown') {
                                 <app-action-dropdown
-                                    [disabled]="loading()"
+                                    [disabled]="disableDropdown(rowData)"
+                                    [tooltip]="
+                                        getTooltipDisableDropdown(rowData)
+                                    "
                                     [disableDelete]="
                                         rowData.disableDropdownDelete
                                     "

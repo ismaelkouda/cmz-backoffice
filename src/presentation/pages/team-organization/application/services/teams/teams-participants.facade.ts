@@ -180,7 +180,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
         this._actionState.set('loading');
         const command = new TeamsParticipantsAssignCommand(
             dto.uniqId,
-            dto.roles,
+            dto.role,
             dto.participants
         );
         this.handleActionWithRefresh(

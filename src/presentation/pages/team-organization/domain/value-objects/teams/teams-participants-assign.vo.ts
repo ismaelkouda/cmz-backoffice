@@ -3,13 +3,13 @@ import { Roles } from '@shared/domain/enums/roles.enum';
 export class TeamsParticipantsAssignVo {
     private constructor(
         public readonly uniqId: string,
-        public readonly roles: Roles,
+        public readonly role: Roles,
         public readonly participants: string[]
     ) {}
 
     static create(props: {
         uniqId: string;
-        roles: Roles;
+        role: Roles;
         participants: string[];
     }): TeamsParticipantsAssignVo {
         const uniqId = props?.uniqId?.trim();
@@ -22,6 +22,6 @@ export class TeamsParticipantsAssignVo {
             throw new Error('participants required');
         }
 
-        return new TeamsParticipantsAssignVo(uniqId, props.roles, participants);
+        return new TeamsParticipantsAssignVo(uniqId, props.role, participants);
     }
 }

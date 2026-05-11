@@ -4,7 +4,8 @@ import { messagingProviders } from '@pages/communication/di/messaging/messaging.
 import { notificationsFindOneProviders } from '@pages/communication/di/notifications/notifications-find-one.providers';
 import { notificationsProviders } from '@pages/communication/di/notifications/notifications.providers';
 import { COMMUNICATION_BASE_URL } from '@pages/communication/infrastructure/api/communication.base-url';
-import { EnvService } from '@shared/domain/services/env.service';
+
+import { EnvService } from '../../../../core/config/env.service';
 
 const getApiBaseUrl = () => {
     const baseUrl = inject(EnvService).authenticationUrl;

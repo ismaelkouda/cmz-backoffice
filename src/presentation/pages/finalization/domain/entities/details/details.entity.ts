@@ -2,11 +2,9 @@ import { State } from '@pages/finalization/domain/enums/details/details-state/de
 import { DetailsStatus } from '@pages/finalization/domain/enums/details/details-status/details-status.enum';
 import { detailsLabelButtonSubmit } from '@pages/finalization/domain/functions/details/details-label-button-submit.function';
 import { detailsPermissionsFinalize } from '@pages/finalization/domain/functions/details/details-permissions-finalize.function';
-import { detailsPermissionsManage } from '@pages/finalization/domain/functions/details/details-permissions-manage.function';
 import { detailsPermissionsTake } from '@pages/finalization/domain/functions/details/details-permissions-take.function';
 import { detailsTitle } from '@pages/finalization/domain/functions/details/details-title.function';
 import { DetailsProps } from '@pages/finalization/domain/interfaces/details/details-props.interface';
-import { DetailsPermissions } from '@pages/finalization/domain/types/details/details-permissions.type';
 import { DetailsTreaterInfo } from '@pages/finalization/domain/types/details/details-treater-info.type';
 import { managementWorkflowTimestamps } from '@shared/components/management/domain/functions/management-timestamps.function';
 import { ManagementTimestamp } from '@shared/components/management/domain/interfaces/management-timestamps.interface';
@@ -24,8 +22,26 @@ import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
+export interface DetailsContext {
+    props: DetailsProps;
+    permissions: {
+        canTake: boolean;
+        canFinalize: boolean;
+    };
+}
+export interface DetailsRule {
+    name: string;
+    when: (ctx: DetailsContext) => boolean;
+    title: string;
+}
 export class DetailsEntity {
-    constructor(private readonly props: DetailsProps) {}
+    constructor(
+        private readonly props: DetailsProps,
+        private readonly permissions: {
+            canTake: boolean;
+            canFinalize: boolean;
+        }
+    ) {}
 
     get type(): string {
         return this.props.type;
@@ -169,27 +185,32 @@ export class DetailsEntity {
     }
 
     public get title(): string {
-        return detailsTitle(this.props);
+        return detailsTitle({
+            props: this.props,
+            permissions: this.permissions,
+        });
     }
 
     public get labelButtonSubmit(): string {
-        return detailsLabelButtonSubmit(this.props);
+        return detailsLabelButtonSubmit({
+            props: this.props,
+            permissions: this.permissions,
+        });
     }
 
     public get getLongLat(): string {
         return `${this.location.coordinates.longitude} ${this.location.coordinates.latitude}`;
     }
 
-    public get permissions(): DetailsPermissions {
-        return detailsPermissionsManage(this.props);
-    }
-
-    public get canBeTaken(): boolean {
-        return detailsPermissionsTake(this.props);
+    public get canTake(): boolean {
+        return detailsPermissionsTake(this.props, this.permissions.canTake);
     }
 
     public get canBeFinalized(): boolean {
-        return detailsPermissionsFinalize(this.props);
+        return detailsPermissionsFinalize(
+            this.props,
+            this.permissions.canFinalize
+        );
     }
 
     public get statePending(): boolean {
@@ -220,10 +241,14 @@ export class DetailsEntity {
         return this.type === 'finalization';
     }
 
+    public get dialogState(): State {
+        return this.state;
+    }
+
     public with(props: DetailsProps): DetailsEntity {
         if (this.updatedAt === props.updatedAt) {
             return this;
         }
-        return new DetailsEntity(props);
+        return new DetailsEntity(props, this.permissions);
     }
 }

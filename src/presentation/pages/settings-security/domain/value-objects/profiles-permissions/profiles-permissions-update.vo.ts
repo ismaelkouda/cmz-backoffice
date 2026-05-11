@@ -4,13 +4,13 @@ export class ProfilesPermissionsUpdateVo {
     readonly uniqId: string;
     readonly name: string;
     readonly description: string;
-    readonly permissions: string[];
+    readonly permissions: Record<string, string[]>;
 
     private constructor(props: {
         uniqId: string;
         name: string;
         description: string;
-        permissions: string[];
+        permissions: Record<string, string[]>;
     }) {
         this.uniqId = props.uniqId;
         this.name = props.name;

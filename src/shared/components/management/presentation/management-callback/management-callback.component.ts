@@ -65,12 +65,12 @@ export class ManagementCallbackComponent {
         return !!(control?.invalid && control?.touched);
     }
 
-    protected isApprovalType(value: 'edit' | 'callback' | 'details'): boolean {
+    protected isApprovalType(value: 'edit' | 'callback' | 'view'): boolean {
         return this.store.isApprovalType(value);
     }
 
     protected onApprovalTypeChange(
-        approvalType: 'edit' | 'callback' | 'details'
+        approvalType: 'edit' | 'callback' | 'view'
     ): void {
         this.store.setApprovalType(approvalType);
         this.approvalTypeChange.emit(approvalType);

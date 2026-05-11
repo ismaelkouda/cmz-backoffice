@@ -4,7 +4,7 @@ import { TasksVmProps } from '@pages/requests/presentation/adapters/tasks/tasks-
 export class TasksPresenter {
     constructor(private readonly t: (key: string) => string) {}
 
-    map(item: TasksEntity): TasksVmProps {
+    map(item: TasksEntity, permission: { canQualify: boolean }): TasksVmProps {
         return {
             uniqId: item.uniqId,
             type: item.type,
@@ -14,6 +14,10 @@ export class TasksPresenter {
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonQualify: permission.canQualify
+                ? this.t('REQUESTS.TASKS.TOOLTIP.QUALIFY')
+                : this.t('REQUESTS.TASKS.TOOLTIP.SEE_MORE'),
+            disableButtonQualify: false,
         };
     }
 }

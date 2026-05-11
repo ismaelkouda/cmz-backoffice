@@ -6,7 +6,7 @@ import {
     inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProfilesPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
@@ -15,11 +15,14 @@ import { ProfilesPermissionsFormValidationService } from '@pages/settings-securi
 import { FormValidators } from '@pages/settings-security/domain/validators/form-validators';
 import { ProfilesPermissionsFormSkeletonComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-form-skeleton/profiles-permissions-form-skeleton.component';
 import { ProfilesPermissionsStore } from '@pages/settings-security/presentation/store/profiles-permissions/profiles-permissions.store';
+import { TreeNodeInterface } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-tree-node.interface';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { PermissionAction } from '@shared/domain/types/permission-action.type';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
@@ -27,6 +30,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
+import { TreeTableModule } from 'primeng/treetable';
 import SweetAlert from 'sweetalert2';
 
 @Component({
@@ -49,6 +53,9 @@ import SweetAlert from 'sweetalert2';
         ToastModule,
         TooltipModule,
         TreeModule,
+        TreeTableModule,
+        FormsModule,
+        CheckboxModule,
     ],
     providers: [
         MessageService,
@@ -60,35 +67,28 @@ import SweetAlert from 'sweetalert2';
 })
 export class ProfilesPermissionsFormComponent {
     readonly store = inject(ProfilesPermissionsStore);
-
-    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly route = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
-    private readonly submitFacade = inject(ProfilesPermissionsFacade);
+    private readonly facade = inject(ProfilesPermissionsFacade);
+
+    readonly form = this.store.form;
+    readonly tree = this.store.tree;
+    readonly selectedCount = this.store.selectedCount;
+
+    readonly isEditMode = this.store.isEditMode;
+
+    readonly loading = this.store.loading;
+    readonly loadingPermissions = this.store.loadingPermissions;
+    readonly loadingSubmit = toSignal(this.facade.isLoading$);
+
     private readonly helper = inject(ProfilesPermissionsFormHelperService);
     private readonly validation = inject(
         ProfilesPermissionsFormValidationService
     );
-
-    public readonly form = this.store.form;
-    public readonly loading = this.store.loading;
-    readonly permissions = this.store.permissions;
-    readonly loadingPermissions = this.store.loadingPermissions;
-    public readonly isEditMode = this.store.isEditMode;
-
-    public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
     readonly VALIDATION = FormValidators;
-    private lastSuccess = this.submitFacade.actionSuccess();
-    readonly permissionTree = this.store.permissionTree;
-    readonly selectedNodes = this.store.selectedNodes;
-    readonly selectedCount = this.store.selectedCount;
-
-    constructor() {
-        const uniqId = this.activatedRoute.snapshot.queryParamMap.get('uniqId');
-        this.store.setMode(uniqId || undefined);
-    }
-
+    private lastSuccess = this.facade.actionSuccess();
     private readonly formStateEffect = effect(() => {
-        const state = this.submitFacade.actionState();
+        const state = this.facade.actionState();
         if (state === 'loading') {
             this.form.disable({ emitEvent: false });
         } else {
@@ -96,7 +96,7 @@ export class ProfilesPermissionsFormComponent {
         }
     });
     private readonly successEffect = effect(() => {
-        const current = this.submitFacade.actionSuccess();
+        const current = this.facade.actionSuccess();
         if (current === this.lastSuccess) {
             return;
         }
@@ -105,32 +105,9 @@ export class ProfilesPermissionsFormComponent {
         this.navigateToBack();
     });
 
-    onTreeInteractions(): void {
-        this.store.updateSelectedNodes(this.selectedNodes());
-    }
-
-    onExpandAll(): void {
-        this.store.expandAll();
-    }
-
-    onCollapseAll(): void {
-        this.store.collapseAll();
-    }
-
-    private showValidationErrors(): void {
-        const controlNames = ['name', 'description'] as const;
-
-        const errors = controlNames
-            .filter((name) => this.form.controls[name].invalid)
-            .map((name) => this.getErrorMessage(name));
-
-        if (errors.length) {
-            SweetAlert.fire({
-                icon: 'error',
-                title: this.t('COMMON.ERRORS.FORM_INVALID'),
-                html: `<ul style="text-align:left">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>`,
-            });
-        }
+    constructor() {
+        const uniqId = this.route.snapshot.queryParamMap.get('uniqId');
+        this.store.setMode(uniqId || undefined);
     }
 
     getErrorMessage(fieldName: string): string {
@@ -141,16 +118,34 @@ export class ProfilesPermissionsFormComponent {
         );
     }
 
+    onPermissionChange(rowNode: any, action: string, checked: boolean): void {
+        this.store.updatePermission(rowNode.node, action, checked);
+    }
+
+    getActionState(
+        node: TreeNodeInterface,
+        action: PermissionAction
+    ): 'checked' | 'unchecked' | 'indeterminate' {
+        return this.store.getActionState(node, action);
+    }
+
+    onExpandAll(): void {
+        this.store.expandAll();
+    }
+
+    onCollapseAll(): void {
+        this.store.collapseAll();
+    }
+
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
-            this.showValidationErrors();
             return;
         }
 
         const title = this.helper.getSweetAlertTitle(this.isEditMode());
         const message = this.helper.getSweetAlertMessage(this.isEditMode());
-
+        this.store.selectedNodes();
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(title),
@@ -160,22 +155,19 @@ export class ProfilesPermissionsFormComponent {
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
             if (result.isConfirmed) {
-                this.submitForm();
+                const payload = this.store.getPayload();
+                console.log('payload: ', payload);
+                const uniqId = this.route.snapshot.queryParamMap.get('uniqId');
+                if (this.isEditMode() && uniqId) {
+                    this.facade.update({
+                        uniqId,
+                        ...payload,
+                    });
+                } else {
+                    this.facade.create(payload);
+                }
             }
         });
-    }
-
-    private submitForm(): void {
-        const payload = this.form.getRawValue();
-        const uniqId = this.activatedRoute.snapshot.queryParamMap.get('uniqId');
-        if (this.isEditMode() && uniqId) {
-            this.submitFacade.update({
-                uniqId,
-                ...payload,
-            });
-        } else {
-            this.submitFacade.create(payload);
-        }
     }
 
     private t(key: string, params?: object): string {

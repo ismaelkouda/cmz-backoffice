@@ -129,12 +129,33 @@ export class TableComponent {
         this.enableRequested.emit(item);
     }
 
-    public disabledButton(type: 'edit' | 'delete', item: any): void {
+    public disabledButton(
+        type:
+            | 'edit'
+            | 'delete'
+            | 'take'
+            | 'qualify'
+            | 'treat'
+            | 'finalize'
+            | 'view'
+            | 'read',
+        item: any
+    ): void {
         const disable = {
             edit: item.disableButtonEdit,
             delete: item.disableButtonDelete,
+            take: item.disableButtonTake,
+            qualify: item.disableButtonQualify,
+            treat: item.disableButtonTreat,
+            finalize: item.disableButtonFinalize,
+            view: item.disableButtonView,
+            read: item.disableButtonRead,
         };
         return disable[type];
+    }
+
+    public disableDropdown(item: any): boolean {
+        return this.loading() || item?.disableDropdown;
     }
 
     public onDisable(item: any): void {
@@ -153,19 +174,41 @@ export class TableComponent {
         this.actionClicked.emit({ item, actionId });
     }
 
-    protected getTooltip(type: 'edit' | 'delete', item: any): string {
+    protected getTooltip(
+        type:
+            | 'edit'
+            | 'delete'
+            | 'take'
+            | 'qualify'
+            | 'treat'
+            | 'finalize'
+            | 'view'
+            | 'read',
+        item: any
+    ): string {
         const tooltip = {
-            edit: item.disableButtonEdit
-                ? item.tooltipButtonCanNotEdit
-                : item.tooltipButtonCanEdit,
-            delete: item.disableButtonDelete
-                ? item.tooltipButtonCanNotDelete
-                : item.tooltipButtonCanDelete,
+            take: item.tooltipButtonTake,
+            qualify: item.tooltipButtonQualify,
+            treat: item.tooltipButtonTreat,
+            finalize: item.tooltipButtonFinalize,
+            view: item.tooltipButtonView,
+            edit: item.tooltipButtonEdit,
+            delete: item.tooltipButtonDelete,
+            read: item.disableButtonRead
+                ? item.tooltipButtonCanNotRead
+                : item.tooltipButtonCanRead,
         };
 
         return `${tooltip[type]} 
                 <span class="custom-tooltip">${item.actionsRef}</span>
             `;
+    }
+
+    public getTooltipDisableDropdown(item: any): string {
+        if (item.disableDropdown) {
+            return item.tooltipDisableDropdown;
+        }
+        return `${item.actionsRef}`;
     }
 
     public onNumberInputChange(count: number): void {

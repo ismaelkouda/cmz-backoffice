@@ -78,7 +78,6 @@ export class HistoryDialogVmPresenter {
     }
 
     private getTableMode(entity: HistoryFindOneEntity): HistoryTableMode {
-        console.log('entity: ', entity);
         if (entity.isUpdateEvent()) {
             return HistoryTableMode.DIFF;
         }
@@ -86,7 +85,6 @@ export class HistoryDialogVmPresenter {
     }
 
     private getTableConfig(mode: HistoryTableMode): TableConfig {
-        console.log('mode: ', mode);
         switch (mode) {
             case HistoryTableMode.DIFF:
                 return HISTORY_DIFF_TABLE_CONFIG;
@@ -139,7 +137,6 @@ export class HistoryDialogVmPresenter {
         if (!entity.changes || entity.changes.length === 0) {
             return [];
         }
-        console.log('entitysdvdsds: ', entity.changes);
 
         return entity.changes.map((change) => ({
             fieldKey: change.key,

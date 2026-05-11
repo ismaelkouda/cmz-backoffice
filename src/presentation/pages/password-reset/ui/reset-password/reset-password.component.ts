@@ -20,10 +20,11 @@ import { LOGIN } from '@pages/authentication/authentication.routes';
 import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
 import { ResetPasswordFormInterface } from '@pages/password-reset/data/interfaces/reset-password-form.interface';
 import { AUTH } from '@presentation/app.routes';
-import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PasswordModule } from 'primeng/password';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+
+import { EnvService } from '../../../../../core/config/env.service';
 
 @Component({
     selector: 'app-reset-password',
@@ -39,10 +40,11 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResetPasswordComponent implements OnInit {
+    private readonly appConfig = inject(EnvService);
     private readonly passwordResetFacade = inject(PasswordResetFacade);
     private readonly router = inject(Router);
     private readonly route = inject(ActivatedRoute);
-    public readonly LOGO_ANSUT = LOGO_ANSUT;
+    public readonly LOGO_ANSUT = this.appConfig.appSettings['authLogo'];
     private readonly token: Signal<string> = toSignal(
         this.route.queryParams.pipe(map((params: Params) => params['token'])),
         { initialValue: '' }
@@ -64,7 +66,7 @@ export class ResetPasswordComponent implements OnInit {
         }),
     });
 
-    public readonly config = inject(AppCustomizationService).config;
+    public readonly config = inject(AppCustomizationService).customization;
     readonly isResetPasswordLoading = toSignal(
         this.passwordResetFacade.isResetPasswordLoading$,
         {

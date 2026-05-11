@@ -2,12 +2,10 @@ import { ProcessingState } from '@pages/processing/domain/enums/details/details-
 import { State } from '@pages/processing/domain/enums/details/details-state/details-state.enum';
 import { DetailsStatus } from '@pages/processing/domain/enums/details/details-status/details-status.enum';
 import { detailsLabelButtonSubmit } from '@pages/processing/domain/functions/details/details-label-button-submit.function';
-import { detailsPermissionsManage } from '@pages/processing/domain/functions/details/details-permissions-manage.function';
 import { detailsPermissionsTake } from '@pages/processing/domain/functions/details/details-permissions-take.function';
 import { detailsPermissionsTreat } from '@pages/processing/domain/functions/details/details-permissions-treat.function';
 import { detailsTitle } from '@pages/processing/domain/functions/details/details-title.function';
 import { DetailsProps } from '@pages/processing/domain/interfaces/details/details-props.interface';
-import { DetailsPermissions } from '@pages/processing/domain/types/details/details-permissions.type';
 import { DetailsTreaterInfo } from '@pages/processing/domain/types/details/details-treater-info.type';
 import { managementWorkflowTimestamps } from '@shared/components/management/domain/functions/management-timestamps.function';
 import { ManagementTimestamp } from '@shared/components/management/domain/interfaces/management-timestamps.interface';
@@ -25,8 +23,26 @@ import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
+export interface DetailsContext {
+    props: DetailsProps;
+    permissions: {
+        canTake: boolean;
+        canTreat: boolean;
+    };
+}
+export interface DetailsRule {
+    name: string;
+    when: (ctx: DetailsContext) => boolean;
+    title: string;
+}
 export class DetailsEntity {
-    constructor(private readonly props: DetailsProps) {}
+    constructor(
+        private readonly props: DetailsProps,
+        private readonly permissions: {
+            canTake: boolean;
+            canTreat: boolean;
+        }
+    ) {}
 
     get type(): string {
         return this.props.type;
@@ -174,27 +190,29 @@ export class DetailsEntity {
     }
 
     public get title(): string {
-        return detailsTitle(this.props);
+        return detailsTitle({
+            props: this.props,
+            permissions: this.permissions,
+        });
     }
 
     public get labelButtonSubmit(): string {
-        return detailsLabelButtonSubmit(this.props);
+        return detailsLabelButtonSubmit({
+            props: this.props,
+            permissions: this.permissions,
+        });
     }
 
     public get getLongLat(): string {
         return `${this.location.coordinates.longitude} ${this.location.coordinates.latitude}`;
     }
 
-    public get permissions(): DetailsPermissions {
-        return detailsPermissionsManage(this.props);
+    public get canTake(): boolean {
+        return detailsPermissionsTake(this.props, this.permissions.canTake);
     }
 
-    public get canBeTaken(): boolean {
-        return detailsPermissionsTake(this.props);
-    }
-
-    public get canBeTreated(): boolean {
-        return detailsPermissionsTreat(this.props);
+    public get canTreat(): boolean {
+        return detailsPermissionsTreat(this.props, this.permissions.canTreat);
     }
 
     public get statusPending(): boolean {
@@ -241,10 +259,17 @@ export class DetailsEntity {
         return this.type === 'processing';
     }
 
+    public get dialogState(): State {
+        return this.state;
+    }
+
     public with(props: DetailsProps): DetailsEntity {
-        if (this.updatedAt === props.updatedAt) {
+        if (
+            this.updatedAt === props.updatedAt &&
+            this.uniqId === props.uniqId
+        ) {
             return this;
         }
-        return new DetailsEntity(props);
+        return new DetailsEntity(props, this.permissions);
     }
 }

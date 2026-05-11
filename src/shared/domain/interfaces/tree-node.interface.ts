@@ -1,3 +1,4 @@
+import { IProfilesPermissionActions } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-actions.interface';
 import { TreeNode } from 'primeng/api';
 
 export interface TreeNodeInterface extends TreeNode {
@@ -5,7 +6,9 @@ export interface TreeNodeInterface extends TreeNode {
     value: string;
     label: string;
     icon: string;
-    checked: boolean;
+
+    actions?: IProfilesPermissionActions;
+
     selectable: boolean;
     expanded: boolean;
     children: TreeNodeInterface[];

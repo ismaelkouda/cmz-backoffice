@@ -14,8 +14,7 @@ import {
     RouterLinkActive,
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { LOGO_ANSUT } from '@shared/constants/logoAnsut.constant';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { NavService } from '@shared/domain/services/nav.service';
 import { TabService } from '@shared/domain/services/tab.service';
@@ -34,8 +33,8 @@ import { Subscription } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-    public readonly config = inject(AppCustomizationService).config;
-    public LOGO_ANSUT = LOGO_ANSUT;
+    public readonly appConfig = inject(AppCustomizationService).customization;
+    public sidebarLogo = this.appConfig.assets.sidebarLogo;
     public menuItems: any[] = [];
 
     public margin = 0;

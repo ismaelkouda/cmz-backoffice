@@ -4,7 +4,7 @@ import { QueuesVmProps } from '@pages/finalization/domain/interfaces/queues/queu
 export class QueuesPresenter {
     constructor(private readonly t: (key: string) => string) {}
 
-    map(item: QueuesEntity): QueuesVmProps {
+    map(item: QueuesEntity, permission: { canTake: boolean }): QueuesVmProps {
         return {
             uniqId: item.uniqId,
             type: item.type,
@@ -14,7 +14,10 @@ export class QueuesPresenter {
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonTake: permission.canTake
+                ? this.t('FINALIZATION.QUEUES.TOOLTIP.TAKE')
+                : this.t('FINALIZATION.QUEUES.TOOLTIP.SEE_MORE'),
+            disableButtonTake: !permission.canTake,
         };
     }
 }
-// ZOB69C515B9E612B

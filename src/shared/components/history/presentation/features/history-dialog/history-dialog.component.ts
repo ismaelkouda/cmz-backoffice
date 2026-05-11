@@ -13,7 +13,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HistoryFindOneFacade } from '@shared/components/history/application/services/history-find-one.facade';
 import { HistoryDialogVmPresenter } from '@shared/components/history/presentation/adapters/history-dialog-vm.presenter';
 import { TableComponent } from '@shared/components/table/table.component';
-import { AppCustomizationService } from '@shared/domain/services/app-customization.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -58,7 +58,7 @@ export class HistoryDialogComponent {
     readonly vm = computed(() => this.presenter.map(this.item()));
 
     readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.config.app.name
+        this.appConfig.customization.app.name
     );
 
     private readonly loadedId = signal<string | null>(null);

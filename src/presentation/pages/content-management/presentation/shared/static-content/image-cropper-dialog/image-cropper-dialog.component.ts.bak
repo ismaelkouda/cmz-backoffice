@@ -82,7 +82,7 @@ export class ImageCropperDialogComponent {
     //     };
     // }
 
-    onVisibleChange(visible: boolean): void {
+    onVisibleDialogClicked(visible: boolean): void {
         this.visibleChange.emit(visible);
         if (!visible) {
             this.reset();

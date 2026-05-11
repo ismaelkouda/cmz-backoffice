@@ -22,4 +22,7 @@ export interface ParticipantsVmProps {
 
     updatedAt: string;
     actionsRef: string;
+
+    tooltipDisableDropdown: string;
+    disableDropdown: boolean;
 }

@@ -16,6 +16,7 @@ import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.map
 import { TimestampsMapper } from '@shared/data/mappers/timestamps.mapper';
 import { TreaterInfoMapper } from '@shared/data/mappers/treater-info.mapper';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
@@ -38,6 +39,7 @@ export class DetailsMapper extends SimpleResponseMapper<
     private readonly timestampsMapper = inject(TimestampsMapper);
     private readonly stateMapper = inject(StateMapper);
     private readonly finalizationStateMapper = inject(FinalizationStateMapper);
+    private readonly permissionActions = inject(PermissionActionsService);
 
     private static readonly STATUS_MAP = MapperUtils.createEnumMap({
         finalization: DetailsStatus.FINALIZATION,
@@ -116,7 +118,18 @@ export class DetailsMapper extends SimpleResponseMapper<
         const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
 
-        const entity = cached ? cached.with(props) : new DetailsEntity(props);
+        const entity = cached
+            ? cached.with(props)
+            : new DetailsEntity(props, {
+                  canTake: this.permissionActions.can(
+                      '/reports-finalization/queues',
+                      'take'
+                  )(),
+                  canFinalize: this.permissionActions.can(
+                      '/reports-finalization/tasks',
+                      'finalize'
+                  )(),
+              });
 
         this.entityCache.set(cacheKey, entity);
         return entity;

@@ -31,7 +31,7 @@ export class DetailsApi {
     finalize(
         apiDto: DetailsFinalizeApiDto
     ): Observable<SimpleResponseDto<void>> {
-        const url = `${this.baseUrl}${FINALIZATION_ENDPOINTS.DETAILS_REPORTS}/${apiDto.uniq_id}/finalize`;
+        const url = `${this.baseUrl}${apiDto.uniq_id}/finalize`;
         const payload = buildHttpPayload(apiDto, ['uniq_id']);
         return this.http.post<SimpleResponseDto<void>>(url, payload);
     }

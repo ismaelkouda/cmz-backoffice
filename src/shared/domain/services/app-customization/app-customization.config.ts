@@ -1,0 +1,72 @@
+import { AppCustomizationConfig } from '@shared/domain/services/app-customization/app-customization.interface';
+
+export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
+    app: {
+        name: 'Connect My Zone',
+        title: 'Connect My Zone Back-office',
+        description: 'Système de Gestion des zones non connectées',
+        keywords: 'Connect My Zone, Back-office, Gestion, Zones non connectées',
+        author: 'ANSUT',
+    },
+    fonts: {
+        primary: "'Avenir', 'Futura', sans-serif",
+        secondary: "'Helvetica', sans-serif",
+    },
+    colors: {
+        primary: '#2256a3',
+        secondary: '#f08224',
+        tertiary: '#FFFFFF',
+        black: '#1D1D1B',
+        white: '#ffffff',
+        gray: '#878787',
+        grayLight: '#e0e0de',
+        error: '#dc3545',
+        warning: '#ffc107',
+        success: '#28a745',
+        info: '#17a2b8',
+    },
+    languages: {
+        supported: ['en', 'fr'] as const,
+        default: 'fr',
+        storageKey: 'language',
+    },
+    modes: {
+        supported: ['dark', 'light', 'system'] as const,
+        default: 'light',
+        storageKey: 'mode',
+    },
+    assets: {
+        favicon: 'favicon.ico',
+        authLogo: 'assets/images/logo/app-logo-full.png',
+        sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
+        logoIcon: 'assets/images/favicon.png',
+        loginBg: 'assets/images/login/login_bg.jpg',
+    },
+    loadingBar: {
+        color: '#2256a3',
+        height: '4px',
+        includeSpinner: false,
+    },
+    error: {
+        displayStyles: {
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            background: '#dc3545',
+            color: 'white',
+            padding: '1rem',
+            textAlign: 'center',
+            fontFamily: 'Arial, sans-serif',
+            zIndex: '9999',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+        },
+        role: 'alert',
+        ariaLive: 'assertive',
+    },
+    performance: {
+        bootstrapStartMark: 'app-bootstrap-start',
+        bootstrapEndMark: 'app-bootstrap-end',
+        bootstrapMeasure: 'app-bootstrap',
+    },
+};

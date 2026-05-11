@@ -6,11 +6,11 @@ import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsAssignMapper {
     private readonly rolesMapper = inject(RolesMapper);
-    map(vo: TeamsParticipantsAssignEntity): TeamsParticipantsAssignApiDto {
+    map(entity: TeamsParticipantsAssignEntity): TeamsParticipantsAssignApiDto {
         return {
-            uniq_id: vo.uniqId,
-            role: this.rolesMapper.mapToDto(vo.roles),
-            member_ids: vo.participants,
+            uniq_id: entity.uniqId,
+            role: this.rolesMapper.mapToDto(entity.role),
+            member_ids: entity.participants,
         };
     }
 }
