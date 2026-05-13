@@ -262,9 +262,9 @@ export class LegalNoticePageComponent implements OnInit {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(
-                'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE_DELETE'
+                'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE.DELETE'
             ),
-            text: `${this.t('CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE_DELETE')}`,
+            text: `${this.t('CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE.DELETE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
@@ -281,9 +281,9 @@ export class LegalNoticePageComponent implements OnInit {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(
-                'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE_ENABLE'
+                'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE.ENABLE'
             ),
-            text: `${this.t('CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE_ENABLE')}`,
+            text: `${this.t('CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE.ENABLE')}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
@@ -301,9 +301,9 @@ export class LegalNoticePageComponent implements OnInit {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(
-                'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE_DISABLE'
+                'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE.DISABLE'
             ),
-            text: `${this.t('CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE_DISABLE')}`,
+            text: `${this.t('CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE.DISABLE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {

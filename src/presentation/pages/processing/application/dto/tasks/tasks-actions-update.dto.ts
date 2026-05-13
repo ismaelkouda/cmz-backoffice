@@ -1,3 +1,5 @@
+import { Conformity } from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
+
 export interface TasksActionsUpdateDto {
     uniqId: string;
     reportUniqId: string;
@@ -6,5 +8,5 @@ export interface TasksActionsUpdateDto {
     operator: string;
     description: string;
     shouldNotifyUser: boolean;
-    isConform: boolean;
+    isConform: Conformity | null;
 }

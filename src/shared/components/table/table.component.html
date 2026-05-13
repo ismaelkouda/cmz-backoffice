@@ -242,6 +242,16 @@
                                     />
                                 </div>
                             }
+                            @case ('conformLabel') {
+                                <div class="tag-group status-group">
+                                    <p-tag
+                                        [value]="rowData.conformLabel"
+                                        [severity]="
+                                            rowData.conformStyle | translate
+                                        "
+                                    />
+                                </div>
+                            }
                             @case ('roleLabel') {
                                 @if (rowData.roleLabel) {
                                     <div class="tag-group status-group">
@@ -337,22 +347,11 @@
                             }
                             @case ('__actionDropdown') {
                                 <app-action-dropdown
-                                    [disabled]="disableDropdown(rowData)"
-                                    [tooltip]="
-                                        getTooltipDisableDropdown(rowData)
-                                    "
-                                    [disableDelete]="
-                                        rowData.disableDropdownDelete
-                                    "
-                                    [hiddenDelete]="
-                                        rowData.hiddenDropdownDelete
-                                    "
-                                    [status]="getItemStatus(rowData)"
-                                    (edit)="onEdit(rowData)"
-                                    (view)="onView(rowData)"
-                                    (delete)="onDelete(rowData)"
-                                    (enable)="onEnable(rowData)"
-                                    (disable)="onDisable(rowData)"
+                                    [disabled]="loading()"
+                                    [actions]="rowData.dropdownActions"
+                                    [disabled]="rowData.disableDropdown"
+                                    [tooltip]="rowData.tooltipDropdown"
+                                    (actionClicked)="onActionClick(rowData, $event.id)"
                                 ></app-action-dropdown>
                             }
                             @default {

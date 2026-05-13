@@ -7,14 +7,14 @@ import {
 } from '@angular/forms';
 import { ProfilesPermissionsFindOneFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-find-one.facade';
 import { ProfilesPermissionsPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-permissions.facade';
-import { ProfilesPermissionsFormControls } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-form.control';
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
 import { TreeNodeInterface } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-tree-node.interface';
 import { PermissionTreeService } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/permission-tree-node.service';
+import { ProfilesPermissionsFormControls } from '@presentation/pages/settings-security/presentation/store/profiles-permissions/profiles-permissions-form.control';
 import { PermissionAction } from '@shared/domain/types/permission-action.type';
 
 @Injectable()
-export class ProfilesPermissionsStore {
+export class ProfilesPermissionsFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly findOneFacade = inject(ProfilesPermissionsFindOneFacade);
     private readonly permissionsFacade = inject(

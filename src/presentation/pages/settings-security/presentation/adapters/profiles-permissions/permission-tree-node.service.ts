@@ -19,27 +19,17 @@ export class PermissionTreeService {
 
         return {
             key: entity.key,
-
             value: entity.value,
-
             label: entity.label,
-
             availableActions: [...entity.availableActions],
-
             actions: {
                 ...entity.actions,
             },
-
             selectable: true,
-
             expanded: entity.checked || hasCheckedChildren,
-
             checked: entity.checked,
-
             partialChecked: !entity.checked && hasCheckedChildren,
-
             leaf: entity.isLeaf,
-
             children,
         };
     }
@@ -252,10 +242,15 @@ export class PermissionTreeService {
             const allChecked = eligibleChildren.every(
                 (child) => child.actions?.[action] === true
             );
-            const someChecked = eligibleChildren.some(
-                (child) => child.actions?.[action] === true
-            );
-            parent.actions[action] = allChecked || someChecked;
+            // const someChecked = eligibleChildren.some(
+            //     (child) => child.actions?.[action] === true
+            // );
+            // parent.actions[action] = allChecked || someChecked;
+            if (allChecked) {
+                parent.actions[action] = true;
+            } else {
+                parent.actions[action] = false;
+            }
         });
     }
 
@@ -309,6 +304,13 @@ export class PermissionTreeService {
         }
         if (checkedCount === eligibleChildren.length) {
             return 'checked';
+        }
+        const hasPartial = eligibleChildren.some(
+            (child) => child.partialChecked
+        );
+
+        if (hasPartial) {
+            return 'indeterminate';
         }
         return 'indeterminate';
     }

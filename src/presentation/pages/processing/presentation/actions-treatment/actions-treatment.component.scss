@@ -332,7 +332,6 @@ textarea {
     border: 2px solid $light-gray;
     border-radius: 12px;
     font: 400 16px/24px var(--font-primary);
-    color: $black;
     box-sizing: border-box;
 
     &:focus {
@@ -340,7 +339,6 @@ textarea {
         border-color: var(--theme-default);
         box-shadow: 0 0 0 4px
             color-mix(in srgb, var(--theme-default) 15%, transparent);
-        background-color: $white;
     }
 
     &::placeholder {
@@ -399,21 +397,17 @@ textarea {
 
 // Container principal
 :host ::ng-deep .p-selectbutton {
-    width: 100%;
-}
-
-:host ::ng-deep .conformity-selector.p-selectbutton {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto auto;
+    justify-content: space-around;
     gap: 0.75rem;
     width: 100%;
 }
 
-// Style de base pour chaque bouton toggle
 :host ::ng-deep .p-togglebutton {
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    background: #ffffff;
-    border-radius: 16px;
+    border-width: 1px !important;
+    border-style: solid;
+    border-radius: 5px !important;
     min-height: 82px;
 
     transition:

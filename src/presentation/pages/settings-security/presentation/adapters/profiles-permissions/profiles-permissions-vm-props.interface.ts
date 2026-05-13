@@ -2,6 +2,7 @@ import {
     Status,
     StatusStyle,
 } from '@pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
+import { ActionDropdownItem } from '@shared/components/action-dropdown/interfaces/action-dropdown.interface';
 
 export interface ProfilesPermissionsVmProps {
     uniqId: string;
@@ -18,6 +19,8 @@ export interface ProfilesPermissionsVmProps {
     updatedAt: string;
     actionsRef: string;
 
-    disableDropdownDelete: boolean;
-    hiddenDropdownDelete: boolean;
+    dropdownActions: ActionDropdownItem[];
+
+    disableDropdown: boolean;
+    tooltipDropdown: string;
 }

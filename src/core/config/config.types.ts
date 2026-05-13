@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2026-05-11T14:05:42.657Z
+// Generated at: 2026-05-13T18:52:38.948Z
 
 export interface AppConfig {
     authenticationUrl: string;
@@ -104,15 +104,10 @@ declare global {
 
 export const ENVIRONMENTS = {
     dev: {
-        authenticationUrl:
-            'https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/',
-        reportUrl:
-            'https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/',
-        settingUrl:
-            'https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/',
-        userUrl:
-            'https://cmz-service-api.paas.imako.digital/users/v1.0/backoffice/',
-        fileUrl: 'https://cmz-service-api.paas.imako.digital/auth/backoffice/',
+        authenticationUrl: 'http://10.10.70.64:7000/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.70.64:7001/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.70.64:7002/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.70.64:7000/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
         appSettings: {

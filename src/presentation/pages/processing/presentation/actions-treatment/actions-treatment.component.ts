@@ -12,7 +12,11 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+    LangChangeEvent,
+    TranslateModule,
+    TranslateService,
+} from '@ngx-translate/core';
 import { DetailsFacade } from '@pages/processing/application/services/details/details.facade';
 import { TasksActionsTypeFacade } from '@pages/processing/application/services/tasks/tasks-actions-type.facade';
 import { TasksActionsFacade } from '@pages/processing/application/services/tasks/tasks-actions.facade';
@@ -50,7 +54,6 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { Tooltip } from 'primeng/tooltip';
 import { map } from 'rxjs';
-
 @Component({
     selector: 'app-actions-treatment',
     standalone: true,
@@ -132,24 +135,37 @@ export class ActionsTreatmentComponent {
         const rawOperators = this.getQueryParamArray('operators');
         return rawOperators.map((op) => this.translate.instant(op));
     });
+    // readonly conformityOptions: Signal<FilterOption[]> = computed(() => {
+    //     this.currentLang();
+    //     return enumToFilterOptionsWithValue(Conformity, this.t.bind(this));
+    // });
     protected readonly conformityOptions = [
         {
-            label: this.translate.instant(
-                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.CONFORM'
-            ),
-            value: true,
-
+            label: this.translate.instant('COMMON.CONFORM'),
+            value: 'COMMON.CONFORM',
             icon: 'pi pi-check-circle text-green-500',
-            description: 'Validation réussie',
+            description: this.translate.instant(
+                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.CONFORM_DESCRIPTION'
+            ),
         },
         {
-            label: this.translate.instant(
-                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.NO_CONFORM'
-            ),
-            value: false,
+            label: this.translate.instant('COMMON.NON_CONFORM'),
+            value: 'COMMON.NON_CONFORM',
             icon: 'pi pi-times-circle text-red-500',
-            description: 'Anomalie détectée',
+            description: this.translate.instant(
+                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.NO_CONFORM_DESCRIPTION'
+            ),
         },
+        // {
+        //     label: this.translate.instant(
+        //         'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.IN_PROGRESS'
+        //     ),
+        //     value: false,
+        //     icon: 'pi pi-times-circle text-red-500',
+        //     description: this.translate.instant(
+        //         'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.IN_PROGRESS_DESCRIPTION'
+        //     ),
+        // },
     ];
     protected readonly items = toSignal(this.facade.items$, {
         initialValue: [],
@@ -163,6 +179,9 @@ export class ActionsTreatmentComponent {
     protected readonly actionsType = toSignal(this.actionsTypeFacade.items$, {
         initialValue: [],
     });
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
+    );
     protected readonly itemsVM = computed(() => {
         const canTreat = this.canTreat();
         const tooltip = {
@@ -271,15 +290,19 @@ export class ActionsTreatmentComponent {
     }
     private initializePageTitleEffect(): void {
         effect(() => {
-            this.title.setTitle(this.t('PROCESSING.TASKS.ACTIONS.PAGE_TITLE'));
             this.translate.onLangChange
                 .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe(() => {
-                    this.title.setTitle(
-                        this.t('PROCESSING.TASKS.ACTIONS.PAGE_TITLE')
-                    );
+                .subscribe((event: LangChangeEvent) => {
+                    this.currentLang.set(event.lang);
                 });
         });
+        effect(() => {
+            this.pageTitle();
+        });
+    }
+    private pageTitle(): void {
+        this.currentLang();
+        this.title.setTitle(this.t('PROCESSING.TASKS.ACTIONS.TITLE'));
     }
     private initializeFetchEffect(): void {
         effect(() => {
@@ -306,25 +329,30 @@ export class ActionsTreatmentComponent {
             });
         });
     }
+    private readonly headerActions: Record<string, () => void> = {
+        create: () => {
+            if (!this.canTreat()) {
+                this.toast.error(this.createTooltip());
+                return;
+            }
+            this.openCreateDialog();
+        },
+        refresh: () => this.onRefreshData(),
+        export: () => {
+            if (this.canExportData()) {
+                this.toast.error(this.exportTooltip());
+                return;
+            }
+            this.exportData();
+        },
+    };
     protected onHeaderButtonClicked(actionId: string): void {
-        const actions: Record<string, () => void> = {
-            create: () => {
-                if (!this.canTreat()) {
-                    this.toast.error(this.createTooltip());
-                    return;
-                }
-                this.openCreateDialog();
-            },
-            refresh: () => this.onRefreshData(),
-            export: () => {
-                if (this.canExportData()) {
-                    this.toast.error(this.exportTooltip());
-                    return;
-                }
-                this.exportData();
-            },
-        };
-        actions[actionId]?.();
+        const action = this.headerActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
+            return;
+        }
+        action();
     }
     private onRefreshData(): void {
         this.formStore.reset();
@@ -341,6 +369,10 @@ export class ActionsTreatmentComponent {
                     return;
                 }
                 if (event.item.shouldNotifyUser) {
+                    this.toast.error(this.editTooltip());
+                    return;
+                }
+                if (event.item.autoChecked) {
                     this.toast.error(this.editTooltip());
                     return;
                 }
@@ -379,10 +411,8 @@ export class ActionsTreatmentComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey:
-                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_CLOSURE',
-            messageKey:
-                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_CLOSURE',
+            titleKey: 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.CLOSURE',
+            messageKey: 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.CLOSURE',
             messageParams: {
                 uniqId,
             },
@@ -400,10 +430,8 @@ export class ActionsTreatmentComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey:
-                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_DELETE',
-            messageKey:
-                'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_DELETE',
+            titleKey: 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.DELETE',
+            messageKey: 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.DELETE',
         });
         if (!confirmed) {
             return;
@@ -416,11 +444,11 @@ export class ActionsTreatmentComponent {
         const isEditMode = this.formStore.isEditMode();
         return this.sweetAlert.confirm({
             titleKey: isEditMode
-                ? 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_EDIT'
-                : 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.TITLE_CREATE',
+                ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.EDIT'
+                : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.CREATE',
             messageKey: isEditMode
-                ? 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_EDIT'
-                : 'PROCESSING.TASKS.ACTIONS.DIALOG.SWEET_ALERT.MESSAGE_CREATE',
+                ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.EDIT'
+                : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.CREATE',
         });
     }
     private exportData(): void {
@@ -474,7 +502,6 @@ export class ActionsTreatmentComponent {
     }
     private getQueryParam(key: string): string {
         const params = this.queryParams() as Record<string, string>;
-
         return params[key] ?? '';
     }
     private getQueryParamArray(key: string): string[] {

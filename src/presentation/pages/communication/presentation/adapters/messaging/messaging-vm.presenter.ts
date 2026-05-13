@@ -15,9 +15,9 @@ export class MessagingPresenter {
             subject: item.subject,
             content: item.content,
             createdAt: item.createdAt,
-            actionsRef: item.actionsRef,
-            tooltipButtonCanView: this.t(
-                'COMMUNICATION.MESSAGING.TABLE.TOOLTIP_BUTTON_CAN_VIEW'
+            actionsRef: item.createdAt,
+            tooltipButtonView: this.t(
+                'COMMUNICATION.MESSAGING.TOOLTIP.SEE_MORE'
             ),
             disableButtonView: false,
         };

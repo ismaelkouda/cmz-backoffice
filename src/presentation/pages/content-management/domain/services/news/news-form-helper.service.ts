@@ -13,13 +13,13 @@ export class NewsFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_UPDATE'
-            : 'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_CREATE';
+            ? 'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE.UPDATE'
+            : 'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_UPDATE'
-            : 'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_CREATE';
+            ? 'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE.UPDATE'
+            : 'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE.CREATE';
     }
 }

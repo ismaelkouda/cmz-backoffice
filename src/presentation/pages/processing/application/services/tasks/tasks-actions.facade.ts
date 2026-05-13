@@ -185,7 +185,6 @@ export class TasksActionsFacade extends BaseFacade<
     }
 
     update(action: TasksActionsUpdateDto): void {
-        console.log('action: ', action);
         this._actionState.set('loading');
 
         const command = new TasksActionsUpdateCommand(

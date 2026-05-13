@@ -61,9 +61,9 @@ export const TASKS_ACTIONS_TABLE = {
             class: 'text-center',
         },
         {
-            field: 'createdAt',
-            header: 'PROCESSING.TASKS.ACTIONS.TABLE.CREATED_AT',
-            width: '8rem',
+            field: 'conformLabel',
+            header: 'PROCESSING.TASKS.ACTIONS.TABLE.CONFORMITY',
+            width: '6rem',
             class: 'text-center',
         },
         {
@@ -76,8 +76,9 @@ export const TASKS_ACTIONS_TABLE = {
     globalFilterFields: [
         'date',
         'type',
+        'operators',
         'description',
         'createdBy',
-        'createdAt',
+        'conformLabel',
     ],
 };

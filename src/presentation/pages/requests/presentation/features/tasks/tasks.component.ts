@@ -219,7 +219,7 @@ export class TasksComponent {
             class: 'btn-dark',
             icon: 'pi pi-refresh',
             translateKey: 'COMMON.REFRESH',
-            tooltip: this.t('REQUESTS.TASKS.TABLE.TOOLTIP.REFRESH'),
+            tooltip: this.t('REQUESTS.TASKS.TOOLTIP.REFRESH'),
         },
         {
             label: 'COMMON.EXPORT',
@@ -265,7 +265,6 @@ export class TasksComponent {
             .subscribe((event: LangChangeEvent) => {
                 this.currentLang.set(event.lang);
             });
-
         effect(() => {
             this.pageTitle();
             this.filterFields();
@@ -301,7 +300,13 @@ export class TasksComponent {
     }
     private readonly headerActions: Record<string, () => void> = {
         refresh: () => this.onRefreshData(),
-        export: () => this.exportData(),
+        export: () => {
+            if (!this.canExport()) {
+                this.toast.error(this.exportTooltip());
+                return;
+            }
+            this.exportData();
+        },
     };
     protected onHeaderButtonClicked(actionId: string): void {
         const action = this.headerActions[actionId];
@@ -316,11 +321,15 @@ export class TasksComponent {
         this.facade.refresh();
     }
     private exportData(): void {
-        const tasks = this.items();
-        if (tasks && tasks.length > 0) {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const item = this.items();
+        if (item && item.length > 0) {
             const fileName = `${this.exportFilePrefix}-tasks`;
             this.exportService.exportAsExcelFile(
-                tasks,
+                item,
                 this.tableConfig,
                 fileName
             );

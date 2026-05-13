@@ -80,7 +80,7 @@ export class RejectComponent {
         this.translate.getCurrentLang()
     );
     private readonly canExport = this.permissionActions.can(
-        '/report-states/reject',
+        '/report-status/rejected',
         'export'
     );
     protected selectedReportId: string | null = null;
@@ -319,7 +319,7 @@ export class RejectComponent {
         }
         const item = this.items();
         if (item && item.length > 0) {
-            const fileName = `${this.exportFilePrefix}-reject`;
+            const fileName = `${this.exportFilePrefix}-rejected`;
             this.exportService.exportAsExcelFile(
                 item,
                 this.tableConfig,

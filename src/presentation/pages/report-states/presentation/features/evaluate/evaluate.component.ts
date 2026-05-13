@@ -322,7 +322,7 @@ export class EvaluateComponent {
         }
         const item = this.items();
         if (item && item.length > 0) {
-            const fileName = `${this.exportFilePrefix}-close`;
+            const fileName = `${this.exportFilePrefix}-evaluated`;
             this.exportService.exportAsExcelFile(
                 item,
                 this.tableConfig,

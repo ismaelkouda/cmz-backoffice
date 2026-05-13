@@ -9,162 +9,85 @@ import { NgbDropdownModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 
+import { ActionDropdownItem } from './interfaces/action-dropdown.interface';
+
 @Component({
     selector: 'app-action-dropdown',
     standalone: true,
     template: `
         <div ngbDropdown class="action-dropdown" container="body">
-            <button
-                [disabled]="disabled()"
-                [ngbTooltip]="tooltip()"
-                container="body"
-                placement="bottom"
-                type="button"
-                class="action-dropdown__trigger"
-                ngbDropdownToggle
-            >
-                <span class="action-dropdown__trigger-icon">
-                    {{ 'COMMON.CHOOSE' | translate }}
-                </span>
-            </button>
-
-            <div
-                ngbDropdownMenu
-                class="action-dropdown__menu shadow-lg"
-                [attr.aria-label]="'COMMON.ACTIONS_MENU' | translate"
-            >
-                <!-- Vue -->
-                <!--<button
-          ngbDropdownItem 
-          class="action-dropdown__item"
-          (click)="onView()"
-          [attr.aria-label]="'COMMON.VIEW_ITEM' | translate"
-        >
-          <div class="action-dropdown__item-content">
-            <i class="pi pi-eye action-dropdown__icon action-dropdown__icon--view"></i>
-            <span class="action-dropdown__label">{{ 'COMMON.DETAILS' | translate }}</span>
-          </div>
-        </button>-->
-
-                <!-- Édition -->
+            @if (!disabled()) {
                 <button
-                    ngbDropdownItem
-                    class="action-dropdown__item"
-                    (click)="onEdit()"
-                    [attr.aria-label]="'COMMON.EDIT_ITEM' | translate"
+                    container="body"
+                    placement="bottom"
+                    type="button"
+                    class="action-dropdown__trigger"
+                    ngbDropdownToggle
                 >
-                    <div class="action-dropdown__item-content">
-                        <i
-                            class="pi pi-pencil action-dropdown__icon action-dropdown__icon--edit"
-                        ></i>
-                        <span class="action-dropdown__label">{{
-                            'COMMON.EDIT' | translate
-                        }}</span>
-                    </div>
+                    <span class="action-dropdown__trigger-icon">
+                        {{ 'COMMON.CHOOSE' | translate }}
+                    </span>
                 </button>
-
-                <!-- Activation/Désactivation -->
-                @if (status() === actionDropdown.INACTIVE) {
-                    <button
-                        ngbDropdownItem
-                        class="action-dropdown__item"
-                        (click)="onEnable()"
-                        [attr.aria-label]="'COMMON.ENABLE_ITEM' | translate"
-                    >
-                        <div class="action-dropdown__item-content">
-                            <i
-                                class="pi pi-check action-dropdown__icon action-dropdown__icon--enable"
-                            ></i>
-                            <span class="action-dropdown__label">
-                                {{ 'COMMON.ENABLE' | translate }}</span
+                <div ngbDropdownMenu class="action-dropdown__menu shadow-lg">
+                    @for (action of actions(); track action.id) {
+                        @if (!action.hidden) {
+                            <span
+                                [ngbTooltip]="action.tooltip"
+                                placement="bottom"
+                                container="body"
                             >
-                        </div>
-                    </button>
-                }
+                                <button
+                                    ngbDropdownItem
+                                    type="button"
+                                    class="action-dropdown__item"
+                                    container="body"
+                                    placement="bottom"
+                                    [disabled]="action.disabled"
+                                    [ngbTooltip]="action.tooltip"
+                                    (click)="onActionClicked(action)"
+                                >
+                                    <div class="action-dropdown__item-content">
+                                        @if (action.icon) {
+                                            <i
+                                                class="action-dropdown__icon"
+                                                [class]="action.icon"
+                                            ></i>
+                                        }
 
-                <!-- Activation/Désactivation -->
-                @if (status() === actionDropdown.UNPUBLISH) {
+                                        <span class="action-dropdown__label">
+                                            {{ action.label | translate }}
+                                        </span>
+                                    </div>
+                                </button>
+                            </span>
+                        }
+                    }
+                </div>
+            } @else {
+                <span
+                    [ngbTooltip]="tooltip()"
+                    placement="bottom"
+                    container="body"
+                >
                     <button
-                        ngbDropdownItem
-                        class="action-dropdown__item"
-                        (click)="onEnable()"
-                        [attr.aria-label]="'COMMON.PUBLISH_ITEM' | translate"
+                        [disabled]="!disabled()"
+                        [ngbTooltip]="tooltip()"
+                        container="body"
+                        placement="bottom"
+                        type="button"
+                        class="action-dropdown__trigger"
+                        ngbDropdownToggle
                     >
-                        <div class="action-dropdown__item-content">
-                            <i
-                                class="pi pi-check action-dropdown__icon action-dropdown__icon--enable"
-                            ></i>
-                            <span class="action-dropdown__label">
-                                {{ 'COMMON.PUBLISH' | translate }}</span
-                            >
-                        </div>
+                        <span class="action-dropdown__trigger-icon">
+                            {{ 'COMMON.CHOOSE' | translate }}
+                        </span>
                     </button>
-                }
-
-                @if (status() === actionDropdown.ACTIVE) {
-                    <button
-                        ngbDropdownItem
-                        class="action-dropdown__item"
-                        (click)="onDisable()"
-                        [attr.aria-label]="'COMMON.DISABLE_ITEM' | translate"
-                    >
-                        <div class="action-dropdown__item-content">
-                            <i
-                                class="pi pi-times action-dropdown__icon action-dropdown__icon--disable"
-                            ></i>
-                            <span class="action-dropdown__label">{{
-                                'COMMON.DISABLE' | translate
-                            }}</span>
-                        </div>
-                    </button>
-                }
-
-                @if (status() === actionDropdown.PUBLISH) {
-                    <button
-                        ngbDropdownItem
-                        class="action-dropdown__item"
-                        (click)="onDisable()"
-                        [attr.aria-label]="'COMMON.UNPUBLISH_ITEM' | translate"
-                    >
-                        <div class="action-dropdown__item-content">
-                            <i
-                                class="pi pi-times action-dropdown__icon action-dropdown__icon--disable"
-                            ></i>
-                            <span class="action-dropdown__label">{{
-                                'COMMON.UNPUBLISH' | translate
-                            }}</span>
-                        </div>
-                    </button>
-                }
-
-                @if (!hiddenDelete()) {
-                    <!-- Séparateur -->
-                    <div class="action-dropdown__separator"></div>
-
-                    <!-- Suppression -->
-                    <button
-                        ngbDropdownItem
-                        class="action-dropdown__item action-dropdown__item--danger"
-                        (click)="onDelete()"
-                        [disabled]="disableDelete()"
-                        [attr.aria-label]="'COMMON.DELETE_ITEM' | translate"
-                    >
-                        <div class="action-dropdown__item-content">
-                            <i
-                                class="pi pi-trash action-dropdown__icon action-dropdown__icon--danger"
-                            ></i>
-                            <span class="action-dropdown__label">{{
-                                'COMMON.DELETE' | translate
-                            }}</span>
-                        </div>
-                    </button>
-                }
-            </div>
+                </span>
+            }
         </div>
     `,
     styles: [
         `
-            /* Container principal */
             .action-dropdown {
                 display: inline-flex;
                 position: relative;
@@ -246,7 +169,6 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 font-size: 1.25rem;
             }
 
-            /* Menu dropdown */
             .action-dropdown__menu {
                 background: var(--surface-card, #ffffff);
                 border: 1px solid var(--surface-border, #e0e0e0);
@@ -268,7 +190,6 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 }
             }
 
-            /* Éléments du menu */
             .action-dropdown__item {
                 background: transparent;
                 border: none;
@@ -356,7 +277,6 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 flex: 1;
             }
 
-            /* Séparateur */
             .action-dropdown__separator {
                 height: 1px;
                 background-color: var(--surface-border, #e0e0e0);
@@ -364,13 +284,11 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 opacity: 0.6;
             }
 
-            /* États d'interaction */
             :host-context(.table-row:hover) .action-dropdown__trigger {
                 background: var(--theme-default-hover, #2563eb);
                 border-color: var(--theme-default-hover, #2563eb);
             }
 
-            /* Support mode sombre */
             @media (prefers-color-scheme: dark) {
                 .action-dropdown__menu {
                     background: var(--surface-900, #1a1a1a);
@@ -390,7 +308,6 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
                 }
             }
 
-            /* Responsive */
             @media (max-width: 768px) {
                 .action-dropdown__menu {
                     min-width: 180px;
@@ -406,10 +323,40 @@ import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionDropdownComponent {
-    public readonly disabled = input<boolean>();
-    public readonly tooltip = input<string>();
-    public readonly disableDelete = input<boolean>(false);
-    public readonly hiddenDelete = input<boolean>(false);
+    readonly disabled = input(false);
+    readonly tooltip = input<string>();
+
+    readonly actions = input<ActionDropdownItem<any>[]>([]);
+
+    readonly actionClicked = output<ActionDropdownItem<any>>();
+
+    protected onActionClicked(action: ActionDropdownItem<any>): void {
+        if (action.disabled) {
+            return;
+        }
+
+        this.actionClicked.emit(action);
+    }
+
+    // protected readonly disabled = input<boolean>();
+    // protected readonly tooltip = input<string>();
+
+    protected readonly hiddenDelete = input<boolean>();
+    protected readonly disableDelete = input<boolean>();
+    protected readonly tooltipDelete = input<string>();
+
+    protected readonly hiddenEdit = input<boolean>();
+    protected readonly disableEdit = input<boolean>();
+    protected readonly tooltipEdit = input<string>();
+
+    protected readonly hiddenEnable = input<boolean>();
+    protected readonly disableEnable = input<boolean>();
+    protected readonly tooltipEnable = input<string>();
+
+    protected readonly hiddenDisable = input<boolean>();
+    protected readonly disableDisable = input<boolean>();
+    protected readonly tooltipDisable = input<string>();
+
     public readonly status = input.required<ActionDropdown>();
     public readonly actionDropdown = ActionDropdown;
 

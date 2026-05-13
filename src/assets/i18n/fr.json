@@ -55,7 +55,7 @@
         "IVR": "IVR",
         "ABI": "Absence d'Internet",
         "ZOB": "Zone Blanche",
-        "CPS": "Couverture Partielle Signal",
+        "CPS": "Mauvais Signal d'opérateur",
         "CPO": "Couverture Partielle Operateur",
         "ORANGE": "Orange",
         "MTN": "MTN",
@@ -100,6 +100,12 @@
         "UNPUBLISHED": "Non Publié",
         "READ_STYLE": "sucess",
         "UNREAD_STYLE": "danger",
+        "CONFORM": "Conforme",
+        "NON_CONFORM": "Non conforme",
+        "IN_PROGRESS": "En cours",
+        "CONFORM_STYLE": "sucess",
+        "NON_CONFORM_STYLE": "warn",
+        "IN_PROGRESS_STYLE": "contrast",
         "BLOCKED": "Bloquée",
         "AFFECTED": "Affecté",
         "PENDING": "En attente",
@@ -373,7 +379,7 @@
                     "SUBTITLE": "Tous les signalements confondus"
                 },
                 "PARTIAL_OPERATOR_PROCESSING": {
-                    "LABEL": "Couverture partielle opérateur",
+                    "LABEL": "Absence d'opérateur",
                     "SUBTITLE": "Signalements de couverture partielle opérateur"
                 },
                 "WHITE_ZONE_PROCESSING": {
@@ -381,7 +387,7 @@
                     "SUBTITLE": "Signalements de zone blanche"
                 },
                 "PARTIAL_SIGNAL_PROCESSING": {
-                    "LABEL": "Couverture Partielle Signal",
+                    "LABEL": "Mauvais Signal d'opérateur",
                     "SUBTITLE": "Signalements de couverture partielle"
                 },
                 "NO_INTERNET_PROCESSING": {
@@ -1393,7 +1399,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
-                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
                 },
@@ -1480,8 +1486,8 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -1596,8 +1602,8 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
                 },
                 "OPERATORS": {
                     "ORANGE": "Orange",
@@ -1685,7 +1691,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
-                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
                 },
@@ -1777,8 +1783,8 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -1838,6 +1844,7 @@
                     "ACTION": "Action",
                     "STEP": "Étape",
                     "STATUS": "Statut",
+                    "CONFORMITY": "Conformité",
                     "SEE_MORE": "Voir plus"
                 },
                 "SWEET_ALERT": {
@@ -1850,12 +1857,12 @@
                         "NOT_DELETE": "Impossible de supprimer cet action"
                     },
                     "MESSAGE": {
-                        "CREATE": "Êtes-vous sûr de vouloir créer cet action <b class='text-primary'>uniqId</b>",
-                        "NOT_CREATE": "Votre profile ne vous permet pas de créer cet action <b class='text-primary'>uniqId</b>",
-                        "EDIT": "Êtes-vous sûr de vouloir éditer cet action <b class='text-primary'>uniqId</b>",
-                        "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cet action <b class='text-primary'>uniqId</b>",
-                        "DELETE": "Êtes-vous sûr de vouloir supprimer cet action <b class='text-primary'>uniqId</b>",
-                        "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cet action <b class='text-primary'>uniqId</b>"
+                        "CREATE": "Êtes-vous sûr de vouloir créer cet action",
+                        "NOT_CREATE": "Votre profile ne vous permet pas de créer cet action",
+                        "EDIT": "Êtes-vous sûr de vouloir éditer cet action",
+                        "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cet action",
+                        "DELETE": "Êtes-vous sûr de vouloir supprimer cet action",
+                        "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cet action"
                     }
                 },
                 "TOOLTIP": {
@@ -1889,7 +1896,11 @@
                         "CONFORMITY": {
                             "TITLE": "Conformité",
                             "CONFORM": "Conforme",
-                            "NO_CONFORM": "Pas conforme"
+                            "NO_CONFORM": "Non conforme",
+                            "IN_PROGRESS": "En cours",
+                            "CONFORM_DESCRIPTION": "Signalement conforme",
+                            "NO_CONFORM_DESCRIPTION": "Signalement non conforme",
+                            "IN_PROGRESS_DESCRIPTION": "Signalement en cours verification"
                         },
                         "TYPE_ACTIONS_OPTIONS": {
                             "ANALYSIS": "Analyse",
@@ -1899,16 +1910,6 @@
                             "VALIDATION": "Validation",
                             "OTHER": "Autre"
                         }
-                    },
-                    "SWEET_ALERT": {
-                        "TITLE_CREATE": "Création d'une action de traitement",
-                        "MESSAGE_CREATE": "Voulez-vous vraiment créer cette action de traitement ?",
-                        "TITLE_EDIT": "Mise à jour d'une action de traitement",
-                        "MESSAGE_EDIT": "Voulez-vous vraiment mettre à jour cette action de traitement ?",
-                        "TITLE_DELETE": "Suppression d'une action de traitement",
-                        "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette action de traitement ?",
-                        "TITLE_CLOSURE": "Clôturer le traitement",
-                        "MESSAGE_CLOSURE": "Voulez-vous vraiment clôturer traitement du signalement <b class='text-primary'>uniqId</b> ?"
                     }
                 }
             },
@@ -1928,7 +1929,7 @@
                 "TREAT": "Traiter ce signalement",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements",
                 "NOT_TREAT": "Impossible de traiter ce signalement",
-                "SEE_MORE": "Voir plus d'informations"
+                "SEE_MORE": "Voir les actions de traitement"
             }
         },
         "ALL": {
@@ -1968,8 +1969,8 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
                 },
                 "STATUS": {
                     "TERMINATED": "Terminé",
@@ -2062,7 +2063,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
-                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
                 },
@@ -2147,8 +2148,8 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -2245,8 +2246,8 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -2336,7 +2337,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
-                    "PARTIAL_SIGNAL": "Couverture Partielle Signal",
+                    "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet"
                 },
@@ -2410,8 +2411,8 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
                 },
                 "STATUS": {
                     "APPROVED": "Approuvé",
@@ -2513,8 +2514,8 @@
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
                     "WHITE_ZONE": "Zone Blanche",
                     "NO_INTERNET": "Absence d'Internet",
-                    "PARTIAL_OPERATORS": "Couverture partielle opérateur",
-                    "PARIAL_SIGNAL": "Couverture Partielle Signal"
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
                 },
                 "OPERATORS": {
                     "ORANGE": "Orange",
@@ -2595,17 +2596,24 @@
                 "SEND_AT": "Envoyer Le",
                 "SEE_MORE": "Voir plus",
                 "READ": "Lire",
-                "TOOLTIP_BUTTON_CAN_NOT_READ": "Impossible de lire cette notification",
-                "TOOLTIP_BUTTON_CAN_READ": "Lire la notification",
                 "ACTION": "Action"
             },
-
             "SWEET_ALERT": {
                 "TITLE_READ_ALL": "Lire toute les notifications",
                 "MESSAGE_READ_ALL": "Voulez-vous vraiment lire toutes les notifications ?"
             },
             "BUTTONS": {
                 "DELETE": "Supprimer"
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des notifications",
+                "EXPORT": "Exporter la liste de {nb} notifications",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des notifications",
+                "NOT_READ": "Impossible de lire cette notification",
+                "READ": "Lire la notification",
+                "READ_ALL": "Lire toutes les notifications",
+                "NOT_READ_ALL": "Impossible de lire toutes les notifications",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "MESSAGING": {
@@ -2647,7 +2655,6 @@
                 "SUBJECT": "Sujet",
                 "CONTENT": "Contenu",
                 "SEE_MORE": "Voir plus",
-                "TOOLTIP_BUTTON_CAN_VIEW": "Voir plus d'infos sur le message",
                 "ACTION": "Action"
             },
             "ENUMS": {
@@ -2698,25 +2705,23 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de message",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce message ?",
-                "TITLE_CREATE": "Création de message",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce message ?",
-                "TITLE_DELETE": "Suppression de message",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet message ?",
-                "TITLE_ENABLE": "Activation de membre",
-                "MESSAGE_ENABLE": "Voulez-vous vraiment activer ce membre ?",
-                "TITLE_DISABLE": "Désactivation de message",
-                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce message ?"
+                "TITLE": {
+                    "CREATE": "Créer ce message",
+                    "NOT_CREATE": "Impossible de créer le message"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce message",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce message"
+                }
             },
-            "BUTTONS": {
-                "DELETE": "Supprimer"
-            },
-            "ACTIONS": {
-                "VIEW": "Voir plus",
-                "EDIT": "Modifier",
-                "DELETE": "Supprimer",
-                "DISABLE": "Désactiver"
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des messages",
+                "EXPORT": "Exporter la liste de {nb} messages",
+                "CREATE": "Créer un message",
+                "NO_PERMISSION_EXPORT": "Exportation des messages non permis",
+                "NO_EXPORT": "Aucun message à exporter",
+                "NO_PERMISSION_CREATE": "Création d'un message non permis",
+                "SEE_MORE": "Voir plus d'informations sur ce message du"
             }
         }
     },
@@ -2959,7 +2964,7 @@
                     "REPORT_TYPE": {
                     "ABI": "Absence d'Internet",
                     "ZOB": "Zone Blanche",
-                    "CPS": "Couverture Partielle Signal",
+                    "CPS": "Mauvais Signal d'opérateur",
                     "CPO": "Couverture Partielle Operateur",
                     "OTHER": "Autre"
                     },
@@ -3260,7 +3265,7 @@
                     "EXPAND_ALL": "Dérouler tout",
                     "COLLAPSE_ALL": "Fermer tout",
                     "SELECTED_COUNT": "Nombre de permissions accordées",
-                    "NO_PERMISSIONS_AVAILABLE": "Permission non disponible",
+                    "NO_PERMISSIONS_AVAILABLE": "Action non disponible",
                     "TREE_PLACEHOLDER": "Rechercher..."
                 },
                 "VALIDATION": {
@@ -3273,17 +3278,53 @@
                     "REQUIRED": "Ce champ est obligatoire"
                 }
             },
+            
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de profil",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet profil ?",
-                "TITLE_CREATE": "Création de profil",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer cet profil ?",
-                "TITLE_DELETE": "Suppression de profil",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet profil ?",
-                "TITLE_ENABLE": "Activation de profil",
-                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet profil ?",
-                "TITLE_DISABLE": "Désactivation de profil",
-                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cet profil ?"
+                "TITLE": {
+                    "CREATE": "Créer ce profile",
+                    "NOT_CREATE": "Impossible de créer ce profile",
+                    "EDIT": "Editer ce profile",
+                    "NOT_EDIT": "Impossible d'éditer ce profile",
+                    "DELETE": "Supprimer ce profile",
+                    "NOT_DELETE": "Impossible de supprimer ce profile",
+                    "ENABLE": "Activer ce profile",
+                    "NOT_ENABLE": "Impossible d'activer ce profile",
+                    "DISABLE": "Désactiver ce profile",
+                    "NOT_DISABLE": "Impossible de desactiver ce profile"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce profile <b class='text-primary'>uniqId</b>",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce profile <b class='text-primary'>uniqId</b>",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce profile </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce profile <b class='text-primary'>uniqId</b>",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce profile <b class='text-primary'>uniqId</b>",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce profile <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce profile <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce profile <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce profile <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce profile <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce profile <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des profiles",
+                "EXPORT": "Exporter la liste de {nb} profiles",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un profile",
+                "EDIT": "Editer ce profile",
+                "DELETE": "Supprimer ce profile",
+                "ENABLE": "Enable ce profile",
+                "DISABLE": "Désactiver ce profile",
+                "NO_EXPORT": "Aucun profile à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer ce profile",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des profiles non permis",
+                "NO_PERMISSION_CREATE": "Création d'un profile non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un profile non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un profile non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un profile non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un profile non permis",
+                "SEE_MORE": "Voir plus d'informations"
             },
             "USERS": {
                 "BREADCRUMB": {
@@ -3399,7 +3440,6 @@
                 "STATUS": "Statut",
                 "CREATED_AT": "Créé le",
                 "UPDATED_AT":"Modifié le",
-                "TOOLTIP_DROPDOWN_CAN_NOT_CHOOSE": "Impossible de choisir une action pour",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -3435,16 +3475,51 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de membre",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce membre ?",
-                "TITLE_CREATE": "Création de membre",
-                "MESSAGE_CREATE": "<b>Confirmez-vous la création de ce membre </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
-                "TITLE_DELETE": "Suppression de membre",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet membre ?",
-                "TITLE_ENABLE": "Activation de membre",
-                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet membre ?",
-                "TITLE_DISABLE": "Désactivation de membre",
-                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce membre ?"
+                "TITLE": {
+                    "CREATE": "Créer ce membre",
+                    "NOT_CREATE": "Impossible de créer ce membre",
+                    "EDIT": "Editer ce membre",
+                    "NOT_EDIT": "Impossible d'éditer ce membre",
+                    "DELETE": "Supprimer ce membre",
+                    "NOT_DELETE": "Impossible de supprimer ce membre",
+                    "ENABLE": "Activer ce membre",
+                    "NOT_ENABLE": "Impossible d'activer ce membre",
+                    "DISABLE": "Désactiver ce membre",
+                    "NOT_DISABLE": "Impossible de desactiver ce membre"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce membre <b class='text-primary'>uniqId</b>",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce membre <b class='text-primary'>uniqId</b>",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce membre </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce membre <b class='text-primary'>uniqId</b>",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce membre <b class='text-primary'>uniqId</b>",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce membre <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce membre <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce membre <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce membre <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce membre <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce membre <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des membres",
+                "EXPORT": "Exporter la liste de {nb} membres",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un membre",
+                "EDIT": "Editer ce membre",
+                "DELETE": "Supprimer ce membre",
+                "ENABLE": "Enable ce membre",
+                "DISABLE": "Désactiver ce membre",
+                "NO_EXPORT": "Aucun membre à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer ce membre",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des membres non permis",
+                "NO_PERMISSION_CREATE": "Création d'un membre non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un membre non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un membre non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un membre non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un membre non permis",
+                "SEE_MORE": "Voir plus d'informations"
             },
             "BUTTONS": {
                 "ADD": "Ajouter"
@@ -3555,7 +3630,7 @@
                             "TITLE": "Types de signalements",
                             "ABI": "Absence d'Internet",
                             "ZOB": "Zone Blanche",
-                            "CPS": "Couverture Partielle Signal",
+                            "CPS": "Mauvais Signal d'opérateur",
                             "CPO": "Couverture Partielle Operateur"
                         },
                         "FIELDSET_OPERATORS": {

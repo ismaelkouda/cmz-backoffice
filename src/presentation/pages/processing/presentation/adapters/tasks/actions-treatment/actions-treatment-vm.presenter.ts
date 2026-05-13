@@ -21,7 +21,10 @@ export class ActionsTreatmentPresenter {
             code: item.code,
             operators: item.operators,
             shouldNotifyUser: item.shouldNotifyUser,
+            autoChecked: item.autoChecked,
             isConform: item.isConform,
+            conformLabel: this.t(item.isConform),
+            conformStyle: item.conformStyle(item.isConform),
             date: item.formatDate,
             description: item.description,
             createdBy: item.createdBy,
@@ -30,15 +33,25 @@ export class ActionsTreatmentPresenter {
             updatedAt: item.updatedAt,
             actionsRef: item.actionsRef,
             tooltipButtonDelete:
-                permission.canTreat && !item.shouldNotifyUser
+                permission.canTreat &&
+                !item.shouldNotifyUser &&
+                !item.autoChecked
                     ? this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.DELETE')
                     : permission.tooltip.delete,
             tooltipButtonEdit:
-                permission.canTreat && !item.shouldNotifyUser
+                permission.canTreat &&
+                !item.shouldNotifyUser &&
+                !item.autoChecked
                     ? this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.EDIT')
                     : permission.tooltip.edit,
-            disableButtonDelete: item.shouldNotifyUser || !permission.canTreat,
-            disableButtonEdit: item.shouldNotifyUser || !permission.canTreat,
+            disableButtonDelete:
+                item.shouldNotifyUser ||
+                !permission.canTreat ||
+                item.autoChecked,
+            disableButtonEdit:
+                item.shouldNotifyUser ||
+                !permission.canTreat ||
+                item.autoChecked,
         };
     }
 }

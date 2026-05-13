@@ -1,3 +1,4 @@
+import { ConformityDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-conformity-api.dto';
 import { ActorDto } from '@shared/data/dto/actor.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
@@ -14,7 +15,8 @@ export interface TasksActionsItemApiDto {
     operator: TelecomOperatorDto;
     description: string;
     should_notify_user: boolean;
-    status: boolean;
+    auto_check: boolean;
+    result: ConformityDto;
     created_by: ActorDto;
     updated_by: ActorDto;
     created_at: string;

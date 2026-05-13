@@ -1,3 +1,5 @@
+import { Conformity } from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
+
 export interface TasksActionsCreateDto {
     reportUniqId: string;
     date: Date | null;
@@ -5,5 +7,5 @@ export interface TasksActionsCreateDto {
     operator: string;
     description: string;
     shouldNotifyUser: boolean;
-    isConform: boolean;
+    isConform: Conformity | null;
 }

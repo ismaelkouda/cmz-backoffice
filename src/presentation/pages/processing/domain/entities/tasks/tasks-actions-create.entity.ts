@@ -1,5 +1,7 @@
 import { TasksActionsCreateVo } from '@pages/processing/domain/value-objects/tasks/tasks-actions-create.vo';
 
+import { Conformity } from '../../enums/tasks/tasks-actions-conformity.enum';
+
 export class TasksActionsCreateEntity {
     constructor(
         public readonly reportUniqId: string,
@@ -8,7 +10,7 @@ export class TasksActionsCreateEntity {
         public readonly operator: string,
         public readonly description: string,
         public readonly shouldNotifyUser: boolean,
-        public readonly isConform: boolean
+        public readonly isConform: Conformity
     ) {}
 
     static fromVo(vo: TasksActionsCreateVo): TasksActionsCreateEntity {

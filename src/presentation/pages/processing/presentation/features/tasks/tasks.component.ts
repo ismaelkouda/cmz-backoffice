@@ -22,9 +22,9 @@ import { TasksFilterDto } from '@pages/processing/application/dto/tasks/tasks-fi
 import { TasksFacade } from '@pages/processing/application/services/tasks/tasks.facade';
 import { TasksVmProps } from '@pages/processing/presentation/adapters/tasks/tasks-vm-props.interface';
 import { TasksPresenter } from '@pages/processing/presentation/adapters/tasks/tasks-vm.presenter';
-import { TasksFilterStore } from '@pages/processing/presentation/store/tasks/tasks-filter.store';
 import { ACTIONS_ROUTE } from '@pages/processing/processing.routes';
 import { TASKS_TABLE } from '@presentation/pages/processing/presentation/adapters/tasks/tasks-table.constants';
+import { TasksFilterStore } from '@presentation/pages/processing/presentation/store/tasks/tasks-filter.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
@@ -299,8 +299,8 @@ export class TasksComponent {
         return this.translate.instant(key);
     }
     private readonly headerActions: Record<string, () => void> = {
-        refresh: () => this.onRefreshClicked(),
-        export: () => this.onExportClicked(),
+        refresh: () => this.onRefreshData(),
+        export: () => this.onExportData(),
     };
     protected onHeaderButtonClicked(actionId: string): void {
         const action = this.headerActions[actionId];
@@ -310,16 +310,20 @@ export class TasksComponent {
         }
         action();
     }
-    private onRefreshClicked(): void {
+    private onRefreshData(): void {
         this.formStore.reset();
         this.facade.refresh();
     }
-    public onExportClicked(): void {
-        const tasks = this.items();
-        if (tasks && tasks.length > 0) {
+    public onExportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const item = this.items();
+        if (item && item.length > 0) {
             const fileName = `${this.exportFilePrefix}-tasks`;
             this.exportService.exportAsExcelFile(
-                tasks,
+                item,
                 this.tableConfig,
                 fileName
             );

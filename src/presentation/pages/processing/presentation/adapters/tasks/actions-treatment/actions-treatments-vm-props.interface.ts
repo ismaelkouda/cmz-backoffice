@@ -1,3 +1,7 @@
+import {
+    Conformity,
+    ConformityStyle,
+} from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
 export interface TasksActionsVmProps {
@@ -6,10 +10,13 @@ export interface TasksActionsVmProps {
     code: string;
     operators: TelecomOperator[];
     shouldNotifyUser: boolean;
-    isConform: boolean;
+    isConform: Conformity;
+    conformLabel: string;
+    conformStyle: ConformityStyle;
     date: string;
     description: string;
     notifyUser: boolean;
+    autoChecked: boolean;
     createdBy: string;
     updatedBy: string;
     createdAt: string;

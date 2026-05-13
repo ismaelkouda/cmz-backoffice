@@ -1,10 +1,12 @@
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
 import { NotificationsVmProps } from '@pages/communication/presentation/adapters/notifications/notifications-vm-props.interface';
+import { Status } from '@presentation/pages/communication/domain/enums/notifications/notifications-status.enum';
 
 export class NotificationsPresenter {
     constructor(private readonly t: (key: string) => string) {}
 
     map(item: NotificationsEntity): NotificationsVmProps {
+        console.log('item: ', item);
         return {
             uniqId: item.uniqId,
             type: item.type,
@@ -15,12 +17,10 @@ export class NotificationsPresenter {
             statusStyle: item.statusStyle(item.status),
             sendAt: item.sendAt,
             actionsRef: item.actionsRef,
-            tooltipButtonCanNotRead: this.t(
-                'COMMUNICATION.NOTIFICATIONS.TABLE.TOOLTIP_BUTTON_CAN_NOT_READ'
-            ),
-            tooltipButtonCanRead: this.t(
-                'COMMUNICATION.NOTIFICATIONS.TABLE.TOOLTIP_BUTTON_CAN_READ'
-            ),
+            tooltipButtonRead:
+                item.status === Status.UNREAD
+                    ? this.t('COMMUNICATION.NOTIFICATIONS.TOOLTIP.READ')
+                    : this.t('COMMUNICATION.NOTIFICATIONS.TOOLTIP.SEE_MORE'),
             disableButtonRead: false,
         };
     }

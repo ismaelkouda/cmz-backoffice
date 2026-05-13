@@ -13,6 +13,6 @@ export interface MessagingVmProps {
     content: string;
     createdAt: string;
     actionsRef: string;
-    tooltipButtonCanView: string;
+    tooltipButtonView: string;
     disableButtonView: boolean;
 }

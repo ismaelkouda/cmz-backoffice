@@ -1,5 +1,7 @@
 import { TasksActionsCreateDto } from '@pages/processing/application/dto/tasks/tasks-actions-create.dto';
 
+import { Conformity } from '../../enums/tasks/tasks-actions-conformity.enum';
+
 export class TasksActionsCreateVo {
     public readonly reportUniqId: string;
     public readonly date: Date | null;
@@ -7,7 +9,7 @@ export class TasksActionsCreateVo {
     public readonly operator: string;
     public readonly description: string;
     public readonly shouldNotifyUser: boolean;
-    public readonly isConform: boolean;
+    public readonly isConform: Conformity;
 
     constructor(props: {
         reportUniqId: string;
@@ -16,8 +18,11 @@ export class TasksActionsCreateVo {
         operator: string;
         description: string;
         shouldNotifyUser: boolean;
-        isConform: boolean;
+        isConform: Conformity;
     }) {
+        if (props.isConform === null || props.isConform === undefined) {
+            throw new Error('isConform ne peut pas être nul ou undefined');
+        }
         this.reportUniqId = props.reportUniqId;
         this.date = props.date;
         this.type = props.type;
@@ -28,6 +33,11 @@ export class TasksActionsCreateVo {
     }
 
     static fromDto(dto: TasksActionsCreateDto): TasksActionsCreateVo {
+        if (dto.isConform === null || dto.isConform === undefined) {
+            throw new Error(
+                'isConform ne peut pas être nul ou undefined dans le DTO'
+            );
+        }
         return new TasksActionsCreateVo({
             reportUniqId: dto.reportUniqId,
             date: dto.date,
