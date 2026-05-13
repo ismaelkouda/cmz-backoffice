@@ -351,7 +351,9 @@
                                     [actions]="rowData.dropdownActions"
                                     [disabled]="rowData.disableDropdown"
                                     [tooltip]="rowData.tooltipDropdown"
-                                    (actionClicked)="onActionClick(rowData, $event.id)"
+                                    (actionClicked)="
+                                        onActionClick(rowData, $event.id)
+                                    "
                                 ></app-action-dropdown>
                             }
                             @default {
