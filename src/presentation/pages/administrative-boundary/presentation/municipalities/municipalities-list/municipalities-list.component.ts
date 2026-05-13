@@ -327,9 +327,9 @@ export class MunicipalitiesListComponent {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.translate.instant(
-                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE_DELETE'
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE.DELETE'
             ),
-            text: `${this.translate.instant('ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE_DELETE')}`,
+            text: `${this.translate.instant('ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE.DELETE')}`,
             backdrop: false,
             confirmButtonText: this.translate.instant('COMMON.CONFIRM'),
             cancelButtonText: this.translate.instant('COMMON.CANCEL'),

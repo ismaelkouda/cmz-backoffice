@@ -242,10 +242,10 @@ export class TeamsListComponent implements OnInit, OnDestroy {
             return;
         }
         const title: string = this.t(
-            'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE_DELETE'
+            'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE.DELETE'
         );
         const text: string = this.t(
-            'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE_DELETE'
+            'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE.DELETE'
         );
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
@@ -267,8 +267,8 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE_ENABLE'),
-            text: `${this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE_ENABLE')}`,
+            title: this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE.ENABLE'),
+            text: `${this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE.ENABLE')}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
@@ -286,8 +286,8 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE_DISABLE'),
-            text: `${this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE_DISABLE')}`,
+            title: this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE.DISABLE'),
+            text: `${this.t('TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE.DISABLE')}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),

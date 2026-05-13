@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { TasksFilterDto } from '@pages/requests/application/dto/tasks/tasks-filter.dto';
-import { TasksFacade } from '@pages/requests/application/services/tasks/tasks.facade';
-import { TasksFilterControl } from '@pages/requests/presentation/store/tasks/tasks-filter-control';
+import { TasksFilterDto } from '@pages/processing/application/dto/tasks/tasks-filter.dto';
+import { TasksFacade } from '@pages/processing/application/services/tasks/tasks.facade';
+import { TasksFilterControl } from '@pages/processing/presentation/store/tasks/tasks-filter-control';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()

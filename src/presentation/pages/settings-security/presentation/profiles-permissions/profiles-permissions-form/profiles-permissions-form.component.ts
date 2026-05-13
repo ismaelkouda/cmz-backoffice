@@ -14,8 +14,8 @@ import { ProfilesPermissionsFormHelperService } from '@pages/settings-security/d
 import { ProfilesPermissionsFormValidationService } from '@pages/settings-security/domain/services/profiles-permissions/profiles-permissions-form-validation.service';
 import { FormValidators } from '@pages/settings-security/domain/validators/form-validators';
 import { ProfilesPermissionsFormSkeletonComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-form-skeleton/profiles-permissions-form-skeleton.component';
-import { ProfilesPermissionsStore } from '@pages/settings-security/presentation/store/profiles-permissions/profiles-permissions.store';
 import { TreeNodeInterface } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-tree-node.interface';
+import { ProfilesPermissionsFormStore } from '@presentation/pages/settings-security/presentation/store/profiles-permissions/profiles-permissions-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
@@ -59,14 +59,14 @@ import SweetAlert from 'sweetalert2';
     ],
     providers: [
         MessageService,
-        ProfilesPermissionsStore,
+        ProfilesPermissionsFormStore,
         ProfilesPermissionsFormValidationService,
         ProfilesPermissionsFormHelperService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfilesPermissionsFormComponent {
-    readonly store = inject(ProfilesPermissionsStore);
+    readonly store = inject(ProfilesPermissionsFormStore);
     private readonly route = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
     private readonly facade = inject(ProfilesPermissionsFacade);

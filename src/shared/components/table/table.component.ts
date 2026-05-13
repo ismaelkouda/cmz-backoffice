@@ -154,10 +154,6 @@ export class TableComponent {
         return disable[type];
     }
 
-    public disableDropdown(item: any): boolean {
-        return this.loading() || item?.disableDropdown;
-    }
-
     public onDisable(item: any): void {
         this.disableRequested.emit(item);
     }
@@ -194,21 +190,12 @@ export class TableComponent {
             view: item.tooltipButtonView,
             edit: item.tooltipButtonEdit,
             delete: item.tooltipButtonDelete,
-            read: item.disableButtonRead
-                ? item.tooltipButtonCanNotRead
-                : item.tooltipButtonCanRead,
+            read: item.tooltipButtonRead,
         };
 
         return `${tooltip[type]} 
                 <span class="custom-tooltip">${item.actionsRef}</span>
             `;
-    }
-
-    public getTooltipDisableDropdown(item: any): string {
-        if (item.disableDropdown) {
-            return item.tooltipDisableDropdown;
-        }
-        return `${item.actionsRef}`;
     }
 
     public onNumberInputChange(count: number): void {

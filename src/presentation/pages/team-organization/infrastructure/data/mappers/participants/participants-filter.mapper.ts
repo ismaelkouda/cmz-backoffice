@@ -12,8 +12,8 @@ export function participantsFilterMapper(
     if (entity.role) {
         params.role = entity.role;
     }
-    if (entity.isActive !== undefined) {
-        params.is_active = !!entity.isActive;
+    if (entity.status !== undefined) {
+        params.is_active = !!entity.status;
     }
 
     return params;

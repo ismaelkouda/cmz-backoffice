@@ -75,7 +75,7 @@ export class MessagingListComponent {
     );
     protected readonly canCreate = this.permissionActions.can(
         '/communication/messaging',
-        'execute'
+        'create'
     );
     protected readonly tableConfig = MESSAGING_TABLE;
     protected readonly form = this.formStore.form;
@@ -293,8 +293,8 @@ export class MessagingListComponent {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE_DELETE'),
-            text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE_DELETE')}`,
+            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE.DELETE'),
+            text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE.DELETE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
@@ -311,8 +311,8 @@ export class MessagingListComponent {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE_ENABLE'),
-            text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE_ENABLE')}`,
+            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE.ENABLE'),
+            text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE.ENABLE')}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
@@ -330,8 +330,8 @@ export class MessagingListComponent {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE_DISABLE'),
-            text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE_DISABLE')}`,
+            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE.DISABLE'),
+            text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE.DISABLE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {

@@ -364,8 +364,8 @@ export class TasksComponent {
     private onTakeBulkClicked(): void {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_TAKE'),
-            text: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE_MESSAGE'),
+            title: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE.TAKE'),
+            text: this.t('FINALIZATION.TASKS.SWEET_ALERT.TITLE.MESSAGE'),
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),

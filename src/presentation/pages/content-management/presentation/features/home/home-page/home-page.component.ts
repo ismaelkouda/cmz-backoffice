@@ -260,8 +260,8 @@ export class HomePageComponent implements OnInit {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE_DELETE'),
-            text: `${this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE_DELETE')}`,
+            title: this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE.DELETE'),
+            text: `${this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE.DELETE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
@@ -277,8 +277,8 @@ export class HomePageComponent implements OnInit {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE_ENABLE'),
-            text: `${this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE_ENABLE')}`,
+            title: this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE.ENABLE'),
+            text: `${this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE.ENABLE')}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
@@ -295,8 +295,8 @@ export class HomePageComponent implements OnInit {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE_DISABLE'),
-            text: `${this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE_DISABLE')}`,
+            title: this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE.DISABLE'),
+            text: `${this.t('CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE.DISABLE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {

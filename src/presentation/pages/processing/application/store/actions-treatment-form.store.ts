@@ -4,10 +4,10 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TasksActionsFacade } from '@pages/processing/application/services/tasks/tasks-actions.facade';
 import { TasksActionsFormControl } from '@pages/processing/domain/controls/tasks/tasks-actions-form.control';
+import { TasksActionsVmProps } from '@pages/processing/presentation/adapters/tasks/actions-treatment/actions-treatments-vm-props.interface';
+import { Conformity } from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
 import { parseFrenchDate } from '@shared/domain/functions/format-date';
 import { startWith } from 'rxjs';
-
-import { TasksActionsVmProps } from '../../presentation/adapters/tasks/actions-treatment/actions-treatments-vm-props.interface';
 
 @Injectable()
 export class ActionsTreatmentFormStore {
@@ -39,7 +39,7 @@ export class ActionsTreatmentFormStore {
             nonNullable: true,
             validators: [Validators.required],
         }),
-        isConform: new FormControl<boolean>(false, {
+        isConform: new FormControl<Conformity | null>(null, {
             nonNullable: true,
             validators: [Validators.required],
         }),
@@ -93,7 +93,7 @@ export class ActionsTreatmentFormStore {
             type: '',
             description: '',
             shouldNotifyUser: false,
-            isConform: false,
+            isConform: null,
             operator: operators.length === 1 ? operators[0].value : '',
         });
 
@@ -101,8 +101,7 @@ export class ActionsTreatmentFormStore {
     }
 
     openEdit(item: TasksActionsVmProps): void {
-        console.log('item date: ', item.date);
-        console.log('new Date(item.date): ', parseFrenchDate(item.date));
+        console.log('item: ', item);
         this.editingId.set(item.uniqId);
 
         this.form.patchValue({
@@ -140,8 +139,6 @@ export class ActionsTreatmentFormStore {
             reportUniqId,
             ...this.form.getRawValue(),
         };
-        console.log('payload: ', payload);
-
         const editingId = this.editingId();
 
         if (editingId) {

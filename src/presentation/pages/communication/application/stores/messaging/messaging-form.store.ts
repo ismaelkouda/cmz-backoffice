@@ -1,9 +1,16 @@
-import { Injectable, inject, signal, computed, effect } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import {
-    FormGroup,
+    Injectable,
+    inject,
+    signal,
+    computed,
+    effect,
+    untracked,
+} from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import {
     FormBuilder,
     FormControl,
+    FormGroup,
     Validators,
 } from '@angular/forms';
 import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
@@ -12,27 +19,73 @@ import { MessagingFormControl } from '@pages/communication/domain/controls/messa
 import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
 import { FormValidators } from '@pages/communication/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
+import { filter, pairwise, startWith } from 'rxjs';
 
 @Injectable()
 export class MessagingFormStore {
     private readonly fb = inject(FormBuilder);
-    private readonly facade = inject(MessagingFindOneFacade);
+
+    private readonly findOneFacade = inject(MessagingFindOneFacade);
+
     private readonly regionsFacade = inject(RegionsSelectFacade);
 
-    private readonly item = this.facade.items;
-    private readonly isPatching = signal(false);
-
-    readonly selectedRegionCode = computed(() => this.formValue().region);
-
-    readonly selectedDepartmentCode = computed(
-        () => this.formValue().department
-    );
-    readonly currentTargetType = computed(() => this.formValue().targetType);
+    readonly VALIDATION = FormValidators;
 
     readonly form = this.createForm();
 
-    readonly formValue = toSignal(this.form.valueChanges, {
-        initialValue: this.form.getRawValue(),
+    readonly isDetailsMode = signal(false);
+
+    readonly loading = computed(() => {
+        return this.findOneFacade.loading();
+    });
+
+    readonly loadingRegions = toSignal(this.regionsFacade.isLoading$, {
+        initialValue: false,
+    });
+
+    readonly status = toSignal(
+        this.form.statusChanges.pipe(startWith(this.form.status)),
+        {
+            initialValue: this.form.status,
+        }
+    );
+
+    readonly isValid = computed(() => {
+        return this.status() === 'VALID';
+    });
+
+    readonly selectedRegionCode = toSignal(
+        this.form.controls.region.valueChanges.pipe(
+            startWith(this.form.controls.region.value)
+        ),
+        {
+            initialValue: this.form.controls.region.value,
+        }
+    );
+
+    readonly selectedDepartmentCode = toSignal(
+        this.form.controls.department.valueChanges.pipe(
+            startWith(this.form.controls.department.value)
+        ),
+        {
+            initialValue: this.form.controls.department.value,
+        }
+    );
+
+    readonly selectedTargetType = toSignal(
+        this.form.controls.targetType.valueChanges.pipe(
+            startWith(this.form.controls.targetType.value)
+        ),
+        {
+            initialValue: this.form.controls.targetType.value,
+        }
+    );
+
+    readonly isReportMode = computed(() => {
+        return (
+            this.selectedTargetType() ===
+            getEnumKeyByValue(Target, Target.report)
+        );
     });
 
     readonly regions = toSignal(this.regionsFacade.items$, {
@@ -41,234 +94,434 @@ export class MessagingFormStore {
 
     readonly departments = computed(() => {
         const regionCode = this.selectedRegionCode();
-        if (!regionCode) {
+
+        const regions = this.regions();
+
+        if (!regionCode || !regions.length) {
             return [];
         }
+
         return (
-            this.regions().find((r) => r.value === regionCode)?.departments ||
-            []
+            regions.find((region) => region.value === regionCode)
+                ?.departments ?? []
         );
     });
 
     readonly municipalities = computed(() => {
         const departmentCode = this.selectedDepartmentCode();
-        if (!departmentCode) {
+
+        const regions = this.regions();
+
+        if (!departmentCode || !regions.length) {
             return [];
         }
-        const region = this.regions().find((r) =>
-            r.departments?.some((d) => d.value === departmentCode)
+
+        const region = regions.find((region) =>
+            region.departments?.some(
+                (department) => department.value === departmentCode
+            )
         );
+
         return (
-            region?.departments?.find((d) => d.value === departmentCode)
-                ?.municipalities || []
+            region?.departments?.find(
+                (department) => department.value === departmentCode
+            )?.municipalities ?? []
         );
     });
 
-    private readonly regionEffect = effect(() => {
-        const region = this.selectedRegionCode();
-        if (this.isPatching()) {
-            return;
-        }
-        if (!region) {
-            return;
-        }
-        if (this.form.controls.department.value) {
-            return;
-        }
-        this.form.patchValue(
-            {
-                department: '',
-                municipality: '',
-            },
-            { emitEvent: false }
-        );
+    private readonly item = this.findOneFacade.items;
 
-        this.updateDependentValidators();
-    });
+    constructor() {
+        this.initializeRegionListener();
 
-    private readonly departmentEffect = effect(() => {
-        const department = this.selectedDepartmentCode();
-        if (this.isPatching()) {
-            return;
-        }
-        if (!department) {
-            return;
-        }
-        if (this.form.controls.municipality.value) {
-            return;
-        }
-        this.form.patchValue(
-            {
-                municipality: '',
-            },
-            { emitEvent: false }
-        );
-        this.updateDependentValidators();
-    });
+        this.initializeDepartmentListener();
 
-    private readonly targetTypeEffect = effect(() => {
-        const targetType = this.currentTargetType();
-        if (this.isPatching()) {
-            return;
-        }
-        if (!targetType) {
-            return;
-        }
-        const isReport =
-            targetType === getEnumKeyByValue(Target, Target.report);
-        if (isReport) {
-            this.form.patchValue(
-                {
-                    region: '',
-                    department: '',
-                    municipality: '',
-                },
-                { emitEvent: false }
-            );
-        } else {
-            this.form.patchValue(
-                {
-                    reportId: '',
-                },
-                { emitEvent: false }
-            );
-        }
-        this.updateValidatorsForTargetType(targetType);
-    });
+        this.initializeTargetTypeEffect();
 
-    readonly isReportMode = computed(() => {
-        const targetType = this.currentTargetType();
-        return targetType === getEnumKeyByValue(Target, Target.report);
-    });
-
-    readonly isDetailsMode = signal(false);
-    readonly loading = this.facade.loading;
-    readonly loadingRegions = toSignal(this.regionsFacade.isLoading$, {
-        initialValue: false,
-    });
-
-    private readonly setupItemPatch = effect(() => {
-        const item = this.item();
-        this.isPatching.set(true);
-        if (item) {
-            this.form.patchValue({
-                reportId: item.reportId || '',
-                type: item.type,
-                targetType: item.targetType,
-                region: item.region,
-                department: item.department,
-                municipality: item.municipality,
-                channels: item.channels,
-                subject: item.subject,
-                content: item.content,
-            });
-            this.isPatching.set(false);
-        }
-    });
+        this.initializeDetailsModeEffect();
+    }
 
     private createForm(): FormGroup<MessagingFormControl> {
         return this.fb.nonNullable.group<MessagingFormControl>({
             reportId: new FormControl('', {
                 nonNullable: true,
             }),
+
             type: new FormControl('', {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
+
             targetType: new FormControl('', {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
-            region: new FormControl('', { nonNullable: true }),
-            department: new FormControl('', { nonNullable: true }),
-            municipality: new FormControl('', { nonNullable: true }),
+
+            region: new FormControl('', {
+                nonNullable: true,
+            }),
+
+            department: new FormControl('', {
+                nonNullable: true,
+            }),
+
+            municipality: new FormControl('', {
+                nonNullable: true,
+            }),
+
             channels: new FormControl([], {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
+
             subject: new FormControl('', {
                 nonNullable: true,
                 validators: [
                     Validators.required,
+
                     Validators.minLength(FormValidators.SUBJECT.MIN),
+
                     Validators.maxLength(FormValidators.SUBJECT.MAX),
+
                     Validators.pattern(FormValidators.SUBJECT.PATTERN),
                 ],
             }),
+
             content: new FormControl('', {
                 nonNullable: true,
                 validators: [
                     Validators.required,
+
                     Validators.minLength(FormValidators.CONTENT.MIN),
+
                     Validators.maxLength(FormValidators.CONTENT.MAX),
+
                     Validators.pattern(FormValidators.CONTENT.PATTERN),
                 ],
             }),
         });
     }
 
-    private updateValidatorsForTargetType(targetType: string | null): void {
+    private initializeRegionListener(): void {
+        toObservable(this.selectedRegionCode)
+            .pipe(
+                pairwise(),
+
+                filter(([previous, current]) => {
+                    return previous !== current && !this.isDetailsMode();
+                })
+            )
+            .subscribe(() => {
+                queueMicrotask(() => {
+                    this.resetDepartmentAndMunicipality();
+
+                    this.updateAdministrativeValidators();
+                });
+            });
+    }
+
+    private initializeDepartmentListener(): void {
+        toObservable(this.selectedDepartmentCode)
+            .pipe(
+                pairwise(),
+
+                filter(([previous, current]) => {
+                    return previous !== current && !this.isDetailsMode();
+                })
+            )
+            .subscribe(() => {
+                queueMicrotask(() => {
+                    this.resetMunicipality();
+
+                    this.updateAdministrativeValidators();
+                });
+            });
+    }
+
+    private initializeTargetTypeEffect(): void {
+        effect(() => {
+            const targetType = this.selectedTargetType();
+
+            const isDetails = this.isDetailsMode();
+
+            untracked(() => {
+                if (isDetails) {
+                    return;
+                }
+
+                queueMicrotask(() => {
+                    const isReport =
+                        targetType === getEnumKeyByValue(Target, Target.report);
+
+                    if (isReport) {
+                        this.clearAdministrativeArea();
+                    } else {
+                        this.clearReportId();
+                    }
+
+                    this.updateTargetValidators(targetType ?? null);
+
+                    this.updateAdministrativeValidators();
+                });
+            });
+        });
+    }
+
+    private initializeDetailsModeEffect(): void {
+        effect(() => {
+            const item = this.item();
+
+            const regions = this.regions();
+
+            const isDetails = this.isDetailsMode();
+
+            if (!item || !regions.length || !isDetails) {
+                return;
+            }
+
+            untracked(() => {
+                queueMicrotask(() => {
+                    this.form.patchValue({
+                        reportId: item.reportId ?? '',
+
+                        type: item.type,
+
+                        targetType: item.targetType,
+
+                        region: item.region,
+
+                        department: item.department,
+
+                        municipality: item.municipality,
+
+                        channels: item.channels,
+
+                        subject: item.subject,
+
+                        content: item.content,
+                    });
+
+                    this.updateTargetValidators(item.targetType);
+
+                    this.updateAdministrativeValidators();
+
+                    this.form.disable({
+                        emitEvent: false,
+                    });
+                });
+            });
+        });
+    }
+
+    private updateTargetValidators(targetType: string | null): void {
+        const reportIdControl = this.form.controls.reportId;
+
         const isReport =
             targetType === getEnumKeyByValue(Target, Target.report);
 
-        const reportIdControl = this.form.controls.reportId;
         if (isReport) {
             reportIdControl.setValidators([
                 Validators.required,
+
                 Validators.minLength(FormValidators.REPORT_ID.MIN),
+
                 Validators.maxLength(FormValidators.REPORT_ID.MAX),
+
                 Validators.pattern(FormValidators.REPORT_ID.PATTERN),
             ]);
+        } else {
+            reportIdControl.clearValidators();
         }
-        reportIdControl.updateValueAndValidity({ emitEvent: false });
+
+        reportIdControl.updateValueAndValidity({
+            emitEvent: false,
+        });
     }
 
-    private updateDependentValidators(): void {
+    private updateAdministrativeValidators(): void {
         const isReport = this.isReportMode();
+
+        const regionControl = this.form.controls.region;
+
+        const departmentControl = this.form.controls.department;
+
+        const municipalityControl = this.form.controls.municipality;
+
         if (isReport) {
+            regionControl.clearValidators();
+
+            departmentControl.clearValidators();
+
+            municipalityControl.clearValidators();
+
+            regionControl.updateValueAndValidity({
+                emitEvent: false,
+            });
+
+            departmentControl.updateValueAndValidity({
+                emitEvent: false,
+            });
+
+            municipalityControl.updateValueAndValidity({
+                emitEvent: false,
+            });
+
             return;
         }
-        const regionValue = this.form.controls.region.value;
-        const departmentControl = this.form.controls.department;
-        if (regionValue) {
+
+        regionControl.setValidators([Validators.required]);
+
+        if (regionControl.value) {
             departmentControl.setValidators([Validators.required]);
         } else {
             departmentControl.clearValidators();
         }
-        departmentControl.updateValueAndValidity({ emitEvent: false });
 
-        const departmentValue = this.form.controls.department.value;
-        const municipalityControl = this.form.controls.municipality;
-
-        if (departmentValue) {
+        if (departmentControl.value) {
             municipalityControl.setValidators([Validators.required]);
         } else {
             municipalityControl.clearValidators();
         }
-        municipalityControl.updateValueAndValidity({ emitEvent: false });
+
+        regionControl.updateValueAndValidity({
+            emitEvent: false,
+        });
+
+        departmentControl.updateValueAndValidity({
+            emitEvent: false,
+        });
+
+        municipalityControl.updateValueAndValidity({
+            emitEvent: false,
+        });
     }
 
-    private clearFieldsForTargetType(targetType: string | null): void {
-        const isReport =
-            targetType === getEnumKeyByValue(Target, Target.report);
+    private resetDepartmentAndMunicipality(): void {
+        const department = this.form.controls.department.value;
 
-        if (isReport) {
-            this.form.controls.region.setValue('', { emitEvent: false });
-            this.form.controls.department.setValue('', { emitEvent: false });
-            this.form.controls.municipality.setValue('', { emitEvent: false });
-        } else {
-            this.form.controls.reportId.setValue('', { emitEvent: false });
+        const municipality = this.form.controls.municipality.value;
+
+        if (!department && !municipality) {
+            return;
         }
+
+        this.form.patchValue(
+            {
+                department: '',
+                municipality: '',
+            },
+            {
+                emitEvent: false,
+            }
+        );
     }
 
-    public setDetailsMode(uniqId: string | null): void {
-        this.isDetailsMode.set(!!uniqId);
-        if (uniqId) {
-            this.facade.read({ uniqId }, true);
-        } else {
-            this.form.reset();
-            this.facade.reset();
+    private resetMunicipality(): void {
+        const municipality = this.form.controls.municipality.value;
+
+        if (!municipality) {
+            return;
         }
+
+        this.form.patchValue(
+            {
+                municipality: '',
+            },
+            {
+                emitEvent: false,
+            }
+        );
+    }
+
+    private clearAdministrativeArea(): void {
+        const { region, department, municipality } = this.form.getRawValue();
+
+        if (!region && !department && !municipality) {
+            return;
+        }
+
+        this.form.patchValue(
+            {
+                region: '',
+                department: '',
+                municipality: '',
+            },
+            {
+                emitEvent: false,
+            }
+        );
+    }
+
+    private clearReportId(): void {
+        const reportId = this.form.controls.reportId.value;
+
+        if (!reportId) {
+            return;
+        }
+
+        this.form.patchValue(
+            {
+                reportId: '',
+            },
+            {
+                emitEvent: false,
+            }
+        );
+    }
+
+    setDetailsMode(uniqId: string | null): void {
+        const isDetails = !!uniqId;
+
+        this.isDetailsMode.set(isDetails);
+
         this.regionsFacade.readAll(true);
+
+        if (isDetails && uniqId) {
+            this.findOneFacade.read(
+                {
+                    uniqId,
+                },
+                true
+            );
+
+            return;
+        }
+
+        this.reset();
+
+        this.findOneFacade.reset();
+    }
+
+    reset(): void {
+        this.form.enable({
+            emitEvent: false,
+        });
+
+        this.form.reset(
+            {
+                reportId: '',
+                type: '',
+                targetType: '',
+                region: '',
+                department: '',
+                municipality: '',
+                channels: [],
+                subject: '',
+                content: '',
+            },
+            {
+                emitEvent: true,
+            }
+        );
+
+        this.isDetailsMode.set(false);
+
+        this.updateTargetValidators(null);
+
+        this.updateAdministrativeValidators();
+
+        this.form.markAsPristine();
+
+        this.form.markAsUntouched();
     }
 }

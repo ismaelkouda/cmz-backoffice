@@ -15,13 +15,13 @@ export class LegalNoticeFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE_UPDATE'
-            : 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE_CREATE';
+            ? 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE.UPDATE'
+            : 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE_UPDATE'
-            : 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE_CREATE';
+            ? 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE.UPDATE'
+            : 'CONTENT_MANAGEMENT.LEGAL_NOTICE.SWEET_ALERT.MESSAGE.CREATE';
     }
 }

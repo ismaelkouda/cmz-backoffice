@@ -17,7 +17,7 @@ export class ParticipantsHandler {
             {
                 search: command.search,
                 role: command.role,
-                isActive: command.isActive,
+                status: command.status,
             },
             page
         );

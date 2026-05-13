@@ -15,7 +15,6 @@ export interface NotificationsVmProps {
     sendAt: string;
     actionsRef: string;
 
-    tooltipButtonCanNotRead: string;
-    tooltipButtonCanRead: string;
+    tooltipButtonRead: string;
     disableButtonRead: boolean;
 }

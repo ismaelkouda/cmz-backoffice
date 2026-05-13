@@ -3,28 +3,28 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
+    DestroyRef,
     effect,
     inject,
-    OnDestroy,
-    OnInit,
     signal,
     Signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ProfilesPermissionsFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
-import { ProfilesPermissionsFilterControl } from '@pages/settings-security/domain/controls/profiles-permissions/profiles-permissions-filter.control';
-import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
 import { Status } from '@pages/settings-security/domain/enums/profiles-permissions/profiles-permissions-status.enum';
 import {
     PROFILES_PERMISSIONS_FORM,
     PROFILES_PERMISSIONS_USERS,
 } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-paths.constant';
+import { ProfilesPermissionsFilterDto } from '@presentation/pages/settings-security/application/dto/profiles-permissions/profiles-permissions-filter.dto';
 import { PROFILES_PERMISSIONS_TABLE } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-table.constant';
+import { ProfilesPermissionsVmProps } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-vm-props.interface';
 import { ProfilesPermissionsPresenter } from '@presentation/pages/settings-security/presentation/adapters/profiles-permissions/profiles-permissions-vm.presenter';
+import { ProfilesPermissionsFilterStore } from '@presentation/pages/settings-security/presentation/store/profiles-permissions/profiles-permissions-filter.store';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptionsWithValue,
@@ -34,14 +34,12 @@ import {
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
+import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
-import SweetAlert from 'sweetalert2';
-
+type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
 @Component({
     selector: 'app-profiles-permissions-list',
     standalone: true,
@@ -52,52 +50,182 @@ import SweetAlert from 'sweetalert2';
         PaginationComponent,
         ReactiveFormsModule,
     ],
+    providers: [ProfilesPermissionsFilterStore],
     templateUrl: './profiles-permissions-list.component.html',
     styleUrls: ['./profiles-permissions-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
-    private readonly title = inject(Title);
-    public readonly facade = inject(ProfilesPermissionsFacade);
+export class ProfilesPermissionsListComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
-    private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly fb = inject(FormBuilder);
+    private readonly title = inject(Title);
+    private readonly sweetAlert = inject(SweetAlertService);
+
+    public readonly facade = inject(ProfilesPermissionsFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
+    private readonly formStore = inject(ProfilesPermissionsFilterStore);
     private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
-    readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appConfig.customization.app.name
+    private readonly canExport = this.permissionActions.can(
+        '/security-settings/profile-and-permissions',
+        'export'
     );
-    private readonly currentLang = signal<string>(
-        this.translate.getCurrentLang()
+    private readonly canCreate = this.permissionActions.can(
+        '/security-settings/profile-and-permissions',
+        'create'
     );
-    private readonly destroy$ = new Subject<void>();
+    private readonly canEdit = this.permissionActions.can(
+        '/security-settings/profile-and-permissions',
+        'edit'
+    );
+    private readonly canDelete = this.permissionActions.can(
+        '/security-settings/profile-and-permissions',
+        'delete'
+    );
+    private readonly canEnable = this.permissionActions.can(
+        '/security-settings/profile-and-permissions',
+        'edit'
+    );
+    private readonly canDisable = this.permissionActions.can(
+        '/security-settings/profile-and-permissions',
+        'edit'
+    );
+    private readonly canChoose = computed(
+        () =>
+            (this.canEdit() && this.canDelete()) ||
+            this.canEnable() ||
+            this.canDisable()
+    );
+    private readonly canExportData = computed(
+        () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
+    );
+    private readonly exportTooltip = computed(() => {
+        const permission = !this.canExport();
+        const noData = this.itemsVM().length < 1;
+        if (permission) {
+            return this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NO_PERMISSION_EXPORT'
+            );
+        }
+        if (noData) {
+            return this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NO_EXPORT'
+            );
+        }
+        return this.t(
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.EXPORT'
+        ).replace('{nb}', String(this.itemsVM().length));
+    });
+    private readonly createTooltip = computed(() => {
+        if (!this.canCreate()) {
+            return this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NO_PERMISSION_CREATE'
+            );
+        }
+        return this.t('SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.CREATE');
+    });
+    private readonly editTooltip = computed(() => {
+        if (!this.canEdit()) {
+            return this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NO_PERMISSION_EDIT'
+            );
+        }
+        return this.t(
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NOT_EDIT'
+        );
+    });
+    private readonly deleteTooltip = computed(() => {
+        if (!this.canDelete()) {
+            return this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NO_PERMISSION_DELETE'
+            );
+        }
+        return this.t(
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NOT_DELETE'
+        );
+    });
+    private readonly enableTooltip = computed(() => {
+        if (!this.canEnable()) {
+            return this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NO_PERMISSION_ACTIVE'
+            );
+        }
+        return this.t(
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NOT_ACTIVE'
+        );
+    });
+    private readonly disableTooltip = computed(() => {
+        if (!this.canDisable()) {
+            return this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NO_PERMISSION_DISABLE'
+            );
+        }
+        return this.t(
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NOT_DISABLE'
+        );
+    });
+    private readonly chooseTooltip = computed(() => {
+        if (!this.canChoose()) {
+            return this.t(
+                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NO_PERMISSION_CHOOSE'
+            );
+        }
+        return this.t(
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.NOT_CHOOSE'
+        );
+    });
+    protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.CREATE',
+            actionId: 'create',
+            icon: 'pi pi-user-plus',
+            class: 'btn-primary',
+            disabled: !this.canCreate(),
+            tooltip: this.createTooltip(),
+        },
+        {
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            class: 'btn-dark',
+            icon: 'pi pi-refresh',
+            translateKey: 'COMMON.REFRESH',
+            tooltip: this.t('TEAM_ORGANIZATION.PARTICIPANTS.TOOLTIP.REFRESH'),
+        },
+        {
+            label: 'COMMON.EXPORT',
+            actionId: 'export',
+            class: 'btn-success',
+            icon: 'pi pi-file',
+            translateKey: 'COMMON.EXPORT',
+            tooltip: this.exportTooltip(),
+            disabled: this.canExportData(),
+        },
+    ]);
     readonly tableConfig = PROFILES_PERMISSIONS_TABLE;
-    readonly items = toSignal(this.facade.items$, { initialValue: [] });
-    readonly loading = toSignal(this.facade.isLoading$, {
+    protected readonly form = this.formStore.form;
+    private readonly items = toSignal(this.facade.items$, { initialValue: [] });
+    private readonly currentFilter = toSignal(this.facade.currentFilter$, {
+        initialValue: null,
+    });
+    protected readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    readonly pagination = toSignal(this.facade.pagination$, {
+    protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
     readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptionsWithValue(Status, this.t.bind(this));
     });
-    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.CREATE',
-            actionId: CrudFormType.CREATE,
-            class: 'btn-primary',
-            icon: 'pi pi-plus',
-            translateKey: 'COMMON.CREATE',
-        },
-    ]);
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
+    );
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const statusOpts = this.statusOptions();
-
         return [
             {
                 type: 'text',
@@ -149,167 +277,69 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
             },
         ];
     });
-    readonly presenter = new ProfilesPermissionsPresenter(
+    private readonly presenter = new ProfilesPermissionsPresenter(
         this.translate.instant.bind(this.translate)
     );
-    readonly itemsVM = computed(() => {
-        this.currentLang();
-        return this.items().map((item) => this.presenter.map(item));
-    });
-    readonly form = this.fb.group<ProfilesPermissionsFilterControl>({
-        search: new FormControl<string | undefined>(undefined, {
-            nonNullable: true,
-        }),
-        user: new FormControl<string | undefined>(undefined, {
-            nonNullable: true,
-        }),
-        status: new FormControl<Status | undefined>(undefined, {
-            nonNullable: true,
-        }),
+    protected readonly itemsVM = computed(() => {
+        const canEdit = this.canEdit();
+        const canDelete = this.canDelete();
+        const canEnable = this.canEnable();
+        const canDisable = this.canDisable();
+        const canChoose = this.canChoose();
+        const authorization = {
+            canEdit: canEdit,
+            canDelete: canDelete,
+            canEnable: canEnable,
+            canDisable: canDisable,
+            canChoose: canChoose,
+        };
+        const editTooltip = this.editTooltip();
+        const deleteTooltip = this.deleteTooltip();
+        const enableTooltip = this.enableTooltip();
+        const disableTooltip = this.disableTooltip();
+        const chooseTooltip = this.chooseTooltip();
+        const tooltip = {
+            edit: editTooltip,
+            delete: deleteTooltip,
+            enable: enableTooltip,
+            disable: disableTooltip,
+            choose: chooseTooltip,
+        };
+        return this.items().map((item) =>
+            this.presenter.map(item, {
+                authorization,
+                tooltip,
+            })
+        );
     });
     constructor() {
-        this.facade.readAll();
+        this.facade.readAll(
+            this.currentFilter() as ProfilesPermissionsFilterDto
+        );
         this.translate.onLangChange
-            .pipe(takeUntil(this.destroy$))
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {
                 this.currentLang.set(event.lang);
             });
-
         effect(() => {
+            this.pageTitle();
             this.filterFields();
             this.statusOptions();
         });
     }
-
-    ngOnInit(): void {
-        this.title.setTitle(
-            this.t('SETTINGS_SECURITY.PROFILES_PERMISSIONS.PAGE_TITLE')
-        );
-
-        this.translate.onLangChange
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.title.setTitle(
-                    this.t('SETTINGS_SECURITY.PROFILES_PERMISSIONS.PAGE_TITLE')
-                );
-            });
+    private pageTitle(): void {
+        this.currentLang();
+        this.title.setTitle(this.t('TEAM_ORGANIZATION.PARTICIPANTS.TITLE'));
     }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    public onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1', true);
-    }
-
-    public onRefreshClicked(): void {
-        this.form.reset();
+    private onRefreshData(): void {
+        this.formStore.reset();
         this.facade.refresh();
     }
-
-    public onChangePageClicked(page: number): void {
-        this.facade.changePage(JSON.stringify(page + 1));
-    }
-
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.CREATE) {
-            this.onNavigateToForm({
-                item: undefined,
-                ref: CrudFormType.CREATE,
-            });
-        }
-    }
-
-    public onNavigateToForm(event: {
-        item?: ProfilesPermissionsEntity;
-        ref: CrudFormType;
-    }): void {
-        const queryParams = event.item
-            ? { uniqId: event.item.uniqId, ref: event.ref }
-            : { ref: event.ref };
-        this.router.navigate(['../', PROFILES_PERMISSIONS_FORM], {
-            relativeTo: this.activatedRoute,
-            queryParams,
-        });
-    }
-
-    public onDeleteClicked(item: ProfilesPermissionsEntity): void {
-        if (!item.uniqId) {
+    private exportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
             return;
         }
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.t(
-                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_DELETE'
-            ),
-            text: this.t(
-                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE_DELETE'
-            ),
-            confirmButtonText: this.t('COMMON.CONFIRM'),
-            cancelButtonText: this.t('COMMON.CANCEL'),
-        }).then((res) => {
-            if (res.isConfirmed) {
-                this.facade.delete({ uniqId: item.uniqId });
-                this.facade.refreshWithLastFilterAndPage();
-            }
-        });
-    }
-
-    public onEnableClicked(item: ProfilesPermissionsEntity): void {
-        if (!item.uniqId) {
-            return;
-        }
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.t(
-                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_ENABLE'
-            ),
-            text: `${this.t('SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE_ENABLE')}`,
-            backdrop: false,
-            confirmButtonText: this.t('COMMON.CONFIRM'),
-            cancelButtonText: this.t('COMMON.CANCEL'),
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.facade.enable({ uniqId: item.uniqId });
-                this.facade.refreshWithLastFilterAndPage();
-            }
-        });
-    }
-
-    public onDisableClicked(item: ProfilesPermissionsEntity): void {
-        if (!item.uniqId) {
-            return;
-        }
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.t(
-                'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_DISABLE'
-            ),
-            text: `${this.t('SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE_DISABLE')}`,
-            backdrop: false,
-            confirmButtonText: this.t('COMMON.CONFIRM'),
-            cancelButtonText: this.t('COMMON.CANCEL'),
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.facade.disable({ uniqId: item.uniqId });
-                this.facade.refreshWithLastFilterAndPage();
-            }
-        });
-    }
-
-    public onBadgeClicked(event: {
-        item: ProfilesPermissionsEntity;
-        col: HTMLTableCellElement;
-    }): void {
-        this.router.navigate(['../', PROFILES_PERMISSIONS_USERS], {
-            relativeTo: this.activatedRoute,
-            queryParams: { uniqId: event.item.uniqId, name: event.item.name },
-        });
-    }
-
-    public onExportExcel(): void {
         const items = this.items();
         if (!items.length) {
             this.toast.error(this.t('EXPORT.NO_DATA'));
@@ -319,24 +349,210 @@ export class ProfilesPermissionsListComponent implements OnInit, OnDestroy {
         this.exportService.exportAsExcelFile(
             items,
             this.tableConfig,
-            `${this.exportFilePrefix}-profiles-permissions`
+            `${this.normalizeExportPrefix}-profiles-permissions`
         );
+    }
+    private readonly headerActions: Record<string, () => void> = {
+        create: () => {
+            if (!this.canCreate()) {
+                this.toast.error(this.createTooltip());
+                return;
+            }
+            this.onNavigateToForm({
+                item: undefined,
+                ref: 'create',
+            });
+        },
+        refresh: () => this.onRefreshData(),
+        export: () => {
+            if (this.canExportData()) {
+                this.toast.error(this.exportTooltip());
+                return;
+            }
+            this.exportData();
+        },
+    };
+    private readonly tableActions: Record<
+        TTableActions,
+        (item: ProfilesPermissionsVmProps) => void
+    > = {
+        edit: (item) => {
+            if (!this.canEdit()) {
+                this.toast.error(this.editTooltip());
+                return;
+            }
+
+            this.onNavigateToForm({
+                item,
+                ref: 'edit',
+            });
+        },
+
+        delete: (item) => {
+            if (!this.canDelete()) {
+                this.toast.error(this.deleteTooltip());
+                return;
+            }
+
+            this.onDelete(item);
+        },
+
+        enable: (item) => {
+            if (!this.canEnable()) {
+                this.toast.error(this.enableTooltip());
+                return;
+            }
+
+            this.onEnableClicked(item);
+        },
+
+        disable: (item) => {
+            if (!this.canDisable()) {
+                this.toast.error(this.disableTooltip());
+                return;
+            }
+
+            this.onDisableClicked(item);
+        },
+    };
+
+    public onNavigateToForm(event: {
+        item?: ProfilesPermissionsVmProps;
+        ref: 'create' | 'edit';
+    }): void {
+        const queryParams = event.item
+            ? { uniqId: event.item.uniqId, ref: event.ref }
+            : { ref: event.ref };
+        this.router.navigate(['../', PROFILES_PERMISSIONS_FORM], {
+            relativeTo: this.route,
+            queryParams,
+        });
+    }
+    protected onFilterClicked(filterValues: any): void {
+        this.facade.readAll(filterValues, '1', true);
+    }
+    protected onChangePageClicked(event: number): void {
+        this.facade.changePage(JSON.stringify(event + 1));
+    }
+    protected onHeaderButtonClicked(actionId: string): void {
+        const action = this.headerActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
+            return;
+        }
+        action();
+    }
+    protected onActionClicked(event: {
+        item: ProfilesPermissionsVmProps;
+        actionId?: TTableActions;
+    }): void {
+        const { item, actionId } = event;
+        if (!actionId) {
+            console.warn('Missing actionId');
+            return;
+        }
+        const action = this.tableActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
+            return;
+        }
+        action(item);
+    }
+    protected async onDelete(item: ProfilesPermissionsVmProps): Promise<void> {
+        if (this.canDelete()) {
+            this.toast.error(this.deleteTooltip());
+            return;
+        }
+        const uniqId = item.uniqId;
+        if (!uniqId) {
+            return;
+        }
+        const confirmed = await this.sweetAlert.confirm({
+            titleKey: 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.DELETE',
+            messageKey:
+                'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.DELETE',
+            messageParams: {
+                uniqId,
+            },
+        });
+        if (!confirmed) {
+            return;
+        }
+        this.facade.delete({ uniqId });
+    }
+
+    protected async onEnableClicked(
+        item: ProfilesPermissionsVmProps
+    ): Promise<void> {
+        if (this.canEnable()) {
+            this.toast.error(this.enableTooltip());
+            return;
+        }
+        const uniqId = item.uniqId;
+        if (!uniqId) {
+            return;
+        }
+        const confirmed = await this.sweetAlert.confirm({
+            titleKey: 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.ENABLE',
+            messageKey:
+                'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.ENABLE',
+            messageParams: {
+                uniqId,
+            },
+        });
+        if (!confirmed) {
+            return;
+        }
+        this.facade.enable({ uniqId });
+    }
+
+    protected async onDisableClicked(
+        item: ProfilesPermissionsVmProps
+    ): Promise<void> {
+        if (this.canDisable()) {
+            this.toast.error(this.disableTooltip());
+            return;
+        }
+        const uniqId = item.uniqId;
+        if (!uniqId) {
+            return;
+        }
+        const confirmed = await this.sweetAlert.confirm({
+            titleKey:
+                'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.DISABLE',
+            messageKey:
+                'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.DISABLE',
+            messageParams: {
+                uniqId,
+            },
+        });
+        if (!confirmed) {
+            return;
+        }
+        this.facade.disable({ uniqId });
     }
 
     private t(key: string): string {
         return this.translate.instant(key);
     }
 
-    private normalizeExportPrefix(name: string): string {
+    private get normalizeExportPrefix(): string {
+        const appName = this.appConfig.customization.app.name;
         return (
-            name
+            appName
                 .toLowerCase()
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
     }
 
-    public getCurrentLanguage(): string {
-        return this.currentLang();
+    public onBadgeClicked(event: {
+        item: ProfilesPermissionsVmProps;
+        col: HTMLTableCellElement;
+    }): void {
+        this.router.navigate(['../', PROFILES_PERMISSIONS_USERS], {
+            relativeTo: this.route,
+            queryParams: { uniqId: event.item.uniqId, name: event.item.name },
+        });
     }
 }

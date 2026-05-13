@@ -14,7 +14,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ParticipantsFacade } from '@pages/team-organization/application/services/participants/participants.facade';
 import { ParticipantsFormHelperService } from '@pages/team-organization/domain/services/participants/participants-form-helper.service';
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
-import { ParticipantsStore } from '@pages/team-organization/presentation/store/participants/participants.store';
+import { ParticipantsFormStore } from '@presentation/pages/team-organization/presentation/store/participants/participants-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 // import {
 //     enumToFilterOptions,
@@ -59,12 +59,12 @@ import SweetAlert from 'sweetalert2';
     providers: [
         MessageService,
         ParticipantsFormHelperService,
-        ParticipantsStore,
+        ParticipantsFormStore,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParticipantsFormComponent {
-    readonly store = inject(ParticipantsStore);
+    readonly store = inject(ParticipantsFormStore);
 
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
@@ -153,10 +153,7 @@ export class ParticipantsFormComponent {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(title),
-            html: this.t(message).replace(
-                '{{email}}',
-                this.form.controls.email.value || ''
-            ),
+            html: this.t(message),
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),

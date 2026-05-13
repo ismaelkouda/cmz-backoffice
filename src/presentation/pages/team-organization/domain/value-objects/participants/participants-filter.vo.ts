@@ -3,12 +3,12 @@ import { ParticipantsFilterDto } from '@pages/team-organization/application/dto/
 export class ParticipantsFilterVo {
     public readonly search?: string;
     public readonly role?: string;
-    public readonly isActive?: string;
+    public readonly status?: string;
 
-    constructor(props: { search?: string; role?: string; isActive?: string }) {
+    constructor(props: { search?: string; role?: string; status?: string }) {
         this.search = props.search;
         this.role = props.role;
-        this.isActive = props.isActive;
+        this.status = props.status;
     }
 
     static fromDto(
@@ -17,7 +17,7 @@ export class ParticipantsFilterVo {
         return new ParticipantsFilterVo({
             search: dto?.search?.trim() || undefined,
             role: dto?.role,
-            isActive: dto?.isActive,
+            status: dto?.status,
         });
     }
 }

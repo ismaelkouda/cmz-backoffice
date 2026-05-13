@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
 import { TasksActionsItemApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-response-api.dto';
 import { TasksActionsProps } from '@presentation/pages/processing/domain/interfaces/tasks/tasks-actions/tasks-actions-props.interface';
+import { ConformityMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-conformity.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
@@ -14,6 +15,7 @@ export class TasksActionsMapper extends PaginatedMapper<
     private readonly utils = new MapperUtils();
     private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
     private readonly entityCache = new Map<string, TasksActionsEntity>();
+    private readonly conformityMapper = inject(ConformityMapper);
 
     protected override mapItemFromDto(
         dto: TasksActionsItemApiDto
@@ -32,7 +34,8 @@ export class TasksActionsMapper extends PaginatedMapper<
             ),
             description: dto.description,
             shouldNotifyUser: dto.should_notify_user ?? false,
-            isConform: dto.status ?? false,
+            autoChecked: dto.auto_check,
+            isConform: this.conformityMapper.mapFromDto(dto.result),
             createdBy: `${dto.created_by.last_name} ${dto.created_by.first_name}`,
             updatedBy: `${dto.updated_by.last_name} ${dto.updated_by.first_name}`,
             createdAt: dto.created_at,

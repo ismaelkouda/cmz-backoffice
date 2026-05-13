@@ -29,6 +29,8 @@ import {
 } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
+import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -75,36 +77,39 @@ import SweetAlert from 'sweetalert2';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessagingFormComponent implements OnInit {
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
     private readonly submitFacade = inject(MessagingFacade);
     private readonly validationService = inject(MessagingFormValidationService);
     private readonly helperService = inject(MessagingFormHelperService);
+    private readonly toast = inject(ToastrService);
 
-    readonly store = inject(MessagingFormStore);
+    private readonly store = inject(MessagingFormStore);
 
-    readonly form = this.store.form;
-    readonly isDetailsMode = this.store.isDetailsMode;
-    readonly loading = this.store.loading;
-    readonly regions = this.store.regions;
-    readonly loadingRegions = this.store.loadingRegions;
-    readonly departments = this.store.departments;
-    readonly municipalities = this.store.municipalities;
-
-    readonly typeOptions = computed(() =>
+    protected readonly form = this.store.form;
+    protected readonly isDetailsMode = this.store.isDetailsMode;
+    protected readonly loading = this.store.loading;
+    protected readonly regions = this.store.regions;
+    protected readonly loadingRegions = this.store.loadingRegions;
+    protected readonly departments = this.store.departments;
+    protected readonly municipalities = this.store.municipalities;
+    protected readonly typeOptions = computed(() =>
         enumToFilterOptions(Type, (key: string) => this.t(key))
     );
-
-    readonly targetOptions = computed(() =>
+    protected readonly targetOptions = computed(() =>
         enumToFilterOptions(Target, (key: string) => this.t(key))
     );
-
-    readonly channelsOptions = computed(() =>
+    protected readonly channelsOptions = computed(() =>
         enumToFilterOptions(Channels, (key: string) => this.t(key))
     );
 
     readonly VALIDATION = FormValidators;
+    protected readonly canCreate = this.permissionActions.can(
+        '/communication/messaging',
+        'create'
+    );
 
     private readonly submitSuccess = signal(false);
     private lastSubmitSuccess = this.submitFacade.actionSuccess();
@@ -162,7 +167,19 @@ export class MessagingFormComponent implements OnInit {
         return targetType === getEnumKeyByValue(Target, Target.area);
     }
 
+    private readonly createTooltip = computed(() => {
+        if (!this.canCreate()) {
+            return this.t(
+                'COMMUNICATION.MESSAGING.TOOLTIP.NO_PERMISSION_CREATE'
+            );
+        }
+        return this.t('COMMUNICATION.MESSAGING.TOOLTIP.CREATE');
+    });
     onSubmit(): void {
+        if (!this.canCreate()) {
+            this.toast.error(this.createTooltip());
+            return;
+        }
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             this.showValidationErrors();

@@ -1,3 +1,5 @@
+import { ConformityDto } from './tasks-actions-conformity-api.dto';
+
 export interface TasksActionsCreateApiDto {
     report_uniq_id: string;
     date: Date;
@@ -5,5 +7,5 @@ export interface TasksActionsCreateApiDto {
     operator: string;
     description: string;
     should_notify_user: boolean;
-    status: boolean;
+    result: ConformityDto;
 }

@@ -233,8 +233,8 @@ export class NewsPageComponent implements OnInit {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_DELETE'),
-            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_DELETE')}`,
+            title: this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE.DELETE'),
+            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE.DELETE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
@@ -250,8 +250,8 @@ export class NewsPageComponent implements OnInit {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_PUBLISH'),
-            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_PUBLISH')}`,
+            title: this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE.PUBLISH'),
+            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE.PUBLISH')}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
@@ -269,9 +269,9 @@ export class NewsPageComponent implements OnInit {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(
-                'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE_UNPUBLISH'
+                'CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.TITLE.UNPUBLISH'
             ),
-            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE_UNPUBLISH')}`,
+            text: `${this.t('CONTENT_MANAGEMENT.NEWS.SWEET_ALERT.MESSAGE.UNPUBLISH')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {

@@ -320,7 +320,7 @@ export class CloseComponent {
         }
         const item = this.items();
         if (item && item.length > 0) {
-            const fileName = `${this.exportFilePrefix}-close`;
+            const fileName = `${this.exportFilePrefix}-closed`;
             this.exportService.exportAsExcelFile(
                 item,
                 this.tableConfig,

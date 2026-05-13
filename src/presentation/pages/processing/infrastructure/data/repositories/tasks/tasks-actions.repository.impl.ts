@@ -17,10 +17,13 @@ import {
 } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 
+import { ConformityMapper } from '../../mappers/tasks/tasks-actions-conformity.mapper';
+
 @Injectable({ providedIn: 'root' })
 export class TasksActionsRepositoryImpl extends TasksActionsRepository {
     private readonly api = inject(TasksActionsApi);
     private readonly mapper = inject(TasksActionsMapper);
+    private readonly conformityMapper = inject(ConformityMapper);
 
     execute(
         entity: TasksActionsFilterEntity,
@@ -34,13 +37,17 @@ export class TasksActionsRepositoryImpl extends TasksActionsRepository {
     create(
         entity: TasksActionsCreateEntity
     ): Observable<SimpleResponseDto<void>> {
-        return this.api.create(tasksActionsCreateMapper(entity));
+        return this.api.create(
+            tasksActionsCreateMapper(entity, this.conformityMapper)
+        );
     }
 
     update(
         entity: TasksActionsUpdateEntity
     ): Observable<SimpleResponseDto<void>> {
-        return this.api.update(tasksActionsUpdateMapper(entity));
+        return this.api.update(
+            tasksActionsUpdateMapper(entity, this.conformityMapper)
+        );
     }
 
     delete(

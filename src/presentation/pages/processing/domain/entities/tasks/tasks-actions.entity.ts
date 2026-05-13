@@ -1,10 +1,13 @@
 import {
+    Conformity,
+    ConformityStyle,
+} from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
+import { TasksActionsProps } from '@presentation/pages/processing/domain/interfaces/tasks/tasks-actions/tasks-actions-props.interface';
+import {
     TelecomOperator,
     TelecomOperatorStyle,
 } from '@shared/domain/enums/telecom-operator.enum';
 import { formatDateSafe } from '@shared/domain/functions/format-date';
-
-import { TasksActionsProps } from '../../interfaces/tasks/tasks-actions/tasks-actions-props.interface';
 
 export type TasksActionsType =
     | 'ANALYSIS'
@@ -62,8 +65,21 @@ export class TasksActionsEntity implements TasksActionsProps {
         return this.props.shouldNotifyUser;
     }
 
-    get isConform(): boolean {
+    get autoChecked(): boolean {
+        return this.props.autoChecked;
+    }
+
+    get isConform(): Conformity {
         return this.props.isConform;
+    }
+
+    conformStyle(conform: Conformity): ConformityStyle {
+        const methodMap: Record<Conformity, ConformityStyle> = {
+            [Conformity.CONFORM]: ConformityStyle.CONFORM,
+            [Conformity.NON_CONFORM]: ConformityStyle.NON_CONFORM,
+            [Conformity.IN_PROGRESS]: ConformityStyle.IN_PROGRESS,
+        };
+        return methodMap[conform];
     }
 
     get createdBy(): string {
@@ -83,7 +99,10 @@ export class TasksActionsEntity implements TasksActionsProps {
     }
 
     public with(props: TasksActionsProps): TasksActionsEntity {
-        if (this.uniqId === props.uniqId) {
+        if (
+            this.uniqId === props.uniqId &&
+            this.updatedAt === props.updatedAt
+        ) {
             return this;
         }
         return new TasksActionsEntity(props);

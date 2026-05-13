@@ -20,11 +20,7 @@
             [config]="tableConfig"
             [headerButtons]="headerButtons()"
             (headerButtonClicked)="onHeaderButtonClicked($event)"
-            (refreshRequested)="onRefreshClicked()"
-            (editRequested)="onNavigateToForm($event)"
-            (deleteRequested)="onDeleteClicked($event)"
-            (enableRequested)="onEnableClicked($event)"
-            (disableRequested)="onDisableClicked($event)"
+            (actionClicked)="onActionClicked($event)"
             (badgeClicked)="onBadgeClicked($event)"
             dataKey="uniqId"
         ></app-table>

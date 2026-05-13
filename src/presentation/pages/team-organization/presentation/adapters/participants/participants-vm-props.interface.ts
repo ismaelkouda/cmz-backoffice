@@ -2,6 +2,7 @@ import {
     Status,
     StatusStyle,
 } from '@pages/team-organization/domain/enums/participants/participants-status.enum';
+import { ActionDropdownItem } from '@shared/components/action-dropdown/interfaces/action-dropdown.interface';
 import { Roles, RolesStyle } from '@shared/domain/enums/roles.enum';
 
 export interface ParticipantsVmProps {
@@ -23,6 +24,8 @@ export interface ParticipantsVmProps {
     updatedAt: string;
     actionsRef: string;
 
-    tooltipDisableDropdown: string;
+    dropdownActions: ActionDropdownItem[];
+
     disableDropdown: boolean;
+    tooltipDropdown: string;
 }

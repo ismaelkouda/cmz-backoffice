@@ -411,10 +411,10 @@ export class TeamsParticipantsComponent implements OnInit {
         }
 
         const title: string = this.t(
-            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.TITLE_REMOVE'
+            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.TITLE.REMOVE'
         );
         const text: string = this.t(
-            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.MESSAGE_REMOVE'
+            'TEAM_ORGANIZATION.TEAMS.PARTICIPANTS.SWEET_ALERT.MESSAGE.REMOVE'
         );
 
         SweetAlert.fire({

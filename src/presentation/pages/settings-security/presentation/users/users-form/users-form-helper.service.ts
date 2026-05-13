@@ -29,14 +29,14 @@ export class UsersFormHelperService {
      */
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE_UPDATE'
-            : 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE_CREATE';
+            ? 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE.UPDATE'
+            : 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'SETTINGS_SECURITY.USERS.SWEET_ALERT.MESSAGE_UPDATE'
-            : 'SETTINGS_SECURITY.USERS.SWEET_ALERT.MESSAGE_CREATE';
+            ? 'SETTINGS_SECURITY.USERS.SWEET_ALERT.MESSAGE.UPDATE'
+            : 'SETTINGS_SECURITY.USERS.SWEET_ALERT.MESSAGE.CREATE';
     }
 
     /**

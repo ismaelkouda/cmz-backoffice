@@ -146,6 +146,10 @@ export class NotificationsListComponent {
             icon: 'pi pi-check-square',
             translateKey: 'COMMON.READ_ALL',
             disabled: this.itemsVM().length === 0,
+            tooltip:
+                this.itemsVM().length === 0
+                    ? this.t('COMMUNICATION.NOTIFICATIONS.TOOLTIP.NOT_READ_ALL')
+                    : this.t('COMMUNICATION.NOTIFICATIONS.TOOLTIP.READ_ALL'),
         },
         {
             label: 'COMMON.REFRESH',
@@ -225,21 +229,26 @@ export class NotificationsListComponent {
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
     }
+    private readonly headerActions: Record<string, () => void> = {
+        read_all: () => {
+            this.onReadAll();
+        },
+        refresh: () => this.onRefreshData(),
+        export: () => {
+            if (this.canExportData()) {
+                this.toast.error(this.exportTooltip());
+                return;
+            }
+            this.exportData();
+        },
+    };
     protected onHeaderButtonClicked(actionId: string): void {
-        const actions: Record<string, () => void> = {
-            read_all: () => {
-                this.onReadAll();
-            },
-            refresh: () => this.onRefreshData(),
-            export: () => {
-                if (this.canExportData()) {
-                    this.toast.error(this.exportTooltip());
-                    return;
-                }
-                this.exportData();
-            },
-        };
-        actions[actionId]?.();
+        const action = this.headerActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
+            return;
+        }
+        action();
     }
     private onRefreshData(): void {
         this.formStore.reset();
@@ -253,9 +262,9 @@ export class NotificationsListComponent {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(
-                'COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.TITLE_READ_ALL'
+                'COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.TITLE.READ_ALL'
             ),
-            text: `${this.t('COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.MESSAGE_READ_ALL')}`,
+            text: `${this.t('COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.MESSAGE.READ_ALL')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {
@@ -273,9 +282,9 @@ export class NotificationsListComponent {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
             title: this.t(
-                'COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.TITLE_DELETE'
+                'COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.TITLE.DELETE'
             ),
-            text: `${this.t('COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.MESSAGE_DELETE')}`,
+            text: `${this.t('COMMUNICATION.NOTIFICATIONS.SWEET_ALERT.MESSAGE.DELETE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
         }).then((result) => {

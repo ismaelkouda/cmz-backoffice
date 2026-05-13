@@ -6,12 +6,12 @@ import {
     Validators,
 } from '@angular/forms';
 import { ParticipantsFindOneFacade } from '@pages/team-organization/application/services/participants/participants-find-one.facade';
-import { ParticipantsFormControl } from '@pages/team-organization/domain/controls/participants/participants-form.control';
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
+import { ParticipantsFormControl } from '@presentation/pages/team-organization/presentation/store/participants/participants-form.control';
 import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
 
 @Injectable()
-export class ParticipantsStore {
+export class ParticipantsFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(ParticipantsFindOneFacade);
     public readonly isEditMode = signal(false);

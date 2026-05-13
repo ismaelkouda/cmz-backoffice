@@ -1,3 +1,5 @@
+import { Conformity } from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
+
 export class TasksActionsUpdateCommand {
     constructor(
         public readonly uniqId: string,
@@ -7,6 +9,6 @@ export class TasksActionsUpdateCommand {
         public readonly operator: string,
         public readonly description: string,
         public readonly shouldNotifyUser: boolean,
-        public readonly isConform: boolean
+        public readonly isConform: Conformity | null
     ) {}
 }

@@ -47,14 +47,61 @@ export class ProfilesPermissionsFindOneMapper extends SimpleResponseMapper<
     }
 
     private mapPermissionNode(dto: PermissionApiDto): TreeNodeEntity {
+        const children = (dto.children ?? []).map((child) =>
+            this.mapPermissionNode(child)
+        );
+
+        const ownActions = dto.data.actions ?? {};
+
+        const hasOwnActions = Object.keys(ownActions).length > 0;
+
+        const availableActions = hasOwnActions
+            ? Object.keys(ownActions)
+            : this.extractAvailableActionsFromChildren(children);
+
+        const actions = hasOwnActions
+            ? { ...ownActions }
+            : this.buildDefaultActionsFromCheckedState(
+                  availableActions,
+                  dto.data.checked ?? false
+              );
+
         return new TreeNodeEntity(
             dto.data.value,
             dto.data.value,
             dto.data.title,
             dto.data.checked ?? false,
-            (dto.children ?? []).map((child) => this.mapPermissionNode(child)),
-            { ...(dto.data.actions ?? {}) }
+            children,
+            actions,
+            availableActions
         );
+    }
+
+    private extractAvailableActionsFromChildren(
+        children: TreeNodeEntity[]
+    ): string[] {
+        const actionsSet = new Set<string>();
+
+        children.forEach((child) => {
+            child.availableActions.forEach((action) => {
+                actionsSet.add(action);
+            });
+        });
+
+        return Array.from(actionsSet);
+    }
+
+    private buildDefaultActionsFromCheckedState(
+        availableActions: string[],
+        checked: boolean
+    ): Record<string, boolean> {
+        const result: Record<string, boolean> = {};
+
+        availableActions.forEach((action) => {
+            result[action] = checked;
+        });
+
+        return result;
     }
 
     private buildPermissionsCacheKey(permissions: PermissionApiDto[]): string {
