@@ -86,7 +86,7 @@
 };
 
             window.__env.buildInfo = {
-                timestamp: '2026-05-13T19:55:27.959Z',
+                timestamp: '2026-05-15T09:56:13.614Z',
                 environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'
