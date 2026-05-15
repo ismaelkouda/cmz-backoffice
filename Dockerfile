@@ -6,9 +6,9 @@ COPY package.json .
 
 FROM base AS dependencies
 
-RUN npm install -g pnpm
+RUN npm install -g bun
 #RUN pnpm install --frozen-lockfile
-RUN pnpm install
+RUN bun install
 
 # ---- Build ----
 FROM dependencies AS build
@@ -16,11 +16,11 @@ FROM dependencies AS build
 COPY . .
 
 # ---- Clear cache ----
-RUN pnpm store prune 
-RUN rm -rf .angular
+#RUN bun store prune 
+#RUN rm -rf .angular
 
 ARG ENV=dev
-RUN pnpm run build:${ENV}
+RUN bun run build:${ENV}
 RUN ls /app/dist/cmz-backoffice/browser
 
 
