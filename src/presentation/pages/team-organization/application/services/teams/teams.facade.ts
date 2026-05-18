@@ -84,7 +84,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         const command = new TeamsQuery(
             filter?.search,
             filter?.member,
-            filter?.isActive
+            filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
@@ -106,7 +106,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         const command = new TeamsQuery(
             filter?.search,
             filter?.member,
-            filter?.isActive
+            filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
@@ -121,7 +121,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         const command = new TeamsQuery(
             filter?.search,
             filter?.member,
-            filter?.isActive
+            filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(
@@ -139,7 +139,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
         const command = new TeamsQuery(
             filter?.search,
             filter?.member,
-            filter?.isActive
+            filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(

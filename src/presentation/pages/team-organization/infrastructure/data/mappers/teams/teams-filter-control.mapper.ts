@@ -5,6 +5,6 @@ export function toFilterDto(control: TeamsFilterControl): TeamsFilterDto {
     return {
         search: control.search.value,
         member: control.member.value,
-        isActive: control.isActive.value,
+        status: control.status.value,
     };
 }

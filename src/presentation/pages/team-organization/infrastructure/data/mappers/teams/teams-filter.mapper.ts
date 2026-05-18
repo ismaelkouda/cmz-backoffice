@@ -1,20 +1,26 @@
+import { inject, Injectable } from '@angular/core';
 import { TeamsFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-filter.entity';
 import { TeamsFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-filter-api.dto';
+import { StatusMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-status.mapper';
 
-export function teamsFilterMapper(
-    entity: TeamsFilterEntity
-): TeamsFilterApiDto {
-    const params: TeamsFilterApiDto = {} as TeamsFilterApiDto;
+@Injectable({
+    providedIn: 'root',
+})
+export class TeamsFilterMapper {
+    private readonly statusMapper = inject(StatusMapper);
+    map(vo: TeamsFilterEntity): TeamsFilterApiDto {
+        const params: TeamsFilterApiDto = {};
 
-    if (entity.search) {
-        params.search = entity.search;
-    }
-    if (entity.member) {
-        params.member = entity.member;
-    }
-    if (entity.isActive !== undefined) {
-        params.is_active = !!entity.isActive;
-    }
+        if (vo.search) {
+            params.search = vo.search;
+        }
+        if (vo.member) {
+            params.member = vo.member;
+        }
+        if (vo.status) {
+            params.is_active = this.statusMapper.mapStatusToApi(vo.status);
+        }
 
-    return params;
+        return params;
+    }
 }

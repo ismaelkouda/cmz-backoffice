@@ -1,4 +1,4 @@
-export const TEAMS_TABLE_CONSTANT = {
+export const TEAMS_TABLE = {
     cols: [
         {
             field: '__index',

@@ -87,7 +87,7 @@ export class ParticipantsPresenter {
                         permission.authorization.canDelete &&
                         item.status !== Status.ACTIVE
                             ? this.t(
-                                  'TEAM_ORGANIZATION.PARTICIPANTS.ACTIONS.TOOLTIP.DELETE'
+                                  'TEAM_ORGANIZATION.PARTICIPANTS.TOOLTIP.DELETE'
                               )
                             : permission.tooltip.delete,
                 },

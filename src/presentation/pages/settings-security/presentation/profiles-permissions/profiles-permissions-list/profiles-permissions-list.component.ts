@@ -389,7 +389,9 @@ export class ProfilesPermissionsListComponent {
         },
 
         delete: (item) => {
+            console.log('item: ', item);
             if (!this.canDelete()) {
+                console.log('this.canDelete(): ', this.canDelete());
                 this.toast.error(this.deleteTooltip());
                 return;
             }
@@ -459,10 +461,6 @@ export class ProfilesPermissionsListComponent {
         action(item);
     }
     protected async onDelete(item: ProfilesPermissionsVmProps): Promise<void> {
-        if (this.canDelete()) {
-            this.toast.error(this.deleteTooltip());
-            return;
-        }
         const uniqId = item.uniqId;
         if (!uniqId) {
             return;
@@ -472,7 +470,7 @@ export class ProfilesPermissionsListComponent {
             messageKey:
                 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.DELETE',
             messageParams: {
-                uniqId,
+                uniqId: item.actionsRef,
             },
         });
         if (!confirmed) {
@@ -484,10 +482,6 @@ export class ProfilesPermissionsListComponent {
     protected async onEnableClicked(
         item: ProfilesPermissionsVmProps
     ): Promise<void> {
-        if (this.canEnable()) {
-            this.toast.error(this.enableTooltip());
-            return;
-        }
         const uniqId = item.uniqId;
         if (!uniqId) {
             return;
@@ -497,7 +491,7 @@ export class ProfilesPermissionsListComponent {
             messageKey:
                 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.ENABLE',
             messageParams: {
-                uniqId,
+                uniqId: item.actionsRef,
             },
         });
         if (!confirmed) {
@@ -509,10 +503,6 @@ export class ProfilesPermissionsListComponent {
     protected async onDisableClicked(
         item: ProfilesPermissionsVmProps
     ): Promise<void> {
-        if (this.canDisable()) {
-            this.toast.error(this.disableTooltip());
-            return;
-        }
         const uniqId = item.uniqId;
         if (!uniqId) {
             return;
@@ -523,7 +513,7 @@ export class ProfilesPermissionsListComponent {
             messageKey:
                 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.DISABLE',
             messageParams: {
-                uniqId,
+                uniqId: item.actionsRef,
             },
         });
         if (!confirmed) {

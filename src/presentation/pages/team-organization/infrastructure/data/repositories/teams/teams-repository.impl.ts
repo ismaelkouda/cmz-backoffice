@@ -11,7 +11,7 @@ import { TeamsCreateMapper } from '@pages/team-organization/infrastructure/data/
 import { teamsDeleteMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-delete.mapper';
 import { teamsDisableMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-disable.mapper';
 import { teamsEnableMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-enable.mapper';
-import { teamsFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-filter.mapper';
+import { TeamsFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-filter.mapper';
 import { teamsUpdateMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-update.mapper';
 import { TeamsMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams.mapper';
 import { TeamsApi } from '@pages/team-organization/infrastructure/data/sources/teams/teams.api';
@@ -27,12 +27,13 @@ import { map, Observable } from 'rxjs';
 export class TeamsRepositoryImpl implements TeamsRepository {
     private readonly api = inject(TeamsApi);
     private readonly mapper = inject(TeamsMapper);
+    private readonly mapperFilter = inject(TeamsFilterMapper);
 
     readAll(
-        filter: TeamsFilterEntity,
+        entity: TeamsFilterEntity,
         page: string
     ): Observable<Paginate<TeamsEntity>> {
-        const paramsDto = teamsFilterMapper(filter);
+        const paramsDto = this.mapperFilter.map(entity);
         return this.api
             .readAll(paramsDto, page)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
