@@ -438,8 +438,8 @@ export class ActionsTreatmentComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.CLOSURE',
-            messageKey: 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.CLOSURE',
+            titleKey: 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.CLOSE',
+            messageKey: 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.CLOSE',
             messageParams: {
                 uniqId,
             },

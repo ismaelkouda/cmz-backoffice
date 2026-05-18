@@ -7,9 +7,18 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { State as FinalizationState } from '@pages/finalization/domain/enums/details/details-state/details-state.enum';
-import { State as ProcessingState } from '@pages/processing/domain/enums/details/details-state/details-state.enum';
-import { Status } from '@pages/requests/domain/enums/details/details-status/details-status.enum';
+import {
+    StateLabel as FinalizationState,
+    StateStyle as FinalizationStateStyle,
+} from '@pages/finalization/domain/enums/details/details-state/details-state.enum';
+import {
+    StateLabel as ProcessingState,
+    StateStyle as ProcessingStateStyle,
+} from '@pages/processing/domain/enums/details/details-state/details-state.enum';
+import {
+    StatusLabel,
+    StatusStyle,
+} from '@pages/requests/domain/enums/details/details-status/details-status.enum';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -64,8 +73,18 @@ export class ManagementHeaderComponent {
     });
 
     protected readonly status = computed(
-        (): ProcessingState | FinalizationState | Status | undefined => {
-            return this.item()?.dialogState;
+        (): ProcessingState | FinalizationState | StatusLabel | undefined => {
+            return this.item()?.dialogState();
+        }
+    );
+
+    protected readonly statusStyle = computed(
+        ():
+            | ProcessingStateStyle
+            | FinalizationStateStyle
+            | StatusStyle
+            | undefined => {
+            return this.item()?.dialogStateStyle();
         }
     );
 

@@ -6,6 +6,21 @@
         "ES": "Espagnol"
     },
     "COMMON": {
+        "PENDING": "En attente",
+        "PENDING_STYLE": "warn",
+        "APPROVED": "Approuvé",
+        "APPROVED_STYLE": "success",
+        "IN_PROGRESS": "En cours",
+        "IN_PROGRESS_STYLE": "warn",
+        "TERMINATED": "Terminé",
+        "TERMINATED_STYLE": "info",
+        "CONFIRMED": "Confirmé",
+        "ABANDONED": "Abandonné",
+        "ABANDONED_STYLE": "warn",
+        "REJECTED": "Rejeté",
+        "REJECTED_STYLE": "danger",
+        "COMPLETED": "Clôturé",
+        "COMPLETED_STYLE": "success",
         "DATE": {
             "TODAY": "Aujourd'hui",
             "YESTERDAY": "Hier"
@@ -66,11 +81,8 @@
         "ACTIVE_STYLE": "success",
         "INACTIVE": "Inactif",
         "INACTIVE_STYLE": "danger",
-        "PENDING_STYLE": "warn", 
         "BLOCKED_STYLE": "danger",
-        "COMPLETED": "Atteint",
         "NOT_COMPLETED": "Non atteint",
-        "COMPLETED_STYLE": "success",
         "NOT_COMPLETED_STYLE": "danger",
         "FILTER": "Filtrer",
         "UPLOAD": "Télécharger",
@@ -102,13 +114,10 @@
         "UNREAD_STYLE": "danger",
         "CONFORM": "Conforme",
         "NON_CONFORM": "Non conforme",
-        "IN_PROGRESS": "En cours",
         "CONFORM_STYLE": "sucess",
         "NON_CONFORM_STYLE": "warn",
-        "IN_PROGRESS_STYLE": "contrast",
         "BLOCKED": "Bloquée",
         "AFFECTED": "Affecté",
-        "PENDING": "En attente",
         "DISABLE": "Désactiver",
         "DEACTIVATED": "Désactivé",
         "INVALID_DATE_RANGE": "Plage de date invalide",
@@ -1854,7 +1863,9 @@
                         "EDIT": "Editer cette action",
                         "NOT_EDIT": "Impossible d'éditer cette action",
                         "DELETE": "Supprimer cette action",
-                        "NOT_DELETE": "Impossible de supprimer cette action"
+                        "NOT_DELETE": "Impossible de supprimer cette action",
+                        "CLOSE": "Clôturer ce signalement",
+                        "NOT_CLOSE": "Impossible de clôturer ce signalement"
                     },
                     "MESSAGE": {
                         "CREATE": "Êtes-vous sûr de vouloir créer cette action",
@@ -1862,7 +1873,9 @@
                         "EDIT": "Êtes-vous sûr de vouloir éditer cette action",
                         "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cette action",
                         "DELETE": "Êtes-vous sûr de vouloir supprimer cette action",
-                        "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cette action"
+                        "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cette action",
+                        "CLOSE": "Êtes-vous sûr de vouloir clôturer ce signalement <b class='text-primary'>uniqId</b>",
+                        "NOT_CLOSE": "Votre profile ne vous permet pas de clôturer ce signalement <b class='text-primary'>uniqId</b>"
                     }
                 },
                 "TOOLTIP": {
