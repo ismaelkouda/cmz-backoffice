@@ -63,6 +63,7 @@ export class TableComponent {
     private readonly clipboardService = inject(ClipboardService);
     private readonly toastService = inject(ToastrService);
     private readonly translate = inject(TranslateService);
+    public readonly label = input<boolean>(true);
     public readonly loading = input<boolean>(false);
     public readonly items = input<any[]>([]);
     public readonly pagination = input<Paginate<any> | null>(null);

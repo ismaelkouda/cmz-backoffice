@@ -315,8 +315,8 @@ $dark-gray: var(--color-gray);
     }
 
     .radio-dot {
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 1rem;
+        height: 1rem;
         border-radius: 50%;
         background: var(--action-primary);
         transform: scale(0);

@@ -11,12 +11,12 @@ export const TASKS_ACTIONS_TABLE = {
             tooltip: 'PROCESSING.TASKS.TABLE.EDIT',
             severity: 'primary',
         },
-        // {
-        //     id: 'details',
-        //     icon: 'pi pi-eye',
-        //     tooltip: 'PROCESSING.TASKS.TABLE.SEE_REPORT',
-        //     severity: 'contrast',
-        // },
+        {
+            id: 'view',
+            icon: 'pi pi-eye',
+            tooltip: 'PROCESSING.TASKS.TABLE.SEE_MORE',
+            severity: 'contrast',
+        },
         {
             id: 'delete',
             icon: 'pi pi-trash',
@@ -70,7 +70,7 @@ export const TASKS_ACTIONS_TABLE = {
             field: '__action',
             header: 'PROCESSING.TASKS.TABLE.ACTION',
             class: 'text-center',
-            width: calculateActionColumnWidth(1),
+            width: calculateActionColumnWidth(2),
         },
     ],
     globalFilterFields: [

@@ -49,8 +49,13 @@
             {{ 'MANAGEMENT.FORM.REPORT_INFO.STATUS' | translate }}
         </span>
 
-        <span class="header-title" tabindex="0" role="button">
-            [ {{ status() | translate }} ]
+        <span class="tag-group status-group" tabindex="0" role="button">
+            <p-tag
+                [value]="status() | translate"
+                [severity]="
+                    statusStyle() | translate
+                "
+            />
         </span>
 
         @if (confirmCount()) {

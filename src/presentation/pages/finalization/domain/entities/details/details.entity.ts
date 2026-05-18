@@ -1,4 +1,8 @@
-import { State } from '@pages/finalization/domain/enums/details/details-state/details-state.enum';
+import {
+    State,
+    StateStyle,
+    StateLabel,
+} from '@pages/finalization/domain/enums/details/details-state/details-state.enum';
 import { DetailsStatus } from '@pages/finalization/domain/enums/details/details-status/details-status.enum';
 import { detailsLabelButtonSubmit } from '@pages/finalization/domain/functions/details/details-label-button-submit.function';
 import { detailsPermissionsFinalize } from '@pages/finalization/domain/functions/details/details-permissions-finalize.function';
@@ -241,8 +245,22 @@ export class DetailsEntity {
         return this.type === 'finalization';
     }
 
-    public get dialogState(): State {
-        return this.state;
+    dialogState(): StateLabel {
+        const methodMap: Record<State, StateLabel> = {
+            [State.COMPLETED]: StateLabel.completed,
+            [State.IN_PROGRESS]: StateLabel['in-progress'],
+            [State.PENDING]: StateLabel.pending,
+        };
+        return methodMap[this.props.state];
+    }
+
+    dialogStateStyle(): StateStyle {
+        const methodMap: Record<State, StateStyle> = {
+            [State.IN_PROGRESS]: StateStyle.IN_PROGRESS,
+            [State.PENDING]: StateStyle.PENDING,
+            [State.COMPLETED]: StateStyle.COMPLETED,
+        };
+        return methodMap[this.props.state];
     }
 
     public with(props: DetailsProps): DetailsEntity {

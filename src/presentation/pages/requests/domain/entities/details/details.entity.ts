@@ -1,5 +1,9 @@
 import { DetailsQualificationState } from '@pages/requests/domain/enums/details/details-qualification-state/details-qualification-state.enum';
-import { Status } from '@pages/requests/domain/enums/details/details-status/details-status.enum';
+import {
+    Status,
+    StatusLabel,
+    StatusStyle,
+} from '@pages/requests/domain/enums/details/details-status/details-status.enum';
 import { detailsLabelButtonSubmit } from '@pages/requests/domain/functions/details/details-label-button-submit.function';
 import { detailsPermissionsApprove } from '@pages/requests/domain/functions/details/details-permissions-approve.function';
 import { detailsPermissionsTake } from '@pages/requests/domain/functions/details/details-permissions-take.function';
@@ -137,6 +141,32 @@ export class DetailsEntity {
         return this.props.status;
     }
 
+    dialogState(): StatusLabel {
+        const methodMap: Record<Status, StatusLabel> = {
+            [Status.ABANDONED]: StatusLabel.abandoned,
+            [Status.APPROVED]: StatusLabel.approved,
+            [Status.CONFIRMED]: StatusLabel.confirmed,
+            [Status.IN_PROGRESS]: StatusLabel['in-progress'],
+            [Status.REJECTED]: StatusLabel.rejected,
+            [Status.TERMINATED]: StatusLabel.terminated,
+            [Status.PENDING]: StatusLabel.pending,
+        };
+        return methodMap[this.props.status];
+    }
+
+    dialogStateStyle(): StatusStyle {
+        const methodMap: Record<Status, StatusStyle> = {
+            [Status.ABANDONED]: StatusStyle.ABANDONED,
+            [Status.APPROVED]: StatusStyle.APPROVED,
+            [Status.CONFIRMED]: StatusStyle.CONFIRMED,
+            [Status.IN_PROGRESS]: StatusStyle.IN_PROGRESS,
+            [Status.REJECTED]: StatusStyle.REJECTED,
+            [Status.TERMINATED]: StatusStyle.TERMINATED,
+            [Status.PENDING]: StatusStyle.PENDING,
+        };
+        return methodMap[this.props.status];
+    }
+
     get qualificationState(): DetailsQualificationState | null {
         return this.props.qualificationState;
     }
@@ -241,10 +271,6 @@ export class DetailsEntity {
                 this.status === Status.IN_PROGRESS
             ) && this.type === 'requests'
         );
-    }
-
-    public get dialogState(): Status {
-        return this.status;
     }
 
     public with(props: DetailsProps): DetailsEntity {

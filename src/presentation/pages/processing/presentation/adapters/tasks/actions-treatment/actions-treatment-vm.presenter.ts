@@ -32,6 +32,9 @@ export class ActionsTreatmentPresenter {
             createdAt: item.createdAt,
             updatedAt: item.updatedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonView: this.t(
+                'PROCESSING.TASKS.ACTIONS.TOOLTIP.SEE_MORE'
+            ),
             tooltipButtonDelete:
                 permission.canTreat &&
                 !item.shouldNotifyUser &&

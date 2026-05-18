@@ -1,5 +1,9 @@
 import { ProcessingState } from '@pages/processing/domain/enums/details/details-processing-state/details-processing-state.enum';
-import { State } from '@pages/processing/domain/enums/details/details-state/details-state.enum';
+import {
+    State,
+    StateStyle,
+    StateLabel,
+} from '@pages/processing/domain/enums/details/details-state/details-state.enum';
 import { DetailsStatus } from '@pages/processing/domain/enums/details/details-status/details-status.enum';
 import { detailsLabelButtonSubmit } from '@pages/processing/domain/functions/details/details-label-button-submit.function';
 import { detailsPermissionsTake } from '@pages/processing/domain/functions/details/details-permissions-take.function';
@@ -259,8 +263,24 @@ export class DetailsEntity {
         return this.type === 'processing';
     }
 
-    public get dialogState(): State {
-        return this.state;
+    dialogState(): StateLabel {
+        const methodMap: Record<State, StateLabel> = {
+            [State.COMPLETED]: StateLabel.completed,
+            [State.IN_PROGRESS]: StateLabel['in-progress'],
+            [State.PENDING]: StateLabel.pending,
+            [State.TERMINATED]: StateLabel.terminated,
+        };
+        return methodMap[this.props.state];
+    }
+
+    dialogStateStyle(): StateStyle {
+        const methodMap: Record<State, StateStyle> = {
+            [State.IN_PROGRESS]: StateStyle.IN_PROGRESS,
+            [State.TERMINATED]: StateStyle.TERMINATED,
+            [State.PENDING]: StateStyle.PENDING,
+            [State.COMPLETED]: StateStyle.COMPLETED,
+        };
+        return methodMap[this.props.status];
     }
 
     public with(props: DetailsProps): DetailsEntity {
