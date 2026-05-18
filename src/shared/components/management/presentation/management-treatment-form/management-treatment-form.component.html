@@ -188,6 +188,9 @@
                                                 'MANAGEMENT.TREATMENT.TAKE_ACTION.MOTIF'
                                                     | translate
                                             }}
+                                            @if (isDecision('rejected')) {
+                                                <span class="text-danger" aria-label="required">*</span>
+                                            }
                                         </label>
                                         <p-select
                                             id="reason"
@@ -244,6 +247,9 @@
                                             'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
                                                 | translate
                                         }}
+                                            @if (isDecision('rejected')) {
+                                                <span class="text-danger" aria-label="required">*</span>
+                                            }
                                     </label>
                                     <textarea
                                         id="comment"

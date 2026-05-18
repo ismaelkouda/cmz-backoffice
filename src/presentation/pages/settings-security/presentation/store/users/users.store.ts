@@ -6,7 +6,6 @@ import {
     FormGroup,
     Validators,
 } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { ProfilesPermissionsSelectFacade } from '@pages/settings-security/application/services/profiles-permissions/profiles-permissions-select.facade';
 import { UsersFindOneFacade } from '@pages/settings-security/application/services/users/users-find-one.facade';
 import { UsersFormControl } from '@pages/settings-security/domain/controls/users/users-form.control';
@@ -18,7 +17,6 @@ import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-ma
 export class UsersStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(UsersFindOneFacade);
-    private readonly translate = inject(TranslateService);
     private readonly profilesFacade = inject(ProfilesPermissionsSelectFacade);
     public readonly isEditMode = signal(false);
     private readonly item = this.facade.items;

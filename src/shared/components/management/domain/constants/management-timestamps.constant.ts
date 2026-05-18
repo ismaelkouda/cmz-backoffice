@@ -7,15 +7,12 @@ export const MANAGEMENT_TIMESTAMP: ManagementTimestamp[] = [
         timestamp: null,
     },
     {
-        key: 'approvedAt',
-        key1: 'rejectedAt',
+        key: 'acknowledgedAt',
         label: 'MANAGEMENT.STATUS.QUALIFICATION',
         timestamp: null,
     },
     {
-        key: 'confirmedAt',
-        key1: 'abandonedAt',
-        key2: 'processedAt',
+        key: 'acknowledgedAt',
         label: 'MANAGEMENT.STATUS.FINALIZATION',
         timestamp: null,
     },

@@ -18,7 +18,6 @@ import {
     TranslateService,
 } from '@ngx-translate/core';
 import { DetailsFacade } from '@pages/processing/application/services/details/details.facade';
-import { TasksActionsTypeFacade } from '@pages/processing/application/services/tasks/tasks-actions-type.facade';
 import { TasksActionsFacade } from '@pages/processing/application/services/tasks/tasks-actions.facade';
 import { ActionsTreatmentFormStore } from '@pages/processing/application/store/actions-treatment-form.store';
 import { TASKS_ROUTE } from '@pages/processing/processing.routes';
@@ -93,7 +92,6 @@ export class ActionsTreatmentComponent {
     private readonly toast = inject(ToastrService);
     private readonly clipboardService = inject(ClipboardService);
     private readonly facade = inject(TasksActionsFacade);
-    private readonly actionsTypeFacade = inject(TasksActionsTypeFacade);
     private readonly closureFacade = inject(DetailsFacade);
     private readonly permissionActions = inject(PermissionActionsService);
     private readonly sweetAlert = inject(SweetAlertService);
@@ -116,6 +114,8 @@ export class ActionsTreatmentComponent {
         '/reports-processing/tasks',
         'execute'
     );
+    protected readonly actionsType = this.formStore.actionsType;
+    protected readonly loadingActionsType = this.formStore.loadingActionsType;
     private readonly queryParams = toSignal(
         this.route.queryParams.pipe(map((params: Params) => params)),
         { initialValue: {} }
@@ -135,10 +135,19 @@ export class ActionsTreatmentComponent {
         const rawOperators = this.getQueryParamArray('operators');
         return rawOperators.map((op) => this.translate.instant(op));
     });
-    // readonly conformityOptions: Signal<FilterOption[]> = computed(() => {
-    //     this.currentLang();
-    //     return enumToFilterOptionsWithValue(Conformity, this.t.bind(this));
-    // });
+    protected readonly allowedOperatorsSet = computed(() => {
+        const type = this.formStore.selectedType();
+        const actions = this.actionsType();
+        const found = actions.find((a) => a.value === type);
+        const translateOp = found
+            ? found.operators.map((op) => this.translate.instant(op))
+            : undefined;
+        console.log('found: ', new Set<string>(translateOp));
+        return found ? new Set<string>(translateOp) : new Set<string>();
+    });
+    private readonly allowedOperatorsDisplayed = computed(() =>
+        this.operators().filter((op) => this.allowedOperatorsSet().has(op))
+    );
     protected readonly conformityOptions = [
         {
             label: this.translate.instant('COMMON.CONFORM'),
@@ -175,9 +184,6 @@ export class ActionsTreatmentComponent {
     });
     protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
-    });
-    protected readonly actionsType = toSignal(this.actionsTypeFacade.items$, {
-        initialValue: [],
     });
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -287,6 +293,7 @@ export class ActionsTreatmentComponent {
         this.initializePageTitleEffect();
         this.initializeLoadingEffect();
         this.initializeFetchEffect();
+        this.initializeOperatorAutoSelectEffect();
     }
     private initializePageTitleEffect(): void {
         effect(() => {
@@ -312,7 +319,6 @@ export class ActionsTreatmentComponent {
             }
             this.facade.reset();
             this.facade.readAll({ uniqId }, '1', true);
-            this.actionsTypeFacade.readAll();
         });
     }
     private initializeLoadingEffect(): void {
@@ -327,6 +333,25 @@ export class ActionsTreatmentComponent {
             this.formStore.form.enable({
                 emitEvent: false,
             });
+        });
+    }
+    private initializeOperatorAutoSelectEffect(): void {
+        effect(() => {
+            if (this.formStore.isViewMode()) {
+                return;
+            }
+
+            const allowed = this.allowedOperatorsDisplayed();
+            if (allowed.length === 1) {
+                const onlyOperator = allowed[0];
+                if (
+                    this.formStore.form.controls.operator.value !== onlyOperator
+                ) {
+                    this.formStore.selectOperator(onlyOperator);
+                }
+            } else {
+                this.formStore.form.controls.operator.reset();
+            }
         });
     }
     private readonly headerActions: Record<string, () => void> = {
@@ -362,6 +387,7 @@ export class ActionsTreatmentComponent {
         item: TasksActionsVmProps;
         actionId: string;
     }): void {
+        const uniqId = this.uniqId();
         const actions: Record<string, () => void> = {
             edit: () => {
                 if (!this.canTreat()) {
@@ -376,7 +402,10 @@ export class ActionsTreatmentComponent {
                     this.toast.error(this.editTooltip());
                     return;
                 }
-                this.formStore.openEdit(event.item);
+                this.formStore.openEdit(uniqId, event.item);
+            },
+            view: () => {
+                this.formStore.openView(uniqId, event.item);
             },
             delete: () => {
                 if (!this.canTreat()) {
@@ -389,7 +418,8 @@ export class ActionsTreatmentComponent {
         actions[event.actionId]?.();
     }
     private openCreateDialog(): void {
-        this.formStore.openCreate(this.availableOperators());
+        const uniqId = this.uniqId();
+        this.formStore.openCreate(uniqId, this.availableOperators());
     }
     protected async onSubmit(): Promise<void> {
         if (!this.uniqId() || !this.formStore.isValid()) {
@@ -441,12 +471,12 @@ export class ActionsTreatmentComponent {
         });
     }
     private async confirmSaveAction(): Promise<boolean> {
-        const isEditMode = this.formStore.isEditMode();
+        const isEdit = this.formStore.isEditMode();
         return this.sweetAlert.confirm({
-            titleKey: isEditMode
+            titleKey: isEdit
                 ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.EDIT'
                 : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.CREATE',
-            messageKey: isEditMode
+            messageKey: isEdit
                 ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.EDIT'
                 : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.CREATE',
         });

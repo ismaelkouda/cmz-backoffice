@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { TasksActionsTypeFilterDto } from '@pages/processing/application/dto/tasks/tasks-actions-filter-filter.dto';
 import { TasksActionsTypeUseCase } from '@pages/processing/application/use-cases/tasks/tasks-actions-type.use-case';
 import { TasksActionsTypeEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-type.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
@@ -10,9 +11,9 @@ import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 })
 export class TasksActionsTypeFacade extends ArrayBaseFacade<
     TasksActionsTypeEntity,
-    void
+    TasksActionsTypeFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly ui = inject(UiFeedbackService);
     private readonly useCase = inject(TasksActionsTypeUseCase);
 
     readonly items = this.items$;
@@ -21,7 +22,10 @@ export class TasksActionsTypeFacade extends ArrayBaseFacade<
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    readAll(forceRefresh = false): void {
+    readAll(
+        filter: TasksActionsTypeFilterDto | null,
+        forceRefresh = false
+    ): void {
         const hasData = this.itemsSubject.getValue().length > 0;
         if (
             !shouldFetch(
@@ -35,9 +39,9 @@ export class TasksActionsTypeFacade extends ArrayBaseFacade<
         }
 
         this.fetchWithFilter(
-            null,
+            filter,
             this.useCase.readAll.bind(this.useCase),
-            this.uiFeedbackService
+            this.ui
         );
 
         this.hasInitialized = true;

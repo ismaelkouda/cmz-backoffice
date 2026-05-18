@@ -23,6 +23,7 @@ export interface TasksActionsVmProps {
     updatedAt: string;
     actionsRef: string;
 
+    tooltipButtonView: string;
     tooltipButtonDelete: string;
     tooltipButtonEdit: string;
     disableButtonDelete: boolean;

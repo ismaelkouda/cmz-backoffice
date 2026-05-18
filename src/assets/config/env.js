@@ -1,10 +1,10 @@
 (function (window) {
             window.__env = {
-    "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
-    "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
-    "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://cmz-service-api.paas.imako.digital/auth/backoffice/",
-    "environmentDeployment": "CLOUD",
+    "authenticationUrl": "http://10.10.70.64:7000/auth/v1.0/backoffice/",
+    "reportUrl": "http://10.10.70.64:7001/reports/v1.0/backoffice/",
+    "settingUrl": "http://10.10.70.64:7002/base-settings/v1.0/backoffice/",
+    "fileUrl": "http://10.10.70.64:7000/auth/backoffice/",
+    "environmentDeployment": "DEV",
     "enableDebug": true,
     "appSettings": {
         "app": {
@@ -86,8 +86,8 @@
 };
 
             window.__env.buildInfo = {
-                timestamp: '2026-05-15T10:20:41.362Z',
-                environment: 'cloud',
+                timestamp: '2026-05-15T11:38:29.264Z',
+                environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'
             };

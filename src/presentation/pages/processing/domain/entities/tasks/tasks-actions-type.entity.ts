@@ -1,19 +1,29 @@
-import { TasksActionsTypeItemApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-type-api.dto';
+import { TasksActionsTypeProps } from '@presentation/pages/processing/domain/interfaces/tasks/tasks-actions/tasks-actions-type-props.interface';
+import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
-export class TasksActionsTypeEntity {
-    constructor(
-        public readonly value: string,
-        public readonly label: string
-    ) {}
+export class TasksActionsTypeEntity implements TasksActionsTypeProps {
+    constructor(private readonly props: TasksActionsTypeProps) {}
 
-    static fromDto(dto: TasksActionsTypeItemApiDto): TasksActionsTypeEntity {
-        return new TasksActionsTypeEntity(dto.code, dto.name);
+    get label(): string {
+        return this.props.label;
     }
 
-    public with(dto: TasksActionsTypeItemApiDto): TasksActionsTypeEntity {
-        if (this.value === dto.code && this.label === dto.name) {
+    get value(): string {
+        return this.props.value;
+    }
+
+    get operators(): TelecomOperator[] {
+        return this.props.operators;
+    }
+
+    public with(props: TasksActionsTypeProps): TasksActionsTypeEntity {
+        if (
+            this.value === this.props.value &&
+            this.label === props.label &&
+            this.operators.length === props.operators.length
+        ) {
             return this;
         }
-        return TasksActionsTypeEntity.fromDto(dto);
+        return new TasksActionsTypeEntity(props);
     }
 }
