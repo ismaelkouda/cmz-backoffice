@@ -142,7 +142,6 @@ export class ActionsTreatmentComponent {
         const translateOp = found
             ? found.operators.map((op) => this.translate.instant(op))
             : undefined;
-        console.log('found: ', new Set<string>(translateOp));
         return found ? new Set<string>(translateOp) : new Set<string>();
     });
     private readonly allowedOperatorsDisplayed = computed(() =>
@@ -349,8 +348,6 @@ export class ActionsTreatmentComponent {
                 ) {
                     this.formStore.selectOperator(onlyOperator);
                 }
-            } else {
-                this.formStore.form.controls.operator.reset();
             }
         });
     }

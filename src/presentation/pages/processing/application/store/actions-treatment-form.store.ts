@@ -101,7 +101,6 @@ export class ActionsTreatmentFormStore {
         if (!this.modalOpen()) {
             return;
         }
-
         if (
             currentSuccess === 0 ||
             currentSuccess === this.lastSuccessCount()
@@ -120,7 +119,6 @@ export class ActionsTreatmentFormStore {
         this.dialogMode.set('create');
         this.editingId.set(null);
         this.actionsTypeFacade.readAll({ uniqId }, true);
-
         this.form.reset({
             date: null,
             type: '',
@@ -132,29 +130,22 @@ export class ActionsTreatmentFormStore {
                     ? availableOperators[0].value
                     : '',
         });
-
         this.modalOpen.set(true);
     }
 
     openEdit(uniqId: string, item: TasksActionsVmProps): void {
-        console.log('item: ', item);
         this.dialogMode.set('edit');
         this.editingId.set(item.uniqId);
         this.actionsTypeFacade.readAll({ uniqId }, true);
-
         this.patchValue(item);
-
         this.modalOpen.set(true);
-        console.log('this.form: ', this.form.value);
     }
 
     openView(uniqId: string, item: TasksActionsVmProps): void {
         this.dialogMode.set('view');
         this.editingId.set(item.uniqId);
         this.actionsTypeFacade.readAll({ uniqId }, true);
-
         this.patchValue(item);
-
         this.modalOpen.set(true);
     }
 
@@ -166,7 +157,6 @@ export class ActionsTreatmentFormStore {
     }
 
     selectOperator(operator: string): void {
-        console.log('operator: ', operator);
         if (this.isViewMode()) {
             return;
         }
@@ -210,10 +200,6 @@ export class ActionsTreatmentFormStore {
     }
 
     private patchValue(item: TasksActionsVmProps) {
-        console.log(
-            'item. sqdqsqs: ',
-            this.translate.instant(item.operators[0])
-        );
         this.form.patchValue({
             date: item.date ? parseFrenchDate(item.date) : null,
             type: item.code,
@@ -222,10 +208,5 @@ export class ActionsTreatmentFormStore {
             isConform: item.isConform,
             operator: this.translate.instant(item.operators[0]) ?? '',
         });
-
-        console.log(
-            'this.translate.instant(item.operators[0])',
-            this.operator()
-        );
     }
 }

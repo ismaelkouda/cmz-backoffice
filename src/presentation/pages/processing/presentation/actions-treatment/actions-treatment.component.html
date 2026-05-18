@@ -119,6 +119,7 @@
                             <app-table
                                 class="table-component"
                                 dataKey="uniqId"
+                                [label]="false"
                                 [config]="tableConfig"
                                 [loading]="loading()"
                                 [items]="itemsVM()"
@@ -127,6 +128,7 @@
                                 (headerButtonClicked)="
                                     onHeaderButtonClicked($event)
                                 "
+                                
                                 (actionClicked)="onActionClicked($event)"
                             ></app-table>
 
@@ -273,10 +275,11 @@
                                     [class.disabled]="formStore.isViewMode() || (allowedOperatorsSet().has(operator) && formStore.isCreateMode()) || loadingActionsType()"
                                     [class.selected]="formStore.operator() === operator && (!allowedOperatorsSet().has(operator) && formStore.isCreateMode()) || 
                                         (formStore.operator() === operator && formStore.isEditMode()) || (formStore.operator() === operator && formStore.isViewMode())"
-                                    (click)="formStore.selectOperator(operator)"
-                                    (keydown.enter)="formStore.selectOperator(operator)"
+                                    (click)="(!allowedOperatorsSet().has(operator) && formStore.isCreateMode()) && formStore.selectOperator(operator) || (formStore.isEditMode() && formStore.selectOperator(operator)) || (formStore.isViewMode() && formStore.selectOperator(operator))"
+                                    (keydown.enter)="(!allowedOperatorsSet().has(operator) && formStore.isCreateMode()) && formStore.selectOperator(operator) || (formStore.isEditMode() && formStore.selectOperator(operator)) || (formStore.isViewMode() && formStore.selectOperator(operator))"
                                     [attr.aria-checked]="formStore.operator() === operator && (!allowedOperatorsSet().has(operator) && formStore.isCreateMode()) || 
                                         (formStore.operator() === operator && formStore.isEditMode()) || formStore.operator() === operator && formStore.isViewMode()"
+                                    [attr.tabindex]="(formStore.isViewMode() || !allowedOperatorsSet().has(operator)) ? -1 : 0"
                                 >
                                     <div class="radio-indicator">
                                         <div class="radio-dot"

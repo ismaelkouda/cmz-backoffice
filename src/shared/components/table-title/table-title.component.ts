@@ -31,15 +31,6 @@ import { AppCustomizationService } from '../../domain/services/app-customization
                             }}]
                         </span>
                     </b>
-                    <b *ngIf="!page">
-                        <span *ngIf="label">{{
-                            'COMMON.FILTER_RESULT' | translate
-                        }}</span>
-                        <span *ngIf="!label">Total :</span>
-                        <span class="text-success">
-                            {{ count || 0 | separatorThousandsPipe }}</span
-                        ></b
-                    >
                 </span>
             </div>
         }
