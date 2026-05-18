@@ -15,6 +15,7 @@ export const SETTINGS_SECURITY_ROUTE = 'security-settings';
 export const TEAM_ORGANIZATION_ROUTE = 'organization';
 export const ACCOUNTING = 'accounting';
 export const COMMUNICATION_ROUTE = 'communication';
+export const MAP_ROUTE = 'map';
 export const CONTENT_MANAGEMENT_ROUTE = 'content-management';
 export const ADMINISTRATIVE_BOUNDARY_ROUTE = 'territorial-structure';
 
@@ -114,6 +115,19 @@ export const content: Routes = [
         },
         loadChildren: () =>
             import('@pages/communication/communication.routes').then(
+                (m) => m.routes
+            ),
+    },
+    {
+        path: MAP_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'GEOGRAPHICAL_MAP.BREADCRUMB.LABEL',
+                icon: 'GEOGRAPHICAL_MAP.BREADCRUMB.ICON',
+            },
+        },
+        loadChildren: () =>
+            import('@pages/geographical-map/geographical-map.routes').then(
                 (m) => m.routes
             ),
     },

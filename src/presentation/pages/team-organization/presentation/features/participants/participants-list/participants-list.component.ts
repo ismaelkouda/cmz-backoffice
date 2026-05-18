@@ -411,6 +411,7 @@ export class ParticipantsListComponent {
         },
 
         disable: (item) => {
+            console.log('item: ', item);
             if (!this.canDisable()) {
                 this.toast.error(this.disableTooltip());
                 return;

@@ -3295,7 +3295,6 @@
                     "REQUIRED": "Ce champ est obligatoire"
                 }
             },
-            
             "SWEET_ALERT": {
                 "TITLE": {
                     "CREATE": "Créer ce profile",
@@ -3310,10 +3309,10 @@
                     "NOT_DISABLE": "Impossible de desactiver ce profile"
                 },
                 "MESSAGE": {
-                    "CREATE": "Êtes-vous sûr de vouloir créer ce profile <b class='text-primary'>uniqId</b>",
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce profile",
                     "NOT_CREATE": "Votre profile ne vous permet pas de créer ce profile <b class='text-primary'>uniqId</b>",
                     "NOTIF_CREATE": "<b>Confirmez-vous la création de ce profile </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
-                    "EDIT": "Êtes-vous sûr de vouloir éditer ce profile <b class='text-primary'>uniqId</b>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce profile",
                     "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce profile <b class='text-primary'>uniqId</b>",
                     "DELETE": "Êtes-vous sûr de vouloir supprimer ce profile <b class='text-primary'>uniqId</b>",
                     "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce profile <b class='text-primary'>uniqId</b>",
@@ -3865,13 +3864,13 @@
         "LABEL": "Suivi des demandes",
         "JOBS": {
             "BREADCRUMB": {
-                "LABEL": "Suivi des taches",
+                "LABEL": "Suivi des jobs",
                 "ROUTE": "jobs"
             },
-            "TITLE": "Tableau de bord analytique des taches",
-            "LABEL": "taches",
-            "LOADING_DESCRIPTION": "Suivi des taches en cours...",
-            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des taches. Veuillez recharger la page ou contacter le support."
+            "TITLE": "Tableau de bord analytique des jobs",
+            "LABEL": "jobs",
+            "LOADING_DESCRIPTION": "Suivi des jobs en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des jobs. Veuillez recharger la page ou contacter le support."
         },
         "REQUESTS": {
             "BREADCRUMB": {
@@ -3931,6 +3930,24 @@
             "LABEL": "Performances des noeuds",
             "LOADING_DESCRIPTION": "Suivi des performances en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Performances des noeuds. Veuillez recharger la page ou contacter le support."
+        }
+    },
+    "GEOGRAPHICAL_MAP": {
+        "BREADCRUMB": {
+            "LABEL": "Vue géographique",
+            "ROUTE": "map",
+            "ICON": "pi pi-map"
+        },
+        "LABEL": "Vue géographique",
+        "MAP": {
+            "BREADCRUMB": {
+                "LABEL": "Carte interactive",
+                "ROUTE": "interactive"
+            },
+            "TITLE": "Tableau de bord analytique - Carte interactive",
+            "LABEL": "Carte interactive",
+            "LOADING_DESCRIPTION": "Suivi des performances en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Carte interactive. Veuillez recharger la page ou contacter le support."
         }
     }
 }

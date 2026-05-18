@@ -200,6 +200,10 @@ export class ActionsTreatmentFormStore {
     }
 
     private patchValue(item: TasksActionsVmProps) {
+        console.log(
+            'this.translate.instant(item.operators[0]): ',
+            this.translate.instant(item.operators[0])
+        );
         this.form.patchValue({
             date: item.date ? parseFrenchDate(item.date) : null,
             type: item.code,

@@ -48,6 +48,7 @@ import { provideAuthentication } from '@pages/authentication/di/authentication.p
 import { provideCommunication } from '@pages/communication/di/communication.providers';
 import { provideContentManagement } from '@pages/content-management/di/content-management.providers';
 import { provideDashboard } from '@pages/dashboard/di/dashboard.providers';
+import { provideGeographicalMap } from '@pages/geographical-map/di/geographical-map.providers';
 import { provideMonitoring } from '@pages/monitoring/di/monitoring.providers';
 import { providePasswordReset } from '@pages/password-reset/di/password-reset.providers';
 import { provideProcessing } from '@pages/processing/di/processing.providers';
@@ -271,6 +272,7 @@ export const appConfig: ApplicationConfig = {
         ...provideReportStates(),
 
         ...provideReporting(),
+        ...provideGeographicalMap(),
 
         ...provideMonitoring(),
 
