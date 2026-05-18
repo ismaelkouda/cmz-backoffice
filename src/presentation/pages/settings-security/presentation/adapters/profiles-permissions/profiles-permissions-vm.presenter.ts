@@ -89,7 +89,7 @@ export class ProfilesPermissionsPresenter {
                         permission.authorization.canDelete &&
                         item.status !== Status.ACTIVE
                             ? this.t(
-                                  'SETTINGS_SECURITY.PROFILES_PERMISSIONS.ACTIONS.TOOLTIP.DELETE'
+                                  'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TOOLTIP.DELETE'
                               )
                             : permission.tooltip.delete,
                 },

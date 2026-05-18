@@ -3167,18 +3167,6 @@
                     "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
                 }
             },
-            "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour d'utilisateur",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet utilisateur ?",
-                "TITLE_CREATE": "Création d'utilisateur",
-                "MESSAGE_CREATE": "<b>Confirmez-vous la création de cet utilisateur </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
-                "TITLE_DELETE": "Suppression d'utilisateur",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet utilisateur ?",
-                "TITLE_ENABLE": "Activation d'utilisateur",
-                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cet utilisateur ?",
-                "TITLE_DISABLE": "Désactivation d'utilisateur",
-                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cet utilisateur ?"
-            },
             "BUTTONS": {
                 "ADD": "Ajouter"
             },
@@ -3188,20 +3176,52 @@
                 "DELETE": "Supprimer",
                 "DISABLE": "Désactiver"
             },
-            "CONFIRM": {
-                "DELETE_TITLE": "Supprimer l'utilisateur",
-                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer l'utilisateur {{name}} ? Cette action est irréversible.",
-                "DISABLE_TITLE": "Désactiver l'utilisateur",
-                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver l'utilisateur {{name}} ?"
-            },
-            "MESSAGES": {
-                "SUCCESS": {
-                    "CREATED": "Utilisateur créé avec succès",
-                    "UPDATED": "Utilisateur modifié avec succès",
-                    "DELETED": "Utilisateur supprimé avec succès",
-                    "ENABLED": "Utilisateur activé avec succès",
-                    "DISABLED": "Utilisateur désactivé avec succès"
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer cet utilisateur",
+                    "NOT_CREATE": "Impossible de créer cet utilisateur",
+                    "EDIT": "Editer cet utilisateur",
+                    "NOT_EDIT": "Impossible d'éditer cet utilisateur",
+                    "DELETE": "Supprimer cet utilisateur",
+                    "NOT_DELETE": "Impossible de supprimer cet utilisateur",
+                    "ENABLE": "Activer cet utilisateur",
+                    "NOT_ENABLE": "Impossible d'activer cet utilisateur",
+                    "DISABLE": "Désactiver cet utilisateur",
+                    "NOT_DISABLE": "Impossible de desactiver cet utilisateur"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cet utilisateur",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cet utilisateur",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cet utilisateur </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cet utilisateur",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cet utilisateur",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cet utilisateur",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cet utilisateur",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer cet utilisateur <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer cet utilisateur <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver cet utilisateur <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver cet utilisateur <b class='text-primary'>uniqId</b>"
                 }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des membres",
+                "EXPORT": "Exporter la liste de {nb} membres",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un membre",
+                "EDIT": "Editer ce membre",
+                "DELETE": "Supprimer ce membre",
+                "ENABLE": "Enable ce membre",
+                "DISABLE": "Désactiver ce membre",
+                "NO_EXPORT": "Aucun membre à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer ce membre",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des membres non permis",
+                "NO_PERMISSION_CREATE": "Création d'un membre non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un membre non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un membre non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un membre non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un membre non permis",
+                "SEE_MORE": "Voir plus d'informations"
             },
             "OPTIONS": {
                 "PROFIL": {
@@ -3360,21 +3380,6 @@
                     "LAST_NAME": "Nom",
                     "PHONE": "Téléphone",
                     "EMAIL": "Email"
-                },
-                "SWEET_ALERT": {
-                    "TITLE_REASSIGN": "Réaffectation d'utilisateurs(s)",
-                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} utilisateurs(s) de cet profil ?",
-                    "TITLE_REMOVE": "Retrait d'utilisateurs(s)",
-                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} utilisateurs(s) de cet profil ?"
-                },
-                "MODAL": {
-                    "REASSIGN_TITLE": "Réaffectation des profils",
-                    "REASSIGN_LABEL": "Profils",
-                    "ASSIGN_TITLE": "Affectation des utilisateurs",
-                    "ASSIGN_LABEL": "Utilisateurs",
-                    "NEW_PROFILE": "Nouveau profil",
-                    "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
-                    "REASSIGN_MESSAGE": "{{count}} utilisateur(s) seront réaffectés"
                 }
             }
         },
@@ -3504,11 +3509,11 @@
                     "NOT_DISABLE": "Impossible de desactiver ce membre"
                 },
                 "MESSAGE": {
-                    "CREATE": "Êtes-vous sûr de vouloir créer ce membre <b class='text-primary'>uniqId</b>",
-                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce membre <b class='text-primary'>uniqId</b>",
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce membre",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce membre",
                     "NOTIF_CREATE": "<b>Confirmez-vous la création de ce membre </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
-                    "EDIT": "Êtes-vous sûr de vouloir éditer ce membre <b class='text-primary'>uniqId</b>",
-                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce membre <b class='text-primary'>uniqId</b>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce membre",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce membre",
                     "DELETE": "Êtes-vous sûr de vouloir supprimer ce membre <b class='text-primary'>uniqId</b>",
                     "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce membre <b class='text-primary'>uniqId</b>",
                     "ENABLE": "Êtes-vous sûr de vouloir activer ce membre <b class='text-primary'>uniqId</b>",
@@ -3545,21 +3550,6 @@
                 "EDIT": "Modifier",
                 "DELETE": "Supprimer",
                 "DISABLE": "Désactiver"
-            },
-            "CONFIRM": {
-                "DELETE_TITLE": "Supprimer le membre",
-                "DELETE_MESSAGE": "Êtes-vous sûr de vouloir supprimer le membre {{name}} ? Cette action est irréversible.",
-                "DISABLE_TITLE": "Désactiver le membre",
-                "DISABLE_MESSAGE": "Êtes-vous sûr de vouloir désactiver le membre {{name}} ?"
-            },
-            "MESSAGES": {
-                "SUCCESS": {
-                    "CREATED": "Intervenant créé avec succès",
-                    "UPDATED": "Intervenant modifié avec succès",
-                    "DELETED": "Intervenant supprimé avec succès",
-                    "ENABLED": "Intervenant activé avec succès",
-                    "DISABLED": "Intervenant désactivé avec succès"
-                }
             },
             "OPTIONS": {
                 "ROLE": {

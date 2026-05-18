@@ -411,7 +411,6 @@ export class ParticipantsListComponent {
         },
 
         disable: (item) => {
-            console.log('item: ', item);
             if (!this.canDisable()) {
                 this.toast.error(this.disableTooltip());
                 return;
@@ -472,7 +471,7 @@ export class ParticipantsListComponent {
             messageKey:
                 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.DELETE',
             messageParams: {
-                uniqId,
+                uniqId: item.actionsRef,
             },
         });
         if (!confirmed) {

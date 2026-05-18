@@ -7,14 +7,8 @@
             [pagination]="pagination()"
             [config]="tableConfig"
             [headerButtons]="headerButtons()"
-            (headerButtonClicked)="onCreateClicked($event)"
-            (refreshRequested)="onRefreshClicked()"
-            (createRequested)="onCreateClicked($event)"
-            (editRequested)="onNavigateToForm($event)"
-            (deleteRequested)="onDeleteClicked($event)"
-            (enableRequested)="onEnableClicked($event)"
-            (disableRequested)="onDisableClicked($event)"
-            [hiddenButtonOther]="false"
+            (headerButtonClicked)="onHeaderButtonClicked($event)"
+            (actionClicked)="onActionClicked($event)"
             dataKey="uniqId"
         ></app-table>
 

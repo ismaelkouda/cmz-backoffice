@@ -17,7 +17,7 @@ export class TeamsHandler {
             {
                 search: command.search,
                 member: command.member,
-                isActive: command.isActive,
+                status: command.status,
             },
             page
         );

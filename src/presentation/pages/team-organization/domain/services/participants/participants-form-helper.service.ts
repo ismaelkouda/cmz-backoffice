@@ -15,13 +15,13 @@ export class ParticipantsFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.UPDATE'
+            ? 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.EDIT'
             : 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.UPDATE'
+            ? 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.EDIT'
             : 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.CREATE';
     }
 }
