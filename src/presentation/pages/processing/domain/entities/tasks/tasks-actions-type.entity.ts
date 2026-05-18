@@ -17,10 +17,14 @@ export class TasksActionsTypeEntity implements TasksActionsTypeProps {
     }
 
     public with(props: TasksActionsTypeProps): TasksActionsTypeEntity {
+        const operatorsEqual =
+            this.operators.length === props.operators.length &&
+            this.operators.every((op, idx) => op === props.operators[idx]);
+
         if (
-            this.value === this.props.value &&
+            this.value === props.value &&
             this.label === props.label &&
-            this.operators.length === props.operators.length
+            operatorsEqual
         ) {
             return this;
         }

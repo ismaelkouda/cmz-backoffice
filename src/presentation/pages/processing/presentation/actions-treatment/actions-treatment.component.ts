@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -79,6 +79,7 @@ import { map } from 'rxjs';
         ToggleSwitchModule,
         SelectButtonModule,
         Tooltip,
+        JsonPipe,
     ],
     providers: [ActionsTreatmentFormStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -137,11 +138,17 @@ export class ActionsTreatmentComponent {
     });
     protected readonly allowedOperatorsSet = computed(() => {
         const type = this.formStore.selectedType();
+        console.log('type: ', type);
         const actions = this.actionsType();
+        console.log('actions: ', actions);
         const found = actions.find((a) => a.value === type);
         const translateOp = found
             ? found.operators.map((op) => this.translate.instant(op))
             : undefined;
+        console.log(
+            'new Set<string>(translateOp): ',
+            new Set<string>(translateOp)
+        );
         return found ? new Set<string>(translateOp) : new Set<string>();
     });
     private readonly allowedOperatorsDisplayed = computed(() =>
@@ -341,6 +348,7 @@ export class ActionsTreatmentComponent {
             }
 
             const allowed = this.allowedOperatorsDisplayed();
+            console.log('allowed: ', allowed);
             if (allowed.length === 1) {
                 const onlyOperator = allowed[0];
                 if (

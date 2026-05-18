@@ -8,6 +8,6 @@ export class ResourcesMapper extends SimpleResponseMapper<
     ResourcesItemDto
 > {
     protected override mapItemFromDto(dto: ResourcesItemDto): ResourcesEntity {
-        return new ResourcesEntity(dto.useOfServersResourcesLink);
+        return new ResourcesEntity(dto.useOfResourcesLink);
     }
 }

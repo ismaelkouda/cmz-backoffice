@@ -15,13 +15,13 @@ export class ProfilesPermissionsFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE.UPDATE'
+            ? 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE.EDIT'
             : 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE.UPDATE'
+            ? 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE.EDIT'
             : 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.MESSAGE.CREATE';
     }
 }
