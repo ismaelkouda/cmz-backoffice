@@ -62,10 +62,7 @@ export class HistoryFacade extends BaseFacade<HistoryEntity, HistoryFilterDto> {
         const page = this.pageSubject.getValue();
         const command = new HistoryFilterCommand(
             filter?.typeModel ?? '',
-            filter?.module,
-            filter?.search,
-            filter?.startDate,
-            filter?.endDate
+            filter?.module
         );
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(

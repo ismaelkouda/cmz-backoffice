@@ -284,6 +284,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
             ...filterValue,
             uniqId: this.uniqId(),
         };
+        console.log('filter: ', filter);
         this.facade.readAll(filter, '1', true);
     }
 
