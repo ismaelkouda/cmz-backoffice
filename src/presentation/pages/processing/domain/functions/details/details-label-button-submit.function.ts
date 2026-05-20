@@ -22,8 +22,6 @@ const RULES: DetailsRule[] = [
 ];
 
 export function detailsLabelButtonSubmit(ctx: DetailsContext): string {
-    console.log('ctx: ', ctx);
     const rule = RULES.find((r) => r.when(ctx));
-    console.log('rule: ', rule);
     return rule?.title ?? 'MANAGEMENT.BUTTONS.INFORMATION';
 }

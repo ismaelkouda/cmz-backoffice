@@ -8,18 +8,19 @@ import {
     inject,
     signal,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import {
+    takeUntilDestroyed,
+    toObservable,
+    toSignal,
+} from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {
-    LangChangeEvent,
-    TranslateModule,
-    TranslateService,
-} from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DetailsFacade } from '@pages/processing/application/services/details/details.facade';
 import { TasksActionsFacade } from '@pages/processing/application/services/tasks/tasks-actions.facade';
 import { ActionsTreatmentFormStore } from '@pages/processing/application/store/actions-treatment-form.store';
+import { State } from '@pages/processing/domain/enums/details/details-state/details-state.enum';
 import { TASKS_ROUTE } from '@pages/processing/processing.routes';
 import { ActionsTreatmentPresenter } from '@presentation/pages/processing/presentation/adapters/tasks/actions-treatment/actions-treatment-vm.presenter';
 import { TasksActionsVmProps } from '@presentation/pages/processing/presentation/adapters/tasks/actions-treatment/actions-treatments-vm-props.interface';
@@ -52,7 +53,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { Tooltip } from 'primeng/tooltip';
-import { map } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
 @Component({
     selector: 'app-actions-treatment',
     standalone: true,
@@ -111,7 +112,7 @@ export class ActionsTreatmentComponent {
         '/reports-processing/tasks',
         'export'
     );
-    protected readonly canTreat = this.permissionActions.can(
+    private readonly canTreat = this.permissionActions.can(
         '/reports-processing/tasks',
         'execute'
     );
@@ -138,17 +139,11 @@ export class ActionsTreatmentComponent {
     });
     protected readonly allowedOperatorsSet = computed(() => {
         const type = this.formStore.selectedType();
-        console.log('type: ', type);
         const actions = this.actionsType();
-        console.log('actions: ', actions);
         const found = actions.find((a) => a.value === type);
         const translateOp = found
             ? found.operators.map((op) => this.translate.instant(op))
             : undefined;
-        console.log(
-            'new Set<string>(translateOp): ',
-            new Set<string>(translateOp)
-        );
         return found ? new Set<string>(translateOp) : new Set<string>();
     });
     private readonly allowedOperatorsDisplayed = computed(() =>
@@ -182,6 +177,8 @@ export class ActionsTreatmentComponent {
         //     ),
         // },
     ];
+    readonly closure = this.closureFacade.items;
+    readonly requestsLoading = this.closureFacade.loading;
     protected readonly items = toSignal(this.facade.items$, {
         initialValue: [],
     });
@@ -191,24 +188,30 @@ export class ActionsTreatmentComponent {
     protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
     });
-    private readonly currentLang = signal<string>(
-        this.translate.getCurrentLang()
-    );
     protected readonly itemsVM = computed(() => {
         const canTreat = this.canTreat();
+        const hasClosed = this.hasClosed();
         const tooltip = {
             edit: this.editTooltip(),
             delete: this.deleteTooltip(),
         };
         return this.items().map((item) =>
             this.presenter.map(item, {
+                hasClosed,
                 canTreat,
                 tooltip,
             })
         );
     });
+    private readonly hasClosed = computed(
+        () => this.closure()?.state === State.IN_PROGRESS
+    );
     protected readonly canClosure = computed(
-        () => !this.canTreat() || this.itemsVM().length < 1 || this.loading()
+        () =>
+            !this.canTreat() ||
+            this.itemsVM().length < 1 ||
+            this.loading() ||
+            !this.hasClosed()
     );
     private readonly canExportData = computed(
         () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
@@ -216,6 +219,7 @@ export class ActionsTreatmentComponent {
     protected readonly closureTooltip = computed(() => {
         const permission = !this.canTreat();
         const noData = this.itemsVM().length < 1;
+        const state = !this.hasClosed();
         if (permission) {
             return this.t(
                 'PROCESSING.TASKS.ACTIONS.TOOLTIP.NO_PERMISSION_CLOSE'
@@ -223,6 +227,9 @@ export class ActionsTreatmentComponent {
         }
         if (noData) {
             return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.NO_CLOSE');
+        }
+        if (state) {
+            return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.NOT_ALREADY_CLOSE');
         }
         return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.CLOSE').replace(
             '{nb}',
@@ -246,26 +253,41 @@ export class ActionsTreatmentComponent {
         );
     });
     private readonly createTooltip = computed(() => {
-        if (!this.canTreat()) {
+        const permission = !this.canTreat();
+        const state = !this.hasClosed();
+        if (permission) {
             return this.t(
                 'PROCESSING.TASKS.ACTIONS.TOOLTIP.NO_PERMISSION_CREATE'
             );
         }
+        if (state) {
+            return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.NOT_ALREADY_CLOSE');
+        }
         return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.CREATE');
     });
     private readonly editTooltip = computed(() => {
-        if (!this.canTreat()) {
+        const permission = !this.canTreat();
+        const state = !this.hasClosed();
+        if (permission) {
             return this.t(
                 'PROCESSING.TASKS.ACTIONS.TOOLTIP.NO_PERMISSION_EDIT'
             );
         }
+        if (state) {
+            return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.NOT_ALREADY_CLOSE');
+        }
         return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.NOT_EDIT');
     });
     private readonly deleteTooltip = computed(() => {
-        if (!this.canTreat()) {
+        const permission = !this.canTreat();
+        const state = !this.hasClosed();
+        if (permission) {
             return this.t(
                 'PROCESSING.TASKS.ACTIONS.TOOLTIP.NO_PERMISSION_DELETE'
             );
+        }
+        if (state) {
+            return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.NOT_ALREADY_CLOSE');
         }
         return this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.NOT_DELETE');
     });
@@ -275,7 +297,7 @@ export class ActionsTreatmentComponent {
             actionId: 'create',
             icon: 'pi pi-user-plus',
             class: 'btn-primary',
-            disabled: !this.canTreat(),
+            disabled: !this.canTreat() || !this.hasClosed(),
             tooltip: this.createTooltip(),
         },
         {
@@ -294,28 +316,36 @@ export class ActionsTreatmentComponent {
             tooltip: this.exportTooltip(),
         },
     ]);
+    private readonly pageTitleKey = computed(() =>
+        this.uniqId()
+            ? 'PROCESSING.TASKS.ACTIONS.DIALOG.EDIT'
+            : 'PROCESSING.TASKS.ACTIONS.DIALOG.CREATE'
+    );
+    private readonly pageTitle$ = toObservable(this.pageTitleKey).pipe(
+        switchMap((key) => this.translate.stream(key)),
+        takeUntilDestroyed(this.destroyRef)
+    );
+    private lastSuccess = this.closureFacade.actionSuccess();
+    private readonly successEffect = effect(() => {
+        const uniqId = this.uniqId();
+        if (!uniqId) {
+            return;
+        }
+        const current = this.closureFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
 
+        this.lastSuccess = current;
+        this.closureFacade.read({ uniqId });
+    });
     constructor() {
-        this.initializePageTitleEffect();
-        this.initializeLoadingEffect();
+        this.pageTitle$.subscribe((translatedTitle) => {
+            this.title.setTitle(translatedTitle);
+        });
         this.initializeFetchEffect();
         this.initializeOperatorAutoSelectEffect();
-    }
-    private initializePageTitleEffect(): void {
-        effect(() => {
-            this.translate.onLangChange
-                .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe((event: LangChangeEvent) => {
-                    this.currentLang.set(event.lang);
-                });
-        });
-        effect(() => {
-            this.pageTitle();
-        });
-    }
-    private pageTitle(): void {
-        this.currentLang();
-        this.title.setTitle(this.t('PROCESSING.TASKS.ACTIONS.TITLE'));
+        this.initializeActionEffect();
     }
     private initializeFetchEffect(): void {
         effect(() => {
@@ -327,19 +357,17 @@ export class ActionsTreatmentComponent {
             this.facade.readAll({ uniqId }, '1', true);
         });
     }
-    private initializeLoadingEffect(): void {
-        effect(() => {
-            const isLoading = this.facade.actionState() === 'loading';
-            if (isLoading) {
-                this.formStore.form.disable({
-                    emitEvent: false,
-                });
-                return;
-            }
-            this.formStore.form.enable({
-                emitEvent: false,
+
+    private initializeActionEffect(): void {
+        toObservable(this.uniqId)
+            .pipe(
+                filter(Boolean),
+                distinctUntilChanged(),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe((uniqId) => {
+                this.closureFacade.read({ uniqId });
             });
-        });
     }
     private initializeOperatorAutoSelectEffect(): void {
         effect(() => {
@@ -348,7 +376,6 @@ export class ActionsTreatmentComponent {
             }
 
             const allowed = this.allowedOperatorsDisplayed();
-            console.log('allowed: ', allowed);
             if (allowed.length === 1) {
                 const onlyOperator = allowed[0];
                 if (
@@ -361,7 +388,7 @@ export class ActionsTreatmentComponent {
     }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {
-            if (!this.canTreat()) {
+            if (!this.canTreat() || !this.hasClosed()) {
                 this.toast.error(this.createTooltip());
                 return;
             }
@@ -395,7 +422,7 @@ export class ActionsTreatmentComponent {
         const uniqId = this.uniqId();
         const actions: Record<string, () => void> = {
             edit: () => {
-                if (!this.canTreat()) {
+                if (!this.canTreat() || !this.hasClosed()) {
                     this.toast.error(this.editTooltip());
                     return;
                 }
@@ -413,7 +440,7 @@ export class ActionsTreatmentComponent {
                 this.formStore.openView(uniqId, event.item);
             },
             delete: () => {
-                if (!this.canTreat()) {
+                if (!this.canTreat() || !this.hasClosed()) {
                     this.toast.error(this.deleteTooltip());
                     return;
                 }

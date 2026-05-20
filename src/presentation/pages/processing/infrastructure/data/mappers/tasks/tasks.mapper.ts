@@ -19,7 +19,6 @@ export class TasksMapper extends PaginatedMapper<TasksEntity, TasksItemApiDto> {
     private readonly reportSourceMapper = inject(ReportSourceMapper);
 
     protected override mapItemFromDto(dto: TasksItemApiDto): TasksEntity {
-        console.log('dto: ', dto);
         MapperUtils.validateDto(dto, {
             required: ['uniq_id'],
         });

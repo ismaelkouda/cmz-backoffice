@@ -156,7 +156,6 @@ export class ProfilesPermissionsFormComponent {
         }).then((result) => {
             if (result.isConfirmed) {
                 const payload = this.store.getPayload();
-                console.log('payload: ', payload);
                 const uniqId = this.route.snapshot.queryParamMap.get('uniqId');
                 if (this.isEditMode() && uniqId) {
                     this.facade.update({

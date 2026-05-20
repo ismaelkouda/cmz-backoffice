@@ -7,6 +7,7 @@ export class ActionsTreatmentPresenter {
     map(
         item: TasksActionsEntity,
         permission: {
+            hasClosed: boolean;
             canTreat: boolean;
             tooltip: {
                 edit: string;
@@ -50,10 +51,12 @@ export class ActionsTreatmentPresenter {
             disableButtonDelete:
                 item.shouldNotifyUser ||
                 !permission.canTreat ||
+                !permission.hasClosed ||
                 item.autoChecked,
             disableButtonEdit:
                 item.shouldNotifyUser ||
                 !permission.canTreat ||
+                !permission.hasClosed ||
                 item.autoChecked,
         };
     }

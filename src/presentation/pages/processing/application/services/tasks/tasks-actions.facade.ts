@@ -154,7 +154,6 @@ export class TasksActionsFacade extends BaseFacade<
     }
 
     create(action: TasksActionsCreateDto): void {
-        console.log('action: ', action);
         this._actionState.set('loading');
 
         const command = new TasksActionsCreateCommand(

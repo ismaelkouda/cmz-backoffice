@@ -48,7 +48,6 @@ export class DetailsMapper extends SimpleResponseMapper<
     });
 
     protected mapItemFromDto(dto: DetailsItemApiDto): DetailsEntity {
-        console.log('dto: ', dto);
         MapperUtils.validateDto(dto, { required: ['uniq_id'] });
 
         const props: DetailsProps = {

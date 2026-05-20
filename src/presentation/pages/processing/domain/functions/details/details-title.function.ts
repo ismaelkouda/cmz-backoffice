@@ -22,8 +22,6 @@ const RULES: DetailsRule[] = [
 ];
 
 export function detailsTitle(ctx: DetailsContext): string {
-    console.log('detailsTitle ctx: ', ctx);
     const rule = RULES.find((r) => r.when(ctx));
-    console.log('detailsTitle rule: ', rule);
     return rule?.title ?? 'MANAGEMENT.STATUS.INFORMATION';
 }

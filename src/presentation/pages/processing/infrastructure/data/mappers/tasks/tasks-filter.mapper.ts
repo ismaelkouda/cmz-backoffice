@@ -7,7 +7,6 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 export class TasksFilterMapper {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
     map(entity: TasksFilterEntity): TasksFilterApiDto {
-        console.log('entity: ', entity);
         return {
             ...(entity.initiatorPhoneNumber && {
                 initiator_phone_number: entity.initiatorPhoneNumber,

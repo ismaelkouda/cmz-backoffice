@@ -39,7 +39,6 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
             }
 
             if (status === 401) {
-                console.log('reqvdszvzdevzevzevzeve: ', req);
                 safeHandle401(req, encodingDataService);
             } else if (status === 403) {
                 console.warn('Forbidden', req.url);

@@ -4,7 +4,6 @@ import { ActorEntity } from '@shared/domain/entities/actor.entity';
 @Injectable({ providedIn: 'root' })
 export class HistoryUserMapper {
     getUserFullName(user: ActorEntity | null): string {
-        console.log('user: ', user);
         if (!user) {
             return 'N/A';
         }

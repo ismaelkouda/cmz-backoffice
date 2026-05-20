@@ -24,6 +24,7 @@ import {
     TEAMS_FORM,
     TEAMS_USERS,
 } from '@presentation/pages/team-organization/presentation/features/teams/teams-paths.constant';
+import { TeamsFilterStore } from '@presentation/pages/team-organization/presentation/store/teams/teams-filter.store';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptionsWithValue,
@@ -39,8 +40,6 @@ import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 
-import { TeamsFilterStore } from '../../../store/teams/teams-filter.store';
-
 type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
 
 @Component({
@@ -53,6 +52,7 @@ type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
         PaginationComponent,
         ReactiveFormsModule,
     ],
+    providers: [TeamsFilterStore],
     templateUrl: './teams-list.component.html',
     styleUrls: ['./teams-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -212,7 +212,6 @@ export class TeamsListComponent {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const statusOpts = this.statusOptions();
@@ -247,7 +246,7 @@ export class TeamsListComponent {
             },
             {
                 type: 'text',
-                name: 'user',
+                name: 'member',
                 label: this.t('TEAM_ORGANIZATION.TEAMS.FILTER.PARTICIPANT'),
                 placeholder: this.t(
                     'TEAM_ORGANIZATION.TEAMS.FILTER.PARTICIPANT_PLACEHOLDER'
@@ -261,10 +260,9 @@ export class TeamsListComponent {
             },
         ];
     });
-    readonly presenter = new TeamsPresenter(
+    private readonly presenter = new TeamsPresenter(
         this.translate.instant.bind(this.translate)
     );
-
     protected readonly itemsVM = computed(() => {
         const canEdit = this.canEdit();
         const canDelete = this.canDelete();
@@ -372,9 +370,7 @@ export class TeamsListComponent {
         },
 
         delete: (item) => {
-            console.log('item: ', item);
             if (!this.canDelete()) {
-                console.log('this.canDelete(): ', this.canDelete());
                 this.toast.error(this.deleteTooltip());
                 return;
             }
@@ -401,7 +397,7 @@ export class TeamsListComponent {
         },
     };
 
-    public onNavigateToForm(event: {
+    private onNavigateToForm(event: {
         item?: TeamsVmProps;
         ref: 'create' | 'edit';
     }): void {
@@ -443,7 +439,6 @@ export class TeamsListComponent {
         }
         action(item);
     }
-
     protected async onDelete(item: TeamsVmProps): Promise<void> {
         const uniqId = item.uniqId;
         if (!uniqId) {
@@ -462,7 +457,6 @@ export class TeamsListComponent {
         }
         this.facade.delete({ uniqId });
     }
-
     protected async onEnableClicked(item: TeamsVmProps): Promise<void> {
         const uniqId = item.uniqId;
         if (!uniqId) {
@@ -481,7 +475,6 @@ export class TeamsListComponent {
         }
         this.facade.enable({ uniqId });
     }
-
     protected async onDisableClicked(item: TeamsVmProps): Promise<void> {
         const uniqId = item.uniqId;
         if (!uniqId) {
@@ -501,11 +494,9 @@ export class TeamsListComponent {
         }
         this.facade.disable({ uniqId });
     }
-
     private t(key: string): string {
         return this.translate.instant(key);
     }
-
     private get normalizeExportPrefix(): string {
         const appName = this.appConfig.customization.app.name;
         return (
@@ -515,7 +506,6 @@ export class TeamsListComponent {
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
     }
-
     public onBadgeClicked(event: {
         item: TeamsVmProps;
         col: HTMLTableCellElement;

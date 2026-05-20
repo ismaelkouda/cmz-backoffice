@@ -3667,16 +3667,51 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de l'équipe",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette équipe ?",
-                "TITLE_CREATE": "Création de l'équipe",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette équipe ?",
-                "TITLE_DELETE": "Suppression de l'équipe",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette équipe <b class='text-primary'>{{teamCode}}</b> ?",
-                "TITLE_ENABLE": "Activation de l'équipe",
-                "MESSAGE_ENABLE": "Voulez-vous vraiment activer cette équipe ?",
-                "TITLE_DISABLE": "Désactivation de l'équipe",
-                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?"
+                "TITLE": {
+                    "CREATE": "Créer cette équipe",
+                    "NOT_CREATE": "Impossible de créer cette équipe",
+                    "EDIT": "Editer cette équipe",
+                    "NOT_EDIT": "Impossible d'éditer cette équipe",
+                    "DELETE": "Supprimer cette équipe",
+                    "NOT_DELETE": "Impossible de supprimer cette équipe",
+                    "ENABLE": "Activer cette équipe",
+                    "NOT_ENABLE": "Impossible d'activer cette équipe",
+                    "DISABLE": "Désactiver cette équipe",
+                    "NOT_DISABLE": "Impossible de desactiver cette équipe"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cette équipe",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cette équipe <b class='text-primary'>uniqId</b>",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cette équipe </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cette équipe",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cette équipe <b class='text-primary'>uniqId</b>",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cette équipe <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cette équipe <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer cette équipe <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer cette équipe <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver cette équipe <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver cette équipe <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des équipes",
+                "EXPORT": "Exporter la liste de {nb} équipes",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer une équipe",
+                "EDIT": "Editer cette équipe",
+                "DELETE": "Supprimer cette équipe",
+                "ENABLE": "Enable cette équipe",
+                "DISABLE": "Désactiver cette équipe",
+                "NO_EXPORT": "Aucune équipe à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer cette équipe",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des équipes non permis",
+                "NO_PERMISSION_CREATE": "Création d'une équipe non permis",
+                "NO_PERMISSION_EDIT": "Edition d'une équipe non permise",
+                "NO_PERMISSION_DELETE": "Suppression d'une équipe non permise",
+                "NO_PERMISSION_ENABLE": "Activation d'une équipe non permise",
+                "NO_PERMISSION_DISABLE": "Désactivation d'une équipe non permise",
+                "SEE_MORE": "Voir plus d'informations"
             },
             "PARTICIPANTS": {
                 "BREADCRUMB": {

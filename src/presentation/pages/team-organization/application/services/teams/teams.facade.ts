@@ -251,4 +251,8 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
             'COMMON.SUCCESS.DELETE'
         ).subscribe();
     }
+
+    resetActionSuccess(): void {
+        this._actionSuccess.set(0);
+    }
 }
