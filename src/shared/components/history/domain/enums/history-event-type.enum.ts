@@ -22,7 +22,6 @@ export const API_TO_EVENT_TYPE: Record<string, HistoryEventType> = {
 };
 
 export function mapToHistoryEventType(value: string | null): HistoryEventType {
-    console.log('value: ', value);
     if (!value) {
         return HistoryEventType.UNKNOWN;
     }

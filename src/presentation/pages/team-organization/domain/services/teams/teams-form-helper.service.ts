@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TEAMS_ROUTE } from '@pages/team-organization/team-organization.routes';
 import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TeamsFormHelperService {
     private readonly router = inject(Router);
 

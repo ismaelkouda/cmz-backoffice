@@ -6,13 +6,18 @@ import {
     inject,
     Signal,
     effect,
+    DestroyRef,
+    signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+    takeUntilDestroyed,
+    toObservable,
+    toSignal,
+} from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TeamsFacade } from '@pages/team-organization/application/services/teams/teams.facade';
-import { TeamsFormHelperService } from '@pages/team-organization/domain/services/teams/teams-form-helper.service';
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
 import { TEAMS_FORM_TABS } from '@presentation/pages/team-organization/presentation/adapters/teams/teams-form-tabs.constant';
 import { TeamsFormStore } from '@presentation/pages/team-organization/presentation/store/teams/teams-form.store';
@@ -22,10 +27,12 @@ import {
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
+import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
+import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -36,6 +43,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
+import { map, switchMap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 @Component({
@@ -60,73 +68,97 @@ import SweetAlert from 'sweetalert2';
         TabsModule,
         TreeModule,
     ],
-    providers: [TeamsFormStore, TeamsFormHelperService, FormValidationService],
+    providers: [TeamsFormStore, FormValidationService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamsFormComponent {
-    public readonly tabs = TEAMS_FORM_TABS;
-    readonly store = inject(TeamsFormStore);
+    private readonly permissionActions = inject(PermissionActionsService);
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly title = inject(Title);
+    private readonly toast = inject(ToastrService);
+    private readonly sweetAlert = inject(SweetAlertService);
 
-    private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
-    private readonly submitFacade = inject(TeamsFacade);
-    private readonly helper = inject(TeamsFormHelperService);
+    protected readonly formStore = inject(TeamsFormStore);
+
+    protected readonly loading = this.formStore.loading;
+    protected readonly permissions = this.formStore.permissions;
+    protected readonly loadingPermissions = this.formStore.loadingPermissions;
+    protected readonly permissionTree = this.formStore.permissionTree;
+    protected readonly selectedNodes = this.formStore.selectedNodes;
+    protected readonly isEditMode = this.formStore.isEditMode;
+
+    private readonly canCreate = this.permissionActions.can(
+        '/organization/team',
+        'create'
+    );
+    private readonly canEdit = this.permissionActions.can(
+        '/organization/team',
+        'edit'
+    );
+
+    protected readonly tabs = TEAMS_FORM_TABS;
     private readonly validation = inject(FormValidationService);
+    protected readonly VALIDATION = FormValidators;
 
-    public readonly form = this.store.form;
-    public readonly loading = this.store.loading;
-    readonly permissions = this.store.permissions;
-    readonly loadingPermissions = this.store.loadingPermissions;
-    public readonly isEditMode = this.store.isEditMode;
-
-    public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
-    readonly VALIDATION = FormValidators;
-    private lastSuccess = this.submitFacade.actionSuccess();
-    readonly permissionTree = this.store.permissionTree;
-    readonly selectedNodes = this.store.selectedNodes;
-
-    readonly reportTypeOptions: Signal<FilterOption[]> = computed(() => {
-        return enumToFilterOptions(ReportType, this.t.bind(this));
-    });
-    readonly operatorOptions: Signal<FilterOption[]> = computed(() => {
-        return enumToFilterOptions(TelecomOperator, this.t.bind(this));
-    });
-
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
+    );
+    protected readonly reportTypeOptions: Signal<FilterOption[]> = computed(
+        () => {
+            return enumToFilterOptions(ReportType, this.t.bind(this));
+        }
+    );
+    protected readonly operatorOptions: Signal<FilterOption[]> = computed(
+        () => {
+            return enumToFilterOptions(TelecomOperator, this.t.bind(this));
+        }
+    );
+    private readonly queryParams = toSignal(
+        this.route.queryParams.pipe(map((params: Params) => params)),
+        { initialValue: {} }
+    );
+    protected readonly uniqId = computed(() => this.getQueryParam('uniqId'));
+    private getQueryParam(key: string): string {
+        const params = this.queryParams() as Record<string, string>;
+        return params[key] ?? '';
+    }
+    private readonly pageTitleKey = computed(() =>
+        this.uniqId()
+            ? 'TEAM_ORGANIZATION.TEAMS.FORM.TITLE_FORM_EDI'
+            : 'TEAM_ORGANIZATION.TEAMS.FORM.TITLE_FORM_ADD'
+    );
+    private readonly pageTitle$ = toObservable(this.pageTitleKey).pipe(
+        switchMap((key) => this.translate.stream(key)),
+        takeUntilDestroyed(this.destroyRef)
+    );
     constructor() {
-        const uniqId = this.activatedRoute.snapshot.queryParamMap.get('uniqId');
-        this.store.setMode(uniqId || undefined);
+        this.pageTitle$.subscribe((translatedTitle) => {
+            this.title.setTitle(translatedTitle);
+        });
+        this.initializeFetchEffect();
     }
-
-    private readonly formStateEffect = effect(() => {
-        const state = this.submitFacade.actionState();
-        if (state === 'loading') {
-            this.form.disable({ emitEvent: false });
-        } else {
-            this.form.enable({ emitEvent: false });
-        }
-    });
-    private readonly successEffect = effect(() => {
-        const current = this.submitFacade.actionSuccess();
-        if (current === this.lastSuccess) {
-            return;
-        }
-
-        this.lastSuccess = current;
-        this.navigateToBack();
-    });
-
-    onTreeInteractions(): void {
-        this.store.updateSelectedNodes(this.selectedNodes());
+    private initializeFetchEffect(): void {
+        effect(() => {
+            const uniqId = this.uniqId();
+            if (!uniqId) {
+                this.formStore.openCreate();
+                return;
+            }
+            this.formStore.openEdit(uniqId);
+        });
     }
-
-    onExpandAll(): void {
-        this.store.expandAll();
+    protected onTreeInteractions(): void {
+        this.formStore.updateSelectedNodes(this.selectedNodes());
     }
-
-    onCollapseAll(): void {
-        this.store.collapseAll();
+    protected onExpandAll(): void {
+        this.formStore.expandAll();
     }
-
+    protected onCollapseAll(): void {
+        this.formStore.collapseAll();
+    }
     private showValidationErrors(): void {
         const controlNames = [
             // 'code',
@@ -137,7 +169,7 @@ export class TeamsFormComponent {
         ] as const;
 
         const errors = controlNames
-            .filter((name) => this.form.controls[name].invalid)
+            .filter((name) => this.formStore.form.controls[name].invalid)
             .map((name) => this.getErrorMessage(name));
 
         if (errors.length) {
@@ -148,55 +180,75 @@ export class TeamsFormComponent {
             });
         }
     }
-
-    getErrorMessage(fieldName: string): string {
-        const control = this.form.get(fieldName);
+    protected getErrorMessage(fieldName: string): string {
+        const control = this.formStore.form.get(fieldName);
         return this.validation.getErrorMessage(
             fieldName,
             control?.errors || null
         );
     }
 
-    onSubmit(): void {
-        if (this.form.invalid) {
-            this.form.markAllAsTouched();
+    private readonly createTooltip = computed(() => {
+        if (!this.canCreate()) {
+            return this.t(
+                'TEAM_ORGANIZATION.TEAMS.TOOLTIP.NO_PERMISSION_CREATE'
+            );
+        }
+        return this.t('TEAM_ORGANIZATION.TEAMS.TOOLTIP.CREATE');
+    });
+    private readonly editTooltip = computed(() => {
+        if (!this.canEdit()) {
+            return this.t('TEAM_ORGANIZATION.TEAMS.TOOLTIP.NO_PERMISSION_EDIT');
+        }
+        return this.t('TEAM_ORGANIZATION.TEAMS.TOOLTIP.NOT_EDIT');
+    });
+    protected async onSubmit(): Promise<void> {
+        if (this.formStore.form.invalid) {
+            this.formStore.form.markAllAsTouched();
             this.showValidationErrors();
             return;
         }
-        const title = this.helper.getSweetAlertTitle(this.isEditMode());
-        const message = this.helper.getSweetAlertMessage(this.isEditMode());
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.t(title),
-            text: this.t(message),
-            backdrop: false,
-            confirmButtonText: this.t('COMMON.CONFIRM'),
-            cancelButtonText: this.t('COMMON.CANCEL'),
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.submitForm();
-            }
-        });
+
+        if (!this.showPermissionErrors()) {
+            return;
+        }
+
+        const confirmed = await this.confirmSaveAction();
+        if (!confirmed) {
+            return;
+        }
+
+        this.formStore.submit();
     }
 
-    private submitForm(): void {
-        const payload = this.form.getRawValue();
-        const uniqId = this.activatedRoute.snapshot.queryParamMap.get('uniqId');
-        if (this.isEditMode() && uniqId) {
-            this.submitFacade.update({
-                uniqId,
-                ...payload,
-            });
-        } else {
-            this.submitFacade.create(payload);
+    private showPermissionErrors(): boolean {
+        if (!this.uniqId() && !this.canCreate()) {
+            this.toast.error(this.createTooltip());
+            return false;
         }
+        if (this.uniqId() && !this.canEdit()) {
+            this.toast.error(this.editTooltip());
+            return false;
+        }
+        return true;
+    }
+    private async confirmSaveAction(): Promise<boolean> {
+        const isEdit = this.formStore.isEditMode();
+        const uniqId = this.uniqId();
+        return this.sweetAlert.confirm({
+            titleKey: isEdit
+                ? 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE.EDIT'
+                : 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE.CREATE',
+            messageKey: isEdit
+                ? 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE.EDIT'
+                : 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE.CREATE',
+            messageParams: {
+                uniqId,
+            },
+        });
     }
 
     private t(key: string, params?: object): string {
         return this.translate.instant(key, params);
-    }
-
-    navigateToBack(): void {
-        this.helper.navigateToTeamsList();
     }
 }

@@ -145,7 +145,6 @@ export class ProfilesPermissionsFormStore {
     }
 
     updateNode(node: TreeNodeInterface, checked: boolean): void {
-        console.log('node: ', node);
         this.treeService.updateNodeSelection(node, checked);
         this.syncFormPermissions();
     }

@@ -6,31 +6,34 @@ import {
     signal,
     Signal,
     computed,
-    OnInit,
     DestroyRef,
+    effect,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+    takeUntilDestroyed,
+    toObservable,
+    toSignal,
+} from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
-import { HISTORY_TABLE_CONSTANT } from '@shared/components/history/presentation/adapters/history-table.constant';
+import { HistoryFacade } from '@shared/components/history/application/services/history.facade';
+import { HISTORY_TABLE } from '@shared/components/history/presentation/adapters/history-table.constant';
+import { HistoryVmProps } from '@shared/components/history/presentation/adapters/history-vm-props.interface';
+import { HistoryPresenter } from '@shared/components/history/presentation/adapters/history-vm.presenter';
+import { HistoryDialogComponent } from '@shared/components/history/presentation/features/history-dialog/history-dialog.component';
+import { HistoryFilterStore } from '@shared/components/history/presentation/store/history-filter.store';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 import { ToastrService } from 'ngx-toastr';
 import { DialogModule } from 'primeng/dialog';
-import { map } from 'rxjs';
-
-import { HistoryFilterDto } from '../../../application/dto/history-filter.dto';
-import { HistoryFacade } from '../../../application/services/history.facade';
-import { HistoryVmProps } from '../../adapters/history-vm-props.interface';
-import { HistoryPresenter } from '../../adapters/history-vm.presenter';
-import { HistoryDialogComponent } from '../history-dialog/history-dialog.component';
+import { map, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-history',
@@ -45,151 +48,175 @@ import { HistoryDialogComponent } from '../history-dialog/history-dialog.compone
         ReactiveFormsModule,
         DialogModule,
     ],
+    providers: [HistoryFilterStore],
     templateUrl: './history-page.component.html',
     styleUrls: ['./history-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistoryPageComponent implements OnInit {
-    private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly title = inject(Title);
-    private readonly facade = inject(HistoryFacade);
-    private readonly translate = inject(TranslateService);
-    private readonly toastr = inject(ToastrService);
+export class HistoryPageComponent {
+    private readonly route = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly detailsFacade = inject(HistoryFacade);
-    private readonly fb = inject(FormBuilder);
-    private readonly tableExportExcelFileService = inject(
-        TableExportExcelFileService
-    );
-    private readonly appCustomizationService = inject(AppCustomizationService);
+    private readonly title = inject(Title);
+    protected readonly facade = inject(HistoryFacade);
+    private readonly translate = inject(TranslateService);
+    private readonly toast = inject(ToastrService);
+    private readonly store = inject(HistoryFilterStore);
+    private readonly exportService = inject(TableExportExcelFileService);
+    private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.customization.app.name
+        this.appConfig.customization.app.name
     );
-
-    readonly items = toSignal(this.facade.items$, { initialValue: [] });
-    readonly loading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
-    readonly pagination = toSignal(this.facade.pagination$);
-
-    readonly details = toSignal(this.detailsFacade.items$, {
-        initialValue: [],
-    });
-    readonly displayDetails = signal<boolean>(false);
-
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
+    protected uniqId: string | null = null;
+    protected readonly tableConfig = HISTORY_TABLE;
+    protected readonly form = this.store.form;
+    protected readonly isVisibleDialog = signal<boolean>(false);
 
-    readonly presenter = new HistoryPresenter();
+    private readonly items = toSignal(this.facade.items$, {
+        initialValue: [],
+    });
+    private readonly currentFilter = toSignal(this.facade.currentFilter$, {
+        initialValue: null,
+    });
+    protected readonly loading = toSignal(this.facade.isLoading$, {
+        initialValue: false,
+    });
+    protected readonly pagination = toSignal(this.facade.pagination$, {
+        initialValue: null,
+    });
 
-    readonly itemsVM = computed(() => {
+    protected readonly typeModel = computed(() => this.getQueryParam('ref'));
+    protected readonly module = computed(() => this.getQueryParam('module'));
+    private readonly queryParams = toSignal(
+        this.route.queryParams.pipe(map((params: Params) => params)),
+        { initialValue: {} }
+    );
+    private getQueryParam(key: string): string {
+        const params = this.queryParams() as Record<string, string>;
+        return params[key] ?? '';
+    }
+    protected readonly filterFields: Signal<FilterField[]> = computed(() => {
+        this.currentLang();
+
+        return [
+            {
+                type: 'text',
+                name: 'search',
+                label: this.t('HISTORY.FILTER.SEARCH'),
+                placeholder: this.t('HISTORY.FILTER.SEARCH'),
+                icon: 'pi pi-id-card',
+                translationKeys: {
+                    label: 'HISTORY.FILTER.SEARCH',
+                    placeholder: 'HISTORY.FILTER.SEARCH',
+                },
+            },
+            {
+                type: 'date',
+                name: 'startDate',
+                label: 'COMMON.START_DATE',
+                placeholder: 'COMMON.DATE_PLACEHOLDER',
+            },
+            {
+                type: 'date',
+                name: 'endDate',
+                label: 'COMMON.END_DATE',
+                placeholder: 'COMMON.DATE_PLACEHOLDER',
+            },
+        ];
+    });
+    protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            class: 'btn-dark',
+            icon: 'pi pi-refresh',
+            translateKey: 'COMMON.REFRESH',
+            tooltip: this.t('HISTORY.TOOLTIP.REFRESH'),
+        },
+        {
+            label: 'COMMON.EXPORT',
+            actionId: 'export',
+            class: 'btn-success',
+            icon: 'pi pi-file',
+            translateKey: 'COMMON.EXPORT',
+            tooltip: this.exportTooltip(),
+            disabled: this.canExportData(),
+        },
+    ]);
+    private readonly presenter = new HistoryPresenter();
+    protected readonly itemsVM = computed(() => {
         this.currentLang();
         return this.items().map((item) => this.presenter.map(item));
     });
 
-    readonly selectedItem = signal<any>(null);
-
-    public readonly typeModel: Signal<string> = toSignal(
-        this.activatedRoute.queryParams.pipe(
-            map((params: Params) => {
-                console.log('params: ', params);
-                return params['ref'];
-            })
-        ),
-        { initialValue: '' }
+    private readonly canExportData = computed(
+        () => this.itemsVM().length < 1 || this.loading()
     );
-    public readonly module: Signal<string> = toSignal(
-        this.activatedRoute.queryParams.pipe(
-            map((params: Params) => {
-                return params['module'];
-            })
-        ),
-        { initialValue: '' }
-    );
-    public uniqId!: string;
 
-    readonly form = this.fb.group({
-        search: new FormControl<string>(''),
-        startDate: new FormControl<Date | null>(null),
-        endDate: new FormControl<Date | null>(null),
+    private readonly exportTooltip = computed(() => {
+        const noData = this.itemsVM().length < 1;
+        if (noData) {
+            return this.t('HISTORY.TOOLTIP.NO_EXPORT');
+        }
+        return this.t('HISTORY.TOOLTIP.EXPORT').replace(
+            '{nb}',
+            String(this.itemsVM().length)
+        );
     });
-    public readonly isVisibleDialog = signal<boolean>(false);
-
-    readonly filterFields: Signal<FilterField[]> = computed(() => [
-        {
-            type: 'text',
-            name: 'search',
-            label: 'HISTORY.FILTER.SEARCH',
-            placeholder: 'HISTORY.FILTER.SEARCH_PLACEHOLDER',
-            icon: 'pi pi-search',
-        },
-        {
-            type: 'date',
-            name: 'startDate',
-            label: 'COMMON.START_DATE',
-            placeholder: 'COMMON.DATE_PLACEHOLDER',
-        },
-        {
-            type: 'date',
-            name: 'endDate',
-            label: 'COMMON.END_DATE',
-            placeholder: 'COMMON.DATE_PLACEHOLDER',
-        },
-    ]);
-
-    readonly tableConfig = HISTORY_TABLE_CONSTANT;
-
-    ngOnInit(): void {
-        this.facade.readAll(
-            {
-                typeModel: this.typeModel(),
-                module: this.module(),
-                startDate: '',
-                endDate: '',
-                search: '',
-            },
-            '1',
-            true
-        );
+    private readonly pageTitleKey = computed(() => 'HISTORY.TITLE');
+    private readonly pageTitle$ = toObservable(this.pageTitleKey).pipe(
+        switchMap((key) => this.translate.stream(key)),
+        takeUntilDestroyed(this.destroyRef)
+    );
+    constructor() {
+        this.pageTitle$.subscribe((translatedTitle) => {
+            this.title.setTitle(translatedTitle);
+        });
+        this.initializeFetchEffect();
     }
-
-    private setPageTitle(): void {
-        this.title.setTitle(this.translate.instant('HISTORY.TITLE'));
+    private initializeFetchEffect(): void {
+        effect(() => {
+            const typeModel = this.typeModel();
+            const module = this.module();
+            if (!typeModel) {
+                return;
+            }
+            this.facade.readAll({ typeModel, module }, '1', true);
+        });
     }
-
-    onFilter(values: any): void {
-        const { startDate, endDate, isValidRange } = parseAndValidateDateRange(
-            values.startDate,
-            values.endDate
-        );
-
-        if (!isValidRange) {
-            this.toastr.error(
-                this.translate.instant('COMMON.INVALID_DATE_RANGE')
-            );
+    protected onHeaderButtonClicked(actionId: string): void {
+        const action = this.headerActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
             return;
         }
-        const filter: HistoryFilterDto = {
-            typeModel: this.typeModel(),
-            module: this.module(),
-            search: values.search,
-            startDate: startDate?.format('YYYY-MM-DD'),
-            endDate: endDate?.format('YYYY-MM-DD'),
-        };
-        this.facade.readAll(filter);
+        action();
     }
-
-    onRefreshClicked(): void {
-        this.form.reset();
+    private onRefreshData(): void {
+        this.store.reset();
         this.facade.refresh();
     }
-
-    onPageChange(event: any): void {
-        this.facade.changePage(event.page + 1);
+    protected onFilterClicked(): void {
+        const typeModel = this.typeModel();
+        const module = this.module();
+        this.facade.readAll(this.store.value(typeModel, module), '1', true);
     }
-
-    public onActionClicked(event: {
+    protected onChangePageClicked(event: number): void {
+        this.facade.changePage(JSON.stringify(event + 1));
+    }
+    private readonly headerActions: Record<string, () => void> = {
+        refresh: () => this.onRefreshData(),
+        export: () => {
+            if (this.canExportData()) {
+                this.toast.error(this.exportTooltip());
+                return;
+            }
+            this.exportData();
+        },
+    };
+    protected onActionClicked(event: {
         item: HistoryVmProps;
         actionId?: string;
     }): void {
@@ -197,27 +224,30 @@ export class HistoryPageComponent implements OnInit {
         this.uniqId = item.uniqId;
         this.isVisibleDialog.set(true);
     }
-
-    public onVisibleDialogClicked(event: boolean): void {
+    protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
     }
-
-    public onExportClicked(): void {
-        const accessLogs = this.items();
-
-        if (!accessLogs || accessLogs.length === 0) {
-            this.toastr.error(this.translate.instant('EXPORT.NO_DATA'));
-            return;
-        }
-
-        const fileName = `${this.exportFilePrefix}-access-logs`;
-        this.tableExportExcelFileService.exportAsExcelFile(
-            accessLogs,
-            this.tableConfig,
-            fileName
-        );
+    private t(key: string, params?: object): string {
+        return this.translate.instant(key, params);
     }
 
+    private exportData(): void {
+        if (!this.canExportData()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const item = this.items();
+        if (item && item.length > 0) {
+            const fileName = `${this.exportFilePrefix}-history`;
+            this.exportService.exportAsExcelFile(
+                item,
+                this.tableConfig,
+                fileName
+            );
+        } else {
+            this.toast.error(this.t('EXPORT.NO_DATA'));
+        }
+    }
     private normalizeExportPrefix(appName: string): string {
         return (
             appName

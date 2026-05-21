@@ -3,7 +3,7 @@ export function calculateActionColumnWidth(actionCount: number): string {
     return `${width}rem`;
 }
 
-export const HISTORY_TABLE_CONSTANT = {
+export const HISTORY_TABLE = {
     actions: [
         {
             id: 'history-dialog',

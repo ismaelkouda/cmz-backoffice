@@ -2,7 +2,7 @@ import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
 
 export class TeamsFindOneEntity {
     constructor(
-        public readonly id: string | undefined,
+        public readonly id: string | null,
         public readonly code: string | undefined,
         public readonly name: string | undefined,
         public readonly description: string | undefined,

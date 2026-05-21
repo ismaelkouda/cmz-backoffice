@@ -25,7 +25,7 @@ export class TeamsFindOneMapper extends SimpleResponseMapper<
         }
 
         const entity = new TeamsFindOneEntity(
-            dto.id ?? undefined,
+            dto.id ?? null,
             dto.code ?? undefined,
             dto.name ?? undefined,
             dto.description ?? undefined,
@@ -44,6 +44,7 @@ export class TeamsFindOneMapper extends SimpleResponseMapper<
             dto.data.slug ?? '',
             dto.data.title,
             dto.data.checked ?? false,
+            dto.data.icon ?? '',
             dto.children?.map((c) => this.mapPermissionNode(c)) ?? []
         );
     }

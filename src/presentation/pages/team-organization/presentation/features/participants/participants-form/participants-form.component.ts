@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
+    computed,
     DestroyRef,
     effect,
     inject,
@@ -77,7 +78,9 @@ export class ParticipantsFormComponent {
     public readonly loading = this.store.loading;
     public readonly isEditMode = this.store.isEditMode;
 
-    public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
+    public readonly loadingSubmit = computed(() => {
+        return this.submitFacade.actionState() === 'loading';
+    });
     readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();
     private readonly uniqId: Signal<string> = toSignal(

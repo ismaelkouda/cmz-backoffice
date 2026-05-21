@@ -28,7 +28,6 @@ export class HistoryDataParserService {
             .replace(/[\u0300-\u036f]/g, '')
             .toLowerCase()
             .trim();
-        console.log('normalizedEvent: ', event);
 
         switch (normalizedEvent) {
             case 'creation':

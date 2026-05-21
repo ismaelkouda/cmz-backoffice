@@ -188,8 +188,6 @@ export class ImageUploadComponent implements ControlValueAccessor {
             this.service.reset(this.instanceId());
             return;
         }
-        console.log('writeValue called', file);
-
         const preview = URL.createObjectURL(file);
         this.service.hydrate(this.instanceId(), preview);
     }

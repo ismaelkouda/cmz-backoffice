@@ -231,7 +231,7 @@ export class QueuesComponent {
         },
     ]);
     private readonly presenter = new QueuesPresenter(
-        this.translate.instant.bind(this.translate)
+        this.t.bind(this.translate)
     );
     protected readonly itemsVM = computed(() => {
         return this.items().map((item) =>

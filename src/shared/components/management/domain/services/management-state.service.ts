@@ -105,7 +105,6 @@ export class ManagementStateService {
     });
 
     initialize(context: TypeReport, uniqId: string): void {
-        console.log('context: ', context);
         if (!context || !uniqId) {
             return;
         }

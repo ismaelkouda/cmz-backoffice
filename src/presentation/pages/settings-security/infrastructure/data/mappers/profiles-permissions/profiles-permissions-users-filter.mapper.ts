@@ -10,6 +10,9 @@ export function profilesPermissionsUsersFilterMapper(
     if (vo.uniqId) {
         params.uniq_id = vo.uniqId;
     }
+    if (vo.search) {
+        params.search = vo.search;
+    }
 
     return params;
 }

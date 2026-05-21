@@ -389,9 +389,7 @@ export class ProfilesPermissionsListComponent {
         },
 
         delete: (item) => {
-            console.log('item: ', item);
             if (!this.canDelete()) {
-                console.log('this.canDelete(): ', this.canDelete());
                 this.toast.error(this.deleteTooltip());
                 return;
             }

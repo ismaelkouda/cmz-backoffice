@@ -23,14 +23,16 @@ export class ActionsTreatmentFormStore {
     private readonly modalOpen = signal(false);
     private readonly lastSuccessCount = signal(0);
     private readonly dialogMode = signal<DialogMode>('create');
-    readonly actionsType = toSignal(this.actionsTypeFacade.items$, {
+    public readonly actionsType = toSignal(this.actionsTypeFacade.items$, {
         initialValue: [],
     });
-    readonly loadingActionsType = toSignal(this.actionsTypeFacade.isLoading$, {
-        initialValue: false,
-    });
-
-    readonly form = this.fb.nonNullable.group<TasksActionsFormControl>({
+    public readonly loadingActionsType = toSignal(
+        this.actionsTypeFacade.isLoading$,
+        {
+            initialValue: false,
+        }
+    );
+    public readonly form = this.fb.nonNullable.group<TasksActionsFormControl>({
         date: new FormControl<Date | null>(null, {
             nonNullable: true,
             validators: [Validators.required],
@@ -55,13 +57,11 @@ export class ActionsTreatmentFormStore {
             validators: [Validators.required],
         }),
     });
-
-    readonly status = toSignal(
+    private readonly status = toSignal(
         this.form.statusChanges.pipe(startWith(this.form.status)),
         { initialValue: this.form.status }
     );
-
-    readonly operator = toSignal(
+    public readonly operator = toSignal(
         this.form.controls.operator.valueChanges.pipe(
             startWith(this.form.controls.operator.value)
         ),
@@ -69,24 +69,24 @@ export class ActionsTreatmentFormStore {
             initialValue: this.form.controls.operator.value,
         }
     );
-
-    readonly selectedType = toSignal(
+    public readonly selectedType = toSignal(
         this.form.controls.type.valueChanges.pipe(
             startWith(this.form.controls.type.value)
         ),
         { initialValue: '' }
     );
 
-    readonly isOpen = this.modalOpen.asReadonly();
-    readonly isSubmitting = computed(
+    public readonly isOpen = this.modalOpen.asReadonly();
+    public readonly isSubmitting = computed(
         () => this.facade.actionState() === 'loading'
     );
-    readonly isValid = computed(() => this.status() === 'VALID');
+    public readonly isValid = computed(() => this.status() === 'VALID');
 
-    readonly isCreateMode = computed(() => this.dialogMode() === 'create');
-    readonly isEditMode = computed(() => this.dialogMode() === 'edit');
-    readonly isViewMode = computed(() => this.dialogMode() === 'view');
-
+    public readonly isCreateMode = computed(
+        () => this.dialogMode() === 'create'
+    );
+    public readonly isEditMode = computed(() => this.dialogMode() === 'edit');
+    public readonly isViewMode = computed(() => this.dialogMode() === 'view');
     private readonly disableFormEffect = effect(() => {
         const shouldDisable = this.isViewMode() || this.isSubmitting();
         if (shouldDisable) {
@@ -95,7 +95,6 @@ export class ActionsTreatmentFormStore {
             this.form.enable({ emitEvent: false });
         }
     });
-
     private readonly successEffect = effect(() => {
         const currentSuccess = this.facade.actionSuccess();
         if (!this.modalOpen()) {
@@ -111,8 +110,21 @@ export class ActionsTreatmentFormStore {
         this.lastSuccessCount.set(currentSuccess);
         this.close();
     });
-
-    openCreate(
+    private initializeLoadingEffect(): void {
+        effect(() => {
+            const isLoading = this.isSubmitting();
+            if (isLoading) {
+                this.form.disable({
+                    emitEvent: false,
+                });
+                return;
+            }
+            this.form.enable({
+                emitEvent: false,
+            });
+        });
+    }
+    public openCreate(
         uniqId: string,
         availableOperators: { value: string; label: string }[]
     ): void {
@@ -132,43 +144,37 @@ export class ActionsTreatmentFormStore {
         });
         this.modalOpen.set(true);
     }
-
-    openEdit(uniqId: string, item: TasksActionsVmProps): void {
+    public openEdit(uniqId: string, item: TasksActionsVmProps): void {
         this.dialogMode.set('edit');
         this.editingId.set(item.uniqId);
         this.actionsTypeFacade.readAll({ uniqId }, true);
         this.patchValue(item);
         this.modalOpen.set(true);
     }
-
-    openView(uniqId: string, item: TasksActionsVmProps): void {
+    public openView(uniqId: string, item: TasksActionsVmProps): void {
         this.dialogMode.set('view');
         this.editingId.set(item.uniqId);
         this.actionsTypeFacade.readAll({ uniqId }, true);
         this.patchValue(item);
         this.modalOpen.set(true);
     }
-
-    close(): void {
+    public close(): void {
         this.modalOpen.set(false);
         this.editingId.set(null);
         this.form.reset();
         this.dialogMode.set('create');
     }
-
-    selectOperator(operator: string): void {
+    public selectOperator(operator: string): void {
         if (this.isViewMode()) {
             return;
         }
         this.form.controls.operator.setValue(operator);
     }
-
-    submit(reportUniqId: string, canEdit = true): void {
+    public submit(reportUniqId: string, canEdit = true): void {
         if (!canEdit) {
             console.warn('Submit blocked: user lacks permission.');
             return;
         }
-
         if (this.form.invalid) {
             Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key)?.markAsTouched();
@@ -194,16 +200,10 @@ export class ActionsTreatmentFormStore {
 
         this.facade.create(payload);
     }
-
-    reset(): void {
+    public reset(): void {
         this.form.reset();
     }
-
-    private patchValue(item: TasksActionsVmProps) {
-        console.log(
-            'this.translate.instant(item.operators[0]): ',
-            this.translate.instant(item.operators[0])
-        );
+    private patchValue(item: TasksActionsVmProps): void {
         this.form.patchValue({
             date: item.date ? parseFrenchDate(item.date) : null,
             type: item.code,
