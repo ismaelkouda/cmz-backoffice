@@ -193,7 +193,7 @@ export class TeamsListComponent {
             disabled: this.canExportData(),
         },
     ]);
-    readonly tableConfig = TEAMS_TABLE;
+    protected readonly tableConfig = TEAMS_TABLE;
     protected readonly form = this.formStore.form;
     private readonly items = toSignal(this.facade.items$, { initialValue: [] });
     private readonly currentFilter = toSignal(this.facade.currentFilter$, {
@@ -212,7 +212,7 @@ export class TeamsListComponent {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-    readonly filterFields: Signal<FilterField[]> = computed(() => {
+    protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const statusOpts = this.statusOptions();
         return [

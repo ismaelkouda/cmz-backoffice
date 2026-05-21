@@ -1,13 +1,15 @@
 import { Routes } from '@angular/router';
-
-import { DepartmentsFormComponent } from './departments-form/departments-form.component';
-import { DepartmentsListComponent } from './departments-list/departments-list.component';
-import { DepartmentsPageComponent } from './departments-page/departments-page.component';
-import { MunicipalitiesByDepartmentIdComponent } from './municipalities-by-department-id/municipalities-by-department-id.component';
-
-export const DEPARTMENTS_FORM = 'form';
-export const MUNICIPALITIES_BY_DEPARTMENT_ID_ROUTE =
-    'municipalities-by-department-id';
+import { DepartmentsFormComponent } from '@presentation/pages/administrative-boundary/presentation/departments/departments-form/departments-form.component';
+import { DepartmentsListComponent } from '@presentation/pages/administrative-boundary/presentation/departments/departments-list/departments-list.component';
+import { DepartmentsPageComponent } from '@presentation/pages/administrative-boundary/presentation/departments/departments-page/departments-page.component';
+import {
+    DEPARTMENTS_LIST_ROUTE,
+    DEPARTMENTS_HISTORY_ROUTE,
+    DEPARTMENTS_FORM_ROUTE,
+    DEPARTMENTS_MUNICIPALITIES_ROUTE,
+} from '@presentation/pages/administrative-boundary/presentation/departments/departments-paths.constants';
+import { MunicipalitiesByDepartmentIdComponent } from '@presentation/pages/administrative-boundary/presentation/departments/municipalities-by-department-id/municipalities-by-department-id.component';
+import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const DEPARTMENTS_ROUTES: Routes = [
     {
@@ -20,13 +22,23 @@ export const DEPARTMENTS_ROUTES: Routes = [
         children: [
             {
                 path: '',
+                pathMatch: 'full',
+                redirectTo: DEPARTMENTS_LIST_ROUTE,
+            },
+            {
+                path: DEPARTMENTS_LIST_ROUTE,
                 component: DepartmentsListComponent,
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: DEPARTMENTS_HISTORY_ROUTE,
+                component: HistoryPageComponent,
                 data: { breadcrumb: { hide: true } },
             },
         ],
     },
     {
-        path: `${DEPARTMENTS_FORM}`,
+        path: `${DEPARTMENTS_FORM_ROUTE}`,
         data: {
             icon: 'CONTENT_MANAGEMENT.DEPARTMENTS.TITLE',
             breadcrumb: 'CONTENT_MANAGEMENT.DEPARTMENTS.TITLE',
@@ -40,7 +52,7 @@ export const DEPARTMENTS_ROUTES: Routes = [
         ],
     },
     {
-        path: `${MUNICIPALITIES_BY_DEPARTMENT_ID_ROUTE}`,
+        path: `${DEPARTMENTS_MUNICIPALITIES_ROUTE}`,
         component: MunicipalitiesByDepartmentIdComponent,
         data: {
             title: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TITLE',

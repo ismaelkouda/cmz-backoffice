@@ -4,5 +4,5 @@ export interface MunicipalitiesUpdateDto {
     name: string;
     region: string;
     description: string;
-    department?: string;
+    department: string | null;
 }

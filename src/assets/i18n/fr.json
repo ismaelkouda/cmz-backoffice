@@ -1017,6 +1017,7 @@
                 "POPULATION_SIZE": "# Populations",
                 "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
+                "UPDATED_AT":"Modifié le",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -1048,17 +1049,52 @@
                     "REQUIRED": "Ce champ est obligatoire"
                 }
             },
-            "DELETE": {
-                "CONFIRM": "Confirmer",
-                "CANCEL": "Annuler"
-            },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de département",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce département ?",
-                "TITLE_CREATE": "Création de département",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce département ?",
-                "TITLE_DELETE": "Suppression de département",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer ce département ?"
+                "TITLE": {
+                    "CREATE": "Créer ce department",
+                    "NOT_CREATE": "Impossible de créer ce department",
+                    "EDIT": "Editer ce department",
+                    "NOT_EDIT": "Impossible d'éditer ce department",
+                    "DELETE": "Supprimer ce department",
+                    "NOT_DELETE": "Impossible de supprimer ce department",
+                    "ENABLE": "Activer ce department",
+                    "NOT_ENABLE": "Impossible d'activer ce department",
+                    "DISABLE": "Désactiver ce department",
+                    "NOT_DISABLE": "Impossible de desactiver ce department"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce department",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce department <b class='text-primary'>uniqId</b>",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce department </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce department",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce department <b class='text-primary'>uniqId</b>",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce department <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce department <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce department <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce department <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce department <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce department <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des departments",
+                "EXPORT": "Exporter la liste de {nb} departments",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un department",
+                "EDIT": "Editer ce department",
+                "DELETE": "Supprimer ce department",
+                "ENABLE": "Activer ce department",
+                "DISABLE": "Désactiver ce department",
+                "NO_EXPORT": "Aucun department à exporter",
+                "NOT_DELETE": "Impossible de supprimer ce department, car elle dispose d'au moins un department",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des departments non permis",
+                "NO_PERMISSION_CREATE": "Création d'un department non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un department non permise",
+                "NO_PERMISSION_DELETE": "Suppression d'un department non permise",
+                "NO_PERMISSION_ENABLE": "Activation d'un department non permise",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un department non permise",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "MUNICIPALITIES": {
@@ -1106,6 +1142,7 @@
                 "POPULATION_SIZE": "# Populations",
                 "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
+                "UPDATED_AT":"Modifié le",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -1139,17 +1176,52 @@
                     "REQUIRED": "Ce champ est obligatoire"
                 }
             },
-            "DELETE": {
-                "CONFIRM": "Confirmer",
-                "CANCEL": "Annuler"
-            },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de Commune/Sous-préfecture",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette Commune/Sous-préfecture ?",
-                "TITLE_CREATE": "Création de Commune/Sous-préfecture",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette Commune/Sous-préfecture ?",
-                "TITLE_DELETE": "Suppression de Commune/Sous-préfecture",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette Commune/Sous-préfecture ?"
+                "TITLE": {
+                    "CREATE": "Créer cette Communes/Sous-préfectures",
+                    "NOT_CREATE": "Impossible de créer cette Communes/Sous-préfectures",
+                    "EDIT": "Editer cette Communes/Sous-préfectures",
+                    "NOT_EDIT": "Impossible d'éditer cette Communes/Sous-préfectures",
+                    "DELETE": "Supprimer cette Communes/Sous-préfectures",
+                    "NOT_DELETE": "Impossible de supprimer cette Communes/Sous-préfectures",
+                    "ENABLE": "Activer cette Communes/Sous-préfectures",
+                    "NOT_ENABLE": "Impossible d'activer cette Communes/Sous-préfectures",
+                    "DISABLE": "Désactiver cette Communes/Sous-préfectures",
+                    "NOT_DISABLE": "Impossible de desactiver cette Communes/Sous-préfectures"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cette Communes/Sous-préfectures",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cette Communes/Sous-préfectures <b class='text-primary'>uniqId</b>",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cette Communes/Sous-préfectures </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cette Communes/Sous-préfectures",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cette Communes/Sous-préfectures <b class='text-primary'>uniqId</b>",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cette Communes/Sous-préfectures <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cette Communes/Sous-préfectures <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer cette Communes/Sous-préfectures <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer cette Communes/Sous-préfectures <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver cette Communes/Sous-préfectures <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver cette Communes/Sous-préfectures <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des Communes/Sous-préfecturess",
+                "EXPORT": "Exporter la liste de {nb} Communes/Sous-préfecturess",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer une Communes/Sous-préfectures",
+                "EDIT": "Editer cette Communes/Sous-préfectures",
+                "DELETE": "Supprimer cette Communes/Sous-préfectures",
+                "ENABLE": "Activer cette Communes/Sous-préfectures",
+                "DISABLE": "Désactiver cette Communes/Sous-préfectures",
+                "NO_EXPORT": "Aucune Communes/Sous-préfectures à exporter",
+                "NOT_DELETE": "Impossible de supprimer cette Communes/Sous-préfectures, car elle dispose d'au moins un department",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des Communes/Sous-préfecturess non permis",
+                "NO_PERMISSION_CREATE": "Création d'une Communes/Sous-préfectures non permis",
+                "NO_PERMISSION_EDIT": "Edition d'une Communes/Sous-préfectures non permise",
+                "NO_PERMISSION_DELETE": "Suppression d'une Communes/Sous-préfectures non permise",
+                "NO_PERMISSION_ENABLE": "Activation d'une Communes/Sous-préfectures non permise",
+                "NO_PERMISSION_DISABLE": "Désactivation d'une Communes/Sous-préfectures non permise",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "REGIONS": {
@@ -1226,17 +1298,52 @@
                     "REQUIRED": "Ce champ est obligatoire"
                 }
             },
-            "DELETE": {
-                "CONFIRM": "Confirmer",
-                "CANCEL": "Annuler"
-            },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de région",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cette région ?",
-                "TITLE_CREATE": "Création de région",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer cette région ?",
-                "TITLE_DELETE": "Suppression de région",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cette région ?"
+                "TITLE": {
+                    "CREATE": "Créer cette region",
+                    "NOT_CREATE": "Impossible de créer cette region",
+                    "EDIT": "Editer cette region",
+                    "NOT_EDIT": "Impossible d'éditer cette region",
+                    "DELETE": "Supprimer cette region",
+                    "NOT_DELETE": "Impossible de supprimer cette region",
+                    "ENABLE": "Activer cette region",
+                    "NOT_ENABLE": "Impossible d'activer cette region",
+                    "DISABLE": "Désactiver cette region",
+                    "NOT_DISABLE": "Impossible de desactiver cette region"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cette region",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cette region <b class='text-primary'>uniqId</b>",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cette region </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cette region",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cette region <b class='text-primary'>uniqId</b>",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cette region <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cette region <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer cette region <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer cette region <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver cette region <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver cette region <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des regions",
+                "EXPORT": "Exporter la liste de {nb} regions",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer une region",
+                "EDIT": "Editer cette region",
+                "DELETE": "Supprimer cette region",
+                "ENABLE": "Activer cette region",
+                "DISABLE": "Désactiver cette region",
+                "NO_EXPORT": "Aucune region à exporter",
+                "NOT_DELETE": "Impossible de supprimer cette region, car elle dispose d'au moins un department",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des regions non permis",
+                "NO_PERMISSION_CREATE": "Création d'une region non permis",
+                "NO_PERMISSION_EDIT": "Edition d'une region non permise",
+                "NO_PERMISSION_DELETE": "Suppression d'une region non permise",
+                "NO_PERMISSION_ENABLE": "Activation d'une region non permise",
+                "NO_PERMISSION_DISABLE": "Désactivation d'une region non permise",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "DEPARTMENTS_BY_REGION_ID": {

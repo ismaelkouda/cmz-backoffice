@@ -26,7 +26,7 @@ export class DepartmentsUseCase {
     private readonly repository = inject(DepartmentsRepository);
 
     execute(
-        dto: DepartmentsFilterDto | null,
+        dto: DepartmentsFilterDto,
         page: string
     ): Observable<Paginate<DepartmentsEntity>> {
         const vo = DepartmentsFilterVo.fromDto(dto);

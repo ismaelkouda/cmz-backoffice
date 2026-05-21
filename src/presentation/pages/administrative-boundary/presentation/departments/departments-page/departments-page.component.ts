@@ -42,9 +42,9 @@ export class DepartmentsPageComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     public readonly tabs = DEPARTMENTS_TABS;
     public readonly activeTab = signal<string>('0');
+
     ngOnInit(): void {
         this.updateActiveTab();
-
         this.router.events
             .pipe(
                 filter((event) => event instanceof NavigationEnd),
@@ -56,39 +56,7 @@ export class DepartmentsPageComponent implements OnInit {
     }
 
     private updateActiveTab(): void {
-        const urlTree = this.router.parseUrl(this.router.url);
-        const path =
-            urlTree.root.children['primary']?.segments
-                .map((s) => s.path)
-                .join('/') || '';
-        const queryParams = urlTree.queryParams;
-
-        let matchingTab = this.tabs.find((tab) => {
-            const tabPath = tab.route.split('/').filter(Boolean).join('/');
-            if (tabPath !== path) {
-                return false;
-            }
-            if (tab.queryParams) {
-                return Object.entries(tab.queryParams).every(
-                    ([k, v]) => queryParams[k] === v
-                );
-            }
-            return true;
-        });
-
-        if (!matchingTab && path.endsWith('history')) {
-            const historyTab = this.tabs.find((t) =>
-                t.route.endsWith('history')
-            );
-            if (historyTab) {
-                this.router.navigate([historyTab.route], {
-                    queryParams: historyTab.queryParams,
-                    replaceUrl: true,
-                });
-                matchingTab = historyTab;
-            }
-        }
-
-        this.activeTab.set(matchingTab?.value ?? '0');
+        const currentPath = this.router.url.split('?')[0];
+        this.activeTab.set(currentPath);
     }
 }

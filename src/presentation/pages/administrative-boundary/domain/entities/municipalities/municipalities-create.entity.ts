@@ -6,7 +6,7 @@ export class MunicipalitiesCreateEntity {
         public readonly name: string,
         public readonly region: string,
         public readonly description: string,
-        public readonly department?: string
+        public readonly department: string | null
     ) {}
 
     static fromVo(vo: MunicipalitiesCreateVo): MunicipalitiesCreateEntity {

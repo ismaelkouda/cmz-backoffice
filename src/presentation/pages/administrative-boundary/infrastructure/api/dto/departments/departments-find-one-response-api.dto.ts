@@ -6,6 +6,8 @@ export interface DepartmentsFindOneItemApiDto {
     name: string;
     code: string;
     description: string;
+    region_id: string;
+    region_code: string;
     region: AdministrativeBoundaryDto;
     population_size: number;
     municipalities_count: number;

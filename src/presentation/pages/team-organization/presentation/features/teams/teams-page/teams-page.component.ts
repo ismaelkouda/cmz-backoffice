@@ -41,8 +41,8 @@ export class TeamsPageComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly destroyRef = inject(DestroyRef);
 
-    public readonly tabs = TEAMS_TABS;
-    public readonly activeTab = signal('0');
+    protected readonly tabs = TEAMS_TABS;
+    protected readonly activeTab = signal('0');
 
     ngOnInit(): void {
         this.updateActiveTab();

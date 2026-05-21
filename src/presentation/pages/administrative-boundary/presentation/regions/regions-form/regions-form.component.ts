@@ -4,37 +4,33 @@ import {
     Component,
     computed,
     DestroyRef,
-    effect,
     inject,
-    OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+    takeUntilDestroyed,
+    toObservable,
+    toSignal,
+} from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { RegionsFindOneFacade } from '@pages/administrative-boundary/application/services/regions/regions-find-one.facade';
-import { RegionsFacade } from '@pages/administrative-boundary/application/services/regions/regions.facade';
-import { RegionsFormControl } from '@pages/administrative-boundary/domain/controls/regions/regions-form.control';
 import { RegionsFormHelperService } from '@pages/administrative-boundary/domain/services/regions/regions-form-helper.service';
 import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
+import { RegionsFormStore } from '@presentation/pages/administrative-boundary/application/store/regions/regions-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
+import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
+import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { map, tap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 @Component({
@@ -55,128 +51,78 @@ import SweetAlert from 'sweetalert2';
         ToastModule,
         TooltipModule,
     ],
-    providers: [RegionsFormHelperService, FormValidationService],
+    providers: [
+        RegionsFormStore,
+        RegionsFormHelperService,
+        FormValidationService,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegionsFormComponent implements OnInit {
-    private readonly title = inject(Title);
-    private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly fb = inject(FormBuilder);
-    private readonly submitFacade = inject(RegionsFacade);
-    private readonly facade = inject(RegionsFindOneFacade);
-    private readonly translate = inject(TranslateService);
+export class RegionsFormComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly validationService = inject(FormValidationService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly title = inject(Title);
+    private readonly toast = inject(ToastrService);
+    private readonly sweetAlert = inject(SweetAlertService);
+
+    private readonly translate = inject(TranslateService);
+    protected readonly formStore = inject(RegionsFormStore);
+    protected readonly isEditMode = this.formStore.isEditMode;
+
+    private readonly canCreate = this.permissionActions.can(
+        '/territorial-structure/regions',
+        'create'
+    );
+    private readonly canEdit = this.permissionActions.can(
+        '/territorial-structure/regions',
+        'edit'
+    );
+
+    private readonly validation = inject(FormValidationService);
     private readonly helperService = inject(RegionsFormHelperService);
     public readonly VALIDATION = FormValidators;
-    private lastSuccess = this.submitFacade.actionSuccess();
-    private itemPatched = false;
-    readonly items = this.facade.items;
-    readonly loading = this.facade.loading;
-    private readonly paramsUniqId = toSignal(
-        this.activatedRoute.queryParams.pipe(
-            map((p) => (p['uniqId'] as string) || '')
-        ),
-        { initialValue: '' }
+
+    private readonly queryParams = toSignal(
+        this.route.queryParams.pipe(map((params: Params) => params)),
+        { initialValue: {} }
     );
-    readonly isEditMode = computed(() => !!this.paramsUniqId());
-    private readonly formStateEffect = effect(() => {
-        const state = this.submitFacade.actionState();
-        if (state === 'loading') {
-            this.form.disable({ emitEvent: false });
-        } else {
-            this.form.enable({ emitEvent: false });
-        }
-    });
-    private readonly successEffect = effect(() => {
-        const current = this.submitFacade.actionSuccess();
-        if (current === this.lastSuccess) {
+    protected readonly uniqId = computed(() => this.getQueryParam('uniqId'));
+    private getQueryParam(key: string): string {
+        const params = this.queryParams() as Record<string, string>;
+        return params[key] ?? '';
+    }
+    private readonly pageTitleKey = computed(() =>
+        this.uniqId()
+            ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.TITLE_FORM_EDI'
+            : 'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.TITLE_FORM_ADD'
+    );
+    private readonly pageTitle$ = toObservable(this.pageTitleKey).pipe(
+        switchMap((key) => this.translate.stream(key)),
+        takeUntilDestroyed(this.destroyRef)
+    );
+    constructor() {
+        this.pageTitle$.subscribe((translatedTitle) => {
+            this.title.setTitle(translatedTitle);
+        });
+        this.initializeFetchEffect();
+    }
+    private initializeFetchEffect(): void {
+        const uniqId = this.uniqId();
+
+        if (!uniqId) {
+            this.formStore.openCreate();
             return;
         }
 
-        this.lastSuccess = current;
-        this.navigateToBack();
-    });
-    public form: FormGroup<RegionsFormControl> =
-        this.fb.nonNullable.group<RegionsFormControl>({
-            code: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.CODE.MIN),
-                    Validators.maxLength(FormValidators.CODE.MAX),
-                    Validators.pattern(FormValidators.CODE.PATTERN),
-                ],
-            }),
-            name: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.NAME.MIN),
-                    Validators.maxLength(FormValidators.NAME.MAX),
-                    Validators.pattern(FormValidators.NAME.PATTERN),
-                ],
-            }),
-            description: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.minLength(FormValidators.DESCRIPTION.MIN),
-                    Validators.maxLength(FormValidators.DESCRIPTION.MAX),
-                    Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
-                ],
-            }),
-        });
-
-    private readonly patchFormFromItem = effect(() => {
-        const item = this.items();
-        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
-            this.form.patchValue(
-                {
-                    code: item.code,
-                    name: item.name,
-                    description: item.description,
-                },
-                { emitEvent: false }
-            );
-            this.itemPatched = true;
-        }
-    });
-
-    constructor() {
-        this.title.setTitle('ADMINISTRATIVE_BOUNDARY.REGIONS_FORM.TITLE');
-    }
-
-    ngOnInit(): void {
-        this.activatedRoute.queryParams
-            .pipe(
-                map((p) => (p['uniqId'] as string) || ''),
-                tap((uniqId) => {
-                    if (uniqId) {
-                        this.facade.reset();
-                        this.facade.read({ uniqId }, true);
-                    } else {
-                        this.facade.reset();
-                        this.form.reset();
-                    }
-                }),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe();
-    }
-
-    getErrorMessage(fieldName: string): string {
-        const control = this.form.get(fieldName);
-        return this.validationService.getErrorMessage(
-            fieldName,
-            control?.errors || null
-        );
+        this.formStore.openEdit(uniqId);
     }
 
     private showValidationErrors(): void {
         const controlNames = ['code', 'name', 'description'] as const;
 
         const errors = controlNames
-            .filter((name) => this.form.controls[name].invalid)
+            .filter((name) => this.formStore.form.controls[name].invalid)
             .map((name) => this.getErrorMessage(name));
 
         if (errors.length) {
@@ -187,50 +133,77 @@ export class RegionsFormComponent implements OnInit {
             });
         }
     }
+    protected getErrorMessage(fieldName: string): string {
+        const control = this.formStore.form.get(fieldName);
+        return this.validation.getErrorMessage(
+            fieldName,
+            control?.errors || null
+        );
+    }
 
-    onSubmit(): void {
-        if (this.form.invalid) {
-            this.form.markAllAsTouched();
+    private readonly createTooltip = computed(() => {
+        if (!this.canCreate()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NO_PERMISSION_CREATE'
+            );
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.CREATE');
+    });
+    private readonly editTooltip = computed(() => {
+        if (!this.canEdit()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NO_PERMISSION_EDIT'
+            );
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NOT_EDIT');
+    });
+    protected async onSubmit(): Promise<void> {
+        if (this.formStore.form.invalid) {
+            this.formStore.form.markAllAsTouched();
             this.showValidationErrors();
             return;
         }
 
-        const title = this.helperService.getSweetAlertTitle(this.isEditMode());
-        const message = this.helperService.getSweetAlertMessage(
-            this.isEditMode()
-        );
+        if (!this.showPermissionErrors()) {
+            return;
+        }
 
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.t(title),
-            text: this.t(message),
-            backdrop: false,
-            confirmButtonText: this.t('COMMON.CONFIRM'),
-            cancelButtonText: this.t('COMMON.CANCEL'),
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.submitForm();
-            }
-        });
+        const confirmed = await this.confirmSaveAction();
+        if (!confirmed) {
+            return;
+        }
+
+        this.formStore.submit();
     }
 
-    private submitForm(): void {
-        const participant = this.form.getRawValue();
-        if (this.isEditMode()) {
-            this.submitFacade.update({
-                uniqId: this.paramsUniqId(),
-                ...participant,
-            });
-        } else {
-            this.submitFacade.create(participant);
+    private showPermissionErrors(): boolean {
+        if (!this.uniqId() && !this.canCreate()) {
+            this.toast.error(this.createTooltip());
+            return false;
         }
+        if (this.uniqId() && !this.canEdit()) {
+            this.toast.error(this.editTooltip());
+            return false;
+        }
+        return true;
+    }
+    private async confirmSaveAction(): Promise<boolean> {
+        const isEdit = this.formStore.isEditMode();
+        const uniqId = this.uniqId();
+        return this.sweetAlert.confirm({
+            titleKey: isEdit
+                ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE.EDIT'
+                : 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE.CREATE',
+            messageKey: isEdit
+                ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE.EDIT'
+                : 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE.CREATE',
+            messageParams: {
+                uniqId,
+            },
+        });
     }
 
     private t(key: string, params?: object): string {
         return this.translate.instant(key, params);
-    }
-
-    navigateToBack(): void {
-        this.helperService.navigateToRegionsList();
     }
 }

@@ -44,20 +44,8 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    private handleActionWithRefresh<T>(
-        observable: Observable<T>,
-        successKey: string
-    ): Observable<T> {
-        return handleObservableWithFeedback(
-            observable,
-            this.uiFeedbackService,
-            successKey,
-            () => this.refresh()
-        );
-    }
-
     readAll(
-        filter: RegionsFilterDto = {},
+        filter: RegionsFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false
     ): void {
@@ -72,25 +60,8 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         ) {
             return;
         }
-
-        const command = new RegionsQuery(
-            filter?.search,
-            filter?.department,
-            filter?.municipality,
-            filter?.status,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
-
+        this.performFetch(filter, page);
         this.hasInitialized = true;
-        this.lastFetchTimestamp = Date.now();
     }
 
     refresh(): void {
@@ -98,17 +69,7 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
-        const command = new RegionsQuery(
-            filter?.search,
-            filter?.department,
-            filter?.municipality,
-            filter?.status,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
-        this.lastFetchTimestamp = Date.now();
+        this.performFetch(filter, page);
     }
 
     changePage(page: string): void {
@@ -118,9 +79,6 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         }
         const command = new RegionsQuery(
             filter?.search,
-            filter?.department,
-            filter?.municipality,
-            filter?.status,
             filter?.startDate,
             filter?.endDate
         );
@@ -137,22 +95,9 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
     refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
-        const command = new RegionsQuery(
-            filter?.search,
-            filter?.department,
-            filter?.municipality,
-            filter?.status,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
-        this.lastFetchTimestamp = Date.now();
+        if (filter) {
+            this.performFetch(filter, page);
+        }
     }
 
     resetMemory(): void {
@@ -173,62 +118,88 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         };
     }
 
-    create(participant: RegionsCreateDto): void {
-        this._actionState.set('loading');
-
-        const command = new RegionsCreateCommand(
-            participant.code,
-            participant.name,
-            participant.description
+    private performFetch(filter: RegionsFilterDto | null, page: string): void {
+        const query = this.buildQueryFromFilter(filter);
+        const fetch$ = this.filterBus.dispatch(query, page);
+        this.fetchWithFilterAndPage(
+            filter,
+            page,
+            fetch$,
+            this.uiFeedbackService
         );
+        this.lastFetchTimestamp = Date.now();
+    }
+    private buildQueryFromFilter(
+        filter: RegionsFilterDto | null
+    ): RegionsQuery {
+        return new RegionsQuery(
+            filter?.search ?? null,
+            filter?.startDate ?? null,
+            filter?.endDate ?? null
+        );
+    }
 
-        this.handleActionWithRefresh(
+    create(dto: RegionsCreateDto): void {
+        const command = new RegionsCreateCommand(
+            dto.code,
+            dto.name,
+            dto.description
+        );
+        this.executeAction(
             this.createBus.dispatch(command),
             'COMMON.SUCCESS.CREATE'
-        )
-            .pipe(
-                tap(() => {
-                    this._actionSuccess.update((v) => v + 1);
-                }),
-                catchError((err) => {
-                    this._actionError.set(err);
-                    return throwError(() => err);
-                }),
-                finalize(() => this._actionState.set('idle'))
-            )
-            .subscribe();
+        ).subscribe();
     }
 
-    update(participant: RegionsUpdateDto): void {
-        this._actionState.set('loading');
+    update(dto: RegionsUpdateDto): void {
         const command = new RegionsUpdateCommand(
-            participant.uniqId,
-            participant.code,
-            participant.name,
-            participant.description
+            dto.uniqId,
+            dto.code,
+            dto.name,
+            dto.description
         );
-        this.handleActionWithRefresh(
+        this.executeAction(
             this.updateBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        )
-            .pipe(
-                tap(() => {
-                    this._actionSuccess.update((v) => v + 1);
-                }),
-                catchError((err) => {
-                    this._actionError.set(err);
-                    return throwError(() => err);
-                }),
-                finalize(() => this._actionState.set('idle'))
-            )
-            .subscribe();
+        ).subscribe();
     }
 
-    delete(team: RegionsDeleteDto): void {
-        const command = new RegionsDeleteCommand(team.uniqId);
-        this.handleActionWithRefresh(
+    delete(dto: RegionsDeleteDto): void {
+        const command = new RegionsDeleteCommand(dto.uniqId);
+        this.executeAction(
             this.deleteBus.dispatch(command),
-            'COMMON.SUCCESS.DELETE'
+            'COMMON.SUCCESS.DELETE',
+            false
         ).subscribe();
+    }
+
+    private executeAction<T>(
+        observable: Observable<T>,
+        successKey: string,
+        trackState = true
+    ): Observable<T> {
+        if (trackState) {
+            this._actionState.set('loading');
+        }
+
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedbackService,
+            successKey,
+            () => this.refresh()
+        ).pipe(
+            tap(() => trackState && this._actionSuccess.update((v) => v + 1)),
+            catchError((err) => {
+                if (trackState) {
+                    this._actionError.set(err);
+                }
+                return throwError(() => err);
+            }),
+            finalize(() => trackState && this._actionState.set('idle'))
+        );
+    }
+
+    resetActionSuccess(): void {
+        this._actionSuccess.set(0);
     }
 }

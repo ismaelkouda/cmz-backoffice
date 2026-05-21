@@ -13,7 +13,7 @@ export function departmentsCreateMapper(
         params['name'] = create.name;
     }
     if (create.region) {
-        params['region_id'] = create.region;
+        params['region_code'] = create.region;
     }
     if (create.description) {
         params['description'] = create.description;

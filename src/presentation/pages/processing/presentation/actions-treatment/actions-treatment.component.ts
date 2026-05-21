@@ -348,14 +348,13 @@ export class ActionsTreatmentComponent {
         this.initializeActionEffect();
     }
     private initializeFetchEffect(): void {
-        effect(() => {
-            const uniqId = this.uniqId();
-            if (!uniqId) {
-                return;
-            }
-            this.facade.reset();
-            this.facade.readAll({ uniqId }, '1', true);
-        });
+        const uniqId = this.uniqId();
+
+        if (!uniqId) {
+            return;
+        }
+        this.facade.reset();
+        this.facade.readAll({ uniqId }, '1', true);
     }
 
     private initializeActionEffect(): void {

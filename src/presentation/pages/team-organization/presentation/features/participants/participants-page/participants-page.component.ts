@@ -41,8 +41,8 @@ export class ParticipantsPageComponent implements OnInit {
     private readonly router = inject(Router);
     private readonly destroyRef = inject(DestroyRef);
 
-    public readonly tabs = PARTICIPANTS_TABS;
-    public readonly activeTab = signal<string>('0');
+    protected readonly tabs = PARTICIPANTS_TABS;
+    protected readonly activeTab = signal<string>('0');
 
     ngOnInit(): void {
         this.updateActiveTab();

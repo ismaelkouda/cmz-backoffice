@@ -7,7 +7,6 @@ import {
     Signal,
     computed,
     DestroyRef,
-    effect,
 } from '@angular/core';
 import {
     takeUntilDestroyed,
@@ -177,14 +176,12 @@ export class HistoryPageComponent {
         this.initializeFetchEffect();
     }
     private initializeFetchEffect(): void {
-        effect(() => {
-            const typeModel = this.typeModel();
-            const module = this.module();
-            if (!typeModel) {
-                return;
-            }
-            this.facade.readAll({ typeModel, module }, '1', true);
-        });
+        const typeModel = this.typeModel();
+        const module = this.module();
+        if (!typeModel) {
+            return;
+        }
+        this.facade.readAll({ typeModel, module }, '1', true);
     }
     protected onHeaderButtonClicked(actionId: string): void {
         const action = this.headerActions[actionId];

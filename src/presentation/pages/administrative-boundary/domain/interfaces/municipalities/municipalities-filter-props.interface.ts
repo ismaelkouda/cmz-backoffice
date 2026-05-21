@@ -1,9 +1,7 @@
-import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 export interface MunicipalitiesFilterProps {
-    search?: string;
-    region?: string;
-    department?: string;
-    status?: Status;
-    period?: DatePeriod;
+    search: string | null;
+    region: string | null;
+    department: string | null;
+    period: DatePeriod | null;
 }

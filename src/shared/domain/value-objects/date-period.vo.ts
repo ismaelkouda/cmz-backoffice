@@ -12,7 +12,7 @@ export class DatePeriod {
         this.end = end;
     }
 
-    static create(start?: string, end?: string): DatePeriod {
+    static create(start?: string | null, end?: string | null): DatePeriod {
         const startDate = start ? new Date(start) : undefined;
         const endDate = end ? new Date(end) : undefined;
 

@@ -26,13 +26,13 @@ export const DEPARTMENTS_TABLE = {
         {
             field: 'region',
             header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.REGION',
-            width: '12rem',
+            width: '10rem',
         },
         {
             field: 'populationSize',
             header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.POPULATION_SIZE',
             class: 'text-center',
-            width: '2rem',
+            width: '3rem',
             type: 'number',
         },
         {
@@ -48,8 +48,8 @@ export const DEPARTMENTS_TABLE = {
              width: '17rem',
          }, */
         {
-            field: 'createdAt',
-            header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.CREATED_AT',
+            field: 'updatedAt',
+            header: 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TABLE.UPDATED_AT',
             class: 'text-center',
             width: '8rem',
         },
@@ -69,6 +69,6 @@ export const DEPARTMENTS_TABLE = {
         'infrastructureCount',
 
         /*  'description', */
-        'createdAt',
+        'updatedAt',
     ],
 };

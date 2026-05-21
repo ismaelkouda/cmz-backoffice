@@ -7,7 +7,7 @@ export function DepartmentsByRegionIdFilterMapper(
     const params: DepartmentsByRegionIdFilterApiDto =
         {} as DepartmentsByRegionIdFilterApiDto;
 
-    params.id = filter.uniqId;
+    params.region_id = filter.uniqId;
     if (filter.search) {
         params['search'] = filter.search;
     }

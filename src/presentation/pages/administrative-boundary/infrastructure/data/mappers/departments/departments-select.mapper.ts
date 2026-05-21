@@ -27,13 +27,13 @@ export class DepartmentsSelectMapper extends ArrayResponseMapper<
             (m): MunicipalitiesSelectProps => ({
                 uniqId: m.id,
                 name: m.name,
-                value: JSON.stringify(m.id),
+                value: m.code,
             })
         );
 
         const props: DepartmentsSelectProps = {
             uniqId: dto.id,
-            value: JSON.stringify(dto.id),
+            value: dto.code,
             name: dto.name,
             municipalities: cached
                 ? MapperUtils.mergeImmutable(

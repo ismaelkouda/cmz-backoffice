@@ -5,14 +5,14 @@ export class MunicipalitiesCreateVo {
     public readonly name: string;
     public readonly region: string;
     public readonly description: string;
-    public readonly department?: string;
+    public readonly department: string | null;
 
     constructor(props: {
         code: string;
         name: string;
         region: string;
         description: string;
-        department?: string;
+        department: string | null;
     }) {
         this.code = props.code;
         this.name = props.name;

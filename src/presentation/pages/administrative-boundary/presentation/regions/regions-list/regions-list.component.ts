@@ -3,7 +3,6 @@ import {
     ChangeDetectionStrategy,
     Component,
     DestroyRef,
-    OnInit,
     Signal,
     computed,
     effect,
@@ -11,41 +10,32 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { RegionsFacade } from '@pages/administrative-boundary/application/services/regions/regions.facade';
 import { FILTER_KEYS } from '@pages/administrative-boundary/domain/constants/regions/regions-filter-keys.constants';
 import { REGIONS_TABLE } from '@pages/administrative-boundary/domain/constants/regions/regions-table.constants';
-import { RegionsFilterControl } from '@pages/administrative-boundary/domain/controls/regions/regions-filter.control';
-import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
-import { Status } from '@pages/administrative-boundary/domain/enums/regions/regions-status.enum';
+import { RegionsFilterDto } from '@presentation/pages/administrative-boundary/application/dto/regions/regions-filter.dto';
+import { RegionsFilterStore } from '@presentation/pages/administrative-boundary/application/store/regions/regions-filter.store';
+import { RegionsVmProps } from '@presentation/pages/administrative-boundary/presentation/adapters/regions/regions-vm-props.interface';
+import { RegionsPresenter } from '@presentation/pages/administrative-boundary/presentation/adapters/regions/regions-vm.presenter';
 import {
-    DEPARTMENTS_BY_REGION_ID_ROUTE,
-    REGIONS_FORM,
-} from '@pages/administrative-boundary/presentation/regions/regions.routes';
+    REGIONS_FORM_ROUTE,
+    REGIONS_DEPARTMENTS_ROUTE,
+} from '@presentation/pages/administrative-boundary/presentation/regions/regions-paths.constants';
 import { FilterComponent } from '@shared/components/filter/filter.component';
-import {
-    enumToFilterOptions,
-    FilterOption,
-} from '@shared/components/filter/filter.types';
+import { FilterField } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
+import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
+type TTableActions = 'edit' | 'delete';
 
 @Component({
     selector: 'app-regions-list',
@@ -57,249 +47,358 @@ import SweetAlert from 'sweetalert2';
         PaginationComponent,
         ReactiveFormsModule,
     ],
+    providers: [RegionsFilterStore],
     templateUrl: './regions-list.component.html',
     styleUrls: ['./regions-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegionsListComponent implements OnInit {
-    private readonly title = inject(Title);
-    private readonly router = inject(Router);
-    public readonly facade = inject(RegionsFacade);
-    private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly translate = inject(TranslateService);
+export class RegionsListComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly toastService = inject(ToastrService);
-    private readonly fb = inject(FormBuilder);
-    private readonly tableExportExcelFileService = inject(
-        TableExportExcelFileService
-    );
-    private readonly appCustomizationService = inject(AppCustomizationService);
-    public readonly tableConfig = REGIONS_TABLE;
-    readonly items = toSignal(this.facade.items$, { initialValue: [] });
-    readonly isLoading = toSignal(this.facade.isLoading$, {
-        initialValue: false,
-    });
-    readonly pagination = toSignal(this.facade.pagination$, {
-        initialValue: {} as Paginate<RegionsEntity>,
-    });
-    private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.customization.app.name
-    );
-    private readonly currentLang = signal<string>(
-        this.translate.getCurrentLang()
-    );
-    public formFilter!: FormGroup<RegionsFilterControl>;
-    readonly filterFields = [
-        {
-            type: 'text',
-            name: FILTER_KEYS.SEARCH,
-            label: 'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.SEARCH',
-            placeholder:
-                'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.SEARCH_PLACEHOLDER',
-        },
-        /* {
-                type: 'select',
-                name: 'isActive',
-                label: 'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.STATUS',
-                placeholder: 'COMMON.SELECT_PLACEHOLDER',
-                options: this.statusOptions,
-                optionLabel: 'label',
-                optionValue: 'value',
-                showClear: true,
-                filter: false,
-            }, */
-        {
-            type: 'date',
-            name: FILTER_KEYS.START_DATE,
-            label: 'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.DATE.FROM',
-            placeholder:
-                'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.DATE.PLACEHOLDER',
-        },
-        {
-            type: 'date',
-            name: FILTER_KEYS.END_DATE,
-            label: 'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.DATE.TO',
-            placeholder:
-                'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.DATE.PLACEHOLDER',
-        },
-    ];
-    readonly statusOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(Status, this.t.bind(this));
-    });
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly title = inject(Title);
+    private readonly sweetAlert = inject(SweetAlertService);
 
-    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
+    public readonly facade = inject(RegionsFacade);
+    private readonly translate = inject(TranslateService);
+    private readonly toast = inject(ToastrService);
+    private readonly formStore = inject(RegionsFilterStore);
+    private readonly exportService = inject(TableExportExcelFileService);
+    private readonly appConfig = inject(AppCustomizationService);
+    private readonly canExport = this.permissionActions.can(
+        '/territorial-structure/regions',
+        'export'
+    );
+    private readonly canCreate = this.permissionActions.can(
+        '/territorial-structure/regions',
+        'create'
+    );
+    private readonly canEdit = this.permissionActions.can(
+        '/territorial-structure/regions',
+        'edit'
+    );
+    private readonly canDelete = this.permissionActions.can(
+        '/territorial-structure/regions',
+        'delete'
+    );
+    private readonly canChoose = computed(
+        () => this.canEdit() && this.canDelete()
+    );
+    private readonly canExportData = computed(
+        () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
+    );
+    private readonly exportTooltip = computed(() => {
+        const permission = !this.canExport();
+        const noData = this.itemsVM().length < 1;
+        if (permission) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NO_PERMISSION_EXPORT'
+            );
+        }
+        if (noData) {
+            return this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NO_EXPORT');
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.EXPORT').replace(
+            '{nb}',
+            String(this.itemsVM().length)
+        );
+    });
+    private readonly createTooltip = computed(() => {
+        if (!this.canCreate()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NO_PERMISSION_CREATE'
+            );
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.CREATE');
+    });
+    private readonly editTooltip = computed(() => {
+        if (!this.canEdit()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NO_PERMISSION_EDIT'
+            );
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NOT_EDIT');
+    });
+    private readonly deleteTooltip = computed(() => {
+        if (!this.canDelete()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NO_PERMISSION_DELETE'
+            );
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NOT_DELETE');
+    });
+    private readonly chooseTooltip = computed(() => {
+        if (!this.canChoose()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NO_PERMISSION_CHOOSE'
+            );
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.NOT_CHOOSE');
+    });
+    protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
             label: 'COMMON.CREATE',
-            actionId: CrudFormType.CREATE,
+            actionId: 'create',
+            icon: 'pi pi-user-plus',
             class: 'btn-primary',
-            icon: 'pi pi-plus',
-            translateKey: 'COMMON.CREATE',
+            disabled: !this.canCreate(),
+            tooltip: this.createTooltip(),
+        },
+        {
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            class: 'btn-dark',
+            icon: 'pi pi-refresh',
+            translateKey: 'COMMON.REFRESH',
+            tooltip: this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.REFRESH'),
+        },
+        {
+            label: 'COMMON.EXPORT',
+            actionId: 'export',
+            class: 'btn-success',
+            icon: 'pi pi-file',
+            translateKey: 'COMMON.EXPORT',
+            tooltip: this.exportTooltip(),
+            disabled: this.canExportData(),
         },
     ]);
 
-    constructor() {
-        this.title.setTitle(
-            this.translate.instant('ADMINISTRATIVE_BOUNDARY.REGIONS.TITLE')
+    protected readonly tableConfig = REGIONS_TABLE;
+    protected readonly form = this.formStore.form;
+    private readonly items = toSignal(this.facade.items$, { initialValue: [] });
+    private readonly currentFilter = toSignal(this.facade.currentFilter$, {
+        initialValue: null,
+    });
+    protected readonly loading = toSignal(this.facade.isLoading$, {
+        initialValue: false,
+    });
+    protected readonly pagination = toSignal(this.facade.pagination$, {
+        initialValue: null,
+    });
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
+    );
+    protected readonly filterFields: Signal<FilterField[]> = computed(() => {
+        this.currentLang();
+        return [
+            {
+                type: 'text',
+                name: FILTER_KEYS.SEARCH,
+                label: 'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.SEARCH',
+                placeholder:
+                    'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.SEARCH_PLACEHOLDER',
+                icon: 'pi pi-search',
+                translationKeys: {
+                    label: 'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.SEARCH',
+                    placeholder:
+                        'ADMINISTRATIVE_BOUNDARY.REGIONS.FILTER.SEARCH_PLACEHOLDER',
+                },
+            },
+            {
+                type: 'date',
+                name: FILTER_KEYS.START_DATE,
+                label: 'COMMON.START_DATE',
+                placeholder: 'COMMON.DATE_PLACEHOLDER',
+            },
+            {
+                type: 'date',
+                name: FILTER_KEYS.END_DATE,
+                label: 'COMMON.END_DATE',
+                placeholder: 'COMMON.DATE_PLACEHOLDER',
+            },
+        ];
+    });
+    private readonly presenter = new RegionsPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    protected readonly itemsVM = computed(() => {
+        const canEdit = this.canEdit();
+        const canDelete = this.canDelete();
+        const canChoose = this.canChoose();
+        const authorization = {
+            canEdit: canEdit,
+            canDelete: canDelete,
+            canChoose: canChoose,
+        };
+        const editTooltip = this.editTooltip();
+        const deleteTooltip = this.deleteTooltip();
+        const chooseTooltip = this.chooseTooltip();
+        const tooltip = {
+            edit: editTooltip,
+            delete: deleteTooltip,
+            choose: chooseTooltip,
+        };
+        return this.items().map((item) =>
+            this.presenter.map(item, {
+                authorization,
+                tooltip,
+            })
         );
-
+    });
+    constructor() {
+        this.facade.readAll(this.currentFilter() as RegionsFilterDto);
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.title.setTitle(
-                    this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TITLE')
-                );
+            .subscribe((event: LangChangeEvent) => {
+                this.currentLang.set(event.lang);
             });
         effect(() => {
-            this.facade.readAll();
+            this.pageTitle();
+            this.filterFields();
         });
     }
-
-    ngOnInit(): void {
-        this.initFilter();
+    private pageTitle(): void {
+        this.currentLang();
+        this.title.setTitle(this.t('ADMINISTRATIVE_BOUNDARY.REGIONS.TITLE'));
     }
-
-    private initFilter(): void {
-        if (!this.formFilter) {
-            this.formFilter = this.fb.group<RegionsFilterControl>({
-                search: new FormControl<string | null>(null),
-                department: new FormControl<string | null>(null),
-                municipality: new FormControl<string | null>(null),
-                status: new FormControl<Status | null>(null),
-                startDate: new FormControl<string | null>(null),
-                endDate: new FormControl<string | null>(null),
-            });
-        }
-    }
-
-    public filter(formValue: any): void {
-        const { startDate, endDate, isValidRange } = parseAndValidateDateRange(
-            formValue.startDate,
-            formValue.endDate
-        );
-        if (!isValidRange) {
-            this.toastService.error(
-                this.translate.instant('COMMON.INVALID_DATE_RANGE')
-            );
-            return;
-        }
-        const filter = {
-            search: formValue.search,
-            isActive: formValue.isActive,
-            startDate: startDate?.format('YYYY-MM-DD'),
-            endDate: endDate?.format('YYYY-MM-DD'),
-        };
-        this.facade.readAll(filter, '1', true);
-    }
-
-    public onPageChange(event: number): void {
-        this.facade.changePage(JSON.stringify(event + 1));
-    }
-
-    public refresh(): void {
+    private onRefreshData(): void {
+        this.formStore.reset();
         this.facade.refresh();
     }
+    private exportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const items = this.items();
+        if (!items.length) {
+            this.toast.error(this.t('EXPORT.NO_DATA'));
+            return;
+        }
 
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.CREATE) {
+        this.exportService.exportAsExcelFile(
+            items,
+            this.tableConfig,
+            `${this.normalizeExportPrefix}-regions`
+        );
+    }
+    private readonly headerActions: Record<string, () => void> = {
+        create: () => {
+            if (!this.canCreate()) {
+                this.toast.error(this.createTooltip());
+                return;
+            }
             this.onNavigateToForm({
                 item: undefined,
-                ref: CrudFormType.CREATE,
+                ref: 'create',
             });
-        }
-    }
+        },
+        refresh: () => this.onRefreshData(),
+        export: () => {
+            if (this.canExportData()) {
+                this.toast.error(this.exportTooltip());
+                return;
+            }
+            this.exportData();
+        },
+    };
+    private readonly tableActions: Record<
+        TTableActions,
+        (item: RegionsVmProps) => void
+    > = {
+        edit: (item) => {
+            if (!this.canEdit()) {
+                this.toast.error(this.editTooltip());
+                return;
+            }
 
-    public onNavigateToForm(event: {
-        item?: RegionsEntity;
-        ref: CrudFormType;
+            this.onNavigateToForm({
+                item,
+                ref: 'edit',
+            });
+        },
+
+        delete: (item) => {
+            if (!this.canDelete()) {
+                this.toast.error(this.deleteTooltip());
+                return;
+            }
+
+            this.onDelete(item);
+        },
+    };
+
+    private onNavigateToForm(event: {
+        item?: RegionsVmProps;
+        ref: 'create' | 'edit';
     }): void {
         const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
-        this.router.navigate([REGIONS_FORM], {
-            relativeTo: this.activatedRoute,
+        this.router.navigate(['../', REGIONS_FORM_ROUTE], {
+            relativeTo: this.route,
             queryParams,
         });
     }
-
-    public onEditClicked({
-        item,
-        ref,
-    }: {
-        item: RegionsEntity;
-        ref: CrudFormType;
-    }): void {
-        this.router.navigate([REGIONS_FORM], {
-            relativeTo: this.activatedRoute,
-            queryParams: {
-                uniqId: item.uniqId,
-                ref: ref,
-            },
-        });
+    protected onFilterClicked(filterValues: any): void {
+        this.facade.readAll(filterValues, '1', true);
     }
-
-    public onViewClicked(item: RegionsEntity): void {
-        console.log('View region', item);
+    protected onChangePageClicked(event: number): void {
+        this.facade.changePage(JSON.stringify(event + 1));
     }
-
-    public onDeleteClicked(item: RegionsEntity): void {
-        if (this.items().length < 1 && !item.uniqId) {
+    protected onHeaderButtonClicked(actionId: string): void {
+        const action = this.headerActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
             return;
         }
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant(
-                'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE.DELETE'
-            ),
-            text: `${this.translate.instant('ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE.DELETE')}`,
-            backdrop: false,
-            confirmButtonText: this.translate.instant('COMMON.CONFIRM'),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.facade.delete({ uniqId: item.uniqId });
-                this.facade.refreshWithLastFilterAndPage();
-            }
-        });
+        action();
     }
-
-    public onBadgeClick(event: {
-        item: RegionsEntity;
-        col: HTMLTableCellElement;
+    protected onActionClicked(event: {
+        item: RegionsVmProps;
+        actionId?: TTableActions;
     }): void {
-        this.router.navigate([DEPARTMENTS_BY_REGION_ID_ROUTE], {
-            relativeTo: this.activatedRoute,
-            queryParams: {
-                uniqId: event.item.uniqId,
-                name: event.item.name,
+        const { item, actionId } = event;
+        if (!actionId) {
+            console.warn('Missing actionId');
+            return;
+        }
+        const action = this.tableActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
+            return;
+        }
+        action(item);
+    }
+    protected async onDelete(item: RegionsVmProps): Promise<void> {
+        const uniqId = item.uniqId;
+        if (!uniqId) {
+            return;
+        }
+        const confirmed = await this.sweetAlert.confirm({
+            titleKey:
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE.DELETE',
+            messageKey:
+                'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE.DELETE',
+            messageParams: {
+                uniqId: item.actionsRef,
             },
         });
+        if (!confirmed) {
+            return;
+        }
+        this.facade.delete({ uniqId });
     }
-
     private t(key: string): string {
         return this.translate.instant(key);
     }
-
-    public onExportExcel(): void {
-        const regions = this.items();
-        if (regions && regions.length > 0) {
-            const fileName = `${this.exportFilePrefix}-regions`;
-            this.tableExportExcelFileService.exportAsExcelFile(
-                regions,
-                this.tableConfig,
-                fileName
-            );
-        } else {
-            this.toastService.error(this.translate.instant('EXPORT.NO_DATA'));
-        }
-    }
-
-    private normalizeExportPrefix(appName: string): string {
+    private get normalizeExportPrefix(): string {
+        const appName = this.appConfig.customization.app.name;
         return (
             appName
                 .toLowerCase()
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
+    }
+    public onBadgeClicked(event: {
+        item: RegionsVmProps;
+        col: HTMLTableCellElement;
+    }): void {
+        this.router.navigate(['../', REGIONS_DEPARTMENTS_ROUTE], {
+            relativeTo: this.route,
+            queryParams: { uniqId: event.item.uniqId, name: event.item.name },
+        });
     }
 }

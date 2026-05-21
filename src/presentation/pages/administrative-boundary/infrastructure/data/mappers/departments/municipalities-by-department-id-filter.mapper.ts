@@ -7,7 +7,7 @@ export function municipalitiesByDepartmentIdFilterMapper(
     const params: MunicipalitiesByDepartmentIdFilterApiDto =
         {} as MunicipalitiesByDepartmentIdFilterApiDto;
 
-    params.id = filter.uniqId;
+    params.department_id = filter.uniqId;
     if (filter.search) {
         params['search'] = filter.search;
     }
