@@ -22,11 +22,11 @@
                             </app-page-title>
                         </div>
                         <p-button
-                            [label]="'COMMON.CLOSE' | translate"
-                            (onClick)="navigateToBack()"
-                            styleClass="p-button-danger"
-                        >
-                        </p-button>
+                            [label]="'COMMON.CANCEL' | translate"
+                            icon="pi pi-times"
+                            severity="danger"
+                            (onClick)="formStore.close()"
+                        />
                     </header>
 
                     <div class="row">
@@ -35,7 +35,7 @@
                                 <div class="card-body">
                                     <form
                                         class="form row g-3"
-                                        [formGroup]="form"
+                                        [formGroup]="formStore.form"
                                         (ngSubmit)="onSubmit()"
                                     >
                                         <fieldset class="fieldset">
@@ -75,9 +75,9 @@
                                                         class="d-flex justify-content-between align-items-center mt-1"
                                                     >
                                                         @if (
-                                                            form.get('code')
+                                                            formStore.form.get('code')
                                                                 ?.invalid &&
-                                                            form.get('code')
+                                                            formStore.form.get('code')
                                                                 ?.touched
                                                         ) {
                                                             <small
@@ -95,7 +95,7 @@
                                                         >
                                                             {{
                                                                 (
-                                                                    form.get(
+                                                                    formStore.form.get(
                                                                         'code'
                                                                     )?.value ||
                                                                     ''
@@ -136,12 +136,7 @@
                                                     <div
                                                         class="d-flex justify-content-between align-items-center mt-1"
                                                     >
-                                                        @if (
-                                                            form.get('name')
-                                                                ?.invalid &&
-                                                            form.get('name')
-                                                                ?.touched
-                                                        ) {
+                                                        @if (formStore.form.get('name')?.invalid && formStore.form.get('name')?.touched) {
                                                             <small
                                                                 class="text-danger"
                                                             >
@@ -156,14 +151,11 @@
                                                             class="text-muted ms-auto"
                                                         >
                                                             {{
-                                                                (
-                                                                    form.get(
-                                                                        'name'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
+                                                                formStore.form.get('name')?.value
+                                                                    ?.length || 0
                                                             }}/{{
-                                                                VALIDATION.NAME
+                                                                VALIDATION
+                                                                    .NAME
                                                                     .MAX
                                                             }}
                                                         </small>
@@ -195,42 +187,19 @@
                                                                 | translate
                                                         "
                                                     ></textarea>
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center mt-1"
-                                                    >
+                                                    <div class="d-flex justify-content-between align-items-center mt-1">
                                                         @if (
-                                                            form.get(
-                                                                'description'
-                                                            )?.invalid &&
-                                                            form.get(
-                                                                'description'
-                                                            )?.touched
+                                                            formStore.form.get('description')?.invalid &&
+                                                            formStore.form.get('description')?.touched
                                                         ) {
-                                                            <small
-                                                                class="text-danger"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'description'
-                                                                    )
-                                                                }}
+                                                            <small class="error-message">
+                                                                {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
                                                             </small>
                                                         }
                                                         <small
                                                             class="text-muted ms-auto"
                                                         >
-                                                            {{
-                                                                (
-                                                                    form.get(
-                                                                        'description'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
-                                                            }}/{{
-                                                                VALIDATION
-                                                                    .DESCRIPTION
-                                                                    .MAX
-                                                            }}
+                                                            {{ formStore.form.get('description')?.value ?.length || 0 }}/{{ VALIDATION.DESCRIPTION.MAX }}
                                                         </small>
                                                     </div>
                                                 </div>
@@ -240,23 +209,21 @@
                                         <div
                                             class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
                                         >
+                                            @if (!formStore.isViewMode()) {
+                                                <p-button
+                                                    [label]="'COMMON.SAVE' | translate"
+                                                    [icon]="formStore.isSubmitting() ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
+                                                    [loading]="formStore.isSubmitting()"
+                                                    [disabled]="!formStore.isValid() || formStore.isSubmitting()"
+                                                    (onClick)="onSubmit()"
+                                                />
+                                            }
                                             <p-button
-                                                label="{{
-                                                    'COMMON.CANCEL' | translate
-                                                }}"
-                                                styleClass="p-button-text p-button-secondary"
-                                                (click)="navigateToBack()"
-                                            >
-                                            </p-button>
-
-                                            <p-button
-                                                label="{{
-                                                    'COMMON.SAVE' | translate
-                                                }}"
-                                                type="submit"
-                                                [disabled]="!form.valid"
-                                            >
-                                            </p-button>
+                                                [label]="'COMMON.CANCEL' | translate"
+                                                icon="pi pi-times"
+                                                severity="danger"
+                                                (onClick)="formStore.close()"
+                                            />
                                         </div>
                                     </form>
                                 </div>

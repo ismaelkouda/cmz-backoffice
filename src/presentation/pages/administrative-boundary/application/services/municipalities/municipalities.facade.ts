@@ -47,20 +47,8 @@ export class MunicipalitiesFacade extends BaseFacade<
     private lastFetchTimestamp = 0;
     private readonly STALE_TIME = 2 * 60 * 1000;
 
-    private handleActionWithRefresh<T>(
-        observable: Observable<T>,
-        successKey: string
-    ): Observable<T> {
-        return handleObservableWithFeedback(
-            observable,
-            this.uiFeedbackService,
-            successKey,
-            () => this.refresh()
-        );
-    }
-
     readAll(
-        filter: MunicipalitiesFilterDto = {},
+        filter: MunicipalitiesFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         forceRefresh = false
     ): void {
@@ -75,25 +63,8 @@ export class MunicipalitiesFacade extends BaseFacade<
         ) {
             return;
         }
-
-        const command = new MunicipalitiesQuery(
-            filter?.search,
-            filter?.region,
-            filter?.department,
-            filter?.status,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
-
+        this.performFetch(filter, page);
         this.hasInitialized = true;
-        this.lastFetchTimestamp = Date.now();
     }
 
     refresh(): void {
@@ -101,17 +72,7 @@ export class MunicipalitiesFacade extends BaseFacade<
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
-        const command = new MunicipalitiesQuery(
-            filter?.search,
-            filter?.region,
-            filter?.department,
-            filter?.status,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
-        this.lastFetchTimestamp = Date.now();
+        this.performFetch(filter, page);
     }
 
     changePage(page: string): void {
@@ -123,7 +84,6 @@ export class MunicipalitiesFacade extends BaseFacade<
             filter?.search,
             filter?.region,
             filter?.department,
-            filter?.status,
             filter?.startDate,
             filter?.endDate
         );
@@ -140,22 +100,9 @@ export class MunicipalitiesFacade extends BaseFacade<
     refreshWithLastFilterAndPage(): void {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
-        const command = new MunicipalitiesQuery(
-            filter?.search,
-            filter?.region,
-            filter?.department,
-            filter?.status,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
-        this.lastFetchTimestamp = Date.now();
+        if (filter) {
+            this.performFetch(filter, page);
+        }
     }
 
     resetMemory(): void {
@@ -176,66 +123,97 @@ export class MunicipalitiesFacade extends BaseFacade<
         };
     }
 
-    create(municipality: MunicipalitiesCreateDto): void {
-        this._actionState.set('loading');
-
-        const command = new MunicipalitiesCreateCommand(
-            municipality.code,
-            municipality.name,
-            municipality.region,
-            municipality.description,
-            municipality?.department
+    private performFetch(
+        filter: MunicipalitiesFilterDto | null,
+        page: string
+    ): void {
+        const query = this.buildQueryFromFilter(filter);
+        const fetch$ = this.filterBus.dispatch(query, page);
+        this.fetchWithFilterAndPage(
+            filter,
+            page,
+            fetch$,
+            this.uiFeedbackService
         );
+        this.lastFetchTimestamp = Date.now();
+    }
+    private buildQueryFromFilter(
+        filter: MunicipalitiesFilterDto | null
+    ): MunicipalitiesQuery {
+        return new MunicipalitiesQuery(
+            filter?.search ?? null,
+            filter?.region ?? null,
+            filter?.department ?? null,
+            filter?.startDate ?? null,
+            filter?.endDate ?? null
+        );
+    }
 
-        this.handleActionWithRefresh(
+    create(dto: MunicipalitiesCreateDto): void {
+        const command = new MunicipalitiesCreateCommand(
+            dto.code,
+            dto.name,
+            dto.region,
+            dto.description,
+            dto.department
+        );
+        this.executeAction(
             this.createBus.dispatch(command),
             'COMMON.SUCCESS.CREATE'
-        )
-            .pipe(
-                tap(() => {
-                    this._actionSuccess.update((v) => v + 1);
-                }),
-                catchError((err) => {
-                    this._actionError.set(err);
-                    return throwError(() => err);
-                }),
-                finalize(() => this._actionState.set('idle'))
-            )
-            .subscribe();
+        ).subscribe();
     }
 
-    update(municipality: MunicipalitiesUpdateDto): void {
-        this._actionState.set('loading');
+    update(dto: MunicipalitiesUpdateDto): void {
         const command = new MunicipalitiesUpdateCommand(
-            municipality.uniqId,
-            municipality.code,
-            municipality.name,
-            municipality.region,
-            municipality.description,
-            municipality?.department
+            dto.uniqId,
+            dto.code,
+            dto.name,
+            dto.region,
+            dto.description,
+            dto.department
         );
-        this.handleActionWithRefresh(
+        this.executeAction(
             this.updateBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
-        )
-            .pipe(
-                tap(() => {
-                    this._actionSuccess.update((v) => v + 1);
-                }),
-                catchError((err) => {
-                    this._actionError.set(err);
-                    return throwError(() => err);
-                }),
-                finalize(() => this._actionState.set('idle'))
-            )
-            .subscribe();
+        ).subscribe();
     }
 
-    delete(team: MunicipalitiesDeleteDto): void {
-        const command = new MunicipalitiesDeleteCommand(team.uniqId);
-        this.handleActionWithRefresh(
+    delete(dto: MunicipalitiesDeleteDto): void {
+        const command = new MunicipalitiesDeleteCommand(dto.uniqId);
+        this.executeAction(
             this.deleteBus.dispatch(command),
-            'COMMON.SUCCESS.DELETE'
+            'COMMON.SUCCESS.DELETE',
+            false
         ).subscribe();
+    }
+
+    private executeAction<T>(
+        observable: Observable<T>,
+        successKey: string,
+        trackState = true
+    ): Observable<T> {
+        if (trackState) {
+            this._actionState.set('loading');
+        }
+
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedbackService,
+            successKey,
+            () => this.refresh()
+        ).pipe(
+            tap(() => trackState && this._actionSuccess.update((v) => v + 1)),
+            catchError((err) => {
+                if (trackState) {
+                    this._actionError.set(err);
+                }
+                return throwError(() => err);
+            }),
+            finalize(() => trackState && this._actionState.set('idle'))
+        );
+    }
+
+    resetActionSuccess(): void {
+        this._actionSuccess.set(0);
     }
 }

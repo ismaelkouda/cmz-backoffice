@@ -1,12 +1,8 @@
-import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
-
 export class DepartmentsQuery {
     constructor(
-        public readonly search?: string,
-        public readonly region?: string,
-        public readonly municipality?: string,
-        public readonly status?: Status,
-        public readonly startDate?: string,
-        public readonly endDate?: string
+        public readonly search: string | null,
+        public readonly region: string | null,
+        public readonly startDate: string | null,
+        public readonly endDate: string | null
     ) {}
 }

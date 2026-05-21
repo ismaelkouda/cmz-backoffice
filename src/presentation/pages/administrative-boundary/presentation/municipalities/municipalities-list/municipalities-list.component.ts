@@ -8,44 +8,32 @@ import {
     effect,
     inject,
     signal,
-    untracked,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { MunicipalitiesFacade } from '@pages/administrative-boundary/application/services/municipalities/municipalities.facade';
 import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
 import { FILTER_KEYS } from '@pages/administrative-boundary/domain/constants/municipalities/municipalities-filter-keys.constants';
 import { MUNICIPALITIES_TABLE } from '@pages/administrative-boundary/domain/constants/municipalities/municipalities-table.constants';
-import { MunicipalitiesFilterControl } from '@pages/administrative-boundary/domain/controls/municipalities/municipalities-filter.control';
-import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
-import { RegionsSelectEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-select.entity';
-import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
-import { MUNICIPALITIES_FORM } from '@pages/administrative-boundary/presentation/municipalities/municipalities.routes';
+import { MunicipalitiesFilterDto } from '@presentation/pages/administrative-boundary/application/dto/municipalities/municipalities-filter.dto';
+import { MunicipalitiesFilterStore } from '@presentation/pages/administrative-boundary/application/store/municipalities/municipalities-filter.store';
+import { MunicipalitiesVmProps } from '@presentation/pages/administrative-boundary/presentation/adapters/municipalities/municipalities-vm-props.interface';
+import { MunicipalitiesPresenter } from '@presentation/pages/administrative-boundary/presentation/adapters/municipalities/municipalities-vm.presenter';
+import { MUNICIPALITIES_FORM_ROUTE } from '@presentation/pages/administrative-boundary/presentation/municipalities/municipalities-paths.constants';
 import { FilterComponent } from '@shared/components/filter/filter.component';
-import {
-    enumToFilterOptions,
-    FilterField,
-    FilterOption,
-} from '@shared/components/filter/filter.types';
+import { FilterField } from '@shared/components/filter/filter.types';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
+import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
-import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 import { ToastrService } from 'ngx-toastr';
-import SweetAlert from 'sweetalert2';
+type TTableActions = 'edit' | 'delete';
 
 @Component({
     selector: 'app-municipalities-list',
@@ -57,80 +45,155 @@ import SweetAlert from 'sweetalert2';
         PaginationComponent,
         ReactiveFormsModule,
     ],
+    providers: [MunicipalitiesFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './municipalities-list.component.html',
     styleUrls: ['./municipalities-list.component.scss'],
 })
 export class MunicipalitiesListComponent {
-    private readonly title = inject(Title);
-    private readonly router = inject(Router);
-    public readonly facade = inject(MunicipalitiesFacade);
-    public readonly regionsFacade = inject(RegionsSelectFacade);
-    private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly translate = inject(TranslateService);
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly toastService = inject(ToastrService);
-    private readonly fb = inject(FormBuilder);
-    private readonly tableExportExcelFileService = inject(
-        TableExportExcelFileService
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly title = inject(Title);
+    private readonly sweetAlert = inject(SweetAlertService);
+
+    protected readonly facade = inject(MunicipalitiesFacade);
+    private readonly regionsFacade = inject(RegionsSelectFacade);
+    private readonly translate = inject(TranslateService);
+    private readonly toast = inject(ToastrService);
+    private readonly formStore = inject(MunicipalitiesFilterStore);
+    private readonly exportService = inject(TableExportExcelFileService);
+    private readonly appConfig = inject(AppCustomizationService);
+    private readonly canExport = this.permissionActions.can(
+        '/territorial-structure/municipalities',
+        'export'
     );
-    private readonly appCustomizationService = inject(AppCustomizationService);
-    public readonly tableConfig = MUNICIPALITIES_TABLE;
-    readonly regions = toSignal(this.regionsFacade.items$, {
+    private readonly canCreate = this.permissionActions.can(
+        '/territorial-structure/municipalities',
+        'create'
+    );
+    private readonly canEdit = this.permissionActions.can(
+        '/territorial-structure/municipalities',
+        'edit'
+    );
+    private readonly canDelete = this.permissionActions.can(
+        '/territorial-structure/municipalities',
+        'delete'
+    );
+    private readonly canChoose = computed(
+        () => this.canEdit() && this.canDelete()
+    );
+    private readonly canExportData = computed(
+        () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
+    );
+    private readonly exportTooltip = computed(() => {
+        const permission = !this.canExport();
+        const noData = this.itemsVM().length < 1;
+        if (permission) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NO_PERMISSION_EXPORT'
+            );
+        }
+        if (noData) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NO_EXPORT'
+            );
+        }
+        return this.t(
+            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.EXPORT'
+        ).replace('{nb}', String(this.itemsVM().length));
+    });
+    private readonly createTooltip = computed(() => {
+        if (!this.canCreate()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NO_PERMISSION_CREATE'
+            );
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.CREATE');
+    });
+    private readonly editTooltip = computed(() => {
+        if (!this.canEdit()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NO_PERMISSION_EDIT'
+            );
+        }
+        return this.t(
+            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NOT_EDIT'
+        );
+    });
+    private readonly deleteTooltip = computed(() => {
+        if (!this.canDelete()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NO_PERMISSION_DELETE'
+            );
+        }
+        return this.t(
+            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NOT_DELETE'
+        );
+    });
+    private readonly chooseTooltip = computed(() => {
+        if (!this.canChoose()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NO_PERMISSION_CHOOSE'
+            );
+        }
+        return this.t(
+            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NOT_CHOOSE'
+        );
+    });
+    protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
+        {
+            label: 'COMMON.CREATE',
+            actionId: 'create',
+            icon: 'pi pi-user-plus',
+            class: 'btn-primary',
+            disabled: !this.canCreate(),
+            tooltip: this.createTooltip(),
+        },
+        {
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            class: 'btn-dark',
+            icon: 'pi pi-refresh',
+            translateKey: 'COMMON.REFRESH',
+            tooltip: this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.REFRESH'
+            ),
+        },
+        {
+            label: 'COMMON.EXPORT',
+            actionId: 'export',
+            class: 'btn-success',
+            icon: 'pi pi-file',
+            translateKey: 'COMMON.EXPORT',
+            tooltip: this.exportTooltip(),
+            disabled: this.canExportData(),
+        },
+    ]);
+
+    protected readonly tableConfig = MUNICIPALITIES_TABLE;
+    protected readonly form = this.formStore.form;
+    private readonly regions = toSignal(this.regionsFacade.items$, {
         initialValue: [],
     });
-    readonly items = toSignal(this.facade.items$, {
-        initialValue: [],
-    });
-    private readonly filterData = toSignal(this.facade.currentFilter$, {
+    private readonly items = toSignal(this.facade.items$, { initialValue: [] });
+    private readonly currentFilter = toSignal(this.facade.currentFilter$, {
         initialValue: null,
     });
-    readonly isLoading = toSignal(this.facade.isLoading$, {
+    protected readonly loading = toSignal(this.facade.isLoading$, {
         initialValue: false,
     });
-    readonly pagination = toSignal(this.facade.pagination$, {
-        initialValue: {} as Paginate<MunicipalitiesEntity>,
+    protected readonly pagination = toSignal(this.facade.pagination$, {
+        initialValue: null,
     });
-    private readonly exportFilePrefix = this.normalizeExportPrefix(
-        this.appCustomizationService.customization.app.name
-    );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
 
-    public readonly formFilter: FormGroup<MunicipalitiesFilterControl> =
-        this.fb.group<MunicipalitiesFilterControl>({
-            search: new FormControl<string | null>(null),
-            region: new FormControl<string | null>(null, {
-                nonNullable: true,
-            }),
-            department: new FormControl<string | null>(null, {
-                nonNullable: true,
-            }),
-            status: new FormControl<Status | null>(null),
-            startDate: new FormControl<string | null>(null),
-            endDate: new FormControl<string | null>(null),
-        });
-
-    private readonly selectedRegion = toSignal(
-        this.formFilter.controls.region.valueChanges,
-        { initialValue: null }
-    );
-
-    readonly filteredDepartments = computed(() => {
-        const item = this.selectedRegion();
-        if (!item) {
-            return [];
-        }
-
-        const region: RegionsSelectEntity | undefined = this.regions().find(
-            (r) => r.value === item
-        );
-        return region?.departments || [];
-    });
-
-    readonly filterFields: Signal<FilterField[]> = computed<FilterField[]>(
-        () => [
+    protected readonly filterFields: Signal<FilterField[]> = computed(() => {
+        this.currentLang();
+        return [
             {
                 type: 'text',
                 name: FILTER_KEYS.SEARCH,
@@ -153,10 +216,9 @@ export class MunicipalitiesListComponent {
                 type: 'select',
                 name: FILTER_KEYS.DEPARTMENT,
                 label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DEPARTMENT',
-                placeholder: this.selectedRegion()
-                    ? 'COMMON.SELECT_PLACEHOLDER'
-                    : 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.SELECT_REGION_FIRST',
-                options: this.filteredDepartments(),
+                placeholder: 'COMMON.SELECT_PLACEHOLDER',
+                options: this.formStore.vm().departments,
+                disabled: this.formStore.vm().isDepartmentDisabled,
                 optionLabel: 'name',
                 optionValue: 'value',
                 showClear: true,
@@ -168,7 +230,6 @@ export class MunicipalitiesListComponent {
                 label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.FROM',
                 placeholder:
                     'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
-                class: 'p-short',
             },
             {
                 type: 'date',
@@ -176,190 +237,190 @@ export class MunicipalitiesListComponent {
                 label: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.TO',
                 placeholder:
                     'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FILTER.DATE.PLACEHOLDER',
-                class: 'p-short',
             },
-        ]
-    );
-    readonly statusOptions: Signal<FilterOption[]> = computed(() => {
-        this.currentLang();
-        return enumToFilterOptions(Status, this.t.bind(this));
+        ];
     });
-
-    public readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.CREATE',
-            actionId: CrudFormType.CREATE,
-            class: 'btn-primary',
-            icon: 'pi pi-plus',
-            translateKey: 'COMMON.CREATE',
-        },
-    ]);
-
-    constructor() {
-        this.title.setTitle(
-            this.translate.instant(
-                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TITLE'
-            )
+    private readonly presenter = new MunicipalitiesPresenter(
+        this.translate.instant.bind(this.translate)
+    );
+    protected readonly itemsVM = computed(() => {
+        const canEdit = this.canEdit();
+        const canDelete = this.canDelete();
+        const canChoose = this.canChoose();
+        const authorization = {
+            canEdit: canEdit,
+            canDelete: canDelete,
+            canChoose: canChoose,
+        };
+        const editTooltip = this.editTooltip();
+        const deleteTooltip = this.deleteTooltip();
+        const chooseTooltip = this.chooseTooltip();
+        const tooltip = {
+            edit: editTooltip,
+            delete: deleteTooltip,
+            choose: chooseTooltip,
+        };
+        return this.items().map((item) =>
+            this.presenter.map(item, {
+                authorization,
+                tooltip,
+            })
         );
-
+    });
+    constructor() {
+        this.facade.readAll(this.currentFilter() as MunicipalitiesFilterDto);
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.title.setTitle(
-                    this.t('ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TITLE')
-                );
+            .subscribe((event: LangChangeEvent) => {
+                this.currentLang.set(event.lang);
             });
+        this.regionsFacade.readAll(true);
         effect(() => {
-            this.facade.readAll();
-            this.regionsFacade.readAll();
-        });
-
-        effect(() => {
-            const filter = this.filterData();
-
-            untracked(() => {
-                if (filter) {
-                    this.formFilter.patchValue(
-                        {
-                            search: filter.search,
-                            region: filter.region,
-                            department: filter.department,
-                            status: filter.status,
-                            startDate: filter.startDate,
-                            endDate: filter.endDate,
-                        },
-                        { emitEvent: false }
-                    );
-                }
-            });
-        });
-
-        effect(() => {
-            const region = this.selectedRegion();
-
-            const deptControl = this.formFilter.controls.department;
-
-            if (!region) {
-                deptControl.reset(null, { emitEvent: false });
-                deptControl.disable({ emitEvent: false });
-            } else {
-                deptControl.enable({ emitEvent: false });
-            }
+            this.pageTitle();
+            this.filterFields();
         });
     }
-
-    public filter(formValue: any): void {
-        const { startDate, endDate, isValidRange } = parseAndValidateDateRange(
-            formValue.startDate,
-            formValue.endDate
+    private pageTitle(): void {
+        this.currentLang();
+        this.title.setTitle(
+            this.t('ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TITLE')
         );
-        if (!isValidRange) {
-            this.toastService.error(
-                this.translate.instant('COMMON.INVALID_DATE_RANGE')
-            );
-            return;
-        }
-        const filter = {
-            search: formValue.search,
-            region: formValue.region,
-            department: formValue.department,
-            status: formValue.status,
-            startDate: startDate?.format('YYYY-MM-DD'),
-            endDate: endDate?.format('YYYY-MM-DD'),
-        };
-        this.facade.readAll(filter, '1', true);
     }
-
-    public onPageChange(event: number): void {
-        this.facade.changePage(JSON.stringify(event + 1));
-    }
-
-    public refresh(): void {
+    private onRefreshData(): void {
+        this.formStore.reset();
         this.facade.refresh();
     }
+    private exportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const items = this.items();
+        if (!items.length) {
+            this.toast.error(this.t('EXPORT.NO_DATA'));
+            return;
+        }
 
-    public onHeaderButtonClicked(actionId: string): void {
-        if (actionId === CrudFormType.CREATE) {
+        this.exportService.exportAsExcelFile(
+            items,
+            this.tableConfig,
+            `${this.normalizeExportPrefix}-municipalities`
+        );
+    }
+    private readonly headerActions: Record<string, () => void> = {
+        create: () => {
+            if (!this.canCreate()) {
+                this.toast.error(this.createTooltip());
+                return;
+            }
             this.onNavigateToForm({
                 item: undefined,
-                ref: CrudFormType.CREATE,
+                ref: 'create',
             });
-        }
-    }
+        },
+        refresh: () => this.onRefreshData(),
+        export: () => {
+            if (this.canExportData()) {
+                this.toast.error(this.exportTooltip());
+                return;
+            }
+            this.exportData();
+        },
+    };
 
-    public onNavigateToForm(event: {
-        item?: MunicipalitiesEntity;
-        ref: CrudFormType;
+    private readonly tableActions: Record<
+        TTableActions,
+        (item: MunicipalitiesVmProps) => void
+    > = {
+        edit: (item) => {
+            if (!this.canEdit()) {
+                this.toast.error(this.editTooltip());
+                return;
+            }
+
+            this.onNavigateToForm({
+                item,
+                ref: 'edit',
+            });
+        },
+
+        delete: (item) => {
+            if (!this.canDelete()) {
+                this.toast.error(this.deleteTooltip());
+                return;
+            }
+
+            this.onDelete(item);
+        },
+    };
+
+    private onNavigateToForm(event: {
+        item?: MunicipalitiesVmProps;
+        ref: 'create' | 'edit';
     }): void {
         const queryParams = event.item
             ? { uniqId: event.item.uniqId, ref: event.ref }
             : { ref: event.ref };
-        this.router.navigate([MUNICIPALITIES_FORM], {
-            relativeTo: this.activatedRoute,
+        this.router.navigate(['../', MUNICIPALITIES_FORM_ROUTE], {
+            relativeTo: this.route,
             queryParams,
         });
     }
-
-    public onEditClicked({
-        item,
-        ref,
-    }: {
-        item: MunicipalitiesEntity;
-        ref: CrudFormType;
-    }): void {
-        this.router.navigate([MUNICIPALITIES_FORM], {
-            relativeTo: this.activatedRoute,
-            queryParams: {
-                uniqId: item.uniqId,
-                ref: ref,
-            },
-        });
+    protected onFilterClicked(filterValues: any): void {
+        this.facade.readAll(filterValues, '1', true);
     }
-
-    public onViewClicked(item: MunicipalitiesEntity): void {
-        console.log('View municipality', item);
+    protected onChangePageClicked(event: number): void {
+        this.facade.changePage(JSON.stringify(event + 1));
     }
-
-    public onDeleteClicked(item: MunicipalitiesEntity): void {
-        if (this.items().length < 1 && !item.uniqId) {
+    protected onHeaderButtonClicked(actionId: string): void {
+        const action = this.headerActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
             return;
         }
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant(
-                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE.DELETE'
-            ),
-            text: `${this.translate.instant('ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE.DELETE')}`,
-            backdrop: false,
-            confirmButtonText: this.translate.instant('COMMON.CONFIRM'),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.facade.delete({ uniqId: item.uniqId });
-                this.facade.refreshWithLastFilterAndPage();
-            }
-        });
+        action();
+    }
+    protected onActionClicked(event: {
+        item: MunicipalitiesVmProps;
+        actionId?: TTableActions;
+    }): void {
+        const { item, actionId } = event;
+        if (!actionId) {
+            console.warn('Missing actionId');
+            return;
+        }
+        const action = this.tableActions[actionId];
+        if (!action) {
+            console.warn('Unknown action:', actionId);
+            return;
+        }
+        action(item);
     }
 
+    protected async onDelete(item: MunicipalitiesVmProps): Promise<void> {
+        const uniqId = item.uniqId;
+        if (!uniqId) {
+            return;
+        }
+        const confirmed = await this.sweetAlert.confirm({
+            titleKey:
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE.DELETE',
+            messageKey:
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE.DELETE',
+            messageParams: {
+                uniqId: item.actionsRef,
+            },
+        });
+        if (!confirmed) {
+            return;
+        }
+        this.facade.delete({ uniqId });
+    }
     private t(key: string): string {
         return this.translate.instant(key);
     }
-
-    public onExportExcel(): void {
-        const departments = this.items();
-        if (departments && departments.length > 0) {
-            const fileName = `${this.exportFilePrefix}-municipalities-${new Date().toISOString()}.xlsx`;
-            this.tableExportExcelFileService.exportAsExcelFile(
-                departments,
-                this.tableConfig,
-                fileName
-            );
-        } else {
-            this.toastService.error(this.translate.instant('EXPORT.NO_DATA'));
-        }
-    }
-
-    private normalizeExportPrefix(appName: string): string {
+    private get normalizeExportPrefix(): string {
+        const appName = this.appConfig.customization.app.name;
         return (
             appName
                 .toLowerCase()

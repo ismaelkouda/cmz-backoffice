@@ -37,6 +37,10 @@ export class DepartmentsEntity {
         return this.props.updatedAt;
     }
 
+    get actionsRef(): string {
+        return this.props.code;
+    }
+
     public with(props: DepartmentsProps): DepartmentsEntity {
         if (
             this.updatedAt === props.updatedAt &&

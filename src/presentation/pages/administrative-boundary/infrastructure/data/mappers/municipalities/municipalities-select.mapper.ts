@@ -27,7 +27,7 @@ export class MunicipalitiesSelectMapper extends ArrayResponseMapper<
 
         const props: MunicipalitiesSelectProps = {
             uniqId: dto.id,
-            value: JSON.stringify(dto.id),
+            value: dto.code,
             name: dto.name,
         };
 

@@ -5,9 +5,7 @@ import {
     computed,
     inject,
     Signal,
-    effect,
     DestroyRef,
-    signal,
 } from '@angular/core';
 import {
     takeUntilDestroyed,
@@ -16,7 +14,7 @@ import {
 } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
 import { TEAMS_FORM_TABS } from '@presentation/pages/team-organization/presentation/adapters/teams/teams-form-tabs.constant';
@@ -75,7 +73,6 @@ export class TeamsFormComponent {
     private readonly permissionActions = inject(PermissionActionsService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly route = inject(ActivatedRoute);
-    private readonly router = inject(Router);
     private readonly title = inject(Title);
     private readonly toast = inject(ToastrService);
     private readonly sweetAlert = inject(SweetAlertService);
@@ -83,7 +80,6 @@ export class TeamsFormComponent {
     private readonly translate = inject(TranslateService);
     protected readonly formStore = inject(TeamsFormStore);
 
-    protected readonly loading = this.formStore.loading;
     protected readonly permissions = this.formStore.permissions;
     protected readonly loadingPermissions = this.formStore.loadingPermissions;
     protected readonly permissionTree = this.formStore.permissionTree;
@@ -103,9 +99,6 @@ export class TeamsFormComponent {
     private readonly validation = inject(FormValidationService);
     protected readonly VALIDATION = FormValidators;
 
-    private readonly currentLang = signal<string>(
-        this.translate.getCurrentLang()
-    );
     protected readonly reportTypeOptions: Signal<FilterOption[]> = computed(
         () => {
             return enumToFilterOptions(ReportType, this.t.bind(this));
@@ -141,14 +134,14 @@ export class TeamsFormComponent {
         this.initializeFetchEffect();
     }
     private initializeFetchEffect(): void {
-        effect(() => {
-            const uniqId = this.uniqId();
-            if (!uniqId) {
-                this.formStore.openCreate();
-                return;
-            }
-            this.formStore.openEdit(uniqId);
-        });
+        const uniqId = this.uniqId();
+
+        if (!uniqId) {
+            this.formStore.openCreate();
+            return;
+        }
+
+        this.formStore.openEdit(uniqId);
     }
     protected onTreeInteractions(): void {
         this.formStore.updateSelectedNodes(this.selectedNodes());

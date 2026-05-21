@@ -3,32 +3,27 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
-    effect,
+    DestroyRef,
     inject,
-    signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+    takeUntilDestroyed,
+    toObservable,
+    toSignal,
+} from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MunicipalitiesFindOneFacade } from '@pages/administrative-boundary/application/services/municipalities/municipalities-find-one.facade';
-import { MunicipalitiesFacade } from '@pages/administrative-boundary/application/services/municipalities/municipalities.facade';
-import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
-import { MunicipalitiesFormControl } from '@pages/administrative-boundary/domain/controls/municipalities/municipalities-form.control';
 import { MunicipalitiesFormHelperService } from '@pages/administrative-boundary/domain/services/municipalities/municipalities-form-helper.service';
 import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
+import { MunicipalitiesFormStore } from '@presentation/pages/administrative-boundary/application/store/municipalities/municipalities-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { DepartmentsSelectProps } from '@shared/domain/interfaces/departments-select.props.interface';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
+import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
+import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -36,7 +31,7 @@ import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
-import { map } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 
 @Component({
@@ -58,209 +53,68 @@ import SweetAlert from 'sweetalert2';
         ToastModule,
         TooltipModule,
     ],
-    providers: [MunicipalitiesFormHelperService, FormValidationService],
+    providers: [MunicipalitiesFormStore, MunicipalitiesFormHelperService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MunicipalitiesFormComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly route = inject(ActivatedRoute);
     private readonly title = inject(Title);
-    private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly fb = inject(FormBuilder);
-    private readonly submitFacade = inject(MunicipalitiesFacade);
-    private readonly regionsFacade = inject(RegionsSelectFacade);
-    private readonly facade = inject(MunicipalitiesFindOneFacade);
+    private readonly toast = inject(ToastrService);
+    private readonly sweetAlert = inject(SweetAlertService);
+
     private readonly translate = inject(TranslateService);
-    private readonly validationService = inject(FormValidationService);
-    private readonly helperService = inject(MunicipalitiesFormHelperService);
-    public readonly VALIDATION = FormValidators;
-    private lastSuccess = this.submitFacade.actionSuccess();
-    private itemPatched = false;
+    protected readonly formStore = inject(MunicipalitiesFormStore);
+    protected readonly isEditMode = this.formStore.isEditMode;
 
-    readonly departments = signal<readonly DepartmentsSelectProps[]>([]);
-    readonly loadingDepartments = signal<boolean>(false);
-    readonly regions = toSignal(this.regionsFacade.items$, {
-        initialValue: [],
-    });
-    readonly loadingRegions = toSignal(this.regionsFacade.isLoading$, {
-        initialValue: false,
-    });
-
-    readonly items = this.facade.items;
-    readonly loading = this.facade.loading;
-
-    private readonly paramsUniqId = toSignal(
-        this.activatedRoute.queryParams.pipe(
-            map((p) => (p['uniqId'] as string) || '')
-        ),
-        { initialValue: '' }
+    private readonly canCreate = this.permissionActions.can(
+        '/territorial-structure/municipalities',
+        'create'
+    );
+    private readonly canEdit = this.permissionActions.can(
+        '/territorial-structure/municipalities',
+        'edit'
     );
 
-    readonly isEditMode = computed(() => !!this.paramsUniqId());
+    protected readonly regions = this.formStore.regions;
+    protected readonly loadingRegions = this.formStore.loadingRegions;
+    protected readonly departments = this.formStore.departments;
 
-    public form: FormGroup<MunicipalitiesFormControl> =
-        this.fb.group<MunicipalitiesFormControl>({
-            code: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.CODE.MIN),
-                    Validators.maxLength(FormValidators.CODE.MAX),
-                    Validators.pattern(FormValidators.CODE.PATTERN),
-                ],
-            }),
-            name: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.NAME.MIN),
-                    Validators.maxLength(FormValidators.NAME.MAX),
-                    Validators.pattern(FormValidators.NAME.PATTERN),
-                ],
-            }),
-            region: new FormControl('', {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-            department: new FormControl(
-                { value: '', disabled: true },
-                { nonNullable: true }
-            ),
-            description: new FormControl('', {
-                nonNullable: true,
-                validators: [
-                    Validators.minLength(FormValidators.DESCRIPTION.MIN),
-                    Validators.maxLength(FormValidators.DESCRIPTION.MAX),
-                    Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
-                ],
-            }),
-        });
+    private readonly validation = inject(FormValidationService);
+    protected readonly VALIDATION = FormValidators;
 
-    private readonly initEffect = effect(() => {
-        const uniqId = this.paramsUniqId();
-
-        this.facade.reset();
-        this.form.reset();
-        this.form.controls.department.disable({ emitEvent: false });
-
-        if (uniqId) {
-            this.facade.read({ uniqId }, true);
-        }
-
-        this.regionsFacade.readAll();
-    });
-
-    private readonly formStateEffect = effect(() => {
-        const state = this.submitFacade.actionState();
-        if (state === 'loading') {
-            this.form.disable({ emitEvent: false });
-        } else {
-            this.form.enable({ emitEvent: false });
-            if (!this.form.controls.region.value) {
-                this.form.controls.department.disable({ emitEvent: false });
-            }
-        }
-    });
-
-    private readonly successEffect = effect(() => {
-        const current = this.submitFacade.actionSuccess();
-        if (current === this.lastSuccess) {
-            return;
-        }
-
-        this.lastSuccess = current;
-        this.navigateToBack();
-    });
-
-    private readonly patchFormFromItem = effect(() => {
-        const item = this.items();
-        const regions = this.regions();
-        if (item && Object.keys(item).length > 0 && !this.itemPatched) {
-            this.form.patchValue(
-                {
-                    code: item.code,
-                    name: item.name,
-                    region: item.region,
-                    description: item.description,
-                },
-                { emitEvent: false }
-            );
-
-            if (item.region) {
-                this.loadingDepartments.set(true);
-
-                const selectedRegion = regions.find(
-                    (region) => region.value === item.region
-                );
-
-                if (selectedRegion?.departments) {
-                    this.departments.set(selectedRegion.departments);
-                    this.form.controls.department.enable({ emitEvent: false });
-                    if (item.department) {
-                        this.form.controls.department.setValue(
-                            item.department,
-                            {
-                                emitEvent: false,
-                            }
-                        );
-                    }
-                } else {
-                    this.departments.set([]);
-                    this.form.controls.department.disable({ emitEvent: false });
-                }
-
-                this.form.controls.department.updateValueAndValidity({
-                    emitEvent: false,
-                });
-                this.loadingDepartments.set(false);
-            }
-
-            this.itemPatched = true;
-        }
-    });
-
-    readonly regionValue = toSignal(this.form.controls.region.valueChanges, {
-        initialValue: this.form.controls.region.value,
-    });
-
-    private readonly regionEffect = effect(() => {
-        if (this.isEditMode() && !this.regionValue()) {
-            return;
-        }
-
-        const region = this.selectedRegion();
-        this.loadingDepartments.set(true);
-        if (region?.departments) {
-            this.departments.set(region.departments);
-
-            this.form.controls.department.enable({ emitEvent: false });
-        } else {
-            this.departments.set([]);
-            this.form.controls.department.reset('', { emitEvent: false });
-            this.form.controls.department.disable({ emitEvent: false });
-        }
-
-        this.form.controls.department.updateValueAndValidity({
-            emitEvent: false,
-        });
-
-        this.loadingDepartments.set(false);
-    });
-
-    readonly selectedRegion = computed(() =>
-        this.regions().find((r) => r.value === this.regionValue())
+    private readonly queryParams = toSignal(
+        this.route.queryParams.pipe(map((params: Params) => params)),
+        { initialValue: {} }
     );
-
-    constructor() {
-        this.title.setTitle(
-            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES_FORM.TITLE'
-        );
+    protected readonly uniqId = computed(() => this.getQueryParam('uniqId'));
+    private getQueryParam(key: string): string {
+        const params = this.queryParams() as Record<string, string>;
+        return params[key] ?? '';
     }
-
-    getErrorMessage(fieldName: string): string {
-        const control = this.form.get(fieldName);
-        return this.validationService.getErrorMessage(
-            fieldName,
-            control?.errors || null
-        );
+    private readonly pageTitleKey = computed(() =>
+        this.uniqId()
+            ? 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.TITLE_FORM_EDI'
+            : 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.FORM.TITLE_FORM_ADD'
+    );
+    private readonly pageTitle$ = toObservable(this.pageTitleKey).pipe(
+        switchMap((key) => this.translate.stream(key)),
+        takeUntilDestroyed(this.destroyRef)
+    );
+    constructor() {
+        this.pageTitle$.subscribe((translatedTitle) => {
+            this.title.setTitle(translatedTitle);
+        });
+        this.initializeFetchEffect();
+    }
+    private initializeFetchEffect(): void {
+        const uniqId = this.uniqId();
+        if (!uniqId) {
+            this.formStore.openCreate();
+            return;
+        }
+        this.formStore.openEdit(uniqId);
     }
 
     private showValidationErrors(): void {
@@ -273,7 +127,7 @@ export class MunicipalitiesFormComponent {
         ] as const;
 
         const errors = controlNames
-            .filter((name) => this.form.controls[name].invalid)
+            .filter((name) => this.formStore.form.controls[name].invalid)
             .map((name) => this.getErrorMessage(name));
 
         if (errors.length) {
@@ -284,50 +138,79 @@ export class MunicipalitiesFormComponent {
             });
         }
     }
+    protected getErrorMessage(fieldName: string): string {
+        const control = this.formStore.form.get(fieldName);
+        return this.validation.getErrorMessage(
+            fieldName,
+            control?.errors || null
+        );
+    }
 
-    onSubmit(): void {
-        if (this.form.invalid) {
-            this.form.markAllAsTouched();
+    private readonly createTooltip = computed(() => {
+        if (!this.canCreate()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NO_PERMISSION_CREATE'
+            );
+        }
+        return this.t('ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.CREATE');
+    });
+    private readonly editTooltip = computed(() => {
+        if (!this.canEdit()) {
+            return this.t(
+                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NO_PERMISSION_EDIT'
+            );
+        }
+        return this.t(
+            'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TOOLTIP.NOT_EDIT'
+        );
+    });
+    protected async onSubmit(): Promise<void> {
+        if (this.formStore.form.invalid) {
+            this.formStore.form.markAllAsTouched();
             this.showValidationErrors();
             return;
         }
 
-        const title = this.helperService.getSweetAlertTitle(this.isEditMode());
-        const message = this.helperService.getSweetAlertMessage(
-            this.isEditMode()
-        );
+        if (!this.showPermissionErrors()) {
+            return;
+        }
 
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.t(title),
-            text: this.t(message),
-            backdrop: false,
-            confirmButtonText: this.t('COMMON.CONFIRM'),
-            cancelButtonText: this.t('COMMON.CANCEL'),
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.submitForm();
-            }
-        });
+        const confirmed = await this.confirmSaveAction();
+        if (!confirmed) {
+            return;
+        }
+
+        this.formStore.submit();
     }
 
-    private submitForm(): void {
-        const municipality = this.form.getRawValue();
-        if (this.isEditMode()) {
-            this.submitFacade.update({
-                uniqId: this.paramsUniqId(),
-                ...municipality,
-            });
-        } else {
-            this.submitFacade.create(municipality);
+    private showPermissionErrors(): boolean {
+        if (!this.uniqId() && !this.canCreate()) {
+            this.toast.error(this.createTooltip());
+            return false;
         }
+        if (this.uniqId() && !this.canEdit()) {
+            this.toast.error(this.editTooltip());
+            return false;
+        }
+        return true;
+    }
+    private async confirmSaveAction(): Promise<boolean> {
+        const isEdit = this.formStore.isEditMode();
+        const uniqId = this.uniqId();
+        return this.sweetAlert.confirm({
+            titleKey: isEdit
+                ? 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE.EDIT'
+                : 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE.CREATE',
+            messageKey: isEdit
+                ? 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE.EDIT'
+                : 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE.CREATE',
+            messageParams: {
+                uniqId,
+            },
+        });
     }
 
     private t(key: string, params?: object): string {
         return this.translate.instant(key, params);
-    }
-
-    navigateToBack(): void {
-        this.helperService.navigateToMunicipalitiesList();
     }
 }

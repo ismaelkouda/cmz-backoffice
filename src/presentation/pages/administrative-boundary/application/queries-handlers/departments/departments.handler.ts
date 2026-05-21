@@ -17,8 +17,6 @@ export class DepartmentsHandler {
             {
                 search: command.search,
                 region: command.region,
-                municipality: command.municipality,
-                status: command.status,
                 startDate: command.startDate,
                 endDate: command.endDate,
             },

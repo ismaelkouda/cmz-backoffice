@@ -16,9 +16,6 @@ export class RegionsHandler {
         return this.useCase.execute(
             {
                 search: command.search,
-                department: command.department,
-                municipality: command.municipality,
-                status: command.status,
                 startDate: command.startDate,
                 endDate: command.endDate,
             },

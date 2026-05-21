@@ -38,6 +38,10 @@ export class MunicipalitiesEntity {
         return this.props.updatedAt;
     }
 
+    get actionsRef(): string {
+        return this.props.code;
+    }
+
     public with(props: MunicipalitiesProps): MunicipalitiesEntity {
         if (
             this.updatedAt === props.updatedAt &&

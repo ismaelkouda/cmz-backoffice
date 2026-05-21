@@ -1,10 +1,10 @@
 <div class="departments-content">
     <app-filter
         class="filter-component"
-        [isLoading]="isLoading()"
-        [formGroup]="formFilter"
+        [isLoading]="loading()"
+        [formGroup]="form"
         [fields]="filterFields()"
-        (filter)="filter($event)"
+        (filter)="onFilterClicked($event)"
         [filterState]="facade.currentFilter$"
         [limit]="5"
     ></app-filter>
@@ -14,23 +14,21 @@
     <section class="table-section">
         <app-table
             class="table-component"
-            [loading]="isLoading()"
-            [items]="items()"
+            [loading]="loading()"
+            [items]="itemsVM()"
             [pagination]="pagination()"
             [config]="tableConfig"
             [headerButtons]="headerButtons()"
             (headerButtonClicked)="onHeaderButtonClicked($event)"
-            (refreshRequested)="refresh()"
-            (editRequested)="onEditClicked($event)"
-            (deleteRequested)="onDeleteClicked($event)"
-            (badgeClicked)="onBadgeClick($event)"
+            (actionClicked)="onActionClicked($event)"
+            (badgeClicked)="onBadgeClicked($event)"
             dataKey="uniqId"
         ></app-table>
 
         <app-pagination
             class="pagination-component"
             [pagination]="pagination()"
-            (pageChange)="onPageChange($event)"
+            (pageChange)="onChangePageClicked($event)"
         ></app-pagination>
     </section>
 </div>

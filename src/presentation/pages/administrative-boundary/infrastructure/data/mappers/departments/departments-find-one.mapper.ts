@@ -23,7 +23,7 @@ export class DepartmentsFindOneMapper extends SimpleResponseMapper<
             name: dto.name,
             code: dto.code,
             description: dto.description,
-            region: dto.region.id,
+            region: dto.region_code,
             populationSize: dto.population_size,
             municipalitiesCount: dto.municipalities_count,
             status: this.statusMapper.mapApiToStatus(dto.is_active),

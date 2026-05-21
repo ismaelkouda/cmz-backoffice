@@ -1,10 +1,7 @@
-import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
-
 export interface MunicipalitiesFilterDto {
-    search?: string;
-    region?: string;
-    department?: string;
-    status?: Status;
-    startDate?: string;
-    endDate?: string;
+    search: string | null;
+    region: string | null;
+    department: string | null;
+    startDate: string | null;
+    endDate: string | null;
 }

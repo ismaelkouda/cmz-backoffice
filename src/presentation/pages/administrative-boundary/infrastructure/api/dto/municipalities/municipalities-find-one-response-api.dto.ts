@@ -6,6 +6,10 @@ export interface MunicipalitiesFindOneItemApiDto {
     name: string;
     code: string;
     description: string;
+    department_id: string;
+    department_code: string;
+    region_id: string;
+    region_code: string;
     region: AdministrativeBoundaryDto;
     department: AdministrativeBoundaryDto;
     population_size: number;

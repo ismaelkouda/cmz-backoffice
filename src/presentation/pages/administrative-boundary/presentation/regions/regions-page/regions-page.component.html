@@ -11,14 +11,14 @@
                             [displayDate]="false"
                             [title]="
                                 'ADMINISTRATIVE_BOUNDARY.REGIONS.TITLE'
-                                    | translate
+                                    | translate | lowercase
                             "
                         ></app-page-title>
                     </header>
 
                     <p-tabs lazy [value]="activeTab()">
                         <p-tablist>
-                            @for (tab of tabs; track tab.route) {
+                            @for (tab of tabs; track tab.value) {
                                 <p-tab
                                     [value]="tab.route"
                                     [routerLink]="tab.route"

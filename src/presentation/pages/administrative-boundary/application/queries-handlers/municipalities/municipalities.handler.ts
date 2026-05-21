@@ -18,7 +18,6 @@ export class MunicipalitiesHandler {
                 search: command.search,
                 region: command.region,
                 department: command.department,
-                status: command.status,
                 startDate: command.startDate,
                 endDate: command.endDate,
             },

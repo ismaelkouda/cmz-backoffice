@@ -6,7 +6,7 @@ export class MunicipalitiesUpdateVo {
     public readonly name: string;
     public readonly region: string;
     public readonly description: string;
-    public readonly department?: string;
+    public readonly department: string | null;
 
     constructor(props: {
         uniqId: string;
@@ -14,7 +14,7 @@ export class MunicipalitiesUpdateVo {
         name: string;
         region: string;
         description: string;
-        department?: string;
+        department: string | null;
     }) {
         this.uniqId = props.uniqId;
         this.code = props.code;
