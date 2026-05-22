@@ -17,7 +17,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { SlideFindOneFacade } from '@pages/content-management/application/services/slide/slide-find-one.facade';
-import { SlideFormControl } from '@pages/content-management/domain/controls/slide/slide-form.control';
+import { SlideFormControl } from '@pages/content-management/application/store/slide/slide-form.control';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 import { PLATFORM_ASPECT_RATIOS } from '@shared/components/image-upload/domain/types/image-upload.types';

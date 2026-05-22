@@ -192,7 +192,6 @@ export class SlideFormComponent {
                 this.imageStore.hydrate(this.instanceId, formImage.url);
                 return;
             }
-
             if (formImage?.type === 'local' && formImage.file) {
                 this.imageStore.setPreviewFromFile(
                     this.instanceId,

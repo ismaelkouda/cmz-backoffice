@@ -728,10 +728,10 @@
                     "NOT_EDIT": "Impossible d'éditer ce block d'infos",
                     "DELETE": "Supprimer ce block d'infos",
                     "NOT_DELETE": "Impossible de supprimer ce block d'infos",
-                    "ENABLE": "Activer ce block d'infos",
-                    "NOT_ENABLE": "Impossible d'activer ce block d'infos",
-                    "DISABLE": "Désactiver ce block d'infos",
-                    "NOT_DISABLE": "Impossible de desactiver ce block d'infos"
+                    "PUBLISH": "Publier ce block d'infos",
+                    "NOT_PUBLISH": "Impossible de publier ce block d'infos",
+                    "UNPUBLISH": "Dépublier ce block d'infos",
+                    "NOT_UNPUBLISH": "Impossible de dépublier ce block d'infos"
                 },
                 "MESSAGE": {
                     "CREATE": "Êtes-vous sûr de vouloir créer ce block d'infos",
@@ -741,10 +741,10 @@
                     "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce block d'infos",
                     "DELETE": "Êtes-vous sûr de vouloir supprimer ce block d'infos <b class='text-primary'>uniqId</b>",
                     "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce block d'infos <b class='text-primary'>uniqId</b>",
-                    "ENABLE": "Êtes-vous sûr de vouloir activer ce block d'infos <b class='text-primary'>uniqId</b>",
-                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce block d'infos <b class='text-primary'>uniqId</b>",
-                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce block d'infos <b class='text-primary'>uniqId</b>",
-                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce block d'infos <b class='text-primary'>uniqId</b>"
+                    "PUBLISH": "Êtes-vous sûr de vouloir publier ce block d'infos <b class='text-primary'>uniqId</b>",
+                    "NOT_PUBLISH": "Votre profile ne vous permet pas de publier ce block d'infos <b class='text-primary'>uniqId</b>",
+                    "UNPUBLISH": "Êtes-vous sûr de vouloir dépublier ce block d'infos <b class='text-primary'>uniqId</b>",
+                    "NOT_UNPUBLISH": "Votre profile ne vous permet pas de dépublier ce block d'infos <b class='text-primary'>uniqId</b>"
                 }
             },
             "TOOLTIP": {
@@ -754,8 +754,8 @@
                 "CREATE": "Créer un block d'infos",
                 "EDIT": "Editer ce block d'infos",
                 "DELETE": "Supprimer ce block d'infos",
-                "ENABLE": "Activer ce block d'infos",
-                "DISABLE": "Désactiver ce block d'infos",
+                "PUBLISH": "Publier ce block d'infos",
+                "UNPUBLISH": "Dépublier ce block d'infos",
                 "NO_EXPORT": "Aucun block d'infos à exporter",
                 "NOT_DELETE": "Membre actif, Impossible de supprimer ce block d'infos",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
@@ -763,8 +763,8 @@
                 "NO_PERMISSION_CREATE": "Création d'un block d'infos non permis",
                 "NO_PERMISSION_EDIT": "Edition d'un block d'infos non permis",
                 "NO_PERMISSION_DELETE": "Suppression d'un block d'infos non permis",
-                "NO_PERMISSION_ENABLE": "Activation d'un block d'infos non permis",
-                "NO_PERMISSION_DISABLE": "Désactivation d'un block d'infos non permis",
+                "NO_PERMISSION_PUBLISH": "Publication d'un block d'infos non permis",
+                "NO_PERMISSION_UNPUBLISH": "Dépublication d'un block d'infos non permis",
                 "SEE_MORE": "Voir plus d'informations"
             }
         },
@@ -939,7 +939,17 @@
                 "LABEL": "Politique de confidentialité",
                 "ROUTE": "privacy-policy"
             },
-            "TITLE": "Gestion du contenu de la politique de confidentialité",
+            "TABS": {
+                "PRIVACY_POLICY": {
+                    "LABEL": "Liste des politiques de confidentialité",
+                    "ROUTE": "privacy-policies"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique des politiques de confidentialité",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "politiques de confidentialité",
             "LABEL": "Politique de confidentialité",
             "ROUTE": "privacy-policy",
             "FILTER": {
@@ -984,6 +994,53 @@
                 "DESCRIPTION": "Contenu",
                 "GENERAL_INFO": "Informations Générales",
                 "CONFIG": "Configuration & Actions"
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer cette politique de confidentialité",
+                    "NOT_CREATE": "Impossible de créer cette politique de confidentialité",
+                    "EDIT": "Editer cette politique de confidentialité",
+                    "NOT_EDIT": "Impossible d'éditer cette politique de confidentialité",
+                    "DELETE": "Supprimer cette politique de confidentialité",
+                    "NOT_DELETE": "Impossible de supprimer cette politique de confidentialité",
+                    "PUBLISH": "Publier cette politique de confidentialité",
+                    "NOT_PUBLISH": "Impossible de publier cette politique de confidentialité",
+                    "UNPUBLISH": "Dépublier cette politique de confidentialité",
+                    "NOT_UNPUBLISH": "Impossible de dépublier cette politique de confidentialité"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cette politique de confidentialité",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cette politique de confidentialité",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cette politique de confidentialité </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cette politique de confidentialité",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cette politique de confidentialité",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cette politique de confidentialité <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cette politique de confidentialité <b class='text-primary'>uniqId</b>",
+                    "PUBLISH": "Êtes-vous sûr de vouloir publier cette politique de confidentialité <b class='text-primary'>uniqId</b>",
+                    "NOT_PUBLISH": "Votre profile ne vous permet pas de publier cette politique de confidentialité <b class='text-primary'>uniqId</b>",
+                    "UNPUBLISH": "Êtes-vous sûr de vouloir dépublier cette politique de confidentialité <b class='text-primary'>uniqId</b>",
+                    "NOT_UNPUBLISH": "Votre profile ne vous permet pas de dépublier cette politique de confidentialité <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des politiques de confidentialité",
+                "EXPORT": "Exporter la liste de {nb} politiques de confidentialité",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer une politique de confidentialité",
+                "EDIT": "Editer cette politique de confidentialité",
+                "DELETE": "Supprimer cette politique de confidentialité",
+                "PUBLISH": "Publier cette politique de confidentialité",
+                "UNPUBLISH": "Dépublier cette politique de confidentialité",
+                "NO_EXPORT": "Aucune politique de confidentialité à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer cette politique de confidentialité",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des politiques de confidentialité non permis",
+                "NO_PERMISSION_CREATE": "Création d'une politique de confidentialité non permis",
+                "NO_PERMISSION_EDIT": "Edition d'une politique de confidentialité non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'une politique de confidentialité non permis",
+                "NO_PERMISSION_PUBLISH": "Publication d'une politique de confidentialité non permis",
+                "NO_PERMISSION_UNPUBLISH": "Dépublication d'une politique de confidentialité non permis",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "LEGAL_NOTICE": {
@@ -991,7 +1048,17 @@
                 "LABEL": "Mentions légales",
                 "ROUTE": "legal-notices"
             },
-            "TITLE": "Gestion du contenu des mentions légales",
+            "TABS": {
+                "LEGAL_NOTICE": {
+                    "LABEL": "Liste des mentions légales",
+                    "ROUTE": "legal-notices"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique des mentions légales",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "mentions légales",
             "LABEL": "Mentions légales",
             "ROUTE": "legal-notices",
             "FILTER": {
@@ -1039,16 +1106,51 @@
                 "CONFIG": "Configuration & Actions"
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de mention légale",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce mention légale ?",
-                "TITLE_CREATE": "Création de mention légale",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce mention légale ?",
-                "TITLE_DELETE": "Suppression de mention légale",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer ce mention légale ?",
-                "TITLE_ENABLE": "Publication de mention légale",
-                "MESSAGE_ENABLE": "Voulez-vous vraiment publier ce mention légale ?",
-                "TITLE_DISABLE": "Dépublication de mention légale",
-                "MESSAGE_DISABLE": "Voulez-vous vraiment dépublier ce mention légale ?"
+                "TITLE": {
+                    "CREATE": "Créer cette mention légale",
+                    "NOT_CREATE": "Impossible de créer cette mention légale",
+                    "EDIT": "Editer cette mention légale",
+                    "NOT_EDIT": "Impossible d'éditer cette mention légale",
+                    "DELETE": "Supprimer cette mention légale",
+                    "NOT_DELETE": "Impossible de supprimer cette mention légale",
+                    "PUBLISH": "Publier cette mention légale",
+                    "NOT_PUBLISH": "Impossible de publier cette mention légale",
+                    "UNPUBLISH": "Dépublier cette mention légale",
+                    "NOT_UNPUBLISH": "Impossible de dépublier cette mention légale"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cette mention légale",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cette mention légale",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cette mention légale </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cette mention légale",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cette mention légale",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cette mention légale <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cette mention légale <b class='text-primary'>uniqId</b>",
+                    "PUBLISH": "Êtes-vous sûr de vouloir publier cette mention légale <b class='text-primary'>uniqId</b>",
+                    "NOT_PUBLISH": "Votre profile ne vous permet pas de publier cette mention légale <b class='text-primary'>uniqId</b>",
+                    "UNPUBLISH": "Êtes-vous sûr de vouloir dépublier cette mention légale <b class='text-primary'>uniqId</b>",
+                    "NOT_UNPUBLISH": "Votre profile ne vous permet pas de dépublier cette mention légale <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des mentions légales",
+                "EXPORT": "Exporter la liste de {nb} mentions légales",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer une mention légale",
+                "EDIT": "Editer cette mention légale",
+                "DELETE": "Supprimer cette mention légale",
+                "PUBLISH": "Publier cette mention légale",
+                "UNPUBLISH": "Dépublier cette mention légale",
+                "NO_EXPORT": "Aucune mention légale à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer cette mention légale",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des mentions légales non permis",
+                "NO_PERMISSION_CREATE": "Création d'une mention légale non permis",
+                "NO_PERMISSION_EDIT": "Edition d'une mention légale non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'une mention légale non permis",
+                "NO_PERMISSION_PUBLISH": "Publication d'une mention légale non permis",
+                "NO_PERMISSION_UNPUBLISH": "Dépublication d'une mention légale non permis",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "TERMS_USE": {
@@ -1056,7 +1158,17 @@
                 "LABEL": "Conditions d'utilisation",
                 "ROUTE": "terms-of-service"
             },
-            "TITLE": "Gestion du contenu des condtions d'utilisation",
+            "TABS": {
+                "TERMS_USE": {
+                    "LABEL": "Liste des conditions d'utilisation",
+                    "ROUTE": "terms-of-service"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique des conditions d'utilisation",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Condtions d'utilisation",
             "LABEL": "Conditions d'utilisation",
             "ROUTE": "terms-of-service",
             "FILTER": {
@@ -1099,6 +1211,53 @@
                 "DESCRIPTION": "Contenu",
                 "GENERAL_INFO": "Informations Générales",
                 "CONFIG": "Configuration & Actions"
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer cette condition d'utilisation",
+                    "NOT_CREATE": "Impossible de créer cette condition d'utilisation",
+                    "EDIT": "Editer cette condition d'utilisation",
+                    "NOT_EDIT": "Impossible d'éditer cette condition d'utilisation",
+                    "DELETE": "Supprimer cette condition d'utilisation",
+                    "NOT_DELETE": "Impossible de supprimer cette condition d'utilisation",
+                    "PUBLISH": "Publier cette condition d'utilisation",
+                    "NOT_PUBLISH": "Impossible de publier cette condition d'utilisation",
+                    "UNPUBLISH": "Dépublier cette condition d'utilisation",
+                    "NOT_UNPUBLISH": "Impossible de dépublier cette condition d'utilisation"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cette condition d'utilisation",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cette condition d'utilisation",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cette condition d'utilisation </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cette condition d'utilisation",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cette condition d'utilisation",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cette condition d'utilisation <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cette condition d'utilisation <b class='text-primary'>uniqId</b>",
+                    "PUBLISH": "Êtes-vous sûr de vouloir publier cette condition d'utilisation <b class='text-primary'>uniqId</b>",
+                    "NOT_PUBLISH": "Votre profile ne vous permet pas de publier cette condition d'utilisation <b class='text-primary'>uniqId</b>",
+                    "UNPUBLISH": "Êtes-vous sûr de vouloir dépublier cette condition d'utilisation <b class='text-primary'>uniqId</b>",
+                    "NOT_UNPUBLISH": "Votre profile ne vous permet pas de dépublier cette condition d'utilisation <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des conditions d'utilisation",
+                "EXPORT": "Exporter la liste de {nb} conditions d'utilisation",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer une condition d'utilisation",
+                "EDIT": "Editer cette condition d'utilisation",
+                "DELETE": "Supprimer cette condition d'utilisation",
+                "PUBLISH": "Publier cette condition d'utilisation",
+                "UNPUBLISH": "Dépublier cette condition d'utilisation",
+                "NO_EXPORT": "Aucune condition d'utilisation à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer cette condition d'utilisation",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des conditions d'utilisation non permis",
+                "NO_PERMISSION_CREATE": "Création d'une condition d'utilisation non permis",
+                "NO_PERMISSION_EDIT": "Edition d'une condition d'utilisation non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'une condition d'utilisation non permis",
+                "NO_PERMISSION_PUBLISH": "Publication d'une condition d'utilisation non permis",
+                "NO_PERMISSION_UNPUBLISH": "Dépublication d'une condition d'utilisation non permis",
+                "SEE_MORE": "Voir plus d'informations"
             }
         }
     },
@@ -2858,8 +3017,8 @@
                 "ACTION": "Action"
             },
             "SWEET_ALERT": {
-                "TITLE_READ_ALL": "Lire toute les notifications",
-                "MESSAGE_READ_ALL": "Voulez-vous vraiment lire toutes les notifications ?"
+                "TITLE": {"READ_ALL": "Lire toute les notifications"},
+                "MESSAGE": {"READ_ALL": "Voulez-vous vraiment lire toutes les notifications ?"}
             },
             "BUTTONS": {
                 "DELETE": "Supprimer"
