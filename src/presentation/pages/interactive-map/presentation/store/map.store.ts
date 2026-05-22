@@ -37,8 +37,8 @@ const initialState: MapState = {
     userPosition: null,
     bounds: null,
     view: {
-        center: { lat: 7.54, lng: -5.35 },
-        zoom: 7,
+        center: { lat: 10.539989, lng: -7.54708 },
+        zoom: -5,
     },
     reports: [],
     filters: { ...EMPTY_REPORT_FILTERS },
@@ -203,27 +203,12 @@ export class MapStore {
         if (!b1 || !b2) {
             return false;
         }
-
-        const latSpan1 = Math.abs(b1.maxLat - b1.minLat);
-        const latSpan2 = Math.abs(b2.maxLat - b2.minLat);
-        const lngSpan1 = Math.abs(b1.maxLng - b1.minLng);
-        const lngSpan2 = Math.abs(b2.maxLng - b2.minLng);
-        const latSpan = Math.max(latSpan1, latSpan2);
-        const lngSpan = Math.max(lngSpan1, lngSpan2);
-        const latCenter1 = (b1.minLat + b1.maxLat) / 2;
-        const latCenter2 = (b2.minLat + b2.maxLat) / 2;
-        const lngCenter1 = (b1.minLng + b1.maxLng) / 2;
-        const lngCenter2 = (b2.minLng + b2.maxLng) / 2;
-        const panTolerance = 0.12;
-        const zoomTolerance = 0.08;
-
+        const epsilon = 0.0001;
         return (
-            Math.abs(latCenter1 - latCenter2) <
-                Math.max(latSpan * panTolerance, 0.0005) &&
-            Math.abs(lngCenter1 - lngCenter2) <
-                Math.max(lngSpan * panTolerance, 0.0005) &&
-            Math.abs(latSpan1 - latSpan2) < latSpan * zoomTolerance &&
-            Math.abs(lngSpan1 - lngSpan2) < lngSpan * zoomTolerance
+            Math.abs(b1.minLat - b2.minLat) < epsilon &&
+            Math.abs(b1.maxLat - b2.maxLat) < epsilon &&
+            Math.abs(b1.minLng - b2.minLng) < epsilon &&
+            Math.abs(b1.maxLng - b2.maxLng) < epsilon
         );
     }
 

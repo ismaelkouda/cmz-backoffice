@@ -294,7 +294,7 @@
 }
 
 .cluster-tooltip {
-    position: absolute;
+    position: relative;
     z-index: 5;
     min-width: 150px;
     padding: 10px;
@@ -316,6 +316,19 @@
         border: 0;
         border-top: 1px solid #e2e8f0;
     }
+}
+
+.map-click-overlay {
+    position: relative;
+    z-index: 6;
+}
+
+.map-click-overlay.is-hidden {
+    display: none;
+}
+
+.cluster-tooltip.is-hidden {
+    display: none;
 }
 
 .cluster-tooltip.report-hover-card {
@@ -388,12 +401,8 @@
 }
 
 .report-popup {
-    position: absolute;
-    right: 18px;
-    bottom: 18px;
-    z-index: 6;
-    width: min(420px, calc(100% - 36px));
-    max-height: calc(100% - 36px);
+    // width: min(420px, calc(100% - 36px));
+    // max-height: 440px;
     overflow: auto;
     padding: 16px;
     background: #ffffff;
@@ -446,6 +455,43 @@
     dd {
         margin: 0;
         overflow-wrap: anywhere;
+    }
+}
+
+.cluster-popup {
+    width: min(360px, calc(100% - 36px));
+}
+
+.cluster-report-list {
+    display: grid;
+    gap: 8px;
+}
+
+.cluster-report-item {
+    display: grid;
+    gap: 3px;
+    width: 100%;
+    padding: 10px;
+    color: #172033;
+    text-align: left;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+
+    span {
+        color: #0f172a;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    small {
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    &:hover {
+        background: #eff6ff;
+        border-color: #2563eb;
     }
 }
 
@@ -627,8 +673,6 @@ button {
     }
 
     .report-popup {
-        right: 10px;
-        bottom: 10px;
         width: calc(100% - 20px);
     }
 }
