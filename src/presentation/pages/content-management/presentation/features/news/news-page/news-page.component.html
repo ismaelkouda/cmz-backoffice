@@ -10,55 +10,29 @@
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="
-                                'CONTENT_MANAGEMENT.SLIDE.TITLE'
+                                'CONTENT_MANAGEMENT.NEWS.TITLE'
                                     | translate
                                     | lowercase
                             "
                         ></app-page-title>
                     </header>
 
-                    <div class="news-content">
-                        <app-filter
-                            class="filter-component"
-                            [isLoading]="loading()"
-                            [formGroup]="form"
-                            [fields]="filterFields()"
-                            (filter)="onFilterClicked($event)"
-                            [filterState]="facade.currentFilter$"
-                            [limit]="5"
-                        ></app-filter>
+                    <p-tabs lazy [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.value) {
+                                <p-tab
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
 
-                        <hr class="news-divider" />
-
-                        <section class="table-section">
-                            <app-table
-                                class="table-component"
-                                [loading]="loading()"
-                                [items]="itemsVM()"
-                                [pagination]="pagination()"
-                                [config]="tableConfig"
-                                [headerButtons]="headerButtons()"
-                                (headerButtonClicked)="
-                                    onHeaderButtonClicked($event)
-                                "
-                                (refreshRequested)="onRefreshClicked()"
-                                (createRequested)="
-                                    onHeaderButtonClicked($event)
-                                "
-                                (editRequested)="onNavigateToForm($event)"
-                                (deleteRequested)="onDeleteClicked($event)"
-                                (enableRequested)="onEnableClicked($event)"
-                                (disableRequested)="onDisableClicked($event)"
-                                dataKey="uniqId"
-                            ></app-table>
-
-                            <app-pagination
-                                class="pagination-component"
-                                [pagination]="pagination()"
-                                (pageChange)="onChangePageClicked($event)"
-                            ></app-pagination>
-                        </section>
-                    </div>
+                    <router-outlet></router-outlet>
                 </div>
             </section>
         </article>

@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { NewsCategoriesSelectFacade } from '@pages/content-management/application/services/news/news-categories-select.facade';
 import { NewsFindOneFacade } from '@pages/content-management/application/services/news/news-find-one.facade';
-import { NewsFormControl } from '@pages/content-management/domain/controls/news/news-form.control';
+import { NewsFormControl } from '@pages/content-management/application/store/news/news-form.control';
 import { NewsSubCategoriesSelectProps } from '@pages/content-management/domain/interfaces/news/news-sub-categories-select.props.interface';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';

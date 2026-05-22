@@ -21,9 +21,7 @@
             [items]="itemsVM()"
             [pagination]="pagination()"
             (actionClicked)="onActionClicked($event)"
-            (headerButtonClicked)="
-                onHeaderButtonClicked($event)
-            "
+            (headerButtonClicked)="onHeaderButtonClicked($event)"
         ></app-table>
 
         <app-pagination
