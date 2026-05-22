@@ -10,7 +10,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { LegalNoticeFindOneFacade } from '@pages/content-management/application/services/legal-notice/legal-notice-find-one.facade';
-import { LegalNoticeFormControl } from '@pages/content-management/domain/controls/legal-notice/legal-notice-form.control';
+import { LegalNoticeFormControl } from '@pages/content-management/application/store/legal-notice/legal-notice-form.control';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 
 @Injectable()

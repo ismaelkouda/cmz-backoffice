@@ -1,10 +1,29 @@
 import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
 import { TermsUseVmProps } from '@pages/content-management/presentation/adapters/terms-use/terms-use-vm-props.interface';
+import { Status } from '@presentation/pages/content-management/domain/enums/terms-use/terms-use-status.enum';
 
 export class TermsUsePresenter {
     constructor(private readonly t: (key: string) => string) {}
 
-    map(item: TermsUseEntity): TermsUseVmProps {
+    map(
+        item: TermsUseEntity,
+        permission: {
+            authorization: {
+                canEdit: boolean;
+                canDelete: boolean;
+                canPublish: boolean;
+                canUnpublish: boolean;
+                canChoose: boolean;
+            };
+            tooltip: {
+                edit: string;
+                delete: string;
+                publish: string;
+                unpublish: string;
+                choose: string;
+            };
+        }
+    ): TermsUseVmProps {
         return {
             uniqId: item.uniqId,
             version: item.version,
@@ -14,6 +33,64 @@ export class TermsUsePresenter {
             createdAt: item.createdAt,
             publishedAt: item.publishedAt,
             actionsRef: item.actionsRef,
+            dropdownActions: [
+                {
+                    id: 'edit',
+                    label: 'COMMON.EDIT',
+                    icon: 'pi pi-pencil',
+                    disabled: !permission.authorization.canEdit,
+                    tooltip: permission.authorization.canEdit
+                        ? this.t('CONTENT_MANAGEMENT.TERMS_USE.TOOLTIP.EDIT')
+                        : permission.tooltip.edit,
+                },
+                ...(item.status === Status.UNPUBLISH
+                    ? [
+                          {
+                              id: 'publish',
+                              label: 'COMMON.PUBLISH',
+                              icon: 'pi pi-check',
+                              disabled: !permission.authorization.canPublish,
+                              tooltip: permission.authorization.canPublish
+                                  ? this.t(
+                                        'CONTENT_MANAGEMENT.TERMS_USE.TOOLTIP.PUBLISH'
+                                    )
+                                  : permission.tooltip.publish,
+                          },
+                      ]
+                    : [
+                          {
+                              id: 'unpublish',
+                              label: 'COMMON.UNPUBLISH',
+                              icon: 'pi pi-times',
+                              disabled: !permission.authorization.canUnpublish,
+                              tooltip: permission.authorization.canUnpublish
+                                  ? this.t(
+                                        'CONTENT_MANAGEMENT.TERMS_USE.TOOLTIP.UNPUBLISH'
+                                    )
+                                  : permission.tooltip.unpublish,
+                          },
+                      ]),
+
+                {
+                    id: 'delete',
+                    label: 'COMMON.DELETE',
+                    icon: 'pi pi-trash',
+                    disabled:
+                        item.status === Status.PUBLISH ||
+                        !permission.authorization.canDelete,
+                    tooltip:
+                        permission.authorization.canDelete &&
+                        item.status !== Status.PUBLISH
+                            ? this.t(
+                                  'CONTENT_MANAGEMENT.TERMS_USE.TOOLTIP.DELETE'
+                              )
+                            : permission.tooltip.delete,
+                },
+            ],
+            disableDropdown: !permission.authorization.canChoose,
+            tooltipDropdown: permission.authorization.canChoose
+                ? this.t('CONTENT_MANAGEMENT.TERMS_USE.TOOLTIP.CHOOSE')
+                : permission.tooltip.choose,
         };
     }
 }

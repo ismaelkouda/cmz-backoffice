@@ -5,15 +5,16 @@ import {
     DestroyRef,
     inject,
     Signal,
+    signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TermsUseFacade } from '@pages/content-management/application/services/terms-use/terms-use.facade';
-import { TermsUseFormStore } from '@pages/content-management/application/store/terms-use-form/terms-use-form.store';
 import { TermsUseFormHelperService } from '@pages/content-management/domain/services/terms-use/terms-use-form-helper.service';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
+import { TermsUseFormStore } from '@presentation/pages/content-management/application/store/terms-use/terms-use-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
@@ -63,6 +64,10 @@ export class TermsUseFormComponent {
 
     public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
 
+    private readonly currentLang = signal<string>(
+        this.translate.getCurrentLang()
+    );
+
     private readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
             map(
@@ -75,20 +80,10 @@ export class TermsUseFormComponent {
         { initialValue: '' }
     );
 
-    private showValidationErrors(): void {
-        const controlNames = ['version', 'content'] as const;
-
-        const errors = controlNames
-            .filter((name) => this.form.controls[name].invalid)
-            .map((name) => this.getErrorMessage(name));
-
-        if (errors.length) {
-            SweetAlert.fire({
-                icon: 'error',
-                title: this.t('COMMON.ERRORS.FORM_INVALID'),
-                html: `<ul style="text-align:left">${errors.map((e) => `<li>${e}</li>`).join('')}</ul>`,
-            });
-        }
+    constructor() {
+        this.translate.onLangChange
+            .pipe(takeUntilDestroyed())
+            .subscribe((lang) => this.currentLang.set(lang.lang));
     }
 
     public getErrorMessage(field: string): string {
@@ -99,7 +94,6 @@ export class TermsUseFormComponent {
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
-            this.showValidationErrors();
             return;
         }
 
@@ -108,28 +102,24 @@ export class TermsUseFormComponent {
 
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t(title),
-            text: this.t(message),
-            backdrop: false,
-            confirmButtonText: this.t('COMMON.CONFIRM'),
-            cancelButtonText: this.t('COMMON.CANCEL'),
+            title: this.translate.instant(title),
+            text: this.translate.instant(message),
         }).then((result) => {
-            if (result.isConfirmed) {
-                this.submitForm();
+            if (!result.isConfirmed) {
+                return;
+            }
+
+            const payload = this.form.getRawValue();
+
+            if (this.isEditMode()) {
+                this.submitFacade.update({
+                    uniqId: this.uniqId(),
+                    ...payload,
+                });
+            } else {
+                this.submitFacade.create(payload);
             }
         });
-    }
-
-    private submitForm(): void {
-        const payload = this.form.getRawValue();
-        if (this.isEditMode()) {
-            this.submitFacade.update({
-                uniqId: this.uniqId(),
-                ...payload,
-            });
-        } else {
-            this.submitFacade.create(payload);
-        }
     }
 
     public get allowed(): typeof FormValidators {
@@ -139,10 +129,6 @@ export class TermsUseFormComponent {
     public isFieldInvalid(fieldName: string): boolean {
         const control = this.form.get(fieldName);
         return !!(control?.invalid && control?.touched);
-    }
-
-    private t(key: string, params?: object): string {
-        return this.translate.instant(key, params);
     }
 
     navigateToBack(): void {
