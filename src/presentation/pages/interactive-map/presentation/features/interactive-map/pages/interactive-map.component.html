@@ -285,202 +285,291 @@
                             </div>
 
                             <div
-                                *ngIf="clusterTooltip() as tooltip"
+                                #hoverOverlay
                                 class="cluster-tooltip"
                                 [class.report-hover-card]="
-                                    tooltip.kind === 'report'
+                                    clusterTooltip()?.kind === 'report'
                                 "
-                                [style.left.px]="tooltip.x + 16"
-                                [style.top.px]="tooltip.y + 16"
+                                [class.is-hidden]="!clusterTooltip()"
                                 (mouseenter)="keepHoverTooltip()"
                                 (mouseleave)="releaseHoverTooltip()"
                             >
-                                @if (
-                                    tooltip.kind === 'cluster' &&
-                                    tooltip.summary
-                                ) {
-                                    <strong>
-                                        {{ tooltip.summary.total }}
-                                        signalements
-                                    </strong>
-                                    <div>
-                                        Orange:
-                                        {{ tooltip.summary.byOperator.orange }}
-                                    </div>
-                                    <div>
-                                        MTN:
-                                        {{ tooltip.summary.byOperator.mtn }}
-                                    </div>
-                                    <div>
-                                        Moov:
-                                        {{ tooltip.summary.byOperator.moov }}
-                                    </div>
-                                    <hr />
-                                    <div>
-                                        ZOB: {{ tooltip.summary.byType.zob }}
-                                    </div>
-                                    <div>
-                                        CPO: {{ tooltip.summary.byType.cpo }}
-                                    </div>
-                                    <div>
-                                        CPS: {{ tooltip.summary.byType.cps }}
-                                    </div>
-                                    <div>
-                                        ABI: {{ tooltip.summary.byType.abi }}
-                                    </div>
-                                }
+                                @if (clusterTooltip(); as tooltip) {
+                                    @if (
+                                        tooltip.kind === 'cluster' &&
+                                        tooltip.summary
+                                    ) {
+                                        <strong>
+                                            {{ tooltip.summary.total }}
+                                            signalements
+                                        </strong>
+                                        <div>
+                                            Orange:
+                                            {{
+                                                tooltip.summary.byOperator
+                                                    .orange
+                                            }}
+                                        </div>
+                                        <div>
+                                            MTN:
+                                            {{ tooltip.summary.byOperator.mtn }}
+                                        </div>
+                                        <div>
+                                            Moov:
+                                            {{
+                                                tooltip.summary.byOperator.moov
+                                            }}
+                                        </div>
+                                        <hr />
+                                        <div>
+                                            ZOB:
+                                            {{ tooltip.summary.byType.zob }}
+                                        </div>
+                                        <div>
+                                            CPO:
+                                            {{ tooltip.summary.byType.cpo }}
+                                        </div>
+                                        <div>
+                                            CPS:
+                                            {{ tooltip.summary.byType.cps }}
+                                        </div>
+                                        <div>
+                                            ABI:
+                                            {{ tooltip.summary.byType.abi }}
+                                        </div>
+                                    }
 
-                                @if (tooltip.report; as report) {
-                                    <article class="report-hover-content">
-                                        <div class="report-hover-main">
-                                            <span class="report-hover-kicker">
-                                                Signalement
-                                            </span>
-                                            <strong>
-                                                {{
+                                    @if (tooltip.report; as report) {
+                                        <article class="report-hover-content">
+                                            <div class="report-hover-main">
+                                                <span
+                                                    class="report-hover-kicker"
+                                                >
+                                                    Signalement
+                                                </span>
+                                                <strong>
+                                                    {{
+                                                        getReportTypeLabel(
+                                                            report.report_type
+                                                        )
+                                                    }}
+                                                </strong>
+                                                <span>
+                                                    {{
+                                                        getOperators(report) ||
+                                                            '-'
+                                                    }}
+                                                </span>
+                                                <span>
+                                                    {{
+                                                        report.initiator_phone_number ||
+                                                            '-'
+                                                    }}
+                                                </span>
+                                            </div>
+
+                                            <div class="report-hover-actions">
+                                                @if (report.place_photo) {
+                                                    <a
+                                                        [href]="
+                                                            report.place_photo
+                                                        "
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        title="Voir la photo"
+                                                        aria-label="Voir la photo"
+                                                    >
+                                                        <i
+                                                            class="pi pi-image"
+                                                        ></i>
+                                                    </a>
+                                                }
+                                                <button
+                                                    type="button"
+                                                    title="Voir plus"
+                                                    aria-label="Voir plus"
+                                                    (click)="
+                                                        openReportFromHover(
+                                                            report,
+                                                            tooltip.coordinate
+                                                        )
+                                                    "
+                                                >
+                                                    <i
+                                                        class="pi pi-info-circle"
+                                                    ></i>
+                                                </button>
+                                            </div>
+                                        </article>
+                                    }
+                                }
+                            </div>
+
+                            <div
+                                #clickOverlay
+                                class="map-click-overlay"
+                                [class.is-hidden]="
+                                    !store.selectedReport() &&
+                                    selectedClusterReports().length === 0
+                                "
+                            >
+                                @if (store.selectedReport(); as report) {
+                                    <article class="report-popup">
+                                        <header>
+                                            <div>
+                                                <strong>{{
                                                     getReportTypeLabel(
                                                         report.report_type
                                                     )
-                                                }}
-                                            </strong>
-                                            <span>
+                                                }}</strong>
+                                                <!-- <span>{{
+                                                    getStatusLabel(report.status)
+                                                }}</span> -->
+                                            </div>
+                                            <button
+                                                type="button"
+                                                (click)="closePopup()"
+                                            >
+                                                x
+                                            </button>
+                                        </header>
+
+                                        <dl>
+                                            <dt>Operateur(s)</dt>
+                                            <dd>{{ getOperators(report) }}</dd>
+                                            <dt>Commune / Region</dt>
+                                            <dd>
                                                 {{
-                                                    getOperators(report) || '-'
+                                                    getPlaceName(
+                                                        report.municipality
+                                                    )
                                                 }}
-                                            </span>
-                                            <span>
+                                                /
+                                                {{
+                                                    getPlaceName(report.region)
+                                                }}
+                                            </dd>
+                                            <dt>Signale le</dt>
+                                            <dd>
+                                                {{ report.reported_at || '-' }}
+                                            </dd>
+                                            <dt>Telephone</dt>
+                                            <dd>
                                                 {{
                                                     report.initiator_phone_number ||
                                                         '-'
                                                 }}
-                                            </span>
-                                        </div>
+                                            </dd>
+                                            <dt>Description</dt>
+                                            <dd>
+                                                {{ report.description || '-' }}
+                                            </dd>
+                                            <dt>Confirmations / Denis</dt>
+                                            <dd>
+                                                {{ report.confirm_count || 0 }}
+                                                /
+                                                {{ report.deny_count || 0 }}
+                                            </dd>
+                                            <dt>Commentaire validation</dt>
+                                            <dd>
+                                                {{
+                                                    getValidationComment(report)
+                                                }}
+                                            </dd>
+                                        </dl>
 
-                                        <div class="report-hover-actions">
-                                            @if (report.place_photo) {
-                                                <a
-                                                    [href]="report.place_photo"
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    title="Voir la photo"
-                                                    aria-label="Voir la photo"
-                                                >
-                                                    <i class="pi pi-image"></i>
-                                                </a>
-                                            }
+                                        <a
+                                            class="photo-link"
+                                            [href]="report.place_photo"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            Voir la photo
+                                        </a>
+
+                                        <div class="popup-actions">
+                                            <button type="button">
+                                                Voir les plus d'infos
+                                            </button>
+                                        </div>
+                                    </article>
+                                } @else if (selectedClusterReports().length) {
+                                    <article class="report-popup cluster-popup">
+                                        <header>
+                                            <div>
+                                                <strong>
+                                                    {{
+                                                        selectedClusterReports()
+                                                            .length
+                                                    }}
+                                                    signalements
+                                                </strong>
+                                                @if (
+                                                    selectedClusterSummary();
+                                                    as summary
+                                                ) {
+                                                    <span>
+                                                        Orange:
+                                                        {{
+                                                            summary.byOperator
+                                                                .orange
+                                                        }}
+                                                        · MTN:
+                                                        {{
+                                                            summary.byOperator
+                                                                .mtn
+                                                        }}
+                                                        · Moov:
+                                                        {{
+                                                            summary.byOperator
+                                                                .moov
+                                                        }}
+                                                    </span>
+                                                }
+                                            </div>
                                             <button
                                                 type="button"
-                                                title="Voir plus"
-                                                aria-label="Voir plus"
-                                                (click)="focusReport(report)"
+                                                (click)="closePopup()"
                                             >
-                                                <i
-                                                    class="pi pi-info-circle"
-                                                ></i>
+                                                x
                                             </button>
+                                        </header>
+
+                                        <div class="cluster-report-list">
+                                            @for (
+                                                report of selectedClusterReports();
+                                                track report.id
+                                            ) {
+                                                <button
+                                                    type="button"
+                                                    class="cluster-report-item"
+                                                    (click)="
+                                                        focusReport(report)
+                                                    "
+                                                >
+                                                    <span>
+                                                        {{
+                                                            getReportTypeLabel(
+                                                                report.report_type
+                                                            )
+                                                        }}
+                                                    </span>
+                                                    <small>
+                                                        {{
+                                                            getOperators(report)
+                                                        }}
+                                                        ·
+                                                        {{
+                                                            report.initiator_phone_number ||
+                                                                '-'
+                                                        }}
+                                                    </small>
+                                                </button>
+                                            }
                                         </div>
                                     </article>
                                 }
                             </div>
-
-                            <article
-                                *ngIf="store.selectedReport() as report"
-                                class="report-popup"
-                            >
-                                <header>
-                                    <div>
-                                        <strong>{{
-                                            getReportTypeLabel(
-                                                report.report_type
-                                            )
-                                        }}</strong>
-                                        <!-- <span>{{
-                                            getStatusLabel(report.status)
-                                        }}</span> -->
-                                    </div>
-                                    <button
-                                        type="button"
-                                        (click)="closePopup()"
-                                    >
-                                        x
-                                    </button>
-                                </header>
-
-                                <dl>
-                                    <dt>Operateur(s)</dt>
-                                    <dd>{{ getOperators(report) }}</dd>
-                                    <dt>Commune / Region</dt>
-                                    <dd>
-                                        {{ getPlaceName(report.municipality) }}
-                                        /
-                                        {{ getPlaceName(report.region) }}
-                                    </dd>
-                                    <dt>Signale le</dt>
-                                    <dd>{{ report.reported_at || '-' }}</dd>
-                                    <dt>Telephone</dt>
-                                    <dd>
-                                        {{
-                                            report.initiator_phone_number || '-'
-                                        }}
-                                    </dd>
-                                    <dt>Description</dt>
-                                    <dd>{{ report.description || '-' }}</dd>
-                                    <dt>Confirmations / Denis</dt>
-                                    <dd>
-                                        {{ report.confirm_count || 0 }} /
-                                        {{ report.deny_count || 0 }}
-                                    </dd>
-                                    <dt>Commentaire validation</dt>
-                                    <dd>{{ getValidationComment(report) }}</dd>
-                                </dl>
-
-                                <a
-                                    class="photo-link"
-                                    [href]="report.place_photo"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    Voir la photo
-                                </a>
-
-                                <div class="popup-actions">
-                                    <button type="button">
-                                        Voir les plus d'infos
-                                    </button>
-                                    <!-- <button
-                                        type="button"
-                                        (click)="
-                                            updateStatus(report, 'approved')
-                                        "
-                                    >
-                                        Approuver
-                                    </button>
-                                    <button
-                                        type="button"
-                                        (click)="
-                                            updateStatus(report, 'in-progress')
-                                        "
-                                    >
-                                        En cours
-                                    </button>
-                                    <button
-                                        type="button"
-                                        (click)="
-                                            updateStatus(report, 'rejected')
-                                        "
-                                    >
-                                        Rejeter
-                                    </button>
-                                    <button
-                                        type="button"
-                                        (click)="
-                                            updateStatus(report, 'abandoned')
-                                        "
-                                    >
-                                        Abandonner
-                                    </button> -->
-                                </div>
-                            </article>
                         </main>
                     </div>
                 </div>

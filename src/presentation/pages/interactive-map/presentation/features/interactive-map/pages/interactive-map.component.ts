@@ -27,6 +27,7 @@ import {
 import { InteractiveMapReportsApi } from '@pages/interactive-map/infrastructure/data/sources/interactive-map-reports.api';
 import {
     ClusterTooltip,
+    MapClickInfo,
     MapAdapter,
 } from '@pages/interactive-map/presentation/adapters/map.adapter';
 import {
@@ -35,12 +36,13 @@ import {
 } from '@pages/interactive-map/presentation/services/geolocation.service';
 import { MapStore } from '@pages/interactive-map/presentation/store/map.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { parseCoordinates } from '@shared/components/location-picker/utils/coordinates.utils';
+import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { ToastrService } from 'ngx-toastr';
+import { Coordinate } from 'ol/coordinate';
 import { ButtonModule } from 'primeng/button';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import {
     EMPTY,
@@ -91,9 +93,17 @@ export class InteractiveMapComponent
 {
     @ViewChild('mapContainer', { static: true })
     private mapContainer!: ElementRef<HTMLElement>;
+    @ViewChild('hoverOverlay', { static: true })
+    private hoverOverlay!: ElementRef<HTMLElement>;
+    @ViewChild('clickOverlay', { static: true })
+    private clickOverlay!: ElementRef<HTMLElement>;
 
     public readonly store = inject(MapStore);
     public readonly clusterTooltip = signal<ClusterTooltip | null>(null);
+    public readonly selectedClusterReports = signal<InteractiveMapReport[]>([]);
+    public readonly selectedClusterSummary = signal<
+        ClusterTooltip['summary'] | null
+    >(null);
     public readonly filtersPanelOpen = signal(true);
     public readonly locationSearchQuery = signal('');
     public readonly locationSearchResults = signal<LocationSearchResult[]>([]);
@@ -138,6 +148,7 @@ export class InteractiveMapComponent
     private readonly toastr = inject(ToastrService);
     private readonly locationSearchSubject = new Subject<string>();
     private hoverTooltipLocked = false;
+    private hoverHideTimer: ReturnType<typeof setTimeout> | null = null;
     private urlSyncReady = false;
 
     constructor() {
@@ -152,6 +163,8 @@ export class InteractiveMapComponent
 
     ngAfterViewInit(): void {
         this.initMap();
+        this.mapAdapter.setHoverOverlayElement(this.hoverOverlay.nativeElement);
+        this.mapAdapter.setClickOverlayElement(this.clickOverlay.nativeElement);
         this.listenToMapMoves();
         this.listenToMapSelections();
         this.initializeBoundsFromMap();
@@ -159,6 +172,7 @@ export class InteractiveMapComponent
     }
 
     ngOnDestroy(): void {
+        this.clearHoverHideTimer();
         this.mapAdapter.destroy();
     }
 
@@ -247,7 +261,10 @@ export class InteractiveMapComponent
 
     public closePopup(): void {
         this.store.setSelectedReport(null);
+        this.selectedClusterReports.set([]);
+        this.selectedClusterSummary.set(null);
         this.mapAdapter.setSelectedReport(null);
+        this.mapAdapter.hideClickOverlay();
     }
 
     public onLocationSearchChange(value: string): void {
@@ -342,11 +359,24 @@ export class InteractiveMapComponent
 
     public keepHoverTooltip(): void {
         this.hoverTooltipLocked = true;
+        this.clearHoverHideTimer();
     }
 
     public releaseHoverTooltip(): void {
         this.hoverTooltipLocked = false;
-        this.clusterTooltip.set(null);
+        this.scheduleHoverHide();
+    }
+
+    public openReportFromHover(
+        report: InteractiveMapReport,
+        coordinate: Coordinate
+    ): void {
+        this.store.setSelectedReport(report);
+        this.selectedClusterReports.set([]);
+        this.selectedClusterSummary.set(null);
+        this.mapAdapter.setSelectedReport(report);
+        this.mapAdapter.showClickOverlay(coordinate);
+        this.releaseHoverTooltip();
     }
 
     private setupStoreEffects(): void {
@@ -425,7 +455,7 @@ export class InteractiveMapComponent
     private listenToMapMoves(): void {
         this.mapAdapter
             .onMoveEnd()
-            .pipe(debounceTime(700), takeUntilDestroyed(this.destroyRef))
+            .pipe(debounceTime(1000), takeUntilDestroyed(this.destroyRef))
             .subscribe((bounds) => {
                 this.store.setBounds(bounds);
 
@@ -438,9 +468,9 @@ export class InteractiveMapComponent
 
     private listenToMapSelections(): void {
         this.mapAdapter
-            .onReportClick()
+            .onMapClick()
             .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((report) => this.store.setSelectedReport(report));
+            .subscribe((info) => this.handleMapClick(info));
 
         this.mapAdapter
             .onClusterTooltip()
@@ -450,8 +480,55 @@ export class InteractiveMapComponent
                     return;
                 }
 
+                if (!tooltip) {
+                    this.scheduleHoverHide();
+                    return;
+                }
+
+                this.clearHoverHideTimer();
                 this.clusterTooltip.set(tooltip);
             });
+    }
+
+    private handleMapClick(info: MapClickInfo): void {
+        if (!info.reports.length) {
+            this.store.setSelectedReport(null);
+            this.selectedClusterReports.set([]);
+            this.selectedClusterSummary.set(null);
+            return;
+        }
+
+        if (info.kind === 'cluster') {
+            this.store.setSelectedReport(null);
+            this.selectedClusterReports.set(info.reports);
+            this.selectedClusterSummary.set(info.summary ?? null);
+            return;
+        }
+
+        if (info.report) {
+            this.store.setSelectedReport(info.report);
+            this.selectedClusterReports.set([]);
+            this.selectedClusterSummary.set(null);
+        }
+    }
+
+    private scheduleHoverHide(): void {
+        this.clearHoverHideTimer();
+        this.hoverHideTimer = setTimeout(() => {
+            if (this.hoverTooltipLocked) {
+                return;
+            }
+
+            this.clusterTooltip.set(null);
+            this.mapAdapter.hideHoverOverlay();
+        }, 180);
+    }
+
+    private clearHoverHideTimer(): void {
+        if (this.hoverHideTimer) {
+            clearTimeout(this.hoverHideTimer);
+            this.hoverHideTimer = null;
+        }
     }
 
     private loadReports(

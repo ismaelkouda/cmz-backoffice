@@ -8,6 +8,7 @@ import {
     ReportType,
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
 import { defaults as defaultControls } from 'ol/control';
+import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
 import { FeatureLike } from 'ol/Feature';
 import Point from 'ol/geom/Point';
@@ -15,6 +16,7 @@ import HeatmapLayer from 'ol/layer/Heatmap';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import Map from 'ol/Map';
+import Overlay from 'ol/Overlay';
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
 import Cluster from 'ol/source/Cluster';
 import OSM from 'ol/source/OSM';
@@ -32,11 +34,19 @@ export interface MapOptions {
 }
 
 export interface ClusterTooltip {
-    x: number;
-    y: number;
     summary?: ClusterSummary;
     report?: InteractiveMapReport;
     kind: 'cluster' | 'report';
+    coordinate: Coordinate;
+    reports: InteractiveMapReport[];
+}
+
+export interface MapClickInfo {
+    kind: 'cluster' | 'report';
+    coordinate: Coordinate;
+    reports: InteractiveMapReport[];
+    report?: InteractiveMapReport;
+    summary?: ClusterSummary;
 }
 
 const IVORY_COAST_BOUNDS: Bounds = {
@@ -51,6 +61,8 @@ const IVORY_COAST_BOUNDS: Bounds = {
 })
 export class MapAdapter {
     private map: Map | null = null;
+    private hoverOverlay: Overlay | null = null;
+    private clickOverlay: Overlay | null = null;
     private lastBounds: Bounds | null = null;
     private selectedReportId: string | number | null = null;
     private suppressMoveEndUntil = 0;
@@ -74,7 +86,7 @@ export class MapAdapter {
     });
 
     private readonly moveEndSubject = new Subject<Bounds>();
-    private readonly reportClickSubject = new Subject<InteractiveMapReport>();
+    private readonly mapClickSubject = new Subject<MapClickInfo>();
     private readonly clusterTooltipSubject =
         new Subject<ClusterTooltip | null>();
 
@@ -144,8 +156,8 @@ export class MapAdapter {
             );
     }
 
-    onReportClick(): Observable<InteractiveMapReport> {
-        return this.reportClickSubject.asObservable();
+    onMapClick(): Observable<MapClickInfo> {
+        return this.mapClickSubject.asObservable();
     }
 
     onClusterTooltip(): Observable<ClusterTooltip | null> {
@@ -300,7 +312,13 @@ export class MapAdapter {
             duration: 500,
         });
 
-        this.reportClickSubject.next(report);
+        this.showClickOverlay(fromLonLat([lng, lat]));
+        this.mapClickSubject.next({
+            kind: 'report',
+            coordinate: fromLonLat([lng, lat]),
+            reports: [report],
+            report,
+        });
     }
 
     focusLocation(lat: number, lng: number, zoom = 14): void {
@@ -318,6 +336,66 @@ export class MapAdapter {
     setSelectedReport(report: InteractiveMapReport | null): void {
         this.selectedReportId = report?.id ?? null;
         this.clusterLayer.changed();
+    }
+
+    setHoverOverlayElement(element: HTMLElement): void {
+        if (!this.map) {
+            return;
+        }
+
+        if (this.hoverOverlay) {
+            this.hoverOverlay.setElement(element);
+            return;
+        }
+
+        this.hoverOverlay = new Overlay({
+            element,
+            positioning: 'bottom-center',
+            offset: [0, -18],
+            stopEvent: true,
+            insertFirst: false,
+        });
+        // this.map.addOverlay(this.hoverOverlay);
+    }
+
+    setClickOverlayElement(element: HTMLElement): void {
+        if (!this.map) {
+            return;
+        }
+
+        if (this.clickOverlay) {
+            this.clickOverlay.setElement(element);
+            return;
+        }
+
+        this.clickOverlay = new Overlay({
+            element,
+            positioning: 'top-center',
+            offset: [0, 22],
+            stopEvent: true,
+            insertFirst: false,
+            // autoPan: {
+            //     animation: { duration: 220 },
+            //     margin: 18,
+            // },
+        });
+        this.map.addOverlay(this.clickOverlay);
+    }
+
+    showHoverOverlay(coordinate: Coordinate): void {
+        this.hoverOverlay?.setPosition(coordinate);
+    }
+
+    hideHoverOverlay(): void {
+        this.hoverOverlay?.setPosition(undefined);
+    }
+
+    showClickOverlay(coordinate: Coordinate): void {
+        this.clickOverlay?.setPosition(coordinate);
+    }
+
+    hideClickOverlay(): void {
+        this.clickOverlay?.setPosition(undefined);
     }
 
     isReady(): boolean {
@@ -347,7 +425,7 @@ export class MapAdapter {
             this.map = null;
         }
         this.moveEndSubject.complete();
-        this.reportClickSubject.complete();
+        this.mapClickSubject.complete();
         this.clusterTooltipSubject.complete();
     }
 
@@ -384,12 +462,36 @@ export class MapAdapter {
             const reports = this.getReportsFromFeature(feature);
 
             if (!reports.length) {
+                this.hideClickOverlay();
+                this.mapClickSubject.next({
+                    kind: 'cluster',
+                    coordinate: event.coordinate,
+                    reports: [],
+                    summary: this.buildClusterSummary([]),
+                });
                 return;
             }
 
             this.ngZone.run(() => {
-                this.setSelectedReport(reports[0]);
-                this.reportClickSubject.next(reports[0]);
+                const kind = reports.length > 1 ? 'cluster' : 'report';
+
+                if (kind === 'report') {
+                    this.setSelectedReport(reports[0]);
+                } else {
+                    this.setSelectedReport(null);
+                }
+
+                this.mapClickSubject.next({
+                    kind,
+                    coordinate: event.coordinate,
+                    reports,
+                    report: kind === 'report' ? reports[0] : undefined,
+                    summary:
+                        kind === 'cluster'
+                            ? this.buildClusterSummary(reports)
+                            : undefined,
+                });
+                this.showClickOverlay(event.coordinate);
             });
         });
     }
@@ -415,21 +517,23 @@ export class MapAdapter {
             this.ngZone.run(() => {
                 if (reports.length > 1) {
                     this.clusterTooltipSubject.next({
-                        x: event.pixel[0],
-                        y: event.pixel[1],
                         kind: 'cluster',
+                        coordinate: event.coordinate,
+                        reports,
                         summary: this.buildClusterSummary(reports),
                     });
+                    this.showHoverOverlay(event.coordinate);
                     return;
                 }
 
                 if (reports.length === 1) {
                     this.clusterTooltipSubject.next({
-                        x: event.pixel[0],
-                        y: event.pixel[1],
                         kind: 'report',
+                        coordinate: event.coordinate,
+                        reports,
                         report: reports[0],
                     });
+                    this.showHoverOverlay(event.coordinate);
                     return;
                 }
 
