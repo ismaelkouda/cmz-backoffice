@@ -10,7 +10,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { PrivacyPolicyFindOneFacade } from '@pages/content-management/application/services/privacy-policy/privacy-policy-find-one.facade';
-import { PrivacyPolicyFormControl } from '@pages/content-management/domain/controls/privacy-policy/privacy-policy-form.control';
+import { PrivacyPolicyFormControl } from '@pages/content-management/application/store/privacy-policy/privacy-policy-form.control';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 
 @Injectable()
