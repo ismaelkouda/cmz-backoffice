@@ -10,7 +10,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { TermsUseFindOneFacade } from '@pages/content-management/application/services/terms-use/terms-use-find-one.facade';
-import { TermsUseFormControl } from '@pages/content-management/domain/controls/terms-use/terms-use-form.control';
+import { TermsUseFormControl } from '@pages/content-management/application/store/terms-use/terms-use-form.control';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 
 @Injectable()
