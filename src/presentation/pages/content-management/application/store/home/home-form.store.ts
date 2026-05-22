@@ -9,8 +9,8 @@ import {
     Validators,
 } from '@angular/forms';
 import { HomeFindOneFacade } from '@pages/content-management/application/services/home/home-find-one.facade';
-import { HomeFormControl } from '@pages/content-management/domain/controls/home/home-form.control';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
+import { HomeFormControl } from '@presentation/pages/content-management/application/store/home/home-form.control';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 import { PLATFORM_ASPECT_RATIOS } from '@shared/components/image-upload/domain/types/image-upload.types';
 import { Platform } from '@shared/domain/enums/platform.enum';
@@ -25,13 +25,13 @@ const MOBILE = getEnumKeyByValue(Platform, Platform.MOBILE) as Platform;
 export class HomeFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(HomeFindOneFacade);
+    public readonly isEditMode = signal(false);
+    public readonly item = this.facade.items;
+    public readonly loading = this.facade.loading;
+    public readonly form: FormGroup<HomeFormControl> = this.createForm();
 
     private readonly imageError = signal<string | null>(null);
     public readonly imageFile = signal<File | string | null>(null);
-
-    readonly form: FormGroup<HomeFormControl> = this.createForm();
-
-    public readonly isEditMode = signal(false);
 
     public readonly selectedPlatforms = computed(
         () => this.form.controls.platforms.value
@@ -58,56 +58,7 @@ export class HomeFormStore {
         return PLATFORM_ASPECT_RATIOS[WEB];
     });
 
-    readonly hasImage = computed(() => !!this.imageFile());
-
-    public readonly item = this.facade.items;
-    public readonly loading = this.facade.loading;
-
-    private readonly patchItemEffect = effect(() => {
-        const item = this.item();
-
-        if (!item || Object.keys(item).length === 0) {
-            return;
-        }
-        if (!this.form.pristine) {
-            return;
-        }
-
-        this.form.patchValue(
-            {
-                title: item.title,
-                resume: item.resume,
-                content: item.content,
-                buttonLabel: item.buttonLabel,
-                buttonUrl: item.buttonUrl,
-                platforms: item.platforms,
-                startDate: item.startDate,
-                endDate: item.endDate,
-            },
-            { emitEvent: false }
-        );
-        if (item.image) {
-            this.handleExistingImage(item.image);
-        } else {
-            this.resetImage();
-        }
-    });
-
-    private async handleExistingImage(url: string): Promise<void> {
-        try {
-            const mediaValue: MediaValue = {
-                type: 'remote',
-                url: url,
-            };
-            this.imageFile.set(url);
-            this.form.controls.image.setValue(mediaValue, { emitEvent: false });
-            this.imageError.set(null);
-        } catch (error) {
-            console.error('❌ Failed to handle existing image:', error);
-            this.imageError.set('CONTENT_MANAGEMENT.HOME.IMAGE_LOAD_ERROR');
-            this.form.controls.image.setErrors({ imageLoadFailed: true });
-        }
-    }
+    public readonly hasImage = computed(() => !!this.imageFile());
 
     private createForm(): FormGroup<HomeFormControl> {
         return this.fb.nonNullable.group<HomeFormControl>(
@@ -173,6 +124,52 @@ export class HomeFormStore {
         );
     }
 
+    private readonly patchItemEffect = effect(() => {
+        const item = this.item();
+
+        if (!item || Object.keys(item).length === 0) {
+            return;
+        }
+        if (!this.form.pristine) {
+            return;
+        }
+
+        this.form.patchValue(
+            {
+                title: item.title,
+                resume: item.resume,
+                content: item.content,
+                buttonLabel: item.buttonLabel,
+                buttonUrl: item.buttonUrl,
+                platforms: item.platforms,
+                startDate: item.startDate,
+                endDate: item.endDate,
+            },
+            { emitEvent: false }
+        );
+        if (item.image) {
+            this.handleExistingImage(item.image);
+        } else {
+            this.resetImage();
+        }
+    });
+
+    private async handleExistingImage(url: string): Promise<void> {
+        try {
+            const mediaValue: MediaValue = {
+                type: 'remote',
+                url: url,
+            };
+            this.imageFile.set(url);
+            this.form.controls.image.setValue(mediaValue, { emitEvent: false });
+            this.imageError.set(null);
+        } catch (error) {
+            console.error('❌ Failed to handle existing image:', error);
+            this.imageError.set('CONTENT_MANAGEMENT.HOME.IMAGE_LOAD_ERROR');
+            this.form.controls.image.setErrors({ imageLoadFailed: true });
+        }
+    }
+
     private buttonFieldsConsistencyValidator(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             const label = control.get('buttonLabel')?.value?.trim() as string;
@@ -227,16 +224,14 @@ export class HomeFormStore {
         return image.type === 'remote' ? image.url : image.file;
     }
 
-    public setEditMode(uniqId: string | null): void {
+    public setMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);
-
         if (!uniqId) {
             this.form.reset();
             this.facade.reset();
             this.imageError.set(null);
             return;
         }
-
         this.facade.read({ uniqId }, true);
     }
 

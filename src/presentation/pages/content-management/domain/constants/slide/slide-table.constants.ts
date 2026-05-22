@@ -4,33 +4,23 @@ export const SLIDE_TABLE = {
             field: '__index',
             header: 'COMMON.INDEX',
             class: 'text-center',
-            width: '3rem',
-        },
-        {
-            field: 'type',
-            header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.TYPE',
-            width: '3rem',
+            width: '2rem',
         },
         {
             field: 'title',
             header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.TITLE',
-            width: '8rem',
-        },
-        {
-            field: 'subtitle',
-            header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.SUBTITLE',
             width: '17rem',
         },
         {
             field: 'platforms',
             header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.PLATFORM',
-            width: '8rem',
+            width: '6rem',
         },
         {
             field: 'statusLabel',
             header: 'CONTENT_MANAGEMENT.SLIDE.TABLE.STATUS',
             class: 'text-center',
-            width: '5rem',
+            width: '3rem',
         },
         {
             field: 'createdAt',
@@ -47,10 +37,9 @@ export const SLIDE_TABLE = {
     ],
     globalFilterFields: [
         'id',
-        'type',
         'title',
-        'subtitle',
         'platforms',
+        'order',
         'statusLabel',
         'createdAt',
     ],

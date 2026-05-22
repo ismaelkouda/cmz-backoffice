@@ -461,6 +461,16 @@
                 "LABEL": "Blocs d'accueil",
                 "ROUTE": "home-blocks"
             },
+            "TABS": {
+                "HOME": {
+                    "LABEL": "Home",
+                    "ROUTE": "home-blocks"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
             "TITLE": "Blocs d'accueil",
             "LABEL": "Acceuil",
             "ROUTE": "home",
@@ -546,16 +556,51 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour du bloc d'accueil",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce bloc d'accueil ?",
-                "TITLE_CREATE": "Création de bloc d'accueil",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce bloc d'accueil ?",
-                "TITLE_DELETE": "Suppression de bloc d'accueil",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer ce bloc d'accueil ?",
-                "TITLE_ENABLE": "Activation de bloc d'accueil",
-                "MESSAGE_ENABLE": "Voulez-vous vraiment activer ce bloc d'accueil ?",
-                "TITLE_DISABLE": "Désactivation de bloc d'accueil",
-                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce bloc d'accueil ?"
+                "TITLE": {
+                    "CREATE": "Créer ce block d'acceuil",
+                    "NOT_CREATE": "Impossible de créer ce block d'acceuil",
+                    "EDIT": "Editer ce block d'acceuil",
+                    "NOT_EDIT": "Impossible d'éditer ce block d'acceuil",
+                    "DELETE": "Supprimer ce block d'acceuil",
+                    "NOT_DELETE": "Impossible de supprimer ce block d'acceuil",
+                    "ENABLE": "Activer ce block d'acceuil",
+                    "NOT_ENABLE": "Impossible d'activer ce block d'acceuil",
+                    "DISABLE": "Désactiver ce block d'acceuil",
+                    "NOT_DISABLE": "Impossible de desactiver ce block d'acceuil"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce block d'acceuil",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce block d'acceuil",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce block d'acceuil </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce block d'acceuil",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce block d'acceuil",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce block d'acceuil <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce block d'acceuil <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce block d'acceuil <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce block d'acceuil <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce block d'acceuil <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce block d'acceuil <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des blocks d'acceuil",
+                "EXPORT": "Exporter la liste de {nb} blocks d'acceuil",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un block d'acceuil",
+                "EDIT": "Editer ce block d'acceuil",
+                "DELETE": "Supprimer ce block d'acceuil",
+                "ENABLE": "Activer ce block d'acceuil",
+                "DISABLE": "Désactiver ce block d'acceuil",
+                "NO_EXPORT": "Aucun block d'acceuil à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer ce block d'acceuil",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des blocks d'acceuil non permis",
+                "NO_PERMISSION_CREATE": "Création d'un block d'acceuil non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un block d'acceuil non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un block d'acceuil non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un block d'acceuil non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un block d'acceuil non permis",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "STATIC_CONTENT": {
@@ -577,6 +622,16 @@
             "BREADCRUMB": {
                 "LABEL": "Infos & Actualités",
                 "ROUTE": "infos-and-news"
+            },
+            "TABS": {
+                "NEWS": {
+                    "LABEL": "Infos & Actualités",
+                    "ROUTE": "infos-and-news"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
             },
             "TITLE": "Blocs d'infos et actualités",
             "LABEL": "Infos & Actualités",
@@ -666,22 +721,67 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour des Infos & Actualités",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour cet Infos & Actualités ?",
-                "TITLE_CREATE": "Création des Infos & Actualités",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer cet Infos & Actualités ?",
-                "TITLE_DELETE": "Suppression des Infos & Actualités",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer cet Infos & Actualités ?",
-                "TITLE_PUBLISH": "Publication des Infos & Actualités",
-                "MESSAGE_PUBLISH": "Voulez-vous vraiment publier cet Infos & Actualités ?",
-                "TITLE_UNPUBLISH": "Dépublication des Infos & Actualités",
-                "MESSAGE_UNPUBLISH": "Voulez-vous vraiment dépublier cet Infos & Actualités ?"
+                "TITLE": {
+                    "CREATE": "Créer ce block d'infos",
+                    "NOT_CREATE": "Impossible de créer ce block d'infos",
+                    "EDIT": "Editer ce block d'infos",
+                    "NOT_EDIT": "Impossible d'éditer ce block d'infos",
+                    "DELETE": "Supprimer ce block d'infos",
+                    "NOT_DELETE": "Impossible de supprimer ce block d'infos",
+                    "ENABLE": "Activer ce block d'infos",
+                    "NOT_ENABLE": "Impossible d'activer ce block d'infos",
+                    "DISABLE": "Désactiver ce block d'infos",
+                    "NOT_DISABLE": "Impossible de desactiver ce block d'infos"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce block d'infos",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce block d'infos",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce block d'infos </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce block d'infos",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce block d'infos",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce block d'infos <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce block d'infos <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce block d'infos <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce block d'infos <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce block d'infos <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce block d'infos <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des blocks d'infos",
+                "EXPORT": "Exporter la liste de {nb} blocks d'infos",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un block d'infos",
+                "EDIT": "Editer ce block d'infos",
+                "DELETE": "Supprimer ce block d'infos",
+                "ENABLE": "Activer ce block d'infos",
+                "DISABLE": "Désactiver ce block d'infos",
+                "NO_EXPORT": "Aucun block d'infos à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer ce block d'infos",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des blocks d'infos non permis",
+                "NO_PERMISSION_CREATE": "Création d'un block d'infos non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un block d'infos non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un block d'infos non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un block d'infos non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un block d'infos non permis",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "SLIDE": {
             "BREADCRUMB": {
                 "LABEL": "Slides show",
                 "ROUTE": "sliders"
+            },
+            "TABS": {
+                "SLIDE": {
+                    "LABEL": "Liste des slides",
+                    "ROUTE": "sliders"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique des slides",
+                    "ROUTE": "history"
+                }
             },
             "TITLE": "Slides show",
             "LABEL": "Slides show",
@@ -787,16 +887,51 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Mise à jour de slide",
-                "MESSAGE_UPDATE": "Voulez-vous vraiment mettre à jour ce slide ?",
-                "TITLE_CREATE": "Création de slide",
-                "MESSAGE_CREATE": "Voulez-vous vraiment créer ce slide ?",
-                "TITLE_DELETE": "Suppression de slide",
-                "MESSAGE_DELETE": "Voulez-vous vraiment supprimer ce slide ?",
-                "TITLE_ENABLE": "Activation de slide",
-                "MESSAGE_ENABLE": "Voulez-vous vraiment activer ce slide ?",
-                "TITLE_DISABLE": "Désactivation de slide",
-                "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver ce slide ?"
+                "TITLE": {
+                    "CREATE": "Créer ce slide",
+                    "NOT_CREATE": "Impossible de créer ce slide",
+                    "EDIT": "Editer ce slide",
+                    "NOT_EDIT": "Impossible d'éditer ce slide",
+                    "DELETE": "Supprimer ce slide",
+                    "NOT_DELETE": "Impossible de supprimer ce slide",
+                    "ENABLE": "Activer ce slide",
+                    "NOT_ENABLE": "Impossible d'activer ce slide",
+                    "DISABLE": "Désactiver ce slide",
+                    "NOT_DISABLE": "Impossible de desactiver ce slide"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce slide",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce slide",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce slide </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce slide",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce slide",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce slide <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce slide <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce slide <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce slide <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce slide <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce slide <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des slides",
+                "EXPORT": "Exporter la liste de {nb} slides",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un slide",
+                "EDIT": "Editer ce slide",
+                "DELETE": "Supprimer ce slide",
+                "ENABLE": "Activer ce slide",
+                "DISABLE": "Désactiver ce slide",
+                "NO_EXPORT": "Aucun slide à exporter",
+                "NOT_DELETE": "Membre actif, Impossible de supprimer ce slide",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des slides non permis",
+                "NO_PERMISSION_CREATE": "Création d'un slide non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un slide non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un slide non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un slide non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un slide non permis",
+                "SEE_MORE": "Voir plus d'informations"
             }
         },
         "PRIVACY_POLICY": {

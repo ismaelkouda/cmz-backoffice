@@ -2,6 +2,7 @@ import {
     Status,
     StatusStyle,
 } from '@pages/content-management/domain/enums/home/home-status.enum';
+import { ActionDropdownItem } from '@shared/components/action-dropdown/interfaces/action-dropdown.interface';
 import { Platform, PlatformStyle } from '@shared/domain/enums/platform.enum';
 
 export interface HomeVmProps {
@@ -14,4 +15,9 @@ export interface HomeVmProps {
     statusStyle: StatusStyle;
     createdAt: string;
     actionsRef: string;
+
+    dropdownActions: ActionDropdownItem[];
+
+    disableDropdown: boolean;
+    tooltipDropdown: string;
 }

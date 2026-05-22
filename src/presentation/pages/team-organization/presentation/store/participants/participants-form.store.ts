@@ -17,7 +17,8 @@ export class ParticipantsFormStore {
     public readonly isEditMode = signal(false);
     private readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
-    readonly form: FormGroup<ParticipantsFormControl> = this.createForm();
+    public readonly form: FormGroup<ParticipantsFormControl> =
+        this.createForm();
 
     private createForm(): FormGroup<ParticipantsFormControl> {
         return this.fb.nonNullable.group<ParticipantsFormControl>({

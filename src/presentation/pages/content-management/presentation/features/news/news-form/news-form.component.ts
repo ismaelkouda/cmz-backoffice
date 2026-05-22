@@ -15,10 +15,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NewsFacade } from '@pages/content-management/application/services/news/news.facade';
-import { NewsFormStore } from '@pages/content-management/application/store/news-form/news-form.store';
 import { NewsFormHelperService } from '@pages/content-management/domain/services/news/news-form-helper.service';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { HashtagsInputComponent } from '@pages/content-management/presentation/features/news/hashtags-input/hashtags-input.component';
+import { NewsFormStore } from '@presentation/pages/content-management/application/store/news/news-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { enumToFilterOptions } from '@shared/components/filter/filter.types';
 import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/image-crop-dialog.component';
@@ -85,64 +85,58 @@ import SweetAlert from 'sweetalert2';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewsFormComponent {
-    public readonly instanceId = 'news-form-image';
-
+    protected readonly instanceId = 'news-form-image';
     protected readonly store = inject(NewsFormStore);
     private readonly imageStore = inject(ImageUploadStateService);
-
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
     private readonly submitFacade = inject(NewsFacade);
     private readonly helper = inject(NewsFormHelperService);
     private readonly validation = inject(FormValidationService);
-
-    public readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
-
-    public readonly form = this.store.form;
-    public readonly loading = this.store.loading;
-    public readonly isEditMode = this.store.isEditMode;
-    public readonly item = this.store.item;
-    public readonly isVideoMode = this.store.isVideoMode;
-    public readonly isImageMode = this.store.isImageMode;
-
-    readonly previewVisible = signal(false);
-
-    readonly imageVm = computed(() => this.imageStore.connect(this.instanceId));
-
-    readonly cropperState = computed(() =>
+    protected readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
+    protected readonly form = this.store.form;
+    protected readonly loading = this.store.loading;
+    protected readonly isEditMode = this.store.isEditMode;
+    protected readonly item = this.store.item;
+    protected readonly isVideoMode = this.store.isVideoMode;
+    protected readonly isImageMode = this.store.isImageMode;
+    protected readonly previewVisible = signal(false);
+    protected readonly imageVm = computed(() =>
+        this.imageStore.connect(this.instanceId)
+    );
+    protected readonly cropperState = computed(() =>
         this.imageStore.getStore(this.instanceId)()
     );
-
-    readonly imageSignal = toSignal(this.form.controls.image.valueChanges, {
-        initialValue: this.form.controls.image.value,
-    });
-
-    readonly image = computed((): MediaValue | string | undefined => {
+    protected readonly imageSignal = toSignal(
+        this.form.controls.image.valueChanges,
+        {
+            initialValue: this.form.controls.image.value,
+        }
+    );
+    protected readonly image = computed((): MediaValue | string | undefined => {
         const formImage = this.imageSignal();
         const item = this.item();
-
         return formImage ?? item?.image;
     });
-
     protected readonly hasPhotos = computed((): boolean => {
         return !!this.image();
     });
-
-    readonly isIdle = computed(() => !this.imageVm().hasImage());
-    readonly hasError = computed(() => this.imageVm().hasError());
-    readonly hasImage = computed(() => this.imageVm().hasImage());
-    readonly fileName = computed(() => this.imageVm().fileName() ?? null);
-    readonly fileSize = computed(() => this.imageVm().fileSize() ?? null);
-    readonly previewUrl = computed(() => this.imageVm().previewUrl());
-
-    private readonly currentLang = signal(this.translate.getCurrentLang());
-
-    readonly typeOptions = computed(() =>
+    protected readonly isIdle = computed(() => !this.imageVm().hasImage());
+    protected readonly hasError = computed(() => this.imageVm().hasError());
+    protected readonly hasImage = computed(() => this.imageVm().hasImage());
+    protected readonly fileName = computed(
+        () => this.imageVm().fileName() ?? null
+    );
+    protected readonly fileSize = computed(
+        () => this.imageVm().fileSize() ?? null
+    );
+    protected readonly previewUrl = computed(() => this.imageVm().previewUrl());
+    protected readonly typeOptions = computed(() =>
         enumToFilterOptions(TypeMedia, (key) => this.translate.instant(key))
     );
-
-    readonly uniqId: Signal<string> = toSignal(
+    private lastSuccess = this.submitFacade.actionSuccess();
+    protected readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
             map((params) => (params['uniqId'] as string) || ''),
             tap((uniqId) => this.store.setEditMode(uniqId)),
@@ -150,13 +144,23 @@ export class NewsFormComponent {
         ),
         { initialValue: '' }
     );
+    private readonly formStateEffect = effect(() => {
+        const state = this.submitFacade.actionState();
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
+        }
+    });
+    private readonly successEffect = effect(() => {
+        const current = this.submitFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
 
-    private previousDetailsType = false;
-
-    constructor() {
-        this.initializeLanguageListener();
-        this.initializeImageHydration();
-    }
+        this.lastSuccess = current;
+        this.navigateToBack();
+    });
 
     private resetImage(): void {
         effect(() => {
@@ -172,12 +176,10 @@ export class NewsFormComponent {
         });
     }
 
-    private initializeLanguageListener(): void {
-        this.translate.onLangChange
-            .pipe(takeUntilDestroyed())
-            .subscribe((lang) => {
-                this.currentLang.set(lang.lang);
-            });
+    private previousDetailsType = false;
+
+    constructor() {
+        this.initializeImageHydration();
     }
 
     private initializeImageHydration(): void {

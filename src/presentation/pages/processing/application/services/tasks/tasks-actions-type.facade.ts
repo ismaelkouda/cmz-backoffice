@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { TasksActionsTypeFilterDto } from '@pages/processing/application/dto/tasks/tasks-actions-filter-filter.dto';
+import { TasksActionsTypeFilterDto } from '@presentation/pages/processing/application/dto/tasks/tasks-actions-type-filter.dto';
 import { TasksActionsTypeUseCase } from '@pages/processing/application/use-cases/tasks/tasks-actions-type.use-case';
 import { TasksActionsTypeEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-type.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
