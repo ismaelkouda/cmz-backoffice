@@ -10,13 +10,17 @@ export class QueuesFilterMapper {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
 
     map(entity: QueuesFilterEntity): QueuesFilterApiDto {
+        console.log('entity: ', entity);
         return {
             ...(entity.initiatorPhoneNumber && {
                 initiator_phone_number: entity.initiatorPhoneNumber,
             }),
             ...(entity.uniqId && { uniq_id: entity.uniqId }),
+            // ...(entity.reportType && {
+            //     report_type: this.reportTypeMapper.mapToDto(entity.reportType),
+            // }),
             ...(entity.reportType && {
-                report_type: this.reportTypeMapper.mapToDto(entity.reportType),
+                report_type: entity.reportType,
             }),
             ...(entity.operators && { operators: entity.operators }),
             ...(entity.source && { source: entity.source }),
