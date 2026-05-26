@@ -3344,7 +3344,7 @@
                 },
                 "LOCATION_INFO": {
                     "TITLE": "Informations de la localisation",
-                    "COORDINATES": "Coordonnées (Lat, Lng)",
+                    "COORDINATES": "Coordonnées(Lat, Lng)",
                     "LOCATION_METHOD": "Lecture Coordonnées",
                     "LONGITUDE": "Longitude",
                     "LATITUDE": "Latitude",

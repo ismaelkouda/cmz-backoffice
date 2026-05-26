@@ -75,6 +75,10 @@ export class FilterComponent {
         });
     }
 
+    private onTouched = (): void => {
+        console.log('onTouched: ');
+    };
+
     public getControl(name: string) {
         return this.formGroup().get(name);
     }
