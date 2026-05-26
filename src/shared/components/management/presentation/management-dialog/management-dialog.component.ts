@@ -95,6 +95,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     protected readonly visible = input.required<boolean>();
     protected readonly uniqId = input.required<string>();
     protected readonly type = input.required<TypeReport>();
+    protected readonly isNotification = input<boolean>(false);
     protected readonly visibleChange = output<boolean>();
     protected readonly closed = output();
     protected isTreatmentFormExpanded = true;
@@ -196,13 +197,16 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         }
     });
     ngOnInit(): void {
-        this.stateService.initialize(this.type(), this.uniqId());
+        this.stateService.initialize(
+            this.type(),
+            this.uniqId(),
+            this.isNotification()
+        );
     }
     ngOnDestroy(): void {
         this.stateService.reset();
     }
     protected selectTab(index: number): void {
-        console.log('index: ', index);
         const tab = this.tabs()[index];
         if (tab) {
             this.selectedTabIndex.set(index);

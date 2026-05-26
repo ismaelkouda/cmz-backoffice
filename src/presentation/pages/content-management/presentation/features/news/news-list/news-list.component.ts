@@ -28,7 +28,7 @@ import { NewsPresenter } from '@presentation/pages/content-management/presentati
 import { NEWS_FORM_ROUTE } from '@presentation/pages/content-management/presentation/features/news/news-paths.constants';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
-    enumToFilterOptions,
+    enumToFilterOptionsWithValue,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
@@ -205,7 +205,7 @@ export class NewsListComponent {
     });
     private readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(Status, this.t.bind(this));
+        return enumToFilterOptionsWithValue(Status, this.t.bind(this));
     });
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()

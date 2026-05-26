@@ -48,10 +48,10 @@ export class DepartmentsPresenter {
                     icon: 'pi pi-trash',
                     disabled:
                         !permission.authorization.canDelete ||
-                        item.municipalitiesCount <= 0,
+                        item.municipalitiesCount > 0,
                     tooltip:
                         permission.authorization.canDelete &&
-                        item.municipalitiesCount > 0
+                        item.municipalitiesCount <= 0
                             ? this.t(
                                   'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TOOLTIP.DELETE'
                               )

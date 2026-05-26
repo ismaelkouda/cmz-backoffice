@@ -26,7 +26,7 @@ import { LEGAL_NOTICE_TABLE } from '@presentation/pages/content-management/domai
 import { LegalNoticePresenter } from '@presentation/pages/content-management/presentation/adapters/legal-notice/legal-notice-vm.presenter';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
-    enumToFilterOptions,
+    enumToFilterOptionsWithValue,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
@@ -209,7 +209,7 @@ export class LegalNoticeListComponent {
     });
     private readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(Status, this.t.bind(this));
+        return enumToFilterOptionsWithValue(Status, this.t.bind(this));
     });
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()

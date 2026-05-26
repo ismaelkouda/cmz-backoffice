@@ -1,4 +1,5 @@
 import { SlideFilterEntity } from '@pages/content-management/domain/entities/slide/slide-filter.entity';
+import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
 import { SlideFilterApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-filter-api.dto';
 
 export function slideFilterMapper(
@@ -13,7 +14,7 @@ export function slideFilterMapper(
         params.platforms = entity.platforms;
     }
     if (entity.status) {
-        params.status = entity.status;
+        params.is_active = entity.status === Status.ACTIVE;
     }
     if (entity.startDate) {
         params.start_date = entity.startDate;

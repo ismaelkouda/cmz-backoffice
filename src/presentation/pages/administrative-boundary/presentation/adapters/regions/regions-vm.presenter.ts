@@ -21,7 +21,7 @@ export class RegionsPresenter {
     ): RegionsVmProps {
         console.log(
             'permission.authorization.canDelete && item.departmentsCount < 0: ',
-            item.departmentsCount
+            item.departmentsCount <= 0
         );
         return {
             uniqId: item.uniqId,
@@ -49,10 +49,10 @@ export class RegionsPresenter {
                     icon: 'pi pi-trash',
                     disabled:
                         !permission.authorization.canDelete ||
-                        item.departmentsCount <= 0,
+                        item.departmentsCount > 0,
                     tooltip:
                         permission.authorization.canDelete &&
-                        item.departmentsCount > 0
+                        item.departmentsCount <= 0
                             ? this.t(
                                   'ADMINISTRATIVE_BOUNDARY.REGIONS.TOOLTIP.DELETE'
                               )

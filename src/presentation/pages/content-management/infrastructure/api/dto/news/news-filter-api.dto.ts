@@ -1,6 +1,6 @@
 export interface NewsFilterApiDto {
     search?: string;
-    status?: string;
+    is_published?: boolean;
     start_date?: string;
     end_date?: string;
 }

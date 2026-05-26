@@ -209,11 +209,9 @@ export class NotificationsListComponent {
         this.currentLang();
         this.title.setTitle(this.t('COMMUNICATION.NOTIFICATIONS.PAGE_TITLE'));
     }
-
     protected onFilterClicked(): void {
         this.facade.execute(this.formStore.value, '1', true);
     }
-
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
     }
