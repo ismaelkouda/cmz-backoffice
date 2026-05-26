@@ -90,7 +90,7 @@
                         @for (tab of tabs(); track tab.value) {
                             <button
                                 (click)="selectTab($index)"
-                                [class.active]="selectedTabIndex === $index"
+                                [class.active]="selectedTabIndex() === $index"
                                 class="content-tab"
                             >
                                 <div class="tab-visual">

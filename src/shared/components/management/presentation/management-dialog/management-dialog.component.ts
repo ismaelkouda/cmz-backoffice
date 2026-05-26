@@ -122,6 +122,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     protected readonly photoTabInstanceId = computed(
         () => `management-photo-${this.uniqId()}`
     );
+    protected readonly selectedTabIndex = signal(0);
     protected readonly selectedTab = signal('information');
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -201,8 +202,10 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         this.stateService.reset();
     }
     protected selectTab(index: number): void {
+        console.log('index: ', index);
         const tab = this.tabs()[index];
         if (tab) {
+            this.selectedTabIndex.set(index);
             this.selectedTab.set(tab.value);
         }
     }
