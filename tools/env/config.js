@@ -1,13 +1,11 @@
 const config = {
     dev: {        
-
         authenticationUrl: 'http://10.10.0.65:9010/auth/v1.0/backoffice/',
         reportUrl: 'http://10.10.0.65:9010/reports/v1.0/backoffice/',
         settingUrl: 'http://10.10.0.65:9010/base-settings/v1.0/backoffice/',
         fileUrl: 'http://10.10.0.65:9010/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
-
         appSettings: {
             app: {
                 name: 'Connect My Zone',
@@ -87,7 +85,6 @@ const config = {
         fileUrl: 'https://cmz-service-api.paas.imako.digital/auth/backoffice/',
         environmentDeployment: 'CLOUD',
         enableDebug: true,
-
         appSettings: {
             app: {
                 name: 'Connect My Zone',
@@ -318,6 +315,5 @@ const config = {
             },
         },
     }
-};
-
+};  
 export default config;
