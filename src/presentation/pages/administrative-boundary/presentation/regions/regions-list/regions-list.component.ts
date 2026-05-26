@@ -59,8 +59,7 @@ export class RegionsListComponent {
     private readonly router = inject(Router);
     private readonly title = inject(Title);
     private readonly sweetAlert = inject(SweetAlertService);
-
-    public readonly facade = inject(RegionsFacade);
+    protected readonly facade = inject(RegionsFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(RegionsFilterStore);
@@ -163,7 +162,6 @@ export class RegionsListComponent {
             disabled: this.canExportData(),
         },
     ]);
-
     protected readonly tableConfig = REGIONS_TABLE;
     protected readonly form = this.formStore.form;
     private readonly items = toSignal(this.facade.items$, { initialValue: [] });
@@ -392,7 +390,7 @@ export class RegionsListComponent {
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
     }
-    public onBadgeClicked(event: {
+    protected onBadgeClicked(event: {
         item: RegionsVmProps;
         col: HTMLTableCellElement;
     }): void {

@@ -109,22 +109,18 @@ export class RegionsFormComponent {
     }
     private initializeFetchEffect(): void {
         const uniqId = this.uniqId();
-
         if (!uniqId) {
             this.formStore.openCreate();
             return;
         }
-
         this.formStore.openEdit(uniqId);
     }
 
     private showValidationErrors(): void {
         const controlNames = ['code', 'name', 'description'] as const;
-
         const errors = controlNames
             .filter((name) => this.formStore.form.controls[name].invalid)
             .map((name) => this.getErrorMessage(name));
-
         if (errors.length) {
             SweetAlert.fire({
                 icon: 'error',
@@ -140,7 +136,6 @@ export class RegionsFormComponent {
             control?.errors || null
         );
     }
-
     private readonly createTooltip = computed(() => {
         if (!this.canCreate()) {
             return this.t(
@@ -175,7 +170,6 @@ export class RegionsFormComponent {
 
         this.formStore.submit();
     }
-
     private showPermissionErrors(): boolean {
         if (!this.uniqId() && !this.canCreate()) {
             this.toast.error(this.createTooltip());

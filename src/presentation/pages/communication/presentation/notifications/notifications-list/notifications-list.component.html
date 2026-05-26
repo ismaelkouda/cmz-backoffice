@@ -62,6 +62,7 @@
             [visible]="isVisibleDialog()"
             [uniqId]="selectedReportId"
             [type]="selectedManagementType()"
+            [isNotification]="true"
             (visibleChange)="onVisibleDialogClicked($event)"
         ></app-management-dialog>
     }

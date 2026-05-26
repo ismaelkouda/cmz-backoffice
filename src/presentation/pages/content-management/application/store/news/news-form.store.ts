@@ -303,6 +303,8 @@ export class NewsFormStore {
     }
 
     public setEditMode(uniqId: string | null): void {
+        console.log('uniqId: ', uniqId);
+        this.categoriesFacade.readAll();
         this.isEditMode.set(!!uniqId);
 
         if (!uniqId) {
@@ -313,7 +315,6 @@ export class NewsFormStore {
         }
 
         this.facade.read({ uniqId }, true);
-        this.categoriesFacade.readAll();
     }
 
     public setImage(file: File): void {

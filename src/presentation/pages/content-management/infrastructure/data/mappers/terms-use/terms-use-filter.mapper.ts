@@ -1,4 +1,5 @@
 import { TermsUseFilterEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
+import { Status } from '@pages/content-management/domain/enums/terms-use/terms-use-status.enum';
 import { TermsUseFilterApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-filter-api.dto';
 
 export function termsUseFilterMapper(
@@ -13,7 +14,7 @@ export function termsUseFilterMapper(
         params.version = entity.version;
     }
     if (entity.status) {
-        params.status = entity.status;
+        params.is_published = entity.status === Status.PUBLISH;
     }
     if (entity.startDate) {
         params.start_date = entity.startDate;

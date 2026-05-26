@@ -1380,7 +1380,7 @@
                 "ENABLE": "Activer ce department",
                 "DISABLE": "Désactiver ce department",
                 "NO_EXPORT": "Aucun department à exporter",
-                "NOT_DELETE": "Impossible de supprimer ce department, car elle dispose d'au moins un department",
+                "NOT_DELETE": "Impossible de supprimer ce department, car elle dispose d'au moins une commune/sous-préfectures associée",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des departments non permis",
                 "NO_PERMISSION_CREATE": "Création d'un department non permis",

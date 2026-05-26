@@ -26,7 +26,7 @@ import { TERMS_USE_TABLE } from '@presentation/pages/content-management/domain/c
 import { TermsUsePresenter } from '@presentation/pages/content-management/presentation/adapters/terms-use/terms-use-vm.presenter';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
-    enumToFilterOptions,
+    enumToFilterOptionsWithValue,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
@@ -209,7 +209,7 @@ export class TermsUseListComponent {
     });
     private readonly statusOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(Status, this.t.bind(this));
+        return enumToFilterOptionsWithValue(Status, this.t.bind(this));
     });
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()

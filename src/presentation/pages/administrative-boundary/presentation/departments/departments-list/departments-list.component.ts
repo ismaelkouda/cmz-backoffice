@@ -169,7 +169,6 @@ export class DepartmentsListComponent {
             disabled: this.canExportData(),
         },
     ]);
-
     protected readonly tableConfig = DEPARTMENTS_TABLE;
     protected readonly form = this.formStore.form;
     private readonly regions = toSignal(this.regionsFacade.items$, {
@@ -188,7 +187,6 @@ export class DepartmentsListComponent {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-
     protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         return [
@@ -255,6 +253,7 @@ export class DepartmentsListComponent {
     });
     constructor() {
         this.facade.readAll(this.currentFilter() as DepartmentsFilterDto);
+        this.regionsFacade.readAll(true);
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {
