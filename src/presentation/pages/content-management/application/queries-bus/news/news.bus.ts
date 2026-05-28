@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NewsQuery } from '@pages/content-management/application/queries/news/news.query';
 import { NewsHandler } from '@pages/content-management/application/queries-handlers/news/news.handler';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NewsBus {
-    constructor(private readonly filterHandler: NewsHandler) {}
+    private readonly filterHandler = inject(NewsHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<NewsEntity>> {
         if (query instanceof NewsQuery) {

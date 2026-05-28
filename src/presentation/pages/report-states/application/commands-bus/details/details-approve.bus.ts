@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DetailsApproveCommand } from '@pages/report-states/application/commands/details/details-approve.command';
 import { DetailsApproveHandler } from '@pages/report-states/application/commands-handlers/details/details-approve.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsApproveBus {
-    constructor(private readonly createHandler: DetailsApproveHandler) {}
+    private readonly createHandler = inject(DetailsApproveHandler);
 
     dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
         if (command instanceof DetailsApproveCommand) {

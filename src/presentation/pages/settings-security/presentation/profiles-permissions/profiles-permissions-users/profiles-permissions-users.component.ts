@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -37,7 +36,6 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { SETTINGS_SECURITY_ROUTE } from '@shared/routes/routes';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -54,7 +52,6 @@ import SweetAlert from 'sweetalert2';
     templateUrl: './profiles-permissions-users.component.html',
     styleUrls: ['./profiles-permissions-users.component.scss'],
     imports: [
-        CommonModule,
         PageTitleComponent,
         BreadcrumbComponent,
         FilterComponent,
@@ -83,7 +80,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -309,11 +306,11 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.exportFilePrefix}-profiles-permissions-users`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.exportFilePrefix}-profiles-permissions-users`
+        // );
     }
 
     public onHeaderButtonClicked(actionId: string): void {

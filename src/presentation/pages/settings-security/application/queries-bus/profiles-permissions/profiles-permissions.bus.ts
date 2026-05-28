@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsQuery } from '@pages/settings-security/application/queries/profiles-permissions/profiles-permissions.query';
 import { ProfilesPermissionsHandler } from '@pages/settings-security/application/queries-handlers/profiles-permissions/profiles-permissions.handler';
 import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsBus {
-    constructor(private readonly filterHandler: ProfilesPermissionsHandler) {}
+    private readonly filterHandler = inject(ProfilesPermissionsHandler);
 
     dispatch<T>(
         query: T,

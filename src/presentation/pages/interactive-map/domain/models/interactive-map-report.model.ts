@@ -55,8 +55,8 @@ export interface ReportFilters {
     operators: ReportOperator[];
     statuses: ReportStatus[];
     municipality: string;
-    dateFrom: string;
-    dateTo: string;
+    startDate: string;
+    endDate: string;
     compareOperator: ReportOperator | '';
 }
 

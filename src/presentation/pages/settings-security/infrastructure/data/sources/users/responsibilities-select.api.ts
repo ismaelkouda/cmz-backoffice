@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { Observable } from 'rxjs';
@@ -8,10 +8,8 @@ import { ResponsibilitiesSelectResponseApiDto } from '../../../api/dto/users/res
 
 @Injectable({ providedIn: 'root' })
 export class ResponsibilitiesSelectApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(SETTINGS_SECURITY_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(SETTINGS_SECURITY_BASE_URL);
 
     readAll(): Observable<ResponsibilitiesSelectResponseApiDto> {
         const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.USERS}/responsibilities`;

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UsersCreateApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-create-api.dto';
 import { UsersDeleteApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-delete-api.dto';
 import { UsersDisableApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-disable-api.dto';
@@ -16,10 +16,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(SETTINGS_SECURITY_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(SETTINGS_SECURITY_BASE_URL);
 
     readAll(
         filter: UsersFilterApiDto,

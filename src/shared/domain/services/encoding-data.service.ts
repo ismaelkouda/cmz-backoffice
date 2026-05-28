@@ -105,7 +105,9 @@ export class EncodingDataService {
             return bytes.toString(CryptoJS.enc.Utf8);
         } catch (error) {
             console.error('Decryption error:', error);
-            throw new Error('Failed to decrypt data');
+            throw new Error('Failed to decrypt data', {
+                cause: error,
+            });
         }
     }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
 import { AuthVariables } from '@pages/authentication/domain/entities/auth-variables.entity';
@@ -19,6 +19,13 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationFacade {
+    private readonly loginUseCase = inject(LoginUseCase);
+    private readonly loadVariablesUseCase = inject(
+        LoadAuthenticationVariablesUseCase
+    );
+    private readonly toastService = inject(ToastrService);
+    private readonly translateService = inject(TranslateService);
+
     private readonly sessionSubject = new BehaviorSubject<AuthSession | null>(
         null
     );
@@ -32,13 +39,6 @@ export class AuthenticationFacade {
         this.variablesSubject.asObservable();
     readonly isLoginLoading$: Observable<boolean> =
         this.loginLoadingSubject.asObservable();
-
-    constructor(
-        private readonly loginUseCase: LoginUseCase,
-        private readonly loadVariablesUseCase: LoadAuthenticationVariablesUseCase,
-        private readonly toastService: ToastrService,
-        private readonly translateService: TranslateService
-    ) {}
 
     login(
         payload: Readonly<{

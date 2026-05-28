@@ -1,20 +1,19 @@
 import { Routes } from '@angular/router';
-import { DepartmentsByRegionIdComponent } from '@presentation/pages/administrative-boundary/presentation/regions/departments-by-region-id/departments-by-region-id.component';
-import { RegionsFormComponent } from '@presentation/pages/administrative-boundary/presentation/regions/regions-form/regions-form.component';
-import { RegionsListComponent } from '@presentation/pages/administrative-boundary/presentation/regions/regions-list/regions-list.component';
-import { RegionsPageComponent } from '@presentation/pages/administrative-boundary/presentation/regions/regions-page/regions-page.component';
+
 import {
     REGIONS_LIST_ROUTE,
     REGIONS_HISTORY_ROUTE,
     REGIONS_FORM_ROUTE,
     REGIONS_DEPARTMENTS_ROUTE,
 } from '@presentation/pages/administrative-boundary/presentation/regions/regions-paths.constants';
-import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const REGIONS_ROUTES: Routes = [
     {
         path: '',
-        component: RegionsPageComponent,
+        loadComponent: () =>
+            import('@presentation/pages/administrative-boundary/presentation/regions/regions-page/regions-page.component').then(
+                (m) => m.RegionsPageComponent
+            ),
         data: {
             icon: 'CONTENT_MANAGEMENT.REGIONS.TITLE',
             breadcrumb: 'CONTENT_MANAGEMENT.REGIONS.TITLE',
@@ -27,12 +26,18 @@ export const REGIONS_ROUTES: Routes = [
             },
             {
                 path: REGIONS_LIST_ROUTE,
-                component: RegionsListComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/administrative-boundary/presentation/regions/regions-list/regions-list.component').then(
+                        (m) => m.RegionsListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: REGIONS_HISTORY_ROUTE,
-                component: HistoryPageComponent,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -46,14 +51,20 @@ export const REGIONS_ROUTES: Routes = [
         children: [
             {
                 path: '',
-                component: RegionsFormComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/administrative-boundary/presentation/regions/regions-form/regions-form.component').then(
+                        (m) => m.RegionsFormComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
     },
     {
         path: `${REGIONS_DEPARTMENTS_ROUTE}`,
-        component: DepartmentsByRegionIdComponent,
+        loadComponent: () =>
+            import('@presentation/pages/administrative-boundary/presentation/regions/departments-by-region-id/departments-by-region-id.component').then(
+                (m) => m.DepartmentsByRegionIdComponent
+            ),
         data: {
             title: 'ADMINISTRATIVE_BOUNDARY.REGIONS.TITLE',
             breadcrumb: 'ADMINISTRATIVE_BOUNDARY.REGIONS.BREADCRUMB_LABEL',

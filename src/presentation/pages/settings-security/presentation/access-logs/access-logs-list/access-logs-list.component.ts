@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -31,7 +30,6 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { parseAndValidateDateRange } from '@shared/domain/utils/date-range.utils';
 import { ToastrService } from 'ngx-toastr';
 
@@ -41,7 +39,6 @@ import { ToastrService } from 'ngx-toastr';
     templateUrl: './access-logs-list.component.html',
     styleUrls: ['./access-logs-list.component.scss'],
     imports: [
-        CommonModule,
         TranslateModule,
         ReactiveFormsModule,
         BreadcrumbComponent,
@@ -58,9 +55,7 @@ export class AccessLogsListComponent implements OnInit {
     private readonly translate = inject(TranslateService);
     private readonly toastr = inject(ToastrService);
     private readonly fb = inject(FormBuilder);
-    private readonly tableExportExcelFileService = inject(
-        TableExportExcelFileService
-    );
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appCustomizationService = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appCustomizationService.customization.app.name
@@ -216,12 +211,12 @@ export class AccessLogsListComponent implements OnInit {
             return;
         }
 
-        const fileName = `${this.exportFilePrefix}-access-logs`;
-        this.tableExportExcelFileService.exportAsExcelFile(
-            accessLogs,
-            this.tableConfig,
-            fileName
-        );
+        // // const fileName = `${this.exportFilePrefix}-access-logs`;
+        // this.exportService.exportAsExcelFile(
+        //     accessLogs,
+        //     this.tableConfig,
+        //     fileName
+        // );
     }
 
     private normalizeExportPrefix(appName: string): string {

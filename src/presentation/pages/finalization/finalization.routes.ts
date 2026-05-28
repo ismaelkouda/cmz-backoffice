@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { AllComponent } from './presentation/features/all/all.component';
-import { QueuesComponent } from './presentation/features/queues/queues.component';
-import { TasksComponent } from './presentation/features/tasks/tasks.component';
-
 export const TREATMENT_ROUTE = 'processing';
 export const QUEUES_ROUTE = 'queues';
 export const TASKS_ROUTE = 'tasks';
@@ -28,7 +24,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: QueuesComponent,
+                loadComponent: () =>
+                    import('./presentation/features/queues/queues.component').then(
+                        (m) => m.QueuesComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
@@ -52,7 +51,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: TasksComponent,
+                loadComponent: () =>
+                    import('./presentation/features/tasks/tasks.component').then(
+                        (m) => m.TasksComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
@@ -76,7 +78,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: AllComponent,
+                loadComponent: () =>
+                    import('./presentation/features/all/all.component').then(
+                        (m) => m.AllComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {

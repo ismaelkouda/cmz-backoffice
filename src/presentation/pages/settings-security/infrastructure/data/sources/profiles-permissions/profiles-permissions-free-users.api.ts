@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsFreeUsersAssignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-assign-api.dto';
 import { ProfilesPermissionsFreeUsersResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-response-api.dto';
 import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
@@ -10,10 +10,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsFreeUsersApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(SETTINGS_SECURITY_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(SETTINGS_SECURITY_BASE_URL);
 
     readAll(
         page: string

@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy, OnInit, inject } from '@angular/core';
 import { CurrentUser } from '@shared/domain/interfaces/current-user.interface';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -8,6 +8,9 @@ import { EncodingDataService } from './encoding-data.service';
     providedIn: 'root',
 })
 export class StorePathsService implements OnInit, OnDestroy {
+    private encodingDataService = inject(EncodingDataService);
+    private encodingService = inject(EncodingDataService);
+
     private readonly STORAGE_KEY = 'paths_data';
     private destroy$ = new Subject<void>();
 
@@ -16,11 +19,6 @@ export class StorePathsService implements OnInit, OnDestroy {
     );
     public paths$: Observable<string[] | null> =
         this.pathsSubject.asObservable();
-
-    constructor(
-        private encodingDataService: EncodingDataService,
-        private encodingService: EncodingDataService
-    ) {}
 
     ngOnInit() {
         const user = this.encodingService.getData(

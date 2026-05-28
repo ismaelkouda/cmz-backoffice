@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { ApiError } from '@shared/domain/errors/api.error';
@@ -21,14 +21,12 @@ import { MyAccountUseCase } from '../domain/use-cases/my-account.use-case';
     providedIn: 'root',
 })
 export class MyAccountFacade {
+    private readonly myAccountUseCase = inject(MyAccountUseCase);
+    private readonly toastService = inject(ToastrService);
+    protected readonly translateService = inject(TranslateService);
+
     private readonly loadingSubject = new BehaviorSubject<boolean>(false);
     public readonly loading$ = this.loadingSubject.asObservable();
-
-    constructor(
-        private readonly myAccountUseCase: MyAccountUseCase,
-        private readonly toastService: ToastrService,
-        protected readonly translateService: TranslateService
-    ) {}
 
     logout(): Observable<LogoutEntity> {
         if (this.loadingSubject.getValue()) {

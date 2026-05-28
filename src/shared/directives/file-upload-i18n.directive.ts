@@ -4,18 +4,17 @@ import {
     ElementRef,
     Input,
     Renderer2,
+    inject,
 } from '@angular/core';
 
 @Directive({
     selector: '[appFileUploadI18n]',
 })
 export class FileUploadI18nDirective implements AfterViewInit {
-    @Input() emptyLabel = 'Aucun fichier sélectionné';
+    private el = inject(ElementRef);
+    private renderer = inject(Renderer2);
 
-    constructor(
-        private el: ElementRef,
-        private renderer: Renderer2
-    ) {}
+    @Input() emptyLabel = 'Aucun fichier sélectionné';
 
     ngAfterViewInit(): void {
         const host: HTMLElement = this.el.nativeElement;

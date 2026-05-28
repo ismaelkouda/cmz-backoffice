@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsUsersAssignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-assign-api.dto';
 import { ProfilesPermissionsUsersFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-filter-api.dto';
 import { ProfilesPermissionsUsersReassignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-reassign-api.dto';
@@ -14,11 +14,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsUsersApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(SETTINGS_SECURITY_LOGS_BASE_URL)
-        private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(SETTINGS_SECURITY_LOGS_BASE_URL);
 
     readAll(
         dto: ProfilesPermissionsUsersFilterApiDto,

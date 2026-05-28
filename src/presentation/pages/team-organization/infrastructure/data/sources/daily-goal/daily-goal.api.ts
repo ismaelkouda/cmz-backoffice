@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DailyGoalFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/daily-goal/daily-goal-filter-api.dto';
 import { DailyGoalResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/daily-goal/daily-goal-response-api.dto';
 import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DailyGoalApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(TEAM_ORGANIZATION_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(TEAM_ORGANIZATION_BASE_URL);
 
     execute(
         filter: DailyGoalFilterApiDto,

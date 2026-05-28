@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TasksFilterApiDto } from '@pages/requests/infrastructure/api/dto/tasks/tasks-filter-api.dto';
 import { TasksResponseApiDto } from '@pages/requests/infrastructure/api/dto/tasks/tasks-response-api.dto';
 import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/requests.base-url';
@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(REQUESTS_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(REQUESTS_BASE_URL);
 
     execute(
         filter: TasksFilterApiDto,

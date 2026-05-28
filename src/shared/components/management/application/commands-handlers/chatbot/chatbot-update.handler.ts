@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ChatbotUpdateCommand } from '@shared/components/management/application/commands/chatbot/chatbot-update.command';
 import { ChatbotUseCase } from '@shared/components/management/application/use-cases/chatbot/chatbot.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotUpdateHandler {
-    constructor(private readonly useCase: ChatbotUseCase) {}
+    private readonly useCase = inject(ChatbotUseCase);
 
     execute(
         command: ChatbotUpdateCommand

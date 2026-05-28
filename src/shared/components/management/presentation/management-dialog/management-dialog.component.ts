@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -59,10 +59,10 @@ import SweetAlert from 'sweetalert2';
     templateUrl: './management-dialog.component.html',
     styleUrls: ['./management-dialog.component.scss'],
     imports: [
-        CommonModule,
         TranslateModule,
         ButtonModule,
         DialogModule,
+        DatePipe,
         SkeletonModule,
         TooltipModule,
         SelectModule,

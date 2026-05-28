@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
     AfterViewInit,
@@ -8,10 +7,10 @@ import {
     ElementRef,
     OnDestroy,
     OnInit,
-    ViewChild,
     effect,
     inject,
     signal,
+    viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -30,20 +29,20 @@ import {
     MapClickInfo,
     MapAdapter,
 } from '@pages/interactive-map/presentation/adapters/map.adapter';
-import {
-    GeolocationErrorType,
-    GeolocationService,
-} from '@pages/interactive-map/presentation/services/geolocation.service';
+import { GeolocationService } from '@pages/interactive-map/presentation/services/geolocation.service';
 import { MapStore } from '@pages/interactive-map/presentation/store/map.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { parseCoordinates } from '@shared/components/location-picker/utils/coordinates.utils';
+import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { ToastrService } from 'ngx-toastr';
 import { Coordinate } from 'ol/coordinate';
 import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
+import { DatePickerModule } from 'primeng/datepicker';
 import {
     EMPTY,
     Subject,
@@ -57,6 +56,7 @@ import {
     switchMap,
     tap,
 } from 'rxjs';
+import { SelectModule } from 'primeng/select';
 
 interface LocationSearchResult {
     displayName: string;
@@ -74,15 +74,17 @@ interface NominatimSearchResult {
     selector: 'app-interactive-map',
     standalone: true,
     imports: [
-        CommonModule,
         BreadcrumbComponent,
         PageTitleComponent,
+        ManagementDialogComponent,
         FormsModule,
         TranslateModule,
+        SelectModule,
         ButtonModule,
         InputTextModule,
         InputGroupModule,
         InputGroupAddonModule,
+        DatePickerModule,
     ],
     templateUrl: './interactive-map.component.html',
     styleUrls: ['./interactive-map.component.scss'],
@@ -91,12 +93,12 @@ interface NominatimSearchResult {
 export class InteractiveMapComponent
     implements OnInit, AfterViewInit, OnDestroy
 {
-    @ViewChild('mapContainer', { static: true })
-    private mapContainer!: ElementRef<HTMLElement>;
-    @ViewChild('hoverOverlay', { static: true })
-    private hoverOverlay!: ElementRef<HTMLElement>;
-    @ViewChild('clickOverlay', { static: true })
-    private clickOverlay!: ElementRef<HTMLElement>;
+    private readonly mapContainer =
+        viewChild<ElementRef<HTMLElement>>('mapContainer');
+    private readonly hoverOverlay =
+        viewChild<ElementRef<HTMLElement>>('hoverOverlay');
+    private readonly clickOverlay =
+        viewChild<ElementRef<HTMLElement>>('clickOverlay');
 
     public readonly store = inject(MapStore);
     public readonly clusterTooltip = signal<ClusterTooltip | null>(null);
@@ -109,6 +111,12 @@ export class InteractiveMapComponent
     public readonly locationSearchResults = signal<LocationSearchResult[]>([]);
     public readonly locationSearchLoading = signal(false);
     public readonly locationSearchError = signal<string | null>(null);
+    protected readonly isVisibleDialog = signal<boolean>(false);
+    protected readonly selectedManagementType = signal<TypeReport | null>(
+        TypeReport.PROCESSING
+    );
+
+    protected selectedReportId: string | null = null;
 
     public readonly reportTypeOptions: {
         value: ReportType;
@@ -163,8 +171,14 @@ export class InteractiveMapComponent
 
     ngAfterViewInit(): void {
         this.initMap();
-        this.mapAdapter.setHoverOverlayElement(this.hoverOverlay.nativeElement);
-        this.mapAdapter.setClickOverlayElement(this.clickOverlay.nativeElement);
+        const hoverEl = this.hoverOverlay()?.nativeElement;
+        const clickEl = this.clickOverlay()?.nativeElement;
+        if (hoverEl) {
+            this.mapAdapter.setHoverOverlayElement(hoverEl);
+        }
+        if (clickEl) {
+            this.mapAdapter.setClickOverlayElement(clickEl);
+        }
         this.listenToMapMoves();
         this.listenToMapSelections();
         this.initializeBoundsFromMap();
@@ -188,9 +202,6 @@ export class InteractiveMapComponent
                     this.store.setUserPosition(position);
                 }),
                 catchError((error) => {
-                    if (error.type === GeolocationErrorType.PERMISSION_DENIED) {
-                        this.store.denyPermission();
-                    }
                     this.store.setError(
                         this.geolocationService.getErrorMessage(error)
                     );
@@ -238,7 +249,7 @@ export class InteractiveMapComponent
         this.store.updateFilters({ municipality: value });
     }
 
-    public setDateFilter(key: 'dateFrom' | 'dateTo', value: string): void {
+    public setDateFilter(key: 'startDate' | 'endDate', value: string): void {
         this.store.updateFilters({ [key]: value });
     }
 
@@ -329,6 +340,7 @@ export class InteractiveMapComponent
     }
 
     public getStatusLabel(status: ReportStatus): string {
+        console.log('status: ', status);
         return (
             this.statusOptions.find((option) => option.value === status)
                 ?.label || status
@@ -380,18 +392,18 @@ export class InteractiveMapComponent
     }
 
     private setupStoreEffects(): void {
-        effect(() => {
-            const position = this.store.userPosition();
-            if (position && this.mapAdapter.isReady()) {
-                this.mapAdapter.setCenter(position.lat, position.lng);
-                setTimeout(() => this.initializeBoundsFromMap(), 1000);
-            }
-        });
+        // effect(() => {
+        //     const position = this.store.userPosition();
+        //     console.log('position: ', position);
+        //     if (position && this.mapAdapter.isReady()) {
+        //         this.mapAdapter.setCenter(position.lat, position.lng);
+        //         setTimeout(() => this.initializeBoundsFromMap(), 1000);
+        //     }
+        // });
 
         effect(() => {
             const reports = this.store.visibleReports();
             const heatmapEnabled = this.store.heatmapEnabled();
-
             if (this.mapAdapter.isReady()) {
                 this.mapAdapter.renderReports(reports, heatmapEnabled);
             }
@@ -433,7 +445,13 @@ export class InteractiveMapComponent
 
     private initMap(): void {
         const view = this.store.view();
-        this.mapAdapter.init(this.mapContainer.nativeElement, {
+        const map = this.mapContainer()?.nativeElement;
+
+        if (!map) {
+            this.toastr.error("Impossible d'initialiser la carte");
+            return;
+        }
+        this.mapAdapter.init(map, {
             center: view.center,
             zoom: view.zoom,
         });
@@ -457,8 +475,8 @@ export class InteractiveMapComponent
             .onMoveEnd()
             .pipe(debounceTime(1000), takeUntilDestroyed(this.destroyRef))
             .subscribe((bounds) => {
+                console.log('bounds: ', bounds);
                 this.store.setBounds(bounds);
-
                 const view = this.mapAdapter.getViewState();
                 if (view) {
                     this.store.setView(view);
@@ -634,8 +652,8 @@ export class InteractiveMapComponent
             operators: this.readArrayParam<ReportOperator>('operators'),
             statuses: this.readArrayParam<ReportStatus>('statuses'),
             municipality: query.get('municipality') || '',
-            dateFrom: query.get('from') || '',
-            dateTo: query.get('to') || '',
+            startDate: query.get('from') || '',
+            endDate: query.get('to') || '',
             compareOperator:
                 (query.get('compare') as ReportOperator | null) || '',
         });
@@ -649,6 +667,8 @@ export class InteractiveMapComponent
         view: NonNullable<ReturnType<MapStore['view']>>,
         heatmap: boolean
     ): void {
+        console.log('bounds: ', bounds);
+        console.log('heatmap: ', heatmap);
         this.router.navigate([], {
             relativeTo: this.route,
             queryParams: {
@@ -663,8 +683,8 @@ export class InteractiveMapComponent
                 operators: filters.operators.join(',') || null,
                 statuses: filters.statuses.join(',') || null,
                 municipality: filters.municipality || null,
-                from: filters.dateFrom || null,
-                to: filters.dateTo || null,
+                from: filters.startDate || null,
+                to: filters.endDate || null,
                 compare: filters.compareOperator || null,
                 heatmap: heatmap ? '1' : null,
             },
@@ -692,5 +712,13 @@ export class InteractiveMapComponent
                 .map((item) => item.trim())
                 .filter(Boolean) as ReportOperator[];
         }
+    }
+    protected onSeeMoreInfosClicked(item: any): void {
+        console.log('item: ', item);
+        this.selectedReportId = item.uniq_id;
+        this.isVisibleDialog.set(true);
+    }
+    protected onVisibleDialogClicked(event: boolean): void {
+        this.isVisibleDialog.set(event);
     }
 }

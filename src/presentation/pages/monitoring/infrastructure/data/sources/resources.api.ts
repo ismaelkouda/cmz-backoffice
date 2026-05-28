@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ResourcesResponseDto } from '../../api/dto/resources/resources-response.dto';
@@ -10,10 +10,8 @@ import { MONITORING_ENDPOINTS } from '../../api/monitoring.endpoints';
     providedIn: 'root',
 })
 export class ResourcesApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(MONITORING_API_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(MONITORING_API_BASE_URL);
 
     getResources(): Observable<ResourcesResponseDto> {
         const url = `${this.baseUrl}${MONITORING_ENDPOINTS.VARIABLES}`;

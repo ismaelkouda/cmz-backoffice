@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DepartmentsQuery } from '@pages/administrative-boundary/application/queries/departments/departments.query';
 import { DepartmentsHandler } from '@pages/administrative-boundary/application/queries-handlers/departments/departments.handler';
 import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentsBus {
-    constructor(private readonly filterHandler: DepartmentsHandler) {}
+    private readonly filterHandler = inject(DepartmentsHandler);
 
     dispatch<T>(
         query: T,

@@ -1,20 +1,19 @@
 import { Routes } from '@angular/router';
-import { ProfilesPermissionsFormComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-form/profiles-permissions-form.component';
-import { ProfilesPermissionsListComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-list/profiles-permissions-list.component';
-import { ProfilesPermissionsPageComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-page/profiles-permissions-page.component';
+
 import {
     PROFILES_PERMISSIONS_FORM,
     PROFILES_PERMISSIONS_LIST,
     PROFILES_PERMISSIONS_HISTORY,
     PROFILES_PERMISSIONS_USERS,
 } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-paths.constant';
-import { ProfilesPermissionsUsersComponent } from '@pages/settings-security/presentation/profiles-permissions/profiles-permissions-users/profiles-permissions-users.component';
-import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const PROFILES_PERMISSIONS_ROUTES: Routes = [
     {
         path: '',
-        component: ProfilesPermissionsPageComponent,
+        loadComponent: () =>
+            import('@pages/settings-security/presentation/profiles-permissions/profiles-permissions-page/profiles-permissions-page.component').then(
+                (m) => m.ProfilesPermissionsPageComponent
+            ),
         data: {
             icon: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TITLE',
             breadcrumb: 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.TITLE',
@@ -27,12 +26,18 @@ export const PROFILES_PERMISSIONS_ROUTES: Routes = [
             },
             {
                 path: PROFILES_PERMISSIONS_LIST,
-                component: ProfilesPermissionsListComponent,
+                loadComponent: () =>
+                    import('@pages/settings-security/presentation/profiles-permissions/profiles-permissions-list/profiles-permissions-list.component').then(
+                        (m) => m.ProfilesPermissionsListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: PROFILES_PERMISSIONS_HISTORY,
-                component: HistoryPageComponent,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -46,7 +51,10 @@ export const PROFILES_PERMISSIONS_ROUTES: Routes = [
         children: [
             {
                 path: '',
-                component: ProfilesPermissionsFormComponent,
+                loadComponent: () =>
+                    import('@pages/settings-security/presentation/profiles-permissions/profiles-permissions-form/profiles-permissions-form.component').then(
+                        (m) => m.ProfilesPermissionsFormComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -60,7 +68,10 @@ export const PROFILES_PERMISSIONS_ROUTES: Routes = [
         children: [
             {
                 path: '',
-                component: ProfilesPermissionsUsersComponent,
+                loadComponent: () =>
+                    import('@pages/settings-security/presentation/profiles-permissions/profiles-permissions-users/profiles-permissions-users.component').then(
+                        (m) => m.ProfilesPermissionsUsersComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],

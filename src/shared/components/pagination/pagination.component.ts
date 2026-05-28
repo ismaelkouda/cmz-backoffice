@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -45,12 +44,7 @@ import { PaginatorModule } from 'primeng/paginator';
     `,
 
     styleUrls: ['./pagination.component.scss'],
-    imports: [
-        CommonModule,
-        PaginatorModule,
-        TranslateModule,
-        SeparatorThousandsPipe,
-    ],
+    imports: [PaginatorModule, TranslateModule, SeparatorThousandsPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AllFilterApiDto } from '@pages/processing/infrastructure/api/dto/all/all-filter-api.dto';
 import { AllResponseApiDto } from '@pages/processing/infrastructure/api/dto/all/all-response-api.dto';
 import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AllApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(PROCESSING_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(PROCESSING_BASE_URL);
 
     execute(
         filter: AllFilterApiDto,

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DailyGoalQuery } from '@pages/team-organization/application/queries/daily-goal/daily-goal.query';
 import { DailyGoalUseCase } from '@pages/team-organization/application/use-cases/daily-goal/daily-goal.use-case';
 import { DailyGoalEntity } from '@pages/team-organization/domain/entities/daily-goal/daily-goal.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DailyGoalHandler {
-    constructor(private readonly useCase: DailyGoalUseCase) {}
+    private readonly useCase = inject(DailyGoalUseCase);
 
     execute(
         query: DailyGoalQuery,

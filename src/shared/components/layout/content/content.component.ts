@@ -31,13 +31,13 @@ import { filter } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentComponent implements AfterViewInit {
+    navServices = inject(NavService);
+    private readonly router = inject(Router);
+
     public readonly config = inject(AppCustomizationService);
     public showTabs = false;
 
-    constructor(
-        public navServices: NavService,
-        private readonly router: Router
-    ) {
+    constructor() {
         this.router.events
             .pipe(filter((event) => event instanceof NavigationEnd))
             .subscribe(() => {

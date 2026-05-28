@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DailyGoalQuery } from '@pages/team-organization/application/queries/daily-goal/daily-goal.query';
 import { DailyGoalHandler } from '@pages/team-organization/application/queries-handlers/daily-goal/daily-goal.handler';
 import { DailyGoalEntity } from '@pages/team-organization/domain/entities/daily-goal/daily-goal.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DailyGoalBus {
-    constructor(private readonly filterHandler: DailyGoalHandler) {}
+    private readonly filterHandler = inject(DailyGoalHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<DailyGoalEntity>> {
         if (query instanceof DailyGoalQuery) {

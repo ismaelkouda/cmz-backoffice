@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ChatbotDeleteApiDto } from '@shared/components/management/infrastructure//api/dto/chatbot/chatbot-delete-api.dto';
 import { ChatbotDisableApiDto } from '@shared/components/management/infrastructure//api/dto/chatbot/chatbot-disable-api.dto';
 import { ChatbotEnableApiDto } from '@shared/components/management/infrastructure//api/dto/chatbot/chatbot-enable-api.dto';
@@ -16,10 +16,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(MANAGEMENT_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(MANAGEMENT_BASE_URL);
 
     readAll(
         filter: ChatbotFilterApiDto,

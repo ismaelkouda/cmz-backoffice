@@ -157,81 +157,68 @@
                                 </div>
                             }
                             @case ('operators') {
-                                <div
-                                    class="tag-group"
-                                    *ngIf="
-                                        rowData.operators?.length;
-                                        else noOperators
-                                    "
-                                >
-                                    @for (
-                                        operator of rowData.operators;
-                                        track operator
-                                    ) {
-                                        <p-tag
-                                            [value]="operator | translate"
-                                            [style]="
-                                                getOperatorTagStyle(
-                                                    operator | translate
-                                                )
-                                            "
-                                            styleClass="operator-tag"
-                                        />
-                                    }
-                                </div>
-                                <ng-template #noOperators>
+                                @if (rowData.operators?.length) {
+                                    <div class="tag-group">
+                                        @for (
+                                            operator of rowData.operators;
+                                            track operator
+                                        ) {
+                                            <p-tag
+                                                [value]="operator | translate"
+                                                [style]="
+                                                    getOperatorTagStyle(
+                                                        operator | translate
+                                                    )
+                                                "
+                                                styleClass="operator-tag"
+                                            />
+                                        }
+                                    </div>
+                                } @else {
                                     <span class="no-data">-</span>
-                                </ng-template>
+                                }
                             }
                             @case ('platforms') {
-                                <div
-                                    class="tag-group"
-                                    *ngIf="
-                                        rowData.platforms?.length;
-                                        else noPlatforms
-                                    "
-                                >
-                                    @for (
-                                        platform of rowData.platforms;
-                                        track platform
-                                    ) {
-                                        <p-tag
-                                            [value]="platform | translate"
-                                            [severity]="
-                                                rowData.platformsStyle(platform)
-                                                    | translate
-                                            "
-                                        />
-                                    }
-                                </div>
-                                <ng-template #noPlatforms>
+                                @if (rowData.platforms?.length) {
+                                    <div class="tag-group">
+                                        @for (
+                                            platform of rowData.platforms;
+                                            track platform
+                                        ) {
+                                            <p-tag
+                                                [value]="platform | translate"
+                                                [severity]="
+                                                    rowData.platformsStyle(
+                                                        platform
+                                                    ) | translate
+                                                "
+                                            />
+                                        }
+                                    </div>
+                                } @else {
                                     <span class="no-data">-</span>
-                                </ng-template>
+                                }
                             }
                             @case ('channels') {
-                                <div
-                                    class="tag-group"
-                                    *ngIf="
-                                        rowData.channels.length;
-                                        else noChannel
-                                    "
-                                >
-                                    @for (
-                                        channel of rowData.channels;
-                                        track channel
-                                    ) {
-                                        <p-tag
-                                            [value]="channel | translate"
-                                            [severity]="
-                                                rowData.channelsStyle(channel)
-                                                    | translate
-                                            "
-                                        />
-                                    }
-                                </div>
-                                <ng-template #noChannel>
+                                @if (rowData.channels.length) {
+                                    <div class="tag-group">
+                                        @for (
+                                            channel of rowData.channels;
+                                            track channel
+                                        ) {
+                                            <p-tag
+                                                [value]="channel | translate"
+                                                [severity]="
+                                                    rowData.channelsStyle(
+                                                        channel
+                                                    ) | translate
+                                                "
+                                            />
+                                        }
+                                    </div>
+                                } @else {
                                     <span class="no-data">-</span>
-                                </ng-template>
+                                }
                             }
                             @case ('statusLabel') {
                                 <div class="tag-group status-group">

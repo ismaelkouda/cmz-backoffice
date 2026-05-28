@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     Component,
     input,
@@ -30,13 +29,7 @@ import { ManagementEntityType } from '../../domain/types/management-entity.type'
 @Component({
     selector: 'app-management-header',
     standalone: true,
-    imports: [
-        CommonModule,
-        TranslateModule,
-        SkeletonModule,
-        TooltipModule,
-        TagModule,
-    ],
+    imports: [TranslateModule, SkeletonModule, TooltipModule, TagModule],
     templateUrl: `./management-header.component.html`,
     styleUrls: ['./management-header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

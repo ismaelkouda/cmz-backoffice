@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { COMMUNICATION_BASE_URL } from '@pages/communication/infrastructure/api/communication.base-url';
 import { COMMUNICATION_ENDPOINTS } from '@pages/communication/infrastructure/api/communication.endpoints';
 import { MessagingFindOneFilterApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-find-one-filter-api.dto';
@@ -8,10 +8,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingFindOneApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(COMMUNICATION_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(COMMUNICATION_BASE_URL);
 
     read(
         dto?: MessagingFindOneFilterApiDto

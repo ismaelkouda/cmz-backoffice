@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HistoryFilterApiDto } from '@shared/components/history/infrastructure/api/dto/history-filter-api.dto';
 import { HistoryResponseApiDto } from '@shared/components/history/infrastructure/api/dto/history-response.api.dto';
 import { HISTORY_ENDPOINTS } from '@shared/components/history/infrastructure/api/dto/history.endpoints';
@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(HISTORY_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(HISTORY_BASE_URL);
 
     readAll(
         filter: HistoryFilterApiDto,

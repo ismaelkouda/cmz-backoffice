@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AgentsPerformancesQuery } from '@pages/team-organization/application/queries/agents-performances/agents-performances.query';
 import { AgentsPerformancesHandler } from '@pages/team-organization/application/queries-handlers/agents-performances/agents-performances.handler';
 import { AgentsPerformancesEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AgentsPerformancesBus {
-    constructor(private readonly filterHandler: AgentsPerformancesHandler) {}
+    private readonly filterHandler = inject(AgentsPerformancesHandler);
 
     dispatch<T>(
         query: T,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -31,7 +30,6 @@ import { TableHeaderButton } from '@shared/components/table-button-header/table-
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 type TTableActions = 'edit' | 'delete';
 
@@ -39,7 +37,6 @@ type TTableActions = 'edit' | 'delete';
     selector: 'app-municipalities-list',
     standalone: true,
     imports: [
-        CommonModule,
         FilterComponent,
         TableComponent,
         PaginationComponent,
@@ -63,7 +60,7 @@ export class MunicipalitiesListComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(MunicipalitiesFilterStore);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly canExport = this.permissionActions.can(
         '/territorial-structure/municipalities',
@@ -301,11 +298,11 @@ export class MunicipalitiesListComponent {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.normalizeExportPrefix}-municipalities`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.normalizeExportPrefix}-municipalities`
+        // );
     }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {

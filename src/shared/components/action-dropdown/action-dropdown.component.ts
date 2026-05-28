@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -319,7 +318,7 @@ import { ActionDropdownItem } from './interfaces/action-dropdown.interface';
             }
         `,
     ],
-    imports: [CommonModule, TranslateModule, NgbDropdownModule, NgbTooltip],
+    imports: [TranslateModule, NgbDropdownModule, NgbTooltip],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionDropdownComponent {

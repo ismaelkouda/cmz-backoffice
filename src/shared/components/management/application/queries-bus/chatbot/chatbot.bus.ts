@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ChatbotQuery } from '@shared/components/management/application/queries/chatbot/chatbot.query';
 import { ChatbotHandler } from '@shared/components/management/application/queries-handlers/chatbot/chatbot.handler';
 import { ChatbotEntity } from '@shared/components/management/domain/entities/chatbot/chatbot.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotBus {
-    constructor(private readonly filterHandler: ChatbotHandler) {}
+    private readonly filterHandler = inject(ChatbotHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<ChatbotEntity>> {
         if (query instanceof ChatbotQuery) {

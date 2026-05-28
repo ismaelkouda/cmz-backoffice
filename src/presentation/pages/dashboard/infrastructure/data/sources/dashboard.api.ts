@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DASHBOARD_BASE_URL } from '@pages/dashboard/infrastructure/api/dashboard.base-url';
 import { DASHBOARD_ENDPOINTS } from '@pages/dashboard/infrastructure/api/dashboard.endpoints';
 import { DashboardFilterApiDto } from '@pages/dashboard/infrastructure/api/dto/dashboard-filter-api.dto';
@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(DASHBOARD_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(DASHBOARD_BASE_URL);
 
     execute(
         apiDto: DashboardFilterApiDto

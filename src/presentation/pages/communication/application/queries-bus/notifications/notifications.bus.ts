@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NotificationsQuery } from '@pages/communication/application/queries/notifications/notifications.query';
 import { NotificationsHandler } from '@pages/communication/application/queries-handlers/notifications/notifications.handler';
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsBus {
-    constructor(private readonly filterHandler: NotificationsHandler) {}
+    private readonly filterHandler = inject(NotificationsHandler);
 
     dispatch<T>(
         query: T,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     Component,
     input,
@@ -21,7 +20,6 @@ import { TextareaModule } from 'primeng/textarea';
     selector: 'app-management-treatment-form',
     standalone: true,
     imports: [
-        CommonModule,
         ReactiveFormsModule,
         TranslateModule,
         SelectModule,

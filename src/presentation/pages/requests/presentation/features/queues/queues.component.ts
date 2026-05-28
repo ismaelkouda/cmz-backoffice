@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
     Component,
     DestroyRef,
     Signal,
@@ -40,8 +38,10 @@ import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 
 @Component({
     selector: 'app-queues',
@@ -49,7 +49,6 @@ import { ToastrService } from 'ngx-toastr';
     templateUrl: './queues.component.html',
     styleUrls: ['./queues.component.scss'],
     imports: [
-        CommonModule,
         FilterComponent,
         BreadcrumbComponent,
         TableComponent,
@@ -59,7 +58,6 @@ import { ToastrService } from 'ngx-toastr';
         TranslateModule,
     ],
     providers: [QueuesFilterStore],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueuesComponent {
     private readonly permissionActions = inject(PermissionActionsService);
@@ -69,7 +67,8 @@ export class QueuesComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(QueuesFilterStore);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name
@@ -324,17 +323,58 @@ export class QueuesComponent {
             this.toast.error(this.exportTooltip());
             return;
         }
-        const item = this.items();
-        if (item && item.length > 0) {
-            const fileName = `${this.exportFilePrefix}-queues`;
-            this.exportService.exportAsExcelFile(
-                item,
-                this.tableConfig,
-                fileName
-            );
-        } else {
+        const items = this.itemsVM(); // données présentées (avec libellés traduits)
+        if (!items.length) {
             this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
+            return;
         }
+
+        const fileName = `${this.exportFilePrefix}-queues`;
+
+        // Construction des colonnes pour l'export (basée sur QUEUES_TABLE)
+        const exportColumns: ExportColumn[] = QUEUES_TABLE.cols
+            .filter((col) => col.field !== '__action') // exclure la colonne actions
+            .map((col) => {
+                // Déterminer la largeur : convertir "8rem" en nombre (approximatif)
+                let width = 15;
+                if (col.width) {
+                    const num = parseFloat(col.width);
+                    width = isNaN(num) ? 15 : num;
+                }
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: width,
+                    transform: (value: any, row: any) => {
+                        // Cas spécial pour l'index (généré dynamiquement)
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        // Formatage des dates
+                        if (col.field === 'reportedAt' && value) {
+                            return formatDate(value);
+                        }
+                        // Si la valeur est un tableau, la joindre
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: fileName,
+                columns: exportColumns,
+                data: items, // les données présentées
+                sheetName: this.translate.instant('REQUESTS.QUEUES.TITLE'),
+                autoFilter: true,
+            })
+            .catch((err) => {
+                console.error('Export error', err);
+                this.toast.error(this.translate.instant('EXPORT.ERROR'));
+            });
     }
     private normalizeExportPrefix(appName: string): string {
         return (
@@ -344,4 +384,44 @@ export class QueuesComponent {
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
     }
+
+    // private exportToExcel(): void {
+    //     // 1. Récupérer les données depuis le store/service
+    //     const queuesData = this.itemsVM; // Observable de QueuesVmProps[]
+
+    //     // 2. Transformer les colonnes de QUEUES_TABLE en ExportColumn[]
+    //     const exportColumns: ExportColumn[] = QUEUES_TABLE.cols
+    //         .filter((col) => col.field !== '__action') // exclure colonne actions
+    //         .map((col) => ({
+    //             field: col.field,
+    //             header: this.translate.instant(col.header), // traduction dynamique
+    //             width: this.parseWidthToNumber(col.width), // "8rem" -> 8
+    //             transform: (value, row) => {
+    //                 // cas spécial pour __index (généré)
+    //                 if (col.field === '__index') {
+    //                     return row.__index + 1;
+    //                 }
+    //                 // pour les dates, formater avec moment/date-fns
+    //                 if (col.field === 'reportedAt' && value) {
+    //                     return formatDate(value, 'dd/MM/yyyy HH:mm');
+    //                 }
+    //                 return value;
+    //             },
+    //         }));
+
+    //     // 3. Appeler le service
+    //     this.excelExport
+    //         .exportToExcel({
+    //             fileName: 'queues_export',
+    //             columns: exportColumns,
+    //             data: this.rawQueuesData, // les données brutes (non présentées)
+    //             sheetName: 'Files d’attente',
+    //             autoFilter: true,
+    //             headerStyle: {
+    //                 font: { bold: true },
+    //                 fill: { fgColor: 'E0E0E0' },
+    //             },
+    //         })
+    //         .catch((err) => console.error('Export error', err));
+    // }
 }

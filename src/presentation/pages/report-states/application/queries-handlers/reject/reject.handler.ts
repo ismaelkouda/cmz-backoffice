@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RejectQuery } from '@pages/report-states/application/queries/reject/reject.query';
 import { RejectUseCase } from '@pages/report-states/application/use-cases/reject/reject.use-case';
 import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RejectHandler {
-    constructor(private readonly useCase: RejectUseCase) {}
+    private readonly useCase = inject(RejectUseCase);
 
     execute(
         query: RejectQuery,

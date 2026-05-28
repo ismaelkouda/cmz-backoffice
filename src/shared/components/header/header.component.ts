@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -19,7 +18,6 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     imports: [
-        CommonModule,
         MyAccountComponent,
         LanguagesComponent,
         NotificationsBellComponent,

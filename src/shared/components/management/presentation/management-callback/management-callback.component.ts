@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     Component,
     input,
@@ -30,7 +29,6 @@ import { ManagementFormStore } from '../store/management-form.store';
     selector: 'app-management-callback',
     standalone: true,
     imports: [
-        CommonModule,
         ReactiveFormsModule,
         SkeletonModule,
         TranslateModule,

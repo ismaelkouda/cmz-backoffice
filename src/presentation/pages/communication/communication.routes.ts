@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { NotificationsListComponent } from '@pages/communication/presentation/notifications/notifications-list/notifications-list.component';
 
 export const MESSAGING_ROUTE = 'messaging';
 export const NOTIFICATIONS_ROUTE = 'notification';
@@ -16,7 +15,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: NotificationsListComponent,
+                loadComponent: () =>
+                    import('@pages/communication/presentation/notifications/notifications-list/notifications-list.component').then(
+                        (m) => m.NotificationsListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {

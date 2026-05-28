@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -21,7 +20,6 @@ import { ChatbotStore } from './chatbot.store';
     selector: 'app-management-chatbot-panel',
     standalone: true,
     imports: [
-        CommonModule,
         TranslateModule,
         ButtonModule,
         SkeletonModule,

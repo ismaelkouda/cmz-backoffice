@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -17,7 +16,7 @@ import { ChatMessageVM } from '../chatbot.types';
 @Component({
     selector: 'app-chat-message-list',
     standalone: true,
-    imports: [CommonModule, SkeletonModule, ChatMessageItemComponent],
+    imports: [ SkeletonModule, ChatMessageItemComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './chat-message-list.component.html',
     styleUrls: ['./chat-message-list.component.scss'],

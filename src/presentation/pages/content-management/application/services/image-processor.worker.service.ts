@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { Observable, Subject, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -10,10 +10,10 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class ImageProcessorWorkerService {
+    private ngZone = inject(NgZone);
+
     private worker: Worker | null = null;
     private readonly messageSubject = new Subject<any>();
-
-    constructor(private ngZone: NgZone) {}
 
     processInWorker$(
         imageData: ImageData,

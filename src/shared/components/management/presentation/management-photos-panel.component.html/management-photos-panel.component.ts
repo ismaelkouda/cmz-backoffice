@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     Component,
     input,
@@ -23,7 +22,6 @@ import { MediaValue } from '@shared/domain/types/media.types';
     selector: 'app-management-photos-panel',
     standalone: true,
     imports: [
-        CommonModule,
         TranslateModule,
         ImageUploadComponent,
         ImagePreviewDialogComponent,

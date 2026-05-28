@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     Component,
     inject,
@@ -14,7 +13,6 @@ import { HistoryFindOneFacade } from '@shared/components/history/application/ser
 import { HistoryDialogVmPresenter } from '@shared/components/history/presentation/adapters/history-dialog-vm.presenter';
 import { TableComponent } from '@shared/components/table/table.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -26,7 +24,6 @@ import { TooltipModule } from 'primeng/tooltip';
     selector: 'app-history-dialog',
     standalone: true,
     imports: [
-        CommonModule,
         TranslateModule,
         DialogModule,
         ButtonModule,
@@ -47,7 +44,7 @@ export class HistoryDialogComponent {
 
     private readonly facade = inject(HistoryFindOneFacade);
     private readonly presenter = inject(HistoryDialogVmPresenter);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly toast = inject(ToastrService);
     private readonly translate = inject(TranslateService);

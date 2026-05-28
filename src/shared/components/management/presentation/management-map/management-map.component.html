@@ -1,10 +1,12 @@
 <div class="management-map">
-    <div class="map-overlay" *ngIf="isLoading()">
-        <div class="loading-container">
-            <div class="spinner"></div>
-            <p>Chargement de la carte...</p>
+    @if (isLoading()) {
+        <div class="map-overlay">
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <p>Chargement de la carte...</p>
+            </div>
         </div>
-    </div>
+    }
 
     <div
         #mapContainer
@@ -13,48 +15,60 @@
         tabindex="0"
     ></div>
 
-    <div class="map-popup" *ngIf="enablePopup()" [class.show]="showPopup()">
-        <div class="popup-content">
-            <div class="popup-header">
-                <h3>{{ selectedMarker()?.title || 'Position' }}</h3>
-                <button class="popup-close" (click)="togglePopup(false)">
-                    ×
-                </button>
-            </div>
-            <div class="popup-body">
-                <p>
-                    <strong>Latitude:</strong>
-                    {{ latitude() | number: '1.6-6' }}
-                </p>
-                <p>
-                    <strong>Longitude:</strong>
-                    {{ longitude() | number: '1.6-6' }}
-                </p>
-                <p *ngIf="selectedMarker()?.description" class="description">
-                    {{ selectedMarker()?.description }}
-                </p>
-            </div>
-            <div class="popup-actions">
-                <button class="btn-copy" (click)="copyCoordinates()">
-                    📋 Copier
-                </button>
-                <button class="btn-recenter" (click)="recenterMap()">
-                    🎯 Recentrer
-                </button>
+    @if (enablePopup()) {
+        <div class="map-popup" [class.show]="showPopup()">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h3>{{ selectedMarker()?.title || 'Position' }}</h3>
+                    <button class="popup-close" (click)="togglePopup(false)">
+                        ×
+                    </button>
+                </div>
+                <div class="popup-body">
+                    <p>
+                        <strong>Latitude:</strong>
+                        {{ latitude() | number: '1.6-6' }}
+                    </p>
+                    <p>
+                        <strong>Longitude:</strong>
+                        {{ longitude() | number: '1.6-6' }}
+                    </p>
+                    @if (selectedMarker()?.description) {
+                        <p class="description">
+                            {{ selectedMarker()?.description }}
+                        </p>
+                    }
+                </div>
+                <div class="popup-actions">
+                    <button class="btn-copy" (click)="copyCoordinates()">
+                        📋 Copier
+                    </button>
+                    <button class="btn-recenter" (click)="recenterMap()">
+                        🎯 Recentrer
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    }
 
-    <div class="map-controls" *ngIf="isMapInitialized()">
-        <button class="control-btn" (click)="recenterMap()" title="Recenter">
-            🎯
-        </button>
-    </div>
-
-    <div class="coordinates-badge" *ngIf="isMapInitialized()">
-        <div class="badge-content">
-            📍 {{ latitude() | number: '1.6-6' }},
-            {{ longitude() | number: '1.6-6' }}
+    @if (isMapInitialized()) {
+        <div class="map-controls">
+            <button
+                class="control-btn"
+                (click)="recenterMap()"
+                title="Recenter"
+            >
+                🎯
+            </button>
         </div>
-    </div>
+    }
+
+    @if (isMapInitialized()) {
+        <div class="coordinates-badge">
+            <div class="badge-content">
+                📍 {{ latitude() | number: '1.6-6' }},
+                {{ longitude() | number: '1.6-6' }}
+            </div>
+        </div>
+    }
 </div>

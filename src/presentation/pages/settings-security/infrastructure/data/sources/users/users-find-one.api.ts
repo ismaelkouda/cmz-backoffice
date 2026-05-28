@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UsersFindOneFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-find-one-filter-api.dto';
 import { UsersFindOneResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-find-one-response-api.dto';
 import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
@@ -8,10 +8,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersFindOneApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(SETTINGS_SECURITY_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(SETTINGS_SECURITY_BASE_URL);
 
     execute(
         filter?: UsersFindOneFilterApiDto

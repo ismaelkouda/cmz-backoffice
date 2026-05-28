@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ParticipantsQuery } from '@pages/team-organization/application/queries/participants/participants.query';
 import { ParticipantsUseCase } from '@pages/team-organization/application/use-cases/participants/participants.use-case';
 import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsHandler {
-    constructor(private readonly useCase: ParticipantsUseCase) {}
+    private readonly useCase = inject(ParticipantsUseCase);
 
     execute(
         command: ParticipantsQuery,

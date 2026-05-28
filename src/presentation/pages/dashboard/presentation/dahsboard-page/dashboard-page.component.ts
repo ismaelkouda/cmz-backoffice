@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -43,7 +42,6 @@ const INITIAL_DAY = '90';
     templateUrl: './dashboard-page.component.html',
     styleUrls: ['./dashboard-page.component.scss'],
     imports: [
-        CommonModule,
         FormsModule,
         TranslateModule,
         ButtonModule,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -27,7 +26,6 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
     selector: 'app-hashtags-input',
     standalone: true,
     imports: [
-        CommonModule,
         ReactiveFormsModule,
         TranslateModule,
         InputTextModule,

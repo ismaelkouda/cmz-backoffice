@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -23,7 +22,6 @@ import { ImageZoomComponent } from '../image-zoom/image-zoom.component';
     styleUrls: ['./image-preview-dialog.component.scss'],
     standalone: true,
     imports: [
-        CommonModule,
         TranslateModule,
         DialogModule,
         ImageZoomComponent,

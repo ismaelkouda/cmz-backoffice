@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DetailsFilterApiDto } from '@pages/processing/infrastructure/api/dto/details/details-filter-api.dto';
 import { DetailsResponseApiDto } from '@pages/processing/infrastructure/api/dto/details/details-response-api.dto';
 import { DetailsTakeApiDto } from '@pages/processing/infrastructure/api/dto/details/details-take-api.dto';
@@ -11,10 +11,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(PROCESSING_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(PROCESSING_BASE_URL);
 
     execute(apiDto: DetailsFilterApiDto): Observable<DetailsResponseApiDto> {
         const url = `${this.baseUrl}${apiDto.uniq_id}`;

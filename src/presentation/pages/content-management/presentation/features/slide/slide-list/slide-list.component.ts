@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -40,7 +39,6 @@ import { Platform } from '@shared/domain/enums/platform.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
 
@@ -50,7 +48,6 @@ type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
     templateUrl: './slide-list.component.html',
     styleUrls: ['./slide-list.component.scss'],
     imports: [
-        CommonModule,
         FilterComponent,
         TableComponent,
         PaginationComponent,
@@ -71,7 +68,7 @@ export class SlideListComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(SlideFilterStore);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly canExport = this.permissionActions.can(
         '/content-management/sliders',
@@ -351,11 +348,11 @@ export class SlideListComponent {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.normalizeExportPrefix}-slide`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.normalizeExportPrefix}-slide`
+        // );
     }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {

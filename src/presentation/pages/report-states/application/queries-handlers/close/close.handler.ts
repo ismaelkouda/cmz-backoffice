@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CloseQuery } from '@pages/report-states/application/queries/close/close.query';
 import { CloseUseCase } from '@pages/report-states/application/use-cases/close/close.use-case';
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CloseHandler {
-    constructor(private readonly useCase: CloseUseCase) {}
+    private readonly useCase = inject(CloseUseCase);
 
     execute(
         query: CloseQuery,

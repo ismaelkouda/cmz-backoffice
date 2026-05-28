@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export type GeolocationPermissionState = 'granted' | 'denied' | 'prompt';
@@ -26,7 +26,7 @@ export interface GeolocationError {
     providedIn: 'root',
 })
 export class GeolocationService {
-    constructor(private readonly ngZone: NgZone) {}
+    private readonly ngZone = inject(NgZone);
 
     private hasGeolocationPosition(): boolean {
         return 'geolocation' in navigator;

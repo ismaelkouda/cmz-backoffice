@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -37,7 +36,6 @@ import { TableHeaderButton } from '@shared/components/table-button-header/table-
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 
 type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
@@ -46,7 +44,6 @@ type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
     selector: 'app-teams-list',
     standalone: true,
     imports: [
-        CommonModule,
         FilterComponent,
         TableComponent,
         PaginationComponent,
@@ -69,7 +66,7 @@ export class TeamsListComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(TeamsFilterStore);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly canExport = this.permissionActions.can(
         '/organization/team',
@@ -327,11 +324,11 @@ export class TeamsListComponent {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.normalizeExportPrefix}-teams`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.normalizeExportPrefix}-teams`
+        // );
     }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {

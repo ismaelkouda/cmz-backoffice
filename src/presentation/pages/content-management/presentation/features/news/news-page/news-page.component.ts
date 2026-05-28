@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -25,7 +24,6 @@ import { filter } from 'rxjs';
     selector: 'app-news-page',
     standalone: true,
     imports: [
-        CommonModule,
         BreadcrumbComponent,
         PageTitleComponent,
         TabsModule,

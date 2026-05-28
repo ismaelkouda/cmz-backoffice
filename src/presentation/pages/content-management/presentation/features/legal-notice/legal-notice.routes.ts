@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
-import { LegalNoticeFormComponent } from '@pages/content-management/presentation/features/legal-notice/legal-notice-form/legal-notice-form.component';
+
 import {
     LEGAL_NOTICE_LIST_ROUTE,
     LEGAL_NOTICE_HISTORY_ROUTE,
     LEGAL_NOTICE_FORM_ROUTE,
 } from '@pages/content-management/presentation/features/legal-notice/legal-notice-paths.constants';
-import { LegalNoticeListComponent } from '@presentation/pages/content-management/presentation/features/legal-notice/legal-notice-list/legal-notice-list.component';
-import { LegalNoticePageComponent } from '@presentation/pages/content-management/presentation/features/legal-notice/legal-notice-page/legal-notice-page.component';
-import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const LEGAL_NOTICE_ROUTES: Routes = [
     {
         path: '',
-        component: LegalNoticePageComponent,
+        loadComponent: () =>
+            import('@presentation/pages/content-management/presentation/features/legal-notice/legal-notice-page/legal-notice-page.component').then(
+                (m) => m.LegalNoticePageComponent
+            ),
         data: {
             title: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TITLE',
             breadcrumb: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TITLE',
@@ -25,12 +25,18 @@ export const LEGAL_NOTICE_ROUTES: Routes = [
             },
             {
                 path: LEGAL_NOTICE_LIST_ROUTE,
-                component: LegalNoticeListComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/content-management/presentation/features/legal-notice/legal-notice-list/legal-notice-list.component').then(
+                        (m) => m.LegalNoticeListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: LEGAL_NOTICE_HISTORY_ROUTE,
-                component: HistoryPageComponent,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -44,7 +50,10 @@ export const LEGAL_NOTICE_ROUTES: Routes = [
         children: [
             {
                 path: '',
-                component: LegalNoticeFormComponent,
+                loadComponent: () =>
+                    import('@pages/content-management/presentation/features/legal-notice/legal-notice-form/legal-notice-form.component').then(
+                        (m) => m.LegalNoticeFormComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],

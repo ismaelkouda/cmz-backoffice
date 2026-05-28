@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ChatbotQuery } from '@shared/components/management/application/queries/chatbot/chatbot.query';
 import { ChatbotUseCase } from '@shared/components/management/application/use-cases/chatbot/chatbot.use-case';
 import { ChatbotEntity } from '@shared/components/management/domain/entities/chatbot/chatbot.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotHandler {
-    constructor(private readonly useCase: ChatbotUseCase) {}
+    private readonly useCase = inject(ChatbotUseCase);
 
     execute(
         command: ChatbotQuery,

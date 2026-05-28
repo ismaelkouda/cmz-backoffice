@@ -8,23 +8,25 @@
         (keypress)="openModal()"
     />
 
-    <div
-        *ngIf="zoomVisible"
-        class="lens"
-        [ngStyle]="{
-            top: lensPosition.top + 'px',
-            left: lensPosition.left + 'px',
-        }"
-    ></div>
+    @if (zoomVisible) {
+        <div
+            class="lens"
+            [ngStyle]="{
+                top: lensPosition.top + 'px',
+                left: lensPosition.left + 'px',
+            }"
+        ></div>
+    }
 
-    <div
-        *ngIf="zoomVisible"
-        class="zoomed-image"
-        [ngStyle]="{
-            'background-image': 'url(' + src() + ')',
-            'background-position': backgroundPosition,
-        }"
-    ></div>
+    @if (zoomVisible) {
+        <div
+            class="zoomed-image"
+            [ngStyle]="{
+                'background-image': 'url(' + src() + ')',
+                'background-position': backgroundPosition,
+            }"
+        ></div>
+    }
 </div>
 
 <p-dialog

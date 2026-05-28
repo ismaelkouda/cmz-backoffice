@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     Component,
     input,
@@ -14,13 +13,7 @@ import { TooltipModule } from 'primeng/tooltip';
 @Component({
     selector: 'app-management-sidebar',
     standalone: true,
-    imports: [
-        CommonModule,
-        SkeletonModule,
-        TranslateModule,
-        ButtonModule,
-        TooltipModule,
-    ],
+    imports: [SkeletonModule, TranslateModule, ButtonModule, TooltipModule],
     templateUrl: './management-sidebar.component.html',
     styleUrls: ['./management-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

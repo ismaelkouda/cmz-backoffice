@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TeamsPermissionsUseCase } from '@pages/team-organization/application/use-cases/teams/teams-permissions.use-case';
 import { TeamsPermissionsEntity } from '@pages/team-organization/domain/entities/teams/teams-permissions.entity';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsPermissionsHandler {
-    constructor(private readonly useCase: TeamsPermissionsUseCase) {}
+    private readonly useCase = inject(TeamsPermissionsUseCase);
 
     execute(): Observable<TeamsPermissionsEntity> {
         return this.useCase.execute();

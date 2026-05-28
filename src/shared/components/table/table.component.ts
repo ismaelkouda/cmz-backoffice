@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -38,7 +37,6 @@ import { TooltipModule } from 'primeng/tooltip';
     selector: 'app-table',
     standalone: true,
     imports: [
-        CommonModule,
         TableModule,
         BadgeModule,
         ButtonModule,

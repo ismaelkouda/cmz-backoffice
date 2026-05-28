@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { ForgotPasswordComponent } from './ui/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './ui/reset-password/reset-password.component';
-
 export const FORGOT_PASSWORD = 'forgot-password';
 export const RESET_PASSWORD = 'reset-password';
 
@@ -12,11 +9,17 @@ export const routes: Routes = [
         children: [
             {
                 path: FORGOT_PASSWORD,
-                component: ForgotPasswordComponent,
+                loadComponent: () =>
+                    import('./ui/forgot-password/forgot-password.component').then(
+                        (m) => m.ForgotPasswordComponent
+                    ),
             },
             {
                 path: RESET_PASSWORD,
-                component: ResetPasswordComponent,
+                loadComponent: () =>
+                    import('./ui/reset-password/reset-password.component').then(
+                        (m) => m.ResetPasswordComponent
+                    ),
             },
             {
                 path: '',

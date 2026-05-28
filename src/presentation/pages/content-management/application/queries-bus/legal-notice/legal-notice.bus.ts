@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { LegalNoticeQuery } from '@pages/content-management/application/queries/legal-notice/legal-notice.query';
 import { LegalNoticeHandler } from '@pages/content-management/application/queries-handlers/legal-notice/legal-notice.handler';
 import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeBus {
-    constructor(private readonly filterHandler: LegalNoticeHandler) {}
+    private readonly filterHandler = inject(LegalNoticeHandler);
 
     dispatch<T>(
         query: T,

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginResponseDto } from '@pages/authentication/data/dto/login-response.dto';
 import { VariablesResponseDto } from '@pages/authentication/data/dto/variables-response.dto';
@@ -13,14 +13,10 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationRepositoryImpl extends AuthenticationRepository {
-    constructor(
-        private readonly api: AuthenticationApi,
-        private readonly sessionMapper: AuthSessionMapper,
-        private readonly variablesMapper: AuthVariablesMapper,
-        private readonly translateService: TranslateService
-    ) {
-        super();
-    }
+    private readonly api = inject(AuthenticationApi);
+    private readonly sessionMapper = inject(AuthSessionMapper);
+    private readonly variablesMapper = inject(AuthVariablesMapper);
+    private readonly translateService = inject(TranslateService);
 
     override login(credentials: LoginCredentials): Observable<AuthSession> {
         return this.api.login(credentials.toDto()).pipe(

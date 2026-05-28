@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -38,7 +37,6 @@ import { map, tap } from 'rxjs';
     templateUrl: './municipalities-by-department-id.component.html',
     styleUrls: ['./municipalities-by-department-id.component.scss'],
     imports: [
-        CommonModule,
         PageTitleComponent,
         BreadcrumbComponent,
         FilterComponent,

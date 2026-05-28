@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { InteractiveMapComponent } from '@presentation/pages/interactive-map/presentation/features/interactive-map/pages/interactive-map.component';
 
 export const MAP_CLUSTERS_ROUTE = 'queues';
 export const TASKS_ROUTE = 'tasks';
@@ -17,7 +16,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: InteractiveMapComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/interactive-map/presentation/features/interactive-map/pages/interactive-map.component').then(
+                        (m) => m.InteractiveMapComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {

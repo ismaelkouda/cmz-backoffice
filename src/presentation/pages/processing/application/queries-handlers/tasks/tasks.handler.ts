@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TasksQuery } from '@pages/processing/application/queries/tasks/tasks.query';
 import { TasksUseCase } from '@pages/processing/application/use-cases/tasks/tasks.use-case';
 import { TasksEntity } from '@pages/processing/domain/entities/tasks/tasks.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksHandler {
-    constructor(private readonly useCase: TasksUseCase) {}
+    private readonly useCase = inject(TasksUseCase);
 
     execute(
         query: TasksQuery,

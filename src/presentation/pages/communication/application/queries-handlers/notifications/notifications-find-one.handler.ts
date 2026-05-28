@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NotificationsFindOneQuery } from '@pages/communication/application/queries/notifications/notifications-find-one.query';
 import { NotificationsFindOneUseCase } from '@pages/communication/application/use-cases/notifications/notifications-find-one.use-case';
 import { NotificationsFindOneEntity } from '@pages/communication/domain/entities/notifications/notifications-find-one.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsFindOneHandler {
-    constructor(private readonly useCase: NotificationsFindOneUseCase) {}
+    private readonly useCase = inject(NotificationsFindOneUseCase);
 
     execute(
         query: NotificationsFindOneQuery,

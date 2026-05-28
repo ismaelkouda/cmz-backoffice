@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 
@@ -12,13 +12,9 @@ import { PasswordResetApi } from '../sources/password-reset.api';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetRepositoryImpl extends PasswordResetRepository {
-    constructor(
-        private readonly api: PasswordResetApi,
-        private readonly mapper: PasswordResetMapper,
-        private readonly translateService: TranslateService
-    ) {
-        super();
-    }
+    private readonly api = inject(PasswordResetApi);
+    private readonly mapper = inject(PasswordResetMapper);
+    private readonly translateService = inject(TranslateService);
 
     override forgotPassword(
         request: ForgotPasswordRequest

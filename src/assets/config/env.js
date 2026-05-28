@@ -10,7 +10,7 @@
         "app": {
             "name": "Connect My Zone",
             "title": "Connect My Zone Back-office",
-            "description": "Système de Gestion des zones znon connectées",
+            "description": "Système de Gestion des zones non connectées",
             "keywords": "Connect My Zone, Back-office, Gestion, Zones non connectées",
             "author": "ANSUT"
         },
@@ -86,7 +86,7 @@
 };
 
             window.__env.buildInfo = {
-                timestamp: '2026-05-21T18:56:08.127Z',
+                timestamp: '2026-05-26T17:38:30.330Z',
                 environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'

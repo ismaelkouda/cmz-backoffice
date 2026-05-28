@@ -5,7 +5,6 @@ import {
     effect,
     ElementRef,
     inject,
-    Inject,
     input,
     NgZone,
     OnDestroy,
@@ -34,6 +33,8 @@ export interface MapMarker {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementMapComponent implements OnInit, OnDestroy {
+    private readonly platformId = inject(PLATFORM_ID);
+
     private readonly openLayersLoader = inject(OpenLayersLoaderService);
     private readonly ngZone = inject(NgZone);
     private readonly elementRef = inject(ElementRef);
@@ -64,7 +65,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     private readonly destroy$ = new Subject<void>();
     private olModules: any = null;
 
-    constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {
+    constructor() {
         effect(() => {
             const container = this.mapContainer();
             if (container && !this.map) {

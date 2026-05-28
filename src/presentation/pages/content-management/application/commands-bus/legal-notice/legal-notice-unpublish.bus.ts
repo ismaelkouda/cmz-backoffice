@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { LegalNoticeUnpublishCommand } from '@pages/content-management/application/commands/legal-notice/legal-notice-unpublish.command';
 import { LegalNoticeUnpublishHandler } from '@pages/content-management/application/commands-handlers/legal-notice/legal-notice-unpublish.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeUnpublishBus {
-    constructor(private readonly filterHandler: LegalNoticeUnpublishHandler) {}
+    private readonly filterHandler = inject(LegalNoticeUnpublishHandler);
 
     dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
         if (command instanceof LegalNoticeUnpublishCommand) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DetailsApproveCommand } from '@pages/report-states/application/commands/details/details-approve.command';
 import { DetailsUseCase } from '@pages/report-states/application/use-cases/details/details.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsApproveHandler {
-    constructor(private readonly useCase: DetailsUseCase) {}
+    private readonly useCase = inject(DetailsUseCase);
 
     execute(
         command: DetailsApproveCommand

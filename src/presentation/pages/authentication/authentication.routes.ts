@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { LoginComponent } from './ui/login/login.component';
-
 export const LOGIN = 'login';
 export const PORTAIL = 'portail';
 
@@ -11,7 +9,10 @@ export const routes: Routes = [
         children: [
             {
                 path: LOGIN,
-                component: LoginComponent,
+                loadComponent: () =>
+                    import('./ui/login/login.component').then(
+                        (m) => m.LoginComponent
+                    ),
             },
             {
                 path: '',

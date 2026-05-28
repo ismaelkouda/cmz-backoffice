@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -29,7 +28,6 @@ import { PaginationComponent } from '@shared/components/pagination/pagination.co
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 import { DialogModule } from 'primeng/dialog';
 import { map, switchMap } from 'rxjs';
@@ -38,7 +36,6 @@ import { map, switchMap } from 'rxjs';
     selector: 'app-history',
     standalone: true,
     imports: [
-        CommonModule,
         TranslateModule,
         FilterComponent,
         TableComponent,
@@ -60,7 +57,7 @@ export class HistoryPageComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly store = inject(HistoryFilterStore);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name
@@ -235,12 +232,12 @@ export class HistoryPageComponent {
         }
         const item = this.items();
         if (item && item.length > 0) {
-            const fileName = `${this.exportFilePrefix}-history`;
-            this.exportService.exportAsExcelFile(
-                item,
-                this.tableConfig,
-                fileName
-            );
+            // const fileName = `${this.exportFilePrefix}-history`;
+            // this.exportService.exportAsExcelFile(
+            //     item,
+            //     this.tableConfig,
+            //     fileName
+            // );
         } else {
             this.toast.error(this.t('EXPORT.NO_DATA'));
         }

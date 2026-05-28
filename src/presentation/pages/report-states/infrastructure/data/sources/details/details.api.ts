@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DetailsApproveApiDto } from '@pages/report-states/infrastructure/api/dto/details/details-approve-api.dto';
 import { DetailsFilterApiDto } from '@pages/report-states/infrastructure/api/dto/details/details-filter-api.dto';
 import { DetailsRejectApiDto } from '@pages/report-states/infrastructure/api/dto/details/details-reject-api.dto';
@@ -14,10 +14,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DetailsApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(REPORT_STATES_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(REPORT_STATES_BASE_URL);
 
     execute(apiDto: DetailsFilterApiDto): Observable<DetailsResponseApiDto> {
         const url = `${this.baseUrl}${REPORT_STATES_ENDPOINTS.DETAILS_REPORT_STATES}/${apiDto.uniq_id}`;

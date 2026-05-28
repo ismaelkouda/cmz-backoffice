@@ -1,8 +1,4 @@
 import { Routes } from '@angular/router';
-import { ActionsTreatmentComponent } from '@pages/processing/presentation/actions-treatment/actions-treatment.component';
-import { AllComponent } from '@presentation/pages/processing/presentation/features/all/all.component';
-import { QueuesComponent } from '@presentation/pages/processing/presentation/features/queues/queues.component';
-import { TasksComponent } from '@presentation/pages/processing/presentation/features/tasks/tasks.component';
 
 export const TREATMENT_ROUTE = 'processing';
 export const QUEUES_ROUTE = 'queues';
@@ -29,7 +25,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: QueuesComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/processing/presentation/features/queues/queues.component').then(
+                        (m) => m.QueuesComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
@@ -53,12 +52,18 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: TasksComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/processing/presentation/features/tasks/tasks.component').then(
+                        (m) => m.TasksComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: ACTIONS_ROUTE,
-                component: ActionsTreatmentComponent,
+                loadComponent: () =>
+                    import('@pages/processing/presentation/actions-treatment/actions-treatment.component').then(
+                        (m) => m.ActionsTreatmentComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
@@ -82,7 +87,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: AllComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/processing/presentation/features/all/all.component').then(
+                        (m) => m.AllComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {

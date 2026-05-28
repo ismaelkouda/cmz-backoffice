@@ -10,41 +10,20 @@ import {
     selector: 'app-confirmation-modal',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-        <div
-            class="modal-backdrop"
-            *ngIf="isOpen"
-            (click)="onBackdropClick($event)"
-        >
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{ title }}</h5>
-                        <button
-                            type="button"
-                            class="close-button"
-                            (click)="onCancel()"
-                        >
-                            <svg
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+        @if (isOpen) {
+            <div class="modal-backdrop" (click)="onBackdropClick($event)">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ title }}</h5>
+                            <button
+                                type="button"
+                                class="close-button"
+                                (click)="onCancel()"
                             >
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="message-container">
-                            <div class="icon-container">
                                 <svg
-                                    width="24"
-                                    height="24"
+                                    width="14"
+                                    height="14"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
@@ -52,38 +31,62 @@ import {
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                 >
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                                    <line
-                                        x1="12"
-                                        y1="16"
-                                        x2="12.01"
-                                        y2="16"
-                                    ></line>
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
                                 </svg>
-                            </div>
-                            <p>{{ message }}</p>
+                            </button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-cancel"
-                            (click)="onCancel()"
-                        >
-                            {{ cancelText }}
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-confirm"
-                            (click)="onConfirm()"
-                        >
-                            {{ confirmText }}
-                        </button>
+                        <div class="modal-body">
+                            <div class="message-container">
+                                <div class="icon-container">
+                                    <svg
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line
+                                            x1="12"
+                                            y1="8"
+                                            x2="12"
+                                            y2="12"
+                                        ></line>
+                                        <line
+                                            x1="12"
+                                            y1="16"
+                                            x2="12.01"
+                                            y2="16"
+                                        ></line>
+                                    </svg>
+                                </div>
+                                <p>{{ message }}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-cancel"
+                                (click)="onCancel()"
+                            >
+                                {{ cancelText }}
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-confirm"
+                                (click)="onConfirm()"
+                            >
+                                {{ confirmText }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     `,
     styles: [
         `

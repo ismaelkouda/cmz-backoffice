@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { EnvService } from '../../../core/config/env.service';
@@ -17,6 +17,10 @@ export type AccessFeature = [
     providedIn: 'root',
 })
 export class MappingService {
+    private encodingService = inject(EncodingDataService);
+    private http = inject(HttpClient);
+    private envService = inject(EnvService);
+
     public profil: any;
     public structureGlobale: any;
     public logoTenant: any;
@@ -40,11 +44,7 @@ export class MappingService {
     public analyseAlarmeCritiques: any;
     public analyseAlarmeGenerees: any;
     public getAccessFeature: AccessFeature;
-    constructor(
-        private encodingService: EncodingDataService,
-        private http: HttpClient,
-        private envService: EnvService
-    ) {
+    constructor() {
         this.currentVariables = this.encodingService.getData('dashboard_links');
         this.grafanaLink = this.currentVariables?.dashboardGrafana;
         this.approLink = this.currentVariables?.dashboardAppro;

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TeamsCreateApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-create-api.dto';
 import { TeamsDeleteApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-delete-api.dto';
 import { TeamsDisableApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-disable-api.dto';
@@ -16,10 +16,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(TEAM_ORGANIZATION_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(TEAM_ORGANIZATION_BASE_URL);
 
     readAll(
         dto: TeamsFilterApiDto,

@@ -20,39 +20,37 @@
                     <div class="card-body">
                         <div class="data-grid">
                             <div class="data-row triple">
-                                <div
-                                    *ngFor="let field of [1, 2, 3]"
-                                    class="data-field"
-                                >
-                                    <p-skeleton
-                                        width="120px"
-                                        height="18px"
-                                        styleClass="mb-2"
-                                    ></p-skeleton>
-                                    <p-skeleton
-                                        width="100%"
-                                        height="44px"
-                                        borderRadius="8px"
-                                    ></p-skeleton>
-                                </div>
+                                @for (field of [1, 2, 3]; track field) {
+                                    <div class="data-field">
+                                        <p-skeleton
+                                            width="120px"
+                                            height="18px"
+                                            styleClass="mb-2"
+                                        ></p-skeleton>
+                                        <p-skeleton
+                                            width="100%"
+                                            height="44px"
+                                            borderRadius="8px"
+                                        ></p-skeleton>
+                                    </div>
+                                }
                             </div>
 
                             <div class="data-row double">
-                                <div
-                                    *ngFor="let field of [1, 2]"
-                                    class="data-field"
-                                >
-                                    <p-skeleton
-                                        width="100px"
-                                        height="18px"
-                                        styleClass="mb-2"
-                                    ></p-skeleton>
-                                    <p-skeleton
-                                        width="140px"
-                                        height="32px"
-                                        borderRadius="20px"
-                                    ></p-skeleton>
-                                </div>
+                                @for (field of [1, 2]; track field) {
+                                    <div class="data-field">
+                                        <p-skeleton
+                                            width="100px"
+                                            height="18px"
+                                            styleClass="mb-2"
+                                        ></p-skeleton>
+                                        <p-skeleton
+                                            width="140px"
+                                            height="32px"
+                                            borderRadius="20px"
+                                        ></p-skeleton>
+                                    </div>
+                                }
                             </div>
 
                             <div class="data-row full">
@@ -390,55 +388,55 @@
                                 </div>
 
                                 <!-- <div class="data-field">
-                                    <label class="field-label">{{
-                                        'MANAGEMENT.FORM.LOCATION_INFO.LOCATION_METHOD'
-                                            | translate
-                                    }}</label>
-                                    <div class="field-value">
-                                        {{
-                                            item()?.location?.method ||
-                                                'MANAGEMENT.FORM.NOT_SPECIFIED'
-                                                | translate
-                                        }}
-                                    </div>
-                                </div> -->
+                              <label class="field-label">{{
+                                'MANAGEMENT.FORM.LOCATION_INFO.LOCATION_METHOD'
+                                | translate
+                              }}</label>
+                              <div class="field-value">
+                                {{
+                                item()?.location?.method ||
+                                'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                | translate
+                                }}
+                              </div>
+                            </div> -->
 
                                 <!-- <div class="data-field">
-                                    <label class="field-label">
-                                        {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
-                                    </label>
-                                    <div class="field-value">
-                                        {{ item()?.source || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
-                                    </div>
-                                </div> -->
+                            <label class="field-label">
+                              {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
+                            </label>
+                            <div class="field-value">
+                              {{ item()?.source || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                            </div>
+                          </div> -->
 
                                 <!-- <div class="data-field">
-                                    <label class="field-label">{{
-                                        'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_ENTRY'
-                                            | translate
-                                    }}</label>
-                                    <div class="field-value">
-                                        {{
-                                            item()?.reportedAt ||
-                                                ('MANAGEMENT.FORM.NOT_SPECIFIED'
-                                                    | translate)
-                                        }}
-                                    </div>
-                                </div>
+                          <label class="field-label">{{
+                            'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_ENTRY'
+                            | translate
+                          }}</label>
+                          <div class="field-value">
+                            {{
+                            item()?.reportedAt ||
+                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                            | translate)
+                            }}
+                          </div>
+                        </div>
 
-                                <div class="data-field">
-                                    <label class="field-label">{{
-                                        'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_RECEIPT'
-                                            | translate
-                                    }}</label>
-                                    <div class="field-value">
-                                        {{
-                                            item()?.createdAt ||
-                                                ('MANAGEMENT.FORM.NOT_SPECIFIED'
-                                                    | translate)
-                                        }}
-                                    </div>
-                                </div> -->
+                        <div class="data-field">
+                          <label class="field-label">{{
+                            'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_RECEIPT'
+                            | translate
+                          }}</label>
+                          <div class="field-value">
+                            {{
+                            item()?.createdAt ||
+                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                            | translate)
+                            }}
+                          </div>
+                        </div> -->
 
                                 @if (
                                     item()?.inProcessing ||

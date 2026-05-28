@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RejectQuery } from '@pages/report-states/application/queries/reject/reject.query';
 import { RejectHandler } from '@pages/report-states/application/queries-handlers/reject/reject.handler';
 import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RejectBus {
-    constructor(private readonly filterHandler: RejectHandler) {}
+    private readonly filterHandler = inject(RejectHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<RejectEntity>> {
         if (query instanceof RejectQuery) {
