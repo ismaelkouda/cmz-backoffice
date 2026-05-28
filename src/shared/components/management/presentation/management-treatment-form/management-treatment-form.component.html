@@ -189,7 +189,11 @@
                                                     | translate
                                             }}
                                             @if (isDecision('rejected')) {
-                                                <span class="text-danger" aria-label="required">*</span>
+                                                <span
+                                                    class="text-danger"
+                                                    aria-label="required"
+                                                    >*</span
+                                                >
                                             }
                                         </label>
                                         <p-select
@@ -247,9 +251,13 @@
                                             'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
                                                 | translate
                                         }}
-                                            @if (isDecision('rejected')) {
-                                                <span class="text-danger" aria-label="required">*</span>
-                                            }
+                                        @if (isDecision('rejected')) {
+                                            <span
+                                                class="text-danger"
+                                                aria-label="required"
+                                                >*</span
+                                            >
+                                        }
                                     </label>
                                     <textarea
                                         id="comment"

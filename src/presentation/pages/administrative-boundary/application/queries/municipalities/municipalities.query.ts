@@ -1,5 +1,3 @@
-import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
-
 export class MunicipalitiesQuery {
     constructor(
         public readonly search: string | null,

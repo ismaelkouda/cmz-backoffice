@@ -6,14 +6,15 @@ export function participantsFilterMapper(
 ): ParticipantsFilterApiDto {
     const params: ParticipantsFilterApiDto = {} as ParticipantsFilterApiDto;
 
+    console.log('entity: ', entity);
     if (entity.search) {
         params.search = entity.search;
     }
     if (entity.role) {
         params.role = entity.role;
     }
-    if (entity.status !== undefined) {
-        params.is_active = !!entity.status;
+    if (entity.status) {
+        params.status = entity.status;
     }
 
     return params;

@@ -1,4 +1,5 @@
 import { LegalNoticeFilterEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
+import { Status } from '@pages/content-management/domain/enums/legal-notice/legal-notice-status.enum';
 import { LegalNoticeFilterApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-filter-api.dto';
 
 export function legalNoticeFilterMapper(
@@ -13,7 +14,7 @@ export function legalNoticeFilterMapper(
         params.version = entity.version;
     }
     if (entity.status) {
-        params.status = entity.status;
+        params.is_published = entity.status === Status.PUBLISH;
     }
     if (entity.startDate) {
         params.start_date = entity.startDate;

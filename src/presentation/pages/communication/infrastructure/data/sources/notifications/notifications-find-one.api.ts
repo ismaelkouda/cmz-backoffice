@@ -18,9 +18,9 @@ export class NotificationsFindOneApi {
         filter: NotificationsFindOneFilterApiDto,
         page: string
     ): Observable<NotificationsFindOneResponseApiDto> {
-        const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.NOTIFICATIONS}/${filter.uniq_id}?page=${page}`;
+        const url = `${this.baseUrl}${filter.uniq_id}/${COMMUNICATION_ENDPOINTS.NOTIFICATIONS}?page=${page}`;
         const params = buildHttpParams(filter);
-        return this.http.get<NotificationsFindOneResponseApiDto>(url, {
+        return this.http.put<NotificationsFindOneResponseApiDto>(url, {
             params,
         });
     }

@@ -14,9 +14,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HomeFacade } from '@pages/content-management/application/services/home/home.facade';
-import { HomeFormStore } from '@pages/content-management/application/store/home-form/home-form.store';
 import { HomeFormHelperService } from '@pages/content-management/domain/services/home/home-form-helper.service';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
+import { HomeFormStore } from '@presentation/pages/content-management/application/store/home/home-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { enumToFilterOptions } from '@shared/components/filter/filter.types';
 import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/image-crop-dialog.component';
@@ -75,83 +75,84 @@ import SweetAlert from 'sweetalert2';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeFormComponent {
-    public readonly instanceId = 'home-form-image';
-
+    protected readonly instanceId = 'home-form-image';
     protected readonly store = inject(HomeFormStore);
     private readonly imageStore = inject(ImageUploadStateService);
-
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
     private readonly submitFacade = inject(HomeFacade);
     private readonly helper = inject(HomeFormHelperService);
     private readonly validation = inject(FormValidationService);
-
-    readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
-
-    public readonly form = this.store.form;
-    public readonly loading = this.store.loading;
-    protected isEditMode = this.store.isEditMode;
-    public readonly item = this.store.item;
-
-    readonly previewVisible = signal(false);
-
-    readonly imageVm = computed(() => this.imageStore.connect(this.instanceId));
-
-    readonly cropperState = computed(() =>
+    protected readonly loadingSubmit = toSignal(this.submitFacade.isLoading$);
+    protected readonly form = this.store.form;
+    protected readonly loading = this.store.loading;
+    protected readonly isEditMode = this.store.isEditMode;
+    protected readonly item = this.store.item;
+    protected readonly previewVisible = signal(false);
+    protected readonly imageVm = computed(() =>
+        this.imageStore.connect(this.instanceId)
+    );
+    protected readonly cropperState = computed(() =>
         this.imageStore.getStore(this.instanceId)()
     );
-
-    readonly imageSignal = toSignal(this.form.controls.image.valueChanges, {
-        initialValue: this.form.controls.image.value,
-    });
-
-    readonly image = computed((): MediaValue | string | undefined => {
+    protected readonly imageSignal = toSignal(
+        this.form.controls.image.valueChanges,
+        {
+            initialValue: this.form.controls.image.value,
+        }
+    );
+    protected readonly image = computed((): MediaValue | string | undefined => {
         const formImage = this.imageSignal();
         const item = this.item();
 
         return formImage ?? item?.image;
     });
-
     protected readonly hasPhotos = computed((): boolean => {
         return !!this.image();
     });
-
-    readonly isIdle = computed(() => !this.imageVm().hasImage());
-    readonly hasError = computed(() => this.imageVm().hasError());
-    readonly hasImage = computed(() => this.imageVm().hasImage());
-    readonly fileName = computed(() => this.imageVm().fileName() ?? null);
-    readonly fileSize = computed(() => this.imageVm().fileSize() ?? null);
-    readonly previewUrl = computed(() => this.imageVm().previewUrl());
-
-    private readonly currentLang = signal(this.translate.getCurrentLang());
-
-    readonly platformOptions = computed(() =>
+    protected readonly isIdle = computed(() => !this.imageVm().hasImage());
+    protected readonly hasError = computed(() => this.imageVm().hasError());
+    protected readonly hasImage = computed(() => this.imageVm().hasImage());
+    protected readonly fileName = computed(
+        () => this.imageVm().fileName() ?? null
+    );
+    protected readonly fileSize = computed(
+        () => this.imageVm().fileSize() ?? null
+    );
+    protected readonly previewUrl = computed(() => this.imageVm().previewUrl());
+    protected readonly platformOptions = computed(() =>
         enumToFilterOptions(Platform, (key) => this.translate.instant(key))
     );
-
-    readonly uniqId: Signal<string> = toSignal(
+    private lastSuccess = this.submitFacade.actionSuccess();
+    protected readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
             map((params) => (params['uniqId'] as string) || ''),
-            tap((uniqId) => this.store.setEditMode(uniqId)),
+            tap((uniqId) => this.store.setMode(uniqId)),
             takeUntilDestroyed(this.destroyRef)
         ),
         { initialValue: '' }
     );
+    private readonly formStateEffect = effect(() => {
+        const state = this.submitFacade.actionState();
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
+        }
+    });
+    private readonly successEffect = effect(() => {
+        const current = this.submitFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
 
+        this.lastSuccess = current;
+        this.navigateToBack();
+    });
     constructor() {
-        this.initializeLanguageListener();
         this.initializeImageHydration();
     }
-
-    private initializeLanguageListener(): void {
-        this.translate.onLangChange
-            .pipe(takeUntilDestroyed())
-            .subscribe((lang) => {
-                this.currentLang.set(lang.lang);
-            });
-    }
-
     private initializeImageHydration(): void {
         effect(() => {
             const item = this.item();
@@ -181,27 +182,27 @@ export class HomeFormComponent {
         });
     }
 
-    public getErrorMessage(field: string): string {
+    protected getErrorMessage(field: string): string {
         const control = this.form.get(field);
         return this.validation.getErrorMessage(field, control?.errors || null);
     }
 
-    public isFieldInvalid(fieldName: string): boolean {
+    protected isFieldInvalid(fieldName: string): boolean {
         const control = this.form.get(fieldName);
         return !!(control?.invalid && control?.touched);
     }
 
-    public get allowedImageTypes(): string {
+    protected get allowedImageTypes(): string {
         return FormValidators.IMAGE.ALLOWED_TYPES.map((t) =>
             t.split('/')[1].toUpperCase()
         ).join(', ');
     }
 
-    public get allowed(): typeof FormValidators {
+    protected get allowed(): typeof FormValidators {
         return FormValidators;
     }
 
-    public getContentCharacterCount(): number {
+    protected getContentCharacterCount(): number {
         const content = this.form.get('content')?.value || '';
         return content.replaceAll(/<[^>]*>/g, '').trim().length;
     }
@@ -234,7 +235,7 @@ export class HomeFormComponent {
         });
     }
 
-    public onCropConfirmed(blob: Blob): void {
+    protected onCropConfirmed(blob: Blob): void {
         this.imageStore.confirmCrop(this.instanceId, blob);
         const file = this.imageStore.getCurrentFile(this.instanceId);
         if (file) {
@@ -277,7 +278,7 @@ export class HomeFormComponent {
         this.imageStore.resetCropperTransforms(this.instanceId);
     }
 
-    public closeImagePreview(): void {
+    protected closeImagePreview(): void {
         this.previewVisible.set(false);
     }
 

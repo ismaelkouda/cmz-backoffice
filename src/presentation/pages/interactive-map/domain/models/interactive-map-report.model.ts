@@ -1,0 +1,69 @@
+import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
+export type ReportType = 'zob' | 'cpo' | 'cps' | 'abi';
+export type ReportOperator = 'orange' | 'moov' | 'mtn';
+export type ReportStatus =
+    | 'pending'
+    | 'approved'
+    | 'in-progress'
+    | 'rejected'
+    | 'abandoned';
+
+export interface NamedPlace {
+    id?: string | number;
+    name?: string;
+}
+
+export interface InteractiveMapReport {
+    id: string | number;
+    lat: number | string;
+    long: number | string;
+    report_type: ReportType;
+    operators: ReportOperator[] | string;
+    status: ReportStatus;
+    is_duplicated: boolean;
+    municipality?: NamedPlace | string | null;
+    region?: NamedPlace | string | null;
+    description?: string | null;
+    initiator_phone_number?: string | null;
+    reported_at?: string | null;
+    confirmed_comment?: string | null;
+    approved_comment?: string | null;
+    confirm_count?: number | null;
+    deny_count?: number | null;
+    place_photo?: string | null;
+}
+
+export interface Bounds {
+    minLat: number;
+    maxLat: number;
+    minLng: number;
+    maxLng: number;
+}
+
+export interface LatLng {
+    lat: number;
+    lng: number;
+}
+
+export interface MapViewState {
+    center: LatLng;
+    zoom: number;
+}
+
+export interface ReportFilters {
+    reportTypes: ReportType[];
+    operators: ReportOperator[];
+    statuses: ReportStatus[];
+    municipality: string;
+    dateFrom: string;
+    dateTo: string;
+    compareOperator: ReportOperator | '';
+}
+
+export type ReportsResponse = PaginatedResponseDto<InteractiveMapReport>;
+
+export interface ClusterSummary {
+    total: number;
+    byOperator: Record<ReportOperator, number>;
+    byType: Record<ReportType, number>;
+}

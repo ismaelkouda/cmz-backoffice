@@ -1,0 +1,168 @@
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, signal } from '@angular/core';
+import {
+    Bounds,
+    InteractiveMapReport,
+    ReportFilters,
+    ReportOperator,
+    ReportStatus,
+    ReportType,
+    ReportsResponse,
+} from '@pages/interactive-map/domain/models/interactive-map-report.model';
+import { INTERACTIVE_MAP_ENDPOINTS } from '@pages/interactive-map/infrastructure/api/interactive-map.endpoints';
+import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/requests.base-url';
+import { Observable, map } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class InteractiveMapReportsApi {
+    private readonly reportsSignal = signal<InteractiveMapReport[]>([]);
+
+    readonly reports = this.reportsSignal.asReadonly();
+
+    constructor(
+        private readonly http: HttpClient,
+        @Inject(REQUESTS_BASE_URL) private readonly baseUrl: string
+    ) {}
+
+    getReports(
+        bounds: Bounds,
+        filters: ReportFilters,
+        page = 1,
+        perPage = 500
+    ): Observable<InteractiveMapReport[]> {
+        const params = this.buildQueryParams(bounds, filters, page, perPage);
+        const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.REPORTS}`;
+
+        return this.http.get<ReportsResponse>(url, { params }).pipe(
+            map((response) => response.data.data || []),
+            map((reports) => reports.filter((item) => !item.is_duplicated)),
+            map((reports) => this.applyClientFilters(reports, filters)),
+            map((reports) => {
+                this.reportsSignal.set(reports);
+                return reports;
+            })
+        );
+    }
+
+    updateStatus(
+        reportId: string | number,
+        status: ReportStatus
+    ): Observable<InteractiveMapReport> {
+        const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.REPORTS}/${reportId}`;
+        return this.http.patch<InteractiveMapReport>(url, { status });
+    }
+
+    private buildQueryParams(
+        bounds: Bounds,
+        filters: ReportFilters,
+        page: number,
+        perPage: number
+    ): Record<string, string> {
+        const params: Record<string, string> = {
+            page: String(page),
+            per_page: String(perPage),
+            minLat: this.formatCoordinate(bounds.minLat),
+            maxLat: this.formatCoordinate(bounds.maxLat),
+            minLng: this.formatCoordinate(bounds.minLng),
+            maxLng: this.formatCoordinate(bounds.maxLng),
+        };
+
+        if (filters.reportTypes.length) {
+            params['report_type'] = filters.reportTypes.join(',');
+        }
+        if (filters.operators.length) {
+            params['operators'] = filters.operators.join(',');
+        }
+        if (filters.statuses.length) {
+            params['status'] = filters.statuses.join(',');
+        }
+        if (filters.municipality) {
+            params['municipality'] = filters.municipality;
+        }
+        if (filters.dateFrom) {
+            params['reported_at_from'] = filters.dateFrom;
+        }
+        if (filters.dateTo) {
+            params['reported_at_to'] = filters.dateTo;
+        }
+
+        return params;
+    }
+
+    private formatCoordinate(value: number): string {
+        return value.toFixed(7);
+    }
+
+    private applyClientFilters(
+        reports: InteractiveMapReport[],
+        filters: ReportFilters
+    ): InteractiveMapReport[] {
+        return reports.filter((report) => {
+            const operators = this.normalizeOperators(report.operators);
+            const municipality = this.getPlaceName(report.municipality);
+            const reportedAt = report.reported_at
+                ? new Date(report.reported_at)
+                : null;
+
+            return (
+                this.matchesArray(filters.reportTypes, report.report_type) &&
+                this.matchesOperatorFilter(filters.operators, operators) &&
+                this.matchesArray(filters.statuses, report.status) &&
+                (!filters.municipality ||
+                    municipality === filters.municipality) &&
+                (!filters.dateFrom ||
+                    (!!reportedAt &&
+                        reportedAt >= new Date(filters.dateFrom))) &&
+                (!filters.dateTo ||
+                    (!!reportedAt &&
+                        reportedAt <=
+                            new Date(`${filters.dateTo}T23:59:59`))) &&
+                (!filters.compareOperator ||
+                    operators.includes(filters.compareOperator))
+            );
+        });
+    }
+
+    private matchesArray<T extends ReportStatus | ReportType>(
+        selected: T[],
+        value: T
+    ): boolean {
+        return selected.length === 0 || selected.includes(value);
+    }
+
+    private matchesOperatorFilter(
+        selected: string[],
+        operators: ReportOperator[]
+    ): boolean {
+        return (
+            selected.length === 0 ||
+            selected.some((operator) =>
+                operators.includes(operator as ReportOperator)
+            )
+        );
+    }
+
+    private normalizeOperators(
+        value: InteractiveMapReport['operators']
+    ): ReportOperator[] {
+        if (Array.isArray(value)) {
+            return value;
+        }
+
+        try {
+            return JSON.parse(value) as ReportOperator[];
+        } catch {
+            return value
+                .split(',')
+                .map((item) => item.trim())
+                .filter(Boolean) as ReportOperator[];
+        }
+    }
+
+    private getPlaceName(place: InteractiveMapReport['municipality']): string {
+        if (!place) {
+            return '';
+        }
+        return typeof place === 'string' ? place : place.name || '';
+    }
+}

@@ -539,11 +539,11 @@
         },
         "NEWS": {
             "BREADCRUMB": {
-                "LABEL": "Info & News",
+                "LABEL": "Infos & News",
                 "ROUTE": "infos-and-news"
             },
-            "TITLE": "Info & News Blocks",
-            "LABEL": "Info & News",
+            "TITLE": "Infos & News Blocks",
+            "LABEL": "Infos & News",
             "ROUTE": "infos-and-news",
             "FILTER": {
                 "DATE": {
@@ -571,8 +571,8 @@
                 "ACTION": "Action"
             },
             "FORM": {
-                "TITLE_FORM_EDIT": "Edit Info & News Block Form",
-                "TITLE_FORM_ADD": "Add Info & News Block Form",
+                "TITLE_FORM_EDIT": "Edit Infos & News Block Form",
+                "TITLE_FORM_ADD": "Add Infos & News Block Form",
                 "TITLE": "Title",
                 "RESUME": "Summary",
                 "DESCRIPTION": "Content",
@@ -630,16 +630,51 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Update Info & News",
-                "MESSAGE_UPDATE": "Are you sure you want to update this info & news?",
-                "TITLE_CREATE": "Create Info & News",
-                "MESSAGE_CREATE": "Are you sure you want to create this info & news?",
-                "TITLE_DELETE": "Delete Info & News",
-                "MESSAGE_DELETE": "Are you sure you want to delete this info & news?",
-                "TITLE_PUBLISH": "Publish Info & News",
-                "MESSAGE_PUBLISH": "Are you sure you want to publish this info & news?",
-                "TITLE_UNPUBLISH": "Unpublish Info & News",
-                "MESSAGE_UNPUBLISH": "Are you sure you want to unpublish this info & news?"
+                "TITLE": {
+                    "CREATE": "Create this homepage block",
+                    "NOT_CREATE": "Unable to create this homepage block",
+                    "EDIT": "Edit this homepage block",
+                    "NOT_EDIT": "Unable to edit this homepage block",
+                    "DELETE": "Delete this homepage block",
+                    "NOT_DELETE": "Unable to delete this homepage block",
+                    "ENABLE": "Enable this homepage block",
+                    "NOT_ENABLE": "Unable to enable this homepage block",
+                    "DISABLE": "Disable this homepage block",
+                    "NOT_DISABLE": "Unable to disable this homepage block"
+                },
+                "MESSAGE": {
+                    "CREATE": "Are you sure you want to create this homepage block?",
+                    "NOT_CREATE": "You are not allowed to create this homepage block",
+                    "NOTIF_CREATE": "<b>Confirm the creation of this homepage block </b>?<br><br><span class='color-primary'>Its login credentials will be sent automatically to the following email address :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Please verify that the email address is correct.</small>",
+                    "EDIT": "Are you sure you want to edit this homepage block?",
+                    "NOT_EDIT": "You are not allowed to edit this homepage block",
+                    "DELETE": "Are you sure you want to delete this homepage block?",
+                    "NOT_DELETE": "You are not allowed to delete this homepage block",
+                    "ENABLE": "Are you sure you want to enable this homepage block?",
+                    "NOT_ENABLE": "You are not allowed to enable this homepage block",
+                    "DISABLE": "Are you sure you want to disable this homepage block?",
+                    "NOT_DISABLE": "You are not allowed to disable this homepage block"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Refresh the list of homepage blocks",
+                "EXPORT": "Export the list of {nb} homepage blocks",
+                "CHOOSE": "Choose an action",
+                "CREATE": "Create a homepage block",
+                "EDIT": "Edit this homepage block",
+                "DELETE": "Delete this homepage block",
+                "ENABLE": "Enable this homepage block",
+                "DISABLE": "Disable this homepage block",
+                "NO_EXPORT": "No homepage blocks to export",
+                "NOT_DELETE": "Active member, unable to delete this homepage block",
+                "NO_PERMISSION_CHOOSE": "These actions are not permitted for you",
+                "NO_PERMISSION_EXPORT": "Exportation of homepage blocks is not permitted",
+                "NO_PERMISSION_CREATE": "Creation of homepage blocks is not permitted",
+                "NO_PERMISSION_EDIT": "Editing of homepage blocks is not permitted",
+                "NO_PERMISSION_DELETE": "Deletion of homepage blocks is not permitted",
+                "NO_PERMISSION_ENABLE": "Activation of homepage blocks is not permitted",
+                "NO_PERMISSION_DISABLE": "Deactivation of homepage blocks is not permitted",
+                "SEE_MORE": "See more details"
             }
         },
         "SLIDE": {

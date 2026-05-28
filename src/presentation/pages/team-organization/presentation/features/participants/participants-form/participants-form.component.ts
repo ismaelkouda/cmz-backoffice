@@ -17,13 +17,8 @@ import { ParticipantsFormHelperService } from '@pages/team-organization/domain/s
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
 import { ParticipantsFormStore } from '@presentation/pages/team-organization/presentation/store/participants/participants-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-// import {
-//     enumToFilterOptions,
-//     FilterOption,
-// } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-// import { Roles } from '@shared/domain/enums/roles.enum';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -65,23 +60,20 @@ import SweetAlert from 'sweetalert2';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParticipantsFormComponent {
-    readonly store = inject(ParticipantsFormStore);
-
+    protected readonly store = inject(ParticipantsFormStore);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
     private readonly submitFacade = inject(ParticipantsFacade);
     private readonly helper = inject(ParticipantsFormHelperService);
     private readonly validation = inject(FormValidationService);
-
-    public readonly form = this.store.form;
-    public readonly loading = this.store.loading;
-    public readonly isEditMode = this.store.isEditMode;
-
-    public readonly loadingSubmit = computed(() => {
+    protected readonly form = this.store.form;
+    protected readonly loading = this.store.loading;
+    protected readonly isEditMode = this.store.isEditMode;
+    protected readonly loadingSubmit = computed(() => {
         return this.submitFacade.actionState() === 'loading';
     });
-    readonly VALIDATION = FormValidators;
+    protected readonly VALIDATION = FormValidators;
     private lastSuccess = this.submitFacade.actionSuccess();
     private readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
@@ -111,10 +103,6 @@ export class ParticipantsFormComponent {
         this.lastSuccess = current;
         this.navigateToBack();
     });
-    // readonly rolesOptions: Signal<FilterOption[]> = computed(() => {
-    //     return enumToFilterOptions(Roles, this.t.bind(this));
-    // });
-
     private showValidationErrors(): void {
         const controlNames = [
             'firstName',
@@ -136,16 +124,14 @@ export class ParticipantsFormComponent {
             });
         }
     }
-
-    getErrorMessage(fieldName: string): string {
+    protected getErrorMessage(fieldName: string): string {
         const control = this.form.get(fieldName);
         return this.validation.getErrorMessage(
             fieldName,
             control?.errors || null
         );
     }
-
-    onSubmit(): void {
+    protected onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             this.showValidationErrors();
@@ -166,7 +152,6 @@ export class ParticipantsFormComponent {
             }
         });
     }
-
     private submitForm(): void {
         const payload = this.form.getRawValue();
         if (this.isEditMode()) {
@@ -178,12 +163,10 @@ export class ParticipantsFormComponent {
             this.submitFacade.create(payload);
         }
     }
-
     private t(key: string, params?: object): string {
         return this.translate.instant(key, params);
     }
-
-    navigateToBack(): void {
+    protected navigateToBack(): void {
         this.helper.navigateToParticipantsList();
     }
 }

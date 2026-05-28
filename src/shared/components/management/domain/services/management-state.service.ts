@@ -1,5 +1,6 @@
 import { Injectable, inject, signal, computed, Signal } from '@angular/core';
 // import { DetailsFacade as FinalizationFacade } from '@pages/finalization/application/services/details/details.facade';
+import { NotificationsFacade } from '@pages/communication/application/services/notifications/notifications.facade';
 import { DetailsFacade as ProcessingFacade } from '@pages/processing/application/services/details/details.facade';
 import { DetailsFacade as RequestsFacade } from '@pages/requests/application/services/details/details.facade';
 import { ManagementEntityType } from '@shared/components/management/domain/types/management-entity.type';
@@ -10,6 +11,7 @@ import { PermissionActionsService } from '@shared/domain/services/permission-act
 export class ManagementStateService {
     private readonly requestsFacade = inject(RequestsFacade);
     private readonly processingFacade = inject(ProcessingFacade);
+    protected readonly notificationFacade = inject(NotificationsFacade);
     // private readonly finalizationFacade = inject(FinalizationFacade);
     private readonly permissionActions = inject(PermissionActionsService);
 
@@ -104,7 +106,11 @@ export class ManagementStateService {
         }
     });
 
-    initialize(context: TypeReport, uniqId: string): void {
+    initialize(
+        context: TypeReport,
+        uniqId: string,
+        isNotification: boolean
+    ): void {
         if (!context || !uniqId) {
             return;
         }
@@ -113,6 +119,10 @@ export class ManagementStateService {
         this.uniqId.set(uniqId);
 
         const dto = { uniqId };
+
+        if (isNotification) {
+            this.notificationFacade.readOne(dto);
+        }
 
         switch (context) {
             case 'requests':

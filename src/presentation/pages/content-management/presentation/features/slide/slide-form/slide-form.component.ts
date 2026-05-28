@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SlideFacade } from '@pages/content-management/application/services/slide/slide.facade';
-import { SlideFormStore } from '@pages/content-management/application/store/slide-form/slide-form.store';
+import { SlideFormStore } from '@pages/content-management/application/store/slide/slide-form.store';
 import { SlideFormHelperService } from '@pages/content-management/domain/services/slide/slide-form-helper.service';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
@@ -192,7 +192,6 @@ export class SlideFormComponent {
                 this.imageStore.hydrate(this.instanceId, formImage.url);
                 return;
             }
-
             if (formImage?.type === 'local' && formImage.file) {
                 this.imageStore.setPreviewFromFile(
                     this.instanceId,

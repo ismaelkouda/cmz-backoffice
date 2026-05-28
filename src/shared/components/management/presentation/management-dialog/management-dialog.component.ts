@@ -95,6 +95,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     protected readonly visible = input.required<boolean>();
     protected readonly uniqId = input.required<string>();
     protected readonly type = input.required<TypeReport>();
+    protected readonly isNotification = input<boolean>(false);
     protected readonly visibleChange = output<boolean>();
     protected readonly closed = output();
     protected isTreatmentFormExpanded = true;
@@ -122,6 +123,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     protected readonly photoTabInstanceId = computed(
         () => `management-photo-${this.uniqId()}`
     );
+    protected readonly selectedTabIndex = signal(0);
     protected readonly selectedTab = signal('information');
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -195,7 +197,11 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
         }
     });
     ngOnInit(): void {
-        this.stateService.initialize(this.type(), this.uniqId());
+        this.stateService.initialize(
+            this.type(),
+            this.uniqId(),
+            this.isNotification()
+        );
     }
     ngOnDestroy(): void {
         this.stateService.reset();
@@ -203,6 +209,7 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     protected selectTab(index: number): void {
         const tab = this.tabs()[index];
         if (tab) {
+            this.selectedTabIndex.set(index);
             this.selectedTab.set(tab.value);
         }
     }

@@ -15,7 +15,6 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ParticipantsFacade } from '@pages/team-organization/application/services/participants/participants.facade';
-import { TeamsSelectFacade } from '@pages/team-organization/application/services/teams/teams-select.facade';
 import { Status } from '@pages/team-organization/domain/enums/participants/participants-status.enum';
 import { ParticipantsFilterDto } from '@presentation/pages/team-organization/application/dto/participants/participants-filter.dto';
 import { PARTICIPANTS_TABLE } from '@presentation/pages/team-organization/presentation/adapters/participants/participants-table.constant';
@@ -62,7 +61,6 @@ export class ParticipantsListComponent {
     private readonly title = inject(Title);
     private readonly sweetAlert = inject(SweetAlertService);
     protected readonly facade = inject(ParticipantsFacade);
-    private readonly teamsFacade = inject(TeamsSelectFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
 
@@ -196,9 +194,6 @@ export class ParticipantsListComponent {
     protected readonly tableConfig = PARTICIPANTS_TABLE;
     protected readonly form = this.formStore.form;
     private readonly items = toSignal(this.facade.items$, { initialValue: [] });
-    private readonly teams = toSignal(this.teamsFacade.items$, {
-        initialValue: [],
-    });
     private readonly currentFilter = toSignal(this.facade.currentFilter$, {
         initialValue: null,
     });
@@ -267,20 +262,6 @@ export class ParticipantsListComponent {
                     label: 'TEAM_ORGANIZATION.PARTICIPANTS.FILTER.ROLES',
                 },
             },
-            // {
-            //     type: 'select',
-            //     name: 'team',
-            //     label: this.t('TEAM_ORGANIZATION.PARTICIPANTS.FILTER.TEAMS'),
-            //     placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
-            //     options: teamsOpts,
-            //     optionLabel: 'label',
-            //     optionValue: 'value',
-            //     showClear: true,
-            //     icon: 'pi pi-filter',
-            //     translationKeys: {
-            //         label: 'TEAM_ORGANIZATION.PARTICIPANTS.FILTER.TEAMS',
-            //     },
-            // },
         ];
     });
     private readonly presenter = new ParticipantsPresenter(
@@ -516,11 +497,9 @@ export class ParticipantsListComponent {
         }
         this.facade.disable({ uniqId });
     }
-
     private t(key: string): string {
         return this.translate.instant(key);
     }
-
     private get normalizeExportPrefix(): string {
         const appName = this.appConfig.customization.app.name;
         return (

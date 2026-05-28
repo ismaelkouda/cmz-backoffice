@@ -1,11 +1,8 @@
-import { DetailsStatus as finalizationStatus } from '@pages/finalization/domain/enums/details/details-status/details-status.enum';
 import { DetailsProps as finalizationProps } from '@pages/finalization/domain/interfaces/details/details-props.interface';
 import { DetailsProps as processingProps } from '@pages/processing/domain/interfaces/details/details-props.interface';
-import { Status } from '@pages/requests/domain/enums/details/details-status/details-status.enum';
 import { DetailsProps as requestsProps } from '@pages/requests/domain/interfaces/details/details-props.interface';
 import { MANAGEMENT_TIMESTAMP } from '@shared/components/management/domain/constants/management-timestamps.constant';
 import { ManagementTimestamp } from '@shared/components/management/domain/interfaces/management-timestamps.interface';
-import { ManagementTimestampKey } from '@shared/components/management/domain/types/management-timestamps.type';
 
 export function managementWorkflowTimestamps(
     props: processingProps | requestsProps | finalizationProps
