@@ -598,7 +598,6 @@ export class MapAdapter {
                     stroke: new Stroke({ color: '#ffffff', width: 3 }),
                 }),
                 text: new Text({
-                    text: icon,
                     fill: new Fill({ color: '#ffffff' }),
                     font: '700 13px Arial, sans-serif',
                     offsetY: 1,
@@ -659,25 +658,31 @@ export class MapAdapter {
     }
 
     private getMarkerColor(report: InteractiveMapReport): string {
-        if (report.report_type === 'zob') {
-            return '#dc2626';
-        }
-
-        const [operator] = this.normalizeOperators(report.operators);
-        const operatorColors: Record<ReportOperator, string> = {
-            orange: '#2563eb',
-            moov: '#f97316',
-            mtn: '#eab308',
+        const colors: Record<ReportType, string> = {
+            zob: '#dc2626',
+            cpo: '#2563eb',
+            cps: '#f97316',
+            abi: '#eab308',
         };
 
-        if (report.status === 'rejected' || report.status === 'abandoned') {
-            return '#64748b';
-        }
+        return colors[report.report_type];
 
-        return operator ? operatorColors[operator] : '#0f766e';
+        // const [operator] = this.normalizeOperators(report.operators);
+        // const operatorColors: Record<ReportOperator, string> = {
+        //     orange: '#2563eb',
+        //     moov: '#f97316',
+        //     mtn: '#eab308',
+        // };
+
+        // if (report.state === 'rejected' || report.state === 'abandoned') {
+        //     return '#64748b';
+        // }
+
+        // return operator ? operatorColors[operator] : '#0f766e';
     }
 
     private getReportIcon(type: ReportType): string {
+        console.log('type: ', type);
         const icons: Record<ReportType, string> = {
             zob: 'X',
             cpo: '!',
@@ -689,6 +694,7 @@ export class MapAdapter {
     }
 
     private getHeatmapWeight(type: ReportType): number {
+        console.log('type: ', type);
         const weights: Record<ReportType, number> = {
             zob: 1,
             abi: 0.8,

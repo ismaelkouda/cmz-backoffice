@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -38,6 +39,7 @@ import SweetAlert from 'sweetalert2';
     styleUrls: ['./profiles-permissions-form.component.scss'],
     standalone: true,
     imports: [
+        CommonModule,
         TranslateModule,
         BreadcrumbComponent,
         PageTitleComponent,

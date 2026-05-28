@@ -105,7 +105,7 @@ export class InteractiveMapReportsApi {
             return (
                 this.matchesArray(filters.reportTypes, report.report_type) &&
                 this.matchesOperatorFilter(filters.operators, operators) &&
-                this.matchesArray(filters.statuses, report.status) &&
+                this.matchesArray(filters.statuses, report.state) &&
                 (!filters.municipality ||
                     municipality === filters.municipality) &&
                 (!filters.startDate ||

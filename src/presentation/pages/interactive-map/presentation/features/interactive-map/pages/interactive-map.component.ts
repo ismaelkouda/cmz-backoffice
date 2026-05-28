@@ -57,6 +57,7 @@ import {
     tap,
 } from 'rxjs';
 import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
 
 interface LocationSearchResult {
     displayName: string;
@@ -85,6 +86,7 @@ interface NominatimSearchResult {
         InputGroupModule,
         InputGroupAddonModule,
         DatePickerModule,
+        TagModule,
     ],
     templateUrl: './interactive-map.component.html',
     styleUrls: ['./interactive-map.component.scss'],
@@ -143,6 +145,7 @@ export class InteractiveMapComponent
         { value: 'approved', label: 'Approuve' },
         { value: 'in-progress', label: 'En cours' },
         { value: 'rejected', label: 'Rejete' },
+        { value: 'completed', label: 'Clôturé' },
         { value: 'abandoned', label: 'Abandonne' },
     ];
 
@@ -340,7 +343,6 @@ export class InteractiveMapComponent
     }
 
     public getStatusLabel(status: ReportStatus): string {
-        console.log('status: ', status);
         return (
             this.statusOptions.find((option) => option.value === status)
                 ?.label || status

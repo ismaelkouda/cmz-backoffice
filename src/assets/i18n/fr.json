@@ -4370,7 +4370,7 @@
                 "LABEL": "Carte interactive",
                 "ROUTE": "interactive"
             },
-            "TITLE": "Tableau de bord analytique - Carte interactive",
+            "TITLE": "Carte interactive",
             "LABEL": "Carte interactive",
             "LOADING_DESCRIPTION": "Suivi des performances en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Carte interactive. Veuillez recharger la page ou contacter le support."
